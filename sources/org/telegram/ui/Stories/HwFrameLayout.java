@@ -7,11 +7,10 @@ import java.util.HashSet;
 import java.util.Set;
 import org.telegram.messenger.SharedConfig;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: HwLayouts.java */
 /* loaded from: classes4.dex */
-public class HwFrameLayout extends FrameLayout {
+public abstract class HwFrameLayout extends FrameLayout {
     private final boolean isFastDevice;
-    static final Set<View> hwViews = new HashSet();
+    static final Set hwViews = new HashSet();
     static boolean hwEnabled = false;
 
     public HwFrameLayout(Context context) {
@@ -30,19 +29,19 @@ public class HwFrameLayout extends FrameLayout {
         hwViews.clear();
     }
 
-    public void enableHwAcceleration() {
-        hwEnabled = true;
-        setLayerType(2, null);
+    public void checkHwAcceleration(float f) {
+        if (f > 0.6f && hwEnabled && this.isFastDevice) {
+            disableHwAcceleration(false);
+        }
     }
 
     public void disableHwAcceleration() {
         disableHwAcceleration(true);
     }
 
-    public void checkHwAcceleration(float f) {
-        if (f > 0.6f && hwEnabled && this.isFastDevice) {
-            disableHwAcceleration(false);
-        }
+    public void enableHwAcceleration() {
+        hwEnabled = true;
+        setLayerType(2, null);
     }
 
     @Override // android.view.View

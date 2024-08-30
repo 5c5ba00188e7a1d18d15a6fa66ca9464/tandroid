@@ -3,9 +3,8 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
-class zzv extends zzag implements zzbj {
+abstract class zzv extends zzag implements zzbj {
     /* JADX INFO: Access modifiers changed from: protected */
     public zzv(Map map) {
         super(map);

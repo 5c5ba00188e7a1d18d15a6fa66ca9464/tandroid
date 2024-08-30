@@ -7,7 +7,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-/* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
 /* loaded from: classes.dex */
 final class zzc implements zzb {
     private zzc() {

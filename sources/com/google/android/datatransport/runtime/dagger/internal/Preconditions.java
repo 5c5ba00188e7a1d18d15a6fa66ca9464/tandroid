@@ -1,22 +1,22 @@
 package com.google.android.datatransport.runtime.dagger.internal;
 /* loaded from: classes.dex */
-public final class Preconditions {
-    public static <T> T checkNotNull(T t) {
-        t.getClass();
-        return t;
-    }
-
-    public static <T> T checkNotNull(T t, String str) {
-        if (t != null) {
-            return t;
-        }
-        throw new NullPointerException(str);
-    }
-
-    public static <T> void checkBuilderRequirement(T t, Class<T> cls) {
-        if (t != null) {
+public abstract class Preconditions {
+    public static void checkBuilderRequirement(Object obj, Class cls) {
+        if (obj != null) {
             return;
         }
         throw new IllegalStateException(cls.getCanonicalName() + " must be set");
+    }
+
+    public static Object checkNotNull(Object obj) {
+        obj.getClass();
+        return obj;
+    }
+
+    public static Object checkNotNull(Object obj, String str) {
+        if (obj != null) {
+            return obj;
+        }
+        throw new NullPointerException(str);
     }
 }

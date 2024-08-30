@@ -17,9 +17,9 @@ public abstract class AbstractReleaseDownloader implements ReleaseDownloader {
         this.mListener = listener;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean isCancelled() {
-        return this.mCancelled;
+    @Override // com.microsoft.appcenter.distribute.download.ReleaseDownloader
+    public void cancel() {
+        this.mCancelled = true;
     }
 
     @Override // com.microsoft.appcenter.distribute.download.ReleaseDownloader
@@ -27,8 +27,8 @@ public abstract class AbstractReleaseDownloader implements ReleaseDownloader {
         return this.mReleaseDetails;
     }
 
-    @Override // com.microsoft.appcenter.distribute.download.ReleaseDownloader
-    public void cancel() {
-        this.mCancelled = true;
+    /* JADX INFO: Access modifiers changed from: protected */
+    public boolean isCancelled() {
+        return this.mCancelled;
     }
 }

@@ -6,7 +6,6 @@ import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public class PatternItem extends AbstractSafeParcelable {
     public static final Parcelable.Creator<PatternItem> CREATOR = new zzj();

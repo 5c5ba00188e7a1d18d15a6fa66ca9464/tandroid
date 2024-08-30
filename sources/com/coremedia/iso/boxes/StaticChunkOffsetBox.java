@@ -17,31 +17,15 @@ public class StaticChunkOffsetBox extends ChunkOffsetBox {
         ajc$preClinit();
     }
 
-    private static /* synthetic */ void ajc$preClinit() {
-        Factory factory = new Factory("StaticChunkOffsetBox.java", StaticChunkOffsetBox.class);
-        ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getChunkOffsets", "com.coremedia.iso.boxes.StaticChunkOffsetBox", "", "", "", "[J"), 39);
-        ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setChunkOffsets", "com.coremedia.iso.boxes.StaticChunkOffsetBox", "[J", "chunkOffsets", "", "void"), 48);
-    }
-
     public StaticChunkOffsetBox() {
         super("stco");
         this.chunkOffsets = new long[0];
     }
 
-    @Override // com.coremedia.iso.boxes.ChunkOffsetBox
-    public long[] getChunkOffsets() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_0, this, this));
-        return this.chunkOffsets;
-    }
-
-    @Override // com.googlecode.mp4parser.AbstractBox
-    protected long getContentSize() {
-        return (this.chunkOffsets.length * 4) + 8;
-    }
-
-    public void setChunkOffsets(long[] jArr) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this, jArr));
-        this.chunkOffsets = jArr;
+    private static /* synthetic */ void ajc$preClinit() {
+        Factory factory = new Factory("StaticChunkOffsetBox.java", StaticChunkOffsetBox.class);
+        ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getChunkOffsets", "com.coremedia.iso.boxes.StaticChunkOffsetBox", "", "", "", "[J"), 39);
+        ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setChunkOffsets", "com.coremedia.iso.boxes.StaticChunkOffsetBox", "[J", "chunkOffsets", "", "void"), 48);
     }
 
     @Override // com.googlecode.mp4parser.AbstractBox
@@ -54,6 +38,12 @@ public class StaticChunkOffsetBox extends ChunkOffsetBox {
         }
     }
 
+    @Override // com.coremedia.iso.boxes.ChunkOffsetBox
+    public long[] getChunkOffsets() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_0, this, this));
+        return this.chunkOffsets;
+    }
+
     @Override // com.googlecode.mp4parser.AbstractBox
     protected void getContent(ByteBuffer byteBuffer) {
         writeVersionAndFlags(byteBuffer);
@@ -61,5 +51,15 @@ public class StaticChunkOffsetBox extends ChunkOffsetBox {
         for (long j : this.chunkOffsets) {
             IsoTypeWriter.writeUInt32(byteBuffer, j);
         }
+    }
+
+    @Override // com.googlecode.mp4parser.AbstractBox
+    protected long getContentSize() {
+        return (this.chunkOffsets.length * 4) + 8;
+    }
+
+    public void setChunkOffsets(long[] jArr) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this, jArr));
+        this.chunkOffsets = jArr;
     }
 }

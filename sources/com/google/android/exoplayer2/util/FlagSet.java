@@ -16,8 +16,11 @@ public final class FlagSet {
             return this;
         }
 
-        public Builder addIf(int i, boolean z) {
-            return z ? add(i) : this;
+        public Builder addAll(FlagSet flagSet) {
+            for (int i = 0; i < flagSet.size(); i++) {
+                add(flagSet.get(i));
+            }
+            return this;
         }
 
         public Builder addAll(int... iArr) {
@@ -27,11 +30,8 @@ public final class FlagSet {
             return this;
         }
 
-        public Builder addAll(FlagSet flagSet) {
-            for (int i = 0; i < flagSet.size(); i++) {
-                add(flagSet.get(i));
-            }
-            return this;
+        public Builder addIf(int i, boolean z) {
+            return z ? add(i) : this;
         }
 
         public FlagSet build() {
@@ -47,15 +47,6 @@ public final class FlagSet {
 
     public boolean contains(int i) {
         return this.flags.get(i);
-    }
-
-    public int size() {
-        return this.flags.size();
-    }
-
-    public int get(int i) {
-        Assertions.checkIndex(i, 0, size());
-        return this.flags.keyAt(i);
     }
 
     public boolean equals(Object obj) {
@@ -80,6 +71,11 @@ public final class FlagSet {
         return false;
     }
 
+    public int get(int i) {
+        Assertions.checkIndex(i, 0, size());
+        return this.flags.keyAt(i);
+    }
+
     public int hashCode() {
         if (Util.SDK_INT < 24) {
             int size = size();
@@ -89,5 +85,9 @@ public final class FlagSet {
             return size;
         }
         return this.flags.hashCode();
+    }
+
+    public int size() {
+        return this.flags.size();
     }
 }

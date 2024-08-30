@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentMap;
 public final class zzea {
     private static final zzea zznc = new zzea();
     private final zzeg zznd;
-    private final ConcurrentMap<Class<?>, zzef<?>> zzne = new ConcurrentHashMap();
+    private final ConcurrentMap zzne = new ConcurrentHashMap();
 
     private zzea() {
         String[] strArr = {"com.google.protobuf.AndroidProto3SchemaFactory"};
@@ -33,20 +33,20 @@ public final class zzea {
         }
     }
 
-    public final <T> zzef<T> zze(Class<T> cls) {
-        zzci.zza(cls, "messageType");
-        zzef<T> zzefVar = (zzef<T>) this.zzne.get(cls);
+    public final zzef zze(Class cls) {
+        zzci.zza((Object) cls, "messageType");
+        zzef zzefVar = (zzef) this.zzne.get(cls);
         if (zzefVar == null) {
-            zzef<T> zzd = this.zznd.zzd(cls);
-            zzci.zza(cls, "messageType");
-            zzci.zza(zzd, "schema");
-            zzef<T> zzefVar2 = (zzef<T>) this.zzne.putIfAbsent(cls, zzd);
+            zzef zzd = this.zznd.zzd(cls);
+            zzci.zza((Object) cls, "messageType");
+            zzci.zza((Object) zzd, "schema");
+            zzef zzefVar2 = (zzef) this.zzne.putIfAbsent(cls, zzd);
             return zzefVar2 != null ? zzefVar2 : zzd;
         }
         return zzefVar;
     }
 
-    public final <T> zzef<T> zzp(T t) {
-        return zze(t.getClass());
+    public final zzef zzp(Object obj) {
+        return zze(obj.getClass());
     }
 }

@@ -1,6 +1,5 @@
 package androidx.core.graphics;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -17,32 +16,52 @@ import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class TypefaceCompatBaseImpl {
-    @SuppressLint({"BanConcurrentHashMap"})
-    private ConcurrentHashMap<Long, FontResourcesParserCompat.FontFamilyFilesResourceEntry> mFontFamilies = new ConcurrentHashMap<>();
+    private ConcurrentHashMap mFontFamilies = new ConcurrentHashMap();
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public interface StyleExtractor<T> {
-        int getWeight(T t);
+    public interface StyleExtractor {
+        int getWeight(Object obj);
 
-        boolean isItalic(T t);
+        boolean isItalic(Object obj);
     }
 
-    private static <T> T findBestFont(T[] tArr, int i, StyleExtractor<T> styleExtractor) {
-        return (T) findBestFont(tArr, (i & 1) == 0 ? 400 : 700, (i & 2) != 0, styleExtractor);
+    private void addFontFamily(Typeface typeface, FontResourcesParserCompat.FontFamilyFilesResourceEntry fontFamilyFilesResourceEntry) {
+        long uniqueKey = getUniqueKey(typeface);
+        if (uniqueKey != 0) {
+            this.mFontFamilies.put(Long.valueOf(uniqueKey), fontFamilyFilesResourceEntry);
+        }
     }
 
-    private static <T> T findBestFont(T[] tArr, int i, boolean z, StyleExtractor<T> styleExtractor) {
-        T t = null;
+    private FontResourcesParserCompat.FontFileResourceEntry findBestEntry(FontResourcesParserCompat.FontFamilyFilesResourceEntry fontFamilyFilesResourceEntry, int i) {
+        return (FontResourcesParserCompat.FontFileResourceEntry) findBestFont(fontFamilyFilesResourceEntry.getEntries(), i, new StyleExtractor() { // from class: androidx.core.graphics.TypefaceCompatBaseImpl.2
+            @Override // androidx.core.graphics.TypefaceCompatBaseImpl.StyleExtractor
+            public int getWeight(FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry) {
+                return fontFileResourceEntry.getWeight();
+            }
+
+            @Override // androidx.core.graphics.TypefaceCompatBaseImpl.StyleExtractor
+            public boolean isItalic(FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry) {
+                return fontFileResourceEntry.isItalic();
+            }
+        });
+    }
+
+    private static Object findBestFont(Object[] objArr, int i, StyleExtractor styleExtractor) {
+        return findBestFont(objArr, (i & 1) == 0 ? 400 : 700, (i & 2) != 0, styleExtractor);
+    }
+
+    private static Object findBestFont(Object[] objArr, int i, boolean z, StyleExtractor styleExtractor) {
+        Object obj = null;
         int i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-        for (T t2 : tArr) {
-            int abs = (Math.abs(styleExtractor.getWeight(t2) - i) * 2) + (styleExtractor.isItalic(t2) == z ? 0 : 1);
-            if (t == null || i2 > abs) {
-                t = t2;
+        for (Object obj2 : objArr) {
+            int abs = (Math.abs(styleExtractor.getWeight(obj2) - i) * 2) + (styleExtractor.isItalic(obj2) == z ? 0 : 1);
+            if (obj == null || i2 > abs) {
+                obj = obj2;
                 i2 = abs;
             }
         }
-        return t;
+        return obj;
     }
 
     private static long getUniqueKey(Typeface typeface) {
@@ -62,37 +81,14 @@ public class TypefaceCompatBaseImpl {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public FontsContractCompat.FontInfo findBestInfo(FontsContractCompat.FontInfo[] fontInfoArr, int i) {
-        return (FontsContractCompat.FontInfo) findBestFont(fontInfoArr, i, new StyleExtractor<FontsContractCompat.FontInfo>() { // from class: androidx.core.graphics.TypefaceCompatBaseImpl.1
-            @Override // androidx.core.graphics.TypefaceCompatBaseImpl.StyleExtractor
-            public int getWeight(FontsContractCompat.FontInfo fontInfo) {
-                return fontInfo.getWeight();
-            }
-
-            @Override // androidx.core.graphics.TypefaceCompatBaseImpl.StyleExtractor
-            public boolean isItalic(FontsContractCompat.FontInfo fontInfo) {
-                return fontInfo.isItalic();
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public Typeface createFromInputStream(Context context, InputStream inputStream) {
-        File tempFile = TypefaceCompatUtil.getTempFile(context);
-        if (tempFile == null) {
+    public Typeface createFromFontFamilyFilesResourceEntry(Context context, FontResourcesParserCompat.FontFamilyFilesResourceEntry fontFamilyFilesResourceEntry, Resources resources, int i) {
+        FontResourcesParserCompat.FontFileResourceEntry findBestEntry = findBestEntry(fontFamilyFilesResourceEntry, i);
+        if (findBestEntry == null) {
             return null;
         }
-        try {
-            if (TypefaceCompatUtil.copyToFile(tempFile, inputStream)) {
-                return Typeface.createFromFile(tempFile.getPath());
-            }
-            return null;
-        } catch (RuntimeException unused) {
-            return null;
-        } finally {
-            tempFile.delete();
-        }
+        Typeface createFromResourcesFontFile = TypefaceCompat.createFromResourcesFontFile(context, resources, findBestEntry.getResourceId(), findBestEntry.getFileName(), 0, i);
+        addFontFamily(createFromResourcesFontFile, fontFamilyFilesResourceEntry);
+        return createFromResourcesFontFile;
     }
 
     public Typeface createFromFontInfo(Context context, CancellationSignal cancellationSignal, FontsContractCompat.FontInfo[] fontInfoArr, int i) {
@@ -123,28 +119,22 @@ public class TypefaceCompatBaseImpl {
         }
     }
 
-    private FontResourcesParserCompat.FontFileResourceEntry findBestEntry(FontResourcesParserCompat.FontFamilyFilesResourceEntry fontFamilyFilesResourceEntry, int i) {
-        return (FontResourcesParserCompat.FontFileResourceEntry) findBestFont(fontFamilyFilesResourceEntry.getEntries(), i, new StyleExtractor<FontResourcesParserCompat.FontFileResourceEntry>() { // from class: androidx.core.graphics.TypefaceCompatBaseImpl.2
-            @Override // androidx.core.graphics.TypefaceCompatBaseImpl.StyleExtractor
-            public int getWeight(FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry) {
-                return fontFileResourceEntry.getWeight();
-            }
-
-            @Override // androidx.core.graphics.TypefaceCompatBaseImpl.StyleExtractor
-            public boolean isItalic(FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry) {
-                return fontFileResourceEntry.isItalic();
-            }
-        });
-    }
-
-    public Typeface createFromFontFamilyFilesResourceEntry(Context context, FontResourcesParserCompat.FontFamilyFilesResourceEntry fontFamilyFilesResourceEntry, Resources resources, int i) {
-        FontResourcesParserCompat.FontFileResourceEntry findBestEntry = findBestEntry(fontFamilyFilesResourceEntry, i);
-        if (findBestEntry == null) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Typeface createFromInputStream(Context context, InputStream inputStream) {
+        File tempFile = TypefaceCompatUtil.getTempFile(context);
+        if (tempFile == null) {
             return null;
         }
-        Typeface createFromResourcesFontFile = TypefaceCompat.createFromResourcesFontFile(context, resources, findBestEntry.getResourceId(), findBestEntry.getFileName(), 0, i);
-        addFontFamily(createFromResourcesFontFile, fontFamilyFilesResourceEntry);
-        return createFromResourcesFontFile;
+        try {
+            if (TypefaceCompatUtil.copyToFile(tempFile, inputStream)) {
+                return Typeface.createFromFile(tempFile.getPath());
+            }
+            return null;
+        } catch (RuntimeException unused) {
+            return null;
+        } finally {
+            tempFile.delete();
+        }
     }
 
     public Typeface createFromResourcesFontFile(Context context, Resources resources, int i, String str, int i2) {
@@ -164,19 +154,27 @@ public class TypefaceCompatBaseImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    public FontsContractCompat.FontInfo findBestInfo(FontsContractCompat.FontInfo[] fontInfoArr, int i) {
+        return (FontsContractCompat.FontInfo) findBestFont(fontInfoArr, i, new StyleExtractor() { // from class: androidx.core.graphics.TypefaceCompatBaseImpl.1
+            @Override // androidx.core.graphics.TypefaceCompatBaseImpl.StyleExtractor
+            public int getWeight(FontsContractCompat.FontInfo fontInfo) {
+                return fontInfo.getWeight();
+            }
+
+            @Override // androidx.core.graphics.TypefaceCompatBaseImpl.StyleExtractor
+            public boolean isItalic(FontsContractCompat.FontInfo fontInfo) {
+                return fontInfo.isItalic();
+            }
+        });
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public FontResourcesParserCompat.FontFamilyFilesResourceEntry getFontFamily(Typeface typeface) {
         long uniqueKey = getUniqueKey(typeface);
         if (uniqueKey == 0) {
             return null;
         }
-        return this.mFontFamilies.get(Long.valueOf(uniqueKey));
-    }
-
-    private void addFontFamily(Typeface typeface, FontResourcesParserCompat.FontFamilyFilesResourceEntry fontFamilyFilesResourceEntry) {
-        long uniqueKey = getUniqueKey(typeface);
-        if (uniqueKey != 0) {
-            this.mFontFamilies.put(Long.valueOf(uniqueKey), fontFamilyFilesResourceEntry);
-        }
+        return (FontResourcesParserCompat.FontFamilyFilesResourceEntry) this.mFontFamilies.get(Long.valueOf(uniqueKey));
     }
 }

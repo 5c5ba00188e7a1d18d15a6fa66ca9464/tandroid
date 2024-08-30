@@ -45,83 +45,90 @@ final class MediaPeriodHolder {
         this.mediaPeriod = createMediaPeriod(mediaPeriodId, mediaSourceList, allocator, mediaPeriodInfo.startPositionUs, mediaPeriodInfo.endPositionUs);
     }
 
-    public long toRendererTime(long j) {
-        return j + getRendererOffset();
-    }
-
-    public long toPeriodTime(long j) {
-        return j - getRendererOffset();
-    }
-
-    public long getRendererOffset() {
-        return this.rendererPositionOffsetUs;
-    }
-
-    public void setRendererOffset(long j) {
-        this.rendererPositionOffsetUs = j;
-    }
-
-    public long getStartPositionRendererTime() {
-        return this.info.startPositionUs + this.rendererPositionOffsetUs;
-    }
-
-    public boolean isFullyBuffered() {
-        return this.prepared && (!this.hasEnabledTracks || this.mediaPeriod.getBufferedPositionUs() == Long.MIN_VALUE);
-    }
-
-    public long getBufferedPositionUs() {
-        if (!this.prepared) {
-            return this.info.startPositionUs;
-        }
-        long bufferedPositionUs = this.hasEnabledTracks ? this.mediaPeriod.getBufferedPositionUs() : Long.MIN_VALUE;
-        return bufferedPositionUs == Long.MIN_VALUE ? this.info.durationUs : bufferedPositionUs;
-    }
-
-    public long getNextLoadPositionUs() {
-        if (this.prepared) {
-            return this.mediaPeriod.getNextLoadPositionUs();
-        }
-        return 0L;
-    }
-
-    public void handlePrepared(float f, Timeline timeline) throws ExoPlaybackException {
-        this.prepared = true;
-        this.trackGroups = this.mediaPeriod.getTrackGroups();
-        TrackSelectorResult selectTracks = selectTracks(f, timeline);
-        MediaPeriodInfo mediaPeriodInfo = this.info;
-        long j = mediaPeriodInfo.startPositionUs;
-        long j2 = mediaPeriodInfo.durationUs;
-        if (j2 != -9223372036854775807L && j >= j2) {
-            j = Math.max(0L, j2 - 1);
-        }
-        long applyTrackSelection = applyTrackSelection(selectTracks, j, false);
-        long j3 = this.rendererPositionOffsetUs;
-        MediaPeriodInfo mediaPeriodInfo2 = this.info;
-        this.rendererPositionOffsetUs = j3 + (mediaPeriodInfo2.startPositionUs - applyTrackSelection);
-        this.info = mediaPeriodInfo2.copyWithStartPositionUs(applyTrackSelection);
-    }
-
-    public void reevaluateBuffer(long j) {
-        Assertions.checkState(isLoadingMediaPeriod());
-        if (this.prepared) {
-            this.mediaPeriod.reevaluateBuffer(toPeriodTime(j));
-        }
-    }
-
-    public void continueLoading(long j) {
-        Assertions.checkState(isLoadingMediaPeriod());
-        this.mediaPeriod.continueLoading(toPeriodTime(j));
-    }
-
-    public TrackSelectorResult selectTracks(float f, Timeline timeline) throws ExoPlaybackException {
-        ExoTrackSelection[] exoTrackSelectionArr;
-        TrackSelectorResult selectTracks = this.trackSelector.selectTracks(this.rendererCapabilities, getTrackGroups(), this.info.id, timeline);
-        for (ExoTrackSelection exoTrackSelection : selectTracks.selections) {
-            if (exoTrackSelection != null) {
-                exoTrackSelection.onPlaybackSpeed(f);
+    private void associateNoSampleRenderersWithEmptySampleStream(SampleStream[] sampleStreamArr) {
+        int i = 0;
+        while (true) {
+            RendererCapabilities[] rendererCapabilitiesArr = this.rendererCapabilities;
+            if (i >= rendererCapabilitiesArr.length) {
+                return;
             }
+            if (rendererCapabilitiesArr[i].getTrackType() == -2 && this.trackSelectorResult.isRendererEnabled(i)) {
+                sampleStreamArr[i] = new EmptySampleStream();
+            }
+            i++;
         }
-        return selectTracks;
+    }
+
+    private static MediaPeriod createMediaPeriod(MediaSource.MediaPeriodId mediaPeriodId, MediaSourceList mediaSourceList, Allocator allocator, long j, long j2) {
+        MediaPeriod createPeriod = mediaSourceList.createPeriod(mediaPeriodId, allocator, j);
+        return j2 != -9223372036854775807L ? new ClippingMediaPeriod(createPeriod, true, 0L, j2) : createPeriod;
+    }
+
+    private void disableTrackSelectionsInResult() {
+        if (!isLoadingMediaPeriod()) {
+            return;
+        }
+        int i = 0;
+        while (true) {
+            TrackSelectorResult trackSelectorResult = this.trackSelectorResult;
+            if (i >= trackSelectorResult.length) {
+                return;
+            }
+            boolean isRendererEnabled = trackSelectorResult.isRendererEnabled(i);
+            ExoTrackSelection exoTrackSelection = this.trackSelectorResult.selections[i];
+            if (isRendererEnabled && exoTrackSelection != null) {
+                exoTrackSelection.disable();
+            }
+            i++;
+        }
+    }
+
+    private void disassociateNoSampleRenderersWithEmptySampleStream(SampleStream[] sampleStreamArr) {
+        int i = 0;
+        while (true) {
+            RendererCapabilities[] rendererCapabilitiesArr = this.rendererCapabilities;
+            if (i >= rendererCapabilitiesArr.length) {
+                return;
+            }
+            if (rendererCapabilitiesArr[i].getTrackType() == -2) {
+                sampleStreamArr[i] = null;
+            }
+            i++;
+        }
+    }
+
+    private void enableTrackSelectionsInResult() {
+        if (!isLoadingMediaPeriod()) {
+            return;
+        }
+        int i = 0;
+        while (true) {
+            TrackSelectorResult trackSelectorResult = this.trackSelectorResult;
+            if (i >= trackSelectorResult.length) {
+                return;
+            }
+            boolean isRendererEnabled = trackSelectorResult.isRendererEnabled(i);
+            ExoTrackSelection exoTrackSelection = this.trackSelectorResult.selections[i];
+            if (isRendererEnabled && exoTrackSelection != null) {
+                exoTrackSelection.enable();
+            }
+            i++;
+        }
+    }
+
+    private boolean isLoadingMediaPeriod() {
+        return this.next == null;
+    }
+
+    private static void releaseMediaPeriod(MediaSourceList mediaSourceList, MediaPeriod mediaPeriod) {
+        try {
+            if (mediaPeriod instanceof ClippingMediaPeriod) {
+                mediaPeriod = ((ClippingMediaPeriod) mediaPeriod).mediaPeriod;
+            }
+            mediaSourceList.releasePeriod(mediaPeriod);
+        } catch (RuntimeException e) {
+            Log.e("MediaPeriodHolder", "Period release failed.", e);
+        }
     }
 
     public long applyTrackSelection(TrackSelectorResult trackSelectorResult, long j, boolean z) {
@@ -167,9 +174,88 @@ final class MediaPeriodHolder {
         }
     }
 
+    public void continueLoading(long j) {
+        Assertions.checkState(isLoadingMediaPeriod());
+        this.mediaPeriod.continueLoading(toPeriodTime(j));
+    }
+
+    public long getBufferedPositionUs() {
+        if (this.prepared) {
+            long bufferedPositionUs = this.hasEnabledTracks ? this.mediaPeriod.getBufferedPositionUs() : Long.MIN_VALUE;
+            return bufferedPositionUs == Long.MIN_VALUE ? this.info.durationUs : bufferedPositionUs;
+        }
+        return this.info.startPositionUs;
+    }
+
+    public MediaPeriodHolder getNext() {
+        return this.next;
+    }
+
+    public long getNextLoadPositionUs() {
+        if (this.prepared) {
+            return this.mediaPeriod.getNextLoadPositionUs();
+        }
+        return 0L;
+    }
+
+    public long getRendererOffset() {
+        return this.rendererPositionOffsetUs;
+    }
+
+    public long getStartPositionRendererTime() {
+        return this.info.startPositionUs + this.rendererPositionOffsetUs;
+    }
+
+    public TrackGroupArray getTrackGroups() {
+        return this.trackGroups;
+    }
+
+    public TrackSelectorResult getTrackSelectorResult() {
+        return this.trackSelectorResult;
+    }
+
+    public void handlePrepared(float f, Timeline timeline) {
+        this.prepared = true;
+        this.trackGroups = this.mediaPeriod.getTrackGroups();
+        TrackSelectorResult selectTracks = selectTracks(f, timeline);
+        MediaPeriodInfo mediaPeriodInfo = this.info;
+        long j = mediaPeriodInfo.startPositionUs;
+        long j2 = mediaPeriodInfo.durationUs;
+        if (j2 != -9223372036854775807L && j >= j2) {
+            j = Math.max(0L, j2 - 1);
+        }
+        long applyTrackSelection = applyTrackSelection(selectTracks, j, false);
+        long j3 = this.rendererPositionOffsetUs;
+        MediaPeriodInfo mediaPeriodInfo2 = this.info;
+        this.rendererPositionOffsetUs = j3 + (mediaPeriodInfo2.startPositionUs - applyTrackSelection);
+        this.info = mediaPeriodInfo2.copyWithStartPositionUs(applyTrackSelection);
+    }
+
+    public boolean isFullyBuffered() {
+        return this.prepared && (!this.hasEnabledTracks || this.mediaPeriod.getBufferedPositionUs() == Long.MIN_VALUE);
+    }
+
+    public void reevaluateBuffer(long j) {
+        Assertions.checkState(isLoadingMediaPeriod());
+        if (this.prepared) {
+            this.mediaPeriod.reevaluateBuffer(toPeriodTime(j));
+        }
+    }
+
     public void release() {
         disableTrackSelectionsInResult();
         releaseMediaPeriod(this.mediaSourceList, this.mediaPeriod);
+    }
+
+    public TrackSelectorResult selectTracks(float f, Timeline timeline) {
+        ExoTrackSelection[] exoTrackSelectionArr;
+        TrackSelectorResult selectTracks = this.trackSelector.selectTracks(this.rendererCapabilities, getTrackGroups(), this.info.id, timeline);
+        for (ExoTrackSelection exoTrackSelection : selectTracks.selections) {
+            if (exoTrackSelection != null) {
+                exoTrackSelection.onPlaybackSpeed(f);
+            }
+        }
+        return selectTracks;
     }
 
     public void setNext(MediaPeriodHolder mediaPeriodHolder) {
@@ -181,16 +267,16 @@ final class MediaPeriodHolder {
         enableTrackSelectionsInResult();
     }
 
-    public MediaPeriodHolder getNext() {
-        return this.next;
+    public void setRendererOffset(long j) {
+        this.rendererPositionOffsetUs = j;
     }
 
-    public TrackGroupArray getTrackGroups() {
-        return this.trackGroups;
+    public long toPeriodTime(long j) {
+        return j - getRendererOffset();
     }
 
-    public TrackSelectorResult getTrackSelectorResult() {
-        return this.trackSelectorResult;
+    public long toRendererTime(long j) {
+        return j + getRendererOffset();
     }
 
     public void updateClipping() {
@@ -201,93 +287,6 @@ final class MediaPeriodHolder {
                 j = Long.MIN_VALUE;
             }
             ((ClippingMediaPeriod) mediaPeriod).updateClipping(0L, j);
-        }
-    }
-
-    private void enableTrackSelectionsInResult() {
-        if (!isLoadingMediaPeriod()) {
-            return;
-        }
-        int i = 0;
-        while (true) {
-            TrackSelectorResult trackSelectorResult = this.trackSelectorResult;
-            if (i >= trackSelectorResult.length) {
-                return;
-            }
-            boolean isRendererEnabled = trackSelectorResult.isRendererEnabled(i);
-            ExoTrackSelection exoTrackSelection = this.trackSelectorResult.selections[i];
-            if (isRendererEnabled && exoTrackSelection != null) {
-                exoTrackSelection.enable();
-            }
-            i++;
-        }
-    }
-
-    private void disableTrackSelectionsInResult() {
-        if (!isLoadingMediaPeriod()) {
-            return;
-        }
-        int i = 0;
-        while (true) {
-            TrackSelectorResult trackSelectorResult = this.trackSelectorResult;
-            if (i >= trackSelectorResult.length) {
-                return;
-            }
-            boolean isRendererEnabled = trackSelectorResult.isRendererEnabled(i);
-            ExoTrackSelection exoTrackSelection = this.trackSelectorResult.selections[i];
-            if (isRendererEnabled && exoTrackSelection != null) {
-                exoTrackSelection.disable();
-            }
-            i++;
-        }
-    }
-
-    private void disassociateNoSampleRenderersWithEmptySampleStream(SampleStream[] sampleStreamArr) {
-        int i = 0;
-        while (true) {
-            RendererCapabilities[] rendererCapabilitiesArr = this.rendererCapabilities;
-            if (i >= rendererCapabilitiesArr.length) {
-                return;
-            }
-            if (rendererCapabilitiesArr[i].getTrackType() == -2) {
-                sampleStreamArr[i] = null;
-            }
-            i++;
-        }
-    }
-
-    private void associateNoSampleRenderersWithEmptySampleStream(SampleStream[] sampleStreamArr) {
-        int i = 0;
-        while (true) {
-            RendererCapabilities[] rendererCapabilitiesArr = this.rendererCapabilities;
-            if (i >= rendererCapabilitiesArr.length) {
-                return;
-            }
-            if (rendererCapabilitiesArr[i].getTrackType() == -2 && this.trackSelectorResult.isRendererEnabled(i)) {
-                sampleStreamArr[i] = new EmptySampleStream();
-            }
-            i++;
-        }
-    }
-
-    private boolean isLoadingMediaPeriod() {
-        return this.next == null;
-    }
-
-    private static MediaPeriod createMediaPeriod(MediaSource.MediaPeriodId mediaPeriodId, MediaSourceList mediaSourceList, Allocator allocator, long j, long j2) {
-        MediaPeriod createPeriod = mediaSourceList.createPeriod(mediaPeriodId, allocator, j);
-        return j2 != -9223372036854775807L ? new ClippingMediaPeriod(createPeriod, true, 0L, j2) : createPeriod;
-    }
-
-    private static void releaseMediaPeriod(MediaSourceList mediaSourceList, MediaPeriod mediaPeriod) {
-        try {
-            if (mediaPeriod instanceof ClippingMediaPeriod) {
-                mediaSourceList.releasePeriod(((ClippingMediaPeriod) mediaPeriod).mediaPeriod);
-            } else {
-                mediaSourceList.releasePeriod(mediaPeriod);
-            }
-        } catch (RuntimeException e) {
-            Log.e("MediaPeriodHolder", "Period release failed.", e);
         }
     }
 }

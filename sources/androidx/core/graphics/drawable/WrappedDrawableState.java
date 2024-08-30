@@ -25,17 +25,9 @@ public final class WrappedDrawableState extends Drawable.ConstantState {
         }
     }
 
-    @Override // android.graphics.drawable.Drawable.ConstantState
-    public Drawable newDrawable() {
-        return newDrawable(null);
-    }
-
-    @Override // android.graphics.drawable.Drawable.ConstantState
-    public Drawable newDrawable(Resources resources) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            return new WrappedDrawableApi21(this, resources);
-        }
-        return new WrappedDrawableApi14(this, resources);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public boolean canConstantState() {
+        return this.mDrawableState != null;
     }
 
     @Override // android.graphics.drawable.Drawable.ConstantState
@@ -45,8 +37,13 @@ public final class WrappedDrawableState extends Drawable.ConstantState {
         return i | (constantState != null ? constantState.getChangingConfigurations() : 0);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean canConstantState() {
-        return this.mDrawableState != null;
+    @Override // android.graphics.drawable.Drawable.ConstantState
+    public Drawable newDrawable() {
+        return newDrawable(null);
+    }
+
+    @Override // android.graphics.drawable.Drawable.ConstantState
+    public Drawable newDrawable(Resources resources) {
+        return Build.VERSION.SDK_INT >= 21 ? new WrappedDrawableApi21(this, resources) : new WrappedDrawableApi14(this, resources);
     }
 }

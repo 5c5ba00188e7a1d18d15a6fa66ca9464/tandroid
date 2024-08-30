@@ -1,30 +1,9 @@
 package com.google.android.datatransport.runtime.firebase.transport;
-
-import com.google.firebase.encoders.proto.Protobuf;
 /* loaded from: classes.dex */
 public final class StorageMetrics {
     private static final StorageMetrics DEFAULT_INSTANCE = new Builder().build();
     private final long current_cache_size_bytes_;
     private final long max_cache_size_bytes_;
-
-    StorageMetrics(long j, long j2) {
-        this.current_cache_size_bytes_ = j;
-        this.max_cache_size_bytes_ = j2;
-    }
-
-    public static Builder newBuilder() {
-        return new Builder();
-    }
-
-    @Protobuf(tag = 1)
-    public long getCurrentCacheSizeBytes() {
-        return this.current_cache_size_bytes_;
-    }
-
-    @Protobuf(tag = 2)
-    public long getMaxCacheSizeBytes() {
-        return this.max_cache_size_bytes_;
-    }
 
     /* loaded from: classes.dex */
     public static final class Builder {
@@ -47,5 +26,22 @@ public final class StorageMetrics {
             this.max_cache_size_bytes_ = j;
             return this;
         }
+    }
+
+    StorageMetrics(long j, long j2) {
+        this.current_cache_size_bytes_ = j;
+        this.max_cache_size_bytes_ = j2;
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    public long getCurrentCacheSizeBytes() {
+        return this.current_cache_size_bytes_;
+    }
+
+    public long getMaxCacheSizeBytes() {
+        return this.max_cache_size_bytes_;
     }
 }

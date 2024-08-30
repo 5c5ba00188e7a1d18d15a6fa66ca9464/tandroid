@@ -6,7 +6,6 @@ import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.identity.intents.model.UserAddress;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class FullWallet extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<FullWallet> CREATOR = new zzl();
@@ -22,7 +21,19 @@ public final class FullWallet extends AbstractSafeParcelable implements Reflecte
     InstrumentInfo[] zzj;
     PaymentMethodToken zzk;
 
-    private FullWallet() {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public FullWallet(String str, String str2, zzaj zzajVar, String str3, zza zzaVar, zza zzaVar2, String[] strArr, UserAddress userAddress, UserAddress userAddress2, InstrumentInfo[] instrumentInfoArr, PaymentMethodToken paymentMethodToken) {
+        this.zza = str;
+        this.zzb = str2;
+        this.zzc = zzajVar;
+        this.zzd = str3;
+        this.zze = zzaVar;
+        this.zzf = zzaVar2;
+        this.zzg = strArr;
+        this.zzh = userAddress;
+        this.zzi = userAddress2;
+        this.zzj = instrumentInfoArr;
+        this.zzk = paymentMethodToken;
     }
 
     @Override // android.os.Parcelable
@@ -40,20 +51,5 @@ public final class FullWallet extends AbstractSafeParcelable implements Reflecte
         SafeParcelWriter.writeTypedArray(parcel, 11, this.zzj, i, false);
         SafeParcelWriter.writeParcelable(parcel, 12, this.zzk, i, false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FullWallet(String str, String str2, zzaj zzajVar, String str3, zza zzaVar, zza zzaVar2, String[] strArr, UserAddress userAddress, UserAddress userAddress2, InstrumentInfo[] instrumentInfoArr, PaymentMethodToken paymentMethodToken) {
-        this.zza = str;
-        this.zzb = str2;
-        this.zzc = zzajVar;
-        this.zzd = str3;
-        this.zze = zzaVar;
-        this.zzf = zzaVar2;
-        this.zzg = strArr;
-        this.zzh = userAddress;
-        this.zzi = userAddress2;
-        this.zzj = instrumentInfoArr;
-        this.zzk = paymentMethodToken;
     }
 }

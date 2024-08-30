@@ -2,7 +2,7 @@ package androidx.core;
 
 import org.telegram.messenger.R;
 /* loaded from: classes.dex */
-public final class R$styleable {
+public abstract class R$styleable {
     public static final int ColorStateListItem_alpha = 3;
     public static final int ColorStateListItem_android_alpha = 1;
     public static final int ColorStateListItem_android_color = 0;

@@ -8,7 +8,6 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import java.io.IOException;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -16,10 +15,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 /* loaded from: classes.dex */
-final class SqlTimeTypeAdapter extends TypeAdapter<Time> {
+final class SqlTimeTypeAdapter extends TypeAdapter {
     static final TypeAdapterFactory FACTORY = new TypeAdapterFactory() { // from class: com.google.gson.internal.sql.SqlTimeTypeAdapter.1
         @Override // com.google.gson.TypeAdapterFactory
-        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
+        public TypeAdapter create(Gson gson, TypeToken typeToken) {
             if (typeToken.getRawType() == Time.class) {
                 return new SqlTimeTypeAdapter();
             }
@@ -33,7 +32,7 @@ final class SqlTimeTypeAdapter extends TypeAdapter<Time> {
     }
 
     @Override // com.google.gson.TypeAdapter
-    public Time read(JsonReader jsonReader) throws IOException {
+    public Time read(JsonReader jsonReader) {
         Time time;
         if (jsonReader.peek() == JsonToken.NULL) {
             jsonReader.nextNull();
@@ -53,7 +52,7 @@ final class SqlTimeTypeAdapter extends TypeAdapter<Time> {
     }
 
     @Override // com.google.gson.TypeAdapter
-    public void write(JsonWriter jsonWriter, Time time) throws IOException {
+    public void write(JsonWriter jsonWriter, Time time) {
         String format;
         if (time == null) {
             jsonWriter.nullValue();

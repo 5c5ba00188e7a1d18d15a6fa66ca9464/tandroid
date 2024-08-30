@@ -15,7 +15,7 @@ public final class VideoSize implements Bundleable {
     private static final String FIELD_HEIGHT = Util.intToStringMaxRadix(1);
     private static final String FIELD_UNAPPLIED_ROTATION_DEGREES = Util.intToStringMaxRadix(2);
     private static final String FIELD_PIXEL_WIDTH_HEIGHT_RATIO = Util.intToStringMaxRadix(3);
-    public static final Bundleable.Creator<VideoSize> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.video.VideoSize$$ExternalSyntheticLambda0
+    public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.video.VideoSize$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.Bundleable.Creator
         public final Bundleable fromBundle(Bundle bundle) {
             VideoSize lambda$static$0;
@@ -33,6 +33,11 @@ public final class VideoSize implements Bundleable {
         this.height = i2;
         this.unappliedRotationDegrees = i3;
         this.pixelWidthHeightRatio = f;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ VideoSize lambda$static$0(Bundle bundle) {
+        return new VideoSize(bundle.getInt(FIELD_WIDTH, 0), bundle.getInt(FIELD_HEIGHT, 0), bundle.getInt(FIELD_UNAPPLIED_ROTATION_DEGREES, 0), bundle.getFloat(FIELD_PIXEL_WIDTH_HEIGHT_RATIO, 1.0f));
     }
 
     public boolean equals(Object obj) {
@@ -58,10 +63,5 @@ public final class VideoSize implements Bundleable {
         bundle.putInt(FIELD_UNAPPLIED_ROTATION_DEGREES, this.unappliedRotationDegrees);
         bundle.putFloat(FIELD_PIXEL_WIDTH_HEIGHT_RATIO, this.pixelWidthHeightRatio);
         return bundle;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ VideoSize lambda$static$0(Bundle bundle) {
-        return new VideoSize(bundle.getInt(FIELD_WIDTH, 0), bundle.getInt(FIELD_HEIGHT, 0), bundle.getInt(FIELD_UNAPPLIED_ROTATION_DEGREES, 0), bundle.getFloat(FIELD_PIXEL_WIDTH_HEIGHT_RATIO, 1.0f));
     }
 }

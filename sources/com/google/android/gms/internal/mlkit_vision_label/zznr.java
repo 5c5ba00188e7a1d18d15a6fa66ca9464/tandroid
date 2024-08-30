@@ -11,7 +11,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zznr {
     private final TelemetryLoggingClient zza;

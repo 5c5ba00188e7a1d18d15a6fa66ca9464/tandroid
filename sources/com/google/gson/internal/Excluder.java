@@ -12,7 +12,6 @@ import com.google.gson.internal.reflect.ReflectionHelper;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,8 +24,30 @@ public final class Excluder implements TypeAdapterFactory, Cloneable {
     private double version = -1.0d;
     private int modifiers = NotificationCenter.fileUploadProgressChanged;
     private boolean serializeInnerClasses = true;
-    private List<ExclusionStrategy> serializationStrategies = Collections.emptyList();
-    private List<ExclusionStrategy> deserializationStrategies = Collections.emptyList();
+    private List serializationStrategies = Collections.emptyList();
+    private List deserializationStrategies = Collections.emptyList();
+
+    private static boolean isInnerClass(Class cls) {
+        return cls.isMemberClass() && !ReflectionHelper.isStatic(cls);
+    }
+
+    private boolean isValidSince(Since since) {
+        if (since != null) {
+            return this.version >= since.value();
+        }
+        return true;
+    }
+
+    private boolean isValidUntil(Until until) {
+        if (until != null) {
+            return this.version < until.value();
+        }
+        return true;
+    }
+
+    private boolean isValidVersion(Since since, Until until) {
+        return isValidSince(since) && isValidUntil(until);
+    }
 
     /* JADX INFO: Access modifiers changed from: protected */
     public Excluder clone() {
@@ -37,32 +58,27 @@ public final class Excluder implements TypeAdapterFactory, Cloneable {
         }
     }
 
-    public Excluder withExclusionStrategy(ExclusionStrategy exclusionStrategy, boolean z, boolean z2) {
-        Excluder clone = clone();
-        if (z) {
-            ArrayList arrayList = new ArrayList(this.serializationStrategies);
-            clone.serializationStrategies = arrayList;
-            arrayList.add(exclusionStrategy);
-        }
-        if (z2) {
-            ArrayList arrayList2 = new ArrayList(this.deserializationStrategies);
-            clone.deserializationStrategies = arrayList2;
-            arrayList2.add(exclusionStrategy);
-        }
-        return clone;
-    }
-
     @Override // com.google.gson.TypeAdapterFactory
-    public <T> TypeAdapter<T> create(final Gson gson, final TypeToken<T> typeToken) {
-        Class<? super T> rawType = typeToken.getRawType();
+    public TypeAdapter create(final Gson gson, final TypeToken typeToken) {
+        Class rawType = typeToken.getRawType();
         final boolean excludeClass = excludeClass(rawType, true);
         final boolean excludeClass2 = excludeClass(rawType, false);
         if (excludeClass || excludeClass2) {
-            return new TypeAdapter<T>() { // from class: com.google.gson.internal.Excluder.1
-                private volatile TypeAdapter<T> delegate;
+            return new TypeAdapter() { // from class: com.google.gson.internal.Excluder.1
+                private volatile TypeAdapter delegate;
+
+                private TypeAdapter delegate() {
+                    TypeAdapter typeAdapter = this.delegate;
+                    if (typeAdapter != null) {
+                        return typeAdapter;
+                    }
+                    TypeAdapter delegateAdapter = gson.getDelegateAdapter(Excluder.this, typeToken);
+                    this.delegate = delegateAdapter;
+                    return delegateAdapter;
+                }
 
                 @Override // com.google.gson.TypeAdapter
-                public T read(JsonReader jsonReader) throws IOException {
+                public Object read(JsonReader jsonReader) {
                     if (excludeClass2) {
                         jsonReader.skipValue();
                         return null;
@@ -71,26 +87,34 @@ public final class Excluder implements TypeAdapterFactory, Cloneable {
                 }
 
                 @Override // com.google.gson.TypeAdapter
-                public void write(JsonWriter jsonWriter, T t) throws IOException {
+                public void write(JsonWriter jsonWriter, Object obj) {
                     if (excludeClass) {
                         jsonWriter.nullValue();
                     } else {
-                        delegate().write(jsonWriter, t);
+                        delegate().write(jsonWriter, obj);
                     }
-                }
-
-                private TypeAdapter<T> delegate() {
-                    TypeAdapter<T> typeAdapter = this.delegate;
-                    if (typeAdapter != null) {
-                        return typeAdapter;
-                    }
-                    TypeAdapter<T> delegateAdapter = gson.getDelegateAdapter(Excluder.this, typeToken);
-                    this.delegate = delegateAdapter;
-                    return delegateAdapter;
                 }
             };
         }
         return null;
+    }
+
+    public boolean excludeClass(Class cls, boolean z) {
+        if (this.version == -1.0d || isValidVersion((Since) cls.getAnnotation(Since.class), (Until) cls.getAnnotation(Until.class))) {
+            if (this.serializeInnerClasses || !isInnerClass(cls)) {
+                if (z || Enum.class.isAssignableFrom(cls) || !ReflectionHelper.isAnonymousOrNonStaticLocal(cls)) {
+                    for (ExclusionStrategy exclusionStrategy : z ? this.serializationStrategies : this.deserializationStrategies) {
+                        if (exclusionStrategy.shouldSkipClass(cls)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                return true;
+            }
+            return true;
+        }
+        return true;
     }
 
     public boolean excludeField(Field field, boolean z) {
@@ -117,43 +141,18 @@ public final class Excluder implements TypeAdapterFactory, Cloneable {
         return true;
     }
 
-    public boolean excludeClass(Class<?> cls, boolean z) {
-        if (this.version == -1.0d || isValidVersion((Since) cls.getAnnotation(Since.class), (Until) cls.getAnnotation(Until.class))) {
-            if (this.serializeInnerClasses || !isInnerClass(cls)) {
-                if (z || Enum.class.isAssignableFrom(cls) || !ReflectionHelper.isAnonymousOrNonStaticLocal(cls)) {
-                    for (ExclusionStrategy exclusionStrategy : z ? this.serializationStrategies : this.deserializationStrategies) {
-                        if (exclusionStrategy.shouldSkipClass(cls)) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-                return true;
-            }
-            return true;
+    public Excluder withExclusionStrategy(ExclusionStrategy exclusionStrategy, boolean z, boolean z2) {
+        Excluder clone = clone();
+        if (z) {
+            ArrayList arrayList = new ArrayList(this.serializationStrategies);
+            clone.serializationStrategies = arrayList;
+            arrayList.add(exclusionStrategy);
         }
-        return true;
-    }
-
-    private static boolean isInnerClass(Class<?> cls) {
-        return cls.isMemberClass() && !ReflectionHelper.isStatic(cls);
-    }
-
-    private boolean isValidVersion(Since since, Until until) {
-        return isValidSince(since) && isValidUntil(until);
-    }
-
-    private boolean isValidSince(Since since) {
-        if (since != null) {
-            return this.version >= since.value();
+        if (z2) {
+            ArrayList arrayList2 = new ArrayList(this.deserializationStrategies);
+            clone.deserializationStrategies = arrayList2;
+            arrayList2.add(exclusionStrategy);
         }
-        return true;
-    }
-
-    private boolean isValidUntil(Until until) {
-        if (until != null) {
-            return this.version < until.value();
-        }
-        return true;
+        return clone;
     }
 }

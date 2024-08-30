@@ -64,6 +64,212 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
         }
     }
 
+    private void checkDone(boolean z) {
+        if (this.doneButton == null) {
+            return;
+        }
+        boolean hasChanges = hasChanges();
+        this.doneButton.setEnabled(hasChanges);
+        if (z) {
+            this.doneButton.animate().alpha(hasChanges ? 1.0f : 0.0f).scaleX(hasChanges ? 1.0f : 0.0f).scaleY(hasChanges ? 1.0f : 0.0f).setDuration(180L).start();
+            return;
+        }
+        this.doneButton.setAlpha(hasChanges ? 1.0f : 0.0f);
+        this.doneButton.setScaleX(hasChanges ? 1.0f : 0.0f);
+        this.doneButton.setScaleY(hasChanges ? 1.0f : 0.0f);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void chooseInactivity(int i) {
+        this.inactivityDays = this.daysOfInactivity[i];
+        checkDone(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void fillItems(ArrayList arrayList, UniversalAdapter universalAdapter) {
+        arrayList.add(UItem.asTopView(LocaleController.getString(R.string.BusinessGreetInfo), "RestrictedEmoji", "👋"));
+        arrayList.add(UItem.asCheck(1, LocaleController.getString(R.string.BusinessGreetSend)).setChecked(this.enabled));
+        arrayList.add(UItem.asShadow(null));
+        if (this.enabled) {
+            QuickRepliesController.QuickReply findReply = QuickRepliesController.getInstance(this.currentAccount).findReply("hello");
+            arrayList.add(findReply != null ? UItem.asLargeQuickReply(findReply) : UItem.asButton(2, R.drawable.msg2_chats_add, LocaleController.getString(R.string.BusinessGreetCreate)).accent());
+            arrayList.add(UItem.asShadow(null));
+            arrayList.add(UItem.asHeader(LocaleController.getString(R.string.BusinessRecipients)));
+            arrayList.add(UItem.asRadio(3, LocaleController.getString(R.string.BusinessChatsAllPrivateExcept)).setChecked(this.exclude));
+            arrayList.add(UItem.asRadio(4, LocaleController.getString(R.string.BusinessChatsOnlySelected)).setChecked(true ^ this.exclude));
+            arrayList.add(UItem.asShadow(null));
+            this.recipientsHelper.fillItems(arrayList);
+            arrayList.add(UItem.asShadow(LocaleController.getString(R.string.BusinessGreetRecipientsInfo)));
+            arrayList.add(UItem.asHeader(LocaleController.getString(R.string.BusinessGreetPeriod)));
+            int i = 0;
+            while (true) {
+                int[] iArr = this.daysOfInactivity;
+                if (i >= iArr.length) {
+                    i = -1;
+                    break;
+                } else if (iArr[i] == this.inactivityDays) {
+                    break;
+                } else {
+                    i++;
+                }
+            }
+            arrayList.add(UItem.asSlideView(this.daysOfInactivityTexts, i, new Utilities.Callback() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda6
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    GreetMessagesActivity.this.chooseInactivity(((Integer) obj).intValue());
+                }
+            }));
+            arrayList.add(UItem.asShadow(LocaleController.getString(R.string.BusinessGreetPeriodInfo)));
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$0() {
+        this.listView.adapter.update(true);
+        checkDone(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onBackPressed$3(DialogInterface dialogInterface, int i) {
+        processDone();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onBackPressed$4(DialogInterface dialogInterface, int i) {
+        finishFragment();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$processDone$1(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
+        if (tLRPC$TL_error != null) {
+            this.doneButtonDrawable.animateToProgress(0.0f);
+            BulletinFactory.showError(tLRPC$TL_error);
+        } else if (!(tLObject instanceof TLRPC$TL_boolFalse)) {
+            finishFragment();
+        } else {
+            this.doneButtonDrawable.animateToProgress(0.0f);
+            BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$processDone$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda7
+            @Override // java.lang.Runnable
+            public final void run() {
+                GreetMessagesActivity.this.lambda$processDone$1(tLRPC$TL_error, tLObject);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void onClick(UItem uItem, View view, int i, float f, float f2) {
+        if (this.recipientsHelper.onClick(uItem)) {
+            return;
+        }
+        int i2 = uItem.id;
+        if (i2 == 2 || uItem.viewType == 17) {
+            Bundle bundle = new Bundle();
+            bundle.putLong("user_id", getUserConfig().getClientUserId());
+            bundle.putInt("chatMode", 5);
+            bundle.putString("quick_reply", "hello");
+            presentFragment(new ChatActivity(bundle));
+            return;
+        }
+        if (i2 == 1) {
+            this.enabled = !this.enabled;
+        } else if (i2 == 3) {
+            BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
+            this.exclude = true;
+            businessRecipientsHelper.setExclude(true);
+        } else if (i2 != 4) {
+            return;
+        } else {
+            BusinessRecipientsHelper businessRecipientsHelper2 = this.recipientsHelper;
+            this.exclude = false;
+            businessRecipientsHelper2.setExclude(false);
+        }
+        this.listView.adapter.update(true);
+        checkDone(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void processDone() {
+        if (this.doneButtonDrawable.getProgress() > 0.0f) {
+            return;
+        }
+        if (!hasChanges()) {
+            finishFragment();
+            return;
+        }
+        QuickRepliesController.QuickReply findReply = QuickRepliesController.getInstance(this.currentAccount).findReply("hello");
+        boolean z = this.enabled;
+        if (z && findReply == null) {
+            BotWebViewVibrationEffect.APP_ERROR.vibrate();
+            View findViewByItemId = this.listView.findViewByItemId(2);
+            int i = -this.shiftDp;
+            this.shiftDp = i;
+            AndroidUtilities.shakeViewSpring(findViewByItemId, i);
+        } else if (!z || this.recipientsHelper.validate(this.listView)) {
+            this.doneButtonDrawable.animateToProgress(1.0f);
+            TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
+            TLRPC$TL_account_updateBusinessGreetingMessage tLRPC$TL_account_updateBusinessGreetingMessage = new TLRPC$TL_account_updateBusinessGreetingMessage();
+            if (this.enabled) {
+                TLRPC$TL_inputBusinessGreetingMessage tLRPC$TL_inputBusinessGreetingMessage = new TLRPC$TL_inputBusinessGreetingMessage();
+                tLRPC$TL_account_updateBusinessGreetingMessage.message = tLRPC$TL_inputBusinessGreetingMessage;
+                tLRPC$TL_inputBusinessGreetingMessage.shortcut_id = findReply.id;
+                tLRPC$TL_inputBusinessGreetingMessage.recipients = this.recipientsHelper.getInputValue();
+                tLRPC$TL_account_updateBusinessGreetingMessage.message.no_activity_days = this.inactivityDays;
+                tLRPC$TL_account_updateBusinessGreetingMessage.flags |= 1;
+                if (userFull != null) {
+                    userFull.flags2 |= 4;
+                    TLRPC$TL_businessGreetingMessage tLRPC$TL_businessGreetingMessage = new TLRPC$TL_businessGreetingMessage();
+                    userFull.business_greeting_message = tLRPC$TL_businessGreetingMessage;
+                    tLRPC$TL_businessGreetingMessage.shortcut_id = findReply.id;
+                    tLRPC$TL_businessGreetingMessage.recipients = this.recipientsHelper.getValue();
+                    userFull.business_greeting_message.no_activity_days = this.inactivityDays;
+                }
+            } else if (userFull != null) {
+                userFull.flags2 &= -5;
+                userFull.business_greeting_message = null;
+            }
+            getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessGreetingMessage, new RequestDelegate() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda5
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    GreetMessagesActivity.this.lambda$processDone$2(tLObject, tLRPC$TL_error);
+                }
+            });
+            getMessagesStorage().updateUserInfo(userFull, false);
+        }
+    }
+
+    private void setValue() {
+        UniversalAdapter universalAdapter;
+        if (this.valueSet) {
+            return;
+        }
+        TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
+        if (userFull == null) {
+            getMessagesController().loadUserInfo(getUserConfig().getCurrentUser(), true, getClassGuid());
+            return;
+        }
+        TLRPC$TL_businessGreetingMessage tLRPC$TL_businessGreetingMessage = userFull.business_greeting_message;
+        this.currentValue = tLRPC$TL_businessGreetingMessage;
+        this.enabled = tLRPC$TL_businessGreetingMessage != null;
+        this.inactivityDays = tLRPC$TL_businessGreetingMessage != null ? tLRPC$TL_businessGreetingMessage.no_activity_days : 7;
+        this.exclude = tLRPC$TL_businessGreetingMessage != null ? tLRPC$TL_businessGreetingMessage.recipients.exclude_selected : true;
+        BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
+        if (businessRecipientsHelper != null) {
+            businessRecipientsHelper.setValue(tLRPC$TL_businessGreetingMessage == null ? null : tLRPC$TL_businessGreetingMessage.recipients);
+        }
+        UniversalRecyclerView universalRecyclerView = this.listView;
+        if (universalRecyclerView != null && (universalAdapter = universalRecyclerView.adapter) != null) {
+            universalAdapter.update(true);
+        }
+        checkDone(true);
+        this.valueSet = true;
+    }
+
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
@@ -118,37 +324,21 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
         return frameLayout;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$0() {
-        this.listView.adapter.update(true);
-        checkDone(true);
-    }
-
-    private void setValue() {
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
         UniversalAdapter universalAdapter;
-        if (this.valueSet) {
+        if (i != NotificationCenter.quickRepliesUpdated) {
+            if (i == NotificationCenter.userInfoDidLoad) {
+                setValue();
+                return;
+            }
             return;
-        }
-        TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
-        if (userFull == null) {
-            getMessagesController().loadUserInfo(getUserConfig().getCurrentUser(), true, getClassGuid());
-            return;
-        }
-        TLRPC$TL_businessGreetingMessage tLRPC$TL_businessGreetingMessage = userFull.business_greeting_message;
-        this.currentValue = tLRPC$TL_businessGreetingMessage;
-        this.enabled = tLRPC$TL_businessGreetingMessage != null;
-        this.inactivityDays = tLRPC$TL_businessGreetingMessage != null ? tLRPC$TL_businessGreetingMessage.no_activity_days : 7;
-        this.exclude = tLRPC$TL_businessGreetingMessage != null ? tLRPC$TL_businessGreetingMessage.recipients.exclude_selected : true;
-        BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
-        if (businessRecipientsHelper != null) {
-            businessRecipientsHelper.setValue(tLRPC$TL_businessGreetingMessage == null ? null : tLRPC$TL_businessGreetingMessage.recipients);
         }
         UniversalRecyclerView universalRecyclerView = this.listView;
         if (universalRecyclerView != null && (universalAdapter = universalRecyclerView.adapter) != null) {
             universalAdapter.update(true);
         }
         checkDone(true);
-        this.valueSet = true;
     }
 
     public boolean hasChanges() {
@@ -170,94 +360,6 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
             return false;
         }
         return false;
-    }
-
-    private void checkDone(boolean z) {
-        if (this.doneButton == null) {
-            return;
-        }
-        boolean hasChanges = hasChanges();
-        this.doneButton.setEnabled(hasChanges);
-        if (z) {
-            this.doneButton.animate().alpha(hasChanges ? 1.0f : 0.0f).scaleX(hasChanges ? 1.0f : 0.0f).scaleY(hasChanges ? 1.0f : 0.0f).setDuration(180L).start();
-            return;
-        }
-        this.doneButton.setAlpha(hasChanges ? 1.0f : 0.0f);
-        this.doneButton.setScaleX(hasChanges ? 1.0f : 0.0f);
-        this.doneButton.setScaleY(hasChanges ? 1.0f : 0.0f);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void processDone() {
-        if (this.doneButtonDrawable.getProgress() > 0.0f) {
-            return;
-        }
-        if (!hasChanges()) {
-            finishFragment();
-            return;
-        }
-        QuickRepliesController.QuickReply findReply = QuickRepliesController.getInstance(this.currentAccount).findReply("hello");
-        boolean z = this.enabled;
-        if (z && findReply == null) {
-            BotWebViewVibrationEffect.APP_ERROR.vibrate();
-            View findViewByItemId = this.listView.findViewByItemId(2);
-            int i = -this.shiftDp;
-            this.shiftDp = i;
-            AndroidUtilities.shakeViewSpring(findViewByItemId, i);
-        } else if (!z || this.recipientsHelper.validate(this.listView)) {
-            this.doneButtonDrawable.animateToProgress(1.0f);
-            TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
-            TLRPC$TL_account_updateBusinessGreetingMessage tLRPC$TL_account_updateBusinessGreetingMessage = new TLRPC$TL_account_updateBusinessGreetingMessage();
-            if (this.enabled) {
-                TLRPC$TL_inputBusinessGreetingMessage tLRPC$TL_inputBusinessGreetingMessage = new TLRPC$TL_inputBusinessGreetingMessage();
-                tLRPC$TL_account_updateBusinessGreetingMessage.message = tLRPC$TL_inputBusinessGreetingMessage;
-                tLRPC$TL_inputBusinessGreetingMessage.shortcut_id = findReply.id;
-                tLRPC$TL_inputBusinessGreetingMessage.recipients = this.recipientsHelper.getInputValue();
-                tLRPC$TL_account_updateBusinessGreetingMessage.message.no_activity_days = this.inactivityDays;
-                tLRPC$TL_account_updateBusinessGreetingMessage.flags |= 1;
-                if (userFull != null) {
-                    userFull.flags2 |= 4;
-                    TLRPC$TL_businessGreetingMessage tLRPC$TL_businessGreetingMessage = new TLRPC$TL_businessGreetingMessage();
-                    userFull.business_greeting_message = tLRPC$TL_businessGreetingMessage;
-                    tLRPC$TL_businessGreetingMessage.shortcut_id = findReply.id;
-                    tLRPC$TL_businessGreetingMessage.recipients = this.recipientsHelper.getValue();
-                    userFull.business_greeting_message.no_activity_days = this.inactivityDays;
-                }
-            } else if (userFull != null) {
-                userFull.flags2 &= -5;
-                userFull.business_greeting_message = null;
-            }
-            getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessGreetingMessage, new RequestDelegate() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda5
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    GreetMessagesActivity.this.lambda$processDone$2(tLObject, tLRPC$TL_error);
-                }
-            });
-            getMessagesStorage().updateUserInfo(userFull, false);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processDone$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda7
-            @Override // java.lang.Runnable
-            public final void run() {
-                GreetMessagesActivity.this.lambda$processDone$1(tLRPC$TL_error, tLObject);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processDone$1(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
-        if (tLRPC$TL_error != null) {
-            this.doneButtonDrawable.animateToProgress(0.0f);
-            BulletinFactory.showError(tLRPC$TL_error);
-        } else if (tLObject instanceof TLRPC$TL_boolFalse) {
-            this.doneButtonDrawable.animateToProgress(0.0f);
-            BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
-        } else {
-            finishFragment();
-        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -286,109 +388,6 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
             return false;
         }
         return super.onBackPressed();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onBackPressed$3(DialogInterface dialogInterface, int i) {
-        processDone();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onBackPressed$4(DialogInterface dialogInterface, int i) {
-        finishFragment();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void fillItems(ArrayList<UItem> arrayList, UniversalAdapter universalAdapter) {
-        arrayList.add(UItem.asTopView(LocaleController.getString(R.string.BusinessGreetInfo), "RestrictedEmoji", "👋"));
-        arrayList.add(UItem.asCheck(1, LocaleController.getString(R.string.BusinessGreetSend)).setChecked(this.enabled));
-        arrayList.add(UItem.asShadow(null));
-        if (this.enabled) {
-            QuickRepliesController.QuickReply findReply = QuickRepliesController.getInstance(this.currentAccount).findReply("hello");
-            if (findReply != null) {
-                arrayList.add(UItem.asLargeQuickReply(findReply));
-            } else {
-                arrayList.add(UItem.asButton(2, R.drawable.msg2_chats_add, LocaleController.getString(R.string.BusinessGreetCreate)).accent());
-            }
-            arrayList.add(UItem.asShadow(null));
-            arrayList.add(UItem.asHeader(LocaleController.getString(R.string.BusinessRecipients)));
-            arrayList.add(UItem.asRadio(3, LocaleController.getString(R.string.BusinessChatsAllPrivateExcept)).setChecked(this.exclude));
-            arrayList.add(UItem.asRadio(4, LocaleController.getString(R.string.BusinessChatsOnlySelected)).setChecked(true ^ this.exclude));
-            arrayList.add(UItem.asShadow(null));
-            this.recipientsHelper.fillItems(arrayList);
-            arrayList.add(UItem.asShadow(LocaleController.getString(R.string.BusinessGreetRecipientsInfo)));
-            arrayList.add(UItem.asHeader(LocaleController.getString(R.string.BusinessGreetPeriod)));
-            int i = 0;
-            while (true) {
-                int[] iArr = this.daysOfInactivity;
-                if (i >= iArr.length) {
-                    i = -1;
-                    break;
-                } else if (iArr[i] == this.inactivityDays) {
-                    break;
-                } else {
-                    i++;
-                }
-            }
-            arrayList.add(UItem.asSlideView(this.daysOfInactivityTexts, i, new Utilities.Callback() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda6
-                @Override // org.telegram.messenger.Utilities.Callback
-                public final void run(Object obj) {
-                    GreetMessagesActivity.this.chooseInactivity(((Integer) obj).intValue());
-                }
-            }));
-            arrayList.add(UItem.asShadow(LocaleController.getString(R.string.BusinessGreetPeriodInfo)));
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void chooseInactivity(int i) {
-        this.inactivityDays = this.daysOfInactivity[i];
-        checkDone(true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void onClick(UItem uItem, View view, int i, float f, float f2) {
-        if (this.recipientsHelper.onClick(uItem)) {
-            return;
-        }
-        int i2 = uItem.id;
-        if (i2 == 2 || uItem.viewType == 17) {
-            Bundle bundle = new Bundle();
-            bundle.putLong("user_id", getUserConfig().getClientUserId());
-            bundle.putInt("chatMode", 5);
-            bundle.putString("quick_reply", "hello");
-            presentFragment(new ChatActivity(bundle));
-        } else if (i2 == 1) {
-            this.enabled = !this.enabled;
-            this.listView.adapter.update(true);
-            checkDone(true);
-        } else if (i2 == 3) {
-            BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
-            this.exclude = true;
-            businessRecipientsHelper.setExclude(true);
-            this.listView.adapter.update(true);
-            checkDone(true);
-        } else if (i2 == 4) {
-            BusinessRecipientsHelper businessRecipientsHelper2 = this.recipientsHelper;
-            this.exclude = false;
-            businessRecipientsHelper2.setExclude(false);
-            this.listView.adapter.update(true);
-            checkDone(true);
-        }
-    }
-
-    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        UniversalAdapter universalAdapter;
-        if (i == NotificationCenter.quickRepliesUpdated) {
-            UniversalRecyclerView universalRecyclerView = this.listView;
-            if (universalRecyclerView != null && (universalAdapter = universalRecyclerView.adapter) != null) {
-                universalAdapter.update(true);
-            }
-            checkDone(true);
-        } else if (i == NotificationCenter.userInfoDidLoad) {
-            setValue();
-        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

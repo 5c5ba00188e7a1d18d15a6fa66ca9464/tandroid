@@ -5,14 +5,13 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
-/* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
 /* loaded from: classes.dex */
 final class zzo {
     private final Messenger zza;
     private final zza zzb;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public zzo(IBinder iBinder) throws RemoteException {
+    public zzo(IBinder iBinder) {
         String interfaceDescriptor = iBinder.getInterfaceDescriptor();
         if ("android.os.IMessenger".equals(interfaceDescriptor)) {
             this.zza = new Messenger(iBinder);
@@ -28,17 +27,16 @@ final class zzo {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza(Message message) throws RemoteException {
+    public final void zza(Message message) {
         Messenger messenger = this.zza;
         if (messenger != null) {
             messenger.send(message);
             return;
         }
         zza zzaVar = this.zzb;
-        if (zzaVar != null) {
-            zzaVar.zza(message);
-            return;
+        if (zzaVar == null) {
+            throw new IllegalStateException("Both messengers are null");
         }
-        throw new IllegalStateException("Both messengers are null");
+        zzaVar.zza(message);
     }
 }

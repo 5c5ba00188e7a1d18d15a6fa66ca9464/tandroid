@@ -7,18 +7,17 @@ import android.util.Log;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.firebase.messaging.Constants;
 import java.util.Map;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public final class RemoteMessage extends AbstractSafeParcelable {
     public static final Parcelable.Creator<RemoteMessage> CREATOR = new RemoteMessageCreator();
     Bundle bundle;
-    private Map<String, String> data;
+    private Map data;
 
     public RemoteMessage(Bundle bundle) {
         this.bundle = bundle;
     }
 
-    public Map<String, String> getData() {
+    public Map getData() {
         if (this.data == null) {
             this.data = Constants.MessagePayloadKeys.extractDeveloperDefinedPayload(this.bundle);
         }

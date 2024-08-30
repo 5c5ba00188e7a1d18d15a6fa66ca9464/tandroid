@@ -3,26 +3,17 @@ package com.google.common.collect;
 import com.google.common.base.Preconditions;
 import java.io.Serializable;
 /* loaded from: classes.dex */
-final class ReverseOrdering<T> extends Ordering<T> implements Serializable {
-    final Ordering<? super T> forwardOrder;
+final class ReverseOrdering extends Ordering implements Serializable {
+    final Ordering forwardOrder;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public ReverseOrdering(Ordering<? super T> ordering) {
+    public ReverseOrdering(Ordering ordering) {
         this.forwardOrder = (Ordering) Preconditions.checkNotNull(ordering);
     }
 
     @Override // com.google.common.collect.Ordering, java.util.Comparator
-    public int compare(T t, T t2) {
-        return this.forwardOrder.compare(t2, t);
-    }
-
-    @Override // com.google.common.collect.Ordering
-    public <S extends T> Ordering<S> reverse() {
-        return (Ordering<? super T>) this.forwardOrder;
-    }
-
-    public int hashCode() {
-        return -this.forwardOrder.hashCode();
+    public int compare(Object obj, Object obj2) {
+        return this.forwardOrder.compare(obj2, obj);
     }
 
     @Override // java.util.Comparator
@@ -34,6 +25,15 @@ final class ReverseOrdering<T> extends Ordering<T> implements Serializable {
             return this.forwardOrder.equals(((ReverseOrdering) obj).forwardOrder);
         }
         return false;
+    }
+
+    public int hashCode() {
+        return -this.forwardOrder.hashCode();
+    }
+
+    @Override // com.google.common.collect.Ordering
+    public Ordering reverse() {
+        return this.forwardOrder;
     }
 
     public String toString() {

@@ -23,72 +23,9 @@ final class DefaultMediaClock implements MediaClock {
         this.standaloneClock = new StandaloneMediaClock(clock);
     }
 
-    public void start() {
-        this.standaloneClockIsStarted = true;
-        this.standaloneClock.start();
-    }
-
-    public void stop() {
-        this.standaloneClockIsStarted = false;
-        this.standaloneClock.stop();
-    }
-
-    public void resetPosition(long j) {
-        this.standaloneClock.resetPosition(j);
-    }
-
-    public void onRendererEnabled(Renderer renderer) throws ExoPlaybackException {
-        MediaClock mediaClock;
-        MediaClock mediaClock2 = renderer.getMediaClock();
-        if (mediaClock2 == null || mediaClock2 == (mediaClock = this.rendererClock)) {
-            return;
-        }
-        if (mediaClock != null) {
-            throw ExoPlaybackException.createForUnexpected(new IllegalStateException("Multiple renderer media clocks enabled."));
-        }
-        this.rendererClock = mediaClock2;
-        this.rendererClockSource = renderer;
-        mediaClock2.setPlaybackParameters(this.standaloneClock.getPlaybackParameters());
-    }
-
-    public void onRendererDisabled(Renderer renderer) {
-        if (renderer == this.rendererClockSource) {
-            this.rendererClock = null;
-            this.rendererClockSource = null;
-            this.isUsingStandaloneClock = true;
-        }
-    }
-
-    public long syncAndGetPositionUs(boolean z) {
-        syncClocks(z);
-        return getPositionUs();
-    }
-
-    @Override // com.google.android.exoplayer2.util.MediaClock
-    public long getPositionUs() {
-        if (this.isUsingStandaloneClock) {
-            return this.standaloneClock.getPositionUs();
-        }
-        return ((MediaClock) Assertions.checkNotNull(this.rendererClock)).getPositionUs();
-    }
-
-    @Override // com.google.android.exoplayer2.util.MediaClock
-    public void setPlaybackParameters(PlaybackParameters playbackParameters) {
-        MediaClock mediaClock = this.rendererClock;
-        if (mediaClock != null) {
-            mediaClock.setPlaybackParameters(playbackParameters);
-            playbackParameters = this.rendererClock.getPlaybackParameters();
-        }
-        this.standaloneClock.setPlaybackParameters(playbackParameters);
-    }
-
-    @Override // com.google.android.exoplayer2.util.MediaClock
-    public PlaybackParameters getPlaybackParameters() {
-        MediaClock mediaClock = this.rendererClock;
-        if (mediaClock != null) {
-            return mediaClock.getPlaybackParameters();
-        }
-        return this.standaloneClock.getPlaybackParameters();
+    private boolean shouldUseStandaloneClock(boolean z) {
+        Renderer renderer = this.rendererClockSource;
+        return renderer == null || renderer.isEnded() || (!this.rendererClockSource.isReady() && (z || this.rendererClockSource.hasReadStreamToEnd()));
     }
 
     private void syncClocks(boolean z) {
@@ -121,8 +58,65 @@ final class DefaultMediaClock implements MediaClock {
         this.listener.onPlaybackParametersChanged(playbackParameters);
     }
 
-    private boolean shouldUseStandaloneClock(boolean z) {
-        Renderer renderer = this.rendererClockSource;
-        return renderer == null || renderer.isEnded() || (!this.rendererClockSource.isReady() && (z || this.rendererClockSource.hasReadStreamToEnd()));
+    @Override // com.google.android.exoplayer2.util.MediaClock
+    public PlaybackParameters getPlaybackParameters() {
+        MediaClock mediaClock = this.rendererClock;
+        return mediaClock != null ? mediaClock.getPlaybackParameters() : this.standaloneClock.getPlaybackParameters();
+    }
+
+    @Override // com.google.android.exoplayer2.util.MediaClock
+    public long getPositionUs() {
+        return this.isUsingStandaloneClock ? this.standaloneClock.getPositionUs() : ((MediaClock) Assertions.checkNotNull(this.rendererClock)).getPositionUs();
+    }
+
+    public void onRendererDisabled(Renderer renderer) {
+        if (renderer == this.rendererClockSource) {
+            this.rendererClock = null;
+            this.rendererClockSource = null;
+            this.isUsingStandaloneClock = true;
+        }
+    }
+
+    public void onRendererEnabled(Renderer renderer) {
+        MediaClock mediaClock;
+        MediaClock mediaClock2 = renderer.getMediaClock();
+        if (mediaClock2 == null || mediaClock2 == (mediaClock = this.rendererClock)) {
+            return;
+        }
+        if (mediaClock != null) {
+            throw ExoPlaybackException.createForUnexpected(new IllegalStateException("Multiple renderer media clocks enabled."));
+        }
+        this.rendererClock = mediaClock2;
+        this.rendererClockSource = renderer;
+        mediaClock2.setPlaybackParameters(this.standaloneClock.getPlaybackParameters());
+    }
+
+    public void resetPosition(long j) {
+        this.standaloneClock.resetPosition(j);
+    }
+
+    @Override // com.google.android.exoplayer2.util.MediaClock
+    public void setPlaybackParameters(PlaybackParameters playbackParameters) {
+        MediaClock mediaClock = this.rendererClock;
+        if (mediaClock != null) {
+            mediaClock.setPlaybackParameters(playbackParameters);
+            playbackParameters = this.rendererClock.getPlaybackParameters();
+        }
+        this.standaloneClock.setPlaybackParameters(playbackParameters);
+    }
+
+    public void start() {
+        this.standaloneClockIsStarted = true;
+        this.standaloneClock.start();
+    }
+
+    public void stop() {
+        this.standaloneClockIsStarted = false;
+        this.standaloneClock.stop();
+    }
+
+    public long syncAndGetPositionUs(boolean z) {
+        syncClocks(z);
+        return getPositionUs();
     }
 }

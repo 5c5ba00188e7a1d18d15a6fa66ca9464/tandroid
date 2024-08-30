@@ -33,66 +33,6 @@ public class EditTextCell extends FrameLayout {
     private boolean showLimitWhenEmpty;
     private boolean showLimitWhenFocused;
 
-    protected void onFocusChanged(boolean z) {
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onTextChanged(CharSequence charSequence) {
-    }
-
-    public void setShowLimitWhenEmpty(boolean z) {
-        this.showLimitWhenEmpty = z;
-        if (z) {
-            updateLimitText();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void updateLimitText() {
-        if (this.editText == null) {
-            return;
-        }
-        this.limitCount = this.maxLength - getText().length();
-        AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.limit;
-        String str = "";
-        if ((!TextUtils.isEmpty(getText()) || this.showLimitWhenEmpty) && (!this.showLimitWhenFocused || (this.focused && !this.autofocused))) {
-            str = "" + this.limitCount;
-        }
-        animatedTextDrawable.setText(str);
-    }
-
-    public void whenHitEnter(final Runnable runnable) {
-        this.editText.setImeOptions(6);
-        this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Cells.EditTextCell.1
-            @Override // android.widget.TextView.OnEditorActionListener
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == 6) {
-                    runnable.run();
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$hideKeyboardOnEnter$0() {
-        AndroidUtilities.hideKeyboard(this.editText);
-    }
-
-    public void hideKeyboardOnEnter() {
-        whenHitEnter(new Runnable() { // from class: org.telegram.ui.Cells.EditTextCell$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                EditTextCell.this.lambda$hideKeyboardOnEnter$0();
-            }
-        });
-    }
-
-    public void setShowLimitOnFocus(boolean z) {
-        this.showLimitWhenFocused = z;
-    }
-
     public EditTextCell(Context context, String str, final boolean z, final int i, final Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.limitColor = new AnimatedColor(this);
@@ -103,23 +43,6 @@ public class EditTextCell extends FrameLayout {
         this.limit.setGravity(5);
         this.maxLength = i;
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.Cells.EditTextCell.2
-            @Override // android.widget.TextView, android.view.View
-            protected boolean verifyDrawable(Drawable drawable) {
-                return drawable == EditTextCell.this.limit || super.verifyDrawable(drawable);
-            }
-
-            /* JADX INFO: Access modifiers changed from: protected */
-            @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-            public void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
-                super.onTextChanged(charSequence, i2, i3, i4);
-                AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = EditTextCell.this.limit;
-                if (animatedTextDrawable2 == null || i <= 0) {
-                    return;
-                }
-                animatedTextDrawable2.cancelAnimation();
-                EditTextCell.this.updateLimitText();
-            }
-
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.view.View
             public void dispatchDraw(Canvas canvas) {
@@ -137,6 +60,23 @@ public class EditTextCell extends FrameLayout {
                 canvas.clipRect(getScrollX() + getPaddingLeft(), 0, (getScrollX() + getWidth()) - getPaddingRight(), getHeight());
                 super.onDraw(canvas);
                 canvas.restore();
+            }
+
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
+            public void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
+                super.onTextChanged(charSequence, i2, i3, i4);
+                AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = EditTextCell.this.limit;
+                if (animatedTextDrawable2 == null || i <= 0) {
+                    return;
+                }
+                animatedTextDrawable2.cancelAnimation();
+                EditTextCell.this.updateLimitText();
+            }
+
+            @Override // android.widget.TextView, android.view.View
+            protected boolean verifyDrawable(Drawable drawable) {
+                return drawable == EditTextCell.this.limit || super.verifyDrawable(drawable);
             }
         };
         this.editText = editTextBoldCursor;
@@ -163,18 +103,6 @@ public class EditTextCell extends FrameLayout {
         editTextBoldCursor.setCursorWidth(1.5f);
         editTextBoldCursor.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Cells.EditTextCell.3
             @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
-            }
-
-            @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
-                if (EditTextCell.this.ignoreEditText) {
-                    return;
-                }
-                EditTextCell.this.autofocused = false;
-            }
-
-            @Override // android.text.TextWatcher
             public void afterTextChanged(Editable editable) {
                 if (!EditTextCell.this.ignoreEditText) {
                     if (i > 0 && editable != null && editable.length() > i) {
@@ -197,6 +125,18 @@ public class EditTextCell extends FrameLayout {
                     editable.delete(indexOf, indexOf + 1);
                 }
             }
+
+            @Override // android.text.TextWatcher
+            public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+                if (EditTextCell.this.ignoreEditText) {
+                    return;
+                }
+                EditTextCell.this.autofocused = false;
+            }
+
+            @Override // android.text.TextWatcher
+            public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+            }
         });
         editTextBoldCursor.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.Cells.EditTextCell.4
             @Override // android.view.View.OnFocusChangeListener
@@ -212,6 +152,58 @@ public class EditTextCell extends FrameLayout {
         updateLimitText();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$hideKeyboardOnEnter$0() {
+        AndroidUtilities.hideKeyboard(this.editText);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateLimitText() {
+        if (this.editText == null) {
+            return;
+        }
+        this.limitCount = this.maxLength - getText().length();
+        AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.limit;
+        String str = "";
+        if ((!TextUtils.isEmpty(getText()) || this.showLimitWhenEmpty) && (!this.showLimitWhenFocused || (this.focused && !this.autofocused))) {
+            str = "" + this.limitCount;
+        }
+        animatedTextDrawable.setText(str);
+    }
+
+    public CharSequence getText() {
+        return this.editText.getText();
+    }
+
+    public void hideKeyboardOnEnter() {
+        whenHitEnter(new Runnable() { // from class: org.telegram.ui.Cells.EditTextCell$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                EditTextCell.this.lambda$hideKeyboardOnEnter$0();
+            }
+        });
+    }
+
+    @Override // android.view.View
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (this.needDivider) {
+            canvas.drawLine(LocaleController.isRTL ? 0.0f : AndroidUtilities.dp(22.0f), getMeasuredHeight() - 1, getMeasuredWidth() - (LocaleController.isRTL ? AndroidUtilities.dp(22.0f) : 0), getMeasuredHeight() - 1, Theme.dividerPaint);
+        }
+    }
+
+    protected void onFocusChanged(boolean z) {
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void onTextChanged(CharSequence charSequence) {
+    }
+
+    public void setDivider(boolean z) {
+        this.needDivider = z;
+        setWillNotDraw(!z);
+    }
+
     public ImageView setLeftDrawable(Drawable drawable) {
         ImageView imageView = new ImageView(getContext());
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -223,6 +215,17 @@ public class EditTextCell extends FrameLayout {
         return imageView;
     }
 
+    public void setShowLimitOnFocus(boolean z) {
+        this.showLimitWhenFocused = z;
+    }
+
+    public void setShowLimitWhenEmpty(boolean z) {
+        this.showLimitWhenEmpty = z;
+        if (z) {
+            updateLimitText();
+        }
+    }
+
     public void setText(CharSequence charSequence) {
         this.ignoreEditText = true;
         this.editText.setText(charSequence);
@@ -231,20 +234,17 @@ public class EditTextCell extends FrameLayout {
         this.ignoreEditText = false;
     }
 
-    public CharSequence getText() {
-        return this.editText.getText();
-    }
-
-    public void setDivider(boolean z) {
-        this.needDivider = z;
-        setWillNotDraw(!z);
-    }
-
-    @Override // android.view.View
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        if (this.needDivider) {
-            canvas.drawLine(LocaleController.isRTL ? 0.0f : AndroidUtilities.dp(22.0f), getMeasuredHeight() - 1, getMeasuredWidth() - (LocaleController.isRTL ? AndroidUtilities.dp(22.0f) : 0), getMeasuredHeight() - 1, Theme.dividerPaint);
-        }
+    public void whenHitEnter(final Runnable runnable) {
+        this.editText.setImeOptions(6);
+        this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Cells.EditTextCell.1
+            @Override // android.widget.TextView.OnEditorActionListener
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == 6) {
+                    runnable.run();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }

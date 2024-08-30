@@ -1,7 +1,6 @@
 package org.telegram.messenger;
 
 import org.telegram.ui.Components.Bulletin;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes3.dex */
 public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda15 implements Runnable {
     public final /* synthetic */ Bulletin.UndoButton f$0;

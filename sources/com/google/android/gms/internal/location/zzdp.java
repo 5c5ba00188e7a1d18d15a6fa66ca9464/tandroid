@@ -5,43 +5,36 @@ import java.lang.reflect.Array;
 import java.util.AbstractCollection;
 import java.util.Arrays;
 import java.util.Collection;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public abstract class zzdp extends AbstractCollection implements Serializable {
     private static final Object[] zza = new Object[0];
 
     @Override // java.util.AbstractCollection, java.util.Collection
-    @Deprecated
     public final boolean add(Object obj) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection
-    @Deprecated
     public final boolean addAll(Collection collection) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection
-    @Deprecated
     public final void clear() {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection
-    @Deprecated
     public final boolean remove(Object obj) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection
-    @Deprecated
     public final boolean removeAll(Collection collection) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection
-    @Deprecated
     public final boolean retainAll(Collection collection) {
         throw new UnsupportedOperationException();
     }
@@ -51,35 +44,6 @@ public abstract class zzdp extends AbstractCollection implements Serializable {
         return toArray(zza);
     }
 
-    int zza(Object[] objArr, int i) {
-        throw null;
-    }
-
-    int zzb() {
-        throw null;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int zzc() {
-        throw null;
-    }
-
-    public zzds zzd() {
-        throw null;
-    }
-
-    @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
-    /* renamed from: zze */
-    public abstract zzdu iterator();
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract boolean zzf();
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Object[] zzg() {
-        throw null;
-    }
-
     @Override // java.util.AbstractCollection, java.util.Collection
     public final Object[] toArray(Object[] objArr) {
         objArr.getClass();
@@ -87,15 +51,29 @@ public abstract class zzdp extends AbstractCollection implements Serializable {
         int length = objArr.length;
         if (length < size) {
             Object[] zzg = zzg();
-            if (zzg == null) {
-                objArr = (Object[]) Array.newInstance(objArr.getClass().getComponentType(), size);
-            } else {
+            if (zzg != null) {
                 return Arrays.copyOfRange(zzg, zzc(), zzb(), objArr.getClass());
             }
+            objArr = (Object[]) Array.newInstance(objArr.getClass().getComponentType(), size);
         } else if (length > size) {
             objArr[size] = null;
         }
         zza(objArr, 0);
         return objArr;
     }
+
+    abstract int zza(Object[] objArr, int i);
+
+    abstract int zzb();
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public abstract int zzc();
+
+    public abstract zzds zzd();
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public abstract boolean zzf();
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public abstract Object[] zzg();
 }

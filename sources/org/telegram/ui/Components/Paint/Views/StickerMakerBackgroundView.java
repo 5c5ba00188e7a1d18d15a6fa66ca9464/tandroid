@@ -8,7 +8,7 @@ import android.graphics.RectF;
 import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 /* loaded from: classes3.dex */
-public class StickerMakerBackgroundView extends View {
+public abstract class StickerMakerBackgroundView extends View {
     private final Paint backgroundPaint;
     private final Path path;
 

@@ -14,11 +14,44 @@ import org.telegram.ui.ActionBar.FloatingToolbar;
 /* loaded from: classes3.dex */
 public class MenuToItemOptions implements Menu {
     private final ItemOptions itemOptions;
-    private final Utilities.Callback<Integer> onMenuClicked;
+    private final Utilities.Callback onMenuClicked;
     private final Runnable premiumLock;
+
+    public MenuToItemOptions(ItemOptions itemOptions, Utilities.Callback callback, Runnable runnable) {
+        this.itemOptions = itemOptions;
+        this.onMenuClicked = callback;
+        this.premiumLock = runnable;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$add$0(int i) {
+        this.onMenuClicked.run(Integer.valueOf(i));
+    }
 
     @Override // android.view.Menu
     public MenuItem add(int i) {
+        return null;
+    }
+
+    @Override // android.view.Menu
+    public MenuItem add(int i, int i2, int i3, int i4) {
+        return add(i, i2, i3, LocaleController.getString(i4));
+    }
+
+    @Override // android.view.Menu
+    public MenuItem add(int i, final int i2, int i3, CharSequence charSequence) {
+        if (this.premiumLock != null && FloatingToolbar.premiumOptions.contains(Integer.valueOf(i2)) && MessagesController.getInstance(UserConfig.selectedAccount).premiumFeaturesBlocked()) {
+            return null;
+        }
+        this.itemOptions.add(charSequence, new Runnable() { // from class: org.telegram.ui.Components.MenuToItemOptions$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                MenuToItemOptions.this.lambda$add$0(i2);
+            }
+        });
+        if (this.premiumLock != null && FloatingToolbar.premiumOptions.contains(Integer.valueOf(i2))) {
+            this.itemOptions.putPremiumLock(this.premiumLock);
+        }
         return null;
     }
 
@@ -117,38 +150,5 @@ public class MenuToItemOptions implements Menu {
     @Override // android.view.Menu
     public int size() {
         return 0;
-    }
-
-    public MenuToItemOptions(ItemOptions itemOptions, Utilities.Callback<Integer> callback, Runnable runnable) {
-        this.itemOptions = itemOptions;
-        this.onMenuClicked = callback;
-        this.premiumLock = runnable;
-    }
-
-    @Override // android.view.Menu
-    public MenuItem add(int i, final int i2, int i3, CharSequence charSequence) {
-        if (this.premiumLock != null && FloatingToolbar.premiumOptions.contains(Integer.valueOf(i2)) && MessagesController.getInstance(UserConfig.selectedAccount).premiumFeaturesBlocked()) {
-            return null;
-        }
-        this.itemOptions.add(charSequence, new Runnable() { // from class: org.telegram.ui.Components.MenuToItemOptions$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                MenuToItemOptions.this.lambda$add$0(i2);
-            }
-        });
-        if (this.premiumLock != null && FloatingToolbar.premiumOptions.contains(Integer.valueOf(i2))) {
-            this.itemOptions.putPremiumLock(this.premiumLock);
-        }
-        return null;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$add$0(int i) {
-        this.onMenuClicked.run(Integer.valueOf(i));
-    }
-
-    @Override // android.view.Menu
-    public MenuItem add(int i, int i2, int i3, int i4) {
-        return add(i, i2, i3, LocaleController.getString(i4));
     }
 }

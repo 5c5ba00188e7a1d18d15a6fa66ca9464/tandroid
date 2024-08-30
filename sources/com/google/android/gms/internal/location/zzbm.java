@@ -6,7 +6,6 @@ import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.common.api.internal.OnConnectionFailedListener;
 import com.google.android.gms.common.internal.ClientSettings;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 final class zzbm extends Api.AbstractClientBuilder {
     @Override // com.google.android.gms.common.api.Api.AbstractClientBuilder

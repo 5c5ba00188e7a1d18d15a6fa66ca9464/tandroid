@@ -1,6 +1,5 @@
 package com.google.android.exoplayer2.trackselection;
 
-import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.RendererCapabilities;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.audio.AudioAttributes;
@@ -18,29 +17,16 @@ public abstract class TrackSelector {
         void onTrackSelectionsInvalidated();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final BandwidthMeter getBandwidthMeter() {
+        return (BandwidthMeter) Assertions.checkStateNotNull(this.bandwidthMeter);
+    }
+
     public abstract TrackSelectionParameters getParameters();
-
-    public boolean isSetParametersSupported() {
-        return false;
-    }
-
-    public abstract void onSelectionActivated(Object obj);
-
-    public abstract TrackSelectorResult selectTracks(RendererCapabilities[] rendererCapabilitiesArr, TrackGroupArray trackGroupArray, MediaSource.MediaPeriodId mediaPeriodId, Timeline timeline) throws ExoPlaybackException;
-
-    public void setAudioAttributes(AudioAttributes audioAttributes) {
-    }
-
-    public abstract void setParameters(TrackSelectionParameters trackSelectionParameters);
 
     public void init(InvalidationListener invalidationListener, BandwidthMeter bandwidthMeter) {
         this.listener = invalidationListener;
         this.bandwidthMeter = bandwidthMeter;
-    }
-
-    public void release() {
-        this.listener = null;
-        this.bandwidthMeter = null;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -51,8 +37,18 @@ public abstract class TrackSelector {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final BandwidthMeter getBandwidthMeter() {
-        return (BandwidthMeter) Assertions.checkStateNotNull(this.bandwidthMeter);
+    public abstract boolean isSetParametersSupported();
+
+    public abstract void onSelectionActivated(Object obj);
+
+    public void release() {
+        this.listener = null;
+        this.bandwidthMeter = null;
     }
+
+    public abstract TrackSelectorResult selectTracks(RendererCapabilities[] rendererCapabilitiesArr, TrackGroupArray trackGroupArray, MediaSource.MediaPeriodId mediaPeriodId, Timeline timeline);
+
+    public abstract void setAudioAttributes(AudioAttributes audioAttributes);
+
+    public abstract void setParameters(TrackSelectionParameters trackSelectionParameters);
 }

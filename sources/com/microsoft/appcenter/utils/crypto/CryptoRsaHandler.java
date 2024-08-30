@@ -1,6 +1,5 @@
 package com.microsoft.appcenter.utils.crypto;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.security.KeyPairGeneratorSpec;
 import com.microsoft.appcenter.utils.crypto.CryptoUtils;
@@ -15,34 +14,19 @@ import java.util.Date;
 import javax.security.auth.x500.X500Principal;
 /* loaded from: classes.dex */
 class CryptoRsaHandler implements CryptoHandler {
-    @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
-    public String getAlgorithm() {
-        return "RSA/ECB/PKCS1Padding/2048";
+    private CryptoUtils.ICipher getCipher(CryptoUtils.ICryptoFactory iCryptoFactory, int i) {
+        return iCryptoFactory.getCipher("RSA/ECB/PKCS1Padding", i >= 23 ? "AndroidKeyStoreBCWorkaround" : "AndroidOpenSSL");
     }
 
     @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
-    @SuppressLint({"InlinedApi", "TrulyRandom"})
-    public void generateKey(CryptoUtils.ICryptoFactory iCryptoFactory, String str, Context context) throws Exception {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(1, 1);
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
-        KeyPairGeneratorSpec.Builder alias = new KeyPairGeneratorSpec.Builder(context).setAlias(str);
-        keyPairGenerator.initialize(alias.setSubject(new X500Principal("CN=" + str)).setStartDate(new Date()).setEndDate(calendar.getTime()).setSerialNumber(BigInteger.TEN).setKeySize(2048).build());
-        keyPairGenerator.generateKeyPair();
-    }
-
-    private CryptoUtils.ICipher getCipher(CryptoUtils.ICryptoFactory iCryptoFactory, int i) throws Exception {
-        String str;
-        if (i >= 23) {
-            str = "AndroidKeyStoreBCWorkaround";
-        } else {
-            str = "AndroidOpenSSL";
-        }
-        return iCryptoFactory.getCipher("RSA/ECB/PKCS1Padding", str);
+    public byte[] decrypt(CryptoUtils.ICryptoFactory iCryptoFactory, int i, KeyStore.Entry entry, byte[] bArr) {
+        CryptoUtils.ICipher cipher = getCipher(iCryptoFactory, i);
+        cipher.init(2, ((KeyStore.PrivateKeyEntry) entry).getPrivateKey());
+        return cipher.doFinal(bArr);
     }
 
     @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
-    public byte[] encrypt(CryptoUtils.ICryptoFactory iCryptoFactory, int i, KeyStore.Entry entry, byte[] bArr) throws Exception {
+    public byte[] encrypt(CryptoUtils.ICryptoFactory iCryptoFactory, int i, KeyStore.Entry entry, byte[] bArr) {
         CryptoUtils.ICipher cipher = getCipher(iCryptoFactory, i);
         X509Certificate x509Certificate = (X509Certificate) ((KeyStore.PrivateKeyEntry) entry).getCertificate();
         try {
@@ -55,9 +39,17 @@ class CryptoRsaHandler implements CryptoHandler {
     }
 
     @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
-    public byte[] decrypt(CryptoUtils.ICryptoFactory iCryptoFactory, int i, KeyStore.Entry entry, byte[] bArr) throws Exception {
-        CryptoUtils.ICipher cipher = getCipher(iCryptoFactory, i);
-        cipher.init(2, ((KeyStore.PrivateKeyEntry) entry).getPrivateKey());
-        return cipher.doFinal(bArr);
+    public void generateKey(CryptoUtils.ICryptoFactory iCryptoFactory, String str, Context context) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(1, 1);
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
+        KeyPairGeneratorSpec.Builder alias = new KeyPairGeneratorSpec.Builder(context).setAlias(str);
+        keyPairGenerator.initialize(alias.setSubject(new X500Principal("CN=" + str)).setStartDate(new Date()).setEndDate(calendar.getTime()).setSerialNumber(BigInteger.TEN).setKeySize(2048).build());
+        keyPairGenerator.generateKeyPair();
+    }
+
+    @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
+    public String getAlgorithm() {
+        return "RSA/ECB/PKCS1Padding/2048";
     }
 }

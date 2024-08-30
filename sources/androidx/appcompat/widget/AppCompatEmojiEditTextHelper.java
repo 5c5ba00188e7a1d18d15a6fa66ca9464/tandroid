@@ -21,6 +21,16 @@ class AppCompatEmojiEditTextHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
+    public KeyListener getKeyListener(KeyListener keyListener) {
+        return isEmojiCapableKeyListener(keyListener) ? this.mEmojiEditTextHelper.getKeyListener(keyListener) : keyListener;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public boolean isEmojiCapableKeyListener(KeyListener keyListener) {
+        return !(keyListener instanceof NumberKeyListener);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void loadFromAttributes(AttributeSet attributeSet, int i) {
         TypedArray obtainStyledAttributes = this.mView.getContext().obtainStyledAttributes(attributeSet, R$styleable.AppCompatTextView, i, 0);
         try {
@@ -35,22 +45,12 @@ class AppCompatEmojiEditTextHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isEmojiCapableKeyListener(KeyListener keyListener) {
-        return !(keyListener instanceof NumberKeyListener);
+    public InputConnection onCreateInputConnection(InputConnection inputConnection, EditorInfo editorInfo) {
+        return this.mEmojiEditTextHelper.onCreateInputConnection(inputConnection, editorInfo);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void setEnabled(boolean z) {
         this.mEmojiEditTextHelper.setEnabled(z);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public KeyListener getKeyListener(KeyListener keyListener) {
-        return isEmojiCapableKeyListener(keyListener) ? this.mEmojiEditTextHelper.getKeyListener(keyListener) : keyListener;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public InputConnection onCreateInputConnection(InputConnection inputConnection, EditorInfo editorInfo) {
-        return this.mEmojiEditTextHelper.onCreateInputConnection(inputConnection, editorInfo);
     }
 }

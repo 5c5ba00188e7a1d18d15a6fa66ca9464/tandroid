@@ -7,7 +7,7 @@ import androidx.emoji2.text.EmojiCompat;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class DefaultGlyphChecker implements EmojiCompat.GlyphChecker {
-    private static final ThreadLocal<StringBuilder> sStringBuilder = new ThreadLocal<>();
+    private static final ThreadLocal sStringBuilder = new ThreadLocal();
     private final TextPaint mTextPaint;
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -15,6 +15,14 @@ public class DefaultGlyphChecker implements EmojiCompat.GlyphChecker {
         TextPaint textPaint = new TextPaint();
         this.mTextPaint = textPaint;
         textPaint.setTextSize(10.0f);
+    }
+
+    private static StringBuilder getStringBuilder() {
+        ThreadLocal threadLocal = sStringBuilder;
+        if (threadLocal.get() == null) {
+            threadLocal.set(new StringBuilder());
+        }
+        return (StringBuilder) threadLocal.get();
     }
 
     @Override // androidx.emoji2.text.EmojiCompat.GlyphChecker
@@ -30,13 +38,5 @@ public class DefaultGlyphChecker implements EmojiCompat.GlyphChecker {
             return PaintCompat.hasGlyph(this.mTextPaint, stringBuilder.toString());
         }
         return false;
-    }
-
-    private static StringBuilder getStringBuilder() {
-        ThreadLocal<StringBuilder> threadLocal = sStringBuilder;
-        if (threadLocal.get() == null) {
-            threadLocal.set(new StringBuilder());
-        }
-        return threadLocal.get();
     }
 }

@@ -19,13 +19,69 @@ import java.util.concurrent.Executor;
 public final class NetworkTypeObserver {
     private static NetworkTypeObserver staticInstance;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
-    private final CopyOnWriteArrayList<WeakReference<Listener>> listeners = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList listeners = new CopyOnWriteArrayList();
     private final Object networkTypeLock = new Object();
     private int networkType = 0;
 
     /* loaded from: classes.dex */
+    private static final class Api31 {
+
+        /* JADX INFO: Access modifiers changed from: private */
+        /* loaded from: classes.dex */
+        public static final class DisplayInfoCallback extends TelephonyCallback implements TelephonyCallback.DisplayInfoListener {
+            private final NetworkTypeObserver instance;
+
+            public DisplayInfoCallback(NetworkTypeObserver networkTypeObserver) {
+                this.instance = networkTypeObserver;
+            }
+
+            @Override // android.telephony.TelephonyCallback.DisplayInfoListener
+            public void onDisplayInfoChanged(TelephonyDisplayInfo telephonyDisplayInfo) {
+                int overrideNetworkType;
+                overrideNetworkType = telephonyDisplayInfo.getOverrideNetworkType();
+                this.instance.updateNetworkType(overrideNetworkType == 3 || overrideNetworkType == 4 || overrideNetworkType == 5 ? 10 : 5);
+            }
+        }
+
+        public static void disambiguate4gAnd5gNsa(Context context, NetworkTypeObserver networkTypeObserver) {
+            Executor mainExecutor;
+            try {
+                TelephonyManager telephonyManager = (TelephonyManager) Assertions.checkNotNull((TelephonyManager) context.getSystemService("phone"));
+                DisplayInfoCallback displayInfoCallback = new DisplayInfoCallback(networkTypeObserver);
+                mainExecutor = context.getMainExecutor();
+                telephonyManager.registerTelephonyCallback(mainExecutor, displayInfoCallback);
+                telephonyManager.unregisterTelephonyCallback(displayInfoCallback);
+            } catch (RuntimeException unused) {
+                networkTypeObserver.updateNetworkType(5);
+            }
+        }
+    }
+
+    /* loaded from: classes.dex */
     public interface Listener {
         void onNetworkTypeChanged(int i);
+    }
+
+    /* loaded from: classes.dex */
+    private final class Receiver extends BroadcastReceiver {
+        private Receiver() {
+        }
+
+        @Override // android.content.BroadcastReceiver
+        public void onReceive(Context context, Intent intent) {
+            int networkTypeFromConnectivityManager = NetworkTypeObserver.getNetworkTypeFromConnectivityManager(context);
+            if (Util.SDK_INT < 31 || networkTypeFromConnectivityManager != 5) {
+                NetworkTypeObserver.this.updateNetworkType(networkTypeFromConnectivityManager);
+            } else {
+                Api31.disambiguate4gAnd5gNsa(context, NetworkTypeObserver.this);
+            }
+        }
+    }
+
+    private NetworkTypeObserver(Context context) {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        Util.registerReceiverNotExported(context, new Receiver(), intentFilter);
     }
 
     public static synchronized NetworkTypeObserver getInstance(Context context) {
@@ -41,100 +97,6 @@ public final class NetworkTypeObserver {
             }
         }
         return networkTypeObserver;
-    }
-
-    private NetworkTypeObserver(Context context) {
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        Util.registerReceiverNotExported(context, new Receiver(), intentFilter);
-    }
-
-    public void register(final Listener listener) {
-        removeClearedReferences();
-        this.listeners.add(new WeakReference<>(listener));
-        this.mainHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.util.NetworkTypeObserver$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                NetworkTypeObserver.this.lambda$register$0(listener);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$register$0(Listener listener) {
-        listener.onNetworkTypeChanged(getNetworkType());
-    }
-
-    public int getNetworkType() {
-        int i;
-        synchronized (this.networkTypeLock) {
-            i = this.networkType;
-        }
-        return i;
-    }
-
-    private void removeClearedReferences() {
-        Iterator<WeakReference<Listener>> it = this.listeners.iterator();
-        while (it.hasNext()) {
-            WeakReference<Listener> next = it.next();
-            if (next.get() == null) {
-                this.listeners.remove(next);
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void updateNetworkType(int i) {
-        synchronized (this.networkTypeLock) {
-            try {
-                if (this.networkType == i) {
-                    return;
-                }
-                this.networkType = i;
-                Iterator<WeakReference<Listener>> it = this.listeners.iterator();
-                while (it.hasNext()) {
-                    WeakReference<Listener> next = it.next();
-                    Listener listener = next.get();
-                    if (listener != null) {
-                        listener.onNetworkTypeChanged(i);
-                    } else {
-                        this.listeners.remove(next);
-                    }
-                }
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static int getNetworkTypeFromConnectivityManager(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService("connectivity");
-        int i = 0;
-        if (connectivityManager == null) {
-            return 0;
-        }
-        try {
-            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            i = 1;
-            if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
-                int type = activeNetworkInfo.getType();
-                if (type != 0) {
-                    if (type == 1) {
-                        return 2;
-                    }
-                    if (type == 9) {
-                        return 7;
-                    }
-                    if (type != 4 && type != 5) {
-                        return type != 6 ? 8 : 5;
-                    }
-                }
-                return getMobileNetworkType(activeNetworkInfo);
-            }
-        } catch (SecurityException unused) {
-        }
-        return i;
     }
 
     private static int getMobileNetworkType(NetworkInfo networkInfo) {
@@ -169,52 +131,91 @@ public final class NetworkTypeObserver {
         }
     }
 
-    /* loaded from: classes.dex */
-    private final class Receiver extends BroadcastReceiver {
-        private Receiver() {
+    /* JADX INFO: Access modifiers changed from: private */
+    public static int getNetworkTypeFromConnectivityManager(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService("connectivity");
+        int i = 0;
+        if (connectivityManager == null) {
+            return 0;
         }
+        try {
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            i = 1;
+            if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+                int type = activeNetworkInfo.getType();
+                if (type != 0) {
+                    if (type == 1) {
+                        return 2;
+                    }
+                    if (type == 9) {
+                        return 7;
+                    }
+                    if (type != 4 && type != 5) {
+                        return type != 6 ? 8 : 5;
+                    }
+                }
+                return getMobileNetworkType(activeNetworkInfo);
+            }
+        } catch (SecurityException unused) {
+        }
+        return i;
+    }
 
-        @Override // android.content.BroadcastReceiver
-        public void onReceive(Context context, Intent intent) {
-            int networkTypeFromConnectivityManager = NetworkTypeObserver.getNetworkTypeFromConnectivityManager(context);
-            if (Util.SDK_INT < 31 || networkTypeFromConnectivityManager != 5) {
-                NetworkTypeObserver.this.updateNetworkType(networkTypeFromConnectivityManager);
-            } else {
-                Api31.disambiguate4gAnd5gNsa(context, NetworkTypeObserver.this);
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$register$0(Listener listener) {
+        listener.onNetworkTypeChanged(getNetworkType());
+    }
+
+    private void removeClearedReferences() {
+        Iterator it = this.listeners.iterator();
+        while (it.hasNext()) {
+            WeakReference weakReference = (WeakReference) it.next();
+            if (weakReference.get() == null) {
+                this.listeners.remove(weakReference);
             }
         }
     }
 
-    /* loaded from: classes.dex */
-    private static final class Api31 {
-        public static void disambiguate4gAnd5gNsa(Context context, NetworkTypeObserver networkTypeObserver) {
-            Executor mainExecutor;
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateNetworkType(int i) {
+        synchronized (this.networkTypeLock) {
             try {
-                TelephonyManager telephonyManager = (TelephonyManager) Assertions.checkNotNull((TelephonyManager) context.getSystemService("phone"));
-                DisplayInfoCallback displayInfoCallback = new DisplayInfoCallback(networkTypeObserver);
-                mainExecutor = context.getMainExecutor();
-                telephonyManager.registerTelephonyCallback(mainExecutor, displayInfoCallback);
-                telephonyManager.unregisterTelephonyCallback(displayInfoCallback);
-            } catch (RuntimeException unused) {
-                networkTypeObserver.updateNetworkType(5);
+                if (this.networkType == i) {
+                    return;
+                }
+                this.networkType = i;
+                Iterator it = this.listeners.iterator();
+                while (it.hasNext()) {
+                    WeakReference weakReference = (WeakReference) it.next();
+                    Listener listener = (Listener) weakReference.get();
+                    if (listener != null) {
+                        listener.onNetworkTypeChanged(i);
+                    } else {
+                        this.listeners.remove(weakReference);
+                    }
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
+    }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes.dex */
-        public static final class DisplayInfoCallback extends TelephonyCallback implements TelephonyCallback.DisplayInfoListener {
-            private final NetworkTypeObserver instance;
-
-            public DisplayInfoCallback(NetworkTypeObserver networkTypeObserver) {
-                this.instance = networkTypeObserver;
-            }
-
-            @Override // android.telephony.TelephonyCallback.DisplayInfoListener
-            public void onDisplayInfoChanged(TelephonyDisplayInfo telephonyDisplayInfo) {
-                int overrideNetworkType;
-                overrideNetworkType = telephonyDisplayInfo.getOverrideNetworkType();
-                this.instance.updateNetworkType(overrideNetworkType == 3 || overrideNetworkType == 4 || overrideNetworkType == 5 ? 10 : 5);
-            }
+    public int getNetworkType() {
+        int i;
+        synchronized (this.networkTypeLock) {
+            i = this.networkType;
         }
+        return i;
+    }
+
+    public void register(final Listener listener) {
+        removeClearedReferences();
+        this.listeners.add(new WeakReference(listener));
+        this.mainHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.util.NetworkTypeObserver$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                NetworkTypeObserver.this.lambda$register$0(listener);
+            }
+        });
     }
 }

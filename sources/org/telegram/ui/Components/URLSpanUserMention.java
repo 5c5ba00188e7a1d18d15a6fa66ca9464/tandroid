@@ -24,24 +24,38 @@ public class URLSpanUserMention extends URLSpanNoUnderline {
         super.onClick(view);
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0024  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0028  */
     @Override // org.telegram.ui.Components.URLSpanNoUnderline, android.text.style.ClickableSpan, android.text.style.CharacterStyle
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void updateDrawState(TextPaint textPaint) {
+        int i;
+        int i2;
+        TextStyleSpan.TextStyleRun textStyleRun;
         super.updateDrawState(textPaint);
-        int i = this.currentType;
-        if (i == 3) {
-            textPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText));
-        } else if (i == 2) {
-            textPaint.setColor(-1);
-        } else if (i == 1) {
-            textPaint.setColor(Theme.getColor(Theme.key_chat_messageLinkOut));
+        int i3 = this.currentType;
+        if (i3 == 3) {
+            i = Theme.key_windowBackgroundWhiteLinkText;
+        } else if (i3 == 2) {
+            i2 = -1;
+            textPaint.setColor(i2);
+            textStyleRun = this.style;
+            if (textStyleRun == null) {
+                textStyleRun.applyStyle(textPaint);
+                return;
+            } else {
+                textPaint.setUnderlineText(false);
+                return;
+            }
         } else {
-            textPaint.setColor(Theme.getColor(Theme.key_chat_messageLinkIn));
+            i = i3 == 1 ? Theme.key_chat_messageLinkOut : Theme.key_chat_messageLinkIn;
         }
-        TextStyleSpan.TextStyleRun textStyleRun = this.style;
-        if (textStyleRun != null) {
-            textStyleRun.applyStyle(textPaint);
-        } else {
-            textPaint.setUnderlineText(false);
+        i2 = Theme.getColor(i);
+        textPaint.setColor(i2);
+        textStyleRun = this.style;
+        if (textStyleRun == null) {
         }
     }
 }

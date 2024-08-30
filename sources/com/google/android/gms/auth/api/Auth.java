@@ -4,29 +4,23 @@ import android.os.Bundle;
 import com.google.android.gms.auth.api.credentials.CredentialsApi;
 import com.google.android.gms.auth.api.proxy.ProxyApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInApi;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.internal.zbd;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.internal.auth-api.zbl;
-/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
-public final class Auth {
-    public static final Api<AuthCredentialsOptions> CREDENTIALS_API;
+public abstract class Auth {
+    public static final Api CREDENTIALS_API;
     public static final CredentialsApi CredentialsApi;
-    public static final Api<GoogleSignInOptions> GOOGLE_SIGN_IN_API;
+    public static final Api GOOGLE_SIGN_IN_API;
     public static final GoogleSignInApi GoogleSignInApi;
-    @Deprecated
-    public static final Api<AuthProxyOptions> PROXY_API;
-    @Deprecated
+    public static final Api PROXY_API;
     public static final ProxyApi ProxyApi;
     public static final Api.ClientKey zba;
     public static final Api.ClientKey zbb;
     private static final Api.AbstractClientBuilder zbc;
     private static final Api.AbstractClientBuilder zbd;
 
-    /* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
-    @Deprecated
     /* loaded from: classes.dex */
     public static class AuthCredentialsOptions implements Api.ApiOptions {
         public static final AuthCredentialsOptions zba = new AuthCredentialsOptions(new Builder());
@@ -34,8 +28,6 @@ public final class Auth {
         private final boolean zbc;
         private final String zbd;
 
-        /* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
-        @Deprecated
         /* loaded from: classes.dex */
         public static class Builder {
             protected Boolean zba;
@@ -45,16 +37,16 @@ public final class Auth {
                 this.zba = Boolean.FALSE;
             }
 
-            public final Builder zba(String str) {
-                this.zbb = str;
-                return this;
-            }
-
             public Builder(AuthCredentialsOptions authCredentialsOptions) {
                 this.zba = Boolean.FALSE;
                 AuthCredentialsOptions.zbb(authCredentialsOptions);
                 this.zba = Boolean.valueOf(authCredentialsOptions.zbc);
                 this.zbb = authCredentialsOptions.zbd;
+            }
+
+            public final Builder zba(String str) {
+                this.zbb = str;
+                return this;
             }
         }
 
@@ -103,8 +95,8 @@ public final class Auth {
         zbb zbbVar = new zbb();
         zbd = zbbVar;
         PROXY_API = AuthProxy.API;
-        CREDENTIALS_API = new Api<>("Auth.CREDENTIALS_API", zbaVar, clientKey);
-        GOOGLE_SIGN_IN_API = new Api<>("Auth.GOOGLE_SIGN_IN_API", zbbVar, clientKey2);
+        CREDENTIALS_API = new Api("Auth.CREDENTIALS_API", zbaVar, clientKey);
+        GOOGLE_SIGN_IN_API = new Api("Auth.GOOGLE_SIGN_IN_API", zbbVar, clientKey2);
         ProxyApi = AuthProxy.ProxyApi;
         CredentialsApi = new zbl();
         GoogleSignInApi = new zbd();

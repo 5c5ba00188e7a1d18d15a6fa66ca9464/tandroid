@@ -13,9 +13,68 @@ final class EmojiInputFilter implements InputFilter {
     private EmojiCompat.InitCallback mInitCallback;
     private final TextView mTextView;
 
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class InitCallbackImpl extends EmojiCompat.InitCallback {
+        private final Reference mEmojiInputFilterReference;
+        private final Reference mViewRef;
+
+        InitCallbackImpl(TextView textView, EmojiInputFilter emojiInputFilter) {
+            this.mViewRef = new WeakReference(textView);
+            this.mEmojiInputFilterReference = new WeakReference(emojiInputFilter);
+        }
+
+        private boolean isInputFilterCurrentlyRegisteredOnTextView(TextView textView, InputFilter inputFilter) {
+            InputFilter[] filters;
+            if (inputFilter == null || textView == null || (filters = textView.getFilters()) == null) {
+                return false;
+            }
+            for (InputFilter inputFilter2 : filters) {
+                if (inputFilter2 == inputFilter) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        @Override // androidx.emoji2.text.EmojiCompat.InitCallback
+        public void onInitialized() {
+            CharSequence text;
+            CharSequence process;
+            super.onInitialized();
+            TextView textView = (TextView) this.mViewRef.get();
+            if (isInputFilterCurrentlyRegisteredOnTextView(textView, (InputFilter) this.mEmojiInputFilterReference.get()) && textView.isAttachedToWindow() && text != (process = EmojiCompat.get().process((text = textView.getText())))) {
+                int selectionStart = Selection.getSelectionStart(process);
+                int selectionEnd = Selection.getSelectionEnd(process);
+                textView.setText(process);
+                if (process instanceof Spannable) {
+                    EmojiInputFilter.updateSelection((Spannable) process, selectionStart, selectionEnd);
+                }
+            }
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public EmojiInputFilter(TextView textView) {
         this.mTextView = textView;
+    }
+
+    private EmojiCompat.InitCallback getInitCallback() {
+        if (this.mInitCallback == null) {
+            this.mInitCallback = new InitCallbackImpl(this.mTextView, this);
+        }
+        return this.mInitCallback;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void updateSelection(Spannable spannable, int i, int i2) {
+        if (i >= 0 && i2 >= 0) {
+            Selection.setSelection(spannable, i, i2);
+        } else if (i >= 0) {
+            Selection.setSelection(spannable, i);
+        } else if (i2 >= 0) {
+            Selection.setSelection(spannable, i2);
+        }
     }
 
     @Override // android.text.InputFilter
@@ -39,64 +98,5 @@ final class EmojiInputFilter implements InputFilter {
         }
         EmojiCompat.get().registerInitCallback(getInitCallback());
         return charSequence;
-    }
-
-    private EmojiCompat.InitCallback getInitCallback() {
-        if (this.mInitCallback == null) {
-            this.mInitCallback = new InitCallbackImpl(this.mTextView, this);
-        }
-        return this.mInitCallback;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class InitCallbackImpl extends EmojiCompat.InitCallback {
-        private final Reference<EmojiInputFilter> mEmojiInputFilterReference;
-        private final Reference<TextView> mViewRef;
-
-        InitCallbackImpl(TextView textView, EmojiInputFilter emojiInputFilter) {
-            this.mViewRef = new WeakReference(textView);
-            this.mEmojiInputFilterReference = new WeakReference(emojiInputFilter);
-        }
-
-        @Override // androidx.emoji2.text.EmojiCompat.InitCallback
-        public void onInitialized() {
-            CharSequence text;
-            CharSequence process;
-            super.onInitialized();
-            TextView textView = this.mViewRef.get();
-            if (isInputFilterCurrentlyRegisteredOnTextView(textView, this.mEmojiInputFilterReference.get()) && textView.isAttachedToWindow() && text != (process = EmojiCompat.get().process((text = textView.getText())))) {
-                int selectionStart = Selection.getSelectionStart(process);
-                int selectionEnd = Selection.getSelectionEnd(process);
-                textView.setText(process);
-                if (process instanceof Spannable) {
-                    EmojiInputFilter.updateSelection((Spannable) process, selectionStart, selectionEnd);
-                }
-            }
-        }
-
-        private boolean isInputFilterCurrentlyRegisteredOnTextView(TextView textView, InputFilter inputFilter) {
-            InputFilter[] filters;
-            if (inputFilter == null || textView == null || (filters = textView.getFilters()) == null) {
-                return false;
-            }
-            for (InputFilter inputFilter2 : filters) {
-                if (inputFilter2 == inputFilter) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void updateSelection(Spannable spannable, int i, int i2) {
-        if (i >= 0 && i2 >= 0) {
-            Selection.setSelection(spannable, i, i2);
-        } else if (i >= 0) {
-            Selection.setSelection(spannable, i);
-        } else if (i2 >= 0) {
-            Selection.setSelection(spannable, i2);
-        }
     }
 }

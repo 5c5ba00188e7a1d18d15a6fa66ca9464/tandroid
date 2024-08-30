@@ -20,6 +20,26 @@ public final class QRCode {
         return this.matrix;
     }
 
+    public void setECLevel(ErrorCorrectionLevel errorCorrectionLevel) {
+        this.ecLevel = errorCorrectionLevel;
+    }
+
+    public void setMaskPattern(int i) {
+        this.maskPattern = i;
+    }
+
+    public void setMatrix(ByteMatrix byteMatrix) {
+        this.matrix = byteMatrix;
+    }
+
+    public void setMode(Mode mode) {
+        this.mode = mode;
+    }
+
+    public void setVersion(Version version) {
+        this.version = version;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder((int) NotificationCenter.storyQualityUpdate);
         sb.append("<<\n");
@@ -39,25 +59,5 @@ public final class QRCode {
         }
         sb.append(">>\n");
         return sb.toString();
-    }
-
-    public void setMode(Mode mode) {
-        this.mode = mode;
-    }
-
-    public void setECLevel(ErrorCorrectionLevel errorCorrectionLevel) {
-        this.ecLevel = errorCorrectionLevel;
-    }
-
-    public void setVersion(Version version) {
-        this.version = version;
-    }
-
-    public void setMaskPattern(int i) {
-        this.maskPattern = i;
-    }
-
-    public void setMatrix(ByteMatrix byteMatrix) {
-        this.matrix = byteMatrix;
     }
 }

@@ -31,6 +31,14 @@ public class Matrix {
         this.ty = d9;
     }
 
+    public static Matrix fromByteBuffer(ByteBuffer byteBuffer) {
+        return fromFileOrder(IsoTypeReader.readFixedPoint1616(byteBuffer), IsoTypeReader.readFixedPoint1616(byteBuffer), IsoTypeReader.readFixedPoint0230(byteBuffer), IsoTypeReader.readFixedPoint1616(byteBuffer), IsoTypeReader.readFixedPoint1616(byteBuffer), IsoTypeReader.readFixedPoint0230(byteBuffer), IsoTypeReader.readFixedPoint1616(byteBuffer), IsoTypeReader.readFixedPoint1616(byteBuffer), IsoTypeReader.readFixedPoint0230(byteBuffer));
+    }
+
+    public static Matrix fromFileOrder(double d, double d2, double d3, double d4, double d5, double d6, double d7, double d8, double d9) {
+        return new Matrix(d, d2, d4, d5, d3, d6, d9, d7, d8);
+    }
+
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -40,6 +48,18 @@ public class Matrix {
         }
         Matrix matrix = (Matrix) obj;
         return Double.compare(matrix.a, this.a) == 0 && Double.compare(matrix.b, this.b) == 0 && Double.compare(matrix.c, this.c) == 0 && Double.compare(matrix.d, this.d) == 0 && Double.compare(matrix.tx, this.tx) == 0 && Double.compare(matrix.ty, this.ty) == 0 && Double.compare(matrix.u, this.u) == 0 && Double.compare(matrix.v, this.v) == 0 && Double.compare(matrix.w, this.w) == 0;
+    }
+
+    public void getContent(ByteBuffer byteBuffer) {
+        IsoTypeWriter.writeFixedPoint1616(byteBuffer, this.a);
+        IsoTypeWriter.writeFixedPoint1616(byteBuffer, this.b);
+        IsoTypeWriter.writeFixedPoint0230(byteBuffer, this.u);
+        IsoTypeWriter.writeFixedPoint1616(byteBuffer, this.c);
+        IsoTypeWriter.writeFixedPoint1616(byteBuffer, this.d);
+        IsoTypeWriter.writeFixedPoint0230(byteBuffer, this.v);
+        IsoTypeWriter.writeFixedPoint1616(byteBuffer, this.tx);
+        IsoTypeWriter.writeFixedPoint1616(byteBuffer, this.ty);
+        IsoTypeWriter.writeFixedPoint0230(byteBuffer, this.w);
     }
 
     public int hashCode() {
@@ -69,25 +89,5 @@ public class Matrix {
             return "Rotate 270°";
         }
         return "Matrix{u=" + this.u + ", v=" + this.v + ", w=" + this.w + ", a=" + this.a + ", b=" + this.b + ", c=" + this.c + ", d=" + this.d + ", tx=" + this.tx + ", ty=" + this.ty + '}';
-    }
-
-    public static Matrix fromFileOrder(double d, double d2, double d3, double d4, double d5, double d6, double d7, double d8, double d9) {
-        return new Matrix(d, d2, d4, d5, d3, d6, d9, d7, d8);
-    }
-
-    public static Matrix fromByteBuffer(ByteBuffer byteBuffer) {
-        return fromFileOrder(IsoTypeReader.readFixedPoint1616(byteBuffer), IsoTypeReader.readFixedPoint1616(byteBuffer), IsoTypeReader.readFixedPoint0230(byteBuffer), IsoTypeReader.readFixedPoint1616(byteBuffer), IsoTypeReader.readFixedPoint1616(byteBuffer), IsoTypeReader.readFixedPoint0230(byteBuffer), IsoTypeReader.readFixedPoint1616(byteBuffer), IsoTypeReader.readFixedPoint1616(byteBuffer), IsoTypeReader.readFixedPoint0230(byteBuffer));
-    }
-
-    public void getContent(ByteBuffer byteBuffer) {
-        IsoTypeWriter.writeFixedPoint1616(byteBuffer, this.a);
-        IsoTypeWriter.writeFixedPoint1616(byteBuffer, this.b);
-        IsoTypeWriter.writeFixedPoint0230(byteBuffer, this.u);
-        IsoTypeWriter.writeFixedPoint1616(byteBuffer, this.c);
-        IsoTypeWriter.writeFixedPoint1616(byteBuffer, this.d);
-        IsoTypeWriter.writeFixedPoint0230(byteBuffer, this.v);
-        IsoTypeWriter.writeFixedPoint1616(byteBuffer, this.tx);
-        IsoTypeWriter.writeFixedPoint1616(byteBuffer, this.ty);
-        IsoTypeWriter.writeFixedPoint0230(byteBuffer, this.w);
     }
 }

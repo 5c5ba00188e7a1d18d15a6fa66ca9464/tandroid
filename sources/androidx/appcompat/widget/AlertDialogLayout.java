@@ -16,13 +16,38 @@ public class AlertDialogLayout extends LinearLayoutCompat {
         super(context, attributeSet);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.View
-    public void onMeasure(int i, int i2) {
-        if (tryOnMeasure(i, i2)) {
-            return;
+    private void forceUniformWidth(int i, int i2) {
+        int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(getMeasuredWidth(), 1073741824);
+        for (int i3 = 0; i3 < i; i3++) {
+            View childAt = getChildAt(i3);
+            if (childAt.getVisibility() != 8) {
+                LinearLayoutCompat.LayoutParams layoutParams = (LinearLayoutCompat.LayoutParams) childAt.getLayoutParams();
+                if (((LinearLayout.LayoutParams) layoutParams).width == -1) {
+                    int i4 = ((LinearLayout.LayoutParams) layoutParams).height;
+                    ((LinearLayout.LayoutParams) layoutParams).height = childAt.getMeasuredHeight();
+                    measureChildWithMargins(childAt, makeMeasureSpec, 0, i2, 0);
+                    ((LinearLayout.LayoutParams) layoutParams).height = i4;
+                }
+            }
         }
-        super.onMeasure(i, i2);
+    }
+
+    private static int resolveMinimumHeight(View view) {
+        int minimumHeight = ViewCompat.getMinimumHeight(view);
+        if (minimumHeight > 0) {
+            return minimumHeight;
+        }
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            if (viewGroup.getChildCount() == 1) {
+                return resolveMinimumHeight(viewGroup.getChildAt(0));
+            }
+        }
+        return 0;
+    }
+
+    private void setChildFrame(View view, int i, int i2, int i3, int i4) {
+        view.layout(i, i2, i3 + i, i4 + i2);
     }
 
     private boolean tryOnMeasure(int i, int i2) {
@@ -110,102 +135,67 @@ public class AlertDialogLayout extends LinearLayoutCompat {
         return true;
     }
 
-    private void forceUniformWidth(int i, int i2) {
-        int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(getMeasuredWidth(), 1073741824);
-        for (int i3 = 0; i3 < i; i3++) {
-            View childAt = getChildAt(i3);
-            if (childAt.getVisibility() != 8) {
-                LinearLayoutCompat.LayoutParams layoutParams = (LinearLayoutCompat.LayoutParams) childAt.getLayoutParams();
-                if (((LinearLayout.LayoutParams) layoutParams).width == -1) {
-                    int i4 = ((LinearLayout.LayoutParams) layoutParams).height;
-                    ((LinearLayout.LayoutParams) layoutParams).height = childAt.getMeasuredHeight();
-                    measureChildWithMargins(childAt, makeMeasureSpec, 0, i2, 0);
-                    ((LinearLayout.LayoutParams) layoutParams).height = i4;
-                }
-            }
-        }
-    }
-
-    private static int resolveMinimumHeight(View view) {
-        int minimumHeight = ViewCompat.getMinimumHeight(view);
-        if (minimumHeight > 0) {
-            return minimumHeight;
-        }
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
-            if (viewGroup.getChildCount() == 1) {
-                return resolveMinimumHeight(viewGroup.getChildAt(0));
-            }
-        }
-        return 0;
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00a7  */
     @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        int paddingTop;
         int i5;
         int i6;
-        int i7;
         int paddingLeft = getPaddingLeft();
-        int i8 = i3 - i;
-        int paddingRight = i8 - getPaddingRight();
-        int paddingRight2 = (i8 - paddingLeft) - getPaddingRight();
+        int i7 = i3 - i;
+        int paddingRight = i7 - getPaddingRight();
+        int paddingRight2 = (i7 - paddingLeft) - getPaddingRight();
         int measuredHeight = getMeasuredHeight();
         int childCount = getChildCount();
         int gravity = getGravity();
-        int i9 = gravity & 112;
-        int i10 = gravity & 8388615;
-        if (i9 == 16) {
-            paddingTop = getPaddingTop() + (((i4 - i2) - measuredHeight) / 2);
-        } else if (i9 == 80) {
-            paddingTop = ((getPaddingTop() + i4) - i2) - measuredHeight;
-        } else {
-            paddingTop = getPaddingTop();
-        }
+        int i8 = gravity & 112;
+        int i9 = gravity & 8388615;
+        int paddingTop = i8 != 16 ? i8 != 80 ? getPaddingTop() : ((getPaddingTop() + i4) - i2) - measuredHeight : getPaddingTop() + (((i4 - i2) - measuredHeight) / 2);
         Drawable dividerDrawable = getDividerDrawable();
         int intrinsicHeight = dividerDrawable == null ? 0 : dividerDrawable.getIntrinsicHeight();
-        for (int i11 = 0; i11 < childCount; i11++) {
-            View childAt = getChildAt(i11);
+        for (int i10 = 0; i10 < childCount; i10++) {
+            View childAt = getChildAt(i10);
             if (childAt != null && childAt.getVisibility() != 8) {
                 int measuredWidth = childAt.getMeasuredWidth();
                 int measuredHeight2 = childAt.getMeasuredHeight();
                 LinearLayoutCompat.LayoutParams layoutParams = (LinearLayoutCompat.LayoutParams) childAt.getLayoutParams();
-                int i12 = ((LinearLayout.LayoutParams) layoutParams).gravity;
-                if (i12 < 0) {
-                    i12 = i10;
+                int i11 = ((LinearLayout.LayoutParams) layoutParams).gravity;
+                if (i11 < 0) {
+                    i11 = i9;
                 }
-                int absoluteGravity = GravityCompat.getAbsoluteGravity(i12, ViewCompat.getLayoutDirection(this)) & 7;
+                int absoluteGravity = GravityCompat.getAbsoluteGravity(i11, ViewCompat.getLayoutDirection(this)) & 7;
                 if (absoluteGravity == 1) {
                     i5 = ((paddingRight2 - measuredWidth) / 2) + paddingLeft + ((LinearLayout.LayoutParams) layoutParams).leftMargin;
-                    i6 = ((LinearLayout.LayoutParams) layoutParams).rightMargin;
-                } else if (absoluteGravity == 5) {
-                    i5 = paddingRight - measuredWidth;
-                    i6 = ((LinearLayout.LayoutParams) layoutParams).rightMargin;
-                } else {
-                    i7 = ((LinearLayout.LayoutParams) layoutParams).leftMargin + paddingLeft;
-                    if (hasDividerBeforeChildAt(i11)) {
+                } else if (absoluteGravity != 5) {
+                    i6 = ((LinearLayout.LayoutParams) layoutParams).leftMargin + paddingLeft;
+                    if (hasDividerBeforeChildAt(i10)) {
                         paddingTop += intrinsicHeight;
                     }
-                    int i13 = paddingTop + ((LinearLayout.LayoutParams) layoutParams).topMargin;
-                    setChildFrame(childAt, i7, i13, measuredWidth, measuredHeight2);
-                    paddingTop = i13 + measuredHeight2 + ((LinearLayout.LayoutParams) layoutParams).bottomMargin;
+                    int i12 = paddingTop + ((LinearLayout.LayoutParams) layoutParams).topMargin;
+                    setChildFrame(childAt, i6, i12, measuredWidth, measuredHeight2);
+                    paddingTop = i12 + measuredHeight2 + ((LinearLayout.LayoutParams) layoutParams).bottomMargin;
+                } else {
+                    i5 = paddingRight - measuredWidth;
                 }
-                i7 = i5 - i6;
-                if (hasDividerBeforeChildAt(i11)) {
+                i6 = i5 - ((LinearLayout.LayoutParams) layoutParams).rightMargin;
+                if (hasDividerBeforeChildAt(i10)) {
                 }
-                int i132 = paddingTop + ((LinearLayout.LayoutParams) layoutParams).topMargin;
-                setChildFrame(childAt, i7, i132, measuredWidth, measuredHeight2);
-                paddingTop = i132 + measuredHeight2 + ((LinearLayout.LayoutParams) layoutParams).bottomMargin;
+                int i122 = paddingTop + ((LinearLayout.LayoutParams) layoutParams).topMargin;
+                setChildFrame(childAt, i6, i122, measuredWidth, measuredHeight2);
+                paddingTop = i122 + measuredHeight2 + ((LinearLayout.LayoutParams) layoutParams).bottomMargin;
             }
         }
     }
 
-    private void setChildFrame(View view, int i, int i2, int i3, int i4) {
-        view.layout(i, i2, i3 + i, i4 + i2);
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.View
+    public void onMeasure(int i, int i2) {
+        if (tryOnMeasure(i, i2)) {
+            return;
+        }
+        super.onMeasure(i, i2);
     }
 }

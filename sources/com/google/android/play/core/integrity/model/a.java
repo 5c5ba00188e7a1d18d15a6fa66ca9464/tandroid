@@ -2,9 +2,8 @@ package com.google.android.play.core.integrity.model;
 
 import java.util.HashMap;
 import java.util.Map;
-/* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
-public final class a {
+public abstract class a {
     private static final Map a;
     private static final Map b;
 
@@ -56,10 +55,10 @@ public final class a {
         Integer valueOf = Integer.valueOf(i);
         if (map.containsKey(valueOf)) {
             Map map2 = b;
-            if (!map2.containsKey(valueOf)) {
-                return "";
+            if (map2.containsKey(valueOf)) {
+                return ((String) map.get(valueOf)) + " (https://developer.android.com/google/play/integrity/reference/com/google/android/play/core/integrity/model/IntegrityErrorCode.html#" + ((String) map2.get(valueOf)) + ")";
             }
-            return ((String) map.get(valueOf)) + " (https://developer.android.com/google/play/integrity/reference/com/google/android/play/core/integrity/model/IntegrityErrorCode.html#" + ((String) map2.get(valueOf)) + ")";
+            return "";
         }
         return "";
     }

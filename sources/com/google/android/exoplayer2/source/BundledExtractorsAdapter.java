@@ -12,8 +12,6 @@ import com.google.android.exoplayer2.upstream.DataReader;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
-import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 /* loaded from: classes.dex */
 public final class BundledExtractorsAdapter implements ProgressiveMediaExtractor {
@@ -23,6 +21,23 @@ public final class BundledExtractorsAdapter implements ProgressiveMediaExtractor
 
     public BundledExtractorsAdapter(ExtractorsFactory extractorsFactory) {
         this.extractorsFactory = extractorsFactory;
+    }
+
+    @Override // com.google.android.exoplayer2.source.ProgressiveMediaExtractor
+    public void disableSeekingOnMp3Streams() {
+        Extractor extractor = this.extractor;
+        if (extractor instanceof Mp3Extractor) {
+            ((Mp3Extractor) extractor).disableSeeking();
+        }
+    }
+
+    @Override // com.google.android.exoplayer2.source.ProgressiveMediaExtractor
+    public long getCurrentInputPosition() {
+        ExtractorInput extractorInput = this.extractorInput;
+        if (extractorInput != null) {
+            return extractorInput.getPosition();
+        }
+        return -1L;
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:21:0x0043, code lost:
@@ -38,7 +53,7 @@ public final class BundledExtractorsAdapter implements ProgressiveMediaExtractor
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void init(DataReader dataReader, Uri uri, Map<String, List<String>> map, long j, long j2, ExtractorOutput extractorOutput) throws IOException {
+    public void init(DataReader dataReader, Uri uri, Map map, long j, long j2, ExtractorOutput extractorOutput) {
         DefaultExtractorInput defaultExtractorInput = new DefaultExtractorInput(dataReader, j, j2);
         this.extractorInput = defaultExtractorInput;
         if (this.extractor != null) {
@@ -86,6 +101,11 @@ public final class BundledExtractorsAdapter implements ProgressiveMediaExtractor
     }
 
     @Override // com.google.android.exoplayer2.source.ProgressiveMediaExtractor
+    public int read(PositionHolder positionHolder) {
+        return ((Extractor) Assertions.checkNotNull(this.extractor)).read((ExtractorInput) Assertions.checkNotNull(this.extractorInput), positionHolder);
+    }
+
+    @Override // com.google.android.exoplayer2.source.ProgressiveMediaExtractor
     public void release() {
         Extractor extractor = this.extractor;
         if (extractor != null) {
@@ -96,29 +116,7 @@ public final class BundledExtractorsAdapter implements ProgressiveMediaExtractor
     }
 
     @Override // com.google.android.exoplayer2.source.ProgressiveMediaExtractor
-    public void disableSeekingOnMp3Streams() {
-        Extractor extractor = this.extractor;
-        if (extractor instanceof Mp3Extractor) {
-            ((Mp3Extractor) extractor).disableSeeking();
-        }
-    }
-
-    @Override // com.google.android.exoplayer2.source.ProgressiveMediaExtractor
-    public long getCurrentInputPosition() {
-        ExtractorInput extractorInput = this.extractorInput;
-        if (extractorInput != null) {
-            return extractorInput.getPosition();
-        }
-        return -1L;
-    }
-
-    @Override // com.google.android.exoplayer2.source.ProgressiveMediaExtractor
     public void seek(long j, long j2) {
         ((Extractor) Assertions.checkNotNull(this.extractor)).seek(j, j2);
-    }
-
-    @Override // com.google.android.exoplayer2.source.ProgressiveMediaExtractor
-    public int read(PositionHolder positionHolder) throws IOException {
-        return ((Extractor) Assertions.checkNotNull(this.extractor)).read((ExtractorInput) Assertions.checkNotNull(this.extractorInput), positionHolder);
     }
 }

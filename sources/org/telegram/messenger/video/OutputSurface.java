@@ -38,6 +38,12 @@ public class OutputSurface implements SurfaceTexture.OnFrameAvailableListener {
         this.mSurface = new Surface(this.mSurfaceTexture);
     }
 
+    private void checkEglError(String str) {
+        if (this.mEGL.eglGetError() != 12288) {
+            throw new RuntimeException("EGL error encountered (see log)");
+        }
+    }
+
     private void eglSetup(int i, int i2) {
         EGL10 egl10 = (EGL10) EGLContext.getEGL();
         this.mEGL = egl10;
@@ -66,6 +72,63 @@ public class OutputSurface implements SurfaceTexture.OnFrameAvailableListener {
         }
     }
 
+    public void awaitNewImage() {
+        synchronized (this.mFrameSyncObject) {
+            while (!this.mFrameAvailable) {
+                try {
+                    this.mFrameSyncObject.wait(2500L);
+                    if (!this.mFrameAvailable) {
+                        throw new RuntimeException("Surface frame wait timed out");
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            this.mFrameAvailable = false;
+        }
+        this.mSurfaceTexture.updateTexImage();
+    }
+
+    public void changeFragmentShader(String str, String str2, boolean z) {
+        this.mTextureRender.changeFragmentShader(str, str2, z);
+    }
+
+    public void drawImage(long j) {
+        this.mTextureRender.drawFrame(this.mSurfaceTexture, j);
+    }
+
+    public Surface getSurface() {
+        return this.mSurface;
+    }
+
+    public void makeCurrent() {
+        if (this.mEGL == null) {
+            throw new RuntimeException("not configured for makeCurrent");
+        }
+        checkEglError("before makeCurrent");
+        EGL10 egl10 = this.mEGL;
+        EGLDisplay eGLDisplay = this.mEGLDisplay;
+        EGLSurface eGLSurface = this.mEGLSurface;
+        if (!egl10.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.mEGLContext)) {
+            throw new RuntimeException("eglMakeCurrent failed");
+        }
+    }
+
+    @Override // android.graphics.SurfaceTexture.OnFrameAvailableListener
+    public void onFrameAvailable(SurfaceTexture surfaceTexture) {
+        synchronized (this.mFrameSyncObject) {
+            try {
+                if (this.mFrameAvailable) {
+                    throw new RuntimeException("mFrameAvailable already set, frame could be dropped");
+                }
+                this.mFrameAvailable = true;
+                this.mFrameSyncObject.notifyAll();
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+    }
+
     public void release() {
         EGL10 egl10 = this.mEGL;
         if (egl10 != null) {
@@ -90,69 +153,6 @@ public class OutputSurface implements SurfaceTexture.OnFrameAvailableListener {
         this.mTextureRender = null;
         this.mSurface = null;
         this.mSurfaceTexture = null;
-    }
-
-    public void makeCurrent() {
-        if (this.mEGL == null) {
-            throw new RuntimeException("not configured for makeCurrent");
-        }
-        checkEglError("before makeCurrent");
-        EGL10 egl10 = this.mEGL;
-        EGLDisplay eGLDisplay = this.mEGLDisplay;
-        EGLSurface eGLSurface = this.mEGLSurface;
-        if (!egl10.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.mEGLContext)) {
-            throw new RuntimeException("eglMakeCurrent failed");
-        }
-    }
-
-    public Surface getSurface() {
-        return this.mSurface;
-    }
-
-    public void awaitNewImage() {
-        synchronized (this.mFrameSyncObject) {
-            while (!this.mFrameAvailable) {
-                try {
-                    this.mFrameSyncObject.wait(2500L);
-                    if (!this.mFrameAvailable) {
-                        throw new RuntimeException("Surface frame wait timed out");
-                    }
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            this.mFrameAvailable = false;
-        }
-        this.mSurfaceTexture.updateTexImage();
-    }
-
-    public void drawImage(long j) {
-        this.mTextureRender.drawFrame(this.mSurfaceTexture, j);
-    }
-
-    @Override // android.graphics.SurfaceTexture.OnFrameAvailableListener
-    public void onFrameAvailable(SurfaceTexture surfaceTexture) {
-        synchronized (this.mFrameSyncObject) {
-            try {
-                if (this.mFrameAvailable) {
-                    throw new RuntimeException("mFrameAvailable already set, frame could be dropped");
-                }
-                this.mFrameAvailable = true;
-                this.mFrameSyncObject.notifyAll();
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-    }
-
-    private void checkEglError(String str) {
-        if (this.mEGL.eglGetError() != 12288) {
-            throw new RuntimeException("EGL error encountered (see log)");
-        }
-    }
-
-    public void changeFragmentShader(String str, String str2, boolean z) {
-        this.mTextureRender.changeFragmentShader(str, str2, z);
     }
 
     public boolean supportsEXTYUV() {

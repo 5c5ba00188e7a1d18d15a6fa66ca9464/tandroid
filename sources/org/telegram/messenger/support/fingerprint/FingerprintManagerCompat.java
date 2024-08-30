@@ -8,6 +8,19 @@ public final class FingerprintManagerCompat {
     private Context mContext;
 
     /* loaded from: classes3.dex */
+    private static class Api23FingerprintManagerCompatImpl implements FingerprintManagerCompatImpl {
+        @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.FingerprintManagerCompatImpl
+        public boolean hasEnrolledFingerprints(Context context) {
+            return FingerprintManagerCompatApi23.hasEnrolledFingerprints(context);
+        }
+
+        @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.FingerprintManagerCompatImpl
+        public boolean isHardwareDetected(Context context) {
+            return FingerprintManagerCompatApi23.isHardwareDetected(context);
+        }
+    }
+
+    /* loaded from: classes3.dex */
     private interface FingerprintManagerCompatImpl {
         boolean hasEnrolledFingerprints(Context context);
 
@@ -27,20 +40,16 @@ public final class FingerprintManagerCompat {
         }
     }
 
-    public static FingerprintManagerCompat from(Context context) {
-        return new FingerprintManagerCompat(context);
+    static {
+        IMPL = Build.VERSION.SDK_INT >= 23 ? new Api23FingerprintManagerCompatImpl() : new LegacyFingerprintManagerCompatImpl();
     }
 
     private FingerprintManagerCompat(Context context) {
         this.mContext = context;
     }
 
-    static {
-        if (Build.VERSION.SDK_INT >= 23) {
-            IMPL = new Api23FingerprintManagerCompatImpl();
-        } else {
-            IMPL = new LegacyFingerprintManagerCompatImpl();
-        }
+    public static FingerprintManagerCompat from(Context context) {
+        return new FingerprintManagerCompat(context);
     }
 
     public boolean hasEnrolledFingerprints() {
@@ -49,18 +58,5 @@ public final class FingerprintManagerCompat {
 
     public boolean isHardwareDetected() {
         return IMPL.isHardwareDetected(this.mContext);
-    }
-
-    /* loaded from: classes3.dex */
-    private static class Api23FingerprintManagerCompatImpl implements FingerprintManagerCompatImpl {
-        @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.FingerprintManagerCompatImpl
-        public boolean hasEnrolledFingerprints(Context context) {
-            return FingerprintManagerCompatApi23.hasEnrolledFingerprints(context);
-        }
-
-        @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.FingerprintManagerCompatImpl
-        public boolean isHardwareDetected(Context context) {
-            return FingerprintManagerCompatApi23.isHardwareDetected(context);
-        }
     }
 }

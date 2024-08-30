@@ -15,7 +15,6 @@ import com.google.android.exoplayer2.upstream.ParsingLoadable;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.CodecSpecificDataUtil;
 import com.google.android.exoplayer2.util.Util;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,59 +27,16 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 /* loaded from: classes.dex */
-public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
+public class SsManifestParser implements ParsingLoadable.Parser {
     private final XmlPullParserFactory xmlParserFactory;
-
-    public SsManifestParser() {
-        try {
-            this.xmlParserFactory = XmlPullParserFactory.newInstance();
-        } catch (XmlPullParserException e) {
-            throw new RuntimeException("Couldn't create XmlPullParserFactory instance", e);
-        }
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
-    public SsManifest parse(Uri uri, InputStream inputStream) throws IOException {
-        try {
-            XmlPullParser newPullParser = this.xmlParserFactory.newPullParser();
-            newPullParser.setInput(inputStream, null);
-            return (SsManifest) new SmoothStreamingMediaParser(null, uri.toString()).parse(newPullParser);
-        } catch (XmlPullParserException e) {
-            throw ParserException.createForMalformedManifest(null, e);
-        }
-    }
-
-    /* loaded from: classes.dex */
-    public static class MissingFieldException extends ParserException {
-        public MissingFieldException(String str) {
-            super("Missing required field: " + str, null, true, 4);
-        }
-    }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static abstract class ElementParser {
         private final String baseUri;
-        private final List<Pair<String, Object>> normalizedAttributes = new LinkedList();
+        private final List normalizedAttributes = new LinkedList();
         private final ElementParser parent;
         private final String tag;
-
-        protected void addChild(Object obj) {
-        }
-
-        protected abstract Object build();
-
-        protected boolean handleChildInline(String str) {
-            return false;
-        }
-
-        protected void parseEndTag(XmlPullParser xmlPullParser) {
-        }
-
-        protected abstract void parseStartTag(XmlPullParser xmlPullParser) throws ParserException;
-
-        protected void parseText(XmlPullParser xmlPullParser) {
-        }
 
         public ElementParser(ElementParser elementParser, String str, String str2) {
             this.parent = elementParser;
@@ -88,7 +44,43 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
             this.tag = str2;
         }
 
-        public final Object parse(XmlPullParser xmlPullParser) throws XmlPullParserException, IOException {
+        private ElementParser newChildParser(ElementParser elementParser, String str, String str2) {
+            if ("QualityLevel".equals(str)) {
+                return new QualityLevelParser(elementParser, str2);
+            }
+            if ("Protection".equals(str)) {
+                return new ProtectionParser(elementParser, str2);
+            }
+            if ("StreamIndex".equals(str)) {
+                return new StreamIndexParser(elementParser, str2);
+            }
+            return null;
+        }
+
+        protected void addChild(Object obj) {
+        }
+
+        protected abstract Object build();
+
+        protected final Object getNormalizedAttribute(String str) {
+            for (int i = 0; i < this.normalizedAttributes.size(); i++) {
+                Pair pair = (Pair) this.normalizedAttributes.get(i);
+                if (((String) pair.first).equals(str)) {
+                    return pair.second;
+                }
+            }
+            ElementParser elementParser = this.parent;
+            if (elementParser == null) {
+                return null;
+            }
+            return elementParser.getNormalizedAttribute(str);
+        }
+
+        protected boolean handleChildInline(String str) {
+            return false;
+        }
+
+        public final Object parse(XmlPullParser xmlPullParser) {
             boolean z = false;
             int i = 0;
             while (true) {
@@ -134,46 +126,15 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
             }
         }
 
-        private ElementParser newChildParser(ElementParser elementParser, String str, String str2) {
-            if ("QualityLevel".equals(str)) {
-                return new QualityLevelParser(elementParser, str2);
-            }
-            if ("Protection".equals(str)) {
-                return new ProtectionParser(elementParser, str2);
-            }
-            if ("StreamIndex".equals(str)) {
-                return new StreamIndexParser(elementParser, str2);
-            }
-            return null;
-        }
-
-        protected final void putNormalizedAttribute(String str, Object obj) {
-            this.normalizedAttributes.add(Pair.create(str, obj));
-        }
-
-        protected final Object getNormalizedAttribute(String str) {
-            for (int i = 0; i < this.normalizedAttributes.size(); i++) {
-                Pair<String, Object> pair = this.normalizedAttributes.get(i);
-                if (((String) pair.first).equals(str)) {
-                    return pair.second;
-                }
-            }
-            ElementParser elementParser = this.parent;
-            if (elementParser == null) {
-                return null;
-            }
-            return elementParser.getNormalizedAttribute(str);
-        }
-
-        protected final String parseRequiredString(XmlPullParser xmlPullParser, String str) throws MissingFieldException {
+        protected final boolean parseBoolean(XmlPullParser xmlPullParser, String str, boolean z) {
             String attributeValue = xmlPullParser.getAttributeValue(null, str);
-            if (attributeValue != null) {
-                return attributeValue;
-            }
-            throw new MissingFieldException(str);
+            return attributeValue != null ? Boolean.parseBoolean(attributeValue) : z;
         }
 
-        protected final int parseInt(XmlPullParser xmlPullParser, String str, int i) throws ParserException {
+        protected void parseEndTag(XmlPullParser xmlPullParser) {
+        }
+
+        protected final int parseInt(XmlPullParser xmlPullParser, String str, int i) {
             String attributeValue = xmlPullParser.getAttributeValue(null, str);
             if (attributeValue != null) {
                 try {
@@ -185,19 +146,7 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
             return i;
         }
 
-        protected final int parseRequiredInt(XmlPullParser xmlPullParser, String str) throws ParserException {
-            String attributeValue = xmlPullParser.getAttributeValue(null, str);
-            if (attributeValue != null) {
-                try {
-                    return Integer.parseInt(attributeValue);
-                } catch (NumberFormatException e) {
-                    throw ParserException.createForMalformedManifest(null, e);
-                }
-            }
-            throw new MissingFieldException(str);
-        }
-
-        protected final long parseLong(XmlPullParser xmlPullParser, String str, long j) throws ParserException {
+        protected final long parseLong(XmlPullParser xmlPullParser, String str, long j) {
             String attributeValue = xmlPullParser.getAttributeValue(null, str);
             if (attributeValue != null) {
                 try {
@@ -209,7 +158,19 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
             return j;
         }
 
-        protected final long parseRequiredLong(XmlPullParser xmlPullParser, String str) throws ParserException {
+        protected final int parseRequiredInt(XmlPullParser xmlPullParser, String str) {
+            String attributeValue = xmlPullParser.getAttributeValue(null, str);
+            if (attributeValue != null) {
+                try {
+                    return Integer.parseInt(attributeValue);
+                } catch (NumberFormatException e) {
+                    throw ParserException.createForMalformedManifest(null, e);
+                }
+            }
+            throw new MissingFieldException(str);
+        }
+
+        protected final long parseRequiredLong(XmlPullParser xmlPullParser, String str) {
             String attributeValue = xmlPullParser.getAttributeValue(null, str);
             if (attributeValue != null) {
                 try {
@@ -221,74 +182,28 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
             throw new MissingFieldException(str);
         }
 
-        protected final boolean parseBoolean(XmlPullParser xmlPullParser, String str, boolean z) {
+        protected final String parseRequiredString(XmlPullParser xmlPullParser, String str) {
             String attributeValue = xmlPullParser.getAttributeValue(null, str);
-            return attributeValue != null ? Boolean.parseBoolean(attributeValue) : z;
+            if (attributeValue != null) {
+                return attributeValue;
+            }
+            throw new MissingFieldException(str);
+        }
+
+        protected abstract void parseStartTag(XmlPullParser xmlPullParser);
+
+        protected void parseText(XmlPullParser xmlPullParser) {
+        }
+
+        protected final void putNormalizedAttribute(String str, Object obj) {
+            this.normalizedAttributes.add(Pair.create(str, obj));
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class SmoothStreamingMediaParser extends ElementParser {
-        private long duration;
-        private long dvrWindowLength;
-        private boolean isLive;
-        private int lookAheadCount;
-        private int majorVersion;
-        private int minorVersion;
-        private SsManifest.ProtectionElement protectionElement;
-        private final List<SsManifest.StreamElement> streamElements;
-        private long timescale;
-
-        public SmoothStreamingMediaParser(ElementParser elementParser, String str) {
-            super(elementParser, str, "SmoothStreamingMedia");
-            this.lookAheadCount = -1;
-            this.protectionElement = null;
-            this.streamElements = new LinkedList();
-        }
-
-        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
-        public void parseStartTag(XmlPullParser xmlPullParser) throws ParserException {
-            this.majorVersion = parseRequiredInt(xmlPullParser, "MajorVersion");
-            this.minorVersion = parseRequiredInt(xmlPullParser, "MinorVersion");
-            this.timescale = parseLong(xmlPullParser, "TimeScale", 10000000L);
-            this.duration = parseRequiredLong(xmlPullParser, "Duration");
-            this.dvrWindowLength = parseLong(xmlPullParser, "DVRWindowLength", 0L);
-            this.lookAheadCount = parseInt(xmlPullParser, "LookaheadCount", -1);
-            this.isLive = parseBoolean(xmlPullParser, "IsLive", false);
-            putNormalizedAttribute("TimeScale", Long.valueOf(this.timescale));
-        }
-
-        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
-        public void addChild(Object obj) {
-            if (obj instanceof SsManifest.StreamElement) {
-                this.streamElements.add((SsManifest.StreamElement) obj);
-            } else if (obj instanceof SsManifest.ProtectionElement) {
-                Assertions.checkState(this.protectionElement == null);
-                this.protectionElement = (SsManifest.ProtectionElement) obj;
-            }
-        }
-
-        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
-        public Object build() {
-            int size = this.streamElements.size();
-            SsManifest.StreamElement[] streamElementArr = new SsManifest.StreamElement[size];
-            this.streamElements.toArray(streamElementArr);
-            if (this.protectionElement != null) {
-                SsManifest.ProtectionElement protectionElement = this.protectionElement;
-                DrmInitData drmInitData = new DrmInitData(new DrmInitData.SchemeData(protectionElement.uuid, "video/mp4", protectionElement.data));
-                for (int i = 0; i < size; i++) {
-                    SsManifest.StreamElement streamElement = streamElementArr[i];
-                    int i2 = streamElement.type;
-                    if (i2 == 2 || i2 == 1) {
-                        Format[] formatArr = streamElement.formats;
-                        for (int i3 = 0; i3 < formatArr.length; i3++) {
-                            formatArr[i3] = formatArr[i3].buildUpon().setDrmInitData(drmInitData).build();
-                        }
-                    }
-                }
-            }
-            return new SsManifest(this.majorVersion, this.minorVersion, this.timescale, this.duration, this.dvrWindowLength, this.lookAheadCount, this.isLive, this.protectionElement, streamElementArr);
+    public static class MissingFieldException extends ParserException {
+        public MissingFieldException(String str) {
+            super("Missing required field: " + str, null, true, 4);
         }
     }
 
@@ -301,39 +216,6 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
 
         public ProtectionParser(ElementParser elementParser, String str) {
             super(elementParser, str, "Protection");
-        }
-
-        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
-        public boolean handleChildInline(String str) {
-            return "ProtectionHeader".equals(str);
-        }
-
-        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
-        public void parseStartTag(XmlPullParser xmlPullParser) {
-            if ("ProtectionHeader".equals(xmlPullParser.getName())) {
-                this.inProtectionHeader = true;
-                this.uuid = UUID.fromString(stripCurlyBraces(xmlPullParser.getAttributeValue(null, "SystemID")));
-            }
-        }
-
-        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
-        public void parseText(XmlPullParser xmlPullParser) {
-            if (this.inProtectionHeader) {
-                this.initData = Base64.decode(xmlPullParser.getText(), 0);
-            }
-        }
-
-        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
-        public void parseEndTag(XmlPullParser xmlPullParser) {
-            if ("ProtectionHeader".equals(xmlPullParser.getName())) {
-                this.inProtectionHeader = false;
-            }
-        }
-
-        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
-        public Object build() {
-            UUID uuid = this.uuid;
-            return new SsManifest.ProtectionElement(uuid, PsshAtomUtil.buildPsshAtom(uuid, this.initData), buildTrackEncryptionBoxes(this.initData));
         }
 
         private static TrackEncryptionBox[] buildTrackEncryptionBoxes(byte[] bArr) {
@@ -354,142 +236,47 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
             return decode;
         }
 
+        private static String stripCurlyBraces(String str) {
+            return (str.charAt(0) == '{' && str.charAt(str.length() - 1) == '}') ? str.substring(1, str.length() - 1) : str;
+        }
+
         private static void swap(byte[] bArr, int i, int i2) {
             byte b = bArr[i];
             bArr[i] = bArr[i2];
             bArr[i2] = b;
         }
 
-        private static String stripCurlyBraces(String str) {
-            return (str.charAt(0) == '{' && str.charAt(str.length() - 1) == '}') ? str.substring(1, str.length() - 1) : str;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class StreamIndexParser extends ElementParser {
-        private final String baseUri;
-        private int displayHeight;
-        private int displayWidth;
-        private final List<Format> formats;
-        private String language;
-        private long lastChunkDuration;
-        private int maxHeight;
-        private int maxWidth;
-        private String name;
-        private ArrayList<Long> startTimes;
-        private String subType;
-        private long timescale;
-        private int type;
-        private String url;
-
-        public StreamIndexParser(ElementParser elementParser, String str) {
-            super(elementParser, str, "StreamIndex");
-            this.baseUri = str;
-            this.formats = new LinkedList();
+        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
+        public Object build() {
+            UUID uuid = this.uuid;
+            return new SsManifest.ProtectionElement(uuid, PsshAtomUtil.buildPsshAtom(uuid, this.initData), buildTrackEncryptionBoxes(this.initData));
         }
 
         @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
         public boolean handleChildInline(String str) {
-            return "c".equals(str);
+            return "ProtectionHeader".equals(str);
         }
 
         @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
-        public void parseStartTag(XmlPullParser xmlPullParser) throws ParserException {
-            if ("c".equals(xmlPullParser.getName())) {
-                parseStreamFragmentStartTag(xmlPullParser);
-            } else {
-                parseStreamElementStartTag(xmlPullParser);
-            }
-        }
-
-        private void parseStreamFragmentStartTag(XmlPullParser xmlPullParser) throws ParserException {
-            int size = this.startTimes.size();
-            long parseLong = parseLong(xmlPullParser, "t", -9223372036854775807L);
-            int i = 1;
-            if (parseLong == -9223372036854775807L) {
-                if (size == 0) {
-                    parseLong = 0;
-                } else if (this.lastChunkDuration != -1) {
-                    parseLong = this.startTimes.get(size - 1).longValue() + this.lastChunkDuration;
-                } else {
-                    throw ParserException.createForMalformedManifest("Unable to infer start time", null);
-                }
-            }
-            this.startTimes.add(Long.valueOf(parseLong));
-            this.lastChunkDuration = parseLong(xmlPullParser, "d", -9223372036854775807L);
-            long parseLong2 = parseLong(xmlPullParser, "r", 1L);
-            if (parseLong2 > 1 && this.lastChunkDuration == -9223372036854775807L) {
-                throw ParserException.createForMalformedManifest("Repeated chunk with unspecified duration", null);
-            }
-            while (true) {
-                long j = i;
-                if (j >= parseLong2) {
-                    return;
-                }
-                this.startTimes.add(Long.valueOf((this.lastChunkDuration * j) + parseLong));
-                i++;
-            }
-        }
-
-        private void parseStreamElementStartTag(XmlPullParser xmlPullParser) throws ParserException {
-            int parseType = parseType(xmlPullParser);
-            this.type = parseType;
-            putNormalizedAttribute("Type", Integer.valueOf(parseType));
-            if (this.type == 3) {
-                this.subType = parseRequiredString(xmlPullParser, "Subtype");
-            } else {
-                this.subType = xmlPullParser.getAttributeValue(null, "Subtype");
-            }
-            putNormalizedAttribute("Subtype", this.subType);
-            String attributeValue = xmlPullParser.getAttributeValue(null, "Name");
-            this.name = attributeValue;
-            putNormalizedAttribute("Name", attributeValue);
-            this.url = parseRequiredString(xmlPullParser, "Url");
-            this.maxWidth = parseInt(xmlPullParser, "MaxWidth", -1);
-            this.maxHeight = parseInt(xmlPullParser, "MaxHeight", -1);
-            this.displayWidth = parseInt(xmlPullParser, "DisplayWidth", -1);
-            this.displayHeight = parseInt(xmlPullParser, "DisplayHeight", -1);
-            String attributeValue2 = xmlPullParser.getAttributeValue(null, "Language");
-            this.language = attributeValue2;
-            putNormalizedAttribute("Language", attributeValue2);
-            long parseInt = parseInt(xmlPullParser, "TimeScale", -1);
-            this.timescale = parseInt;
-            if (parseInt == -1) {
-                this.timescale = ((Long) getNormalizedAttribute("TimeScale")).longValue();
-            }
-            this.startTimes = new ArrayList<>();
-        }
-
-        private int parseType(XmlPullParser xmlPullParser) throws ParserException {
-            String attributeValue = xmlPullParser.getAttributeValue(null, "Type");
-            if (attributeValue != null) {
-                if (MediaStreamTrack.AUDIO_TRACK_KIND.equalsIgnoreCase(attributeValue)) {
-                    return 1;
-                }
-                if (MediaStreamTrack.VIDEO_TRACK_KIND.equalsIgnoreCase(attributeValue)) {
-                    return 2;
-                }
-                if ("text".equalsIgnoreCase(attributeValue)) {
-                    return 3;
-                }
-                throw ParserException.createForMalformedManifest("Invalid key value[" + attributeValue + "]", null);
-            }
-            throw new MissingFieldException("Type");
-        }
-
-        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
-        public void addChild(Object obj) {
-            if (obj instanceof Format) {
-                this.formats.add((Format) obj);
+        public void parseEndTag(XmlPullParser xmlPullParser) {
+            if ("ProtectionHeader".equals(xmlPullParser.getName())) {
+                this.inProtectionHeader = false;
             }
         }
 
         @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
-        public Object build() {
-            Format[] formatArr = new Format[this.formats.size()];
-            this.formats.toArray(formatArr);
-            return new SsManifest.StreamElement(this.baseUri, this.url, this.type, this.subType, this.timescale, this.name, this.maxWidth, this.maxHeight, this.displayWidth, this.displayHeight, this.language, formatArr, this.startTimes, this.lastChunkDuration);
+        public void parseStartTag(XmlPullParser xmlPullParser) {
+            if ("ProtectionHeader".equals(xmlPullParser.getName())) {
+                this.inProtectionHeader = true;
+                this.uuid = UUID.fromString(stripCurlyBraces(xmlPullParser.getAttributeValue(null, "SystemID")));
+            }
+        }
+
+        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
+        public void parseText(XmlPullParser xmlPullParser) {
+            if (this.inProtectionHeader) {
+                this.initData = Base64.decode(xmlPullParser.getText(), 0);
+            }
         }
     }
 
@@ -502,49 +289,7 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
             super(elementParser, str, "QualityLevel");
         }
 
-        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
-        public void parseStartTag(XmlPullParser xmlPullParser) throws ParserException {
-            int i;
-            Format.Builder builder = new Format.Builder();
-            String fourCCToMimeType = fourCCToMimeType(parseRequiredString(xmlPullParser, "FourCC"));
-            int intValue = ((Integer) getNormalizedAttribute("Type")).intValue();
-            if (intValue == 2) {
-                builder.setContainerMimeType("video/mp4").setWidth(parseRequiredInt(xmlPullParser, "MaxWidth")).setHeight(parseRequiredInt(xmlPullParser, "MaxHeight")).setInitializationData(buildCodecSpecificData(xmlPullParser.getAttributeValue(null, "CodecPrivateData")));
-            } else if (intValue == 1) {
-                if (fourCCToMimeType == null) {
-                    fourCCToMimeType = MediaController.AUDIO_MIME_TYPE;
-                }
-                int parseRequiredInt = parseRequiredInt(xmlPullParser, "Channels");
-                int parseRequiredInt2 = parseRequiredInt(xmlPullParser, "SamplingRate");
-                List<byte[]> buildCodecSpecificData = buildCodecSpecificData(xmlPullParser.getAttributeValue(null, "CodecPrivateData"));
-                if (buildCodecSpecificData.isEmpty() && MediaController.AUDIO_MIME_TYPE.equals(fourCCToMimeType)) {
-                    buildCodecSpecificData = Collections.singletonList(AacUtil.buildAacLcAudioSpecificConfig(parseRequiredInt2, parseRequiredInt));
-                }
-                builder.setContainerMimeType("audio/mp4").setChannelCount(parseRequiredInt).setSampleRate(parseRequiredInt2).setInitializationData(buildCodecSpecificData);
-            } else if (intValue == 3) {
-                String str = (String) getNormalizedAttribute("Subtype");
-                if (str != null) {
-                    if (str.equals("CAPT")) {
-                        i = 64;
-                    } else if (str.equals("DESC")) {
-                        i = 1024;
-                    }
-                    builder.setContainerMimeType("application/mp4").setRoleFlags(i);
-                }
-                i = 0;
-                builder.setContainerMimeType("application/mp4").setRoleFlags(i);
-            } else {
-                builder.setContainerMimeType("application/mp4");
-            }
-            this.format = builder.setId(xmlPullParser.getAttributeValue(null, "Index")).setLabel((String) getNormalizedAttribute("Name")).setSampleMimeType(fourCCToMimeType).setAverageBitrate(parseRequiredInt(xmlPullParser, "Bitrate")).setLanguage((String) getNormalizedAttribute("Language")).build();
-        }
-
-        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
-        public Object build() {
-            return this.format;
-        }
-
-        private static List<byte[]> buildCodecSpecificData(String str) {
+        private static List buildCodecSpecificData(String str) {
             ArrayList arrayList = new ArrayList();
             if (!TextUtils.isEmpty(str)) {
                 byte[] bytesFromHexString = Util.getBytesFromHexString(str);
@@ -587,6 +332,256 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
                 return "audio/opus";
             }
             return null;
+        }
+
+        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
+        public Object build() {
+            return this.format;
+        }
+
+        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
+        public void parseStartTag(XmlPullParser xmlPullParser) {
+            int i;
+            Format.Builder builder = new Format.Builder();
+            String fourCCToMimeType = fourCCToMimeType(parseRequiredString(xmlPullParser, "FourCC"));
+            int intValue = ((Integer) getNormalizedAttribute("Type")).intValue();
+            if (intValue == 2) {
+                builder.setContainerMimeType("video/mp4").setWidth(parseRequiredInt(xmlPullParser, "MaxWidth")).setHeight(parseRequiredInt(xmlPullParser, "MaxHeight")).setInitializationData(buildCodecSpecificData(xmlPullParser.getAttributeValue(null, "CodecPrivateData")));
+            } else if (intValue == 1) {
+                if (fourCCToMimeType == null) {
+                    fourCCToMimeType = MediaController.AUDIO_MIME_TYPE;
+                }
+                int parseRequiredInt = parseRequiredInt(xmlPullParser, "Channels");
+                int parseRequiredInt2 = parseRequiredInt(xmlPullParser, "SamplingRate");
+                List buildCodecSpecificData = buildCodecSpecificData(xmlPullParser.getAttributeValue(null, "CodecPrivateData"));
+                if (buildCodecSpecificData.isEmpty() && MediaController.AUDIO_MIME_TYPE.equals(fourCCToMimeType)) {
+                    buildCodecSpecificData = Collections.singletonList(AacUtil.buildAacLcAudioSpecificConfig(parseRequiredInt2, parseRequiredInt));
+                }
+                builder.setContainerMimeType("audio/mp4").setChannelCount(parseRequiredInt).setSampleRate(parseRequiredInt2).setInitializationData(buildCodecSpecificData);
+            } else if (intValue == 3) {
+                String str = (String) getNormalizedAttribute("Subtype");
+                if (str != null) {
+                    if (str.equals("CAPT")) {
+                        i = 64;
+                    } else if (str.equals("DESC")) {
+                        i = 1024;
+                    }
+                    builder.setContainerMimeType("application/mp4").setRoleFlags(i);
+                }
+                i = 0;
+                builder.setContainerMimeType("application/mp4").setRoleFlags(i);
+            } else {
+                builder.setContainerMimeType("application/mp4");
+            }
+            this.format = builder.setId(xmlPullParser.getAttributeValue(null, "Index")).setLabel((String) getNormalizedAttribute("Name")).setSampleMimeType(fourCCToMimeType).setAverageBitrate(parseRequiredInt(xmlPullParser, "Bitrate")).setLanguage((String) getNormalizedAttribute("Language")).build();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class SmoothStreamingMediaParser extends ElementParser {
+        private long duration;
+        private long dvrWindowLength;
+        private boolean isLive;
+        private int lookAheadCount;
+        private int majorVersion;
+        private int minorVersion;
+        private SsManifest.ProtectionElement protectionElement;
+        private final List streamElements;
+        private long timescale;
+
+        public SmoothStreamingMediaParser(ElementParser elementParser, String str) {
+            super(elementParser, str, "SmoothStreamingMedia");
+            this.lookAheadCount = -1;
+            this.protectionElement = null;
+            this.streamElements = new LinkedList();
+        }
+
+        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
+        public void addChild(Object obj) {
+            if (obj instanceof SsManifest.StreamElement) {
+                this.streamElements.add((SsManifest.StreamElement) obj);
+            } else if (obj instanceof SsManifest.ProtectionElement) {
+                Assertions.checkState(this.protectionElement == null);
+                this.protectionElement = (SsManifest.ProtectionElement) obj;
+            }
+        }
+
+        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
+        public Object build() {
+            int size = this.streamElements.size();
+            SsManifest.StreamElement[] streamElementArr = new SsManifest.StreamElement[size];
+            this.streamElements.toArray(streamElementArr);
+            if (this.protectionElement != null) {
+                SsManifest.ProtectionElement protectionElement = this.protectionElement;
+                DrmInitData drmInitData = new DrmInitData(new DrmInitData.SchemeData(protectionElement.uuid, "video/mp4", protectionElement.data));
+                for (int i = 0; i < size; i++) {
+                    SsManifest.StreamElement streamElement = streamElementArr[i];
+                    int i2 = streamElement.type;
+                    if (i2 == 2 || i2 == 1) {
+                        Format[] formatArr = streamElement.formats;
+                        for (int i3 = 0; i3 < formatArr.length; i3++) {
+                            formatArr[i3] = formatArr[i3].buildUpon().setDrmInitData(drmInitData).build();
+                        }
+                    }
+                }
+            }
+            return new SsManifest(this.majorVersion, this.minorVersion, this.timescale, this.duration, this.dvrWindowLength, this.lookAheadCount, this.isLive, this.protectionElement, streamElementArr);
+        }
+
+        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
+        public void parseStartTag(XmlPullParser xmlPullParser) {
+            this.majorVersion = parseRequiredInt(xmlPullParser, "MajorVersion");
+            this.minorVersion = parseRequiredInt(xmlPullParser, "MinorVersion");
+            this.timescale = parseLong(xmlPullParser, "TimeScale", 10000000L);
+            this.duration = parseRequiredLong(xmlPullParser, "Duration");
+            this.dvrWindowLength = parseLong(xmlPullParser, "DVRWindowLength", 0L);
+            this.lookAheadCount = parseInt(xmlPullParser, "LookaheadCount", -1);
+            this.isLive = parseBoolean(xmlPullParser, "IsLive", false);
+            putNormalizedAttribute("TimeScale", Long.valueOf(this.timescale));
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class StreamIndexParser extends ElementParser {
+        private final String baseUri;
+        private int displayHeight;
+        private int displayWidth;
+        private final List formats;
+        private String language;
+        private long lastChunkDuration;
+        private int maxHeight;
+        private int maxWidth;
+        private String name;
+        private ArrayList startTimes;
+        private String subType;
+        private long timescale;
+        private int type;
+        private String url;
+
+        public StreamIndexParser(ElementParser elementParser, String str) {
+            super(elementParser, str, "StreamIndex");
+            this.baseUri = str;
+            this.formats = new LinkedList();
+        }
+
+        private void parseStreamElementStartTag(XmlPullParser xmlPullParser) {
+            int parseType = parseType(xmlPullParser);
+            this.type = parseType;
+            putNormalizedAttribute("Type", Integer.valueOf(parseType));
+            this.subType = this.type == 3 ? parseRequiredString(xmlPullParser, "Subtype") : xmlPullParser.getAttributeValue(null, "Subtype");
+            putNormalizedAttribute("Subtype", this.subType);
+            String attributeValue = xmlPullParser.getAttributeValue(null, "Name");
+            this.name = attributeValue;
+            putNormalizedAttribute("Name", attributeValue);
+            this.url = parseRequiredString(xmlPullParser, "Url");
+            this.maxWidth = parseInt(xmlPullParser, "MaxWidth", -1);
+            this.maxHeight = parseInt(xmlPullParser, "MaxHeight", -1);
+            this.displayWidth = parseInt(xmlPullParser, "DisplayWidth", -1);
+            this.displayHeight = parseInt(xmlPullParser, "DisplayHeight", -1);
+            String attributeValue2 = xmlPullParser.getAttributeValue(null, "Language");
+            this.language = attributeValue2;
+            putNormalizedAttribute("Language", attributeValue2);
+            long parseInt = parseInt(xmlPullParser, "TimeScale", -1);
+            this.timescale = parseInt;
+            if (parseInt == -1) {
+                this.timescale = ((Long) getNormalizedAttribute("TimeScale")).longValue();
+            }
+            this.startTimes = new ArrayList();
+        }
+
+        private void parseStreamFragmentStartTag(XmlPullParser xmlPullParser) {
+            int size = this.startTimes.size();
+            long parseLong = parseLong(xmlPullParser, "t", -9223372036854775807L);
+            int i = 1;
+            if (parseLong == -9223372036854775807L) {
+                if (size == 0) {
+                    parseLong = 0;
+                } else if (this.lastChunkDuration == -1) {
+                    throw ParserException.createForMalformedManifest("Unable to infer start time", null);
+                } else {
+                    parseLong = ((Long) this.startTimes.get(size - 1)).longValue() + this.lastChunkDuration;
+                }
+            }
+            this.startTimes.add(Long.valueOf(parseLong));
+            this.lastChunkDuration = parseLong(xmlPullParser, "d", -9223372036854775807L);
+            long parseLong2 = parseLong(xmlPullParser, "r", 1L);
+            if (parseLong2 > 1 && this.lastChunkDuration == -9223372036854775807L) {
+                throw ParserException.createForMalformedManifest("Repeated chunk with unspecified duration", null);
+            }
+            while (true) {
+                long j = i;
+                if (j >= parseLong2) {
+                    return;
+                }
+                this.startTimes.add(Long.valueOf((this.lastChunkDuration * j) + parseLong));
+                i++;
+            }
+        }
+
+        private int parseType(XmlPullParser xmlPullParser) {
+            String attributeValue = xmlPullParser.getAttributeValue(null, "Type");
+            if (attributeValue != null) {
+                if (MediaStreamTrack.AUDIO_TRACK_KIND.equalsIgnoreCase(attributeValue)) {
+                    return 1;
+                }
+                if (MediaStreamTrack.VIDEO_TRACK_KIND.equalsIgnoreCase(attributeValue)) {
+                    return 2;
+                }
+                if ("text".equalsIgnoreCase(attributeValue)) {
+                    return 3;
+                }
+                throw ParserException.createForMalformedManifest("Invalid key value[" + attributeValue + "]", null);
+            }
+            throw new MissingFieldException("Type");
+        }
+
+        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
+        public void addChild(Object obj) {
+            if (obj instanceof Format) {
+                this.formats.add((Format) obj);
+            }
+        }
+
+        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
+        public Object build() {
+            Format[] formatArr = new Format[this.formats.size()];
+            this.formats.toArray(formatArr);
+            return new SsManifest.StreamElement(this.baseUri, this.url, this.type, this.subType, this.timescale, this.name, this.maxWidth, this.maxHeight, this.displayWidth, this.displayHeight, this.language, formatArr, this.startTimes, this.lastChunkDuration);
+        }
+
+        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
+        public boolean handleChildInline(String str) {
+            return "c".equals(str);
+        }
+
+        @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
+        public void parseStartTag(XmlPullParser xmlPullParser) {
+            if ("c".equals(xmlPullParser.getName())) {
+                parseStreamFragmentStartTag(xmlPullParser);
+            } else {
+                parseStreamElementStartTag(xmlPullParser);
+            }
+        }
+    }
+
+    public SsManifestParser() {
+        try {
+            this.xmlParserFactory = XmlPullParserFactory.newInstance();
+        } catch (XmlPullParserException e) {
+            throw new RuntimeException("Couldn't create XmlPullParserFactory instance", e);
+        }
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
+    public SsManifest parse(Uri uri, InputStream inputStream) {
+        try {
+            XmlPullParser newPullParser = this.xmlParserFactory.newPullParser();
+            newPullParser.setInput(inputStream, null);
+            return (SsManifest) new SmoothStreamingMediaParser(null, uri.toString()).parse(newPullParser);
+        } catch (XmlPullParserException e) {
+            throw ParserException.createForMalformedManifest(null, e);
         }
     }
 }

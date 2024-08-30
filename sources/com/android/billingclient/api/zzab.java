@@ -3,7 +3,6 @@ package com.android.billingclient.api;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 final class zzab implements ThreadFactory {
     private final ThreadFactory zza = Executors.defaultThreadFactory();

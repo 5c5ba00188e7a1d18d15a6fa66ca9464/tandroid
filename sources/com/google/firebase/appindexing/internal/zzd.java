@@ -4,11 +4,10 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
-public final class zzd implements Parcelable.Creator<zzc> {
+public final class zzd implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ zzc createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         String str = null;
         String str2 = null;
@@ -51,7 +50,7 @@ public final class zzd implements Parcelable.Creator<zzc> {
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ zzc[] newArray(int i) {
+    public final /* bridge */ /* synthetic */ Object[] newArray(int i) {
         return new zzc[i];
     }
 }

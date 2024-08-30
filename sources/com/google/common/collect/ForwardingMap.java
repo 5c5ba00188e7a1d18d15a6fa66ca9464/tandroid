@@ -4,23 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 /* loaded from: classes.dex */
-public abstract class ForwardingMap<K, V> extends ForwardingObject implements Map<K, V> {
-    @Override // com.google.common.collect.ForwardingObject
-    protected abstract Map<K, V> delegate();
-
-    public int size() {
-        return delegate().size();
-    }
-
-    public boolean isEmpty() {
-        return delegate().isEmpty();
-    }
-
-    @Override // java.util.Map
-    public V remove(Object obj) {
-        return delegate().remove(obj);
-    }
-
+public abstract class ForwardingMap extends ForwardingObject implements Map {
     @Override // java.util.Map
     public void clear() {
         delegate().clear();
@@ -30,31 +14,42 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject implements Ma
         return delegate().containsKey(obj);
     }
 
-    public V get(Object obj) {
+    @Override // com.google.common.collect.ForwardingObject
+    protected abstract Map delegate();
+
+    public Set entrySet() {
+        return delegate().entrySet();
+    }
+
+    public Object get(Object obj) {
         return delegate().get(obj);
     }
 
-    @Override // java.util.Map
-    public V put(K k, V v) {
-        return delegate().put(k, v);
+    public boolean isEmpty() {
+        return delegate().isEmpty();
     }
 
-    @Override // java.util.Map
-    public void putAll(Map<? extends K, ? extends V> map) {
-        delegate().putAll(map);
-    }
-
-    public Set<K> keySet() {
+    public Set keySet() {
         return delegate().keySet();
     }
 
     @Override // java.util.Map
-    public Collection<V> values() {
-        return delegate().values();
+    public Object put(Object obj, Object obj2) {
+        return delegate().put(obj, obj2);
     }
 
-    public Set<Map.Entry<K, V>> entrySet() {
-        return delegate().entrySet();
+    @Override // java.util.Map
+    public void putAll(Map map) {
+        delegate().putAll(map);
+    }
+
+    @Override // java.util.Map
+    public Object remove(Object obj) {
+        return delegate().remove(obj);
+    }
+
+    public int size() {
+        return delegate().size();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -70,5 +65,10 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject implements Ma
     /* JADX INFO: Access modifiers changed from: protected */
     public int standardHashCode() {
         return Sets.hashCodeImpl(entrySet());
+    }
+
+    @Override // java.util.Map
+    public Collection values() {
+        return delegate().values();
     }
 }

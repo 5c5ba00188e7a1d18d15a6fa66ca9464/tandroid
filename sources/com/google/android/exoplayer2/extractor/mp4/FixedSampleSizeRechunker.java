@@ -3,7 +3,7 @@ package com.google.android.exoplayer2.extractor.mp4;
 import com.google.android.exoplayer2.util.Util;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
-final class FixedSampleSizeRechunker {
+abstract class FixedSampleSizeRechunker {
 
     /* loaded from: classes.dex */
     public static final class Results {

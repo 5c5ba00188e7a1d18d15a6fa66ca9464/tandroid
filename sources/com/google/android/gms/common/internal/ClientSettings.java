@@ -2,16 +2,16 @@ package com.google.android.gms.common.internal;
 
 import android.accounts.Account;
 import android.view.View;
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import androidx.collection.ArraySet;
 import com.google.android.gms.common.api.Api;
-import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.signin.SignInOptions;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class ClientSettings {
     private final Account zaa;
@@ -25,7 +25,6 @@ public final class ClientSettings {
     private final SignInOptions zai;
     private Integer zaj;
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
     public static final class Builder {
         private Account zaa;
@@ -62,11 +61,31 @@ public final class ClientSettings {
         }
     }
 
+    public ClientSettings(Account account, Set set, Map map, int i, View view, String str, String str2, SignInOptions signInOptions, boolean z) {
+        this.zaa = account;
+        Set emptySet = set == null ? Collections.emptySet() : Collections.unmodifiableSet(set);
+        this.zab = emptySet;
+        map = map == null ? Collections.emptyMap() : map;
+        this.zad = map;
+        this.zaf = view;
+        this.zae = i;
+        this.zag = str;
+        this.zah = str2;
+        this.zai = signInOptions == null ? SignInOptions.zaa : signInOptions;
+        HashSet hashSet = new HashSet(emptySet);
+        Iterator it = map.values().iterator();
+        if (it.hasNext()) {
+            ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
+            throw null;
+        } else {
+            this.zac = Collections.unmodifiableSet(hashSet);
+        }
+    }
+
     public Account getAccount() {
         return this.zaa;
     }
 
-    @Deprecated
     public String getAccountName() {
         Account account = this.zaa;
         if (account != null) {
@@ -80,25 +99,20 @@ public final class ClientSettings {
         return account != null ? account : new Account("<<default account>>", "com.google");
     }
 
-    public Set<Scope> getAllRequestedScopes() {
+    public Set getAllRequestedScopes() {
         return this.zac;
     }
 
-    public Set<Scope> getApplicableScopes(Api<?> api) {
-        zab zabVar = (zab) this.zad.get(api);
-        if (zabVar == null || zabVar.zaa.isEmpty()) {
-            return this.zab;
-        }
-        HashSet hashSet = new HashSet(this.zab);
-        hashSet.addAll(zabVar.zaa);
-        return hashSet;
+    public Set getApplicableScopes(Api api) {
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(this.zad.get(api));
+        return this.zab;
     }
 
     public String getRealClientPackageName() {
         return this.zag;
     }
 
-    public Set<Scope> getRequiredScopes() {
+    public Set getRequiredScopes() {
         return this.zab;
     }
 
@@ -120,23 +134,5 @@ public final class ClientSettings {
 
     public final void zae(Integer num) {
         this.zaj = num;
-    }
-
-    public ClientSettings(Account account, Set set, Map map, int i, View view, String str, String str2, SignInOptions signInOptions, boolean z) {
-        this.zaa = account;
-        Set emptySet = set == null ? Collections.emptySet() : Collections.unmodifiableSet(set);
-        this.zab = emptySet;
-        map = map == null ? Collections.emptyMap() : map;
-        this.zad = map;
-        this.zaf = view;
-        this.zae = i;
-        this.zag = str;
-        this.zah = str2;
-        this.zai = signInOptions == null ? SignInOptions.zaa : signInOptions;
-        HashSet hashSet = new HashSet(emptySet);
-        for (zab zabVar : map.values()) {
-            hashSet.addAll(zabVar.zaa);
-        }
-        this.zac = Collections.unmodifiableSet(hashSet);
     }
 }

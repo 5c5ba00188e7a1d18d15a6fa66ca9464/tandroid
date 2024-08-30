@@ -17,66 +17,11 @@ public class RecyclerItemsEnterAnimator {
     boolean alwaysCheckItemsAlpha;
     boolean invalidateAlpha;
     private final RecyclerListView listView;
-    private final SparseArray<Float> listAlphaItems = new SparseArray<>();
-    HashSet<View> ignoreView = new HashSet<>();
+    private final SparseArray listAlphaItems = new SparseArray();
+    HashSet ignoreView = new HashSet();
     public boolean animateAlphaProgressView = true;
-    ArrayList<AnimatorSet> currentAnimations = new ArrayList<>();
-    ArrayList<ViewTreeObserver.OnPreDrawListener> preDrawListeners = new ArrayList<>();
-
-    public RecyclerItemsEnterAnimator(RecyclerListView recyclerListView, boolean z) {
-        this.listView = recyclerListView;
-        this.alwaysCheckItemsAlpha = z;
-        recyclerListView.setItemsEnterAnimator(this);
-    }
-
-    public void dispatchDraw() {
-        if (this.invalidateAlpha || this.alwaysCheckItemsAlpha) {
-            for (int i = 0; i < this.listView.getChildCount(); i++) {
-                View childAt = this.listView.getChildAt(i);
-                int childAdapterPosition = this.listView.getChildAdapterPosition(childAt);
-                if (childAdapterPosition >= 0 && !this.ignoreView.contains(childAt)) {
-                    Float f = this.listAlphaItems.get(childAdapterPosition, null);
-                    if (f == null) {
-                        childAt.setAlpha(1.0f);
-                    } else {
-                        childAt.setAlpha(f.floatValue());
-                    }
-                }
-            }
-            this.invalidateAlpha = false;
-        }
-    }
-
-    public void showItemsAnimated(int i) {
-        Animator ofFloat;
-        final View progressView = getProgressView();
-        final RecyclerView.LayoutManager layoutManager = this.listView.getLayoutManager();
-        if (progressView != null && layoutManager != null) {
-            this.listView.removeView(progressView);
-            this.ignoreView.add(progressView);
-            this.listView.addView(progressView);
-            layoutManager.ignoreView(progressView);
-            if (this.animateAlphaProgressView) {
-                ofFloat = ObjectAnimator.ofFloat(progressView, View.ALPHA, progressView.getAlpha(), 0.0f);
-            } else {
-                ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            }
-            ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.RecyclerItemsEnterAnimator.1
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    progressView.setAlpha(1.0f);
-                    layoutManager.stopIgnoringView(progressView);
-                    RecyclerItemsEnterAnimator.this.ignoreView.remove(progressView);
-                    RecyclerItemsEnterAnimator.this.listView.removeView(progressView);
-                }
-            });
-            ofFloat.start();
-            i--;
-        }
-        2 r0 = new 2(progressView, i);
-        this.preDrawListeners.add(r0);
-        this.listView.getViewTreeObserver().addOnPreDrawListener(r0);
-    }
+    ArrayList currentAnimations = new ArrayList();
+    ArrayList preDrawListeners = new ArrayList();
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
@@ -87,6 +32,14 @@ public class RecyclerItemsEnterAnimator {
         2(View view, int i) {
             this.val$finalProgressView = view;
             this.val$finalFrom = i;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onPreDraw$0(int i, ValueAnimator valueAnimator) {
+            RecyclerItemsEnterAnimator.this.listAlphaItems.put(i, (Float) valueAnimator.getAnimatedValue());
+            RecyclerItemsEnterAnimator recyclerItemsEnterAnimator = RecyclerItemsEnterAnimator.this;
+            recyclerItemsEnterAnimator.invalidateAlpha = true;
+            recyclerItemsEnterAnimator.listView.invalidate();
         }
 
         @Override // android.view.ViewTreeObserver.OnPreDrawListener
@@ -141,13 +94,43 @@ public class RecyclerItemsEnterAnimator {
             });
             return false;
         }
+    }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onPreDraw$0(int i, ValueAnimator valueAnimator) {
-            RecyclerItemsEnterAnimator.this.listAlphaItems.put(i, (Float) valueAnimator.getAnimatedValue());
-            RecyclerItemsEnterAnimator recyclerItemsEnterAnimator = RecyclerItemsEnterAnimator.this;
-            recyclerItemsEnterAnimator.invalidateAlpha = true;
-            recyclerItemsEnterAnimator.listView.invalidate();
+    public RecyclerItemsEnterAnimator(RecyclerListView recyclerListView, boolean z) {
+        this.listView = recyclerListView;
+        this.alwaysCheckItemsAlpha = z;
+        recyclerListView.setItemsEnterAnimator(this);
+    }
+
+    public void cancel() {
+        if (!this.currentAnimations.isEmpty()) {
+            ArrayList arrayList = new ArrayList(this.currentAnimations);
+            for (int i = 0; i < arrayList.size(); i++) {
+                ((AnimatorSet) arrayList.get(i)).end();
+                ((AnimatorSet) arrayList.get(i)).cancel();
+            }
+        }
+        this.currentAnimations.clear();
+        for (int i2 = 0; i2 < this.preDrawListeners.size(); i2++) {
+            this.listView.getViewTreeObserver().removeOnPreDrawListener((ViewTreeObserver.OnPreDrawListener) this.preDrawListeners.get(i2));
+        }
+        this.preDrawListeners.clear();
+        this.listAlphaItems.clear();
+        this.listView.invalidate();
+        this.invalidateAlpha = true;
+    }
+
+    public void dispatchDraw() {
+        if (this.invalidateAlpha || this.alwaysCheckItemsAlpha) {
+            for (int i = 0; i < this.listView.getChildCount(); i++) {
+                View childAt = this.listView.getChildAt(i);
+                int childAdapterPosition = this.listView.getChildAdapterPosition(childAt);
+                if (childAdapterPosition >= 0 && !this.ignoreView.contains(childAt)) {
+                    Float f = (Float) this.listAlphaItems.get(childAdapterPosition, null);
+                    childAt.setAlpha(f == null ? 1.0f : f.floatValue());
+                }
+            }
+            this.invalidateAlpha = false;
         }
     }
 
@@ -167,21 +150,29 @@ public class RecyclerItemsEnterAnimator {
         cancel();
     }
 
-    public void cancel() {
-        if (!this.currentAnimations.isEmpty()) {
-            ArrayList arrayList = new ArrayList(this.currentAnimations);
-            for (int i = 0; i < arrayList.size(); i++) {
-                ((AnimatorSet) arrayList.get(i)).end();
-                ((AnimatorSet) arrayList.get(i)).cancel();
-            }
+    public void showItemsAnimated(int i) {
+        final View progressView = getProgressView();
+        final RecyclerView.LayoutManager layoutManager = this.listView.getLayoutManager();
+        if (progressView != null && layoutManager != null) {
+            this.listView.removeView(progressView);
+            this.ignoreView.add(progressView);
+            this.listView.addView(progressView);
+            layoutManager.ignoreView(progressView);
+            Animator ofFloat = this.animateAlphaProgressView ? ObjectAnimator.ofFloat(progressView, View.ALPHA, progressView.getAlpha(), 0.0f) : ValueAnimator.ofFloat(0.0f, 1.0f);
+            ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.RecyclerItemsEnterAnimator.1
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    progressView.setAlpha(1.0f);
+                    layoutManager.stopIgnoringView(progressView);
+                    RecyclerItemsEnterAnimator.this.ignoreView.remove(progressView);
+                    RecyclerItemsEnterAnimator.this.listView.removeView(progressView);
+                }
+            });
+            ofFloat.start();
+            i--;
         }
-        this.currentAnimations.clear();
-        for (int i2 = 0; i2 < this.preDrawListeners.size(); i2++) {
-            this.listView.getViewTreeObserver().removeOnPreDrawListener(this.preDrawListeners.get(i2));
-        }
-        this.preDrawListeners.clear();
-        this.listAlphaItems.clear();
-        this.listView.invalidate();
-        this.invalidateAlpha = true;
+        2 r0 = new 2(progressView, i);
+        this.preDrawListeners.add(r0);
+        this.listView.getViewTreeObserver().addOnPreDrawListener(r0);
     }
 }

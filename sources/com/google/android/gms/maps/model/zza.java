@@ -3,7 +3,6 @@ package com.google.android.gms.maps.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zza implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -22,10 +21,10 @@ public final class zza implements Parcelable.Creator {
                 f = SafeParcelReader.readFloat(parcel, readHeader);
             } else if (fieldId == 4) {
                 f2 = SafeParcelReader.readFloat(parcel, readHeader);
-            } else if (fieldId == 5) {
-                f3 = SafeParcelReader.readFloat(parcel, readHeader);
-            } else {
+            } else if (fieldId != 5) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                f3 = SafeParcelReader.readFloat(parcel, readHeader);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);

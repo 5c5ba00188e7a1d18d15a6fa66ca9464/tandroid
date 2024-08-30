@@ -3,12 +3,8 @@ package com.google.android.gms.maps.internal;
 import android.os.Bundle;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.Preconditions;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zzca {
-    private zzca() {
-    }
-
+public abstract class zzca {
     public static Parcelable zza(Bundle bundle, String str) {
         ClassLoader zzd = zzd();
         bundle.setClassLoader(zzd);

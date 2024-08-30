@@ -2,15 +2,15 @@ package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
 /* loaded from: classes.dex */
-public final class zzge$zzs extends zzcg<zzge$zzs, zza> implements zzdq {
+public final class zzge$zzs extends zzcg implements zzdq {
     private static final zzge$zzs zzbfc;
-    private static volatile zzdz<zzge$zzs> zzbg;
+    private static volatile zzdz zzbg;
     private int zzbb;
     private int zzbfa = -1;
     private int zzbfb;
 
     /* loaded from: classes.dex */
-    public static final class zza extends zzcg.zza<zzge$zzs, zza> implements zzdq {
+    public static final class zza extends zzcg.zza implements zzdq {
         private zza() {
             super(zzge$zzs.zzbfc);
         }
@@ -44,7 +44,7 @@ public final class zzge$zzs extends zzcg<zzge$zzs, zza> implements zzdq {
         zzbfw(19),
         zzbfx(100);
         
-        private static final zzck<zzb> zzbq = new zzgo();
+        private static final zzck zzbq = new zzgo();
         private final int value;
 
         zzb(int i) {
@@ -101,13 +101,8 @@ public final class zzge$zzs extends zzcg<zzge$zzs, zza> implements zzdq {
             return zzbfx;
         }
 
-        public static zzck<zzb> zzd() {
+        public static zzck zzd() {
             return zzbq;
-        }
-
-        @Override // com.google.android.gms.internal.clearcut.zzcj
-        public final int zzc() {
-            return this.value;
         }
     }
 
@@ -133,7 +128,7 @@ public final class zzge$zzs extends zzcg<zzge$zzs, zza> implements zzdq {
         zzbgq(16),
         zzbgr(17);
         
-        private static final zzck<zzc> zzbq = new zzgp();
+        private static final zzck zzbq = new zzgp();
         private final int value;
 
         zzc(int i) {
@@ -185,13 +180,8 @@ public final class zzge$zzs extends zzcg<zzge$zzs, zza> implements zzdq {
             }
         }
 
-        public static zzck<zzc> zzd() {
+        public static zzck zzd() {
             return zzbq;
-        }
-
-        @Override // com.google.android.gms.internal.clearcut.zzcj
-        public final int zzc() {
-            return this.value;
         }
     }
 
@@ -205,7 +195,7 @@ public final class zzge$zzs extends zzcg<zzge$zzs, zza> implements zzdq {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r4v16, types: [com.google.android.gms.internal.clearcut.zzdz<com.google.android.gms.internal.clearcut.zzge$zzs>, com.google.android.gms.internal.clearcut.zzcg$zzb] */
+    /* JADX WARN: Type inference failed for: r4v16, types: [com.google.android.gms.internal.clearcut.zzdz, com.google.android.gms.internal.clearcut.zzcg$zzb] */
     @Override // com.google.android.gms.internal.clearcut.zzcg
     public final Object zza(int i, Object obj, Object obj2) {
         switch (zzgf.zzba[i - 1]) {
@@ -218,13 +208,13 @@ public final class zzge$zzs extends zzcg<zzge$zzs, zza> implements zzdq {
             case 4:
                 return zzbfc;
             case 5:
-                zzdz<zzge$zzs> zzdzVar = zzbg;
-                zzdz<zzge$zzs> zzdzVar2 = zzdzVar;
+                zzdz zzdzVar = zzbg;
+                zzdz zzdzVar2 = zzdzVar;
                 if (zzdzVar == null) {
                     synchronized (zzge$zzs.class) {
                         try {
-                            zzdz<zzge$zzs> zzdzVar3 = zzbg;
-                            zzdz<zzge$zzs> zzdzVar4 = zzdzVar3;
+                            zzdz zzdzVar3 = zzbg;
+                            zzdz zzdzVar4 = zzdzVar3;
                             if (zzdzVar3 == null) {
                                 ?? zzbVar = new zzcg.zzb(zzbfc);
                                 zzbg = zzbVar;

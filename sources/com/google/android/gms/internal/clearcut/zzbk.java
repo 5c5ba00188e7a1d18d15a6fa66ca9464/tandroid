@@ -34,5 +34,5 @@ public abstract class zzbk {
 
     public abstract int zzaf();
 
-    public abstract int zzl(int i) throws zzco;
+    public abstract int zzl(int i);
 }

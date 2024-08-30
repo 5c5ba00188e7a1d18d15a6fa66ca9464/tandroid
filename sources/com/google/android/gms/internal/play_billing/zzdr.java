@@ -1,11 +1,9 @@
 package com.google.android.gms.internal.play_billing;
 
-import java.io.IOException;
 import java.util.List;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-public final class zzdr {
+public abstract class zzdr {
     public static final /* synthetic */ int $r8$clinit = 0;
     private static final Class zzb;
     private static final zzeg zzc;
@@ -57,56 +55,56 @@ public final class zzdr {
         }
     }
 
-    public static void zzD(int i, List list, zzey zzeyVar, boolean z) throws IOException {
+    public static void zzD(int i, List list, zzey zzeyVar, boolean z) {
         if (list == null || list.isEmpty()) {
             return;
         }
         zzeyVar.zzc(i, list, z);
     }
 
-    public static void zzE(int i, List list, zzey zzeyVar) throws IOException {
+    public static void zzE(int i, List list, zzey zzeyVar) {
         if (list == null || list.isEmpty()) {
             return;
         }
         zzeyVar.zze(i, list);
     }
 
-    public static void zzF(int i, List list, zzey zzeyVar, boolean z) throws IOException {
+    public static void zzF(int i, List list, zzey zzeyVar, boolean z) {
         if (list == null || list.isEmpty()) {
             return;
         }
         zzeyVar.zzg(i, list, z);
     }
 
-    public static void zzG(int i, List list, zzey zzeyVar, boolean z) throws IOException {
+    public static void zzG(int i, List list, zzey zzeyVar, boolean z) {
         if (list == null || list.isEmpty()) {
             return;
         }
         zzeyVar.zzj(i, list, z);
     }
 
-    public static void zzH(int i, List list, zzey zzeyVar, boolean z) throws IOException {
+    public static void zzH(int i, List list, zzey zzeyVar, boolean z) {
         if (list == null || list.isEmpty()) {
             return;
         }
         zzeyVar.zzl(i, list, z);
     }
 
-    public static void zzI(int i, List list, zzey zzeyVar, boolean z) throws IOException {
+    public static void zzI(int i, List list, zzey zzeyVar, boolean z) {
         if (list == null || list.isEmpty()) {
             return;
         }
         zzeyVar.zzn(i, list, z);
     }
 
-    public static void zzJ(int i, List list, zzey zzeyVar, boolean z) throws IOException {
+    public static void zzJ(int i, List list, zzey zzeyVar, boolean z) {
         if (list == null || list.isEmpty()) {
             return;
         }
         zzeyVar.zzp(i, list, z);
     }
 
-    public static void zzK(int i, List list, zzey zzeyVar, zzdp zzdpVar) throws IOException {
+    public static void zzK(int i, List list, zzey zzeyVar, zzdp zzdpVar) {
         if (list == null || list.isEmpty()) {
             return;
         }
@@ -115,21 +113,21 @@ public final class zzdr {
         }
     }
 
-    public static void zzL(int i, List list, zzey zzeyVar, boolean z) throws IOException {
+    public static void zzL(int i, List list, zzey zzeyVar, boolean z) {
         if (list == null || list.isEmpty()) {
             return;
         }
         zzeyVar.zzs(i, list, z);
     }
 
-    public static void zzM(int i, List list, zzey zzeyVar, boolean z) throws IOException {
+    public static void zzM(int i, List list, zzey zzeyVar, boolean z) {
         if (list == null || list.isEmpty()) {
             return;
         }
         zzeyVar.zzu(i, list, z);
     }
 
-    public static void zzN(int i, List list, zzey zzeyVar, zzdp zzdpVar) throws IOException {
+    public static void zzN(int i, List list, zzey zzeyVar, zzdp zzdpVar) {
         if (list == null || list.isEmpty()) {
             return;
         }
@@ -138,49 +136,49 @@ public final class zzdr {
         }
     }
 
-    public static void zzO(int i, List list, zzey zzeyVar, boolean z) throws IOException {
+    public static void zzO(int i, List list, zzey zzeyVar, boolean z) {
         if (list == null || list.isEmpty()) {
             return;
         }
         zzeyVar.zzx(i, list, z);
     }
 
-    public static void zzP(int i, List list, zzey zzeyVar, boolean z) throws IOException {
+    public static void zzP(int i, List list, zzey zzeyVar, boolean z) {
         if (list == null || list.isEmpty()) {
             return;
         }
         zzeyVar.zzz(i, list, z);
     }
 
-    public static void zzQ(int i, List list, zzey zzeyVar, boolean z) throws IOException {
+    public static void zzQ(int i, List list, zzey zzeyVar, boolean z) {
         if (list == null || list.isEmpty()) {
             return;
         }
         zzeyVar.zzB(i, list, z);
     }
 
-    public static void zzR(int i, List list, zzey zzeyVar, boolean z) throws IOException {
+    public static void zzR(int i, List list, zzey zzeyVar, boolean z) {
         if (list == null || list.isEmpty()) {
             return;
         }
         zzeyVar.zzD(i, list, z);
     }
 
-    public static void zzS(int i, List list, zzey zzeyVar) throws IOException {
+    public static void zzS(int i, List list, zzey zzeyVar) {
         if (list == null || list.isEmpty()) {
             return;
         }
         zzeyVar.zzG(i, list);
     }
 
-    public static void zzT(int i, List list, zzey zzeyVar, boolean z) throws IOException {
+    public static void zzT(int i, List list, zzey zzeyVar, boolean z) {
         if (list == null || list.isEmpty()) {
             return;
         }
         zzeyVar.zzI(i, list, z);
     }
 
-    public static void zzU(int i, List list, zzey zzeyVar, boolean z) throws IOException {
+    public static void zzU(int i, List list, zzey zzeyVar, boolean z) {
         if (list == null || list.isEmpty()) {
             return;
         }
@@ -229,25 +227,20 @@ public final class zzdr {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzd(List list) {
-        int i;
         int size = list.size();
-        int i2 = 0;
         if (size == 0) {
             return 0;
         }
         if (list instanceof zzcc) {
             zzcc zzccVar = (zzcc) list;
-            i = 0;
-            while (i2 < size) {
-                i += zzbi.zzu(zzccVar.zze(i2));
-                i2++;
+            if (size <= 0) {
+                return 0;
             }
-        } else {
-            i = 0;
-            while (i2 < size) {
-                i += zzbi.zzu(((Integer) list.get(i2)).intValue());
-                i2++;
-            }
+            throw null;
+        }
+        int i = 0;
+        for (int i2 = 0; i2 < size; i2++) {
+            i += zzbi.zzu(((Integer) list.get(i2)).intValue());
         }
         return i;
     }
@@ -304,25 +297,20 @@ public final class zzdr {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzk(List list) {
-        int i;
         int size = list.size();
-        int i2 = 0;
         if (size == 0) {
             return 0;
         }
         if (list instanceof zzcc) {
             zzcc zzccVar = (zzcc) list;
-            i = 0;
-            while (i2 < size) {
-                i += zzbi.zzu(zzccVar.zze(i2));
-                i2++;
+            if (size <= 0) {
+                return 0;
             }
-        } else {
-            i = 0;
-            while (i2 < size) {
-                i += zzbi.zzu(((Integer) list.get(i2)).intValue());
-                i2++;
-            }
+            throw null;
+        }
+        int i = 0;
+        for (int i2 = 0; i2 < size; i2++) {
+            i += zzbi.zzu(((Integer) list.get(i2)).intValue());
         }
         return i;
     }
@@ -337,36 +325,26 @@ public final class zzdr {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzm(List list) {
-        int i;
         int size = list.size();
-        int i2 = 0;
         if (size == 0) {
             return 0;
         }
         if (list instanceof zzcu) {
             zzcu zzcuVar = (zzcu) list;
-            i = 0;
-            while (i2 < size) {
-                i += zzbi.zzy(zzcuVar.zze(i2));
-                i2++;
+            if (size <= 0) {
+                return 0;
             }
-        } else {
-            i = 0;
-            while (i2 < size) {
-                i += zzbi.zzy(((Long) list.get(i2)).longValue());
-                i2++;
-            }
+            throw null;
+        }
+        int i = 0;
+        for (int i2 = 0; i2 < size; i2++) {
+            i += zzbi.zzy(((Long) list.get(i2)).longValue());
         }
         return i;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzn(int i, Object obj, zzdp zzdpVar) {
-        if (obj instanceof zzcl) {
-            int i2 = zzbi.$r8$clinit;
-            int zza = ((zzcl) obj).zza();
-            return zzbi.zzx(i << 3) + zzbi.zzx(zza) + zza;
-        }
         return zzbi.zzx(i << 3) + zzbi.zzv((zzdf) obj, zzdpVar);
     }
 
@@ -378,13 +356,7 @@ public final class zzdr {
         }
         int zzx = zzbi.zzx(i << 3) * size;
         for (int i2 = 0; i2 < size; i2++) {
-            Object obj = list.get(i2);
-            if (obj instanceof zzcl) {
-                int zza = ((zzcl) obj).zza();
-                zzx += zzbi.zzx(zza) + zza;
-            } else {
-                zzx += zzbi.zzv((zzdf) obj, zzdpVar);
-            }
+            zzx += zzbi.zzv((zzdf) list.get(i2), zzdpVar);
         }
         return zzx;
     }
@@ -400,27 +372,21 @@ public final class zzdr {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzq(List list) {
-        int i;
         int size = list.size();
-        int i2 = 0;
         if (size == 0) {
             return 0;
         }
         if (list instanceof zzcc) {
             zzcc zzccVar = (zzcc) list;
-            i = 0;
-            while (i2 < size) {
-                int zze = zzccVar.zze(i2);
-                i += zzbi.zzx((zze >> 31) ^ (zze + zze));
-                i2++;
+            if (size <= 0) {
+                return 0;
             }
-        } else {
-            i = 0;
-            while (i2 < size) {
-                int intValue = ((Integer) list.get(i2)).intValue();
-                i += zzbi.zzx((intValue >> 31) ^ (intValue + intValue));
-                i2++;
-            }
+            throw null;
+        }
+        int i = 0;
+        for (int i2 = 0; i2 < size; i2++) {
+            int intValue = ((Integer) list.get(i2)).intValue();
+            i += zzbi.zzx((intValue >> 31) ^ (intValue + intValue));
         }
         return i;
     }
@@ -436,27 +402,21 @@ public final class zzdr {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzs(List list) {
-        int i;
         int size = list.size();
-        int i2 = 0;
         if (size == 0) {
             return 0;
         }
         if (list instanceof zzcu) {
             zzcu zzcuVar = (zzcu) list;
-            i = 0;
-            while (i2 < size) {
-                long zze = zzcuVar.zze(i2);
-                i += zzbi.zzy((zze >> 63) ^ (zze + zze));
-                i2++;
+            if (size <= 0) {
+                return 0;
             }
-        } else {
-            i = 0;
-            while (i2 < size) {
-                long longValue = ((Long) list.get(i2)).longValue();
-                i += zzbi.zzy((longValue >> 63) ^ (longValue + longValue));
-                i2++;
-            }
+            throw null;
+        }
+        int i = 0;
+        for (int i2 = 0; i2 < size; i2++) {
+            long longValue = ((Long) list.get(i2)).longValue();
+            i += zzbi.zzy((longValue >> 63) ^ (longValue + longValue));
         }
         return i;
     }
@@ -508,25 +468,20 @@ public final class zzdr {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzv(List list) {
-        int i;
         int size = list.size();
-        int i2 = 0;
         if (size == 0) {
             return 0;
         }
         if (list instanceof zzcc) {
             zzcc zzccVar = (zzcc) list;
-            i = 0;
-            while (i2 < size) {
-                i += zzbi.zzx(zzccVar.zze(i2));
-                i2++;
+            if (size <= 0) {
+                return 0;
             }
-        } else {
-            i = 0;
-            while (i2 < size) {
-                i += zzbi.zzx(((Integer) list.get(i2)).intValue());
-                i2++;
-            }
+            throw null;
+        }
+        int i = 0;
+        for (int i2 = 0; i2 < size; i2++) {
+            i += zzbi.zzx(((Integer) list.get(i2)).intValue());
         }
         return i;
     }
@@ -542,25 +497,20 @@ public final class zzdr {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzx(List list) {
-        int i;
         int size = list.size();
-        int i2 = 0;
         if (size == 0) {
             return 0;
         }
         if (list instanceof zzcu) {
             zzcu zzcuVar = (zzcu) list;
-            i = 0;
-            while (i2 < size) {
-                i += zzbi.zzy(zzcuVar.zze(i2));
-                i2++;
+            if (size <= 0) {
+                return 0;
             }
-        } else {
-            i = 0;
-            while (i2 < size) {
-                i += zzbi.zzy(((Long) list.get(i2)).longValue());
-                i2++;
-            }
+            throw null;
+        }
+        int i = 0;
+        for (int i2 = 0; i2 < size; i2++) {
+            i += zzbi.zzy(((Long) list.get(i2)).longValue());
         }
         return i;
     }

@@ -8,7 +8,6 @@ import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.Loader;
 import com.google.android.exoplayer2.upstream.StatsDataSource;
 import com.google.android.exoplayer2.util.Assertions;
-import java.util.List;
 import java.util.Map;
 /* loaded from: classes.dex */
 public abstract class Chunk implements Loader.Loadable {
@@ -33,19 +32,19 @@ public abstract class Chunk implements Loader.Loadable {
         this.endTimeUs = j2;
     }
 
-    public final long getDurationUs() {
-        return this.endTimeUs - this.startTimeUs;
-    }
-
     public final long bytesLoaded() {
         return this.dataSource.getBytesRead();
     }
 
-    public final Uri getUri() {
-        return this.dataSource.getLastOpenedUri();
+    public final long getDurationUs() {
+        return this.endTimeUs - this.startTimeUs;
     }
 
-    public final Map<String, List<String>> getResponseHeaders() {
+    public final Map getResponseHeaders() {
         return this.dataSource.getLastResponseHeaders();
+    }
+
+    public final Uri getUri() {
+        return this.dataSource.getLastOpenedUri();
     }
 }

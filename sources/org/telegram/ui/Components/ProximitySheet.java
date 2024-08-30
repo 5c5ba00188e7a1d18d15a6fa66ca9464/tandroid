@@ -16,6 +16,7 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -65,19 +66,49 @@ public class ProximitySheet extends FrameLayout {
     private boolean useImperialSystem;
     private VelocityTracker velocityTracker;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public class 6 extends AnimatorListenerAdapter {
+        6() {
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onAnimationEnd$0() {
+            try {
+                ProximitySheet.this.dismissInternal();
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationCancel(Animator animator) {
+            if (ProximitySheet.this.currentSheetAnimation == null || !ProximitySheet.this.currentSheetAnimation.equals(animator)) {
+                return;
+            }
+            ProximitySheet.this.currentSheetAnimation = null;
+            ProximitySheet.this.currentSheetAnimationType = 0;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (ProximitySheet.this.currentSheetAnimation != null && ProximitySheet.this.currentSheetAnimation.equals(animator)) {
+                ProximitySheet.this.currentSheetAnimation = null;
+                ProximitySheet.this.currentSheetAnimationType = 0;
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ProximitySheet$6$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ProximitySheet.6.this.lambda$onAnimationEnd$0();
+                    }
+                });
+            }
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
+        }
+    }
+
     /* loaded from: classes3.dex */
     public interface onRadiusPickerChange {
         boolean run(boolean z, int i);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$new$0(View view, MotionEvent motionEvent) {
-        return true;
-    }
-
-    @Override // android.view.View
-    public boolean hasOverlappingRendering() {
-        return false;
     }
 
     public ProximitySheet(Context context, TLRPC$User tLRPC$User, onRadiusPickerChange onradiuspickerchange, final onRadiusPickerChange onradiuspickerchange2, Runnable runnable) {
@@ -242,6 +273,61 @@ public class ProximitySheet extends FrameLayout {
         this.containerView.addView(this.customView, LayoutHelper.createFrame(-1, -2, 51));
     }
 
+    private void cancelCurrentAnimation() {
+        AnimatorSet animatorSet = this.currentAnimation;
+        if (animatorSet != null) {
+            animatorSet.cancel();
+            this.currentAnimation = null;
+        }
+    }
+
+    private void cancelSheetAnimation() {
+        AnimatorSet animatorSet = this.currentSheetAnimation;
+        if (animatorSet != null) {
+            animatorSet.cancel();
+            this.currentSheetAnimation = null;
+            this.currentSheetAnimationType = 0;
+        }
+    }
+
+    private void checkDismiss(float f, float f2) {
+        float translationY = this.containerView.getTranslationY();
+        if ((translationY >= AndroidUtilities.getPixelsInCM(0.8f, false) || (f2 >= 3500.0f && Math.abs(f2) >= Math.abs(f))) && (f2 >= 0.0f || Math.abs(f2) < 3500.0f)) {
+            this.useFastDismiss = true;
+            dismiss();
+            return;
+        }
+        AnimatorSet animatorSet = new AnimatorSet();
+        this.currentAnimation = animatorSet;
+        animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.TRANSLATION_Y, 0.0f));
+        this.currentAnimation.setDuration((int) ((Math.max(0.0f, translationY) / AndroidUtilities.getPixelsInCM(0.8f, false)) * 150.0f));
+        this.currentAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT);
+        this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ProximitySheet.4
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (ProximitySheet.this.currentAnimation != null && ProximitySheet.this.currentAnimation.equals(animator)) {
+                    ProximitySheet.this.currentAnimation = null;
+                }
+                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
+            }
+        });
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
+        this.currentAnimation.start();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void dismissInternal() {
+        if (getParent() instanceof ViewGroup) {
+            ((ViewGroup) getParent()).removeView(this);
+        }
+        this.onDismissCallback.run();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ boolean lambda$new$0(View view, MotionEvent motionEvent) {
+        return true;
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ String lambda$new$1(int i) {
         return this.useImperialSystem ? LocaleController.formatString("MilesShort", R.string.MilesShort, Integer.valueOf(i)) : LocaleController.formatString("KMetersShort", R.string.KMetersShort, Integer.valueOf(i));
@@ -283,8 +369,87 @@ public class ProximitySheet extends FrameLayout {
         }
     }
 
+    private void startOpenAnimation() {
+        if (this.dismissed) {
+            return;
+        }
+        this.containerView.setVisibility(0);
+        if (Build.VERSION.SDK_INT >= 20 && this.useHardwareLayer) {
+            setLayerType(2, null);
+        }
+        ViewGroup viewGroup = this.containerView;
+        viewGroup.setTranslationY(viewGroup.getMeasuredHeight());
+        this.currentSheetAnimationType = 1;
+        AnimatorSet animatorSet = new AnimatorSet();
+        this.currentSheetAnimation = animatorSet;
+        animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.TRANSLATION_Y, 0.0f));
+        this.currentSheetAnimation.setDuration(400L);
+        this.currentSheetAnimation.setStartDelay(20L);
+        this.currentSheetAnimation.setInterpolator(this.openInterpolator);
+        this.currentSheetAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ProximitySheet.5
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationCancel(Animator animator) {
+                if (ProximitySheet.this.currentSheetAnimation == null || !ProximitySheet.this.currentSheetAnimation.equals(animator)) {
+                    return;
+                }
+                ProximitySheet.this.currentSheetAnimation = null;
+                ProximitySheet.this.currentSheetAnimationType = 0;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (ProximitySheet.this.currentSheetAnimation != null && ProximitySheet.this.currentSheetAnimation.equals(animator)) {
+                    ProximitySheet.this.currentSheetAnimation = null;
+                    ProximitySheet.this.currentSheetAnimationType = 0;
+                    if (ProximitySheet.this.useHardwareLayer) {
+                        ProximitySheet.this.setLayerType(0, null);
+                    }
+                }
+                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
+            }
+        });
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
+        this.currentSheetAnimation.start();
+    }
+
+    public void dismiss() {
+        ViewGroup viewGroup;
+        if (this.dismissed) {
+            return;
+        }
+        this.dismissed = true;
+        cancelSheetAnimation();
+        this.currentSheetAnimationType = 2;
+        AnimatorSet animatorSet = new AnimatorSet();
+        this.currentSheetAnimation = animatorSet;
+        animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.TRANSLATION_Y, viewGroup.getMeasuredHeight() + AndroidUtilities.dp(10.0f)));
+        if (this.useFastDismiss) {
+            float measuredHeight = this.containerView.getMeasuredHeight();
+            this.currentSheetAnimation.setDuration(Math.max(60, (int) (((measuredHeight - this.containerView.getTranslationY()) * 250.0f) / measuredHeight)));
+            this.useFastDismiss = false;
+        } else {
+            this.currentSheetAnimation.setDuration(250L);
+        }
+        this.currentSheetAnimation.setInterpolator(CubicBezierInterpolator.DEFAULT);
+        this.currentSheetAnimation.addListener(new 6());
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
+        this.currentSheetAnimation.start();
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+        if (this.dismissed) {
+            return true;
+        }
+        return super.dispatchTouchEvent(motionEvent);
+    }
+
     public View getCustomView() {
         return this.customView;
+    }
+
+    public boolean getRadiusSet() {
+        return this.radiusSet;
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:11:0x0023, code lost:
@@ -318,138 +483,70 @@ public class ProximitySheet extends FrameLayout {
         return z ? f2 * 1.60934f : f2;
     }
 
-    public boolean getRadiusSet() {
-        return this.radiusSet;
-    }
-
-    public void setRadiusSet() {
-        this.radiusSet = true;
-    }
-
-    public void updateText(boolean z, boolean z2) {
-        float value = getValue();
-        String formatDistance = LocaleController.formatDistance(value, 2, Boolean.valueOf(this.useImperialSystem));
-        if (this.onRadiusChange.run(z, (int) value) || this.currentUser == null) {
-            if (this.currentUser == null) {
-                this.buttonTextView.setText(LocaleController.formatString("LocationNotifiationButtonGroup", R.string.LocationNotifiationButtonGroup, formatDistance));
-            } else {
-                int i = R.string.LocationNotifiationButtonUser;
-                this.buttonTextView.setText(LocaleController.formatString("LocationNotifiationButtonUser", i, TextUtils.ellipsize(UserObject.getFirstName(this.currentUser), this.buttonTextView.getPaint(), Math.max(AndroidUtilities.dp(10.0f), (int) (((this.totalWidth - AndroidUtilities.dp(94.0f)) * 1.5f) - ((int) Math.ceil(this.buttonTextView.getPaint().measureText(LocaleController.getString(i)))))), TextUtils.TruncateAt.END), formatDistance));
-            }
-            if (this.buttonTextView.getTag() != null) {
-                this.buttonTextView.setTag(null);
-                this.buttonTextView.animate().setDuration(180L).alpha(1.0f).scaleX(1.0f).scaleY(1.0f).start();
-                this.infoTextView.animate().setDuration(180L).alpha(0.0f).scaleX(0.5f).scaleY(0.5f).start();
-                return;
-            }
-            return;
-        }
-        this.infoTextView.setText(LocaleController.formatString("LocationNotifiationCloser", R.string.LocationNotifiationCloser, formatDistance));
-        if (this.buttonTextView.getTag() == null) {
-            this.buttonTextView.setTag(1);
-            this.buttonTextView.animate().setDuration(180L).alpha(0.0f).scaleX(0.5f).scaleY(0.5f).start();
-            this.infoTextView.animate().setDuration(180L).alpha(1.0f).scaleX(1.0f).scaleY(1.0f).start();
-        }
-    }
-
-    private void checkDismiss(float f, float f2) {
-        float translationY = this.containerView.getTranslationY();
-        if ((translationY >= AndroidUtilities.getPixelsInCM(0.8f, false) || (f2 >= 3500.0f && Math.abs(f2) >= Math.abs(f))) && (f2 >= 0.0f || Math.abs(f2) < 3500.0f)) {
-            this.useFastDismiss = true;
-            dismiss();
-            return;
-        }
-        AnimatorSet animatorSet = new AnimatorSet();
-        this.currentAnimation = animatorSet;
-        animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.TRANSLATION_Y, 0.0f));
-        this.currentAnimation.setDuration((int) ((Math.max(0.0f, translationY) / AndroidUtilities.getPixelsInCM(0.8f, false)) * 150.0f));
-        this.currentAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT);
-        this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ProximitySheet.4
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                if (ProximitySheet.this.currentAnimation != null && ProximitySheet.this.currentAnimation.equals(animator)) {
-                    ProximitySheet.this.currentAnimation = null;
-                }
-                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
-            }
-        });
-        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
-        this.currentAnimation.start();
-    }
-
-    private void cancelCurrentAnimation() {
-        AnimatorSet animatorSet = this.currentAnimation;
-        if (animatorSet != null) {
-            animatorSet.cancel();
-            this.currentAnimation = null;
-        }
-    }
-
-    boolean processTouchEvent(MotionEvent motionEvent, boolean z) {
-        if (this.dismissed) {
-            return false;
-        }
-        if (motionEvent != null && ((motionEvent.getAction() == 0 || motionEvent.getAction() == 2) && !this.startedTracking && !this.maybeStartTracking && motionEvent.getPointerCount() == 1)) {
-            this.startedTrackingX = (int) motionEvent.getX();
-            int y = (int) motionEvent.getY();
-            this.startedTrackingY = y;
-            if (y < this.containerView.getTop() || this.startedTrackingX < this.containerView.getLeft() || this.startedTrackingX > this.containerView.getRight()) {
-                requestDisallowInterceptTouchEvent(true);
-                dismiss();
-                return true;
-            }
-            this.startedTrackingPointerId = motionEvent.getPointerId(0);
-            this.maybeStartTracking = true;
-            cancelCurrentAnimation();
-            VelocityTracker velocityTracker = this.velocityTracker;
-            if (velocityTracker != null) {
-                velocityTracker.clear();
-            }
-        } else {
-            if (motionEvent != null && motionEvent.getAction() == 2 && motionEvent.getPointerId(0) == this.startedTrackingPointerId) {
-                if (this.velocityTracker == null) {
-                    this.velocityTracker = VelocityTracker.obtain();
-                }
-                float abs = Math.abs((int) (motionEvent.getX() - this.startedTrackingX));
-                float y2 = ((int) motionEvent.getY()) - this.startedTrackingY;
-                this.velocityTracker.addMovement(motionEvent);
-                if (this.maybeStartTracking && !this.startedTracking && y2 > 0.0f && y2 / 3.0f > Math.abs(abs) && Math.abs(y2) >= this.touchSlop) {
-                    this.startedTrackingY = (int) motionEvent.getY();
-                    this.maybeStartTracking = false;
-                    this.startedTracking = true;
-                    requestDisallowInterceptTouchEvent(true);
-                } else if (this.startedTracking) {
-                    float translationY = this.containerView.getTranslationY() + y2;
-                    this.containerView.setTranslationY(translationY >= 0.0f ? translationY : 0.0f);
-                    this.startedTrackingY = (int) motionEvent.getY();
-                }
-            } else if (motionEvent == null || (motionEvent.getPointerId(0) == this.startedTrackingPointerId && (motionEvent.getAction() == 3 || motionEvent.getAction() == 1 || motionEvent.getAction() == 6))) {
-                if (this.velocityTracker == null) {
-                    this.velocityTracker = VelocityTracker.obtain();
-                }
-                this.velocityTracker.computeCurrentVelocity(1000);
-                float translationY2 = this.containerView.getTranslationY();
-                if (this.startedTracking || translationY2 != 0.0f) {
-                    checkDismiss(this.velocityTracker.getXVelocity(), this.velocityTracker.getYVelocity());
-                    this.startedTracking = false;
-                } else {
-                    this.maybeStartTracking = false;
-                    this.startedTracking = false;
-                }
-                VelocityTracker velocityTracker2 = this.velocityTracker;
-                if (velocityTracker2 != null) {
-                    velocityTracker2.recycle();
-                    this.velocityTracker = null;
-                }
-                this.startedTrackingPointerId = -1;
-            }
-        }
-        return (!z && this.maybeStartTracking) || this.startedTracking;
-    }
-
     @Override // android.view.View
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        return this.dismissed || processTouchEvent(motionEvent, false);
+    public boolean hasOverlappingRendering() {
+        return false;
+    }
+
+    @Override // android.view.ViewGroup
+    public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+        return this.dismissed || processTouchEvent(motionEvent, true);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0072  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0080  */
+    @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        int i5;
+        int i6;
+        int i7;
+        int i8;
+        int i9 = i4 - i2;
+        int measuredHeight = i9 - this.containerView.getMeasuredHeight();
+        int i10 = i3 - i;
+        int measuredWidth = (i10 - this.containerView.getMeasuredWidth()) / 2;
+        ViewGroup viewGroup = this.containerView;
+        viewGroup.layout(measuredWidth, measuredHeight, viewGroup.getMeasuredWidth() + measuredWidth, this.containerView.getMeasuredHeight() + measuredHeight);
+        int childCount = getChildCount();
+        for (int i11 = 0; i11 < childCount; i11++) {
+            View childAt = getChildAt(i11);
+            if (childAt.getVisibility() != 8 && childAt != this.containerView) {
+                FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
+                int measuredWidth2 = childAt.getMeasuredWidth();
+                int measuredHeight2 = childAt.getMeasuredHeight();
+                int i12 = layoutParams.gravity;
+                if (i12 == -1) {
+                    i12 = 51;
+                }
+                int i13 = i12 & 112;
+                int i14 = i12 & 7;
+                if (i14 == 1) {
+                    i5 = ((i10 - measuredWidth2) / 2) + layoutParams.leftMargin;
+                } else if (i14 != 5) {
+                    i6 = layoutParams.leftMargin;
+                    if (i13 != 16) {
+                        i7 = ((i9 - measuredHeight2) / 2) + layoutParams.topMargin;
+                    } else if (i13 != 80) {
+                        i8 = layoutParams.topMargin;
+                        childAt.layout(i6, i8, measuredWidth2 + i6, measuredHeight2 + i8);
+                    } else {
+                        i7 = i9 - measuredHeight2;
+                    }
+                    i8 = i7 - layoutParams.bottomMargin;
+                    childAt.layout(i6, i8, measuredWidth2 + i6, measuredHeight2 + i8);
+                } else {
+                    i5 = i3 - measuredWidth2;
+                }
+                i6 = i5 - layoutParams.rightMargin;
+                if (i13 != 16) {
+                }
+                i8 = i7 - layoutParams.bottomMargin;
+                childAt.layout(i6, i8, measuredWidth2 + i6, measuredHeight2 + i8);
+            }
+        }
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -469,71 +566,70 @@ public class ProximitySheet extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0074  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0082  */
-    @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        int i5;
-        int i6;
-        int i7;
-        int i8;
-        int i9;
-        int i10;
-        int i11 = i4 - i2;
-        int measuredHeight = i11 - this.containerView.getMeasuredHeight();
-        int i12 = i3 - i;
-        int measuredWidth = (i12 - this.containerView.getMeasuredWidth()) / 2;
-        ViewGroup viewGroup = this.containerView;
-        viewGroup.layout(measuredWidth, measuredHeight, viewGroup.getMeasuredWidth() + measuredWidth, this.containerView.getMeasuredHeight() + measuredHeight);
-        int childCount = getChildCount();
-        for (int i13 = 0; i13 < childCount; i13++) {
-            View childAt = getChildAt(i13);
-            if (childAt.getVisibility() != 8 && childAt != this.containerView) {
-                FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
-                int measuredWidth2 = childAt.getMeasuredWidth();
-                int measuredHeight2 = childAt.getMeasuredHeight();
-                int i14 = layoutParams.gravity;
-                if (i14 == -1) {
-                    i14 = 51;
-                }
-                int i15 = i14 & 112;
-                int i16 = i14 & 7;
-                if (i16 == 1) {
-                    i5 = ((i12 - measuredWidth2) / 2) + layoutParams.leftMargin;
-                    i6 = layoutParams.rightMargin;
-                } else if (i16 == 5) {
-                    i5 = i3 - measuredWidth2;
-                    i6 = layoutParams.rightMargin;
-                } else {
-                    i7 = layoutParams.leftMargin;
-                    if (i15 != 16) {
-                        i8 = ((i11 - measuredHeight2) / 2) + layoutParams.topMargin;
-                        i9 = layoutParams.bottomMargin;
-                    } else if (i15 == 80) {
-                        i8 = i11 - measuredHeight2;
-                        i9 = layoutParams.bottomMargin;
-                    } else {
-                        i10 = layoutParams.topMargin;
-                        childAt.layout(i7, i10, measuredWidth2 + i7, measuredHeight2 + i10);
-                    }
-                    i10 = i8 - i9;
-                    childAt.layout(i7, i10, measuredWidth2 + i7, measuredHeight2 + i10);
-                }
-                i7 = i5 - i6;
-                if (i15 != 16) {
-                }
-                i10 = i8 - i9;
-                childAt.layout(i7, i10, measuredWidth2 + i7, measuredHeight2 + i10);
-            }
-        }
+    @Override // android.view.View
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        return this.dismissed || processTouchEvent(motionEvent, false);
     }
 
-    @Override // android.view.ViewGroup
-    public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-        return this.dismissed || processTouchEvent(motionEvent, true);
+    boolean processTouchEvent(MotionEvent motionEvent, boolean z) {
+        if (this.dismissed) {
+            return false;
+        }
+        if (motionEvent == null || (!(motionEvent.getAction() == 0 || motionEvent.getAction() == 2) || this.startedTracking || this.maybeStartTracking || motionEvent.getPointerCount() != 1)) {
+            if (motionEvent != null && motionEvent.getAction() == 2 && motionEvent.getPointerId(0) == this.startedTrackingPointerId) {
+                if (this.velocityTracker == null) {
+                    this.velocityTracker = VelocityTracker.obtain();
+                }
+                float abs = Math.abs((int) (motionEvent.getX() - this.startedTrackingX));
+                float y = ((int) motionEvent.getY()) - this.startedTrackingY;
+                this.velocityTracker.addMovement(motionEvent);
+                if (this.maybeStartTracking && !this.startedTracking && y > 0.0f && y / 3.0f > Math.abs(abs) && Math.abs(y) >= this.touchSlop) {
+                    this.startedTrackingY = (int) motionEvent.getY();
+                    this.maybeStartTracking = false;
+                    this.startedTracking = true;
+                    requestDisallowInterceptTouchEvent(true);
+                } else if (this.startedTracking) {
+                    float translationY = this.containerView.getTranslationY() + y;
+                    this.containerView.setTranslationY(translationY >= 0.0f ? translationY : 0.0f);
+                    this.startedTrackingY = (int) motionEvent.getY();
+                }
+            } else if (motionEvent == null || (motionEvent.getPointerId(0) == this.startedTrackingPointerId && (motionEvent.getAction() == 3 || motionEvent.getAction() == 1 || motionEvent.getAction() == 6))) {
+                if (this.velocityTracker == null) {
+                    this.velocityTracker = VelocityTracker.obtain();
+                }
+                this.velocityTracker.computeCurrentVelocity(1000);
+                float translationY2 = this.containerView.getTranslationY();
+                if (this.startedTracking || translationY2 != 0.0f) {
+                    checkDismiss(this.velocityTracker.getXVelocity(), this.velocityTracker.getYVelocity());
+                } else {
+                    this.maybeStartTracking = false;
+                }
+                this.startedTracking = false;
+                VelocityTracker velocityTracker = this.velocityTracker;
+                if (velocityTracker != null) {
+                    velocityTracker.recycle();
+                    this.velocityTracker = null;
+                }
+                this.startedTrackingPointerId = -1;
+            }
+        } else {
+            this.startedTrackingX = (int) motionEvent.getX();
+            int y2 = (int) motionEvent.getY();
+            this.startedTrackingY = y2;
+            if (y2 < this.containerView.getTop() || this.startedTrackingX < this.containerView.getLeft() || this.startedTrackingX > this.containerView.getRight()) {
+                requestDisallowInterceptTouchEvent(true);
+                dismiss();
+                return true;
+            }
+            this.startedTrackingPointerId = motionEvent.getPointerId(0);
+            this.maybeStartTracking = true;
+            cancelCurrentAnimation();
+            VelocityTracker velocityTracker2 = this.velocityTracker;
+            if (velocityTracker2 != null) {
+                velocityTracker2.clear();
+            }
+        }
+        return (!z && this.maybeStartTracking) || this.startedTracking;
     }
 
     @Override // android.view.ViewGroup, android.view.ViewParent
@@ -544,6 +640,10 @@ public class ProximitySheet extends FrameLayout {
         super.requestDisallowInterceptTouchEvent(z);
     }
 
+    public void setRadiusSet() {
+        this.radiusSet = true;
+    }
+
     public void show() {
         this.dismissed = false;
         cancelSheetAnimation();
@@ -552,135 +652,32 @@ public class ProximitySheet extends FrameLayout {
         updateText(true, false);
     }
 
-    private void cancelSheetAnimation() {
-        AnimatorSet animatorSet = this.currentSheetAnimation;
-        if (animatorSet != null) {
-            animatorSet.cancel();
-            this.currentSheetAnimation = null;
-            this.currentSheetAnimationType = 0;
-        }
-    }
-
-    private void startOpenAnimation() {
-        if (this.dismissed) {
-            return;
-        }
-        this.containerView.setVisibility(0);
-        if (Build.VERSION.SDK_INT >= 20 && this.useHardwareLayer) {
-            setLayerType(2, null);
-        }
-        ViewGroup viewGroup = this.containerView;
-        viewGroup.setTranslationY(viewGroup.getMeasuredHeight());
-        this.currentSheetAnimationType = 1;
-        AnimatorSet animatorSet = new AnimatorSet();
-        this.currentSheetAnimation = animatorSet;
-        animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.TRANSLATION_Y, 0.0f));
-        this.currentSheetAnimation.setDuration(400L);
-        this.currentSheetAnimation.setStartDelay(20L);
-        this.currentSheetAnimation.setInterpolator(this.openInterpolator);
-        this.currentSheetAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ProximitySheet.5
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                if (ProximitySheet.this.currentSheetAnimation != null && ProximitySheet.this.currentSheetAnimation.equals(animator)) {
-                    ProximitySheet.this.currentSheetAnimation = null;
-                    ProximitySheet.this.currentSheetAnimationType = 0;
-                    if (ProximitySheet.this.useHardwareLayer) {
-                        ProximitySheet.this.setLayerType(0, null);
-                    }
-                }
-                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
+    public void updateText(boolean z, boolean z2) {
+        ViewPropertyAnimator scaleY;
+        float value = getValue();
+        String formatDistance = LocaleController.formatDistance(value, 2, Boolean.valueOf(this.useImperialSystem));
+        if (this.onRadiusChange.run(z, (int) value) || this.currentUser == null) {
+            if (this.currentUser == null) {
+                this.buttonTextView.setText(LocaleController.formatString("LocationNotifiationButtonGroup", R.string.LocationNotifiationButtonGroup, formatDistance));
+            } else {
+                int i = R.string.LocationNotifiationButtonUser;
+                this.buttonTextView.setText(LocaleController.formatString("LocationNotifiationButtonUser", i, TextUtils.ellipsize(UserObject.getFirstName(this.currentUser), this.buttonTextView.getPaint(), Math.max(AndroidUtilities.dp(10.0f), (int) (((this.totalWidth - AndroidUtilities.dp(94.0f)) * 1.5f) - ((int) Math.ceil(this.buttonTextView.getPaint().measureText(LocaleController.getString(i)))))), TextUtils.TruncateAt.END), formatDistance));
             }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationCancel(Animator animator) {
-                if (ProximitySheet.this.currentSheetAnimation == null || !ProximitySheet.this.currentSheetAnimation.equals(animator)) {
-                    return;
-                }
-                ProximitySheet.this.currentSheetAnimation = null;
-                ProximitySheet.this.currentSheetAnimationType = 0;
-            }
-        });
-        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
-        this.currentSheetAnimation.start();
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-        if (this.dismissed) {
-            return true;
-        }
-        return super.dispatchTouchEvent(motionEvent);
-    }
-
-    public void dismiss() {
-        ViewGroup viewGroup;
-        if (this.dismissed) {
-            return;
-        }
-        this.dismissed = true;
-        cancelSheetAnimation();
-        this.currentSheetAnimationType = 2;
-        AnimatorSet animatorSet = new AnimatorSet();
-        this.currentSheetAnimation = animatorSet;
-        animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.TRANSLATION_Y, viewGroup.getMeasuredHeight() + AndroidUtilities.dp(10.0f)));
-        if (this.useFastDismiss) {
-            float measuredHeight = this.containerView.getMeasuredHeight();
-            this.currentSheetAnimation.setDuration(Math.max(60, (int) (((measuredHeight - this.containerView.getTranslationY()) * 250.0f) / measuredHeight)));
-            this.useFastDismiss = false;
-        } else {
-            this.currentSheetAnimation.setDuration(250L);
-        }
-        this.currentSheetAnimation.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.currentSheetAnimation.addListener(new 6());
-        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
-        this.currentSheetAnimation.start();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 6 extends AnimatorListenerAdapter {
-        6() {
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (ProximitySheet.this.currentSheetAnimation != null && ProximitySheet.this.currentSheetAnimation.equals(animator)) {
-                ProximitySheet.this.currentSheetAnimation = null;
-                ProximitySheet.this.currentSheetAnimationType = 0;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ProximitySheet$6$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ProximitySheet.6.this.lambda$onAnimationEnd$0();
-                    }
-                });
-            }
-            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onAnimationEnd$0() {
-            try {
-                ProximitySheet.this.dismissInternal();
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationCancel(Animator animator) {
-            if (ProximitySheet.this.currentSheetAnimation == null || !ProximitySheet.this.currentSheetAnimation.equals(animator)) {
+            if (this.buttonTextView.getTag() == null) {
                 return;
             }
-            ProximitySheet.this.currentSheetAnimation = null;
-            ProximitySheet.this.currentSheetAnimationType = 0;
+            this.buttonTextView.setTag(null);
+            this.buttonTextView.animate().setDuration(180L).alpha(1.0f).scaleX(1.0f).scaleY(1.0f).start();
+            scaleY = this.infoTextView.animate().setDuration(180L).alpha(0.0f).scaleX(0.5f).scaleY(0.5f);
+        } else {
+            this.infoTextView.setText(LocaleController.formatString("LocationNotifiationCloser", R.string.LocationNotifiationCloser, formatDistance));
+            if (this.buttonTextView.getTag() != null) {
+                return;
+            }
+            this.buttonTextView.setTag(1);
+            this.buttonTextView.animate().setDuration(180L).alpha(0.0f).scaleX(0.5f).scaleY(0.5f).start();
+            scaleY = this.infoTextView.animate().setDuration(180L).alpha(1.0f).scaleX(1.0f).scaleY(1.0f);
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void dismissInternal() {
-        if (getParent() instanceof ViewGroup) {
-            ((ViewGroup) getParent()).removeView(this);
-        }
-        this.onDismissCallback.run();
+        scaleY.start();
     }
 }

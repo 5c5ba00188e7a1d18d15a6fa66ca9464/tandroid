@@ -27,47 +27,6 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
     private RenderNode renderNode;
     protected boolean updatedContent;
 
-    protected boolean allowCaching() {
-        return true;
-    }
-
-    public int getBoundsLeft() {
-        return 0;
-    }
-
-    @Override // android.view.View
-    public boolean hasOverlappingRendering() {
-        return false;
-    }
-
-    protected boolean onLongPress() {
-        return true;
-    }
-
-    static /* synthetic */ int access$104(BaseCell baseCell) {
-        int i = baseCell.pressCount + 1;
-        baseCell.pressCount = i;
-        return i;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public final class CheckForTap implements Runnable {
-        private CheckForTap() {
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            if (BaseCell.this.pendingCheckForLongPress == null) {
-                BaseCell baseCell = BaseCell.this;
-                baseCell.pendingCheckForLongPress = new CheckForLongPress();
-            }
-            BaseCell.this.pendingCheckForLongPress.currentPressCount = BaseCell.access$104(BaseCell.this);
-            BaseCell baseCell2 = BaseCell.this;
-            baseCell2.postDelayed(baseCell2.pendingCheckForLongPress, ViewConfiguration.getLongPressTimeout() - ViewConfiguration.getTapTimeout());
-        }
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
     public class CheckForLongPress implements Runnable {
@@ -90,6 +49,52 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes4.dex */
+    public final class CheckForTap implements Runnable {
+        private CheckForTap() {
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            if (BaseCell.this.pendingCheckForLongPress == null) {
+                BaseCell baseCell = BaseCell.this;
+                baseCell.pendingCheckForLongPress = new CheckForLongPress();
+            }
+            BaseCell.this.pendingCheckForLongPress.currentPressCount = BaseCell.access$104(BaseCell.this);
+            BaseCell baseCell2 = BaseCell.this;
+            baseCell2.postDelayed(baseCell2.pendingCheckForLongPress, ViewConfiguration.getLongPressTimeout() - ViewConfiguration.getTapTimeout());
+        }
+    }
+
+    /* loaded from: classes4.dex */
+    public static class RippleDrawableSafe extends RippleDrawable {
+        public RippleDrawableSafe(ColorStateList colorStateList, Drawable drawable, Drawable drawable2) {
+            super(colorStateList, drawable, drawable2);
+        }
+
+        @Override // android.graphics.drawable.RippleDrawable, android.graphics.drawable.LayerDrawable, android.graphics.drawable.Drawable
+        public void draw(Canvas canvas) {
+            try {
+                super.draw(canvas);
+            } catch (Exception e) {
+                FileLog.e("probably forgot to put setCallback", e);
+            }
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public boolean setState(int[] iArr) {
+            Drawable.Callback callback;
+            Drawable.Callback callback2;
+            callback = getCallback();
+            if (callback instanceof BaseCell) {
+                callback2 = getCallback();
+                ((BaseCell) callback2).forceNotCacheNextFrame();
+            }
+            return super.setState(iArr);
+        }
+    }
+
     public BaseCell(Context context) {
         super(context);
         this.checkingForLongPress = false;
@@ -101,12 +106,10 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
         setHapticFeedbackEnabled(true);
     }
 
-    public static void setDrawableBounds(Drawable drawable, int i, int i2) {
-        setDrawableBounds(drawable, i, i2, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-    }
-
-    public static void setDrawableBounds(Drawable drawable, float f, float f2) {
-        setDrawableBounds(drawable, (int) f, (int) f2, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+    static /* synthetic */ int access$104(BaseCell baseCell) {
+        int i = baseCell.pressCount + 1;
+        baseCell.pressCount = i;
+        return i;
     }
 
     public static float setDrawableBounds(Drawable drawable, float f, float f2, float f3) {
@@ -115,10 +118,8 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
         return intrinsicWidth;
     }
 
-    public static void setDrawableBounds(Drawable drawable, int i, int i2, int i3, int i4) {
-        if (drawable != null) {
-            drawable.setBounds(i, i2, i3 + i, i4 + i2);
-        }
+    public static void setDrawableBounds(Drawable drawable, float f, float f2) {
+        setDrawableBounds(drawable, (int) f, (int) f2, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
     }
 
     public static void setDrawableBounds(Drawable drawable, float f, float f2, int i, int i2) {
@@ -129,16 +130,18 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void startCheckLongPress() {
-        if (this.checkingForLongPress) {
-            return;
+    public static void setDrawableBounds(Drawable drawable, int i, int i2) {
+        setDrawableBounds(drawable, i, i2, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+    }
+
+    public static void setDrawableBounds(Drawable drawable, int i, int i2, int i3, int i4) {
+        if (drawable != null) {
+            drawable.setBounds(i, i2, i3 + i, i4 + i2);
         }
-        this.checkingForLongPress = true;
-        if (this.pendingCheckForTap == null) {
-            this.pendingCheckForTap = new CheckForTap();
-        }
-        postDelayed(this.pendingCheckForTap, ViewConfiguration.getTapTimeout());
+    }
+
+    protected boolean allowCaching() {
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -152,60 +155,6 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
         if (checkForTap != null) {
             removeCallbacks(checkForTap);
         }
-    }
-
-    public int getBoundsRight() {
-        return getWidth();
-    }
-
-    @Override // org.telegram.ui.Components.SizeNotifierFrameLayout.IViewWithInvalidateCallback
-    public void listenInvalidate(Runnable runnable) {
-        this.invalidateCallback = runnable;
-    }
-
-    public void invalidateLite() {
-        super.invalidate();
-    }
-
-    @Override // android.view.View
-    public void invalidate() {
-        Runnable runnable = this.invalidateCallback;
-        if (runnable != null) {
-            runnable.run();
-        }
-        super.invalidate();
-    }
-
-    public void setCaching(boolean z, boolean z2) {
-        boolean z3 = false;
-        if (z) {
-            if (SharedConfig.useNewBlur && z2) {
-                z3 = true;
-            }
-            this.cachingTop = z3;
-            return;
-        }
-        if (SharedConfig.useNewBlur && z2) {
-            z3 = true;
-        }
-        this.cachingBottom = z3;
-    }
-
-    public void forceNotCacheNextFrame() {
-        this.forceNotCacheNextFrame = true;
-    }
-
-    public void drawCached(Canvas canvas) {
-        RenderNode renderNode;
-        boolean hasDisplayList;
-        if (Build.VERSION.SDK_INT >= 29 && (renderNode = this.renderNode) != null) {
-            hasDisplayList = renderNode.hasDisplayList();
-            if (hasDisplayList && canvas.isHardwareAccelerated() && !this.updatedContent) {
-                canvas.drawRenderNode(this.renderNode);
-                return;
-            }
-        }
-        draw(canvas);
     }
 
     @Override // android.view.View
@@ -225,44 +174,95 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
                 }
             }
         }
-        if (i >= 29 && this.renderNode != null && !this.forceNotCacheNextFrame && canvas.isHardwareAccelerated()) {
+        if (i < 29 || this.renderNode == null || this.forceNotCacheNextFrame || !canvas.isHardwareAccelerated()) {
+            super.draw(canvas);
+        } else {
             this.renderNode.setPosition(0, 0, getWidth(), getHeight());
             beginRecording = this.renderNode.beginRecording();
             super.draw(beginRecording);
             this.renderNode.endRecording();
             canvas.drawRenderNode(this.renderNode);
-        } else {
-            super.draw(canvas);
         }
         this.forceNotCacheNextFrame = false;
         this.updatedContent = false;
     }
 
-    /* loaded from: classes4.dex */
-    public static class RippleDrawableSafe extends RippleDrawable {
-        public RippleDrawableSafe(ColorStateList colorStateList, Drawable drawable, Drawable drawable2) {
-            super(colorStateList, drawable, drawable2);
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public boolean setState(int[] iArr) {
-            Drawable.Callback callback;
-            Drawable.Callback callback2;
-            callback = getCallback();
-            if (callback instanceof BaseCell) {
-                callback2 = getCallback();
-                ((BaseCell) callback2).forceNotCacheNextFrame();
-            }
-            return super.setState(iArr);
-        }
-
-        @Override // android.graphics.drawable.RippleDrawable, android.graphics.drawable.LayerDrawable, android.graphics.drawable.Drawable
-        public void draw(Canvas canvas) {
-            try {
-                super.draw(canvas);
-            } catch (Exception e) {
-                FileLog.e("probably forgot to put setCallback", e);
+    public void drawCached(Canvas canvas) {
+        RenderNode renderNode;
+        boolean hasDisplayList;
+        if (Build.VERSION.SDK_INT >= 29 && (renderNode = this.renderNode) != null) {
+            hasDisplayList = renderNode.hasDisplayList();
+            if (hasDisplayList && canvas.isHardwareAccelerated() && !this.updatedContent) {
+                canvas.drawRenderNode(this.renderNode);
+                return;
             }
         }
+        draw(canvas);
+    }
+
+    public void forceNotCacheNextFrame() {
+        this.forceNotCacheNextFrame = true;
+    }
+
+    public int getBoundsLeft() {
+        return 0;
+    }
+
+    public int getBoundsRight() {
+        return getWidth();
+    }
+
+    @Override // android.view.View
+    public boolean hasOverlappingRendering() {
+        return false;
+    }
+
+    @Override // android.view.View
+    public void invalidate() {
+        Runnable runnable = this.invalidateCallback;
+        if (runnable != null) {
+            runnable.run();
+        }
+        super.invalidate();
+    }
+
+    public void invalidateLite() {
+        super.invalidate();
+    }
+
+    @Override // org.telegram.ui.Components.SizeNotifierFrameLayout.IViewWithInvalidateCallback
+    public void listenInvalidate(Runnable runnable) {
+        this.invalidateCallback = runnable;
+    }
+
+    protected boolean onLongPress() {
+        return true;
+    }
+
+    public void setCaching(boolean z, boolean z2) {
+        boolean z3 = false;
+        if (z) {
+            if (SharedConfig.useNewBlur && z2) {
+                z3 = true;
+            }
+            this.cachingTop = z3;
+            return;
+        }
+        if (SharedConfig.useNewBlur && z2) {
+            z3 = true;
+        }
+        this.cachingBottom = z3;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void startCheckLongPress() {
+        if (this.checkingForLongPress) {
+            return;
+        }
+        this.checkingForLongPress = true;
+        if (this.pendingCheckForTap == null) {
+            this.pendingCheckForTap = new CheckForTap();
+        }
+        postDelayed(this.pendingCheckForTap, ViewConfiguration.getTapTimeout());
     }
 }

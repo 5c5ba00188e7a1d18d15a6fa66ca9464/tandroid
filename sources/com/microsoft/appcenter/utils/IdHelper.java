@@ -3,7 +3,7 @@ package com.microsoft.appcenter.utils;
 import com.microsoft.appcenter.utils.storage.SharedPreferencesManager;
 import java.util.UUID;
 /* loaded from: classes.dex */
-public class IdHelper {
+public abstract class IdHelper {
     public static UUID getInstallId() {
         try {
             return UUID.fromString(SharedPreferencesManager.getString("installId", ""));

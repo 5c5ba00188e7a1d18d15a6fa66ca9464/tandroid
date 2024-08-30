@@ -4,12 +4,12 @@ import com.google.android.exoplayer2.upstream.ParsingLoadable;
 /* loaded from: classes.dex */
 public final class DefaultHlsPlaylistParserFactory implements HlsPlaylistParserFactory {
     @Override // com.google.android.exoplayer2.source.hls.playlist.HlsPlaylistParserFactory
-    public ParsingLoadable.Parser<HlsPlaylist> createPlaylistParser() {
+    public ParsingLoadable.Parser createPlaylistParser() {
         return new HlsPlaylistParser();
     }
 
     @Override // com.google.android.exoplayer2.source.hls.playlist.HlsPlaylistParserFactory
-    public ParsingLoadable.Parser<HlsPlaylist> createPlaylistParser(HlsMultivariantPlaylist hlsMultivariantPlaylist, HlsMediaPlaylist hlsMediaPlaylist) {
+    public ParsingLoadable.Parser createPlaylistParser(HlsMultivariantPlaylist hlsMultivariantPlaylist, HlsMediaPlaylist hlsMediaPlaylist) {
         return new HlsPlaylistParser(hlsMultivariantPlaylist, hlsMediaPlaylist);
     }
 }

@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_vision_common;
 
 import java.io.OutputStream;
-/* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 final class zzaf extends OutputStream {
     private long zza = 0;
@@ -16,11 +15,6 @@ final class zzaf extends OutputStream {
         this.zza += bArr.length;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final long zza() {
-        return this.zza;
-    }
-
     @Override // java.io.OutputStream
     public final void write(byte[] bArr, int i, int i2) {
         int length;
@@ -29,5 +23,10 @@ final class zzaf extends OutputStream {
             throw new IndexOutOfBoundsException();
         }
         this.zza += i2;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final long zza() {
+        return this.zza;
     }
 }

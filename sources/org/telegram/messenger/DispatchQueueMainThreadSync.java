@@ -15,7 +15,31 @@ public class DispatchQueueMainThreadSync extends Thread {
     private long lastTaskTime;
     private ArrayList<PostponedTask> postponedTasks;
 
-    public void handleMessage(Message message) {
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public class PostponedTask {
+        long delay;
+        Message message;
+        Runnable runnable;
+
+        public PostponedTask(Message message, int i) {
+            this.message = message;
+            this.delay = i;
+        }
+
+        public PostponedTask(Runnable runnable, long j) {
+            this.runnable = runnable;
+            this.delay = j;
+        }
+
+        public void run() {
+            Runnable runnable = this.runnable;
+            if (runnable != null) {
+                DispatchQueueMainThreadSync.this.postRunnable(runnable, this.delay);
+            } else {
+                DispatchQueueMainThreadSync.this.sendMessage(this.message, (int) this.delay);
+            }
+        }
     }
 
     public DispatchQueueMainThreadSync(String str) {
@@ -34,25 +58,22 @@ public class DispatchQueueMainThreadSync extends Thread {
         }
     }
 
-    public void sendMessage(Message message, int i) {
-        checkThread();
-        if (this.isRecycled) {
-            return;
-        }
-        if (!this.isRunning) {
-            this.postponedTasks.add(new PostponedTask(message, i));
-        } else if (i <= 0) {
-            this.handler.sendMessage(message);
-        } else {
-            this.handler.sendMessageDelayed(message, i);
-        }
-    }
-
     private void checkThread() {
         if (BuildVars.DEBUG_PRIVATE_VERSION) {
             Thread.currentThread();
             ApplicationLoader.applicationHandler.getLooper().getThread();
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$recycle$0() {
+        this.handler.getLooper().quit();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ boolean lambda$run$1(Message message) {
+        handleMessage(message);
+        return true;
     }
 
     public void cancelRunnable(Runnable runnable) {
@@ -78,6 +99,27 @@ public class DispatchQueueMainThreadSync extends Thread {
         }
     }
 
+    public void cleanupQueue() {
+        checkThread();
+        this.postponedTasks.clear();
+        this.handler.removeCallbacksAndMessages(null);
+    }
+
+    public Handler getHandler() {
+        return this.handler;
+    }
+
+    public long getLastTaskTime() {
+        return this.lastTaskTime;
+    }
+
+    public void handleMessage(Message message) {
+    }
+
+    public boolean isReady() {
+        return this.isRunning;
+    }
+
     public boolean postRunnable(Runnable runnable) {
         checkThread();
         this.lastTaskTime = SystemClock.elapsedRealtime();
@@ -89,24 +131,11 @@ public class DispatchQueueMainThreadSync extends Thread {
         if (this.isRecycled) {
             return false;
         }
-        if (!this.isRunning) {
-            this.postponedTasks.add(new PostponedTask(runnable, j));
-            return true;
-        } else if (j <= 0) {
-            return this.handler.post(runnable);
-        } else {
-            return this.handler.postDelayed(runnable, j);
+        if (this.isRunning) {
+            return j <= 0 ? this.handler.post(runnable) : this.handler.postDelayed(runnable, j);
         }
-    }
-
-    public void cleanupQueue() {
-        checkThread();
-        this.postponedTasks.clear();
-        this.handler.removeCallbacksAndMessages(null);
-    }
-
-    public long getLastTaskTime() {
-        return this.lastTaskTime;
+        this.postponedTasks.add(new PostponedTask(runnable, j));
+        return true;
     }
 
     public void recycle() {
@@ -118,11 +147,6 @@ public class DispatchQueueMainThreadSync extends Thread {
             }
         });
         this.isRecycled = true;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$recycle$0() {
-        this.handler.getLooper().quit();
     }
 
     @Override // java.lang.Thread, java.lang.Runnable
@@ -149,44 +173,17 @@ public class DispatchQueueMainThreadSync extends Thread {
         Looper.loop();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$run$1(Message message) {
-        handleMessage(message);
-        return true;
-    }
-
-    public boolean isReady() {
-        return this.isRunning;
-    }
-
-    public Handler getHandler() {
-        return this.handler;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class PostponedTask {
-        long delay;
-        Message message;
-        Runnable runnable;
-
-        public PostponedTask(Message message, int i) {
-            this.message = message;
-            this.delay = i;
+    public void sendMessage(Message message, int i) {
+        checkThread();
+        if (this.isRecycled) {
+            return;
         }
-
-        public PostponedTask(Runnable runnable, long j) {
-            this.runnable = runnable;
-            this.delay = j;
-        }
-
-        public void run() {
-            Runnable runnable = this.runnable;
-            if (runnable != null) {
-                DispatchQueueMainThreadSync.this.postRunnable(runnable, this.delay);
-            } else {
-                DispatchQueueMainThreadSync.this.sendMessage(this.message, (int) this.delay);
-            }
+        if (!this.isRunning) {
+            this.postponedTasks.add(new PostponedTask(message, i));
+        } else if (i <= 0) {
+            this.handler.sendMessage(message);
+        } else {
+            this.handler.sendMessageDelayed(message, i);
         }
     }
 }

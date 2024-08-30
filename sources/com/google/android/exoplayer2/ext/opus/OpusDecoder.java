@@ -13,7 +13,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.List;
 /* loaded from: classes.dex */
-public final class OpusDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleDecoderOutputBuffer, OpusDecoderException> {
+public final class OpusDecoder extends SimpleDecoder {
     private static final int DECODE_ERROR = -1;
     private static final int DEFAULT_SEEK_PRE_ROLL_SAMPLES = 3840;
     private static final int DRM_ERROR = -2;
@@ -29,27 +29,7 @@ public final class OpusDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleD
     private final int seekPreRollSamples;
     private int skipSamples;
 
-    private native void opusClose(long j);
-
-    private native int opusDecode(long j, long j2, ByteBuffer byteBuffer, int i, SimpleDecoderOutputBuffer simpleDecoderOutputBuffer);
-
-    private native int opusGetErrorCode(long j);
-
-    private native String opusGetErrorMessage(long j);
-
-    private native long opusInit(int i, int i2, int i3, int i4, int i5, byte[] bArr);
-
-    private native void opusReset(long j);
-
-    private native int opusSecureDecode(long j, long j2, ByteBuffer byteBuffer, int i, SimpleDecoderOutputBuffer simpleDecoderOutputBuffer, int i2, CryptoConfig cryptoConfig, int i3, byte[] bArr, byte[] bArr2, int i4, int[] iArr, int[] iArr2);
-
-    private native void opusSetFloatOutput();
-
-    private static int samplesToBytes(int i, int i2, boolean z) {
-        return i * i2 * (z ? 4 : 2);
-    }
-
-    public OpusDecoder(int i, int i2, int i3, List<byte[]> list, CryptoConfig cryptoConfig, boolean z) throws OpusDecoderException {
+    public OpusDecoder(int i, int i2, int i3, List<byte[]> list, CryptoConfig cryptoConfig, boolean z) {
         super(new DecoderInputBuffer[i], new SimpleDecoderOutputBuffer[i2]);
         int i4;
         if (!OpusLibrary.isAvailable()) {
@@ -109,13 +89,55 @@ public final class OpusDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleD
         }
     }
 
-    public void experimentalSetDiscardPaddingEnabled(boolean z) {
-        this.experimentalDiscardPaddingEnabled = z;
+    static int getChannelCount(byte[] bArr) {
+        return bArr[9] & 255;
     }
 
-    @Override // com.google.android.exoplayer2.decoder.Decoder
-    public String getName() {
-        return "libopus" + OpusLibrary.getVersion();
+    static int getDiscardPaddingSamples(ByteBuffer byteBuffer) {
+        if (byteBuffer == null || byteBuffer.remaining() != 8) {
+            return 0;
+        }
+        long j = byteBuffer.order(ByteOrder.LITTLE_ENDIAN).getLong();
+        if (j < 0) {
+            return 0;
+        }
+        return (int) ((j * 48000) / 1000000000);
+    }
+
+    static int getPreSkipSamples(List<byte[]> list) {
+        if (list.size() == 3) {
+            return (int) ((ByteBuffer.wrap(list.get(1)).order(ByteOrder.nativeOrder()).getLong() * 48000) / 1000000000);
+        }
+        byte[] bArr = list.get(0);
+        return (bArr[10] & 255) | ((bArr[11] & 255) << 8);
+    }
+
+    static int getSeekPreRollSamples(List<byte[]> list) {
+        return list.size() == 3 ? (int) ((ByteBuffer.wrap(list.get(2)).order(ByteOrder.nativeOrder()).getLong() * 48000) / 1000000000) : DEFAULT_SEEK_PRE_ROLL_SAMPLES;
+    }
+
+    private native void opusClose(long j);
+
+    private native int opusDecode(long j, long j2, ByteBuffer byteBuffer, int i, SimpleDecoderOutputBuffer simpleDecoderOutputBuffer);
+
+    private native int opusGetErrorCode(long j);
+
+    private native String opusGetErrorMessage(long j);
+
+    private native long opusInit(int i, int i2, int i3, int i4, int i5, byte[] bArr);
+
+    private native void opusReset(long j);
+
+    private native int opusSecureDecode(long j, long j2, ByteBuffer byteBuffer, int i, SimpleDecoderOutputBuffer simpleDecoderOutputBuffer, int i2, CryptoConfig cryptoConfig, int i3, byte[] bArr, byte[] bArr2, int i4, int[] iArr, int[] iArr2);
+
+    private native void opusSetFloatOutput();
+
+    private static int readSignedLittleEndian16(byte[] bArr, int i) {
+        return (short) (((bArr[i + 1] & 255) << 8) | (bArr[i] & 255));
+    }
+
+    private static int samplesToBytes(int i, int i2, boolean z) {
+        return i * i2 * (z ? 4 : 2);
     }
 
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
@@ -164,70 +186,48 @@ public final class OpusDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleD
             opusDecode = opusDecode(opusDecoder.nativeDecoderContext, decoderInputBuffer2.timeUs, byteBuffer, byteBuffer.limit(), simpleDecoderOutputBuffer);
         }
         if (opusDecode < 0) {
-            if (opusDecode == -2) {
-                String str = "Drm error: " + opusDecoder.opusGetErrorMessage(opusDecoder.nativeDecoderContext);
-                return new OpusDecoderException(str, new CryptoException(opusDecoder.opusGetErrorCode(opusDecoder.nativeDecoderContext), str));
+            if (opusDecode != -2) {
+                return new OpusDecoderException("Decode error: " + opusDecoder.opusGetErrorMessage(opusDecode));
             }
-            return new OpusDecoderException("Decode error: " + opusDecoder.opusGetErrorMessage(opusDecode));
+            String str = "Drm error: " + opusDecoder.opusGetErrorMessage(opusDecoder.nativeDecoderContext);
+            return new OpusDecoderException(str, new CryptoException(opusDecoder.opusGetErrorCode(opusDecoder.nativeDecoderContext), str));
         }
         ByteBuffer byteBuffer2 = (ByteBuffer) Util.castNonNull(simpleDecoderOutputBuffer.data);
         byteBuffer2.position(0);
         byteBuffer2.limit(opusDecode);
-        if (opusDecoder.skipSamples > 0) {
-            int samplesToBytes2 = samplesToBytes(1, opusDecoder.channelCount, opusDecoder.outputFloat);
-            int i = opusDecoder.skipSamples;
-            int i2 = i * samplesToBytes2;
-            if (opusDecode <= i2) {
-                opusDecoder.skipSamples = i - (opusDecode / samplesToBytes2);
-                simpleDecoderOutputBuffer.addFlag(Integer.MIN_VALUE);
-                byteBuffer2.position(opusDecode);
+        if (opusDecoder.skipSamples <= 0) {
+            if (!opusDecoder.experimentalDiscardPaddingEnabled || !decoderInputBuffer.hasSupplementalData() || (discardPaddingSamples = getDiscardPaddingSamples(decoderInputBuffer2.supplementalData)) <= 0 || opusDecode < (samplesToBytes = samplesToBytes(discardPaddingSamples, opusDecoder.channelCount, opusDecoder.outputFloat))) {
                 return null;
             }
-            opusDecoder.skipSamples = 0;
-            byteBuffer2.position(i2);
-            return null;
-        } else if (!opusDecoder.experimentalDiscardPaddingEnabled || !decoderInputBuffer.hasSupplementalData() || (discardPaddingSamples = getDiscardPaddingSamples(decoderInputBuffer2.supplementalData)) <= 0 || opusDecode < (samplesToBytes = samplesToBytes(discardPaddingSamples, opusDecoder.channelCount, opusDecoder.outputFloat))) {
-            return null;
-        } else {
             byteBuffer2.limit(opusDecode - samplesToBytes);
             return null;
         }
+        int samplesToBytes2 = samplesToBytes(1, opusDecoder.channelCount, opusDecoder.outputFloat);
+        int i = opusDecoder.skipSamples;
+        int i2 = i * samplesToBytes2;
+        if (opusDecode > i2) {
+            opusDecoder.skipSamples = 0;
+            byteBuffer2.position(i2);
+            return null;
+        }
+        opusDecoder.skipSamples = i - (opusDecode / samplesToBytes2);
+        simpleDecoderOutputBuffer.addFlag(Integer.MIN_VALUE);
+        byteBuffer2.position(opusDecode);
+        return null;
+    }
+
+    public void experimentalSetDiscardPaddingEnabled(boolean z) {
+        this.experimentalDiscardPaddingEnabled = z;
+    }
+
+    @Override // com.google.android.exoplayer2.decoder.Decoder
+    public String getName() {
+        return "libopus" + OpusLibrary.getVersion();
     }
 
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder, com.google.android.exoplayer2.decoder.Decoder
     public void release() {
         super.release();
         opusClose(this.nativeDecoderContext);
-    }
-
-    static int getChannelCount(byte[] bArr) {
-        return bArr[9] & 255;
-    }
-
-    static int getPreSkipSamples(List<byte[]> list) {
-        if (list.size() == 3) {
-            return (int) ((ByteBuffer.wrap(list.get(1)).order(ByteOrder.nativeOrder()).getLong() * 48000) / 1000000000);
-        }
-        byte[] bArr = list.get(0);
-        return (bArr[10] & 255) | ((bArr[11] & 255) << 8);
-    }
-
-    static int getSeekPreRollSamples(List<byte[]> list) {
-        return list.size() == 3 ? (int) ((ByteBuffer.wrap(list.get(2)).order(ByteOrder.nativeOrder()).getLong() * 48000) / 1000000000) : DEFAULT_SEEK_PRE_ROLL_SAMPLES;
-    }
-
-    static int getDiscardPaddingSamples(ByteBuffer byteBuffer) {
-        if (byteBuffer == null || byteBuffer.remaining() != 8) {
-            return 0;
-        }
-        long j = byteBuffer.order(ByteOrder.LITTLE_ENDIAN).getLong();
-        if (j < 0) {
-            return 0;
-        }
-        return (int) ((j * 48000) / 1000000000);
-    }
-
-    private static int readSignedLittleEndian16(byte[] bArr, int i) {
-        return (short) (((bArr[i + 1] & 255) << 8) | (bArr[i] & 255));
     }
 }

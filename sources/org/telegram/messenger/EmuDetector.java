@@ -1,6 +1,5 @@
 package org.telegram.messenger;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,7 +17,6 @@ import java.util.List;
 public class EmuDetector {
     private static final String IP = "10.0.2.15";
     private static final int MIN_PROPERTIES_THRESHOLD = 5;
-    @SuppressLint({"StaticFieldLeak"})
     private static EmuDetector mEmulatorDetector;
     private boolean detectResult;
     private boolean detected;
@@ -66,16 +64,6 @@ public class EmuDetector {
         }
     }
 
-    public static EmuDetector with(Context context) {
-        if (context == null) {
-            throw new IllegalArgumentException("Context must not be null.");
-        }
-        if (mEmulatorDetector == null) {
-            mEmulatorDetector = new EmuDetector(context.getApplicationContext());
-        }
-        return mEmulatorDetector;
-    }
-
     private EmuDetector(Context context) {
         ArrayList arrayList = new ArrayList();
         this.mListPackageName = arrayList;
@@ -86,56 +74,8 @@ public class EmuDetector {
         this.mListPackageName.add("com.vphone.launcher");
     }
 
-    public boolean isCheckTelephony() {
-        return this.isTelephony;
-    }
-
-    public boolean isCheckPackage() {
-        return this.isCheckPackage;
-    }
-
-    public EmuDetector setCheckTelephony(boolean z) {
-        this.isTelephony = z;
-        return this;
-    }
-
-    public EmuDetector setCheckPackage(boolean z) {
-        this.isCheckPackage = z;
-        return this;
-    }
-
-    public EmuDetector addPackageName(String str) {
-        this.mListPackageName.add(str);
-        return this;
-    }
-
-    public EmuDetector addPackageName(List<String> list) {
-        this.mListPackageName.addAll(list);
-        return this;
-    }
-
-    public boolean detect() {
-        if (this.detected) {
-            return this.detectResult;
-        }
-        try {
-            this.detected = true;
-            if (!this.detectResult) {
-                this.detectResult = checkBasic();
-            }
-            if (!this.detectResult) {
-                this.detectResult = checkAdvanced();
-            }
-            if (!this.detectResult) {
-                this.detectResult = checkPackageName();
-            }
-            if (!this.detectResult) {
-                this.detectResult = EmuInputDevicesDetector.detect();
-            }
-            return this.detectResult;
-        } catch (Exception unused) {
-            return false;
-        }
+    private boolean checkAdvanced() {
+        return checkTelephony() || checkFiles(GENY_FILES, EmulatorTypes.GENY) || checkFiles(ANDY_FILES, EmulatorTypes.ANDY) || checkFiles(NOX_FILES, EmulatorTypes.NOX) || checkFiles(BLUE_FILES, EmulatorTypes.BLUE) || checkQEmuDrivers() || checkFiles(PIPES, EmulatorTypes.PIPES) || checkIp() || (checkQEmuProps() && checkFiles(X86_FILES, EmulatorTypes.X86));
     }
 
     /* JADX WARN: Removed duplicated region for block: B:44:0x00dc A[RETURN] */
@@ -174,41 +114,27 @@ public class EmuDetector {
         }
     }
 
-    private boolean checkAdvanced() {
-        return checkTelephony() || checkFiles(GENY_FILES, EmulatorTypes.GENY) || checkFiles(ANDY_FILES, EmulatorTypes.ANDY) || checkFiles(NOX_FILES, EmulatorTypes.NOX) || checkFiles(BLUE_FILES, EmulatorTypes.BLUE) || checkQEmuDrivers() || checkFiles(PIPES, EmulatorTypes.PIPES) || checkIp() || (checkQEmuProps() && checkFiles(X86_FILES, EmulatorTypes.X86));
-    }
-
-    private boolean checkPackageName() {
-        if (this.isCheckPackage && !this.mListPackageName.isEmpty()) {
-            PackageManager packageManager = this.mContext.getPackageManager();
-            for (String str : this.mListPackageName) {
-                Intent launchIntentForPackage = packageManager.getLaunchIntentForPackage(str);
-                if (launchIntentForPackage != null && !packageManager.queryIntentActivities(launchIntentForPackage, 65536).isEmpty()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean checkTelephony() {
-        return ContextCompat.checkSelfPermission(this.mContext, "android.permission.READ_PHONE_STATE") == 0 && this.isTelephony && isSupportTelePhony() && (checkPhoneNumber() || checkDeviceId() || checkImsi() || checkOperatorNameAndroid());
-    }
-
-    private boolean checkPhoneNumber() {
-        String line1Number = ((TelephonyManager) this.mContext.getSystemService("phone")).getLine1Number();
-        for (String str : PHONE_NUMBERS) {
-            if (str.equalsIgnoreCase(line1Number)) {
+    private boolean checkDeviceId() {
+        String deviceId = ((TelephonyManager) this.mContext.getSystemService("phone")).getDeviceId();
+        for (String str : DEVICE_IDS) {
+            if (str.equalsIgnoreCase(deviceId)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean checkDeviceId() {
-        String deviceId = ((TelephonyManager) this.mContext.getSystemService("phone")).getDeviceId();
-        for (String str : DEVICE_IDS) {
-            if (str.equalsIgnoreCase(deviceId)) {
+    private boolean checkFiles(String[] strArr, EmulatorTypes emulatorTypes) {
+        File file;
+        for (String str : strArr) {
+            if (ContextCompat.checkSelfPermission(this.mContext, "android.permission.READ_EXTERNAL_STORAGE") != 0) {
+                file = new File(str);
+            } else if ((str.contains("/") && emulatorTypes == EmulatorTypes.NOX) || emulatorTypes == EmulatorTypes.BLUE) {
+                file = new File(Environment.getExternalStorageDirectory() + str);
+            } else {
+                file = new File(str);
+            }
+            if (file.exists()) {
                 return true;
             }
         }
@@ -223,70 +149,6 @@ public class EmuDetector {
             }
         }
         return false;
-    }
-
-    private boolean checkOperatorNameAndroid() {
-        return ((TelephonyManager) this.mContext.getSystemService("phone")).getNetworkOperatorName().equalsIgnoreCase("android");
-    }
-
-    private boolean checkQEmuDrivers() {
-        File[] fileArr = {new File("/proc/tty/drivers"), new File("/proc/cpuinfo")};
-        for (int i = 0; i < 2; i++) {
-            File file = fileArr[i];
-            if (file.exists() && file.canRead()) {
-                byte[] bArr = new byte[1024];
-                try {
-                    FileInputStream fileInputStream = new FileInputStream(file);
-                    fileInputStream.read(bArr);
-                    fileInputStream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                String str = new String(bArr);
-                for (String str2 : QEMU_DRIVERS) {
-                    if (str.contains(str2)) {
-                        return true;
-                    }
-                }
-                continue;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkFiles(String[] strArr, EmulatorTypes emulatorTypes) {
-        File file;
-        for (String str : strArr) {
-            if (ContextCompat.checkSelfPermission(this.mContext, "android.permission.READ_EXTERNAL_STORAGE") == 0) {
-                if ((str.contains("/") && emulatorTypes == EmulatorTypes.NOX) || emulatorTypes == EmulatorTypes.BLUE) {
-                    file = new File(Environment.getExternalStorageDirectory() + str);
-                } else {
-                    file = new File(str);
-                }
-            } else {
-                file = new File(str);
-            }
-            if (file.exists()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkQEmuProps() {
-        Property[] propertyArr;
-        int i = 0;
-        for (Property property : PROPERTIES) {
-            String prop = getProp(this.mContext, property.name);
-            String str = property.seek_value;
-            if (str == null && prop != null) {
-                i++;
-            }
-            if (str != null && prop.contains(str)) {
-                i++;
-            }
-        }
-        return i >= 5;
     }
 
     private boolean checkIp() {
@@ -320,6 +182,78 @@ public class EmuDetector {
         return false;
     }
 
+    private boolean checkOperatorNameAndroid() {
+        return ((TelephonyManager) this.mContext.getSystemService("phone")).getNetworkOperatorName().equalsIgnoreCase("android");
+    }
+
+    private boolean checkPackageName() {
+        if (this.isCheckPackage && !this.mListPackageName.isEmpty()) {
+            PackageManager packageManager = this.mContext.getPackageManager();
+            for (String str : this.mListPackageName) {
+                Intent launchIntentForPackage = packageManager.getLaunchIntentForPackage(str);
+                if (launchIntentForPackage != null && !packageManager.queryIntentActivities(launchIntentForPackage, 65536).isEmpty()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean checkPhoneNumber() {
+        String line1Number = ((TelephonyManager) this.mContext.getSystemService("phone")).getLine1Number();
+        for (String str : PHONE_NUMBERS) {
+            if (str.equalsIgnoreCase(line1Number)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkQEmuDrivers() {
+        File[] fileArr = {new File("/proc/tty/drivers"), new File("/proc/cpuinfo")};
+        for (int i = 0; i < 2; i++) {
+            File file = fileArr[i];
+            if (file.exists() && file.canRead()) {
+                byte[] bArr = new byte[1024];
+                try {
+                    FileInputStream fileInputStream = new FileInputStream(file);
+                    fileInputStream.read(bArr);
+                    fileInputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                String str = new String(bArr);
+                for (String str2 : QEMU_DRIVERS) {
+                    if (str.contains(str2)) {
+                        return true;
+                    }
+                }
+                continue;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkQEmuProps() {
+        Property[] propertyArr;
+        int i = 0;
+        for (Property property : PROPERTIES) {
+            String prop = getProp(this.mContext, property.name);
+            String str = property.seek_value;
+            if (str == null && prop != null) {
+                i++;
+            }
+            if (str != null && prop.contains(str)) {
+                i++;
+            }
+        }
+        return i >= 5;
+    }
+
+    private boolean checkTelephony() {
+        return ContextCompat.checkSelfPermission(this.mContext, "android.permission.READ_PHONE_STATE") == 0 && this.isTelephony && isSupportTelePhony() && (checkPhoneNumber() || checkDeviceId() || checkImsi() || checkOperatorNameAndroid());
+    }
+
     private String getProp(Context context, String str) {
         try {
             Class<?> loadClass = context.getClassLoader().loadClass("android.os.SystemProperties");
@@ -331,5 +265,67 @@ public class EmuDetector {
 
     private boolean isSupportTelePhony() {
         return this.mContext.getPackageManager().hasSystemFeature("android.hardware.telephony");
+    }
+
+    public static EmuDetector with(Context context) {
+        if (context != null) {
+            if (mEmulatorDetector == null) {
+                mEmulatorDetector = new EmuDetector(context.getApplicationContext());
+            }
+            return mEmulatorDetector;
+        }
+        throw new IllegalArgumentException("Context must not be null.");
+    }
+
+    public EmuDetector addPackageName(String str) {
+        this.mListPackageName.add(str);
+        return this;
+    }
+
+    public EmuDetector addPackageName(List<String> list) {
+        this.mListPackageName.addAll(list);
+        return this;
+    }
+
+    public boolean detect() {
+        if (this.detected) {
+            return this.detectResult;
+        }
+        try {
+            this.detected = true;
+            if (!this.detectResult) {
+                this.detectResult = checkBasic();
+            }
+            if (!this.detectResult) {
+                this.detectResult = checkAdvanced();
+            }
+            if (!this.detectResult) {
+                this.detectResult = checkPackageName();
+            }
+            if (!this.detectResult) {
+                this.detectResult = EmuInputDevicesDetector.detect();
+            }
+            return this.detectResult;
+        } catch (Exception unused) {
+            return false;
+        }
+    }
+
+    public boolean isCheckPackage() {
+        return this.isCheckPackage;
+    }
+
+    public boolean isCheckTelephony() {
+        return this.isTelephony;
+    }
+
+    public EmuDetector setCheckPackage(boolean z) {
+        this.isCheckPackage = z;
+        return this;
+    }
+
+    public EmuDetector setCheckTelephony(boolean z) {
+        this.isTelephony = z;
+        return this;
     }
 }

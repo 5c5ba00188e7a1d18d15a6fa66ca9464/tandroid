@@ -1,15 +1,13 @@
 package com.google.android.gms.internal.clearcut;
-
-import java.io.IOException;
 /* loaded from: classes.dex */
-public final class zzdg<K, V> {
+public abstract class zzdg {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <K, V> int zza(zzdh<K, V> zzdhVar, K k, V v) {
+    public static int zza(zzdh zzdhVar, Object obj, Object obj2) {
         throw null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <K, V> void zza(zzbn zzbnVar, zzdh<K, V> zzdhVar, K k, V v) throws IOException {
+    public static void zza(zzbn zzbnVar, zzdh zzdhVar, Object obj, Object obj2) {
         throw null;
     }
 }

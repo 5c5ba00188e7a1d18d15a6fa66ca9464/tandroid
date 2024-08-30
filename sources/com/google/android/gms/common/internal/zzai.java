@@ -3,7 +3,6 @@ package com.google.android.gms.common.internal;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzai implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -25,10 +24,10 @@ public final class zzai implements Parcelable.Creator {
                 z2 = SafeParcelReader.readBoolean(parcel, readHeader);
             } else if (fieldId == 4) {
                 i2 = SafeParcelReader.readInt(parcel, readHeader);
-            } else if (fieldId == 5) {
-                i3 = SafeParcelReader.readInt(parcel, readHeader);
-            } else {
+            } else if (fieldId != 5) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                i3 = SafeParcelReader.readInt(parcel, readHeader);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);

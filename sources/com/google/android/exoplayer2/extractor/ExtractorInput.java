@@ -1,12 +1,11 @@
 package com.google.android.exoplayer2.extractor;
 
 import com.google.android.exoplayer2.upstream.DataReader;
-import java.io.IOException;
 /* loaded from: classes.dex */
 public interface ExtractorInput extends DataReader {
-    void advancePeekPosition(int i) throws IOException;
+    void advancePeekPosition(int i);
 
-    boolean advancePeekPosition(int i, boolean z) throws IOException;
+    boolean advancePeekPosition(int i, boolean z);
 
     long getLength();
 
@@ -14,24 +13,24 @@ public interface ExtractorInput extends DataReader {
 
     long getPosition();
 
-    int peek(byte[] bArr, int i, int i2) throws IOException;
+    int peek(byte[] bArr, int i, int i2);
 
-    void peekFully(byte[] bArr, int i, int i2) throws IOException;
+    void peekFully(byte[] bArr, int i, int i2);
 
-    boolean peekFully(byte[] bArr, int i, int i2, boolean z) throws IOException;
+    boolean peekFully(byte[] bArr, int i, int i2, boolean z);
 
     @Override // com.google.android.exoplayer2.upstream.DataReader
-    int read(byte[] bArr, int i, int i2) throws IOException;
+    int read(byte[] bArr, int i, int i2);
 
-    void readFully(byte[] bArr, int i, int i2) throws IOException;
+    void readFully(byte[] bArr, int i, int i2);
 
-    boolean readFully(byte[] bArr, int i, int i2, boolean z) throws IOException;
+    boolean readFully(byte[] bArr, int i, int i2, boolean z);
 
     void resetPeekPosition();
 
-    <E extends Throwable> void setRetryPosition(long j, E e) throws Throwable;
+    void setRetryPosition(long j, Throwable th);
 
-    int skip(int i) throws IOException;
+    int skip(int i);
 
-    void skipFully(int i) throws IOException;
+    void skipFully(int i);
 }

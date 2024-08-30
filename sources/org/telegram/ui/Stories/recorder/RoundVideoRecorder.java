@@ -21,7 +21,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Paint.Views.RoundView;
 /* loaded from: classes4.dex */
-public class RoundVideoRecorder extends FrameLayout {
+public abstract class RoundVideoRecorder extends FrameLayout {
     public final long MAX_DURATION;
     private float alpha;
     public final CameraView cameraView;
@@ -31,17 +31,13 @@ public class RoundVideoRecorder extends FrameLayout {
     private float destroyT;
     public final File file;
     private Runnable onDestroyCallback;
-    private Utilities.Callback3<File, String, Long> onDoneCallback;
+    private Utilities.Callback3 onDoneCallback;
     private final Paint progressPaint;
     private long recordingStarted;
     private long recordingStopped;
     private RoundView roundView;
     private final Paint shadowPaint;
     private final Runnable stopRunnable;
-
-    protected void receivedAmplitude(double d) {
-        throw null;
-    }
 
     public RoundVideoRecorder(Context context) {
         super(context);
@@ -66,11 +62,6 @@ public class RoundVideoRecorder extends FrameLayout {
         CameraView cameraView = new CameraView(context, true, false) { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder.1
             private final Path circlePath = new Path();
 
-            @Override // org.telegram.messenger.camera.CameraView
-            protected boolean square() {
-                return true;
-            }
-
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.messenger.camera.CameraView, android.view.ViewGroup, android.view.View
             public void dispatchDraw(Canvas canvas) {
@@ -85,6 +76,11 @@ public class RoundVideoRecorder extends FrameLayout {
             @Override // org.telegram.messenger.camera.CameraView
             protected void receivedAmplitude(double d) {
                 RoundVideoRecorder.this.receivedAmplitude(d);
+            }
+
+            @Override // org.telegram.messenger.camera.CameraView
+            protected boolean square() {
+                return true;
             }
         };
         this.cameraView = cameraView;
@@ -102,156 +98,32 @@ public class RoundVideoRecorder extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$2() {
-        if (this.recordingStarted > 0) {
-            return;
-        }
-        CameraController.getInstance().recordVideo(this.cameraView.getCameraSessionObject(), this.file, false, new CameraController.VideoTakeCallback() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda3
-            @Override // org.telegram.messenger.camera.CameraController.VideoTakeCallback
-            public final void onFinishVideoRecording(String str, long j) {
-                RoundVideoRecorder.this.lambda$new$0(str, j);
-            }
-        }, new Runnable() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda4
-            @Override // java.lang.Runnable
-            public final void run() {
-                RoundVideoRecorder.this.lambda$new$1();
-            }
-        }, this.cameraView, true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(String str, long j) {
-        this.recordingStopped = System.currentTimeMillis();
-        AndroidUtilities.cancelRunOnUIThread(this.stopRunnable);
-        if (this.cancelled) {
-            return;
-        }
-        if (j > 1000) {
-            this.cameraView.destroy(true, null);
-            Utilities.Callback3<File, String, Long> callback3 = this.onDoneCallback;
-            if (callback3 != null) {
-                callback3.run(this.file, str, Long.valueOf(j));
-                return;
-            }
-            return;
-        }
-        destroy(false);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1() {
-        this.cameraView.animate().scaleX(1.0f).scaleY(1.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(280L).start();
-        this.recordingStarted = System.currentTimeMillis();
+    public /* synthetic */ void lambda$destroy$6(ValueAnimator valueAnimator) {
+        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        this.destroyT = floatValue;
+        this.cameraView.setScaleX(1.0f - floatValue);
+        this.cameraView.setScaleY(1.0f - this.destroyT);
         invalidate();
-        try {
-            performHapticFeedback(3);
-        } catch (Exception unused) {
-        }
-        AndroidUtilities.runOnUIThread(this.stopRunnable, 59500L);
     }
 
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        int size = View.MeasureSpec.getSize(i);
-        int size2 = View.MeasureSpec.getSize(i2);
-        int min = (int) (Math.min(size, size2) * 0.43f);
-        this.cameraView.measure(View.MeasureSpec.makeMeasureSpec(min, 1073741824), View.MeasureSpec.makeMeasureSpec(min, 1073741824));
-        setMeasuredDimension(size, size2);
-    }
-
-    @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        int measuredWidth = ((i3 - i) - this.cameraView.getMeasuredWidth()) - AndroidUtilities.dp(16.0f);
-        int dp = AndroidUtilities.dp(72.0f);
-        CameraView cameraView = this.cameraView;
-        cameraView.layout(measuredWidth, dp, cameraView.getMeasuredWidth() + measuredWidth, this.cameraView.getMeasuredHeight() + dp);
-    }
-
-    public RoundVideoRecorder onDone(Utilities.Callback3<File, String, Long> callback3) {
-        this.onDoneCallback = callback3;
-        return this;
-    }
-
-    public RoundVideoRecorder onDestroy(Runnable runnable) {
-        this.onDestroyCallback = runnable;
-        return this;
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void dispatchDraw(Canvas canvas) {
-        RectF rectF = AndroidUtilities.rectTmp;
-        rectF.set(this.cameraView.getX() + ((this.cameraView.getWidth() / 2.0f) * (1.0f - this.cameraView.getScaleX())), this.cameraView.getY() + ((this.cameraView.getHeight() / 2.0f) * (1.0f - this.cameraView.getScaleY())), (this.cameraView.getX() + this.cameraView.getWidth()) - ((this.cameraView.getWidth() / 2.0f) * (1.0f - this.cameraView.getScaleX())), (this.cameraView.getY() + this.cameraView.getHeight()) - ((this.cameraView.getHeight() / 2.0f) * (1.0f - this.cameraView.getScaleY())));
-        this.shadowPaint.setShadowLayer(AndroidUtilities.dp(2.0f), 0.0f, AndroidUtilities.dp(0.66f), Theme.multAlpha(536870912, this.alpha));
-        this.shadowPaint.setAlpha((int) (this.alpha * 255.0f));
-        canvas.drawCircle(rectF.centerX(), rectF.centerY(), Math.min(rectF.width() / 2.0f, rectF.height() / 2.0f) - 1.0f, this.shadowPaint);
-        super.dispatchDraw(canvas);
-        RoundView roundView = this.roundView;
-        if (roundView != null && roundView.getWidth() > 0 && this.roundView.getHeight() > 0) {
-            canvas.save();
-            canvas.translate(rectF.left, rectF.top);
-            canvas.scale(rectF.width() / this.roundView.getWidth(), rectF.height() / this.roundView.getHeight());
-            float alpha = this.roundView.getAlpha();
-            this.roundView.setDraw(true);
-            this.roundView.setAlpha(1.0f - this.alpha);
-            this.roundView.draw(canvas);
-            this.roundView.setAlpha(alpha);
-            this.roundView.setDraw(false);
-            canvas.restore();
-        }
-        if (this.recordingStarted > 0) {
-            float clamp = Utilities.clamp(((float) sinceRecording()) / 59500.0f, 1.0f, 0.0f);
-            this.progressPaint.setStrokeWidth(AndroidUtilities.dp(3.33f));
-            this.progressPaint.setColor(Theme.multAlpha(-1090519041, this.alpha));
-            this.progressPaint.setShadowLayer(AndroidUtilities.dp(1.0f), 0.0f, AndroidUtilities.dp(0.33f), Theme.multAlpha(536870912, this.alpha));
-            rectF.inset(-AndroidUtilities.dp(7.665f), -AndroidUtilities.dp(7.665f));
-            canvas.drawArc(rectF, -90.0f, clamp * 360.0f, false, this.progressPaint);
-            if (this.recordingStopped <= 0) {
-                invalidate();
-            }
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$hideTo$3() {
+        if (getParent() instanceof ViewGroup) {
+            ((ViewGroup) getParent()).removeView(this);
         }
     }
 
-    public long sinceRecording() {
-        if (this.recordingStarted < 0) {
-            return 0L;
-        }
-        long j = this.recordingStopped;
-        if (j < 0) {
-            j = System.currentTimeMillis();
-        }
-        return Math.min(59500L, j - this.recordingStarted);
-    }
-
-    public String sinceRecordingText() {
-        long sinceRecording = sinceRecording();
-        int i = (int) (sinceRecording / 1000);
-        int i2 = (int) ((sinceRecording - (i * 1000)) / 100);
-        int i3 = i / 60;
-        int i4 = i % 60;
-        StringBuilder sb = new StringBuilder();
-        sb.append(i3);
-        sb.append(":");
-        sb.append(i4 < 10 ? "0" : "");
-        sb.append(i4);
-        sb.append(".");
-        sb.append(i2);
-        return sb.toString();
-    }
-
-    public void hideTo(final RoundView roundView) {
-        if (roundView == null) {
-            destroy(false);
-            return;
-        }
-        AndroidUtilities.cancelRunOnUIThread(this.stopRunnable);
-        this.cameraView.destroy(true, null);
-        roundView.setDraw(false);
-        post(new Runnable() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda5
-            @Override // java.lang.Runnable
-            public final void run() {
-                RoundVideoRecorder.this.lambda$hideTo$5(roundView);
-            }
-        });
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$hideTo$4(float f, float f2, float f3, float f4, ValueAnimator valueAnimator) {
+        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        this.cameraView.setScaleX(AndroidUtilities.lerp(f, f2, floatValue));
+        this.cameraView.setScaleY(AndroidUtilities.lerp(f, f2, floatValue));
+        this.cameraView.setTranslationX(f3 * floatValue);
+        this.cameraView.setTranslationY(f4 * floatValue);
+        float f5 = 1.0f - floatValue;
+        this.cameraView.setAlpha(f5);
+        this.alpha = f5;
+        invalidate();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -299,32 +171,51 @@ public class RoundVideoRecorder extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$hideTo$3() {
-        if (getParent() instanceof ViewGroup) {
-            ((ViewGroup) getParent()).removeView(this);
+    public /* synthetic */ void lambda$new$0(String str, long j) {
+        this.recordingStopped = System.currentTimeMillis();
+        AndroidUtilities.cancelRunOnUIThread(this.stopRunnable);
+        if (this.cancelled) {
+            return;
+        }
+        if (j <= 1000) {
+            destroy(false);
+            return;
+        }
+        this.cameraView.destroy(true, null);
+        Utilities.Callback3 callback3 = this.onDoneCallback;
+        if (callback3 != null) {
+            callback3.run(this.file, str, Long.valueOf(j));
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$hideTo$4(float f, float f2, float f3, float f4, ValueAnimator valueAnimator) {
-        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        this.cameraView.setScaleX(AndroidUtilities.lerp(f, f2, floatValue));
-        this.cameraView.setScaleY(AndroidUtilities.lerp(f, f2, floatValue));
-        this.cameraView.setTranslationX(f3 * floatValue);
-        this.cameraView.setTranslationY(f4 * floatValue);
-        float f5 = 1.0f - floatValue;
-        this.cameraView.setAlpha(f5);
-        this.alpha = f5;
+    public /* synthetic */ void lambda$new$1() {
+        this.cameraView.animate().scaleX(1.0f).scaleY(1.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(280L).start();
+        this.recordingStarted = System.currentTimeMillis();
         invalidate();
+        try {
+            performHapticFeedback(3);
+        } catch (Exception unused) {
+        }
+        AndroidUtilities.runOnUIThread(this.stopRunnable, 59500L);
     }
 
-    public void stop() {
-        AndroidUtilities.cancelRunOnUIThread(this.stopRunnable);
-        if (this.recordingStarted <= 0) {
-            destroy(true);
-        } else {
-            CameraController.getInstance().stopVideoRecording(this.cameraView.getCameraSessionRecording(), false, false);
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$2() {
+        if (this.recordingStarted > 0) {
+            return;
         }
+        CameraController.getInstance().recordVideo(this.cameraView.getCameraSessionObject(), this.file, false, new CameraController.VideoTakeCallback() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda3
+            @Override // org.telegram.messenger.camera.CameraController.VideoTakeCallback
+            public final void onFinishVideoRecording(String str, long j) {
+                RoundVideoRecorder.this.lambda$new$0(str, j);
+            }
+        }, new Runnable() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                RoundVideoRecorder.this.lambda$new$1();
+            }
+        }, this.cameraView, true);
     }
 
     public void cancel() {
@@ -378,12 +269,118 @@ public class RoundVideoRecorder extends FrameLayout {
         this.destroyAnimator.start();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$destroy$6(ValueAnimator valueAnimator) {
-        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        this.destroyT = floatValue;
-        this.cameraView.setScaleX(1.0f - floatValue);
-        this.cameraView.setScaleY(1.0f - this.destroyT);
-        invalidate();
+    @Override // android.view.ViewGroup, android.view.View
+    protected void dispatchDraw(Canvas canvas) {
+        RectF rectF = AndroidUtilities.rectTmp;
+        rectF.set(this.cameraView.getX() + ((this.cameraView.getWidth() / 2.0f) * (1.0f - this.cameraView.getScaleX())), this.cameraView.getY() + ((this.cameraView.getHeight() / 2.0f) * (1.0f - this.cameraView.getScaleY())), (this.cameraView.getX() + this.cameraView.getWidth()) - ((this.cameraView.getWidth() / 2.0f) * (1.0f - this.cameraView.getScaleX())), (this.cameraView.getY() + this.cameraView.getHeight()) - ((this.cameraView.getHeight() / 2.0f) * (1.0f - this.cameraView.getScaleY())));
+        this.shadowPaint.setShadowLayer(AndroidUtilities.dp(2.0f), 0.0f, AndroidUtilities.dp(0.66f), Theme.multAlpha(536870912, this.alpha));
+        this.shadowPaint.setAlpha((int) (this.alpha * 255.0f));
+        canvas.drawCircle(rectF.centerX(), rectF.centerY(), Math.min(rectF.width() / 2.0f, rectF.height() / 2.0f) - 1.0f, this.shadowPaint);
+        super.dispatchDraw(canvas);
+        RoundView roundView = this.roundView;
+        if (roundView != null && roundView.getWidth() > 0 && this.roundView.getHeight() > 0) {
+            canvas.save();
+            canvas.translate(rectF.left, rectF.top);
+            canvas.scale(rectF.width() / this.roundView.getWidth(), rectF.height() / this.roundView.getHeight());
+            float alpha = this.roundView.getAlpha();
+            this.roundView.setDraw(true);
+            this.roundView.setAlpha(1.0f - this.alpha);
+            this.roundView.draw(canvas);
+            this.roundView.setAlpha(alpha);
+            this.roundView.setDraw(false);
+            canvas.restore();
+        }
+        if (this.recordingStarted > 0) {
+            float clamp = Utilities.clamp(((float) sinceRecording()) / 59500.0f, 1.0f, 0.0f);
+            this.progressPaint.setStrokeWidth(AndroidUtilities.dp(3.33f));
+            this.progressPaint.setColor(Theme.multAlpha(-1090519041, this.alpha));
+            this.progressPaint.setShadowLayer(AndroidUtilities.dp(1.0f), 0.0f, AndroidUtilities.dp(0.33f), Theme.multAlpha(536870912, this.alpha));
+            rectF.inset(-AndroidUtilities.dp(7.665f), -AndroidUtilities.dp(7.665f));
+            canvas.drawArc(rectF, -90.0f, clamp * 360.0f, false, this.progressPaint);
+            if (this.recordingStopped <= 0) {
+                invalidate();
+            }
+        }
+    }
+
+    public void hideTo(final RoundView roundView) {
+        if (roundView == null) {
+            destroy(false);
+            return;
+        }
+        AndroidUtilities.cancelRunOnUIThread(this.stopRunnable);
+        this.cameraView.destroy(true, null);
+        roundView.setDraw(false);
+        post(new Runnable() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                RoundVideoRecorder.this.lambda$hideTo$5(roundView);
+            }
+        });
+    }
+
+    public RoundVideoRecorder onDestroy(Runnable runnable) {
+        this.onDestroyCallback = runnable;
+        return this;
+    }
+
+    public RoundVideoRecorder onDone(Utilities.Callback3 callback3) {
+        this.onDoneCallback = callback3;
+        return this;
+    }
+
+    @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        int measuredWidth = ((i3 - i) - this.cameraView.getMeasuredWidth()) - AndroidUtilities.dp(16.0f);
+        int dp = AndroidUtilities.dp(72.0f);
+        CameraView cameraView = this.cameraView;
+        cameraView.layout(measuredWidth, dp, cameraView.getMeasuredWidth() + measuredWidth, this.cameraView.getMeasuredHeight() + dp);
+    }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        int size = View.MeasureSpec.getSize(i);
+        int size2 = View.MeasureSpec.getSize(i2);
+        int min = (int) (Math.min(size, size2) * 0.43f);
+        this.cameraView.measure(View.MeasureSpec.makeMeasureSpec(min, 1073741824), View.MeasureSpec.makeMeasureSpec(min, 1073741824));
+        setMeasuredDimension(size, size2);
+    }
+
+    protected abstract void receivedAmplitude(double d);
+
+    public long sinceRecording() {
+        if (this.recordingStarted < 0) {
+            return 0L;
+        }
+        long j = this.recordingStopped;
+        if (j < 0) {
+            j = System.currentTimeMillis();
+        }
+        return Math.min(59500L, j - this.recordingStarted);
+    }
+
+    public String sinceRecordingText() {
+        long sinceRecording = sinceRecording();
+        int i = (int) (sinceRecording / 1000);
+        int i2 = (int) ((sinceRecording - (i * 1000)) / 100);
+        int i3 = i / 60;
+        int i4 = i % 60;
+        StringBuilder sb = new StringBuilder();
+        sb.append(i3);
+        sb.append(":");
+        sb.append(i4 < 10 ? "0" : "");
+        sb.append(i4);
+        sb.append(".");
+        sb.append(i2);
+        return sb.toString();
+    }
+
+    public void stop() {
+        AndroidUtilities.cancelRunOnUIThread(this.stopRunnable);
+        if (this.recordingStarted <= 0) {
+            destroy(true);
+        } else {
+            CameraController.getInstance().stopVideoRecording(this.cameraView.getCameraSessionRecording(), false, false);
+        }
     }
 }

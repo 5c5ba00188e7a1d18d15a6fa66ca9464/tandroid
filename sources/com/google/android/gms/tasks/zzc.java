@@ -1,5 +1,4 @@
 package com.google.android.gms.tasks;
-/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
 final class zzc implements Runnable {
     final /* synthetic */ Task zza;
@@ -30,13 +29,13 @@ final class zzc implements Runnable {
             zzwVar4 = this.zzb.zzc;
             zzwVar4.zzb(then);
         } catch (RuntimeExecutionException e) {
-            if (!(e.getCause() instanceof Exception)) {
-                zzwVar2 = this.zzb.zzc;
-                zzwVar2.zza(e);
+            if (e.getCause() instanceof Exception) {
+                zzwVar3 = this.zzb.zzc;
+                zzwVar3.zza((Exception) e.getCause());
                 return;
             }
-            zzwVar3 = this.zzb.zzc;
-            zzwVar3.zza((Exception) e.getCause());
+            zzwVar2 = this.zzb.zzc;
+            zzwVar2.zza(e);
         } catch (Exception e2) {
             zzwVar = this.zzb.zzc;
             zzwVar.zza(e2);

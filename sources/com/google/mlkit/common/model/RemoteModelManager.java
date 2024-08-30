@@ -2,20 +2,19 @@ package com.google.mlkit.common.model;
 
 import com.google.firebase.inject.Provider;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public class RemoteModelManager {
     private final Map zza = new HashMap();
 
-    /* compiled from: com.google.mlkit:common@@18.10.0 */
     /* loaded from: classes.dex */
     public static class RemoteModelManagerRegistration {
         private final Class zza;
         private final Provider zzb;
 
-        public <RemoteT extends RemoteModel> RemoteModelManagerRegistration(Class<RemoteT> cls, Provider<Object> provider) {
+        public RemoteModelManagerRegistration(Class cls, Provider provider) {
             this.zza = cls;
             this.zzb = provider;
         }
@@ -29,8 +28,10 @@ public class RemoteModelManager {
         }
     }
 
-    public RemoteModelManager(Set<RemoteModelManagerRegistration> set) {
-        for (RemoteModelManagerRegistration remoteModelManagerRegistration : set) {
+    public RemoteModelManager(Set set) {
+        Iterator it = set.iterator();
+        while (it.hasNext()) {
+            RemoteModelManagerRegistration remoteModelManagerRegistration = (RemoteModelManagerRegistration) it.next();
             this.zza.put(remoteModelManagerRegistration.zzb(), remoteModelManagerRegistration.zza());
         }
     }

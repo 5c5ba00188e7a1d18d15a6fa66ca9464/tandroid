@@ -1,6 +1,5 @@
 package com.google.firebase.messaging;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +12,6 @@ import android.util.Log;
 import java.io.IOException;
 import org.telegram.messenger.NotificationCenter;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class TopicsSyncTask implements Runnable {
     private static final Object TOPIC_SYNC_TASK_LOCK = new Object();
@@ -25,7 +23,6 @@ public class TopicsSyncTask implements Runnable {
     private final PowerManager.WakeLock syncWakeLock;
     private final TopicsSubscriber topicsSubscriber;
 
-    /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
     /* loaded from: classes.dex */
     class ConnectivityChangeReceiver extends BroadcastReceiver {
         private TopicsSyncTask task;
@@ -85,23 +82,17 @@ public class TopicsSyncTask implements Runnable {
 
     private static boolean hasAccessNetworkStatePermission(Context context) {
         boolean booleanValue;
-        boolean booleanValue2;
         synchronized (TOPIC_SYNC_TASK_LOCK) {
             try {
                 Boolean bool = hasAccessNetworkStatePermission;
-                if (bool == null) {
-                    booleanValue = hasPermission(context, "android.permission.ACCESS_NETWORK_STATE", bool);
-                } else {
-                    booleanValue = bool.booleanValue();
-                }
-                Boolean valueOf = Boolean.valueOf(booleanValue);
+                Boolean valueOf = Boolean.valueOf(bool == null ? hasPermission(context, "android.permission.ACCESS_NETWORK_STATE", bool) : bool.booleanValue());
                 hasAccessNetworkStatePermission = valueOf;
-                booleanValue2 = valueOf.booleanValue();
+                booleanValue = valueOf.booleanValue();
             } catch (Throwable th) {
                 throw th;
             }
         }
-        return booleanValue2;
+        return booleanValue;
     }
 
     private static boolean hasPermission(Context context, String str, Boolean bool) {
@@ -118,23 +109,17 @@ public class TopicsSyncTask implements Runnable {
 
     private static boolean hasWakeLockPermission(Context context) {
         boolean booleanValue;
-        boolean booleanValue2;
         synchronized (TOPIC_SYNC_TASK_LOCK) {
             try {
                 Boolean bool = hasWakeLockPermission;
-                if (bool == null) {
-                    booleanValue = hasPermission(context, "android.permission.WAKE_LOCK", bool);
-                } else {
-                    booleanValue = bool.booleanValue();
-                }
-                Boolean valueOf = Boolean.valueOf(booleanValue);
+                Boolean valueOf = Boolean.valueOf(bool == null ? hasPermission(context, "android.permission.WAKE_LOCK", bool) : bool.booleanValue());
                 hasWakeLockPermission = valueOf;
-                booleanValue2 = valueOf.booleanValue();
+                booleanValue = valueOf.booleanValue();
             } catch (Throwable th) {
                 throw th;
             }
         }
-        return booleanValue2;
+        return booleanValue;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -161,7 +146,6 @@ public class TopicsSyncTask implements Runnable {
     }
 
     @Override // java.lang.Runnable
-    @SuppressLint({"Wakelock"})
     public void run() {
         if (hasWakeLockPermission(this.context)) {
             this.syncWakeLock.acquire(Constants.WAKE_LOCK_ACQUIRE_TIMEOUT_MILLIS);

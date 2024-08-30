@@ -4,16 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.vision.barcode.Barcode;
-/* compiled from: com.google.android.gms:play-services-vision@@20.1.3 */
 /* loaded from: classes.dex */
-public final class zzh implements Parcelable.Creator<Barcode.DriverLicense> {
+public final class zzh implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ Barcode.DriverLicense[] newArray(int i) {
-        return new Barcode.DriverLicense[i];
-    }
-
-    @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ Barcode.DriverLicense createFromParcel(Parcel parcel) {
+    public final /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         String str = null;
         String str2 = null;
@@ -81,5 +75,10 @@ public final class zzh implements Parcelable.Creator<Barcode.DriverLicense> {
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
         return new Barcode.DriverLicense(str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, str12, str13, str14);
+    }
+
+    @Override // android.os.Parcelable.Creator
+    public final /* synthetic */ Object[] newArray(int i) {
+        return new Barcode.DriverLicense[i];
     }
 }

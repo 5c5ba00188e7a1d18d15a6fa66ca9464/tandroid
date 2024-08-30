@@ -2,7 +2,6 @@ package com.android.billingclient.api;
 
 import java.util.concurrent.Callable;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzy implements Callable {
     final /* synthetic */ String zza;
@@ -17,7 +16,7 @@ public final class zzy implements Callable {
     }
 
     @Override // java.util.concurrent.Callable
-    public final /* bridge */ /* synthetic */ Object call() throws Exception {
+    public final /* bridge */ /* synthetic */ Object call() {
         zzbj zzN = BillingClientImpl.zzN(this.zzc, this.zza, 9);
         if (zzN.zzb() != null) {
             this.zzb.onQueryPurchasesResponse(zzN.zza(), zzN.zzb());

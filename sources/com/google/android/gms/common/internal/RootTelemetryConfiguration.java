@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class RootTelemetryConfiguration extends AbstractSafeParcelable {
     public static final Parcelable.Creator<RootTelemetryConfiguration> CREATOR = new zzai();

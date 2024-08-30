@@ -7,7 +7,6 @@ import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.upstream.DataReader;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
-import java.io.IOException;
 import java.util.Arrays;
 import org.telegram.messenger.LiteMode;
 /* JADX INFO: Access modifiers changed from: package-private */
@@ -41,6 +40,22 @@ public final class ChunkReader {
         this.keyFrameIndices = new int[LiteMode.FLAG_CALLS_ANIMATIONS];
     }
 
+    private static int getChunkIdFourCc(int i, int i2) {
+        return (((i % 10) + 48) << 8) | ((i / 10) + 48) | i2;
+    }
+
+    private long getChunkTimestampUs(int i) {
+        return (this.durationUs * i) / this.streamHeaderChunkCount;
+    }
+
+    private SeekPoint getSeekPoint(int i) {
+        return new SeekPoint(this.keyFrameIndices[i] * getFrameDurationUs(), this.keyFrameOffsets[i]);
+    }
+
+    public void advanceCurrentChunk() {
+        this.currentChunkIndex++;
+    }
+
     public void appendKeyFrameToIndex(long j) {
         if (this.indexSize == this.keyFrameIndices.length) {
             long[] jArr = this.keyFrameOffsets;
@@ -55,8 +70,9 @@ public final class ChunkReader {
         this.indexSize = i + 1;
     }
 
-    public void advanceCurrentChunk() {
-        this.currentChunkIndex++;
+    public void compactIndex() {
+        this.keyFrameOffsets = Arrays.copyOf(this.keyFrameOffsets, this.indexSize);
+        this.keyFrameIndices = Arrays.copyOf(this.keyFrameIndices, this.indexSize);
     }
 
     public long getCurrentChunkTimestampUs() {
@@ -67,29 +83,30 @@ public final class ChunkReader {
         return getChunkTimestampUs(1);
     }
 
-    public void incrementIndexChunkCount() {
-        this.indexChunkCount++;
-    }
-
-    public void compactIndex() {
-        this.keyFrameOffsets = Arrays.copyOf(this.keyFrameOffsets, this.indexSize);
-        this.keyFrameIndices = Arrays.copyOf(this.keyFrameIndices, this.indexSize);
+    public SeekMap.SeekPoints getSeekPoints(long j) {
+        int frameDurationUs = (int) (j / getFrameDurationUs());
+        int binarySearchFloor = Util.binarySearchFloor(this.keyFrameIndices, frameDurationUs, true, true);
+        if (this.keyFrameIndices[binarySearchFloor] == frameDurationUs) {
+            return new SeekMap.SeekPoints(getSeekPoint(binarySearchFloor));
+        }
+        SeekPoint seekPoint = getSeekPoint(binarySearchFloor);
+        int i = binarySearchFloor + 1;
+        return i < this.keyFrameOffsets.length ? new SeekMap.SeekPoints(seekPoint, getSeekPoint(i)) : new SeekMap.SeekPoints(seekPoint);
     }
 
     public boolean handlesChunkId(int i) {
         return this.chunkId == i || this.alternativeChunkId == i;
     }
 
+    public void incrementIndexChunkCount() {
+        this.indexChunkCount++;
+    }
+
     public boolean isCurrentFrameAKeyFrame() {
         return Arrays.binarySearch(this.keyFrameIndices, this.currentChunkIndex) >= 0;
     }
 
-    public void onChunkStart(int i) {
-        this.currentChunkSize = i;
-        this.bytesRemainingInCurrentChunk = i;
-    }
-
-    public boolean onChunkData(ExtractorInput extractorInput) throws IOException {
+    public boolean onChunkData(ExtractorInput extractorInput) {
         int i = this.bytesRemainingInCurrentChunk;
         int sampleData = i - this.trackOutput.sampleData((DataReader) extractorInput, i, false);
         this.bytesRemainingInCurrentChunk = sampleData;
@@ -103,37 +120,18 @@ public final class ChunkReader {
         return z;
     }
 
+    public void onChunkStart(int i) {
+        this.currentChunkSize = i;
+        this.bytesRemainingInCurrentChunk = i;
+    }
+
     public void seekToPosition(long j) {
+        int i;
         if (this.indexSize == 0) {
-            this.currentChunkIndex = 0;
-            return;
+            i = 0;
+        } else {
+            i = this.keyFrameIndices[Util.binarySearchFloor(this.keyFrameOffsets, j, true, true)];
         }
-        this.currentChunkIndex = this.keyFrameIndices[Util.binarySearchFloor(this.keyFrameOffsets, j, true, true)];
-    }
-
-    public SeekMap.SeekPoints getSeekPoints(long j) {
-        int frameDurationUs = (int) (j / getFrameDurationUs());
-        int binarySearchFloor = Util.binarySearchFloor(this.keyFrameIndices, frameDurationUs, true, true);
-        if (this.keyFrameIndices[binarySearchFloor] == frameDurationUs) {
-            return new SeekMap.SeekPoints(getSeekPoint(binarySearchFloor));
-        }
-        SeekPoint seekPoint = getSeekPoint(binarySearchFloor);
-        int i = binarySearchFloor + 1;
-        if (i < this.keyFrameOffsets.length) {
-            return new SeekMap.SeekPoints(seekPoint, getSeekPoint(i));
-        }
-        return new SeekMap.SeekPoints(seekPoint);
-    }
-
-    private long getChunkTimestampUs(int i) {
-        return (this.durationUs * i) / this.streamHeaderChunkCount;
-    }
-
-    private SeekPoint getSeekPoint(int i) {
-        return new SeekPoint(this.keyFrameIndices[i] * getFrameDurationUs(), this.keyFrameOffsets[i]);
-    }
-
-    private static int getChunkIdFourCc(int i, int i2) {
-        return (((i % 10) + 48) << 8) | ((i / 10) + 48) | i2;
+        this.currentChunkIndex = i;
     }
 }

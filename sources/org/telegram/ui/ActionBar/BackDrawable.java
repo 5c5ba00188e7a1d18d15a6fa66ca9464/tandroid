@@ -25,64 +25,12 @@ public class BackDrawable extends Drawable {
     private float animationTime = 300.0f;
     private boolean rotated = true;
 
-    @Override // android.graphics.drawable.Drawable
-    public int getOpacity() {
-        return -2;
-    }
-
-    public float getRotation() {
-        return this.finalRotation;
-    }
-
     public BackDrawable(boolean z) {
         this.paint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         this.paint.setStrokeCap(Paint.Cap.ROUND);
         this.prevPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         this.prevPaint.setColor(-65536);
         this.alwaysClose = z;
-    }
-
-    public void setColor(int i) {
-        this.color = i;
-        invalidateSelf();
-    }
-
-    public void setRotatedColor(int i) {
-        this.rotatedColor = i;
-        invalidateSelf();
-    }
-
-    public void setArrowRotation(int i) {
-        this.arrowRotation = i;
-        invalidateSelf();
-    }
-
-    public void setRotation(float f, boolean z) {
-        this.lastFrameTime = 0L;
-        float f2 = this.currentRotation;
-        if (f2 == 1.0f) {
-            this.reverseAngle = true;
-        } else if (f2 == 0.0f) {
-            this.reverseAngle = false;
-        }
-        this.lastFrameTime = 0L;
-        if (z) {
-            if (f2 < f) {
-                this.currentAnimationTime = (int) (f2 * this.animationTime);
-            } else {
-                this.currentAnimationTime = (int) ((1.0f - f2) * this.animationTime);
-            }
-            this.lastFrameTime = System.currentTimeMillis();
-            this.finalRotation = f;
-        } else {
-            this.currentRotation = f;
-            this.finalRotation = f;
-        }
-        invalidateSelf();
-    }
-
-    public void setAnimationTime(float f) {
-        this.animationTime = f;
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -94,13 +42,7 @@ public class BackDrawable extends Drawable {
                 this.currentAnimationTime = currentTimeMillis;
                 float f2 = currentTimeMillis;
                 float f3 = this.animationTime;
-                if (f2 >= f3) {
-                    this.currentRotation = this.finalRotation;
-                } else if (this.currentRotation < this.finalRotation) {
-                    this.currentRotation = this.interpolator.getInterpolation(f2 / f3) * this.finalRotation;
-                } else {
-                    this.currentRotation = 1.0f - this.interpolator.getInterpolation(f2 / f3);
-                }
+                this.currentRotation = f2 >= f3 ? this.finalRotation : this.currentRotation < this.finalRotation ? this.interpolator.getInterpolation(f2 / f3) * this.finalRotation : 1.0f - this.interpolator.getInterpolation(f2 / f3);
             }
             this.lastFrameTime = System.currentTimeMillis();
             invalidateSelf();
@@ -131,13 +73,8 @@ public class BackDrawable extends Drawable {
     }
 
     @Override // android.graphics.drawable.Drawable
-    public void setAlpha(int i) {
-        this.paint.setAlpha(i);
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setColorFilter(ColorFilter colorFilter) {
-        this.paint.setColorFilter(colorFilter);
+    public int getIntrinsicHeight() {
+        return AndroidUtilities.dp(24.0f);
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -146,7 +83,70 @@ public class BackDrawable extends Drawable {
     }
 
     @Override // android.graphics.drawable.Drawable
-    public int getIntrinsicHeight() {
-        return AndroidUtilities.dp(24.0f);
+    public int getOpacity() {
+        return -2;
+    }
+
+    public float getRotation() {
+        return this.finalRotation;
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setAlpha(int i) {
+        this.paint.setAlpha(i);
+    }
+
+    public void setAnimationTime(float f) {
+        this.animationTime = f;
+    }
+
+    public void setArrowRotation(int i) {
+        this.arrowRotation = i;
+        invalidateSelf();
+    }
+
+    public void setColor(int i) {
+        this.color = i;
+        invalidateSelf();
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setColorFilter(ColorFilter colorFilter) {
+        this.paint.setColorFilter(colorFilter);
+    }
+
+    public void setRotatedColor(int i) {
+        this.rotatedColor = i;
+        invalidateSelf();
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:11:0x001b  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0037  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void setRotation(float f, boolean z) {
+        boolean z2;
+        this.lastFrameTime = 0L;
+        float f2 = this.currentRotation;
+        if (f2 != 1.0f) {
+            z2 = f2 == 0.0f ? false : false;
+            this.lastFrameTime = 0L;
+            if (z) {
+                this.currentRotation = f;
+            } else {
+                this.currentAnimationTime = f2 < f ? (int) (f2 * this.animationTime) : (int) ((1.0f - f2) * this.animationTime);
+                this.lastFrameTime = System.currentTimeMillis();
+            }
+            this.finalRotation = f;
+            invalidateSelf();
+        }
+        z2 = true;
+        this.reverseAngle = z2;
+        this.lastFrameTime = 0L;
+        if (z) {
+        }
+        this.finalRotation = f;
+        invalidateSelf();
     }
 }

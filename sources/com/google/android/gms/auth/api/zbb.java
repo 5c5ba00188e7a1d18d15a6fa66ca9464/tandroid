@@ -9,7 +9,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
 import java.util.Collections;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 final class zbb extends Api.AbstractClientBuilder {
     @Override // com.google.android.gms.common.api.Api.AbstractClientBuilder
@@ -20,9 +19,6 @@ final class zbb extends Api.AbstractClientBuilder {
     @Override // com.google.android.gms.common.api.Api.BaseClientBuilder
     public final /* bridge */ /* synthetic */ List getImpliedScopes(Object obj) {
         GoogleSignInOptions googleSignInOptions = (GoogleSignInOptions) obj;
-        if (googleSignInOptions == null) {
-            return Collections.emptyList();
-        }
-        return googleSignInOptions.getScopes();
+        return googleSignInOptions == null ? Collections.emptyList() : googleSignInOptions.getScopes();
     }
 }

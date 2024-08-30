@@ -35,12 +35,12 @@ final class MediaPeriodInfo {
         this.isFinal = z4;
     }
 
-    public MediaPeriodInfo copyWithStartPositionUs(long j) {
-        return j == this.startPositionUs ? this : new MediaPeriodInfo(this.id, j, this.requestedContentPositionUs, this.endPositionUs, this.durationUs, this.isFollowedByTransitionToSameStream, this.isLastInTimelinePeriod, this.isLastInTimelineWindow, this.isFinal);
-    }
-
     public MediaPeriodInfo copyWithRequestedContentPositionUs(long j) {
         return j == this.requestedContentPositionUs ? this : new MediaPeriodInfo(this.id, this.startPositionUs, j, this.endPositionUs, this.durationUs, this.isFollowedByTransitionToSameStream, this.isLastInTimelinePeriod, this.isLastInTimelineWindow, this.isFinal);
+    }
+
+    public MediaPeriodInfo copyWithStartPositionUs(long j) {
+        return j == this.startPositionUs ? this : new MediaPeriodInfo(this.id, j, this.requestedContentPositionUs, this.endPositionUs, this.durationUs, this.isFollowedByTransitionToSameStream, this.isLastInTimelinePeriod, this.isLastInTimelineWindow, this.isFinal);
     }
 
     public boolean equals(Object obj) {

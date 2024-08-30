@@ -13,7 +13,6 @@ import com.google.android.gms.common.wrappers.Wrappers;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.NoSuchElementException;
 import java.util.concurrent.Executor;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class ConnectionTracker {
     private static final Object zzb = new Object();
@@ -81,6 +80,15 @@ public class ConnectionTracker {
         return !(serviceConnection instanceof zzs);
     }
 
+    private static final boolean zze(Context context, Intent intent, ServiceConnection serviceConnection, int i, Executor executor) {
+        boolean bindService;
+        if (!PlatformVersion.isAtLeastQ() || executor == null) {
+            return context.bindService(intent, serviceConnection, i);
+        }
+        bindService = context.bindService(intent, i, executor, serviceConnection);
+        return bindService;
+    }
+
     public boolean bindService(Context context, Intent intent, ServiceConnection serviceConnection, int i) {
         return zzc(context, context.getClass().getName(), intent, serviceConnection, i, true, null);
     }
@@ -99,14 +107,5 @@ public class ConnectionTracker {
 
     public final boolean zza(Context context, String str, Intent intent, ServiceConnection serviceConnection, int i, Executor executor) {
         return zzc(context, str, intent, serviceConnection, i, true, executor);
-    }
-
-    private static final boolean zze(Context context, Intent intent, ServiceConnection serviceConnection, int i, Executor executor) {
-        boolean bindService;
-        if (!PlatformVersion.isAtLeastQ() || executor == null) {
-            return context.bindService(intent, serviceConnection, i);
-        }
-        bindService = context.bindService(intent, i, executor, serviceConnection);
-        return bindService;
     }
 }

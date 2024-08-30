@@ -4,7 +4,7 @@ import com.google.zxing.DecodeHintType;
 import java.nio.charset.Charset;
 import java.util.Map;
 /* loaded from: classes.dex */
-public final class StringUtils {
+public abstract class StringUtils {
     private static final boolean ASSUME_SHIFT_JIS;
     private static final String PLATFORM_DEFAULT_ENCODING;
 
@@ -20,7 +20,7 @@ public final class StringUtils {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static String guessEncoding(byte[] bArr, Map<DecodeHintType, ?> map) {
+    public static String guessEncoding(byte[] bArr, Map map) {
         int i;
         byte[] bArr2 = bArr;
         if (map != null) {
@@ -148,24 +148,6 @@ public final class StringUtils {
         if (z3 && i6 > 0) {
             z3 = false;
         }
-        if (!z4 || (!z2 && i7 + i8 + i9 <= 0)) {
-            if (!z3 || (!ASSUME_SHIFT_JIS && i10 < 3 && i2 < 3)) {
-                if (z && z3) {
-                    if ((i10 == 2 && i3 == 2) || i11 * 10 >= i18) {
-                        return "SJIS";
-                    }
-                    return "ISO8859_1";
-                } else if (z) {
-                    return "ISO8859_1";
-                } else {
-                    if (z3) {
-                        return "SJIS";
-                    }
-                    return z4 ? "UTF8" : PLATFORM_DEFAULT_ENCODING;
-                }
-            }
-            return "SJIS";
-        }
-        return "UTF8";
+        return (!z4 || (!z2 && (i7 + i8) + i9 <= 0)) ? (!z3 || (!ASSUME_SHIFT_JIS && i10 < 3 && i2 < 3)) ? (z && z3) ? (!(i10 == 2 && i3 == 2) && i11 * 10 < i18) ? "ISO8859_1" : "SJIS" : z ? "ISO8859_1" : z3 ? "SJIS" : z4 ? "UTF8" : PLATFORM_DEFAULT_ENCODING : "SJIS" : "UTF8";
     }
 }

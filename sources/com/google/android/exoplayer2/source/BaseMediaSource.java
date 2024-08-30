@@ -17,38 +17,38 @@ public abstract class BaseMediaSource implements MediaSource {
     private Looper looper;
     private PlayerId playerId;
     private Timeline timeline;
-    private final ArrayList<MediaSource.MediaSourceCaller> mediaSourceCallers = new ArrayList<>(1);
-    private final HashSet<MediaSource.MediaSourceCaller> enabledMediaSourceCallers = new HashSet<>(1);
+    private final ArrayList mediaSourceCallers = new ArrayList(1);
+    private final HashSet enabledMediaSourceCallers = new HashSet(1);
     private final MediaSourceEventListener.EventDispatcher eventDispatcher = new MediaSourceEventListener.EventDispatcher();
     private final DrmSessionEventListener.EventDispatcher drmEventDispatcher = new DrmSessionEventListener.EventDispatcher();
 
-    protected void disableInternal() {
-    }
-
-    protected void enableInternal() {
+    @Override // com.google.android.exoplayer2.source.MediaSource
+    public final void addDrmEventListener(Handler handler, DrmSessionEventListener drmSessionEventListener) {
+        Assertions.checkNotNull(handler);
+        Assertions.checkNotNull(drmSessionEventListener);
+        this.drmEventDispatcher.addEventListener(handler, drmSessionEventListener);
     }
 
     @Override // com.google.android.exoplayer2.source.MediaSource
-    public /* synthetic */ Timeline getInitialTimeline() {
-        return MediaSource.-CC.$default$getInitialTimeline(this);
+    public final void addEventListener(Handler handler, MediaSourceEventListener mediaSourceEventListener) {
+        Assertions.checkNotNull(handler);
+        Assertions.checkNotNull(mediaSourceEventListener);
+        this.eventDispatcher.addEventListener(handler, mediaSourceEventListener);
     }
-
-    @Override // com.google.android.exoplayer2.source.MediaSource
-    public /* synthetic */ boolean isSingleWindow() {
-        return MediaSource.-CC.$default$isSingleWindow(this);
-    }
-
-    protected abstract void prepareSourceInternal(TransferListener transferListener);
-
-    protected abstract void releaseSourceInternal();
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final void refreshSourceInfo(Timeline timeline) {
-        this.timeline = timeline;
-        Iterator<MediaSource.MediaSourceCaller> it = this.mediaSourceCallers.iterator();
-        while (it.hasNext()) {
-            it.next().onSourceInfoRefreshed(this, timeline);
-        }
+    public final DrmSessionEventListener.EventDispatcher createDrmEventDispatcher(int i, MediaSource.MediaPeriodId mediaPeriodId) {
+        return this.drmEventDispatcher.withParameters(i, mediaPeriodId);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final DrmSessionEventListener.EventDispatcher createDrmEventDispatcher(MediaSource.MediaPeriodId mediaPeriodId) {
+        return this.drmEventDispatcher.withParameters(0, mediaPeriodId);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final MediaSourceEventListener.EventDispatcher createEventDispatcher(int i, MediaSource.MediaPeriodId mediaPeriodId, long j) {
+        return this.eventDispatcher.withParameters(i, mediaPeriodId, j);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -62,24 +62,34 @@ public abstract class BaseMediaSource implements MediaSource {
         return this.eventDispatcher.withParameters(0, mediaPeriodId, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final MediaSourceEventListener.EventDispatcher createEventDispatcher(int i, MediaSource.MediaPeriodId mediaPeriodId, long j) {
-        return this.eventDispatcher.withParameters(i, mediaPeriodId, j);
+    @Override // com.google.android.exoplayer2.source.MediaSource
+    public final void disable(MediaSource.MediaSourceCaller mediaSourceCaller) {
+        boolean z = !this.enabledMediaSourceCallers.isEmpty();
+        this.enabledMediaSourceCallers.remove(mediaSourceCaller);
+        if (z && this.enabledMediaSourceCallers.isEmpty()) {
+            disableInternal();
+        }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final DrmSessionEventListener.EventDispatcher createDrmEventDispatcher(MediaSource.MediaPeriodId mediaPeriodId) {
-        return this.drmEventDispatcher.withParameters(0, mediaPeriodId);
+    protected void disableInternal() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final DrmSessionEventListener.EventDispatcher createDrmEventDispatcher(int i, MediaSource.MediaPeriodId mediaPeriodId) {
-        return this.drmEventDispatcher.withParameters(i, mediaPeriodId);
+    @Override // com.google.android.exoplayer2.source.MediaSource
+    public final void enable(MediaSource.MediaSourceCaller mediaSourceCaller) {
+        Assertions.checkNotNull(this.looper);
+        boolean isEmpty = this.enabledMediaSourceCallers.isEmpty();
+        this.enabledMediaSourceCallers.add(mediaSourceCaller);
+        if (isEmpty) {
+            enableInternal();
+        }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final boolean isEnabled() {
-        return !this.enabledMediaSourceCallers.isEmpty();
+    protected void enableInternal() {
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaSource
+    public /* synthetic */ Timeline getInitialTimeline() {
+        return MediaSource.-CC.$default$getInitialTimeline(this);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -87,28 +97,14 @@ public abstract class BaseMediaSource implements MediaSource {
         return (PlayerId) Assertions.checkStateNotNull(this.playerId);
     }
 
-    @Override // com.google.android.exoplayer2.source.MediaSource
-    public final void addEventListener(Handler handler, MediaSourceEventListener mediaSourceEventListener) {
-        Assertions.checkNotNull(handler);
-        Assertions.checkNotNull(mediaSourceEventListener);
-        this.eventDispatcher.addEventListener(handler, mediaSourceEventListener);
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final boolean isEnabled() {
+        return !this.enabledMediaSourceCallers.isEmpty();
     }
 
     @Override // com.google.android.exoplayer2.source.MediaSource
-    public final void removeEventListener(MediaSourceEventListener mediaSourceEventListener) {
-        this.eventDispatcher.removeEventListener(mediaSourceEventListener);
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaSource
-    public final void addDrmEventListener(Handler handler, DrmSessionEventListener drmSessionEventListener) {
-        Assertions.checkNotNull(handler);
-        Assertions.checkNotNull(drmSessionEventListener);
-        this.drmEventDispatcher.addEventListener(handler, drmSessionEventListener);
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaSource
-    public final void removeDrmEventListener(DrmSessionEventListener drmSessionEventListener) {
-        this.drmEventDispatcher.removeEventListener(drmSessionEventListener);
+    public /* synthetic */ boolean isSingleWindow() {
+        return MediaSource.-CC.$default$isSingleWindow(this);
     }
 
     @Override // com.google.android.exoplayer2.source.MediaSource
@@ -129,36 +125,40 @@ public abstract class BaseMediaSource implements MediaSource {
         }
     }
 
-    @Override // com.google.android.exoplayer2.source.MediaSource
-    public final void enable(MediaSource.MediaSourceCaller mediaSourceCaller) {
-        Assertions.checkNotNull(this.looper);
-        boolean isEmpty = this.enabledMediaSourceCallers.isEmpty();
-        this.enabledMediaSourceCallers.add(mediaSourceCaller);
-        if (isEmpty) {
-            enableInternal();
-        }
-    }
+    protected abstract void prepareSourceInternal(TransferListener transferListener);
 
-    @Override // com.google.android.exoplayer2.source.MediaSource
-    public final void disable(MediaSource.MediaSourceCaller mediaSourceCaller) {
-        boolean z = !this.enabledMediaSourceCallers.isEmpty();
-        this.enabledMediaSourceCallers.remove(mediaSourceCaller);
-        if (z && this.enabledMediaSourceCallers.isEmpty()) {
-            disableInternal();
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final void refreshSourceInfo(Timeline timeline) {
+        this.timeline = timeline;
+        Iterator it = this.mediaSourceCallers.iterator();
+        while (it.hasNext()) {
+            ((MediaSource.MediaSourceCaller) it.next()).onSourceInfoRefreshed(this, timeline);
         }
     }
 
     @Override // com.google.android.exoplayer2.source.MediaSource
     public final void releaseSource(MediaSource.MediaSourceCaller mediaSourceCaller) {
         this.mediaSourceCallers.remove(mediaSourceCaller);
-        if (this.mediaSourceCallers.isEmpty()) {
-            this.looper = null;
-            this.timeline = null;
-            this.playerId = null;
-            this.enabledMediaSourceCallers.clear();
-            releaseSourceInternal();
+        if (!this.mediaSourceCallers.isEmpty()) {
+            disable(mediaSourceCaller);
             return;
         }
-        disable(mediaSourceCaller);
+        this.looper = null;
+        this.timeline = null;
+        this.playerId = null;
+        this.enabledMediaSourceCallers.clear();
+        releaseSourceInternal();
+    }
+
+    protected abstract void releaseSourceInternal();
+
+    @Override // com.google.android.exoplayer2.source.MediaSource
+    public final void removeDrmEventListener(DrmSessionEventListener drmSessionEventListener) {
+        this.drmEventDispatcher.removeEventListener(drmSessionEventListener);
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaSource
+    public final void removeEventListener(MediaSourceEventListener mediaSourceEventListener) {
+        this.eventDispatcher.removeEventListener(mediaSourceEventListener);
     }
 }

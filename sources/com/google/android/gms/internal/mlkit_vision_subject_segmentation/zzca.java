@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import java.io.OutputStream;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 final class zzca extends OutputStream {
     private long zza = 0;
@@ -16,11 +15,6 @@ final class zzca extends OutputStream {
         this.zza += bArr.length;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final long zza() {
-        return this.zza;
-    }
-
     @Override // java.io.OutputStream
     public final void write(byte[] bArr, int i, int i2) {
         int length;
@@ -29,5 +23,10 @@ final class zzca extends OutputStream {
             throw new IndexOutOfBoundsException();
         }
         this.zza += i2;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final long zza() {
+        return this.zza;
     }
 }

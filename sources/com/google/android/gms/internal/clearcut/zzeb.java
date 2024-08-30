@@ -4,12 +4,12 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 /* loaded from: classes.dex */
-final class zzeb<E> extends zzav<E> {
-    private static final zzeb<Object> zznf;
-    private final List<E> zzls;
+final class zzeb extends zzav {
+    private static final zzeb zznf;
+    private final List zzls;
 
     static {
-        zzeb<Object> zzebVar = new zzeb<>();
+        zzeb zzebVar = new zzeb();
         zznf = zzebVar;
         zzebVar.zzv();
     }
@@ -18,40 +18,40 @@ final class zzeb<E> extends zzav<E> {
         this(new ArrayList(10));
     }
 
-    private zzeb(List<E> list) {
+    private zzeb(List list) {
         this.zzls = list;
     }
 
-    public static <E> zzeb<E> zzcn() {
-        return (zzeb<E>) zznf;
+    public static zzeb zzcn() {
+        return zznf;
     }
 
     @Override // java.util.AbstractList, java.util.List
-    public final void add(int i, E e) {
+    public final void add(int i, Object obj) {
         zzw();
-        this.zzls.add(i, e);
+        this.zzls.add(i, obj);
         ((AbstractList) this).modCount++;
     }
 
     @Override // java.util.AbstractList, java.util.List
-    public final E get(int i) {
+    public final Object get(int i) {
         return this.zzls.get(i);
     }
 
     @Override // java.util.AbstractList, java.util.List
-    public final E remove(int i) {
+    public final Object remove(int i) {
         zzw();
-        E remove = this.zzls.remove(i);
+        Object remove = this.zzls.remove(i);
         ((AbstractList) this).modCount++;
         return remove;
     }
 
     @Override // java.util.AbstractList, java.util.List
-    public final E set(int i, E e) {
+    public final Object set(int i, Object obj) {
         zzw();
-        E e2 = this.zzls.set(i, e);
+        Object obj2 = this.zzls.set(i, obj);
         ((AbstractList) this).modCount++;
-        return e2;
+        return obj2;
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.List

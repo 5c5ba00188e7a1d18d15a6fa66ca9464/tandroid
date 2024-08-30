@@ -12,6 +12,32 @@ import androidx.core.view.ContentInfoCompat;
 import androidx.core.view.OnReceiveContentListener;
 /* loaded from: classes.dex */
 public final class TextViewOnReceiveContentListener implements OnReceiveContentListener {
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static final class Api16Impl {
+        static CharSequence coerce(Context context, ClipData.Item item, int i) {
+            if ((i & 1) != 0) {
+                CharSequence coerceToText = item.coerceToText(context);
+                return coerceToText instanceof Spanned ? coerceToText.toString() : coerceToText;
+            }
+            return item.coerceToStyledText(context);
+        }
+    }
+
+    private static CharSequence coerceToText(Context context, ClipData.Item item, int i) {
+        return Api16Impl.coerce(context, item, i);
+    }
+
+    private static void replaceSelection(Editable editable, CharSequence charSequence) {
+        int selectionStart = Selection.getSelectionStart(editable);
+        int selectionEnd = Selection.getSelectionEnd(editable);
+        int max = Math.max(0, Math.min(selectionStart, selectionEnd));
+        int max2 = Math.max(0, Math.max(selectionStart, selectionEnd));
+        Selection.setSelection(editable, max2);
+        editable.replace(max, max2, charSequence);
+    }
+
     @Override // androidx.core.view.OnReceiveContentListener
     public ContentInfoCompat onReceiveContent(View view, ContentInfoCompat contentInfoCompat) {
         if (Log.isLoggable("ReceiveContent", 3)) {
@@ -29,40 +55,15 @@ public final class TextViewOnReceiveContentListener implements OnReceiveContentL
         for (int i = 0; i < clip.getItemCount(); i++) {
             CharSequence coerceToText = coerceToText(context, clip.getItemAt(i), flags);
             if (coerceToText != null) {
-                if (!z) {
-                    replaceSelection(editable, coerceToText);
-                    z = true;
-                } else {
+                if (z) {
                     editable.insert(Selection.getSelectionEnd(editable), "\n");
                     editable.insert(Selection.getSelectionEnd(editable), coerceToText);
+                } else {
+                    replaceSelection(editable, coerceToText);
+                    z = true;
                 }
             }
         }
         return null;
-    }
-
-    private static CharSequence coerceToText(Context context, ClipData.Item item, int i) {
-        return Api16Impl.coerce(context, item, i);
-    }
-
-    private static void replaceSelection(Editable editable, CharSequence charSequence) {
-        int selectionStart = Selection.getSelectionStart(editable);
-        int selectionEnd = Selection.getSelectionEnd(editable);
-        int max = Math.max(0, Math.min(selectionStart, selectionEnd));
-        int max2 = Math.max(0, Math.max(selectionStart, selectionEnd));
-        Selection.setSelection(editable, max2);
-        editable.replace(max, max2, charSequence);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api16Impl {
-        static CharSequence coerce(Context context, ClipData.Item item, int i) {
-            if ((i & 1) != 0) {
-                CharSequence coerceToText = item.coerceToText(context);
-                return coerceToText instanceof Spanned ? coerceToText.toString() : coerceToText;
-            }
-            return item.coerceToStyledText(context);
-        }
     }
 }

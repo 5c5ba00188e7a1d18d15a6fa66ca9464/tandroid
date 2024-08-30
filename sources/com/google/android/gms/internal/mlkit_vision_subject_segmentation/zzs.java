@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 class zzs implements Iterator {
     final Iterator zza;
@@ -13,16 +12,10 @@ class zzs implements Iterator {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzs(zzt zztVar) {
-        Iterator it;
         this.zzc = zztVar;
         Collection collection = zztVar.zzb;
         this.zzb = collection;
-        if (collection instanceof List) {
-            it = ((List) collection).listIterator();
-        } else {
-            it = collection.iterator();
-        }
-        this.zza = it;
+        this.zza = collection instanceof List ? ((List) collection).listIterator() : collection.iterator();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

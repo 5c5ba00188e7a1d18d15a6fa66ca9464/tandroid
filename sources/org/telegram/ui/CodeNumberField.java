@@ -29,7 +29,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.SimpleFloatPropertyCompat;
 /* loaded from: classes4.dex */
-public class CodeNumberField extends EditTextBoldCursor {
+public abstract class CodeNumberField extends EditTextBoldCursor {
     float enterAnimation;
     ValueAnimator enterAnimator;
     private float errorProgress;
@@ -49,58 +49,116 @@ public class CodeNumberField extends EditTextBoldCursor {
     private float successScaleProgress;
     private SpringAnimation successScaleSpringAnimation;
     private SpringAnimation successSpringAnimation;
-    private static final FloatPropertyCompat<CodeNumberField> FOCUSED_PROGRESS = new SimpleFloatPropertyCompat("focusedProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda1
+    private static final FloatPropertyCompat FOCUSED_PROGRESS = new SimpleFloatPropertyCompat("focusedProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda3
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
         public final float get(Object obj) {
             float f;
             f = ((CodeNumberField) obj).focusedProgress;
             return f;
         }
-    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda2
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda4
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
         public final void set(Object obj, float f) {
             CodeNumberField.lambda$static$1((CodeNumberField) obj, f);
         }
     }).setMultiplier(100.0f);
-    private static final FloatPropertyCompat<CodeNumberField> ERROR_PROGRESS = new SimpleFloatPropertyCompat("errorProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda3
+    private static final FloatPropertyCompat ERROR_PROGRESS = new SimpleFloatPropertyCompat("errorProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda5
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
         public final float get(Object obj) {
             float f;
             f = ((CodeNumberField) obj).errorProgress;
             return f;
         }
-    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda4
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda6
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
         public final void set(Object obj, float f) {
             CodeNumberField.lambda$static$3((CodeNumberField) obj, f);
         }
     }).setMultiplier(100.0f);
-    private static final FloatPropertyCompat<CodeNumberField> SUCCESS_PROGRESS = new SimpleFloatPropertyCompat("successProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda5
+    private static final FloatPropertyCompat SUCCESS_PROGRESS = new SimpleFloatPropertyCompat("successProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda7
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
         public final float get(Object obj) {
             float f;
             f = ((CodeNumberField) obj).successProgress;
             return f;
         }
-    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda6
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda8
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
         public final void set(Object obj, float f) {
             CodeNumberField.lambda$static$5((CodeNumberField) obj, f);
         }
     }).setMultiplier(100.0f);
-    private static final FloatPropertyCompat<CodeNumberField> SUCCESS_SCALE_PROGRESS = new SimpleFloatPropertyCompat("successScaleProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda7
+    private static final FloatPropertyCompat SUCCESS_SCALE_PROGRESS = new SimpleFloatPropertyCompat("successScaleProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda9
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
         public final float get(Object obj) {
             float f;
             f = ((CodeNumberField) obj).successScaleProgress;
             return f;
         }
-    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda8
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda10
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
         public final void set(Object obj, float f) {
             CodeNumberField.lambda$static$7((CodeNumberField) obj, f);
         }
     }).setMultiplier(100.0f);
+
+    public CodeNumberField(Context context) {
+        super(context);
+        this.successScaleProgress = 1.0f;
+        this.focusedSpringAnimation = new SpringAnimation(this, FOCUSED_PROGRESS);
+        this.errorSpringAnimation = new SpringAnimation(this, ERROR_PROGRESS);
+        this.successSpringAnimation = new SpringAnimation(this, SUCCESS_PROGRESS);
+        this.successScaleSpringAnimation = new SpringAnimation(this, SUCCESS_SCALE_PROGRESS);
+        this.showSoftInputOnFocusInternal = true;
+        this.enterAnimation = 1.0f;
+        this.exitAnimation = 1.0f;
+        this.pressed = false;
+        this.startX = 0.0f;
+        this.startY = 0.0f;
+        setBackground(null);
+        setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        setMovementMethod(null);
+        addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.CodeNumberField.1
+            @Override // android.text.TextWatcher
+            public void afterTextChanged(Editable editable) {
+            }
+
+            @Override // android.text.TextWatcher
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                CodeNumberField.this.startEnterAnimation(charSequence.length() != 0);
+                CodeNumberField.this.hideActionMode();
+            }
+
+            @Override // android.text.TextWatcher
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+        });
+    }
+
+    private void animateSpring(SpringAnimation springAnimation, float f) {
+        if (springAnimation.getSpring() == null || f != springAnimation.getSpring().getFinalPosition()) {
+            springAnimation.cancel();
+            springAnimation.setSpring(new SpringForce(f).setStiffness(400.0f).setDampingRatio(1.0f).setFinalPosition(f)).start();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$startEnterAnimation$9(ValueAnimator valueAnimator) {
+        this.enterAnimation = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        invalidate();
+        if (getParent() != null) {
+            ((ViewGroup) getParent()).invalidate();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$startExitAnimation$8(ValueAnimator valueAnimator) {
+        this.exitAnimation = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        invalidate();
+        if (getParent() != null) {
+            ((ViewGroup) getParent()).invalidate();
+        }
+    }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$1(CodeNumberField codeNumberField, float f) {
@@ -134,60 +192,50 @@ public class CodeNumberField extends EditTextBoldCursor {
         }
     }
 
-    public CodeNumberField(Context context) {
-        super(context);
-        this.successScaleProgress = 1.0f;
-        this.focusedSpringAnimation = new SpringAnimation(this, FOCUSED_PROGRESS);
-        this.errorSpringAnimation = new SpringAnimation(this, ERROR_PROGRESS);
-        this.successSpringAnimation = new SpringAnimation(this, SUCCESS_PROGRESS);
-        this.successScaleSpringAnimation = new SpringAnimation(this, SUCCESS_SCALE_PROGRESS);
-        this.showSoftInputOnFocusInternal = true;
-        this.enterAnimation = 1.0f;
-        this.exitAnimation = 1.0f;
-        this.pressed = false;
-        this.startX = 0.0f;
-        this.startY = 0.0f;
-        setBackground(null);
-        setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-        setMovementMethod(null);
-        addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.CodeNumberField.1
-            @Override // android.text.TextWatcher
-            public void afterTextChanged(Editable editable) {
-            }
-
-            @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            }
-
-            @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                CodeNumberField.this.startEnterAnimation(charSequence.length() != 0);
-                CodeNumberField.this.hideActionMode();
-            }
-        });
-    }
-
-    public void setShowSoftInputOnFocusCompat(boolean z) {
-        this.showSoftInputOnFocusInternal = z;
-        if (Build.VERSION.SDK_INT >= 21) {
-            setShowSoftInputOnFocus(z);
+    /* JADX INFO: Access modifiers changed from: private */
+    public void pasteFromClipboard() {
+        ClipboardManager clipboardManager;
+        ClipData primaryClip;
+        int i;
+        CodeFieldContainer codeFieldContainer = getParent() instanceof CodeFieldContainer ? (CodeFieldContainer) getParent() : null;
+        if (codeFieldContainer == null || (clipboardManager = (ClipboardManager) ContextCompat.getSystemService(getContext(), ClipboardManager.class)) == null || (primaryClip = clipboardManager.getPrimaryClip()) == null) {
+            return;
+        }
+        String charSequence = primaryClip.getItemAt(0).getText().toString();
+        try {
+            i = Integer.parseInt(charSequence);
+        } catch (Exception unused) {
+            i = -1;
+        }
+        if (i > 0) {
+            codeFieldContainer.setText(charSequence, true);
         }
     }
 
-    public float getFocusedProgress() {
-        return this.focusedProgress;
+    public void animateErrorProgress(float f) {
+        animateSpring(this.errorSpringAnimation, f * 100.0f);
     }
 
     public void animateFocusedProgress(float f) {
         animateSpring(this.focusedSpringAnimation, f * 100.0f);
     }
 
+    public void animateSuccessProgress(float f) {
+        animateSpring(this.successSpringAnimation, f * 100.0f);
+        this.successScaleSpringAnimation.cancel();
+        if (f != 0.0f) {
+            ((SpringAnimation) ((SpringAnimation) this.successScaleSpringAnimation.setSpring(new SpringForce(1.0f).setStiffness(500.0f).setDampingRatio(0.75f).setFinalPosition(100.0f)).setStartValue(100.0f)).setStartVelocity(4000.0f)).start();
+        } else {
+            this.successScaleProgress = 1.0f;
+        }
+    }
+
     public float getErrorProgress() {
         return this.errorProgress;
     }
 
-    public void animateErrorProgress(float f) {
-        animateSpring(this.errorSpringAnimation, f * 100.0f);
+    public float getFocusedProgress() {
+        return this.focusedProgress;
     }
 
     public float getSuccessProgress() {
@@ -198,29 +246,125 @@ public class CodeNumberField extends EditTextBoldCursor {
         return this.successScaleProgress;
     }
 
-    public void animateSuccessProgress(float f) {
-        animateSpring(this.successSpringAnimation, f * 100.0f);
-        this.successScaleSpringAnimation.cancel();
-        if (f != 0.0f) {
-            this.successScaleSpringAnimation.setSpring(new SpringForce(1.0f).setStiffness(500.0f).setDampingRatio(0.75f).setFinalPosition(100.0f)).setStartValue(100.0f).setStartVelocity(4000.0f).start();
-        } else {
-            this.successScaleProgress = 1.0f;
-        }
-    }
-
-    private void animateSpring(SpringAnimation springAnimation, float f) {
-        if (springAnimation.getSpring() == null || f != springAnimation.getSpring().getFinalPosition()) {
-            springAnimation.cancel();
-            springAnimation.setSpring(new SpringForce(f).setStiffness(400.0f).setDampingRatio(1.0f).setFinalPosition(f)).start();
-        }
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.view.View
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.focusedSpringAnimation.cancel();
         this.errorSpringAnimation.cancel();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
+    public void onFocusChanged(boolean z, int i, Rect rect) {
+        super.onFocusChanged(z, i, rect);
+        if (isFocused()) {
+            return;
+        }
+        hideActionMode();
+    }
+
+    @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        ClipDescription primaryClipDescription;
+        int i;
+        if (motionEvent.getAction() == 0) {
+            this.pressed = true;
+            this.startX = motionEvent.getX();
+            this.startY = motionEvent.getY();
+        }
+        if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
+            CodeFieldContainer codeFieldContainer = getParent() instanceof CodeFieldContainer ? (CodeFieldContainer) getParent() : null;
+            if (motionEvent.getAction() == 1 && this.pressed) {
+                if (!isFocused() || codeFieldContainer == null) {
+                    requestFocus();
+                } else {
+                    ClipboardManager clipboardManager = (ClipboardManager) ContextCompat.getSystemService(getContext(), ClipboardManager.class);
+                    if (clipboardManager == null || clipboardManager.getPrimaryClipDescription() == null || (primaryClipDescription = clipboardManager.getPrimaryClipDescription()) == null) {
+                        return false;
+                    }
+                    primaryClipDescription.hasMimeType("text/plain");
+                    ClipData.Item itemAt = clipboardManager.getPrimaryClip().getItemAt(0);
+                    try {
+                        i = Integer.parseInt((itemAt == null || itemAt.getText() == null) ? "" : itemAt.getText().toString());
+                    } catch (Exception unused) {
+                        i = -1;
+                    }
+                    if (i > 0) {
+                        startActionMode(new ActionMode.Callback() { // from class: org.telegram.ui.CodeNumberField.2
+                            @Override // android.view.ActionMode.Callback
+                            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                                if (menuItem.getItemId() != 16908322) {
+                                    return true;
+                                }
+                                CodeNumberField.this.pasteFromClipboard();
+                                CodeNumberField.this.hideActionMode();
+                                return true;
+                            }
+
+                            @Override // android.view.ActionMode.Callback
+                            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                                menu.add(0, 16908322, 0, 17039371);
+                                return true;
+                            }
+
+                            @Override // android.view.ActionMode.Callback
+                            public void onDestroyActionMode(ActionMode actionMode) {
+                            }
+
+                            @Override // android.view.ActionMode.Callback
+                            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                                return true;
+                            }
+                        });
+                    }
+                }
+                setSelection(0);
+                if (this.showSoftInputOnFocusInternal) {
+                    AndroidUtilities.showKeyboard(this);
+                }
+            }
+            this.pressed = false;
+        }
+        return this.pressed;
+    }
+
+    @Override // android.view.View
+    public boolean requestFocus(int i, Rect rect) {
+        ((ViewGroup) getParent()).invalidate();
+        return super.requestFocus(i, rect);
+    }
+
+    public void setShowSoftInputOnFocusCompat(boolean z) {
+        this.showSoftInputOnFocusInternal = z;
+        if (Build.VERSION.SDK_INT >= 21) {
+            setShowSoftInputOnFocus(z);
+        }
+    }
+
+    public void startEnterAnimation(boolean z) {
+        ValueAnimator valueAnimator;
+        long j;
+        this.replaceAnimation = z;
+        this.enterAnimation = 0.0f;
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+        this.enterAnimator = ofFloat;
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda2
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                CodeNumberField.this.lambda$startEnterAnimation$9(valueAnimator2);
+            }
+        });
+        if (this.replaceAnimation) {
+            valueAnimator = this.enterAnimator;
+            j = 220;
+        } else {
+            this.enterAnimator.setInterpolator(new OvershootInterpolator(1.5f));
+            valueAnimator = this.enterAnimator;
+            j = 350;
+        }
+        valueAnimator.setDuration(j);
+        this.enterAnimator.start();
     }
 
     public void startExitAnimation() {
@@ -246,7 +390,7 @@ public class CodeNumberField extends EditTextBoldCursor {
         this.exitAnimation = 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.exitAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda9
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 CodeNumberField.this.lambda$startExitAnimation$8(valueAnimator);
@@ -254,144 +398,5 @@ public class CodeNumberField extends EditTextBoldCursor {
         });
         this.exitAnimator.setDuration(220L);
         this.exitAnimator.start();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startExitAnimation$8(ValueAnimator valueAnimator) {
-        this.exitAnimation = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        invalidate();
-        if (getParent() != null) {
-            ((ViewGroup) getParent()).invalidate();
-        }
-    }
-
-    public void startEnterAnimation(boolean z) {
-        this.replaceAnimation = z;
-        this.enterAnimation = 0.0f;
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        this.enterAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda10
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                CodeNumberField.this.lambda$startEnterAnimation$9(valueAnimator);
-            }
-        });
-        if (!this.replaceAnimation) {
-            this.enterAnimator.setInterpolator(new OvershootInterpolator(1.5f));
-            this.enterAnimator.setDuration(350L);
-        } else {
-            this.enterAnimator.setDuration(220L);
-        }
-        this.enterAnimator.start();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startEnterAnimation$9(ValueAnimator valueAnimator) {
-        this.enterAnimation = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        invalidate();
-        if (getParent() != null) {
-            ((ViewGroup) getParent()).invalidate();
-        }
-    }
-
-    @Override // android.view.View
-    public boolean requestFocus(int i, Rect rect) {
-        ((ViewGroup) getParent()).invalidate();
-        return super.requestFocus(i, rect);
-    }
-
-    @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        ClipDescription primaryClipDescription;
-        int i;
-        if (motionEvent.getAction() == 0) {
-            this.pressed = true;
-            this.startX = motionEvent.getX();
-            this.startY = motionEvent.getY();
-        }
-        if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
-            CodeFieldContainer codeFieldContainer = getParent() instanceof CodeFieldContainer ? (CodeFieldContainer) getParent() : null;
-            if (motionEvent.getAction() == 1 && this.pressed) {
-                if (isFocused() && codeFieldContainer != null) {
-                    ClipboardManager clipboardManager = (ClipboardManager) ContextCompat.getSystemService(getContext(), ClipboardManager.class);
-                    if (clipboardManager == null || clipboardManager.getPrimaryClipDescription() == null || (primaryClipDescription = clipboardManager.getPrimaryClipDescription()) == null) {
-                        return false;
-                    }
-                    primaryClipDescription.hasMimeType("text/plain");
-                    ClipData.Item itemAt = clipboardManager.getPrimaryClip().getItemAt(0);
-                    try {
-                        i = Integer.parseInt((itemAt == null || itemAt.getText() == null) ? "" : itemAt.getText().toString());
-                    } catch (Exception unused) {
-                        i = -1;
-                    }
-                    if (i > 0) {
-                        startActionMode(new ActionMode.Callback() { // from class: org.telegram.ui.CodeNumberField.2
-                            @Override // android.view.ActionMode.Callback
-                            public void onDestroyActionMode(ActionMode actionMode) {
-                            }
-
-                            @Override // android.view.ActionMode.Callback
-                            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-                                return true;
-                            }
-
-                            @Override // android.view.ActionMode.Callback
-                            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-                                menu.add(0, 16908322, 0, 17039371);
-                                return true;
-                            }
-
-                            @Override // android.view.ActionMode.Callback
-                            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-                                if (menuItem.getItemId() != 16908322) {
-                                    return true;
-                                }
-                                CodeNumberField.this.pasteFromClipboard();
-                                CodeNumberField.this.hideActionMode();
-                                return true;
-                            }
-                        });
-                    }
-                } else {
-                    requestFocus();
-                }
-                setSelection(0);
-                if (this.showSoftInputOnFocusInternal) {
-                    AndroidUtilities.showKeyboard(this);
-                }
-            }
-            this.pressed = false;
-        }
-        return this.pressed;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void pasteFromClipboard() {
-        ClipboardManager clipboardManager;
-        ClipData primaryClip;
-        int i;
-        CodeFieldContainer codeFieldContainer = getParent() instanceof CodeFieldContainer ? (CodeFieldContainer) getParent() : null;
-        if (codeFieldContainer == null || (clipboardManager = (ClipboardManager) ContextCompat.getSystemService(getContext(), ClipboardManager.class)) == null || (primaryClip = clipboardManager.getPrimaryClip()) == null) {
-            return;
-        }
-        String charSequence = primaryClip.getItemAt(0).getText().toString();
-        try {
-            i = Integer.parseInt(charSequence);
-        } catch (Exception unused) {
-            i = -1;
-        }
-        if (i > 0) {
-            codeFieldContainer.setText(charSequence, true);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-    public void onFocusChanged(boolean z, int i, Rect rect) {
-        super.onFocusChanged(z, i, rect);
-        if (isFocused()) {
-            return;
-        }
-        hideActionMode();
     }
 }

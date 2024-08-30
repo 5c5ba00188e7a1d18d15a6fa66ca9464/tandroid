@@ -2,13 +2,11 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.io.PrintStream;
 import org.telegram.messenger.NotificationCenter;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public final class zzq {
+public abstract class zzq {
     private static final zzt zza;
     private static final int zzb;
 
-    /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     static final class zza extends zzt {
         zza() {
@@ -19,22 +17,7 @@ public final class zzq {
         }
     }
 
-    public static void zza(Throwable th, Throwable th2) {
-        zza.zza(th, th2);
-    }
-
-    private static Integer zza() {
-        try {
-            return (Integer) Class.forName("android.os.Build$VERSION").getField("SDK_INT").get(null);
-        } catch (Exception e) {
-            PrintStream printStream = System.err;
-            printStream.println("Failed to retrieve value from android.os.Build$VERSION.SDK_INT due to the following exception.");
-            e.printStackTrace(printStream);
-            return null;
-        }
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0063  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0062  */
     static {
         Integer num;
         zzt zzaVar;
@@ -66,12 +49,23 @@ public final class zzq {
                 zzb = num != null ? num.intValue() : 1;
             }
         }
-        if (!Boolean.getBoolean("com.google.devtools.build.android.desugar.runtime.twr_disable_mimic")) {
-            zzaVar = new zzu();
-        } else {
-            zzaVar = new zza();
-        }
+        zzaVar = Boolean.getBoolean("com.google.devtools.build.android.desugar.runtime.twr_disable_mimic") ^ true ? new zzu() : new zza();
         zza = zzaVar;
         zzb = num != null ? num.intValue() : 1;
+    }
+
+    private static Integer zza() {
+        try {
+            return (Integer) Class.forName("android.os.Build$VERSION").getField("SDK_INT").get(null);
+        } catch (Exception e) {
+            PrintStream printStream = System.err;
+            printStream.println("Failed to retrieve value from android.os.Build$VERSION.SDK_INT due to the following exception.");
+            e.printStackTrace(printStream);
+            return null;
+        }
+    }
+
+    public static void zza(Throwable th, Throwable th2) {
+        zza.zza(th, th2);
     }
 }

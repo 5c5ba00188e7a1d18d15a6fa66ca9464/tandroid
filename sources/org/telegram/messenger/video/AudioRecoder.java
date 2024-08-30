@@ -5,7 +5,6 @@ import android.media.MediaCrypto;
 import android.media.MediaFormat;
 import android.os.Build;
 import android.view.Surface;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class AudioRecoder {
     private int channelCount = 2;
     private long encoderInputPresentationTimeUs = 0;
 
-    public AudioRecoder(ArrayList<AudioInput> arrayList, long j) throws IOException {
+    public AudioRecoder(ArrayList<AudioInput> arrayList, long j) {
         this.sampleRate = 44100;
         this.audioInputs = arrayList;
         this.totalDurationUs = j;
@@ -61,6 +60,31 @@ public class AudioRecoder {
         }
     }
 
+    private boolean isInputAvailable() {
+        if (this.encoderInputPresentationTimeUs > this.totalDurationUs) {
+            return false;
+        }
+        return this.mainInput.hasRemaining();
+    }
+
+    private void mix(ShortBuffer shortBuffer) {
+        int remaining = shortBuffer.remaining();
+        for (int i = 0; i < remaining && isInputAvailable(); i++) {
+            boolean z = false;
+            short s = 0;
+            for (int i2 = 0; i2 < this.audioInputs.size() && isInputAvailable(); i2++) {
+                AudioInput audioInput = this.audioInputs.get(i2);
+                if (audioInput.hasRemaining()) {
+                    s = (short) (s + (((short) (audioInput.getNext() * audioInput.getVolume())) / this.audioInputs.size()));
+                    z = true;
+                }
+            }
+            if (z) {
+                shortBuffer.put(s);
+            }
+        }
+    }
+
     public void release() {
         try {
             this.encoder.stop();
@@ -72,18 +96,11 @@ public class AudioRecoder {
         }
     }
 
-    public boolean step(MediaCodecVideoConvertor.Muxer muxer, int i) throws Exception {
+    public boolean step(MediaCodecVideoConvertor.Muxer muxer, int i) {
         int dequeueInputBuffer;
-        ShortBuffer asShortBuffer;
-        ByteBuffer inputBuffer;
         if (!this.encoderInputDone && (dequeueInputBuffer = this.encoder.dequeueInputBuffer(2500L)) >= 0) {
             if (isInputAvailable()) {
-                if (Build.VERSION.SDK_INT >= 21) {
-                    inputBuffer = this.encoder.getInputBuffer(dequeueInputBuffer);
-                    asShortBuffer = inputBuffer.asShortBuffer();
-                } else {
-                    asShortBuffer = this.encoder.getInputBuffers()[dequeueInputBuffer].asShortBuffer();
-                }
+                ShortBuffer asShortBuffer = (Build.VERSION.SDK_INT >= 21 ? this.encoder.getInputBuffer(dequeueInputBuffer) : this.encoder.getInputBuffers()[dequeueInputBuffer]).asShortBuffer();
                 mix(asShortBuffer);
                 this.encoder.queueInputBuffer(dequeueInputBuffer, 0, asShortBuffer.position() * 2, this.encoderInputPresentationTimeUs, 1);
                 this.encoderInputPresentationTimeUs += AudioConversions.shortsToUs(asShortBuffer.position(), this.sampleRate, this.channelCount);
@@ -118,30 +135,5 @@ public class AudioRecoder {
             this.encoder.releaseOutputBuffer(dequeueOutputBuffer, false);
         }
         return this.encoderDone;
-    }
-
-    private void mix(ShortBuffer shortBuffer) {
-        int remaining = shortBuffer.remaining();
-        for (int i = 0; i < remaining && isInputAvailable(); i++) {
-            boolean z = false;
-            short s = 0;
-            for (int i2 = 0; i2 < this.audioInputs.size() && isInputAvailable(); i2++) {
-                AudioInput audioInput = this.audioInputs.get(i2);
-                if (audioInput.hasRemaining()) {
-                    s = (short) (s + (((short) (audioInput.getNext() * audioInput.getVolume())) / this.audioInputs.size()));
-                    z = true;
-                }
-            }
-            if (z) {
-                shortBuffer.put(s);
-            }
-        }
-    }
-
-    private boolean isInputAvailable() {
-        if (this.encoderInputPresentationTimeUs > this.totalDurationUs) {
-            return false;
-        }
-        return this.mainInput.hasRemaining();
     }
 }

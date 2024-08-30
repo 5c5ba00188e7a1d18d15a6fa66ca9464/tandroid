@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 final class zzbo extends AbstractCollection {
     final Map zza;
@@ -51,11 +50,6 @@ final class zzbo extends AbstractCollection {
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection
-    public final int size() {
-        return this.zza.size();
-    }
-
-    @Override // java.util.AbstractCollection, java.util.Collection
     public final boolean removeAll(Collection collection) {
         collection.getClass();
         try {
@@ -85,5 +79,10 @@ final class zzbo extends AbstractCollection {
             }
             return this.zza.keySet().retainAll(hashSet);
         }
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection
+    public final int size() {
+        return this.zza.size();
     }
 }

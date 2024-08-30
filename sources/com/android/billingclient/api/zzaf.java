@@ -14,7 +14,6 @@ import com.google.android.gms.internal.play_billing.zzgd;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzaf implements ServiceConnection {
     final /* synthetic */ BillingClientImpl zza;
@@ -94,17 +93,16 @@ public final class zzaf implements ServiceConnection {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x01d0  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x01e3  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x01d6  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x01e3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public final /* synthetic */ Object zza() throws Exception {
+    public final /* synthetic */ Object zza() {
         Bundle bundle;
         int i;
         int i2;
         zzar zzarVar;
-        zzar zzarVar2;
         Context context;
         int i3;
         int i4;
@@ -158,6 +156,7 @@ public final class zzaf implements ServiceConnection {
                                 this.zza.zzg = null;
                                 i = 42;
                                 i2 = i17;
+                                zzarVar = this.zza.zzf;
                                 if (i2 != 0) {
                                 }
                                 return null;
@@ -254,12 +253,11 @@ public final class zzaf implements ServiceConnection {
                 } catch (Exception e2) {
                     e = e2;
                 }
+                zzarVar = this.zza.zzf;
                 if (i2 != 0) {
-                    zzarVar2 = this.zza.zzf;
-                    zzarVar2.zzb(zzaq.zzb(6));
+                    zzarVar.zzb(zzaq.zzb(6));
                     zzd(zzat.zzl);
                 } else {
-                    zzarVar = this.zza.zzf;
                     BillingResult billingResult = zzat.zza;
                     zzarVar.zza(zzaq.zza(i, 6, billingResult));
                     zzd(billingResult);

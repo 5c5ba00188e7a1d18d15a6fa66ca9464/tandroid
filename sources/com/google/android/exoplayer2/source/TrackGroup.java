@@ -23,7 +23,7 @@ public final class TrackGroup implements Bundleable {
     public final int type;
     private static final String FIELD_FORMATS = Util.intToStringMaxRadix(0);
     private static final String FIELD_ID = Util.intToStringMaxRadix(1);
-    public static final Bundleable.Creator<TrackGroup> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.source.TrackGroup$$ExternalSyntheticLambda0
+    public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.source.TrackGroup$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.Bundleable.Creator
         public final Bundleable fromBundle(Bundle bundle) {
             TrackGroup lambda$static$0;
@@ -31,14 +31,6 @@ public final class TrackGroup implements Bundleable {
             return lambda$static$0;
         }
     };
-
-    private static int normalizeRoleFlags(int i) {
-        return i | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
-    }
-
-    public TrackGroup(Format... formatArr) {
-        this("", formatArr);
-    }
 
     public TrackGroup(String str, Format... formatArr) {
         Assertions.checkArgument(formatArr.length > 0);
@@ -50,68 +42,26 @@ public final class TrackGroup implements Bundleable {
         verifyCorrectness();
     }
 
-    public TrackGroup copyWithId(String str) {
-        return new TrackGroup(str, this.formats);
-    }
-
-    public Format getFormat(int i) {
-        return this.formats[i];
-    }
-
-    public int indexOf(Format format) {
-        int i = 0;
-        while (true) {
-            Format[] formatArr = this.formats;
-            if (i >= formatArr.length) {
-                return -1;
-            }
-            if (format == formatArr[i]) {
-                return i;
-            }
-            i++;
-        }
-    }
-
-    public int hashCode() {
-        if (this.hashCode == 0) {
-            this.hashCode = ((this.id.hashCode() + 527) * 31) + Arrays.hashCode(this.formats);
-        }
-        return this.hashCode;
-    }
-
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || TrackGroup.class != obj.getClass()) {
-            return false;
-        }
-        TrackGroup trackGroup = (TrackGroup) obj;
-        return this.id.equals(trackGroup.id) && Arrays.equals(this.formats, trackGroup.formats);
-    }
-
-    @Override // com.google.android.exoplayer2.Bundleable
-    public Bundle toBundle() {
-        Bundle bundle = new Bundle();
-        ArrayList<? extends Parcelable> arrayList = new ArrayList<>(this.formats.length);
-        for (Format format : this.formats) {
-            arrayList.add(format.toBundle(true));
-        }
-        bundle.putParcelableArrayList(FIELD_FORMATS, arrayList);
-        bundle.putString(FIELD_ID, this.id);
-        return bundle;
+    public TrackGroup(Format... formatArr) {
+        this("", formatArr);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ TrackGroup lambda$static$0(Bundle bundle) {
-        ImmutableList fromBundleList;
         ArrayList parcelableArrayList = bundle.getParcelableArrayList(FIELD_FORMATS);
-        if (parcelableArrayList == null) {
-            fromBundleList = ImmutableList.of();
-        } else {
-            fromBundleList = BundleableUtil.fromBundleList(Format.CREATOR, parcelableArrayList);
-        }
-        return new TrackGroup(bundle.getString(FIELD_ID, ""), (Format[]) fromBundleList.toArray(new Format[0]));
+        return new TrackGroup(bundle.getString(FIELD_ID, ""), (Format[]) (parcelableArrayList == null ? ImmutableList.of() : BundleableUtil.fromBundleList(Format.CREATOR, parcelableArrayList)).toArray(new Format[0]));
+    }
+
+    private static void logErrorMessage(String str, String str2, String str3, int i) {
+        Log.e("TrackGroup", "", new IllegalStateException("Different " + str + " combined in one TrackGroup: '" + str2 + "' (track 0) and '" + str3 + "' (track " + i + ")"));
+    }
+
+    private static String normalizeLanguage(String str) {
+        return (str == null || str.equals(TranslateController.UNKNOWN_LANGUAGE)) ? "" : str;
+    }
+
+    private static int normalizeRoleFlags(int i) {
+        return i | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
     }
 
     private void verifyCorrectness() {
@@ -136,11 +86,55 @@ public final class TrackGroup implements Bundleable {
         }
     }
 
-    private static String normalizeLanguage(String str) {
-        return (str == null || str.equals(TranslateController.UNKNOWN_LANGUAGE)) ? "" : str;
+    public TrackGroup copyWithId(String str) {
+        return new TrackGroup(str, this.formats);
     }
 
-    private static void logErrorMessage(String str, String str2, String str3, int i) {
-        Log.e("TrackGroup", "", new IllegalStateException("Different " + str + " combined in one TrackGroup: '" + str2 + "' (track 0) and '" + str3 + "' (track " + i + ")"));
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || TrackGroup.class != obj.getClass()) {
+            return false;
+        }
+        TrackGroup trackGroup = (TrackGroup) obj;
+        return this.id.equals(trackGroup.id) && Arrays.equals(this.formats, trackGroup.formats);
+    }
+
+    public Format getFormat(int i) {
+        return this.formats[i];
+    }
+
+    public int hashCode() {
+        if (this.hashCode == 0) {
+            this.hashCode = ((this.id.hashCode() + 527) * 31) + Arrays.hashCode(this.formats);
+        }
+        return this.hashCode;
+    }
+
+    public int indexOf(Format format) {
+        int i = 0;
+        while (true) {
+            Format[] formatArr = this.formats;
+            if (i >= formatArr.length) {
+                return -1;
+            }
+            if (format == formatArr[i]) {
+                return i;
+            }
+            i++;
+        }
+    }
+
+    @Override // com.google.android.exoplayer2.Bundleable
+    public Bundle toBundle() {
+        Bundle bundle = new Bundle();
+        ArrayList<? extends Parcelable> arrayList = new ArrayList<>(this.formats.length);
+        for (Format format : this.formats) {
+            arrayList.add(format.toBundle(true));
+        }
+        bundle.putParcelableArrayList(FIELD_FORMATS, arrayList);
+        bundle.putString(FIELD_ID, this.id);
+        return bundle;
     }
 }

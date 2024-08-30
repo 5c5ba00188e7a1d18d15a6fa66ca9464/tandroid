@@ -13,9 +13,11 @@ final class VbriSeeker implements Seeker {
     private final long[] positions;
     private final long[] timesUs;
 
-    @Override // com.google.android.exoplayer2.extractor.SeekMap
-    public boolean isSeekable() {
-        return true;
+    private VbriSeeker(long[] jArr, long[] jArr2, long j, long j2) {
+        this.timesUs = jArr;
+        this.positions = jArr2;
+        this.durationUs = j;
+        this.dataEndPosition = j2;
     }
 
     public static VbriSeeker create(long j, long j2, MpegAudioUtil.Header header, ParsableByteArray parsableByteArray) {
@@ -65,11 +67,14 @@ final class VbriSeeker implements Seeker {
         return new VbriSeeker(jArr3, jArr2, scaleLargeTimestamp, j4);
     }
 
-    private VbriSeeker(long[] jArr, long[] jArr2, long j, long j2) {
-        this.timesUs = jArr;
-        this.positions = jArr2;
-        this.durationUs = j;
-        this.dataEndPosition = j2;
+    @Override // com.google.android.exoplayer2.extractor.mp3.Seeker
+    public long getDataEndPosition() {
+        return this.dataEndPosition;
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.SeekMap
+    public long getDurationUs() {
+        return this.durationUs;
     }
 
     @Override // com.google.android.exoplayer2.extractor.SeekMap
@@ -89,12 +94,7 @@ final class VbriSeeker implements Seeker {
     }
 
     @Override // com.google.android.exoplayer2.extractor.SeekMap
-    public long getDurationUs() {
-        return this.durationUs;
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.mp3.Seeker
-    public long getDataEndPosition() {
-        return this.dataEndPosition;
+    public boolean isSeekable() {
+        return true;
     }
 }

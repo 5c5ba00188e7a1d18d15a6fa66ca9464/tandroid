@@ -3,7 +3,6 @@ package com.google.android.gms.common.logging;
 import android.util.Log;
 import com.google.android.gms.common.internal.GmsLogger;
 import java.util.Locale;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class Logger {
     private final String zza;
@@ -43,6 +42,10 @@ public class Logger {
         }
     }
 
+    public void e(String str, Object... objArr) {
+        Log.e(this.zza, format(str, objArr));
+    }
+
     protected String format(String str, Object... objArr) {
         if (objArr != null && objArr.length > 0) {
             str = String.format(Locale.US, str, objArr);
@@ -52,9 +55,5 @@ public class Logger {
 
     public boolean isLoggable(int i) {
         return this.zzd <= i;
-    }
-
-    public void e(String str, Object... objArr) {
-        Log.e(this.zza, format(str, objArr));
     }
 }

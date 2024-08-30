@@ -21,64 +21,28 @@ public class UserNameResolver {
     private static final long CACHE_TIME = 3600000;
     private final int currentAccount;
     android.util.LruCache<String, CachedPeer> resolvedCache = new android.util.LruCache<>(100);
-    HashMap<String, ArrayList<Consumer<Long>>> resolvingConsumers = new HashMap<>();
+    HashMap<String, ArrayList<Consumer>> resolvingConsumers = new HashMap<>();
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public class CachedPeer {
+        final long peerId;
+        final long time = System.currentTimeMillis();
+
+        public CachedPeer(long j) {
+            this.peerId = j;
+        }
+    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public UserNameResolver(int i) {
         this.currentAccount = i;
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    public void resolve(final String str, Consumer<Long> consumer) {
-        TLRPC$TL_contacts_resolveUsername tLRPC$TL_contacts_resolveUsername;
-        CachedPeer cachedPeer = this.resolvedCache.get(str);
-        if (cachedPeer != null) {
-            if (System.currentTimeMillis() - cachedPeer.time < CACHE_TIME) {
-                consumer.accept(Long.valueOf(cachedPeer.peerId));
-                FileLog.d("resolve username from cache " + str + " " + cachedPeer.peerId);
-                return;
-            }
-            this.resolvedCache.remove(str);
-        }
-        ArrayList<Consumer<Long>> arrayList = this.resolvingConsumers.get(str);
-        if (arrayList != null) {
-            arrayList.add(consumer);
-            return;
-        }
-        ArrayList<Consumer<Long>> arrayList2 = new ArrayList<>();
-        arrayList2.add(consumer);
-        this.resolvingConsumers.put(str, arrayList2);
-        if (AndroidUtilities.isNumeric(str)) {
-            TLRPC$TL_contacts_resolvePhone tLRPC$TL_contacts_resolvePhone = new TLRPC$TL_contacts_resolvePhone();
-            tLRPC$TL_contacts_resolvePhone.phone = str;
-            tLRPC$TL_contacts_resolveUsername = tLRPC$TL_contacts_resolvePhone;
-        } else {
-            TLRPC$TL_contacts_resolveUsername tLRPC$TL_contacts_resolveUsername2 = new TLRPC$TL_contacts_resolveUsername();
-            tLRPC$TL_contacts_resolveUsername2.username = str;
-            tLRPC$TL_contacts_resolveUsername = tLRPC$TL_contacts_resolveUsername2;
-        }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.messenger.UserNameResolver$$ExternalSyntheticLambda0
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                UserNameResolver.this.lambda$resolve$1(str, tLObject, tLRPC$TL_error);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$resolve$1(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserNameResolver$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                UserNameResolver.this.lambda$resolve$0(str, tLRPC$TL_error, tLObject);
-            }
-        }, 2L);
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$resolve$0(String str, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         BaseFragment lastFragment;
-        ArrayList<Consumer<Long>> remove = this.resolvingConsumers.remove(str);
+        ArrayList<Consumer> remove = this.resolvingConsumers.remove(str);
         if (remove == null) {
             return;
         }
@@ -107,16 +71,51 @@ public class UserNameResolver {
         }
     }
 
-    public void update(TLRPC$User tLRPC$User, TLRPC$User tLRPC$User2) {
-        String str;
-        if (tLRPC$User == null || tLRPC$User2 == null || (str = tLRPC$User.username) == null || TextUtils.equals(str, tLRPC$User2.username)) {
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$resolve$1(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserNameResolver$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                UserNameResolver.this.lambda$resolve$0(str, tLRPC$TL_error, tLObject);
+            }
+        }, 2L);
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    public void resolve(final String str, Consumer consumer) {
+        TLRPC$TL_contacts_resolveUsername tLRPC$TL_contacts_resolveUsername;
+        CachedPeer cachedPeer = this.resolvedCache.get(str);
+        if (cachedPeer != null) {
+            if (System.currentTimeMillis() - cachedPeer.time < CACHE_TIME) {
+                consumer.accept(Long.valueOf(cachedPeer.peerId));
+                FileLog.d("resolve username from cache " + str + " " + cachedPeer.peerId);
+                return;
+            }
+            this.resolvedCache.remove(str);
+        }
+        ArrayList<Consumer> arrayList = this.resolvingConsumers.get(str);
+        if (arrayList != null) {
+            arrayList.add(consumer);
             return;
         }
-        this.resolvedCache.remove(tLRPC$User.username);
-        String str2 = tLRPC$User2.username;
-        if (str2 != null) {
-            this.resolvedCache.put(str2, new CachedPeer(tLRPC$User2.id));
+        ArrayList<Consumer> arrayList2 = new ArrayList<>();
+        arrayList2.add(consumer);
+        this.resolvingConsumers.put(str, arrayList2);
+        if (AndroidUtilities.isNumeric(str)) {
+            TLRPC$TL_contacts_resolvePhone tLRPC$TL_contacts_resolvePhone = new TLRPC$TL_contacts_resolvePhone();
+            tLRPC$TL_contacts_resolvePhone.phone = str;
+            tLRPC$TL_contacts_resolveUsername = tLRPC$TL_contacts_resolvePhone;
+        } else {
+            TLRPC$TL_contacts_resolveUsername tLRPC$TL_contacts_resolveUsername2 = new TLRPC$TL_contacts_resolveUsername();
+            tLRPC$TL_contacts_resolveUsername2.username = str;
+            tLRPC$TL_contacts_resolveUsername = tLRPC$TL_contacts_resolveUsername2;
         }
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.messenger.UserNameResolver$$ExternalSyntheticLambda0
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                UserNameResolver.this.lambda$resolve$1(str, tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
     public void update(TLRPC$Chat tLRPC$Chat, TLRPC$Chat tLRPC$Chat2) {
@@ -131,14 +130,15 @@ public class UserNameResolver {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class CachedPeer {
-        final long peerId;
-        final long time = System.currentTimeMillis();
-
-        public CachedPeer(long j) {
-            this.peerId = j;
+    public void update(TLRPC$User tLRPC$User, TLRPC$User tLRPC$User2) {
+        String str;
+        if (tLRPC$User == null || tLRPC$User2 == null || (str = tLRPC$User.username) == null || TextUtils.equals(str, tLRPC$User2.username)) {
+            return;
+        }
+        this.resolvedCache.remove(tLRPC$User.username);
+        String str2 = tLRPC$User2.username;
+        if (str2 != null) {
+            this.resolvedCache.put(str2, new CachedPeer(tLRPC$User2.id));
         }
     }
 }

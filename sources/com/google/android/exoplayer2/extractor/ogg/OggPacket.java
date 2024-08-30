@@ -4,7 +4,6 @@ import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.ExtractorUtil;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
-import java.io.IOException;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 final class OggPacket {
@@ -14,14 +13,34 @@ final class OggPacket {
     private final ParsableByteArray packetArray = new ParsableByteArray(new byte[65025], 0);
     private int currentSegmentIndex = -1;
 
-    public void reset() {
-        this.pageHeader.reset();
-        this.packetArray.reset(0);
-        this.currentSegmentIndex = -1;
-        this.populated = false;
+    private int calculatePacketSize(int i) {
+        int i2;
+        int i3 = 0;
+        this.segmentCount = 0;
+        do {
+            int i4 = this.segmentCount;
+            int i5 = i + i4;
+            OggPageHeader oggPageHeader = this.pageHeader;
+            if (i5 >= oggPageHeader.pageSegmentCount) {
+                break;
+            }
+            int[] iArr = oggPageHeader.laces;
+            this.segmentCount = i4 + 1;
+            i2 = iArr[i5];
+            i3 += i2;
+        } while (i2 == 255);
+        return i3;
     }
 
-    public boolean populate(ExtractorInput extractorInput) throws IOException {
+    public OggPageHeader getPageHeader() {
+        return this.pageHeader;
+    }
+
+    public ParsableByteArray getPayload() {
+        return this.packetArray;
+    }
+
+    public boolean populate(ExtractorInput extractorInput) {
         int i;
         Assertions.checkState(extractorInput != null);
         if (this.populated) {
@@ -66,12 +85,11 @@ final class OggPacket {
         return true;
     }
 
-    public OggPageHeader getPageHeader() {
-        return this.pageHeader;
-    }
-
-    public ParsableByteArray getPayload() {
-        return this.packetArray;
+    public void reset() {
+        this.pageHeader.reset();
+        this.packetArray.reset(0);
+        this.currentSegmentIndex = -1;
+        this.populated = false;
     }
 
     public void trimPayload() {
@@ -80,24 +98,5 @@ final class OggPacket {
         }
         ParsableByteArray parsableByteArray = this.packetArray;
         parsableByteArray.reset(Arrays.copyOf(parsableByteArray.getData(), Math.max(65025, this.packetArray.limit())), this.packetArray.limit());
-    }
-
-    private int calculatePacketSize(int i) {
-        int i2;
-        int i3 = 0;
-        this.segmentCount = 0;
-        do {
-            int i4 = this.segmentCount;
-            int i5 = i + i4;
-            OggPageHeader oggPageHeader = this.pageHeader;
-            if (i5 >= oggPageHeader.pageSegmentCount) {
-                break;
-            }
-            int[] iArr = oggPageHeader.laces;
-            this.segmentCount = i4 + 1;
-            i2 = iArr[i5];
-            i3 += i2;
-        } while (i2 == 255);
-        return i3;
     }
 }

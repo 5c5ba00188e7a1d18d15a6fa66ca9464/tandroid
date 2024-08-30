@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_common;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
-public final class zztd {
+public abstract class zztd {
     private static zztc zza;
 
     public static synchronized zzss zza(zzsm zzsmVar) {

@@ -6,7 +6,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class ChapterFrame extends Id3Frame {
-    public static final Parcelable.Creator<ChapterFrame> CREATOR = new Parcelable.Creator<ChapterFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.ChapterFrame.1
+    public static final Parcelable.Creator<ChapterFrame> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.id3.ChapterFrame.1
         @Override // android.os.Parcelable.Creator
         public ChapterFrame createFromParcel(Parcel parcel) {
             return new ChapterFrame(parcel);
@@ -24,21 +24,6 @@ public final class ChapterFrame extends Id3Frame {
     public final int startTimeMs;
     private final Id3Frame[] subFrames;
 
-    @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame, android.os.Parcelable
-    public int describeContents() {
-        return 0;
-    }
-
-    public ChapterFrame(String str, int i, int i2, long j, long j2, Id3Frame[] id3FrameArr) {
-        super("CHAP");
-        this.chapterId = str;
-        this.startTimeMs = i;
-        this.endTimeMs = i2;
-        this.startOffset = j;
-        this.endOffset = j2;
-        this.subFrames = id3FrameArr;
-    }
-
     ChapterFrame(Parcel parcel) {
         super("CHAP");
         this.chapterId = (String) Util.castNonNull(parcel.readString());
@@ -51,6 +36,21 @@ public final class ChapterFrame extends Id3Frame {
         for (int i = 0; i < readInt; i++) {
             this.subFrames[i] = (Id3Frame) parcel.readParcelable(Id3Frame.class.getClassLoader());
         }
+    }
+
+    public ChapterFrame(String str, int i, int i2, long j, long j2, Id3Frame[] id3FrameArr) {
+        super("CHAP");
+        this.chapterId = str;
+        this.startTimeMs = i;
+        this.endTimeMs = i2;
+        this.startOffset = j;
+        this.endOffset = j2;
+        this.subFrames = id3FrameArr;
+    }
+
+    @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame, android.os.Parcelable
+    public int describeContents() {
+        return 0;
     }
 
     public boolean equals(Object obj) {

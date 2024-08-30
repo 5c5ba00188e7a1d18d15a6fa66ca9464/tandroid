@@ -45,9 +45,9 @@ public abstract class TL_stories$StoryItem extends TLObject {
     public String translatedLng;
     public TLRPC$TL_textWithEntities translatedText;
     public TL_stories$StoryViews views;
-    public ArrayList<TLRPC$MessageEntity> entities = new ArrayList<>();
-    public ArrayList<TL_stories$MediaArea> media_areas = new ArrayList<>();
-    public ArrayList<TLRPC$PrivacyRule> privacy = new ArrayList<>();
+    public ArrayList entities = new ArrayList();
+    public ArrayList media_areas = new ArrayList();
+    public ArrayList privacy = new ArrayList();
 
     public static TL_stories$StoryItem TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TL_stories$StoryItem tL_stories$StoryItem;
@@ -172,7 +172,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i11 = 0; i11 < size; i11++) {
-                                this.entities.get(i11).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i11)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         this.media.serializeToStream(abstractSerializedData2);
@@ -181,7 +181,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                             int size2 = this.media_areas.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i12 = 0; i12 < size2; i12++) {
-                                this.media_areas.get(i12).serializeToStream(abstractSerializedData2);
+                                ((TL_stories$MediaArea) this.media_areas.get(i12)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 4) != 0) {
@@ -189,7 +189,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                             int size3 = this.privacy.size();
                             abstractSerializedData2.writeInt32(size3);
                             for (int i13 = 0; i13 < size3; i13++) {
-                                this.privacy.get(i13).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$PrivacyRule) this.privacy.get(i13)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 8) != 0) {
@@ -339,7 +339,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i11 = 0; i11 < size; i11++) {
-                                this.entities.get(i11).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i11)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         this.media.serializeToStream(abstractSerializedData2);
@@ -348,7 +348,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                             int size2 = this.media_areas.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i12 = 0; i12 < size2; i12++) {
-                                this.media_areas.get(i12).serializeToStream(abstractSerializedData2);
+                                ((TL_stories$MediaArea) this.media_areas.get(i12)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 4) != 0) {
@@ -356,7 +356,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                             int size3 = this.privacy.size();
                             abstractSerializedData2.writeInt32(size3);
                             for (int i13 = 0; i13 < size3; i13++) {
-                                this.privacy.get(i13).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$PrivacyRule) this.privacy.get(i13)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 8) != 0) {
@@ -462,7 +462,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i10 = 0; i10 < size; i10++) {
-                                this.entities.get(i10).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i10)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         this.media.serializeToStream(abstractSerializedData2);
@@ -471,7 +471,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                             int size2 = this.privacy.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i11 = 0; i11 < size2; i11++) {
-                                this.privacy.get(i11).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$PrivacyRule) this.privacy.get(i11)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 8) != 0) {

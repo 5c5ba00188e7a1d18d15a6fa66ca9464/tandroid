@@ -8,9 +8,9 @@ import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.internal.clearcut.zzj;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zza extends Api.AbstractClientBuilder<zzj, Api.ApiOptions.NoOptions> {
+public final class zza extends Api.AbstractClientBuilder {
     @Override // com.google.android.gms.common.api.Api.AbstractClientBuilder
-    public final /* synthetic */ zzj buildClient(Context context, Looper looper, ClientSettings clientSettings, Api.ApiOptions.NoOptions noOptions, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
+    public final /* synthetic */ Api.Client buildClient(Context context, Looper looper, ClientSettings clientSettings, Object obj, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
         return new zzj(context, looper, clientSettings, connectionCallbacks, onConnectionFailedListener);
     }
 }

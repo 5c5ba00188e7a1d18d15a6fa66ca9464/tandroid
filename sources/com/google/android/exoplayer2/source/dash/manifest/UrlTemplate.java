@@ -8,13 +8,6 @@ public final class UrlTemplate {
     private final int[] identifiers;
     private final String[] urlPieces;
 
-    public static UrlTemplate compile(String str) {
-        String[] strArr = new String[5];
-        int[] iArr = new int[4];
-        String[] strArr2 = new String[4];
-        return new UrlTemplate(strArr, iArr, strArr2, parseTemplate(str, strArr, iArr, strArr2));
-    }
-
     private UrlTemplate(String[] strArr, int[] iArr, String[] strArr2, int i) {
         this.urlPieces = strArr;
         this.identifiers = iArr;
@@ -22,29 +15,11 @@ public final class UrlTemplate {
         this.identifierCount = i;
     }
 
-    public String buildUri(String str, long j, int i, long j2) {
-        StringBuilder sb = new StringBuilder();
-        int i2 = 0;
-        while (true) {
-            int i3 = this.identifierCount;
-            if (i2 < i3) {
-                sb.append(this.urlPieces[i2]);
-                int i4 = this.identifiers[i2];
-                if (i4 == 1) {
-                    sb.append(str);
-                } else if (i4 == 2) {
-                    sb.append(String.format(Locale.US, this.identifierFormatTags[i2], Long.valueOf(j)));
-                } else if (i4 == 3) {
-                    sb.append(String.format(Locale.US, this.identifierFormatTags[i2], Integer.valueOf(i)));
-                } else if (i4 == 4) {
-                    sb.append(String.format(Locale.US, this.identifierFormatTags[i2], Long.valueOf(j2)));
-                }
-                i2++;
-            } else {
-                sb.append(this.urlPieces[i3]);
-                return sb.toString();
-            }
-        }
+    public static UrlTemplate compile(String str) {
+        String[] strArr = new String[5];
+        int[] iArr = new int[4];
+        String[] strArr2 = new String[4];
+        return new UrlTemplate(strArr, iArr, strArr2, parseTemplate(str, strArr, iArr, strArr2));
     }
 
     private static int parseTemplate(String str, String[] strArr, int[] iArr, String[] strArr2) {
@@ -72,14 +47,14 @@ public final class UrlTemplate {
                     iArr[i2] = 1;
                 } else {
                     int indexOf3 = substring.indexOf("%0");
-                    if (indexOf3 == -1) {
-                        str2 = "%01d";
-                    } else {
+                    if (indexOf3 != -1) {
                         str2 = substring.substring(indexOf3);
                         if (!str2.endsWith("d") && !str2.endsWith("x") && !str2.endsWith("X")) {
                             str2 = str2 + "d";
                         }
                         substring = substring.substring(0, indexOf3);
+                    } else {
+                        str2 = "%01d";
                     }
                     substring.hashCode();
                     switch (substring.hashCode()) {
@@ -123,5 +98,33 @@ public final class UrlTemplate {
             }
         }
         return i2;
+    }
+
+    public String buildUri(String str, long j, int i, long j2) {
+        String format;
+        StringBuilder sb = new StringBuilder();
+        int i2 = 0;
+        while (true) {
+            int i3 = this.identifierCount;
+            if (i2 >= i3) {
+                sb.append(this.urlPieces[i3]);
+                return sb.toString();
+            }
+            sb.append(this.urlPieces[i2]);
+            int i4 = this.identifiers[i2];
+            if (i4 == 1) {
+                sb.append(str);
+            } else {
+                if (i4 == 2) {
+                    format = String.format(Locale.US, this.identifierFormatTags[i2], Long.valueOf(j));
+                } else if (i4 == 3) {
+                    format = String.format(Locale.US, this.identifierFormatTags[i2], Integer.valueOf(i));
+                } else if (i4 == 4) {
+                    format = String.format(Locale.US, this.identifierFormatTags[i2], Long.valueOf(j2));
+                }
+                sb.append(format);
+            }
+            i2++;
+        }
     }
 }

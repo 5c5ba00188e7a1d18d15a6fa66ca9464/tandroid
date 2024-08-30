@@ -1,10 +1,8 @@
 package com.google.android.gms.internal.safetynet;
 
 import android.os.Parcel;
-import android.os.RemoteException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.safetynet.SafeBrowsingData;
-/* compiled from: com.google.android.gms:play-services-safetynet@@17.0.1 */
 /* loaded from: classes.dex */
 public abstract class zzf extends zzb implements zzg {
     public zzf() {
@@ -12,7 +10,7 @@ public abstract class zzf extends zzb implements zzg {
     }
 
     @Override // com.google.android.gms.internal.safetynet.zzb
-    protected final boolean zza(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
+    protected final boolean zza(int i, Parcel parcel, Parcel parcel2, int i2) {
         if (i == 1) {
             zzd((Status) zzc.zza(parcel, Status.CREATOR), (com.google.android.gms.safetynet.zza) zzc.zza(parcel, com.google.android.gms.safetynet.zza.CREATOR));
         } else if (i == 2) {

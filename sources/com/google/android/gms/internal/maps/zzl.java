@@ -1,24 +1,22 @@
 package com.google.android.gms.internal.maps;
 
 import android.os.IInterface;
-import android.os.RemoteException;
 import com.google.android.gms.maps.model.LatLng;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public interface zzl extends IInterface {
-    double zzd() throws RemoteException;
+    double zzd();
 
-    int zzi() throws RemoteException;
+    int zzi();
 
-    void zzn() throws RemoteException;
+    void zzn();
 
-    void zzo(LatLng latLng) throws RemoteException;
+    void zzo(LatLng latLng);
 
-    void zzq(int i) throws RemoteException;
+    void zzq(int i);
 
-    void zzr(double d) throws RemoteException;
+    void zzr(double d);
 
-    void zzs(int i) throws RemoteException;
+    void zzs(int i);
 
-    boolean zzy(zzl zzlVar) throws RemoteException;
+    boolean zzy(zzl zzlVar);
 }

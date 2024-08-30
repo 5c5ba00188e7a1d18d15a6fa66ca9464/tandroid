@@ -1,7 +1,6 @@
 package com.google.android.gms.common.api;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public class CommonStatusCodes {
+public abstract class CommonStatusCodes {
     public static String getStatusCodeString(int i) {
         switch (i) {
             case -1:

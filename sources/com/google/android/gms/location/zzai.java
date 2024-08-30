@@ -1,7 +1,6 @@
 package com.google.android.gms.location;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
-public final class zzai {
+public abstract class zzai {
     public static String zza(int i) {
         if (i != 0) {
             if (i != 1) {

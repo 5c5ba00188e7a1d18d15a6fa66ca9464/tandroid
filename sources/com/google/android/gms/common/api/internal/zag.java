@@ -5,7 +5,6 @@ import android.os.RemoteException;
 import com.google.android.gms.common.Feature;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.TaskCompletionSource;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zag extends zac {
     private final TaskApiCall zaa;
@@ -43,7 +42,7 @@ public final class zag extends zac {
     }
 
     @Override // com.google.android.gms.common.api.internal.zai
-    public final void zaf(zabq zabqVar) throws DeadObjectException {
+    public final void zaf(zabq zabqVar) {
         try {
             this.zaa.doExecute(zabqVar.zaf(), this.zab);
         } catch (DeadObjectException e) {

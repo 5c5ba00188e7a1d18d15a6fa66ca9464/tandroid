@@ -11,10 +11,6 @@ public class PieLegendView extends LegendSignatureView {
     TextView signature;
     TextView value;
 
-    @Override // org.telegram.ui.Charts.view_data.LegendSignatureView
-    public void setSize(int i) {
-    }
-
     public PieLegendView(Context context) {
         super(context);
         LinearLayout linearLayout = new LinearLayout(getContext());
@@ -46,5 +42,9 @@ public class PieLegendView extends LegendSignatureView {
         this.signature.setText(str);
         this.value.setText(Integer.toString(i));
         this.value.setTextColor(i2);
+    }
+
+    @Override // org.telegram.ui.Charts.view_data.LegendSignatureView
+    public void setSize(int i) {
     }
 }

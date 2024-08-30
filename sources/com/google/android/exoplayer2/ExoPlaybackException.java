@@ -17,7 +17,7 @@ public final class ExoPlaybackException extends PlaybackException {
     public final int rendererIndex;
     public final String rendererName;
     public final int type;
-    public static final Bundleable.Creator<ExoPlaybackException> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.ExoPlaybackException$$ExternalSyntheticLambda0
+    public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.ExoPlaybackException$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.Bundleable.Creator
         public final Bundleable fromBundle(Bundle bundle) {
             return ExoPlaybackException.$r8$lambda$1XKy3W7SelM_FKalWARGEC-f72M(bundle);
@@ -34,23 +34,6 @@ public final class ExoPlaybackException extends PlaybackException {
         return new ExoPlaybackException(bundle);
     }
 
-    public static ExoPlaybackException createForSource(IOException iOException, int i) {
-        return new ExoPlaybackException(0, iOException, i);
-    }
-
-    public static ExoPlaybackException createForRenderer(Throwable th, String str, int i, Format format, int i2, boolean z, int i3) {
-        return new ExoPlaybackException(1, th, null, i3, str, i, format, format == null ? 4 : i2, z);
-    }
-
-    @Deprecated
-    public static ExoPlaybackException createForUnexpected(RuntimeException runtimeException) {
-        return createForUnexpected(runtimeException, 1000);
-    }
-
-    public static ExoPlaybackException createForUnexpected(RuntimeException runtimeException, int i) {
-        return new ExoPlaybackException(2, runtimeException, i);
-    }
-
     private ExoPlaybackException(int i, Throwable th, int i2) {
         this(i, th, null, i2, null, -1, null, 4, false);
     }
@@ -65,7 +48,7 @@ public final class ExoPlaybackException extends PlaybackException {
         this.rendererName = bundle.getString(FIELD_RENDERER_NAME);
         this.rendererIndex = bundle.getInt(FIELD_RENDERER_INDEX, -1);
         Bundle bundle2 = bundle.getBundle(FIELD_RENDERER_FORMAT);
-        this.rendererFormat = bundle2 == null ? null : Format.CREATOR.fromBundle(bundle2);
+        this.rendererFormat = bundle2 == null ? null : (Format) Format.CREATOR.fromBundle(bundle2);
         this.rendererFormatSupport = bundle.getInt(FIELD_RENDERER_FORMAT_SUPPORT, 4);
         this.isRecoverable = bundle.getBoolean(FIELD_IS_RECOVERABLE, false);
         this.mediaPeriodId = null;
@@ -85,26 +68,40 @@ public final class ExoPlaybackException extends PlaybackException {
         this.isRecoverable = z;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ExoPlaybackException copyWithMediaPeriodId(MediaPeriodId mediaPeriodId) {
-        return new ExoPlaybackException((String) Util.castNonNull(getMessage()), getCause(), this.errorCode, this.type, this.rendererName, this.rendererIndex, this.rendererFormat, this.rendererFormatSupport, mediaPeriodId, this.timestampMs, this.isRecoverable);
+    public static ExoPlaybackException createForRenderer(Throwable th, String str, int i, Format format, int i2, boolean z, int i3) {
+        return new ExoPlaybackException(1, th, null, i3, str, i, format, format == null ? 4 : i2, z);
+    }
+
+    public static ExoPlaybackException createForSource(IOException iOException, int i) {
+        return new ExoPlaybackException(0, iOException, i);
+    }
+
+    public static ExoPlaybackException createForUnexpected(RuntimeException runtimeException) {
+        return createForUnexpected(runtimeException, 1000);
+    }
+
+    public static ExoPlaybackException createForUnexpected(RuntimeException runtimeException, int i) {
+        return new ExoPlaybackException(2, runtimeException, i);
     }
 
     private static String deriveMessage(int i, String str, String str2, int i2, Format format, int i3) {
         String str3;
         if (i == 0) {
             str3 = "Source error";
-        } else if (i == 1) {
-            str3 = str2 + " error, index=" + i2 + ", format=" + format + ", format_supported=" + Util.getFormatSupportString(i3);
-        } else if (i == 3) {
-            str3 = "Remote error";
+        } else if (i != 1) {
+            str3 = i != 3 ? "Unexpected runtime error" : "Remote error";
         } else {
-            str3 = "Unexpected runtime error";
+            str3 = str2 + " error, index=" + i2 + ", format=" + format + ", format_supported=" + Util.getFormatSupportString(i3);
         }
         if (TextUtils.isEmpty(str)) {
             return str3;
         }
         return str3 + ": " + str;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public ExoPlaybackException copyWithMediaPeriodId(MediaPeriodId mediaPeriodId) {
+        return new ExoPlaybackException((String) Util.castNonNull(getMessage()), getCause(), this.errorCode, this.type, this.rendererName, this.rendererIndex, this.rendererFormat, this.rendererFormatSupport, mediaPeriodId, this.timestampMs, this.isRecoverable);
     }
 
     @Override // com.google.android.exoplayer2.PlaybackException, com.google.android.exoplayer2.Bundleable

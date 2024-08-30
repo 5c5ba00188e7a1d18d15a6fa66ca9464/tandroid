@@ -3,26 +3,18 @@ package com.google.android.gms.internal.icing;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
-public final class zzc {
+public abstract class zzc {
     private static final ClassLoader zza = zzc.class.getClassLoader();
 
-    private zzc() {
-    }
-
-    public static <T extends Parcelable> T zza(Parcel parcel, Parcelable.Creator<T> creator) {
+    public static Parcelable zza(Parcel parcel, Parcelable.Creator creator) {
         if (parcel.readInt() == 0) {
             return null;
         }
-        return creator.createFromParcel(parcel);
+        return (Parcelable) creator.createFromParcel(parcel);
     }
 
     public static void zzc(Parcel parcel, IInterface iInterface) {
-        if (iInterface == null) {
-            parcel.writeStrongBinder(null);
-        } else {
-            parcel.writeStrongBinder(iInterface.asBinder());
-        }
+        parcel.writeStrongBinder(iInterface == null ? null : iInterface.asBinder());
     }
 }

@@ -1,5 +1,4 @@
 package org.telegram.messenger;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes3.dex */
-public final /* synthetic */ class MusicBrowserService$$ExternalSyntheticApiModelOutline2 {
+public abstract /* synthetic */ class MusicBrowserService$$ExternalSyntheticApiModelOutline2 {
 }

@@ -7,49 +7,38 @@ import java.util.Set;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.SharedConfig;
 /* loaded from: classes3.dex */
-public class HwEmojis {
+public abstract class HwEmojis {
     private static Boolean isWeakDevice;
     private static Runnable task;
-    private static final Set<View> hwViews = new HashSet();
+    private static final Set hwViews = new HashSet();
     private static volatile boolean hwEnabled = false;
     private static boolean firstOpen = true;
     private static boolean isPreparing = false;
     private static boolean isCascade = false;
     private static boolean isBeforePreparing = false;
 
-    public static void prepare(Runnable runnable, boolean z) {
-        isCascade = z;
-        isPreparing = true;
-        isBeforePreparing = false;
-        if (firstOpen) {
-            firstOpen = false;
-        }
-        task = runnable;
-    }
-
     public static void beforePreparing() {
         ImageLoader.getInstance().getCacheOutQueue().pause();
         isBeforePreparing = true;
     }
 
-    public static boolean isCascade() {
-        return isCascade;
+    public static void disableHw() {
+        ImageLoader.getInstance().getCacheOutQueue().resume();
+        hwEnabled = false;
+        isPreparing = false;
+        isBeforePreparing = false;
+        task = null;
+        for (View view : hwViews) {
+            view.invalidate();
+        }
+        hwViews.clear();
     }
 
-    public static boolean isPreparing() {
-        return isPreparing;
-    }
-
-    public static boolean isFirstOpen() {
-        return firstOpen;
-    }
-
-    public static boolean isHwEnabled() {
-        return hwEnabled;
-    }
-
-    public static boolean isHwEnabledOrPreparing() {
-        return hwEnabled || isPreparing || isBeforePreparing;
+    public static void enableHw() {
+        ImageLoader.getInstance().getCacheOutQueue().pause();
+        hwEnabled = true;
+        isPreparing = false;
+        isBeforePreparing = false;
     }
 
     public static void exec() {
@@ -80,22 +69,33 @@ public class HwEmojis {
         return false;
     }
 
-    public static void enableHw() {
-        ImageLoader.getInstance().getCacheOutQueue().pause();
-        hwEnabled = true;
-        isPreparing = false;
-        isBeforePreparing = false;
+    public static boolean isCascade() {
+        return isCascade;
     }
 
-    public static void disableHw() {
-        ImageLoader.getInstance().getCacheOutQueue().resume();
-        hwEnabled = false;
-        isPreparing = false;
+    public static boolean isFirstOpen() {
+        return firstOpen;
+    }
+
+    public static boolean isHwEnabled() {
+        return hwEnabled;
+    }
+
+    public static boolean isHwEnabledOrPreparing() {
+        return hwEnabled || isPreparing || isBeforePreparing;
+    }
+
+    public static boolean isPreparing() {
+        return isPreparing;
+    }
+
+    public static void prepare(Runnable runnable, boolean z) {
+        isCascade = z;
+        isPreparing = true;
         isBeforePreparing = false;
-        task = null;
-        for (View view : hwViews) {
-            view.invalidate();
+        if (firstOpen) {
+            firstOpen = false;
         }
-        hwViews.clear();
+        task = runnable;
     }
 }

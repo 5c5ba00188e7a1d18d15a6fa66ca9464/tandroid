@@ -1,6 +1,6 @@
 package com.google.android.gms.internal.vision;
 
-import com.google.android.gms.internal.vision.zzio;
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,40 +9,37 @@ import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-abstract class zziz<T extends zzio> {
+abstract class zziz {
     private static final Logger zza = Logger.getLogger(zzii.class.getName());
     private static String zzb = "com.google.protobuf.BlazeGeneratedExtensionRegistryLiteLoader";
 
-    zziz() {
-    }
-
-    protected abstract T zza();
-
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <T extends zzio> T zza(Class<T> cls) {
-        String format;
+    public static zzio zza(Class cls) {
+        String str;
         ClassLoader classLoader = zziz.class.getClassLoader();
         if (cls.equals(zzio.class)) {
-            format = zzb;
+            str = zzb;
         } else if (!cls.getPackage().equals(zziz.class.getPackage())) {
             throw new IllegalArgumentException(cls.getName());
         } else {
-            format = String.format("%s.BlazeGenerated%sLoader", cls.getPackage().getName(), cls.getSimpleName());
+            str = String.format("%s.BlazeGenerated%sLoader", cls.getPackage().getName(), cls.getSimpleName());
         }
         try {
             try {
                 try {
-                    return cls.cast(((zziz) Class.forName(format, true, classLoader).getConstructor(null).newInstance(null)).zza());
-                } catch (IllegalAccessException e) {
-                    throw new IllegalStateException(e);
-                } catch (InvocationTargetException e2) {
+                    try {
+                        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(Class.forName(str, true, classLoader).getConstructor(null).newInstance(null));
+                        throw null;
+                    } catch (InstantiationException e) {
+                        throw new IllegalStateException(e);
+                    }
+                } catch (IllegalAccessException e2) {
                     throw new IllegalStateException(e2);
                 }
-            } catch (InstantiationException e3) {
+            } catch (NoSuchMethodException e3) {
                 throw new IllegalStateException(e3);
-            } catch (NoSuchMethodException e4) {
+            } catch (InvocationTargetException e4) {
                 throw new IllegalStateException(e4);
             }
         } catch (ClassNotFoundException unused) {
@@ -50,7 +47,8 @@ abstract class zziz<T extends zzio> {
             ArrayList arrayList = new ArrayList();
             while (it.hasNext()) {
                 try {
-                    arrayList.add(cls.cast(((zziz) it.next()).zza()));
+                    ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
+                    throw null;
                 } catch (ServiceConfigurationError e5) {
                     Logger logger = zza;
                     Level level = Level.SEVERE;
@@ -59,13 +57,13 @@ abstract class zziz<T extends zzio> {
                 }
             }
             if (arrayList.size() == 1) {
-                return (T) arrayList.get(0);
+                return (zzio) arrayList.get(0);
             }
             if (arrayList.size() == 0) {
                 return null;
             }
             try {
-                return (T) cls.getMethod("combine", Collection.class).invoke(null, arrayList);
+                return (zzio) cls.getMethod("combine", Collection.class).invoke(null, arrayList);
             } catch (IllegalAccessException e6) {
                 throw new IllegalStateException(e6);
             } catch (NoSuchMethodException e7) {

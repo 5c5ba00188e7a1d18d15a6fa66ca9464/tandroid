@@ -17,19 +17,19 @@ public final class zzp implements ClearcutLogger.zza {
     private static final Charset UTF_8 = Charset.forName("UTF-8");
     private static final zzao zzaq;
     private static final zzao zzar;
-    private static final ConcurrentHashMap<String, zzae<zzgw$zza>> zzas;
-    private static final HashMap<String, zzae<String>> zzat;
+    private static final ConcurrentHashMap zzas;
+    private static final HashMap zzat;
     private static Boolean zzau;
     private static Long zzav;
-    private static final zzae<Boolean> zzaw;
+    private static final zzae zzaw;
     private final Context zzh;
 
     static {
         zzao zzd = new zzao(Phenotype.getContentProviderUri("com.google.android.gms.clearcut.public")).zzc("gms:playlog:service:samplingrules_").zzd("LogSamplingRules__");
         zzaq = zzd;
         zzar = new zzao(Phenotype.getContentProviderUri("com.google.android.gms.clearcut.public")).zzc("gms:playlog:service:sampling_").zzd("LogSampling__");
-        zzas = new ConcurrentHashMap<>();
-        zzat = new HashMap<>();
+        zzas = new ConcurrentHashMap();
+        zzat = new HashMap();
         zzau = null;
         zzav = null;
         zzaw = zzd.zzc("enable_log_sampling_rules", false);
@@ -83,7 +83,7 @@ public final class zzp implements ClearcutLogger.zza {
                 Log.e("LogSamplerImpl", sb.toString());
                 return null;
             }
-            return zzgw$zza.zzb.zzfz().zzn(str2).zzr(parseLong).zzs(parseLong2).zzbh();
+            return (zzgw$zza.zzb) zzgw$zza.zzb.zzfz().zzn(str2).zzr(parseLong).zzs(parseLong2).zzbh();
         } catch (NumberFormatException e) {
             Log.e("LogSamplerImpl", str.length() != 0 ? "parseLong() failed while parsing: ".concat(str) : new String("parseLong() failed while parsing: "), e);
             return null;
@@ -117,27 +117,26 @@ public final class zzp implements ClearcutLogger.zza {
     @Override // com.google.android.gms.clearcut.ClearcutLogger.zza
     public final boolean zza(com.google.android.gms.clearcut.zze zzeVar) {
         List<zzgw$zza.zzb> zzfs;
-        zzae<zzgw$zza> putIfAbsent;
         zzr zzrVar = zzeVar.zzag;
         String str = zzrVar.zzj;
         int i = zzrVar.zzk;
         zzha zzhaVar = zzeVar.zzaa;
         int i2 = zzhaVar != null ? zzhaVar.zzbji : 0;
         String str2 = null;
-        if (!zzaw.get().booleanValue()) {
+        if (!((Boolean) zzaw.get()).booleanValue()) {
             if (str == null || str.isEmpty()) {
                 str = i >= 0 ? String.valueOf(i) : null;
             }
             if (str != null) {
                 Context context = this.zzh;
                 if (context != null && zzc(context)) {
-                    HashMap<String, zzae<String>> hashMap = zzat;
-                    zzae<String> zzaeVar = hashMap.get(str);
+                    HashMap hashMap = zzat;
+                    zzae zzaeVar = (zzae) hashMap.get(str);
                     if (zzaeVar == null) {
                         zzaeVar = zzar.zza(str, null);
                         hashMap.put(str, zzaeVar);
                     }
-                    str2 = zzaeVar.get();
+                    str2 = (String) zzaeVar.get();
                 }
                 zzgw$zza.zzb zza = zza(str2);
                 if (zza != null) {
@@ -154,12 +153,16 @@ public final class zzp implements ClearcutLogger.zza {
             if (this.zzh == null) {
                 zzfs = Collections.emptyList();
             } else {
-                ConcurrentHashMap<String, zzae<zzgw$zza>> concurrentHashMap = zzas;
-                zzae<zzgw$zza> zzaeVar2 = concurrentHashMap.get(str);
-                if (zzaeVar2 == null && (putIfAbsent = concurrentHashMap.putIfAbsent(str, (zzaeVar2 = zzaq.zza(str, zzgw$zza.zzft(), zzq.zzax)))) != null) {
-                    zzaeVar2 = putIfAbsent;
+                ConcurrentHashMap concurrentHashMap = zzas;
+                zzae zzaeVar2 = (zzae) concurrentHashMap.get(str);
+                if (zzaeVar2 == null) {
+                    zzaeVar2 = zzaq.zza(str, zzgw$zza.zzft(), zzq.zzax);
+                    zzae zzaeVar3 = (zzae) concurrentHashMap.putIfAbsent(str, zzaeVar2);
+                    if (zzaeVar3 != null) {
+                        zzaeVar2 = zzaeVar3;
+                    }
                 }
-                zzfs = zzaeVar2.get().zzfs();
+                zzfs = ((zzgw$zza) zzaeVar2.get()).zzfs();
             }
             for (zzgw$zza.zzb zzbVar : zzfs) {
                 if (!zzbVar.zzfv() || zzbVar.getEventCode() == 0 || zzbVar.getEventCode() == i2) {

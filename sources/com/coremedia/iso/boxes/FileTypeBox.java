@@ -19,12 +19,20 @@ public class FileTypeBox extends AbstractBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_3 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_4 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_5 = null;
-    private List<String> compatibleBrands;
+    private List compatibleBrands;
     private String majorBrand;
     private long minorVersion;
 
     static {
         ajc$preClinit();
+    }
+
+    public FileTypeBox(String str, long j, List list) {
+        super("ftyp");
+        Collections.emptyList();
+        this.majorBrand = str;
+        this.minorVersion = j;
+        this.compatibleBrands = list;
     }
 
     private static /* synthetic */ void ajc$preClinit() {
@@ -35,24 +43,6 @@ public class FileTypeBox extends AbstractBox {
         ajc$tjp_3 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getMinorVersion", "com.coremedia.iso.boxes.FileTypeBox", "", "", "", "long"), 113);
         ajc$tjp_4 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getCompatibleBrands", "com.coremedia.iso.boxes.FileTypeBox", "", "", "", "java.util.List"), 122);
         ajc$tjp_5 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setCompatibleBrands", "com.coremedia.iso.boxes.FileTypeBox", "java.util.List", "compatibleBrands", "", "void"), 126);
-    }
-
-    public FileTypeBox() {
-        super("ftyp");
-        this.compatibleBrands = Collections.emptyList();
-    }
-
-    public FileTypeBox(String str, long j, List<String> list) {
-        super("ftyp");
-        Collections.emptyList();
-        this.majorBrand = str;
-        this.minorVersion = j;
-        this.compatibleBrands = list;
-    }
-
-    @Override // com.googlecode.mp4parser.AbstractBox
-    protected long getContentSize() {
-        return (this.compatibleBrands.size() * 4) + 8;
     }
 
     @Override // com.googlecode.mp4parser.AbstractBox
@@ -73,6 +63,11 @@ public class FileTypeBox extends AbstractBox {
         for (String str : this.compatibleBrands) {
             byteBuffer.put(IsoFile.fourCCtoBytes(str));
         }
+    }
+
+    @Override // com.googlecode.mp4parser.AbstractBox
+    protected long getContentSize() {
+        return (this.compatibleBrands.size() * 4) + 8;
     }
 
     public String getMajorBrand() {

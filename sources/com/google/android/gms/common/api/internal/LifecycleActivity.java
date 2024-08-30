@@ -3,7 +3,6 @@ package com.google.android.gms.common.api.internal;
 import android.app.Activity;
 import androidx.fragment.app.FragmentActivity;
 import com.google.android.gms.common.internal.Preconditions;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class LifecycleActivity {
     private final Object zza;

@@ -1,10 +1,9 @@
 package com.google.android.gms.flags.impl;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import java.util.concurrent.Callable;
 /* loaded from: classes.dex */
-final class zzk implements Callable<SharedPreferences> {
+final class zzk implements Callable {
     private final /* synthetic */ Context val$context;
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -13,7 +12,7 @@ final class zzk implements Callable<SharedPreferences> {
     }
 
     @Override // java.util.concurrent.Callable
-    public final /* synthetic */ SharedPreferences call() throws Exception {
+    public final /* synthetic */ Object call() {
         return this.val$context.getSharedPreferences("google_sdk_flags", 0);
     }
 }

@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class TextInformationFrame extends Id3Frame {
-    public static final Parcelable.Creator<TextInformationFrame> CREATOR = new Parcelable.Creator<TextInformationFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.TextInformationFrame.1
+    public static final Parcelable.Creator<TextInformationFrame> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.id3.TextInformationFrame.1
         @Override // android.os.Parcelable.Creator
         public TextInformationFrame createFromParcel(Parcel parcel) {
             return new TextInformationFrame(parcel);
@@ -23,21 +23,61 @@ public final class TextInformationFrame extends Id3Frame {
         }
     };
     public final String description;
-    @Deprecated
     public final String value;
-    public final ImmutableList<String> values;
-
-    public TextInformationFrame(String str, String str2, List<String> list) {
-        super(str);
-        Assertions.checkArgument(!list.isEmpty());
-        this.description = str2;
-        ImmutableList<String> copyOf = ImmutableList.copyOf((Collection) list);
-        this.values = copyOf;
-        this.value = copyOf.get(0);
-    }
+    public final ImmutableList values;
 
     private TextInformationFrame(Parcel parcel) {
         this((String) Assertions.checkNotNull(parcel.readString()), parcel.readString(), ImmutableList.copyOf((String[]) Assertions.checkNotNull(parcel.createStringArray())));
+    }
+
+    public TextInformationFrame(String str, String str2, List list) {
+        super(str);
+        Assertions.checkArgument(!list.isEmpty());
+        this.description = str2;
+        ImmutableList copyOf = ImmutableList.copyOf((Collection) list);
+        this.values = copyOf;
+        this.value = (String) copyOf.get(0);
+    }
+
+    private static List parseId3v2point4TimestampFrameForDate(String str) {
+        String substring;
+        ArrayList arrayList = new ArrayList();
+        try {
+            if (str.length() >= 10) {
+                arrayList.add(Integer.valueOf(Integer.parseInt(str.substring(0, 4))));
+                arrayList.add(Integer.valueOf(Integer.parseInt(str.substring(5, 7))));
+                substring = str.substring(8, 10);
+            } else if (str.length() < 7) {
+                if (str.length() >= 4) {
+                    substring = str.substring(0, 4);
+                }
+                return arrayList;
+            } else {
+                arrayList.add(Integer.valueOf(Integer.parseInt(str.substring(0, 4))));
+                substring = str.substring(5, 7);
+            }
+            arrayList.add(Integer.valueOf(Integer.parseInt(substring)));
+            return arrayList;
+        } catch (NumberFormatException unused) {
+            return new ArrayList();
+        }
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || TextInformationFrame.class != obj.getClass()) {
+            return false;
+        }
+        TextInformationFrame textInformationFrame = (TextInformationFrame) obj;
+        return Util.areEqual(this.id, textInformationFrame.id) && Util.areEqual(this.description, textInformationFrame.description) && this.values.equals(textInformationFrame.values);
+    }
+
+    public int hashCode() {
+        int hashCode = (this.id.hashCode() + 527) * 31;
+        String str = this.description;
+        return ((hashCode + (str != null ? str.hashCode() : 0)) * 31) + this.values.hashCode();
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
@@ -184,96 +224,79 @@ public final class TextInformationFrame extends Id3Frame {
             switch (c) {
                 case 0:
                 case '\n':
-                    builder.setAlbumTitle(this.values.get(0));
+                    builder.setAlbumTitle((CharSequence) this.values.get(0));
                     return;
                 case 1:
                 case 11:
-                    builder.setComposer(this.values.get(0));
+                    builder.setComposer((CharSequence) this.values.get(0));
                     return;
                 case 2:
                 case '\f':
-                    String str2 = this.values.get(0);
+                    String str2 = (String) this.values.get(0);
                     builder.setRecordingMonth(Integer.valueOf(Integer.parseInt(str2.substring(2, 4)))).setRecordingDay(Integer.valueOf(Integer.parseInt(str2.substring(0, 2))));
                     return;
                 case 3:
                 case 17:
-                    builder.setArtist(this.values.get(0));
+                    builder.setArtist((CharSequence) this.values.get(0));
                     return;
                 case 4:
                 case 18:
-                    builder.setAlbumArtist(this.values.get(0));
+                    builder.setAlbumArtist((CharSequence) this.values.get(0));
                     return;
                 case 5:
                 case 19:
-                    builder.setConductor(this.values.get(0));
+                    builder.setConductor((CharSequence) this.values.get(0));
                     return;
                 case 6:
                 case 20:
-                    String[] split = Util.split(this.values.get(0), "/");
+                    String[] split = Util.split((String) this.values.get(0), "/");
                     builder.setTrackNumber(Integer.valueOf(Integer.parseInt(split[0]))).setTotalTrackCount(split.length > 1 ? Integer.valueOf(Integer.parseInt(split[1])) : null);
                     return;
                 case 7:
                 case 16:
-                    builder.setTitle(this.values.get(0));
+                    builder.setTitle((CharSequence) this.values.get(0));
                     return;
                 case '\b':
                 case 15:
-                    builder.setWriter(this.values.get(0));
+                    builder.setWriter((CharSequence) this.values.get(0));
                     return;
                 case '\t':
                 case 21:
-                    builder.setRecordingYear(Integer.valueOf(Integer.parseInt(this.values.get(0))));
+                    builder.setRecordingYear(Integer.valueOf(Integer.parseInt((String) this.values.get(0))));
                     return;
                 case '\r':
-                    List<Integer> parseId3v2point4TimestampFrameForDate = parseId3v2point4TimestampFrameForDate(this.values.get(0));
+                    List parseId3v2point4TimestampFrameForDate = parseId3v2point4TimestampFrameForDate((String) this.values.get(0));
                     int size = parseId3v2point4TimestampFrameForDate.size();
                     if (size != 1) {
                         if (size != 2) {
                             if (size != 3) {
                                 return;
                             }
-                            builder.setRecordingDay(parseId3v2point4TimestampFrameForDate.get(2));
+                            builder.setRecordingDay((Integer) parseId3v2point4TimestampFrameForDate.get(2));
                         }
-                        builder.setRecordingMonth(parseId3v2point4TimestampFrameForDate.get(1));
+                        builder.setRecordingMonth((Integer) parseId3v2point4TimestampFrameForDate.get(1));
                     }
-                    builder.setRecordingYear(parseId3v2point4TimestampFrameForDate.get(0));
+                    builder.setRecordingYear((Integer) parseId3v2point4TimestampFrameForDate.get(0));
                     return;
                 case 14:
-                    List<Integer> parseId3v2point4TimestampFrameForDate2 = parseId3v2point4TimestampFrameForDate(this.values.get(0));
+                    List parseId3v2point4TimestampFrameForDate2 = parseId3v2point4TimestampFrameForDate((String) this.values.get(0));
                     int size2 = parseId3v2point4TimestampFrameForDate2.size();
                     if (size2 != 1) {
                         if (size2 != 2) {
                             if (size2 != 3) {
                                 return;
                             }
-                            builder.setReleaseDay(parseId3v2point4TimestampFrameForDate2.get(2));
+                            builder.setReleaseDay((Integer) parseId3v2point4TimestampFrameForDate2.get(2));
                         }
-                        builder.setReleaseMonth(parseId3v2point4TimestampFrameForDate2.get(1));
+                        builder.setReleaseMonth((Integer) parseId3v2point4TimestampFrameForDate2.get(1));
                     }
-                    builder.setReleaseYear(parseId3v2point4TimestampFrameForDate2.get(0));
+                    builder.setReleaseYear((Integer) parseId3v2point4TimestampFrameForDate2.get(0));
                     return;
                 default:
                     return;
             }
         } catch (NumberFormatException | StringIndexOutOfBoundsException unused) {
         }
-    }
-
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || TextInformationFrame.class != obj.getClass()) {
-            return false;
-        }
-        TextInformationFrame textInformationFrame = (TextInformationFrame) obj;
-        return Util.areEqual(this.id, textInformationFrame.id) && Util.areEqual(this.description, textInformationFrame.description) && this.values.equals(textInformationFrame.values);
-    }
-
-    public int hashCode() {
-        int hashCode = (this.id.hashCode() + 527) * 31;
-        String str = this.description;
-        return ((hashCode + (str != null ? str.hashCode() : 0)) * 31) + this.values.hashCode();
     }
 
     @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame
@@ -286,24 +309,5 @@ public final class TextInformationFrame extends Id3Frame {
         parcel.writeString(this.id);
         parcel.writeString(this.description);
         parcel.writeStringArray((String[]) this.values.toArray(new String[0]));
-    }
-
-    private static List<Integer> parseId3v2point4TimestampFrameForDate(String str) {
-        ArrayList arrayList = new ArrayList();
-        try {
-            if (str.length() >= 10) {
-                arrayList.add(Integer.valueOf(Integer.parseInt(str.substring(0, 4))));
-                arrayList.add(Integer.valueOf(Integer.parseInt(str.substring(5, 7))));
-                arrayList.add(Integer.valueOf(Integer.parseInt(str.substring(8, 10))));
-            } else if (str.length() >= 7) {
-                arrayList.add(Integer.valueOf(Integer.parseInt(str.substring(0, 4))));
-                arrayList.add(Integer.valueOf(Integer.parseInt(str.substring(5, 7))));
-            } else if (str.length() >= 4) {
-                arrayList.add(Integer.valueOf(Integer.parseInt(str.substring(0, 4))));
-            }
-            return arrayList;
-        } catch (NumberFormatException unused) {
-            return new ArrayList();
-        }
     }
 }

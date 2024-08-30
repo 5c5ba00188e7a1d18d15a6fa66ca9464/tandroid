@@ -1,14 +1,11 @@
 package androidx.appcompat;
 /* loaded from: classes.dex */
-public final class R$attr {
+public abstract class R$attr {
     public static final int actionBarPopupTheme = 2130968578;
     public static final int actionBarSize = 2130968579;
     public static final int actionBarStyle = 2130968581;
-    public static final int actionBarTabStyle = 2130968583;
-    public static final int actionBarTabTextStyle = 2130968584;
     public static final int actionBarTheme = 2130968585;
     public static final int actionBarWidgetTheme = 2130968586;
-    public static final int actionDropDownStyle = 2130968588;
     public static final int actionModePopupWindowStyle = 2130968600;
     public static final int actionModeStyle = 2130968604;
     public static final int actionOverflowButtonStyle = 2130968607;

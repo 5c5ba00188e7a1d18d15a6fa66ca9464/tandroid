@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public abstract class zzu extends zzr implements List, RandomAccess {
     public static final /* synthetic */ int $r8$clinit = 0;
@@ -13,10 +12,7 @@ public abstract class zzu extends zzr implements List, RandomAccess {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static zzu zzi(Object[] objArr, int i) {
-        if (i == 0) {
-            return zzaa.zza;
-        }
-        return new zzaa(objArr, i);
+        return i == 0 ? zzaa.zza : new zzaa(objArr, i);
     }
 
     public static zzu zzj(Collection collection) {
@@ -43,13 +39,11 @@ public abstract class zzu extends zzr implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    @Deprecated
     public final void add(int i, Object obj) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.List
-    @Deprecated
     public final boolean addAll(int i, Collection collection) {
         throw new UnsupportedOperationException();
     }
@@ -119,7 +113,7 @@ public abstract class zzu extends zzr implements List, RandomAccess {
         return -1;
     }
 
-    @Override // com.google.android.gms.internal.play_billing.zzr, java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
+    @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.List
     public final /* synthetic */ Iterator iterator() {
         return listIterator(0);
     }
@@ -143,13 +137,11 @@ public abstract class zzu extends zzr implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    @Deprecated
     public final Object remove(int i) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.List
-    @Deprecated
     public final Object set(int i, Object obj) {
         throw new UnsupportedOperationException();
     }
@@ -165,14 +157,8 @@ public abstract class zzu extends zzr implements List, RandomAccess {
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzr
-    @Deprecated
     public final zzu zzd() {
         return this;
-    }
-
-    @Override // com.google.android.gms.internal.play_billing.zzr
-    public final zzah zze() {
-        return listIterator(0);
     }
 
     @Override // java.util.List
@@ -180,13 +166,7 @@ public abstract class zzu extends zzr implements List, RandomAccess {
     public zzu subList(int i, int i2) {
         zzm.zzd(i, i2, size());
         int i3 = i2 - i;
-        if (i3 == size()) {
-            return this;
-        }
-        if (i3 != 0) {
-            return new zzt(this, i, i3);
-        }
-        return zzaa.zza;
+        return i3 == size() ? this : i3 == 0 ? zzaa.zza : new zzt(this, i, i3);
     }
 
     @Override // java.util.List

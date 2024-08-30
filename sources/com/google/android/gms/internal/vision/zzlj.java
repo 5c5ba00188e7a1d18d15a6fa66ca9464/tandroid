@@ -3,7 +3,6 @@ package com.google.android.gms.internal.vision;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 final class zzlj implements Iterator {
     private int zza;
@@ -15,6 +14,20 @@ final class zzlj implements Iterator {
         this.zzc = zzlhVar;
         list = zzlhVar.zzb;
         this.zza = list.size();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public /* synthetic */ zzlj(zzlh zzlhVar, zzlg zzlgVar) {
+        this(zzlhVar);
+    }
+
+    private final Iterator zza() {
+        Map map;
+        if (this.zzb == null) {
+            map = this.zzc.zzf;
+            this.zzb = map.entrySet().iterator();
+        }
+        return this.zzb;
     }
 
     @Override // java.util.Iterator
@@ -31,33 +44,22 @@ final class zzlj implements Iterator {
     }
 
     @Override // java.util.Iterator
-    public final void remove() {
-        throw new UnsupportedOperationException();
-    }
-
-    private final Iterator zza() {
-        Map map;
-        if (this.zzb == null) {
-            map = this.zzc.zzf;
-            this.zzb = map.entrySet().iterator();
+    public final /* synthetic */ Object next() {
+        List list;
+        Object obj;
+        if (zza().hasNext()) {
+            obj = zza().next();
+        } else {
+            list = this.zzc.zzb;
+            int i = this.zza - 1;
+            this.zza = i;
+            obj = list.get(i);
         }
-        return this.zzb;
+        return (Map.Entry) obj;
     }
 
     @Override // java.util.Iterator
-    public final /* synthetic */ Object next() {
-        List list;
-        if (zza().hasNext()) {
-            return (Map.Entry) zza().next();
-        }
-        list = this.zzc.zzb;
-        int i = this.zza - 1;
-        this.zza = i;
-        return (Map.Entry) list.get(i);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzlj(zzlh zzlhVar, zzlg zzlgVar) {
-        this(zzlhVar);
+    public final void remove() {
+        throw new UnsupportedOperationException();
     }
 }

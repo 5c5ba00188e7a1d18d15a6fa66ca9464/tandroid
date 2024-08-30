@@ -12,9 +12,9 @@ import org.telegram.messenger.NotificationCenter;
 import sun.misc.Unsafe;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzfd {
+public abstract class zzfd {
     private static final Logger logger = Logger.getLogger(zzfd.class.getName());
-    private static final Class<?> zzfb;
+    private static final Class zzfb;
     private static final boolean zzfy;
     private static final Unsafe zzmh;
     private static final boolean zzpg;
@@ -275,8 +275,8 @@ public final class zzfd {
         public abstract byte zzx(Object obj, long j);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x00eb  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x00ed  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00ea  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00ec  */
     static {
         zzd zzcVar;
         Field zzb2;
@@ -344,9 +344,6 @@ public final class zzfd {
         }
         zzpy = zzb(field);
         zzpz = ByteOrder.nativeOrder() != ByteOrder.BIG_ENDIAN;
-    }
-
-    private zzfd() {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -424,7 +421,7 @@ public final class zzfd {
         return zzpi.zzk(byteBuffer, zzpx);
     }
 
-    private static Field zzb(Class<?> cls, String str) {
+    private static Field zzb(Class cls, String str) {
         try {
             Field declaredField = cls.getDeclaredField(str);
             declaredField.setAccessible(true);
@@ -560,28 +557,29 @@ public final class zzfd {
         return zzb2;
     }
 
-    private static int zzg(Class<?> cls) {
+    private static int zzg(Class cls) {
         if (zzfy) {
             return zzpi.zzqa.arrayBaseOffset(cls);
         }
         return -1;
     }
 
-    private static int zzh(Class<?> cls) {
+    private static int zzh(Class cls) {
         if (zzfy) {
             return zzpi.zzqa.arrayIndexScale(cls);
         }
         return -1;
     }
 
-    private static boolean zzi(Class<?> cls) {
+    /* JADX WARN: Multi-variable type inference failed */
+    private static boolean zzi(Class cls) {
         if (zzaw.zzx()) {
             try {
-                Class<?> cls2 = zzfb;
-                Class<?> cls3 = Boolean.TYPE;
+                Class cls2 = zzfb;
+                Class cls3 = Boolean.TYPE;
                 cls2.getMethod("peekLong", cls, cls3);
                 cls2.getMethod("pokeLong", cls, Long.TYPE, cls3);
-                Class<?> cls4 = Integer.TYPE;
+                Class cls4 = Integer.TYPE;
                 cls2.getMethod("pokeInt", cls, cls4, cls3);
                 cls2.getMethod("peekInt", cls, cls3);
                 cls2.getMethod("pokeByte", cls, Byte.TYPE);

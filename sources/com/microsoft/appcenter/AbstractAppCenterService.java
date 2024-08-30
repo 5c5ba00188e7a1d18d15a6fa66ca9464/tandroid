@@ -19,6 +19,11 @@ public abstract class AbstractAppCenterService implements AppCenterService {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    public String getEnabledPreferenceKey() {
+        return "enabled_" + getServiceName();
+    }
+
     protected abstract String getGroupName();
 
     protected abstract String getLoggerTag();
@@ -40,6 +45,24 @@ public abstract class AbstractAppCenterService implements AppCenterService {
     @Override // com.microsoft.appcenter.AppCenterService
     public boolean isAppSecretRequired() {
         return true;
+    }
+
+    @Override // com.microsoft.appcenter.AppCenterService
+    public synchronized boolean isInstanceEnabled() {
+        return SharedPreferencesManager.getBoolean(getEnabledPreferenceKey(), true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public synchronized AppCenterFuture isInstanceEnabledAsync() {
+        final DefaultAppCenterFuture defaultAppCenterFuture;
+        defaultAppCenterFuture = new DefaultAppCenterFuture();
+        postAsyncGetter(new Runnable() { // from class: com.microsoft.appcenter.AbstractAppCenterService.1
+            @Override // java.lang.Runnable
+            public void run() {
+                defaultAppCenterFuture.complete(Boolean.TRUE);
+            }
+        }, defaultAppCenterFuture, Boolean.FALSE);
+        return defaultAppCenterFuture;
     }
 
     @Override // android.app.Application.ActivityLifecycleCallbacks
@@ -82,22 +105,78 @@ public abstract class AbstractAppCenterService implements AppCenterService {
     public void onConfigurationUpdated(String str, String str2) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public synchronized AppCenterFuture<Boolean> isInstanceEnabledAsync() {
-        final DefaultAppCenterFuture defaultAppCenterFuture;
-        defaultAppCenterFuture = new DefaultAppCenterFuture();
-        postAsyncGetter(new Runnable() { // from class: com.microsoft.appcenter.AbstractAppCenterService.1
-            @Override // java.lang.Runnable
-            public void run() {
-                defaultAppCenterFuture.complete(Boolean.TRUE);
+    @Override // com.microsoft.appcenter.AppCenterService
+    public synchronized void onStarted(Context context, Channel channel, String str, String str2, boolean z) {
+        try {
+            String groupName = getGroupName();
+            boolean isInstanceEnabled = isInstanceEnabled();
+            if (groupName != null) {
+                channel.removeGroup(groupName);
+                if (isInstanceEnabled) {
+                    channel.addGroup(groupName, getTriggerCount(), getTriggerInterval(), getTriggerMaxParallelRequests(), null, getChannelListener());
+                } else {
+                    channel.clear(groupName);
+                }
             }
-        }, defaultAppCenterFuture, Boolean.FALSE);
-        return defaultAppCenterFuture;
+            this.mChannel = channel;
+            applyEnabledState(isInstanceEnabled);
+        } catch (Throwable th) {
+            throw th;
+        }
     }
 
     @Override // com.microsoft.appcenter.AppCenterService
-    public synchronized boolean isInstanceEnabled() {
-        return SharedPreferencesManager.getBoolean(getEnabledPreferenceKey(), true);
+    public final synchronized void onStarting(AppCenterHandler appCenterHandler) {
+        this.mHandler = appCenterHandler;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public synchronized void post(Runnable runnable) {
+        post(runnable, null, null);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public synchronized boolean post(final Runnable runnable, Runnable runnable2, final Runnable runnable3) {
+        AppCenterHandler appCenterHandler = this.mHandler;
+        if (appCenterHandler != null) {
+            appCenterHandler.post(new Runnable() { // from class: com.microsoft.appcenter.AbstractAppCenterService.4
+                @Override // java.lang.Runnable
+                public void run() {
+                    Runnable runnable4;
+                    if (AbstractAppCenterService.this.isInstanceEnabled()) {
+                        runnable4 = runnable;
+                    } else {
+                        runnable4 = runnable3;
+                        if (runnable4 == null) {
+                            AppCenterLog.info("AppCenter", AbstractAppCenterService.this.getServiceName() + " service disabled, discarding calls.");
+                            return;
+                        }
+                    }
+                    runnable4.run();
+                }
+            }, runnable2);
+            return true;
+        }
+        AppCenterLog.error("AppCenter", getServiceName() + " needs to be started before it can be used.");
+        return false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public synchronized void postAsyncGetter(final Runnable runnable, final DefaultAppCenterFuture defaultAppCenterFuture, final Object obj) {
+        Runnable runnable2 = new Runnable() { // from class: com.microsoft.appcenter.AbstractAppCenterService.5
+            @Override // java.lang.Runnable
+            public void run() {
+                defaultAppCenterFuture.complete(obj);
+            }
+        };
+        if (!post(new Runnable() { // from class: com.microsoft.appcenter.AbstractAppCenterService.6
+            @Override // java.lang.Runnable
+            public void run() {
+                runnable.run();
+            }
+        }, runnable2, runnable2)) {
+            runnable2.run();
+        }
     }
 
     @Override // com.microsoft.appcenter.AppCenterService
@@ -124,84 +203,6 @@ public abstract class AbstractAppCenterService implements AppCenterService {
             }
         } catch (Throwable th) {
             throw th;
-        }
-    }
-
-    @Override // com.microsoft.appcenter.AppCenterService
-    public final synchronized void onStarting(AppCenterHandler appCenterHandler) {
-        this.mHandler = appCenterHandler;
-    }
-
-    @Override // com.microsoft.appcenter.AppCenterService
-    public synchronized void onStarted(Context context, Channel channel, String str, String str2, boolean z) {
-        try {
-            String groupName = getGroupName();
-            boolean isInstanceEnabled = isInstanceEnabled();
-            if (groupName != null) {
-                channel.removeGroup(groupName);
-                if (isInstanceEnabled) {
-                    channel.addGroup(groupName, getTriggerCount(), getTriggerInterval(), getTriggerMaxParallelRequests(), null, getChannelListener());
-                } else {
-                    channel.clear(groupName);
-                }
-            }
-            this.mChannel = channel;
-            applyEnabledState(isInstanceEnabled);
-        } catch (Throwable th) {
-            throw th;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public String getEnabledPreferenceKey() {
-        return "enabled_" + getServiceName();
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public synchronized void post(Runnable runnable) {
-        post(runnable, null, null);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public synchronized boolean post(final Runnable runnable, Runnable runnable2, final Runnable runnable3) {
-        AppCenterHandler appCenterHandler = this.mHandler;
-        if (appCenterHandler == null) {
-            AppCenterLog.error("AppCenter", getServiceName() + " needs to be started before it can be used.");
-            return false;
-        }
-        appCenterHandler.post(new Runnable() { // from class: com.microsoft.appcenter.AbstractAppCenterService.4
-            @Override // java.lang.Runnable
-            public void run() {
-                if (AbstractAppCenterService.this.isInstanceEnabled()) {
-                    runnable.run();
-                    return;
-                }
-                Runnable runnable4 = runnable3;
-                if (runnable4 != null) {
-                    runnable4.run();
-                    return;
-                }
-                AppCenterLog.info("AppCenter", AbstractAppCenterService.this.getServiceName() + " service disabled, discarding calls.");
-            }
-        }, runnable2);
-        return true;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public synchronized <T> void postAsyncGetter(final Runnable runnable, final DefaultAppCenterFuture<T> defaultAppCenterFuture, final T t) {
-        Runnable runnable2 = new Runnable() { // from class: com.microsoft.appcenter.AbstractAppCenterService.5
-            @Override // java.lang.Runnable
-            public void run() {
-                defaultAppCenterFuture.complete(t);
-            }
-        };
-        if (!post(new Runnable() { // from class: com.microsoft.appcenter.AbstractAppCenterService.6
-            @Override // java.lang.Runnable
-            public void run() {
-                runnable.run();
-            }
-        }, runnable2, runnable2)) {
-            runnable2.run();
         }
     }
 }

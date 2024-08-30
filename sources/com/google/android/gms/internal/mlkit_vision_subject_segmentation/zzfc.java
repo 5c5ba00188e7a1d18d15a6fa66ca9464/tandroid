@@ -1,10 +1,9 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ObjectEncoder;
 import com.google.firebase.encoders.ObjectEncoderContext;
-import java.io.IOException;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 final class zzfc implements ObjectEncoder {
     static final zzfc zza = new zzfc();
@@ -36,8 +35,8 @@ final class zzfc implements ObjectEncoder {
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoder
-    public final /* bridge */ /* synthetic */ void encode(Object obj, Object obj2) throws IOException {
-        zzdh zzdhVar = (zzdh) obj;
+    public final /* bridge */ /* synthetic */ void encode(Object obj, Object obj2) {
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(obj);
         ObjectEncoderContext objectEncoderContext = (ObjectEncoderContext) obj2;
         throw null;
     }

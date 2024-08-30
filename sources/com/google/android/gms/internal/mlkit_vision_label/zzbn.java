@@ -2,9 +2,8 @@ package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.util.Iterator;
 import java.util.Map;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
-class zzbn extends zzca {
+abstract class zzbn extends zzca {
     final Map zzb;
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -24,9 +23,7 @@ class zzbn extends zzca {
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
-    public Iterator iterator() {
-        throw null;
-    }
+    public abstract Iterator iterator();
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
     public final int size() {

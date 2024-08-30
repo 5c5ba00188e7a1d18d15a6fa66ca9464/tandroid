@@ -21,10 +21,6 @@ public enum ErrorCorrectionLevel {
         this.bits = i;
     }
 
-    public int getBits() {
-        return this.bits;
-    }
-
     public static ErrorCorrectionLevel forBits(int i) {
         if (i >= 0) {
             ErrorCorrectionLevel[] errorCorrectionLevelArr = FOR_BITS;
@@ -33,5 +29,9 @@ public enum ErrorCorrectionLevel {
             }
         }
         throw new IllegalArgumentException();
+    }
+
+    public int getBits() {
+        return this.bits;
     }
 }

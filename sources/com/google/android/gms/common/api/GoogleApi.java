@@ -5,16 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import com.google.android.gms.common.api.Api;
-import com.google.android.gms.common.api.Api.ApiOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.internal.ApiExceptionMapper;
 import com.google.android.gms.common.api.internal.ApiKey;
 import com.google.android.gms.common.api.internal.BaseImplementation$ApiMethodImpl;
 import com.google.android.gms.common.api.internal.GoogleApiManager;
 import com.google.android.gms.common.api.internal.ListenerHolder;
-import com.google.android.gms.common.api.internal.ListenerHolders;
 import com.google.android.gms.common.api.internal.NonGmsServiceBrokerClient;
 import com.google.android.gms.common.api.internal.RegistrationMethods;
 import com.google.android.gms.common.api.internal.StatusExceptionMapper;
@@ -31,10 +29,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
-import java.util.Set;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public abstract class GoogleApi<O extends Api.ApiOptions> {
+public abstract class GoogleApi {
     protected final GoogleApiManager zaa;
     private final Context zab;
     private final String zac;
@@ -46,14 +42,12 @@ public abstract class GoogleApi<O extends Api.ApiOptions> {
     private final GoogleApiClient zai;
     private final StatusExceptionMapper zaj;
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
     public static class Settings {
         public static final Settings DEFAULT_SETTINGS = new Builder().build();
         public final StatusExceptionMapper zaa;
         public final Looper zab;
 
-        /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
         /* loaded from: classes.dex */
         public static class Builder {
             private StatusExceptionMapper zaa;
@@ -80,128 +74,6 @@ public abstract class GoogleApi<O extends Api.ApiOptions> {
             this.zaa = statusExceptionMapper;
             this.zab = looper;
         }
-    }
-
-    private final BaseImplementation$ApiMethodImpl zad(int i, BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
-        baseImplementation$ApiMethodImpl.zak();
-        this.zaa.zaw(this, i, baseImplementation$ApiMethodImpl);
-        return baseImplementation$ApiMethodImpl;
-    }
-
-    private final Task zae(int i, TaskApiCall taskApiCall) {
-        TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
-        this.zaa.zax(this, i, taskApiCall, taskCompletionSource, this.zaj);
-        return taskCompletionSource.getTask();
-    }
-
-    public GoogleApiClient asGoogleApiClient() {
-        return this.zai;
-    }
-
-    protected ClientSettings.Builder createClientSettingsBuilder() {
-        Account account;
-        Set<Scope> emptySet;
-        GoogleSignInAccount googleSignInAccount;
-        ClientSettings.Builder builder = new ClientSettings.Builder();
-        Api.ApiOptions apiOptions = this.zae;
-        if ((apiOptions instanceof Api.ApiOptions.HasGoogleSignInAccountOptions) && (googleSignInAccount = ((Api.ApiOptions.HasGoogleSignInAccountOptions) apiOptions).getGoogleSignInAccount()) != null) {
-            account = googleSignInAccount.getAccount();
-        } else {
-            Api.ApiOptions apiOptions2 = this.zae;
-            account = apiOptions2 instanceof Api.ApiOptions.HasAccountOptions ? ((Api.ApiOptions.HasAccountOptions) apiOptions2).getAccount() : null;
-        }
-        builder.zab(account);
-        Api.ApiOptions apiOptions3 = this.zae;
-        if (apiOptions3 instanceof Api.ApiOptions.HasGoogleSignInAccountOptions) {
-            GoogleSignInAccount googleSignInAccount2 = ((Api.ApiOptions.HasGoogleSignInAccountOptions) apiOptions3).getGoogleSignInAccount();
-            if (googleSignInAccount2 == null) {
-                emptySet = Collections.emptySet();
-            } else {
-                emptySet = googleSignInAccount2.getRequestedScopes();
-            }
-        } else {
-            emptySet = Collections.emptySet();
-        }
-        builder.zaa(emptySet);
-        builder.zac(this.zab.getClass().getName());
-        builder.setRealClientPackageName(this.zab.getPackageName());
-        return builder;
-    }
-
-    public <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T doBestEffortWrite(T t) {
-        zad(2, t);
-        return t;
-    }
-
-    public <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T doRead(T t) {
-        zad(0, t);
-        return t;
-    }
-
-    public <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T doWrite(T t) {
-        zad(1, t);
-        return t;
-    }
-
-    public final ApiKey<O> getApiKey() {
-        return this.zaf;
-    }
-
-    public O getApiOptions() {
-        return (O) this.zae;
-    }
-
-    public Context getApplicationContext() {
-        return this.zab;
-    }
-
-    protected String getContextAttributionTag() {
-        return this.zac;
-    }
-
-    public Looper getLooper() {
-        return this.zag;
-    }
-
-    public <L> ListenerHolder<L> registerListener(L l, String str) {
-        return ListenerHolders.createListenerHolder(l, this.zag, str);
-    }
-
-    public final int zaa() {
-        return this.zah;
-    }
-
-    public final Api.Client zab(Looper looper, zabq zabqVar) {
-        Api.Client buildClient = ((Api.AbstractClientBuilder) Preconditions.checkNotNull(this.zad.zaa())).buildClient(this.zab, looper, createClientSettingsBuilder().build(), (ClientSettings) this.zae, (GoogleApiClient.ConnectionCallbacks) zabqVar, (GoogleApiClient.OnConnectionFailedListener) zabqVar);
-        String contextAttributionTag = getContextAttributionTag();
-        if (contextAttributionTag != null && (buildClient instanceof BaseGmsClient)) {
-            ((BaseGmsClient) buildClient).setAttributionTag(contextAttributionTag);
-        }
-        if (contextAttributionTag != null && (buildClient instanceof NonGmsServiceBrokerClient)) {
-            ((NonGmsServiceBrokerClient) buildClient).zac(contextAttributionTag);
-        }
-        return buildClient;
-    }
-
-    public final zact zac(Context context, Handler handler) {
-        return new zact(context, handler, createClientSettingsBuilder().build());
-    }
-
-    public <TResult, A extends Api.AnyClient> Task<TResult> doBestEffortWrite(TaskApiCall<A, TResult> taskApiCall) {
-        return zae(2, taskApiCall);
-    }
-
-    public <TResult, A extends Api.AnyClient> Task<TResult> doRead(TaskApiCall<A, TResult> taskApiCall) {
-        return zae(0, taskApiCall);
-    }
-
-    public Task<Boolean> doUnregisterEventListener(ListenerHolder.ListenerKey<?> listenerKey, int i) {
-        Preconditions.checkNotNull(listenerKey, "Listener key cannot be null.");
-        return this.zaa.zar(this, listenerKey, i);
-    }
-
-    public <TResult, A extends Api.AnyClient> Task<TResult> doWrite(TaskApiCall<A, TResult> taskApiCall) {
-        return zae(1, taskApiCall);
     }
 
     private GoogleApi(Context context, Activity activity, Api api, Api.ApiOptions apiOptions, Settings settings) {
@@ -233,25 +105,123 @@ public abstract class GoogleApi<O extends Api.ApiOptions> {
         zam.zaB(this);
     }
 
-    public <A extends Api.AnyClient> Task<Void> doRegisterEventListener(RegistrationMethods<A, ?> registrationMethods) {
+    public GoogleApi(Context context, Api api, Api.ApiOptions apiOptions, Settings settings) {
+        this(context, null, api, apiOptions, settings);
+    }
+
+    /* JADX WARN: Illegal instructions before constructor call */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public GoogleApi(Context context, Api api, Api.ApiOptions apiOptions, StatusExceptionMapper statusExceptionMapper) {
+        this(context, api, apiOptions, r0.build());
+        Settings.Builder builder = new Settings.Builder();
+        builder.setMapper(statusExceptionMapper);
+    }
+
+    private final BaseImplementation$ApiMethodImpl zad(int i, BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
+        baseImplementation$ApiMethodImpl.zak();
+        this.zaa.zaw(this, i, baseImplementation$ApiMethodImpl);
+        return baseImplementation$ApiMethodImpl;
+    }
+
+    private final Task zae(int i, TaskApiCall taskApiCall) {
+        TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
+        this.zaa.zax(this, i, taskApiCall, taskCompletionSource, this.zaj);
+        return taskCompletionSource.getTask();
+    }
+
+    public GoogleApiClient asGoogleApiClient() {
+        return this.zai;
+    }
+
+    protected ClientSettings.Builder createClientSettingsBuilder() {
+        ClientSettings.Builder builder = new ClientSettings.Builder();
+        Api.ApiOptions apiOptions = this.zae;
+        builder.zab(apiOptions instanceof Api.ApiOptions.HasAccountOptions ? ((Api.ApiOptions.HasAccountOptions) apiOptions).getAccount() : null);
+        builder.zaa(Collections.emptySet());
+        builder.zac(this.zab.getClass().getName());
+        builder.setRealClientPackageName(this.zab.getPackageName());
+        return builder;
+    }
+
+    public BaseImplementation$ApiMethodImpl doBestEffortWrite(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
+        zad(2, baseImplementation$ApiMethodImpl);
+        return baseImplementation$ApiMethodImpl;
+    }
+
+    public Task doBestEffortWrite(TaskApiCall taskApiCall) {
+        return zae(2, taskApiCall);
+    }
+
+    public BaseImplementation$ApiMethodImpl doRead(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
+        zad(0, baseImplementation$ApiMethodImpl);
+        return baseImplementation$ApiMethodImpl;
+    }
+
+    public Task doRead(TaskApiCall taskApiCall) {
+        return zae(0, taskApiCall);
+    }
+
+    public Task doRegisterEventListener(RegistrationMethods registrationMethods) {
         Preconditions.checkNotNull(registrationMethods);
         Preconditions.checkNotNull(registrationMethods.register.getListenerKey(), "Listener has already been released.");
         Preconditions.checkNotNull(registrationMethods.zaa.getListenerKey(), "Listener has already been released.");
         return this.zaa.zaq(this, registrationMethods.register, registrationMethods.zaa, registrationMethods.zab);
     }
 
-    public GoogleApi(Context context, Api<O> api, O o, Settings settings) {
-        this(context, null, api, o, settings);
+    public Task doUnregisterEventListener(ListenerHolder.ListenerKey listenerKey, int i) {
+        Preconditions.checkNotNull(listenerKey, "Listener key cannot be null.");
+        return this.zaa.zar(this, listenerKey, i);
     }
 
-    /* JADX WARN: Illegal instructions before constructor call */
-    @Deprecated
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public GoogleApi(Context context, Api<O> api, O o, StatusExceptionMapper statusExceptionMapper) {
-        this(context, api, o, r0.build());
-        Settings.Builder builder = new Settings.Builder();
-        builder.setMapper(statusExceptionMapper);
+    public BaseImplementation$ApiMethodImpl doWrite(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
+        zad(1, baseImplementation$ApiMethodImpl);
+        return baseImplementation$ApiMethodImpl;
+    }
+
+    public Task doWrite(TaskApiCall taskApiCall) {
+        return zae(1, taskApiCall);
+    }
+
+    public final ApiKey getApiKey() {
+        return this.zaf;
+    }
+
+    public Api.ApiOptions getApiOptions() {
+        return this.zae;
+    }
+
+    public Context getApplicationContext() {
+        return this.zab;
+    }
+
+    protected String getContextAttributionTag() {
+        return this.zac;
+    }
+
+    public Looper getLooper() {
+        return this.zag;
+    }
+
+    public final int zaa() {
+        return this.zah;
+    }
+
+    public final Api.Client zab(Looper looper, zabq zabqVar) {
+        Api.Client buildClient = ((Api.AbstractClientBuilder) Preconditions.checkNotNull(this.zad.zaa())).buildClient(this.zab, looper, createClientSettingsBuilder().build(), (Object) this.zae, (GoogleApiClient.ConnectionCallbacks) zabqVar, (GoogleApiClient.OnConnectionFailedListener) zabqVar);
+        String contextAttributionTag = getContextAttributionTag();
+        if (contextAttributionTag != null && (buildClient instanceof BaseGmsClient)) {
+            ((BaseGmsClient) buildClient).setAttributionTag(contextAttributionTag);
+        }
+        if (contextAttributionTag == null || !(buildClient instanceof NonGmsServiceBrokerClient)) {
+            return buildClient;
+        }
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(buildClient);
+        throw null;
+    }
+
+    public final zact zac(Context context, Handler handler) {
+        return new zact(context, handler, createClientSettingsBuilder().build());
     }
 }

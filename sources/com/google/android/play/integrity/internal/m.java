@@ -2,7 +2,6 @@ package com.google.android.play.integrity.internal;
 
 import android.os.IBinder;
 import android.os.IInterface;
-/* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
 public abstract class m extends b implements n {
     public static n b(IBinder iBinder) {

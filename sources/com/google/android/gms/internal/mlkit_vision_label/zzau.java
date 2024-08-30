@@ -8,7 +8,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zzau extends AbstractMap implements Serializable {
     private static final Object zzd = new Object();
@@ -21,6 +20,11 @@ public final class zzau extends AbstractMap implements Serializable {
     private transient Set zzh;
     private transient Set zzi;
     private transient Collection zzj;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public zzau(int i) {
+        zzo(12);
+    }
 
     /* JADX INFO: Access modifiers changed from: private */
     public final Object[] zzA() {
@@ -164,31 +168,27 @@ public final class zzau extends AbstractMap implements Serializable {
             this.zzf = zzcf.zza(size(), 3, 1073741823);
             zzl.clear();
             this.zze = null;
-            this.zzg = 0;
-            return;
-        }
-        Arrays.fill(zzA(), 0, this.zzg, (Object) null);
-        Arrays.fill(zzB(), 0, this.zzg, (Object) null);
-        Object obj = this.zze;
-        obj.getClass();
-        if (obj instanceof byte[]) {
-            Arrays.fill((byte[]) obj, (byte) 0);
-        } else if (obj instanceof short[]) {
-            Arrays.fill((short[]) obj, (short) 0);
         } else {
-            Arrays.fill((int[]) obj, 0);
+            Arrays.fill(zzA(), 0, this.zzg, (Object) null);
+            Arrays.fill(zzB(), 0, this.zzg, (Object) null);
+            Object obj = this.zze;
+            obj.getClass();
+            if (obj instanceof byte[]) {
+                Arrays.fill((byte[]) obj, (byte) 0);
+            } else if (obj instanceof short[]) {
+                Arrays.fill((short[]) obj, (short) 0);
+            } else {
+                Arrays.fill((int[]) obj, 0);
+            }
+            Arrays.fill(zzz(), 0, this.zzg, 0);
         }
-        Arrays.fill(zzz(), 0, this.zzg, 0);
         this.zzg = 0;
     }
 
     @Override // java.util.AbstractMap, java.util.Map
     public final boolean containsKey(Object obj) {
         Map zzl = zzl();
-        if (zzl != null) {
-            return zzl.containsKey(obj);
-        }
-        return zzv(obj) != -1;
+        return zzl != null ? zzl.containsKey(obj) : zzv(obj) != -1;
     }
 
     @Override // java.util.AbstractMap, java.util.Map
@@ -247,6 +247,7 @@ public final class zzau extends AbstractMap implements Serializable {
 
     @Override // java.util.AbstractMap, java.util.Map
     public final Object put(Object obj, Object obj2) {
+        int length;
         int min;
         if (zzq()) {
             zzs.zzd(zzq(), "Arrays already allocated");
@@ -278,61 +279,71 @@ public final class zzau extends AbstractMap implements Serializable {
         Object obj3 = this.zze;
         obj3.getClass();
         int zzc = zzav.zzc(obj3, i4);
-        if (zzc != 0) {
-            int i5 = zzu ^ (-1);
-            int i6 = zza & i5;
-            int i7 = 0;
-            while (true) {
-                int i8 = zzc - 1;
-                int i9 = zzz[i8];
-                int i10 = i9 & i5;
-                if (i10 == i6 && zzo.zza(obj, zzA[i8])) {
-                    Object obj4 = zzB[i8];
-                    zzB[i8] = obj2;
-                    return obj4;
+        if (zzc == 0) {
+            if (i3 <= zzu) {
+                Object obj4 = this.zze;
+                obj4.getClass();
+                zzav.zze(obj4, i4, i3);
+                length = zzz().length;
+                if (i3 > length && (min = Math.min(1073741823, (Math.max(1, length >>> 1) + length) | 1)) != length) {
+                    this.zza = Arrays.copyOf(zzz(), min);
+                    this.zzb = Arrays.copyOf(zzA(), min);
+                    this.zzc = Arrays.copyOf(zzB(), min);
                 }
-                int i11 = i9 & zzu;
-                i7++;
-                if (i11 != 0) {
-                    zzc = i11;
-                } else if (i7 >= 9) {
-                    LinkedHashMap linkedHashMap = new LinkedHashMap(zzu() + 1, 1.0f);
-                    int zze = zze();
-                    while (zze >= 0) {
-                        linkedHashMap.put(zzA()[zze], zzB()[zze]);
-                        zze = zzf(zze);
-                    }
-                    this.zze = linkedHashMap;
-                    this.zza = null;
-                    this.zzb = null;
-                    this.zzc = null;
-                    zzn();
-                    return linkedHashMap.put(obj, obj2);
-                } else if (i3 > zzu) {
-                    zzu = zzw(zzu, zzav.zza(zzu), zza, i2);
-                } else {
-                    zzz[i8] = (i3 & zzu) | i10;
-                }
+                zzz()[i2] = (zzu ^ (-1)) & zza;
+                zzA()[i2] = obj;
+                zzB()[i2] = obj2;
+                this.zzg = i3;
+                zzn();
+                return null;
             }
-        } else if (i3 > zzu) {
             zzu = zzw(zzu, zzav.zza(zzu), zza, i2);
-        } else {
-            Object obj5 = this.zze;
-            obj5.getClass();
-            zzav.zze(obj5, i4, i3);
+            length = zzz().length;
+            if (i3 > length) {
+                this.zza = Arrays.copyOf(zzz(), min);
+                this.zzb = Arrays.copyOf(zzA(), min);
+                this.zzc = Arrays.copyOf(zzB(), min);
+            }
+            zzz()[i2] = (zzu ^ (-1)) & zza;
+            zzA()[i2] = obj;
+            zzB()[i2] = obj2;
+            this.zzg = i3;
+            zzn();
+            return null;
         }
-        int length = zzz().length;
-        if (i3 > length && (min = Math.min(1073741823, (Math.max(1, length >>> 1) + length) | 1)) != length) {
-            this.zza = Arrays.copyOf(zzz(), min);
-            this.zzb = Arrays.copyOf(zzA(), min);
-            this.zzc = Arrays.copyOf(zzB(), min);
+        int i5 = zzu ^ (-1);
+        int i6 = zza & i5;
+        int i7 = 0;
+        while (true) {
+            int i8 = zzc - 1;
+            int i9 = zzz[i8];
+            int i10 = i9 & i5;
+            if (i10 == i6 && zzo.zza(obj, zzA[i8])) {
+                Object obj5 = zzB[i8];
+                zzB[i8] = obj2;
+                return obj5;
+            }
+            int i11 = i9 & zzu;
+            i7++;
+            if (i11 != 0) {
+                zzc = i11;
+            } else if (i7 >= 9) {
+                LinkedHashMap linkedHashMap = new LinkedHashMap(zzu() + 1, 1.0f);
+                int zze = zze();
+                while (zze >= 0) {
+                    linkedHashMap.put(zzA()[zze], zzB()[zze]);
+                    zze = zzf(zze);
+                }
+                this.zze = linkedHashMap;
+                this.zza = null;
+                this.zzb = null;
+                this.zzc = null;
+                zzn();
+                return linkedHashMap.put(obj, obj2);
+            } else if (i3 <= zzu) {
+                zzz[i8] = (i3 & zzu) | i10;
+            }
         }
-        zzz()[i2] = (zzu ^ (-1)) & zza;
-        zzA()[i2] = obj;
-        zzB()[i2] = obj2;
-        this.zzg = i3;
-        zzn();
-        return null;
     }
 
     @Override // java.util.AbstractMap, java.util.Map
@@ -406,44 +417,39 @@ public final class zzau extends AbstractMap implements Serializable {
         Object[] zzB = zzB();
         int size = size();
         int i3 = size - 1;
-        if (i < i3) {
-            Object obj2 = zzA[i3];
-            zzA[i] = obj2;
-            zzB[i] = zzB[i3];
-            zzA[i3] = null;
-            zzB[i3] = null;
-            zzz[i] = zzz[i3];
-            zzz[i3] = 0;
-            int zza = zzaw.zza(obj2) & i2;
-            int zzc = zzav.zzc(obj, zza);
-            if (zzc == size) {
-                zzav.zze(obj, zza, i + 1);
-                return;
-            }
-            while (true) {
-                int i4 = zzc - 1;
-                int i5 = zzz[i4];
-                int i6 = i5 & i2;
-                if (i6 == size) {
-                    zzz[i4] = ((i + 1) & i2) | (i5 & (i2 ^ (-1)));
-                    return;
-                }
-                zzc = i6;
-            }
-        } else {
+        if (i >= i3) {
             zzA[i] = null;
             zzB[i] = null;
             zzz[i] = 0;
+            return;
+        }
+        Object obj2 = zzA[i3];
+        zzA[i] = obj2;
+        zzB[i] = zzB[i3];
+        zzA[i3] = null;
+        zzB[i3] = null;
+        zzz[i] = zzz[i3];
+        zzz[i3] = 0;
+        int zza = zzaw.zza(obj2) & i2;
+        int zzc = zzav.zzc(obj, zza);
+        if (zzc == size) {
+            zzav.zze(obj, zza, i + 1);
+            return;
+        }
+        while (true) {
+            int i4 = zzc - 1;
+            int i5 = zzz[i4];
+            int i6 = i5 & i2;
+            if (i6 == size) {
+                zzz[i4] = ((i + 1) & i2) | (i5 & (i2 ^ (-1)));
+                return;
+            }
+            zzc = i6;
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean zzq() {
         return this.zze == null;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzau(int i) {
-        zzo(12);
     }
 }

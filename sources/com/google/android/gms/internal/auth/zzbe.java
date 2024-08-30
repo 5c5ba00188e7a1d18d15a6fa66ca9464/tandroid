@@ -13,14 +13,13 @@ import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.common.api.internal.OnConnectionFailedListener;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
-/* compiled from: com.google.android.gms:play-services-auth-base@@18.0.4 */
 /* loaded from: classes.dex */
 public final class zzbe extends GmsClient {
     private final Bundle zze;
 
     public zzbe(Context context, Looper looper, ClientSettings clientSettings, AuthProxyOptions authProxyOptions, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
         super(context, looper, 16, clientSettings, connectionCallbacks, onConnectionFailedListener);
-        this.zze = authProxyOptions == null ? new Bundle() : authProxyOptions.zza();
+        this.zze = new Bundle();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

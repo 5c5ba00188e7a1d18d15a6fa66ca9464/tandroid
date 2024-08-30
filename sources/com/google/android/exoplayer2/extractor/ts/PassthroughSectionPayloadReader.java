@@ -18,13 +18,9 @@ public final class PassthroughSectionPayloadReader implements SectionPayloadRead
         this.format = new Format.Builder().setSampleMimeType(str).build();
     }
 
-    @Override // com.google.android.exoplayer2.extractor.ts.SectionPayloadReader
-    public void init(TimestampAdjuster timestampAdjuster, ExtractorOutput extractorOutput, TsPayloadReader.TrackIdGenerator trackIdGenerator) {
-        this.timestampAdjuster = timestampAdjuster;
-        trackIdGenerator.generateNewId();
-        TrackOutput track = extractorOutput.track(trackIdGenerator.getTrackId(), 5);
-        this.output = track;
-        track.format(this.format);
+    private void assertInitialized() {
+        Assertions.checkStateNotNull(this.timestampAdjuster);
+        Util.castNonNull(this.output);
     }
 
     @Override // com.google.android.exoplayer2.extractor.ts.SectionPayloadReader
@@ -46,8 +42,12 @@ public final class PassthroughSectionPayloadReader implements SectionPayloadRead
         this.output.sampleMetadata(lastAdjustedTimestampUs, 1, bytesLeft, 0, null);
     }
 
-    private void assertInitialized() {
-        Assertions.checkStateNotNull(this.timestampAdjuster);
-        Util.castNonNull(this.output);
+    @Override // com.google.android.exoplayer2.extractor.ts.SectionPayloadReader
+    public void init(TimestampAdjuster timestampAdjuster, ExtractorOutput extractorOutput, TsPayloadReader.TrackIdGenerator trackIdGenerator) {
+        this.timestampAdjuster = timestampAdjuster;
+        trackIdGenerator.generateNewId();
+        TrackOutput track = extractorOutput.track(trackIdGenerator.getTrackId(), 5);
+        this.output = track;
+        track.format(this.format);
     }
 }

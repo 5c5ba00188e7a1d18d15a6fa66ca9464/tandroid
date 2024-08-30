@@ -35,24 +35,26 @@ public class ActionBarMenuSubItem extends FrameLayout {
     private TextView textView;
     boolean top;
 
-    public ActionBarMenuSubItem(Context context, boolean z, boolean z2) {
-        this(context, false, z, z2);
-    }
-
-    public ActionBarMenuSubItem(Context context, boolean z, boolean z2, boolean z3) {
-        this(context, z ? 1 : 0, z2, z3, (Theme.ResourcesProvider) null);
-    }
-
-    public ActionBarMenuSubItem(Context context, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
-        this(context, 0, z, z2, resourcesProvider);
-    }
-
-    public ActionBarMenuSubItem(Context context, boolean z, boolean z2, boolean z3, Theme.ResourcesProvider resourcesProvider) {
-        this(context, z ? 1 : 0, z2, z3, resourcesProvider);
-    }
-
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x00ec, code lost:
+        if (org.telegram.messenger.LocaleController.isRTL == false) goto L23;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x010d, code lost:
+        if (org.telegram.messenger.LocaleController.isRTL != false) goto L23;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x010f, code lost:
+        r6 = 0;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0111, code lost:
+        r6 = org.telegram.messenger.AndroidUtilities.dp(34.0f);
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public ActionBarMenuSubItem(Context context, int i, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        TextView textView;
+        int dp;
+        int i2;
         this.selectorRad = 6;
         this.itemHeight = 48;
         this.resourcesProvider = resourcesProvider;
@@ -68,9 +70,9 @@ public class ActionBarMenuSubItem extends FrameLayout {
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
         this.imageView.setColorFilter(new PorterDuffColorFilter(this.iconColor, PorterDuff.Mode.MULTIPLY));
         addView(this.imageView, LayoutHelper.createFrame(-2, 40, (LocaleController.isRTL ? 5 : 3) | 16));
-        TextView textView = new TextView(context);
-        this.textView = textView;
-        textView.setLines(1);
+        TextView textView2 = new TextView(context);
+        this.textView = textView2;
+        textView2.setLines(1);
         this.textView.setSingleLine(true);
         this.textView.setGravity(3);
         this.textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -88,33 +90,51 @@ public class ActionBarMenuSubItem extends FrameLayout {
                 boolean z3 = LocaleController.isRTL;
                 this.checkViewLeft = !z3;
                 addView(this.checkView, LayoutHelper.createFrame(26, -1, (z3 ? 5 : 3) | 16));
-                this.textView.setPadding(!LocaleController.isRTL ? AndroidUtilities.dp(34.0f) : 0, 0, !LocaleController.isRTL ? 0 : AndroidUtilities.dp(34.0f), 0);
-                return;
+                textView = this.textView;
+                dp = !LocaleController.isRTL ? AndroidUtilities.dp(34.0f) : 0;
+            } else {
+                addView(this.checkView, LayoutHelper.createFrame(26, -1, (LocaleController.isRTL ? 3 : 5) | 16));
+                textView = this.textView;
+                dp = LocaleController.isRTL ? AndroidUtilities.dp(34.0f) : 0;
             }
-            addView(this.checkView, LayoutHelper.createFrame(26, -1, (LocaleController.isRTL ? 3 : 5) | 16));
-            this.textView.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(34.0f) : 0, 0, LocaleController.isRTL ? 0 : AndroidUtilities.dp(34.0f), 0);
+            textView.setPadding(dp, 0, i2, 0);
         }
     }
 
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.itemHeight), 1073741824));
-        if (!this.expandIfMultiline || this.textView.getLayout().getLineCount() <= 1) {
-            return;
-        }
-        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.itemHeight + 8), 1073741824));
+    public ActionBarMenuSubItem(Context context, boolean z, boolean z2) {
+        this(context, false, z, z2);
     }
 
-    public void setItemHeight(int i) {
-        this.itemHeight = i;
+    public ActionBarMenuSubItem(Context context, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
+        this(context, 0, z, z2, resourcesProvider);
     }
 
-    public void setChecked(boolean z) {
-        CheckBox2 checkBox2 = this.checkView;
-        if (checkBox2 == null) {
-            return;
-        }
-        checkBox2.setChecked(z, true);
+    public ActionBarMenuSubItem(Context context, boolean z, boolean z2, boolean z3) {
+        this(context, z ? 1 : 0, z2, z3, (Theme.ResourcesProvider) null);
+    }
+
+    public ActionBarMenuSubItem(Context context, boolean z, boolean z2, boolean z3, Theme.ResourcesProvider resourcesProvider) {
+        this(context, z ? 1 : 0, z2, z3, resourcesProvider);
+    }
+
+    private int getThemedColor(int i) {
+        return Theme.getColor(i, this.resourcesProvider);
+    }
+
+    public CheckBox2 getCheckView() {
+        return this.checkView;
+    }
+
+    public ImageView getImageView() {
+        return this.imageView;
+    }
+
+    public ImageView getRightIcon() {
+        return this.rightIcon;
+    }
+
+    public TextView getTextView() {
+        return this.textView;
     }
 
     @Override // android.view.View
@@ -130,8 +150,79 @@ public class ActionBarMenuSubItem extends FrameLayout {
         accessibilityNodeInfo.setClassName("android.widget.CheckBox");
     }
 
+    public void onItemShown() {
+        if (this.imageView.getAnimatedDrawable() != null) {
+            this.imageView.getAnimatedDrawable().start();
+        }
+    }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.itemHeight), 1073741824));
+        if (!this.expandIfMultiline || this.textView.getLayout().getLineCount() <= 1) {
+            return;
+        }
+        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.itemHeight + 8), 1073741824));
+    }
+
+    public void openSwipeBack() {
+        Runnable runnable = this.openSwipeBackLayout;
+        if (runnable != null) {
+            runnable.run();
+        }
+    }
+
+    public void setAnimatedIcon(int i) {
+        this.imageView.setAnimation(i, 24, 24);
+    }
+
     public void setCheckColor(int i) {
         this.checkView.setColor(-1, -1, i);
+    }
+
+    public void setChecked(boolean z) {
+        CheckBox2 checkBox2 = this.checkView;
+        if (checkBox2 == null) {
+            return;
+        }
+        checkBox2.setChecked(z, true);
+    }
+
+    public ActionBarMenuSubItem setColors(int i, int i2) {
+        setTextColor(i);
+        setIconColor(i2);
+        return this;
+    }
+
+    public void setIcon(int i) {
+        this.imageView.setImageResource(i);
+    }
+
+    public void setIcon(Drawable drawable) {
+        this.imageView.setImageDrawable(drawable);
+    }
+
+    public void setIconColor(int i) {
+        if (this.iconColor != i) {
+            RLottieImageView rLottieImageView = this.imageView;
+            this.iconColor = i;
+            rLottieImageView.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY));
+        }
+    }
+
+    public void setItemHeight(int i) {
+        this.itemHeight = i;
+    }
+
+    public void setMultiline(boolean z) {
+        this.textView.setLines(2);
+        if (z) {
+            this.textView.setTextSize(1, 14.0f);
+        } else {
+            this.expandIfMultiline = true;
+        }
+        this.textView.setSingleLine(false);
+        this.textView.setGravity(16);
     }
 
     public void setRightIcon(int i) {
@@ -156,99 +247,10 @@ public class ActionBarMenuSubItem extends FrameLayout {
         this.rightIcon.setImageResource(i);
     }
 
-    public void setTextAndIcon(CharSequence charSequence, int i) {
-        setTextAndIcon(charSequence, i, null);
-    }
-
-    public void setMultiline(boolean z) {
-        this.textView.setLines(2);
-        if (z) {
-            this.textView.setTextSize(1, 14.0f);
-        } else {
-            this.expandIfMultiline = true;
-        }
-        this.textView.setSingleLine(false);
-        this.textView.setGravity(16);
-    }
-
-    public void setTextAndIcon(CharSequence charSequence, int i, Drawable drawable) {
-        int dp;
-        int dp2;
-        this.textView.setText(charSequence);
-        if (i != 0 || drawable != null || this.checkView != null) {
-            if (drawable != null) {
-                this.imageView.setImageDrawable(drawable);
-            } else {
-                this.imageView.setImageResource(i);
-            }
-            this.imageView.setVisibility(0);
-            TextView textView = this.textView;
-            float f = 0.0f;
-            if (this.checkViewLeft) {
-                dp = this.checkView != null ? AndroidUtilities.dp(43.0f) : 0;
-            } else {
-                dp = AndroidUtilities.dp((i == 0 && drawable == null) ? 0.0f : 43.0f);
-            }
-            if (this.checkViewLeft) {
-                dp2 = AndroidUtilities.dp((i == 0 && drawable == null) ? 43.0f : 43.0f);
-            } else {
-                dp2 = this.checkView != null ? AndroidUtilities.dp(43.0f) : 0;
-            }
-            textView.setPadding(dp, 0, dp2, 0);
-            return;
-        }
-        this.imageView.setVisibility(4);
-        this.textView.setPadding(0, 0, 0, 0);
-    }
-
-    public ActionBarMenuSubItem setColors(int i, int i2) {
-        setTextColor(i);
-        setIconColor(i2);
-        return this;
-    }
-
-    public void setTextColor(int i) {
-        if (this.textColor != i) {
-            TextView textView = this.textView;
-            this.textColor = i;
-            textView.setTextColor(i);
-        }
-    }
-
-    public void setIconColor(int i) {
-        if (this.iconColor != i) {
-            RLottieImageView rLottieImageView = this.imageView;
-            this.iconColor = i;
-            rLottieImageView.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY));
-        }
-    }
-
-    public void setIcon(int i) {
-        this.imageView.setImageResource(i);
-    }
-
-    public void setIcon(Drawable drawable) {
-        this.imageView.setImageDrawable(drawable);
-    }
-
-    public void setAnimatedIcon(int i) {
-        this.imageView.setAnimation(i, 24, 24);
-    }
-
-    public void onItemShown() {
-        if (this.imageView.getAnimatedDrawable() != null) {
-            this.imageView.getAnimatedDrawable().start();
-        }
-    }
-
-    public void setText(CharSequence charSequence) {
-        this.textView.setText(charSequence);
-    }
-
-    public void setSubtextColor(int i) {
-        TextView textView = this.subtextView;
-        if (textView != null) {
-            textView.setTextColor(i);
+    public void setSelectorColor(int i) {
+        if (this.selectorColor != i) {
+            this.selectorColor = i;
+            updateBackground();
         }
     }
 
@@ -276,19 +278,62 @@ public class ActionBarMenuSubItem extends FrameLayout {
         this.subtextView.setText(str);
     }
 
-    public TextView getTextView() {
-        return this.textView;
-    }
-
-    public ImageView getImageView() {
-        return this.imageView;
-    }
-
-    public void setSelectorColor(int i) {
-        if (this.selectorColor != i) {
-            this.selectorColor = i;
-            updateBackground();
+    public void setSubtextColor(int i) {
+        TextView textView = this.subtextView;
+        if (textView != null) {
+            textView.setTextColor(i);
         }
+    }
+
+    public void setText(CharSequence charSequence) {
+        this.textView.setText(charSequence);
+    }
+
+    public void setTextAndIcon(CharSequence charSequence, int i) {
+        setTextAndIcon(charSequence, i, null);
+    }
+
+    public void setTextAndIcon(CharSequence charSequence, int i, Drawable drawable) {
+        int dp;
+        int dp2;
+        this.textView.setText(charSequence);
+        if (i == 0 && drawable == null && this.checkView == null) {
+            this.imageView.setVisibility(4);
+            this.textView.setPadding(0, 0, 0, 0);
+            return;
+        }
+        RLottieImageView rLottieImageView = this.imageView;
+        if (drawable != null) {
+            rLottieImageView.setImageDrawable(drawable);
+        } else {
+            rLottieImageView.setImageResource(i);
+        }
+        this.imageView.setVisibility(0);
+        TextView textView = this.textView;
+        float f = 0.0f;
+        if (this.checkViewLeft) {
+            dp = this.checkView != null ? AndroidUtilities.dp(43.0f) : 0;
+        } else {
+            dp = AndroidUtilities.dp((i == 0 && drawable == null) ? 0.0f : 43.0f);
+        }
+        if (this.checkViewLeft) {
+            dp2 = AndroidUtilities.dp((i == 0 && drawable == null) ? 43.0f : 43.0f);
+        } else {
+            dp2 = this.checkView != null ? AndroidUtilities.dp(43.0f) : 0;
+        }
+        textView.setPadding(dp, 0, dp2, 0);
+    }
+
+    public void setTextColor(int i) {
+        if (this.textColor != i) {
+            TextView textView = this.textView;
+            this.textColor = i;
+            textView.setTextColor(i);
+        }
+    }
+
+    public void updateBackground() {
+        setBackground(Theme.createRadSelectorDrawable(this.selectorColor, this.top ? this.selectorRad : 0, this.bottom ? this.selectorRad : 0));
     }
 
     public void updateSelectorBackground(boolean z, boolean z2) {
@@ -308,28 +353,5 @@ public class ActionBarMenuSubItem extends FrameLayout {
         this.bottom = z2;
         this.selectorRad = i;
         updateBackground();
-    }
-
-    public void updateBackground() {
-        setBackground(Theme.createRadSelectorDrawable(this.selectorColor, this.top ? this.selectorRad : 0, this.bottom ? this.selectorRad : 0));
-    }
-
-    private int getThemedColor(int i) {
-        return Theme.getColor(i, this.resourcesProvider);
-    }
-
-    public CheckBox2 getCheckView() {
-        return this.checkView;
-    }
-
-    public void openSwipeBack() {
-        Runnable runnable = this.openSwipeBackLayout;
-        if (runnable != null) {
-            runnable.run();
-        }
-    }
-
-    public ImageView getRightIcon() {
-        return this.rightIcon;
     }
 }

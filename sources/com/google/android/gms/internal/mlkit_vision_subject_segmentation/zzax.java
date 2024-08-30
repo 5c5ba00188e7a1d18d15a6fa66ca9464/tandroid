@@ -7,7 +7,6 @@ import j$.util.function.Function;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public abstract class zzax implements Map, Serializable, j$.util.Map {
     private transient zzay zza;
@@ -20,7 +19,6 @@ public abstract class zzax implements Map, Serializable, j$.util.Map {
     }
 
     @Override // java.util.Map
-    @Deprecated
     public final void clear() {
         throw new UnsupportedOperationException();
     }
@@ -127,13 +125,11 @@ public abstract class zzax implements Map, Serializable, j$.util.Map {
     }
 
     @Override // java.util.Map
-    @Deprecated
     public final Object put(Object obj, Object obj2) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.Map
-    @Deprecated
     public final void putAll(java.util.Map map) {
         throw new UnsupportedOperationException();
     }
@@ -144,7 +140,6 @@ public abstract class zzax implements Map, Serializable, j$.util.Map {
     }
 
     @Override // java.util.Map
-    @Deprecated
     public final Object remove(Object obj) {
         throw new UnsupportedOperationException();
     }

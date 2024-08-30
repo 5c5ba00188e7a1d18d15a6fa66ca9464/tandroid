@@ -21,36 +21,69 @@ public class TableView extends android.widget.TableLayout {
     private final Theme.ResourcesProvider resourcesProvider;
     private final float w;
 
-    public TableView(Context context, Theme.ResourcesProvider resourcesProvider) {
-        super(context);
-        this.path = new Path();
-        this.radii = new float[8];
-        this.backgroundPaint = new Paint(1);
-        this.borderPaint = new Paint(1);
-        float max = Math.max(1, AndroidUtilities.dp(0.66f));
-        this.w = max;
-        this.hw = max / 2.0f;
-        this.resourcesProvider = resourcesProvider;
-        setClipToPadding(false);
-        setColumnStretchable(1, true);
-    }
+    /* loaded from: classes3.dex */
+    public static class TableRowContent extends FrameLayout {
+        private boolean first;
+        private boolean last;
+        private final Theme.ResourcesProvider resourcesProvider;
+        private final TableView table;
 
-    public void addRowUnpadded(CharSequence charSequence, View view) {
-        TableRow tableRow = new TableRow(getContext());
-        tableRow.addView(new TableRowTitle(this, charSequence), new TableRow.LayoutParams(-2, -1));
-        tableRow.addView(new TableRowContent(this, view, true), new TableRow.LayoutParams(0, -1, 1.0f));
-        addView(tableRow);
-    }
+        public TableRowContent(TableView tableView, View view) {
+            this(tableView, view, false);
+        }
 
-    public void addRow(CharSequence charSequence, CharSequence charSequence2) {
-        TextView textView = new TextView(getContext());
-        textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, this.resourcesProvider));
-        textView.setTextSize(1, 14.0f);
-        textView.setText(charSequence2);
-        TableRow tableRow = new TableRow(getContext());
-        tableRow.addView(new TableRowTitle(this, charSequence), new TableRow.LayoutParams(-2, -1));
-        tableRow.addView(new TableRowContent(this, textView), new TableRow.LayoutParams(0, -1, 1.0f));
-        addView(tableRow);
+        public TableRowContent(TableView tableView, View view, boolean z) {
+            super(tableView.getContext());
+            this.table = tableView;
+            this.resourcesProvider = tableView.resourcesProvider;
+            setWillNotDraw(false);
+            if (!z) {
+                setPadding(AndroidUtilities.dp(12.66f), AndroidUtilities.dp(9.33f), AndroidUtilities.dp(12.66f), AndroidUtilities.dp(9.33f));
+            }
+            addView(view, LayoutHelper.createFrame(-1, -1.0f));
+        }
+
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            if (this.first || this.last) {
+                float dp = AndroidUtilities.dp(4.0f);
+                float[] fArr = this.table.radii;
+                this.table.radii[1] = 0.0f;
+                fArr[0] = 0.0f;
+                float[] fArr2 = this.table.radii;
+                float[] fArr3 = this.table.radii;
+                float f = this.first ? dp : 0.0f;
+                fArr3[3] = f;
+                fArr2[2] = f;
+                float[] fArr4 = this.table.radii;
+                float[] fArr5 = this.table.radii;
+                if (!this.last) {
+                    dp = 0.0f;
+                }
+                fArr5[5] = dp;
+                fArr4[4] = dp;
+                float[] fArr6 = this.table.radii;
+                this.table.radii[7] = 0.0f;
+                fArr6[6] = 0.0f;
+                this.table.path.rewind();
+                RectF rectF = AndroidUtilities.rectTmp;
+                rectF.set(this.table.hw, this.table.hw, getWidth() - this.table.hw, getHeight() + (this.table.hw * AndroidUtilities.dp(this.last ? -1.0f : 1.0f)));
+                this.table.path.addRoundRect(rectF, this.table.radii, Path.Direction.CW);
+                canvas.drawPath(this.table.path, this.table.borderPaint);
+            } else {
+                canvas.drawRect(this.table.hw, this.table.hw, getWidth() - this.table.hw, getHeight() + this.table.hw, this.table.borderPaint);
+            }
+            super.onDraw(canvas);
+        }
+
+        public void setFirstLast(boolean z, boolean z2) {
+            if (this.first == z && this.last == z2) {
+                return;
+            }
+            this.first = z;
+            this.last = z2;
+            invalidate();
+        }
     }
 
     /* loaded from: classes3.dex */
@@ -72,21 +105,9 @@ public class TableView extends android.widget.TableLayout {
             setText(charSequence);
         }
 
-        public void setFirstLast(boolean z, boolean z2) {
-            if (this.first == z && this.last == z2) {
-                return;
-            }
-            this.first = z;
-            this.last = z2;
-            invalidate();
-        }
-
         @Override // android.widget.TextView, android.view.View
         protected void onDraw(Canvas canvas) {
-            if (!this.first && !this.last) {
-                canvas.drawRect(this.table.hw, this.table.hw, getWidth() + this.table.hw, getHeight() + this.table.hw, this.table.backgroundPaint);
-                canvas.drawRect(this.table.hw, this.table.hw, getWidth() + this.table.hw, getHeight() + this.table.hw, this.table.borderPaint);
-            } else {
+            if (this.first || this.last) {
                 float dp = AndroidUtilities.dp(4.0f);
                 float[] fArr = this.table.radii;
                 float[] fArr2 = this.table.radii;
@@ -112,31 +133,11 @@ public class TableView extends android.widget.TableLayout {
                 this.table.path.addRoundRect(rectF, this.table.radii, Path.Direction.CW);
                 canvas.drawPath(this.table.path, this.table.backgroundPaint);
                 canvas.drawPath(this.table.path, this.table.borderPaint);
+            } else {
+                canvas.drawRect(this.table.hw, this.table.hw, getWidth() + this.table.hw, getHeight() + this.table.hw, this.table.backgroundPaint);
+                canvas.drawRect(this.table.hw, this.table.hw, getWidth() + this.table.hw, getHeight() + this.table.hw, this.table.borderPaint);
             }
             super.onDraw(canvas);
-        }
-    }
-
-    /* loaded from: classes3.dex */
-    public static class TableRowContent extends FrameLayout {
-        private boolean first;
-        private boolean last;
-        private final Theme.ResourcesProvider resourcesProvider;
-        private final TableView table;
-
-        public TableRowContent(TableView tableView, View view) {
-            this(tableView, view, false);
-        }
-
-        public TableRowContent(TableView tableView, View view, boolean z) {
-            super(tableView.getContext());
-            this.table = tableView;
-            this.resourcesProvider = tableView.resourcesProvider;
-            setWillNotDraw(false);
-            if (!z) {
-                setPadding(AndroidUtilities.dp(12.66f), AndroidUtilities.dp(9.33f), AndroidUtilities.dp(12.66f), AndroidUtilities.dp(9.33f));
-            }
-            addView(view, LayoutHelper.createFrame(-1, -1.0f));
         }
 
         public void setFirstLast(boolean z, boolean z2) {
@@ -147,39 +148,38 @@ public class TableView extends android.widget.TableLayout {
             this.last = z2;
             invalidate();
         }
+    }
 
-        @Override // android.view.View
-        protected void onDraw(Canvas canvas) {
-            if (!this.first && !this.last) {
-                canvas.drawRect(this.table.hw, this.table.hw, getWidth() - this.table.hw, getHeight() + this.table.hw, this.table.borderPaint);
-            } else {
-                float dp = AndroidUtilities.dp(4.0f);
-                float[] fArr = this.table.radii;
-                this.table.radii[1] = 0.0f;
-                fArr[0] = 0.0f;
-                float[] fArr2 = this.table.radii;
-                float[] fArr3 = this.table.radii;
-                float f = this.first ? dp : 0.0f;
-                fArr3[3] = f;
-                fArr2[2] = f;
-                float[] fArr4 = this.table.radii;
-                float[] fArr5 = this.table.radii;
-                if (!this.last) {
-                    dp = 0.0f;
-                }
-                fArr5[5] = dp;
-                fArr4[4] = dp;
-                float[] fArr6 = this.table.radii;
-                this.table.radii[7] = 0.0f;
-                fArr6[6] = 0.0f;
-                this.table.path.rewind();
-                RectF rectF = AndroidUtilities.rectTmp;
-                rectF.set(this.table.hw, this.table.hw, getWidth() - this.table.hw, getHeight() + (this.table.hw * AndroidUtilities.dp(this.last ? -1.0f : 1.0f)));
-                this.table.path.addRoundRect(rectF, this.table.radii, Path.Direction.CW);
-                canvas.drawPath(this.table.path, this.table.borderPaint);
-            }
-            super.onDraw(canvas);
-        }
+    public TableView(Context context, Theme.ResourcesProvider resourcesProvider) {
+        super(context);
+        this.path = new Path();
+        this.radii = new float[8];
+        this.backgroundPaint = new Paint(1);
+        this.borderPaint = new Paint(1);
+        float max = Math.max(1, AndroidUtilities.dp(0.66f));
+        this.w = max;
+        this.hw = max / 2.0f;
+        this.resourcesProvider = resourcesProvider;
+        setClipToPadding(false);
+        setColumnStretchable(1, true);
+    }
+
+    public void addRow(CharSequence charSequence, CharSequence charSequence2) {
+        TextView textView = new TextView(getContext());
+        textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, this.resourcesProvider));
+        textView.setTextSize(1, 14.0f);
+        textView.setText(charSequence2);
+        TableRow tableRow = new TableRow(getContext());
+        tableRow.addView(new TableRowTitle(this, charSequence), new TableRow.LayoutParams(-2, -1));
+        tableRow.addView(new TableRowContent(this, textView), new TableRow.LayoutParams(0, -1, 1.0f));
+        addView(tableRow);
+    }
+
+    public void addRowUnpadded(CharSequence charSequence, View view) {
+        TableRow tableRow = new TableRow(getContext());
+        tableRow.addView(new TableRowTitle(this, charSequence), new TableRow.LayoutParams(-2, -1));
+        tableRow.addView(new TableRowContent(this, view, true), new TableRow.LayoutParams(0, -1, 1.0f));
+        addView(tableRow);
     }
 
     @Override // android.widget.TableLayout, android.widget.LinearLayout, android.view.ViewGroup, android.view.View

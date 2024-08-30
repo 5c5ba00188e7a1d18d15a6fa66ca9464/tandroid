@@ -131,21 +131,6 @@ public class RecordControl extends View implements FlashViews.Invertable {
         void onZoom(float f);
     }
 
-    public void startAsVideo(boolean z) {
-        this.overrideStartModeIsVideoT = -1.0f;
-        this.startModeIsVideo = z;
-        invalidate();
-    }
-
-    public void startAsVideoT(float f) {
-        this.overrideStartModeIsVideoT = f;
-        invalidate();
-    }
-
-    public void setDelegate(Delegate delegate) {
-        this.delegate = delegate;
-    }
-
     public RecordControl(Context context) {
         super(context);
         ImageReceiver imageReceiver = new ImageReceiver();
@@ -260,118 +245,26 @@ public class RecordControl extends View implements FlashViews.Invertable {
         updateGalleryImage();
     }
 
-    public void updateGalleryImage() {
-        String str;
-        ArrayList<MediaController.PhotoEntry> arrayList;
-        ArrayList<StoryEntry> arrayList2 = MessagesController.getInstance(this.galleryImage.getCurrentAccount()).getStoriesController().getDraftsController().drafts;
-        this.galleryImage.setOrientation(0, 0, true);
-        if (arrayList2 != null && !arrayList2.isEmpty() && arrayList2.get(0).draftThumbFile != null) {
-            this.galleryImage.setImage(ImageLocation.getForPath(arrayList2.get(0).draftThumbFile.getAbsolutePath()), "80_80", null, null, this.noGalleryDrawable, 0L, null, null, 0);
-            return;
-        }
-        MediaController.AlbumEntry albumEntry = MediaController.allMediaAlbumEntry;
-        MediaController.PhotoEntry photoEntry = (albumEntry == null || (arrayList = albumEntry.photos) == null || arrayList.isEmpty()) ? null : albumEntry.photos.get(0);
-        if (photoEntry != null && (str = photoEntry.thumbPath) != null) {
-            this.galleryImage.setImage(ImageLocation.getForPath(str), "80_80", null, null, this.noGalleryDrawable, 0L, null, null, 0);
-        } else if (photoEntry != null && photoEntry.path != null) {
-            if (photoEntry.isVideo) {
-                ImageReceiver imageReceiver = this.galleryImage;
-                imageReceiver.setImage(ImageLocation.getForPath("vthumb://" + photoEntry.imageId + ":" + photoEntry.path), "80_80", null, null, this.noGalleryDrawable, 0L, null, null, 0);
-                return;
-            }
-            this.galleryImage.setOrientation(photoEntry.orientation, photoEntry.invert, true);
-            ImageReceiver imageReceiver2 = this.galleryImage;
-            imageReceiver2.setImage(ImageLocation.getForPath("thumb://" + photoEntry.imageId + ":" + photoEntry.path), "80_80", null, null, this.noGalleryDrawable, 0L, null, null, 0);
-        } else {
-            this.galleryImage.setImageBitmap(this.noGalleryDrawable);
-        }
+    private float dist(Point point, Point point2) {
+        return MathUtils.distance(point.x, point.y, point2.x, point2.y);
     }
 
-    @Override // android.view.View
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        this.galleryImage.onAttachedToWindow();
+    private void getVector(float f, float f2, double d, float f3, Point point) {
+        double d2 = f;
+        double cos = Math.cos(d);
+        double d3 = f3;
+        Double.isNaN(d3);
+        Double.isNaN(d2);
+        point.x = (float) (d2 + (cos * d3));
+        double d4 = f2;
+        double sin = Math.sin(d);
+        Double.isNaN(d3);
+        Double.isNaN(d4);
+        point.y = (float) (d4 + (sin * d3));
     }
 
-    @Override // android.view.View
-    protected void onDetachedFromWindow() {
-        this.galleryImage.onDetachedFromWindow();
-        super.onDetachedFromWindow();
-    }
-
-    @Override // org.telegram.ui.Stories.recorder.FlashViews.Invertable
-    public void setInvert(float f) {
-        this.outlinePaint.setColor(ColorUtils.blendARGB(-1, -16777216, f));
-        this.buttonPaint.setColor(ColorUtils.blendARGB(1677721600, 369098752, f));
-        this.hintLinePaintWhite.setColor(ColorUtils.blendARGB(1493172223, 285212671, f));
-        this.hintLinePaintBlack.setColor(ColorUtils.blendARGB(402653184, 805306368, f));
-        Drawable drawable = this.flipDrawableWhite;
-        int blendARGB = ColorUtils.blendARGB(-1, -16777216, f);
-        PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
-        drawable.setColorFilter(new PorterDuffColorFilter(blendARGB, mode));
-        this.unlockDrawable.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(-1, -16777216, f), mode));
-    }
-
-    public void setAmplitude(float f, boolean z) {
-        this.amplitude = f;
-        if (z) {
-            return;
-        }
-        this.animatedAmplitude.set(f, true);
-    }
-
-    @Override // android.view.View
-    protected void onMeasure(int i, int i2) {
-        int size = View.MeasureSpec.getSize(i);
-        int dp = AndroidUtilities.dp(100.0f);
-        float f = size;
-        this.cx = f / 2.0f;
-        this.cy = dp / 2.0f;
-        float min = Math.min(AndroidUtilities.dp(135.0f), f * 0.35f);
-        float f2 = this.cx;
-        this.leftCx = f2 - min;
-        float f3 = f2 + min;
-        this.rightCx = f3;
-        setDrawableBounds(this.flipDrawableWhite, f3, this.cy, AndroidUtilities.dp(14.0f));
-        setDrawableBounds(this.flipDrawableBlack, this.rightCx, this.cy, AndroidUtilities.dp(14.0f));
-        setDrawableBounds(this.unlockDrawable, this.leftCx, this.cy);
-        setDrawableBounds(this.lockDrawable, this.leftCx, this.cy);
-        setDrawableBounds(this.pauseDrawable, this.leftCx, this.cy);
-        this.galleryImage.setImageCoords(this.leftCx - AndroidUtilities.dp(20.0f), this.cy - AndroidUtilities.dp(20.0f), AndroidUtilities.dp(40.0f), AndroidUtilities.dp(40.0f));
-        this.redMatrix.reset();
-        this.redMatrix.postTranslate(this.cx, this.cy);
-        this.redGradient.setLocalMatrix(this.redMatrix);
-        setMeasuredDimension(size, dp);
-    }
-
-    private static void setDrawableBounds(Drawable drawable, float f, float f2) {
-        setDrawableBounds(drawable, f, f2, Math.max(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight()) / 2.0f);
-    }
-
-    private static void setDrawableBounds(Drawable drawable, float f, float f2, float f3) {
-        drawable.setBounds((int) (f - f3), (int) (f2 - f3), (int) (f + f3), (int) (f2 + f3));
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1() {
-        if (this.recording) {
-            return;
-        }
-        if (!this.delegate.canRecordAudio()) {
-            this.touch = false;
-            this.recordButton.setPressed(false);
-            this.flipButton.setPressed(false);
-            this.lockButton.setPressed(false);
-            return;
-        }
-        this.longpressRecording = true;
-        this.showLock = true;
-        this.delegate.onVideoRecordStart(true, new Runnable() { // from class: org.telegram.ui.Stories.recorder.RecordControl$$ExternalSyntheticLambda4
-            @Override // java.lang.Runnable
-            public final void run() {
-                RecordControl.this.lambda$new$0();
-            }
-        });
+    private boolean isPressed(float f, float f2, float f3, float f4, float f5, boolean z) {
+        return this.recording ? (!z || f4 - f2 <= ((float) AndroidUtilities.dp(100.0f))) && Math.abs(f3 - f) <= f5 : MathUtils.distance(f, f2, f3, f4) <= f5;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -381,6 +274,28 @@ public class RecordControl extends View implements FlashViews.Invertable {
         Delegate delegate = this.delegate;
         this.lastDuration = 0L;
         delegate.onVideoDuration(0L);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$1() {
+        if (this.recording) {
+            return;
+        }
+        if (this.delegate.canRecordAudio()) {
+            this.longpressRecording = true;
+            this.showLock = true;
+            this.delegate.onVideoRecordStart(true, new Runnable() { // from class: org.telegram.ui.Stories.recorder.RecordControl$$ExternalSyntheticLambda4
+                @Override // java.lang.Runnable
+                public final void run() {
+                    RecordControl.this.lambda$new$0();
+                }
+            });
+            return;
+        }
+        this.touch = false;
+        this.recordButton.setPressed(false);
+        this.flipButton.setPressed(false);
+        this.lockButton.setPressed(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -394,6 +309,51 @@ public class RecordControl extends View implements FlashViews.Invertable {
         this.recordButton.setPressed(false);
         this.flipButton.setPressed(false);
         this.lockButton.setPressed(false);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onDraw$3() {
+        this.recording = false;
+        this.longpressRecording = false;
+        this.recordingLoadingStart = SystemClock.elapsedRealtime();
+        this.recordingLoading = true;
+        this.touch = false;
+        this.recordButton.setPressed(false);
+        this.flipButton.setPressed(false);
+        this.lockButton.setPressed(false);
+        this.delegate.onVideoRecordEnd(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onTouchEvent$4() {
+        this.recordingStart = System.currentTimeMillis();
+        this.lastDuration = 0L;
+        this.recording = true;
+        this.delegate.onVideoDuration(0L);
+    }
+
+    private static void setDrawableBounds(Drawable drawable, float f, float f2) {
+        setDrawableBounds(drawable, f, f2, Math.max(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight()) / 2.0f);
+    }
+
+    private static void setDrawableBounds(Drawable drawable, float f, float f2, float f3) {
+        drawable.setBounds((int) (f - f3), (int) (f2 - f3), (int) (f + f3), (int) (f2 + f3));
+    }
+
+    public boolean isTouch() {
+        return this.discardParentTouch;
+    }
+
+    @Override // android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        this.galleryImage.onAttachedToWindow();
+    }
+
+    @Override // android.view.View
+    protected void onDetachedFromWindow() {
+        this.galleryImage.onDetachedFromWindow();
+        super.onDetachedFromWindow();
     }
 
     /* JADX WARN: Removed duplicated region for block: B:123:0x06ba  */
@@ -709,56 +669,28 @@ public class RecordControl extends View implements FlashViews.Invertable {
         canvas.restore();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onDraw$3() {
-        this.recording = false;
-        this.longpressRecording = false;
-        this.recordingLoadingStart = SystemClock.elapsedRealtime();
-        this.recordingLoading = true;
-        this.touch = false;
-        this.recordButton.setPressed(false);
-        this.flipButton.setPressed(false);
-        this.lockButton.setPressed(false);
-        this.delegate.onVideoRecordEnd(true);
-    }
-
-    private void getVector(float f, float f2, double d, float f3, Point point) {
-        double d2 = f;
-        double cos = Math.cos(d);
-        double d3 = f3;
-        Double.isNaN(d3);
-        Double.isNaN(d2);
-        point.x = (float) (d2 + (cos * d3));
-        double d4 = f2;
-        double sin = Math.sin(d);
-        Double.isNaN(d3);
-        Double.isNaN(d4);
-        point.y = (float) (d4 + (sin * d3));
-    }
-
-    private float dist(Point point, Point point2) {
-        return MathUtils.distance(point.x, point.y, point2.x, point2.y);
-    }
-
-    public void rotateFlip(float f) {
-        this.flipDrawableRotateT.setDuration(f > 180.0f ? 620L : 310L);
-        this.flipDrawableRotate += f;
-        invalidate();
-    }
-
-    private boolean isPressed(float f, float f2, float f3, float f4, float f5, boolean z) {
-        return this.recording ? (!z || f4 - f2 <= ((float) AndroidUtilities.dp(100.0f))) && Math.abs(f3 - f) <= f5 : MathUtils.distance(f, f2, f3, f4) <= f5;
-    }
-
-    public boolean isTouch() {
-        return this.discardParentTouch;
-    }
-
-    public void setDual(boolean z) {
-        if (z != this.dual) {
-            this.dual = z;
-            invalidate();
-        }
+    @Override // android.view.View
+    protected void onMeasure(int i, int i2) {
+        int size = View.MeasureSpec.getSize(i);
+        int dp = AndroidUtilities.dp(100.0f);
+        float f = size;
+        this.cx = f / 2.0f;
+        this.cy = dp / 2.0f;
+        float min = Math.min(AndroidUtilities.dp(135.0f), f * 0.35f);
+        float f2 = this.cx;
+        this.leftCx = f2 - min;
+        float f3 = f2 + min;
+        this.rightCx = f3;
+        setDrawableBounds(this.flipDrawableWhite, f3, this.cy, AndroidUtilities.dp(14.0f));
+        setDrawableBounds(this.flipDrawableBlack, this.rightCx, this.cy, AndroidUtilities.dp(14.0f));
+        setDrawableBounds(this.unlockDrawable, this.leftCx, this.cy);
+        setDrawableBounds(this.lockDrawable, this.leftCx, this.cy);
+        setDrawableBounds(this.pauseDrawable, this.leftCx, this.cy);
+        this.galleryImage.setImageCoords(this.leftCx - AndroidUtilities.dp(20.0f), this.cy - AndroidUtilities.dp(20.0f), AndroidUtilities.dp(40.0f), AndroidUtilities.dp(40.0f));
+        this.redMatrix.reset();
+        this.redMatrix.postTranslate(this.cx, this.cy);
+        this.redGradient.setLocalMatrix(this.redMatrix);
+        setMeasuredDimension(size, dp);
     }
 
     @Override // android.view.View
@@ -789,21 +721,7 @@ public class RecordControl extends View implements FlashViews.Invertable {
             if (this.flipButton.isPressed()) {
                 AndroidUtilities.runOnUIThread(this.onFlipLongPressRunnable, ViewConfiguration.getLongPressTimeout());
             }
-        } else if (action == 2) {
-            if (!this.touch) {
-                return false;
-            }
-            this.touchX = Utilities.clamp(clamp, this.rightCx, this.leftCx);
-            this.touchY = y;
-            invalidate();
-            if (this.recording && !this.flipButtonWasPressed && isPressed) {
-                rotateFlip(180.0f);
-                this.delegate.onFlipClick();
-            }
-            if (this.recording && this.longpressRecording) {
-                this.delegate.onZoom(Utilities.clamp(((this.cy - AndroidUtilities.dp(48.0f)) - y) / (AndroidUtilities.displaySize.y / 2.0f), 1.0f, 0.0f));
-            }
-        } else {
+        } else if (action != 2) {
             if (action == 1 || action == 3) {
                 if (!this.touch) {
                     return false;
@@ -819,32 +737,32 @@ public class RecordControl extends View implements FlashViews.Invertable {
                         this.longpressRecording = false;
                         this.lockedT.set(1.0f, true);
                         this.delegate.onVideoRecordLocked();
-                    } else {
-                        this.recording = false;
-                        this.recordingLoadingStart = SystemClock.elapsedRealtime();
-                        this.recordingLoading = true;
-                        this.delegate.onVideoRecordEnd(false);
                     }
+                    this.recording = false;
+                    this.recordingLoadingStart = SystemClock.elapsedRealtime();
+                    this.recordingLoading = true;
+                    this.delegate.onVideoRecordEnd(false);
                 } else if (this.recordButton.isPressed()) {
-                    if (!this.startModeIsVideo && !this.recording && !this.longpressRecording) {
-                        this.delegate.onPhotoShoot();
-                    } else if (!this.recording) {
-                        if (this.delegate.canRecordAudio()) {
-                            this.lastDuration = 0L;
-                            this.recordingStart = System.currentTimeMillis();
-                            this.showLock = false;
-                            this.delegate.onVideoRecordStart(false, new Runnable() { // from class: org.telegram.ui.Stories.recorder.RecordControl$$ExternalSyntheticLambda1
-                                @Override // java.lang.Runnable
-                                public final void run() {
-                                    RecordControl.this.lambda$onTouchEvent$4();
-                                }
-                            });
+                    if (this.startModeIsVideo || this.recording || this.longpressRecording) {
+                        if (!this.recording) {
+                            if (this.delegate.canRecordAudio()) {
+                                this.lastDuration = 0L;
+                                this.recordingStart = System.currentTimeMillis();
+                                this.showLock = false;
+                                this.delegate.onVideoRecordStart(false, new Runnable() { // from class: org.telegram.ui.Stories.recorder.RecordControl$$ExternalSyntheticLambda1
+                                    @Override // java.lang.Runnable
+                                    public final void run() {
+                                        RecordControl.this.lambda$onTouchEvent$4();
+                                    }
+                                });
+                            }
                         }
-                    } else {
                         this.recording = false;
                         this.recordingLoadingStart = SystemClock.elapsedRealtime();
                         this.recordingLoading = true;
                         this.delegate.onVideoRecordEnd(false);
+                    } else {
+                        this.delegate.onPhotoShoot();
                     }
                 }
                 this.longpressRecording = false;
@@ -859,18 +777,72 @@ public class RecordControl extends View implements FlashViews.Invertable {
             }
             this.flipButtonWasPressed = isPressed;
             return z;
+        } else if (!this.touch) {
+            return false;
+        } else {
+            this.touchX = Utilities.clamp(clamp, this.rightCx, this.leftCx);
+            this.touchY = y;
+            invalidate();
+            if (this.recording && !this.flipButtonWasPressed && isPressed) {
+                rotateFlip(180.0f);
+                this.delegate.onFlipClick();
+            }
+            if (this.recording && this.longpressRecording) {
+                this.delegate.onZoom(Utilities.clamp(((this.cy - AndroidUtilities.dp(48.0f)) - y) / (AndroidUtilities.displaySize.y / 2.0f), 1.0f, 0.0f));
+            }
         }
         z = true;
         this.flipButtonWasPressed = isPressed;
         return z;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onTouchEvent$4() {
-        this.recordingStart = System.currentTimeMillis();
-        this.lastDuration = 0L;
-        this.recording = true;
-        this.delegate.onVideoDuration(0L);
+    public void rotateFlip(float f) {
+        this.flipDrawableRotateT.setDuration(f > 180.0f ? 620L : 310L);
+        this.flipDrawableRotate += f;
+        invalidate();
+    }
+
+    public void setAmplitude(float f, boolean z) {
+        this.amplitude = f;
+        if (z) {
+            return;
+        }
+        this.animatedAmplitude.set(f, true);
+    }
+
+    public void setDelegate(Delegate delegate) {
+        this.delegate = delegate;
+    }
+
+    public void setDual(boolean z) {
+        if (z != this.dual) {
+            this.dual = z;
+            invalidate();
+        }
+    }
+
+    @Override // org.telegram.ui.Stories.recorder.FlashViews.Invertable
+    public void setInvert(float f) {
+        this.outlinePaint.setColor(ColorUtils.blendARGB(-1, -16777216, f));
+        this.buttonPaint.setColor(ColorUtils.blendARGB(1677721600, 369098752, f));
+        this.hintLinePaintWhite.setColor(ColorUtils.blendARGB(1493172223, 285212671, f));
+        this.hintLinePaintBlack.setColor(ColorUtils.blendARGB(402653184, 805306368, f));
+        Drawable drawable = this.flipDrawableWhite;
+        int blendARGB = ColorUtils.blendARGB(-1, -16777216, f);
+        PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+        drawable.setColorFilter(new PorterDuffColorFilter(blendARGB, mode));
+        this.unlockDrawable.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(-1, -16777216, f), mode));
+    }
+
+    public void startAsVideo(boolean z) {
+        this.overrideStartModeIsVideoT = -1.0f;
+        this.startModeIsVideo = z;
+        invalidate();
+    }
+
+    public void startAsVideoT(float f) {
+        this.overrideStartModeIsVideoT = f;
+        invalidate();
     }
 
     public void stopRecording() {
@@ -892,5 +864,36 @@ public class RecordControl extends View implements FlashViews.Invertable {
             this.recordingLoadingT.set(false, true);
         }
         invalidate();
+    }
+
+    public void updateGalleryImage() {
+        ImageReceiver imageReceiver;
+        ImageLocation forPath;
+        String str;
+        ArrayList<MediaController.PhotoEntry> arrayList;
+        ArrayList arrayList2 = MessagesController.getInstance(this.galleryImage.getCurrentAccount()).getStoriesController().getDraftsController().drafts;
+        this.galleryImage.setOrientation(0, 0, true);
+        if (arrayList2 != null && !arrayList2.isEmpty() && ((StoryEntry) arrayList2.get(0)).draftThumbFile != null) {
+            this.galleryImage.setImage(ImageLocation.getForPath(((StoryEntry) arrayList2.get(0)).draftThumbFile.getAbsolutePath()), "80_80", null, null, this.noGalleryDrawable, 0L, null, null, 0);
+            return;
+        }
+        MediaController.AlbumEntry albumEntry = MediaController.allMediaAlbumEntry;
+        MediaController.PhotoEntry photoEntry = (albumEntry == null || (arrayList = albumEntry.photos) == null || arrayList.isEmpty()) ? null : albumEntry.photos.get(0);
+        if (photoEntry != null && (str = photoEntry.thumbPath) != null) {
+            imageReceiver = this.galleryImage;
+            forPath = ImageLocation.getForPath(str);
+        } else if (photoEntry == null || photoEntry.path == null) {
+            this.galleryImage.setImageBitmap(this.noGalleryDrawable);
+            return;
+        } else if (!photoEntry.isVideo) {
+            this.galleryImage.setOrientation(photoEntry.orientation, photoEntry.invert, true);
+            ImageReceiver imageReceiver2 = this.galleryImage;
+            imageReceiver2.setImage(ImageLocation.getForPath("thumb://" + photoEntry.imageId + ":" + photoEntry.path), "80_80", null, null, this.noGalleryDrawable, 0L, null, null, 0);
+            return;
+        } else {
+            imageReceiver = this.galleryImage;
+            forPath = ImageLocation.getForPath("vthumb://" + photoEntry.imageId + ":" + photoEntry.path);
+        }
+        imageReceiver.setImage(forPath, "80_80", null, null, this.noGalleryDrawable, 0L, null, null, 0);
     }
 }

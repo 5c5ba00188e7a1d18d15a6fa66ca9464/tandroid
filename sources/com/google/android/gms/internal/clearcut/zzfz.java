@@ -2,7 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import java.io.IOException;
 /* loaded from: classes.dex */
-public class zzfz {
+public abstract class zzfz {
     protected volatile int zzrs = -1;
 
     public static final void zza(zzfz zzfzVar, byte[] bArr, int i, int i2) {
@@ -19,8 +19,7 @@ public class zzfz {
         return zzga.zza(this);
     }
 
-    public void zza(zzfs zzfsVar) throws IOException {
-    }
+    public abstract void zza(zzfs zzfsVar);
 
     public final int zzas() {
         int zzen = zzen();
@@ -28,13 +27,9 @@ public class zzfz {
         return zzen;
     }
 
-    protected int zzen() {
-        return 0;
-    }
+    protected abstract int zzen();
 
-    @Override // 
-    /* renamed from: zzep */
-    public zzfz clone() throws CloneNotSupportedException {
+    public zzfz zzep() {
         return (zzfz) super.clone();
     }
 }

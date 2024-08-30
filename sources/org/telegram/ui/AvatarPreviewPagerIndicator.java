@@ -57,10 +57,6 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
     private final GradientDrawable topOverlayGradient;
     private final Rect topOverlayRect;
 
-    @Override // org.telegram.ui.Components.ProfileGalleryView.Callback
-    public void onPhotosLoaded() {
-    }
-
     public AvatarPreviewPagerIndicator(Context context) {
         super(context);
         this.indicatorRect = new RectF();
@@ -134,6 +130,14 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
         this.textPaint.setTextSize(AndroidUtilities.dpf2(15.0f));
     }
 
+    private String getCurrentTitle() {
+        if (this.lastCurrentItem != this.profileGalleryView.getCurrentItem()) {
+            this.title = this.profileGalleryView.getAdapter().getPageTitle(this.profileGalleryView.getCurrentItem()).toString();
+            this.lastCurrentItem = this.profileGalleryView.getCurrentItem();
+        }
+        return this.title;
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(ValueAnimator valueAnimator) {
         float[] fArr = this.animatorValues;
@@ -142,54 +146,22 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
         setAlphaValue(AndroidUtilities.lerp(fArr, animatedFraction), true);
     }
 
-    public void saveCurrentPageProgress() {
-        this.previousSelectedProgress = this.currentProgress;
-        this.previousSelectedPotision = this.selectedPosition;
-        this.currentLoadingAnimationProgress = 0.0f;
-        this.currentLoadingAnimationDirection = 1;
+    public ProfileGalleryView getProfileGalleryView() {
+        return this.profileGalleryView;
     }
 
-    public void setAlphaValue(float f, boolean z) {
-        int i = (int) (255.0f * f);
-        this.topOverlayGradient.setAlpha(i);
-        this.bottomOverlayGradient.setAlpha(i);
-        this.backgroundPaint.setAlpha((int) (66.0f * f));
-        this.barPaint.setAlpha((int) (85.0f * f));
-        this.selectedBarPaint.setAlpha(i);
-        this.alpha = f;
-        if (!z) {
-            this.currentAnimationValue = f;
-        }
-        invalidate();
-    }
-
-    @Override // android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(i, i2);
-        this.path.reset();
-        this.rectF.set(0.0f, 0.0f, getMeasuredHeight(), getMeasuredWidth());
-        this.path.addRoundRect(this.rectF, new float[]{AndroidUtilities.dp(13.0f), AndroidUtilities.dp(13.0f), AndroidUtilities.dp(13.0f), AndroidUtilities.dp(13.0f), 0.0f, 0.0f, 0.0f, 0.0f}, Path.Direction.CCW);
-    }
-
-    @Override // android.view.View
-    protected void onSizeChanged(int i, int i2, int i3, int i4) {
-        int currentActionBarHeight = ActionBar.getCurrentActionBarHeight();
-        this.topOverlayRect.set(0, 0, i, (int) (currentActionBarHeight * 0.5f));
-        this.bottomOverlayRect.set(0, (int) (i2 - (AndroidUtilities.dp(72.0f) * 0.5f)), i, i2);
-        this.topOverlayGradient.setBounds(0, this.topOverlayRect.bottom, i, currentActionBarHeight + AndroidUtilities.dp(16.0f));
-        this.bottomOverlayGradient.setBounds(0, (i2 - AndroidUtilities.dp(72.0f)) - AndroidUtilities.dp(24.0f), i, this.bottomOverlayRect.top);
-        int i5 = i / 5;
-        this.pressedOverlayGradient[0].setBounds(0, 0, i5, i2);
-        this.pressedOverlayGradient[1].setBounds(i - i5, 0, i, i2);
+    @Override // org.telegram.ui.Components.ProfileGalleryView.Callback
+    public void onDown(boolean z) {
+        this.pressedOverlayVisible[!z ? 1 : 0] = true;
+        postInvalidateOnAnimation();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x02fd  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x0300  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x01cf  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x01f0  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0208  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x020b  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x02fc  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x01cb  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x01ec  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0204  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0207  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -245,19 +217,7 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
             z = false;
             while (i6 < realCount) {
                 int dp2 = AndroidUtilities.dp((i6 * 2) + 5) + (measuredWidth * i6);
-                if (i6 == this.previousSelectedPotision && Math.abs(this.previousSelectedProgress - f4) > 1.0E-4f) {
-                    f2 = this.previousSelectedProgress;
-                    canvas.save();
-                    float f5 = dp2;
-                    float f6 = dp;
-                    float f7 = dp2 + measuredWidth;
-                    canvas.clipRect((measuredWidth * f2) + f5, f6, f7, dp + AndroidUtilities.dp(2.0f));
-                    this.rect.set(f5, f6, f7, AndroidUtilities.dp(2.0f) + dp);
-                    this.barPaint.setAlpha((int) (this.alpha * 85.0f));
-                    canvas.drawRoundRect(this.rect, AndroidUtilities.dp(f4), AndroidUtilities.dp(f4), this.barPaint);
-                    canvas.restore();
-                    i3 = i6;
-                } else {
+                if (i6 != this.previousSelectedPotision || Math.abs(this.previousSelectedProgress - f4) <= 1.0E-4f) {
                     i2 = 85;
                     if (i6 != this.selectedPosition) {
                         i3 = i6;
@@ -267,18 +227,17 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
                         if ((f2 > 0.0f || !this.profileGalleryView.isLoadingCurrentVideo()) && this.currentLoadingAnimationProgress <= 0.0f) {
                             i3 = i6;
                         } else {
-                            float f8 = this.currentLoadingAnimationProgress;
+                            float f5 = this.currentLoadingAnimationProgress;
                             int i7 = this.currentLoadingAnimationDirection;
                             i3 = i6;
-                            float f9 = f8 + (((float) (i7 * j)) / 500.0f);
-                            this.currentLoadingAnimationProgress = f9;
-                            if (f9 > 1.0f) {
+                            float f6 = f5 + (((float) (i7 * j)) / 500.0f);
+                            this.currentLoadingAnimationProgress = f6;
+                            if (f6 > 1.0f) {
                                 this.currentLoadingAnimationProgress = 1.0f;
-                                this.currentLoadingAnimationDirection = i7 * (-1);
-                            } else if (f9 <= 0.0f) {
+                            } else if (f6 <= 0.0f) {
                                 this.currentLoadingAnimationProgress = 0.0f;
-                                this.currentLoadingAnimationDirection = i7 * (-1);
                             }
+                            this.currentLoadingAnimationDirection = i7 * (-1);
                         }
                         this.rect.set(dp2, dp, dp2 + measuredWidth, AndroidUtilities.dp(2.0f) + dp);
                         this.barPaint.setAlpha((int) (((this.currentLoadingAnimationProgress * 48.0f) + 85.0f) * this.alpha));
@@ -288,24 +247,34 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
                         this.currentProgress = 1.0f;
                     }
                     f2 = 1.0f;
-                    float f10 = dp2;
-                    this.rect.set(f10, dp, (measuredWidth * f2) + f10, AndroidUtilities.dp(2.0f) + dp);
-                    if (i3 == this.selectedPosition) {
-                        if (this.overlayCountVisible == 3) {
-                            this.barPaint.setAlpha((int) (AndroidUtilities.lerp(i2, (int) NotificationCenter.voipServiceCreated, CubicBezierInterpolator.EASE_BOTH.getInterpolation(this.alphas[i3])) * this.alpha));
-                        }
-                    } else {
+                    float f7 = dp2;
+                    this.rect.set(f7, dp, (measuredWidth * f2) + f7, AndroidUtilities.dp(2.0f) + dp);
+                    if (i3 != this.selectedPosition) {
                         this.alphas[i3] = 0.75f;
+                    } else if (this.overlayCountVisible == 3) {
+                        this.barPaint.setAlpha((int) (AndroidUtilities.lerp(i2, (int) NotificationCenter.voipServiceCreated, CubicBezierInterpolator.EASE_BOTH.getInterpolation(this.alphas[i3])) * this.alpha));
                     }
                     canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), i3 != this.selectedPosition ? this.selectedBarPaint : this.barPaint);
                     i6 = i3 + 1;
                     f4 = 1.0f;
+                } else {
+                    f2 = this.previousSelectedProgress;
+                    canvas.save();
+                    float f8 = dp2;
+                    float f9 = dp;
+                    float f10 = dp2 + measuredWidth;
+                    canvas.clipRect((measuredWidth * f2) + f8, f9, f10, dp + AndroidUtilities.dp(2.0f));
+                    this.rect.set(f8, f9, f10, AndroidUtilities.dp(2.0f) + dp);
+                    this.barPaint.setAlpha((int) (this.alpha * 85.0f));
+                    canvas.drawRoundRect(this.rect, AndroidUtilities.dp(f4), AndroidUtilities.dp(f4), this.barPaint);
+                    canvas.restore();
+                    i3 = i6;
                 }
                 i2 = 80;
                 z = true;
-                float f102 = dp2;
-                this.rect.set(f102, dp, (measuredWidth * f2) + f102, AndroidUtilities.dp(2.0f) + dp);
-                if (i3 == this.selectedPosition) {
+                float f72 = dp2;
+                this.rect.set(f72, dp, (measuredWidth * f2) + f72, AndroidUtilities.dp(2.0f) + dp);
+                if (i3 != this.selectedPosition) {
                 }
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), i3 != this.selectedPosition ? this.selectedBarPaint : this.barPaint);
                 i6 = i3 + 1;
@@ -371,31 +340,39 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
                 if (f15 != 1.0f) {
                     this.progressToCounter = f15 + (((float) j) / 150.0f);
                     f = this.progressToCounter;
+                    float f16 = 1.0f;
                     if (f < 1.0f) {
-                        this.progressToCounter = 1.0f;
-                    } else if (f <= 0.0f) {
-                        this.progressToCounter = 0.0f;
-                    } else {
-                        invalidate();
+                        f16 = 0.0f;
+                        if (f > 0.0f) {
+                            invalidate();
+                            float f17 = this.progressToCounter;
+                            canvas.scale(f17, f17, this.indicatorRect.centerX(), this.indicatorRect.centerY());
+                            canvas.drawRoundRect(this.indicatorRect, dpf2, dpf2, this.backgroundPaint);
+                            canvas.drawText(getCurrentTitle(), this.indicatorRect.centerX(), this.indicatorRect.top + AndroidUtilities.dpf2(18.5f), this.textPaint);
+                            canvas.restore();
+                        }
                     }
-                    float f16 = this.progressToCounter;
-                    canvas.scale(f16, f16, this.indicatorRect.centerX(), this.indicatorRect.centerY());
+                    this.progressToCounter = f16;
+                    float f172 = this.progressToCounter;
+                    canvas.scale(f172, f172, this.indicatorRect.centerX(), this.indicatorRect.centerY());
                     canvas.drawRoundRect(this.indicatorRect, dpf2, dpf2, this.backgroundPaint);
                     canvas.drawText(getCurrentTitle(), this.indicatorRect.centerX(), this.indicatorRect.top + AndroidUtilities.dpf2(18.5f), this.textPaint);
                     canvas.restore();
                 }
             }
             if (!z2) {
-                float f17 = this.progressToCounter;
-                if (f17 != 0.0f) {
-                    this.progressToCounter = f17 - (((float) j) / 150.0f);
+                float f18 = this.progressToCounter;
+                if (f18 != 0.0f) {
+                    this.progressToCounter = f18 - (((float) j) / 150.0f);
                 }
             }
             f = this.progressToCounter;
+            float f162 = 1.0f;
             if (f < 1.0f) {
             }
-            float f162 = this.progressToCounter;
-            canvas.scale(f162, f162, this.indicatorRect.centerX(), this.indicatorRect.centerY());
+            this.progressToCounter = f162;
+            float f1722 = this.progressToCounter;
+            canvas.scale(f1722, f1722, this.indicatorRect.centerX(), this.indicatorRect.centerY());
             canvas.drawRoundRect(this.indicatorRect, dpf2, dpf2, this.backgroundPaint);
             canvas.drawText(getCurrentTitle(), this.indicatorRect.centerX(), this.indicatorRect.top + AndroidUtilities.dpf2(18.5f), this.textPaint);
             canvas.restore();
@@ -403,22 +380,22 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
         for (int i10 = 0; i10 < 2; i10++) {
             if (this.pressedOverlayVisible[i10]) {
                 float[] fArr4 = this.pressedOverlayAlpha;
-                float f18 = fArr4[i10];
-                if (f18 < 1.0f) {
-                    float f19 = f18 + (((float) j) / 180.0f);
-                    fArr4[i10] = f19;
-                    if (f19 > 1.0f) {
+                float f19 = fArr4[i10];
+                if (f19 < 1.0f) {
+                    float f20 = f19 + (((float) j) / 180.0f);
+                    fArr4[i10] = f20;
+                    if (f20 > 1.0f) {
                         fArr4[i10] = 1.0f;
                     }
                     z = true;
                 }
             } else {
                 float[] fArr5 = this.pressedOverlayAlpha;
-                float f20 = fArr5[i10];
-                if (f20 > 0.0f) {
-                    float f21 = f20 - (((float) j) / 180.0f);
-                    fArr5[i10] = f21;
-                    if (f21 < 0.0f) {
+                float f21 = fArr5[i10];
+                if (f21 > 0.0f) {
+                    float f22 = f21 - (((float) j) / 180.0f);
+                    fArr5[i10] = f22;
+                    if (f22 < 0.0f) {
                         fArr5[i10] = 0.0f;
                     }
                     z = true;
@@ -430,18 +407,16 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
         }
     }
 
-    private String getCurrentTitle() {
-        if (this.lastCurrentItem != this.profileGalleryView.getCurrentItem()) {
-            this.title = this.profileGalleryView.getAdapter().getPageTitle(this.profileGalleryView.getCurrentItem()).toString();
-            this.lastCurrentItem = this.profileGalleryView.getCurrentItem();
-        }
-        return this.title;
+    @Override // android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(i, i2);
+        this.path.reset();
+        this.rectF.set(0.0f, 0.0f, getMeasuredHeight(), getMeasuredWidth());
+        this.path.addRoundRect(this.rectF, new float[]{AndroidUtilities.dp(13.0f), AndroidUtilities.dp(13.0f), AndroidUtilities.dp(13.0f), AndroidUtilities.dp(13.0f), 0.0f, 0.0f, 0.0f, 0.0f}, Path.Direction.CCW);
     }
 
     @Override // org.telegram.ui.Components.ProfileGalleryView.Callback
-    public void onDown(boolean z) {
-        this.pressedOverlayVisible[!z ? 1 : 0] = true;
-        postInvalidateOnAnimation();
+    public void onPhotosLoaded() {
     }
 
     @Override // org.telegram.ui.Components.ProfileGalleryView.Callback
@@ -450,16 +425,45 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
         postInvalidateOnAnimation();
     }
 
+    @Override // android.view.View
+    protected void onSizeChanged(int i, int i2, int i3, int i4) {
+        int currentActionBarHeight = ActionBar.getCurrentActionBarHeight();
+        this.topOverlayRect.set(0, 0, i, (int) (currentActionBarHeight * 0.5f));
+        this.bottomOverlayRect.set(0, (int) (i2 - (AndroidUtilities.dp(72.0f) * 0.5f)), i, i2);
+        this.topOverlayGradient.setBounds(0, this.topOverlayRect.bottom, i, currentActionBarHeight + AndroidUtilities.dp(16.0f));
+        this.bottomOverlayGradient.setBounds(0, (i2 - AndroidUtilities.dp(72.0f)) - AndroidUtilities.dp(24.0f), i, this.bottomOverlayRect.top);
+        int i5 = i / 5;
+        this.pressedOverlayGradient[0].setBounds(0, 0, i5, i2);
+        this.pressedOverlayGradient[1].setBounds(i - i5, 0, i, i2);
+    }
+
     @Override // org.telegram.ui.Components.ProfileGalleryView.Callback
     public void onVideoSet() {
         invalidate();
     }
 
-    public void setProfileGalleryView(ProfileGalleryView profileGalleryView) {
-        this.profileGalleryView = profileGalleryView;
+    public void saveCurrentPageProgress() {
+        this.previousSelectedProgress = this.currentProgress;
+        this.previousSelectedPotision = this.selectedPosition;
+        this.currentLoadingAnimationProgress = 0.0f;
+        this.currentLoadingAnimationDirection = 1;
     }
 
-    public ProfileGalleryView getProfileGalleryView() {
-        return this.profileGalleryView;
+    public void setAlphaValue(float f, boolean z) {
+        int i = (int) (255.0f * f);
+        this.topOverlayGradient.setAlpha(i);
+        this.bottomOverlayGradient.setAlpha(i);
+        this.backgroundPaint.setAlpha((int) (66.0f * f));
+        this.barPaint.setAlpha((int) (85.0f * f));
+        this.selectedBarPaint.setAlpha(i);
+        this.alpha = f;
+        if (!z) {
+            this.currentAnimationValue = f;
+        }
+        invalidate();
+    }
+
+    public void setProfileGalleryView(ProfileGalleryView profileGalleryView) {
+        this.profileGalleryView = profileGalleryView;
     }
 }

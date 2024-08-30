@@ -1,5 +1,4 @@
 package com.google.android.gms.internal.mlkit_language_id;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 final class zzdq extends zzdx {
     private final int zzc;
@@ -33,15 +32,15 @@ final class zzdq extends zzdx {
         return this.zzb[this.zzc + i];
     }
 
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzdx, com.google.android.gms.internal.mlkit_language_id.zzdn
+    public final int zza() {
+        return this.zzd;
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzdx, com.google.android.gms.internal.mlkit_language_id.zzdn
     public final byte zzb(int i) {
         return this.zzb[this.zzc + i];
-    }
-
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzdx, com.google.android.gms.internal.mlkit_language_id.zzdn
-    public final int zza() {
-        return this.zzd;
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzdx

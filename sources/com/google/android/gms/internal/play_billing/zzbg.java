@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.io.IOException;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzbg extends IOException {
     /* JADX INFO: Access modifiers changed from: package-private */

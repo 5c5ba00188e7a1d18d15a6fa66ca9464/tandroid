@@ -13,20 +13,75 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
     int mIndex;
     final FragmentManager mManager;
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder(128);
-        sb.append("BackStackEntry{");
-        sb.append(Integer.toHexString(System.identityHashCode(this)));
-        if (this.mIndex >= 0) {
-            sb.append(" #");
-            sb.append(this.mIndex);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public BackStackRecord(FragmentManager fragmentManager) {
+        super(fragmentManager.getFragmentFactory(), fragmentManager.getHost() != null ? fragmentManager.getHost().getContext().getClassLoader() : null);
+        this.mIndex = -1;
+        this.mManager = fragmentManager;
+    }
+
+    private static boolean isFragmentPostponed(FragmentTransaction.Op op) {
+        Fragment fragment = op.mFragment;
+        return (fragment == null || !fragment.mAdded || fragment.mView == null || fragment.mDetached || fragment.mHidden || !fragment.isPostponed()) ? false : true;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void bumpBackStackNesting(int i) {
+        FragmentTransaction.Op op;
+        if (this.mAddToBackStack) {
+            if (FragmentManager.isLoggingEnabled(2)) {
+                Log.v("FragmentManager", "Bump nesting in " + this + " by " + i);
+            }
+            int size = this.mOps.size();
+            for (int i2 = 0; i2 < size; i2++) {
+                Fragment fragment = ((FragmentTransaction.Op) this.mOps.get(i2)).mFragment;
+                if (fragment != null) {
+                    fragment.mBackStackNesting += i;
+                    if (FragmentManager.isLoggingEnabled(2)) {
+                        Log.v("FragmentManager", "Bump nesting of " + op.mFragment + " to " + op.mFragment.mBackStackNesting);
+                    }
+                }
+            }
         }
-        if (this.mName != null) {
-            sb.append(" ");
-            sb.append(this.mName);
+    }
+
+    @Override // androidx.fragment.app.FragmentTransaction
+    public int commit() {
+        return commitInternal(false);
+    }
+
+    @Override // androidx.fragment.app.FragmentTransaction
+    public int commitAllowingStateLoss() {
+        return commitInternal(true);
+    }
+
+    int commitInternal(boolean z) {
+        if (this.mCommitted) {
+            throw new IllegalStateException("commit already called");
         }
-        sb.append("}");
-        return sb.toString();
+        if (FragmentManager.isLoggingEnabled(2)) {
+            Log.v("FragmentManager", "Commit: " + this);
+            PrintWriter printWriter = new PrintWriter(new LogWriter("FragmentManager"));
+            dump("  ", printWriter);
+            printWriter.close();
+        }
+        this.mCommitted = true;
+        this.mIndex = this.mAddToBackStack ? this.mManager.allocBackStackIndex() : -1;
+        this.mManager.enqueueAction(this, z);
+        return this.mIndex;
+    }
+
+    @Override // androidx.fragment.app.FragmentTransaction
+    public void commitNowAllowingStateLoss() {
+        disallowAddToBackStack();
+        this.mManager.execSingleAction(this, true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // androidx.fragment.app.FragmentTransaction
+    public void doAddOp(int i, Fragment fragment, String str, int i2) {
+        super.doAddOp(i, fragment, str, i2);
+        fragment.mFragmentManager = this.mManager;
     }
 
     public void dump(String str, PrintWriter printWriter) {
@@ -84,7 +139,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         printWriter.println("Operations:");
         int size = this.mOps.size();
         for (int i = 0; i < size; i++) {
-            FragmentTransaction.Op op = this.mOps.get(i);
+            FragmentTransaction.Op op = (FragmentTransaction.Op) this.mOps.get(i);
             switch (op.mCmd) {
                 case 0:
                     str2 = "NULL";
@@ -150,152 +205,10 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public BackStackRecord(FragmentManager fragmentManager) {
-        super(fragmentManager.getFragmentFactory(), fragmentManager.getHost() != null ? fragmentManager.getHost().getContext().getClassLoader() : null);
-        this.mIndex = -1;
-        this.mManager = fragmentManager;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // androidx.fragment.app.FragmentTransaction
-    public void doAddOp(int i, Fragment fragment, String str, int i2) {
-        super.doAddOp(i, fragment, str, i2);
-        fragment.mFragmentManager = this.mManager;
-    }
-
-    @Override // androidx.fragment.app.FragmentTransaction
-    public FragmentTransaction remove(Fragment fragment) {
-        FragmentManager fragmentManager = fragment.mFragmentManager;
-        if (fragmentManager != null && fragmentManager != this.mManager) {
-            throw new IllegalStateException("Cannot remove Fragment attached to a different FragmentManager. Fragment " + fragment.toString() + " is already attached to a FragmentManager.");
-        }
-        return super.remove(fragment);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void bumpBackStackNesting(int i) {
-        FragmentTransaction.Op op;
-        if (this.mAddToBackStack) {
-            if (FragmentManager.isLoggingEnabled(2)) {
-                Log.v("FragmentManager", "Bump nesting in " + this + " by " + i);
-            }
-            int size = this.mOps.size();
-            for (int i2 = 0; i2 < size; i2++) {
-                Fragment fragment = this.mOps.get(i2).mFragment;
-                if (fragment != null) {
-                    fragment.mBackStackNesting += i;
-                    if (FragmentManager.isLoggingEnabled(2)) {
-                        Log.v("FragmentManager", "Bump nesting of " + op.mFragment + " to " + op.mFragment.mBackStackNesting);
-                    }
-                }
-            }
-        }
-    }
-
-    public void runOnCommitRunnables() {
-        if (this.mCommitRunnables != null) {
-            for (int i = 0; i < this.mCommitRunnables.size(); i++) {
-                this.mCommitRunnables.get(i).run();
-            }
-            this.mCommitRunnables = null;
-        }
-    }
-
-    @Override // androidx.fragment.app.FragmentTransaction
-    public int commit() {
-        return commitInternal(false);
-    }
-
-    @Override // androidx.fragment.app.FragmentTransaction
-    public int commitAllowingStateLoss() {
-        return commitInternal(true);
-    }
-
-    @Override // androidx.fragment.app.FragmentTransaction
-    public void commitNowAllowingStateLoss() {
-        disallowAddToBackStack();
-        this.mManager.execSingleAction(this, true);
-    }
-
-    int commitInternal(boolean z) {
-        if (this.mCommitted) {
-            throw new IllegalStateException("commit already called");
-        }
-        if (FragmentManager.isLoggingEnabled(2)) {
-            Log.v("FragmentManager", "Commit: " + this);
-            PrintWriter printWriter = new PrintWriter(new LogWriter("FragmentManager"));
-            dump("  ", printWriter);
-            printWriter.close();
-        }
-        this.mCommitted = true;
-        if (this.mAddToBackStack) {
-            this.mIndex = this.mManager.allocBackStackIndex();
-        } else {
-            this.mIndex = -1;
-        }
-        this.mManager.enqueueAction(this, z);
-        return this.mIndex;
-    }
-
-    @Override // androidx.fragment.app.FragmentManager.OpGenerator
-    public boolean generateOps(ArrayList<BackStackRecord> arrayList, ArrayList<Boolean> arrayList2) {
-        if (FragmentManager.isLoggingEnabled(2)) {
-            Log.v("FragmentManager", "Run: " + this);
-        }
-        arrayList.add(this);
-        arrayList2.add(Boolean.FALSE);
-        if (this.mAddToBackStack) {
-            this.mManager.addBackStackState(this);
-            return true;
-        }
-        return true;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean interactsWith(int i) {
-        int size = this.mOps.size();
-        for (int i2 = 0; i2 < size; i2++) {
-            Fragment fragment = this.mOps.get(i2).mFragment;
-            int i3 = fragment != null ? fragment.mContainerId : 0;
-            if (i3 != 0 && i3 == i) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean interactsWith(ArrayList<BackStackRecord> arrayList, int i, int i2) {
-        if (i2 == i) {
-            return false;
-        }
-        int size = this.mOps.size();
-        int i3 = -1;
-        for (int i4 = 0; i4 < size; i4++) {
-            Fragment fragment = this.mOps.get(i4).mFragment;
-            int i5 = fragment != null ? fragment.mContainerId : 0;
-            if (i5 != 0 && i5 != i3) {
-                for (int i6 = i; i6 < i2; i6++) {
-                    BackStackRecord backStackRecord = arrayList.get(i6);
-                    int size2 = backStackRecord.mOps.size();
-                    for (int i7 = 0; i7 < size2; i7++) {
-                        Fragment fragment2 = backStackRecord.mOps.get(i7).mFragment;
-                        if ((fragment2 != null ? fragment2.mContainerId : 0) == i5) {
-                            return true;
-                        }
-                    }
-                }
-                i3 = i5;
-            }
-        }
-        return false;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
     public void executeOps() {
         int size = this.mOps.size();
         for (int i = 0; i < size; i++) {
-            FragmentTransaction.Op op = this.mOps.get(i);
+            FragmentTransaction.Op op = (FragmentTransaction.Op) this.mOps.get(i);
             Fragment fragment = op.mFragment;
             if (fragment != null) {
                 fragment.setPopDirection(false);
@@ -357,7 +270,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
     /* JADX INFO: Access modifiers changed from: package-private */
     public void executePopOps(boolean z) {
         for (int size = this.mOps.size() - 1; size >= 0; size--) {
-            FragmentTransaction.Op op = this.mOps.get(size);
+            FragmentTransaction.Op op = (FragmentTransaction.Op) this.mOps.get(size);
             Fragment fragment = op.mFragment;
             if (fragment != null) {
                 fragment.setPopDirection(true);
@@ -417,11 +330,11 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public Fragment expandOps(ArrayList<Fragment> arrayList, Fragment fragment) {
+    public Fragment expandOps(ArrayList arrayList, Fragment fragment) {
         Fragment fragment2 = fragment;
         int i = 0;
         while (i < this.mOps.size()) {
-            FragmentTransaction.Op op = this.mOps.get(i);
+            FragmentTransaction.Op op = (FragmentTransaction.Op) this.mOps.get(i);
             int i2 = op.mCmd;
             if (i2 != 1) {
                 if (i2 == 2) {
@@ -429,7 +342,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
                     int i3 = fragment3.mContainerId;
                     boolean z = false;
                     for (int size = arrayList.size() - 1; size >= 0; size--) {
-                        Fragment fragment4 = arrayList.get(size);
+                        Fragment fragment4 = (Fragment) arrayList.get(size);
                         if (fragment4.mContainerId == i3) {
                             if (fragment4 == fragment3) {
                                 z = true;
@@ -480,10 +393,122 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         return fragment2;
     }
 
+    @Override // androidx.fragment.app.FragmentManager.OpGenerator
+    public boolean generateOps(ArrayList arrayList, ArrayList arrayList2) {
+        if (FragmentManager.isLoggingEnabled(2)) {
+            Log.v("FragmentManager", "Run: " + this);
+        }
+        arrayList.add(this);
+        arrayList2.add(Boolean.FALSE);
+        if (this.mAddToBackStack) {
+            this.mManager.addBackStackState(this);
+            return true;
+        }
+        return true;
+    }
+
+    public String getName() {
+        return this.mName;
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
-    public Fragment trackAddedFragmentsInPop(ArrayList<Fragment> arrayList, Fragment fragment) {
+    public boolean interactsWith(int i) {
+        int size = this.mOps.size();
+        for (int i2 = 0; i2 < size; i2++) {
+            Fragment fragment = ((FragmentTransaction.Op) this.mOps.get(i2)).mFragment;
+            int i3 = fragment != null ? fragment.mContainerId : 0;
+            if (i3 != 0 && i3 == i) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public boolean interactsWith(ArrayList arrayList, int i, int i2) {
+        if (i2 == i) {
+            return false;
+        }
+        int size = this.mOps.size();
+        int i3 = -1;
+        for (int i4 = 0; i4 < size; i4++) {
+            Fragment fragment = ((FragmentTransaction.Op) this.mOps.get(i4)).mFragment;
+            int i5 = fragment != null ? fragment.mContainerId : 0;
+            if (i5 != 0 && i5 != i3) {
+                for (int i6 = i; i6 < i2; i6++) {
+                    BackStackRecord backStackRecord = (BackStackRecord) arrayList.get(i6);
+                    int size2 = backStackRecord.mOps.size();
+                    for (int i7 = 0; i7 < size2; i7++) {
+                        Fragment fragment2 = ((FragmentTransaction.Op) backStackRecord.mOps.get(i7)).mFragment;
+                        if ((fragment2 != null ? fragment2.mContainerId : 0) == i5) {
+                            return true;
+                        }
+                    }
+                }
+                i3 = i5;
+            }
+        }
+        return false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public boolean isPostponed() {
+        for (int i = 0; i < this.mOps.size(); i++) {
+            if (isFragmentPostponed((FragmentTransaction.Op) this.mOps.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override // androidx.fragment.app.FragmentTransaction
+    public FragmentTransaction remove(Fragment fragment) {
+        FragmentManager fragmentManager = fragment.mFragmentManager;
+        if (fragmentManager == null || fragmentManager == this.mManager) {
+            return super.remove(fragment);
+        }
+        throw new IllegalStateException("Cannot remove Fragment attached to a different FragmentManager. Fragment " + fragment.toString() + " is already attached to a FragmentManager.");
+    }
+
+    public void runOnCommitRunnables() {
+        if (this.mCommitRunnables != null) {
+            for (int i = 0; i < this.mCommitRunnables.size(); i++) {
+                ((Runnable) this.mCommitRunnables.get(i)).run();
+            }
+            this.mCommitRunnables = null;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setOnStartPostponedListener(Fragment.OnStartEnterTransitionListener onStartEnterTransitionListener) {
+        for (int i = 0; i < this.mOps.size(); i++) {
+            FragmentTransaction.Op op = (FragmentTransaction.Op) this.mOps.get(i);
+            if (isFragmentPostponed(op)) {
+                op.mFragment.setOnStartEnterTransitionListener(onStartEnterTransitionListener);
+            }
+        }
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder(128);
+        sb.append("BackStackEntry{");
+        sb.append(Integer.toHexString(System.identityHashCode(this)));
+        if (this.mIndex >= 0) {
+            sb.append(" #");
+            sb.append(this.mIndex);
+        }
+        if (this.mName != null) {
+            sb.append(" ");
+            sb.append(this.mName);
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public Fragment trackAddedFragmentsInPop(ArrayList arrayList, Fragment fragment) {
         for (int size = this.mOps.size() - 1; size >= 0; size--) {
-            FragmentTransaction.Op op = this.mOps.get(size);
+            FragmentTransaction.Op op = (FragmentTransaction.Op) this.mOps.get(size);
             int i = op.mCmd;
             if (i != 1) {
                 if (i != 3) {
@@ -504,34 +529,5 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
             arrayList.remove(op.mFragment);
         }
         return fragment;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isPostponed() {
-        for (int i = 0; i < this.mOps.size(); i++) {
-            if (isFragmentPostponed(this.mOps.get(i))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setOnStartPostponedListener(Fragment.OnStartEnterTransitionListener onStartEnterTransitionListener) {
-        for (int i = 0; i < this.mOps.size(); i++) {
-            FragmentTransaction.Op op = this.mOps.get(i);
-            if (isFragmentPostponed(op)) {
-                op.mFragment.setOnStartEnterTransitionListener(onStartEnterTransitionListener);
-            }
-        }
-    }
-
-    private static boolean isFragmentPostponed(FragmentTransaction.Op op) {
-        Fragment fragment = op.mFragment;
-        return (fragment == null || !fragment.mAdded || fragment.mView == null || fragment.mDetached || fragment.mHidden || !fragment.isPostponed()) ? false : true;
-    }
-
-    public String getName() {
-        return this.mName;
     }
 }

@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class CommentFrame extends Id3Frame {
-    public static final Parcelable.Creator<CommentFrame> CREATOR = new Parcelable.Creator<CommentFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.CommentFrame.1
+    public static final Parcelable.Creator<CommentFrame> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.id3.CommentFrame.1
         @Override // android.os.Parcelable.Creator
         public CommentFrame createFromParcel(Parcel parcel) {
             return new CommentFrame(parcel);
@@ -20,18 +20,18 @@ public final class CommentFrame extends Id3Frame {
     public final String language;
     public final String text;
 
-    public CommentFrame(String str, String str2, String str3) {
-        super("COMM");
-        this.language = str;
-        this.description = str2;
-        this.text = str3;
-    }
-
     CommentFrame(Parcel parcel) {
         super("COMM");
         this.language = (String) Util.castNonNull(parcel.readString());
         this.description = (String) Util.castNonNull(parcel.readString());
         this.text = (String) Util.castNonNull(parcel.readString());
+    }
+
+    public CommentFrame(String str, String str2, String str3) {
+        super("COMM");
+        this.language = str;
+        this.description = str2;
+        this.text = str3;
     }
 
     public boolean equals(Object obj) {

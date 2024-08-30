@@ -9,7 +9,7 @@ import org.telegram.ui.ActionBar.Theme;
 public interface ChatActivityInterface {
 
     /* loaded from: classes3.dex */
-    public final /* synthetic */ class -CC {
+    public abstract /* synthetic */ class -CC {
         public static void $default$checkAndUpdateAvatar(ChatActivityInterface chatActivityInterface) {
         }
 

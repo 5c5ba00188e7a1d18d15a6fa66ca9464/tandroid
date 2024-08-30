@@ -4,6 +4,4 @@ public interface zzdp extends zzdq, Cloneable {
     zzdp zza(zzdo zzdoVar);
 
     zzdo zzbi();
-
-    zzdo zzbj();
 }

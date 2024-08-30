@@ -28,14 +28,11 @@ public class DefaultScheduler implements Scheduler {
         this.guard = synchronizationGuard;
     }
 
-    @Override // com.google.android.datatransport.runtime.scheduling.Scheduler
-    public void schedule(final TransportContext transportContext, final EventInternal eventInternal, final TransportScheduleCallback transportScheduleCallback) {
-        this.executor.execute(new Runnable() { // from class: com.google.android.datatransport.runtime.scheduling.DefaultScheduler$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                DefaultScheduler.this.lambda$schedule$1(transportContext, transportScheduleCallback, eventInternal);
-            }
-        });
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ Object lambda$schedule$0(TransportContext transportContext, EventInternal eventInternal) {
+        this.eventStore.persist(transportContext, eventInternal);
+        this.workScheduler.schedule(transportContext, 1);
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -65,10 +62,13 @@ public class DefaultScheduler implements Scheduler {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ Object lambda$schedule$0(TransportContext transportContext, EventInternal eventInternal) {
-        this.eventStore.persist(transportContext, eventInternal);
-        this.workScheduler.schedule(transportContext, 1);
-        return null;
+    @Override // com.google.android.datatransport.runtime.scheduling.Scheduler
+    public void schedule(final TransportContext transportContext, final EventInternal eventInternal, final TransportScheduleCallback transportScheduleCallback) {
+        this.executor.execute(new Runnable() { // from class: com.google.android.datatransport.runtime.scheduling.DefaultScheduler$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                DefaultScheduler.this.lambda$schedule$1(transportContext, transportScheduleCallback, eventInternal);
+            }
+        });
     }
 }

@@ -7,23 +7,19 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Charts.data.ChartData;
 import org.telegram.ui.Charts.view_data.BarViewData;
+import org.telegram.ui.Charts.view_data.ChartHorizontalLinesData;
 import org.telegram.ui.Charts.view_data.TransitionParams;
 /* loaded from: classes4.dex */
-public class BarChartView extends BaseChartView<ChartData, BarViewData> {
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Charts.BaseChartView
-    public void drawSelection(Canvas canvas) {
-    }
-
-    @Override // org.telegram.ui.Charts.BaseChartView
-    protected float getMinDistance() {
-        return 0.1f;
-    }
-
+public class BarChartView extends BaseChartView {
     public BarChartView(Context context) {
         super(context);
         this.superDraw = true;
         this.useAlphaSignature = true;
+    }
+
+    @Override // org.telegram.ui.Charts.BaseChartView
+    public BarViewData createLineViewData(ChartData.Line line) {
+        return new BarViewData(line, this.resourcesProvider);
     }
 
     /* JADX WARN: Removed duplicated region for block: B:21:0x0093  */
@@ -36,8 +32,8 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
         float f2;
         int i;
         int i2;
-        T t = this.chartData;
-        if (t != 0) {
+        ChartData chartData = this.chartData;
+        if (chartData != null) {
             float f3 = this.chartWidth;
             ChartPickerDelegate chartPickerDelegate = this.pickerDelegate;
             float f4 = chartPickerDelegate.pickerEnd;
@@ -49,8 +45,8 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
             int i4 = 0;
             int i5 = i3 < 0 ? 0 : i3;
             int i6 = this.endXIndex + 1;
-            if (i6 > t.lines.get(0).y.length - 1) {
-                i6 = this.chartData.lines.get(0).y.length - 1;
+            if (i6 > ((ChartData.Line) chartData.lines.get(0)).y.length - 1) {
+                i6 = ((ChartData.Line) this.chartData.lines.get(0)).y.length - 1;
             }
             int i7 = i6;
             canvas.save();
@@ -67,11 +63,7 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
                 float f10 = transitionParams.progress;
                 f2 = 1.0f - f10;
                 canvas.scale((f10 * 2.0f) + 1.0f, 1.0f, transitionParams.pX, transitionParams.pY);
-            } else if (i8 == 1) {
-                TransitionParams transitionParams2 = this.transitionParams;
-                f2 = transitionParams2.progress;
-                canvas.scale(f2, 1.0f, transitionParams2.pX, transitionParams2.pY);
-            } else {
+            } else if (i8 != 1) {
                 f = 1.0f;
                 i = 0;
                 while (i < this.lines.size()) {
@@ -147,6 +139,10 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
                 }
                 canvas.restore();
                 canvas.restore();
+            } else {
+                TransitionParams transitionParams2 = this.transitionParams;
+                f2 = transitionParams2.progress;
+                canvas.scale(f2, 1.0f, transitionParams2.pX, transitionParams2.pY);
             }
             f = f2;
             i = 0;
@@ -169,7 +165,7 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
         int i5 = measuredHeight - i4;
         int measuredHeight2 = (getMeasuredHeight() - this.pikerHeight) - i4;
         int size = this.lines.size();
-        if (this.chartData != 0) {
+        if (this.chartData != null) {
             int i6 = 0;
             while (i6 < size) {
                 BarViewData barViewData = (BarViewData) this.lines.get(i6);
@@ -189,9 +185,9 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
                             i3 = length;
                             jArr = jArr2;
                         } else {
-                            T t = this.chartData;
+                            ChartData chartData = this.chartData;
                             i2 = size;
-                            float f4 = t.xPercentage[i7] * this.pickerWidth;
+                            float f4 = chartData.xPercentage[i7] * this.pickerWidth;
                             if (BaseChartView.ANIMATE_PICKER_SIZES) {
                                 f = this.pickerMaxHeight;
                                 i3 = length;
@@ -199,7 +195,7 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
                             } else {
                                 i3 = length;
                                 jArr = jArr2;
-                                f = (float) t.maxValue;
+                                f = (float) chartData.maxValue;
                             }
                             float[] fArr2 = barViewData.linesPath;
                             fArr2[i8] = f4;
@@ -226,9 +222,14 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
-    public BarViewData createLineViewData(ChartData.Line line) {
-        return new BarViewData(line, this.resourcesProvider);
+    public void drawSelection(Canvas canvas) {
+    }
+
+    @Override // org.telegram.ui.Charts.BaseChartView
+    protected float getMinDistance() {
+        return 0.1f;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -242,17 +243,16 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
         while (true) {
             this.tmpI = i;
             int i2 = this.tmpI;
-            if (i2 < this.tmpN) {
-                drawHorizontalLines(canvas, this.horizontalLines.get(i2));
-                drawSignaturesToHorizontalLines(canvas, this.horizontalLines.get(this.tmpI));
-                i = this.tmpI + 1;
-            } else {
+            if (i2 >= this.tmpN) {
                 drawBottomSignature(canvas);
                 drawPicker(canvas);
                 drawSelection(canvas);
                 super.onDraw(canvas);
                 return;
             }
+            drawHorizontalLines(canvas, (ChartHorizontalLinesData) this.horizontalLines.get(i2));
+            drawSignaturesToHorizontalLines(canvas, (ChartHorizontalLinesData) this.horizontalLines.get(this.tmpI));
+            i = this.tmpI + 1;
         }
     }
 }

@@ -1,5 +1,4 @@
 package org.webrtc.audio;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes.dex */
-public final /* synthetic */ class WebRtcAudioTrack$$ExternalSyntheticApiModelOutline0 {
+public abstract /* synthetic */ class WebRtcAudioTrack$$ExternalSyntheticApiModelOutline0 {
 }

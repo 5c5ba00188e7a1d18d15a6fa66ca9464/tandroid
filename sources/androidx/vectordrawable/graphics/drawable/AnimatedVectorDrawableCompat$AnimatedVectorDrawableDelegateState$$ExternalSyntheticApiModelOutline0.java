@@ -1,5 +1,4 @@
 package androidx.vectordrawable.graphics.drawable;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes.dex */
-public final /* synthetic */ class AnimatedVectorDrawableCompat$AnimatedVectorDrawableDelegateState$$ExternalSyntheticApiModelOutline0 {
+public abstract /* synthetic */ class AnimatedVectorDrawableCompat$AnimatedVectorDrawableDelegateState$$ExternalSyntheticApiModelOutline0 {
 }

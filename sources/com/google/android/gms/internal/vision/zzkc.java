@@ -1,16 +1,13 @@
 package com.google.android.gms.internal.vision;
-
-import java.io.IOException;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public final class zzkc<K, V> {
+public abstract class zzkc {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <K, V> void zza(zzii zziiVar, zzkf<K, V> zzkfVar, K k, V v) throws IOException {
+    public static int zza(zzkf zzkfVar, Object obj, Object obj2) {
         throw null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <K, V> int zza(zzkf<K, V> zzkfVar, K k, V v) {
+    public static void zza(zzii zziiVar, zzkf zzkfVar, Object obj, Object obj2) {
         throw null;
     }
 }

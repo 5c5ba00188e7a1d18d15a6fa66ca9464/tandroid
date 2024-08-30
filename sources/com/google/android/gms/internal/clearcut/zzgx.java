@@ -2,7 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
 /* loaded from: classes.dex */
-final /* synthetic */ class zzgx {
+abstract /* synthetic */ class zzgx {
     static final /* synthetic */ int[] zzba;
 
     static {

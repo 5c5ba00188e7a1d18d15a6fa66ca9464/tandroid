@@ -27,6 +27,36 @@ class AppCompatCheckedTextViewHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
+    public void applyCheckMarkTint() {
+        Drawable checkMarkDrawable = CheckedTextViewCompat.getCheckMarkDrawable(this.mView);
+        if (checkMarkDrawable != null) {
+            if (this.mHasCheckMarkTint || this.mHasCheckMarkTintMode) {
+                Drawable mutate = DrawableCompat.wrap(checkMarkDrawable).mutate();
+                if (this.mHasCheckMarkTint) {
+                    DrawableCompat.setTintList(mutate, this.mCheckMarkTintList);
+                }
+                if (this.mHasCheckMarkTintMode) {
+                    DrawableCompat.setTintMode(mutate, this.mCheckMarkTintMode);
+                }
+                if (mutate.isStateful()) {
+                    mutate.setState(this.mView.getDrawableState());
+                }
+                this.mView.setCheckMarkDrawable(mutate);
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public ColorStateList getSupportCheckMarkTintList() {
+        return this.mCheckMarkTintList;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public PorterDuff.Mode getSupportCheckMarkTintMode() {
+        return this.mCheckMarkTintMode;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:18:0x005e A[Catch: all -> 0x0039, TryCatch #1 {all -> 0x0039, blocks: (B:3:0x001d, B:5:0x0025, B:7:0x002b, B:16:0x0056, B:18:0x005e, B:19:0x0067, B:21:0x006f, B:11:0x003b, B:13:0x0043, B:15:0x0049), top: B:29:0x001d }] */
     /* JADX WARN: Removed duplicated region for block: B:21:0x006f A[Catch: all -> 0x0039, TRY_LEAVE, TryCatch #1 {all -> 0x0039, blocks: (B:3:0x001d, B:5:0x0025, B:7:0x002b, B:16:0x0056, B:18:0x005e, B:19:0x0067, B:21:0x006f, B:11:0x003b, B:13:0x0043, B:15:0x0049), top: B:29:0x001d }] */
     /*
@@ -76,30 +106,6 @@ class AppCompatCheckedTextViewHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void setSupportCheckMarkTintList(ColorStateList colorStateList) {
-        this.mCheckMarkTintList = colorStateList;
-        this.mHasCheckMarkTint = true;
-        applyCheckMarkTint();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ColorStateList getSupportCheckMarkTintList() {
-        return this.mCheckMarkTintList;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setSupportCheckMarkTintMode(PorterDuff.Mode mode) {
-        this.mCheckMarkTintMode = mode;
-        this.mHasCheckMarkTintMode = true;
-        applyCheckMarkTint();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PorterDuff.Mode getSupportCheckMarkTintMode() {
-        return this.mCheckMarkTintMode;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
     public void onSetCheckMarkDrawable() {
         if (this.mSkipNextApply) {
             this.mSkipNextApply = false;
@@ -110,22 +116,16 @@ class AppCompatCheckedTextViewHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void applyCheckMarkTint() {
-        Drawable checkMarkDrawable = CheckedTextViewCompat.getCheckMarkDrawable(this.mView);
-        if (checkMarkDrawable != null) {
-            if (this.mHasCheckMarkTint || this.mHasCheckMarkTintMode) {
-                Drawable mutate = DrawableCompat.wrap(checkMarkDrawable).mutate();
-                if (this.mHasCheckMarkTint) {
-                    DrawableCompat.setTintList(mutate, this.mCheckMarkTintList);
-                }
-                if (this.mHasCheckMarkTintMode) {
-                    DrawableCompat.setTintMode(mutate, this.mCheckMarkTintMode);
-                }
-                if (mutate.isStateful()) {
-                    mutate.setState(this.mView.getDrawableState());
-                }
-                this.mView.setCheckMarkDrawable(mutate);
-            }
-        }
+    public void setSupportCheckMarkTintList(ColorStateList colorStateList) {
+        this.mCheckMarkTintList = colorStateList;
+        this.mHasCheckMarkTint = true;
+        applyCheckMarkTint();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setSupportCheckMarkTintMode(PorterDuff.Mode mode) {
+        this.mCheckMarkTintMode = mode;
+        this.mHasCheckMarkTintMode = true;
+        applyCheckMarkTint();
     }
 }

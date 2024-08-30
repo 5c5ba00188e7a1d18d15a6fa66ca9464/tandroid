@@ -6,12 +6,11 @@ import android.util.Log;
 import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.concurrent.Executor;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 final class SharedPreferencesQueue {
     private final SharedPreferences sharedPreferences;
     private final Executor syncExecutor;
-    private final ArrayDeque<String> internalQueue = new ArrayDeque<>();
+    private final ArrayDeque internalQueue = new ArrayDeque();
     private boolean bulkOperation = false;
     private final String queueName = "topic_operation_queue";
     private final String itemSeparator = ",";
@@ -82,11 +81,11 @@ final class SharedPreferencesQueue {
     }
 
     public String peek() {
-        String peek;
+        String str;
         synchronized (this.internalQueue) {
-            peek = this.internalQueue.peek();
+            str = (String) this.internalQueue.peek();
         }
-        return peek;
+        return str;
     }
 
     public boolean remove(Object obj) {
@@ -100,9 +99,9 @@ final class SharedPreferencesQueue {
 
     public String serialize() {
         StringBuilder sb = new StringBuilder();
-        Iterator<String> it = this.internalQueue.iterator();
+        Iterator it = this.internalQueue.iterator();
         while (it.hasNext()) {
-            sb.append(it.next());
+            sb.append((String) it.next());
             sb.append(this.itemSeparator);
         }
         return sb.toString();

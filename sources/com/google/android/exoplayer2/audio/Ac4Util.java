@@ -7,7 +7,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.nio.ByteBuffer;
 import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
-public final class Ac4Util {
+public abstract class Ac4Util {
     private static final int[] SAMPLE_COUNT = {2002, 2000, 1920, 1601, 1600, 1001, 1000, 960, 800, 800, 480, 400, 400, 2048};
 
     /* loaded from: classes.dex */
@@ -27,9 +27,29 @@ public final class Ac4Util {
         }
     }
 
+    public static void getAc4SampleHeader(int i, ParsableByteArray parsableByteArray) {
+        parsableByteArray.reset(7);
+        byte[] data = parsableByteArray.getData();
+        data[0] = -84;
+        data[1] = 64;
+        data[2] = -1;
+        data[3] = -1;
+        data[4] = (byte) ((i >> 16) & NotificationCenter.voipServiceCreated);
+        data[5] = (byte) ((i >> 8) & NotificationCenter.voipServiceCreated);
+        data[6] = (byte) (i & NotificationCenter.voipServiceCreated);
+    }
+
     public static Format parseAc4AnnexEFormat(ParsableByteArray parsableByteArray, String str, String str2, DrmInitData drmInitData) {
         parsableByteArray.skipBytes(1);
         return new Format.Builder().setId(str).setSampleMimeType("audio/ac4").setChannelCount(2).setSampleRate(((parsableByteArray.readUnsignedByte() & 32) >> 5) == 1 ? 48000 : 44100).setDrmInitData(drmInitData).setLanguage(str2).build();
+    }
+
+    public static int parseAc4SyncframeAudioSampleCount(ByteBuffer byteBuffer) {
+        byte[] bArr = new byte[16];
+        int position = byteBuffer.position();
+        byteBuffer.get(bArr);
+        byteBuffer.position(position);
+        return parseAc4SyncframeInfo(new ParsableBitArray(bArr)).sampleCount;
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:38:0x0084, code lost:
@@ -122,26 +142,6 @@ public final class Ac4Util {
             i2 += 2;
         }
         return i3 + i2;
-    }
-
-    public static int parseAc4SyncframeAudioSampleCount(ByteBuffer byteBuffer) {
-        byte[] bArr = new byte[16];
-        int position = byteBuffer.position();
-        byteBuffer.get(bArr);
-        byteBuffer.position(position);
-        return parseAc4SyncframeInfo(new ParsableBitArray(bArr)).sampleCount;
-    }
-
-    public static void getAc4SampleHeader(int i, ParsableByteArray parsableByteArray) {
-        parsableByteArray.reset(7);
-        byte[] data = parsableByteArray.getData();
-        data[0] = -84;
-        data[1] = 64;
-        data[2] = -1;
-        data[3] = -1;
-        data[4] = (byte) ((i >> 16) & NotificationCenter.voipServiceCreated);
-        data[5] = (byte) ((i >> 8) & NotificationCenter.voipServiceCreated);
-        data[6] = (byte) (i & NotificationCenter.voipServiceCreated);
     }
 
     private static int readVariableBits(ParsableBitArray parsableBitArray, int i) {

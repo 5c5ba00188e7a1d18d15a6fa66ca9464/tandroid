@@ -40,6 +40,34 @@ public class GestureDetector2 {
     public static final int DOUBLE_TAP_TIMEOUT = ViewConfiguration.getDoubleTapTimeout();
 
     /* loaded from: classes3.dex */
+    private class GestureHandler extends Handler {
+        GestureHandler() {
+        }
+
+        GestureHandler(Handler handler) {
+            super(handler.getLooper());
+        }
+
+        @Override // android.os.Handler
+        public void handleMessage(Message message) {
+            int i = message.what;
+            if (i == 1) {
+                GestureDetector2.this.mListener.onShowPress(GestureDetector2.this.mCurrentDownEvent);
+            } else if (i == 2) {
+                GestureDetector2.this.dispatchLongPress();
+            } else if (i != 3) {
+                throw new RuntimeException("Unknown message " + message);
+            } else if (GestureDetector2.this.mDoubleTapListener != null) {
+                if (GestureDetector2.this.mStillDown) {
+                    GestureDetector2.this.mDeferConfirmSingleTap = true;
+                } else {
+                    GestureDetector2.this.mDoubleTapListener.onSingleTapConfirmed(GestureDetector2.this.mCurrentDownEvent);
+                }
+            }
+        }
+    }
+
+    /* loaded from: classes3.dex */
     public interface OnDoubleTapListener {
         boolean canDoubleTap(MotionEvent motionEvent);
 
@@ -67,41 +95,6 @@ public class GestureDetector2 {
         void onUp(MotionEvent motionEvent);
     }
 
-    /* loaded from: classes3.dex */
-    private class GestureHandler extends Handler {
-        GestureHandler() {
-        }
-
-        GestureHandler(Handler handler) {
-            super(handler.getLooper());
-        }
-
-        @Override // android.os.Handler
-        public void handleMessage(Message message) {
-            int i = message.what;
-            if (i == 1) {
-                GestureDetector2.this.mListener.onShowPress(GestureDetector2.this.mCurrentDownEvent);
-            } else if (i == 2) {
-                GestureDetector2.this.dispatchLongPress();
-            } else if (i == 3) {
-                if (GestureDetector2.this.mDoubleTapListener != null) {
-                    if (!GestureDetector2.this.mStillDown) {
-                        GestureDetector2.this.mDoubleTapListener.onSingleTapConfirmed(GestureDetector2.this.mCurrentDownEvent);
-                    } else {
-                        GestureDetector2.this.mDeferConfirmSingleTap = true;
-                    }
-                }
-            } else {
-                throw new RuntimeException("Unknown message " + message);
-            }
-        }
-    }
-
-    @Deprecated
-    public GestureDetector2(OnGestureListener onGestureListener) {
-        this(null, onGestureListener, null);
-    }
-
     public GestureDetector2(Context context, OnGestureListener onGestureListener) {
         this(context, onGestureListener, null);
     }
@@ -117,6 +110,47 @@ public class GestureDetector2 {
             setOnDoubleTapListener((OnDoubleTapListener) onGestureListener);
         }
         init(context);
+    }
+
+    public GestureDetector2(OnGestureListener onGestureListener) {
+        this(null, onGestureListener, null);
+    }
+
+    private void cancel() {
+        this.mHandler.removeMessages(1);
+        this.mHandler.removeMessages(2);
+        this.mHandler.removeMessages(3);
+        this.mVelocityTracker.recycle();
+        this.mVelocityTracker = null;
+        this.mIsDoubleTapping = false;
+        this.mStillDown = false;
+        this.mAlwaysInTapRegion = false;
+        this.mAlwaysInBiggerTapRegion = false;
+        this.mDeferConfirmSingleTap = false;
+        this.mInLongPress = false;
+        this.mInContextClick = false;
+        this.mIgnoreNextUpEvent = false;
+    }
+
+    private void cancelTaps() {
+        this.mHandler.removeMessages(1);
+        this.mHandler.removeMessages(2);
+        this.mHandler.removeMessages(3);
+        this.mIsDoubleTapping = false;
+        this.mAlwaysInTapRegion = false;
+        this.mAlwaysInBiggerTapRegion = false;
+        this.mDeferConfirmSingleTap = false;
+        this.mInLongPress = false;
+        this.mInContextClick = false;
+        this.mIgnoreNextUpEvent = false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void dispatchLongPress() {
+        this.mHandler.removeMessages(3);
+        this.mDeferConfirmSingleTap = false;
+        this.mInLongPress = true;
+        this.mListener.onLongPress(this.mCurrentDownEvent);
     }
 
     private void init(Context context) {
@@ -147,12 +181,17 @@ public class GestureDetector2 {
         this.mDoubleTapSlopSquare = scaledDoubleTapSlop * scaledDoubleTapSlop;
     }
 
-    public void setOnDoubleTapListener(OnDoubleTapListener onDoubleTapListener) {
-        this.mDoubleTapListener = onDoubleTapListener;
-    }
-
-    public void setIsLongpressEnabled(boolean z) {
-        this.mIsLongpressEnabled = z;
+    private boolean isConsideredDoubleTap(MotionEvent motionEvent, MotionEvent motionEvent2, MotionEvent motionEvent3) {
+        if (this.mAlwaysInBiggerTapRegion) {
+            long eventTime = motionEvent3.getEventTime() - motionEvent2.getEventTime();
+            if (eventTime > DOUBLE_TAP_TIMEOUT || eventTime < 40) {
+                return false;
+            }
+            int x = ((int) motionEvent.getX()) - ((int) motionEvent3.getX());
+            int y = ((int) motionEvent.getY()) - ((int) motionEvent3.getY());
+            return (x * x) + (y * y) < this.mDoubleTapSlopSquare;
+        }
+        return false;
     }
 
     /* JADX WARN: Removed duplicated region for block: B:149:0x02bb  */
@@ -414,53 +453,11 @@ public class GestureDetector2 {
         }
     }
 
-    private void cancel() {
-        this.mHandler.removeMessages(1);
-        this.mHandler.removeMessages(2);
-        this.mHandler.removeMessages(3);
-        this.mVelocityTracker.recycle();
-        this.mVelocityTracker = null;
-        this.mIsDoubleTapping = false;
-        this.mStillDown = false;
-        this.mAlwaysInTapRegion = false;
-        this.mAlwaysInBiggerTapRegion = false;
-        this.mDeferConfirmSingleTap = false;
-        this.mInLongPress = false;
-        this.mInContextClick = false;
-        this.mIgnoreNextUpEvent = false;
+    public void setIsLongpressEnabled(boolean z) {
+        this.mIsLongpressEnabled = z;
     }
 
-    private void cancelTaps() {
-        this.mHandler.removeMessages(1);
-        this.mHandler.removeMessages(2);
-        this.mHandler.removeMessages(3);
-        this.mIsDoubleTapping = false;
-        this.mAlwaysInTapRegion = false;
-        this.mAlwaysInBiggerTapRegion = false;
-        this.mDeferConfirmSingleTap = false;
-        this.mInLongPress = false;
-        this.mInContextClick = false;
-        this.mIgnoreNextUpEvent = false;
-    }
-
-    private boolean isConsideredDoubleTap(MotionEvent motionEvent, MotionEvent motionEvent2, MotionEvent motionEvent3) {
-        if (this.mAlwaysInBiggerTapRegion) {
-            long eventTime = motionEvent3.getEventTime() - motionEvent2.getEventTime();
-            if (eventTime > DOUBLE_TAP_TIMEOUT || eventTime < 40) {
-                return false;
-            }
-            int x = ((int) motionEvent.getX()) - ((int) motionEvent3.getX());
-            int y = ((int) motionEvent.getY()) - ((int) motionEvent3.getY());
-            return (x * x) + (y * y) < this.mDoubleTapSlopSquare;
-        }
-        return false;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void dispatchLongPress() {
-        this.mHandler.removeMessages(3);
-        this.mDeferConfirmSingleTap = false;
-        this.mInLongPress = true;
-        this.mListener.onLongPress(this.mCurrentDownEvent);
+    public void setOnDoubleTapListener(OnDoubleTapListener onDoubleTapListener) {
+        this.mDoubleTapListener = onDoubleTapListener;
     }
 }

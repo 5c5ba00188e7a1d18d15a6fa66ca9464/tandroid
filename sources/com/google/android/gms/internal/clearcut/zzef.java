@@ -1,23 +1,21 @@
 package com.google.android.gms.internal.clearcut;
-
-import java.io.IOException;
 /* loaded from: classes.dex */
-interface zzef<T> {
-    boolean equals(T t, T t2);
+interface zzef {
+    boolean equals(Object obj, Object obj2);
 
-    int hashCode(T t);
+    int hashCode(Object obj);
 
-    T newInstance();
+    Object newInstance();
 
-    void zza(T t, zzfr zzfrVar) throws IOException;
+    void zza(Object obj, zzfr zzfrVar);
 
-    void zza(T t, byte[] bArr, int i, int i2, zzay zzayVar) throws IOException;
+    void zza(Object obj, byte[] bArr, int i, int i2, zzay zzayVar);
 
-    void zzc(T t);
+    void zzc(Object obj);
 
-    void zzc(T t, T t2);
+    void zzc(Object obj, Object obj2);
 
-    int zzm(T t);
+    int zzm(Object obj);
 
-    boolean zzo(T t);
+    boolean zzo(Object obj);
 }

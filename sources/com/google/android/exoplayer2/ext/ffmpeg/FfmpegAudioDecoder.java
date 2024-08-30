@@ -14,7 +14,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.NotificationCenter;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class FfmpegAudioDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleDecoderOutputBuffer, FfmpegDecoderException> {
+public final class FfmpegAudioDecoder extends SimpleDecoder {
     private static final int AUDIO_DECODER_ERROR_INVALID_DATA = -1;
     private static final int AUDIO_DECODER_ERROR_OTHER = -2;
     private static final int OUTPUT_BUFFER_SIZE_16BIT = 65536;
@@ -28,19 +28,7 @@ public final class FfmpegAudioDecoder extends SimpleDecoder<DecoderInputBuffer, 
     private final int outputBufferSize;
     private volatile int sampleRate;
 
-    private native int ffmpegDecode(long j, ByteBuffer byteBuffer, int i, ByteBuffer byteBuffer2, int i2);
-
-    private native int ffmpegGetChannelCount(long j);
-
-    private native int ffmpegGetSampleRate(long j);
-
-    private native long ffmpegInitialize(String str, byte[] bArr, boolean z, int i, int i2);
-
-    private native void ffmpegRelease(long j);
-
-    private native long ffmpegReset(long j, byte[] bArr);
-
-    public FfmpegAudioDecoder(Format format, int i, int i2, int i3, boolean z) throws FfmpegDecoderException {
+    public FfmpegAudioDecoder(Format format, int i, int i2, int i3, boolean z) {
         super(new DecoderInputBuffer[i], new SimpleDecoderOutputBuffer[i2]);
         if (!FfmpegLibrary.isAvailable()) {
             throw new FfmpegDecoderException("Failed to load decoder native libraries.");
@@ -60,9 +48,84 @@ public final class FfmpegAudioDecoder extends SimpleDecoder<DecoderInputBuffer, 
         setInitialInputBufferSize(i3);
     }
 
-    @Override // com.google.android.exoplayer2.decoder.Decoder
-    public String getName() {
-        return "ffmpeg" + FfmpegLibrary.getVersion() + "-" + this.codecName;
+    private native int ffmpegDecode(long j, ByteBuffer byteBuffer, int i, ByteBuffer byteBuffer2, int i2);
+
+    private native int ffmpegGetChannelCount(long j);
+
+    private native int ffmpegGetSampleRate(long j);
+
+    private native long ffmpegInitialize(String str, byte[] bArr, boolean z, int i, int i2);
+
+    private native void ffmpegRelease(long j);
+
+    private native long ffmpegReset(long j, byte[] bArr);
+
+    private static byte[] getAlacExtraData(List<byte[]> list) {
+        byte[] bArr = list.get(0);
+        int length = bArr.length + 12;
+        ByteBuffer allocate = ByteBuffer.allocate(length);
+        allocate.putInt(length);
+        allocate.putInt(1634492771);
+        allocate.putInt(0);
+        allocate.put(bArr, 0, bArr.length);
+        return allocate.array();
+    }
+
+    private static byte[] getExtraData(String str, List<byte[]> list) {
+        str.hashCode();
+        char c = 65535;
+        switch (str.hashCode()) {
+            case -1003765268:
+                if (str.equals("audio/vorbis")) {
+                    c = 0;
+                    break;
+                }
+                break;
+            case -53558318:
+                if (str.equals(MediaController.AUDIO_MIME_TYPE)) {
+                    c = 1;
+                    break;
+                }
+                break;
+            case 1504470054:
+                if (str.equals("audio/alac")) {
+                    c = 2;
+                    break;
+                }
+                break;
+            case 1504891608:
+                if (str.equals("audio/opus")) {
+                    c = 3;
+                    break;
+                }
+                break;
+        }
+        switch (c) {
+            case 0:
+                return getVorbisExtraData(list);
+            case 1:
+            case 3:
+                return list.get(0);
+            case 2:
+                return getAlacExtraData(list);
+            default:
+                return null;
+        }
+    }
+
+    private static byte[] getVorbisExtraData(List<byte[]> list) {
+        byte[] bArr = list.get(0);
+        byte[] bArr2 = list.get(1);
+        byte[] bArr3 = new byte[bArr.length + bArr2.length + 6];
+        bArr3[0] = (byte) (bArr.length >> 8);
+        bArr3[1] = (byte) (bArr.length & NotificationCenter.voipServiceCreated);
+        System.arraycopy(bArr, 0, bArr3, 2, bArr.length);
+        bArr3[bArr.length + 2] = 0;
+        bArr3[bArr.length + 3] = 0;
+        bArr3[bArr.length + 4] = (byte) (bArr2.length >> 8);
+        bArr3[bArr.length + 5] = (byte) (bArr2.length & NotificationCenter.voipServiceCreated);
+        System.arraycopy(bArr2, 0, bArr3, bArr.length + 6, bArr2.length);
+        return bArr3;
     }
 
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
@@ -128,90 +191,27 @@ public final class FfmpegAudioDecoder extends SimpleDecoder<DecoderInputBuffer, 
         }
     }
 
-    @Override // com.google.android.exoplayer2.decoder.SimpleDecoder, com.google.android.exoplayer2.decoder.Decoder
-    public void release() {
-        super.release();
-        ffmpegRelease(this.nativeContext);
-        this.nativeContext = 0L;
-    }
-
     public int getChannelCount() {
         return this.channelCount;
-    }
-
-    public int getSampleRate() {
-        return this.sampleRate;
     }
 
     public int getEncoding() {
         return this.encoding;
     }
 
-    private static byte[] getExtraData(String str, List<byte[]> list) {
-        str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -1003765268:
-                if (str.equals("audio/vorbis")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -53558318:
-                if (str.equals(MediaController.AUDIO_MIME_TYPE)) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 1504470054:
-                if (str.equals("audio/alac")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 1504891608:
-                if (str.equals("audio/opus")) {
-                    c = 3;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
-                return getVorbisExtraData(list);
-            case 1:
-            case 3:
-                return list.get(0);
-            case 2:
-                return getAlacExtraData(list);
-            default:
-                return null;
-        }
+    @Override // com.google.android.exoplayer2.decoder.Decoder
+    public String getName() {
+        return "ffmpeg" + FfmpegLibrary.getVersion() + "-" + this.codecName;
     }
 
-    private static byte[] getAlacExtraData(List<byte[]> list) {
-        byte[] bArr = list.get(0);
-        int length = bArr.length + 12;
-        ByteBuffer allocate = ByteBuffer.allocate(length);
-        allocate.putInt(length);
-        allocate.putInt(1634492771);
-        allocate.putInt(0);
-        allocate.put(bArr, 0, bArr.length);
-        return allocate.array();
+    public int getSampleRate() {
+        return this.sampleRate;
     }
 
-    private static byte[] getVorbisExtraData(List<byte[]> list) {
-        byte[] bArr = list.get(0);
-        byte[] bArr2 = list.get(1);
-        byte[] bArr3 = new byte[bArr.length + bArr2.length + 6];
-        bArr3[0] = (byte) (bArr.length >> 8);
-        bArr3[1] = (byte) (bArr.length & NotificationCenter.voipServiceCreated);
-        System.arraycopy(bArr, 0, bArr3, 2, bArr.length);
-        bArr3[bArr.length + 2] = 0;
-        bArr3[bArr.length + 3] = 0;
-        bArr3[bArr.length + 4] = (byte) (bArr2.length >> 8);
-        bArr3[bArr.length + 5] = (byte) (bArr2.length & NotificationCenter.voipServiceCreated);
-        System.arraycopy(bArr2, 0, bArr3, bArr.length + 6, bArr2.length);
-        return bArr3;
+    @Override // com.google.android.exoplayer2.decoder.SimpleDecoder, com.google.android.exoplayer2.decoder.Decoder
+    public void release() {
+        super.release();
+        ffmpegRelease(this.nativeContext);
+        this.nativeContext = 0L;
     }
 }

@@ -6,14 +6,13 @@ import android.os.RemoteException;
 import android.util.Log;
 import com.google.android.gms.dynamite.DynamiteModule;
 import com.google.android.gms.vision.L;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public abstract class zzt<T> {
+public abstract class zzt {
     private final Context zza;
     private final String zzc;
     private final String zzd;
     private final String zze;
-    private T zzh;
+    private Object zzh;
     private final Object zzb = new Object();
     private boolean zzf = false;
     private boolean zzg = false;
@@ -26,9 +25,9 @@ public abstract class zzt<T> {
         this.zze = str2;
     }
 
-    protected abstract T zza(DynamiteModule dynamiteModule, Context context) throws RemoteException, DynamiteModule.LoadingException;
+    protected abstract Object zza(DynamiteModule dynamiteModule, Context context);
 
-    protected abstract void zza() throws RemoteException;
+    protected abstract void zza();
 
     public final boolean zzb() {
         return zzd() != null;
@@ -48,12 +47,12 @@ public abstract class zzt<T> {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final T zzd() {
+    public final Object zzd() {
         DynamiteModule dynamiteModule;
         synchronized (this.zzb) {
-            T t = this.zzh;
-            if (t != null) {
-                return t;
+            Object obj = this.zzh;
+            if (obj != null) {
+                return obj;
             }
             try {
                 dynamiteModule = DynamiteModule.load(this.zza, DynamiteModule.PREFER_HIGHEST_OR_REMOTE_VERSION, this.zzd);

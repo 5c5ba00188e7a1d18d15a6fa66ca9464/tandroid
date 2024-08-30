@@ -17,83 +17,8 @@ import org.telegram.messenger.camera.CameraController;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes4.dex */
-public class BasePermissionsActivity extends FragmentActivity {
+public abstract class BasePermissionsActivity extends FragmentActivity {
     protected int currentAccount = -1;
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean checkPermissionsResult(int i, String[] strArr, int[] iArr) {
-        if (iArr == null) {
-            iArr = new int[0];
-        }
-        if (strArr == null) {
-            strArr = new String[0];
-        }
-        boolean z = iArr.length > 0 && iArr[0] == 0;
-        if (i == 104) {
-            if (z) {
-                GroupCallActivity groupCallActivity = GroupCallActivity.groupCallInstance;
-                if (groupCallActivity != null) {
-                    groupCallActivity.enableCamera();
-                }
-            } else {
-                showPermissionErrorAlert(R.raw.permission_request_camera, LocaleController.getString(R.string.VoipNeedCameraPermission));
-            }
-        } else if (i == 4 || i == 151) {
-            if (!z) {
-                showPermissionErrorAlert(R.raw.permission_request_folder, i == 151 ? LocaleController.getString(R.string.PermissionNoStorageAvatar) : LocaleController.getString(R.string.PermissionStorageWithHint));
-            } else {
-                ImageLoader.getInstance().checkMediaPaths();
-            }
-        } else if (i == 5) {
-            if (!z) {
-                showPermissionErrorAlert(R.raw.permission_request_contacts, LocaleController.getString(R.string.PermissionNoContactsSharing));
-                return false;
-            }
-            ContactsController.getInstance(this.currentAccount).forceImportContacts();
-        } else if (i == 3 || i == 150) {
-            int min = Math.min(strArr.length, iArr.length);
-            boolean z2 = true;
-            boolean z3 = true;
-            for (int i2 = 0; i2 < min; i2++) {
-                if ("android.permission.RECORD_AUDIO".equals(strArr[i2])) {
-                    z2 = iArr[i2] == 0;
-                } else if ("android.permission.CAMERA".equals(strArr[i2])) {
-                    z3 = iArr[i2] == 0;
-                }
-            }
-            if (i == 150 && !(z2 && z3)) {
-                showPermissionErrorAlert(R.raw.permission_request_camera, LocaleController.getString(R.string.PermissionNoCameraMicVideo));
-            } else if (!z2) {
-                showPermissionErrorAlert(R.raw.permission_request_microphone, LocaleController.getString(R.string.PermissionNoAudioWithHint));
-            } else if (!z3) {
-                showPermissionErrorAlert(R.raw.permission_request_camera, LocaleController.getString(R.string.PermissionNoCameraWithHint));
-            } else {
-                if (SharedConfig.inappCamera) {
-                    CameraController.getInstance().initCamera(null);
-                }
-                return false;
-            }
-        } else if (i == 18 || i == 19 || i == 20 || i == 22) {
-            if (!z) {
-                showPermissionErrorAlert(R.raw.permission_request_camera, LocaleController.getString(R.string.PermissionNoCameraWithHint));
-            }
-        } else if (i == 2) {
-            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(z ? NotificationCenter.locationPermissionGranted : NotificationCenter.locationPermissionDenied, new Object[0]);
-        } else if (i == 211) {
-            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(z ? NotificationCenter.locationPermissionGranted : NotificationCenter.locationPermissionDenied, 1);
-        }
-        return true;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public AlertDialog createPermissionErrorAlert(int i, String str) {
-        return new AlertDialog.Builder(this).setTopAnimation(i, 72, false, Theme.getColor(Theme.key_dialogTopBackground)).setMessage(AndroidUtilities.replaceTags(str)).setPositiveButton(LocaleController.getString(R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.BasePermissionsActivity$$ExternalSyntheticLambda0
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                BasePermissionsActivity.this.lambda$createPermissionErrorAlert$0(dialogInterface, i2);
-            }
-        }).setNegativeButton(LocaleController.getString(R.string.ContactsPermissionAlertNotNow), null).create();
-    }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createPermissionErrorAlert$0(DialogInterface dialogInterface, int i) {
@@ -108,5 +33,93 @@ public class BasePermissionsActivity extends FragmentActivity {
 
     private void showPermissionErrorAlert(int i, String str) {
         createPermissionErrorAlert(i, str).show();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Code restructure failed: missing block: B:58:0x009f, code lost:
+        if (r2 == false) goto L56;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public boolean checkPermissionsResult(int i, String[] strArr, int[] iArr) {
+        int i2;
+        int i3;
+        if (iArr == null) {
+            iArr = new int[0];
+        }
+        if (strArr == null) {
+            strArr = new String[0];
+        }
+        boolean z = iArr.length > 0 && iArr[0] == 0;
+        if (i == 104) {
+            if (z) {
+                GroupCallActivity groupCallActivity = GroupCallActivity.groupCallInstance;
+                if (groupCallActivity != null) {
+                    groupCallActivity.enableCamera();
+                }
+            } else {
+                i2 = R.raw.permission_request_camera;
+                i3 = R.string.VoipNeedCameraPermission;
+                showPermissionErrorAlert(i2, LocaleController.getString(i3));
+            }
+        } else if (i == 4 || i == 151) {
+            if (z) {
+                ImageLoader.getInstance().checkMediaPaths();
+            } else {
+                showPermissionErrorAlert(R.raw.permission_request_folder, LocaleController.getString(i == 151 ? R.string.PermissionNoStorageAvatar : R.string.PermissionStorageWithHint));
+            }
+        } else if (i != 5) {
+            if (i == 3 || i == 150) {
+                int min = Math.min(strArr.length, iArr.length);
+                boolean z2 = true;
+                boolean z3 = true;
+                for (int i4 = 0; i4 < min; i4++) {
+                    if ("android.permission.RECORD_AUDIO".equals(strArr[i4])) {
+                        z2 = iArr[i4] == 0;
+                    } else if ("android.permission.CAMERA".equals(strArr[i4])) {
+                        z3 = iArr[i4] == 0;
+                    }
+                }
+                if (i == 150 && !(z2 && z3)) {
+                    i2 = R.raw.permission_request_camera;
+                    i3 = R.string.PermissionNoCameraMicVideo;
+                } else if (!z2) {
+                    i2 = R.raw.permission_request_microphone;
+                    i3 = R.string.PermissionNoAudioWithHint;
+                } else if (z3) {
+                    if (SharedConfig.inappCamera) {
+                        CameraController.getInstance().initCamera(null);
+                    }
+                    return false;
+                }
+                showPermissionErrorAlert(i2, LocaleController.getString(i3));
+            } else if (i != 18 && i != 19 && i != 20 && i != 22) {
+                if (i == 2) {
+                    NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(z ? NotificationCenter.locationPermissionGranted : NotificationCenter.locationPermissionDenied, new Object[0]);
+                } else if (i == 211) {
+                    NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(z ? NotificationCenter.locationPermissionGranted : NotificationCenter.locationPermissionDenied, 1);
+                }
+            }
+            i2 = R.raw.permission_request_camera;
+            i3 = R.string.PermissionNoCameraWithHint;
+            showPermissionErrorAlert(i2, LocaleController.getString(i3));
+        } else if (!z) {
+            showPermissionErrorAlert(R.raw.permission_request_contacts, LocaleController.getString(R.string.PermissionNoContactsSharing));
+            return false;
+        } else {
+            ContactsController.getInstance(this.currentAccount).forceImportContacts();
+        }
+        return true;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public AlertDialog createPermissionErrorAlert(int i, String str) {
+        return new AlertDialog.Builder(this).setTopAnimation(i, 72, false, Theme.getColor(Theme.key_dialogTopBackground)).setMessage(AndroidUtilities.replaceTags(str)).setPositiveButton(LocaleController.getString(R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.BasePermissionsActivity$$ExternalSyntheticLambda0
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i2) {
+                BasePermissionsActivity.this.lambda$createPermissionErrorAlert$0(dialogInterface, i2);
+            }
+        }).setNegativeButton(LocaleController.getString(R.string.ContactsPermissionAlertNotNow), null).create();
     }
 }

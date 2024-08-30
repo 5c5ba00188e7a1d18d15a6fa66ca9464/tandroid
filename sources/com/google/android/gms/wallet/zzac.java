@@ -5,7 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class zzac implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -13,7 +12,7 @@ public final class zzac implements Parcelable.Creator {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         CardRequirements cardRequirements = null;
         ShippingAddressRequirements shippingAddressRequirements = null;
-        ArrayList<Integer> arrayList = null;
+        ArrayList arrayList = null;
         PaymentMethodTokenizationParameters paymentMethodTokenizationParameters = null;
         TransactionInfo transactionInfo = null;
         String str = null;

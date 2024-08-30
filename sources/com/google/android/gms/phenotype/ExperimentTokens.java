@@ -49,7 +49,7 @@ public class ExperimentTokens extends AbstractSafeParcelable {
         this.zzw = bArr6;
     }
 
-    private static List<Integer> zza(int[] iArr) {
+    private static List zza(int[] iArr) {
         if (iArr == null) {
             return Collections.emptyList();
         }
@@ -61,7 +61,7 @@ public class ExperimentTokens extends AbstractSafeParcelable {
         return arrayList;
     }
 
-    private static List<String> zza(byte[][] bArr) {
+    private static List zza(byte[][] bArr) {
         if (bArr == null) {
             return Collections.emptyList();
         }

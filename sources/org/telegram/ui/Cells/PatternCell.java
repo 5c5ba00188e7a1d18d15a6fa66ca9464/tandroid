@@ -1,7 +1,7 @@
 package org.telegram.ui.Cells;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BlendMode;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
@@ -72,10 +72,6 @@ public class PatternCell extends BackupImageView implements DownloadController.F
         TLRPC$TL_wallPaper getSelectedPattern();
     }
 
-    @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
-    public void onProgressUpload(String str, long j, long j2, boolean z) {
-    }
-
     public PatternCell(Context context, int i, PatternCellDelegate patternCellDelegate) {
         super(context);
         this.SIZE = 100;
@@ -98,39 +94,6 @@ public class PatternCell extends BackupImageView implements DownloadController.F
             });
             setClipToOutline(true);
         }
-    }
-
-    public void setPattern(TLRPC$TL_wallPaper tLRPC$TL_wallPaper) {
-        this.currentPattern = tLRPC$TL_wallPaper;
-        if (tLRPC$TL_wallPaper != null) {
-            setImage(ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_wallPaper.document.thumbs, AndroidUtilities.dp(100.0f)), tLRPC$TL_wallPaper.document), "100_100", null, null, "png", 0L, 1, tLRPC$TL_wallPaper);
-        } else {
-            setImageDrawable(null);
-        }
-        updateSelected(false);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        updateSelected(false);
-    }
-
-    public void updateSelected(boolean z) {
-        TLRPC$TL_wallPaper selectedPattern = this.delegate.getSelectedPattern();
-        TLRPC$TL_wallPaper tLRPC$TL_wallPaper = this.currentPattern;
-        if ((tLRPC$TL_wallPaper == null && selectedPattern == null) || (selectedPattern != null && tLRPC$TL_wallPaper != null && tLRPC$TL_wallPaper.id == selectedPattern.id)) {
-            updateButtonState(selectedPattern, false, z);
-        } else {
-            this.radialProgress.setIcon(4, false, z);
-        }
-        invalidate();
-    }
-
-    @Override // android.view.View
-    public void invalidate() {
-        super.invalidate();
     }
 
     private void updateButtonState(Object obj, boolean z, boolean z2) {
@@ -161,32 +124,56 @@ public class PatternCell extends BackupImageView implements DownloadController.F
                     return;
                 }
             }
-            if (httpFilePath.exists()) {
-                DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
-                this.radialProgress.setProgress(1.0f, z2);
-                this.radialProgress.setIcon(6, z, z2);
+            if (!httpFilePath.exists()) {
+                DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(name, null, this);
+                FileLoader.getInstance(this.currentAccount).isLoadingFile(name);
+                Float fileProgress = ImageLoader.getInstance().getFileProgress(name);
+                if (fileProgress != null) {
+                    this.radialProgress.setProgress(fileProgress.floatValue(), z2);
+                } else {
+                    this.radialProgress.setProgress(0.0f, z2);
+                }
+                this.radialProgress.setIcon(10, z, z2);
                 return;
             }
-            DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(name, null, this);
-            FileLoader.getInstance(this.currentAccount).isLoadingFile(name);
-            Float fileProgress = ImageLoader.getInstance().getFileProgress(name);
-            if (fileProgress != null) {
-                this.radialProgress.setProgress(fileProgress.floatValue(), z2);
-            } else {
-                this.radialProgress.setProgress(0.0f, z2);
-            }
-            this.radialProgress.setIcon(10, z, z2);
-            return;
+            DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
+            this.radialProgress.setProgress(1.0f, z2);
         }
         this.radialProgress.setIcon(6, z, z2);
     }
 
+    @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
+    public int getObserverTag() {
+        return this.TAG;
+    }
+
+    @Override // android.view.View
+    public void invalidate() {
+        super.invalidate();
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-    @SuppressLint({"DrawAllocation"})
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        updateSelected(false);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00f4  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0106  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0142  */
+    /* JADX WARN: Removed duplicated region for block: B:44:? A[RETURN, SYNTHETIC] */
+    @Override // org.telegram.ui.Components.BackupImageView, android.view.View
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void onDraw(Canvas canvas) {
+        ImageReceiver imageReceiver;
+        MotionBackgroundDrawable motionBackgroundDrawable;
         BlendMode blendMode;
         float intensity = this.delegate.getIntensity();
+        Bitmap bitmap = null;
         this.imageReceiver.setBlendMode(null);
         int backgroundColor = this.delegate.getBackgroundColor();
         int backgroundGradientColor1 = this.delegate.getBackgroundGradientColor1();
@@ -203,23 +190,25 @@ public class PatternCell extends BackupImageView implements DownloadController.F
                 this.currentGradientAngle = backgroundGradientAngle;
                 if (backgroundGradientColor2 != 0) {
                     this.gradientShader = null;
-                    MotionBackgroundDrawable motionBackgroundDrawable = this.backgroundDrawable;
-                    if (motionBackgroundDrawable != null) {
-                        motionBackgroundDrawable.setColors(backgroundColor, backgroundGradientColor1, backgroundGradientColor2, backgroundGradientColor3, 0, false);
+                    MotionBackgroundDrawable motionBackgroundDrawable2 = this.backgroundDrawable;
+                    if (motionBackgroundDrawable2 != null) {
+                        motionBackgroundDrawable2.setColors(backgroundColor, backgroundGradientColor1, backgroundGradientColor2, backgroundGradientColor3, 0, false);
                     } else {
-                        MotionBackgroundDrawable motionBackgroundDrawable2 = new MotionBackgroundDrawable(backgroundColor, backgroundGradientColor1, backgroundGradientColor2, backgroundGradientColor3, true);
-                        this.backgroundDrawable = motionBackgroundDrawable2;
-                        motionBackgroundDrawable2.setRoundRadius(AndroidUtilities.dp(6.0f));
+                        MotionBackgroundDrawable motionBackgroundDrawable3 = new MotionBackgroundDrawable(backgroundColor, backgroundGradientColor1, backgroundGradientColor2, backgroundGradientColor3, true);
+                        this.backgroundDrawable = motionBackgroundDrawable3;
+                        motionBackgroundDrawable3.setRoundRadius(AndroidUtilities.dp(6.0f));
                         this.backgroundDrawable.setParentView(this);
                     }
                     if (intensity < 0.0f) {
-                        this.imageReceiver.setGradientBitmap(this.backgroundDrawable.getBitmap());
+                        imageReceiver = this.imageReceiver;
+                        bitmap = this.backgroundDrawable.getBitmap();
+                        imageReceiver.setGradientBitmap(bitmap);
                     } else {
                         this.imageReceiver.setGradientBitmap(null);
                         if (Build.VERSION.SDK_INT >= 29) {
-                            ImageReceiver imageReceiver = this.imageReceiver;
+                            ImageReceiver imageReceiver2 = this.imageReceiver;
                             blendMode = BlendMode.SOFT_LIGHT;
-                            imageReceiver.setBlendMode(blendMode);
+                            imageReceiver2.setBlendMode(blendMode);
                         } else {
                             this.imageReceiver.setColorFilter(new PorterDuffColorFilter(this.delegate.getPatternColor(), PorterDuff.Mode.SRC_IN));
                         }
@@ -227,37 +216,38 @@ public class PatternCell extends BackupImageView implements DownloadController.F
                 } else {
                     Rect gradientPoints = BackgroundGradientDrawable.getGradientPoints(backgroundGradientAngle, getMeasuredWidth(), getMeasuredHeight());
                     this.gradientShader = new LinearGradient(gradientPoints.left, gradientPoints.top, gradientPoints.right, gradientPoints.bottom, new int[]{backgroundColor, backgroundGradientColor1}, (float[]) null, Shader.TileMode.CLAMP);
-                    this.backgroundDrawable = null;
-                    this.imageReceiver.setGradientBitmap(null);
                 }
             }
-        } else {
-            this.gradientShader = null;
-            this.backgroundDrawable = null;
-            this.imageReceiver.setGradientBitmap(null);
-        }
-        MotionBackgroundDrawable motionBackgroundDrawable3 = this.backgroundDrawable;
-        if (motionBackgroundDrawable3 != null) {
-            motionBackgroundDrawable3.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-            this.backgroundDrawable.draw(canvas);
-        } else {
-            this.backgroundPaint.setShader(this.gradientShader);
-            if (this.gradientShader == null) {
-                this.backgroundPaint.setColor(backgroundColor);
+            motionBackgroundDrawable = this.backgroundDrawable;
+            if (motionBackgroundDrawable == null) {
+                motionBackgroundDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                this.backgroundDrawable.draw(canvas);
+            } else {
+                this.backgroundPaint.setShader(this.gradientShader);
+                if (this.gradientShader == null) {
+                    this.backgroundPaint.setColor(backgroundColor);
+                }
+                this.rect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
+                canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.backgroundPaint);
             }
-            this.rect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-            canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.backgroundPaint);
+            super.onDraw(canvas);
+            if (this.radialProgress.getIcon() == 4) {
+                this.radialProgress.setColors(checkColor, checkColor, -1, -1);
+                this.radialProgress.draw(canvas);
+                return;
+            }
+            return;
+        }
+        this.gradientShader = null;
+        this.backgroundDrawable = null;
+        imageReceiver = this.imageReceiver;
+        imageReceiver.setGradientBitmap(bitmap);
+        motionBackgroundDrawable = this.backgroundDrawable;
+        if (motionBackgroundDrawable == null) {
         }
         super.onDraw(canvas);
-        if (this.radialProgress.getIcon() != 4) {
-            this.radialProgress.setColors(checkColor, checkColor, -1, -1);
-            this.radialProgress.draw(canvas);
+        if (this.radialProgress.getIcon() == 4) {
         }
-    }
-
-    @Override // android.view.View
-    protected void onMeasure(int i, int i2) {
-        setMeasuredDimension(AndroidUtilities.dp(100.0f), AndroidUtilities.dp(100.0f));
     }
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
@@ -274,15 +264,9 @@ public class PatternCell extends BackupImageView implements DownloadController.F
         }
     }
 
-    @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
-    public void onSuccessDownload(String str) {
-        this.radialProgress.setProgress(1.0f, true);
-        TLRPC$TL_wallPaper selectedPattern = this.delegate.getSelectedPattern();
-        TLRPC$TL_wallPaper tLRPC$TL_wallPaper = this.currentPattern;
-        if (!(tLRPC$TL_wallPaper == null && selectedPattern == null) && (selectedPattern == null || tLRPC$TL_wallPaper == null || tLRPC$TL_wallPaper.id != selectedPattern.id)) {
-            return;
-        }
-        updateButtonState(tLRPC$TL_wallPaper, false, true);
+    @Override // android.view.View
+    protected void onMeasure(int i, int i2) {
+        setMeasuredDimension(AndroidUtilities.dp(100.0f), AndroidUtilities.dp(100.0f));
     }
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
@@ -297,7 +281,38 @@ public class PatternCell extends BackupImageView implements DownloadController.F
     }
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
-    public int getObserverTag() {
-        return this.TAG;
+    public void onProgressUpload(String str, long j, long j2, boolean z) {
+    }
+
+    @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
+    public void onSuccessDownload(String str) {
+        this.radialProgress.setProgress(1.0f, true);
+        TLRPC$TL_wallPaper selectedPattern = this.delegate.getSelectedPattern();
+        TLRPC$TL_wallPaper tLRPC$TL_wallPaper = this.currentPattern;
+        if (!(tLRPC$TL_wallPaper == null && selectedPattern == null) && (selectedPattern == null || tLRPC$TL_wallPaper == null || tLRPC$TL_wallPaper.id != selectedPattern.id)) {
+            return;
+        }
+        updateButtonState(tLRPC$TL_wallPaper, false, true);
+    }
+
+    public void setPattern(TLRPC$TL_wallPaper tLRPC$TL_wallPaper) {
+        this.currentPattern = tLRPC$TL_wallPaper;
+        if (tLRPC$TL_wallPaper != null) {
+            setImage(ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_wallPaper.document.thumbs, AndroidUtilities.dp(100.0f)), tLRPC$TL_wallPaper.document), "100_100", null, null, "png", 0L, 1, tLRPC$TL_wallPaper);
+        } else {
+            setImageDrawable(null);
+        }
+        updateSelected(false);
+    }
+
+    public void updateSelected(boolean z) {
+        TLRPC$TL_wallPaper selectedPattern = this.delegate.getSelectedPattern();
+        TLRPC$TL_wallPaper tLRPC$TL_wallPaper = this.currentPattern;
+        if (!(tLRPC$TL_wallPaper == null && selectedPattern == null) && (selectedPattern == null || tLRPC$TL_wallPaper == null || tLRPC$TL_wallPaper.id != selectedPattern.id)) {
+            this.radialProgress.setIcon(4, false, z);
+        } else {
+            updateButtonState(selectedPattern, false, z);
+        }
+        invalidate();
     }
 }

@@ -1,7 +1,6 @@
 package com.google.android.exoplayer2.extractor.mkv;
 
 import com.google.android.exoplayer2.extractor.ExtractorInput;
-import java.io.IOException;
 /* loaded from: classes.dex */
 final class VarintReader {
     private static final long[] VARINT_LENGTH_MASKS = {128, 64, 32, 16, 8, 4, 2, 1};
@@ -9,12 +8,36 @@ final class VarintReader {
     private final byte[] scratch = new byte[8];
     private int state;
 
-    public void reset() {
-        this.state = 0;
-        this.length = 0;
+    public static long assembleVarint(byte[] bArr, int i, boolean z) {
+        long j = bArr[0] & 255;
+        if (z) {
+            j &= VARINT_LENGTH_MASKS[i - 1] ^ (-1);
+        }
+        for (int i2 = 1; i2 < i; i2++) {
+            j = (j << 8) | (bArr[i2] & 255);
+        }
+        return j;
     }
 
-    public long readUnsignedVarint(ExtractorInput extractorInput, boolean z, boolean z2, int i) throws IOException {
+    public static int parseUnsignedVarintLength(int i) {
+        int i2;
+        int i3 = 0;
+        do {
+            long[] jArr = VARINT_LENGTH_MASKS;
+            if (i3 >= jArr.length) {
+                return -1;
+            }
+            i2 = ((jArr[i3] & i) > 0L ? 1 : ((jArr[i3] & i) == 0L ? 0 : -1));
+            i3++;
+        } while (i2 == 0);
+        return i3;
+    }
+
+    public int getLastLength() {
+        return this.length;
+    }
+
+    public long readUnsignedVarint(ExtractorInput extractorInput, boolean z, boolean z2, int i) {
         if (this.state == 0) {
             if (!extractorInput.readFully(this.scratch, 0, 1, z)) {
                 return -1L;
@@ -38,32 +61,8 @@ final class VarintReader {
         return assembleVarint(this.scratch, this.length, z2);
     }
 
-    public int getLastLength() {
-        return this.length;
-    }
-
-    public static int parseUnsignedVarintLength(int i) {
-        int i2;
-        int i3 = 0;
-        do {
-            long[] jArr = VARINT_LENGTH_MASKS;
-            if (i3 >= jArr.length) {
-                return -1;
-            }
-            i2 = ((jArr[i3] & i) > 0L ? 1 : ((jArr[i3] & i) == 0L ? 0 : -1));
-            i3++;
-        } while (i2 == 0);
-        return i3;
-    }
-
-    public static long assembleVarint(byte[] bArr, int i, boolean z) {
-        long j = bArr[0] & 255;
-        if (z) {
-            j &= VARINT_LENGTH_MASKS[i - 1] ^ (-1);
-        }
-        for (int i2 = 1; i2 < i; i2++) {
-            j = (j << 8) | (bArr[i2] & 255);
-        }
-        return j;
+    public void reset() {
+        this.state = 0;
+        this.length = 0;
     }
 }

@@ -1,18 +1,15 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.ListIterator;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public abstract class zzr<E> extends zzo<E> implements ListIterator<E> {
+public abstract class zzr extends zzo implements ListIterator {
     @Override // java.util.ListIterator
-    @Deprecated
-    public final void add(E e) {
+    public final void add(Object obj) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.ListIterator
-    @Deprecated
-    public final void set(E e) {
+    public final void set(Object obj) {
         throw new UnsupportedOperationException();
     }
 }

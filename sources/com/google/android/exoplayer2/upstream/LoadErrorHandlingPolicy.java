@@ -8,31 +8,8 @@ import java.io.IOException;
 public interface LoadErrorHandlingPolicy {
 
     /* loaded from: classes.dex */
-    public final /* synthetic */ class -CC {
+    public abstract /* synthetic */ class -CC {
         public static void $default$onLoadTaskConcluded(LoadErrorHandlingPolicy loadErrorHandlingPolicy, long j) {
-        }
-    }
-
-    FallbackSelection getFallbackSelectionFor(FallbackOptions fallbackOptions, LoadErrorInfo loadErrorInfo);
-
-    int getMinimumLoadableRetryCount(int i);
-
-    long getRetryDelayMsFor(LoadErrorInfo loadErrorInfo);
-
-    void onLoadTaskConcluded(long j);
-
-    /* loaded from: classes.dex */
-    public static final class LoadErrorInfo {
-        public final int errorCount;
-        public final IOException exception;
-        public final LoadEventInfo loadEventInfo;
-        public final MediaLoadData mediaLoadData;
-
-        public LoadErrorInfo(LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData, IOException iOException, int i) {
-            this.loadEventInfo = loadEventInfo;
-            this.mediaLoadData = mediaLoadData;
-            this.exception = iOException;
-            this.errorCount = i;
         }
     }
 
@@ -73,4 +50,27 @@ public interface LoadErrorHandlingPolicy {
             this.exclusionDurationMs = j;
         }
     }
+
+    /* loaded from: classes.dex */
+    public static final class LoadErrorInfo {
+        public final int errorCount;
+        public final IOException exception;
+        public final LoadEventInfo loadEventInfo;
+        public final MediaLoadData mediaLoadData;
+
+        public LoadErrorInfo(LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData, IOException iOException, int i) {
+            this.loadEventInfo = loadEventInfo;
+            this.mediaLoadData = mediaLoadData;
+            this.exception = iOException;
+            this.errorCount = i;
+        }
+    }
+
+    FallbackSelection getFallbackSelectionFor(FallbackOptions fallbackOptions, LoadErrorInfo loadErrorInfo);
+
+    int getMinimumLoadableRetryCount(int i);
+
+    long getRetryDelayMsFor(LoadErrorInfo loadErrorInfo);
+
+    void onLoadTaskConcluded(long j);
 }

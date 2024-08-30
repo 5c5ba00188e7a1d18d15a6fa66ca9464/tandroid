@@ -7,7 +7,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class ApicFrame extends Id3Frame {
-    public static final Parcelable.Creator<ApicFrame> CREATOR = new Parcelable.Creator<ApicFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.ApicFrame.1
+    public static final Parcelable.Creator<ApicFrame> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.id3.ApicFrame.1
         @Override // android.os.Parcelable.Creator
         public ApicFrame createFromParcel(Parcel parcel) {
             return new ApicFrame(parcel);
@@ -23,14 +23,6 @@ public final class ApicFrame extends Id3Frame {
     public final byte[] pictureData;
     public final int pictureType;
 
-    public ApicFrame(String str, String str2, int i, byte[] bArr) {
-        super("APIC");
-        this.mimeType = str;
-        this.description = str2;
-        this.pictureType = i;
-        this.pictureData = bArr;
-    }
-
     ApicFrame(Parcel parcel) {
         super("APIC");
         this.mimeType = (String) Util.castNonNull(parcel.readString());
@@ -39,9 +31,12 @@ public final class ApicFrame extends Id3Frame {
         this.pictureData = (byte[]) Util.castNonNull(parcel.createByteArray());
     }
 
-    @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame, com.google.android.exoplayer2.metadata.Metadata.Entry
-    public void populateMediaMetadata(MediaMetadata.Builder builder) {
-        builder.maybeSetArtworkData(this.pictureData, this.pictureType);
+    public ApicFrame(String str, String str2, int i, byte[] bArr) {
+        super("APIC");
+        this.mimeType = str;
+        this.description = str2;
+        this.pictureType = i;
+        this.pictureData = bArr;
     }
 
     public boolean equals(Object obj) {
@@ -61,6 +56,11 @@ public final class ApicFrame extends Id3Frame {
         int hashCode = (i + (str != null ? str.hashCode() : 0)) * 31;
         String str2 = this.description;
         return ((hashCode + (str2 != null ? str2.hashCode() : 0)) * 31) + Arrays.hashCode(this.pictureData);
+    }
+
+    @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame, com.google.android.exoplayer2.metadata.Metadata.Entry
+    public void populateMediaMetadata(MediaMetadata.Builder builder) {
+        builder.maybeSetArtworkData(this.pictureData, this.pictureType);
     }
 
     @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame

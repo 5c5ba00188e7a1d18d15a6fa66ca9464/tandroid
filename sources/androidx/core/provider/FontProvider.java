@@ -14,13 +14,14 @@ import androidx.core.content.res.FontResourcesParserCompat;
 import androidx.core.provider.FontsContractCompat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class FontProvider {
-    private static final Comparator<byte[]> sByteArrayComparator = new Comparator() { // from class: androidx.core.provider.FontProvider$$ExternalSyntheticLambda0
+public abstract class FontProvider {
+    private static final Comparator sByteArrayComparator = new Comparator() { // from class: androidx.core.provider.FontProvider$$ExternalSyntheticLambda0
         @Override // java.util.Comparator
         public final int compare(Object obj, Object obj2) {
             int lambda$static$0;
@@ -30,15 +31,44 @@ public class FontProvider {
     };
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static FontsContractCompat.FontFamilyResult getFontFamilyResult(Context context, FontRequest fontRequest, CancellationSignal cancellationSignal) throws PackageManager.NameNotFoundException {
-        ProviderInfo provider = getProvider(context.getPackageManager(), fontRequest, context.getResources());
-        if (provider == null) {
-            return FontsContractCompat.FontFamilyResult.create(1, null);
+    /* loaded from: classes.dex */
+    public static class Api16Impl {
+        static Cursor query(ContentResolver contentResolver, Uri uri, String[] strArr, String str, String[] strArr2, String str2, Object obj) {
+            return contentResolver.query(uri, strArr, str, strArr2, str2, (CancellationSignal) obj);
         }
-        return FontsContractCompat.FontFamilyResult.create(0, query(context, fontRequest, provider.authority, cancellationSignal));
     }
 
-    static ProviderInfo getProvider(PackageManager packageManager, FontRequest fontRequest, Resources resources) throws PackageManager.NameNotFoundException {
+    private static List convertToByteArrayList(Signature[] signatureArr) {
+        ArrayList arrayList = new ArrayList();
+        for (Signature signature : signatureArr) {
+            arrayList.add(signature.toByteArray());
+        }
+        return arrayList;
+    }
+
+    private static boolean equalsByteArrayList(List list, List list2) {
+        if (list.size() != list2.size()) {
+            return false;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            if (!Arrays.equals((byte[]) list.get(i), (byte[]) list2.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static List getCertificates(FontRequest fontRequest, Resources resources) {
+        return fontRequest.getCertificates() != null ? fontRequest.getCertificates() : FontResourcesParserCompat.readCerts(resources, fontRequest.getCertificatesArrayResId());
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static FontsContractCompat.FontFamilyResult getFontFamilyResult(Context context, FontRequest fontRequest, CancellationSignal cancellationSignal) {
+        ProviderInfo provider = getProvider(context.getPackageManager(), fontRequest, context.getResources());
+        return provider == null ? FontsContractCompat.FontFamilyResult.create(1, null) : FontsContractCompat.FontFamilyResult.create(0, query(context, fontRequest, provider.authority, cancellationSignal));
+    }
+
+    static ProviderInfo getProvider(PackageManager packageManager, FontRequest fontRequest, Resources resources) {
         String providerAuthority = fontRequest.getProviderAuthority();
         ProviderInfo resolveContentProvider = packageManager.resolveContentProvider(providerAuthority, 0);
         if (resolveContentProvider == null) {
@@ -46,11 +76,11 @@ public class FontProvider {
         } else if (!resolveContentProvider.packageName.equals(fontRequest.getProviderPackage())) {
             throw new PackageManager.NameNotFoundException("Found content provider " + providerAuthority + ", but package was not " + fontRequest.getProviderPackage());
         } else {
-            List<byte[]> convertToByteArrayList = convertToByteArrayList(packageManager.getPackageInfo(resolveContentProvider.packageName, 64).signatures);
+            List convertToByteArrayList = convertToByteArrayList(packageManager.getPackageInfo(resolveContentProvider.packageName, 64).signatures);
             Collections.sort(convertToByteArrayList, sByteArrayComparator);
-            List<List<byte[]>> certificates = getCertificates(fontRequest, resources);
+            List certificates = getCertificates(fontRequest, resources);
             for (int i = 0; i < certificates.size(); i++) {
-                ArrayList arrayList = new ArrayList(certificates.get(i));
+                ArrayList arrayList = new ArrayList((Collection) certificates.get(i));
                 Collections.sort(arrayList, sByteArrayComparator);
                 if (equalsByteArrayList(convertToByteArrayList, arrayList)) {
                     return resolveContentProvider;
@@ -60,8 +90,22 @@ public class FontProvider {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ int lambda$static$0(byte[] bArr, byte[] bArr2) {
+        if (bArr.length != bArr2.length) {
+            return bArr.length - bArr2.length;
+        }
+        for (int i = 0; i < bArr.length; i++) {
+            byte b = bArr[i];
+            byte b2 = bArr2[i];
+            if (b != b2) {
+                return b - b2;
+            }
+        }
+        return 0;
+    }
+
     static FontsContractCompat.FontInfo[] query(Context context, FontRequest fontRequest, String str, CancellationSignal cancellationSignal) {
-        Uri withAppendedId;
         boolean z;
         ArrayList arrayList = new ArrayList();
         Uri build = new Uri.Builder().scheme("content").authority(str).build();
@@ -80,11 +124,7 @@ public class FontProvider {
                 while (cursor.moveToNext()) {
                     int i = columnIndex != -1 ? cursor.getInt(columnIndex) : 0;
                     int i2 = columnIndex4 != -1 ? cursor.getInt(columnIndex4) : 0;
-                    if (columnIndex3 == -1) {
-                        withAppendedId = ContentUris.withAppendedId(build, cursor.getLong(columnIndex2));
-                    } else {
-                        withAppendedId = ContentUris.withAppendedId(build2, cursor.getLong(columnIndex3));
-                    }
+                    Uri withAppendedId = columnIndex3 == -1 ? ContentUris.withAppendedId(build, cursor.getLong(columnIndex2)) : ContentUris.withAppendedId(build2, cursor.getLong(columnIndex3));
                     int i3 = columnIndex5 != -1 ? cursor.getInt(columnIndex5) : 400;
                     if (columnIndex6 != -1) {
                         z = true;
@@ -106,56 +146,6 @@ public class FontProvider {
                 cursor.close();
             }
             throw th;
-        }
-    }
-
-    private static List<List<byte[]>> getCertificates(FontRequest fontRequest, Resources resources) {
-        if (fontRequest.getCertificates() != null) {
-            return fontRequest.getCertificates();
-        }
-        return FontResourcesParserCompat.readCerts(resources, fontRequest.getCertificatesArrayResId());
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$static$0(byte[] bArr, byte[] bArr2) {
-        if (bArr.length != bArr2.length) {
-            return bArr.length - bArr2.length;
-        }
-        for (int i = 0; i < bArr.length; i++) {
-            byte b = bArr[i];
-            byte b2 = bArr2[i];
-            if (b != b2) {
-                return b - b2;
-            }
-        }
-        return 0;
-    }
-
-    private static boolean equalsByteArrayList(List<byte[]> list, List<byte[]> list2) {
-        if (list.size() != list2.size()) {
-            return false;
-        }
-        for (int i = 0; i < list.size(); i++) {
-            if (!Arrays.equals(list.get(i), list2.get(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static List<byte[]> convertToByteArrayList(Signature[] signatureArr) {
-        ArrayList arrayList = new ArrayList();
-        for (Signature signature : signatureArr) {
-            arrayList.add(signature.toByteArray());
-        }
-        return arrayList;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api16Impl {
-        static Cursor query(ContentResolver contentResolver, Uri uri, String[] strArr, String str, String[] strArr2, String str2, Object obj) {
-            return contentResolver.query(uri, strArr, str, strArr2, str2, (CancellationSignal) obj);
         }
     }
 }

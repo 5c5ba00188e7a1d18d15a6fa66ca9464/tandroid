@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_vision_label;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
-final class zzav {
+abstract class zzav {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i) {
         return (i < 32 ? 4 : 2) * (i + 1);
@@ -52,22 +51,13 @@ final class zzav {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzc(Object obj, int i) {
-        if (obj instanceof byte[]) {
-            return ((byte[]) obj)[i] & 255;
-        }
-        if (obj instanceof short[]) {
-            return (char) ((short[]) obj)[i];
-        }
-        return ((int[]) obj)[i];
+        return obj instanceof byte[] ? ((byte[]) obj)[i] & 255 : obj instanceof short[] ? (char) ((short[]) obj)[i] : ((int[]) obj)[i];
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static Object zzd(int i) {
         if (i >= 2 && i <= 1073741824 && Integer.highestOneBit(i) == i) {
-            if (i <= 256) {
-                return new byte[i];
-            }
-            return i <= 65536 ? new short[i] : new int[i];
+            return i <= 256 ? new byte[i] : i <= 65536 ? new short[i] : new int[i];
         }
         throw new IllegalArgumentException("must be power of 2 between 2^1 and 2^30: " + i);
     }

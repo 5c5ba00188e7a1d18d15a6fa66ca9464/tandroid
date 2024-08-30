@@ -4,7 +4,6 @@ import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.internal.mlkit_vision_subject_segmentation.zzrx;
 import com.google.android.gms.internal.mlkit_vision_subject_segmentation.zzrz;
 import java.util.concurrent.Executor;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public class SubjectSegmenterOptions {
     private final boolean zza;
@@ -14,7 +13,6 @@ public class SubjectSegmenterOptions {
     private final boolean zze;
     private final Executor zzf;
 
-    /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
     /* loaded from: classes.dex */
     public static class Builder {
         private boolean zza = false;
@@ -41,13 +39,11 @@ public class SubjectSegmenterOptions {
         }
     }
 
-    /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
     /* loaded from: classes.dex */
     public static class SubjectResultOptions {
         private boolean zza;
         private boolean zzb;
 
-        /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
         /* loaded from: classes.dex */
         public static class Builder {
             private boolean zza = false;

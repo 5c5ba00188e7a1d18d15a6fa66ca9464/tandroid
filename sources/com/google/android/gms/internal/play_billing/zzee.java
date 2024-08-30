@@ -1,59 +1,54 @@
 package com.google.android.gms.internal.play_billing;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-final class zzee {
+abstract class zzee {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static String zza(zzba zzbaVar) {
+        String str;
         StringBuilder sb = new StringBuilder(zzbaVar.zzd());
         for (int i = 0; i < zzbaVar.zzd(); i++) {
-            byte zza = zzbaVar.zza(i);
-            if (zza != 34) {
-                if (zza != 39) {
-                    if (zza == 92) {
-                        sb.append("\\\\");
-                    } else {
-                        switch (zza) {
-                            case 7:
-                                sb.append("\\a");
-                                continue;
-                            case 8:
-                                sb.append("\\b");
-                                continue;
-                            case 9:
-                                sb.append("\\t");
-                                continue;
-                            case 10:
-                                sb.append("\\n");
-                                continue;
-                            case 11:
-                                sb.append("\\v");
-                                continue;
-                            case 12:
-                                sb.append("\\f");
-                                continue;
-                            case 13:
-                                sb.append("\\r");
-                                continue;
-                            default:
-                                if (zza < 32 || zza > 126) {
-                                    sb.append('\\');
-                                    sb.append((char) (((zza >>> 6) & 3) + 48));
-                                    sb.append((char) (((zza >>> 3) & 7) + 48));
-                                    sb.append((char) ((zza & 7) + 48));
-                                    break;
-                                } else {
-                                    sb.append((char) zza);
-                                    continue;
-                                }
-                                break;
+            int zza = zzbaVar.zza(i);
+            if (zza == 34) {
+                str = "\\\"";
+            } else if (zza == 39) {
+                str = "\\'";
+            } else if (zza != 92) {
+                switch (zza) {
+                    case 7:
+                        str = "\\a";
+                        break;
+                    case 8:
+                        str = "\\b";
+                        break;
+                    case 9:
+                        str = "\\t";
+                        break;
+                    case 10:
+                        str = "\\n";
+                        break;
+                    case 11:
+                        str = "\\v";
+                        break;
+                    case 12:
+                        str = "\\f";
+                        break;
+                    case 13:
+                        str = "\\r";
+                        break;
+                    default:
+                        if (zza < 32 || zza > 126) {
+                            sb.append('\\');
+                            sb.append((char) (((zza >>> 6) & 3) + 48));
+                            sb.append((char) (((zza >>> 3) & 7) + 48));
+                            zza = (zza & 7) + 48;
                         }
-                    }
-                } else {
-                    sb.append("\\'");
+                        sb.append((char) zza);
+                        continue;
+                        break;
                 }
             } else {
-                sb.append("\\\"");
+                str = "\\\\";
             }
+            sb.append(str);
         }
         return sb.toString();
     }

@@ -1,11 +1,9 @@
 package com.google.android.gms.internal.location;
 
-import android.os.RemoteException;
 import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.common.api.internal.RemoteCall;
 import com.google.android.gms.tasks.TaskCompletionSource;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class zzbo implements RemoteCall, zzcs {
     final /* synthetic */ zzbp zza;
@@ -21,7 +19,7 @@ public final class zzbo implements RemoteCall, zzcs {
     }
 
     @Override // com.google.android.gms.common.api.internal.RemoteCall
-    public final /* bridge */ /* synthetic */ void accept(Object obj, Object obj2) throws RemoteException {
+    public final /* bridge */ /* synthetic */ void accept(Object obj, Object obj2) {
         ListenerHolder.ListenerKey listenerKey;
         boolean z;
         zzda zzdaVar = (zzda) obj;
@@ -45,7 +43,7 @@ public final class zzbo implements RemoteCall, zzcs {
 
     @Override // com.google.android.gms.internal.location.zzcs
     public final void zzb() {
-        ListenerHolder.ListenerKey<?> listenerKey;
+        ListenerHolder.ListenerKey listenerKey;
         synchronized (this) {
             this.zzd = false;
             listenerKey = this.zzc.getListenerKey();

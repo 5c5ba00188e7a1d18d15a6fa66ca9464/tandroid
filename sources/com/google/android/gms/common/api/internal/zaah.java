@@ -1,7 +1,7 @@
 package com.google.android.gms.common.api.internal;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class zaah extends zabg {
+public final class zaah extends zabg {
     final /* synthetic */ zaaj zaa;
 
     /* JADX INFO: Access modifiers changed from: package-private */

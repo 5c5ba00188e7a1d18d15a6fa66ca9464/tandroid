@@ -1,6 +1,5 @@
 package org.webrtc;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
@@ -19,7 +18,6 @@ import org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticApiModelOu
 import org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticApiModelOutline9;
 import org.webrtc.CameraEnumerationAndroid;
 import org.webrtc.CameraVideoCapturer;
-@TargetApi(21)
 /* loaded from: classes.dex */
 public class Camera2Enumerator implements CameraEnumerator {
     private static final double NANO_SECONDS_PER_SECOND = 1.0E9d;
@@ -33,56 +31,29 @@ public class Camera2Enumerator implements CameraEnumerator {
         this.cameraManager = Camera2Session$$ExternalSyntheticApiModelOutline9.m(context.getSystemService("camera"));
     }
 
-    @Override // org.webrtc.CameraEnumerator
-    public String[] getDeviceNames() {
-        String[] cameraIdList;
-        try {
-            cameraIdList = this.cameraManager.getCameraIdList();
-            return cameraIdList;
-        } catch (AndroidException e) {
-            Logging.e(TAG, "Camera access exception: " + e);
-            return new String[0];
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static List<CameraEnumerationAndroid.CaptureFormat.FramerateRange> convertFramerates(Range<Integer>[] rangeArr, int i) {
+        Comparable lower;
+        Comparable upper;
+        ArrayList arrayList = new ArrayList();
+        for (Range<Integer> range : rangeArr) {
+            lower = range.getLower();
+            upper = range.getUpper();
+            arrayList.add(new CameraEnumerationAndroid.CaptureFormat.FramerateRange(((Integer) lower).intValue() * i, ((Integer) upper).intValue() * i));
         }
+        return arrayList;
     }
 
-    @Override // org.webrtc.CameraEnumerator
-    public boolean isFrontFacing(String str) {
-        CameraCharacteristics.Key key;
-        Object obj;
-        CameraCharacteristics cameraCharacteristics = getCameraCharacteristics(str);
-        if (cameraCharacteristics != null) {
-            key = CameraCharacteristics.LENS_FACING;
-            obj = cameraCharacteristics.get(key);
-            if (((Integer) obj).intValue() == 0) {
-                return true;
-            }
+    private static List<Size> convertSizes(android.util.Size[] sizeArr) {
+        int width;
+        int height;
+        ArrayList arrayList = new ArrayList();
+        for (android.util.Size size : sizeArr) {
+            width = size.getWidth();
+            height = size.getHeight();
+            arrayList.add(new Size(width, height));
         }
-        return false;
-    }
-
-    @Override // org.webrtc.CameraEnumerator
-    public boolean isBackFacing(String str) {
-        CameraCharacteristics.Key key;
-        Object obj;
-        CameraCharacteristics cameraCharacteristics = getCameraCharacteristics(str);
-        if (cameraCharacteristics != null) {
-            key = CameraCharacteristics.LENS_FACING;
-            obj = cameraCharacteristics.get(key);
-            if (((Integer) obj).intValue() == 1) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override // org.webrtc.CameraEnumerator
-    public List<CameraEnumerationAndroid.CaptureFormat> getSupportedFormats(String str) {
-        return getSupportedFormats(this.context, str);
-    }
-
-    @Override // org.webrtc.CameraEnumerator
-    public CameraVideoCapturer createCapturer(String str, CameraVideoCapturer.CameraEventsHandler cameraEventsHandler) {
-        return new Camera2Capturer(this.context, str, cameraEventsHandler);
+        return arrayList;
     }
 
     private CameraCharacteristics getCameraCharacteristics(String str) {
@@ -96,32 +67,6 @@ public class Camera2Enumerator implements CameraEnumerator {
         }
     }
 
-    public static boolean isSupported(Context context) {
-        String[] cameraIdList;
-        CameraCharacteristics cameraCharacteristics;
-        CameraCharacteristics.Key key;
-        Object obj;
-        if (Build.VERSION.SDK_INT < 21) {
-            return false;
-        }
-        CameraManager m = Camera2Session$$ExternalSyntheticApiModelOutline9.m(context.getSystemService("camera"));
-        try {
-            cameraIdList = m.getCameraIdList();
-            for (String str : cameraIdList) {
-                cameraCharacteristics = m.getCameraCharacteristics(str);
-                key = CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL;
-                obj = cameraCharacteristics.get(key);
-                if (((Integer) obj).intValue() == 2) {
-                    return false;
-                }
-            }
-            return true;
-        } catch (Throwable th) {
-            Logging.e(TAG, "Camera access exception: " + th);
-            return false;
-        }
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int getFpsUnitFactor(Range<Integer>[] rangeArr) {
         Comparable upper;
@@ -130,38 +75,6 @@ public class Camera2Enumerator implements CameraEnumerator {
         }
         upper = rangeArr[0].getUpper();
         return ((Integer) upper).intValue() < 1000 ? 1000 : 1;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static List<Size> getSupportedSizes(CameraCharacteristics cameraCharacteristics) {
-        CameraCharacteristics.Key key;
-        Object obj;
-        CameraCharacteristics.Key key2;
-        Object obj2;
-        android.util.Size[] outputSizes;
-        CameraCharacteristics.Key key3;
-        Object obj3;
-        key = CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP;
-        obj = cameraCharacteristics.get(key);
-        StreamConfigurationMap m = Camera2Session$$ExternalSyntheticApiModelOutline19.m(obj);
-        key2 = CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL;
-        obj2 = cameraCharacteristics.get(key2);
-        int intValue = ((Integer) obj2).intValue();
-        outputSizes = m.getOutputSizes(SurfaceTexture.class);
-        List<Size> convertSizes = convertSizes(outputSizes);
-        if (Build.VERSION.SDK_INT >= 22 || intValue != 2) {
-            return convertSizes;
-        }
-        key3 = CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE;
-        obj3 = cameraCharacteristics.get(key3);
-        Rect rect = (Rect) obj3;
-        ArrayList arrayList = new ArrayList();
-        for (Size size : convertSizes) {
-            if (rect.width() * size.height == rect.height() * size.width) {
-                arrayList.add(size);
-            }
-        }
-        return arrayList;
     }
 
     static List<CameraEnumerationAndroid.CaptureFormat> getSupportedFormats(Context context, String str) {
@@ -229,28 +142,113 @@ public class Camera2Enumerator implements CameraEnumerator {
         }
     }
 
-    private static List<Size> convertSizes(android.util.Size[] sizeArr) {
-        int width;
-        int height;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static List<Size> getSupportedSizes(CameraCharacteristics cameraCharacteristics) {
+        CameraCharacteristics.Key key;
+        Object obj;
+        CameraCharacteristics.Key key2;
+        Object obj2;
+        android.util.Size[] outputSizes;
+        CameraCharacteristics.Key key3;
+        Object obj3;
+        key = CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP;
+        obj = cameraCharacteristics.get(key);
+        StreamConfigurationMap m = Camera2Session$$ExternalSyntheticApiModelOutline19.m(obj);
+        key2 = CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL;
+        obj2 = cameraCharacteristics.get(key2);
+        int intValue = ((Integer) obj2).intValue();
+        outputSizes = m.getOutputSizes(SurfaceTexture.class);
+        List<Size> convertSizes = convertSizes(outputSizes);
+        if (Build.VERSION.SDK_INT >= 22 || intValue != 2) {
+            return convertSizes;
+        }
+        key3 = CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE;
+        obj3 = cameraCharacteristics.get(key3);
+        Rect rect = (Rect) obj3;
         ArrayList arrayList = new ArrayList();
-        for (android.util.Size size : sizeArr) {
-            width = size.getWidth();
-            height = size.getHeight();
-            arrayList.add(new Size(width, height));
+        for (Size size : convertSizes) {
+            if (rect.width() * size.height == rect.height() * size.width) {
+                arrayList.add(size);
+            }
         }
         return arrayList;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static List<CameraEnumerationAndroid.CaptureFormat.FramerateRange> convertFramerates(Range<Integer>[] rangeArr, int i) {
-        Comparable lower;
-        Comparable upper;
-        ArrayList arrayList = new ArrayList();
-        for (Range<Integer> range : rangeArr) {
-            lower = range.getLower();
-            upper = range.getUpper();
-            arrayList.add(new CameraEnumerationAndroid.CaptureFormat.FramerateRange(((Integer) lower).intValue() * i, ((Integer) upper).intValue() * i));
+    public static boolean isSupported(Context context) {
+        String[] cameraIdList;
+        CameraCharacteristics cameraCharacteristics;
+        CameraCharacteristics.Key key;
+        Object obj;
+        if (Build.VERSION.SDK_INT < 21) {
+            return false;
         }
-        return arrayList;
+        CameraManager m = Camera2Session$$ExternalSyntheticApiModelOutline9.m(context.getSystemService("camera"));
+        try {
+            cameraIdList = m.getCameraIdList();
+            for (String str : cameraIdList) {
+                cameraCharacteristics = m.getCameraCharacteristics(str);
+                key = CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL;
+                obj = cameraCharacteristics.get(key);
+                if (((Integer) obj).intValue() == 2) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (Throwable th) {
+            Logging.e(TAG, "Camera access exception: " + th);
+            return false;
+        }
+    }
+
+    @Override // org.webrtc.CameraEnumerator
+    public CameraVideoCapturer createCapturer(String str, CameraVideoCapturer.CameraEventsHandler cameraEventsHandler) {
+        return new Camera2Capturer(this.context, str, cameraEventsHandler);
+    }
+
+    @Override // org.webrtc.CameraEnumerator
+    public String[] getDeviceNames() {
+        String[] cameraIdList;
+        try {
+            cameraIdList = this.cameraManager.getCameraIdList();
+            return cameraIdList;
+        } catch (AndroidException e) {
+            Logging.e(TAG, "Camera access exception: " + e);
+            return new String[0];
+        }
+    }
+
+    @Override // org.webrtc.CameraEnumerator
+    public List<CameraEnumerationAndroid.CaptureFormat> getSupportedFormats(String str) {
+        return getSupportedFormats(this.context, str);
+    }
+
+    @Override // org.webrtc.CameraEnumerator
+    public boolean isBackFacing(String str) {
+        CameraCharacteristics.Key key;
+        Object obj;
+        CameraCharacteristics cameraCharacteristics = getCameraCharacteristics(str);
+        if (cameraCharacteristics != null) {
+            key = CameraCharacteristics.LENS_FACING;
+            obj = cameraCharacteristics.get(key);
+            if (((Integer) obj).intValue() == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override // org.webrtc.CameraEnumerator
+    public boolean isFrontFacing(String str) {
+        CameraCharacteristics.Key key;
+        Object obj;
+        CameraCharacteristics cameraCharacteristics = getCameraCharacteristics(str);
+        if (cameraCharacteristics != null) {
+            key = CameraCharacteristics.LENS_FACING;
+            obj = cameraCharacteristics.get(key);
+            if (((Integer) obj).intValue() == 0) {
+                return true;
+            }
+        }
+        return false;
     }
 }

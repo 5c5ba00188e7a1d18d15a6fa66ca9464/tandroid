@@ -6,9 +6,8 @@ import com.google.firebase.appindexing.FirebaseAppIndexingException;
 import com.google.firebase.appindexing.FirebaseAppIndexingInvalidArgumentException;
 import com.google.firebase.appindexing.FirebaseAppIndexingTooManyArgumentsException;
 import com.google.firebase.appindexing.zza;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
-public final class zzaf {
+public abstract class zzaf {
     public static FirebaseAppIndexingException zza(Status status, String str) {
         Preconditions.checkNotNull(status);
         String statusMessage = status.getStatusMessage();

@@ -1,7 +1,6 @@
 package org.telegram.messenger;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes3.dex */
-public final /* synthetic */ class MessagesController$$ExternalSyntheticBackport13 {
+public abstract /* synthetic */ class MessagesController$$ExternalSyntheticBackport13 {
     public static /* synthetic */ long m(long j, long j2) {
         if (j2 < 0) {
             return (j ^ Long.MIN_VALUE) < (j2 ^ Long.MIN_VALUE) ? 0L : 1L;

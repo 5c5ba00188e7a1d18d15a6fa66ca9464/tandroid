@@ -6,13 +6,6 @@ public class Clock {
     private static Clock instance;
     protected Calendar calendarInstance;
 
-    protected static Clock getInstance() {
-        if (instance == null) {
-            instance = new Clock();
-        }
-        return instance;
-    }
-
     private Calendar _calendarInstance() {
         Calendar calendar = this.calendarInstance;
         return calendar != null ? (Calendar) calendar.clone() : Calendar.getInstance();
@@ -20,5 +13,12 @@ public class Clock {
 
     public static Calendar getCalendarInstance() {
         return getInstance()._calendarInstance();
+    }
+
+    protected static Clock getInstance() {
+        if (instance == null) {
+            instance = new Clock();
+        }
+        return instance;
     }
 }

@@ -10,10 +10,6 @@ public final class SeekPoint {
         this.position = j2;
     }
 
-    public String toString() {
-        return "[timeUs=" + this.timeUs + ", position=" + this.position + "]";
-    }
-
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -27,5 +23,9 @@ public final class SeekPoint {
 
     public int hashCode() {
         return (((int) this.timeUs) * 31) + ((int) this.position);
+    }
+
+    public String toString() {
+        return "[timeUs=" + this.timeUs + ", position=" + this.position + "]";
     }
 }

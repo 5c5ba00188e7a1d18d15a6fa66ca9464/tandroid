@@ -18,8 +18,25 @@ public final class WebvttDecoder extends SimpleSubtitleDecoder {
         this.cssParser = new WebvttCssParser();
     }
 
+    private static int getNextEvent(ParsableByteArray parsableByteArray) {
+        int i = -1;
+        int i2 = 0;
+        while (i == -1) {
+            i2 = parsableByteArray.getPosition();
+            String readLine = parsableByteArray.readLine();
+            i = readLine == null ? 0 : "STYLE".equals(readLine) ? 2 : readLine.startsWith("NOTE") ? 1 : 3;
+        }
+        parsableByteArray.setPosition(i2);
+        return i;
+    }
+
+    private static void skipComment(ParsableByteArray parsableByteArray) {
+        do {
+        } while (!TextUtils.isEmpty(parsableByteArray.readLine()));
+    }
+
     @Override // com.google.android.exoplayer2.text.SimpleSubtitleDecoder
-    protected Subtitle decode(byte[] bArr, int i, boolean z) throws SubtitleDecoderException {
+    protected Subtitle decode(byte[] bArr, int i, boolean z) {
         WebvttCueInfo parseCue;
         this.parsableWebvttData.reset(bArr, i);
         ArrayList arrayList = new ArrayList();
@@ -48,28 +65,5 @@ public final class WebvttDecoder extends SimpleSubtitleDecoder {
         } catch (ParserException e) {
             throw new SubtitleDecoderException(e);
         }
-    }
-
-    private static int getNextEvent(ParsableByteArray parsableByteArray) {
-        int i = -1;
-        int i2 = 0;
-        while (i == -1) {
-            i2 = parsableByteArray.getPosition();
-            String readLine = parsableByteArray.readLine();
-            if (readLine == null) {
-                i = 0;
-            } else if ("STYLE".equals(readLine)) {
-                i = 2;
-            } else {
-                i = readLine.startsWith("NOTE") ? 1 : 3;
-            }
-        }
-        parsableByteArray.setPosition(i2);
-        return i;
-    }
-
-    private static void skipComment(ParsableByteArray parsableByteArray) {
-        do {
-        } while (!TextUtils.isEmpty(parsableByteArray.readLine()));
     }
 }

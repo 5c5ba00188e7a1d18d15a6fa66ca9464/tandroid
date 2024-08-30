@@ -84,40 +84,24 @@ public class Scroller {
         return this.mPpi * 386.0878f * f;
     }
 
-    public final boolean isFinished() {
-        return this.mFinished;
+    static float viscousFluid(float f) {
+        float f2 = f * sViscousFluidScale;
+        return (f2 < 1.0f ? f2 - (1.0f - ((float) Math.exp(-f2))) : 0.36787945f + ((1.0f - ((float) Math.exp(1.0f - f2))) * 0.63212055f)) * sViscousFluidNormalize;
     }
 
-    public final void forceFinished(boolean z) {
-        this.mFinished = z;
+    public void abortAnimation() {
+        this.mCurrX = this.mFinalX;
+        this.mCurrY = this.mFinalY;
+        this.mFinished = true;
     }
 
-    public final int getCurrX() {
-        return this.mCurrX;
-    }
-
-    public final int getCurrY() {
-        return this.mCurrY;
-    }
-
-    public float getCurrVelocity() {
-        return this.mVelocity - ((this.mDeceleration * timePassed()) / 2000.0f);
-    }
-
-    public final int getStartX() {
-        return this.mStartX;
-    }
-
-    public final int getStartY() {
-        return this.mStartY;
-    }
-
-    public final int getFinalY() {
-        return this.mFinalY;
-    }
-
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x007c, code lost:
+        if (r0 == r7.mFinalY) goto L14;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public boolean computeScrollOffset() {
-        float interpolation;
         if (this.mFinished) {
             return false;
         }
@@ -128,13 +112,9 @@ public class Scroller {
             if (i2 == 0) {
                 float f = currentAnimationTimeMillis * this.mDurationReciprocal;
                 Interpolator interpolator = this.mInterpolator;
-                if (interpolator == null) {
-                    interpolation = viscousFluid(f);
-                } else {
-                    interpolation = interpolator.getInterpolation(f);
-                }
-                this.mCurrX = this.mStartX + Math.round(this.mDeltaX * interpolation);
-                this.mCurrY = this.mStartY + Math.round(interpolation * this.mDeltaY);
+                float viscousFluid = interpolator == null ? viscousFluid(f) : interpolator.getInterpolation(f);
+                this.mCurrX = this.mStartX + Math.round(this.mDeltaX * viscousFluid);
+                this.mCurrY = this.mStartY + Math.round(viscousFluid * this.mDeltaY);
             } else if (i2 == 1) {
                 float f2 = currentAnimationTimeMillis / i;
                 int i3 = (int) (f2 * 100.0f);
@@ -156,30 +136,15 @@ public class Scroller {
                 this.mCurrY = min2;
                 int max = Math.max(min2, this.mMinY);
                 this.mCurrY = max;
-                if (this.mCurrX == this.mFinalX && max == this.mFinalY) {
-                    this.mFinished = true;
+                if (this.mCurrX == this.mFinalX) {
                 }
             }
-        } else {
-            this.mCurrX = this.mFinalX;
-            this.mCurrY = this.mFinalY;
-            this.mFinished = true;
+            return true;
         }
+        this.mCurrX = this.mFinalX;
+        this.mCurrY = this.mFinalY;
+        this.mFinished = true;
         return true;
-    }
-
-    public void startScroll(int i, int i2, int i3, int i4, int i5) {
-        this.mMode = 0;
-        this.mFinished = false;
-        this.mDuration = i5;
-        this.mStartTime = AnimationUtils.currentAnimationTimeMillis();
-        this.mStartX = i;
-        this.mStartY = i2;
-        this.mFinalX = i + i3;
-        this.mFinalY = i2 + i4;
-        this.mDeltaX = i3;
-        this.mDeltaY = i4;
-        this.mDurationReciprocal = 1.0f / this.mDuration;
     }
 
     /* JADX WARN: Removed duplicated region for block: B:15:0x00a2  */
@@ -284,21 +249,50 @@ public class Scroller {
         this.mFinalY = Math.max(min22, this.mMinY);
     }
 
-    static float viscousFluid(float f) {
-        float exp;
-        float f2 = f * sViscousFluidScale;
-        if (f2 < 1.0f) {
-            exp = f2 - (1.0f - ((float) Math.exp(-f2)));
-        } else {
-            exp = 0.36787945f + ((1.0f - ((float) Math.exp(1.0f - f2))) * 0.63212055f);
-        }
-        return exp * sViscousFluidNormalize;
+    public final void forceFinished(boolean z) {
+        this.mFinished = z;
     }
 
-    public void abortAnimation() {
-        this.mCurrX = this.mFinalX;
-        this.mCurrY = this.mFinalY;
-        this.mFinished = true;
+    public float getCurrVelocity() {
+        return this.mVelocity - ((this.mDeceleration * timePassed()) / 2000.0f);
+    }
+
+    public final int getCurrX() {
+        return this.mCurrX;
+    }
+
+    public final int getCurrY() {
+        return this.mCurrY;
+    }
+
+    public final int getFinalY() {
+        return this.mFinalY;
+    }
+
+    public final int getStartX() {
+        return this.mStartX;
+    }
+
+    public final int getStartY() {
+        return this.mStartY;
+    }
+
+    public final boolean isFinished() {
+        return this.mFinished;
+    }
+
+    public void startScroll(int i, int i2, int i3, int i4, int i5) {
+        this.mMode = 0;
+        this.mFinished = false;
+        this.mDuration = i5;
+        this.mStartTime = AnimationUtils.currentAnimationTimeMillis();
+        this.mStartX = i;
+        this.mStartY = i2;
+        this.mFinalX = i + i3;
+        this.mFinalY = i2 + i4;
+        this.mDeltaX = i3;
+        this.mDeltaY = i4;
+        this.mDurationReciprocal = 1.0f / this.mDuration;
     }
 
     public int timePassed() {

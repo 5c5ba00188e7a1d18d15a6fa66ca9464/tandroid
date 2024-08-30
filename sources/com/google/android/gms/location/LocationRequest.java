@@ -14,7 +14,6 @@ import com.google.android.gms.common.util.WorkSourceUtil;
 import com.google.android.gms.internal.location.zzd;
 import com.google.android.gms.internal.location.zzdj;
 import org.telegram.tgnet.ConnectionsManager;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class LocationRequest extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<LocationRequest> CREATOR = new zzx();
@@ -34,12 +33,141 @@ public final class LocationRequest extends AbstractSafeParcelable implements Ref
     private final WorkSource zzn;
     private final zzd zzo;
 
-    @Deprecated
-    public LocationRequest() {
-        this(102, 3600000L, 600000L, 0L, Long.MAX_VALUE, Long.MAX_VALUE, ConnectionsManager.DEFAULT_DATACENTER_ID, 0.0f, true, 3600000L, 0, 0, null, false, new WorkSource(), null);
+    /* loaded from: classes.dex */
+    public static final class Builder {
+        private int zza;
+        private long zzb;
+        private long zzc;
+        private long zzd;
+        private long zze;
+        private int zzf;
+        private float zzg;
+        private boolean zzh;
+        private long zzi;
+        private int zzj;
+        private int zzk;
+        private String zzl;
+        private boolean zzm;
+        private WorkSource zzn;
+        private zzd zzo;
+
+        public Builder(LocationRequest locationRequest) {
+            this.zza = locationRequest.getPriority();
+            this.zzb = locationRequest.getIntervalMillis();
+            this.zzc = locationRequest.getMinUpdateIntervalMillis();
+            this.zzd = locationRequest.getMaxUpdateDelayMillis();
+            this.zze = locationRequest.getDurationMillis();
+            this.zzf = locationRequest.getMaxUpdates();
+            this.zzg = locationRequest.getMinUpdateDistanceMeters();
+            this.zzh = locationRequest.isWaitForAccurateLocation();
+            this.zzi = locationRequest.getMaxUpdateAgeMillis();
+            this.zzj = locationRequest.getGranularity();
+            this.zzk = locationRequest.zza();
+            this.zzl = locationRequest.zzd();
+            this.zzm = locationRequest.zze();
+            this.zzn = locationRequest.zzb();
+            this.zzo = locationRequest.zzc();
+        }
+
+        public LocationRequest build() {
+            int i = this.zza;
+            long j = this.zzb;
+            long j2 = this.zzc;
+            if (j2 == -1) {
+                j2 = j;
+            } else if (i != 105) {
+                j2 = Math.min(j2, j);
+            }
+            long max = Math.max(this.zzd, this.zzb);
+            long j3 = this.zze;
+            int i2 = this.zzf;
+            float f = this.zzg;
+            boolean z = this.zzh;
+            long j4 = this.zzi;
+            return new LocationRequest(i, j, j2, max, Long.MAX_VALUE, j3, i2, f, z, j4 == -1 ? this.zzb : j4, this.zzj, this.zzk, this.zzl, this.zzm, new WorkSource(this.zzn), this.zzo);
+        }
+
+        public Builder setGranularity(int i) {
+            zzo.zza(i);
+            this.zzj = i;
+            return this;
+        }
+
+        public Builder setMaxUpdateAgeMillis(long j) {
+            boolean z = true;
+            if (j != -1 && j < 0) {
+                z = false;
+            }
+            Preconditions.checkArgument(z, "maxUpdateAgeMillis must be greater than or equal to 0, or IMPLICIT_MAX_UPDATE_AGE");
+            this.zzi = j;
+            return this;
+        }
+
+        public Builder setWaitForAccurateLocation(boolean z) {
+            this.zzh = z;
+            return this;
+        }
+
+        public final Builder zza(boolean z) {
+            this.zzm = z;
+            return this;
+        }
+
+        public final Builder zzb(String str) {
+            if (Build.VERSION.SDK_INT < 30) {
+                this.zzl = str;
+            }
+            return this;
+        }
+
+        public final Builder zzc(int i) {
+            int i2;
+            boolean z;
+            if (i == 0 || i == 1) {
+                i2 = i;
+            } else {
+                i2 = 2;
+                if (i != 2) {
+                    i2 = i;
+                    z = false;
+                    Preconditions.checkArgument(z, "throttle behavior %d must be a ThrottleBehavior.THROTTLE_* constant", Integer.valueOf(i));
+                    this.zzk = i2;
+                    return this;
+                }
+                i = 2;
+            }
+            z = true;
+            Preconditions.checkArgument(z, "throttle behavior %d must be a ThrottleBehavior.THROTTLE_* constant", Integer.valueOf(i));
+            this.zzk = i2;
+            return this;
+        }
+
+        public final Builder zzd(WorkSource workSource) {
+            this.zzn = workSource;
+            return this;
+        }
     }
 
-    @Deprecated
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public LocationRequest(int i, long j, long j2, long j3, long j4, long j5, int i2, float f, boolean z, long j6, int i3, int i4, String str, boolean z2, WorkSource workSource, zzd zzdVar) {
+        this.zza = i;
+        long j7 = j;
+        this.zzb = j7;
+        this.zzc = j2;
+        this.zzd = j3;
+        this.zze = j4 == Long.MAX_VALUE ? j5 : Math.min(Math.max(1L, j4 - SystemClock.elapsedRealtime()), j5);
+        this.zzf = i2;
+        this.zzg = f;
+        this.zzh = z;
+        this.zzi = j6 != -1 ? j6 : j7;
+        this.zzj = i3;
+        this.zzk = i4;
+        this.zzl = str;
+        this.zzm = z2;
+        this.zzn = workSource;
+        this.zzo = zzdVar;
+    }
+
     public static LocationRequest create() {
         return new LocationRequest(102, 3600000L, 600000L, 0L, Long.MAX_VALUE, Long.MAX_VALUE, ConnectionsManager.DEFAULT_DATACENTER_ID, 0.0f, true, 3600000L, 0, 0, null, false, new WorkSource(), null);
     }
@@ -111,14 +239,12 @@ public final class LocationRequest extends AbstractSafeParcelable implements Ref
         return this.zzh;
     }
 
-    @Deprecated
     public LocationRequest setFastestInterval(long j) {
         Preconditions.checkArgument(j >= 0, "illegal fastest interval: %d", Long.valueOf(j));
         this.zzc = j;
         return this;
     }
 
-    @Deprecated
     public LocationRequest setInterval(long j) {
         Preconditions.checkArgument(j >= 0, "intervalMillis must be greater than or equal to 0");
         long j2 = this.zzc;
@@ -133,7 +259,6 @@ public final class LocationRequest extends AbstractSafeParcelable implements Ref
         return this;
     }
 
-    @Deprecated
     public LocationRequest setPriority(int i) {
         zzae.zza(i);
         this.zza = i;
@@ -141,22 +266,22 @@ public final class LocationRequest extends AbstractSafeParcelable implements Ref
     }
 
     public String toString() {
+        long j;
         StringBuilder sb = new StringBuilder();
         sb.append("Request[");
-        if (isPassive()) {
-            sb.append(zzae.zzb(this.zza));
-        } else {
+        if (!isPassive()) {
             sb.append("@");
             if (isBatched()) {
                 zzdj.zzb(this.zzb, sb);
                 sb.append("/");
-                zzdj.zzb(this.zzd, sb);
+                j = this.zzd;
             } else {
-                zzdj.zzb(this.zzb, sb);
+                j = this.zzb;
             }
+            zzdj.zzb(j, sb);
             sb.append(" ");
-            sb.append(zzae.zzb(this.zza));
         }
+        sb.append(zzae.zzb(this.zza));
         if (isPassive() || this.zzc != this.zzb) {
             sb.append(", minUpdateInterval=");
             sb.append(zzf(this.zzc));
@@ -165,7 +290,9 @@ public final class LocationRequest extends AbstractSafeParcelable implements Ref
             sb.append(", minUpdateDistance=");
             sb.append(this.zzg);
         }
-        if (!isPassive() ? this.zzi != this.zzb : this.zzi != Long.MAX_VALUE) {
+        boolean isPassive = isPassive();
+        long j2 = this.zzi;
+        if (!isPassive ? j2 != this.zzb : j2 != Long.MAX_VALUE) {
             sb.append(", maxUpdateAge=");
             sb.append(zzf(this.zzi));
         }
@@ -240,149 +367,11 @@ public final class LocationRequest extends AbstractSafeParcelable implements Ref
         return this.zzo;
     }
 
-    @Deprecated
     public final String zzd() {
         return this.zzl;
     }
 
     public final boolean zze() {
         return this.zzm;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LocationRequest(int i, long j, long j2, long j3, long j4, long j5, int i2, float f, boolean z, long j6, int i3, int i4, String str, boolean z2, WorkSource workSource, zzd zzdVar) {
-        this.zza = i;
-        long j7 = j;
-        this.zzb = j7;
-        this.zzc = j2;
-        this.zzd = j3;
-        this.zze = j4 == Long.MAX_VALUE ? j5 : Math.min(Math.max(1L, j4 - SystemClock.elapsedRealtime()), j5);
-        this.zzf = i2;
-        this.zzg = f;
-        this.zzh = z;
-        this.zzi = j6 != -1 ? j6 : j7;
-        this.zzj = i3;
-        this.zzk = i4;
-        this.zzl = str;
-        this.zzm = z2;
-        this.zzn = workSource;
-        this.zzo = zzdVar;
-    }
-
-    /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
-    /* loaded from: classes.dex */
-    public static final class Builder {
-        private int zza;
-        private long zzb;
-        private long zzc;
-        private long zzd;
-        private long zze;
-        private int zzf;
-        private float zzg;
-        private boolean zzh;
-        private long zzi;
-        private int zzj;
-        private int zzk;
-        private String zzl;
-        private boolean zzm;
-        private WorkSource zzn;
-        private zzd zzo;
-
-        public LocationRequest build() {
-            int i = this.zza;
-            long j = this.zzb;
-            long j2 = this.zzc;
-            if (j2 == -1) {
-                j2 = j;
-            } else if (i != 105) {
-                j2 = Math.min(j2, j);
-            }
-            long max = Math.max(this.zzd, this.zzb);
-            long j3 = this.zze;
-            int i2 = this.zzf;
-            float f = this.zzg;
-            boolean z = this.zzh;
-            long j4 = this.zzi;
-            return new LocationRequest(i, j, j2, max, Long.MAX_VALUE, j3, i2, f, z, j4 == -1 ? this.zzb : j4, this.zzj, this.zzk, this.zzl, this.zzm, new WorkSource(this.zzn), this.zzo);
-        }
-
-        public Builder setGranularity(int i) {
-            zzo.zza(i);
-            this.zzj = i;
-            return this;
-        }
-
-        public Builder setMaxUpdateAgeMillis(long j) {
-            boolean z = true;
-            if (j != -1 && j < 0) {
-                z = false;
-            }
-            Preconditions.checkArgument(z, "maxUpdateAgeMillis must be greater than or equal to 0, or IMPLICIT_MAX_UPDATE_AGE");
-            this.zzi = j;
-            return this;
-        }
-
-        public Builder setWaitForAccurateLocation(boolean z) {
-            this.zzh = z;
-            return this;
-        }
-
-        public final Builder zza(boolean z) {
-            this.zzm = z;
-            return this;
-        }
-
-        @Deprecated
-        public final Builder zzb(String str) {
-            if (Build.VERSION.SDK_INT < 30) {
-                this.zzl = str;
-            }
-            return this;
-        }
-
-        public final Builder zzc(int i) {
-            int i2;
-            boolean z;
-            if (i == 0 || i == 1) {
-                i2 = i;
-            } else {
-                i2 = 2;
-                if (i != 2) {
-                    i2 = i;
-                    z = false;
-                    Preconditions.checkArgument(z, "throttle behavior %d must be a ThrottleBehavior.THROTTLE_* constant", Integer.valueOf(i));
-                    this.zzk = i2;
-                    return this;
-                }
-                i = 2;
-            }
-            z = true;
-            Preconditions.checkArgument(z, "throttle behavior %d must be a ThrottleBehavior.THROTTLE_* constant", Integer.valueOf(i));
-            this.zzk = i2;
-            return this;
-        }
-
-        public final Builder zzd(WorkSource workSource) {
-            this.zzn = workSource;
-            return this;
-        }
-
-        public Builder(LocationRequest locationRequest) {
-            this.zza = locationRequest.getPriority();
-            this.zzb = locationRequest.getIntervalMillis();
-            this.zzc = locationRequest.getMinUpdateIntervalMillis();
-            this.zzd = locationRequest.getMaxUpdateDelayMillis();
-            this.zze = locationRequest.getDurationMillis();
-            this.zzf = locationRequest.getMaxUpdates();
-            this.zzg = locationRequest.getMinUpdateDistanceMeters();
-            this.zzh = locationRequest.isWaitForAccurateLocation();
-            this.zzi = locationRequest.getMaxUpdateAgeMillis();
-            this.zzj = locationRequest.getGranularity();
-            this.zzk = locationRequest.zza();
-            this.zzl = locationRequest.zzd();
-            this.zzm = locationRequest.zze();
-            this.zzn = locationRequest.zzb();
-            this.zzo = locationRequest.zzc();
-        }
     }
 }

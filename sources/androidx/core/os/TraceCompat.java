@@ -4,14 +4,24 @@ import android.os.Build;
 import android.os.Trace;
 import android.util.Log;
 import java.lang.reflect.Method;
-@Deprecated
 /* loaded from: classes.dex */
-public final class TraceCompat {
+public abstract class TraceCompat {
     private static Method sAsyncTraceBeginMethod;
     private static Method sAsyncTraceEndMethod;
     private static Method sIsTagEnabledMethod;
     private static Method sTraceCounterMethod;
     private static long sTraceTagApp;
+
+    /* loaded from: classes.dex */
+    static class Api18Impl {
+        static void beginSection(String str) {
+            Trace.beginSection(str);
+        }
+
+        static void endSection() {
+            Trace.endSection();
+        }
+    }
 
     static {
         if (Build.VERSION.SDK_INT < 29) {
@@ -35,16 +45,5 @@ public final class TraceCompat {
 
     public static void endSection() {
         Api18Impl.endSection();
-    }
-
-    /* loaded from: classes.dex */
-    static class Api18Impl {
-        static void beginSection(String str) {
-            Trace.beginSection(str);
-        }
-
-        static void endSection() {
-            Trace.endSection();
-        }
     }
 }

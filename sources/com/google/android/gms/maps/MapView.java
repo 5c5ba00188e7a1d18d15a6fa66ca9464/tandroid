@@ -3,13 +3,11 @@ package com.google.android.gms.maps;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.dynamic.DeferredLifecycleHelper;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
-public class MapView extends FrameLayout {
+public abstract class MapView extends FrameLayout {
     private final zzah zza;
 
     public MapView(Context context) {
@@ -79,23 +77,5 @@ public class MapView extends FrameLayout {
 
     public void onStop() {
         this.zza.onStop();
-    }
-
-    public MapView(Context context, AttributeSet attributeSet) {
-        super(context, attributeSet);
-        this.zza = new zzah(this, context, GoogleMapOptions.createFromAttributes(context, attributeSet));
-        setClickable(true);
-    }
-
-    public MapView(Context context, AttributeSet attributeSet, int i) {
-        super(context, attributeSet, i);
-        this.zza = new zzah(this, context, GoogleMapOptions.createFromAttributes(context, attributeSet));
-        setClickable(true);
-    }
-
-    public MapView(Context context, GoogleMapOptions googleMapOptions) {
-        super(context);
-        this.zza = new zzah(this, context, googleMapOptions);
-        setClickable(true);
     }
 }

@@ -1,6 +1,5 @@
 package com.google.android.gms.internal.vision;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zzla implements zzki {
     private final zzkk zza;
@@ -34,21 +33,6 @@ public final class zzla implements zzki {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final String zzd() {
-        return this.zzb;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Object[] zze() {
-        return this.zzc;
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzki
-    public final zzkk zzc() {
-        return this.zza;
-    }
-
     @Override // com.google.android.gms.internal.vision.zzki
     public final int zza() {
         return (this.zzd & 1) == 1 ? zzkz.zza : zzkz.zzb;
@@ -57,5 +41,20 @@ public final class zzla implements zzki {
     @Override // com.google.android.gms.internal.vision.zzki
     public final boolean zzb() {
         return (this.zzd & 2) == 2;
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzki
+    public final zzkk zzc() {
+        return this.zza;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final String zzd() {
+        return this.zzb;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final Object[] zze() {
+        return this.zzc;
     }
 }

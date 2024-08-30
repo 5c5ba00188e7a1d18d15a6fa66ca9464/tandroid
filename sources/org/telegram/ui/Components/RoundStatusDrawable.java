@@ -14,36 +14,10 @@ public class RoundStatusDrawable extends StatusDrawable {
     private boolean started = false;
     private int progressDirection = 1;
 
-    @Override // android.graphics.drawable.Drawable
-    public int getOpacity() {
-        return 0;
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setAlpha(int i) {
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setColorFilter(ColorFilter colorFilter) {
-    }
-
     public RoundStatusDrawable(boolean z) {
         if (z) {
             this.currentPaint = new Paint(1);
         }
-    }
-
-    @Override // org.telegram.ui.Components.StatusDrawable
-    public void setColor(int i) {
-        Paint paint = this.currentPaint;
-        if (paint != null) {
-            paint.setColor(i);
-        }
-    }
-
-    @Override // org.telegram.ui.Components.StatusDrawable
-    public void setIsChat(boolean z) {
-        this.isChat = z;
     }
 
     private void update() {
@@ -67,18 +41,6 @@ public class RoundStatusDrawable extends StatusDrawable {
         invalidateSelf();
     }
 
-    @Override // org.telegram.ui.Components.StatusDrawable
-    public void start() {
-        this.lastUpdateTime = System.currentTimeMillis();
-        this.started = true;
-        invalidateSelf();
-    }
-
-    @Override // org.telegram.ui.Components.StatusDrawable
-    public void stop() {
-        this.started = false;
-    }
-
     @Override // android.graphics.drawable.Drawable
     public void draw(Canvas canvas) {
         Paint paint = this.currentPaint;
@@ -93,12 +55,50 @@ public class RoundStatusDrawable extends StatusDrawable {
     }
 
     @Override // android.graphics.drawable.Drawable
+    public int getIntrinsicHeight() {
+        return AndroidUtilities.dp(10.0f);
+    }
+
+    @Override // android.graphics.drawable.Drawable
     public int getIntrinsicWidth() {
         return AndroidUtilities.dp(12.0f);
     }
 
     @Override // android.graphics.drawable.Drawable
-    public int getIntrinsicHeight() {
-        return AndroidUtilities.dp(10.0f);
+    public int getOpacity() {
+        return 0;
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setAlpha(int i) {
+    }
+
+    @Override // org.telegram.ui.Components.StatusDrawable
+    public void setColor(int i) {
+        Paint paint = this.currentPaint;
+        if (paint != null) {
+            paint.setColor(i);
+        }
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setColorFilter(ColorFilter colorFilter) {
+    }
+
+    @Override // org.telegram.ui.Components.StatusDrawable
+    public void setIsChat(boolean z) {
+        this.isChat = z;
+    }
+
+    @Override // org.telegram.ui.Components.StatusDrawable
+    public void start() {
+        this.lastUpdateTime = System.currentTimeMillis();
+        this.started = true;
+        invalidateSelf();
+    }
+
+    @Override // org.telegram.ui.Components.StatusDrawable
+    public void stop() {
+        this.started = false;
     }
 }

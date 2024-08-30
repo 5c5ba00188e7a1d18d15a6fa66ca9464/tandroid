@@ -28,7 +28,7 @@ public final class PlayerMessage {
 
     /* loaded from: classes.dex */
     public interface Target {
-        void handleMessage(int i, Object obj) throws ExoPlaybackException;
+        void handleMessage(int i, Object obj);
     }
 
     public PlayerMessage(Sender sender, Target target, Timeline timeline, int i, Clock clock, Looper looper) {
@@ -40,71 +40,7 @@ public final class PlayerMessage {
         this.mediaItemIndex = i;
     }
 
-    public Timeline getTimeline() {
-        return this.timeline;
-    }
-
-    public Target getTarget() {
-        return this.target;
-    }
-
-    public PlayerMessage setType(int i) {
-        Assertions.checkState(!this.isSent);
-        this.type = i;
-        return this;
-    }
-
-    public int getType() {
-        return this.type;
-    }
-
-    public PlayerMessage setPayload(Object obj) {
-        Assertions.checkState(!this.isSent);
-        this.payload = obj;
-        return this;
-    }
-
-    public Object getPayload() {
-        return this.payload;
-    }
-
-    public Looper getLooper() {
-        return this.looper;
-    }
-
-    public long getPositionMs() {
-        return this.positionMs;
-    }
-
-    public int getMediaItemIndex() {
-        return this.mediaItemIndex;
-    }
-
-    public boolean getDeleteAfterDelivery() {
-        return this.deleteAfterDelivery;
-    }
-
-    public PlayerMessage send() {
-        Assertions.checkState(!this.isSent);
-        if (this.positionMs == -9223372036854775807L) {
-            Assertions.checkArgument(this.deleteAfterDelivery);
-        }
-        this.isSent = true;
-        this.sender.sendMessage(this);
-        return this;
-    }
-
-    public synchronized boolean isCanceled() {
-        return this.isCanceled;
-    }
-
-    public synchronized void markAsProcessed(boolean z) {
-        this.isDelivered = z | this.isDelivered;
-        this.isProcessed = true;
-        notifyAll();
-    }
-
-    public synchronized boolean blockUntilDelivered(long j) throws InterruptedException, TimeoutException {
+    public synchronized boolean blockUntilDelivered(long j) {
         boolean z;
         try {
             Assertions.checkState(this.isSent);
@@ -126,5 +62,69 @@ public final class PlayerMessage {
             throw th;
         }
         return this.isDelivered;
+    }
+
+    public boolean getDeleteAfterDelivery() {
+        return this.deleteAfterDelivery;
+    }
+
+    public Looper getLooper() {
+        return this.looper;
+    }
+
+    public int getMediaItemIndex() {
+        return this.mediaItemIndex;
+    }
+
+    public Object getPayload() {
+        return this.payload;
+    }
+
+    public long getPositionMs() {
+        return this.positionMs;
+    }
+
+    public Target getTarget() {
+        return this.target;
+    }
+
+    public Timeline getTimeline() {
+        return this.timeline;
+    }
+
+    public int getType() {
+        return this.type;
+    }
+
+    public synchronized boolean isCanceled() {
+        return this.isCanceled;
+    }
+
+    public synchronized void markAsProcessed(boolean z) {
+        this.isDelivered = z | this.isDelivered;
+        this.isProcessed = true;
+        notifyAll();
+    }
+
+    public PlayerMessage send() {
+        Assertions.checkState(!this.isSent);
+        if (this.positionMs == -9223372036854775807L) {
+            Assertions.checkArgument(this.deleteAfterDelivery);
+        }
+        this.isSent = true;
+        this.sender.sendMessage(this);
+        return this;
+    }
+
+    public PlayerMessage setPayload(Object obj) {
+        Assertions.checkState(!this.isSent);
+        this.payload = obj;
+        return this;
+    }
+
+    public PlayerMessage setType(int i) {
+        Assertions.checkState(!this.isSent);
+        this.type = i;
+        return this;
     }
 }

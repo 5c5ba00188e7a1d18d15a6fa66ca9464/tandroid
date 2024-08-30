@@ -6,14 +6,7 @@ import androidx.savedstate.SavedStateRegistry;
 import androidx.savedstate.SavedStateRegistryOwner;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class LegacySavedStateHandleController {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static SavedStateHandleController create(SavedStateRegistry savedStateRegistry, Lifecycle lifecycle, String str, Bundle bundle) {
-        SavedStateHandleController savedStateHandleController = new SavedStateHandleController(str, SavedStateHandle.createHandle(savedStateRegistry.consumeRestoredStateForKey(str), bundle));
-        savedStateHandleController.attachToLifecycle(savedStateRegistry, lifecycle);
-        tryToAddRecreator(savedStateRegistry, lifecycle);
-        return savedStateHandleController;
-    }
+public abstract class LegacySavedStateHandleController {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
@@ -46,6 +39,14 @@ public class LegacySavedStateHandleController {
         }
         savedStateHandleController.attachToLifecycle(savedStateRegistry, lifecycle);
         tryToAddRecreator(savedStateRegistry, lifecycle);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static SavedStateHandleController create(SavedStateRegistry savedStateRegistry, Lifecycle lifecycle, String str, Bundle bundle) {
+        SavedStateHandleController savedStateHandleController = new SavedStateHandleController(str, SavedStateHandle.createHandle(savedStateRegistry.consumeRestoredStateForKey(str), bundle));
+        savedStateHandleController.attachToLifecycle(savedStateRegistry, lifecycle);
+        tryToAddRecreator(savedStateRegistry, lifecycle);
+        return savedStateHandleController;
     }
 
     private static void tryToAddRecreator(final SavedStateRegistry savedStateRegistry, final Lifecycle lifecycle) {

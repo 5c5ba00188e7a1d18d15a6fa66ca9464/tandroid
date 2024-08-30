@@ -16,14 +16,6 @@ public final class BitArray implements Cloneable {
         this.size = i;
     }
 
-    public int getSize() {
-        return this.size;
-    }
-
-    public int getSizeInBytes() {
-        return (this.size + 7) / 8;
-    }
-
     private void ensureCapacity(int i) {
         if (i > this.bits.length * 32) {
             int[] makeArray = makeArray(i);
@@ -33,8 +25,8 @@ public final class BitArray implements Cloneable {
         }
     }
 
-    public boolean get(int i) {
-        return ((1 << (i & 31)) & this.bits[i / 32]) != 0;
+    private static int[] makeArray(int i) {
+        return new int[(i + 31) / 32];
     }
 
     public void appendBit(boolean z) {
@@ -46,6 +38,14 @@ public final class BitArray implements Cloneable {
             iArr[i2] = (1 << (i & 31)) | iArr[i2];
         }
         this.size++;
+    }
+
+    public void appendBitArray(BitArray bitArray) {
+        int i = bitArray.size;
+        ensureCapacity(this.size + i);
+        for (int i2 = 0; i2 < i; i2++) {
+            appendBit(bitArray.get(i2));
+        }
     }
 
     public void appendBits(int i, int i2) {
@@ -63,27 +63,32 @@ public final class BitArray implements Cloneable {
         }
     }
 
-    public void appendBitArray(BitArray bitArray) {
-        int i = bitArray.size;
-        ensureCapacity(this.size + i);
-        for (int i2 = 0; i2 < i; i2++) {
-            appendBit(bitArray.get(i2));
-        }
+    public BitArray clone() {
+        return new BitArray((int[]) this.bits.clone(), this.size);
     }
 
-    public void xor(BitArray bitArray) {
-        if (this.size != bitArray.size) {
-            throw new IllegalArgumentException("Sizes don't match");
+    public boolean equals(Object obj) {
+        if (obj instanceof BitArray) {
+            BitArray bitArray = (BitArray) obj;
+            return this.size == bitArray.size && Arrays.equals(this.bits, bitArray.bits);
         }
-        int i = 0;
-        while (true) {
-            int[] iArr = this.bits;
-            if (i >= iArr.length) {
-                return;
-            }
-            iArr[i] = iArr[i] ^ bitArray.bits[i];
-            i++;
-        }
+        return false;
+    }
+
+    public boolean get(int i) {
+        return ((1 << (i & 31)) & this.bits[i / 32]) != 0;
+    }
+
+    public int getSize() {
+        return this.size;
+    }
+
+    public int getSizeInBytes() {
+        return (this.size + 7) / 8;
+    }
+
+    public int hashCode() {
+        return (this.size * 31) + Arrays.hashCode(this.bits);
     }
 
     public void toBytes(int i, byte[] bArr, int i2, int i3) {
@@ -99,22 +104,6 @@ public final class BitArray implements Cloneable {
         }
     }
 
-    private static int[] makeArray(int i) {
-        return new int[(i + 31) / 32];
-    }
-
-    public boolean equals(Object obj) {
-        if (obj instanceof BitArray) {
-            BitArray bitArray = (BitArray) obj;
-            return this.size == bitArray.size && Arrays.equals(this.bits, bitArray.bits);
-        }
-        return false;
-    }
-
-    public int hashCode() {
-        return (this.size * 31) + Arrays.hashCode(this.bits);
-    }
-
     public String toString() {
         int i = this.size;
         StringBuilder sb = new StringBuilder(i + (i / 8) + 1);
@@ -127,7 +116,18 @@ public final class BitArray implements Cloneable {
         return sb.toString();
     }
 
-    public BitArray clone() {
-        return new BitArray((int[]) this.bits.clone(), this.size);
+    public void xor(BitArray bitArray) {
+        if (this.size != bitArray.size) {
+            throw new IllegalArgumentException("Sizes don't match");
+        }
+        int i = 0;
+        while (true) {
+            int[] iArr = this.bits;
+            if (i >= iArr.length) {
+                return;
+            }
+            iArr[i] = iArr[i] ^ bitArray.bits[i];
+            i++;
+        }
     }
 }

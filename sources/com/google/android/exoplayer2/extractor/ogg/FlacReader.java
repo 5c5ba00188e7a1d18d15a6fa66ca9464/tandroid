@@ -16,22 +16,63 @@ final class FlacReader extends StreamReader {
     private FlacOggSeeker flacOggSeeker;
     private FlacStreamMetadata streamMetadata;
 
-    public static boolean verifyBitstreamType(ParsableByteArray parsableByteArray) {
-        return parsableByteArray.bytesLeft() >= 5 && parsableByteArray.readUnsignedByte() == 127 && parsableByteArray.readUnsignedInt() == 1179402563;
+    /* loaded from: classes.dex */
+    private static final class FlacOggSeeker implements OggSeeker {
+        private long firstFrameOffset = -1;
+        private long pendingSeekGranule = -1;
+        private FlacStreamMetadata.SeekTable seekTable;
+        private FlacStreamMetadata streamMetadata;
+
+        public FlacOggSeeker(FlacStreamMetadata flacStreamMetadata, FlacStreamMetadata.SeekTable seekTable) {
+            this.streamMetadata = flacStreamMetadata;
+            this.seekTable = seekTable;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker
+        public SeekMap createSeekMap() {
+            Assertions.checkState(this.firstFrameOffset != -1);
+            return new FlacSeekTableSeekMap(this.streamMetadata, this.firstFrameOffset);
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker
+        public long read(ExtractorInput extractorInput) {
+            long j = this.pendingSeekGranule;
+            if (j >= 0) {
+                long j2 = -(j + 2);
+                this.pendingSeekGranule = -1L;
+                return j2;
+            }
+            return -1L;
+        }
+
+        public void setFirstFrameOffset(long j) {
+            this.firstFrameOffset = j;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker
+        public void startSeek(long j) {
+            long[] jArr = this.seekTable.pointSampleNumbers;
+            this.pendingSeekGranule = jArr[Util.binarySearchFloor(jArr, j, true, true)];
+        }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
-    public void reset(boolean z) {
-        super.reset(z);
-        if (z) {
-            this.streamMetadata = null;
-            this.flacOggSeeker = null;
+    private int getFlacFrameBlockSize(ParsableByteArray parsableByteArray) {
+        int i = (parsableByteArray.getData()[2] & 255) >> 4;
+        if (i == 6 || i == 7) {
+            parsableByteArray.skipBytes(4);
+            parsableByteArray.readUtf8EncodedLong();
         }
+        int readFrameBlockSizeSamplesFromKey = FlacFrameReader.readFrameBlockSizeSamplesFromKey(parsableByteArray, i);
+        parsableByteArray.setPosition(0);
+        return readFrameBlockSizeSamplesFromKey;
     }
 
     private static boolean isAudioPacket(byte[] bArr) {
         return bArr[0] == -1;
+    }
+
+    public static boolean verifyBitstreamType(ParsableByteArray parsableByteArray) {
+        return parsableByteArray.bytesLeft() >= 5 && parsableByteArray.readUnsignedByte() == 127 && parsableByteArray.readUnsignedInt() == 1179402563;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
@@ -70,54 +111,13 @@ final class FlacReader extends StreamReader {
         }
     }
 
-    private int getFlacFrameBlockSize(ParsableByteArray parsableByteArray) {
-        int i = (parsableByteArray.getData()[2] & 255) >> 4;
-        if (i == 6 || i == 7) {
-            parsableByteArray.skipBytes(4);
-            parsableByteArray.readUtf8EncodedLong();
-        }
-        int readFrameBlockSizeSamplesFromKey = FlacFrameReader.readFrameBlockSizeSamplesFromKey(parsableByteArray, i);
-        parsableByteArray.setPosition(0);
-        return readFrameBlockSizeSamplesFromKey;
-    }
-
-    /* loaded from: classes.dex */
-    private static final class FlacOggSeeker implements OggSeeker {
-        private long firstFrameOffset = -1;
-        private long pendingSeekGranule = -1;
-        private FlacStreamMetadata.SeekTable seekTable;
-        private FlacStreamMetadata streamMetadata;
-
-        public FlacOggSeeker(FlacStreamMetadata flacStreamMetadata, FlacStreamMetadata.SeekTable seekTable) {
-            this.streamMetadata = flacStreamMetadata;
-            this.seekTable = seekTable;
-        }
-
-        public void setFirstFrameOffset(long j) {
-            this.firstFrameOffset = j;
-        }
-
-        @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker
-        public long read(ExtractorInput extractorInput) {
-            long j = this.pendingSeekGranule;
-            if (j >= 0) {
-                long j2 = -(j + 2);
-                this.pendingSeekGranule = -1L;
-                return j2;
-            }
-            return -1L;
-        }
-
-        @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker
-        public void startSeek(long j) {
-            long[] jArr = this.seekTable.pointSampleNumbers;
-            this.pendingSeekGranule = jArr[Util.binarySearchFloor(jArr, j, true, true)];
-        }
-
-        @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker
-        public SeekMap createSeekMap() {
-            Assertions.checkState(this.firstFrameOffset != -1);
-            return new FlacSeekTableSeekMap(this.streamMetadata, this.firstFrameOffset);
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
+    public void reset(boolean z) {
+        super.reset(z);
+        if (z) {
+            this.streamMetadata = null;
+            this.flacOggSeeker = null;
         }
     }
 }

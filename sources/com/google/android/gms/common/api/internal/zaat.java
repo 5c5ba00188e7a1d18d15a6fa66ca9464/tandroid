@@ -6,7 +6,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.Preconditions;
 import java.util.concurrent.locks.Lock;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 final class zaat implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     final /* synthetic */ zaaw zaa;

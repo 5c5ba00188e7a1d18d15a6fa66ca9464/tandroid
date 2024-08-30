@@ -1,6 +1,5 @@
 package com.google.android.exoplayer2.mediacodec;
 
-import com.google.android.exoplayer2.mediacodec.MediaCodecUtil;
 import java.util.List;
 /* loaded from: classes.dex */
 public interface MediaCodecSelector {
@@ -11,5 +10,5 @@ public interface MediaCodecSelector {
         }
     };
 
-    List<MediaCodecInfo> getDecoderInfos(String str, boolean z, boolean z2) throws MediaCodecUtil.DecoderQueryException;
+    List getDecoderInfos(String str, boolean z, boolean z2);
 }

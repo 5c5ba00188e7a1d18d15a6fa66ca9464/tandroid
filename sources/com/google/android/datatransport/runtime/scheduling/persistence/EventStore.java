@@ -11,15 +11,15 @@ public interface EventStore extends Closeable {
 
     boolean hasPendingEventsFor(TransportContext transportContext);
 
-    Iterable<TransportContext> loadActiveContexts();
+    Iterable loadActiveContexts();
 
-    Iterable<PersistedEvent> loadBatch(TransportContext transportContext);
+    Iterable loadBatch(TransportContext transportContext);
 
     PersistedEvent persist(TransportContext transportContext, EventInternal eventInternal);
 
-    void recordFailure(Iterable<PersistedEvent> iterable);
+    void recordFailure(Iterable iterable);
 
     void recordNextCallTime(TransportContext transportContext, long j);
 
-    void recordSuccess(Iterable<PersistedEvent> iterable);
+    void recordSuccess(Iterable iterable);
 }

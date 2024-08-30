@@ -8,10 +8,8 @@ import java.lang.reflect.Method;
 public abstract class UnsafeAllocator {
     public static final UnsafeAllocator INSTANCE = create();
 
-    public abstract <T> T newInstance(Class<T> cls) throws Exception;
-
     /* JADX INFO: Access modifiers changed from: private */
-    public static void assertInstantiable(Class<?> cls) {
+    public static void assertInstantiable(Class cls) {
         String checkInstantiable = ConstructorConstructor.checkInstantiable(cls);
         if (checkInstantiable == null) {
             return;
@@ -30,9 +28,9 @@ public abstract class UnsafeAllocator {
                     final Method method = cls.getMethod("allocateInstance", Class.class);
                     return new UnsafeAllocator() { // from class: com.google.gson.internal.UnsafeAllocator.1
                         @Override // com.google.gson.internal.UnsafeAllocator
-                        public <T> T newInstance(Class<T> cls2) throws Exception {
+                        public Object newInstance(Class cls2) {
                             UnsafeAllocator.assertInstantiable(cls2);
-                            return (T) method.invoke(obj, cls2);
+                            return method.invoke(obj, cls2);
                         }
                     };
                 } catch (Exception unused) {
@@ -40,9 +38,9 @@ public abstract class UnsafeAllocator {
                     declaredMethod.setAccessible(true);
                     return new UnsafeAllocator() { // from class: com.google.gson.internal.UnsafeAllocator.3
                         @Override // com.google.gson.internal.UnsafeAllocator
-                        public <T> T newInstance(Class<T> cls2) throws Exception {
+                        public Object newInstance(Class cls2) {
                             UnsafeAllocator.assertInstantiable(cls2);
-                            return (T) declaredMethod.invoke(null, cls2, Object.class);
+                            return declaredMethod.invoke(null, cls2, Object.class);
                         }
                     };
                 }
@@ -54,19 +52,21 @@ public abstract class UnsafeAllocator {
                 declaredMethod3.setAccessible(true);
                 return new UnsafeAllocator() { // from class: com.google.gson.internal.UnsafeAllocator.2
                     @Override // com.google.gson.internal.UnsafeAllocator
-                    public <T> T newInstance(Class<T> cls2) throws Exception {
+                    public Object newInstance(Class cls2) {
                         UnsafeAllocator.assertInstantiable(cls2);
-                        return (T) declaredMethod3.invoke(null, cls2, Integer.valueOf(intValue));
+                        return declaredMethod3.invoke(null, cls2, Integer.valueOf(intValue));
                     }
                 };
             }
         } catch (Exception unused3) {
             return new UnsafeAllocator() { // from class: com.google.gson.internal.UnsafeAllocator.4
                 @Override // com.google.gson.internal.UnsafeAllocator
-                public <T> T newInstance(Class<T> cls2) {
+                public Object newInstance(Class cls2) {
                     throw new UnsupportedOperationException("Cannot allocate " + cls2 + ". Usage of JDK sun.misc.Unsafe is enabled, but it could not be used. Make sure your runtime is configured correctly.");
                 }
             };
         }
     }
+
+    public abstract Object newInstance(Class cls);
 }

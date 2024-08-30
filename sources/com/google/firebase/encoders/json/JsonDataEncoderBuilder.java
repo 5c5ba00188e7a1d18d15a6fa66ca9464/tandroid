@@ -19,42 +19,34 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 /* loaded from: classes.dex */
-public final class JsonDataEncoderBuilder implements EncoderConfig<JsonDataEncoderBuilder> {
-    private static final ObjectEncoder<Object> DEFAULT_FALLBACK_ENCODER = new ObjectEncoder() { // from class: com.google.firebase.encoders.json.JsonDataEncoderBuilder$$ExternalSyntheticLambda0
+public final class JsonDataEncoderBuilder implements EncoderConfig {
+    private static final ObjectEncoder DEFAULT_FALLBACK_ENCODER = new ObjectEncoder() { // from class: com.google.firebase.encoders.json.JsonDataEncoderBuilder$$ExternalSyntheticLambda0
         @Override // com.google.firebase.encoders.ObjectEncoder
         public final void encode(Object obj, Object obj2) {
             JsonDataEncoderBuilder.lambda$static$0(obj, (ObjectEncoderContext) obj2);
         }
     };
-    private static final ValueEncoder<String> STRING_ENCODER = new ValueEncoder() { // from class: com.google.firebase.encoders.json.JsonDataEncoderBuilder$$ExternalSyntheticLambda1
+    private static final ValueEncoder STRING_ENCODER = new ValueEncoder() { // from class: com.google.firebase.encoders.json.JsonDataEncoderBuilder$$ExternalSyntheticLambda1
         @Override // com.google.firebase.encoders.ValueEncoder
         public final void encode(Object obj, Object obj2) {
             ((ValueEncoderContext) obj2).add((String) obj);
         }
     };
-    private static final ValueEncoder<Boolean> BOOLEAN_ENCODER = new ValueEncoder() { // from class: com.google.firebase.encoders.json.JsonDataEncoderBuilder$$ExternalSyntheticLambda2
+    private static final ValueEncoder BOOLEAN_ENCODER = new ValueEncoder() { // from class: com.google.firebase.encoders.json.JsonDataEncoderBuilder$$ExternalSyntheticLambda2
         @Override // com.google.firebase.encoders.ValueEncoder
         public final void encode(Object obj, Object obj2) {
             JsonDataEncoderBuilder.lambda$static$2((Boolean) obj, (ValueEncoderContext) obj2);
         }
     };
     private static final TimestampEncoder TIMESTAMP_ENCODER = new TimestampEncoder();
-    private final Map<Class<?>, ObjectEncoder<?>> objectEncoders = new HashMap();
-    private final Map<Class<?>, ValueEncoder<?>> valueEncoders = new HashMap();
-    private ObjectEncoder<Object> fallbackEncoder = DEFAULT_FALLBACK_ENCODER;
+    private final Map objectEncoders = new HashMap();
+    private final Map valueEncoders = new HashMap();
+    private ObjectEncoder fallbackEncoder = DEFAULT_FALLBACK_ENCODER;
     private boolean ignoreNullValues = false;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$static$0(Object obj, ObjectEncoderContext objectEncoderContext) throws IOException {
-        throw new EncodingException("Couldn't find encoder for type " + obj.getClass().getCanonicalName());
-    }
-
     /* loaded from: classes.dex */
-    private static final class TimestampEncoder implements ValueEncoder<Date> {
+    private static final class TimestampEncoder implements ValueEncoder {
         private static final DateFormat rfc339;
-
-        private TimestampEncoder() {
-        }
 
         static {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
@@ -62,15 +54,13 @@ public final class JsonDataEncoderBuilder implements EncoderConfig<JsonDataEncod
             simpleDateFormat.setTimeZone(DesugarTimeZone.getTimeZone("UTC"));
         }
 
+        private TimestampEncoder() {
+        }
+
         @Override // com.google.firebase.encoders.ValueEncoder
-        public void encode(Date date, ValueEncoderContext valueEncoderContext) throws IOException {
+        public void encode(Date date, ValueEncoderContext valueEncoderContext) {
             valueEncoderContext.add(rfc339.format(date));
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$static$2(Boolean bool, ValueEncoderContext valueEncoderContext) throws IOException {
-        valueEncoderContext.add(bool.booleanValue());
     }
 
     public JsonDataEncoderBuilder() {
@@ -79,17 +69,35 @@ public final class JsonDataEncoderBuilder implements EncoderConfig<JsonDataEncod
         registerEncoder(Date.class, TIMESTAMP_ENCODER);
     }
 
-    @Override // com.google.firebase.encoders.config.EncoderConfig
-    public <T> JsonDataEncoderBuilder registerEncoder(Class<T> cls, ObjectEncoder<? super T> objectEncoder) {
-        this.objectEncoders.put(cls, objectEncoder);
-        this.valueEncoders.remove(cls);
-        return this;
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$static$0(Object obj, ObjectEncoderContext objectEncoderContext) {
+        throw new EncodingException("Couldn't find encoder for type " + obj.getClass().getCanonicalName());
     }
 
-    public <T> JsonDataEncoderBuilder registerEncoder(Class<T> cls, ValueEncoder<? super T> valueEncoder) {
-        this.valueEncoders.put(cls, valueEncoder);
-        this.objectEncoders.remove(cls);
-        return this;
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$static$2(Boolean bool, ValueEncoderContext valueEncoderContext) {
+        valueEncoderContext.add(bool.booleanValue());
+    }
+
+    public DataEncoder build() {
+        return new DataEncoder() { // from class: com.google.firebase.encoders.json.JsonDataEncoderBuilder.1
+            @Override // com.google.firebase.encoders.DataEncoder
+            public String encode(Object obj) {
+                StringWriter stringWriter = new StringWriter();
+                try {
+                    encode(obj, stringWriter);
+                } catch (IOException unused) {
+                }
+                return stringWriter.toString();
+            }
+
+            @Override // com.google.firebase.encoders.DataEncoder
+            public void encode(Object obj, Writer writer) {
+                JsonValueObjectEncoderContext jsonValueObjectEncoderContext = new JsonValueObjectEncoderContext(writer, JsonDataEncoderBuilder.this.objectEncoders, JsonDataEncoderBuilder.this.valueEncoders, JsonDataEncoderBuilder.this.fallbackEncoder, JsonDataEncoderBuilder.this.ignoreNullValues);
+                jsonValueObjectEncoderContext.add(obj, false);
+                jsonValueObjectEncoderContext.close();
+            }
+        };
     }
 
     public JsonDataEncoderBuilder configureWith(Configurator configurator) {
@@ -102,24 +110,16 @@ public final class JsonDataEncoderBuilder implements EncoderConfig<JsonDataEncod
         return this;
     }
 
-    public DataEncoder build() {
-        return new DataEncoder() { // from class: com.google.firebase.encoders.json.JsonDataEncoderBuilder.1
-            @Override // com.google.firebase.encoders.DataEncoder
-            public void encode(Object obj, Writer writer) throws IOException {
-                JsonValueObjectEncoderContext jsonValueObjectEncoderContext = new JsonValueObjectEncoderContext(writer, JsonDataEncoderBuilder.this.objectEncoders, JsonDataEncoderBuilder.this.valueEncoders, JsonDataEncoderBuilder.this.fallbackEncoder, JsonDataEncoderBuilder.this.ignoreNullValues);
-                jsonValueObjectEncoderContext.add(obj, false);
-                jsonValueObjectEncoderContext.close();
-            }
+    @Override // com.google.firebase.encoders.config.EncoderConfig
+    public JsonDataEncoderBuilder registerEncoder(Class cls, ObjectEncoder objectEncoder) {
+        this.objectEncoders.put(cls, objectEncoder);
+        this.valueEncoders.remove(cls);
+        return this;
+    }
 
-            @Override // com.google.firebase.encoders.DataEncoder
-            public String encode(Object obj) {
-                StringWriter stringWriter = new StringWriter();
-                try {
-                    encode(obj, stringWriter);
-                } catch (IOException unused) {
-                }
-                return stringWriter.toString();
-            }
-        };
+    public JsonDataEncoderBuilder registerEncoder(Class cls, ValueEncoder valueEncoder) {
+        this.valueEncoders.put(cls, valueEncoder);
+        this.objectEncoders.remove(cls);
+        return this;
     }
 }

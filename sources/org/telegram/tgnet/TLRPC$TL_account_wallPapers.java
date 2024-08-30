@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_account_wallPapers extends TLRPC$account_WallPapers {
     public long hash;
-    public ArrayList<TLRPC$WallPaper> wallpapers = new ArrayList<>();
+    public ArrayList wallpapers = new ArrayList();
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -34,7 +34,7 @@ public class TLRPC$TL_account_wallPapers extends TLRPC$account_WallPapers {
         int size = this.wallpapers.size();
         abstractSerializedData.writeInt32(size);
         for (int i = 0; i < size; i++) {
-            this.wallpapers.get(i).serializeToStream(abstractSerializedData);
+            ((TLRPC$WallPaper) this.wallpapers.get(i)).serializeToStream(abstractSerializedData);
         }
     }
 }

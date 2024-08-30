@@ -27,19 +27,6 @@ public class CrossOutDrawable extends Drawable {
     RectF rectF = new RectF();
     Paint paint = new Paint(1);
 
-    @Override // android.graphics.drawable.Drawable
-    public int getOpacity() {
-        return -2;
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setAlpha(int i) {
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setColorFilter(ColorFilter colorFilter) {
-    }
-
     public CrossOutDrawable(Context context, int i, int i2) {
         Paint paint = new Paint(1);
         this.xRefPaint = paint;
@@ -54,18 +41,6 @@ public class CrossOutDrawable extends Drawable {
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         paint.setStyle(style);
         paint.setStrokeWidth(AndroidUtilities.dpf2(2.5f));
-    }
-
-    public void setCrossOut(boolean z, boolean z2) {
-        if (this.cross != z) {
-            this.cross = z;
-            if (!z2) {
-                this.progress = z ? 1.0f : 0.0f;
-            } else {
-                this.progress = z ? 0.0f : 1.0f;
-            }
-            invalidateSelf();
-        }
     }
 
     /* JADX WARN: Removed duplicated region for block: B:17:0x0039  */
@@ -145,12 +120,6 @@ public class CrossOutDrawable extends Drawable {
     }
 
     @Override // android.graphics.drawable.Drawable
-    public void setBounds(int i, int i2, int i3, int i4) {
-        super.setBounds(i, i2, i3, i4);
-        this.iconDrawable.setBounds(i, i2, i3, i4);
-    }
-
-    @Override // android.graphics.drawable.Drawable
     public int getIntrinsicHeight() {
         return this.iconDrawable.getIntrinsicHeight();
     }
@@ -158,6 +127,37 @@ public class CrossOutDrawable extends Drawable {
     @Override // android.graphics.drawable.Drawable
     public int getIntrinsicWidth() {
         return this.iconDrawable.getIntrinsicWidth();
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public int getOpacity() {
+        return -2;
+    }
+
+    public float getProgress() {
+        return this.progress;
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setAlpha(int i) {
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setBounds(int i, int i2, int i3, int i4) {
+        super.setBounds(i, i2, i3, i4);
+        this.iconDrawable.setBounds(i, i2, i3, i4);
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setColorFilter(ColorFilter colorFilter) {
+    }
+
+    public void setCrossOut(boolean z, boolean z2) {
+        if (this.cross != z) {
+            this.cross = z;
+            this.progress = (z2 ? !z : z) ? 1.0f : 0.0f;
+            invalidateSelf();
+        }
     }
 
     public void setOffsets(float f, float f2, float f3) {
@@ -170,9 +170,5 @@ public class CrossOutDrawable extends Drawable {
     public void setStrokeWidth(float f) {
         this.paint.setStrokeWidth(f);
         this.xRefPaint.setStrokeWidth(f * 1.47f);
-    }
-
-    public float getProgress() {
-        return this.progress;
     }
 }

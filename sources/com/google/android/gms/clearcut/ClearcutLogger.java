@@ -12,7 +12,6 @@ import com.google.android.gms.common.util.DefaultClock;
 import com.google.android.gms.internal.clearcut.zzaa;
 import com.google.android.gms.internal.clearcut.zzge$zzv$zzb;
 import com.google.android.gms.internal.clearcut.zzha;
-import com.google.android.gms.internal.clearcut.zzj;
 import com.google.android.gms.internal.clearcut.zzp;
 import com.google.android.gms.internal.clearcut.zzr;
 import com.google.android.gms.phenotype.ExperimentTokens;
@@ -20,10 +19,9 @@ import java.util.ArrayList;
 import java.util.TimeZone;
 /* loaded from: classes.dex */
 public final class ClearcutLogger {
-    @Deprecated
-    public static final Api<Api.ApiOptions.NoOptions> API;
-    private static final Api.AbstractClientBuilder<zzj, Api.ApiOptions.NoOptions> CLIENT_BUILDER;
-    private static final Api.ClientKey<zzj> CLIENT_KEY;
+    public static final Api API;
+    private static final Api.AbstractClientBuilder CLIENT_BUILDER;
+    private static final Api.ClientKey CLIENT_KEY;
     private static final ExperimentTokens[] zze;
     private static final String[] zzf;
     private static final byte[][] zzg;
@@ -50,11 +48,11 @@ public final class ClearcutLogger {
         private String zzl;
         private String zzm;
         private zzge$zzv$zzb zzo;
-        private ArrayList<Integer> zzu;
-        private ArrayList<String> zzv;
-        private ArrayList<Integer> zzw;
-        private ArrayList<ExperimentTokens> zzx;
-        private ArrayList<byte[]> zzy;
+        private ArrayList zzu;
+        private ArrayList zzv;
+        private ArrayList zzw;
+        private ArrayList zzx;
+        private ArrayList zzy;
         private boolean zzz;
 
         private LogEventBuilder(ClearcutLogger clearcutLogger, byte[] bArr) {
@@ -125,11 +123,11 @@ public final class ClearcutLogger {
     }
 
     static {
-        Api.ClientKey<zzj> clientKey = new Api.ClientKey<>();
+        Api.ClientKey clientKey = new Api.ClientKey();
         CLIENT_KEY = clientKey;
         com.google.android.gms.clearcut.zza zzaVar = new com.google.android.gms.clearcut.zza();
         CLIENT_BUILDER = zzaVar;
-        API = new Api<>("ClearcutLogger.API", zzaVar, clientKey);
+        API = new Api("ClearcutLogger.API", zzaVar, clientKey);
         zze = new ExperimentTokens[0];
         zzf = new String[0];
         zzg = new byte[0];
@@ -174,7 +172,7 @@ public final class ClearcutLogger {
         }
     }
 
-    private static int[] zza(ArrayList<Integer> arrayList) {
+    private static int[] zza(ArrayList arrayList) {
         if (arrayList == null) {
             return null;
         }
@@ -183,16 +181,16 @@ public final class ClearcutLogger {
         int i = 0;
         int i2 = 0;
         while (i < size) {
-            Integer num = arrayList.get(i);
+            Object obj = arrayList.get(i);
             i++;
-            iArr[i2] = num.intValue();
+            iArr[i2] = ((Integer) obj).intValue();
             i2++;
         }
         return iArr;
     }
 
     static /* synthetic */ int[] zzb(ArrayList arrayList) {
-        return zza((ArrayList<Integer>) null);
+        return zza((ArrayList) null);
     }
 
     public final LogEventBuilder newEvent(byte[] bArr) {

@@ -3,7 +3,7 @@ package com.microsoft.appcenter.distribute.download.http;
 import android.os.AsyncTask;
 import java.io.File;
 /* loaded from: classes.dex */
-class HttpConnectionRemoveFileTask extends AsyncTask<Void, Void, Void> {
+class HttpConnectionRemoveFileTask extends AsyncTask {
     private final File mFile;
 
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -6,19 +6,15 @@ import com.google.android.datatransport.Transformer;
 import com.google.android.datatransport.Transport;
 import com.google.android.datatransport.TransportScheduleCallback;
 /* loaded from: classes.dex */
-final class TransportImpl<T> implements Transport<T> {
+final class TransportImpl implements Transport {
     private final String name;
     private final Encoding payloadEncoding;
-    private final Transformer<T, byte[]> transformer;
+    private final Transformer transformer;
     private final TransportContext transportContext;
     private final TransportInternal transportInternal;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$send$0(Exception exc) {
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
-    public TransportImpl(TransportContext transportContext, String str, Encoding encoding, Transformer<T, byte[]> transformer, TransportInternal transportInternal) {
+    public TransportImpl(TransportContext transportContext, String str, Encoding encoding, Transformer transformer, TransportInternal transportInternal) {
         this.transportContext = transportContext;
         this.name = str;
         this.payloadEncoding = encoding;
@@ -26,17 +22,21 @@ final class TransportImpl<T> implements Transport<T> {
         this.transportInternal = transportInternal;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$send$0(Exception exc) {
+    }
+
+    public void schedule(Event event, TransportScheduleCallback transportScheduleCallback) {
+        this.transportInternal.send(SendRequest.builder().setTransportContext(this.transportContext).setEvent(event).setTransportName(this.name).setTransformer(this.transformer).setEncoding(this.payloadEncoding).build(), transportScheduleCallback);
+    }
+
     @Override // com.google.android.datatransport.Transport
-    public void send(Event<T> event) {
+    public void send(Event event) {
         schedule(event, new TransportScheduleCallback() { // from class: com.google.android.datatransport.runtime.TransportImpl$$ExternalSyntheticLambda0
             @Override // com.google.android.datatransport.TransportScheduleCallback
             public final void onSchedule(Exception exc) {
                 TransportImpl.lambda$send$0(exc);
             }
         });
-    }
-
-    public void schedule(Event<T> event, TransportScheduleCallback transportScheduleCallback) {
-        this.transportInternal.send(SendRequest.builder().setTransportContext(this.transportContext).setEvent(event).setTransportName(this.name).setTransformer(this.transformer).setEncoding(this.payloadEncoding).build(), transportScheduleCallback);
     }
 }

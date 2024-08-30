@@ -2,28 +2,21 @@ package com.google.android.datatransport.cct.internal;
 
 import android.util.JsonReader;
 import android.util.JsonToken;
-import com.google.auto.value.AutoValue;
 import java.io.IOException;
 import java.io.Reader;
-@AutoValue
 /* loaded from: classes.dex */
 public abstract class LogResponse {
-    public abstract long getNextRequestWaitMillis();
-
     static LogResponse create(long j) {
         return new AutoValue_LogResponse(j);
     }
 
-    public static LogResponse fromJson(Reader reader) throws IOException {
+    public static LogResponse fromJson(Reader reader) {
         JsonReader jsonReader = new JsonReader(reader);
         try {
             jsonReader.beginObject();
             while (jsonReader.hasNext()) {
                 if (jsonReader.nextName().equals("nextRequestWaitMillis")) {
-                    if (jsonReader.peek() == JsonToken.STRING) {
-                        return create(Long.parseLong(jsonReader.nextString()));
-                    }
-                    return create(jsonReader.nextLong());
+                    return jsonReader.peek() == JsonToken.STRING ? create(Long.parseLong(jsonReader.nextString())) : create(jsonReader.nextLong());
                 }
                 jsonReader.skipValue();
             }
@@ -32,4 +25,6 @@ public abstract class LogResponse {
             jsonReader.close();
         }
     }
+
+    public abstract long getNextRequestWaitMillis();
 }

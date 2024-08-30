@@ -1,9 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
-import java.io.IOException;
 import org.telegram.messenger.NotificationCenter;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzbf extends zzbi {
     private final byte[] zzc;
@@ -28,26 +26,47 @@ public final class zzbf extends zzbi {
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zzd(int i, boolean z) throws IOException {
+    public final void zzb(byte b) {
+        try {
+            byte[] bArr = this.zzc;
+            int i = this.zze;
+            this.zze = i + 1;
+            bArr[i] = b;
+        } catch (IndexOutOfBoundsException e) {
+            throw new zzbg(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
+        }
+    }
+
+    public final void zzc(byte[] bArr, int i, int i2) {
+        try {
+            System.arraycopy(bArr, 0, this.zzc, this.zze, i2);
+            this.zze += i2;
+        } catch (IndexOutOfBoundsException e) {
+            throw new zzbg(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), Integer.valueOf(i2)), e);
+        }
+    }
+
+    @Override // com.google.android.gms.internal.play_billing.zzbi
+    public final void zzd(int i, boolean z) {
         zzq(i << 3);
         zzb(z ? (byte) 1 : (byte) 0);
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zze(int i, zzba zzbaVar) throws IOException {
+    public final void zze(int i, zzba zzbaVar) {
         zzq((i << 3) | 2);
         zzq(zzbaVar.zzd());
         zzbaVar.zzh(this);
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zzf(int i, int i2) throws IOException {
+    public final void zzf(int i, int i2) {
         zzq((i << 3) | 5);
         zzg(i2);
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zzg(int i) throws IOException {
+    public final void zzg(int i) {
         try {
             byte[] bArr = this.zzc;
             int i2 = this.zze;
@@ -62,13 +81,13 @@ public final class zzbf extends zzbi {
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zzh(int i, long j) throws IOException {
+    public final void zzh(int i, long j) {
         zzq((i << 3) | 1);
         zzi(j);
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zzi(long j) throws IOException {
+    public final void zzi(long j) {
         try {
             byte[] bArr = this.zzc;
             int i = this.zze;
@@ -87,13 +106,13 @@ public final class zzbf extends zzbi {
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zzj(int i, int i2) throws IOException {
+    public final void zzj(int i, int i2) {
         zzq(i << 3);
         zzk(i2);
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zzk(int i) throws IOException {
+    public final void zzk(int i) {
         if (i >= 0) {
             zzq(i);
         } else {
@@ -102,34 +121,34 @@ public final class zzbf extends zzbi {
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zzl(byte[] bArr, int i, int i2) throws IOException {
+    public final void zzl(byte[] bArr, int i, int i2) {
         zzc(bArr, 0, i2);
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zzm(int i, String str) throws IOException {
+    public final void zzm(int i, String str) {
         zzq((i << 3) | 2);
         zzn(str);
     }
 
-    public final void zzn(String str) throws IOException {
+    public final void zzn(String str) {
         int i = this.zze;
         try {
             int zzx = zzbi.zzx(str.length() * 3);
             int zzx2 = zzbi.zzx(str.length());
-            if (zzx2 == zzx) {
-                int i2 = i + zzx2;
-                this.zze = i2;
-                int zzb = zzev.zzb(str, this.zzc, i2, this.zzd - i2);
-                this.zze = i;
-                zzq((zzb - i) - zzx2);
-                this.zze = zzb;
+            if (zzx2 != zzx) {
+                zzq(zzev.zzc(str));
+                byte[] bArr = this.zzc;
+                int i2 = this.zze;
+                this.zze = zzev.zzb(str, bArr, i2, this.zzd - i2);
                 return;
             }
-            zzq(zzev.zzc(str));
-            byte[] bArr = this.zzc;
-            int i3 = this.zze;
-            this.zze = zzev.zzb(str, bArr, i3, this.zzd - i3);
+            int i3 = i + zzx2;
+            this.zze = i3;
+            int zzb = zzev.zzb(str, this.zzc, i3, this.zzd - i3);
+            this.zze = i;
+            zzq((zzb - i) - zzx2);
+            this.zze = zzb;
         } catch (zzeu e) {
             this.zze = i;
             zzB(str, e);
@@ -139,45 +158,18 @@ public final class zzbf extends zzbi {
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zzo(int i, int i2) throws IOException {
+    public final void zzo(int i, int i2) {
         zzq((i << 3) | i2);
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zzp(int i, int i2) throws IOException {
+    public final void zzp(int i, int i2) {
         zzq(i << 3);
         zzq(i2);
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zzr(int i, long j) throws IOException {
-        zzq(i << 3);
-        zzs(j);
-    }
-
-    @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zzb(byte b) throws IOException {
-        try {
-            byte[] bArr = this.zzc;
-            int i = this.zze;
-            this.zze = i + 1;
-            bArr[i] = b;
-        } catch (IndexOutOfBoundsException e) {
-            throw new zzbg(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
-        }
-    }
-
-    public final void zzc(byte[] bArr, int i, int i2) throws IOException {
-        try {
-            System.arraycopy(bArr, 0, this.zzc, this.zze, i2);
-            this.zze += i2;
-        } catch (IndexOutOfBoundsException e) {
-            throw new zzbg(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), Integer.valueOf(i2)), e);
-        }
-    }
-
-    @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zzq(int i) throws IOException {
+    public final void zzq(int i) {
         while ((i & (-128)) != 0) {
             try {
                 byte[] bArr = this.zzc;
@@ -196,7 +188,13 @@ public final class zzbf extends zzbi {
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzbi
-    public final void zzs(long j) throws IOException {
+    public final void zzr(int i, long j) {
+        zzq(i << 3);
+        zzs(j);
+    }
+
+    @Override // com.google.android.gms.internal.play_billing.zzbi
+    public final void zzs(long j) {
         boolean z;
         z = zzbi.zzd;
         if (z && this.zzd - this.zze >= 10) {

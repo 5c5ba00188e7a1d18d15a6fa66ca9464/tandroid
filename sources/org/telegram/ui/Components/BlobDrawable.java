@@ -74,6 +74,77 @@ public class BlobDrawable {
         this.liteFlag = i2;
     }
 
+    public void draw(float f, float f2, Canvas canvas, Paint paint) {
+        if (!LiteMode.isEnabled(this.liteFlag)) {
+            return;
+        }
+        this.path.reset();
+        int i = 0;
+        while (true) {
+            float f3 = this.N;
+            if (i >= f3) {
+                canvas.save();
+                canvas.drawPath(this.path, paint);
+                canvas.restore();
+                return;
+            }
+            float[] fArr = this.progress;
+            float f4 = fArr[i];
+            int i2 = i + 1;
+            int i3 = ((float) i2) < f3 ? i2 : 0;
+            float f5 = fArr[i3];
+            float[] fArr2 = this.radius;
+            float f6 = 1.0f - f4;
+            float[] fArr3 = this.radiusNext;
+            float f7 = (fArr2[i] * f6) + (fArr3[i] * f4);
+            float f8 = 1.0f - f5;
+            float f9 = (fArr2[i3] * f8) + (fArr3[i3] * f5);
+            float[] fArr4 = this.angle;
+            float f10 = fArr4[i] * f6;
+            float[] fArr5 = this.angleNext;
+            float f11 = (fArr4[i3] * f8) + (fArr5[i3] * f5);
+            float min = this.L * (Math.min(f7, f9) + ((Math.max(f7, f9) - Math.min(f7, f9)) / 2.0f)) * this.cubicBezierK;
+            this.m.reset();
+            this.m.setRotate(f10 + (fArr5[i] * f4), f, f2);
+            float[] fArr6 = this.pointStart;
+            fArr6[0] = f;
+            float f12 = f2 - f7;
+            fArr6[1] = f12;
+            fArr6[2] = f + min;
+            fArr6[3] = f12;
+            this.m.mapPoints(fArr6);
+            float[] fArr7 = this.pointEnd;
+            fArr7[0] = f;
+            float f13 = f2 - f9;
+            fArr7[1] = f13;
+            fArr7[2] = f - min;
+            fArr7[3] = f13;
+            this.m.reset();
+            this.m.setRotate(f11, f, f2);
+            this.m.mapPoints(this.pointEnd);
+            if (i == 0) {
+                Path path = this.path;
+                float[] fArr8 = this.pointStart;
+                path.moveTo(fArr8[0], fArr8[1]);
+            }
+            Path path2 = this.path;
+            float[] fArr9 = this.pointStart;
+            float f14 = fArr9[2];
+            float f15 = fArr9[3];
+            float[] fArr10 = this.pointEnd;
+            path2.cubicTo(f14, f15, fArr10[2], fArr10[3], fArr10[0], fArr10[1]);
+            i = i2;
+        }
+    }
+
+    public void generateBlob() {
+        for (int i = 0; i < this.N; i++) {
+            generateBlob(this.radius, this.angle, i);
+            generateBlob(this.radiusNext, this.angleNext, i);
+            this.progress[i] = 0.0f;
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     public void generateBlob(float[] fArr, float[] fArr2, int i) {
         float f = this.maxRadius;
@@ -84,6 +155,27 @@ public class BlobDrawable {
         double abs = Math.abs(this.random.nextInt() % 100.0f) / 100.0f;
         Double.isNaN(abs);
         fArr3[i] = (float) ((abs * 0.003d) + 0.017d);
+    }
+
+    public void setValue(float f, boolean z) {
+        float f2;
+        float f3;
+        this.animateToAmplitude = f;
+        if (LiteMode.isEnabled(this.liteFlag)) {
+            float f4 = this.animateToAmplitude;
+            if (z) {
+                float f5 = this.amplitude;
+                int i = (f4 > f5 ? 1 : (f4 == f5 ? 0 : -1));
+                f2 = f4 - f5;
+                f3 = i > 0 ? 205.0f : 275.0f;
+            } else {
+                float f6 = this.amplitude;
+                int i2 = (f4 > f6 ? 1 : (f4 == f6 ? 0 : -1));
+                f2 = f4 - f6;
+                f3 = i2 > 0 ? 320.0f : 375.0f;
+            }
+            this.animateAmplitudeDiff = f2 / f3;
+        }
     }
 
     public void update(float f, float f2) {
@@ -108,102 +200,6 @@ public class BlobDrawable {
         }
     }
 
-    public void draw(float f, float f2, Canvas canvas, Paint paint) {
-        if (!LiteMode.isEnabled(this.liteFlag)) {
-            return;
-        }
-        this.path.reset();
-        int i = 0;
-        while (true) {
-            float f3 = this.N;
-            if (i < f3) {
-                float[] fArr = this.progress;
-                float f4 = fArr[i];
-                int i2 = i + 1;
-                int i3 = ((float) i2) < f3 ? i2 : 0;
-                float f5 = fArr[i3];
-                float[] fArr2 = this.radius;
-                float f6 = 1.0f - f4;
-                float[] fArr3 = this.radiusNext;
-                float f7 = (fArr2[i] * f6) + (fArr3[i] * f4);
-                float f8 = 1.0f - f5;
-                float f9 = (fArr2[i3] * f8) + (fArr3[i3] * f5);
-                float[] fArr4 = this.angle;
-                float f10 = fArr4[i] * f6;
-                float[] fArr5 = this.angleNext;
-                float f11 = (fArr4[i3] * f8) + (fArr5[i3] * f5);
-                float min = this.L * (Math.min(f7, f9) + ((Math.max(f7, f9) - Math.min(f7, f9)) / 2.0f)) * this.cubicBezierK;
-                this.m.reset();
-                this.m.setRotate(f10 + (fArr5[i] * f4), f, f2);
-                float[] fArr6 = this.pointStart;
-                fArr6[0] = f;
-                float f12 = f2 - f7;
-                fArr6[1] = f12;
-                fArr6[2] = f + min;
-                fArr6[3] = f12;
-                this.m.mapPoints(fArr6);
-                float[] fArr7 = this.pointEnd;
-                fArr7[0] = f;
-                float f13 = f2 - f9;
-                fArr7[1] = f13;
-                fArr7[2] = f - min;
-                fArr7[3] = f13;
-                this.m.reset();
-                this.m.setRotate(f11, f, f2);
-                this.m.mapPoints(this.pointEnd);
-                if (i == 0) {
-                    Path path = this.path;
-                    float[] fArr8 = this.pointStart;
-                    path.moveTo(fArr8[0], fArr8[1]);
-                }
-                Path path2 = this.path;
-                float[] fArr9 = this.pointStart;
-                float f14 = fArr9[2];
-                float f15 = fArr9[3];
-                float[] fArr10 = this.pointEnd;
-                path2.cubicTo(f14, f15, fArr10[2], fArr10[3], fArr10[0], fArr10[1]);
-                i = i2;
-            } else {
-                canvas.save();
-                canvas.drawPath(this.path, paint);
-                canvas.restore();
-                return;
-            }
-        }
-    }
-
-    public void generateBlob() {
-        for (int i = 0; i < this.N; i++) {
-            generateBlob(this.radius, this.angle, i);
-            generateBlob(this.radiusNext, this.angleNext, i);
-            this.progress[i] = 0.0f;
-        }
-    }
-
-    public void setValue(float f, boolean z) {
-        this.animateToAmplitude = f;
-        if (LiteMode.isEnabled(this.liteFlag)) {
-            if (z) {
-                float f2 = this.animateToAmplitude;
-                float f3 = this.amplitude;
-                if (f2 > f3) {
-                    this.animateAmplitudeDiff = (f2 - f3) / 205.0f;
-                    return;
-                } else {
-                    this.animateAmplitudeDiff = (f2 - f3) / 275.0f;
-                    return;
-                }
-            }
-            float f4 = this.animateToAmplitude;
-            float f5 = this.amplitude;
-            if (f4 > f5) {
-                this.animateAmplitudeDiff = (f4 - f5) / 320.0f;
-            } else {
-                this.animateAmplitudeDiff = (f4 - f5) / 375.0f;
-            }
-        }
-    }
-
     public void updateAmplitude(long j) {
         float f = this.animateToAmplitude;
         float f2 = this.amplitude;
@@ -212,12 +208,13 @@ public class BlobDrawable {
             float f4 = f2 + (((float) j) * f3);
             this.amplitude = f4;
             if (f3 > 0.0f) {
-                if (f4 > f) {
-                    this.amplitude = f;
+                if (f4 <= f) {
+                    return;
                 }
-            } else if (f4 < f) {
-                this.amplitude = f;
+            } else if (f4 >= f) {
+                return;
             }
+            this.amplitude = f;
         }
     }
 }

@@ -13,18 +13,13 @@ public class DataEntryUrlBox extends AbstractFullBox {
         ajc$preClinit();
     }
 
+    public DataEntryUrlBox() {
+        super("url ");
+    }
+
     private static /* synthetic */ void ajc$preClinit() {
         Factory factory = new Factory("DataEntryUrlBox.java", DataEntryUrlBox.class);
         ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "toString", "com.coremedia.iso.boxes.DataEntryUrlBox", "", "", "", "java.lang.String"), 51);
-    }
-
-    @Override // com.googlecode.mp4parser.AbstractBox
-    protected long getContentSize() {
-        return 4L;
-    }
-
-    public DataEntryUrlBox() {
-        super("url ");
     }
 
     @Override // com.googlecode.mp4parser.AbstractBox
@@ -35,6 +30,11 @@ public class DataEntryUrlBox extends AbstractFullBox {
     @Override // com.googlecode.mp4parser.AbstractBox
     protected void getContent(ByteBuffer byteBuffer) {
         writeVersionAndFlags(byteBuffer);
+    }
+
+    @Override // com.googlecode.mp4parser.AbstractBox
+    protected long getContentSize() {
+        return 4L;
     }
 
     public String toString() {

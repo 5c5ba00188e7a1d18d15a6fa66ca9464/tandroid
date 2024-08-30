@@ -1,7 +1,6 @@
 package com.googlecode.mp4parser.boxes.mp4.objectdescriptors;
 
 import com.coremedia.iso.IsoTypeReader;
-import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
@@ -10,12 +9,12 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /* loaded from: classes.dex */
-public class ObjectDescriptorFactory {
+public abstract class ObjectDescriptorFactory {
     protected static Logger log = Logger.getLogger(ObjectDescriptorFactory.class.getName());
-    protected static Map<Integer, Map<Integer, Class<? extends BaseDescriptor>>> descriptorRegistry = new HashMap();
+    protected static Map descriptorRegistry = new HashMap();
 
     static {
-        HashSet<Class<? extends BaseDescriptor>> hashSet = new HashSet();
+        HashSet<Class> hashSet = new HashSet();
         hashSet.add(DecoderSpecificInfo.class);
         hashSet.add(SLConfigDescriptor.class);
         hashSet.add(BaseDescriptor.class);
@@ -26,13 +25,13 @@ public class ObjectDescriptorFactory {
         hashSet.add(ExtensionProfileLevelDescriptor.class);
         hashSet.add(ESDescriptor.class);
         hashSet.add(DecoderConfigDescriptor.class);
-        for (Class<? extends BaseDescriptor> cls : hashSet) {
+        for (Class cls : hashSet) {
             Descriptor descriptor = (Descriptor) cls.getAnnotation(Descriptor.class);
             int[] tags = descriptor.tags();
             int objectTypeIndication = descriptor.objectTypeIndication();
-            Map<Integer, Class<? extends BaseDescriptor>> map = descriptorRegistry.get(Integer.valueOf(objectTypeIndication));
+            Map map = (Map) descriptorRegistry.get(Integer.valueOf(objectTypeIndication));
             if (map == null) {
-                map = new HashMap<>();
+                map = new HashMap();
             }
             for (int i : tags) {
                 map.put(Integer.valueOf(i), cls);
@@ -41,21 +40,21 @@ public class ObjectDescriptorFactory {
         }
     }
 
-    public static BaseDescriptor createFrom(int i, ByteBuffer byteBuffer) throws IOException {
+    public static BaseDescriptor createFrom(int i, ByteBuffer byteBuffer) {
         BaseDescriptor unknownDescriptor;
         int readUInt8 = IsoTypeReader.readUInt8(byteBuffer);
-        Map<Integer, Class<? extends BaseDescriptor>> map = descriptorRegistry.get(Integer.valueOf(i));
+        Map map = (Map) descriptorRegistry.get(Integer.valueOf(i));
         if (map == null) {
-            map = descriptorRegistry.get(-1);
+            map = (Map) descriptorRegistry.get(-1);
         }
-        Class<? extends BaseDescriptor> cls = map.get(Integer.valueOf(readUInt8));
+        Class cls = (Class) map.get(Integer.valueOf(readUInt8));
         if (cls == null || cls.isInterface() || Modifier.isAbstract(cls.getModifiers())) {
             Logger logger = log;
             logger.warning("No ObjectDescriptor found for objectTypeIndication " + Integer.toHexString(i) + " and tag " + Integer.toHexString(readUInt8) + " found: " + cls);
             unknownDescriptor = new UnknownDescriptor();
         } else {
             try {
-                unknownDescriptor = cls.newInstance();
+                unknownDescriptor = (BaseDescriptor) cls.newInstance();
             } catch (Exception e) {
                 Logger logger2 = log;
                 Level level = Level.SEVERE;

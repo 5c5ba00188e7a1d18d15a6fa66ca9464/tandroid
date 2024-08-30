@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_updatePinnedSavedDialogs extends TLRPC$Update {
     public int flags;
-    public ArrayList<TLRPC$DialogPeer> order = new ArrayList<>();
+    public ArrayList order = new ArrayList();
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -34,7 +34,7 @@ public class TLRPC$TL_updatePinnedSavedDialogs extends TLRPC$Update {
             int size = this.order.size();
             abstractSerializedData.writeInt32(size);
             for (int i = 0; i < size; i++) {
-                this.order.get(i).serializeToStream(abstractSerializedData);
+                ((TLRPC$DialogPeer) this.order.get(i)).serializeToStream(abstractSerializedData);
             }
         }
     }

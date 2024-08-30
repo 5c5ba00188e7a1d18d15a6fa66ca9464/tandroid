@@ -7,7 +7,6 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class CameraPosition extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<CameraPosition> CREATOR = new zza();
@@ -16,39 +15,6 @@ public final class CameraPosition extends AbstractSafeParcelable implements Refl
     public final float tilt;
     public final float zoom;
 
-    /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
-    /* loaded from: classes.dex */
-    public static final class Builder {
-        private LatLng zza;
-        private float zzb;
-        private float zzc;
-        private float zzd;
-
-        public Builder bearing(float f) {
-            this.zzd = f;
-            return this;
-        }
-
-        public CameraPosition build() {
-            return new CameraPosition(this.zza, this.zzb, this.zzc, this.zzd);
-        }
-
-        public Builder target(LatLng latLng) {
-            this.zza = (LatLng) Preconditions.checkNotNull(latLng, "location must not be null.");
-            return this;
-        }
-
-        public Builder tilt(float f) {
-            this.zzc = f;
-            return this;
-        }
-
-        public Builder zoom(float f) {
-            this.zzb = f;
-            return this;
-        }
-    }
-
     public CameraPosition(LatLng latLng, float f, float f2, float f3) {
         Preconditions.checkNotNull(latLng, "camera target must not be null.");
         Preconditions.checkArgument(f2 >= 0.0f && f2 <= 90.0f, "Tilt needs to be between 0 and 90 inclusive: %s", Float.valueOf(f2));
@@ -56,10 +22,6 @@ public final class CameraPosition extends AbstractSafeParcelable implements Refl
         this.zoom = f;
         this.tilt = f2 + 0.0f;
         this.bearing = (((double) f3) <= 0.0d ? (f3 % 360.0f) + 360.0f : f3) % 360.0f;
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     public boolean equals(Object obj) {

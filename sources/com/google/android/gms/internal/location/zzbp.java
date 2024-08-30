@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.location;
 
 import android.content.Context;
-import android.location.Location;
 import android.os.Looper;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApi;
@@ -19,7 +18,6 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import java.util.concurrent.Executor;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class zzbp extends GoogleApi implements FusedLocationProviderClient {
     static final Api.ClientKey zza;
@@ -29,6 +27,10 @@ public final class zzbp extends GoogleApi implements FusedLocationProviderClient
         Api.ClientKey clientKey = new Api.ClientKey();
         zza = clientKey;
         zzb = new Api("LocationServices.API", new zzbm(), clientKey);
+    }
+
+    public zzbp(Context context) {
+        super(context, zzb, Api.ApiOptions.NO_OPTIONS, GoogleApi.Settings.DEFAULT_SETTINGS);
     }
 
     private final Task zza(final LocationRequest locationRequest, ListenerHolder listenerHolder) {
@@ -48,7 +50,7 @@ public final class zzbp extends GoogleApi implements FusedLocationProviderClient
     }
 
     @Override // com.google.android.gms.location.FusedLocationProviderClient
-    public final Task<Location> getLastLocation() {
+    public final Task getLastLocation() {
         return doRead(TaskApiCall.builder().run(new RemoteCall() { // from class: com.google.android.gms.internal.location.zzbe
             @Override // com.google.android.gms.common.api.internal.RemoteCall
             public final void accept(Object obj, Object obj2) {
@@ -57,12 +59,8 @@ public final class zzbp extends GoogleApi implements FusedLocationProviderClient
         }).setMethodKey(2414).build());
     }
 
-    public zzbp(Context context) {
-        super(context, zzb, Api.ApiOptions.NO_OPTIONS, GoogleApi.Settings.DEFAULT_SETTINGS);
-    }
-
     @Override // com.google.android.gms.location.FusedLocationProviderClient
-    public final Task<Void> removeLocationUpdates(LocationCallback locationCallback) {
+    public final Task removeLocationUpdates(LocationCallback locationCallback) {
         return doUnregisterEventListener(ListenerHolders.createListenerKey(locationCallback, LocationCallback.class.getSimpleName()), 2418).continueWith(new Executor() { // from class: com.google.android.gms.internal.location.zzbk
             @Override // java.util.concurrent.Executor
             public final void execute(Runnable runnable) {
@@ -78,7 +76,7 @@ public final class zzbp extends GoogleApi implements FusedLocationProviderClient
     }
 
     @Override // com.google.android.gms.location.FusedLocationProviderClient
-    public final Task<Void> requestLocationUpdates(LocationRequest locationRequest, LocationCallback locationCallback, Looper looper) {
+    public final Task requestLocationUpdates(LocationRequest locationRequest, LocationCallback locationCallback, Looper looper) {
         if (looper == null) {
             looper = Looper.myLooper();
             Preconditions.checkNotNull(looper, "invalid null looper");

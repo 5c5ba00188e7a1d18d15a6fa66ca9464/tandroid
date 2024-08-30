@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.SparseIntArray;
 import androidx.collection.ArrayMap;
-import java.lang.reflect.Method;
 /* loaded from: classes.dex */
 class VersionedParcelParcel extends VersionedParcel {
     private int mCurrentField;
@@ -22,7 +21,7 @@ class VersionedParcelParcel extends VersionedParcel {
         this(parcel, parcel.dataPosition(), parcel.dataSize(), "", new ArrayMap(), new ArrayMap(), new ArrayMap());
     }
 
-    private VersionedParcelParcel(Parcel parcel, int i, int i2, String str, ArrayMap<String, Method> arrayMap, ArrayMap<String, Method> arrayMap2, ArrayMap<String, Class> arrayMap3) {
+    private VersionedParcelParcel(Parcel parcel, int i, int i2, String str, ArrayMap arrayMap, ArrayMap arrayMap2, ArrayMap arrayMap3) {
         super(arrayMap, arrayMap2, arrayMap3);
         this.mPositionLookup = new SparseIntArray();
         this.mCurrentField = -1;
@@ -32,33 +31,6 @@ class VersionedParcelParcel extends VersionedParcel {
         this.mEnd = i2;
         this.mNextRead = i;
         this.mPrefix = str;
-    }
-
-    @Override // androidx.versionedparcelable.VersionedParcel
-    public boolean readField(int i) {
-        while (this.mNextRead < this.mEnd) {
-            int i2 = this.mFieldId;
-            if (i2 == i) {
-                return true;
-            }
-            if (String.valueOf(i2).compareTo(String.valueOf(i)) > 0) {
-                return false;
-            }
-            this.mParcel.setDataPosition(this.mNextRead);
-            int readInt = this.mParcel.readInt();
-            this.mFieldId = this.mParcel.readInt();
-            this.mNextRead += readInt;
-        }
-        return this.mFieldId == i;
-    }
-
-    @Override // androidx.versionedparcelable.VersionedParcel
-    public void setOutputField(int i) {
-        closeField();
-        this.mCurrentField = i;
-        this.mPositionLookup.put(i, this.mParcel.dataPosition());
-        writeInt(0);
-        writeInt(i);
     }
 
     @Override // androidx.versionedparcelable.VersionedParcel
@@ -86,53 +58,8 @@ class VersionedParcelParcel extends VersionedParcel {
     }
 
     @Override // androidx.versionedparcelable.VersionedParcel
-    public void writeByteArray(byte[] bArr) {
-        if (bArr != null) {
-            this.mParcel.writeInt(bArr.length);
-            this.mParcel.writeByteArray(bArr);
-            return;
-        }
-        this.mParcel.writeInt(-1);
-    }
-
-    @Override // androidx.versionedparcelable.VersionedParcel
-    public void writeInt(int i) {
-        this.mParcel.writeInt(i);
-    }
-
-    @Override // androidx.versionedparcelable.VersionedParcel
-    public void writeString(String str) {
-        this.mParcel.writeString(str);
-    }
-
-    @Override // androidx.versionedparcelable.VersionedParcel
-    public void writeParcelable(Parcelable parcelable) {
-        this.mParcel.writeParcelable(parcelable, 0);
-    }
-
-    @Override // androidx.versionedparcelable.VersionedParcel
-    public void writeBoolean(boolean z) {
-        this.mParcel.writeInt(z ? 1 : 0);
-    }
-
-    @Override // androidx.versionedparcelable.VersionedParcel
-    protected void writeCharSequence(CharSequence charSequence) {
-        TextUtils.writeToParcel(charSequence, this.mParcel, 0);
-    }
-
-    @Override // androidx.versionedparcelable.VersionedParcel
-    protected CharSequence readCharSequence() {
-        return (CharSequence) TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(this.mParcel);
-    }
-
-    @Override // androidx.versionedparcelable.VersionedParcel
-    public int readInt() {
-        return this.mParcel.readInt();
-    }
-
-    @Override // androidx.versionedparcelable.VersionedParcel
-    public String readString() {
-        return this.mParcel.readString();
+    public boolean readBoolean() {
+        return this.mParcel.readInt() != 0;
     }
 
     @Override // androidx.versionedparcelable.VersionedParcel
@@ -147,12 +74,84 @@ class VersionedParcelParcel extends VersionedParcel {
     }
 
     @Override // androidx.versionedparcelable.VersionedParcel
-    public <T extends Parcelable> T readParcelable() {
-        return (T) this.mParcel.readParcelable(getClass().getClassLoader());
+    protected CharSequence readCharSequence() {
+        return (CharSequence) TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(this.mParcel);
     }
 
     @Override // androidx.versionedparcelable.VersionedParcel
-    public boolean readBoolean() {
-        return this.mParcel.readInt() != 0;
+    public boolean readField(int i) {
+        while (this.mNextRead < this.mEnd) {
+            int i2 = this.mFieldId;
+            if (i2 == i) {
+                return true;
+            }
+            if (String.valueOf(i2).compareTo(String.valueOf(i)) > 0) {
+                return false;
+            }
+            this.mParcel.setDataPosition(this.mNextRead);
+            int readInt = this.mParcel.readInt();
+            this.mFieldId = this.mParcel.readInt();
+            this.mNextRead += readInt;
+        }
+        return this.mFieldId == i;
+    }
+
+    @Override // androidx.versionedparcelable.VersionedParcel
+    public int readInt() {
+        return this.mParcel.readInt();
+    }
+
+    @Override // androidx.versionedparcelable.VersionedParcel
+    public Parcelable readParcelable() {
+        return this.mParcel.readParcelable(getClass().getClassLoader());
+    }
+
+    @Override // androidx.versionedparcelable.VersionedParcel
+    public String readString() {
+        return this.mParcel.readString();
+    }
+
+    @Override // androidx.versionedparcelable.VersionedParcel
+    public void setOutputField(int i) {
+        closeField();
+        this.mCurrentField = i;
+        this.mPositionLookup.put(i, this.mParcel.dataPosition());
+        writeInt(0);
+        writeInt(i);
+    }
+
+    @Override // androidx.versionedparcelable.VersionedParcel
+    public void writeBoolean(boolean z) {
+        this.mParcel.writeInt(z ? 1 : 0);
+    }
+
+    @Override // androidx.versionedparcelable.VersionedParcel
+    public void writeByteArray(byte[] bArr) {
+        if (bArr == null) {
+            this.mParcel.writeInt(-1);
+            return;
+        }
+        this.mParcel.writeInt(bArr.length);
+        this.mParcel.writeByteArray(bArr);
+    }
+
+    @Override // androidx.versionedparcelable.VersionedParcel
+    protected void writeCharSequence(CharSequence charSequence) {
+        TextUtils.writeToParcel(charSequence, this.mParcel, 0);
+    }
+
+    @Override // androidx.versionedparcelable.VersionedParcel
+    public void writeInt(int i) {
+        this.mParcel.writeInt(i);
+    }
+
+    @Override // androidx.versionedparcelable.VersionedParcel
+    public void writeParcelable(Parcelable parcelable) {
+        this.mParcel.writeParcelable(parcelable, 0);
+    }
+
+    @Override // androidx.versionedparcelable.VersionedParcel
+    public void writeString(String str) {
+        this.mParcel.writeString(str);
     }
 }

@@ -2,9 +2,8 @@ package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
-public final class zzt {
+public abstract class zzt {
     public static String zza(String str, Object... objArr) {
         int length;
         int length2;

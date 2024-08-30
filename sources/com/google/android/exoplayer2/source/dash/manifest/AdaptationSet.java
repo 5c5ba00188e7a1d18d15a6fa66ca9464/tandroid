@@ -4,14 +4,14 @@ import java.util.Collections;
 import java.util.List;
 /* loaded from: classes.dex */
 public class AdaptationSet {
-    public final List<Descriptor> accessibilityDescriptors;
-    public final List<Descriptor> essentialProperties;
+    public final List accessibilityDescriptors;
+    public final List essentialProperties;
     public final int id;
-    public final List<Representation> representations;
-    public final List<Descriptor> supplementalProperties;
+    public final List representations;
+    public final List supplementalProperties;
     public final int type;
 
-    public AdaptationSet(int i, int i2, List<Representation> list, List<Descriptor> list2, List<Descriptor> list3, List<Descriptor> list4) {
+    public AdaptationSet(int i, int i2, List list, List list2, List list3, List list4) {
         this.id = i;
         this.type = i2;
         this.representations = Collections.unmodifiableList(list);

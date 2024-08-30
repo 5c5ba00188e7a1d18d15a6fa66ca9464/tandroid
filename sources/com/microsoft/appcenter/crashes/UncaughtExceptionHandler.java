@@ -7,6 +7,12 @@ class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
     private Thread.UncaughtExceptionHandler mDefaultUncaughtExceptionHandler;
     private boolean mIgnoreDefaultExceptionHandler = false;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void register() {
+        this.mDefaultUncaughtExceptionHandler = !this.mIgnoreDefaultExceptionHandler ? Thread.getDefaultUncaughtExceptionHandler() : null;
+        Thread.setDefaultUncaughtExceptionHandler(this);
+    }
+
     @Override // java.lang.Thread.UncaughtExceptionHandler
     public void uncaughtException(Thread thread, Throwable th) {
         Crashes.getInstance().saveUncaughtException(thread, th);
@@ -16,16 +22,6 @@ class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
         } else {
             ShutdownHelper.shutdown(10);
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void register() {
-        if (!this.mIgnoreDefaultExceptionHandler) {
-            this.mDefaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
-        } else {
-            this.mDefaultUncaughtExceptionHandler = null;
-        }
-        Thread.setDefaultUncaughtExceptionHandler(this);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

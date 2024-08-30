@@ -1,9 +1,8 @@
 package org.telegram.messenger.voip;
 
 import android.telecom.TelecomManager;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes3.dex */
-public final /* synthetic */ class VoIPService$$ExternalSyntheticApiModelOutline5 {
+public abstract /* synthetic */ class VoIPService$$ExternalSyntheticApiModelOutline5 {
     public static /* bridge */ /* synthetic */ TelecomManager m(Object obj) {
         return (TelecomManager) obj;
     }

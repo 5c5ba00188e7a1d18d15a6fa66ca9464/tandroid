@@ -3,13 +3,11 @@ package com.googlecode.mp4parser.boxes.mp4.objectdescriptors;
 import com.coremedia.iso.Hex;
 import com.coremedia.iso.IsoTypeReader;
 import com.coremedia.iso.IsoTypeWriter;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
-@Descriptor(tags = {4})
 /* loaded from: classes.dex */
 public class DecoderConfigDescriptor extends BaseDescriptor {
     private static Logger log = Logger.getLogger(DecoderConfigDescriptor.class.getName());
@@ -17,15 +15,14 @@ public class DecoderConfigDescriptor extends BaseDescriptor {
     long avgBitRate;
     int bufferSizeDB;
     byte[] configDescriptorDeadBytes;
-    DecoderSpecificInfo decoderSpecificInfo;
     long maxBitRate;
     int objectTypeIndication;
-    List<ProfileLevelIndicationDescriptor> profileLevelIndicationDescriptors = new ArrayList();
+    List profileLevelIndicationDescriptors = new ArrayList();
     int streamType;
     int upStream;
 
     @Override // com.googlecode.mp4parser.boxes.mp4.objectdescriptors.BaseDescriptor
-    public void parseDetail(ByteBuffer byteBuffer) throws IOException {
+    public void parseDetail(ByteBuffer byteBuffer) {
         int size;
         this.objectTypeIndication = IsoTypeReader.readUInt8(byteBuffer);
         int readUInt8 = IsoTypeReader.readUInt8(byteBuffer);
@@ -51,9 +48,6 @@ public class DecoderConfigDescriptor extends BaseDescriptor {
                 this.configDescriptorDeadBytes = bArr;
                 byteBuffer.get(bArr);
             }
-            if (createFrom instanceof DecoderSpecificInfo) {
-                this.decoderSpecificInfo = (DecoderSpecificInfo) createFrom;
-            }
             if (createFrom instanceof AudioSpecificConfig) {
                 this.audioSpecificInfo = (AudioSpecificConfig) createFrom;
             }
@@ -70,15 +64,7 @@ public class DecoderConfigDescriptor extends BaseDescriptor {
             sb2.append(", size: ");
             sb2.append(createFrom2 != null ? Integer.valueOf(createFrom2.getSize()) : null);
             logger2.finer(sb2.toString());
-            if (createFrom2 instanceof ProfileLevelIndicationDescriptor) {
-                this.profileLevelIndicationDescriptors.add((ProfileLevelIndicationDescriptor) createFrom2);
-            }
         }
-    }
-
-    public int serializedSize() {
-        AudioSpecificConfig audioSpecificConfig = this.audioSpecificInfo;
-        return (audioSpecificConfig == null ? 0 : audioSpecificConfig.serializedSize()) + 15;
     }
 
     public ByteBuffer serialize() {
@@ -97,16 +83,17 @@ public class DecoderConfigDescriptor extends BaseDescriptor {
         return allocate;
     }
 
+    public int serializedSize() {
+        AudioSpecificConfig audioSpecificConfig = this.audioSpecificInfo;
+        return (audioSpecificConfig == null ? 0 : audioSpecificConfig.serializedSize()) + 15;
+    }
+
     public void setAudioSpecificInfo(AudioSpecificConfig audioSpecificConfig) {
         this.audioSpecificInfo = audioSpecificConfig;
     }
 
-    public void setObjectTypeIndication(int i) {
-        this.objectTypeIndication = i;
-    }
-
-    public void setStreamType(int i) {
-        this.streamType = i;
+    public void setAvgBitRate(long j) {
+        this.avgBitRate = j;
     }
 
     public void setBufferSizeDB(int i) {
@@ -117,11 +104,14 @@ public class DecoderConfigDescriptor extends BaseDescriptor {
         this.maxBitRate = j;
     }
 
-    public void setAvgBitRate(long j) {
-        this.avgBitRate = j;
+    public void setObjectTypeIndication(int i) {
+        this.objectTypeIndication = i;
     }
 
-    @Override // com.googlecode.mp4parser.boxes.mp4.objectdescriptors.BaseDescriptor
+    public void setStreamType(int i) {
+        this.streamType = i;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("DecoderConfigDescriptor");
@@ -138,7 +128,7 @@ public class DecoderConfigDescriptor extends BaseDescriptor {
         sb.append(", avgBitRate=");
         sb.append(this.avgBitRate);
         sb.append(", decoderSpecificInfo=");
-        sb.append(this.decoderSpecificInfo);
+        sb.append((Object) null);
         sb.append(", audioSpecificInfo=");
         sb.append(this.audioSpecificInfo);
         sb.append(", configDescriptorDeadBytes=");
@@ -148,7 +138,7 @@ public class DecoderConfigDescriptor extends BaseDescriptor {
         }
         sb.append(Hex.encodeHex(bArr));
         sb.append(", profileLevelIndicationDescriptors=");
-        List<ProfileLevelIndicationDescriptor> list = this.profileLevelIndicationDescriptors;
+        List list = this.profileLevelIndicationDescriptors;
         sb.append(list == null ? "null" : Arrays.asList(list).toString());
         sb.append('}');
         return sb.toString();

@@ -10,9 +10,9 @@ import com.google.android.datatransport.runtime.TransportRuntime;
 import com.google.android.datatransport.runtime.util.PriorityMapping;
 /* loaded from: classes.dex */
 public class JobInfoSchedulerService extends JobService {
-    @Override // android.app.job.JobService
-    public boolean onStopJob(JobParameters jobParameters) {
-        return true;
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onStartJob$0(JobParameters jobParameters) {
+        jobFinished(jobParameters, false);
     }
 
     @Override // android.app.job.JobService
@@ -49,8 +49,8 @@ public class JobInfoSchedulerService extends JobService {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onStartJob$0(JobParameters jobParameters) {
-        jobFinished(jobParameters, false);
+    @Override // android.app.job.JobService
+    public boolean onStopJob(JobParameters jobParameters) {
+        return true;
     }
 }

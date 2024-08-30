@@ -1,6 +1,6 @@
 package com.google.android.gms.internal.clearcut;
 /* loaded from: classes.dex */
-public final class zzgb {
+public abstract class zzgb {
     public static final int[] zzrx = new int[0];
     public static final long[] zzry = new long[0];
     private static final float[] zzrz = new float[0];

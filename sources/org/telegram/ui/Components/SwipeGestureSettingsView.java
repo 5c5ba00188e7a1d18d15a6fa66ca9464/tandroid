@@ -147,6 +147,12 @@ public class SwipeGestureSettingsView extends FrameLayout {
         numberPicker.performHapticFeedback(3, 2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$swapIcons$2() {
+        this.swapIconRunnable = null;
+        swapIcons();
+    }
+
     private void swapIcons() {
         int value;
         if (this.swapIconRunnable == null && this.currentIconValue != (value = this.picker.getValue())) {
@@ -176,25 +182,25 @@ public class SwipeGestureSettingsView extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$swapIcons$2() {
-        this.swapIconRunnable = null;
-        swapIcons();
+    public RLottieDrawable getIcon(int i) {
+        RLottieDrawable[] rLottieDrawableArr = this.icons;
+        if (rLottieDrawableArr[i] == null) {
+            int i2 = i != 1 ? i != 2 ? i != 3 ? i != 4 ? i != 5 ? R.raw.swipe_pin : R.raw.swipe_disabled : R.raw.swipe_delete : R.raw.swipe_mute : R.raw.chats_archive : R.raw.swipe_read;
+            rLottieDrawableArr[i] = new RLottieDrawable(i2, "" + i2, AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
+            updateIconColor(i);
+        }
+        return this.icons[i];
     }
 
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(102.0f), 1073741824));
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00b4  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00d5  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0111  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00af  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00d0  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x010c  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void onDraw(Canvas canvas) {
+        RLottieImageView rLottieImageView;
         int measuredHeight;
         float f;
         super.onDraw(canvas);
@@ -204,23 +210,60 @@ public class SwipeGestureSettingsView extends FrameLayout {
             if (f2 != 1.0f) {
                 float f3 = f2 + 0.053333335f;
                 this.progressToSwipeFolders = f3;
-                if (f3 > 1.0f) {
-                    this.progressToSwipeFolders = 1.0f;
-                } else {
+                if (f3 <= 1.0f) {
                     this.iconViews[0].invalidate();
-                    this.iconViews[1].invalidate();
+                    rLottieImageView = this.iconViews[1];
+                    rLottieImageView.invalidate();
                     invalidate();
+                    Paint paint = this.outlinePaint;
+                    int i = Theme.key_switchTrack;
+                    paint.setColor(Theme.getColor(i));
+                    this.linePaint.setColor(Theme.getColor(i));
+                    int measuredWidth = getMeasuredWidth() - ((AndroidUtilities.dp(132.0f) + AndroidUtilities.dp(21.0f)) + AndroidUtilities.dp(16.0f));
+                    int dp = AndroidUtilities.dp(21.0f);
+                    float f4 = dp;
+                    float measuredHeight2 = (getMeasuredHeight() - AndroidUtilities.dp(48.0f)) / 2;
+                    this.rect.set(f4, measuredHeight2, measuredWidth, getMeasuredHeight() - measuredHeight);
+                    if (this.currentColorKey < 0) {
+                    }
+                    f = this.colorProgress;
+                    if (f != 1.0f) {
+                    }
+                    int i2 = this.fromColor;
+                    int i3 = Theme.key_windowBackgroundWhite;
+                    this.filledPaint.setColor(ColorUtils.blendARGB(i2, ColorUtils.blendARGB(Theme.getColor(i3), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress));
+                    canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
+                    this.filledPaint.setColor(Theme.getColor(i3));
+                    this.filledPaint.setAlpha(NotificationCenter.voipServiceCreated);
+                    this.rect.set(f4, measuredHeight2, measuredWidth - AndroidUtilities.dp(58.0f), getMeasuredHeight() - measuredHeight);
+                    this.rect.inset(-AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(1.0f));
+                    canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
+                    this.outlinePaint.setAlpha(31);
+                    canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.outlinePaint);
+                    canvas.save();
+                    canvas.clipRect(this.rect);
+                    this.filledPaint.setColor(Theme.getColor(i));
+                    this.filledPaint.setAlpha(60);
+                    RectF rectF = this.rect;
+                    canvas.drawCircle(rectF.left + 0.0f, rectF.centerY(), AndroidUtilities.dp(15.0f), this.filledPaint);
+                    float centerY = this.rect.centerY() - AndroidUtilities.dp(6.0f);
+                    this.linePaint.setAlpha(57);
+                    canvas.drawLine(this.rect.left + AndroidUtilities.dp(23.0f) + 0.0f, centerY, this.rect.right - AndroidUtilities.dp(68.0f), centerY, this.linePaint);
+                    float centerY2 = this.rect.centerY() + AndroidUtilities.dp(6.0f);
+                    canvas.drawLine(this.rect.left + AndroidUtilities.dp(23.0f) + 0.0f, centerY2, this.rect.right - AndroidUtilities.dp(23.0f), centerY2, this.linePaint);
+                    canvas.restore();
                 }
-                Paint paint = this.outlinePaint;
-                int i = Theme.key_switchTrack;
-                paint.setColor(Theme.getColor(i));
-                this.linePaint.setColor(Theme.getColor(i));
-                int measuredWidth = getMeasuredWidth() - ((AndroidUtilities.dp(132.0f) + AndroidUtilities.dp(21.0f)) + AndroidUtilities.dp(16.0f));
-                int dp = AndroidUtilities.dp(21.0f);
-                float f4 = dp;
-                float measuredHeight2 = (getMeasuredHeight() - AndroidUtilities.dp(48.0f)) / 2;
-                this.rect.set(f4, measuredHeight2, measuredWidth, getMeasuredHeight() - measuredHeight);
-                if (this.currentColorKey >= 0) {
+                this.progressToSwipeFolders = 1.0f;
+                Paint paint2 = this.outlinePaint;
+                int i4 = Theme.key_switchTrack;
+                paint2.setColor(Theme.getColor(i4));
+                this.linePaint.setColor(Theme.getColor(i4));
+                int measuredWidth2 = getMeasuredWidth() - ((AndroidUtilities.dp(132.0f) + AndroidUtilities.dp(21.0f)) + AndroidUtilities.dp(16.0f));
+                int dp2 = AndroidUtilities.dp(21.0f);
+                float f42 = dp2;
+                float measuredHeight22 = (getMeasuredHeight() - AndroidUtilities.dp(48.0f)) / 2;
+                this.rect.set(f42, measuredHeight22, measuredWidth2, getMeasuredHeight() - measuredHeight);
+                if (this.currentColorKey < 0) {
                     this.currentColorKey = this.backgroundKeys[this.picker.getValue()];
                     this.colorProgress = 1.0f;
                     this.fromColor = ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhite), Theme.getColor(this.currentColorKey), 0.9f);
@@ -239,28 +282,28 @@ public class SwipeGestureSettingsView extends FrameLayout {
                         invalidate();
                     }
                 }
-                int i2 = this.fromColor;
-                int i3 = Theme.key_windowBackgroundWhite;
-                this.filledPaint.setColor(ColorUtils.blendARGB(i2, ColorUtils.blendARGB(Theme.getColor(i3), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress));
+                int i22 = this.fromColor;
+                int i32 = Theme.key_windowBackgroundWhite;
+                this.filledPaint.setColor(ColorUtils.blendARGB(i22, ColorUtils.blendARGB(Theme.getColor(i32), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress));
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
-                this.filledPaint.setColor(Theme.getColor(i3));
+                this.filledPaint.setColor(Theme.getColor(i32));
                 this.filledPaint.setAlpha(NotificationCenter.voipServiceCreated);
-                this.rect.set(f4, measuredHeight2, measuredWidth - AndroidUtilities.dp(58.0f), getMeasuredHeight() - measuredHeight);
+                this.rect.set(f42, measuredHeight22, measuredWidth2 - AndroidUtilities.dp(58.0f), getMeasuredHeight() - measuredHeight);
                 this.rect.inset(-AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(1.0f));
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
                 this.outlinePaint.setAlpha(31);
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.outlinePaint);
                 canvas.save();
                 canvas.clipRect(this.rect);
-                this.filledPaint.setColor(Theme.getColor(i));
+                this.filledPaint.setColor(Theme.getColor(i4));
                 this.filledPaint.setAlpha(60);
-                RectF rectF = this.rect;
-                canvas.drawCircle(rectF.left + 0.0f, rectF.centerY(), AndroidUtilities.dp(15.0f), this.filledPaint);
-                float centerY = this.rect.centerY() - AndroidUtilities.dp(6.0f);
+                RectF rectF2 = this.rect;
+                canvas.drawCircle(rectF2.left + 0.0f, rectF2.centerY(), AndroidUtilities.dp(15.0f), this.filledPaint);
+                float centerY3 = this.rect.centerY() - AndroidUtilities.dp(6.0f);
                 this.linePaint.setAlpha(57);
-                canvas.drawLine(this.rect.left + AndroidUtilities.dp(23.0f) + 0.0f, centerY, this.rect.right - AndroidUtilities.dp(68.0f), centerY, this.linePaint);
-                float centerY2 = this.rect.centerY() + AndroidUtilities.dp(6.0f);
-                canvas.drawLine(this.rect.left + AndroidUtilities.dp(23.0f) + 0.0f, centerY2, this.rect.right - AndroidUtilities.dp(23.0f), centerY2, this.linePaint);
+                canvas.drawLine(this.rect.left + AndroidUtilities.dp(23.0f) + 0.0f, centerY3, this.rect.right - AndroidUtilities.dp(68.0f), centerY3, this.linePaint);
+                float centerY22 = this.rect.centerY() + AndroidUtilities.dp(6.0f);
+                canvas.drawLine(this.rect.left + AndroidUtilities.dp(23.0f) + 0.0f, centerY22, this.rect.right - AndroidUtilities.dp(23.0f), centerY22, this.linePaint);
                 canvas.restore();
             }
         }
@@ -273,100 +316,59 @@ public class SwipeGestureSettingsView extends FrameLayout {
                     this.progressToSwipeFolders = 0.0f;
                 } else {
                     this.iconViews[0].invalidate();
-                    this.iconViews[1].invalidate();
+                    rLottieImageView = this.iconViews[1];
+                    rLottieImageView.invalidate();
                     invalidate();
                 }
             }
         }
-        Paint paint2 = this.outlinePaint;
-        int i4 = Theme.key_switchTrack;
-        paint2.setColor(Theme.getColor(i4));
-        this.linePaint.setColor(Theme.getColor(i4));
-        int measuredWidth2 = getMeasuredWidth() - ((AndroidUtilities.dp(132.0f) + AndroidUtilities.dp(21.0f)) + AndroidUtilities.dp(16.0f));
-        int dp2 = AndroidUtilities.dp(21.0f);
-        float f42 = dp2;
-        float measuredHeight22 = (getMeasuredHeight() - AndroidUtilities.dp(48.0f)) / 2;
-        this.rect.set(f42, measuredHeight22, measuredWidth2, getMeasuredHeight() - measuredHeight);
-        if (this.currentColorKey >= 0) {
+        Paint paint22 = this.outlinePaint;
+        int i42 = Theme.key_switchTrack;
+        paint22.setColor(Theme.getColor(i42));
+        this.linePaint.setColor(Theme.getColor(i42));
+        int measuredWidth22 = getMeasuredWidth() - ((AndroidUtilities.dp(132.0f) + AndroidUtilities.dp(21.0f)) + AndroidUtilities.dp(16.0f));
+        int dp22 = AndroidUtilities.dp(21.0f);
+        float f422 = dp22;
+        float measuredHeight222 = (getMeasuredHeight() - AndroidUtilities.dp(48.0f)) / 2;
+        this.rect.set(f422, measuredHeight222, measuredWidth22, getMeasuredHeight() - measuredHeight);
+        if (this.currentColorKey < 0) {
         }
         f = this.colorProgress;
         if (f != 1.0f) {
         }
-        int i22 = this.fromColor;
-        int i32 = Theme.key_windowBackgroundWhite;
-        this.filledPaint.setColor(ColorUtils.blendARGB(i22, ColorUtils.blendARGB(Theme.getColor(i32), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress));
+        int i222 = this.fromColor;
+        int i322 = Theme.key_windowBackgroundWhite;
+        this.filledPaint.setColor(ColorUtils.blendARGB(i222, ColorUtils.blendARGB(Theme.getColor(i322), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress));
         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
-        this.filledPaint.setColor(Theme.getColor(i32));
+        this.filledPaint.setColor(Theme.getColor(i322));
         this.filledPaint.setAlpha(NotificationCenter.voipServiceCreated);
-        this.rect.set(f42, measuredHeight22, measuredWidth2 - AndroidUtilities.dp(58.0f), getMeasuredHeight() - measuredHeight);
+        this.rect.set(f422, measuredHeight222, measuredWidth22 - AndroidUtilities.dp(58.0f), getMeasuredHeight() - measuredHeight);
         this.rect.inset(-AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(1.0f));
         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
         this.outlinePaint.setAlpha(31);
         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.outlinePaint);
         canvas.save();
         canvas.clipRect(this.rect);
-        this.filledPaint.setColor(Theme.getColor(i4));
+        this.filledPaint.setColor(Theme.getColor(i42));
         this.filledPaint.setAlpha(60);
-        RectF rectF2 = this.rect;
-        canvas.drawCircle(rectF2.left + 0.0f, rectF2.centerY(), AndroidUtilities.dp(15.0f), this.filledPaint);
-        float centerY3 = this.rect.centerY() - AndroidUtilities.dp(6.0f);
+        RectF rectF22 = this.rect;
+        canvas.drawCircle(rectF22.left + 0.0f, rectF22.centerY(), AndroidUtilities.dp(15.0f), this.filledPaint);
+        float centerY32 = this.rect.centerY() - AndroidUtilities.dp(6.0f);
         this.linePaint.setAlpha(57);
-        canvas.drawLine(this.rect.left + AndroidUtilities.dp(23.0f) + 0.0f, centerY3, this.rect.right - AndroidUtilities.dp(68.0f), centerY3, this.linePaint);
-        float centerY22 = this.rect.centerY() + AndroidUtilities.dp(6.0f);
-        canvas.drawLine(this.rect.left + AndroidUtilities.dp(23.0f) + 0.0f, centerY22, this.rect.right - AndroidUtilities.dp(23.0f), centerY22, this.linePaint);
+        canvas.drawLine(this.rect.left + AndroidUtilities.dp(23.0f) + 0.0f, centerY32, this.rect.right - AndroidUtilities.dp(68.0f), centerY32, this.linePaint);
+        float centerY222 = this.rect.centerY() + AndroidUtilities.dp(6.0f);
+        canvas.drawLine(this.rect.left + AndroidUtilities.dp(23.0f) + 0.0f, centerY222, this.rect.right - AndroidUtilities.dp(23.0f), centerY222, this.linePaint);
         canvas.restore();
     }
 
-    public RLottieDrawable getIcon(int i) {
-        int i2;
-        RLottieDrawable[] rLottieDrawableArr = this.icons;
-        if (rLottieDrawableArr[i] == null) {
-            if (i == 1) {
-                i2 = R.raw.swipe_read;
-            } else if (i == 2) {
-                i2 = R.raw.chats_archive;
-            } else if (i == 3) {
-                i2 = R.raw.swipe_mute;
-            } else if (i == 4) {
-                i2 = R.raw.swipe_delete;
-            } else if (i != 5) {
-                i2 = R.raw.swipe_pin;
-            } else {
-                i2 = R.raw.swipe_disabled;
-            }
-            int i3 = i2;
-            rLottieDrawableArr[i] = new RLottieDrawable(i3, "" + i3, AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
-            updateIconColor(i);
-        }
-        return this.icons[i];
-    }
-
-    public void updateIconColor(int i) {
-        if (this.icons[i] != null) {
-            int blendARGB = ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhite), Theme.getColor(Theme.key_chats_archiveBackground), 0.9f);
-            int color = Theme.getColor(Theme.key_chats_archiveIcon);
-            if (i == 2) {
-                this.icons[i].setLayerColor("Arrow.**", blendARGB);
-                this.icons[i].setLayerColor("Box2.**", color);
-                this.icons[i].setLayerColor("Box1.**", color);
-                return;
-            }
-            this.icons[i].setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
-        }
-    }
-
-    public void updateColors() {
-        for (int i = 0; i < this.icons.length; i++) {
-            updateIconColor(i);
-        }
-    }
-
     @Override // android.view.View
-    public void setBackgroundColor(int i) {
-        super.setBackgroundColor(i);
-        updateColors();
-        this.picker.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
-        this.picker.invalidate();
+    public void onInitializeAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+        super.onInitializeAccessibilityEvent(accessibilityEvent);
+        if (accessibilityEvent.getEventType() == 1) {
+            int value = this.picker.getValue() + 1;
+            setContentDescription(this.strings[(value > this.picker.getMaxValue() || value < 0) ? 0 : 0]);
+            this.picker.changeValueByOne(true);
+        }
     }
 
     @Override // android.view.View
@@ -379,13 +381,36 @@ public class SwipeGestureSettingsView extends FrameLayout {
         }
     }
 
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(102.0f), 1073741824));
+    }
+
     @Override // android.view.View
-    public void onInitializeAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
-        super.onInitializeAccessibilityEvent(accessibilityEvent);
-        if (accessibilityEvent.getEventType() == 1) {
-            int value = this.picker.getValue() + 1;
-            setContentDescription(this.strings[(value > this.picker.getMaxValue() || value < 0) ? 0 : 0]);
-            this.picker.changeValueByOne(true);
+    public void setBackgroundColor(int i) {
+        super.setBackgroundColor(i);
+        updateColors();
+        this.picker.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+        this.picker.invalidate();
+    }
+
+    public void updateColors() {
+        for (int i = 0; i < this.icons.length; i++) {
+            updateIconColor(i);
+        }
+    }
+
+    public void updateIconColor(int i) {
+        if (this.icons[i] != null) {
+            int blendARGB = ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhite), Theme.getColor(Theme.key_chats_archiveBackground), 0.9f);
+            int color = Theme.getColor(Theme.key_chats_archiveIcon);
+            if (i != 2) {
+                this.icons[i].setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
+                return;
+            }
+            this.icons[i].setLayerColor("Arrow.**", blendARGB);
+            this.icons[i].setLayerColor("Box2.**", color);
+            this.icons[i].setLayerColor("Box1.**", color);
         }
     }
 }

@@ -3,7 +3,7 @@ package com.google.android.gms.internal.clearcut;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 /* loaded from: classes.dex */
-public final class zzci {
+public abstract class zzci {
     public static final byte[] zzkt;
     private static final ByteBuffer zzku;
     private static final zzbk zzkv;
@@ -18,9 +18,9 @@ public final class zzci {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <T> T checkNotNull(T t) {
-        t.getClass();
-        return t;
+    public static Object checkNotNull(Object obj) {
+        obj.getClass();
+        return obj;
     }
 
     public static int hashCode(byte[] bArr) {
@@ -46,9 +46,9 @@ public final class zzci {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <T> T zza(T t, String str) {
-        if (t != null) {
-            return t;
+    public static Object zza(Object obj, String str) {
+        if (obj != null) {
+            return obj;
         }
         throw new NullPointerException(str);
     }
@@ -63,11 +63,6 @@ public final class zzci {
 
     public static String zzf(byte[] bArr) {
         return new String(bArr, UTF_8);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zzf(zzdo zzdoVar) {
-        return false;
     }
 
     public static int zzl(long j) {

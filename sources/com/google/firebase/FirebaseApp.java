@@ -1,6 +1,5 @@
 package com.google.firebase;
 
-import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import androidx.collection.ArrayMap;
 import androidx.core.os.UserManagerCompat;
 import com.google.android.exoplayer2.mediacodec.AsynchronousMediaCodecBufferEnqueuer$$ExternalSyntheticBackportWithForwarding0;
@@ -39,217 +39,21 @@ import java.util.concurrent.atomic.AtomicReference;
 public class FirebaseApp {
     private final Context applicationContext;
     private final ComponentRuntime componentRuntime;
-    private final Lazy<DataCollectionConfigStorage> dataCollectionConfigStorage;
+    private final Lazy dataCollectionConfigStorage;
     private final String name;
     private final FirebaseOptions options;
     private static final Object LOCK = new Object();
     private static final Executor UI_EXECUTOR = new UiExecutor();
-    static final Map<String, FirebaseApp> INSTANCES = new ArrayMap();
+    static final Map INSTANCES = new ArrayMap();
     private final AtomicBoolean automaticResourceManagementEnabled = new AtomicBoolean(false);
     private final AtomicBoolean deleted = new AtomicBoolean();
-    private final List<BackgroundStateChangeListener> backgroundStateChangeListeners = new CopyOnWriteArrayList();
-    private final List<Object> lifecycleListeners = new CopyOnWriteArrayList();
-
-    /* loaded from: classes.dex */
-    public interface BackgroundStateChangeListener {
-        void onBackgroundStateChanged(boolean z);
-    }
-
-    public Context getApplicationContext() {
-        checkNotDeleted();
-        return this.applicationContext;
-    }
-
-    public String getName() {
-        checkNotDeleted();
-        return this.name;
-    }
-
-    public FirebaseOptions getOptions() {
-        checkNotDeleted();
-        return this.options;
-    }
-
-    public boolean equals(Object obj) {
-        if (obj instanceof FirebaseApp) {
-            return this.name.equals(((FirebaseApp) obj).getName());
-        }
-        return false;
-    }
-
-    public int hashCode() {
-        return this.name.hashCode();
-    }
-
-    public String toString() {
-        return Objects.toStringHelper(this).add("name", this.name).add("options", this.options).toString();
-    }
-
-    public static FirebaseApp getInstance() {
-        FirebaseApp firebaseApp;
-        synchronized (LOCK) {
-            try {
-                firebaseApp = INSTANCES.get("[DEFAULT]");
-                if (firebaseApp == null) {
-                    throw new IllegalStateException("Default FirebaseApp is not initialized in this process " + ProcessUtils.getMyProcessName() + ". Make sure to call FirebaseApp.initializeApp(Context) first.");
-                }
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-        return firebaseApp;
-    }
-
-    public static FirebaseApp initializeApp(Context context) {
-        synchronized (LOCK) {
-            try {
-                if (INSTANCES.containsKey("[DEFAULT]")) {
-                    return getInstance();
-                }
-                FirebaseOptions fromResource = FirebaseOptions.fromResource(context);
-                if (fromResource == null) {
-                    Log.w("FirebaseApp", "Default FirebaseApp failed to initialize because no default options were found. This usually means that com.google.gms:google-services was not applied to your gradle project.");
-                    return null;
-                }
-                return initializeApp(context, fromResource);
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-    }
-
-    public static FirebaseApp initializeApp(Context context, FirebaseOptions firebaseOptions) {
-        return initializeApp(context, firebaseOptions, "[DEFAULT]");
-    }
-
-    public static FirebaseApp initializeApp(Context context, FirebaseOptions firebaseOptions, String str) {
-        FirebaseApp firebaseApp;
-        GlobalBackgroundStateListener.ensureBackgroundStateListenerRegistered(context);
-        String normalize = normalize(str);
-        if (context.getApplicationContext() != null) {
-            context = context.getApplicationContext();
-        }
-        synchronized (LOCK) {
-            Map<String, FirebaseApp> map = INSTANCES;
-            Preconditions.checkState(!map.containsKey(normalize), "FirebaseApp name " + normalize + " already exists!");
-            Preconditions.checkNotNull(context, "Application context cannot be null.");
-            firebaseApp = new FirebaseApp(context, normalize, firebaseOptions);
-            map.put(normalize, firebaseApp);
-        }
-        firebaseApp.initializeAllApis();
-        return firebaseApp;
-    }
-
-    public <T> T get(Class<T> cls) {
-        checkNotDeleted();
-        return (T) this.componentRuntime.get(cls);
-    }
-
-    public boolean isDataCollectionDefaultEnabled() {
-        checkNotDeleted();
-        return this.dataCollectionConfigStorage.get().isEnabled();
-    }
-
-    protected FirebaseApp(final Context context, String str, FirebaseOptions firebaseOptions) {
-        this.applicationContext = (Context) Preconditions.checkNotNull(context);
-        this.name = Preconditions.checkNotEmpty(str);
-        this.options = (FirebaseOptions) Preconditions.checkNotNull(firebaseOptions);
-        this.componentRuntime = ComponentRuntime.builder(UI_EXECUTOR).addLazyComponentRegistrars(ComponentDiscovery.forContext(context, ComponentDiscoveryService.class).discoverLazy()).addComponentRegistrar(new FirebaseCommonRegistrar()).addComponent(Component.of(context, Context.class, new Class[0])).addComponent(Component.of(this, FirebaseApp.class, new Class[0])).addComponent(Component.of(firebaseOptions, FirebaseOptions.class, new Class[0])).build();
-        this.dataCollectionConfigStorage = new Lazy<>(new Provider() { // from class: com.google.firebase.FirebaseApp$$ExternalSyntheticLambda0
-            @Override // com.google.firebase.inject.Provider
-            public final Object get() {
-                DataCollectionConfigStorage lambda$new$0;
-                lambda$new$0 = FirebaseApp.this.lambda$new$0(context);
-                return lambda$new$0;
-            }
-        });
-    }
+    private final List backgroundStateChangeListeners = new CopyOnWriteArrayList();
+    private final List lifecycleListeners = new CopyOnWriteArrayList();
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ DataCollectionConfigStorage lambda$new$0(Context context) {
-        return new DataCollectionConfigStorage(context, getPersistenceKey(), (Publisher) this.componentRuntime.get(Publisher.class));
-    }
-
-    private void checkNotDeleted() {
-        Preconditions.checkState(!this.deleted.get(), "FirebaseApp was deleted");
-    }
-
-    public boolean isDefaultApp() {
-        return "[DEFAULT]".equals(getName());
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void notifyBackgroundStateChangeListeners(boolean z) {
-        Log.d("FirebaseApp", "Notifying background state change listeners.");
-        for (BackgroundStateChangeListener backgroundStateChangeListener : this.backgroundStateChangeListeners) {
-            backgroundStateChangeListener.onBackgroundStateChanged(z);
-        }
-    }
-
-    public String getPersistenceKey() {
-        return Base64Utils.encodeUrlSafeNoPadding(getName().getBytes(Charset.defaultCharset())) + "+" + Base64Utils.encodeUrlSafeNoPadding(getOptions().getApplicationId().getBytes(Charset.defaultCharset()));
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void initializeAllApis() {
-        if (!UserManagerCompat.isUserUnlocked(this.applicationContext)) {
-            Log.i("FirebaseApp", "Device in Direct Boot Mode: postponing initialization of Firebase APIs for app " + getName());
-            UserUnlockReceiver.ensureReceiverRegistered(this.applicationContext);
-            return;
-        }
-        Log.i("FirebaseApp", "Device unlocked: initializing all Firebase APIs for app " + getName());
-        this.componentRuntime.initializeEagerComponents(isDefaultApp());
-    }
-
-    private static String normalize(String str) {
-        return str.trim();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    @TargetApi(24)
-    /* loaded from: classes.dex */
-    public static class UserUnlockReceiver extends BroadcastReceiver {
-        private static AtomicReference<UserUnlockReceiver> INSTANCE = new AtomicReference<>();
-        private final Context applicationContext;
-
-        public UserUnlockReceiver(Context context) {
-            this.applicationContext = context;
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public static void ensureReceiverRegistered(Context context) {
-            if (INSTANCE.get() == null) {
-                UserUnlockReceiver userUnlockReceiver = new UserUnlockReceiver(context);
-                if (AsynchronousMediaCodecBufferEnqueuer$$ExternalSyntheticBackportWithForwarding0.m(INSTANCE, null, userUnlockReceiver)) {
-                    context.registerReceiver(userUnlockReceiver, new IntentFilter("android.intent.action.USER_UNLOCKED"));
-                }
-            }
-        }
-
-        @Override // android.content.BroadcastReceiver
-        public void onReceive(Context context, Intent intent) {
-            synchronized (FirebaseApp.LOCK) {
-                try {
-                    for (FirebaseApp firebaseApp : FirebaseApp.INSTANCES.values()) {
-                        firebaseApp.initializeAllApis();
-                    }
-                } catch (Throwable th) {
-                    throw th;
-                }
-            }
-            unregister();
-        }
-
-        public void unregister() {
-            this.applicationContext.unregisterReceiver(this);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    @TargetApi(14)
     /* loaded from: classes.dex */
     public static class GlobalBackgroundStateListener implements BackgroundDetector.BackgroundStateChangeListener {
-        private static AtomicReference<GlobalBackgroundStateListener> INSTANCE = new AtomicReference<>();
+        private static AtomicReference INSTANCE = new AtomicReference();
 
         private GlobalBackgroundStateListener() {
         }
@@ -297,5 +101,196 @@ public class FirebaseApp {
         public void execute(Runnable runnable) {
             HANDLER.post(runnable);
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class UserUnlockReceiver extends BroadcastReceiver {
+        private static AtomicReference INSTANCE = new AtomicReference();
+        private final Context applicationContext;
+
+        public UserUnlockReceiver(Context context) {
+            this.applicationContext = context;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static void ensureReceiverRegistered(Context context) {
+            if (INSTANCE.get() == null) {
+                UserUnlockReceiver userUnlockReceiver = new UserUnlockReceiver(context);
+                if (AsynchronousMediaCodecBufferEnqueuer$$ExternalSyntheticBackportWithForwarding0.m(INSTANCE, null, userUnlockReceiver)) {
+                    context.registerReceiver(userUnlockReceiver, new IntentFilter("android.intent.action.USER_UNLOCKED"));
+                }
+            }
+        }
+
+        @Override // android.content.BroadcastReceiver
+        public void onReceive(Context context, Intent intent) {
+            synchronized (FirebaseApp.LOCK) {
+                try {
+                    for (FirebaseApp firebaseApp : FirebaseApp.INSTANCES.values()) {
+                        firebaseApp.initializeAllApis();
+                    }
+                } catch (Throwable th) {
+                    throw th;
+                }
+            }
+            unregister();
+        }
+
+        public void unregister() {
+            this.applicationContext.unregisterReceiver(this);
+        }
+    }
+
+    protected FirebaseApp(final Context context, String str, FirebaseOptions firebaseOptions) {
+        this.applicationContext = (Context) Preconditions.checkNotNull(context);
+        this.name = Preconditions.checkNotEmpty(str);
+        this.options = (FirebaseOptions) Preconditions.checkNotNull(firebaseOptions);
+        this.componentRuntime = ComponentRuntime.builder(UI_EXECUTOR).addLazyComponentRegistrars(ComponentDiscovery.forContext(context, ComponentDiscoveryService.class).discoverLazy()).addComponentRegistrar(new FirebaseCommonRegistrar()).addComponent(Component.of(context, Context.class, new Class[0])).addComponent(Component.of(this, FirebaseApp.class, new Class[0])).addComponent(Component.of(firebaseOptions, FirebaseOptions.class, new Class[0])).build();
+        this.dataCollectionConfigStorage = new Lazy(new Provider() { // from class: com.google.firebase.FirebaseApp$$ExternalSyntheticLambda0
+            @Override // com.google.firebase.inject.Provider
+            public final Object get() {
+                DataCollectionConfigStorage lambda$new$0;
+                lambda$new$0 = FirebaseApp.this.lambda$new$0(context);
+                return lambda$new$0;
+            }
+        });
+    }
+
+    private void checkNotDeleted() {
+        Preconditions.checkState(!this.deleted.get(), "FirebaseApp was deleted");
+    }
+
+    public static FirebaseApp getInstance() {
+        FirebaseApp firebaseApp;
+        synchronized (LOCK) {
+            try {
+                firebaseApp = (FirebaseApp) INSTANCES.get("[DEFAULT]");
+                if (firebaseApp == null) {
+                    throw new IllegalStateException("Default FirebaseApp is not initialized in this process " + ProcessUtils.getMyProcessName() + ". Make sure to call FirebaseApp.initializeApp(Context) first.");
+                }
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+        return firebaseApp;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void initializeAllApis() {
+        if (!UserManagerCompat.isUserUnlocked(this.applicationContext)) {
+            Log.i("FirebaseApp", "Device in Direct Boot Mode: postponing initialization of Firebase APIs for app " + getName());
+            UserUnlockReceiver.ensureReceiverRegistered(this.applicationContext);
+            return;
+        }
+        Log.i("FirebaseApp", "Device unlocked: initializing all Firebase APIs for app " + getName());
+        this.componentRuntime.initializeEagerComponents(isDefaultApp());
+    }
+
+    public static FirebaseApp initializeApp(Context context) {
+        synchronized (LOCK) {
+            try {
+                if (INSTANCES.containsKey("[DEFAULT]")) {
+                    return getInstance();
+                }
+                FirebaseOptions fromResource = FirebaseOptions.fromResource(context);
+                if (fromResource == null) {
+                    Log.w("FirebaseApp", "Default FirebaseApp failed to initialize because no default options were found. This usually means that com.google.gms:google-services was not applied to your gradle project.");
+                    return null;
+                }
+                return initializeApp(context, fromResource);
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+    }
+
+    public static FirebaseApp initializeApp(Context context, FirebaseOptions firebaseOptions) {
+        return initializeApp(context, firebaseOptions, "[DEFAULT]");
+    }
+
+    public static FirebaseApp initializeApp(Context context, FirebaseOptions firebaseOptions, String str) {
+        FirebaseApp firebaseApp;
+        GlobalBackgroundStateListener.ensureBackgroundStateListenerRegistered(context);
+        String normalize = normalize(str);
+        if (context.getApplicationContext() != null) {
+            context = context.getApplicationContext();
+        }
+        synchronized (LOCK) {
+            Map map = INSTANCES;
+            Preconditions.checkState(!map.containsKey(normalize), "FirebaseApp name " + normalize + " already exists!");
+            Preconditions.checkNotNull(context, "Application context cannot be null.");
+            firebaseApp = new FirebaseApp(context, normalize, firebaseOptions);
+            map.put(normalize, firebaseApp);
+        }
+        firebaseApp.initializeAllApis();
+        return firebaseApp;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ DataCollectionConfigStorage lambda$new$0(Context context) {
+        return new DataCollectionConfigStorage(context, getPersistenceKey(), (Publisher) this.componentRuntime.get(Publisher.class));
+    }
+
+    private static String normalize(String str) {
+        return str.trim();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void notifyBackgroundStateChangeListeners(boolean z) {
+        Log.d("FirebaseApp", "Notifying background state change listeners.");
+        Iterator it = this.backgroundStateChangeListeners.iterator();
+        if (it.hasNext()) {
+            ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
+            throw null;
+        }
+    }
+
+    public boolean equals(Object obj) {
+        if (obj instanceof FirebaseApp) {
+            return this.name.equals(((FirebaseApp) obj).getName());
+        }
+        return false;
+    }
+
+    public Object get(Class cls) {
+        checkNotDeleted();
+        return this.componentRuntime.get(cls);
+    }
+
+    public Context getApplicationContext() {
+        checkNotDeleted();
+        return this.applicationContext;
+    }
+
+    public String getName() {
+        checkNotDeleted();
+        return this.name;
+    }
+
+    public FirebaseOptions getOptions() {
+        checkNotDeleted();
+        return this.options;
+    }
+
+    public String getPersistenceKey() {
+        return Base64Utils.encodeUrlSafeNoPadding(getName().getBytes(Charset.defaultCharset())) + "+" + Base64Utils.encodeUrlSafeNoPadding(getOptions().getApplicationId().getBytes(Charset.defaultCharset()));
+    }
+
+    public int hashCode() {
+        return this.name.hashCode();
+    }
+
+    public boolean isDataCollectionDefaultEnabled() {
+        checkNotDeleted();
+        return ((DataCollectionConfigStorage) this.dataCollectionConfigStorage.get()).isEnabled();
+    }
+
+    public boolean isDefaultApp() {
+        return "[DEFAULT]".equals(getName());
+    }
+
+    public String toString() {
+        return Objects.toStringHelper(this).add("name", this.name).add("options", this.options).toString();
     }
 }

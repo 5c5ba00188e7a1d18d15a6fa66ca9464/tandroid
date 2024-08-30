@@ -1,6 +1,5 @@
 package androidx.emoji2.text;
 
-import android.annotation.SuppressLint;
 import android.graphics.Paint;
 import android.text.style.ReplacementSpan;
 import androidx.core.util.Preconditions;
@@ -18,8 +17,12 @@ public abstract class EmojiSpan extends ReplacementSpan {
         this.mMetadata = emojiMetadata;
     }
 
+    public final EmojiMetadata getMetadata() {
+        return this.mMetadata;
+    }
+
     @Override // android.text.style.ReplacementSpan
-    public int getSize(Paint paint, @SuppressLint({"UnknownNullness"}) CharSequence charSequence, int i, int i2, Paint.FontMetricsInt fontMetricsInt) {
+    public int getSize(Paint paint, CharSequence charSequence, int i, int i2, Paint.FontMetricsInt fontMetricsInt) {
         paint.getFontMetricsInt(this.mTmpFontMetrics);
         Paint.FontMetricsInt fontMetricsInt2 = this.mTmpFontMetrics;
         this.mRatio = (Math.abs(fontMetricsInt2.descent - fontMetricsInt2.ascent) * 1.0f) / this.mMetadata.getHeight();
@@ -34,10 +37,6 @@ public abstract class EmojiSpan extends ReplacementSpan {
             fontMetricsInt.bottom = fontMetricsInt3.bottom;
         }
         return width;
-    }
-
-    public final EmojiMetadata getMetadata() {
-        return this.mMetadata;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

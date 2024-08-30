@@ -7,7 +7,6 @@ import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.internal.icing.zzbp;
 import com.google.firebase.appindexing.Action;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
 public final class zzc extends AbstractSafeParcelable implements Action {
     public static final Parcelable.Creator<zzc> CREATOR = new zzd();

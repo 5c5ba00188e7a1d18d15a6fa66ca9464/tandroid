@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
 /* loaded from: classes.dex */
-public final class zzfa extends AbstractList<String> implements zzcx, RandomAccess {
+public final class zzfa extends AbstractList implements zzcx, RandomAccess {
     private final zzcx zzpb;
 
     public zzfa(zzcx zzcxVar) {
@@ -24,12 +24,12 @@ public final class zzfa extends AbstractList<String> implements zzcx, RandomAcce
     }
 
     @Override // java.util.AbstractList, java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.List
-    public final Iterator<String> iterator() {
+    public final Iterator iterator() {
         return new zzfc(this);
     }
 
     @Override // java.util.AbstractList, java.util.List
-    public final ListIterator<String> listIterator(int i) {
+    public final ListIterator listIterator(int i) {
         return new zzfb(this, i);
     }
 
@@ -39,7 +39,7 @@ public final class zzfa extends AbstractList<String> implements zzcx, RandomAcce
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzcx
-    public final List<?> zzbt() {
+    public final List zzbt() {
         return this.zzpb.zzbt();
     }
 

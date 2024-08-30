@@ -32,6 +32,14 @@ public class AccountSelectCell extends FrameLayout {
 
     public AccountSelectCell(Context context, boolean z) {
         super(context);
+        float f;
+        float f2;
+        View view;
+        float f3;
+        int i;
+        float f4;
+        int i2;
+        float f5;
         AvatarDrawable avatarDrawable = new AvatarDrawable();
         this.avatarDrawable = avatarDrawable;
         avatarDrawable.setTextSize(AndroidUtilities.dp(12.0f));
@@ -60,26 +68,36 @@ public class AccountSelectCell extends FrameLayout {
             this.infoTextView.setMaxWidth(AndroidUtilities.dp(320.0f));
             this.infoTextView.setGravity(51);
             this.infoTextView.setEllipsize(TextUtils.TruncateAt.END);
-            addView(this.infoTextView, LayoutHelper.createFrame(-2, -2.0f, 51, 61.0f, 27.0f, 8.0f, 0.0f));
-            return;
+            view = this.infoTextView;
+            f3 = 8.0f;
+            f = 0.0f;
+            i = -2;
+            f4 = -2.0f;
+            i2 = 51;
+            f5 = 61.0f;
+            f2 = 27.0f;
+        } else {
+            f = 0.0f;
+            f2 = 0.0f;
+            addView(this.textView, LayoutHelper.createFrame(-1, -1.0f, 51, 61.0f, 0.0f, 52.0f, 0.0f));
+            this.textView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
+            ImageView imageView = new ImageView(context);
+            this.checkImageView = imageView;
+            imageView.setImageResource(R.drawable.account_check);
+            this.checkImageView.setScaleType(ImageView.ScaleType.CENTER);
+            this.checkImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_menuItemCheck), PorterDuff.Mode.MULTIPLY));
+            view = this.checkImageView;
+            f3 = 6.0f;
+            i = 40;
+            f4 = -1.0f;
+            i2 = 53;
+            f5 = 0.0f;
         }
-        addView(this.textView, LayoutHelper.createFrame(-1, -1.0f, 51, 61.0f, 0.0f, 52.0f, 0.0f));
-        this.textView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
-        ImageView imageView = new ImageView(context);
-        this.checkImageView = imageView;
-        imageView.setImageResource(R.drawable.account_check);
-        this.checkImageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.checkImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_menuItemCheck), PorterDuff.Mode.MULTIPLY));
-        addView(this.checkImageView, LayoutHelper.createFrame(40, -1.0f, 53, 0.0f, 0.0f, 6.0f, 0.0f));
+        addView(view, LayoutHelper.createFrame(i, f4, i2, f5, f2, f3, f));
     }
 
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        if (this.checkImageView != null || (this.infoTextView != null && getLayoutParams().width != -2)) {
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(56.0f), 1073741824));
-        } else {
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(56.0f), 1073741824));
-        }
+    public int getAccountNumber() {
+        return this.accountNumber;
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -90,18 +108,9 @@ public class AccountSelectCell extends FrameLayout {
         }
     }
 
-    public void setObject(TLObject tLObject) {
-        if (tLObject instanceof TLRPC$User) {
-            TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
-            this.avatarDrawable.setInfo(tLRPC$User);
-            this.infoTextView.setText(ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name));
-            this.imageView.setForUserOrChat(tLRPC$User, this.avatarDrawable);
-            return;
-        }
-        TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
-        this.avatarDrawable.setInfo(tLRPC$Chat);
-        this.infoTextView.setText(tLRPC$Chat == null ? "" : tLRPC$Chat.title);
-        this.imageView.setForUserOrChat(tLRPC$Chat, this.avatarDrawable);
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure((this.checkImageView == null && (this.infoTextView == null || getLayoutParams().width == -2)) ? View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), Integer.MIN_VALUE) : View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(56.0f), 1073741824));
     }
 
     public void setAccount(int i, boolean z) {
@@ -114,7 +123,30 @@ public class AccountSelectCell extends FrameLayout {
         this.checkImageView.setVisibility((z && i == UserConfig.selectedAccount) ? 0 : 4);
     }
 
-    public int getAccountNumber() {
-        return this.accountNumber;
+    /* JADX WARN: Multi-variable type inference failed */
+    public void setObject(TLObject tLObject) {
+        TextView textView;
+        String str;
+        TLRPC$User tLRPC$User;
+        if (tLObject instanceof TLRPC$User) {
+            TLRPC$User tLRPC$User2 = (TLRPC$User) tLObject;
+            this.avatarDrawable.setInfo(tLRPC$User2);
+            textView = this.infoTextView;
+            str = ContactsController.formatName(tLRPC$User2.first_name, tLRPC$User2.last_name);
+            tLRPC$User = tLRPC$User2;
+        } else {
+            TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
+            this.avatarDrawable.setInfo(tLRPC$Chat);
+            textView = this.infoTextView;
+            if (tLRPC$Chat == null) {
+                str = "";
+                tLRPC$User = tLRPC$Chat;
+            } else {
+                str = tLRPC$Chat.title;
+                tLRPC$User = tLRPC$Chat;
+            }
+        }
+        textView.setText(str);
+        this.imageView.setForUserOrChat(tLRPC$User, this.avatarDrawable);
     }
 }

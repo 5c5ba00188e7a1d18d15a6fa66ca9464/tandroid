@@ -22,13 +22,42 @@ class AppCompatCompoundButtonHelper {
     private final CompoundButton mView;
 
     /* JADX INFO: Access modifiers changed from: package-private */
+    public AppCompatCompoundButtonHelper(CompoundButton compoundButton) {
+        this.mView = compoundButton;
+    }
+
+    void applyButtonTint() {
+        Drawable buttonDrawable = CompoundButtonCompat.getButtonDrawable(this.mView);
+        if (buttonDrawable != null) {
+            if (this.mHasButtonTint || this.mHasButtonTintMode) {
+                Drawable mutate = DrawableCompat.wrap(buttonDrawable).mutate();
+                if (this.mHasButtonTint) {
+                    DrawableCompat.setTintList(mutate, this.mButtonTintList);
+                }
+                if (this.mHasButtonTintMode) {
+                    DrawableCompat.setTintMode(mutate, this.mButtonTintMode);
+                }
+                if (mutate.isStateful()) {
+                    mutate.setState(this.mView.getDrawableState());
+                }
+                this.mView.setButtonDrawable(mutate);
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int getCompoundPaddingLeft(int i) {
         return i;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public AppCompatCompoundButtonHelper(CompoundButton compoundButton) {
-        this.mView = compoundButton;
+    public ColorStateList getSupportButtonTintList() {
+        return this.mButtonTintList;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public PorterDuff.Mode getSupportButtonTintMode() {
+        return this.mButtonTintMode;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -81,30 +110,6 @@ class AppCompatCompoundButtonHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void setSupportButtonTintList(ColorStateList colorStateList) {
-        this.mButtonTintList = colorStateList;
-        this.mHasButtonTint = true;
-        applyButtonTint();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ColorStateList getSupportButtonTintList() {
-        return this.mButtonTintList;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setSupportButtonTintMode(PorterDuff.Mode mode) {
-        this.mButtonTintMode = mode;
-        this.mHasButtonTintMode = true;
-        applyButtonTint();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PorterDuff.Mode getSupportButtonTintMode() {
-        return this.mButtonTintMode;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
     public void onSetButtonDrawable() {
         if (this.mSkipNextApply) {
             this.mSkipNextApply = false;
@@ -114,22 +119,17 @@ class AppCompatCompoundButtonHelper {
         applyButtonTint();
     }
 
-    void applyButtonTint() {
-        Drawable buttonDrawable = CompoundButtonCompat.getButtonDrawable(this.mView);
-        if (buttonDrawable != null) {
-            if (this.mHasButtonTint || this.mHasButtonTintMode) {
-                Drawable mutate = DrawableCompat.wrap(buttonDrawable).mutate();
-                if (this.mHasButtonTint) {
-                    DrawableCompat.setTintList(mutate, this.mButtonTintList);
-                }
-                if (this.mHasButtonTintMode) {
-                    DrawableCompat.setTintMode(mutate, this.mButtonTintMode);
-                }
-                if (mutate.isStateful()) {
-                    mutate.setState(this.mView.getDrawableState());
-                }
-                this.mView.setButtonDrawable(mutate);
-            }
-        }
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setSupportButtonTintList(ColorStateList colorStateList) {
+        this.mButtonTintList = colorStateList;
+        this.mHasButtonTint = true;
+        applyButtonTint();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setSupportButtonTintMode(PorterDuff.Mode mode) {
+        this.mButtonTintMode = mode;
+        this.mHasButtonTintMode = true;
+        applyButtonTint();
     }
 }

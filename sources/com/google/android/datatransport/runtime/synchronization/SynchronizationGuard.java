@@ -3,9 +3,9 @@ package com.google.android.datatransport.runtime.synchronization;
 public interface SynchronizationGuard {
 
     /* loaded from: classes.dex */
-    public interface CriticalSection<T> {
-        T execute();
+    public interface CriticalSection {
+        Object execute();
     }
 
-    <T> T runCriticalSection(CriticalSection<T> criticalSection);
+    Object runCriticalSection(CriticalSection criticalSection);
 }

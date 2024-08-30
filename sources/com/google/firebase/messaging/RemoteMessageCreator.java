@@ -5,9 +5,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
-public class RemoteMessageCreator implements Parcelable.Creator<RemoteMessage> {
+public class RemoteMessageCreator implements Parcelable.Creator {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static void writeToParcel(RemoteMessage remoteMessage, Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
@@ -21,10 +20,10 @@ public class RemoteMessageCreator implements Parcelable.Creator<RemoteMessage> {
         Bundle bundle = null;
         while (parcel.dataPosition() < validateObjectHeader) {
             int readHeader = SafeParcelReader.readHeader(parcel);
-            if (SafeParcelReader.getFieldId(readHeader) == 2) {
-                bundle = SafeParcelReader.createBundle(parcel, readHeader);
-            } else {
+            if (SafeParcelReader.getFieldId(readHeader) != 2) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                bundle = SafeParcelReader.createBundle(parcel, readHeader);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);

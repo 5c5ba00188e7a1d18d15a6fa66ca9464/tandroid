@@ -5,7 +5,6 @@ import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.upstream.DataReader;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.EOFException;
-import java.io.IOException;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class DummyTrackOutput implements TrackOutput {
@@ -23,16 +22,7 @@ public final class DummyTrackOutput implements TrackOutput {
     }
 
     @Override // com.google.android.exoplayer2.extractor.TrackOutput
-    public /* synthetic */ void sampleData(ParsableByteArray parsableByteArray, int i) {
-        sampleData(parsableByteArray, i, 0);
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.TrackOutput
-    public void sampleMetadata(long j, int i, int i2, int i3, TrackOutput.CryptoData cryptoData) {
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.TrackOutput
-    public int sampleData(DataReader dataReader, int i, boolean z, int i2) throws IOException {
+    public int sampleData(DataReader dataReader, int i, boolean z, int i2) {
         int read = dataReader.read(this.readBuffer, 0, Math.min(this.readBuffer.length, i));
         if (read == -1) {
             if (z) {
@@ -44,7 +34,16 @@ public final class DummyTrackOutput implements TrackOutput {
     }
 
     @Override // com.google.android.exoplayer2.extractor.TrackOutput
+    public /* synthetic */ void sampleData(ParsableByteArray parsableByteArray, int i) {
+        sampleData(parsableByteArray, i, 0);
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.TrackOutput
     public void sampleData(ParsableByteArray parsableByteArray, int i, int i2) {
         parsableByteArray.skipBytes(i);
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.TrackOutput
+    public void sampleMetadata(long j, int i, int i2, int i3, TrackOutput.CryptoData cryptoData) {
     }
 }

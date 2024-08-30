@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
 import org.telegram.messenger.NotificationCenter;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public enum zzke implements zzck {
     zza(0),

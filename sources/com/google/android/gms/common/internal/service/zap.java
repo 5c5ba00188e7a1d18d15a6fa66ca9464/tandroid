@@ -13,7 +13,6 @@ import com.google.android.gms.common.internal.GmsClient;
 import com.google.android.gms.common.internal.TelemetryLoggingOptions;
 import com.google.android.gms.internal.base.zaf;
 import org.telegram.messenger.NotificationCenter;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zap extends GmsClient {
     private final TelemetryLoggingOptions zaa;

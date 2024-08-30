@@ -47,31 +47,6 @@ public class ToggleButton2 extends View implements FlashViews.Invertable {
         paint2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
     }
 
-    public void setIcon(final int i, boolean z) {
-        if (this.currentIcon == i) {
-            return;
-        }
-        ValueAnimator valueAnimator = this.animator;
-        if (valueAnimator != null) {
-            valueAnimator.cancel();
-            this.animator = null;
-        }
-        if (z) {
-            this.animator = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
-            final AtomicBoolean atomicBoolean = new AtomicBoolean();
-            this.animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.ToggleButton2$$ExternalSyntheticLambda0
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    ToggleButton2.this.lambda$setIcon$0(atomicBoolean, i, valueAnimator2);
-                }
-            });
-            this.animator.start();
-            return;
-        }
-        this.scale = 1.0f;
-        setDrawable(i);
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setIcon$0(AtomicBoolean atomicBoolean, int i, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
@@ -81,22 +56,6 @@ public class ToggleButton2 extends View implements FlashViews.Invertable {
         }
         atomicBoolean.set(true);
         setDrawable(i);
-    }
-
-    @Override // android.view.View
-    public void setSelected(boolean z) {
-        this.selected = z;
-        invalidate();
-    }
-
-    @Override // org.telegram.ui.Stories.recorder.FlashViews.Invertable
-    public void setInvert(float f) {
-        Drawable drawable = this.drawable;
-        if (drawable != null) {
-            drawable.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(-1, -16777216, f), PorterDuff.Mode.MULTIPLY));
-        }
-        this.activePaint.setColor(ColorUtils.blendARGB(-1, -16777216, f));
-        invalidate();
     }
 
     private void setDrawable(int i) {
@@ -164,5 +123,46 @@ public class ToggleButton2 extends View implements FlashViews.Invertable {
             bitmap.recycle();
             this.activeBitmap = null;
         }
+    }
+
+    public void setIcon(final int i, boolean z) {
+        if (this.currentIcon == i) {
+            return;
+        }
+        ValueAnimator valueAnimator = this.animator;
+        if (valueAnimator != null) {
+            valueAnimator.cancel();
+            this.animator = null;
+        }
+        if (!z) {
+            this.scale = 1.0f;
+            setDrawable(i);
+            return;
+        }
+        this.animator = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
+        final AtomicBoolean atomicBoolean = new AtomicBoolean();
+        this.animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.ToggleButton2$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                ToggleButton2.this.lambda$setIcon$0(atomicBoolean, i, valueAnimator2);
+            }
+        });
+        this.animator.start();
+    }
+
+    @Override // org.telegram.ui.Stories.recorder.FlashViews.Invertable
+    public void setInvert(float f) {
+        Drawable drawable = this.drawable;
+        if (drawable != null) {
+            drawable.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(-1, -16777216, f), PorterDuff.Mode.MULTIPLY));
+        }
+        this.activePaint.setColor(ColorUtils.blendARGB(-1, -16777216, f));
+        invalidate();
+    }
+
+    @Override // android.view.View
+    public void setSelected(boolean z) {
+        this.selected = z;
+        invalidate();
     }
 }

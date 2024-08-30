@@ -44,15 +44,15 @@ public class StarAppsSheet extends BottomSheetWithRecyclerListView {
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
-    protected CharSequence getTitle() {
-        return LocaleController.getString(R.string.SearchAppsExamples);
-    }
-
-    @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
         DialogsBotsAdapter dialogsBotsAdapter = new DialogsBotsAdapter(recyclerListView, getContext(), this.currentAccount, 0, true, this.resourcesProvider);
         this.adapter = dialogsBotsAdapter;
         dialogsBotsAdapter.setApplyBackground(false);
         return this.adapter;
+    }
+
+    @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
+    protected CharSequence getTitle() {
+        return LocaleController.getString(R.string.SearchAppsExamples);
     }
 }

@@ -7,7 +7,6 @@ import j$.util.function.Function;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public abstract class zzx implements Map, Serializable, j$.util.Map {
     private transient zzy zza;
@@ -15,7 +14,6 @@ public abstract class zzx implements Map, Serializable, j$.util.Map {
     private transient zzr zzc;
 
     @Override // java.util.Map
-    @Deprecated
     public final void clear() {
         throw new UnsupportedOperationException();
     }
@@ -122,13 +120,11 @@ public abstract class zzx implements Map, Serializable, j$.util.Map {
     }
 
     @Override // java.util.Map
-    @Deprecated
     public final Object put(Object obj, Object obj2) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.Map
-    @Deprecated
     public final void putAll(java.util.Map map) {
         throw new UnsupportedOperationException();
     }
@@ -139,7 +135,6 @@ public abstract class zzx implements Map, Serializable, j$.util.Map {
     }
 
     @Override // java.util.Map
-    @Deprecated
     public final Object remove(Object obj) {
         throw new UnsupportedOperationException();
     }
@@ -171,23 +166,23 @@ public abstract class zzx implements Map, Serializable, j$.util.Map {
 
     public final String toString() {
         int size = size();
-        if (size >= 0) {
-            StringBuilder sb = new StringBuilder((int) Math.min(size * 8, 1073741824L));
-            sb.append('{');
-            boolean z = true;
-            for (Map.Entry entry : entrySet()) {
-                if (!z) {
-                    sb.append(", ");
-                }
-                sb.append(entry.getKey());
-                sb.append('=');
-                sb.append(entry.getValue());
-                z = false;
-            }
-            sb.append('}');
-            return sb.toString();
+        if (size < 0) {
+            throw new IllegalArgumentException("size cannot be negative but was: " + size);
         }
-        throw new IllegalArgumentException("size cannot be negative but was: " + size);
+        StringBuilder sb = new StringBuilder((int) Math.min(size * 8, 1073741824L));
+        sb.append('{');
+        boolean z = true;
+        for (Map.Entry entry : entrySet()) {
+            if (!z) {
+                sb.append(", ");
+            }
+            sb.append(entry.getKey());
+            sb.append('=');
+            sb.append(entry.getValue());
+            z = false;
+        }
+        sb.append('}');
+        return sb.toString();
     }
 
     abstract zzr zza();

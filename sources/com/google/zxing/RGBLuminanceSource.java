@@ -24,19 +24,6 @@ public final class RGBLuminanceSource extends LuminanceSource {
     }
 
     @Override // com.google.zxing.LuminanceSource
-    public byte[] getRow(int i, byte[] bArr) {
-        if (i < 0 || i >= getHeight()) {
-            throw new IllegalArgumentException("Requested row is outside the image: " + i);
-        }
-        int width = getWidth();
-        if (bArr == null || bArr.length < width) {
-            bArr = new byte[width];
-        }
-        System.arraycopy(this.luminances, ((i + this.top) * this.dataWidth) + this.left, bArr, 0, width);
-        return bArr;
-    }
-
-    @Override // com.google.zxing.LuminanceSource
     public byte[] getMatrix() {
         int width = getWidth();
         int height = getHeight();
@@ -55,6 +42,19 @@ public final class RGBLuminanceSource extends LuminanceSource {
             System.arraycopy(this.luminances, i3, bArr, i4 * width, width);
             i3 += this.dataWidth;
         }
+        return bArr;
+    }
+
+    @Override // com.google.zxing.LuminanceSource
+    public byte[] getRow(int i, byte[] bArr) {
+        if (i < 0 || i >= getHeight()) {
+            throw new IllegalArgumentException("Requested row is outside the image: " + i);
+        }
+        int width = getWidth();
+        if (bArr == null || bArr.length < width) {
+            bArr = new byte[width];
+        }
+        System.arraycopy(this.luminances, ((i + this.top) * this.dataWidth) + this.left, bArr, 0, width);
         return bArr;
     }
 }

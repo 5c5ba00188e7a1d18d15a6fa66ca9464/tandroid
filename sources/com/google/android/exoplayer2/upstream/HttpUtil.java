@@ -6,7 +6,7 @@ import com.google.android.exoplayer2.util.Log;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /* loaded from: classes.dex */
-public final class HttpUtil {
+public abstract class HttpUtil {
     private static final Pattern CONTENT_RANGE_WITH_START_AND_END = Pattern.compile("bytes (\\d+)-(\\d+)/(?:\\d+|\\*)");
     private static final Pattern CONTENT_RANGE_WITH_SIZE = Pattern.compile("bytes (?:(?:\\d+-\\d+)|\\*)/(\\d+)");
 
@@ -22,17 +22,6 @@ public final class HttpUtil {
             sb.append((j + j2) - 1);
         }
         return sb.toString();
-    }
-
-    public static long getDocumentSize(String str) {
-        if (TextUtils.isEmpty(str)) {
-            return -1L;
-        }
-        Matcher matcher = CONTENT_RANGE_WITH_SIZE.matcher(str);
-        if (matcher.matches()) {
-            return Long.parseLong((String) Assertions.checkNotNull(matcher.group(1)));
-        }
-        return -1L;
     }
 
     /* JADX WARN: Removed duplicated region for block: B:10:0x002e  */
@@ -73,5 +62,16 @@ public final class HttpUtil {
         parseLong = -1;
         if (TextUtils.isEmpty(str2)) {
         }
+    }
+
+    public static long getDocumentSize(String str) {
+        if (TextUtils.isEmpty(str)) {
+            return -1L;
+        }
+        Matcher matcher = CONTENT_RANGE_WITH_SIZE.matcher(str);
+        if (matcher.matches()) {
+            return Long.parseLong((String) Assertions.checkNotNull(matcher.group(1)));
+        }
+        return -1L;
     }
 }

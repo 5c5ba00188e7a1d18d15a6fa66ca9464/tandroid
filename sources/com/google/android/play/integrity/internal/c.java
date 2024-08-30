@@ -3,13 +3,9 @@ package com.google.android.play.integrity.internal;
 import android.os.BadParcelableException;
 import android.os.Parcel;
 import android.os.Parcelable;
-/* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
-public final class c {
+public abstract class c {
     private static final ClassLoader a = c.class.getClassLoader();
-
-    private c() {
-    }
 
     public static Parcelable a(Parcel parcel, Parcelable.Creator creator) {
         if (parcel.readInt() == 0) {

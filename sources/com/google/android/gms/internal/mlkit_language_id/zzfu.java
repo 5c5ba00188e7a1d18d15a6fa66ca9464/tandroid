@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzfu {
+abstract class zzfu {
     private static final zzfs zza = zzc();
     private static final zzfs zzb = new zzfv();
 

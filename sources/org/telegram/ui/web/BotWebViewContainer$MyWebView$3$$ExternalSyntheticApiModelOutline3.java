@@ -1,5 +1,4 @@
 package org.telegram.ui.web;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes.dex */
-public final /* synthetic */ class BotWebViewContainer$MyWebView$3$$ExternalSyntheticApiModelOutline3 {
+public abstract /* synthetic */ class BotWebViewContainer$MyWebView$3$$ExternalSyntheticApiModelOutline3 {
 }

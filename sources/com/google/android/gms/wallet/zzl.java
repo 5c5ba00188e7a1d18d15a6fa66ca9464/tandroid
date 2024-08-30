@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.identity.intents.model.UserAddress;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class zzl implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator

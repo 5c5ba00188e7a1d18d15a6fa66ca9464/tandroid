@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
-@Deprecated
 /* loaded from: classes.dex */
 public final class zzel extends AbstractList implements RandomAccess, zzcn {
     private final zzcn zza;

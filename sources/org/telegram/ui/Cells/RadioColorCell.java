@@ -55,6 +55,18 @@ public class RadioColorCell extends FrameLayout {
         addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (z3 ? 5 : 3) | 48, z3 ? 21 : 51, 37.0f, z3 ? 51 : 21, 0.0f));
     }
 
+    private int getThemedColor(int i) {
+        return Theme.getColor(i, this.resourcesProvider);
+    }
+
+    @Override // android.view.View
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+        accessibilityNodeInfo.setClassName("android.widget.RadioButton");
+        accessibilityNodeInfo.setCheckable(true);
+        accessibilityNodeInfo.setChecked(this.radioButton.isChecked());
+    }
+
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
         if (this.text2View.getVisibility() == 0) {
@@ -67,10 +79,8 @@ public class RadioColorCell extends FrameLayout {
         this.radioButton.setColor(i, i2);
     }
 
-    public void setTextAndValue(CharSequence charSequence, boolean z) {
-        this.textView.setText(charSequence);
-        this.text2View.setVisibility(8);
-        this.radioButton.setChecked(z, false);
+    public void setChecked(boolean z, boolean z2) {
+        this.radioButton.setChecked(z, z2);
     }
 
     public void setTextAndText2AndValue(CharSequence charSequence, CharSequence charSequence2, boolean z) {
@@ -80,19 +90,9 @@ public class RadioColorCell extends FrameLayout {
         this.radioButton.setChecked(z, false);
     }
 
-    public void setChecked(boolean z, boolean z2) {
-        this.radioButton.setChecked(z, z2);
-    }
-
-    @Override // android.view.View
-    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-        accessibilityNodeInfo.setClassName("android.widget.RadioButton");
-        accessibilityNodeInfo.setCheckable(true);
-        accessibilityNodeInfo.setChecked(this.radioButton.isChecked());
-    }
-
-    private int getThemedColor(int i) {
-        return Theme.getColor(i, this.resourcesProvider);
+    public void setTextAndValue(CharSequence charSequence, boolean z) {
+        this.textView.setText(charSequence);
+        this.text2View.setVisibility(8);
+        this.radioButton.setChecked(z, false);
     }
 }

@@ -8,9 +8,9 @@ import java.util.List;
 public final class DvbDecoder extends SimpleSubtitleDecoder {
     private final DvbParser parser;
 
-    public DvbDecoder(List<byte[]> list) {
+    public DvbDecoder(List list) {
         super("DvbDecoder");
-        ParsableByteArray parsableByteArray = new ParsableByteArray(list.get(0));
+        ParsableByteArray parsableByteArray = new ParsableByteArray((byte[]) list.get(0));
         this.parser = new DvbParser(parsableByteArray.readUnsignedShort(), parsableByteArray.readUnsignedShort());
     }
 

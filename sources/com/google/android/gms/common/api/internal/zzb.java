@@ -13,7 +13,6 @@ import java.io.PrintWriter;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.WeakHashMap;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzb extends Fragment implements LifecycleFragment {
     private static final WeakHashMap zza = new WeakHashMap();
@@ -43,15 +42,13 @@ public final class zzb extends Fragment implements LifecycleFragment {
 
     @Override // com.google.android.gms.common.api.internal.LifecycleFragment
     public final void addCallback(String str, LifecycleCallback lifecycleCallback) {
-        if (!this.zzb.containsKey(str)) {
-            this.zzb.put(str, lifecycleCallback);
-            if (this.zzc > 0) {
-                new zzi(Looper.getMainLooper()).post(new zza(this, lifecycleCallback, str));
-                return;
-            }
-            return;
+        if (this.zzb.containsKey(str)) {
+            throw new IllegalArgumentException("LifecycleCallback with tag " + str + " already added to this fragment.");
         }
-        throw new IllegalArgumentException("LifecycleCallback with tag " + str + " already added to this fragment.");
+        this.zzb.put(str, lifecycleCallback);
+        if (this.zzc > 0) {
+            new zzi(Looper.getMainLooper()).post(new zza(this, lifecycleCallback, str));
+        }
     }
 
     @Override // android.app.Fragment
@@ -63,8 +60,8 @@ public final class zzb extends Fragment implements LifecycleFragment {
     }
 
     @Override // com.google.android.gms.common.api.internal.LifecycleFragment
-    public final <T extends LifecycleCallback> T getCallbackOrNull(String str, Class<T> cls) {
-        return cls.cast(this.zzb.get(str));
+    public final LifecycleCallback getCallbackOrNull(String str, Class cls) {
+        return (LifecycleCallback) cls.cast(this.zzb.get(str));
     }
 
     @Override // com.google.android.gms.common.api.internal.LifecycleFragment

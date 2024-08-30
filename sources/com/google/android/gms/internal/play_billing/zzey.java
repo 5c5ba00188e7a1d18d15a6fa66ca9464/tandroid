@@ -1,82 +1,77 @@
 package com.google.android.gms.internal.play_billing;
 
-import java.io.IOException;
 import java.util.List;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 interface zzey {
-    void zzA(int i, int i2) throws IOException;
+    void zzA(int i, int i2);
 
-    void zzB(int i, List list, boolean z) throws IOException;
+    void zzB(int i, List list, boolean z);
 
-    void zzC(int i, long j) throws IOException;
+    void zzC(int i, long j);
 
-    void zzD(int i, List list, boolean z) throws IOException;
+    void zzD(int i, List list, boolean z);
 
-    @Deprecated
-    void zzE(int i) throws IOException;
+    void zzE(int i);
 
-    void zzF(int i, String str) throws IOException;
+    void zzF(int i, String str);
 
-    void zzG(int i, List list) throws IOException;
+    void zzG(int i, List list);
 
-    void zzH(int i, int i2) throws IOException;
+    void zzH(int i, int i2);
 
-    void zzI(int i, List list, boolean z) throws IOException;
+    void zzI(int i, List list, boolean z);
 
-    void zzJ(int i, long j) throws IOException;
+    void zzJ(int i, long j);
 
-    void zzK(int i, List list, boolean z) throws IOException;
+    void zzK(int i, List list, boolean z);
 
-    void zzb(int i, boolean z) throws IOException;
+    void zzb(int i, boolean z);
 
-    void zzc(int i, List list, boolean z) throws IOException;
+    void zzc(int i, List list, boolean z);
 
-    void zzd(int i, zzba zzbaVar) throws IOException;
+    void zzd(int i, zzba zzbaVar);
 
-    void zze(int i, List list) throws IOException;
+    void zze(int i, List list);
 
-    void zzf(int i, double d) throws IOException;
+    void zzf(int i, double d);
 
-    void zzg(int i, List list, boolean z) throws IOException;
+    void zzg(int i, List list, boolean z);
 
-    @Deprecated
-    void zzh(int i) throws IOException;
+    void zzh(int i);
 
-    void zzi(int i, int i2) throws IOException;
+    void zzi(int i, int i2);
 
-    void zzj(int i, List list, boolean z) throws IOException;
+    void zzj(int i, List list, boolean z);
 
-    void zzk(int i, int i2) throws IOException;
+    void zzk(int i, int i2);
 
-    void zzl(int i, List list, boolean z) throws IOException;
+    void zzl(int i, List list, boolean z);
 
-    void zzm(int i, long j) throws IOException;
+    void zzm(int i, long j);
 
-    void zzn(int i, List list, boolean z) throws IOException;
+    void zzn(int i, List list, boolean z);
 
-    void zzo(int i, float f) throws IOException;
+    void zzo(int i, float f);
 
-    void zzp(int i, List list, boolean z) throws IOException;
+    void zzp(int i, List list, boolean z);
 
-    @Deprecated
-    void zzq(int i, Object obj, zzdp zzdpVar) throws IOException;
+    void zzq(int i, Object obj, zzdp zzdpVar);
 
-    void zzr(int i, int i2) throws IOException;
+    void zzr(int i, int i2);
 
-    void zzs(int i, List list, boolean z) throws IOException;
+    void zzs(int i, List list, boolean z);
 
-    void zzt(int i, long j) throws IOException;
+    void zzt(int i, long j);
 
-    void zzu(int i, List list, boolean z) throws IOException;
+    void zzu(int i, List list, boolean z);
 
-    void zzv(int i, Object obj, zzdp zzdpVar) throws IOException;
+    void zzv(int i, Object obj, zzdp zzdpVar);
 
-    void zzw(int i, int i2) throws IOException;
+    void zzw(int i, int i2);
 
-    void zzx(int i, List list, boolean z) throws IOException;
+    void zzx(int i, List list, boolean z);
 
-    void zzy(int i, long j) throws IOException;
+    void zzy(int i, long j);
 
-    void zzz(int i, List list, boolean z) throws IOException;
+    void zzz(int i, List list, boolean z);
 }

@@ -4,9 +4,8 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Build;
-/* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
-public final class ai {
+public abstract class ai {
     private static final s a = new s("PhoneskyVerificationUtils");
 
     public static boolean b(Context context) {

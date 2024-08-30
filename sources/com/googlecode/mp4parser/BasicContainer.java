@@ -4,7 +4,6 @@ import com.coremedia.iso.boxes.Box;
 import com.coremedia.iso.boxes.Container;
 import com.googlecode.mp4parser.util.Logger;
 import java.io.Closeable;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 /* loaded from: classes.dex */
-public class BasicContainer implements Container, Iterator<Box>, Closeable {
+public abstract class BasicContainer implements Container, Iterator, Closeable {
     private static final Box EOF = new AbstractBox("eof ") { // from class: com.googlecode.mp4parser.BasicContainer.1
         @Override // com.googlecode.mp4parser.AbstractBox
         protected void _parseDetails(ByteBuffer byteBuffer) {
@@ -32,21 +31,7 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable {
     long parsePosition = 0;
     long startPosition = 0;
     long endPosition = 0;
-    private List<Box> boxes = new ArrayList();
-
-    @Override // com.coremedia.iso.boxes.Container
-    public List<Box> getBoxes() {
-        return this.boxes;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public long getContainerSize() {
-        long j = 0;
-        for (int i = 0; i < getBoxes().size(); i++) {
-            j += this.boxes.get(i).getSize();
-        }
-        return j;
-    }
+    private List boxes = new ArrayList();
 
     public void addBox(Box box) {
         if (box != null) {
@@ -56,9 +41,23 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable {
         }
     }
 
-    @Override // java.util.Iterator
-    public void remove() {
-        throw new UnsupportedOperationException();
+    @Override // java.io.Closeable, java.lang.AutoCloseable
+    public void close() {
+        throw null;
+    }
+
+    @Override // com.coremedia.iso.boxes.Container
+    public List getBoxes() {
+        return this.boxes;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public long getContainerSize() {
+        long j = 0;
+        for (int i = 0; i < getBoxes().size(); i++) {
+            j += ((Box) this.boxes.get(i)).getSize();
+        }
+        return j;
     }
 
     @Override // java.util.Iterator
@@ -82,12 +81,17 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable {
     @Override // java.util.Iterator
     public Box next() {
         Box box = this.lookahead;
-        if (box != null && box != EOF) {
-            this.lookahead = null;
-            return box;
+        if (box == null || box == EOF) {
+            this.lookahead = EOF;
+            throw new NoSuchElementException();
         }
-        this.lookahead = EOF;
-        throw new NoSuchElementException();
+        this.lookahead = null;
+        return box;
+    }
+
+    @Override // java.util.Iterator
+    public void remove() {
+        throw new UnsupportedOperationException();
     }
 
     public String toString() {
@@ -98,19 +102,15 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable {
             if (i > 0) {
                 sb.append(";");
             }
-            sb.append(this.boxes.get(i).toString());
+            sb.append(((Box) this.boxes.get(i)).toString());
         }
         sb.append("]");
         return sb.toString();
     }
 
-    public final void writeContainer(WritableByteChannel writableByteChannel) throws IOException {
+    public final void writeContainer(WritableByteChannel writableByteChannel) {
         for (Box box : getBoxes()) {
             box.getBox(writableByteChannel);
         }
-    }
-
-    public void close() throws IOException {
-        throw null;
     }
 }

@@ -19,9 +19,8 @@ import com.google.android.gms.tasks.Tasks;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
-public class OptionalModuleUtils {
+public abstract class OptionalModuleUtils {
     public static final Feature[] EMPTY_FEATURES = new Feature[0];
     public static final Feature FEATURE_BARCODE;
     public static final Feature FEATURE_CUSTOM_ICA;
@@ -112,33 +111,6 @@ public class OptionalModuleUtils {
         zzb = zzasVar2.zzb();
     }
 
-    @Deprecated
-    public static void requestDownload(Context context, String str) {
-        requestDownload(context, zzaq.zzh(str));
-    }
-
-    private static Feature[] zza(Map map, List list) {
-        Feature[] featureArr = new Feature[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            featureArr[i] = (Feature) Preconditions.checkNotNull((Feature) map.get(list.get(i)));
-        }
-        return featureArr;
-    }
-
-    @Deprecated
-    public static void requestDownload(Context context, List<String> list) {
-        if (GoogleApiAvailabilityLight.getInstance().getApkVersion(context) >= 221500000) {
-            requestDownload(context, zza(zza, list));
-            return;
-        }
-        Intent intent = new Intent();
-        intent.setClassName("com.google.android.gms", "com.google.android.gms.vision.DependencyBroadcastReceiverProxy");
-        intent.setAction("com.google.android.gms.vision.DEPENDENCY");
-        intent.putExtra("com.google.android.gms.vision.DEPENDENCIES", TextUtils.join(",", list));
-        intent.putExtra("requester_app_package", context.getApplicationInfo().packageName);
-        context.sendBroadcast(intent);
-    }
-
     public static boolean areAllRequiredModulesAvailable(Context context, final Feature[] featureArr) {
         try {
             return ((ModuleAvailabilityResponse) Tasks.await(ModuleInstall.getClient(context).areModulesAvailable(new OptionalModuleApi() { // from class: com.google.mlkit.common.sdkinternal.zzq
@@ -159,6 +131,23 @@ public class OptionalModuleUtils {
         }
     }
 
+    public static void requestDownload(Context context, String str) {
+        requestDownload(context, zzaq.zzh(str));
+    }
+
+    public static void requestDownload(Context context, List list) {
+        if (GoogleApiAvailabilityLight.getInstance().getApkVersion(context) >= 221500000) {
+            requestDownload(context, zza(zza, list));
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClassName("com.google.android.gms", "com.google.android.gms.vision.DependencyBroadcastReceiverProxy");
+        intent.setAction("com.google.android.gms.vision.DEPENDENCY");
+        intent.putExtra("com.google.android.gms.vision.DEPENDENCIES", TextUtils.join(",", list));
+        intent.putExtra("requester_app_package", context.getApplicationInfo().packageName);
+        context.sendBroadcast(intent);
+    }
+
     public static void requestDownload(Context context, final Feature[] featureArr) {
         ModuleInstall.getClient(context).installModules(ModuleInstallRequest.newBuilder().addApi(new OptionalModuleApi() { // from class: com.google.mlkit.common.sdkinternal.zzo
             @Override // com.google.android.gms.common.api.OptionalModuleApi
@@ -172,5 +161,13 @@ public class OptionalModuleUtils {
                 Log.e("OptionalModuleUtils", "Failed to request modules install request", exc);
             }
         });
+    }
+
+    private static Feature[] zza(Map map, List list) {
+        Feature[] featureArr = new Feature[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            featureArr[i] = (Feature) Preconditions.checkNotNull((Feature) map.get(list.get(i)));
+        }
+        return featureArr;
     }
 }

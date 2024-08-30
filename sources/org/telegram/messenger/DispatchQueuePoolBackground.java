@@ -50,74 +50,14 @@ public class DispatchQueuePoolBackground {
     };
     private int guid = Utilities.random.nextInt();
 
-    static /* synthetic */ int access$110(DispatchQueuePoolBackground dispatchQueuePoolBackground) {
-        int i = dispatchQueuePoolBackground.createdCount;
-        dispatchQueuePoolBackground.createdCount = i - 1;
-        return i;
-    }
-
     private DispatchQueuePoolBackground(int i) {
         this.maxCount = i;
     }
 
-    private void execute(ArrayList<Runnable> arrayList) {
-        final DispatchQueue remove;
-        for (int i = 0; i < arrayList.size(); i++) {
-            final Runnable runnable = arrayList.get(i);
-            if (runnable != null) {
-                if (!this.busyQueues.isEmpty() && (this.totalTasksCount / 2 <= this.busyQueues.size() || (this.queues.isEmpty() && this.createdCount >= this.maxCount))) {
-                    remove = this.busyQueues.remove(0);
-                } else if (this.queues.isEmpty()) {
-                    remove = new DispatchQueue(THREAD_PREFIX + this.guid + "_" + Utilities.random.nextInt());
-                    remove.setPriority(10);
-                    this.createdCount = this.createdCount + 1;
-                } else {
-                    remove = this.queues.remove(0);
-                }
-                if (!this.cleanupScheduled) {
-                    Utilities.globalQueue.postRunnable(this.cleanupRunnable, 30000L);
-                    this.cleanupScheduled = true;
-                }
-                this.totalTasksCount++;
-                this.busyQueues.add(remove);
-                this.busyQueuesMap.put(remove.index, this.busyQueuesMap.get(remove.index, 0) + 1);
-                if (HwEmojis.isHwEnabled()) {
-                    remove.setPriority(1);
-                } else if (remove.getPriority() != 10) {
-                    remove.setPriority(10);
-                }
-                remove.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda1
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        DispatchQueuePoolBackground.this.lambda$execute$1(runnable, remove);
-                    }
-                });
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$execute$1(Runnable runnable, final DispatchQueue dispatchQueue) {
-        runnable.run();
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                DispatchQueuePoolBackground.this.lambda$execute$0(dispatchQueue);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$execute$0(DispatchQueue dispatchQueue) {
-        this.totalTasksCount--;
-        int i = this.busyQueuesMap.get(dispatchQueue.index) - 1;
-        if (i == 0) {
-            this.busyQueuesMap.delete(dispatchQueue.index);
-            this.busyQueues.remove(dispatchQueue);
-            this.queues.add(dispatchQueue);
-            return;
-        }
-        this.busyQueuesMap.put(dispatchQueue.index, i);
+    static /* synthetic */ int access$110(DispatchQueuePoolBackground dispatchQueuePoolBackground) {
+        int i = dispatchQueuePoolBackground.createdCount;
+        dispatchQueuePoolBackground.createdCount = i - 1;
+        return i;
     }
 
     public static void execute(Runnable runnable) {
@@ -134,11 +74,7 @@ public class DispatchQueuePoolBackground {
         }
         if (updateTaskCollection == null) {
             ArrayList<ArrayList<Runnable>> arrayList = freeCollections;
-            if (!arrayList.isEmpty()) {
-                updateTaskCollection = arrayList.remove(arrayList.size() - 1);
-            } else {
-                updateTaskCollection = new ArrayList<>(100);
-            }
+            updateTaskCollection = !arrayList.isEmpty() ? arrayList.remove(arrayList.size() - 1) : new ArrayList<>(100);
             if (!z) {
                 AndroidUtilities.runOnUIThread(finishCollectUpdateRunnable);
             }
@@ -148,6 +84,63 @@ public class DispatchQueuePoolBackground {
             Runnable runnable2 = finishCollectUpdateRunnable;
             AndroidUtilities.cancelRunOnUIThread(runnable2);
             runnable2.run();
+        }
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:24:0x007e  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00ad  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    private void execute(ArrayList<Runnable> arrayList) {
+        ArrayList<DispatchQueue> arrayList2;
+        final DispatchQueue dispatchQueue;
+        for (int i = 0; i < arrayList.size(); i++) {
+            final Runnable runnable = arrayList.get(i);
+            if (runnable != null) {
+                if (!this.busyQueues.isEmpty() && (this.totalTasksCount / 2 <= this.busyQueues.size() || (this.queues.isEmpty() && this.createdCount >= this.maxCount))) {
+                    arrayList2 = this.busyQueues;
+                } else if (this.queues.isEmpty()) {
+                    dispatchQueue = new DispatchQueue(THREAD_PREFIX + this.guid + "_" + Utilities.random.nextInt());
+                    dispatchQueue.setPriority(10);
+                    this.createdCount = this.createdCount + 1;
+                    if (!this.cleanupScheduled) {
+                        Utilities.globalQueue.postRunnable(this.cleanupRunnable, 30000L);
+                        this.cleanupScheduled = true;
+                    }
+                    this.totalTasksCount++;
+                    this.busyQueues.add(dispatchQueue);
+                    this.busyQueuesMap.put(dispatchQueue.index, this.busyQueuesMap.get(dispatchQueue.index, 0) + 1);
+                    if (!HwEmojis.isHwEnabled()) {
+                        dispatchQueue.setPriority(1);
+                    } else if (dispatchQueue.getPriority() != 10) {
+                        dispatchQueue.setPriority(10);
+                    }
+                    dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda1
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            DispatchQueuePoolBackground.this.lambda$execute$1(runnable, dispatchQueue);
+                        }
+                    });
+                } else {
+                    arrayList2 = this.queues;
+                }
+                dispatchQueue = arrayList2.remove(0);
+                if (!this.cleanupScheduled) {
+                }
+                this.totalTasksCount++;
+                this.busyQueues.add(dispatchQueue);
+                this.busyQueuesMap.put(dispatchQueue.index, this.busyQueuesMap.get(dispatchQueue.index, 0) + 1);
+                if (!HwEmojis.isHwEnabled()) {
+                }
+                dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DispatchQueuePoolBackground.this.lambda$execute$1(runnable, dispatchQueue);
+                    }
+                });
+            }
         }
     }
 
@@ -172,6 +165,35 @@ public class DispatchQueuePoolBackground {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$execute$0(DispatchQueue dispatchQueue) {
+        this.totalTasksCount--;
+        int i = this.busyQueuesMap.get(dispatchQueue.index) - 1;
+        if (i != 0) {
+            this.busyQueuesMap.put(dispatchQueue.index, i);
+            return;
+        }
+        this.busyQueuesMap.delete(dispatchQueue.index);
+        this.busyQueues.remove(dispatchQueue);
+        this.queues.add(dispatchQueue);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$execute$1(Runnable runnable, final DispatchQueue dispatchQueue) {
+        runnable.run();
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                DispatchQueuePoolBackground.this.lambda$execute$0(dispatchQueue);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$finishCollectUpdateRunnables$2(ArrayList arrayList) {
+        freeCollections.add(arrayList);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$finishCollectUpdateRunnables$3(final ArrayList arrayList) {
         backgroundQueue.execute(arrayList);
         arrayList.clear();
@@ -181,10 +203,5 @@ public class DispatchQueuePoolBackground {
                 DispatchQueuePoolBackground.lambda$finishCollectUpdateRunnables$2(arrayList);
             }
         });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$finishCollectUpdateRunnables$2(ArrayList arrayList) {
-        freeCollections.add(arrayList);
     }
 }

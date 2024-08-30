@@ -62,6 +62,13 @@ public class MovieHeaderBox extends AbstractFullBox {
         ajc$preClinit();
     }
 
+    public MovieHeaderBox() {
+        super("mvhd");
+        this.rate = 1.0d;
+        this.volume = 1.0f;
+        this.matrix = Matrix.ROTATE_0;
+    }
+
     private static /* synthetic */ void ajc$preClinit() {
         Factory factory = new Factory("MovieHeaderBox.java", MovieHeaderBox.class);
         ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getCreationTime", "com.coremedia.iso.boxes.MovieHeaderBox", "", "", "", "java.util.Date"), 63);
@@ -95,67 +102,22 @@ public class MovieHeaderBox extends AbstractFullBox {
         ajc$tjp_9 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setCreationTime", "com.coremedia.iso.boxes.MovieHeaderBox", "java.util.Date", "creationTime", "", "void"), NotificationCenter.savedReactionTagsUpdate);
     }
 
-    public MovieHeaderBox() {
-        super("mvhd");
-        this.rate = 1.0d;
-        this.volume = 1.0f;
-        this.matrix = Matrix.ROTATE_0;
-    }
-
-    public Date getCreationTime() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_0, this, this));
-        return this.creationTime;
-    }
-
-    public Date getModificationTime() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this));
-        return this.modificationTime;
-    }
-
-    public long getTimescale() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_2, this, this));
-        return this.timescale;
-    }
-
-    public long getDuration() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_3, this, this));
-        return this.duration;
-    }
-
-    public double getRate() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_4, this, this));
-        return this.rate;
-    }
-
-    public float getVolume() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_5, this, this));
-        return this.volume;
-    }
-
-    public long getNextTrackId() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_7, this, this));
-        return this.nextTrackId;
-    }
-
-    @Override // com.googlecode.mp4parser.AbstractBox
-    protected long getContentSize() {
-        return (getVersion() == 1 ? 32L : 20L) + 80;
-    }
-
     @Override // com.googlecode.mp4parser.AbstractBox
     public void _parseDetails(ByteBuffer byteBuffer) {
+        long readUInt32;
         parseVersionAndFlags(byteBuffer);
         if (getVersion() == 1) {
             this.creationTime = DateHelper.convert(IsoTypeReader.readUInt64(byteBuffer));
             this.modificationTime = DateHelper.convert(IsoTypeReader.readUInt64(byteBuffer));
             this.timescale = IsoTypeReader.readUInt32(byteBuffer);
-            this.duration = IsoTypeReader.readUInt64(byteBuffer);
+            readUInt32 = IsoTypeReader.readUInt64(byteBuffer);
         } else {
             this.creationTime = DateHelper.convert(IsoTypeReader.readUInt32(byteBuffer));
             this.modificationTime = DateHelper.convert(IsoTypeReader.readUInt32(byteBuffer));
             this.timescale = IsoTypeReader.readUInt32(byteBuffer);
-            this.duration = IsoTypeReader.readUInt32(byteBuffer);
+            readUInt32 = IsoTypeReader.readUInt32(byteBuffer);
         }
+        this.duration = readUInt32;
         this.rate = IsoTypeReader.readFixedPoint1616(byteBuffer);
         this.volume = IsoTypeReader.readFixedPoint88(byteBuffer);
         IsoTypeReader.readUInt16(byteBuffer);
@@ -169,11 +131,6 @@ public class MovieHeaderBox extends AbstractFullBox {
         this.selectionDuration = byteBuffer.getInt();
         this.currentTime = byteBuffer.getInt();
         this.nextTrackId = IsoTypeReader.readUInt32(byteBuffer);
-    }
-
-    public String toString() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_8, this, this));
-        return "MovieHeaderBox[creationTime=" + getCreationTime() + ";modificationTime=" + getModificationTime() + ";timescale=" + getTimescale() + ";duration=" + getDuration() + ";rate=" + getRate() + ";volume=" + getVolume() + ";matrix=" + this.matrix + ";nextTrackId=" + getNextTrackId() + "]";
     }
 
     @Override // com.googlecode.mp4parser.AbstractBox
@@ -205,25 +162,52 @@ public class MovieHeaderBox extends AbstractFullBox {
         IsoTypeWriter.writeUInt32(byteBuffer, this.nextTrackId);
     }
 
+    @Override // com.googlecode.mp4parser.AbstractBox
+    protected long getContentSize() {
+        return (getVersion() == 1 ? 32L : 20L) + 80;
+    }
+
+    public Date getCreationTime() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_0, this, this));
+        return this.creationTime;
+    }
+
+    public long getDuration() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_3, this, this));
+        return this.duration;
+    }
+
+    public Date getModificationTime() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this));
+        return this.modificationTime;
+    }
+
+    public long getNextTrackId() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_7, this, this));
+        return this.nextTrackId;
+    }
+
+    public double getRate() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_4, this, this));
+        return this.rate;
+    }
+
+    public long getTimescale() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_2, this, this));
+        return this.timescale;
+    }
+
+    public float getVolume() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_5, this, this));
+        return this.volume;
+    }
+
     public void setCreationTime(Date date) {
         RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_9, this, this, date));
         this.creationTime = date;
         if (DateHelper.convert(date) >= 4294967296L) {
             setVersion(1);
         }
-    }
-
-    public void setModificationTime(Date date) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_10, this, this, date));
-        this.modificationTime = date;
-        if (DateHelper.convert(date) >= 4294967296L) {
-            setVersion(1);
-        }
-    }
-
-    public void setTimescale(long j) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_11, this, this, Conversions.longObject(j)));
-        this.timescale = j;
     }
 
     public void setDuration(long j) {
@@ -239,8 +223,26 @@ public class MovieHeaderBox extends AbstractFullBox {
         this.matrix = matrix;
     }
 
+    public void setModificationTime(Date date) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_10, this, this, date));
+        this.modificationTime = date;
+        if (DateHelper.convert(date) >= 4294967296L) {
+            setVersion(1);
+        }
+    }
+
     public void setNextTrackId(long j) {
         RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_16, this, this, Conversions.longObject(j)));
         this.nextTrackId = j;
+    }
+
+    public void setTimescale(long j) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_11, this, this, Conversions.longObject(j)));
+        this.timescale = j;
+    }
+
+    public String toString() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_8, this, this));
+        return "MovieHeaderBox[creationTime=" + getCreationTime() + ";modificationTime=" + getModificationTime() + ";timescale=" + getTimescale() + ";duration=" + getDuration() + ";rate=" + getRate() + ";volume=" + getVolume() + ";matrix=" + this.matrix + ";nextTrackId=" + getNextTrackId() + "]";
     }
 }

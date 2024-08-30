@@ -12,7 +12,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Delegates.MemberRequestsDelegate;
 import org.telegram.ui.LaunchActivity;
 /* loaded from: classes3.dex */
-public class MemberRequestsBottomSheet extends UsersAlertBase {
+public abstract class MemberRequestsBottomSheet extends UsersAlertBase {
     private final FlickerLoadingView currentLoadingView;
     private final MemberRequestsDelegate delegate;
     private boolean enterEventSent;
@@ -63,13 +63,20 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
         memberRequestsDelegate.lambda$new$8();
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
-    public void show() {
-        if (this.delegate.isNeedRestoreList && this.scrollOffsetY == 0) {
-            this.scrollOffsetY = AndroidUtilities.dp(8.0f);
-        }
-        super.show();
-        this.delegate.isNeedRestoreList = false;
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onSearchViewTouched$1(final EditTextBoldCursor editTextBoldCursor) {
+        setFocusable(true);
+        editTextBoldCursor.requestFocus();
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MemberRequestsBottomSheet$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                AndroidUtilities.showKeyboard(EditTextBoldCursor.this);
+            }
+        });
+    }
+
+    public boolean isNeedRestoreDialog() {
+        return this.delegate.isNeedRestoreList;
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
@@ -77,42 +84,6 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
         if (this.delegate.onBackPressed()) {
             super.onBackPressed();
         }
-    }
-
-    public boolean isNeedRestoreDialog() {
-        return this.delegate.isNeedRestoreList;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Components.UsersAlertBase
-    public void setTranslationY(int i) {
-        super.setTranslationY(i);
-        this.currentLoadingView.setTranslationY(this.frameLayout.getMeasuredHeight() + i);
-        float f = i;
-        this.membersEmptyView.setTranslationY(f);
-        this.membersSearchEmptyView.setTranslationY(f);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Components.UsersAlertBase
-    public void updateLayout() {
-        if (this.listView.getChildCount() <= 0) {
-            int paddingTop = this.listView.getVisibility() == 0 ? this.listView.getPaddingTop() - AndroidUtilities.dp(8.0f) : 0;
-            if (this.scrollOffsetY != paddingTop) {
-                this.scrollOffsetY = paddingTop;
-                setTranslationY(paddingTop);
-                return;
-            }
-            return;
-        }
-        super.updateLayout();
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Components.UsersAlertBase
-    public void search(String str) {
-        super.search(str);
-        this.delegate.setQuery(str);
     }
 
     @Override // org.telegram.ui.Components.UsersAlertBase
@@ -125,7 +96,7 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
             Activity findActivity = AndroidUtilities.findActivity(getContext());
             if (findActivity instanceof LaunchActivity) {
                 LaunchActivity launchActivity = (LaunchActivity) findActivity;
-                baseFragment = launchActivity.getActionBarLayout().getFragmentStack().get(launchActivity.getActionBarLayout().getFragmentStack().size() - 1);
+                baseFragment = (BaseFragment) launchActivity.getActionBarLayout().getFragmentStack().get(launchActivity.getActionBarLayout().getFragmentStack().size() - 1);
             } else {
                 baseFragment = null;
             }
@@ -155,15 +126,43 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onSearchViewTouched$1(final EditTextBoldCursor editTextBoldCursor) {
-        setFocusable(true);
-        editTextBoldCursor.requestFocus();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MemberRequestsBottomSheet$$ExternalSyntheticLambda2
-            @Override // java.lang.Runnable
-            public final void run() {
-                AndroidUtilities.showKeyboard(EditTextBoldCursor.this);
-            }
-        });
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.UsersAlertBase
+    public void search(String str) {
+        super.search(str);
+        this.delegate.setQuery(str);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.UsersAlertBase
+    public void setTranslationY(int i) {
+        super.setTranslationY(i);
+        this.currentLoadingView.setTranslationY(this.frameLayout.getMeasuredHeight() + i);
+        float f = i;
+        this.membersEmptyView.setTranslationY(f);
+        this.membersSearchEmptyView.setTranslationY(f);
+    }
+
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
+    public void show() {
+        if (this.delegate.isNeedRestoreList && this.scrollOffsetY == 0) {
+            this.scrollOffsetY = AndroidUtilities.dp(8.0f);
+        }
+        super.show();
+        this.delegate.isNeedRestoreList = false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.UsersAlertBase
+    public void updateLayout() {
+        if (this.listView.getChildCount() > 0) {
+            super.updateLayout();
+            return;
+        }
+        int paddingTop = this.listView.getVisibility() == 0 ? this.listView.getPaddingTop() - AndroidUtilities.dp(8.0f) : 0;
+        if (this.scrollOffsetY != paddingTop) {
+            this.scrollOffsetY = paddingTop;
+            setTranslationY(paddingTop);
+        }
     }
 }

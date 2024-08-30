@@ -6,22 +6,24 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.util.Log;
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 /* loaded from: classes.dex */
 public final class zzab {
-    private static final ConcurrentHashMap<Uri, zzab> zzde = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap zzde = new ConcurrentHashMap();
     private static final String[] zzdl = {"key", "value"};
     private final Uri uri;
     private final ContentResolver zzdf;
-    private volatile Map<String, String> zzdi;
+    private volatile Map zzdi;
     private final Object zzdh = new Object();
     private final Object zzdj = new Object();
-    private final List<zzad> zzdk = new ArrayList();
+    private final List zzdk = new ArrayList();
     private final ContentObserver zzdg = new zzac(this, null);
 
     private zzab(ContentResolver contentResolver, Uri uri) {
@@ -30,21 +32,21 @@ public final class zzab {
     }
 
     public static zzab zza(ContentResolver contentResolver, Uri uri) {
-        ConcurrentHashMap<Uri, zzab> concurrentHashMap = zzde;
-        zzab zzabVar = concurrentHashMap.get(uri);
+        ConcurrentHashMap concurrentHashMap = zzde;
+        zzab zzabVar = (zzab) concurrentHashMap.get(uri);
         if (zzabVar == null) {
             zzab zzabVar2 = new zzab(contentResolver, uri);
-            zzab putIfAbsent = concurrentHashMap.putIfAbsent(uri, zzabVar2);
-            if (putIfAbsent == null) {
+            zzab zzabVar3 = (zzab) concurrentHashMap.putIfAbsent(uri, zzabVar2);
+            if (zzabVar3 == null) {
                 zzabVar2.zzdf.registerContentObserver(zzabVar2.uri, false, zzabVar2.zzdg);
                 return zzabVar2;
             }
-            return putIfAbsent;
+            return zzabVar3;
         }
         return zzabVar;
     }
 
-    private final Map<String, String> zzi() {
+    private final Map zzi() {
         try {
             HashMap hashMap = new HashMap();
             Cursor query = this.zzdf.query(this.uri, zzdl, null, null, null);
@@ -65,8 +67,10 @@ public final class zzab {
     public final void zzj() {
         synchronized (this.zzdj) {
             try {
-                for (zzad zzadVar : this.zzdk) {
-                    zzadVar.zzk();
+                Iterator it = this.zzdk.iterator();
+                if (it.hasNext()) {
+                    ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
+                    throw null;
                 }
             } catch (Throwable th) {
                 throw th;
@@ -74,8 +78,8 @@ public final class zzab {
         }
     }
 
-    public final Map<String, String> zzg() {
-        Map<String, String> zzi = zzae.zza("gms:phenotype:phenotype_flag:debug_disable_caching", false) ? zzi() : this.zzdi;
+    public final Map zzg() {
+        Map zzi = zzae.zza("gms:phenotype:phenotype_flag:debug_disable_caching", false) ? zzi() : this.zzdi;
         if (zzi == null) {
             synchronized (this.zzdh) {
                 try {

@@ -1,7 +1,5 @@
 package com.google.android.gms.internal.clearcut;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,22 +10,21 @@ import android.os.UserManager;
 import android.util.Log;
 import androidx.core.content.PermissionChecker;
 /* loaded from: classes.dex */
-public abstract class zzae<T> {
+public abstract class zzae {
     private static final Object zzdn = new Object();
     private static boolean zzdo = false;
     private static volatile Boolean zzdp;
     private static volatile Boolean zzdq;
-    @SuppressLint({"StaticFieldLeak"})
     private static Context zzh;
     private final zzao zzdr;
     final String zzds;
     private final String zzdt;
-    private final T zzdu;
-    private T zzdv;
+    private final Object zzdu;
+    private Object zzdv;
     private volatile zzab zzdw;
     private volatile SharedPreferences zzdx;
 
-    private zzae(zzao zzaoVar, String str, T t) {
+    private zzae(zzao zzaoVar, String str, Object obj) {
         String str2;
         String str3;
         String str4;
@@ -60,7 +57,7 @@ public abstract class zzae<T> {
         String valueOf3 = String.valueOf(str5);
         String valueOf4 = String.valueOf(str);
         this.zzds = valueOf4.length() != 0 ? valueOf3.concat(valueOf4) : new String(valueOf3);
-        this.zzdu = t;
+        this.zzdu = obj;
     }
 
     public /* synthetic */ zzae(zzao zzaoVar, String str, Object obj, zzai zzaiVar) {
@@ -100,19 +97,19 @@ public abstract class zzae<T> {
         }
     }
 
-    public static <T> zzae<T> zza(zzao zzaoVar, String str, T t, zzan<T> zzanVar) {
-        return new zzal(zzaoVar, str, t, zzanVar);
+    public static zzae zza(zzao zzaoVar, String str, Object obj, zzan zzanVar) {
+        return new zzal(zzaoVar, str, obj, zzanVar);
     }
 
-    public static zzae<String> zza(zzao zzaoVar, String str, String str2) {
+    public static zzae zza(zzao zzaoVar, String str, String str2) {
         return new zzak(zzaoVar, str, str2);
     }
 
-    public static zzae<Boolean> zza(zzao zzaoVar, String str, boolean z) {
+    public static zzae zza(zzao zzaoVar, String str, boolean z) {
         return new zzaj(zzaoVar, str, Boolean.valueOf(z));
     }
 
-    private static <V> V zza(zzam<V> zzamVar) {
+    private static Object zza(zzam zzamVar) {
         try {
             return zzamVar.zzp();
         } catch (SecurityException unused) {
@@ -149,11 +146,10 @@ public abstract class zzae<T> {
 
     /* JADX WARN: Removed duplicated region for block: B:68:0x007c A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:69:0x007d  */
-    @TargetApi(24)
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    private final T zzl() {
+    private final Object zzl() {
         Uri uri;
         String str;
         boolean z;
@@ -185,7 +181,7 @@ public abstract class zzae<T> {
 
                     @Override // com.google.android.gms.internal.clearcut.zzam
                     public final Object zzp() {
-                        return this.zzdz.zzg().get(this.zzdy.zzds);
+                        return (String) this.zzdz.zzg().get(this.zzdy.zzds);
                     }
                 });
                 if (str3 != null) {
@@ -226,7 +222,7 @@ public abstract class zzae<T> {
         return null;
     }
 
-    private final T zzm() {
+    private final Object zzm() {
         boolean z;
         String str;
         z = this.zzdr.zzej;
@@ -259,25 +255,25 @@ public abstract class zzae<T> {
         return zzdp.booleanValue();
     }
 
-    public final T get() {
+    public final Object get() {
         boolean z;
         if (zzh != null) {
             z = this.zzdr.zzek;
             if (z) {
-                T zzm = zzm();
+                Object zzm = zzm();
                 if (zzm != null) {
                     return zzm;
                 }
-                T zzl = zzl();
+                Object zzl = zzl();
                 if (zzl != null) {
                     return zzl;
                 }
             } else {
-                T zzl2 = zzl();
+                Object zzl2 = zzl();
                 if (zzl2 != null) {
                     return zzl2;
                 }
-                T zzm2 = zzm();
+                Object zzm2 = zzm();
                 if (zzm2 != null) {
                     return zzm2;
                 }
@@ -287,9 +283,9 @@ public abstract class zzae<T> {
         throw new IllegalStateException("Must call PhenotypeFlag.init() first");
     }
 
-    protected abstract T zza(SharedPreferences sharedPreferences);
+    protected abstract Object zza(SharedPreferences sharedPreferences);
 
-    public abstract T zzb(String str);
+    public abstract Object zzb(String str);
 
     public final /* synthetic */ String zzo() {
         return zzy.zza(zzh.getContentResolver(), this.zzdt, (String) null);

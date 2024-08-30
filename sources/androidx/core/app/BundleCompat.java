@@ -3,10 +3,7 @@ package androidx.core.app;
 import android.os.Bundle;
 import android.os.IBinder;
 /* loaded from: classes.dex */
-public final class BundleCompat {
-    public static void putBinder(Bundle bundle, String str, IBinder iBinder) {
-        Api18Impl.putBinder(bundle, str, iBinder);
-    }
+public abstract class BundleCompat {
 
     /* loaded from: classes.dex */
     static class Api18Impl {
@@ -17,5 +14,9 @@ public final class BundleCompat {
         static void putBinder(Bundle bundle, String str, IBinder iBinder) {
             bundle.putBinder(str, iBinder);
         }
+    }
+
+    public static void putBinder(Bundle bundle, String str, IBinder iBinder) {
+        Api18Impl.putBinder(bundle, str, iBinder);
     }
 }

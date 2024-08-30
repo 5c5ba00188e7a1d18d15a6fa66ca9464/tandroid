@@ -9,7 +9,7 @@ import java.nio.ByteBuffer;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
-public final class Ac3Util {
+public abstract class Ac3Util {
     private static final int[] BLOCKS_PER_SYNCFRAME_BY_NUMBLKSCOD = {1, 2, 3, 6};
     private static final int[] SAMPLE_RATE_BY_FSCOD = {48000, 44100, 32000};
     private static final int[] SAMPLE_RATE_BY_FSCOD2 = {24000, 22050, 16000};
@@ -38,6 +38,42 @@ public final class Ac3Util {
         }
     }
 
+    private static int calculateEac3Bitrate(int i, int i2, int i3) {
+        return (i * i2) / (i3 * 32);
+    }
+
+    public static int findTrueHdSyncframeOffset(ByteBuffer byteBuffer) {
+        int position = byteBuffer.position();
+        int limit = byteBuffer.limit() - 10;
+        for (int i = position; i <= limit; i++) {
+            if ((Util.getBigEndianInt(byteBuffer, i + 4) & (-2)) == -126718022) {
+                return i - position;
+            }
+        }
+        return -1;
+    }
+
+    private static int getAc3SyncframeSize(int i, int i2) {
+        int i3 = i2 / 2;
+        if (i >= 0) {
+            int[] iArr = SAMPLE_RATE_BY_FSCOD;
+            if (i >= iArr.length || i2 < 0) {
+                return -1;
+            }
+            int[] iArr2 = SYNCFRAME_SIZE_WORDS_BY_HALF_FRMSIZECOD_44_1;
+            if (i3 >= iArr2.length) {
+                return -1;
+            }
+            int i4 = iArr[i];
+            if (i4 == 44100) {
+                return (iArr2[i3] + (i2 % 2)) * 2;
+            }
+            int i5 = BITRATE_BY_HALF_FRMSIZECOD[i3];
+            return i4 == 32000 ? i5 * 6 : i5 * 4;
+        }
+        return -1;
+    }
+
     public static Format parseAc3AnnexFFormat(ParsableByteArray parsableByteArray, String str, String str2, DrmInitData drmInitData) {
         ParsableBitArray parsableBitArray = new ParsableBitArray();
         parsableBitArray.reset(parsableByteArray);
@@ -53,41 +89,11 @@ public final class Ac3Util {
         return new Format.Builder().setId(str).setSampleMimeType("audio/ac3").setChannelCount(i2).setSampleRate(i).setDrmInitData(drmInitData).setLanguage(str2).setAverageBitrate(i3).setPeakBitrate(i3).build();
     }
 
-    public static Format parseEAc3AnnexFFormat(ParsableByteArray parsableByteArray, String str, String str2, DrmInitData drmInitData) {
-        String str3;
-        ParsableBitArray parsableBitArray = new ParsableBitArray();
-        parsableBitArray.reset(parsableByteArray);
-        int readBits = parsableBitArray.readBits(13) * 1000;
-        parsableBitArray.skipBits(3);
-        int i = SAMPLE_RATE_BY_FSCOD[parsableBitArray.readBits(2)];
-        parsableBitArray.skipBits(10);
-        int i2 = CHANNEL_COUNT_BY_ACMOD[parsableBitArray.readBits(3)];
-        if (parsableBitArray.readBits(1) != 0) {
-            i2++;
+    public static int parseAc3SyncframeAudioSampleCount(ByteBuffer byteBuffer) {
+        if (((byteBuffer.get(byteBuffer.position() + 5) & 248) >> 3) > 10) {
+            return BLOCKS_PER_SYNCFRAME_BY_NUMBLKSCOD[((byteBuffer.get(byteBuffer.position() + 4) & 192) >> 6) != 3 ? (byteBuffer.get(byteBuffer.position() + 4) & 48) >> 4 : 3] * 256;
         }
-        parsableBitArray.skipBits(3);
-        int readBits2 = parsableBitArray.readBits(4);
-        parsableBitArray.skipBits(1);
-        if (readBits2 > 0) {
-            parsableBitArray.skipBytes(6);
-            if (parsableBitArray.readBits(1) != 0) {
-                i2 += 2;
-            }
-            parsableBitArray.skipBits(1);
-        }
-        if (parsableBitArray.bitsLeft() > 7) {
-            parsableBitArray.skipBits(7);
-            if (parsableBitArray.readBits(1) != 0) {
-                str3 = "audio/eac3-joc";
-                parsableBitArray.byteAlign();
-                parsableByteArray.setPosition(parsableBitArray.getBytePosition());
-                return new Format.Builder().setId(str).setSampleMimeType(str3).setChannelCount(i2).setSampleRate(i).setDrmInitData(drmInitData).setLanguage(str2).setPeakBitrate(readBits).build();
-            }
-        }
-        str3 = "audio/eac3";
-        parsableBitArray.byteAlign();
-        parsableByteArray.setPosition(parsableBitArray.getBytePosition());
-        return new Format.Builder().setId(str).setSampleMimeType(str3).setChannelCount(i2).setSampleRate(i).setDrmInitData(drmInitData).setLanguage(str2).setPeakBitrate(readBits).build();
+        return 1536;
     }
 
     public static SyncFrameInfo parseAc3SyncframeInfo(ParsableBitArray parsableBitArray) {
@@ -102,7 +108,6 @@ public final class Ac3Util {
         int i8;
         int i9;
         int i10;
-        String str2;
         int i11;
         int i12;
         int position = parsableBitArray.getPosition();
@@ -280,12 +285,7 @@ public final class Ac3Util {
             } else {
                 i10 = 6;
             }
-            if (parsableBitArray.readBit() && parsableBitArray.readBits(i10) == 1 && parsableBitArray.readBits(8) == 1) {
-                str2 = "audio/eac3-joc";
-            } else {
-                str2 = "audio/eac3";
-            }
-            str = str2;
+            str = (parsableBitArray.readBit() && parsableBitArray.readBits(i10) == 1 && parsableBitArray.readBits(8) == 1) ? "audio/eac3-joc" : "audio/eac3";
             i5 = i13;
             i6 = i15;
             i2 = readBits2;
@@ -295,7 +295,7 @@ public final class Ac3Util {
         } else {
             parsableBitArray.skipBits(32);
             int readBits8 = parsableBitArray.readBits(2);
-            String str3 = readBits8 == 3 ? null : "audio/ac3";
+            String str2 = readBits8 == 3 ? null : "audio/ac3";
             int readBits9 = parsableBitArray.readBits(6);
             int i18 = BITRATE_BY_HALF_FRMSIZECOD[readBits9 / 2] * 1000;
             int ac3SyncframeSize = getAc3SyncframeSize(readBits8, readBits9);
@@ -311,7 +311,7 @@ public final class Ac3Util {
                 parsableBitArray.skipBits(2);
             }
             int[] iArr = SAMPLE_RATE_BY_FSCOD;
-            str = str3;
+            str = str2;
             i = i18;
             i2 = ac3SyncframeSize;
             i3 = readBits8 < iArr.length ? iArr[readBits8] : -1;
@@ -333,22 +333,45 @@ public final class Ac3Util {
         return getAc3SyncframeSize((b & 192) >> 6, b & 63);
     }
 
-    public static int parseAc3SyncframeAudioSampleCount(ByteBuffer byteBuffer) {
-        if (((byteBuffer.get(byteBuffer.position() + 5) & 248) >> 3) > 10) {
-            return BLOCKS_PER_SYNCFRAME_BY_NUMBLKSCOD[((byteBuffer.get(byteBuffer.position() + 4) & 192) >> 6) != 3 ? (byteBuffer.get(byteBuffer.position() + 4) & 48) >> 4 : 3] * 256;
+    public static Format parseEAc3AnnexFFormat(ParsableByteArray parsableByteArray, String str, String str2, DrmInitData drmInitData) {
+        String str3;
+        ParsableBitArray parsableBitArray = new ParsableBitArray();
+        parsableBitArray.reset(parsableByteArray);
+        int readBits = parsableBitArray.readBits(13) * 1000;
+        parsableBitArray.skipBits(3);
+        int i = SAMPLE_RATE_BY_FSCOD[parsableBitArray.readBits(2)];
+        parsableBitArray.skipBits(10);
+        int i2 = CHANNEL_COUNT_BY_ACMOD[parsableBitArray.readBits(3)];
+        if (parsableBitArray.readBits(1) != 0) {
+            i2++;
         }
-        return 1536;
-    }
-
-    public static int findTrueHdSyncframeOffset(ByteBuffer byteBuffer) {
-        int position = byteBuffer.position();
-        int limit = byteBuffer.limit() - 10;
-        for (int i = position; i <= limit; i++) {
-            if ((Util.getBigEndianInt(byteBuffer, i + 4) & (-2)) == -126718022) {
-                return i - position;
+        parsableBitArray.skipBits(3);
+        int readBits2 = parsableBitArray.readBits(4);
+        parsableBitArray.skipBits(1);
+        if (readBits2 > 0) {
+            parsableBitArray.skipBytes(6);
+            if (parsableBitArray.readBits(1) != 0) {
+                i2 += 2;
+            }
+            parsableBitArray.skipBits(1);
+        }
+        if (parsableBitArray.bitsLeft() > 7) {
+            parsableBitArray.skipBits(7);
+            if (parsableBitArray.readBits(1) != 0) {
+                str3 = "audio/eac3-joc";
+                parsableBitArray.byteAlign();
+                parsableByteArray.setPosition(parsableBitArray.getBytePosition());
+                return new Format.Builder().setId(str).setSampleMimeType(str3).setChannelCount(i2).setSampleRate(i).setDrmInitData(drmInitData).setLanguage(str2).setPeakBitrate(readBits).build();
             }
         }
-        return -1;
+        str3 = "audio/eac3";
+        parsableBitArray.byteAlign();
+        parsableByteArray.setPosition(parsableBitArray.getBytePosition());
+        return new Format.Builder().setId(str).setSampleMimeType(str3).setChannelCount(i2).setSampleRate(i).setDrmInitData(drmInitData).setLanguage(str2).setPeakBitrate(readBits).build();
+    }
+
+    public static int parseTrueHdSyncframeAudioSampleCount(ByteBuffer byteBuffer, int i) {
+        return 40 << ((byteBuffer.get((byteBuffer.position() + i) + ((byteBuffer.get((byteBuffer.position() + i) + 7) & 255) == 187 ? 9 : 8)) >> 4) & 7);
     }
 
     public static int parseTrueHdSyncframeAudioSampleCount(byte[] bArr) {
@@ -359,34 +382,5 @@ public final class Ac3Util {
             }
         }
         return 0;
-    }
-
-    public static int parseTrueHdSyncframeAudioSampleCount(ByteBuffer byteBuffer, int i) {
-        return 40 << ((byteBuffer.get((byteBuffer.position() + i) + ((byteBuffer.get((byteBuffer.position() + i) + 7) & 255) == 187 ? 9 : 8)) >> 4) & 7);
-    }
-
-    private static int getAc3SyncframeSize(int i, int i2) {
-        int i3 = i2 / 2;
-        if (i >= 0) {
-            int[] iArr = SAMPLE_RATE_BY_FSCOD;
-            if (i >= iArr.length || i2 < 0) {
-                return -1;
-            }
-            int[] iArr2 = SYNCFRAME_SIZE_WORDS_BY_HALF_FRMSIZECOD_44_1;
-            if (i3 >= iArr2.length) {
-                return -1;
-            }
-            int i4 = iArr[i];
-            if (i4 == 44100) {
-                return (iArr2[i3] + (i2 % 2)) * 2;
-            }
-            int i5 = BITRATE_BY_HALF_FRMSIZECOD[i3];
-            return i4 == 32000 ? i5 * 6 : i5 * 4;
-        }
-        return -1;
-    }
-
-    private static int calculateEac3Bitrate(int i, int i2, int i3) {
-        return (i * i2) / (i3 * 32);
     }
 }

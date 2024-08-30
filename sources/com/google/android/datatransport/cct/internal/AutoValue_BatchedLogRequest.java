@@ -3,23 +3,14 @@ package com.google.android.datatransport.cct.internal;
 import java.util.List;
 /* loaded from: classes.dex */
 final class AutoValue_BatchedLogRequest extends BatchedLogRequest {
-    private final List<LogRequest> logRequests;
+    private final List logRequests;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public AutoValue_BatchedLogRequest(List<LogRequest> list) {
+    public AutoValue_BatchedLogRequest(List list) {
         if (list == null) {
             throw new NullPointerException("Null logRequests");
         }
         this.logRequests = list;
-    }
-
-    @Override // com.google.android.datatransport.cct.internal.BatchedLogRequest
-    public List<LogRequest> getLogRequests() {
-        return this.logRequests;
-    }
-
-    public String toString() {
-        return "BatchedLogRequest{logRequests=" + this.logRequests + "}";
     }
 
     public boolean equals(Object obj) {
@@ -32,7 +23,16 @@ final class AutoValue_BatchedLogRequest extends BatchedLogRequest {
         return false;
     }
 
+    @Override // com.google.android.datatransport.cct.internal.BatchedLogRequest
+    public List getLogRequests() {
+        return this.logRequests;
+    }
+
     public int hashCode() {
         return this.logRequests.hashCode() ^ 1000003;
+    }
+
+    public String toString() {
+        return "BatchedLogRequest{logRequests=" + this.logRequests + "}";
     }
 }

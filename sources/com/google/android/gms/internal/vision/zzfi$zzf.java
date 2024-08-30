@@ -1,22 +1,20 @@
 package com.google.android.gms.internal.vision;
 
 import com.google.android.gms.internal.vision.zzjb;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public final class zzfi$zzf extends zzjb<zzfi$zzf, zzb> implements zzkm {
+public final class zzfi$zzf extends zzjb implements zzkm {
     private static final zzfi$zzf zzl;
-    private static volatile zzkx<zzfi$zzf> zzm;
+    private static volatile zzkx zzm;
     private int zzc;
     private int zzg;
     private long zzi;
     private long zzj;
     private String zzd = "";
     private String zze = "";
-    private zzjl<String> zzf = zzjb.zzo();
+    private zzjl zzf = zzjb.zzo();
     private String zzh = "";
-    private zzjl<zzfi$zzn> zzk = zzjb.zzo();
+    private zzjl zzk = zzjb.zzo();
 
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
     public enum zza implements zzje {
         zza(0),
@@ -24,12 +22,11 @@ public final class zzfi$zzf extends zzjb<zzfi$zzf, zzb> implements zzkm {
         zzc(2),
         zzd(3);
         
-        private static final zzjh<zza> zze = new zzfp();
+        private static final zzjh zze = new zzfp();
         private final int zzf;
 
-        @Override // com.google.android.gms.internal.vision.zzje
-        public final int zza() {
-            return this.zzf;
+        zza(int i) {
+            this.zzf = i;
         }
 
         public static zza zza(int i) {
@@ -57,28 +54,20 @@ public final class zzfi$zzf extends zzjb<zzfi$zzf, zzb> implements zzkm {
             return "<" + zza.class.getName() + '@' + Integer.toHexString(System.identityHashCode(this)) + " number=" + this.zzf + " name=" + name() + '>';
         }
 
-        zza(int i) {
-            this.zzf = i;
+        @Override // com.google.android.gms.internal.vision.zzje
+        public final int zza() {
+            return this.zzf;
         }
     }
 
-    private zzfi$zzf() {
-    }
-
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
-    public static final class zzb extends zzjb.zzb<zzfi$zzf, zzb> implements zzkm {
+    public static final class zzb extends zzjb.zzb implements zzkm {
         private zzb() {
             super(zzfi$zzf.zzl);
         }
 
-        public final zzb zza(String str) {
-            if (this.zzb) {
-                zzb();
-                this.zzb = false;
-            }
-            ((zzfi$zzf) this.zza).zza(str);
-            return this;
+        /* synthetic */ zzb(zzfk zzfkVar) {
+            this();
         }
 
         public final zzb zza(long j) {
@@ -90,16 +79,7 @@ public final class zzfi$zzf extends zzjb<zzfi$zzf, zzb> implements zzkm {
             return this;
         }
 
-        public final zzb zzb(long j) {
-            if (this.zzb) {
-                zzb();
-                this.zzb = false;
-            }
-            ((zzfi$zzf) this.zza).zzb(j);
-            return this;
-        }
-
-        public final zzb zza(Iterable<? extends zzfi$zzn> iterable) {
+        public final zzb zza(Iterable iterable) {
             if (this.zzb) {
                 zzb();
                 this.zzb = false;
@@ -108,9 +88,51 @@ public final class zzfi$zzf extends zzjb<zzfi$zzf, zzb> implements zzkm {
             return this;
         }
 
-        /* synthetic */ zzb(zzfk zzfkVar) {
-            this();
+        public final zzb zza(String str) {
+            if (this.zzb) {
+                zzb();
+                this.zzb = false;
+            }
+            ((zzfi$zzf) this.zza).zza(str);
+            return this;
         }
+
+        public final zzb zzb(long j) {
+            if (this.zzb) {
+                zzb();
+                this.zzb = false;
+            }
+            ((zzfi$zzf) this.zza).zzb(j);
+            return this;
+        }
+    }
+
+    static {
+        zzfi$zzf zzfi_zzf = new zzfi$zzf();
+        zzl = zzfi_zzf;
+        zzjb.zza(zzfi$zzf.class, zzfi_zzf);
+    }
+
+    private zzfi$zzf() {
+    }
+
+    public static zzb zza() {
+        return (zzb) zzl.zzj();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public final void zza(long j) {
+        this.zzc |= 16;
+        this.zzi = j;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public final void zza(Iterable iterable) {
+        zzjl zzjlVar = this.zzk;
+        if (!zzjlVar.zza()) {
+            this.zzk = zzjb.zza(zzjlVar);
+        }
+        zzhf.zza(iterable, this.zzk);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -121,32 +143,13 @@ public final class zzfi$zzf extends zzjb<zzfi$zzf, zzb> implements zzkm {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public final void zza(long j) {
-        this.zzc |= 16;
-        this.zzi = j;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
     public final void zzb(long j) {
         this.zzc |= 32;
         this.zzj = j;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public final void zza(Iterable<? extends zzfi$zzn> iterable) {
-        zzjl<zzfi$zzn> zzjlVar = this.zzk;
-        if (!zzjlVar.zza()) {
-            this.zzk = zzjb.zza(zzjlVar);
-        }
-        zzhf.zza(iterable, this.zzk);
-    }
-
-    public static zzb zza() {
-        return zzl.zzj();
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r3v19, types: [com.google.android.gms.internal.vision.zzkx<com.google.android.gms.internal.vision.zzfi$zzf>, com.google.android.gms.internal.vision.zzjb$zza] */
+    /* JADX WARN: Type inference failed for: r3v19, types: [com.google.android.gms.internal.vision.zzkx, com.google.android.gms.internal.vision.zzjb$zza] */
     @Override // com.google.android.gms.internal.vision.zzjb
     public final Object zza(int i, Object obj, Object obj2) {
         switch (zzfk.zza[i - 1]) {
@@ -159,13 +162,13 @@ public final class zzfi$zzf extends zzjb<zzfi$zzf, zzb> implements zzkm {
             case 4:
                 return zzl;
             case 5:
-                zzkx<zzfi$zzf> zzkxVar = zzm;
-                zzkx<zzfi$zzf> zzkxVar2 = zzkxVar;
+                zzkx zzkxVar = zzm;
+                zzkx zzkxVar2 = zzkxVar;
                 if (zzkxVar == null) {
                     synchronized (zzfi$zzf.class) {
                         try {
-                            zzkx<zzfi$zzf> zzkxVar3 = zzm;
-                            zzkx<zzfi$zzf> zzkxVar4 = zzkxVar3;
+                            zzkx zzkxVar3 = zzm;
+                            zzkx zzkxVar4 = zzkxVar3;
                             if (zzkxVar3 == null) {
                                 ?? zzaVar = new zzjb.zza(zzl);
                                 zzm = zzaVar;
@@ -183,11 +186,5 @@ public final class zzfi$zzf extends zzjb<zzfi$zzf, zzb> implements zzkm {
             default:
                 throw new UnsupportedOperationException();
         }
-    }
-
-    static {
-        zzfi$zzf zzfi_zzf = new zzfi$zzf();
-        zzl = zzfi_zzf;
-        zzjb.zza(zzfi$zzf.class, zzfi_zzf);
     }
 }

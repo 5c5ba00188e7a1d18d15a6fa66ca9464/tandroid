@@ -1,7 +1,6 @@
 package kotlinx.coroutines.scheduling;
 
 import kotlinx.coroutines.DebugStringsKt;
-/* compiled from: Tasks.kt */
 /* loaded from: classes.dex */
 public final class TaskImpl extends Task {
     public final Runnable block;

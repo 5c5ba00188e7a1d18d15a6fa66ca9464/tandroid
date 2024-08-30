@@ -8,11 +8,6 @@ public class CleanInputStream extends FilterInputStream {
     int prev;
     int prevprev;
 
-    @Override // java.io.FilterInputStream, java.io.InputStream
-    public boolean markSupported() {
-        return false;
-    }
-
     public CleanInputStream(InputStream inputStream) {
         super(inputStream);
         this.prevprev = -1;
@@ -20,7 +15,12 @@ public class CleanInputStream extends FilterInputStream {
     }
 
     @Override // java.io.FilterInputStream, java.io.InputStream
-    public int read() throws IOException {
+    public boolean markSupported() {
+        return false;
+    }
+
+    @Override // java.io.FilterInputStream, java.io.InputStream
+    public int read() {
         int read = super.read();
         if (read == 3 && this.prevprev == 0 && this.prev == 0) {
             this.prevprev = -1;
@@ -33,7 +33,7 @@ public class CleanInputStream extends FilterInputStream {
     }
 
     @Override // java.io.FilterInputStream, java.io.InputStream
-    public int read(byte[] bArr, int i, int i2) throws IOException {
+    public int read(byte[] bArr, int i, int i2) {
         bArr.getClass();
         if (i < 0 || i2 < 0 || i2 > bArr.length - i) {
             throw new IndexOutOfBoundsException();

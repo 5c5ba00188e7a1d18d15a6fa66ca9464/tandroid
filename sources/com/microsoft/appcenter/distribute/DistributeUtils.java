@@ -13,7 +13,12 @@ import com.microsoft.appcenter.utils.storage.SharedPreferencesManager;
 import java.util.UUID;
 import org.json.JSONException;
 /* loaded from: classes.dex */
-class DistributeUtils {
+abstract class DistributeUtils {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static String computeReleaseHash(PackageInfo packageInfo) {
+        return HashUtils.sha256(packageInfo.packageName + ":" + packageInfo.versionName + ":" + DeviceInfoHelper.getVersionCode(packageInfo));
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int getNotificationId() {
         return Distribute.class.getName().hashCode();
@@ -25,20 +30,18 @@ class DistributeUtils {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static String computeReleaseHash(PackageInfo packageInfo) {
-        return HashUtils.sha256(packageInfo.packageName + ":" + packageInfo.versionName + ":" + DeviceInfoHelper.getVersionCode(packageInfo));
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void updateSetupUsingTesterApp(Activity activity, PackageInfo packageInfo) {
-        String computeReleaseHash = computeReleaseHash(packageInfo);
-        String uuid = UUID.randomUUID().toString();
-        String str = (((("ms-actesterapp://update-setup?release_hash=" + computeReleaseHash) + "&redirect_id=" + activity.getPackageName()) + "&redirect_scheme=appcenter") + "&request_id=" + uuid) + "&platform=Android";
-        AppCenterLog.debug("AppCenterDistribute", "No token, need to open tester app to url=" + str);
-        SharedPreferencesManager.putString("Distribute.request_id", uuid);
-        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(str));
-        intent.addFlags(268435456);
-        activity.startActivity(intent);
+    public static ReleaseDetails loadCachedReleaseDetails() {
+        String string = SharedPreferencesManager.getString("Distribute.release_details");
+        if (string != null) {
+            try {
+                return ReleaseDetails.parse(string);
+            } catch (JSONException e) {
+                AppCenterLog.error("AppCenterDistribute", "Invalid release details in cache.", e);
+                SharedPreferencesManager.remove("Distribute.release_details");
+                return null;
+            }
+        }
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -57,17 +60,14 @@ class DistributeUtils {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static ReleaseDetails loadCachedReleaseDetails() {
-        String string = SharedPreferencesManager.getString("Distribute.release_details");
-        if (string != null) {
-            try {
-                return ReleaseDetails.parse(string);
-            } catch (JSONException e) {
-                AppCenterLog.error("AppCenterDistribute", "Invalid release details in cache.", e);
-                SharedPreferencesManager.remove("Distribute.release_details");
-                return null;
-            }
-        }
-        return null;
+    public static void updateSetupUsingTesterApp(Activity activity, PackageInfo packageInfo) {
+        String computeReleaseHash = computeReleaseHash(packageInfo);
+        String uuid = UUID.randomUUID().toString();
+        String str = (((("ms-actesterapp://update-setup?release_hash=" + computeReleaseHash) + "&redirect_id=" + activity.getPackageName()) + "&redirect_scheme=appcenter") + "&request_id=" + uuid) + "&platform=Android";
+        AppCenterLog.debug("AppCenterDistribute", "No token, need to open tester app to url=" + str);
+        SharedPreferencesManager.putString("Distribute.request_id", uuid);
+        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(str));
+        intent.addFlags(268435456);
+        activity.startActivity(intent);
     }
 }

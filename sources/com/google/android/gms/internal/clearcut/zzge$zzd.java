@@ -2,8 +2,8 @@ package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
 /* loaded from: classes.dex */
-public final class zzge$zzd extends zzcg<zzge$zzd, zza> implements zzdq {
-    private static volatile zzdz<zzge$zzd> zzbg;
+public final class zzge$zzd extends zzcg implements zzdq {
+    private static volatile zzdz zzbg;
     private static final zzge$zzd zztx;
     private int zzbb;
     private int zztu;
@@ -11,7 +11,7 @@ public final class zzge$zzd extends zzcg<zzge$zzd, zza> implements zzdq {
     private String zztw = "";
 
     /* loaded from: classes.dex */
-    public static final class zza extends zzcg.zza<zzge$zzd, zza> implements zzdq {
+    public static final class zza extends zzcg.zza implements zzdq {
         private zza() {
             super(zzge$zzd.zztx);
         }
@@ -31,7 +31,7 @@ public final class zzge$zzd extends zzcg<zzge$zzd, zza> implements zzdq {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzdz<com.google.android.gms.internal.clearcut.zzge$zzd>, com.google.android.gms.internal.clearcut.zzcg$zzb] */
+    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzdz, com.google.android.gms.internal.clearcut.zzcg$zzb] */
     @Override // com.google.android.gms.internal.clearcut.zzcg
     public final Object zza(int i, Object obj, Object obj2) {
         switch (zzgf.zzba[i - 1]) {
@@ -44,13 +44,13 @@ public final class zzge$zzd extends zzcg<zzge$zzd, zza> implements zzdq {
             case 4:
                 return zztx;
             case 5:
-                zzdz<zzge$zzd> zzdzVar = zzbg;
-                zzdz<zzge$zzd> zzdzVar2 = zzdzVar;
+                zzdz zzdzVar = zzbg;
+                zzdz zzdzVar2 = zzdzVar;
                 if (zzdzVar == null) {
                     synchronized (zzge$zzd.class) {
                         try {
-                            zzdz<zzge$zzd> zzdzVar3 = zzbg;
-                            zzdz<zzge$zzd> zzdzVar4 = zzdzVar3;
+                            zzdz zzdzVar3 = zzbg;
+                            zzdz zzdzVar4 = zzdzVar3;
                             if (zzdzVar3 == null) {
                                 ?? zzbVar = new zzcg.zzb(zztx);
                                 zzbg = zzbVar;

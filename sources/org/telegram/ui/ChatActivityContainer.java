@@ -8,37 +8,28 @@ import android.widget.FrameLayout;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes4.dex */
-public class ChatActivityContainer extends FrameLayout {
+public abstract class ChatActivityContainer extends FrameLayout {
     public final ChatActivity chatActivity;
     private View fragmentView;
     private boolean isActive;
     private final INavigationLayout parentLayout;
-
-    protected void onSearchLoadingUpdate(boolean z) {
-    }
 
     public ChatActivityContainer(Context context, INavigationLayout iNavigationLayout, Bundle bundle) {
         super(context);
         this.isActive = true;
         this.parentLayout = iNavigationLayout;
         ChatActivity chatActivity = new ChatActivity(bundle) { // from class: org.telegram.ui.ChatActivityContainer.1
-            @Override // org.telegram.ui.ActionBar.BaseFragment
-            public void setNavigationBarColor(int i) {
-            }
-
             @Override // org.telegram.ui.ChatActivity
             protected void onSearchLoadingUpdate(boolean z) {
                 ChatActivityContainer.this.onSearchLoadingUpdate(z);
             }
+
+            @Override // org.telegram.ui.ActionBar.BaseFragment
+            public void setNavigationBarColor(int i) {
+            }
         };
         this.chatActivity = chatActivity;
         chatActivity.isInsideContainer = true;
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        initChatActivity();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -65,6 +56,17 @@ public class ChatActivityContainer extends FrameLayout {
         }
     }
 
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        initChatActivity();
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+    }
+
     public void onPause() {
         this.isActive = false;
         if (this.fragmentView != null) {
@@ -79,8 +81,6 @@ public class ChatActivityContainer extends FrameLayout {
         }
     }
 
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
+    protected void onSearchLoadingUpdate(boolean z) {
     }
 }

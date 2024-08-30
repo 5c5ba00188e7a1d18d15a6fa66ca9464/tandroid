@@ -5,9 +5,8 @@ import com.android.billingclient.api.BillingResult;
 import com.google.android.gms.internal.play_billing.zzb;
 import java.util.ArrayList;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-public final class zzbl {
+public abstract class zzbl {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static zzbk zza(Bundle bundle, String str, String str2) {
         BillingResult billingResult = zzat.zzj;

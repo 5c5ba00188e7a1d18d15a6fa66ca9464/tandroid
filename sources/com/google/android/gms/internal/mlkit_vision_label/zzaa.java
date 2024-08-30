@@ -3,7 +3,6 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 final class zzaa extends zzbn {
     final /* synthetic */ zzag zza;

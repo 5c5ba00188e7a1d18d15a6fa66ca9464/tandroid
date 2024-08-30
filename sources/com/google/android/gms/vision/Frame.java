@@ -3,39 +3,26 @@ package com.google.android.gms.vision;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.Image;
-import androidx.annotation.RecentlyNonNull;
-import androidx.annotation.RecentlyNullable;
 import java.nio.ByteBuffer;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public class Frame {
     private final Metadata zza;
     private ByteBuffer zzb;
     private Bitmap zzd;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
-    /* loaded from: classes.dex */
-    public static class zza {
-    }
-
-    @RecentlyNonNull
-    public Metadata getMetadata() {
-        return this.zza;
-    }
-
-    @RecentlyNullable
-    public Image.Plane[] getPlanes() {
-        return null;
-    }
-
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
     public static class Builder {
         private final Frame zza = new Frame();
 
-        @RecentlyNonNull
-        public Builder setBitmap(@RecentlyNonNull Bitmap bitmap) {
+        public Frame build() {
+            if (this.zza.zzb == null && this.zza.zzd == null) {
+                Frame.zzc(this.zza);
+                throw new IllegalStateException("Missing image data.  Call either setBitmap or setImageData to specify the image");
+            }
+            return this.zza;
+        }
+
+        public Builder setBitmap(Bitmap bitmap) {
             int width = bitmap.getWidth();
             int height = bitmap.getHeight();
             this.zza.zzd = bitmap;
@@ -45,45 +32,83 @@ public class Frame {
             return this;
         }
 
-        @RecentlyNonNull
-        public Builder setImageData(@RecentlyNonNull ByteBuffer byteBuffer, int i, int i2, int i3) {
-            if (byteBuffer == null) {
-                throw new IllegalArgumentException("Null image data supplied.");
-            }
-            if (byteBuffer.capacity() >= i * i2) {
-                if (i3 != 16 && i3 != 17 && i3 != 842094169) {
-                    StringBuilder sb = new StringBuilder(37);
-                    sb.append("Unsupported image format: ");
-                    sb.append(i3);
-                    throw new IllegalArgumentException(sb.toString());
+        public Builder setImageData(ByteBuffer byteBuffer, int i, int i2, int i3) {
+            if (byteBuffer != null) {
+                if (byteBuffer.capacity() >= i * i2) {
+                    if (i3 != 16 && i3 != 17 && i3 != 842094169) {
+                        StringBuilder sb = new StringBuilder(37);
+                        sb.append("Unsupported image format: ");
+                        sb.append(i3);
+                        throw new IllegalArgumentException(sb.toString());
+                    }
+                    this.zza.zzb = byteBuffer;
+                    Metadata metadata = this.zza.getMetadata();
+                    metadata.zza = i;
+                    metadata.zzb = i2;
+                    metadata.zzf = i3;
+                    return this;
                 }
-                this.zza.zzb = byteBuffer;
-                Metadata metadata = this.zza.getMetadata();
-                metadata.zza = i;
-                metadata.zzb = i2;
-                metadata.zzf = i3;
-                return this;
+                throw new IllegalArgumentException("Invalid image data size.");
             }
-            throw new IllegalArgumentException("Invalid image data size.");
+            throw new IllegalArgumentException("Null image data supplied.");
         }
 
-        @RecentlyNonNull
         public Builder setRotation(int i) {
             this.zza.getMetadata().zze = i;
             return this;
         }
+    }
 
-        @RecentlyNonNull
-        public Frame build() {
-            if (this.zza.zzb == null && this.zza.zzd == null) {
-                Frame.zzc(this.zza);
-                throw new IllegalStateException("Missing image data.  Call either setBitmap or setImageData to specify the image");
-            }
+    /* loaded from: classes.dex */
+    public static class Metadata {
+        private int zza;
+        private int zzb;
+        private int zzc;
+        private long zzd;
+        private int zze;
+        private int zzf = -1;
+
+        public int getHeight() {
+            return this.zzb;
+        }
+
+        public int getId() {
+            return this.zzc;
+        }
+
+        public int getRotation() {
+            return this.zze;
+        }
+
+        public long getTimestampMillis() {
+            return this.zzd;
+        }
+
+        public int getWidth() {
             return this.zza;
         }
     }
 
-    @RecentlyNullable
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class zza {
+    }
+
+    private Frame() {
+        this.zza = new Metadata();
+        this.zzb = null;
+        this.zzd = null;
+    }
+
+    static /* synthetic */ zza zzc(Frame frame) {
+        frame.getClass();
+        return null;
+    }
+
+    public Bitmap getBitmap() {
+        return this.zzd;
+    }
+
     public ByteBuffer getGrayscaleImageData() {
         Bitmap bitmap = this.zzd;
         if (bitmap != null) {
@@ -104,50 +129,11 @@ public class Frame {
         return this.zzb;
     }
 
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
-    /* loaded from: classes.dex */
-    public static class Metadata {
-        private int zza;
-        private int zzb;
-        private int zzc;
-        private long zzd;
-        private int zze;
-        private int zzf = -1;
-
-        public int getWidth() {
-            return this.zza;
-        }
-
-        public int getHeight() {
-            return this.zzb;
-        }
-
-        public int getId() {
-            return this.zzc;
-        }
-
-        public long getTimestampMillis() {
-            return this.zzd;
-        }
-
-        public int getRotation() {
-            return this.zze;
-        }
+    public Metadata getMetadata() {
+        return this.zza;
     }
 
-    @RecentlyNullable
-    public Bitmap getBitmap() {
-        return this.zzd;
-    }
-
-    private Frame() {
-        this.zza = new Metadata();
-        this.zzb = null;
-        this.zzd = null;
-    }
-
-    static /* synthetic */ zza zzc(Frame frame) {
-        frame.getClass();
+    public Image.Plane[] getPlanes() {
         return null;
     }
 }

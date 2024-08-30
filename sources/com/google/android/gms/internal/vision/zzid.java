@@ -1,9 +1,7 @@
 package com.google.android.gms.internal.vision;
 
-import java.io.IOException;
 import java.nio.charset.Charset;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public class zzid extends zzia {
     protected final byte[] zzb;
@@ -12,52 +10,6 @@ public class zzid extends zzia {
     public zzid(byte[] bArr) {
         bArr.getClass();
         this.zzb = bArr;
-    }
-
-    protected int zze() {
-        return 0;
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzht
-    public byte zza(int i) {
-        return this.zzb[i];
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.android.gms.internal.vision.zzht
-    public byte zzb(int i) {
-        return this.zzb[i];
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzht
-    public int zza() {
-        return this.zzb.length;
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzht
-    public final zzht zza(int i, int i2) {
-        int zzb = zzht.zzb(0, i2, zza());
-        if (zzb == 0) {
-            return zzht.zza;
-        }
-        return new zzhw(this.zzb, zze(), zzb);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.android.gms.internal.vision.zzht
-    public final void zza(zzhq zzhqVar) throws IOException {
-        zzhqVar.zza(this.zzb, zze(), zza());
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzht
-    protected final String zza(Charset charset) {
-        return new String(this.zzb, zze(), zza(), charset);
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzht
-    public final boolean zzc() {
-        int zze = zze();
-        return zzmd.zza(this.zzb, zze, zza() + zze);
     }
 
     @Override // com.google.android.gms.internal.vision.zzht
@@ -81,6 +33,38 @@ public class zzid extends zzia {
             return obj.equals(this);
         }
         return false;
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzht
+    public byte zza(int i) {
+        return this.zzb[i];
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzht
+    public int zza() {
+        return this.zzb.length;
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzht
+    protected final int zza(int i, int i2, int i3) {
+        return zzjf.zza(i, this.zzb, zze(), i3);
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzht
+    public final zzht zza(int i, int i2) {
+        int zzb = zzht.zzb(0, i2, zza());
+        return zzb == 0 ? zzht.zza : new zzhw(this.zzb, zze(), zzb);
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzht
+    protected final String zza(Charset charset) {
+        return new String(this.zzb, zze(), zza(), charset);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // com.google.android.gms.internal.vision.zzht
+    public final void zza(zzhq zzhqVar) {
+        zzhqVar.zza(this.zzb, zze(), zza());
     }
 
     @Override // com.google.android.gms.internal.vision.zzia
@@ -120,8 +104,19 @@ public class zzid extends zzia {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzht
-    protected final int zza(int i, int i2, int i3) {
-        return zzjf.zza(i, this.zzb, zze(), i3);
+    public byte zzb(int i) {
+        return this.zzb[i];
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzht
+    public final boolean zzc() {
+        int zze = zze();
+        return zzmd.zza(this.zzb, zze, zza() + zze);
+    }
+
+    protected int zze() {
+        return 0;
     }
 }

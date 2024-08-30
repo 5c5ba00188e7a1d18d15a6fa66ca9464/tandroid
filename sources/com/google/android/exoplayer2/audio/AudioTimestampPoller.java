@@ -1,6 +1,5 @@
 package com.google.android.exoplayer2.audio;
 
-import android.annotation.TargetApi;
 import android.media.AudioTimestamp;
 import android.media.AudioTrack;
 import com.google.android.exoplayer2.util.Util;
@@ -13,6 +12,41 @@ final class AudioTimestampPoller {
     private long sampleIntervalUs;
     private int state;
 
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static final class AudioTimestampV19 {
+        private final AudioTimestamp audioTimestamp = new AudioTimestamp();
+        private final AudioTrack audioTrack;
+        private long lastTimestampPositionFrames;
+        private long lastTimestampRawPositionFrames;
+        private long rawTimestampFramePositionWrapCount;
+
+        public AudioTimestampV19(AudioTrack audioTrack) {
+            this.audioTrack = audioTrack;
+        }
+
+        public long getTimestampPositionFrames() {
+            return this.lastTimestampPositionFrames;
+        }
+
+        public long getTimestampSystemTimeUs() {
+            return this.audioTimestamp.nanoTime / 1000;
+        }
+
+        public boolean maybeUpdateTimestamp() {
+            boolean timestamp = this.audioTrack.getTimestamp(this.audioTimestamp);
+            if (timestamp) {
+                long j = this.audioTimestamp.framePosition;
+                if (this.lastTimestampRawPositionFrames > j) {
+                    this.rawTimestampFramePositionWrapCount++;
+                }
+                this.lastTimestampRawPositionFrames = j;
+                this.lastTimestampPositionFrames = j + (this.rawTimestampFramePositionWrapCount << 32);
+            }
+            return timestamp;
+        }
+    }
+
     public AudioTimestampPoller(AudioTrack audioTrack) {
         if (Util.SDK_INT >= 19) {
             this.audioTimestamp = new AudioTimestampV19(audioTrack);
@@ -23,7 +57,60 @@ final class AudioTimestampPoller {
         updateState(3);
     }
 
-    @TargetApi(19)
+    private void updateState(int i) {
+        this.state = i;
+        long j = 10000;
+        if (i == 0) {
+            this.lastTimestampSampleTimeUs = 0L;
+            this.initialTimestampPositionFrames = -1L;
+            this.initializeSystemTimeUs = System.nanoTime() / 1000;
+        } else if (i != 1) {
+            if (i == 2 || i == 3) {
+                j = 10000000;
+            } else if (i != 4) {
+                throw new IllegalStateException();
+            } else {
+                j = 500000;
+            }
+        }
+        this.sampleIntervalUs = j;
+    }
+
+    public void acceptTimestamp() {
+        if (this.state == 4) {
+            reset();
+        }
+    }
+
+    public long getTimestampPositionFrames() {
+        AudioTimestampV19 audioTimestampV19 = this.audioTimestamp;
+        if (audioTimestampV19 != null) {
+            return audioTimestampV19.getTimestampPositionFrames();
+        }
+        return -1L;
+    }
+
+    public long getTimestampSystemTimeUs() {
+        AudioTimestampV19 audioTimestampV19 = this.audioTimestamp;
+        if (audioTimestampV19 != null) {
+            return audioTimestampV19.getTimestampSystemTimeUs();
+        }
+        return -9223372036854775807L;
+    }
+
+    public boolean hasAdvancingTimestamp() {
+        return this.state == 2;
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x002d, code lost:
+        if (r0 != false) goto L19;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x0030, code lost:
+        if (r0 == false) goto L19;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public boolean maybePollTimestamp(long j) {
         AudioTimestampV19 audioTimestampV19 = this.audioTimestamp;
         if (audioTimestampV19 == null || j - this.lastTimestampSampleTimeUs < this.sampleIntervalUs) {
@@ -33,24 +120,19 @@ final class AudioTimestampPoller {
         boolean maybeUpdateTimestamp = audioTimestampV19.maybeUpdateTimestamp();
         int i = this.state;
         if (i != 0) {
-            if (i != 1) {
-                if (i != 2) {
-                    if (i != 3) {
-                        if (i != 4) {
-                            throw new IllegalStateException();
-                        }
-                    } else if (maybeUpdateTimestamp) {
-                        reset();
+            if (i == 1) {
+                if (maybeUpdateTimestamp) {
+                    if (this.audioTimestamp.getTimestampPositionFrames() > this.initialTimestampPositionFrames) {
+                        updateState(2);
                     }
-                } else if (!maybeUpdateTimestamp) {
-                    reset();
                 }
-            } else if (maybeUpdateTimestamp) {
-                if (this.audioTimestamp.getTimestampPositionFrames() > this.initialTimestampPositionFrames) {
-                    updateState(2);
-                }
-            } else {
                 reset();
+            } else if (i != 2) {
+                if (i != 3) {
+                    if (i != 4) {
+                        throw new IllegalStateException();
+                    }
+                }
             }
         } else if (maybeUpdateTimestamp) {
             if (this.audioTimestamp.getTimestampSystemTimeUs() < this.initializeSystemTimeUs) {
@@ -68,90 +150,9 @@ final class AudioTimestampPoller {
         updateState(4);
     }
 
-    public void acceptTimestamp() {
-        if (this.state == 4) {
-            reset();
-        }
-    }
-
-    public boolean hasAdvancingTimestamp() {
-        return this.state == 2;
-    }
-
     public void reset() {
         if (this.audioTimestamp != null) {
             updateState(0);
-        }
-    }
-
-    @TargetApi(19)
-    public long getTimestampSystemTimeUs() {
-        AudioTimestampV19 audioTimestampV19 = this.audioTimestamp;
-        if (audioTimestampV19 != null) {
-            return audioTimestampV19.getTimestampSystemTimeUs();
-        }
-        return -9223372036854775807L;
-    }
-
-    @TargetApi(19)
-    public long getTimestampPositionFrames() {
-        AudioTimestampV19 audioTimestampV19 = this.audioTimestamp;
-        if (audioTimestampV19 != null) {
-            return audioTimestampV19.getTimestampPositionFrames();
-        }
-        return -1L;
-    }
-
-    private void updateState(int i) {
-        this.state = i;
-        if (i == 0) {
-            this.lastTimestampSampleTimeUs = 0L;
-            this.initialTimestampPositionFrames = -1L;
-            this.initializeSystemTimeUs = System.nanoTime() / 1000;
-            this.sampleIntervalUs = 10000L;
-        } else if (i == 1) {
-            this.sampleIntervalUs = 10000L;
-        } else if (i == 2 || i == 3) {
-            this.sampleIntervalUs = 10000000L;
-        } else if (i == 4) {
-            this.sampleIntervalUs = 500000L;
-        } else {
-            throw new IllegalStateException();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class AudioTimestampV19 {
-        private final AudioTimestamp audioTimestamp = new AudioTimestamp();
-        private final AudioTrack audioTrack;
-        private long lastTimestampPositionFrames;
-        private long lastTimestampRawPositionFrames;
-        private long rawTimestampFramePositionWrapCount;
-
-        public AudioTimestampV19(AudioTrack audioTrack) {
-            this.audioTrack = audioTrack;
-        }
-
-        public boolean maybeUpdateTimestamp() {
-            boolean timestamp = this.audioTrack.getTimestamp(this.audioTimestamp);
-            if (timestamp) {
-                long j = this.audioTimestamp.framePosition;
-                if (this.lastTimestampRawPositionFrames > j) {
-                    this.rawTimestampFramePositionWrapCount++;
-                }
-                this.lastTimestampRawPositionFrames = j;
-                this.lastTimestampPositionFrames = j + (this.rawTimestampFramePositionWrapCount << 32);
-            }
-            return timestamp;
-        }
-
-        public long getTimestampSystemTimeUs() {
-            return this.audioTimestamp.nanoTime / 1000;
-        }
-
-        public long getTimestampPositionFrames() {
-            return this.lastTimestampPositionFrames;
         }
     }
 }

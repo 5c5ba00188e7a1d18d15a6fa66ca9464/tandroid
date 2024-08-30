@@ -19,7 +19,7 @@ import org.telegram.ui.Charts.view_data.LineViewData;
 import org.telegram.ui.Charts.view_data.PieLegendView;
 import org.telegram.ui.Charts.view_data.TransitionParams;
 /* loaded from: classes4.dex */
-public class PieChartView extends StackLinearChartView<PieChartViewData> {
+public class PieChartView extends StackLinearChartView {
     float MAX_TEXT_SIZE;
     float MIN_TEXT_SIZE;
     int currentSelection;
@@ -35,31 +35,6 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
     float sum;
     TextPaint textPaint;
     float[] values;
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Charts.BaseChartView
-    public void drawBottomLine(Canvas canvas) {
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // org.telegram.ui.Charts.BaseChartView
-    public void drawBottomSignature(Canvas canvas) {
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Charts.BaseChartView
-    public void drawHorizontalLines(Canvas canvas, ChartHorizontalLinesData chartHorizontalLinesData) {
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Charts.BaseChartView
-    public void drawSelection(Canvas canvas) {
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Charts.BaseChartView
-    public void drawSignaturesToHorizontalLines(Canvas canvas, ChartHorizontalLinesData chartHorizontalLinesData) {
-    }
 
     public PieChartView(Context context) {
         super(context);
@@ -84,217 +59,348 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
         this.canCaptureChartSelection = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$updateCharValues$0(PieChartViewData pieChartViewData, ValueAnimator valueAnimator) {
+        pieChartViewData.drawingPart = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        invalidate();
+    }
+
+    private void updateCharValues(float f, float f2, boolean z) {
+        if (this.values == null) {
+            return;
+        }
+        int length = ((StackLinearChartData) this.chartData).xPercentage.length;
+        int size = this.lines.size();
+        int i = 0;
+        int i2 = -1;
+        int i3 = -1;
+        for (int i4 = 0; i4 < length; i4++) {
+            float f3 = ((StackLinearChartData) this.chartData).xPercentage[i4];
+            if (f3 >= f && i3 == -1) {
+                i3 = i4;
+            }
+            if (f3 <= f2) {
+                i2 = i4;
+            }
+        }
+        if (i2 < i3) {
+            i3 = i2;
+        }
+        if (!z && this.lastEndIndex == i2 && this.lastStartIndex == i3) {
+            return;
+        }
+        this.lastEndIndex = i2;
+        this.lastStartIndex = i3;
+        this.isEmpty = true;
+        this.sum = 0.0f;
+        for (int i5 = 0; i5 < size; i5++) {
+            this.values[i5] = 0.0f;
+        }
+        while (i3 <= i2) {
+            for (int i6 = 0; i6 < size; i6++) {
+                float[] fArr = this.values;
+                fArr[i6] = fArr[i6] + ((float) ((ChartData.Line) ((StackLinearChartData) this.chartData).lines.get(i6)).y[i3]);
+                this.sum += (float) ((ChartData.Line) ((StackLinearChartData) this.chartData).lines.get(i6)).y[i3];
+                if (this.isEmpty && ((PieChartViewData) this.lines.get(i6)).enabled && ((ChartData.Line) ((StackLinearChartData) this.chartData).lines.get(i6)).y[i3] > 0) {
+                    this.isEmpty = false;
+                }
+            }
+            i3++;
+        }
+        if (z) {
+            while (i < size) {
+                if (this.sum == 0.0f) {
+                    ((PieChartViewData) this.lines.get(i)).drawingPart = 0.0f;
+                } else {
+                    ((PieChartViewData) this.lines.get(i)).drawingPart = this.values[i] / this.sum;
+                }
+                i++;
+            }
+            return;
+        }
+        while (i < size) {
+            final PieChartViewData pieChartViewData = (PieChartViewData) this.lines.get(i);
+            Animator animator = pieChartViewData.animator;
+            if (animator != null) {
+                animator.cancel();
+            }
+            float f4 = this.sum;
+            ValueAnimator createAnimator = createAnimator(pieChartViewData.drawingPart, f4 == 0.0f ? 0.0f : this.values[i] / f4, new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.PieChartView$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    PieChartView.this.lambda$updateCharValues$0(pieChartViewData, valueAnimator);
+                }
+            });
+            pieChartViewData.animator = createAnimator;
+            createAnimator.start();
+            i++;
+        }
+    }
+
+    @Override // org.telegram.ui.Charts.BaseChartView
+    protected LegendSignatureView createLegendView() {
+        PieLegendView pieLegendView = new PieLegendView(getContext());
+        this.pieLegendView = pieLegendView;
+        return pieLegendView;
+    }
+
     @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView
+    public PieChartViewData createLineViewData(ChartData.Line line) {
+        return new PieChartViewData(line);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Charts.BaseChartView
+    public void drawBottomLine(Canvas canvas) {
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // org.telegram.ui.Charts.BaseChartView
+    public void drawBottomSignature(Canvas canvas) {
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0060  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x007f  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0086  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00cc A[LOOP:0: B:32:0x00ca->B:33:0x00cc, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00ea  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00f0  */
+    @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     protected void drawChart(Canvas canvas) {
         int i;
+        int size;
+        int i2;
         float f;
         float f2;
         float f3;
-        Canvas canvas2;
-        int i2;
-        int i3;
         float f4;
+        Canvas canvas2;
+        int i3;
         int i4;
+        float f5;
+        int i5;
         Canvas canvas3 = canvas;
-        if (this.chartData == 0) {
+        if (this.chartData == null) {
             return;
         }
         if (canvas3 != null) {
             canvas.save();
         }
         if (this.transitionMode == 1) {
-            float f5 = this.transitionParams.progress;
-            i = (int) (f5 * f5 * 255.0f);
+            float f6 = this.transitionParams.progress;
+            i = (int) (f6 * f6 * 255.0f);
         } else {
             i = NotificationCenter.voipServiceCreated;
         }
-        float f6 = 1.0f;
-        float f7 = 0.0f;
+        float f7 = 1.0f;
+        float f8 = 0.0f;
         if (this.isEmpty) {
-            float f8 = this.emptyDataAlpha;
-            if (f8 != 0.0f) {
-                float f9 = f8 - 0.12f;
-                this.emptyDataAlpha = f9;
-                if (f9 < 0.0f) {
+            float f9 = this.emptyDataAlpha;
+            if (f9 != 0.0f) {
+                float f10 = f9 - 0.12f;
+                this.emptyDataAlpha = f10;
+                if (f10 < 0.0f) {
                     this.emptyDataAlpha = 0.0f;
                 }
                 invalidate();
             }
-        } else {
-            float f10 = this.emptyDataAlpha;
-            if (f10 != 1.0f) {
-                float f11 = f10 + 0.12f;
-                this.emptyDataAlpha = f11;
-                if (f11 > 1.0f) {
-                    this.emptyDataAlpha = 1.0f;
-                }
-                invalidate();
-            }
-        }
-        float f12 = this.emptyDataAlpha;
-        int i5 = (int) (i * f12);
-        float f13 = (f12 * 0.6f) + 0.4f;
-        if (canvas3 != null) {
-            canvas3.scale(f13, f13, this.chartArea.centerX(), this.chartArea.centerY());
-        }
-        float height = (int) ((this.chartArea.width() > this.chartArea.height() ? this.chartArea.height() : this.chartArea.width()) * 0.45f);
-        this.rectF.set(this.chartArea.centerX() - height, (this.chartArea.centerY() + AndroidUtilities.dp(16.0f)) - height, this.chartArea.centerX() + height, this.chartArea.centerY() + AndroidUtilities.dp(16.0f) + height);
-        int size = this.lines.size();
-        float f14 = 0.0f;
-        for (int i6 = 0; i6 < size; i6++) {
-            f14 += ((PieChartViewData) this.lines.get(i6)).drawingPart * ((PieChartViewData) this.lines.get(i6)).alpha;
-        }
-        if (f14 == 0.0f) {
+            float f11 = this.emptyDataAlpha;
+            int i6 = (int) (i * f11);
+            float f12 = (f11 * 0.6f) + 0.4f;
             if (canvas3 != null) {
+                canvas3.scale(f12, f12, this.chartArea.centerX(), this.chartArea.centerY());
+            }
+            float height = (int) ((this.chartArea.width() <= this.chartArea.height() ? this.chartArea.height() : this.chartArea.width()) * 0.45f);
+            this.rectF.set(this.chartArea.centerX() - height, (this.chartArea.centerY() + AndroidUtilities.dp(16.0f)) - height, this.chartArea.centerX() + height, this.chartArea.centerY() + AndroidUtilities.dp(16.0f) + height);
+            size = this.lines.size();
+            f = 0.0f;
+            for (i2 = 0; i2 < size; i2++) {
+                f += ((PieChartViewData) this.lines.get(i2)).drawingPart * ((PieChartViewData) this.lines.get(i2)).alpha;
+            }
+            if (f != 0.0f) {
+                if (canvas3 != null) {
+                    canvas.restore();
+                    return;
+                }
+                return;
+            }
+            float f13 = -90.0f;
+            int i7 = 0;
+            float f14 = -90.0f;
+            while (true) {
+                f2 = 2.0f;
+                f3 = 8.0f;
+                if (i7 >= size) {
+                    break;
+                }
+                if (((PieChartViewData) this.lines.get(i7)).alpha > f8 || ((PieChartViewData) this.lines.get(i7)).enabled) {
+                    ((PieChartViewData) this.lines.get(i7)).paint.setAlpha(i6);
+                    float f15 = (((PieChartViewData) this.lines.get(i7)).drawingPart / f) * ((PieChartViewData) this.lines.get(i7)).alpha;
+                    this.darawingValuesPercentage[i7] = f15;
+                    if (f15 != f8) {
+                        if (canvas3 != null) {
+                            canvas.save();
+                        }
+                        double d = f14 + ((f15 / 2.0f) * 360.0f);
+                        if (((PieChartViewData) this.lines.get(i7)).selectionA > f8) {
+                            float interpolation = BaseChartView.INTERPOLATOR.getInterpolation(((PieChartViewData) this.lines.get(i7)).selectionA);
+                            if (canvas3 != null) {
+                                double cos = Math.cos(Math.toRadians(d));
+                                f5 = f;
+                                double dp = AndroidUtilities.dp(8.0f);
+                                Double.isNaN(dp);
+                                double d2 = cos * dp;
+                                double d3 = interpolation;
+                                Double.isNaN(d3);
+                                i4 = i6;
+                                double sin = Math.sin(Math.toRadians(d));
+                                double dp2 = AndroidUtilities.dp(8.0f);
+                                Double.isNaN(dp2);
+                                Double.isNaN(d3);
+                                canvas3.translate((float) (d2 * d3), (float) (sin * dp2 * d3));
+                                ((PieChartViewData) this.lines.get(i7)).paint.setStyle(Paint.Style.FILL_AND_STROKE);
+                                ((PieChartViewData) this.lines.get(i7)).paint.setStrokeWidth(1.0f);
+                                ((PieChartViewData) this.lines.get(i7)).paint.setAntiAlias(!BaseChartView.USE_LINES);
+                                if (canvas3 != null || this.transitionMode == 1) {
+                                    i5 = i7;
+                                } else {
+                                    i5 = i7;
+                                    canvas.drawArc(this.rectF, f14, f15 * 360.0f, true, ((PieChartViewData) this.lines.get(i7)).paint);
+                                    ((PieChartViewData) this.lines.get(i5)).paint.setStyle(Paint.Style.STROKE);
+                                    canvas.restore();
+                                }
+                                ((PieChartViewData) this.lines.get(i5)).paint.setAlpha(NotificationCenter.voipServiceCreated);
+                                f14 += f15 * 360.0f;
+                                i7 = i5 + 1;
+                                f = f5;
+                                i6 = i4;
+                                f8 = 0.0f;
+                            }
+                        }
+                        i4 = i6;
+                        f5 = f;
+                        ((PieChartViewData) this.lines.get(i7)).paint.setStyle(Paint.Style.FILL_AND_STROKE);
+                        ((PieChartViewData) this.lines.get(i7)).paint.setStrokeWidth(1.0f);
+                        ((PieChartViewData) this.lines.get(i7)).paint.setAntiAlias(!BaseChartView.USE_LINES);
+                        if (canvas3 != null) {
+                        }
+                        i5 = i7;
+                        ((PieChartViewData) this.lines.get(i5)).paint.setAlpha(NotificationCenter.voipServiceCreated);
+                        f14 += f15 * 360.0f;
+                        i7 = i5 + 1;
+                        f = f5;
+                        i6 = i4;
+                        f8 = 0.0f;
+                    }
+                }
+                i5 = i7;
+                i4 = i6;
+                f5 = f;
+                i7 = i5 + 1;
+                f = f5;
+                i6 = i4;
+                f8 = 0.0f;
+            }
+            int i8 = i6;
+            float f16 = f;
+            if (canvas3 != null) {
+                int i9 = 0;
+                while (i9 < size) {
+                    if (((PieChartViewData) this.lines.get(i9)).alpha > 0.0f || ((PieChartViewData) this.lines.get(i9)).enabled) {
+                        float f17 = (((PieChartViewData) this.lines.get(i9)).drawingPart * ((PieChartViewData) this.lines.get(i9)).alpha) / f16;
+                        canvas.save();
+                        double d4 = f13 + ((f17 / f2) * 360.0f);
+                        if (((PieChartViewData) this.lines.get(i9)).selectionA > 0.0f) {
+                            float interpolation2 = BaseChartView.INTERPOLATOR.getInterpolation(((PieChartViewData) this.lines.get(i9)).selectionA);
+                            double cos2 = Math.cos(Math.toRadians(d4));
+                            double dp3 = AndroidUtilities.dp(f3);
+                            Double.isNaN(dp3);
+                            double d5 = cos2 * dp3;
+                            double d6 = interpolation2;
+                            Double.isNaN(d6);
+                            float f18 = (float) (d5 * d6);
+                            double sin2 = Math.sin(Math.toRadians(d4));
+                            double dp4 = AndroidUtilities.dp(f3);
+                            Double.isNaN(dp4);
+                            Double.isNaN(d6);
+                            canvas3.translate(f18, (float) (sin2 * dp4 * d6));
+                        }
+                        int i10 = (int) (100.0f * f17);
+                        if (f17 < 0.02f || i10 <= 0 || i10 > 100) {
+                            f4 = f17;
+                            canvas2 = canvas3;
+                            i3 = i8;
+                        } else {
+                            double width = this.rectF.width() * 0.42f;
+                            double sqrt = Math.sqrt(f7 - f17);
+                            Double.isNaN(width);
+                            float f19 = (float) (width * sqrt);
+                            this.textPaint.setTextSize(this.MIN_TEXT_SIZE + (this.MAX_TEXT_SIZE * f17));
+                            i3 = i8;
+                            this.textPaint.setAlpha((int) (i3 * ((PieChartViewData) this.lines.get(i9)).alpha));
+                            String str = this.lookupTable[i10];
+                            double centerX = this.rectF.centerX();
+                            double d7 = f19;
+                            double cos3 = Math.cos(Math.toRadians(d4));
+                            Double.isNaN(d7);
+                            Double.isNaN(centerX);
+                            f4 = f17;
+                            double centerY = this.rectF.centerY();
+                            double sin3 = Math.sin(Math.toRadians(d4));
+                            Double.isNaN(d7);
+                            Double.isNaN(centerY);
+                            canvas2 = canvas;
+                            canvas2.drawText(str, (float) (centerX + (cos3 * d7)), ((float) (centerY + (d7 * sin3))) - ((this.textPaint.descent() + this.textPaint.ascent()) / 2.0f), this.textPaint);
+                        }
+                        canvas.restore();
+                        ((PieChartViewData) this.lines.get(i9)).paint.setAlpha(NotificationCenter.voipServiceCreated);
+                        f13 += f4 * 360.0f;
+                    } else {
+                        canvas2 = canvas3;
+                        i3 = i8;
+                    }
+                    i9++;
+                    canvas3 = canvas2;
+                    i8 = i3;
+                    f2 = 2.0f;
+                    f3 = 8.0f;
+                    f7 = 1.0f;
+                }
                 canvas.restore();
                 return;
             }
             return;
         }
-        float f15 = -90.0f;
-        int i7 = 0;
-        float f16 = -90.0f;
-        while (true) {
-            f = 2.0f;
-            f2 = 8.0f;
-            if (i7 >= size) {
-                break;
+        float f20 = this.emptyDataAlpha;
+        if (f20 != 1.0f) {
+            float f21 = f20 + 0.12f;
+            this.emptyDataAlpha = f21;
+            if (f21 > 1.0f) {
+                this.emptyDataAlpha = 1.0f;
             }
-            if (((PieChartViewData) this.lines.get(i7)).alpha > f7 || ((PieChartViewData) this.lines.get(i7)).enabled) {
-                ((PieChartViewData) this.lines.get(i7)).paint.setAlpha(i5);
-                float f17 = (((PieChartViewData) this.lines.get(i7)).drawingPart / f14) * ((PieChartViewData) this.lines.get(i7)).alpha;
-                this.darawingValuesPercentage[i7] = f17;
-                if (f17 != f7) {
-                    if (canvas3 != null) {
-                        canvas.save();
-                    }
-                    double d = f16 + ((f17 / 2.0f) * 360.0f);
-                    if (((PieChartViewData) this.lines.get(i7)).selectionA > f7) {
-                        float interpolation = BaseChartView.INTERPOLATOR.getInterpolation(((PieChartViewData) this.lines.get(i7)).selectionA);
-                        if (canvas3 != null) {
-                            double cos = Math.cos(Math.toRadians(d));
-                            f4 = f14;
-                            double dp = AndroidUtilities.dp(8.0f);
-                            Double.isNaN(dp);
-                            double d2 = cos * dp;
-                            double d3 = interpolation;
-                            Double.isNaN(d3);
-                            i3 = i5;
-                            double sin = Math.sin(Math.toRadians(d));
-                            double dp2 = AndroidUtilities.dp(8.0f);
-                            Double.isNaN(dp2);
-                            Double.isNaN(d3);
-                            canvas3.translate((float) (d2 * d3), (float) (sin * dp2 * d3));
-                            ((PieChartViewData) this.lines.get(i7)).paint.setStyle(Paint.Style.FILL_AND_STROKE);
-                            ((PieChartViewData) this.lines.get(i7)).paint.setStrokeWidth(1.0f);
-                            ((PieChartViewData) this.lines.get(i7)).paint.setAntiAlias(!BaseChartView.USE_LINES);
-                            if (canvas3 != null || this.transitionMode == 1) {
-                                i4 = i7;
-                            } else {
-                                i4 = i7;
-                                canvas.drawArc(this.rectF, f16, f17 * 360.0f, true, ((PieChartViewData) this.lines.get(i7)).paint);
-                                ((PieChartViewData) this.lines.get(i4)).paint.setStyle(Paint.Style.STROKE);
-                                canvas.restore();
-                            }
-                            ((PieChartViewData) this.lines.get(i4)).paint.setAlpha(NotificationCenter.voipServiceCreated);
-                            f16 += f17 * 360.0f;
-                            i7 = i4 + 1;
-                            f14 = f4;
-                            i5 = i3;
-                            f7 = 0.0f;
-                        }
-                    }
-                    i3 = i5;
-                    f4 = f14;
-                    ((PieChartViewData) this.lines.get(i7)).paint.setStyle(Paint.Style.FILL_AND_STROKE);
-                    ((PieChartViewData) this.lines.get(i7)).paint.setStrokeWidth(1.0f);
-                    ((PieChartViewData) this.lines.get(i7)).paint.setAntiAlias(!BaseChartView.USE_LINES);
-                    if (canvas3 != null) {
-                    }
-                    i4 = i7;
-                    ((PieChartViewData) this.lines.get(i4)).paint.setAlpha(NotificationCenter.voipServiceCreated);
-                    f16 += f17 * 360.0f;
-                    i7 = i4 + 1;
-                    f14 = f4;
-                    i5 = i3;
-                    f7 = 0.0f;
-                }
-            }
-            i4 = i7;
-            i3 = i5;
-            f4 = f14;
-            i7 = i4 + 1;
-            f14 = f4;
-            i5 = i3;
-            f7 = 0.0f;
+            invalidate();
         }
-        int i8 = i5;
-        float f18 = f14;
+        float f112 = this.emptyDataAlpha;
+        int i62 = (int) (i * f112);
+        float f122 = (f112 * 0.6f) + 0.4f;
         if (canvas3 != null) {
-            int i9 = 0;
-            while (i9 < size) {
-                if (((PieChartViewData) this.lines.get(i9)).alpha > 0.0f || ((PieChartViewData) this.lines.get(i9)).enabled) {
-                    float f19 = (((PieChartViewData) this.lines.get(i9)).drawingPart * ((PieChartViewData) this.lines.get(i9)).alpha) / f18;
-                    canvas.save();
-                    double d4 = f15 + ((f19 / f) * 360.0f);
-                    if (((PieChartViewData) this.lines.get(i9)).selectionA > 0.0f) {
-                        float interpolation2 = BaseChartView.INTERPOLATOR.getInterpolation(((PieChartViewData) this.lines.get(i9)).selectionA);
-                        double cos2 = Math.cos(Math.toRadians(d4));
-                        double dp3 = AndroidUtilities.dp(f2);
-                        Double.isNaN(dp3);
-                        double d5 = cos2 * dp3;
-                        double d6 = interpolation2;
-                        Double.isNaN(d6);
-                        float f20 = (float) (d5 * d6);
-                        double sin2 = Math.sin(Math.toRadians(d4));
-                        double dp4 = AndroidUtilities.dp(f2);
-                        Double.isNaN(dp4);
-                        Double.isNaN(d6);
-                        canvas3.translate(f20, (float) (sin2 * dp4 * d6));
-                    }
-                    int i10 = (int) (100.0f * f19);
-                    if (f19 < 0.02f || i10 <= 0 || i10 > 100) {
-                        f3 = f19;
-                        canvas2 = canvas3;
-                        i2 = i8;
-                    } else {
-                        double width = this.rectF.width() * 0.42f;
-                        double sqrt = Math.sqrt(f6 - f19);
-                        Double.isNaN(width);
-                        float f21 = (float) (width * sqrt);
-                        this.textPaint.setTextSize(this.MIN_TEXT_SIZE + (this.MAX_TEXT_SIZE * f19));
-                        i2 = i8;
-                        this.textPaint.setAlpha((int) (i2 * ((PieChartViewData) this.lines.get(i9)).alpha));
-                        String str = this.lookupTable[i10];
-                        double centerX = this.rectF.centerX();
-                        double d7 = f21;
-                        double cos3 = Math.cos(Math.toRadians(d4));
-                        Double.isNaN(d7);
-                        Double.isNaN(centerX);
-                        f3 = f19;
-                        double centerY = this.rectF.centerY();
-                        double sin3 = Math.sin(Math.toRadians(d4));
-                        Double.isNaN(d7);
-                        Double.isNaN(centerY);
-                        canvas2 = canvas;
-                        canvas2.drawText(str, (float) (centerX + (cos3 * d7)), ((float) (centerY + (d7 * sin3))) - ((this.textPaint.descent() + this.textPaint.ascent()) / 2.0f), this.textPaint);
-                    }
-                    canvas.restore();
-                    ((PieChartViewData) this.lines.get(i9)).paint.setAlpha(NotificationCenter.voipServiceCreated);
-                    f15 += f3 * 360.0f;
-                } else {
-                    canvas2 = canvas3;
-                    i2 = i8;
-                }
-                i9++;
-                canvas3 = canvas2;
-                i8 = i2;
-                f = 2.0f;
-                f2 = 8.0f;
-                f6 = 1.0f;
-            }
-            canvas.restore();
         }
+        float height2 = (int) ((this.chartArea.width() <= this.chartArea.height() ? this.chartArea.height() : this.chartArea.width()) * 0.45f);
+        this.rectF.set(this.chartArea.centerX() - height2, (this.chartArea.centerY() + AndroidUtilities.dp(16.0f)) - height2, this.chartArea.centerX() + height2, this.chartArea.centerY() + AndroidUtilities.dp(16.0f) + height2);
+        size = this.lines.size();
+        f = 0.0f;
+        while (i2 < size) {
+        }
+        if (f != 0.0f) {
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Charts.BaseChartView
+    public void drawHorizontalLines(Canvas canvas, ChartHorizontalLinesData chartHorizontalLinesData) {
     }
 
     @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView
@@ -304,9 +410,9 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
         float f2;
         float f3;
         int i2;
-        T t = this.chartData;
-        if (t != 0) {
-            int length = ((StackLinearChartData) t).xPercentage.length;
+        ChartData chartData = this.chartData;
+        if (chartData != null) {
+            int length = ((StackLinearChartData) chartData).xPercentage.length;
             int size = this.lines.size();
             for (int i3 = 0; i3 < this.lines.size(); i3++) {
                 ((LineViewData) this.lines.get(i3)).linesPathBottomSize = 0;
@@ -372,12 +478,11 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
                             f8 += f102;
                         } else {
                             if (f6 != f5) {
+                                i = i7;
                                 if (z) {
-                                    i = i7;
                                     f2 = lineViewData2.alpha;
                                     f = (((float) jArr[i4]) / f6) * f2;
                                 } else {
-                                    i = i7;
                                     f = ((float) jArr[i4]) / f6;
                                     f2 = lineViewData2.alpha;
                                 }
@@ -423,25 +528,120 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
-    public boolean setData(StackLinearChartData stackLinearChartData) {
-        boolean data = super.setData((PieChartView) stackLinearChartData);
-        if (stackLinearChartData != null) {
-            this.values = new float[stackLinearChartData.lines.size()];
-            this.darawingValuesPercentage = new float[stackLinearChartData.lines.size()];
-            onPickerDataChanged(false, true, false);
-        }
-        return data;
+    public void drawSelection(Canvas canvas) {
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Charts.BaseChartView
+    public void drawSignaturesToHorizontalLines(Canvas canvas, ChartHorizontalLinesData chartHorizontalLinesData) {
     }
 
     @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView
-    public PieChartViewData createLineViewData(ChartData.Line line) {
-        return new PieChartViewData(line);
+    public void fillTransitionParams(TransitionParams transitionParams) {
+        drawChart(null);
+        float f = 0.0f;
+        int i = 0;
+        while (true) {
+            float[] fArr = this.darawingValuesPercentage;
+            if (i >= fArr.length) {
+                return;
+            }
+            f += fArr[i];
+            transitionParams.angle[i] = (360.0f * f) - 180.0f;
+            i++;
+        }
+    }
+
+    @Override // org.telegram.ui.Charts.BaseChartView
+    protected void onActionUp() {
+        this.currentSelection = -1;
+        this.pieLegendView.setVisibility(8);
+        invalidate();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x003d, code lost:
+        if (((org.telegram.ui.Charts.PieChartViewData) r5.lines.get(r0)).selectionA > 1.0f) goto L12;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x003f, code lost:
+        ((org.telegram.ui.Charts.PieChartViewData) r5.lines.get(r0)).selectionA = r3;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0072, code lost:
+        if (((org.telegram.ui.Charts.PieChartViewData) r5.lines.get(r0)).selectionA < 0.0f) goto L12;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x0075, code lost:
+        invalidate();
+     */
+    @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView, android.view.View
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void onDraw(Canvas canvas) {
+        float f;
+        if (this.chartData != null) {
+            int i = 0;
+            while (i < this.lines.size()) {
+                if (i == this.currentSelection) {
+                    f = 1.0f;
+                    if (((PieChartViewData) this.lines.get(i)).selectionA < 1.0f) {
+                        ((PieChartViewData) this.lines.get(i)).selectionA += 0.1f;
+                    } else {
+                        i++;
+                    }
+                } else {
+                    f = 0.0f;
+                    if (((PieChartViewData) this.lines.get(i)).selectionA > 0.0f) {
+                        ((PieChartViewData) this.lines.get(i)).selectionA -= 0.1f;
+                    } else {
+                        i++;
+                    }
+                }
+            }
+        }
+        super.onDraw(canvas);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Charts.BaseChartView, android.view.View
+    public void onMeasure(int i, int i2) {
+        super.onMeasure(i, i2);
+        if (getMeasuredWidth() != this.oldW) {
+            this.oldW = getMeasuredWidth();
+            int height = (int) ((this.chartArea.width() > this.chartArea.height() ? this.chartArea.height() : this.chartArea.width()) * 0.45f);
+            this.MIN_TEXT_SIZE = height / 13;
+            this.MAX_TEXT_SIZE = height / 7;
+        }
+    }
+
+    @Override // org.telegram.ui.Charts.BaseChartView
+    public void onPickerDataChanged(boolean z, boolean z2, boolean z3) {
+        super.onPickerDataChanged(z, z2, z3);
+        ChartData chartData = this.chartData;
+        if (chartData == null || ((StackLinearChartData) chartData).xPercentage == null) {
+            return;
+        }
+        ChartPickerDelegate chartPickerDelegate = this.pickerDelegate;
+        updateCharValues(chartPickerDelegate.pickerStart, chartPickerDelegate.pickerEnd, z2);
+    }
+
+    @Override // org.telegram.ui.Charts.BaseChartView, org.telegram.ui.Charts.ChartPickerDelegate.Listener
+    public void onPickerJumpTo(float f, float f2, boolean z) {
+        if (this.chartData == null) {
+            return;
+        }
+        if (z) {
+            updateCharValues(f, f2, false);
+            return;
+        }
+        updateIndexes();
+        invalidate();
     }
 
     @Override // org.telegram.ui.Charts.BaseChartView
     protected void selectXOnChart(int i, int i2) {
-        if (this.chartData == 0 || this.isEmpty) {
+        if (this.chartData == null || this.isEmpty) {
             return;
         }
         float degrees = (float) (Math.toDegrees(Math.atan2((this.chartArea.centerY() + AndroidUtilities.dp(16.0f)) - i2, this.chartArea.centerX() - i)) - 90.0d);
@@ -513,48 +713,15 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
         moveLegend();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView, android.view.View
-    public void onDraw(Canvas canvas) {
-        if (this.chartData != 0) {
-            for (int i = 0; i < this.lines.size(); i++) {
-                if (i == this.currentSelection) {
-                    if (((PieChartViewData) this.lines.get(i)).selectionA < 1.0f) {
-                        ((PieChartViewData) this.lines.get(i)).selectionA += 0.1f;
-                        if (((PieChartViewData) this.lines.get(i)).selectionA > 1.0f) {
-                            ((PieChartViewData) this.lines.get(i)).selectionA = 1.0f;
-                        }
-                        invalidate();
-                    }
-                } else if (((PieChartViewData) this.lines.get(i)).selectionA > 0.0f) {
-                    ((PieChartViewData) this.lines.get(i)).selectionA -= 0.1f;
-                    if (((PieChartViewData) this.lines.get(i)).selectionA < 0.0f) {
-                        ((PieChartViewData) this.lines.get(i)).selectionA = 0.0f;
-                    }
-                    invalidate();
-                }
-            }
-        }
-        super.onDraw(canvas);
-    }
-
     @Override // org.telegram.ui.Charts.BaseChartView
-    protected void onActionUp() {
-        this.currentSelection = -1;
-        this.pieLegendView.setVisibility(8);
-        invalidate();
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Charts.BaseChartView, android.view.View
-    public void onMeasure(int i, int i2) {
-        super.onMeasure(i, i2);
-        if (getMeasuredWidth() != this.oldW) {
-            this.oldW = getMeasuredWidth();
-            int height = (int) ((this.chartArea.width() > this.chartArea.height() ? this.chartArea.height() : this.chartArea.width()) * 0.45f);
-            this.MIN_TEXT_SIZE = height / 13;
-            this.MAX_TEXT_SIZE = height / 7;
+    public boolean setData(StackLinearChartData stackLinearChartData) {
+        boolean data = super.setData((ChartData) stackLinearChartData);
+        if (stackLinearChartData != null) {
+            this.values = new float[stackLinearChartData.lines.size()];
+            this.darawingValuesPercentage = new float[stackLinearChartData.lines.size()];
+            onPickerDataChanged(false, true, false);
         }
+        return data;
     }
 
     @Override // org.telegram.ui.Charts.BaseChartView
@@ -586,131 +753,6 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
                 chartPickerDelegate3.pickerEnd = 1.0f;
             }
             onPickerDataChanged(true, true, false);
-        }
-    }
-
-    @Override // org.telegram.ui.Charts.BaseChartView
-    protected LegendSignatureView createLegendView() {
-        PieLegendView pieLegendView = new PieLegendView(getContext());
-        this.pieLegendView = pieLegendView;
-        return pieLegendView;
-    }
-
-    @Override // org.telegram.ui.Charts.BaseChartView
-    public void onPickerDataChanged(boolean z, boolean z2, boolean z3) {
-        super.onPickerDataChanged(z, z2, z3);
-        T t = this.chartData;
-        if (t == 0 || ((StackLinearChartData) t).xPercentage == null) {
-            return;
-        }
-        ChartPickerDelegate chartPickerDelegate = this.pickerDelegate;
-        updateCharValues(chartPickerDelegate.pickerStart, chartPickerDelegate.pickerEnd, z2);
-    }
-
-    private void updateCharValues(float f, float f2, boolean z) {
-        if (this.values == null) {
-            return;
-        }
-        int length = ((StackLinearChartData) this.chartData).xPercentage.length;
-        int size = this.lines.size();
-        int i = 0;
-        int i2 = -1;
-        int i3 = -1;
-        for (int i4 = 0; i4 < length; i4++) {
-            float f3 = ((StackLinearChartData) this.chartData).xPercentage[i4];
-            if (f3 >= f && i3 == -1) {
-                i3 = i4;
-            }
-            if (f3 <= f2) {
-                i2 = i4;
-            }
-        }
-        if (i2 < i3) {
-            i3 = i2;
-        }
-        if (!z && this.lastEndIndex == i2 && this.lastStartIndex == i3) {
-            return;
-        }
-        this.lastEndIndex = i2;
-        this.lastStartIndex = i3;
-        this.isEmpty = true;
-        this.sum = 0.0f;
-        for (int i5 = 0; i5 < size; i5++) {
-            this.values[i5] = 0.0f;
-        }
-        while (i3 <= i2) {
-            for (int i6 = 0; i6 < size; i6++) {
-                float[] fArr = this.values;
-                fArr[i6] = fArr[i6] + ((float) ((StackLinearChartData) this.chartData).lines.get(i6).y[i3]);
-                this.sum += (float) ((StackLinearChartData) this.chartData).lines.get(i6).y[i3];
-                if (this.isEmpty && ((PieChartViewData) this.lines.get(i6)).enabled && ((StackLinearChartData) this.chartData).lines.get(i6).y[i3] > 0) {
-                    this.isEmpty = false;
-                }
-            }
-            i3++;
-        }
-        if (z) {
-            while (i < size) {
-                if (this.sum == 0.0f) {
-                    ((PieChartViewData) this.lines.get(i)).drawingPart = 0.0f;
-                } else {
-                    ((PieChartViewData) this.lines.get(i)).drawingPart = this.values[i] / this.sum;
-                }
-                i++;
-            }
-            return;
-        }
-        while (i < size) {
-            final PieChartViewData pieChartViewData = (PieChartViewData) this.lines.get(i);
-            Animator animator = pieChartViewData.animator;
-            if (animator != null) {
-                animator.cancel();
-            }
-            float f4 = this.sum;
-            ValueAnimator createAnimator = createAnimator(pieChartViewData.drawingPart, f4 == 0.0f ? 0.0f : this.values[i] / f4, new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.PieChartView$$ExternalSyntheticLambda0
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    PieChartView.this.lambda$updateCharValues$0(pieChartViewData, valueAnimator);
-                }
-            });
-            pieChartViewData.animator = createAnimator;
-            createAnimator.start();
-            i++;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateCharValues$0(PieChartViewData pieChartViewData, ValueAnimator valueAnimator) {
-        pieChartViewData.drawingPart = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        invalidate();
-    }
-
-    @Override // org.telegram.ui.Charts.BaseChartView, org.telegram.ui.Charts.ChartPickerDelegate.Listener
-    public void onPickerJumpTo(float f, float f2, boolean z) {
-        if (this.chartData == 0) {
-            return;
-        }
-        if (z) {
-            updateCharValues(f, f2, false);
-            return;
-        }
-        updateIndexes();
-        invalidate();
-    }
-
-    @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView
-    public void fillTransitionParams(TransitionParams transitionParams) {
-        drawChart(null);
-        float f = 0.0f;
-        int i = 0;
-        while (true) {
-            float[] fArr = this.darawingValuesPercentage;
-            if (i >= fArr.length) {
-                return;
-            }
-            f += fArr[i];
-            transitionParams.angle[i] = (360.0f * f) - 180.0f;
-            i++;
         }
     }
 }

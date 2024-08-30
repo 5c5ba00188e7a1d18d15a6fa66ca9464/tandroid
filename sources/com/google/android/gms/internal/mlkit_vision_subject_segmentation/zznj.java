@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import com.google.android.gms.common.internal.Objects;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public final class zznj {
     private final zznh zza;
@@ -36,12 +35,10 @@ public final class zznj {
         return Objects.hashCode(this.zza, this.zzb, null, null);
     }
 
-    @zzcd(zza = 1)
     public final zznh zza() {
         return this.zza;
     }
 
-    @zzcd(zza = 2)
     public final Integer zzb() {
         return this.zzb;
     }

@@ -11,7 +11,7 @@ public final class HeartRating extends Rating {
     private final boolean rated;
     private static final String FIELD_RATED = Util.intToStringMaxRadix(1);
     private static final String FIELD_IS_HEART = Util.intToStringMaxRadix(2);
-    public static final Bundleable.Creator<HeartRating> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.HeartRating$$ExternalSyntheticLambda0
+    public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.HeartRating$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.Bundleable.Creator
         public final Bundleable fromBundle(Bundle bundle) {
             HeartRating fromBundle;
@@ -30,8 +30,10 @@ public final class HeartRating extends Rating {
         this.isHeart = z;
     }
 
-    public int hashCode() {
-        return Objects.hashCode(Boolean.valueOf(this.rated), Boolean.valueOf(this.isHeart));
+    /* JADX INFO: Access modifiers changed from: private */
+    public static HeartRating fromBundle(Bundle bundle) {
+        Assertions.checkArgument(bundle.getInt(Rating.FIELD_RATING_TYPE, -1) == 0);
+        return bundle.getBoolean(FIELD_RATED, false) ? new HeartRating(bundle.getBoolean(FIELD_IS_HEART, false)) : new HeartRating();
     }
 
     public boolean equals(Object obj) {
@@ -42,6 +44,10 @@ public final class HeartRating extends Rating {
         return false;
     }
 
+    public int hashCode() {
+        return Objects.hashCode(Boolean.valueOf(this.rated), Boolean.valueOf(this.isHeart));
+    }
+
     @Override // com.google.android.exoplayer2.Bundleable
     public Bundle toBundle() {
         Bundle bundle = new Bundle();
@@ -49,14 +55,5 @@ public final class HeartRating extends Rating {
         bundle.putBoolean(FIELD_RATED, this.rated);
         bundle.putBoolean(FIELD_IS_HEART, this.isHeart);
         return bundle;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static HeartRating fromBundle(Bundle bundle) {
-        Assertions.checkArgument(bundle.getInt(Rating.FIELD_RATING_TYPE, -1) == 0);
-        if (bundle.getBoolean(FIELD_RATED, false)) {
-            return new HeartRating(bundle.getBoolean(FIELD_IS_HEART, false));
-        }
-        return new HeartRating();
     }
 }

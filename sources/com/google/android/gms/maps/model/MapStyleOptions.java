@@ -9,7 +9,6 @@ import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.common.util.IOUtils;
 import java.io.IOException;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class MapStyleOptions extends AbstractSafeParcelable {
     public static final Parcelable.Creator<MapStyleOptions> CREATOR = new zzh();
@@ -20,7 +19,7 @@ public final class MapStyleOptions extends AbstractSafeParcelable {
         this.zzb = str;
     }
 
-    public static MapStyleOptions loadRawResourceStyle(Context context, int i) throws Resources.NotFoundException {
+    public static MapStyleOptions loadRawResourceStyle(Context context, int i) {
         try {
             return new MapStyleOptions(new String(IOUtils.readInputStreamFully(context.getResources().openRawResource(i)), "UTF-8"));
         } catch (IOException e) {

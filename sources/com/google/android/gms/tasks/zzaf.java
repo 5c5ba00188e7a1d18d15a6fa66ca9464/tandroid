@@ -2,9 +2,8 @@ package com.google.android.gms.tasks;
 
 import java.util.concurrent.ExecutionException;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
-public final class zzaf<T> implements zzae<T> {
+public final class zzaf implements zzae {
     private final Object zza = new Object();
     private final int zzb;
     private final zzw zzc;
@@ -56,7 +55,7 @@ public final class zzaf<T> implements zzae<T> {
     }
 
     @Override // com.google.android.gms.tasks.OnSuccessListener
-    public final void onSuccess(T t) {
+    public final void onSuccess(Object obj) {
         synchronized (this.zza) {
             this.zzd++;
             zza();

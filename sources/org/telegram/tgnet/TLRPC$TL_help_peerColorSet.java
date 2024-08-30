@@ -3,7 +3,7 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_help_peerColorSet extends TLRPC$help_PeerColorSet {
-    public ArrayList<Integer> colors = new ArrayList<>();
+    public ArrayList colors = new ArrayList();
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -27,7 +27,7 @@ public class TLRPC$TL_help_peerColorSet extends TLRPC$help_PeerColorSet {
         int size = this.colors.size();
         abstractSerializedData.writeInt32(size);
         for (int i = 0; i < size; i++) {
-            abstractSerializedData.writeInt32(this.colors.get(i).intValue());
+            abstractSerializedData.writeInt32(((Integer) this.colors.get(i)).intValue());
         }
     }
 }

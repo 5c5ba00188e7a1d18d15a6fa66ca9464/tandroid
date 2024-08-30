@@ -15,20 +15,6 @@ final class AutoValue_BackendResponse extends BackendResponse {
         this.nextRequestWaitMillis = j;
     }
 
-    @Override // com.google.android.datatransport.runtime.backends.BackendResponse
-    public BackendResponse.Status getStatus() {
-        return this.status;
-    }
-
-    @Override // com.google.android.datatransport.runtime.backends.BackendResponse
-    public long getNextRequestWaitMillis() {
-        return this.nextRequestWaitMillis;
-    }
-
-    public String toString() {
-        return "BackendResponse{status=" + this.status + ", nextRequestWaitMillis=" + this.nextRequestWaitMillis + "}";
-    }
-
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -40,8 +26,22 @@ final class AutoValue_BackendResponse extends BackendResponse {
         return false;
     }
 
+    @Override // com.google.android.datatransport.runtime.backends.BackendResponse
+    public long getNextRequestWaitMillis() {
+        return this.nextRequestWaitMillis;
+    }
+
+    @Override // com.google.android.datatransport.runtime.backends.BackendResponse
+    public BackendResponse.Status getStatus() {
+        return this.status;
+    }
+
     public int hashCode() {
         long j = this.nextRequestWaitMillis;
         return ((this.status.hashCode() ^ 1000003) * 1000003) ^ ((int) (j ^ (j >>> 32)));
+    }
+
+    public String toString() {
+        return "BackendResponse{status=" + this.status + ", nextRequestWaitMillis=" + this.nextRequestWaitMillis + "}";
     }
 }

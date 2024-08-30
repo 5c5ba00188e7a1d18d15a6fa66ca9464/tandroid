@@ -23,15 +23,15 @@ public final class zzao {
         this.zzek = z2;
     }
 
-    public final <T> zzae<T> zza(String str, T t, zzan<T> zzanVar) {
-        return zzae.zzb(this, str, t, zzanVar);
+    public final zzae zza(String str, Object obj, zzan zzanVar) {
+        return zzae.zzb(this, str, obj, zzanVar);
     }
 
-    public final zzae<String> zza(String str, String str2) {
+    public final zzae zza(String str, String str2) {
         return zzae.zzb(this, str, (String) null);
     }
 
-    public final zzae<Boolean> zzc(String str, boolean z) {
+    public final zzae zzc(String str, boolean z) {
         return zzae.zzb(this, str, false);
     }
 

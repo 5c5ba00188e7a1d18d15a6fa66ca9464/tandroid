@@ -6,16 +6,6 @@ import java.util.concurrent.Executor;
 class SafeLoggingExecutor implements Executor {
     private final Executor delegate;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public SafeLoggingExecutor(Executor executor) {
-        this.delegate = executor;
-    }
-
-    @Override // java.util.concurrent.Executor
-    public void execute(Runnable runnable) {
-        this.delegate.execute(new SafeLoggingRunnable(runnable));
-    }
-
     /* loaded from: classes.dex */
     static class SafeLoggingRunnable implements Runnable {
         private final Runnable delegate;
@@ -32,5 +22,15 @@ class SafeLoggingExecutor implements Executor {
                 Logging.e("Executor", "Background execution failure.", e);
             }
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public SafeLoggingExecutor(Executor executor) {
+        this.delegate = executor;
+    }
+
+    @Override // java.util.concurrent.Executor
+    public void execute(Runnable runnable) {
+        this.delegate.execute(new SafeLoggingRunnable(runnable));
     }
 }

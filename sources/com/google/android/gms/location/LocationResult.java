@@ -11,7 +11,6 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class LocationResult extends AbstractSafeParcelable implements ReflectedParcelable {
     private final List zzb;
@@ -58,7 +57,7 @@ public final class LocationResult extends AbstractSafeParcelable implements Refl
         return (Location) this.zzb.get(size - 1);
     }
 
-    public List<Location> getLocations() {
+    public List getLocations() {
         return this.zzb;
     }
 

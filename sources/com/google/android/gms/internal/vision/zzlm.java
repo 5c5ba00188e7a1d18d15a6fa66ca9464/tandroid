@@ -2,17 +2,11 @@ package com.google.android.gms.internal.vision;
 
 import java.util.Map;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zzlm implements Comparable, Map.Entry {
     private final Comparable zza;
     private Object zzb;
     private final /* synthetic */ zzlh zzc;
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzlm(zzlh zzlhVar, Map.Entry entry) {
-        this(zzlhVar, (Comparable) entry.getKey(), entry.getValue());
-    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzlm(zzlh zzlhVar, Comparable comparable, Object obj) {
@@ -21,17 +15,18 @@ public final class zzlm implements Comparable, Map.Entry {
         this.zzb = obj;
     }
 
-    @Override // java.util.Map.Entry
-    public final Object getValue() {
-        return this.zzb;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public zzlm(zzlh zzlhVar, Map.Entry entry) {
+        this(zzlhVar, (Comparable) entry.getKey(), entry.getValue());
     }
 
-    @Override // java.util.Map.Entry
-    public final Object setValue(Object obj) {
-        this.zzc.zzf();
-        Object obj2 = this.zzb;
-        this.zzb = obj;
-        return obj2;
+    private static boolean zza(Object obj, Object obj2) {
+        return obj == null ? obj2 == null : obj.equals(obj2);
+    }
+
+    @Override // java.lang.Comparable
+    public final /* synthetic */ int compareTo(Object obj) {
+        return ((Comparable) getKey()).compareTo((Comparable) ((zzlm) obj).getKey());
     }
 
     @Override // java.util.Map.Entry
@@ -47,11 +42,29 @@ public final class zzlm implements Comparable, Map.Entry {
     }
 
     @Override // java.util.Map.Entry
+    public final /* synthetic */ Object getKey() {
+        return this.zza;
+    }
+
+    @Override // java.util.Map.Entry
+    public final Object getValue() {
+        return this.zzb;
+    }
+
+    @Override // java.util.Map.Entry
     public final int hashCode() {
         Comparable comparable = this.zza;
         int hashCode = comparable == null ? 0 : comparable.hashCode();
         Object obj = this.zzb;
         return hashCode ^ (obj != null ? obj.hashCode() : 0);
+    }
+
+    @Override // java.util.Map.Entry
+    public final Object setValue(Object obj) {
+        this.zzc.zzf();
+        Object obj2 = this.zzb;
+        this.zzb = obj;
+        return obj2;
     }
 
     public final String toString() {
@@ -62,22 +75,5 @@ public final class zzlm implements Comparable, Map.Entry {
         sb.append("=");
         sb.append(valueOf2);
         return sb.toString();
-    }
-
-    private static boolean zza(Object obj, Object obj2) {
-        if (obj == null) {
-            return obj2 == null;
-        }
-        return obj.equals(obj2);
-    }
-
-    @Override // java.util.Map.Entry
-    public final /* synthetic */ Object getKey() {
-        return this.zza;
-    }
-
-    @Override // java.lang.Comparable
-    public final /* synthetic */ int compareTo(Object obj) {
-        return ((Comparable) getKey()).compareTo((Comparable) ((zzlm) obj).getKey());
     }
 }

@@ -1,4 +1,4 @@
 package kotlin.jvm.internal;
 /* loaded from: classes.dex */
-public final class DefaultConstructorMarker {
+public abstract class DefaultConstructorMarker {
 }

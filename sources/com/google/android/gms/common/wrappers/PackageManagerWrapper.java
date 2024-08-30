@@ -1,13 +1,10 @@
 package com.google.android.gms.common.wrappers;
 
-import android.annotation.TargetApi;
 import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import com.google.android.gms.common.util.PlatformVersion;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class PackageManagerWrapper {
     protected final Context zza;
@@ -24,28 +21,27 @@ public class PackageManagerWrapper {
         return this.zza.getPackageManager().checkPermission(str, str2);
     }
 
-    public ApplicationInfo getApplicationInfo(String str, int i) throws PackageManager.NameNotFoundException {
+    public ApplicationInfo getApplicationInfo(String str, int i) {
         return this.zza.getPackageManager().getApplicationInfo(str, i);
     }
 
-    public CharSequence getApplicationLabel(String str) throws PackageManager.NameNotFoundException {
+    public CharSequence getApplicationLabel(String str) {
         return this.zza.getPackageManager().getApplicationLabel(this.zza.getPackageManager().getApplicationInfo(str, 0));
     }
 
-    public PackageInfo getPackageInfo(String str, int i) throws PackageManager.NameNotFoundException {
+    public PackageInfo getPackageInfo(String str, int i) {
         return this.zza.getPackageManager().getPackageInfo(str, i);
     }
 
-    @TargetApi(19)
     public final boolean zza(int i, String str) {
         if (PlatformVersion.isAtLeastKitKat()) {
             try {
                 AppOpsManager appOpsManager = (AppOpsManager) this.zza.getSystemService("appops");
-                if (appOpsManager == null) {
-                    throw new NullPointerException("context.getSystemService(Context.APP_OPS_SERVICE) is null");
+                if (appOpsManager != null) {
+                    appOpsManager.checkPackage(i, str);
+                    return true;
                 }
-                appOpsManager.checkPackage(i, str);
-                return true;
+                throw new NullPointerException("context.getSystemService(Context.APP_OPS_SERVICE) is null");
             } catch (SecurityException unused) {
                 return false;
             }

@@ -1,6 +1,5 @@
 package androidx.appcompat.widget;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -14,24 +13,12 @@ import java.lang.ref.WeakReference;
 /* loaded from: classes.dex */
 public final class ViewStubCompat extends View {
     private int mInflatedId;
-    private WeakReference<View> mInflatedViewRef;
+    private WeakReference mInflatedViewRef;
     private LayoutInflater mInflater;
     private int mLayoutResource;
 
     /* loaded from: classes.dex */
     public interface OnInflateListener {
-    }
-
-    @Override // android.view.View
-    protected void dispatchDraw(Canvas canvas) {
-    }
-
-    @Override // android.view.View
-    @SuppressLint({"MissingSuperCall"})
-    public void draw(Canvas canvas) {
-    }
-
-    public void setOnInflateListener(OnInflateListener onInflateListener) {
     }
 
     public ViewStubCompat(Context context, AttributeSet attributeSet) {
@@ -50,50 +37,24 @@ public final class ViewStubCompat extends View {
         setWillNotDraw(true);
     }
 
+    @Override // android.view.View
+    protected void dispatchDraw(Canvas canvas) {
+    }
+
+    @Override // android.view.View
+    public void draw(Canvas canvas) {
+    }
+
     public int getInflatedId() {
         return this.mInflatedId;
-    }
-
-    public void setInflatedId(int i) {
-        this.mInflatedId = i;
-    }
-
-    public int getLayoutResource() {
-        return this.mLayoutResource;
-    }
-
-    public void setLayoutResource(int i) {
-        this.mLayoutResource = i;
-    }
-
-    public void setLayoutInflater(LayoutInflater layoutInflater) {
-        this.mInflater = layoutInflater;
     }
 
     public LayoutInflater getLayoutInflater() {
         return this.mInflater;
     }
 
-    @Override // android.view.View
-    protected void onMeasure(int i, int i2) {
-        setMeasuredDimension(0, 0);
-    }
-
-    @Override // android.view.View
-    public void setVisibility(int i) {
-        WeakReference<View> weakReference = this.mInflatedViewRef;
-        if (weakReference != null) {
-            View view = weakReference.get();
-            if (view != null) {
-                view.setVisibility(i);
-                return;
-            }
-            throw new IllegalStateException("setVisibility called on un-referenced view");
-        }
-        super.setVisibility(i);
-        if (i == 0 || i == 4) {
-            inflate();
-        }
+    public int getLayoutResource() {
+        return this.mLayoutResource;
     }
 
     public View inflate() {
@@ -118,11 +79,48 @@ public final class ViewStubCompat extends View {
                 } else {
                     viewGroup.addView(inflate, indexOfChild);
                 }
-                this.mInflatedViewRef = new WeakReference<>(inflate);
+                this.mInflatedViewRef = new WeakReference(inflate);
                 return inflate;
             }
             throw new IllegalArgumentException("ViewStub must have a valid layoutResource");
         }
         throw new IllegalStateException("ViewStub must have a non-null ViewGroup viewParent");
+    }
+
+    @Override // android.view.View
+    protected void onMeasure(int i, int i2) {
+        setMeasuredDimension(0, 0);
+    }
+
+    public void setInflatedId(int i) {
+        this.mInflatedId = i;
+    }
+
+    public void setLayoutInflater(LayoutInflater layoutInflater) {
+        this.mInflater = layoutInflater;
+    }
+
+    public void setLayoutResource(int i) {
+        this.mLayoutResource = i;
+    }
+
+    public void setOnInflateListener(OnInflateListener onInflateListener) {
+    }
+
+    @Override // android.view.View
+    public void setVisibility(int i) {
+        WeakReference weakReference = this.mInflatedViewRef;
+        if (weakReference != null) {
+            View view = (View) weakReference.get();
+            if (view == null) {
+                throw new IllegalStateException("setVisibility called on un-referenced view");
+            }
+            view.setVisibility(i);
+            return;
+        }
+        super.setVisibility(i);
+        if (i == 0 || i == 4) {
+            inflate();
+        }
     }
 }

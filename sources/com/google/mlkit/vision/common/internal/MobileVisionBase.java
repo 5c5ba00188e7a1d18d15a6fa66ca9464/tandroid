@@ -17,7 +17,6 @@ import java.io.Closeable;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
-/* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public class MobileVisionBase<DetectionResultT> implements Closeable, LifecycleObserver {
     public static final /* synthetic */ int $r8$clinit = 0;
@@ -28,7 +27,7 @@ public class MobileVisionBase<DetectionResultT> implements Closeable, LifecycleO
     private final Executor zzf;
     private final Task zzg;
 
-    public MobileVisionBase(MLTask<DetectionResultT, InputImage> mLTask, Executor executor) {
+    public MobileVisionBase(MLTask mLTask, Executor executor) {
         this.zzd = mLTask;
         CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         this.zze = cancellationTokenSource;
@@ -58,8 +57,24 @@ public class MobileVisionBase<DetectionResultT> implements Closeable, LifecycleO
         this.zzd.unpin(this.zzf);
     }
 
+    public synchronized Task processBase(final InputImage inputImage) {
+        Preconditions.checkNotNull(inputImage, "InputImage can not be null");
+        if (this.zzc.get()) {
+            return Tasks.forException(new MlKitException("This detector is already closed!", 14));
+        } else if (inputImage.getWidth() < 32 || inputImage.getHeight() < 32) {
+            return Tasks.forException(new MlKitException("InputImage width and height should be at least 32!", 3));
+        } else {
+            return this.zzd.callAfterLoad(this.zzf, new Callable() { // from class: com.google.mlkit.vision.common.internal.zza
+                @Override // java.util.concurrent.Callable
+                public final Object call() {
+                    return MobileVisionBase.this.zza(inputImage);
+                }
+            }, this.zze.getToken());
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ Object zza(InputImage inputImage) throws Exception {
+    public final /* synthetic */ Object zza(InputImage inputImage) {
         zzlx zze = zzlx.zze("detectorTaskWithResource#run");
         zze.zzb();
         try {
@@ -76,22 +91,6 @@ public class MobileVisionBase<DetectionResultT> implements Closeable, LifecycleO
                 }
             }
             throw th;
-        }
-    }
-
-    public synchronized Task<DetectionResultT> processBase(final InputImage inputImage) {
-        Preconditions.checkNotNull(inputImage, "InputImage can not be null");
-        if (this.zzc.get()) {
-            return Tasks.forException(new MlKitException("This detector is already closed!", 14));
-        } else if (inputImage.getWidth() < 32 || inputImage.getHeight() < 32) {
-            return Tasks.forException(new MlKitException("InputImage width and height should be at least 32!", 3));
-        } else {
-            return this.zzd.callAfterLoad(this.zzf, new Callable() { // from class: com.google.mlkit.vision.common.internal.zza
-                @Override // java.util.concurrent.Callable
-                public final Object call() {
-                    return MobileVisionBase.this.zza(inputImage);
-                }
-            }, this.zze.getToken());
         }
     }
 }

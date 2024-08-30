@@ -1,6 +1,5 @@
 package org.telegram.ui.Components.Reactions;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -18,18 +17,13 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Stories.RoundRectOutlineProvider;
-@SuppressLint({"ViewConstructor"})
 /* loaded from: classes3.dex */
 public class BackSpaceButtonView extends FrameLayout {
     private final ImageView backspaceButton;
     private boolean backspaceOnce;
     private boolean backspacePressed;
-    private Utilities.Callback<Boolean> onBackspace;
+    private Utilities.Callback onBackspace;
     private final Theme.ResourcesProvider resourcesProvider;
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$new$0(View view) {
-    }
 
     public BackSpaceButtonView(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
@@ -38,7 +32,6 @@ public class BackSpaceButtonView extends FrameLayout {
             private long lastClick = 0;
 
             @Override // android.view.View
-            @SuppressLint({"ClickableViewAccessibility"})
             public boolean onTouchEvent(MotionEvent motionEvent) {
                 if (motionEvent.getAction() == 0) {
                     if (System.currentTimeMillis() < this.lastClick + 350) {
@@ -91,13 +84,26 @@ public class BackSpaceButtonView extends FrameLayout {
         setClickable(true);
     }
 
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), 1073741824));
+    private int getThemedColor(int i) {
+        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
+        return resourcesProvider != null ? resourcesProvider.getColor(i) : Theme.getColor(i);
     }
 
-    public void setOnBackspace(Utilities.Callback<Boolean> callback) {
-        this.onBackspace = callback;
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$new$0(View view) {
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$postBackspaceRunnable$1(int i) {
+        if (this.backspacePressed) {
+            Utilities.Callback callback = this.onBackspace;
+            if (callback != null) {
+                callback.run(Boolean.valueOf(i < 300));
+                this.backspaceButton.performHapticFeedback(3);
+            }
+            this.backspaceOnce = true;
+            postBackspaceRunnable(Math.max(50, i - 100));
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -110,24 +116,12 @@ public class BackSpaceButtonView extends FrameLayout {
         }, i);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$postBackspaceRunnable$1(int i) {
-        if (this.backspacePressed) {
-            Utilities.Callback<Boolean> callback = this.onBackspace;
-            if (callback != null) {
-                callback.run(Boolean.valueOf(i < 300));
-                this.backspaceButton.performHapticFeedback(3);
-            }
-            this.backspaceOnce = true;
-            postBackspaceRunnable(Math.max(50, i - 100));
-        }
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), 1073741824));
     }
 
-    private int getThemedColor(int i) {
-        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        if (resourcesProvider != null) {
-            return resourcesProvider.getColor(i);
-        }
-        return Theme.getColor(i);
+    public void setOnBackspace(Utilities.Callback<Boolean> callback) {
+        this.onBackspace = callback;
     }
 }

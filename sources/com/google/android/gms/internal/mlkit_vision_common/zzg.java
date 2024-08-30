@@ -2,9 +2,8 @@ package com.google.android.gms.internal.mlkit_vision_common;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
-public final class zzg {
+public abstract class zzg {
     public static String zza(String str, Object... objArr) {
         int length;
         int length2;

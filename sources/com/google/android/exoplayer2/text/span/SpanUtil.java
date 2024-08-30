@@ -2,7 +2,7 @@ package com.google.android.exoplayer2.text.span;
 
 import android.text.Spannable;
 /* loaded from: classes.dex */
-public final class SpanUtil {
+public abstract class SpanUtil {
     public static void addOrReplaceSpan(Spannable spannable, Object obj, int i, int i2, int i3) {
         Object[] spans;
         for (Object obj2 : spannable.getSpans(i, i2, obj.getClass())) {

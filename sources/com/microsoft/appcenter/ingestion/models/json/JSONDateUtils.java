@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.Locale;
 import org.json.JSONException;
 /* loaded from: classes.dex */
-public final class JSONDateUtils {
-    private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>() { // from class: com.microsoft.appcenter.ingestion.models.json.JSONDateUtils.1
+public abstract class JSONDateUtils {
+    private static final ThreadLocal DATE_FORMAT = new ThreadLocal() { // from class: com.microsoft.appcenter.ingestion.models.json.JSONDateUtils.1
         /* JADX INFO: Access modifiers changed from: protected */
         @Override // java.lang.ThreadLocal
         public DateFormat initialValue() {
@@ -19,23 +19,23 @@ public final class JSONDateUtils {
         }
     };
 
-    private static void checkNull(Object obj) throws JSONException {
+    private static void checkNull(Object obj) {
         if (obj == null) {
             throw new JSONException("date cannot be null");
         }
     }
 
-    public static String toString(Date date) throws JSONException {
-        checkNull(date);
-        return DATE_FORMAT.get().format(date);
-    }
-
-    public static Date toDate(String str) throws JSONException {
+    public static Date toDate(String str) {
         checkNull(str);
         try {
-            return DATE_FORMAT.get().parse(str);
+            return ((DateFormat) DATE_FORMAT.get()).parse(str);
         } catch (ParseException e) {
             throw new JSONException(e.getMessage());
         }
+    }
+
+    public static String toString(Date date) {
+        checkNull(date);
+        return ((DateFormat) DATE_FORMAT.get()).format(date);
     }
 }

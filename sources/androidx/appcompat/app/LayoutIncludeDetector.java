@@ -8,20 +8,31 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 /* loaded from: classes.dex */
 class LayoutIncludeDetector {
-    private final Deque<WeakReference<XmlPullParser>> mXmlParserStack = new ArrayDeque();
+    private final Deque mXmlParserStack = new ArrayDeque();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean detect(AttributeSet attributeSet) {
-        if (attributeSet instanceof XmlPullParser) {
-            XmlPullParser xmlPullParser = (XmlPullParser) attributeSet;
-            if (xmlPullParser.getDepth() == 1) {
-                XmlPullParser popOutdatedAttrHolders = popOutdatedAttrHolders(this.mXmlParserStack);
-                this.mXmlParserStack.push(new WeakReference<>(xmlPullParser));
-                return shouldInheritContext(xmlPullParser, popOutdatedAttrHolders);
+    private static boolean isParserOutdated(XmlPullParser xmlPullParser) {
+        if (xmlPullParser != null) {
+            try {
+                if (xmlPullParser.getEventType() != 3) {
+                    return xmlPullParser.getEventType() == 1;
+                }
+                return true;
+            } catch (XmlPullParserException unused) {
+                return true;
             }
-            return false;
         }
-        return false;
+        return true;
+    }
+
+    private static XmlPullParser popOutdatedAttrHolders(Deque deque) {
+        while (!deque.isEmpty()) {
+            XmlPullParser xmlPullParser = (XmlPullParser) ((WeakReference) deque.peek()).get();
+            if (!isParserOutdated(xmlPullParser)) {
+                return xmlPullParser;
+            }
+            deque.pop();
+        }
+        return null;
     }
 
     private static boolean shouldInheritContext(XmlPullParser xmlPullParser, XmlPullParser xmlPullParser2) {
@@ -38,28 +49,17 @@ class LayoutIncludeDetector {
         }
     }
 
-    private static XmlPullParser popOutdatedAttrHolders(Deque<WeakReference<XmlPullParser>> deque) {
-        while (!deque.isEmpty()) {
-            XmlPullParser xmlPullParser = deque.peek().get();
-            if (!isParserOutdated(xmlPullParser)) {
-                return xmlPullParser;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public boolean detect(AttributeSet attributeSet) {
+        if (attributeSet instanceof XmlPullParser) {
+            XmlPullParser xmlPullParser = (XmlPullParser) attributeSet;
+            if (xmlPullParser.getDepth() == 1) {
+                XmlPullParser popOutdatedAttrHolders = popOutdatedAttrHolders(this.mXmlParserStack);
+                this.mXmlParserStack.push(new WeakReference(xmlPullParser));
+                return shouldInheritContext(xmlPullParser, popOutdatedAttrHolders);
             }
-            deque.pop();
+            return false;
         }
-        return null;
-    }
-
-    private static boolean isParserOutdated(XmlPullParser xmlPullParser) {
-        if (xmlPullParser != null) {
-            try {
-                if (xmlPullParser.getEventType() != 3) {
-                    return xmlPullParser.getEventType() == 1;
-                }
-                return true;
-            } catch (XmlPullParserException unused) {
-                return true;
-            }
-        }
-        return true;
+        return false;
     }
 }

@@ -2,7 +2,7 @@ package com.google.android.exoplayer2;
 
 import java.util.UUID;
 /* loaded from: classes.dex */
-public final class C {
+public abstract class C {
     public static final UUID UUID_NIL = new UUID(0, 0);
     public static final UUID COMMON_PSSH_UUID = new UUID(1186680826959645954L, -5988876978535335093L);
     public static final UUID CLEARKEY_UUID = new UUID(-2129748144642739255L, 8654423357094679310L);

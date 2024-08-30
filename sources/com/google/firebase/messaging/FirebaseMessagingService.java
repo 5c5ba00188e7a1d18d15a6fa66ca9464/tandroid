@@ -7,7 +7,6 @@ import android.util.Log;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class FirebaseMessagingService extends EnhancedIntentService {
     public static final String ACTION_DIRECT_BOOT_REMOTE_INTENT = "com.google.firebase.messaging.RECEIVE_DIRECT_BOOT";
@@ -18,19 +17,19 @@ public class FirebaseMessagingService extends EnhancedIntentService {
             return false;
         }
         Queue<String> queue = recentlyReceivedMessageIds;
-        if (queue.contains(str)) {
-            if (Log.isLoggable("FirebaseMessaging", 3)) {
-                String valueOf = String.valueOf(str);
-                Log.d("FirebaseMessaging", valueOf.length() != 0 ? "Received duplicate message: ".concat(valueOf) : new String("Received duplicate message: "));
-                return true;
+        if (!queue.contains(str)) {
+            if (queue.size() >= 10) {
+                queue.remove();
             }
+            queue.add(str);
+            return false;
+        } else if (Log.isLoggable("FirebaseMessaging", 3)) {
+            String valueOf = String.valueOf(str);
+            Log.d("FirebaseMessaging", valueOf.length() != 0 ? "Received duplicate message: ".concat(valueOf) : new String("Received duplicate message: "));
+            return true;
+        } else {
             return true;
         }
-        if (queue.size() >= 10) {
-            queue.remove();
-        }
-        queue.add(str);
-        return false;
     }
 
     private void dispatchMessage(Intent intent) {
@@ -46,7 +45,6 @@ public class FirebaseMessagingService extends EnhancedIntentService {
                 if (new DisplayNotification(this, notificationParams, newNetworkIOExecutor).handleNotification()) {
                     return;
                 }
-                newNetworkIOExecutor.shutdown();
                 if (MessagingAnalytics.shouldUploadScionMetrics(intent)) {
                     MessagingAnalytics.logNotificationForeground(intent);
                 }
@@ -116,10 +114,10 @@ public class FirebaseMessagingService extends EnhancedIntentService {
             onDeletedMessages();
         } else if (c == 2) {
             onMessageSent(intent.getStringExtra("google.message_id"));
-        } else if (c == 3) {
-            onSendError(getMessageId(intent), new SendException(intent.getStringExtra("error")));
-        } else {
+        } else if (c != 3) {
             Log.w("FirebaseMessaging", stringExtra.length() != 0 ? "Received message with unknown type: ".concat(stringExtra) : new String("Received message with unknown type: "));
+        } else {
+            onSendError(getMessageId(intent), new SendException(intent.getStringExtra("error")));
         }
     }
 

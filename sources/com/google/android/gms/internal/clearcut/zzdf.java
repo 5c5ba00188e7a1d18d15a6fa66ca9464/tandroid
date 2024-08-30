@@ -9,7 +9,7 @@ final class zzdf implements zzdn {
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzdn
-    public final boolean zza(Class<?> cls) {
+    public final boolean zza(Class cls) {
         for (zzdn zzdnVar : this.zzma) {
             if (zzdnVar.zza(cls)) {
                 return true;
@@ -19,7 +19,7 @@ final class zzdf implements zzdn {
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzdn
-    public final zzdm zzb(Class<?> cls) {
+    public final zzdm zzb(Class cls) {
         zzdn[] zzdnVarArr;
         for (zzdn zzdnVar : this.zzma) {
             if (zzdnVar.zza(cls)) {

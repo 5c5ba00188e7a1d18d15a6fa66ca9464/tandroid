@@ -22,50 +22,6 @@ import org.telegram.ui.Components.AlertsCreator;
 public class ApplicationLoaderImpl extends ApplicationLoader {
     private static long lastUpdateCheckTime;
 
-    @Override // org.telegram.messenger.ApplicationLoader
-    protected String onGetApplicationId() {
-        return "org.telegram.messenger.beta";
-    }
-
-    @Override // org.telegram.messenger.ApplicationLoader
-    protected void startAppCenterInternal(Activity activity) {
-        String str;
-        String str2;
-        try {
-            if (BuildVars.DEBUG_VERSION) {
-                Distribute.setEnabledForDebuggableBuild(true);
-                if (!TextUtils.isEmpty(BuildConfig.APP_CENTER_HASH)) {
-                    AppCenter.start(activity.getApplication(), BuildConfig.APP_CENTER_HASH, Distribute.class, Crashes.class, Analytics.class);
-                    Crashes.getMinidumpDirectory().thenAccept(new AppCenterConsumer() { // from class: org.telegram.messenger.ApplicationLoaderImpl$$ExternalSyntheticLambda2
-                        @Override // com.microsoft.appcenter.utils.async.AppCenterConsumer
-                        public final void accept(Object obj) {
-                            ApplicationLoaderImpl.lambda$startAppCenterInternal$0((String) obj);
-                        }
-                    });
-                    CustomProperties customProperties = new CustomProperties();
-                    customProperties.set("model", Build.MODEL);
-                    customProperties.set("manufacturer", Build.MANUFACTURER);
-                    if (Build.VERSION.SDK_INT >= 31) {
-                        str = Build.SOC_MODEL;
-                        customProperties.set("model", str);
-                        str2 = Build.SOC_MANUFACTURER;
-                        customProperties.set("manufacturer", str2);
-                    }
-                    customProperties.set("device", Build.DEVICE);
-                    customProperties.set("product", Build.PRODUCT);
-                    customProperties.set("hardware", Build.HARDWARE);
-                    customProperties.set("user", Build.USER);
-                    AppCenter.setCustomProperties(customProperties);
-                    AppCenter.setUserId("uid=" + UserConfig.getInstance(UserConfig.selectedAccount).clientUserId);
-                    return;
-                }
-                throw new RuntimeException("App Center hash is empty. add to local.properties field APP_CENTER_HASH_PRIVATE and APP_CENTER_HASH_PUBLIC");
-            }
-        } catch (Throwable th) {
-            FileLog.e(th);
-        }
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$startAppCenterInternal$0(String str) {
         if (str != null) {
@@ -74,36 +30,9 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
     }
 
     @Override // org.telegram.messenger.ApplicationLoader
-    protected void checkForUpdatesInternal() {
-        try {
-            if (!BuildVars.DEBUG_VERSION || SystemClock.elapsedRealtime() - lastUpdateCheckTime < 3600000) {
-                return;
-            }
-            lastUpdateCheckTime = SystemClock.elapsedRealtime();
-            Distribute.checkForUpdate();
-        } catch (Throwable th) {
-            FileLog.e(th);
-        }
-    }
-
-    @Override // org.telegram.messenger.ApplicationLoader
     protected void appCenterLogInternal(Throwable th) {
         try {
             Crashes.trackError(th);
-        } catch (Throwable unused) {
-        }
-    }
-
-    @Override // org.telegram.messenger.ApplicationLoader
-    protected void logDualCameraInternal(boolean z, boolean z2) {
-        try {
-            StringBuilder sb = new StringBuilder();
-            sb.append("dual-camera[");
-            sb.append((Build.MANUFACTURER + " " + Build.DEVICE).toUpperCase());
-            sb.append("]");
-            String sb2 = sb.toString();
-            EventProperties eventProperties = new EventProperties().set("success", z).set("vendor", z2);
-            Analytics.trackEvent(sb2, eventProperties.set("product", Build.PRODUCT + "").set("model", Build.MODEL));
         } catch (Throwable unused) {
         }
     }
@@ -123,7 +52,40 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
     }
 
     @Override // org.telegram.messenger.ApplicationLoader
+    protected void checkForUpdatesInternal() {
+        try {
+            if (!BuildVars.DEBUG_VERSION || SystemClock.elapsedRealtime() - lastUpdateCheckTime < 3600000) {
+                return;
+            }
+            lastUpdateCheckTime = SystemClock.elapsedRealtime();
+            Distribute.checkForUpdate();
+        } catch (Throwable th) {
+            FileLog.e(th);
+        }
+    }
+
+    @Override // org.telegram.messenger.ApplicationLoader
+    protected void logDualCameraInternal(boolean z, boolean z2) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append("dual-camera[");
+            sb.append((Build.MANUFACTURER + " " + Build.DEVICE).toUpperCase());
+            sb.append("]");
+            String sb2 = sb.toString();
+            EventProperties eventProperties = new EventProperties().set("success", z).set("vendor", z2);
+            Analytics.trackEvent(sb2, eventProperties.set("product", Build.PRODUCT + "").set("model", Build.MODEL));
+        } catch (Throwable unused) {
+        }
+    }
+
+    @Override // org.telegram.messenger.ApplicationLoader
+    protected String onGetApplicationId() {
+        return "org.telegram.messenger.beta";
+    }
+
+    @Override // org.telegram.messenger.ApplicationLoader
     public boolean openApkInstall(Activity activity, TLRPC$Document tLRPC$Document) {
+        Uri fromFile;
         boolean z = false;
         try {
             FileLoader.getAttachFileName(tLRPC$Document);
@@ -133,10 +95,11 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
                 Intent intent = new Intent("android.intent.action.VIEW");
                 intent.setFlags(1);
                 if (Build.VERSION.SDK_INT >= 24) {
-                    intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", pathToAttach), "application/vnd.android.package-archive");
+                    fromFile = FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", pathToAttach);
                 } else {
-                    intent.setDataAndType(Uri.fromFile(pathToAttach), "application/vnd.android.package-archive");
+                    fromFile = Uri.fromFile(pathToAttach);
                 }
+                intent.setDataAndType(fromFile, "application/vnd.android.package-archive");
                 try {
                     activity.startActivityForResult(intent, 500);
                 } catch (Exception e) {
@@ -147,5 +110,43 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
             FileLog.e(e2);
         }
         return z;
+    }
+
+    @Override // org.telegram.messenger.ApplicationLoader
+    protected void startAppCenterInternal(Activity activity) {
+        String str;
+        String str2;
+        try {
+            if (BuildVars.DEBUG_VERSION) {
+                Distribute.setEnabledForDebuggableBuild(true);
+                if (TextUtils.isEmpty(BuildConfig.APP_CENTER_HASH)) {
+                    throw new RuntimeException("App Center hash is empty. add to local.properties field APP_CENTER_HASH_PRIVATE and APP_CENTER_HASH_PUBLIC");
+                }
+                AppCenter.start(activity.getApplication(), BuildConfig.APP_CENTER_HASH, Distribute.class, Crashes.class, Analytics.class);
+                Crashes.getMinidumpDirectory().thenAccept(new AppCenterConsumer() { // from class: org.telegram.messenger.ApplicationLoaderImpl$$ExternalSyntheticLambda2
+                    @Override // com.microsoft.appcenter.utils.async.AppCenterConsumer
+                    public final void accept(Object obj) {
+                        ApplicationLoaderImpl.lambda$startAppCenterInternal$0((String) obj);
+                    }
+                });
+                CustomProperties customProperties = new CustomProperties();
+                customProperties.set("model", Build.MODEL);
+                customProperties.set("manufacturer", Build.MANUFACTURER);
+                if (Build.VERSION.SDK_INT >= 31) {
+                    str = Build.SOC_MODEL;
+                    customProperties.set("model", str);
+                    str2 = Build.SOC_MANUFACTURER;
+                    customProperties.set("manufacturer", str2);
+                }
+                customProperties.set("device", Build.DEVICE);
+                customProperties.set("product", Build.PRODUCT);
+                customProperties.set("hardware", Build.HARDWARE);
+                customProperties.set("user", Build.USER);
+                AppCenter.setCustomProperties(customProperties);
+                AppCenter.setUserId("uid=" + UserConfig.getInstance(UserConfig.selectedAccount).clientUserId);
+            }
+        } catch (Throwable th) {
+            FileLog.e(th);
+        }
     }
 }

@@ -1,6 +1,5 @@
 package org.telegram.ui;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import org.telegram.messenger.voip.VoIPPreNotificationService;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$PhoneCall;
 import org.telegram.ui.Components.voip.VoIPHelper;
-@TargetApi(23)
 /* loaded from: classes4.dex */
 public class VoIPPermissionActivity extends Activity {
     @Override // android.app.Activity
@@ -74,21 +72,21 @@ public class VoIPPermissionActivity extends Activity {
                 return;
             }
             shouldShowRequestPermissionRationale = shouldShowRequestPermissionRationale("android.permission.RECORD_AUDIO");
-            if (!shouldShowRequestPermissionRationale) {
-                if (VoIPService.getSharedInstance() != null) {
-                    VoIPService.getSharedInstance().declineIncomingCall();
-                } else {
-                    VoIPPreNotificationService.decline(this, 1);
-                }
-                VoIPHelper.permissionDenied(this, new Runnable() { // from class: org.telegram.ui.VoIPPermissionActivity$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        VoIPPermissionActivity.this.finish();
-                    }
-                }, i);
+            if (shouldShowRequestPermissionRationale) {
+                finish();
                 return;
             }
-            finish();
+            if (VoIPService.getSharedInstance() != null) {
+                VoIPService.getSharedInstance().declineIncomingCall();
+            } else {
+                VoIPPreNotificationService.decline(this, 1);
+            }
+            VoIPHelper.permissionDenied(this, new Runnable() { // from class: org.telegram.ui.VoIPPermissionActivity$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    VoIPPermissionActivity.this.finish();
+                }
+            }, i);
         }
     }
 }

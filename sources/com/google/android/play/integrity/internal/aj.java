@@ -1,5 +1,4 @@
 package com.google.android.play.integrity.internal;
-/* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
 public final class aj implements an {
     private static final Object a = new Object();

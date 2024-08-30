@@ -13,15 +13,15 @@ public class EncryptionKeyEmojifier {
     }
 
     public static String[] emojify(byte[] bArr) {
-        if (bArr.length != 32) {
-            throw new IllegalArgumentException("sha256 needs to be exactly 32 bytes");
+        if (bArr.length == 32) {
+            String[] strArr = new String[5];
+            for (int i = 0; i < 5; i++) {
+                String[] strArr2 = emojis;
+                strArr[i] = strArr2[bytesToInt(bArr, offsets[i]) % strArr2.length];
+            }
+            return strArr;
         }
-        String[] strArr = new String[5];
-        for (int i = 0; i < 5; i++) {
-            String[] strArr2 = emojis;
-            strArr[i] = strArr2[bytesToInt(bArr, offsets[i]) % strArr2.length];
-        }
-        return strArr;
+        throw new IllegalArgumentException("sha256 needs to be exactly 32 bytes");
     }
 
     public static String[] emojifyForCall(byte[] bArr) {

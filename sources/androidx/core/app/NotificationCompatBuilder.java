@@ -9,6 +9,7 @@ import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
@@ -30,56 +31,273 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
     private final Context mContext;
     private int mGroupAlertBehavior;
     private RemoteViews mHeadsUpContentView;
-    private final List<Bundle> mActionExtrasList = new ArrayList();
+    private final List mActionExtrasList = new ArrayList();
     private final Bundle mExtras = new Bundle();
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api16Impl {
+        static Notification build(Notification.Builder builder) {
+            return builder.build();
+        }
+
+        static Notification.Builder setPriority(Notification.Builder builder, int i) {
+            return builder.setPriority(i);
+        }
+
+        static Notification.Builder setSubText(Notification.Builder builder, CharSequence charSequence) {
+            return builder.setSubText(charSequence);
+        }
+
+        static Notification.Builder setUsesChronometer(Notification.Builder builder, boolean z) {
+            return builder.setUsesChronometer(z);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class Api17Impl {
+        static Notification.Builder setShowWhen(Notification.Builder builder, boolean z) {
+            return builder.setShowWhen(z);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api19Impl {
+        static Notification.Builder setExtras(Notification.Builder builder, Bundle bundle) {
+            return builder.setExtras(bundle);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api20Impl {
+        static Notification.Builder addAction(Notification.Builder builder, Notification.Action action) {
+            return builder.addAction(action);
+        }
+
+        static Notification.Action.Builder addExtras(Notification.Action.Builder builder, Bundle bundle) {
+            return builder.addExtras(bundle);
+        }
+
+        static Notification.Action.Builder addRemoteInput(Notification.Action.Builder builder, android.app.RemoteInput remoteInput) {
+            return builder.addRemoteInput(remoteInput);
+        }
+
+        static Notification.Action build(Notification.Action.Builder builder) {
+            return builder.build();
+        }
+
+        static Notification.Action.Builder createBuilder(int i, CharSequence charSequence, PendingIntent pendingIntent) {
+            return new Notification.Action.Builder(i, charSequence, pendingIntent);
+        }
+
+        static String getGroup(Notification notification) {
+            return notification.getGroup();
+        }
+
+        static Notification.Builder setGroup(Notification.Builder builder, String str) {
+            return builder.setGroup(str);
+        }
+
+        static Notification.Builder setGroupSummary(Notification.Builder builder, boolean z) {
+            return builder.setGroupSummary(z);
+        }
+
+        static Notification.Builder setLocalOnly(Notification.Builder builder, boolean z) {
+            return builder.setLocalOnly(z);
+        }
+
+        static Notification.Builder setSortKey(Notification.Builder builder, String str) {
+            return builder.setSortKey(str);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class Api21Impl {
+        static Notification.Builder addPerson(Notification.Builder builder, String str) {
+            return builder.addPerson(str);
+        }
+
+        static Notification.Builder setCategory(Notification.Builder builder, String str) {
+            return builder.setCategory(str);
+        }
+
+        static Notification.Builder setColor(Notification.Builder builder, int i) {
+            return builder.setColor(i);
+        }
+
+        static Notification.Builder setPublicVersion(Notification.Builder builder, Notification notification) {
+            return builder.setPublicVersion(notification);
+        }
+
+        static Notification.Builder setSound(Notification.Builder builder, Uri uri, Object obj) {
+            return builder.setSound(uri, (AudioAttributes) obj);
+        }
+
+        static Notification.Builder setVisibility(Notification.Builder builder, int i) {
+            return builder.setVisibility(i);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api23Impl {
+        static Notification.Action.Builder createBuilder(Icon icon, CharSequence charSequence, PendingIntent pendingIntent) {
+            return new Notification.Action.Builder(icon, charSequence, pendingIntent);
+        }
+
+        static Notification.Builder setSmallIcon(Notification.Builder builder, Object obj) {
+            return builder.setSmallIcon((Icon) obj);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api24Impl {
+        static Notification.Action.Builder setAllowGeneratedReplies(Notification.Action.Builder builder, boolean z) {
+            return builder.setAllowGeneratedReplies(z);
+        }
+
+        static Notification.Builder setCustomBigContentView(Notification.Builder builder, RemoteViews remoteViews) {
+            return builder.setCustomBigContentView(remoteViews);
+        }
+
+        static Notification.Builder setCustomContentView(Notification.Builder builder, RemoteViews remoteViews) {
+            return builder.setCustomContentView(remoteViews);
+        }
+
+        static Notification.Builder setCustomHeadsUpContentView(Notification.Builder builder, RemoteViews remoteViews) {
+            return builder.setCustomHeadsUpContentView(remoteViews);
+        }
+
+        static Notification.Builder setRemoteInputHistory(Notification.Builder builder, CharSequence[] charSequenceArr) {
+            return builder.setRemoteInputHistory(charSequenceArr);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class Api26Impl {
+        static Notification.Builder createBuilder(Context context, String str) {
+            return new Notification.Builder(context, str);
+        }
+
+        static Notification.Builder setBadgeIconType(Notification.Builder builder, int i) {
+            return builder.setBadgeIconType(i);
+        }
+
+        static Notification.Builder setColorized(Notification.Builder builder, boolean z) {
+            return builder.setColorized(z);
+        }
+
+        static Notification.Builder setGroupAlertBehavior(Notification.Builder builder, int i) {
+            return builder.setGroupAlertBehavior(i);
+        }
+
+        static Notification.Builder setSettingsText(Notification.Builder builder, CharSequence charSequence) {
+            return builder.setSettingsText(charSequence);
+        }
+
+        static Notification.Builder setShortcutId(Notification.Builder builder, String str) {
+            return builder.setShortcutId(str);
+        }
+
+        static Notification.Builder setTimeoutAfter(Notification.Builder builder, long j) {
+            return builder.setTimeoutAfter(j);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api28Impl {
+        static Notification.Builder addPerson(Notification.Builder builder, android.app.Person person) {
+            return builder.addPerson(person);
+        }
+
+        static Notification.Action.Builder setSemanticAction(Notification.Action.Builder builder, int i) {
+            return builder.setSemanticAction(i);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api29Impl {
+        static Notification.Builder setAllowSystemGeneratedContextualActions(Notification.Builder builder, boolean z) {
+            return builder.setAllowSystemGeneratedContextualActions(z);
+        }
+
+        static Notification.Builder setBubbleMetadata(Notification.Builder builder, Notification.BubbleMetadata bubbleMetadata) {
+            return builder.setBubbleMetadata(bubbleMetadata);
+        }
+
+        static Notification.Action.Builder setContextual(Notification.Action.Builder builder, boolean z) {
+            return builder.setContextual(z);
+        }
+
+        static Notification.Builder setLocusId(Notification.Builder builder, Object obj) {
+            return builder.setLocusId((LocusId) obj);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api31Impl {
+        static Notification.Action.Builder setAuthenticationRequired(Notification.Action.Builder builder, boolean z) {
+            return builder.setAuthenticationRequired(z);
+        }
+
+        static Notification.Builder setForegroundServiceBehavior(Notification.Builder builder, int i) {
+            return builder.setForegroundServiceBehavior(i);
+        }
+    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public NotificationCompatBuilder(NotificationCompat.Builder builder) {
         int i;
         Object obj;
         AudioAttributes audioAttributes;
-        List<String> list;
-        List<String> combineLists;
+        List combineLists;
+        Bundle bundle;
+        String str;
         this.mBuilderCompat = builder;
         Context context = builder.mContext;
         this.mContext = context;
         int i2 = Build.VERSION.SDK_INT;
-        if (i2 >= 26) {
-            this.mBuilder = Api26Impl.createBuilder(context, builder.mChannelId);
-        } else {
-            this.mBuilder = new Notification.Builder(builder.mContext);
-        }
+        this.mBuilder = i2 >= 26 ? Api26Impl.createBuilder(context, builder.mChannelId) : new Notification.Builder(builder.mContext);
         Notification notification = builder.mNotification;
         this.mBuilder.setWhen(notification.when).setSmallIcon(notification.icon, notification.iconLevel).setContent(notification.contentView).setTicker(notification.tickerText, builder.mTickerView).setVibrate(notification.vibrate).setLights(notification.ledARGB, notification.ledOnMS, notification.ledOffMS).setOngoing((notification.flags & 2) != 0).setOnlyAlertOnce((notification.flags & 8) != 0).setAutoCancel((notification.flags & 16) != 0).setDefaults(notification.defaults).setContentTitle(builder.mContentTitle).setContentText(builder.mContentText).setContentInfo(builder.mContentInfo).setContentIntent(builder.mContentIntent).setDeleteIntent(notification.deleteIntent).setFullScreenIntent(builder.mFullScreenIntent, (notification.flags & 128) != 0).setLargeIcon(builder.mLargeIcon).setNumber(builder.mNumber).setProgress(builder.mProgressMax, builder.mProgress, builder.mProgressIndeterminate);
         if (i2 < 21) {
             this.mBuilder.setSound(notification.sound, notification.audioStreamType);
         }
         Api16Impl.setPriority(Api16Impl.setUsesChronometer(Api16Impl.setSubText(this.mBuilder, builder.mSubText), builder.mUseChronometer), builder.mPriority);
-        Iterator<NotificationCompat.Action> it = builder.mActions.iterator();
+        Iterator it = builder.mActions.iterator();
         while (it.hasNext()) {
-            addAction(it.next());
+            addAction((NotificationCompat.Action) it.next());
         }
-        Bundle bundle = builder.mExtras;
-        if (bundle != null) {
-            this.mExtras.putAll(bundle);
+        Bundle bundle2 = builder.mExtras;
+        if (bundle2 != null) {
+            this.mExtras.putAll(bundle2);
         }
         int i3 = Build.VERSION.SDK_INT;
         if (i3 < 20) {
             if (builder.mLocalOnly) {
                 this.mExtras.putBoolean("android.support.localOnly", true);
             }
-            String str = builder.mGroupKey;
-            if (str != null) {
-                this.mExtras.putString("android.support.groupKey", str);
-                if (builder.mGroupSummary) {
-                    this.mExtras.putBoolean("android.support.isGroupSummary", true);
-                } else {
-                    this.mExtras.putBoolean("android.support.useSideChannel", true);
-                }
-            }
-            String str2 = builder.mSortKey;
+            String str2 = builder.mGroupKey;
             if (str2 != null) {
-                this.mExtras.putString("android.support.sortKey", str2);
+                this.mExtras.putString("android.support.groupKey", str2);
+                if (builder.mGroupSummary) {
+                    bundle = this.mExtras;
+                    str = "android.support.isGroupSummary";
+                } else {
+                    bundle = this.mExtras;
+                    str = "android.support.useSideChannel";
+                }
+                bundle.putBoolean(str, true);
+            }
+            String str3 = builder.mSortKey;
+            if (str3 != null) {
+                this.mExtras.putString("android.support.sortKey", str3);
             }
         }
         this.mContentView = builder.mContentView;
@@ -104,29 +322,25 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
             Uri uri = notification.sound;
             audioAttributes = notification.audioAttributes;
             Api21Impl.setSound(builder2, uri, audioAttributes);
-            if (i3 < 28) {
-                list = combineLists(getPeople(builder.mPersonList), builder.mPeople);
-            } else {
-                list = builder.mPeople;
-            }
-            if (list != null && !list.isEmpty()) {
-                for (String str3 : list) {
-                    Api21Impl.addPerson(this.mBuilder, str3);
+            List<String> combineLists2 = i3 < 28 ? combineLists(getPeople(builder.mPersonList), builder.mPeople) : builder.mPeople;
+            if (combineLists2 != null && !combineLists2.isEmpty()) {
+                for (String str4 : combineLists2) {
+                    Api21Impl.addPerson(this.mBuilder, str4);
                 }
             }
             this.mHeadsUpContentView = builder.mHeadsUpContentView;
             if (builder.mInvisibleActions.size() > 0) {
-                Bundle bundle2 = builder.getExtras().getBundle("android.car.EXTENSIONS");
-                bundle2 = bundle2 == null ? new Bundle() : bundle2;
-                Bundle bundle3 = new Bundle(bundle2);
-                Bundle bundle4 = new Bundle();
+                Bundle bundle3 = builder.getExtras().getBundle("android.car.EXTENSIONS");
+                bundle3 = bundle3 == null ? new Bundle() : bundle3;
+                Bundle bundle4 = new Bundle(bundle3);
+                Bundle bundle5 = new Bundle();
                 for (int i4 = 0; i4 < builder.mInvisibleActions.size(); i4++) {
-                    bundle4.putBundle(Integer.toString(i4), NotificationCompatJellybean.getBundleForAction(builder.mInvisibleActions.get(i4)));
+                    bundle5.putBundle(Integer.toString(i4), NotificationCompatJellybean.getBundleForAction((NotificationCompat.Action) builder.mInvisibleActions.get(i4)));
                 }
-                bundle2.putBundle("invisible_actions", bundle4);
-                bundle3.putBundle("invisible_actions", bundle4);
-                builder.getExtras().putBundle("android.car.EXTENSIONS", bundle2);
-                this.mExtras.putBundle("android.car.EXTENSIONS", bundle3);
+                bundle3.putBundle("invisible_actions", bundle5);
+                bundle4.putBundle("invisible_actions", bundle5);
+                builder.getExtras().putBundle("android.car.EXTENSIONS", bundle3);
+                this.mExtras.putBundle("android.car.EXTENSIONS", bundle4);
             }
         }
         int i5 = Build.VERSION.SDK_INT;
@@ -163,9 +377,9 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
             }
         }
         if (i5 >= 28) {
-            Iterator<Person> it2 = builder.mPersonList.iterator();
+            Iterator it2 = builder.mPersonList.iterator();
             while (it2.hasNext()) {
-                Api28Impl.addPerson(this.mBuilder, it2.next().toAndroidPerson());
+                Api28Impl.addPerson(this.mBuilder, ((Person) it2.next()).toAndroidPerson());
             }
         }
         int i6 = Build.VERSION.SDK_INT;
@@ -200,7 +414,41 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
     }
 
-    private static List<String> combineLists(List<String> list, List<String> list2) {
+    private void addAction(NotificationCompat.Action action) {
+        int i = Build.VERSION.SDK_INT;
+        if (i < 20) {
+            this.mActionExtrasList.add(NotificationCompatJellybean.writeActionAndGetExtras(this.mBuilder, action));
+            return;
+        }
+        IconCompat iconCompat = action.getIconCompat();
+        Notification.Action.Builder createBuilder = i >= 23 ? Api23Impl.createBuilder(iconCompat != null ? iconCompat.toIcon() : null, action.getTitle(), action.getActionIntent()) : Api20Impl.createBuilder(iconCompat != null ? iconCompat.getResId() : 0, action.getTitle(), action.getActionIntent());
+        if (action.getRemoteInputs() != null) {
+            for (android.app.RemoteInput remoteInput : RemoteInput.fromCompat(action.getRemoteInputs())) {
+                Api20Impl.addRemoteInput(createBuilder, remoteInput);
+            }
+        }
+        Bundle bundle = action.getExtras() != null ? new Bundle(action.getExtras()) : new Bundle();
+        bundle.putBoolean("android.support.allowGeneratedReplies", action.getAllowGeneratedReplies());
+        int i2 = Build.VERSION.SDK_INT;
+        if (i2 >= 24) {
+            Api24Impl.setAllowGeneratedReplies(createBuilder, action.getAllowGeneratedReplies());
+        }
+        bundle.putInt("android.support.action.semanticAction", action.getSemanticAction());
+        if (i2 >= 28) {
+            Api28Impl.setSemanticAction(createBuilder, action.getSemanticAction());
+        }
+        if (i2 >= 29) {
+            Api29Impl.setContextual(createBuilder, action.isContextual());
+        }
+        if (i2 >= 31) {
+            Api31Impl.setAuthenticationRequired(createBuilder, action.isAuthenticationRequired());
+        }
+        bundle.putBoolean("android.support.action.showsUserInterface", action.getShowsUserInterface());
+        Api20Impl.addExtras(createBuilder, bundle);
+        Api20Impl.addAction(this.mBuilder, Api20Impl.build(createBuilder));
+    }
+
+    private static List combineLists(List list, List list2) {
         if (list == null) {
             return list2;
         }
@@ -213,25 +461,22 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         return new ArrayList(arraySet);
     }
 
-    private static List<String> getPeople(List<Person> list) {
+    private static List getPeople(List list) {
         if (list == null) {
             return null;
         }
         ArrayList arrayList = new ArrayList(list.size());
-        for (Person person : list) {
-            arrayList.add(person.resolveToLegacyUri());
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            arrayList.add(((Person) it.next()).resolveToLegacyUri());
         }
         return arrayList;
     }
 
-    @Override // androidx.core.app.NotificationBuilderWithBuilderAccessor
-    public Notification.Builder getBuilder() {
-        return this.mBuilder;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Context getContext() {
-        return this.mContext;
+    private void removeSoundAndVibration(Notification notification) {
+        notification.sound = null;
+        notification.vibrate = null;
+        notification.defaults &= -4;
     }
 
     public Notification build() {
@@ -244,13 +489,8 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
         RemoteViews makeContentView = style != null ? style.makeContentView(this) : null;
         Notification buildInternal = buildInternal();
-        if (makeContentView != null) {
+        if (makeContentView != null || (makeContentView = this.mBuilderCompat.mContentView) != null) {
             buildInternal.contentView = makeContentView;
-        } else {
-            RemoteViews remoteViews = this.mBuilderCompat.mContentView;
-            if (remoteViews != null) {
-                buildInternal.contentView = remoteViews;
-            }
         }
         int i = Build.VERSION.SDK_INT;
         if (style != null && (makeBigContentView = style.makeBigContentView(this)) != null) {
@@ -263,50 +503,6 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
             style.addCompatExtras(extras);
         }
         return buildInternal;
-    }
-
-    private void addAction(NotificationCompat.Action action) {
-        Notification.Action.Builder createBuilder;
-        Bundle bundle;
-        int i = Build.VERSION.SDK_INT;
-        if (i >= 20) {
-            IconCompat iconCompat = action.getIconCompat();
-            if (i >= 23) {
-                createBuilder = Api23Impl.createBuilder(iconCompat != null ? iconCompat.toIcon() : null, action.getTitle(), action.getActionIntent());
-            } else {
-                createBuilder = Api20Impl.createBuilder(iconCompat != null ? iconCompat.getResId() : 0, action.getTitle(), action.getActionIntent());
-            }
-            if (action.getRemoteInputs() != null) {
-                for (android.app.RemoteInput remoteInput : RemoteInput.fromCompat(action.getRemoteInputs())) {
-                    Api20Impl.addRemoteInput(createBuilder, remoteInput);
-                }
-            }
-            if (action.getExtras() != null) {
-                bundle = new Bundle(action.getExtras());
-            } else {
-                bundle = new Bundle();
-            }
-            bundle.putBoolean("android.support.allowGeneratedReplies", action.getAllowGeneratedReplies());
-            int i2 = Build.VERSION.SDK_INT;
-            if (i2 >= 24) {
-                Api24Impl.setAllowGeneratedReplies(createBuilder, action.getAllowGeneratedReplies());
-            }
-            bundle.putInt("android.support.action.semanticAction", action.getSemanticAction());
-            if (i2 >= 28) {
-                Api28Impl.setSemanticAction(createBuilder, action.getSemanticAction());
-            }
-            if (i2 >= 29) {
-                Api29Impl.setContextual(createBuilder, action.isContextual());
-            }
-            if (i2 >= 31) {
-                Api31Impl.setAuthenticationRequired(createBuilder, action.isAuthenticationRequired());
-            }
-            bundle.putBoolean("android.support.action.showsUserInterface", action.getShowsUserInterface());
-            Api20Impl.addExtras(createBuilder, bundle);
-            Api20Impl.addAction(this.mBuilder, Api20Impl.build(createBuilder));
-            return;
-        }
-        this.mActionExtrasList.add(NotificationCompatJellybean.writeActionAndGetExtras(this.mBuilder, action));
     }
 
     protected Notification buildInternal() {
@@ -349,7 +545,11 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
                 }
             }
             return build2;
-        } else if (i >= 20) {
+        } else if (i < 20) {
+            SparseArray<? extends Parcelable> buildActionExtrasMap = NotificationCompatJellybean.buildActionExtrasMap(this.mActionExtrasList);
+            if (buildActionExtrasMap != null) {
+                this.mExtras.putSparseParcelableArray("android.support.actionExtras", buildActionExtrasMap);
+            }
             Api19Impl.setExtras(this.mBuilder, this.mExtras);
             Notification build3 = Api16Impl.build(this.mBuilder);
             RemoteViews remoteViews4 = this.mContentView;
@@ -360,20 +560,8 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
             if (remoteViews5 != null) {
                 build3.bigContentView = remoteViews5;
             }
-            if (this.mGroupAlertBehavior != 0) {
-                if (Api20Impl.getGroup(build3) != null && (build3.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 && this.mGroupAlertBehavior == 2) {
-                    removeSoundAndVibration(build3);
-                }
-                if (Api20Impl.getGroup(build3) != null && (build3.flags & LiteMode.FLAG_CALLS_ANIMATIONS) == 0 && this.mGroupAlertBehavior == 1) {
-                    removeSoundAndVibration(build3);
-                }
-            }
             return build3;
         } else {
-            SparseArray<Bundle> buildActionExtrasMap = NotificationCompatJellybean.buildActionExtrasMap(this.mActionExtrasList);
-            if (buildActionExtrasMap != null) {
-                this.mExtras.putSparseParcelableArray("android.support.actionExtras", buildActionExtrasMap);
-            }
             Api19Impl.setExtras(this.mBuilder, this.mExtras);
             Notification build4 = Api16Impl.build(this.mBuilder);
             RemoteViews remoteViews6 = this.mContentView;
@@ -384,230 +572,25 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
             if (remoteViews7 != null) {
                 build4.bigContentView = remoteViews7;
             }
+            if (this.mGroupAlertBehavior != 0) {
+                if (Api20Impl.getGroup(build4) != null && (build4.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 && this.mGroupAlertBehavior == 2) {
+                    removeSoundAndVibration(build4);
+                }
+                if (Api20Impl.getGroup(build4) != null && (build4.flags & LiteMode.FLAG_CALLS_ANIMATIONS) == 0 && this.mGroupAlertBehavior == 1) {
+                    removeSoundAndVibration(build4);
+                }
+            }
             return build4;
         }
     }
 
-    private void removeSoundAndVibration(Notification notification) {
-        notification.sound = null;
-        notification.vibrate = null;
-        notification.defaults &= -4;
+    @Override // androidx.core.app.NotificationBuilderWithBuilderAccessor
+    public Notification.Builder getBuilder() {
+        return this.mBuilder;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api16Impl {
-        static Notification.Builder setSubText(Notification.Builder builder, CharSequence charSequence) {
-            return builder.setSubText(charSequence);
-        }
-
-        static Notification.Builder setUsesChronometer(Notification.Builder builder, boolean z) {
-            return builder.setUsesChronometer(z);
-        }
-
-        static Notification.Builder setPriority(Notification.Builder builder, int i) {
-            return builder.setPriority(i);
-        }
-
-        static Notification build(Notification.Builder builder) {
-            return builder.build();
-        }
-    }
-
-    /* loaded from: classes.dex */
-    static class Api17Impl {
-        static Notification.Builder setShowWhen(Notification.Builder builder, boolean z) {
-            return builder.setShowWhen(z);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api19Impl {
-        static Notification.Builder setExtras(Notification.Builder builder, Bundle bundle) {
-            return builder.setExtras(bundle);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api20Impl {
-        static Notification.Action.Builder createBuilder(int i, CharSequence charSequence, PendingIntent pendingIntent) {
-            return new Notification.Action.Builder(i, charSequence, pendingIntent);
-        }
-
-        static Notification.Action.Builder addRemoteInput(Notification.Action.Builder builder, android.app.RemoteInput remoteInput) {
-            return builder.addRemoteInput(remoteInput);
-        }
-
-        static Notification.Action.Builder addExtras(Notification.Action.Builder builder, Bundle bundle) {
-            return builder.addExtras(bundle);
-        }
-
-        static Notification.Builder addAction(Notification.Builder builder, Notification.Action action) {
-            return builder.addAction(action);
-        }
-
-        static Notification.Action build(Notification.Action.Builder builder) {
-            return builder.build();
-        }
-
-        static String getGroup(Notification notification) {
-            return notification.getGroup();
-        }
-
-        static Notification.Builder setGroup(Notification.Builder builder, String str) {
-            return builder.setGroup(str);
-        }
-
-        static Notification.Builder setGroupSummary(Notification.Builder builder, boolean z) {
-            return builder.setGroupSummary(z);
-        }
-
-        static Notification.Builder setLocalOnly(Notification.Builder builder, boolean z) {
-            return builder.setLocalOnly(z);
-        }
-
-        static Notification.Builder setSortKey(Notification.Builder builder, String str) {
-            return builder.setSortKey(str);
-        }
-    }
-
-    /* loaded from: classes.dex */
-    static class Api21Impl {
-        static Notification.Builder addPerson(Notification.Builder builder, String str) {
-            return builder.addPerson(str);
-        }
-
-        static Notification.Builder setCategory(Notification.Builder builder, String str) {
-            return builder.setCategory(str);
-        }
-
-        static Notification.Builder setColor(Notification.Builder builder, int i) {
-            return builder.setColor(i);
-        }
-
-        static Notification.Builder setVisibility(Notification.Builder builder, int i) {
-            return builder.setVisibility(i);
-        }
-
-        static Notification.Builder setPublicVersion(Notification.Builder builder, Notification notification) {
-            return builder.setPublicVersion(notification);
-        }
-
-        static Notification.Builder setSound(Notification.Builder builder, Uri uri, Object obj) {
-            return builder.setSound(uri, (AudioAttributes) obj);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api23Impl {
-        static Notification.Action.Builder createBuilder(Icon icon, CharSequence charSequence, PendingIntent pendingIntent) {
-            return new Notification.Action.Builder(icon, charSequence, pendingIntent);
-        }
-
-        static Notification.Builder setSmallIcon(Notification.Builder builder, Object obj) {
-            return builder.setSmallIcon((Icon) obj);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api24Impl {
-        static Notification.Action.Builder setAllowGeneratedReplies(Notification.Action.Builder builder, boolean z) {
-            return builder.setAllowGeneratedReplies(z);
-        }
-
-        static Notification.Builder setRemoteInputHistory(Notification.Builder builder, CharSequence[] charSequenceArr) {
-            return builder.setRemoteInputHistory(charSequenceArr);
-        }
-
-        static Notification.Builder setCustomContentView(Notification.Builder builder, RemoteViews remoteViews) {
-            return builder.setCustomContentView(remoteViews);
-        }
-
-        static Notification.Builder setCustomBigContentView(Notification.Builder builder, RemoteViews remoteViews) {
-            return builder.setCustomBigContentView(remoteViews);
-        }
-
-        static Notification.Builder setCustomHeadsUpContentView(Notification.Builder builder, RemoteViews remoteViews) {
-            return builder.setCustomHeadsUpContentView(remoteViews);
-        }
-    }
-
-    /* loaded from: classes.dex */
-    static class Api26Impl {
-        static Notification.Builder createBuilder(Context context, String str) {
-            return new Notification.Builder(context, str);
-        }
-
-        static Notification.Builder setGroupAlertBehavior(Notification.Builder builder, int i) {
-            return builder.setGroupAlertBehavior(i);
-        }
-
-        static Notification.Builder setColorized(Notification.Builder builder, boolean z) {
-            return builder.setColorized(z);
-        }
-
-        static Notification.Builder setBadgeIconType(Notification.Builder builder, int i) {
-            return builder.setBadgeIconType(i);
-        }
-
-        static Notification.Builder setSettingsText(Notification.Builder builder, CharSequence charSequence) {
-            return builder.setSettingsText(charSequence);
-        }
-
-        static Notification.Builder setShortcutId(Notification.Builder builder, String str) {
-            return builder.setShortcutId(str);
-        }
-
-        static Notification.Builder setTimeoutAfter(Notification.Builder builder, long j) {
-            return builder.setTimeoutAfter(j);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api28Impl {
-        static Notification.Action.Builder setSemanticAction(Notification.Action.Builder builder, int i) {
-            return builder.setSemanticAction(i);
-        }
-
-        static Notification.Builder addPerson(Notification.Builder builder, android.app.Person person) {
-            return builder.addPerson(person);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api29Impl {
-        static Notification.Action.Builder setContextual(Notification.Action.Builder builder, boolean z) {
-            return builder.setContextual(z);
-        }
-
-        static Notification.Builder setLocusId(Notification.Builder builder, Object obj) {
-            return builder.setLocusId((LocusId) obj);
-        }
-
-        static Notification.Builder setBubbleMetadata(Notification.Builder builder, Notification.BubbleMetadata bubbleMetadata) {
-            return builder.setBubbleMetadata(bubbleMetadata);
-        }
-
-        static Notification.Builder setAllowSystemGeneratedContextualActions(Notification.Builder builder, boolean z) {
-            return builder.setAllowSystemGeneratedContextualActions(z);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api31Impl {
-        static Notification.Action.Builder setAuthenticationRequired(Notification.Action.Builder builder, boolean z) {
-            return builder.setAuthenticationRequired(z);
-        }
-
-        static Notification.Builder setForegroundServiceBehavior(Notification.Builder builder, int i) {
-            return builder.setForegroundServiceBehavior(i);
-        }
+    public Context getContext() {
+        return this.mContext;
     }
 }

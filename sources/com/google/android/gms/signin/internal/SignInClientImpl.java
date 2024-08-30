@@ -18,9 +18,8 @@ import com.google.android.gms.common.internal.GmsClient;
 import com.google.android.gms.common.internal.IAccountAccessor;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.zat;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public class SignInClientImpl extends GmsClient<zaf> implements com.google.android.gms.signin.zae {
+public class SignInClientImpl extends GmsClient implements com.google.android.gms.signin.zae {
     public static final /* synthetic */ int $r8$clinit = 0;
     private final boolean zab;
     private final ClientSettings zac;

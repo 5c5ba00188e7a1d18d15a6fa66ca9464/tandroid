@@ -14,38 +14,7 @@ public class PathAnimator {
     private float ty;
     private Path path = new Path();
     private float pathTime = -1.0f;
-    private ArrayList<KeyFrame> keyFrames = new ArrayList<>();
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class KeyFrame {
-        public ArrayList<Object> commands;
-        public float time;
-
-        private KeyFrame() {
-            this.commands = new ArrayList<>();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class MoveTo {
-        public float x;
-        public float y;
-
-        private MoveTo() {
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class LineTo {
-        public float x;
-        public float y;
-
-        private LineTo() {
-        }
-    }
+    private ArrayList keyFrames = new ArrayList();
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
@@ -61,6 +30,37 @@ public class PathAnimator {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public static class KeyFrame {
+        public ArrayList commands;
+        public float time;
+
+        private KeyFrame() {
+            this.commands = new ArrayList();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public static class LineTo {
+        public float x;
+        public float y;
+
+        private LineTo() {
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public static class MoveTo {
+        public float x;
+        public float y;
+
+        private MoveTo() {
+        }
+    }
+
     public PathAnimator(float f, float f2, float f3, float f4) {
         this.scale = f;
         this.tx = f2;
@@ -68,7 +68,9 @@ public class PathAnimator {
         this.durationScale = f4;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public void addSvgKeyFrame(String str, float f) {
+        CurveTo curveTo;
         if (str == null) {
             return;
         }
@@ -80,28 +82,31 @@ public class PathAnimator {
             while (i < split.length) {
                 char charAt = split[i].charAt(0);
                 if (charAt == 'C') {
-                    CurveTo curveTo = new CurveTo();
-                    curveTo.x1 = (Float.parseFloat(split[i + 1]) + this.tx) * this.scale;
-                    curveTo.y1 = (Float.parseFloat(split[i + 2]) + this.ty) * this.scale;
-                    curveTo.x2 = (Float.parseFloat(split[i + 3]) + this.tx) * this.scale;
-                    curveTo.y2 = (Float.parseFloat(split[i + 4]) + this.ty) * this.scale;
-                    curveTo.x = (Float.parseFloat(split[i + 5]) + this.tx) * this.scale;
+                    CurveTo curveTo2 = new CurveTo();
+                    curveTo2.x1 = (Float.parseFloat(split[i + 1]) + this.tx) * this.scale;
+                    curveTo2.y1 = (Float.parseFloat(split[i + 2]) + this.ty) * this.scale;
+                    curveTo2.x2 = (Float.parseFloat(split[i + 3]) + this.tx) * this.scale;
+                    curveTo2.y2 = (Float.parseFloat(split[i + 4]) + this.ty) * this.scale;
+                    curveTo2.x = (Float.parseFloat(split[i + 5]) + this.tx) * this.scale;
                     i += 6;
-                    curveTo.y = (Float.parseFloat(split[i]) + this.ty) * this.scale;
-                    keyFrame.commands.add(curveTo);
+                    curveTo2.y = (Float.parseFloat(split[i]) + this.ty) * this.scale;
+                    curveTo = curveTo2;
                 } else if (charAt == 'L') {
                     LineTo lineTo = new LineTo();
                     lineTo.x = (Float.parseFloat(split[i + 1]) + this.tx) * this.scale;
                     i += 2;
                     lineTo.y = (Float.parseFloat(split[i]) + this.ty) * this.scale;
-                    keyFrame.commands.add(lineTo);
-                } else if (charAt == 'M') {
+                    curveTo = lineTo;
+                } else if (charAt != 'M') {
+                    i++;
+                } else {
                     MoveTo moveTo = new MoveTo();
                     moveTo.x = (Float.parseFloat(split[i + 1]) + this.tx) * this.scale;
                     i += 2;
                     moveTo.y = (Float.parseFloat(split[i]) + this.ty) * this.scale;
-                    keyFrame.commands.add(moveTo);
+                    curveTo = moveTo;
                 }
+                keyFrame.commands.add(curveTo);
                 i++;
             }
             this.keyFrames.add(keyFrame);
@@ -118,7 +123,7 @@ public class PathAnimator {
             KeyFrame keyFrame = null;
             KeyFrame keyFrame2 = null;
             for (int i = 0; i < size; i++) {
-                KeyFrame keyFrame3 = this.keyFrames.get(i);
+                KeyFrame keyFrame3 = (KeyFrame) this.keyFrames.get(i);
                 if ((keyFrame2 == null || keyFrame2.time < keyFrame3.time) && keyFrame3.time <= f) {
                     keyFrame2 = keyFrame3;
                 }

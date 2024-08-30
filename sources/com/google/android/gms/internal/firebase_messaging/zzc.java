@@ -1,12 +1,11 @@
 package com.google.android.gms.internal.firebase_messaging;
 
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ObjectEncoder;
 import com.google.firebase.encoders.ObjectEncoderContext;
-import java.io.IOException;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
-final class zzc implements ObjectEncoder<zze> {
+final class zzc implements ObjectEncoder {
     static final zzc zza = new zzc();
     private static final FieldDescriptor zzb = FieldDescriptor.of("messagingClientEventExtension");
 
@@ -14,7 +13,9 @@ final class zzc implements ObjectEncoder<zze> {
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoder
-    public final /* bridge */ /* synthetic */ void encode(Object obj, Object obj2) throws IOException {
-        ((ObjectEncoderContext) obj2).add(zzb, ((zze) obj).zzc());
+    public final /* bridge */ /* synthetic */ void encode(Object obj, Object obj2) {
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(obj);
+        ObjectEncoderContext objectEncoderContext = (ObjectEncoderContext) obj2;
+        throw null;
     }
 }

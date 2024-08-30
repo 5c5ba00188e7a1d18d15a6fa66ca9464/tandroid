@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import com.google.android.exoplayer2.text.Cue;
 import com.google.android.exoplayer2.text.SimpleSubtitleDecoder;
 import com.google.android.exoplayer2.text.Subtitle;
-import com.google.android.exoplayer2.text.SubtitleDecoderException;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
@@ -19,70 +18,6 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
     private final ParsableByteArray inflatedBuffer;
     private Inflater inflater;
 
-    public PgsDecoder() {
-        super("PgsDecoder");
-        this.buffer = new ParsableByteArray();
-        this.inflatedBuffer = new ParsableByteArray();
-        this.cueBuilder = new CueBuilder();
-    }
-
-    @Override // com.google.android.exoplayer2.text.SimpleSubtitleDecoder
-    protected Subtitle decode(byte[] bArr, int i, boolean z) throws SubtitleDecoderException {
-        this.buffer.reset(bArr, i);
-        maybeInflateData(this.buffer);
-        this.cueBuilder.reset();
-        ArrayList arrayList = new ArrayList();
-        while (this.buffer.bytesLeft() >= 3) {
-            Cue readNextSection = readNextSection(this.buffer, this.cueBuilder);
-            if (readNextSection != null) {
-                arrayList.add(readNextSection);
-            }
-        }
-        return new PgsSubtitle(Collections.unmodifiableList(arrayList));
-    }
-
-    private void maybeInflateData(ParsableByteArray parsableByteArray) {
-        if (parsableByteArray.bytesLeft() <= 0 || parsableByteArray.peekUnsignedByte() != 120) {
-            return;
-        }
-        if (this.inflater == null) {
-            this.inflater = new Inflater();
-        }
-        if (Util.inflate(parsableByteArray, this.inflatedBuffer, this.inflater)) {
-            parsableByteArray.reset(this.inflatedBuffer.getData(), this.inflatedBuffer.limit());
-        }
-    }
-
-    private static Cue readNextSection(ParsableByteArray parsableByteArray, CueBuilder cueBuilder) {
-        int limit = parsableByteArray.limit();
-        int readUnsignedByte = parsableByteArray.readUnsignedByte();
-        int readUnsignedShort = parsableByteArray.readUnsignedShort();
-        int position = parsableByteArray.getPosition() + readUnsignedShort;
-        Cue cue = null;
-        if (position > limit) {
-            parsableByteArray.setPosition(limit);
-            return null;
-        }
-        if (readUnsignedByte == 128) {
-            cue = cueBuilder.build();
-            cueBuilder.reset();
-        } else {
-            switch (readUnsignedByte) {
-                case 20:
-                    cueBuilder.parsePaletteSection(parsableByteArray, readUnsignedShort);
-                    break;
-                case 21:
-                    cueBuilder.parseBitmapSection(parsableByteArray, readUnsignedShort);
-                    break;
-                case 22:
-                    cueBuilder.parseIdentifierSection(parsableByteArray, readUnsignedShort);
-                    break;
-            }
-        }
-        parsableByteArray.setPosition(position);
-        return cue;
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class CueBuilder {
@@ -95,35 +30,6 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
         private int planeWidth;
         private final ParsableByteArray bitmapData = new ParsableByteArray();
         private final int[] colors = new int[256];
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public void parsePaletteSection(ParsableByteArray parsableByteArray, int i) {
-            if (i % 5 != 2) {
-                return;
-            }
-            parsableByteArray.skipBytes(2);
-            Arrays.fill(this.colors, 0);
-            int i2 = i / 5;
-            for (int i3 = 0; i3 < i2; i3++) {
-                int readUnsignedByte = parsableByteArray.readUnsignedByte();
-                int readUnsignedByte2 = parsableByteArray.readUnsignedByte();
-                int readUnsignedByte3 = parsableByteArray.readUnsignedByte();
-                int readUnsignedByte4 = parsableByteArray.readUnsignedByte();
-                int readUnsignedByte5 = parsableByteArray.readUnsignedByte();
-                double d = readUnsignedByte2;
-                double d2 = readUnsignedByte3 - 128;
-                Double.isNaN(d2);
-                Double.isNaN(d);
-                double d3 = readUnsignedByte4 - 128;
-                Double.isNaN(d3);
-                Double.isNaN(d);
-                Double.isNaN(d2);
-                Double.isNaN(d3);
-                Double.isNaN(d);
-                this.colors[readUnsignedByte] = (Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, (int) NotificationCenter.voipServiceCreated) << 8) | (readUnsignedByte5 << 24) | (Util.constrainValue((int) ((1.402d * d2) + d), 0, (int) NotificationCenter.voipServiceCreated) << 16) | Util.constrainValue((int) (d + (d3 * 1.772d)), 0, (int) NotificationCenter.voipServiceCreated);
-            }
-            this.colorsSet = true;
-        }
 
         /* JADX INFO: Access modifiers changed from: private */
         public void parseBitmapSection(ParsableByteArray parsableByteArray, int i) {
@@ -164,6 +70,35 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
             this.bitmapY = parsableByteArray.readUnsignedShort();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
+        public void parsePaletteSection(ParsableByteArray parsableByteArray, int i) {
+            if (i % 5 != 2) {
+                return;
+            }
+            parsableByteArray.skipBytes(2);
+            Arrays.fill(this.colors, 0);
+            int i2 = i / 5;
+            for (int i3 = 0; i3 < i2; i3++) {
+                int readUnsignedByte = parsableByteArray.readUnsignedByte();
+                int readUnsignedByte2 = parsableByteArray.readUnsignedByte();
+                int readUnsignedByte3 = parsableByteArray.readUnsignedByte();
+                int readUnsignedByte4 = parsableByteArray.readUnsignedByte();
+                int readUnsignedByte5 = parsableByteArray.readUnsignedByte();
+                double d = readUnsignedByte2;
+                double d2 = readUnsignedByte3 - 128;
+                Double.isNaN(d2);
+                Double.isNaN(d);
+                double d3 = readUnsignedByte4 - 128;
+                Double.isNaN(d3);
+                Double.isNaN(d);
+                Double.isNaN(d2);
+                Double.isNaN(d3);
+                Double.isNaN(d);
+                this.colors[readUnsignedByte] = (Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, (int) NotificationCenter.voipServiceCreated) << 8) | (readUnsignedByte5 << 24) | (Util.constrainValue((int) ((1.402d * d2) + d), 0, (int) NotificationCenter.voipServiceCreated) << 16) | Util.constrainValue((int) (d + (d3 * 1.772d)), 0, (int) NotificationCenter.voipServiceCreated);
+            }
+            this.colorsSet = true;
+        }
+
         public Cue build() {
             int i;
             if (this.planeWidth == 0 || this.planeHeight == 0 || this.bitmapWidth == 0 || this.bitmapHeight == 0 || this.bitmapData.limit() == 0 || this.bitmapData.getPosition() != this.bitmapData.limit() || !this.colorsSet) {
@@ -200,5 +135,69 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
             this.bitmapData.reset(0);
             this.colorsSet = false;
         }
+    }
+
+    public PgsDecoder() {
+        super("PgsDecoder");
+        this.buffer = new ParsableByteArray();
+        this.inflatedBuffer = new ParsableByteArray();
+        this.cueBuilder = new CueBuilder();
+    }
+
+    private void maybeInflateData(ParsableByteArray parsableByteArray) {
+        if (parsableByteArray.bytesLeft() <= 0 || parsableByteArray.peekUnsignedByte() != 120) {
+            return;
+        }
+        if (this.inflater == null) {
+            this.inflater = new Inflater();
+        }
+        if (Util.inflate(parsableByteArray, this.inflatedBuffer, this.inflater)) {
+            parsableByteArray.reset(this.inflatedBuffer.getData(), this.inflatedBuffer.limit());
+        }
+    }
+
+    private static Cue readNextSection(ParsableByteArray parsableByteArray, CueBuilder cueBuilder) {
+        int limit = parsableByteArray.limit();
+        int readUnsignedByte = parsableByteArray.readUnsignedByte();
+        int readUnsignedShort = parsableByteArray.readUnsignedShort();
+        int position = parsableByteArray.getPosition() + readUnsignedShort;
+        Cue cue = null;
+        if (position > limit) {
+            parsableByteArray.setPosition(limit);
+            return null;
+        }
+        if (readUnsignedByte != 128) {
+            switch (readUnsignedByte) {
+                case 20:
+                    cueBuilder.parsePaletteSection(parsableByteArray, readUnsignedShort);
+                    break;
+                case 21:
+                    cueBuilder.parseBitmapSection(parsableByteArray, readUnsignedShort);
+                    break;
+                case 22:
+                    cueBuilder.parseIdentifierSection(parsableByteArray, readUnsignedShort);
+                    break;
+            }
+        } else {
+            cue = cueBuilder.build();
+            cueBuilder.reset();
+        }
+        parsableByteArray.setPosition(position);
+        return cue;
+    }
+
+    @Override // com.google.android.exoplayer2.text.SimpleSubtitleDecoder
+    protected Subtitle decode(byte[] bArr, int i, boolean z) {
+        this.buffer.reset(bArr, i);
+        maybeInflateData(this.buffer);
+        this.cueBuilder.reset();
+        ArrayList arrayList = new ArrayList();
+        while (this.buffer.bytesLeft() >= 3) {
+            Cue readNextSection = readNextSection(this.buffer, this.cueBuilder);
+            if (readNextSection != null) {
+                arrayList.add(readNextSection);
+            }
+        }
+        return new PgsSubtitle(Collections.unmodifiableList(arrayList));
     }
 }

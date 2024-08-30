@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzak extends zzae<String> {
+public final class zzak extends zzae {
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzak(zzao zzaoVar, String str, String str2) {
         super(zzaoVar, str, str2, null);
@@ -25,7 +25,7 @@ public final class zzak extends zzae<String> {
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.internal.clearcut.zzae
-    public final /* synthetic */ String zzb(String str) {
+    public final /* synthetic */ Object zzb(String str) {
         return str;
     }
 }

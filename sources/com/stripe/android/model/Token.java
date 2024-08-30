@@ -19,15 +19,15 @@ public class Token {
         this.mUsed = bool.booleanValue();
     }
 
+    public Card getCard() {
+        return this.mCard;
+    }
+
     public String getId() {
         return this.mId;
     }
 
     public String getType() {
         return this.mType;
-    }
-
-    public Card getCard() {
-        return this.mCard;
     }
 }

@@ -45,10 +45,6 @@ public class EarListener implements SensorEventListener {
     private float[] gravityFast = new float[3];
     private float[] linearAcceleration = new float[3];
 
-    @Override // android.hardware.SensorEventListener
-    public void onAccuracyChanged(Sensor sensor, int i) {
-    }
-
     public EarListener(Context context) {
         this.context = context;
         SensorManager sensorManager = (SensorManager) ApplicationLoader.applicationContext.getSystemService("sensor");
@@ -69,6 +65,14 @@ public class EarListener implements SensorEventListener {
         this.powerManager = powerManager;
         this.proximityWakeLock = powerManager.newWakeLock(32, "telegram:proximity_lock2");
         this.audioManager = (AudioManager) ApplicationLoader.applicationContext.getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
+    }
+
+    private boolean disableWakeLockWhenNotUsed() {
+        return !Build.MANUFACTURER.equalsIgnoreCase("samsung");
+    }
+
+    private boolean isNearToSensor(float f) {
+        return f < 5.0f && f != this.proximitySensor.getMaximumRange();
     }
 
     public void attach() {
@@ -94,6 +98,11 @@ public class EarListener implements SensorEventListener {
         this.attached = true;
     }
 
+    public void attachPlayer(VideoPlayer videoPlayer) {
+        this.currentPlayer = videoPlayer;
+        updateRaised();
+    }
+
     public void detach() {
         if (this.attached) {
             Sensor sensor = this.gravitySensor;
@@ -117,20 +126,42 @@ public class EarListener implements SensorEventListener {
         }
     }
 
-    public void attachPlayer(VideoPlayer videoPlayer) {
-        this.currentPlayer = videoPlayer;
-        updateRaised();
-    }
-
-    protected void updateRaised() {
-        VideoPlayer videoPlayer = this.currentPlayer;
-        if (videoPlayer == null) {
-            return;
+    protected boolean forbidRaiseToListen() {
+        AudioDeviceInfo[] devices;
+        int type;
+        boolean isSink;
+        try {
+            if (Build.VERSION.SDK_INT < 23) {
+                return this.audioManager.isWiredHeadsetOn() || this.audioManager.isBluetoothA2dpOn() || this.audioManager.isBluetoothScoOn();
+            }
+            devices = this.audioManager.getDevices(2);
+            for (AudioDeviceInfo audioDeviceInfo : devices) {
+                type = audioDeviceInfo.getType();
+                if (type == 8 || type == 7 || type == 26 || type == 27 || type == 4 || type == 3) {
+                    isSink = audioDeviceInfo.isSink();
+                    if (isSink) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            FileLog.e(e);
+            return false;
         }
-        videoPlayer.setStreamType(this.raised ? 0 : 3);
     }
 
     @Override // android.hardware.SensorEventListener
+    public void onAccuracyChanged(Sensor sensor, int i) {
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:90:0x01f9, code lost:
+        if (r1 == 6) goto L128;
+     */
+    @Override // android.hardware.SensorEventListener
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void onSensorChanged(SensorEvent sensorEvent) {
         double d;
         boolean z;
@@ -259,9 +290,6 @@ public class EarListener implements SensorEventListener {
                             this.raisedToTopSign = i;
                             int i7 = i6 + 1;
                             this.raisedToTop = i7;
-                            if (i7 == 6) {
-                                this.countLess = 0;
-                            }
                         }
                     } else {
                         if (!z) {
@@ -327,36 +355,11 @@ public class EarListener implements SensorEventListener {
         }
     }
 
-    private boolean isNearToSensor(float f) {
-        return f < 5.0f && f != this.proximitySensor.getMaximumRange();
-    }
-
-    private boolean disableWakeLockWhenNotUsed() {
-        return !Build.MANUFACTURER.equalsIgnoreCase("samsung");
-    }
-
-    protected boolean forbidRaiseToListen() {
-        AudioDeviceInfo[] devices;
-        int type;
-        boolean isSink;
-        try {
-            if (Build.VERSION.SDK_INT < 23) {
-                return this.audioManager.isWiredHeadsetOn() || this.audioManager.isBluetoothA2dpOn() || this.audioManager.isBluetoothScoOn();
-            }
-            devices = this.audioManager.getDevices(2);
-            for (AudioDeviceInfo audioDeviceInfo : devices) {
-                type = audioDeviceInfo.getType();
-                if (type == 8 || type == 7 || type == 26 || type == 27 || type == 4 || type == 3) {
-                    isSink = audioDeviceInfo.isSink();
-                    if (isSink) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        } catch (Exception e) {
-            FileLog.e(e);
-            return false;
+    protected void updateRaised() {
+        VideoPlayer videoPlayer = this.currentPlayer;
+        if (videoPlayer == null) {
+            return;
         }
+        videoPlayer.setStreamType(this.raised ? 0 : 3);
     }
 }

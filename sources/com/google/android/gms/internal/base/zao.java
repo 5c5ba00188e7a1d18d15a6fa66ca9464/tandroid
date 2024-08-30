@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import androidx.core.content.ContextCompat;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zao extends ContextCompat {
-    @Deprecated
+public abstract class zao extends ContextCompat {
     public static Intent zaa(Context context, BroadcastReceiver broadcastReceiver, IntentFilter intentFilter) {
         Intent registerReceiver;
         if (zan.zaa()) {

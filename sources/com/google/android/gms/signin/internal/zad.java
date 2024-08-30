@@ -1,11 +1,9 @@
 package com.google.android.gms.signin.internal;
 
 import android.os.Parcel;
-import android.os.RemoteException;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.Status;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class zad extends com.google.android.gms.internal.base.zab implements zae {
     public zad() {
@@ -13,7 +11,7 @@ public abstract class zad extends com.google.android.gms.internal.base.zab imple
     }
 
     @Override // com.google.android.gms.internal.base.zab
-    protected final boolean zaa(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
+    protected final boolean zaa(int i, Parcel parcel, Parcel parcel2, int i2) {
         switch (i) {
             case 3:
                 ConnectionResult connectionResult = (ConnectionResult) com.google.android.gms.internal.base.zac.zaa(parcel, ConnectionResult.CREATOR);
@@ -21,18 +19,15 @@ public abstract class zad extends com.google.android.gms.internal.base.zab imple
                 com.google.android.gms.internal.base.zac.zab(parcel);
                 break;
             case 4:
+            case 6:
                 Status status = (Status) com.google.android.gms.internal.base.zac.zaa(parcel, Status.CREATOR);
                 com.google.android.gms.internal.base.zac.zab(parcel);
                 break;
             case 5:
             default:
                 return false;
-            case 6:
-                Status status2 = (Status) com.google.android.gms.internal.base.zac.zaa(parcel, Status.CREATOR);
-                com.google.android.gms.internal.base.zac.zab(parcel);
-                break;
             case 7:
-                Status status3 = (Status) com.google.android.gms.internal.base.zac.zaa(parcel, Status.CREATOR);
+                Status status2 = (Status) com.google.android.gms.internal.base.zac.zaa(parcel, Status.CREATOR);
                 GoogleSignInAccount googleSignInAccount = (GoogleSignInAccount) com.google.android.gms.internal.base.zac.zaa(parcel, GoogleSignInAccount.CREATOR);
                 com.google.android.gms.internal.base.zac.zab(parcel);
                 break;

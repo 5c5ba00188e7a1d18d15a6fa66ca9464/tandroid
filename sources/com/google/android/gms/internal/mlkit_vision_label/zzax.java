@@ -2,9 +2,8 @@ package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.util.Arrays;
 import org.telegram.tgnet.ConnectionsManager;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
-class zzax extends zzay {
+abstract class zzax extends zzay {
     Object[] zza = new Object[4];
     int zzb = 0;
     boolean zzc;
@@ -16,23 +15,21 @@ class zzax extends zzay {
     private final void zzb(int i) {
         Object[] objArr = this.zza;
         int length = objArr.length;
-        if (length >= i) {
-            if (this.zzc) {
-                this.zza = (Object[]) objArr.clone();
-                this.zzc = false;
-                return;
+        if (length < i) {
+            int i2 = length + (length >> 1) + 1;
+            if (i2 < i) {
+                int highestOneBit = Integer.highestOneBit(i - 1);
+                i2 = highestOneBit + highestOneBit;
             }
+            if (i2 < 0) {
+                i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+            }
+            this.zza = Arrays.copyOf(objArr, i2);
+        } else if (!this.zzc) {
             return;
+        } else {
+            this.zza = (Object[]) objArr.clone();
         }
-        int i2 = length + (length >> 1) + 1;
-        if (i2 < i) {
-            int highestOneBit = Integer.highestOneBit(i - 1);
-            i2 = highestOneBit + highestOneBit;
-        }
-        if (i2 < 0) {
-            i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-        }
-        this.zza = Arrays.copyOf(objArr, i2);
         this.zzc = false;
     }
 

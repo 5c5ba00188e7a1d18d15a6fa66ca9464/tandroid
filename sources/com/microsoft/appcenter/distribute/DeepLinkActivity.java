@@ -45,10 +45,10 @@ public class DeepLinkActivity extends Activity {
         finish();
         if ((getIntent().getFlags() & 268435456) != 268435456) {
             AppCenterLog.debug("AppCenterDistribute", "Using restart work around to correctly resume app.");
-            startActivity(intent.cloneFilter().addFlags(268435456));
+            launchIntentForPackage = intent.cloneFilter().addFlags(268435456);
         } else if (!isTaskRoot() || (launchIntentForPackage = getPackageManager().getLaunchIntentForPackage(getPackageName())) == null) {
-        } else {
-            startActivity(launchIntentForPackage);
+            return;
         }
+        startActivity(launchIntentForPackage);
     }
 }

@@ -12,11 +12,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.mlkit.common.sdkinternal.OptionalModuleUtils;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.common.internal.MobileVisionBase;
-import com.google.mlkit.vision.segmentation.subject.SubjectSegmentationResult;
 import com.google.mlkit.vision.segmentation.subject.SubjectSegmenter;
 import com.google.mlkit.vision.segmentation.subject.SubjectSegmenterOptions;
 import java.util.concurrent.Executor;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public final class zzd extends MobileVisionBase implements SubjectSegmenter {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -37,7 +35,7 @@ public final class zzd extends MobileVisionBase implements SubjectSegmenter {
     }
 
     @Override // com.google.mlkit.vision.segmentation.subject.SubjectSegmenter
-    public final Task<SubjectSegmentationResult> process(InputImage inputImage) {
+    public final Task process(InputImage inputImage) {
         return super.processBase(inputImage);
     }
 }

@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.view.View;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
-public class RecyclerListViewWithOverlayDraw extends RecyclerListView {
+public abstract class RecyclerListViewWithOverlayDraw extends RecyclerListView {
     boolean invalidated;
 
     /* loaded from: classes3.dex */

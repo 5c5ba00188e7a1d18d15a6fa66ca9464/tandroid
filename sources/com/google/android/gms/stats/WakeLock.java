@@ -1,6 +1,5 @@
 package com.google.android.gms.stats;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.PowerManager;
 import android.os.WorkSource;
@@ -18,7 +17,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -35,8 +33,8 @@ public class WakeLock {
     private final String zzg;
     private final Context zzh;
     private boolean zzi;
-    private final Map<String, Integer[]> zzj;
-    private final Set<Future<?>> zzk;
+    private final Map zzj;
+    private final Set zzk;
     private int zzl;
     private AtomicInteger zzm;
 
@@ -52,7 +50,6 @@ public class WakeLock {
         this(context, i, str, null, str3, null);
     }
 
-    @SuppressLint({"UnwrappedWakeLock"})
     private WakeLock(Context context, int i, String str, String str2, String str3, String str4) {
         this.zza = this;
         this.zzi = true;
@@ -66,11 +63,11 @@ public class WakeLock {
         this.zzg = null;
         Context applicationContext = context.getApplicationContext();
         this.zzh = applicationContext;
-        if (!"com.google.android.gms".equals(context.getPackageName())) {
+        if ("com.google.android.gms".equals(context.getPackageName())) {
+            this.zze = str;
+        } else {
             String valueOf = String.valueOf(str);
             this.zze = valueOf.length() != 0 ? "*gcore*:".concat(valueOf) : new String("*gcore*:");
-        } else {
-            this.zze = str;
         }
         PowerManager.WakeLock newWakeLock = ((PowerManager) context.getSystemService("power")).newWakeLock(i, str);
         this.zzb = newWakeLock;
@@ -96,8 +93,27 @@ public class WakeLock {
         }
     }
 
-    private final List<String> zza() {
+    private final String zza(String str) {
+        return (!this.zzi || TextUtils.isEmpty(str)) ? this.zzf : str;
+    }
+
+    private final List zza() {
         return WorkSourceUtil.getNames(this.zzc);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public final void zza(int i) {
+        if (this.zzb.isHeld()) {
+            try {
+                this.zzb.release();
+            } catch (RuntimeException e) {
+                if (!e.getClass().equals(RuntimeException.class)) {
+                    throw e;
+                }
+                Log.e("WakeLock", String.valueOf(this.zze).concat(" was already released!"), e);
+            }
+            this.zzb.isHeld();
+        }
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:23:0x0061, code lost:
@@ -117,7 +133,7 @@ public class WakeLock {
                     if (this.zzl > 0) {
                     }
                     if (this.zzi) {
-                        Integer[] numArr = this.zzj.get(zza2);
+                        Integer[] numArr = (Integer[]) this.zzj.get(zza2);
                         if (numArr == null) {
                             this.zzj.put(zza2, new Integer[]{1});
                             WakeLockTracker.getInstance().registerEvent(this.zzh, StatsUtils.getEventKey(this.zzb, zza2), 7, this.zze, zza2, null, this.zzd, zza(), j);
@@ -161,7 +177,7 @@ public class WakeLock {
         String zza2 = zza((String) null);
         synchronized (this.zza) {
             try {
-                if (this.zzi && (numArr = this.zzj.get(zza2)) != null) {
+                if (this.zzi && (numArr = (Integer[]) this.zzj.get(zza2)) != null) {
                     if (numArr[0].intValue() == 1) {
                         this.zzj.remove(zza2);
                         WakeLockTracker.getInstance().registerEvent(this.zzh, StatsUtils.getEventKey(this.zzb, zza2), 8, this.zze, zza2, null, this.zzd, zza());
@@ -177,26 +193,6 @@ public class WakeLock {
             }
         }
         zza(0);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public final void zza(int i) {
-        if (this.zzb.isHeld()) {
-            try {
-                this.zzb.release();
-            } catch (RuntimeException e) {
-                if (e.getClass().equals(RuntimeException.class)) {
-                    Log.e("WakeLock", String.valueOf(this.zze).concat(" was already released!"), e);
-                } else {
-                    throw e;
-                }
-            }
-            this.zzb.isHeld();
-        }
-    }
-
-    private final String zza(String str) {
-        return (!this.zzi || TextUtils.isEmpty(str)) ? this.zzf : str;
     }
 
     public void setReferenceCounted(boolean z) {

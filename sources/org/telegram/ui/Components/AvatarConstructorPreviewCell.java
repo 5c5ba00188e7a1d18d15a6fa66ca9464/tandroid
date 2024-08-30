@@ -21,7 +21,7 @@ import org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarConstructorFragment;
 /* loaded from: classes3.dex */
-public class AvatarConstructorPreviewCell extends FrameLayout {
+public abstract class AvatarConstructorPreviewCell extends FrameLayout {
     private AnimatedEmojiDrawable animatedEmojiDrawable;
     int backgroundIndex;
     private final int currentAccount;
@@ -69,7 +69,7 @@ public class AvatarConstructorPreviewCell extends FrameLayout {
                 }
                 int i4 = AvatarConstructorPreviewCell.this.currentAccount;
                 AvatarConstructorPreviewCell avatarConstructorPreviewCell3 = AvatarConstructorPreviewCell.this;
-                avatarConstructorPreviewCell2.animatedEmojiDrawable = new AnimatedEmojiDrawable(4, i4, avatarConstructorPreviewCell3.emojiList.document_id.get(avatarConstructorPreviewCell3.emojiIndex).longValue());
+                avatarConstructorPreviewCell2.animatedEmojiDrawable = new AnimatedEmojiDrawable(4, i4, ((Long) avatarConstructorPreviewCell3.emojiList.document_id.get(avatarConstructorPreviewCell3.emojiIndex)).longValue());
                 AvatarConstructorPreviewCell avatarConstructorPreviewCell4 = AvatarConstructorPreviewCell.this;
                 avatarConstructorPreviewCell4.nextImage.setAnimatedEmojiDrawable(avatarConstructorPreviewCell4.animatedEmojiDrawable);
                 AvatarConstructorPreviewCell avatarConstructorPreviewCell5 = AvatarConstructorPreviewCell.this;
@@ -86,11 +86,7 @@ public class AvatarConstructorPreviewCell extends FrameLayout {
             }
         };
         this.forUser = z;
-        if (z) {
-            this.emojiList = MediaDataController.getInstance(i).profileAvatarConstructorDefault;
-        } else {
-            this.emojiList = MediaDataController.getInstance(i).groupAvatarConstructorDefault;
-        }
+        this.emojiList = z ? MediaDataController.getInstance(i).profileAvatarConstructorDefault : MediaDataController.getInstance(i).groupAvatarConstructorDefault;
         TLRPC$TL_emojiList tLRPC$TL_emojiList = this.emojiList;
         if (tLRPC$TL_emojiList == null || tLRPC$TL_emojiList.document_id.isEmpty()) {
             ArrayList<TLRPC$TL_messages_stickerSet> stickerSets = MediaDataController.getInstance(i).getStickerSets(5);
@@ -105,7 +101,7 @@ public class AvatarConstructorPreviewCell extends FrameLayout {
                     } else if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetFullCovered) {
                         TLRPC$TL_stickerSetFullCovered tLRPC$TL_stickerSetFullCovered = (TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered;
                         if (!tLRPC$TL_stickerSetFullCovered.documents.isEmpty()) {
-                            this.emojiList.document_id.add(Long.valueOf(tLRPC$TL_stickerSetFullCovered.documents.get(0).id));
+                            this.emojiList.document_id.add(Long.valueOf(((TLRPC$Document) tLRPC$TL_stickerSetFullCovered.documents.get(0)).id));
                         }
                     }
                 }
@@ -113,7 +109,7 @@ public class AvatarConstructorPreviewCell extends FrameLayout {
                 for (int i3 = 0; i3 < stickerSets.size(); i3++) {
                     TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = stickerSets.get(i3);
                     if (!tLRPC$TL_messages_stickerSet.documents.isEmpty()) {
-                        this.emojiList.document_id.add(Long.valueOf(tLRPC$TL_messages_stickerSet.documents.get(Math.abs(Utilities.fastRandom.nextInt() % tLRPC$TL_messages_stickerSet.documents.size())).id));
+                        this.emojiList.document_id.add(Long.valueOf(((TLRPC$Document) tLRPC$TL_messages_stickerSet.documents.get(Math.abs(Utilities.fastRandom.nextInt() % tLRPC$TL_messages_stickerSet.documents.size()))).id));
                     }
                 }
             }
@@ -124,7 +120,7 @@ public class AvatarConstructorPreviewCell extends FrameLayout {
         addView(this.nextImage, LayoutHelper.createFrame(50, 50, 1));
         TLRPC$TL_emojiList tLRPC$TL_emojiList2 = this.emojiList;
         if (tLRPC$TL_emojiList2 != null && !tLRPC$TL_emojiList2.document_id.isEmpty()) {
-            AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(4, this.currentAccount, this.emojiList.document_id.get(0).longValue());
+            AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(4, this.currentAccount, ((Long) this.emojiList.document_id.get(0)).longValue());
             this.animatedEmojiDrawable = animatedEmojiDrawable;
             this.currentImage.setAnimatedEmojiDrawable(animatedEmojiDrawable);
         }
@@ -144,23 +140,6 @@ public class AvatarConstructorPreviewCell extends FrameLayout {
         this.textView.setGravity(17);
         this.textView.setText(LocaleController.getString(R.string.UseEmoji));
         addView(this.textView, LayoutHelper.createFrame(-1, 28.0f, 80, 10.0f, 10.0f, 10.0f, 10.0f));
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // android.widget.FrameLayout, android.view.View
-    public void onMeasure(int i, int i2) {
-        super.onMeasure(i, i2);
-        int top = this.textView.getTop();
-        int i3 = (int) (top * 0.7f);
-        int i4 = (int) ((top - i3) * 0.7f);
-        ViewGroup.LayoutParams layoutParams = this.currentImage.getLayoutParams();
-        this.currentImage.getLayoutParams().height = i3;
-        layoutParams.width = i3;
-        ViewGroup.LayoutParams layoutParams2 = this.nextImage.getLayoutParams();
-        this.nextImage.getLayoutParams().height = i3;
-        layoutParams2.width = i3;
-        ((FrameLayout.LayoutParams) this.currentImage.getLayoutParams()).topMargin = i4;
-        ((FrameLayout.LayoutParams) this.nextImage.getLayoutParams()).topMargin = i4;
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -210,16 +189,8 @@ public class AvatarConstructorPreviewCell extends FrameLayout {
         super.dispatchDraw(canvas);
     }
 
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        AndroidUtilities.runOnUIThread(this.scheduleSwitchToNextRunnable, 1000L);
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        AndroidUtilities.cancelRunOnUIThread(this.scheduleSwitchToNextRunnable);
+    public AnimatedEmojiDrawable getAnimatedEmoji() {
+        return this.animatedEmojiDrawable;
     }
 
     public AvatarConstructorFragment.BackgroundGradient getBackgroundGradient() {
@@ -232,7 +203,32 @@ public class AvatarConstructorPreviewCell extends FrameLayout {
         return backgroundGradient;
     }
 
-    public AnimatedEmojiDrawable getAnimatedEmoji() {
-        return this.animatedEmojiDrawable;
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        AndroidUtilities.runOnUIThread(this.scheduleSwitchToNextRunnable, 1000L);
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        AndroidUtilities.cancelRunOnUIThread(this.scheduleSwitchToNextRunnable);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.widget.FrameLayout, android.view.View
+    public void onMeasure(int i, int i2) {
+        super.onMeasure(i, i2);
+        int top = this.textView.getTop();
+        int i3 = (int) (top * 0.7f);
+        int i4 = (int) ((top - i3) * 0.7f);
+        ViewGroup.LayoutParams layoutParams = this.currentImage.getLayoutParams();
+        this.currentImage.getLayoutParams().height = i3;
+        layoutParams.width = i3;
+        ViewGroup.LayoutParams layoutParams2 = this.nextImage.getLayoutParams();
+        this.nextImage.getLayoutParams().height = i3;
+        layoutParams2.width = i3;
+        ((FrameLayout.LayoutParams) this.currentImage.getLayoutParams()).topMargin = i4;
+        ((FrameLayout.LayoutParams) this.nextImage.getLayoutParams()).topMargin = i4;
     }
 }

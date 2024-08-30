@@ -16,13 +16,13 @@ public final class OneShotPreDrawListener implements ViewTreeObserver.OnPreDrawL
 
     public static OneShotPreDrawListener add(View view, Runnable runnable) {
         if (view != null) {
-            if (runnable == null) {
-                throw new NullPointerException("runnable == null");
+            if (runnable != null) {
+                OneShotPreDrawListener oneShotPreDrawListener = new OneShotPreDrawListener(view, runnable);
+                view.getViewTreeObserver().addOnPreDrawListener(oneShotPreDrawListener);
+                view.addOnAttachStateChangeListener(oneShotPreDrawListener);
+                return oneShotPreDrawListener;
             }
-            OneShotPreDrawListener oneShotPreDrawListener = new OneShotPreDrawListener(view, runnable);
-            view.getViewTreeObserver().addOnPreDrawListener(oneShotPreDrawListener);
-            view.addOnAttachStateChangeListener(oneShotPreDrawListener);
-            return oneShotPreDrawListener;
+            throw new NullPointerException("runnable == null");
         }
         throw new NullPointerException("view == null");
     }
@@ -34,15 +34,6 @@ public final class OneShotPreDrawListener implements ViewTreeObserver.OnPreDrawL
         return true;
     }
 
-    public void removeListener() {
-        if (this.mViewTreeObserver.isAlive()) {
-            this.mViewTreeObserver.removeOnPreDrawListener(this);
-        } else {
-            this.mView.getViewTreeObserver().removeOnPreDrawListener(this);
-        }
-        this.mView.removeOnAttachStateChangeListener(this);
-    }
-
     @Override // android.view.View.OnAttachStateChangeListener
     public void onViewAttachedToWindow(View view) {
         this.mViewTreeObserver = view.getViewTreeObserver();
@@ -51,5 +42,10 @@ public final class OneShotPreDrawListener implements ViewTreeObserver.OnPreDrawL
     @Override // android.view.View.OnAttachStateChangeListener
     public void onViewDetachedFromWindow(View view) {
         removeListener();
+    }
+
+    public void removeListener() {
+        (this.mViewTreeObserver.isAlive() ? this.mViewTreeObserver : this.mView.getViewTreeObserver()).removeOnPreDrawListener(this);
+        this.mView.removeOnAttachStateChangeListener(this);
     }
 }

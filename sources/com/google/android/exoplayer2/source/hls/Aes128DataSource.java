@@ -6,11 +6,9 @@ import com.google.android.exoplayer2.upstream.DataSourceInputStream;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Assertions;
-import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.Map;
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
@@ -37,7 +35,29 @@ class Aes128DataSource implements DataSource {
     }
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
-    public final long open(DataSpec dataSpec) throws IOException {
+    public void close() {
+        if (this.cipherInputStream != null) {
+            this.cipherInputStream = null;
+            this.upstream.close();
+        }
+    }
+
+    protected Cipher getCipherInstance() {
+        return Cipher.getInstance("AES/CBC/PKCS7Padding");
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.DataSource
+    public final Map getResponseHeaders() {
+        return this.upstream.getResponseHeaders();
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.DataSource
+    public final Uri getUri() {
+        return this.upstream.getUri();
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.DataSource
+    public final long open(DataSpec dataSpec) {
         try {
             Cipher cipherInstance = getCipherInstance();
             try {
@@ -55,34 +75,12 @@ class Aes128DataSource implements DataSource {
     }
 
     @Override // com.google.android.exoplayer2.upstream.DataReader
-    public final int read(byte[] bArr, int i, int i2) throws IOException {
+    public final int read(byte[] bArr, int i, int i2) {
         Assertions.checkNotNull(this.cipherInputStream);
         int read = this.cipherInputStream.read(bArr, i, i2);
         if (read < 0) {
             return -1;
         }
         return read;
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.DataSource
-    public final Uri getUri() {
-        return this.upstream.getUri();
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.DataSource
-    public final Map<String, List<String>> getResponseHeaders() {
-        return this.upstream.getResponseHeaders();
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.DataSource
-    public void close() throws IOException {
-        if (this.cipherInputStream != null) {
-            this.cipherInputStream = null;
-            this.upstream.close();
-        }
-    }
-
-    protected Cipher getCipherInstance() throws NoSuchPaddingException, NoSuchAlgorithmException {
-        return Cipher.getInstance("AES/CBC/PKCS7Padding");
     }
 }

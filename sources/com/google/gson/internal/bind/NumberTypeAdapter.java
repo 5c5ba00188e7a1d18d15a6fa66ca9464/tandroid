@@ -10,34 +10,10 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import java.io.IOException;
 /* loaded from: classes.dex */
-public final class NumberTypeAdapter extends TypeAdapter<Number> {
+public final class NumberTypeAdapter extends TypeAdapter {
     private static final TypeAdapterFactory LAZILY_PARSED_NUMBER_FACTORY = newFactory(ToNumberPolicy.LAZILY_PARSED_NUMBER);
     private final ToNumberStrategy toNumberStrategy;
-
-    private NumberTypeAdapter(ToNumberStrategy toNumberStrategy) {
-        this.toNumberStrategy = toNumberStrategy;
-    }
-
-    private static TypeAdapterFactory newFactory(ToNumberStrategy toNumberStrategy) {
-        return new TypeAdapterFactory() { // from class: com.google.gson.internal.bind.NumberTypeAdapter.1
-            @Override // com.google.gson.TypeAdapterFactory
-            public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
-                if (typeToken.getRawType() == Number.class) {
-                    return NumberTypeAdapter.this;
-                }
-                return null;
-            }
-        };
-    }
-
-    public static TypeAdapterFactory getFactory(ToNumberStrategy toNumberStrategy) {
-        if (toNumberStrategy == ToNumberPolicy.LAZILY_PARSED_NUMBER) {
-            return LAZILY_PARSED_NUMBER_FACTORY;
-        }
-        return newFactory(toNumberStrategy);
-    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
@@ -62,8 +38,28 @@ public final class NumberTypeAdapter extends TypeAdapter<Number> {
         }
     }
 
+    private NumberTypeAdapter(ToNumberStrategy toNumberStrategy) {
+        this.toNumberStrategy = toNumberStrategy;
+    }
+
+    public static TypeAdapterFactory getFactory(ToNumberStrategy toNumberStrategy) {
+        return toNumberStrategy == ToNumberPolicy.LAZILY_PARSED_NUMBER ? LAZILY_PARSED_NUMBER_FACTORY : newFactory(toNumberStrategy);
+    }
+
+    private static TypeAdapterFactory newFactory(ToNumberStrategy toNumberStrategy) {
+        return new TypeAdapterFactory() { // from class: com.google.gson.internal.bind.NumberTypeAdapter.1
+            @Override // com.google.gson.TypeAdapterFactory
+            public TypeAdapter create(Gson gson, TypeToken typeToken) {
+                if (typeToken.getRawType() == Number.class) {
+                    return NumberTypeAdapter.this;
+                }
+                return null;
+            }
+        };
+    }
+
     @Override // com.google.gson.TypeAdapter
-    public Number read(JsonReader jsonReader) throws IOException {
+    public Number read(JsonReader jsonReader) {
         JsonToken peek = jsonReader.peek();
         int i = 2.$SwitchMap$com$google$gson$stream$JsonToken[peek.ordinal()];
         if (i == 1) {
@@ -77,7 +73,7 @@ public final class NumberTypeAdapter extends TypeAdapter<Number> {
     }
 
     @Override // com.google.gson.TypeAdapter
-    public void write(JsonWriter jsonWriter, Number number) throws IOException {
+    public void write(JsonWriter jsonWriter, Number number) {
         jsonWriter.value(number);
     }
 }

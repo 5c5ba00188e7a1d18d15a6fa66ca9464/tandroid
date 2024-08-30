@@ -10,23 +10,10 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
 /* loaded from: classes.dex */
-public final class Lists {
-    public static <E> ArrayList<E> newArrayList() {
-        return new ArrayList<>();
-    }
-
-    @SafeVarargs
-    public static <E> ArrayList<E> newArrayList(E... eArr) {
-        Preconditions.checkNotNull(eArr);
-        ArrayList<E> arrayList = new ArrayList<>(computeArrayListCapacity(eArr.length));
-        Collections.addAll(arrayList, eArr);
-        return arrayList;
-    }
-
-    public static <E> ArrayList<E> newArrayList(Iterator<? extends E> it) {
-        ArrayList<E> newArrayList = newArrayList();
-        Iterators.addAll(newArrayList, it);
-        return newArrayList;
+public abstract class Lists {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static List cast(Iterable iterable) {
+        return (List) iterable;
     }
 
     static int computeArrayListCapacity(int i) {
@@ -35,7 +22,7 @@ public final class Lists {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean equalsImpl(List<?> list, Object obj) {
+    public static boolean equalsImpl(List list, Object obj) {
         if (obj == Preconditions.checkNotNull(list)) {
             return true;
         }
@@ -59,11 +46,11 @@ public final class Lists {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static int indexOfImpl(List<?> list, Object obj) {
+    public static int indexOfImpl(List list, Object obj) {
         if (list instanceof RandomAccess) {
             return indexOfRandomAccess(list, obj);
         }
-        ListIterator<?> listIterator = list.listIterator();
+        ListIterator listIterator = list.listIterator();
         while (listIterator.hasNext()) {
             if (Objects.equal(obj, listIterator.next())) {
                 return listIterator.previousIndex();
@@ -72,7 +59,7 @@ public final class Lists {
         return -1;
     }
 
-    private static int indexOfRandomAccess(List<?> list, Object obj) {
+    private static int indexOfRandomAccess(List list, Object obj) {
         int size = list.size();
         int i = 0;
         if (obj == null) {
@@ -94,11 +81,11 @@ public final class Lists {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static int lastIndexOfImpl(List<?> list, Object obj) {
+    public static int lastIndexOfImpl(List list, Object obj) {
         if (list instanceof RandomAccess) {
             return lastIndexOfRandomAccess(list, obj);
         }
-        ListIterator<?> listIterator = list.listIterator(list.size());
+        ListIterator listIterator = list.listIterator(list.size());
         while (listIterator.hasPrevious()) {
             if (Objects.equal(obj, listIterator.previous())) {
                 return listIterator.nextIndex();
@@ -107,7 +94,7 @@ public final class Lists {
         return -1;
     }
 
-    private static int lastIndexOfRandomAccess(List<?> list, Object obj) {
+    private static int lastIndexOfRandomAccess(List list, Object obj) {
         if (obj == null) {
             for (int size = list.size() - 1; size >= 0; size--) {
                 if (list.get(size) == null) {
@@ -124,8 +111,20 @@ public final class Lists {
         return -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static <T> List<T> cast(Iterable<T> iterable) {
-        return (List) iterable;
+    public static ArrayList newArrayList() {
+        return new ArrayList();
+    }
+
+    public static ArrayList newArrayList(Iterator it) {
+        ArrayList newArrayList = newArrayList();
+        Iterators.addAll(newArrayList, it);
+        return newArrayList;
+    }
+
+    public static ArrayList newArrayList(Object... objArr) {
+        Preconditions.checkNotNull(objArr);
+        ArrayList arrayList = new ArrayList(computeArrayListCapacity(objArr.length));
+        Collections.addAll(arrayList, objArr);
+        return arrayList;
     }
 }

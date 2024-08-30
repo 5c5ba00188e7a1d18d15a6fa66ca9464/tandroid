@@ -2,7 +2,6 @@ package org.telegram.ui.Components.voip;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.RectF;
@@ -21,7 +20,6 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.voip.RateCallLayout;
-@SuppressLint({"ViewConstructor"})
 /* loaded from: classes3.dex */
 public class RateCallLayout extends FrameLayout {
     private final VoIPBackgroundProvider backgroundProvider;
@@ -35,104 +33,43 @@ public class RateCallLayout extends FrameLayout {
         void onRateSelected(int i);
     }
 
-    public RateCallLayout(final Context context, VoIPBackgroundProvider voIPBackgroundProvider) {
-        super(context);
-        this.startsViews = new StarContainer[5];
-        this.backgroundProvider = voIPBackgroundProvider;
-        setWillNotDraw(false);
-        RateCallContainer rateCallContainer = new RateCallContainer(context, voIPBackgroundProvider);
-        this.rateCallContainer = rateCallContainer;
-        FrameLayout frameLayout = new FrameLayout(context);
-        this.starsContainer = frameLayout;
-        rateCallContainer.setVisibility(8);
-        frameLayout.setVisibility(8);
-        for (int i = 0; i < 5; i++) {
-            this.startsViews[i] = new StarContainer(context);
-            this.startsViews[i].setAllStarsProvider(new StarContainer.AllStarsProvider() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda0
-                @Override // org.telegram.ui.Components.voip.RateCallLayout.StarContainer.AllStarsProvider
-                public final RateCallLayout.StarContainer[] getAllStartsViews() {
-                    RateCallLayout.StarContainer[] lambda$new$0;
-                    lambda$new$0 = RateCallLayout.this.lambda$new$0();
-                    return lambda$new$0;
-                }
-            });
-            this.startsViews[i].setOnSelectedStar(new StarContainer.OnSelectedStar() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda1
-                @Override // org.telegram.ui.Components.voip.RateCallLayout.StarContainer.OnSelectedStar
-                public final void onSelected(float f, float f2, int i2) {
-                    RateCallLayout.this.lambda$new$3(context, f, f2, i2);
-                }
-            }, i);
-            this.starsContainer.addView(this.startsViews[i], LayoutHelper.createFrame(-2, -2.0f, 51, i * 41, 0.0f, 0.0f, 0.0f));
+    /* loaded from: classes3.dex */
+    public static class RateCallContainer extends FrameLayout {
+        private final VoIPBackgroundProvider backgroundProvider;
+        private final RectF bgRect;
+        private final TextView messageTextView;
+        private final TextView titleTextView;
+
+        public RateCallContainer(Context context, VoIPBackgroundProvider voIPBackgroundProvider) {
+            super(context);
+            this.bgRect = new RectF();
+            this.backgroundProvider = voIPBackgroundProvider;
+            voIPBackgroundProvider.attach(this);
+            setWillNotDraw(false);
+            TextView textView = new TextView(context);
+            this.titleTextView = textView;
+            textView.setTextColor(-1);
+            textView.setText(LocaleController.getString(R.string.VoipRateCallTitle));
+            textView.setTextSize(1, 15.0f);
+            textView.setGravity(1);
+            textView.setTypeface(AndroidUtilities.bold());
+            TextView textView2 = new TextView(context);
+            this.messageTextView = textView2;
+            textView2.setTextSize(1, 15.0f);
+            textView2.setTextColor(-1);
+            textView2.setGravity(1);
+            textView2.setText(LocaleController.getString(R.string.VoipRateCallDescription));
+            addView(textView, LayoutHelper.createFrame(-1, -2.0f, 3, 0.0f, 24.0f, 0.0f, 0.0f));
+            addView(textView2, LayoutHelper.createFrame(-1, -2.0f, 3, 0.0f, 50.0f, 0.0f, 0.0f));
         }
-        addView(this.rateCallContainer, LayoutHelper.createFrame(300, 152.0f, 49, 0.0f, 0.0f, 0.0f, 0.0f));
-        addView(this.starsContainer, LayoutHelper.createFrame(NotificationCenter.openBoostForUsersDialog, 100.0f, 49, 0.0f, 90.0f, 0.0f, 0.0f));
-    }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ StarContainer[] lambda$new$0() {
-        return this.startsViews;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$3(Context context, float f, float f2, int i) {
-        if (i >= 4) {
-            final RLottieImageView rLottieImageView = new RLottieImageView(context);
-            int dp = AndroidUtilities.dp(133.0f);
-            rLottieImageView.setAnimation(R.raw.rate, NotificationCenter.didUpdateConnectionState, NotificationCenter.didUpdateConnectionState);
-            int[] iArr = new int[2];
-            getLocationOnScreen(iArr);
-            int i2 = iArr[0];
-            int i3 = iArr[1];
-            addView(rLottieImageView, LayoutHelper.createFrame(NotificationCenter.didUpdateConnectionState, 133.0f));
-            float f3 = dp / 2.0f;
-            rLottieImageView.setTranslationX((f - i2) - f3);
-            rLottieImageView.setTranslationY((f2 - i3) - f3);
-            rLottieImageView.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda2
-                @Override // java.lang.Runnable
-                public final void run() {
-                    RateCallLayout.this.lambda$new$2(rLottieImageView);
-                }
-            });
-            rLottieImageView.playAnimation();
+        @Override // android.view.ViewGroup, android.view.View
+        protected void dispatchDraw(Canvas canvas) {
+            this.bgRect.set(0.0f, 0.0f, getWidth(), getHeight());
+            this.backgroundProvider.setDarkTranslation(getX() + ((View) getParent()).getX(), getY() + ((View) getParent()).getY());
+            canvas.drawRoundRect(this.bgRect, AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), this.backgroundProvider.getDarkPaint());
+            super.dispatchDraw(canvas);
         }
-        OnRateSelected onRateSelected = this.onRateSelected;
-        if (onRateSelected != null) {
-            onRateSelected.onRateSelected(i);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1(RLottieImageView rLottieImageView) {
-        removeView(rLottieImageView);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$2(final RLottieImageView rLottieImageView) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda3
-            @Override // java.lang.Runnable
-            public final void run() {
-                RateCallLayout.this.lambda$new$1(rLottieImageView);
-            }
-        });
-    }
-
-    public void show(OnRateSelected onRateSelected) {
-        this.onRateSelected = onRateSelected;
-        this.rateCallContainer.setVisibility(0);
-        this.starsContainer.setVisibility(0);
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(ObjectAnimator.ofFloat(this.rateCallContainer, View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.rateCallContainer, View.SCALE_X, 0.7f, 1.0f), ObjectAnimator.ofFloat(this.rateCallContainer, View.SCALE_Y, 0.7f, 1.0f), ObjectAnimator.ofFloat(this.rateCallContainer, View.TRANSLATION_Y, AndroidUtilities.dp(24.0f), 0.0f));
-        animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        animatorSet.setDuration(250L);
-        for (int i = 0; i < this.startsViews.length; i++) {
-            AnimatorSet animatorSet2 = new AnimatorSet();
-            this.startsViews[i].setAlpha(0.0f);
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.startsViews[i], View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.startsViews[i], View.SCALE_X, 0.3f, 1.0f), ObjectAnimator.ofFloat(this.startsViews[i], View.SCALE_Y, 0.3f, 1.0f), ObjectAnimator.ofFloat(this.startsViews[i], View.TRANSLATION_Y, AndroidUtilities.dp(30.0f), 0.0f));
-            animatorSet2.setDuration(250L);
-            animatorSet2.setStartDelay(i * 16);
-            animatorSet2.start();
-        }
-        animatorSet.start();
     }
 
     /* loaded from: classes3.dex */
@@ -156,15 +93,6 @@ public class RateCallLayout extends FrameLayout {
             void onSelected(float f, float f2, int i);
         }
 
-        public void setOnSelectedStar(OnSelectedStar onSelectedStar, int i) {
-            this.onSelectedStar = onSelectedStar;
-            this.pos = i;
-        }
-
-        public void setAllStarsProvider(AllStarsProvider allStarsProvider) {
-            this.allStarsProvider = allStarsProvider;
-        }
-
         public StarContainer(Context context) {
             super(context);
             this.pos = 0;
@@ -180,36 +108,6 @@ public class RateCallLayout extends FrameLayout {
             this.rippleDrawable = createSimpleSelectorCircleDrawable;
             createSimpleSelectorCircleDrawable.setCallback(this);
             setClickable(true);
-        }
-
-        @Override // android.view.View
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            this.rippleDrawable.setBounds(0, 0, getWidth(), getHeight());
-            this.rippleDrawable.draw(canvas);
-        }
-
-        @Override // android.view.ViewGroup, android.view.View
-        protected void drawableStateChanged() {
-            super.drawableStateChanged();
-            Drawable drawable = this.rippleDrawable;
-            if (drawable != null) {
-                drawable.setState(getDrawableState());
-            }
-        }
-
-        @Override // android.view.View
-        public boolean verifyDrawable(Drawable drawable) {
-            return this.rippleDrawable == drawable || super.verifyDrawable(drawable);
-        }
-
-        @Override // android.view.ViewGroup, android.view.View
-        public void jumpDrawablesToCurrentState() {
-            super.jumpDrawablesToCurrentState();
-            Drawable drawable = this.rippleDrawable;
-            if (drawable != null) {
-                drawable.jumpToCurrentState();
-            }
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -273,44 +171,144 @@ public class RateCallLayout extends FrameLayout {
             }
             return super.dispatchTouchEvent(motionEvent);
         }
-    }
 
-    /* loaded from: classes3.dex */
-    public static class RateCallContainer extends FrameLayout {
-        private final VoIPBackgroundProvider backgroundProvider;
-        private final RectF bgRect;
-        private final TextView messageTextView;
-        private final TextView titleTextView;
-
-        public RateCallContainer(Context context, VoIPBackgroundProvider voIPBackgroundProvider) {
-            super(context);
-            this.bgRect = new RectF();
-            this.backgroundProvider = voIPBackgroundProvider;
-            voIPBackgroundProvider.attach(this);
-            setWillNotDraw(false);
-            TextView textView = new TextView(context);
-            this.titleTextView = textView;
-            textView.setTextColor(-1);
-            textView.setText(LocaleController.getString(R.string.VoipRateCallTitle));
-            textView.setTextSize(1, 15.0f);
-            textView.setGravity(1);
-            textView.setTypeface(AndroidUtilities.bold());
-            TextView textView2 = new TextView(context);
-            this.messageTextView = textView2;
-            textView2.setTextSize(1, 15.0f);
-            textView2.setTextColor(-1);
-            textView2.setGravity(1);
-            textView2.setText(LocaleController.getString(R.string.VoipRateCallDescription));
-            addView(textView, LayoutHelper.createFrame(-1, -2.0f, 3, 0.0f, 24.0f, 0.0f, 0.0f));
-            addView(textView2, LayoutHelper.createFrame(-1, -2.0f, 3, 0.0f, 50.0f, 0.0f, 0.0f));
+        @Override // android.view.ViewGroup, android.view.View
+        protected void drawableStateChanged() {
+            super.drawableStateChanged();
+            Drawable drawable = this.rippleDrawable;
+            if (drawable != null) {
+                drawable.setState(getDrawableState());
+            }
         }
 
         @Override // android.view.ViewGroup, android.view.View
-        protected void dispatchDraw(Canvas canvas) {
-            this.bgRect.set(0.0f, 0.0f, getWidth(), getHeight());
-            this.backgroundProvider.setDarkTranslation(getX() + ((View) getParent()).getX(), getY() + ((View) getParent()).getY());
-            canvas.drawRoundRect(this.bgRect, AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), this.backgroundProvider.getDarkPaint());
-            super.dispatchDraw(canvas);
+        public void jumpDrawablesToCurrentState() {
+            super.jumpDrawablesToCurrentState();
+            Drawable drawable = this.rippleDrawable;
+            if (drawable != null) {
+                drawable.jumpToCurrentState();
+            }
         }
+
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            this.rippleDrawable.setBounds(0, 0, getWidth(), getHeight());
+            this.rippleDrawable.draw(canvas);
+        }
+
+        public void setAllStarsProvider(AllStarsProvider allStarsProvider) {
+            this.allStarsProvider = allStarsProvider;
+        }
+
+        public void setOnSelectedStar(OnSelectedStar onSelectedStar, int i) {
+            this.onSelectedStar = onSelectedStar;
+            this.pos = i;
+        }
+
+        @Override // android.view.View
+        public boolean verifyDrawable(Drawable drawable) {
+            return this.rippleDrawable == drawable || super.verifyDrawable(drawable);
+        }
+    }
+
+    public RateCallLayout(final Context context, VoIPBackgroundProvider voIPBackgroundProvider) {
+        super(context);
+        this.startsViews = new StarContainer[5];
+        this.backgroundProvider = voIPBackgroundProvider;
+        setWillNotDraw(false);
+        RateCallContainer rateCallContainer = new RateCallContainer(context, voIPBackgroundProvider);
+        this.rateCallContainer = rateCallContainer;
+        FrameLayout frameLayout = new FrameLayout(context);
+        this.starsContainer = frameLayout;
+        rateCallContainer.setVisibility(8);
+        frameLayout.setVisibility(8);
+        for (int i = 0; i < 5; i++) {
+            this.startsViews[i] = new StarContainer(context);
+            this.startsViews[i].setAllStarsProvider(new StarContainer.AllStarsProvider() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda0
+                @Override // org.telegram.ui.Components.voip.RateCallLayout.StarContainer.AllStarsProvider
+                public final RateCallLayout.StarContainer[] getAllStartsViews() {
+                    RateCallLayout.StarContainer[] lambda$new$0;
+                    lambda$new$0 = RateCallLayout.this.lambda$new$0();
+                    return lambda$new$0;
+                }
+            });
+            this.startsViews[i].setOnSelectedStar(new StarContainer.OnSelectedStar() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda1
+                @Override // org.telegram.ui.Components.voip.RateCallLayout.StarContainer.OnSelectedStar
+                public final void onSelected(float f, float f2, int i2) {
+                    RateCallLayout.this.lambda$new$3(context, f, f2, i2);
+                }
+            }, i);
+            this.starsContainer.addView(this.startsViews[i], LayoutHelper.createFrame(-2, -2.0f, 51, i * 41, 0.0f, 0.0f, 0.0f));
+        }
+        addView(this.rateCallContainer, LayoutHelper.createFrame(300, 152.0f, 49, 0.0f, 0.0f, 0.0f, 0.0f));
+        addView(this.starsContainer, LayoutHelper.createFrame(NotificationCenter.openBoostForUsersDialog, 100.0f, 49, 0.0f, 90.0f, 0.0f, 0.0f));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ StarContainer[] lambda$new$0() {
+        return this.startsViews;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$1(RLottieImageView rLottieImageView) {
+        removeView(rLottieImageView);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$2(final RLottieImageView rLottieImageView) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                RateCallLayout.this.lambda$new$1(rLottieImageView);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$3(Context context, float f, float f2, int i) {
+        if (i >= 4) {
+            final RLottieImageView rLottieImageView = new RLottieImageView(context);
+            int dp = AndroidUtilities.dp(133.0f);
+            rLottieImageView.setAnimation(R.raw.rate, NotificationCenter.didUpdateConnectionState, NotificationCenter.didUpdateConnectionState);
+            int[] iArr = new int[2];
+            getLocationOnScreen(iArr);
+            int i2 = iArr[0];
+            int i3 = iArr[1];
+            addView(rLottieImageView, LayoutHelper.createFrame(NotificationCenter.didUpdateConnectionState, 133.0f));
+            float f3 = dp / 2.0f;
+            rLottieImageView.setTranslationX((f - i2) - f3);
+            rLottieImageView.setTranslationY((f2 - i3) - f3);
+            rLottieImageView.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    RateCallLayout.this.lambda$new$2(rLottieImageView);
+                }
+            });
+            rLottieImageView.playAnimation();
+        }
+        OnRateSelected onRateSelected = this.onRateSelected;
+        if (onRateSelected != null) {
+            onRateSelected.onRateSelected(i);
+        }
+    }
+
+    public void show(OnRateSelected onRateSelected) {
+        this.onRateSelected = onRateSelected;
+        this.rateCallContainer.setVisibility(0);
+        this.starsContainer.setVisibility(0);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(ObjectAnimator.ofFloat(this.rateCallContainer, View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.rateCallContainer, View.SCALE_X, 0.7f, 1.0f), ObjectAnimator.ofFloat(this.rateCallContainer, View.SCALE_Y, 0.7f, 1.0f), ObjectAnimator.ofFloat(this.rateCallContainer, View.TRANSLATION_Y, AndroidUtilities.dp(24.0f), 0.0f));
+        animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
+        animatorSet.setDuration(250L);
+        for (int i = 0; i < this.startsViews.length; i++) {
+            AnimatorSet animatorSet2 = new AnimatorSet();
+            this.startsViews[i].setAlpha(0.0f);
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.startsViews[i], View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.startsViews[i], View.SCALE_X, 0.3f, 1.0f), ObjectAnimator.ofFloat(this.startsViews[i], View.SCALE_Y, 0.3f, 1.0f), ObjectAnimator.ofFloat(this.startsViews[i], View.TRANSLATION_Y, AndroidUtilities.dp(30.0f), 0.0f));
+            animatorSet2.setDuration(250L);
+            animatorSet2.setStartDelay(i * 16);
+            animatorSet2.start();
+        }
+        animatorSet.start();
     }
 }

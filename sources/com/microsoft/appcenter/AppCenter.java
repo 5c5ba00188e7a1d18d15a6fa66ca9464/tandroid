@@ -1,6 +1,5 @@
 package com.microsoft.appcenter;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -28,12 +27,12 @@ import com.microsoft.appcenter.utils.storage.SharedPreferencesManager;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 /* loaded from: classes.dex */
 public class AppCenter {
-    @SuppressLint({"StaticFieldLeak"})
     private static AppCenter sInstance;
     private AppCenterHandler mAppCenterHandler;
     private String mAppSecret;
@@ -47,57 +46,21 @@ public class AppCenter {
     private LogSerializer mLogSerializer;
     private String mLogUrl;
     private OneCollectorChannelListener mOneCollectorChannelListener;
-    private Set<AppCenterService> mServices;
-    private Set<AppCenterService> mServicesStartedFromLibrary;
-    private DefaultAppCenterFuture<Boolean> mSetMaxStorageSizeFuture;
+    private Set mServices;
+    private Set mServicesStartedFromLibrary;
+    private DefaultAppCenterFuture mSetMaxStorageSizeFuture;
     private String mTransmissionTargetToken;
     private UncaughtExceptionHandler mUncaughtExceptionHandler;
-    private final List<String> mStartedServicesNamesToLog = new ArrayList();
+    private final List mStartedServicesNamesToLog = new ArrayList();
     private long mMaxStorageSizeInBytes = 10485760;
 
-    public static synchronized AppCenter getInstance() {
-        AppCenter appCenter;
-        synchronized (AppCenter.class) {
-            try {
-                if (sInstance == null) {
-                    sInstance = new AppCenter();
-                }
-                appCenter = sInstance;
-            } catch (Throwable th) {
-                throw th;
-            }
+    /* JADX INFO: Access modifiers changed from: private */
+    public void applyStorageMaxSize() {
+        boolean maxStorageSize = this.mChannel.setMaxStorageSize(this.mMaxStorageSizeInBytes);
+        DefaultAppCenterFuture defaultAppCenterFuture = this.mSetMaxStorageSizeFuture;
+        if (defaultAppCenterFuture != null) {
+            defaultAppCenterFuture.complete(Boolean.valueOf(maxStorageSize));
         }
-        return appCenter;
-    }
-
-    public static void setCustomProperties(CustomProperties customProperties) {
-        getInstance().setInstanceCustomProperties(customProperties);
-    }
-
-    @SafeVarargs
-    public static void start(Application application, String str, Class<? extends AppCenterService>... clsArr) {
-        getInstance().configureAndStartServices(application, str, clsArr);
-    }
-
-    private synchronized void setInstanceUserId(String str) {
-        if (!this.mConfiguredFromApp) {
-            AppCenterLog.error("AppCenter", "AppCenter must be configured from application, libraries cannot use call setUserId.");
-            return;
-        }
-        String str2 = this.mAppSecret;
-        if (str2 == null && this.mTransmissionTargetToken == null) {
-            AppCenterLog.error("AppCenter", "AppCenter must be configured with a secret from application to call setUserId.");
-            return;
-        }
-        if (str != null) {
-            if (str2 != null && !UserIdContext.checkUserIdValidForAppCenter(str)) {
-                return;
-            }
-            if (this.mTransmissionTargetToken != null && !UserIdContext.checkUserIdValidForOneCollector(str)) {
-                return;
-            }
-        }
-        UserIdContext.getInstance().setUserId(str);
     }
 
     private synchronized boolean checkPrecondition() {
@@ -108,26 +71,23 @@ public class AppCenter {
         return false;
     }
 
-    private synchronized void setInstanceCustomProperties(CustomProperties customProperties) {
-        if (customProperties == null) {
-            AppCenterLog.error("AppCenter", "Custom properties may not be null.");
-            return;
-        }
-        final Map<String, Object> properties = customProperties.getProperties();
-        if (properties.size() == 0) {
-            AppCenterLog.error("AppCenter", "Custom properties may not be empty.");
-        } else {
-            handlerAppCenterOperation(new Runnable() { // from class: com.microsoft.appcenter.AppCenter.3
-                @Override // java.lang.Runnable
-                public void run() {
-                    AppCenter.this.queueCustomProperties(properties);
-                }
-            }, null);
+    private void configureAndStartServices(Application application, String str, boolean z, Class[] clsArr) {
+        if (configureInstance(application, str, z)) {
+            startServices(z, clsArr);
         }
     }
 
-    private synchronized boolean isInstanceConfigured() {
-        return this.mApplication != null;
+    private synchronized void configureAndStartServices(Application application, String str, Class[] clsArr) {
+        if (str != null) {
+            try {
+                if (!str.isEmpty()) {
+                    configureAndStartServices(application, str, true, clsArr);
+                }
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+        AppCenterLog.error("AppCenter", "appSecret may not be null or empty.");
     }
 
     private synchronized boolean configureInstance(Application application, String str, final boolean z) {
@@ -209,36 +169,6 @@ public class AppCenter {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public synchronized void handlerAppCenterOperation(final Runnable runnable, final Runnable runnable2) {
-        try {
-            if (checkPrecondition()) {
-                Runnable runnable3 = new Runnable() { // from class: com.microsoft.appcenter.AppCenter.7
-                    @Override // java.lang.Runnable
-                    public void run() {
-                        if (AppCenter.this.isInstanceEnabled()) {
-                            runnable.run();
-                            return;
-                        }
-                        Runnable runnable4 = runnable2;
-                        if (runnable4 != null) {
-                            runnable4.run();
-                        } else {
-                            AppCenterLog.error("AppCenter", "App Center SDK is disabled.");
-                        }
-                    }
-                };
-                if (Thread.currentThread() == this.mHandlerThread) {
-                    runnable.run();
-                } else {
-                    this.mHandler.post(runnable3);
-                }
-            }
-        } catch (Throwable th) {
-            throw th;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
     public void finishConfiguration(boolean z) {
         Constants.loadFromContext(this.mApplication);
         FileManager.initialize(this.mApplication);
@@ -285,16 +215,227 @@ public class AppCenter {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void applyStorageMaxSize() {
-        boolean maxStorageSize = this.mChannel.setMaxStorageSize(this.mMaxStorageSizeInBytes);
-        DefaultAppCenterFuture<Boolean> defaultAppCenterFuture = this.mSetMaxStorageSizeFuture;
-        if (defaultAppCenterFuture != null) {
-            defaultAppCenterFuture.complete(Boolean.valueOf(maxStorageSize));
+    public void finishStartServices(Iterable iterable, Iterable iterable2, boolean z) {
+        StringBuilder sb;
+        String str;
+        Iterator it = iterable.iterator();
+        while (it.hasNext()) {
+            AppCenterService appCenterService = (AppCenterService) it.next();
+            appCenterService.onConfigurationUpdated(this.mAppSecret, this.mTransmissionTargetToken);
+            AppCenterLog.info("AppCenter", appCenterService.getClass().getSimpleName() + " service configuration updated.");
+        }
+        boolean isInstanceEnabled = isInstanceEnabled();
+        Iterator it2 = iterable2.iterator();
+        while (it2.hasNext()) {
+            AppCenterService appCenterService2 = (AppCenterService) it2.next();
+            Map logFactories = appCenterService2.getLogFactories();
+            if (logFactories != null) {
+                for (Map.Entry entry : logFactories.entrySet()) {
+                    this.mLogSerializer.addLogFactory((String) entry.getKey(), (LogFactory) entry.getValue());
+                }
+            }
+            if (!isInstanceEnabled && appCenterService2.isInstanceEnabled()) {
+                appCenterService2.setInstanceEnabled(false);
+            }
+            Application application = this.mApplication;
+            Channel channel = this.mChannel;
+            if (z) {
+                appCenterService2.onStarted(application, channel, this.mAppSecret, this.mTransmissionTargetToken, true);
+                sb = new StringBuilder();
+                sb.append(appCenterService2.getClass().getSimpleName());
+                str = " service started from application.";
+            } else {
+                appCenterService2.onStarted(application, channel, null, null, false);
+                sb = new StringBuilder();
+                sb.append(appCenterService2.getClass().getSimpleName());
+                str = " service started from library.";
+            }
+            sb.append(str);
+            AppCenterLog.info("AppCenter", sb.toString());
+        }
+        if (z) {
+            Iterator it3 = iterable.iterator();
+            while (it3.hasNext()) {
+                this.mStartedServicesNamesToLog.add(((AppCenterService) it3.next()).getServiceName());
+            }
+            Iterator it4 = iterable2.iterator();
+            while (it4.hasNext()) {
+                this.mStartedServicesNamesToLog.add(((AppCenterService) it4.next()).getServiceName());
+            }
+            sendStartServiceLog();
         }
     }
 
-    @SafeVarargs
-    private final synchronized void startServices(final boolean z, Class<? extends AppCenterService>... clsArr) {
+    public static synchronized AppCenter getInstance() {
+        AppCenter appCenter;
+        synchronized (AppCenter.class) {
+            try {
+                if (sInstance == null) {
+                    sInstance = new AppCenter();
+                }
+                appCenter = sInstance;
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+        return appCenter;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public synchronized void handlerAppCenterOperation(final Runnable runnable, final Runnable runnable2) {
+        try {
+            if (checkPrecondition()) {
+                Runnable runnable3 = new Runnable() { // from class: com.microsoft.appcenter.AppCenter.7
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        Runnable runnable4;
+                        if (AppCenter.this.isInstanceEnabled()) {
+                            runnable4 = runnable;
+                        } else {
+                            runnable4 = runnable2;
+                            if (runnable4 == null) {
+                                AppCenterLog.error("AppCenter", "App Center SDK is disabled.");
+                                return;
+                            }
+                        }
+                        runnable4.run();
+                    }
+                };
+                if (Thread.currentThread() == this.mHandlerThread) {
+                    runnable.run();
+                } else {
+                    this.mHandler.post(runnable3);
+                }
+            }
+        } catch (Throwable th) {
+            throw th;
+        }
+    }
+
+    private synchronized boolean isInstanceConfigured() {
+        return this.mApplication != null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void queueCustomProperties(Map map) {
+        CustomPropertiesLog customPropertiesLog = new CustomPropertiesLog();
+        customPropertiesLog.setProperties(map);
+        this.mChannel.enqueue(customPropertiesLog, "group_core", 1);
+    }
+
+    private void sendStartServiceLog() {
+        if (this.mStartedServicesNamesToLog.isEmpty() || !isInstanceEnabled()) {
+            return;
+        }
+        ArrayList arrayList = new ArrayList(this.mStartedServicesNamesToLog);
+        this.mStartedServicesNamesToLog.clear();
+        StartServiceLog startServiceLog = new StartServiceLog();
+        startServiceLog.setServices(arrayList);
+        this.mChannel.enqueue(startServiceLog, "group_core", 1);
+    }
+
+    public static void setCustomProperties(CustomProperties customProperties) {
+        getInstance().setInstanceCustomProperties(customProperties);
+    }
+
+    private synchronized void setInstanceCustomProperties(CustomProperties customProperties) {
+        if (customProperties == null) {
+            AppCenterLog.error("AppCenter", "Custom properties may not be null.");
+            return;
+        }
+        final Map properties = customProperties.getProperties();
+        if (properties.size() == 0) {
+            AppCenterLog.error("AppCenter", "Custom properties may not be empty.");
+        } else {
+            handlerAppCenterOperation(new Runnable() { // from class: com.microsoft.appcenter.AppCenter.3
+                @Override // java.lang.Runnable
+                public void run() {
+                    AppCenter.this.queueCustomProperties(properties);
+                }
+            }, null);
+        }
+    }
+
+    private synchronized void setInstanceUserId(String str) {
+        if (!this.mConfiguredFromApp) {
+            AppCenterLog.error("AppCenter", "AppCenter must be configured from application, libraries cannot use call setUserId.");
+            return;
+        }
+        String str2 = this.mAppSecret;
+        if (str2 == null && this.mTransmissionTargetToken == null) {
+            AppCenterLog.error("AppCenter", "AppCenter must be configured with a secret from application to call setUserId.");
+            return;
+        }
+        if (str != null) {
+            if (str2 != null && !UserIdContext.checkUserIdValidForAppCenter(str)) {
+                return;
+            }
+            if (this.mTransmissionTargetToken != null && !UserIdContext.checkUserIdValidForOneCollector(str)) {
+                return;
+            }
+        }
+        UserIdContext.getInstance().setUserId(str);
+    }
+
+    public static void setUserId(String str) {
+        getInstance().setInstanceUserId(str);
+    }
+
+    public static void start(Application application, String str, Class... clsArr) {
+        getInstance().configureAndStartServices(application, str, clsArr);
+    }
+
+    private void startOrUpdateService(AppCenterService appCenterService, Collection collection, Collection collection2, boolean z) {
+        if (z) {
+            startOrUpdateServiceFromApp(appCenterService, collection, collection2);
+        } else if (this.mServices.contains(appCenterService)) {
+        } else {
+            startServiceFromLibrary(appCenterService, collection);
+        }
+    }
+
+    private void startOrUpdateServiceFromApp(AppCenterService appCenterService, Collection collection, Collection collection2) {
+        String serviceName = appCenterService.getServiceName();
+        if (this.mServices.contains(appCenterService)) {
+            if (this.mServicesStartedFromLibrary.remove(appCenterService)) {
+                collection2.add(appCenterService);
+                return;
+            }
+            AppCenterLog.warn("AppCenter", "App Center has already started the service with class name: " + appCenterService.getServiceName());
+        } else if (this.mAppSecret != null || !appCenterService.isAppSecretRequired()) {
+            startService(appCenterService, collection);
+        } else {
+            AppCenterLog.error("AppCenter", "App Center was started without app secret, but the service requires it; not starting service " + serviceName + ".");
+        }
+    }
+
+    private boolean startService(AppCenterService appCenterService, Collection collection) {
+        String serviceName = appCenterService.getServiceName();
+        if (ServiceInstrumentationUtils.isServiceDisabledByInstrumentation(serviceName)) {
+            AppCenterLog.debug("AppCenter", "Instrumentation variable to disable service has been set; not starting service " + serviceName + ".");
+            return false;
+        }
+        appCenterService.onStarting(this.mAppCenterHandler);
+        this.mApplicationLifecycleListener.registerApplicationLifecycleCallbacks(appCenterService);
+        this.mApplication.registerActivityLifecycleCallbacks(appCenterService);
+        this.mServices.add(appCenterService);
+        collection.add(appCenterService);
+        return true;
+    }
+
+    private void startServiceFromLibrary(AppCenterService appCenterService, Collection collection) {
+        String serviceName = appCenterService.getServiceName();
+        if (!appCenterService.isAppSecretRequired()) {
+            if (startService(appCenterService, collection)) {
+                this.mServicesStartedFromLibrary.add(appCenterService);
+                return;
+            }
+            return;
+        }
+        AppCenterLog.error("AppCenter", "This service cannot be started from a library: " + serviceName + ".");
+    }
+
+    private final synchronized void startServices(final boolean z, Class... clsArr) {
         if (clsArr == null) {
             AppCenterLog.error("AppCenter", "Cannot start services, services array is null. Failed to start services.");
             return;
@@ -304,7 +445,7 @@ public class AppCenter {
             StringBuilder sb = new StringBuilder();
             int length = clsArr.length;
             while (i < length) {
-                Class<? extends AppCenterService> cls = clsArr[i];
+                Class cls = clsArr[i];
                 sb.append("\t");
                 sb.append(cls.getName());
                 sb.append("\n");
@@ -317,7 +458,7 @@ public class AppCenter {
         final ArrayList arrayList2 = new ArrayList();
         int length2 = clsArr.length;
         while (i < length2) {
-            Class<? extends AppCenterService> cls2 = clsArr[i];
+            Class cls2 = clsArr[i];
             if (cls2 == null) {
                 AppCenterLog.warn("AppCenter", "Skipping null service, please check your varargs/array does not contain any null reference.");
             } else {
@@ -337,132 +478,8 @@ public class AppCenter {
         });
     }
 
-    private void startOrUpdateService(AppCenterService appCenterService, Collection<AppCenterService> collection, Collection<AppCenterService> collection2, boolean z) {
-        if (z) {
-            startOrUpdateServiceFromApp(appCenterService, collection, collection2);
-        } else if (this.mServices.contains(appCenterService)) {
-        } else {
-            startServiceFromLibrary(appCenterService, collection);
-        }
-    }
-
-    private void startOrUpdateServiceFromApp(AppCenterService appCenterService, Collection<AppCenterService> collection, Collection<AppCenterService> collection2) {
-        String serviceName = appCenterService.getServiceName();
-        if (this.mServices.contains(appCenterService)) {
-            if (this.mServicesStartedFromLibrary.remove(appCenterService)) {
-                collection2.add(appCenterService);
-                return;
-            }
-            AppCenterLog.warn("AppCenter", "App Center has already started the service with class name: " + appCenterService.getServiceName());
-        } else if (this.mAppSecret == null && appCenterService.isAppSecretRequired()) {
-            AppCenterLog.error("AppCenter", "App Center was started without app secret, but the service requires it; not starting service " + serviceName + ".");
-        } else {
-            startService(appCenterService, collection);
-        }
-    }
-
-    private void startServiceFromLibrary(AppCenterService appCenterService, Collection<AppCenterService> collection) {
-        String serviceName = appCenterService.getServiceName();
-        if (appCenterService.isAppSecretRequired()) {
-            AppCenterLog.error("AppCenter", "This service cannot be started from a library: " + serviceName + ".");
-        } else if (startService(appCenterService, collection)) {
-            this.mServicesStartedFromLibrary.add(appCenterService);
-        }
-    }
-
-    private boolean startService(AppCenterService appCenterService, Collection<AppCenterService> collection) {
-        String serviceName = appCenterService.getServiceName();
-        if (ServiceInstrumentationUtils.isServiceDisabledByInstrumentation(serviceName)) {
-            AppCenterLog.debug("AppCenter", "Instrumentation variable to disable service has been set; not starting service " + serviceName + ".");
-            return false;
-        }
-        appCenterService.onStarting(this.mAppCenterHandler);
-        this.mApplicationLifecycleListener.registerApplicationLifecycleCallbacks(appCenterService);
-        this.mApplication.registerActivityLifecycleCallbacks(appCenterService);
-        this.mServices.add(appCenterService);
-        collection.add(appCenterService);
-        return true;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void finishStartServices(Iterable<AppCenterService> iterable, Iterable<AppCenterService> iterable2, boolean z) {
-        for (AppCenterService appCenterService : iterable) {
-            appCenterService.onConfigurationUpdated(this.mAppSecret, this.mTransmissionTargetToken);
-            AppCenterLog.info("AppCenter", appCenterService.getClass().getSimpleName() + " service configuration updated.");
-        }
-        boolean isInstanceEnabled = isInstanceEnabled();
-        for (AppCenterService appCenterService2 : iterable2) {
-            Map<String, LogFactory> logFactories = appCenterService2.getLogFactories();
-            if (logFactories != null) {
-                for (Map.Entry<String, LogFactory> entry : logFactories.entrySet()) {
-                    this.mLogSerializer.addLogFactory(entry.getKey(), entry.getValue());
-                }
-            }
-            if (!isInstanceEnabled && appCenterService2.isInstanceEnabled()) {
-                appCenterService2.setInstanceEnabled(false);
-            }
-            if (z) {
-                appCenterService2.onStarted(this.mApplication, this.mChannel, this.mAppSecret, this.mTransmissionTargetToken, true);
-                AppCenterLog.info("AppCenter", appCenterService2.getClass().getSimpleName() + " service started from application.");
-            } else {
-                appCenterService2.onStarted(this.mApplication, this.mChannel, null, null, false);
-                AppCenterLog.info("AppCenter", appCenterService2.getClass().getSimpleName() + " service started from library.");
-            }
-        }
-        if (z) {
-            for (AppCenterService appCenterService3 : iterable) {
-                this.mStartedServicesNamesToLog.add(appCenterService3.getServiceName());
-            }
-            for (AppCenterService appCenterService4 : iterable2) {
-                this.mStartedServicesNamesToLog.add(appCenterService4.getServiceName());
-            }
-            sendStartServiceLog();
-        }
-    }
-
-    private void sendStartServiceLog() {
-        if (this.mStartedServicesNamesToLog.isEmpty() || !isInstanceEnabled()) {
-            return;
-        }
-        ArrayList arrayList = new ArrayList(this.mStartedServicesNamesToLog);
-        this.mStartedServicesNamesToLog.clear();
-        StartServiceLog startServiceLog = new StartServiceLog();
-        startServiceLog.setServices(arrayList);
-        this.mChannel.enqueue(startServiceLog, "group_core", 1);
-    }
-
-    private synchronized void configureAndStartServices(Application application, String str, Class<? extends AppCenterService>[] clsArr) {
-        if (str != null) {
-            try {
-                if (!str.isEmpty()) {
-                    configureAndStartServices(application, str, true, clsArr);
-                }
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-        AppCenterLog.error("AppCenter", "appSecret may not be null or empty.");
-    }
-
-    private void configureAndStartServices(Application application, String str, boolean z, Class<? extends AppCenterService>[] clsArr) {
-        if (configureInstance(application, str, z)) {
-            startServices(z, clsArr);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void queueCustomProperties(Map<String, Object> map) {
-        CustomPropertiesLog customPropertiesLog = new CustomPropertiesLog();
-        customPropertiesLog.setProperties(map);
-        this.mChannel.enqueue(customPropertiesLog, "group_core", 1);
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
     public boolean isInstanceEnabled() {
         return SharedPreferencesManager.getBoolean("enabled", true);
-    }
-
-    public static void setUserId(String str) {
-        getInstance().setInstanceUserId(str);
     }
 }

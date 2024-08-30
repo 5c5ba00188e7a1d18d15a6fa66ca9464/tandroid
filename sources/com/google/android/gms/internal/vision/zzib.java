@@ -1,6 +1,5 @@
 package com.google.android.gms.internal.vision;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zzib {
     private final zzii zza;
@@ -12,6 +11,11 @@ public final class zzib {
         this.zza = zzii.zza(bArr);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public /* synthetic */ zzib(int i, zzhs zzhsVar) {
+        this(i);
+    }
+
     public final zzht zza() {
         this.zza.zzb();
         return new zzid(this.zzb);
@@ -19,10 +23,5 @@ public final class zzib {
 
     public final zzii zzb() {
         return this.zza;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzib(int i, zzhs zzhsVar) {
-        this(i);
     }
 }

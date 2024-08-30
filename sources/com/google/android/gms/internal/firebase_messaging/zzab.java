@@ -5,7 +5,6 @@ import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ObjectEncoder;
 import com.google.firebase.encoders.ObjectEncoderContext;
 import com.google.firebase.encoders.ValueEncoder;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -14,17 +13,16 @@ import java.util.Collection;
 import java.util.Map;
 import org.telegram.messenger.NotificationCenter;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public final class zzab implements ObjectEncoderContext {
     private static final Charset zza = Charset.forName("UTF-8");
     private static final FieldDescriptor zzg;
     private static final FieldDescriptor zzh;
-    private static final ObjectEncoder<Map.Entry<Object, Object>> zzi;
+    private static final ObjectEncoder zzi;
     private OutputStream zzb;
-    private final Map<Class<?>, ObjectEncoder<?>> zzc;
-    private final Map<Class<?>, ValueEncoder<?>> zzd;
-    private final ObjectEncoder<Object> zze;
+    private final Map zzc;
+    private final Map zzd;
+    private final ObjectEncoder zze;
     private final zzaf zzf = new zzaf(this);
 
     static {
@@ -40,7 +38,7 @@ public final class zzab implements ObjectEncoderContext {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public zzab(OutputStream outputStream, Map<Class<?>, ObjectEncoder<?>> map, Map<Class<?>, ValueEncoder<?>> map2, ObjectEncoder<Object> objectEncoder) {
+    public zzab(OutputStream outputStream, Map map, Map map2, ObjectEncoder objectEncoder) {
         this.zzb = outputStream;
         this.zzc = map;
         this.zzd = map2;
@@ -48,28 +46,28 @@ public final class zzab implements ObjectEncoderContext {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static final /* synthetic */ void zzg(Map.Entry entry, ObjectEncoderContext objectEncoderContext) throws IOException {
+    public static final /* synthetic */ void zzg(Map.Entry entry, ObjectEncoderContext objectEncoderContext) {
         objectEncoderContext.add(zzg, entry.getKey());
         objectEncoderContext.add(zzh, entry.getValue());
     }
 
-    private final <T> zzab zzh(ObjectEncoder<T> objectEncoder, FieldDescriptor fieldDescriptor, T t, boolean z) throws IOException {
-        long zzi2 = zzi(objectEncoder, t);
+    private final zzab zzh(ObjectEncoder objectEncoder, FieldDescriptor fieldDescriptor, Object obj, boolean z) {
+        long zzi2 = zzi(objectEncoder, obj);
         if (z && zzi2 == 0) {
             return this;
         }
         zzn((zzl(fieldDescriptor) << 3) | 2);
         zzo(zzi2);
-        objectEncoder.encode(t, this);
+        objectEncoder.encode(obj, this);
         return this;
     }
 
-    private final <T> long zzi(ObjectEncoder<T> objectEncoder, T t) throws IOException {
+    private final long zzi(ObjectEncoder objectEncoder, Object obj) {
         zzw zzwVar = new zzw();
         try {
             OutputStream outputStream = this.zzb;
             this.zzb = zzwVar;
-            objectEncoder.encode(t, this);
+            objectEncoder.encode(obj, this);
             this.zzb = outputStream;
             long zza2 = zzwVar.zza();
             zzwVar.close();
@@ -84,9 +82,9 @@ public final class zzab implements ObjectEncoderContext {
         }
     }
 
-    private final <T> zzab zzj(ValueEncoder<T> valueEncoder, FieldDescriptor fieldDescriptor, T t, boolean z) throws IOException {
+    private final zzab zzj(ValueEncoder valueEncoder, FieldDescriptor fieldDescriptor, Object obj, boolean z) {
         this.zzf.zza(fieldDescriptor, z);
-        valueEncoder.encode(t, this.zzf);
+        valueEncoder.encode(obj, this.zzf);
         return this;
     }
 
@@ -110,24 +108,54 @@ public final class zzab implements ObjectEncoderContext {
         throw new EncodingException("Field has no @Protobuf config");
     }
 
-    private final void zzn(int i) throws IOException {
-        while ((i & (-128)) != 0) {
-            this.zzb.write((i & NotificationCenter.dialogTranslate) | 128);
-            i >>>= 7;
+    private final void zzn(int i) {
+        while (true) {
+            int i2 = ((i & (-128)) > 0L ? 1 : ((i & (-128)) == 0L ? 0 : -1));
+            OutputStream outputStream = this.zzb;
+            if (i2 == 0) {
+                outputStream.write(i & NotificationCenter.dialogTranslate);
+                return;
+            } else {
+                outputStream.write((i & NotificationCenter.dialogTranslate) | 128);
+                i >>>= 7;
+            }
         }
-        this.zzb.write(i & NotificationCenter.dialogTranslate);
     }
 
-    private final void zzo(long j) throws IOException {
-        while (((-128) & j) != 0) {
-            this.zzb.write((((int) j) & NotificationCenter.dialogTranslate) | 128);
-            j >>>= 7;
+    private final void zzo(long j) {
+        while (true) {
+            int i = (((-128) & j) > 0L ? 1 : (((-128) & j) == 0L ? 0 : -1));
+            OutputStream outputStream = this.zzb;
+            if (i == 0) {
+                outputStream.write(((int) j) & NotificationCenter.dialogTranslate);
+                return;
+            } else {
+                outputStream.write((((int) j) & NotificationCenter.dialogTranslate) | 128);
+                j >>>= 7;
+            }
         }
-        this.zzb.write(((int) j) & NotificationCenter.dialogTranslate);
+    }
+
+    @Override // com.google.firebase.encoders.ObjectEncoderContext
+    public final /* bridge */ /* synthetic */ ObjectEncoderContext add(FieldDescriptor fieldDescriptor, int i) {
+        zzd(fieldDescriptor, i, true);
+        return this;
+    }
+
+    @Override // com.google.firebase.encoders.ObjectEncoderContext
+    public final /* bridge */ /* synthetic */ ObjectEncoderContext add(FieldDescriptor fieldDescriptor, long j) {
+        zze(fieldDescriptor, j, true);
+        return this;
+    }
+
+    @Override // com.google.firebase.encoders.ObjectEncoderContext
+    public final ObjectEncoderContext add(FieldDescriptor fieldDescriptor, Object obj) {
+        zza(fieldDescriptor, obj, true);
+        return this;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final ObjectEncoderContext zza(FieldDescriptor fieldDescriptor, Object obj, boolean z) throws IOException {
+    public final ObjectEncoderContext zza(FieldDescriptor fieldDescriptor, Object obj, boolean z) {
         if (obj == null) {
             return this;
         }
@@ -173,12 +201,12 @@ public final class zzab implements ObjectEncoderContext {
             this.zzb.write(bArr);
             return this;
         } else {
-            ObjectEncoder<?> objectEncoder = this.zzc.get(obj.getClass());
+            ObjectEncoder objectEncoder = (ObjectEncoder) this.zzc.get(obj.getClass());
             if (objectEncoder != null) {
                 zzh(objectEncoder, fieldDescriptor, obj, z);
                 return this;
             }
-            ValueEncoder<?> valueEncoder = this.zzd.get(obj.getClass());
+            ValueEncoder valueEncoder = (ValueEncoder) this.zzd.get(obj.getClass());
             if (valueEncoder != null) {
                 zzj(valueEncoder, fieldDescriptor, obj, z);
                 return this;
@@ -195,7 +223,7 @@ public final class zzab implements ObjectEncoderContext {
         }
     }
 
-    final ObjectEncoderContext zzb(FieldDescriptor fieldDescriptor, double d, boolean z) throws IOException {
+    final ObjectEncoderContext zzb(FieldDescriptor fieldDescriptor, double d, boolean z) {
         if (z && d == 0.0d) {
             return this;
         }
@@ -204,7 +232,7 @@ public final class zzab implements ObjectEncoderContext {
         return this;
     }
 
-    final ObjectEncoderContext zzc(FieldDescriptor fieldDescriptor, float f, boolean z) throws IOException {
+    final ObjectEncoderContext zzc(FieldDescriptor fieldDescriptor, float f, boolean z) {
         if (z && f == 0.0f) {
             return this;
         }
@@ -214,7 +242,7 @@ public final class zzab implements ObjectEncoderContext {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final zzab zzd(FieldDescriptor fieldDescriptor, int i, boolean z) throws IOException {
+    public final zzab zzd(FieldDescriptor fieldDescriptor, int i, boolean z) {
         if (z && i == 0) {
             return this;
         }
@@ -234,7 +262,7 @@ public final class zzab implements ObjectEncoderContext {
         return this;
     }
 
-    final zzab zze(FieldDescriptor fieldDescriptor, long j, boolean z) throws IOException {
+    final zzab zze(FieldDescriptor fieldDescriptor, long j, boolean z) {
         if (z && j == 0) {
             return this;
         }
@@ -255,11 +283,11 @@ public final class zzab implements ObjectEncoderContext {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final zzab zzf(Object obj) throws IOException {
+    public final zzab zzf(Object obj) {
         if (obj == null) {
             return this;
         }
-        ObjectEncoder<?> objectEncoder = this.zzc.get(obj.getClass());
+        ObjectEncoder objectEncoder = (ObjectEncoder) this.zzc.get(obj.getClass());
         if (objectEncoder != null) {
             objectEncoder.encode(obj, this);
             return this;
@@ -269,23 +297,5 @@ public final class zzab implements ObjectEncoderContext {
         sb.append("No encoder for ");
         sb.append(valueOf);
         throw new EncodingException(sb.toString());
-    }
-
-    @Override // com.google.firebase.encoders.ObjectEncoderContext
-    public final /* bridge */ /* synthetic */ ObjectEncoderContext add(FieldDescriptor fieldDescriptor, int i) throws IOException {
-        zzd(fieldDescriptor, i, true);
-        return this;
-    }
-
-    @Override // com.google.firebase.encoders.ObjectEncoderContext
-    public final /* bridge */ /* synthetic */ ObjectEncoderContext add(FieldDescriptor fieldDescriptor, long j) throws IOException {
-        zze(fieldDescriptor, j, true);
-        return this;
-    }
-
-    @Override // com.google.firebase.encoders.ObjectEncoderContext
-    public final ObjectEncoderContext add(FieldDescriptor fieldDescriptor, Object obj) throws IOException {
-        zza(fieldDescriptor, obj, true);
-        return this;
     }
 }

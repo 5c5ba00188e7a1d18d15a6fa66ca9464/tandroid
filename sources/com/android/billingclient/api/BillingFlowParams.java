@@ -1,9 +1,9 @@
 package com.android.billingclient.api;
 
 import android.text.TextUtils;
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.ArrayList;
 import java.util.List;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public class BillingFlowParams {
     private boolean zza;
@@ -14,7 +14,6 @@ public class BillingFlowParams {
     private ArrayList zzf;
     private boolean zzg;
 
-    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static class Builder {
         private String zza;
@@ -24,79 +23,62 @@ public class BillingFlowParams {
         private boolean zze;
         private SubscriptionUpdateParams.Builder zzf;
 
+        /* synthetic */ Builder(zzak zzakVar) {
+            SubscriptionUpdateParams.Builder newBuilder = SubscriptionUpdateParams.newBuilder();
+            SubscriptionUpdateParams.Builder.zza(newBuilder);
+            this.zzf = newBuilder;
+        }
+
         public BillingFlowParams build() {
-            com.google.android.gms.internal.play_billing.zzu zzk;
             ArrayList arrayList = this.zzd;
             boolean z = true;
             boolean z2 = (arrayList == null || arrayList.isEmpty()) ? false : true;
             List list = this.zzc;
             boolean z3 = (list == null || list.isEmpty()) ? false : true;
             if (z2 || z3) {
-                if (!z2 || !z3) {
-                    if (!z2) {
-                        ProductDetailsParams productDetailsParams = (ProductDetailsParams) this.zzc.get(0);
-                        for (int i = 0; i < this.zzc.size(); i++) {
-                            ProductDetailsParams productDetailsParams2 = (ProductDetailsParams) this.zzc.get(i);
-                            if (productDetailsParams2 != null) {
-                                if (i != 0 && !productDetailsParams2.zza().getProductType().equals(productDetailsParams.zza().getProductType()) && !productDetailsParams2.zza().getProductType().equals("play_pass_subs")) {
-                                    throw new IllegalArgumentException("All products should have same ProductType.");
-                                }
-                            } else {
-                                throw new IllegalArgumentException("ProductDetailsParams cannot be null.");
-                            }
-                        }
-                        String zza = productDetailsParams.zza().zza();
-                        for (ProductDetailsParams productDetailsParams3 : this.zzc) {
-                            if (!productDetailsParams.zza().getProductType().equals("play_pass_subs") && !productDetailsParams3.zza().getProductType().equals("play_pass_subs") && !zza.equals(productDetailsParams3.zza().zza())) {
-                                throw new IllegalArgumentException("All products must have the same package name.");
-                            }
-                        }
-                    } else if (this.zzd.contains(null)) {
-                        throw new IllegalArgumentException("SKU cannot be null.");
-                    } else {
-                        if (this.zzd.size() > 1) {
-                            SkuDetails skuDetails = (SkuDetails) this.zzd.get(0);
-                            String type = skuDetails.getType();
-                            ArrayList arrayList2 = this.zzd;
-                            int size = arrayList2.size();
-                            for (int i2 = 0; i2 < size; i2++) {
-                                SkuDetails skuDetails2 = (SkuDetails) arrayList2.get(i2);
-                                if (!type.equals("play_pass_subs") && !skuDetails2.getType().equals("play_pass_subs") && !type.equals(skuDetails2.getType())) {
-                                    throw new IllegalArgumentException("SKUs should have the same type.");
-                                }
-                            }
-                            String zzd = skuDetails.zzd();
-                            ArrayList arrayList3 = this.zzd;
-                            int size2 = arrayList3.size();
-                            for (int i3 = 0; i3 < size2; i3++) {
-                                SkuDetails skuDetails3 = (SkuDetails) arrayList3.get(i3);
-                                if (!type.equals("play_pass_subs") && !skuDetails3.getType().equals("play_pass_subs") && !zzd.equals(skuDetails3.zzd())) {
-                                    throw new IllegalArgumentException("All SKUs must have the same package name.");
-                                }
-                            }
-                        }
-                    }
-                    BillingFlowParams billingFlowParams = new BillingFlowParams(null);
-                    if ((!z2 || ((SkuDetails) this.zzd.get(0)).zzd().isEmpty()) && (!z3 || ((ProductDetailsParams) this.zzc.get(0)).zza().zza().isEmpty())) {
-                        z = false;
-                    }
-                    billingFlowParams.zza = z;
-                    billingFlowParams.zzb = this.zza;
-                    billingFlowParams.zzc = this.zzb;
-                    billingFlowParams.zzd = this.zzf.build();
-                    ArrayList arrayList4 = this.zzd;
-                    billingFlowParams.zzf = arrayList4 != null ? new ArrayList(arrayList4) : new ArrayList();
-                    billingFlowParams.zzg = this.zze;
-                    List list2 = this.zzc;
-                    if (list2 != null) {
-                        zzk = com.google.android.gms.internal.play_billing.zzu.zzj(list2);
-                    } else {
-                        zzk = com.google.android.gms.internal.play_billing.zzu.zzk();
-                    }
-                    billingFlowParams.zze = zzk;
-                    return billingFlowParams;
+                if (z2 && z3) {
+                    throw new IllegalArgumentException("Set SkuDetails or ProductDetailsParams, not both.");
                 }
-                throw new IllegalArgumentException("Set SkuDetails or ProductDetailsParams, not both.");
+                if (!z2) {
+                    ProductDetailsParams productDetailsParams = (ProductDetailsParams) this.zzc.get(0);
+                    for (int i = 0; i < this.zzc.size(); i++) {
+                        ProductDetailsParams productDetailsParams2 = (ProductDetailsParams) this.zzc.get(i);
+                        if (productDetailsParams2 == null) {
+                            throw new IllegalArgumentException("ProductDetailsParams cannot be null.");
+                        }
+                        if (i != 0 && !productDetailsParams2.zza().getProductType().equals(productDetailsParams.zza().getProductType()) && !productDetailsParams2.zza().getProductType().equals("play_pass_subs")) {
+                            throw new IllegalArgumentException("All products should have same ProductType.");
+                        }
+                    }
+                    String zza = productDetailsParams.zza().zza();
+                    for (ProductDetailsParams productDetailsParams3 : this.zzc) {
+                        if (!productDetailsParams.zza().getProductType().equals("play_pass_subs") && !productDetailsParams3.zza().getProductType().equals("play_pass_subs") && !zza.equals(productDetailsParams3.zza().zza())) {
+                            throw new IllegalArgumentException("All products must have the same package name.");
+                        }
+                    }
+                } else if (this.zzd.contains(null)) {
+                    throw new IllegalArgumentException("SKU cannot be null.");
+                } else {
+                    if (this.zzd.size() > 1) {
+                        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(this.zzd.get(0));
+                        throw null;
+                    }
+                }
+                BillingFlowParams billingFlowParams = new BillingFlowParams(null);
+                if (z2) {
+                    ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(this.zzd.get(0));
+                    throw null;
+                }
+                billingFlowParams.zza = (!z3 || ((ProductDetailsParams) this.zzc.get(0)).zza().zza().isEmpty()) ? false : false;
+                billingFlowParams.zzb = this.zza;
+                billingFlowParams.zzc = this.zzb;
+                billingFlowParams.zzd = this.zzf.build();
+                ArrayList arrayList2 = this.zzd;
+                billingFlowParams.zzf = arrayList2 != null ? new ArrayList(arrayList2) : new ArrayList();
+                billingFlowParams.zzg = this.zze;
+                List list2 = this.zzc;
+                billingFlowParams.zze = list2 != null ? com.google.android.gms.internal.play_billing.zzu.zzj(list2) : com.google.android.gms.internal.play_billing.zzu.zzk();
+                return billingFlowParams;
             }
             throw new IllegalArgumentException("Details of the products must be provided.");
         }
@@ -111,7 +93,7 @@ public class BillingFlowParams {
             return this;
         }
 
-        public Builder setProductDetailsParamsList(List<ProductDetailsParams> list) {
+        public Builder setProductDetailsParamsList(List list) {
             this.zzc = new ArrayList(list);
             return this;
         }
@@ -120,21 +102,13 @@ public class BillingFlowParams {
             this.zzf = SubscriptionUpdateParams.zzc(subscriptionUpdateParams);
             return this;
         }
-
-        /* synthetic */ Builder(zzak zzakVar) {
-            SubscriptionUpdateParams.Builder newBuilder = SubscriptionUpdateParams.newBuilder();
-            SubscriptionUpdateParams.Builder.zza(newBuilder);
-            this.zzf = newBuilder;
-        }
     }
 
-    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static final class ProductDetailsParams {
         private final ProductDetails zza;
         private final String zzb;
 
-        /* compiled from: com.android.billingclient:billing@@6.0.1 */
         /* loaded from: classes.dex */
         public static class Builder {
             private ProductDetails zza;
@@ -182,7 +156,6 @@ public class BillingFlowParams {
         }
     }
 
-    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static class SubscriptionUpdateParams {
         private String zza;
@@ -190,7 +163,6 @@ public class BillingFlowParams {
         private int zzc = 0;
         private int zzd = 0;
 
-        /* compiled from: com.android.billingclient:billing@@6.0.1 */
         /* loaded from: classes.dex */
         public static class Builder {
             private String zza;
@@ -210,18 +182,18 @@ public class BillingFlowParams {
             public SubscriptionUpdateParams build() {
                 boolean z = (TextUtils.isEmpty(this.zza) && TextUtils.isEmpty(null)) ? false : true;
                 boolean isEmpty = true ^ TextUtils.isEmpty(this.zzb);
-                if (!z || !isEmpty) {
-                    if (this.zzc || z || isEmpty) {
-                        SubscriptionUpdateParams subscriptionUpdateParams = new SubscriptionUpdateParams(null);
-                        subscriptionUpdateParams.zza = this.zza;
-                        subscriptionUpdateParams.zzc = this.zzd;
-                        subscriptionUpdateParams.zzd = this.zze;
-                        subscriptionUpdateParams.zzb = this.zzb;
-                        return subscriptionUpdateParams;
-                    }
-                    throw new IllegalArgumentException("Old SKU purchase information(token/id) or original external transaction id must be provided.");
+                if (z && isEmpty) {
+                    throw new IllegalArgumentException("Please provide Old SKU purchase information(token/id) or original external transaction id, not both.");
                 }
-                throw new IllegalArgumentException("Please provide Old SKU purchase information(token/id) or original external transaction id, not both.");
+                if (this.zzc || z || isEmpty) {
+                    SubscriptionUpdateParams subscriptionUpdateParams = new SubscriptionUpdateParams(null);
+                    subscriptionUpdateParams.zza = this.zza;
+                    subscriptionUpdateParams.zzc = this.zzd;
+                    subscriptionUpdateParams.zzd = this.zze;
+                    subscriptionUpdateParams.zzb = this.zzb;
+                    return subscriptionUpdateParams;
+                }
+                throw new IllegalArgumentException("Old SKU purchase information(token/id) or original external transaction id must be provided.");
             }
 
             public Builder setOldPurchaseToken(String str) {
@@ -229,7 +201,6 @@ public class BillingFlowParams {
                 return this;
             }
 
-            @Deprecated
             public Builder setOldSkuPurchaseToken(String str) {
                 this.zza = str;
                 return this;
@@ -240,7 +211,6 @@ public class BillingFlowParams {
                 return this;
             }
 
-            @Deprecated
             public Builder setReplaceSkusProrationMode(int i) {
                 this.zzd = i;
                 return this;
@@ -268,7 +238,6 @@ public class BillingFlowParams {
             return newBuilder;
         }
 
-        @Deprecated
         final int zza() {
             return this.zzc;
         }
@@ -293,7 +262,6 @@ public class BillingFlowParams {
         return new Builder(null);
     }
 
-    @Deprecated
     public final int zza() {
         return this.zzd.zza();
     }

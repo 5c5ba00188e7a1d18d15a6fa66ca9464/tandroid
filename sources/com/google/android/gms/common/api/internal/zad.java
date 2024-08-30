@@ -6,7 +6,6 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.TaskCompletionSource;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class zad extends zac {
     protected final TaskCompletionSource zaa;
@@ -16,7 +15,7 @@ public abstract class zad extends zac {
         this.zaa = taskCompletionSource;
     }
 
-    protected abstract void zac(zabq zabqVar) throws RemoteException;
+    protected abstract void zac(zabq zabqVar);
 
     @Override // com.google.android.gms.common.api.internal.zai
     public final void zad(Status status) {
@@ -29,7 +28,7 @@ public abstract class zad extends zac {
     }
 
     @Override // com.google.android.gms.common.api.internal.zai
-    public final void zaf(zabq zabqVar) throws DeadObjectException {
+    public final void zaf(zabq zabqVar) {
         try {
             zac(zabqVar);
         } catch (DeadObjectException e) {

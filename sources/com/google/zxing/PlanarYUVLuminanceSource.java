@@ -22,17 +22,24 @@ public final class PlanarYUVLuminanceSource extends LuminanceSource {
         }
     }
 
-    @Override // com.google.zxing.LuminanceSource
-    public byte[] getRow(int i, byte[] bArr) {
-        if (i < 0 || i >= getHeight()) {
-            throw new IllegalArgumentException("Requested row is outside the image: " + i);
+    private void reverseHorizontal(int i, int i2) {
+        byte[] bArr = this.yuvData;
+        int i3 = (this.top * this.dataWidth) + this.left;
+        int i4 = 0;
+        while (i4 < i2) {
+            int i5 = (i / 2) + i3;
+            int i6 = (i3 + i) - 1;
+            int i7 = i3;
+            while (i7 < i5) {
+                byte b = bArr[i7];
+                bArr[i7] = bArr[i6];
+                bArr[i6] = b;
+                i7++;
+                i6--;
+            }
+            i4++;
+            i3 += this.dataWidth;
         }
-        int width = getWidth();
-        if (bArr == null || bArr.length < width) {
-            bArr = new byte[width];
-        }
-        System.arraycopy(this.yuvData, ((i + this.top) * this.dataWidth) + this.left, bArr, 0, width);
-        return bArr;
     }
 
     @Override // com.google.zxing.LuminanceSource
@@ -57,23 +64,16 @@ public final class PlanarYUVLuminanceSource extends LuminanceSource {
         return bArr;
     }
 
-    private void reverseHorizontal(int i, int i2) {
-        byte[] bArr = this.yuvData;
-        int i3 = (this.top * this.dataWidth) + this.left;
-        int i4 = 0;
-        while (i4 < i2) {
-            int i5 = (i / 2) + i3;
-            int i6 = (i3 + i) - 1;
-            int i7 = i3;
-            while (i7 < i5) {
-                byte b = bArr[i7];
-                bArr[i7] = bArr[i6];
-                bArr[i6] = b;
-                i7++;
-                i6--;
-            }
-            i4++;
-            i3 += this.dataWidth;
+    @Override // com.google.zxing.LuminanceSource
+    public byte[] getRow(int i, byte[] bArr) {
+        if (i < 0 || i >= getHeight()) {
+            throw new IllegalArgumentException("Requested row is outside the image: " + i);
         }
+        int width = getWidth();
+        if (bArr == null || bArr.length < width) {
+            bArr = new byte[width];
+        }
+        System.arraycopy(this.yuvData, ((i + this.top) * this.dataWidth) + this.left, bArr, 0, width);
+        return bArr;
     }
 }

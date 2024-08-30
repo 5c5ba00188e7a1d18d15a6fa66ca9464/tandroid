@@ -8,12 +8,13 @@ final class LocaleListPlatformWrapper implements LocaleListInterface {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public LocaleListPlatformWrapper(Object obj) {
-        this.mLocaleList = LocaleListPlatformWrapper$$ExternalSyntheticApiModelOutline5.m(obj);
+        this.mLocaleList = LocaleListPlatformWrapper$$ExternalSyntheticApiModelOutline3.m(obj);
     }
 
-    @Override // androidx.core.os.LocaleListInterface
-    public Object getLocaleList() {
-        return this.mLocaleList;
+    public boolean equals(Object obj) {
+        boolean equals;
+        equals = this.mLocaleList.equals(((LocaleListInterface) obj).getLocaleList());
+        return equals;
     }
 
     @Override // androidx.core.os.LocaleListInterface
@@ -21,6 +22,17 @@ final class LocaleListPlatformWrapper implements LocaleListInterface {
         Locale locale;
         locale = this.mLocaleList.get(i);
         return locale;
+    }
+
+    @Override // androidx.core.os.LocaleListInterface
+    public Object getLocaleList() {
+        return this.mLocaleList;
+    }
+
+    public int hashCode() {
+        int hashCode;
+        hashCode = this.mLocaleList.hashCode();
+        return hashCode;
     }
 
     @Override // androidx.core.os.LocaleListInterface
@@ -37,28 +49,16 @@ final class LocaleListPlatformWrapper implements LocaleListInterface {
         return size;
     }
 
-    public boolean equals(Object obj) {
-        boolean equals;
-        equals = this.mLocaleList.equals(((LocaleListInterface) obj).getLocaleList());
-        return equals;
-    }
-
-    public int hashCode() {
-        int hashCode;
-        hashCode = this.mLocaleList.hashCode();
-        return hashCode;
+    @Override // androidx.core.os.LocaleListInterface
+    public String toLanguageTags() {
+        String languageTags;
+        languageTags = this.mLocaleList.toLanguageTags();
+        return languageTags;
     }
 
     public String toString() {
         String localeList;
         localeList = this.mLocaleList.toString();
         return localeList;
-    }
-
-    @Override // androidx.core.os.LocaleListInterface
-    public String toLanguageTags() {
-        String languageTags;
-        languageTags = this.mLocaleList.toLanguageTags();
-        return languageTags;
     }
 }

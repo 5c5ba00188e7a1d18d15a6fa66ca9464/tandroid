@@ -1,14 +1,11 @@
 package com.google.firebase.messaging.reporting;
 
 import com.google.android.gms.internal.firebase_messaging.zze;
-import com.google.android.gms.internal.firebase_messaging.zzz;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public final class MessagingClientEventExtension {
     private static final MessagingClientEventExtension DEFAULT_INSTANCE = new Builder().build();
     private final MessagingClientEvent messaging_client_event_;
 
-    /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
     /* loaded from: classes.dex */
     public static final class Builder {
         private MessagingClientEvent messaging_client_event_ = null;
@@ -34,7 +31,6 @@ public final class MessagingClientEventExtension {
         return new Builder();
     }
 
-    @zzz(zza = 1)
     public MessagingClientEvent getMessagingClientEventInternal() {
         return this.messaging_client_event_;
     }

@@ -1,5 +1,6 @@
 package com.google.android.gms.internal.clearcut;
 
+import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.api.Status;
 /* loaded from: classes.dex */
 final class zzi extends zzg {
@@ -14,6 +15,6 @@ final class zzi extends zzg {
 
     @Override // com.google.android.gms.internal.clearcut.zzl
     public final void zza(Status status) {
-        this.zzap.setResult((zzh) status);
+        this.zzap.setResult((Result) status);
     }
 }

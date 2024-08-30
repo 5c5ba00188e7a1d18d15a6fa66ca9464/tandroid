@@ -12,10 +12,10 @@ final class TextEmphasis {
     public final int markShape;
     public final int position;
     private static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
-    private static final ImmutableSet<String> SINGLE_STYLE_VALUES = ImmutableSet.of("auto", "none");
-    private static final ImmutableSet<String> MARK_SHAPE_VALUES = ImmutableSet.of("dot", "sesame", "circle");
-    private static final ImmutableSet<String> MARK_FILL_VALUES = ImmutableSet.of("filled", "open");
-    private static final ImmutableSet<String> POSITION_VALUES = ImmutableSet.of("after", "before", "outside");
+    private static final ImmutableSet SINGLE_STYLE_VALUES = ImmutableSet.of((Object) "auto", (Object) "none");
+    private static final ImmutableSet MARK_SHAPE_VALUES = ImmutableSet.of((Object) "dot", (Object) "sesame", (Object) "circle");
+    private static final ImmutableSet MARK_FILL_VALUES = ImmutableSet.of((Object) "filled", (Object) "open");
+    private static final ImmutableSet POSITION_VALUES = ImmutableSet.of((Object) "after", (Object) "before", (Object) "outside");
 
     private TextEmphasis(int i, int i2, int i3) {
         this.markShape = i;
@@ -43,7 +43,7 @@ final class TextEmphasis {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    private static TextEmphasis parseWords(ImmutableSet<String> immutableSet) {
+    private static TextEmphasis parseWords(ImmutableSet immutableSet) {
         char c;
         int i;
         int hashCode;

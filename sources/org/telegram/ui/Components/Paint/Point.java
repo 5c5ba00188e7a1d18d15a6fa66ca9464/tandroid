@@ -21,6 +21,11 @@ public class Point {
         this.edge = z;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public Point add(Point point) {
+        return new Point(this.x + point.x, this.y + point.y, this.z + point.z);
+    }
+
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -36,18 +41,8 @@ public class Point {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public Point multiplySum(Point point, double d) {
-        return new Point((this.x + point.x) * d, (this.y + point.y) * d, (this.z + point.z) * d);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Point add(Point point) {
-        return new Point(this.x + point.x, this.y + point.y, this.z + point.z);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Point substract(Point point) {
-        return new Point(this.x - point.x, this.y - point.y, this.z - point.z);
+    public float getDistanceTo(Point point) {
+        return (float) Math.sqrt(Math.pow(this.x - point.x, 2.0d) + Math.pow(this.y - point.y, 2.0d) + Math.pow(this.z - point.z, 2.0d));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -56,8 +51,13 @@ public class Point {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public float getDistanceTo(Point point) {
-        return (float) Math.sqrt(Math.pow(this.x - point.x, 2.0d) + Math.pow(this.y - point.y, 2.0d) + Math.pow(this.z - point.z, 2.0d));
+    public Point multiplySum(Point point, double d) {
+        return new Point((this.x + point.x) * d, (this.y + point.y) * d, (this.z + point.z) * d);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public Point substract(Point point) {
+        return new Point(this.x - point.x, this.y - point.y, this.z - point.z);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

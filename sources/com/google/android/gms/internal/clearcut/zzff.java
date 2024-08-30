@@ -3,7 +3,7 @@ package com.google.android.gms.internal.clearcut;
 import java.nio.ByteBuffer;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzff {
+public abstract class zzff {
     private static final zzfg zzqb;
 
     static {

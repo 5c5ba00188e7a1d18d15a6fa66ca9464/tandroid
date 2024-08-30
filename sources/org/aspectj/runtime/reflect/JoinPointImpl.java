@@ -34,6 +34,11 @@ public class JoinPointImpl implements JoinPoint {
             return this.signature;
         }
 
+        @Override // org.aspectj.lang.JoinPoint.StaticPart
+        public final String toString() {
+            return toString(StringMaker.middleStringMaker);
+        }
+
         String toString(StringMaker stringMaker) {
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append(stringMaker.makeKindName(getKind()));
@@ -41,11 +46,6 @@ public class JoinPointImpl implements JoinPoint {
             stringBuffer.append(((SignatureImpl) getSignature()).toString(stringMaker));
             stringBuffer.append(")");
             return stringBuffer.toString();
-        }
-
-        @Override // org.aspectj.lang.JoinPoint.StaticPart
-        public final String toString() {
-            return toString(StringMaker.middleStringMaker);
         }
     }
 

@@ -12,58 +12,16 @@ public abstract class SegmentBase {
     final long presentationTimeOffset;
     final long timescale;
 
-    public SegmentBase(RangedUri rangedUri, long j, long j2) {
-        this.initialization = rangedUri;
-        this.timescale = j;
-        this.presentationTimeOffset = j2;
-    }
-
-    public RangedUri getInitialization(Representation representation) {
-        return this.initialization;
-    }
-
-    public long getPresentationTimeOffsetUs() {
-        return Util.scaleLargeTimestamp(this.presentationTimeOffset, 1000000L, this.timescale);
-    }
-
-    /* loaded from: classes.dex */
-    public static class SingleSegmentBase extends SegmentBase {
-        final long indexLength;
-        final long indexStart;
-
-        public SingleSegmentBase(RangedUri rangedUri, long j, long j2, long j3, long j4) {
-            super(rangedUri, j, j2);
-            this.indexStart = j3;
-            this.indexLength = j4;
-        }
-
-        public SingleSegmentBase() {
-            this(null, 1L, 0L, 0L, 0L);
-        }
-
-        public RangedUri getIndex() {
-            long j = this.indexLength;
-            if (j <= 0) {
-                return null;
-            }
-            return new RangedUri(null, this.indexStart, j);
-        }
-    }
-
     /* loaded from: classes.dex */
     public static abstract class MultiSegmentBase extends SegmentBase {
         final long availabilityTimeOffsetUs;
         final long duration;
         private final long periodStartUnixTimeUs;
-        final List<SegmentTimelineElement> segmentTimeline;
+        final List segmentTimeline;
         final long startNumber;
         private final long timeShiftBufferDepthUs;
 
-        public abstract long getSegmentCount(long j);
-
-        public abstract RangedUri getSegmentUrl(Representation representation, long j);
-
-        public MultiSegmentBase(RangedUri rangedUri, long j, long j2, long j3, long j4, List<SegmentTimelineElement> list, long j5, long j6, long j7) {
+        public MultiSegmentBase(RangedUri rangedUri, long j, long j2, long j3, long j4, List list, long j5, long j6, long j7) {
             super(rangedUri, j, j2);
             this.startNumber = j3;
             this.duration = j4;
@@ -71,6 +29,44 @@ public abstract class SegmentBase {
             this.availabilityTimeOffsetUs = j5;
             this.timeShiftBufferDepthUs = j6;
             this.periodStartUnixTimeUs = j7;
+        }
+
+        public long getAvailableSegmentCount(long j, long j2) {
+            long segmentCount = getSegmentCount(j);
+            return segmentCount != -1 ? segmentCount : (int) (getSegmentNum((j2 - this.periodStartUnixTimeUs) + this.availabilityTimeOffsetUs, j) - getFirstAvailableSegmentNum(j, j2));
+        }
+
+        public long getFirstAvailableSegmentNum(long j, long j2) {
+            if (getSegmentCount(j) == -1) {
+                long j3 = this.timeShiftBufferDepthUs;
+                if (j3 != -9223372036854775807L) {
+                    return Math.max(getFirstSegmentNum(), getSegmentNum((j2 - this.periodStartUnixTimeUs) - j3, j));
+                }
+            }
+            return getFirstSegmentNum();
+        }
+
+        public long getFirstSegmentNum() {
+            return this.startNumber;
+        }
+
+        public long getNextSegmentAvailableTimeUs(long j, long j2) {
+            if (this.segmentTimeline != null) {
+                return -9223372036854775807L;
+            }
+            long firstAvailableSegmentNum = getFirstAvailableSegmentNum(j, j2) + getAvailableSegmentCount(j, j2);
+            return (getSegmentTimeUs(firstAvailableSegmentNum) + getSegmentDurationUs(firstAvailableSegmentNum, j)) - this.availabilityTimeOffsetUs;
+        }
+
+        public abstract long getSegmentCount(long j);
+
+        public final long getSegmentDurationUs(long j, long j2) {
+            List list = this.segmentTimeline;
+            if (list != null) {
+                return (((SegmentTimelineElement) list.get((int) (j - this.startNumber))).duration * 1000000) / this.timescale;
+            }
+            long segmentCount = getSegmentCount(j2);
+            return (segmentCount == -1 || j != (getFirstSegmentNum() + segmentCount) - 1) ? (this.duration * 1000000) / this.timescale : j2 - getSegmentTimeUs(j);
         }
 
         public long getSegmentNum(long j, long j2) {
@@ -99,55 +95,12 @@ public abstract class SegmentBase {
             return j5 == firstSegmentNum ? j5 : j4;
         }
 
-        public final long getSegmentDurationUs(long j, long j2) {
-            List<SegmentTimelineElement> list = this.segmentTimeline;
-            if (list != null) {
-                return (list.get((int) (j - this.startNumber)).duration * 1000000) / this.timescale;
-            }
-            long segmentCount = getSegmentCount(j2);
-            if (segmentCount != -1 && j == (getFirstSegmentNum() + segmentCount) - 1) {
-                return j2 - getSegmentTimeUs(j);
-            }
-            return (this.duration * 1000000) / this.timescale;
-        }
-
         public final long getSegmentTimeUs(long j) {
-            long j2;
-            List<SegmentTimelineElement> list = this.segmentTimeline;
-            if (list != null) {
-                j2 = list.get((int) (j - this.startNumber)).startTime - this.presentationTimeOffset;
-            } else {
-                j2 = (j - this.startNumber) * this.duration;
-            }
-            return Util.scaleLargeTimestamp(j2, 1000000L, this.timescale);
+            List list = this.segmentTimeline;
+            return Util.scaleLargeTimestamp(list != null ? ((SegmentTimelineElement) list.get((int) (j - this.startNumber))).startTime - this.presentationTimeOffset : (j - this.startNumber) * this.duration, 1000000L, this.timescale);
         }
 
-        public long getFirstSegmentNum() {
-            return this.startNumber;
-        }
-
-        public long getFirstAvailableSegmentNum(long j, long j2) {
-            if (getSegmentCount(j) == -1) {
-                long j3 = this.timeShiftBufferDepthUs;
-                if (j3 != -9223372036854775807L) {
-                    return Math.max(getFirstSegmentNum(), getSegmentNum((j2 - this.periodStartUnixTimeUs) - j3, j));
-                }
-            }
-            return getFirstSegmentNum();
-        }
-
-        public long getAvailableSegmentCount(long j, long j2) {
-            long segmentCount = getSegmentCount(j);
-            return segmentCount != -1 ? segmentCount : (int) (getSegmentNum((j2 - this.periodStartUnixTimeUs) + this.availabilityTimeOffsetUs, j) - getFirstAvailableSegmentNum(j, j2));
-        }
-
-        public long getNextSegmentAvailableTimeUs(long j, long j2) {
-            if (this.segmentTimeline != null) {
-                return -9223372036854775807L;
-            }
-            long firstAvailableSegmentNum = getFirstAvailableSegmentNum(j, j2) + getAvailableSegmentCount(j, j2);
-            return (getSegmentTimeUs(firstAvailableSegmentNum) + getSegmentDurationUs(firstAvailableSegmentNum, j)) - this.availabilityTimeOffsetUs;
-        }
+        public abstract RangedUri getSegmentUrl(Representation representation, long j);
 
         public boolean isExplicit() {
             return this.segmentTimeline != null;
@@ -156,26 +109,26 @@ public abstract class SegmentBase {
 
     /* loaded from: classes.dex */
     public static final class SegmentList extends MultiSegmentBase {
-        final List<RangedUri> mediaSegments;
+        final List mediaSegments;
 
-        @Override // com.google.android.exoplayer2.source.dash.manifest.SegmentBase.MultiSegmentBase
-        public boolean isExplicit() {
-            return true;
-        }
-
-        public SegmentList(RangedUri rangedUri, long j, long j2, long j3, long j4, List<SegmentTimelineElement> list, long j5, List<RangedUri> list2, long j6, long j7) {
+        public SegmentList(RangedUri rangedUri, long j, long j2, long j3, long j4, List list, long j5, List list2, long j6, long j7) {
             super(rangedUri, j, j2, j3, j4, list, j5, j6, j7);
             this.mediaSegments = list2;
         }
 
         @Override // com.google.android.exoplayer2.source.dash.manifest.SegmentBase.MultiSegmentBase
-        public RangedUri getSegmentUrl(Representation representation, long j) {
-            return this.mediaSegments.get((int) (j - this.startNumber));
+        public long getSegmentCount(long j) {
+            return this.mediaSegments.size();
         }
 
         @Override // com.google.android.exoplayer2.source.dash.manifest.SegmentBase.MultiSegmentBase
-        public long getSegmentCount(long j) {
-            return this.mediaSegments.size();
+        public RangedUri getSegmentUrl(Representation representation, long j) {
+            return (RangedUri) this.mediaSegments.get((int) (j - this.startNumber));
+        }
+
+        @Override // com.google.android.exoplayer2.source.dash.manifest.SegmentBase.MultiSegmentBase
+        public boolean isExplicit() {
+            return true;
         }
     }
 
@@ -185,7 +138,7 @@ public abstract class SegmentBase {
         final UrlTemplate initializationTemplate;
         final UrlTemplate mediaTemplate;
 
-        public SegmentTemplate(RangedUri rangedUri, long j, long j2, long j3, long j4, long j5, List<SegmentTimelineElement> list, long j6, UrlTemplate urlTemplate, UrlTemplate urlTemplate2, long j7, long j8) {
+        public SegmentTemplate(RangedUri rangedUri, long j, long j2, long j3, long j4, long j5, List list, long j6, UrlTemplate urlTemplate, UrlTemplate urlTemplate2, long j7, long j8) {
             super(rangedUri, j, j2, j3, j5, list, j6, j7, j8);
             this.initializationTemplate = urlTemplate;
             this.mediaTemplate = urlTemplate2;
@@ -203,23 +156,8 @@ public abstract class SegmentBase {
         }
 
         @Override // com.google.android.exoplayer2.source.dash.manifest.SegmentBase.MultiSegmentBase
-        public RangedUri getSegmentUrl(Representation representation, long j) {
-            long j2;
-            List<SegmentTimelineElement> list = this.segmentTimeline;
-            if (list != null) {
-                j2 = list.get((int) (j - this.startNumber)).startTime;
-            } else {
-                j2 = (j - this.startNumber) * this.duration;
-            }
-            long j3 = j2;
-            UrlTemplate urlTemplate = this.mediaTemplate;
-            Format format = representation.format;
-            return new RangedUri(urlTemplate.buildUri(format.id, j, format.bitrate, j3), 0L, -1L);
-        }
-
-        @Override // com.google.android.exoplayer2.source.dash.manifest.SegmentBase.MultiSegmentBase
         public long getSegmentCount(long j) {
-            List<SegmentTimelineElement> list = this.segmentTimeline;
+            List list = this.segmentTimeline;
             if (list != null) {
                 return list.size();
             }
@@ -231,6 +169,15 @@ public abstract class SegmentBase {
                 return BigIntegerMath.divide(BigInteger.valueOf(j).multiply(BigInteger.valueOf(this.timescale)), BigInteger.valueOf(this.duration).multiply(BigInteger.valueOf(1000000L)), RoundingMode.CEILING).longValue();
             }
             return -1L;
+        }
+
+        @Override // com.google.android.exoplayer2.source.dash.manifest.SegmentBase.MultiSegmentBase
+        public RangedUri getSegmentUrl(Representation representation, long j) {
+            List list = this.segmentTimeline;
+            long j2 = list != null ? ((SegmentTimelineElement) list.get((int) (j - this.startNumber))).startTime : (j - this.startNumber) * this.duration;
+            UrlTemplate urlTemplate = this.mediaTemplate;
+            Format format = representation.format;
+            return new RangedUri(urlTemplate.buildUri(format.id, j, format.bitrate, j2), 0L, -1L);
         }
     }
 
@@ -258,5 +205,43 @@ public abstract class SegmentBase {
         public int hashCode() {
             return (((int) this.startTime) * 31) + ((int) this.duration);
         }
+    }
+
+    /* loaded from: classes.dex */
+    public static class SingleSegmentBase extends SegmentBase {
+        final long indexLength;
+        final long indexStart;
+
+        public SingleSegmentBase() {
+            this(null, 1L, 0L, 0L, 0L);
+        }
+
+        public SingleSegmentBase(RangedUri rangedUri, long j, long j2, long j3, long j4) {
+            super(rangedUri, j, j2);
+            this.indexStart = j3;
+            this.indexLength = j4;
+        }
+
+        public RangedUri getIndex() {
+            long j = this.indexLength;
+            if (j <= 0) {
+                return null;
+            }
+            return new RangedUri(null, this.indexStart, j);
+        }
+    }
+
+    public SegmentBase(RangedUri rangedUri, long j, long j2) {
+        this.initialization = rangedUri;
+        this.timescale = j;
+        this.presentationTimeOffset = j2;
+    }
+
+    public RangedUri getInitialization(Representation representation) {
+        return this.initialization;
+    }
+
+    public long getPresentationTimeOffsetUs() {
+        return Util.scaleLargeTimestamp(this.presentationTimeOffset, 1000000L, this.timescale);
     }
 }

@@ -26,17 +26,6 @@ public class JobInfoScheduler implements WorkScheduler {
         this.config = schedulerConfig;
     }
 
-    int getJobId(TransportContext transportContext) {
-        Adler32 adler32 = new Adler32();
-        adler32.update(this.context.getPackageName().getBytes(Charset.forName("UTF-8")));
-        adler32.update(transportContext.getBackendName().getBytes(Charset.forName("UTF-8")));
-        adler32.update(ByteBuffer.allocate(4).putInt(PriorityMapping.toInt(transportContext.getPriority())).array());
-        if (transportContext.getExtras() != null) {
-            adler32.update(transportContext.getExtras());
-        }
-        return (int) adler32.getValue();
-    }
-
     private boolean isJobServiceOn(JobScheduler jobScheduler, int i, int i2) {
         List<Object> allPendingJobs;
         PersistableBundle extras;
@@ -53,6 +42,17 @@ public class JobInfoScheduler implements WorkScheduler {
             }
         }
         return false;
+    }
+
+    int getJobId(TransportContext transportContext) {
+        Adler32 adler32 = new Adler32();
+        adler32.update(this.context.getPackageName().getBytes(Charset.forName("UTF-8")));
+        adler32.update(transportContext.getBackendName().getBytes(Charset.forName("UTF-8")));
+        adler32.update(ByteBuffer.allocate(4).putInt(PriorityMapping.toInt(transportContext.getPriority())).array());
+        if (transportContext.getExtras() != null) {
+            adler32.update(transportContext.getExtras());
+        }
+        return (int) adler32.getValue();
     }
 
     @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkScheduler

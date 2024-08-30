@@ -42,7 +42,7 @@ public class TLRPC$Message extends TLObject {
     public boolean offline;
     public String originalLanguage;
     public boolean out;
-    public HashMap<String, String> params;
+    public HashMap params;
     public TLRPC$Peer peer_id;
     public boolean pinned;
     public boolean post;
@@ -79,8 +79,8 @@ public class TLRPC$Message extends TLObject {
     public boolean voiceTranscriptionOpen;
     public boolean voiceTranscriptionRated;
     public boolean with_my_score;
-    public ArrayList<TLRPC$MessageEntity> entities = new ArrayList<>();
-    public ArrayList<TLRPC$RestrictionReason> restriction_reason = new ArrayList<>();
+    public ArrayList entities = new ArrayList();
+    public ArrayList restriction_reason = new ArrayList();
     public int send_state = 0;
     public int fwd_msg_id = 0;
     public String attachPath = "";
@@ -258,7 +258,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i12 = 0; i12 < size; i12++) {
-                                this.entities.get(i12).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i12)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -284,7 +284,7 @@ public class TLRPC$Message extends TLObject {
                             int size2 = this.restriction_reason.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i13 = 0; i13 < size2; i13++) {
-                                this.restriction_reason.get(i13).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$RestrictionReason) this.restriction_reason.get(i13)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
@@ -411,7 +411,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i7 = 0; i7 < size; i7++) {
-                                this.entities.get(i7).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i7)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -576,7 +576,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i10 = 0; i10 < size; i10++) {
-                                this.entities.get(i10).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i10)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -599,7 +599,7 @@ public class TLRPC$Message extends TLObject {
                             int size2 = this.restriction_reason.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i11 = 0; i11 < size2; i11++) {
-                                this.restriction_reason.get(i11).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$RestrictionReason) this.restriction_reason.get(i11)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         writeAttachPath(abstractSerializedData2);
@@ -887,7 +887,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i14 = 0; i14 < size; i14++) {
-                                this.entities.get(i14).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i14)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -916,7 +916,7 @@ public class TLRPC$Message extends TLObject {
                             int size2 = this.restriction_reason.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i15 = 0; i15 < size2; i15++) {
-                                this.restriction_reason.get(i15).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$RestrictionReason) this.restriction_reason.get(i15)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
@@ -1103,7 +1103,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i13 = 0; i13 < size; i13++) {
-                                this.entities.get(i13).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i13)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -1132,7 +1132,7 @@ public class TLRPC$Message extends TLObject {
                             int size2 = this.restriction_reason.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i14 = 0; i14 < size2; i14++) {
-                                this.restriction_reason.get(i14).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$RestrictionReason) this.restriction_reason.get(i14)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
@@ -1364,7 +1364,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i11 = 0; i11 < size; i11++) {
-                                this.entities.get(i11).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i11)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -1390,7 +1390,7 @@ public class TLRPC$Message extends TLObject {
                             int size2 = this.restriction_reason.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i12 = 0; i12 < size2; i12++) {
-                                this.restriction_reason.get(i12).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$RestrictionReason) this.restriction_reason.get(i12)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
@@ -1589,7 +1589,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i14 = 0; i14 < size; i14++) {
-                                this.entities.get(i14).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i14)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -1618,7 +1618,7 @@ public class TLRPC$Message extends TLObject {
                             int size2 = this.restriction_reason.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i15 = 0; i15 < size2; i15++) {
-                                this.restriction_reason.get(i15).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$RestrictionReason) this.restriction_reason.get(i15)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
@@ -1807,7 +1807,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i9 = 0; i9 < size; i9++) {
-                                this.entities.get(i9).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i9)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -2013,7 +2013,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i6 = 0; i6 < size; i6++) {
-                                this.entities.get(i6).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i6)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -2115,7 +2115,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i6 = 0; i6 < size; i6++) {
-                                this.entities.get(i6).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i6)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         writeAttachPath(abstractSerializedData2);
@@ -2268,7 +2268,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i10 = 0; i10 < size; i10++) {
-                                this.entities.get(i10).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i10)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -2291,7 +2291,7 @@ public class TLRPC$Message extends TLObject {
                             int size2 = this.restriction_reason.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i11 = 0; i11 < size2; i11++) {
-                                this.restriction_reason.get(i11).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$RestrictionReason) this.restriction_reason.get(i11)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         writeAttachPath(abstractSerializedData2);
@@ -2476,7 +2476,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i10 = 0; i10 < size; i10++) {
-                                this.entities.get(i10).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i10)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -2712,7 +2712,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i13 = 0; i13 < size; i13++) {
-                                this.entities.get(i13).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i13)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -2741,7 +2741,7 @@ public class TLRPC$Message extends TLObject {
                             int size2 = this.restriction_reason.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i14 = 0; i14 < size2; i14++) {
-                                this.restriction_reason.get(i14).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$RestrictionReason) this.restriction_reason.get(i14)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
@@ -2943,7 +2943,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i6 = 0; i6 < size; i6++) {
-                                this.entities.get(i6).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i6)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         writeAttachPath(abstractSerializedData2);
@@ -3109,7 +3109,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i13 = 0; i13 < size; i13++) {
-                                this.entities.get(i13).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i13)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -3138,7 +3138,7 @@ public class TLRPC$Message extends TLObject {
                             int size2 = this.restriction_reason.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i14 = 0; i14 < size2; i14++) {
-                                this.restriction_reason.get(i14).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$RestrictionReason) this.restriction_reason.get(i14)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
@@ -3271,7 +3271,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i9 = 0; i9 < size; i9++) {
-                                this.entities.get(i9).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i9)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -3433,7 +3433,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i10 = 0; i10 < size; i10++) {
-                                this.entities.get(i10).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i10)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -3453,7 +3453,7 @@ public class TLRPC$Message extends TLObject {
                             int size2 = this.restriction_reason.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i11 = 0; i11 < size2; i11++) {
-                                this.restriction_reason.get(i11).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$RestrictionReason) this.restriction_reason.get(i11)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         writeAttachPath(abstractSerializedData2);
@@ -3580,7 +3580,7 @@ public class TLRPC$Message extends TLObject {
                         int size = this.entities.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i6 = 0; i6 < size; i6++) {
-                            this.entities.get(i6).serializeToStream(abstractSerializedData2);
+                            ((TLRPC$MessageEntity) this.entities.get(i6)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 2048) != 0) {
                             abstractSerializedData2.writeString(this.via_bot_name);
@@ -3789,7 +3789,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i11 = 0; i11 < size; i11++) {
-                                this.entities.get(i11).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i11)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -3815,7 +3815,7 @@ public class TLRPC$Message extends TLObject {
                             int size2 = this.restriction_reason.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i12 = 0; i12 < size2; i12++) {
-                                this.restriction_reason.get(i12).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$RestrictionReason) this.restriction_reason.get(i12)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         writeAttachPath(abstractSerializedData2);
@@ -3935,7 +3935,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i6 = 0; i6 < size; i6++) {
-                                this.entities.get(i6).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i6)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -4110,7 +4110,7 @@ public class TLRPC$Message extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i13 = 0; i13 < size; i13++) {
-                                this.entities.get(i13).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i13)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 1024) != 0) {
@@ -4139,7 +4139,7 @@ public class TLRPC$Message extends TLObject {
                             int size2 = this.restriction_reason.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i14 = 0; i14 < size2; i14++) {
-                                this.restriction_reason.get(i14).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$RestrictionReason) this.restriction_reason.get(i14)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
@@ -4206,7 +4206,7 @@ public class TLRPC$Message extends TLObject {
                 }
                 if (z2 && z) {
                     if (this.message.length() > 6 && this.message.charAt(2) == '_') {
-                        HashMap<String, String> hashMap = new HashMap<>();
+                        HashMap hashMap = new HashMap();
                         this.params = hashMap;
                         hashMap.put("ve", this.message);
                     }
@@ -4222,7 +4222,7 @@ public class TLRPC$Message extends TLObject {
                             String[] split = this.attachPath.split("\\|\\|");
                             if (split.length > 0) {
                                 if (this.params == null) {
-                                    this.params = new HashMap<>();
+                                    this.params = new HashMap();
                                 }
                                 for (int i = 1; i < split.length - 1; i++) {
                                     String[] split2 = split[i].split("\\|=\\|");
@@ -4253,7 +4253,7 @@ public class TLRPC$Message extends TLObject {
         }
         if (z2) {
             if (this.message.length() > 6) {
-                HashMap<String, String> hashMap2 = new HashMap<>();
+                HashMap hashMap2 = new HashMap();
                 this.params = hashMap2;
                 hashMap2.put("ve", this.message);
             }
@@ -4269,16 +4269,16 @@ public class TLRPC$Message extends TLObject {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public void writeAttachPath(AbstractSerializedData abstractSerializedData) {
-        HashMap<String, String> hashMap;
-        HashMap<String, String> hashMap2;
+        HashMap hashMap;
+        HashMap hashMap2;
         if ((this instanceof TLRPC$TL_message_secret) || (this instanceof TLRPC$TL_message_secret_layer72)) {
             String str = this.attachPath;
             if (str == null) {
                 str = "";
             }
             if (this.send_state == 1 && (hashMap = this.params) != null && hashMap.size() > 0) {
-                for (Map.Entry<String, String> entry : this.params.entrySet()) {
-                    str = entry.getKey() + "|=|" + entry.getValue() + "||" + str;
+                for (Map.Entry entry : this.params.entrySet()) {
+                    str = ((String) entry.getKey()) + "|=|" + ((String) entry.getValue()) + "||" + str;
                 }
                 str = "||" + str;
             }
@@ -4288,14 +4288,14 @@ public class TLRPC$Message extends TLObject {
         String str2 = !TextUtils.isEmpty(this.attachPath) ? this.attachPath : " ";
         if (this.legacy) {
             if (this.params == null) {
-                this.params = new HashMap<>();
+                this.params = new HashMap();
             }
             this.layer = NotificationCenter.didUpdatePremiumGiftFieldIcon;
             this.params.put("legacy_layer", "186");
         }
         if ((this.id < 0 || this.send_state == 3 || this.legacy) && (hashMap2 = this.params) != null && hashMap2.size() > 0) {
-            for (Map.Entry<String, String> entry2 : this.params.entrySet()) {
-                str2 = entry2.getKey() + "|=|" + entry2.getValue() + "||" + str2;
+            for (Map.Entry entry2 : this.params.entrySet()) {
+                str2 = ((String) entry2.getKey()) + "|=|" + ((String) entry2.getValue()) + "||" + str2;
             }
             str2 = "||" + str2;
         }

@@ -1,7 +1,6 @@
 package com.google.android.play.core.integrity;
 
 import com.google.android.gms.tasks.Task;
-/* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
 final class aa implements IntegrityManager {
     private final aj a;
@@ -12,7 +11,7 @@ final class aa implements IntegrityManager {
     }
 
     @Override // com.google.android.play.core.integrity.IntegrityManager
-    public final Task<IntegrityTokenResponse> requestIntegrityToken(IntegrityTokenRequest integrityTokenRequest) {
+    public final Task requestIntegrityToken(IntegrityTokenRequest integrityTokenRequest) {
         return this.a.c(integrityTokenRequest);
     }
 }

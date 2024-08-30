@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class Metadata implements Parcelable {
-    public static final Parcelable.Creator<Metadata> CREATOR = new Parcelable.Creator<Metadata>() { // from class: com.google.android.exoplayer2.metadata.Metadata.1
+    public static final Parcelable.Creator<Metadata> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.Metadata.1
         @Override // android.os.Parcelable.Creator
         public Metadata createFromParcel(Parcel parcel) {
             return new Metadata(parcel);
@@ -28,7 +28,7 @@ public final class Metadata implements Parcelable {
     public interface Entry extends Parcelable {
 
         /* loaded from: classes.dex */
-        public final /* synthetic */ class -CC {
+        public abstract /* synthetic */ class -CC {
             public static byte[] $default$getWrappedMetadataBytes(Entry entry) {
                 return null;
             }
@@ -48,13 +48,8 @@ public final class Metadata implements Parcelable {
         void populateMediaMetadata(MediaMetadata.Builder builder);
     }
 
-    @Override // android.os.Parcelable
-    public int describeContents() {
-        return 0;
-    }
-
-    public Metadata(Entry... entryArr) {
-        this(-9223372036854775807L, entryArr);
+    public Metadata(long j, List list) {
+        this(j, (Entry[]) list.toArray(new Entry[0]));
     }
 
     public Metadata(long j, Entry... entryArr) {
@@ -62,47 +57,44 @@ public final class Metadata implements Parcelable {
         this.entries = entryArr;
     }
 
-    public Metadata(List<? extends Entry> list) {
-        this((Entry[]) list.toArray(new Entry[0]));
-    }
-
-    public Metadata(long j, List<? extends Entry> list) {
-        this(j, (Entry[]) list.toArray(new Entry[0]));
-    }
-
     Metadata(Parcel parcel) {
         this.entries = new Entry[parcel.readInt()];
         int i = 0;
         while (true) {
             Entry[] entryArr = this.entries;
-            if (i < entryArr.length) {
-                entryArr[i] = (Entry) parcel.readParcelable(Entry.class.getClassLoader());
-                i++;
-            } else {
+            if (i >= entryArr.length) {
                 this.presentationTimeUs = parcel.readLong();
                 return;
+            } else {
+                entryArr[i] = (Entry) parcel.readParcelable(Entry.class.getClassLoader());
+                i++;
             }
         }
     }
 
-    public int length() {
-        return this.entries.length;
+    public Metadata(List list) {
+        this((Entry[]) list.toArray(new Entry[0]));
     }
 
-    public Entry get(int i) {
-        return this.entries[i];
-    }
-
-    public Metadata copyWithAppendedEntriesFrom(Metadata metadata) {
-        return metadata == null ? this : copyWithAppendedEntries(metadata.entries);
+    public Metadata(Entry... entryArr) {
+        this(-9223372036854775807L, entryArr);
     }
 
     public Metadata copyWithAppendedEntries(Entry... entryArr) {
         return entryArr.length == 0 ? this : new Metadata(this.presentationTimeUs, (Entry[]) Util.nullSafeArrayConcatenation(this.entries, entryArr));
     }
 
+    public Metadata copyWithAppendedEntriesFrom(Metadata metadata) {
+        return metadata == null ? this : copyWithAppendedEntries(metadata.entries);
+    }
+
     public Metadata copyWithPresentationTimeUs(long j) {
         return this.presentationTimeUs == j ? this : new Metadata(j, this.entries);
+    }
+
+    @Override // android.os.Parcelable
+    public int describeContents() {
+        return 0;
     }
 
     public boolean equals(Object obj) {
@@ -116,8 +108,16 @@ public final class Metadata implements Parcelable {
         return Arrays.equals(this.entries, metadata.entries) && this.presentationTimeUs == metadata.presentationTimeUs;
     }
 
+    public Entry get(int i) {
+        return this.entries[i];
+    }
+
     public int hashCode() {
         return (Arrays.hashCode(this.entries) * 31) + Longs.hashCode(this.presentationTimeUs);
+    }
+
+    public int length() {
+        return this.entries.length;
     }
 
     public String toString() {

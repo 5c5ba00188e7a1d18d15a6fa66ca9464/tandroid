@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.clearcut;
 
 import android.os.Parcel;
-import android.os.RemoteException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.data.DataHolder;
 /* loaded from: classes.dex */
@@ -11,7 +10,7 @@ public abstract class zzm extends zzb implements zzl {
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzb
-    protected final boolean dispatchTransaction(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
+    protected final boolean dispatchTransaction(int i, Parcel parcel, Parcel parcel2, int i2) {
         switch (i) {
             case 1:
                 zza((Status) zzc.zza(parcel, Status.CREATOR));

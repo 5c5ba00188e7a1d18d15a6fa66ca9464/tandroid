@@ -3,7 +3,6 @@ package com.coremedia.iso.boxes.sampleentry;
 import com.coremedia.iso.IsoTypeWriter;
 import com.coremedia.iso.Utf8;
 import com.coremedia.iso.boxes.Container;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 /* loaded from: classes.dex */
@@ -27,64 +26,8 @@ public final class VisualSampleEntry extends AbstractSampleEntry implements Cont
         this.predefined = new long[3];
     }
 
-    public int getWidth() {
-        return this.width;
-    }
-
-    public void setWidth(int i) {
-        this.width = i;
-    }
-
-    public int getHeight() {
-        return this.height;
-    }
-
-    public void setHeight(int i) {
-        this.height = i;
-    }
-
-    public double getHorizresolution() {
-        return this.horizresolution;
-    }
-
-    public void setHorizresolution(double d) {
-        this.horizresolution = d;
-    }
-
-    public double getVertresolution() {
-        return this.vertresolution;
-    }
-
-    public void setVertresolution(double d) {
-        this.vertresolution = d;
-    }
-
-    public int getFrameCount() {
-        return this.frameCount;
-    }
-
-    public void setFrameCount(int i) {
-        this.frameCount = i;
-    }
-
-    public String getCompressorname() {
-        return this.compressorname;
-    }
-
-    public void setCompressorname(String str) {
-        this.compressorname = str;
-    }
-
-    public int getDepth() {
-        return this.depth;
-    }
-
-    public void setDepth(int i) {
-        this.depth = i;
-    }
-
     @Override // com.googlecode.mp4parser.AbstractContainerBox, com.coremedia.iso.boxes.Box
-    public void getBox(WritableByteChannel writableByteChannel) throws IOException {
+    public void getBox(WritableByteChannel writableByteChannel) {
         writableByteChannel.write(getHeader());
         ByteBuffer allocate = ByteBuffer.allocate(78);
         allocate.position(6);
@@ -113,9 +56,65 @@ public final class VisualSampleEntry extends AbstractSampleEntry implements Cont
         writeContainer(writableByteChannel);
     }
 
+    public String getCompressorname() {
+        return this.compressorname;
+    }
+
+    public int getDepth() {
+        return this.depth;
+    }
+
+    public int getFrameCount() {
+        return this.frameCount;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public double getHorizresolution() {
+        return this.horizresolution;
+    }
+
     @Override // com.googlecode.mp4parser.AbstractContainerBox, com.coremedia.iso.boxes.Box
     public long getSize() {
         long containerSize = getContainerSize();
         return 78 + containerSize + ((this.largeBox || containerSize + 86 >= 4294967296L) ? 16 : 8);
+    }
+
+    public double getVertresolution() {
+        return this.vertresolution;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public void setCompressorname(String str) {
+        this.compressorname = str;
+    }
+
+    public void setDepth(int i) {
+        this.depth = i;
+    }
+
+    public void setFrameCount(int i) {
+        this.frameCount = i;
+    }
+
+    public void setHeight(int i) {
+        this.height = i;
+    }
+
+    public void setHorizresolution(double d) {
+        this.horizresolution = d;
+    }
+
+    public void setVertresolution(double d) {
+        this.vertresolution = d;
+    }
+
+    public void setWidth(int i) {
+        this.width = i;
     }
 }

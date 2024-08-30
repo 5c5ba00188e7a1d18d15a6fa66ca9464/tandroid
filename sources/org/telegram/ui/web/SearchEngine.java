@@ -11,7 +11,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 /* loaded from: classes.dex */
 public class SearchEngine {
-    private static ArrayList<SearchEngine> searchEngines;
+    private static ArrayList searchEngines;
     public final String autocomplete_url;
     public final String name;
     public final String privacy_policy_url;
@@ -24,22 +24,38 @@ public class SearchEngine {
         this.privacy_policy_url = str4;
     }
 
-    public String getSearchURL(String str) {
-        if (this.search_url == null) {
-            return null;
-        }
-        return this.search_url + URLEncoder.encode(str);
+    public static SearchEngine getCurrent() {
+        ArrayList searchEngines2 = getSearchEngines();
+        return (SearchEngine) searchEngines2.get(Utilities.clamp(SharedConfig.searchEngineType, searchEngines2.size() - 1, 0));
     }
 
-    public String getAutocompleteURL(String str) {
-        if (this.autocomplete_url == null) {
-            return null;
+    public static ArrayList getSearchEngines() {
+        if (searchEngines == null) {
+            searchEngines = new ArrayList();
+            int i = 1;
+            while (true) {
+                String nullable = nullable(LocaleController.getString("SearchEngine" + i + "Name"));
+                if (nullable == null) {
+                    break;
+                }
+                String nullable2 = nullable(LocaleController.getString("SearchEngine" + i + "SearchURL"));
+                String nullable3 = nullable(LocaleController.getString("SearchEngine" + i + "AutocompleteURL"));
+                searchEngines.add(new SearchEngine(nullable, nullable2, nullable3, nullable(LocaleController.getString("SearchEngine" + i + "PrivacyPolicyURL"))));
+                i++;
+            }
         }
-        return this.autocomplete_url + URLEncoder.encode(str);
+        return searchEngines;
     }
 
-    public ArrayList<String> extractSuggestions(String str) {
-        ArrayList<String> arrayList = new ArrayList<>();
+    private static String nullable(String str) {
+        if (str == null || str.startsWith("LOC_ERR") || "reserved".equals(str)) {
+            return null;
+        }
+        return str;
+    }
+
+    public ArrayList extractSuggestions(String str) {
+        ArrayList arrayList = new ArrayList();
         try {
             JSONArray jSONArray = new JSONArray(str).getJSONArray(1);
             for (int i = 0; i < jSONArray.length(); i++) {
@@ -70,33 +86,17 @@ public class SearchEngine {
         return arrayList;
     }
 
-    public static ArrayList<SearchEngine> getSearchEngines() {
-        if (searchEngines == null) {
-            searchEngines = new ArrayList<>();
-            int i = 1;
-            while (true) {
-                String nullable = nullable(LocaleController.getString("SearchEngine" + i + "Name"));
-                if (nullable == null) {
-                    break;
-                }
-                String nullable2 = nullable(LocaleController.getString("SearchEngine" + i + "SearchURL"));
-                String nullable3 = nullable(LocaleController.getString("SearchEngine" + i + "AutocompleteURL"));
-                searchEngines.add(new SearchEngine(nullable, nullable2, nullable3, nullable(LocaleController.getString("SearchEngine" + i + "PrivacyPolicyURL"))));
-                i++;
-            }
-        }
-        return searchEngines;
-    }
-
-    private static String nullable(String str) {
-        if (str == null || str.startsWith("LOC_ERR") || "reserved".equals(str)) {
+    public String getAutocompleteURL(String str) {
+        if (this.autocomplete_url == null) {
             return null;
         }
-        return str;
+        return this.autocomplete_url + URLEncoder.encode(str);
     }
 
-    public static SearchEngine getCurrent() {
-        ArrayList<SearchEngine> searchEngines2 = getSearchEngines();
-        return searchEngines2.get(Utilities.clamp(SharedConfig.searchEngineType, searchEngines2.size() - 1, 0));
+    public String getSearchURL(String str) {
+        if (this.search_url == null) {
+            return null;
+        }
+        return this.search_url + URLEncoder.encode(str);
     }
 }

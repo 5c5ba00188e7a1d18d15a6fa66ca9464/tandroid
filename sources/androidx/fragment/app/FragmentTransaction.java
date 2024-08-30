@@ -12,25 +12,19 @@ public abstract class FragmentTransaction {
     int mBreadCrumbTitleRes;
     CharSequence mBreadCrumbTitleText;
     private final ClassLoader mClassLoader;
-    ArrayList<Runnable> mCommitRunnables;
+    ArrayList mCommitRunnables;
     int mEnterAnim;
     int mExitAnim;
     private final FragmentFactory mFragmentFactory;
     String mName;
     int mPopEnterAnim;
     int mPopExitAnim;
-    ArrayList<String> mSharedElementSourceNames;
-    ArrayList<String> mSharedElementTargetNames;
+    ArrayList mSharedElementSourceNames;
+    ArrayList mSharedElementTargetNames;
     int mTransition;
-    ArrayList<Op> mOps = new ArrayList<>();
+    ArrayList mOps = new ArrayList();
     boolean mAllowAddToBackStack = true;
     boolean mReorderingAllowed = false;
-
-    public abstract int commit();
-
-    public abstract int commitAllowingStateLoss();
-
-    public abstract void commitNowAllowingStateLoss();
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
@@ -64,20 +58,6 @@ public abstract class FragmentTransaction {
         this.mClassLoader = classLoader;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void addOp(Op op) {
-        this.mOps.add(op);
-        op.mEnterAnim = this.mEnterAnim;
-        op.mExitAnim = this.mExitAnim;
-        op.mPopEnterAnim = this.mPopEnterAnim;
-        op.mPopExitAnim = this.mPopExitAnim;
-    }
-
-    public FragmentTransaction add(Fragment fragment, String str) {
-        doAddOp(0, fragment, str, 1);
-        return this;
-    }
-
     public FragmentTransaction add(int i, Fragment fragment, String str) {
         doAddOp(i, fragment, str, 1);
         return this;
@@ -87,6 +67,34 @@ public abstract class FragmentTransaction {
     public FragmentTransaction add(ViewGroup viewGroup, Fragment fragment, String str) {
         fragment.mContainer = viewGroup;
         return add(viewGroup.getId(), fragment, str);
+    }
+
+    public FragmentTransaction add(Fragment fragment, String str) {
+        doAddOp(0, fragment, str, 1);
+        return this;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void addOp(Op op) {
+        this.mOps.add(op);
+        op.mEnterAnim = this.mEnterAnim;
+        op.mExitAnim = this.mExitAnim;
+        op.mPopEnterAnim = this.mPopEnterAnim;
+        op.mPopExitAnim = this.mPopExitAnim;
+    }
+
+    public abstract int commit();
+
+    public abstract int commitAllowingStateLoss();
+
+    public abstract void commitNowAllowingStateLoss();
+
+    public FragmentTransaction disallowAddToBackStack() {
+        if (this.mAddToBackStack) {
+            throw new IllegalStateException("This transaction is already being added to the back stack");
+        }
+        this.mAllowAddToBackStack = false;
+        return this;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -119,14 +127,6 @@ public abstract class FragmentTransaction {
 
     public FragmentTransaction remove(Fragment fragment) {
         addOp(new Op(3, fragment));
-        return this;
-    }
-
-    public FragmentTransaction disallowAddToBackStack() {
-        if (this.mAddToBackStack) {
-            throw new IllegalStateException("This transaction is already being added to the back stack");
-        }
-        this.mAllowAddToBackStack = false;
         return this;
     }
 

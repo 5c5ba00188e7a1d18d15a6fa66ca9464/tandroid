@@ -5,13 +5,9 @@ import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.Util;
-import java.io.IOException;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class PsBinarySearchSeeker extends BinarySearchSeeker {
-    public PsBinarySearchSeeker(TimestampAdjuster timestampAdjuster, long j, long j2) {
-        super(new BinarySearchSeeker.DefaultSeekTimestampConverter(), new PsScrSeeker(timestampAdjuster), j, 0L, j + 1, 0L, j2, 188L, 1000);
-    }
 
     /* loaded from: classes.dex */
     private static final class PsScrSeeker implements BinarySearchSeeker.TimestampSeeker {
@@ -21,20 +17,6 @@ public final class PsBinarySearchSeeker extends BinarySearchSeeker {
         private PsScrSeeker(TimestampAdjuster timestampAdjuster) {
             this.scrTimestampAdjuster = timestampAdjuster;
             this.packetBuffer = new ParsableByteArray();
-        }
-
-        @Override // com.google.android.exoplayer2.extractor.BinarySearchSeeker.TimestampSeeker
-        public BinarySearchSeeker.TimestampSearchResult searchForTimestamp(ExtractorInput extractorInput, long j) throws IOException {
-            long position = extractorInput.getPosition();
-            int min = (int) Math.min(20000L, extractorInput.getLength() - position);
-            this.packetBuffer.reset(min);
-            extractorInput.peekFully(this.packetBuffer.getData(), 0, min);
-            return searchForScrValueInBuffer(this.packetBuffer, j, position);
-        }
-
-        @Override // com.google.android.exoplayer2.extractor.BinarySearchSeeker.TimestampSeeker
-        public void onSeekFinished() {
-            this.packetBuffer.reset(Util.EMPTY_BYTE_ARRAY);
         }
 
         private BinarySearchSeeker.TimestampSearchResult searchForScrValueInBuffer(ParsableByteArray parsableByteArray, long j, long j2) {
@@ -50,10 +32,7 @@ public final class PsBinarySearchSeeker extends BinarySearchSeeker {
                     if (readScrValueFromPack != -9223372036854775807L) {
                         long adjustTsTimestamp = this.scrTimestampAdjuster.adjustTsTimestamp(readScrValueFromPack);
                         if (adjustTsTimestamp > j) {
-                            if (j3 == -9223372036854775807L) {
-                                return BinarySearchSeeker.TimestampSearchResult.overestimatedResult(adjustTsTimestamp, j2);
-                            }
-                            return BinarySearchSeeker.TimestampSearchResult.targetFoundResult(j2 + i2);
+                            return j3 == -9223372036854775807L ? BinarySearchSeeker.TimestampSearchResult.overestimatedResult(adjustTsTimestamp, j2) : BinarySearchSeeker.TimestampSearchResult.targetFoundResult(j2 + i2);
                         } else if (100000 + adjustTsTimestamp > j) {
                             return BinarySearchSeeker.TimestampSearchResult.targetFoundResult(j2 + parsableByteArray.getPosition());
                         } else {
@@ -65,10 +44,7 @@ public final class PsBinarySearchSeeker extends BinarySearchSeeker {
                     i = parsableByteArray.getPosition();
                 }
             }
-            if (j3 != -9223372036854775807L) {
-                return BinarySearchSeeker.TimestampSearchResult.underestimatedResult(j3, j2 + i);
-            }
-            return BinarySearchSeeker.TimestampSearchResult.NO_TIMESTAMP_IN_RANGE_RESULT;
+            return j3 != -9223372036854775807L ? BinarySearchSeeker.TimestampSearchResult.underestimatedResult(j3, j2 + i) : BinarySearchSeeker.TimestampSearchResult.NO_TIMESTAMP_IN_RANGE_RESULT;
         }
 
         private static void skipToEndOfCurrentPack(ParsableByteArray parsableByteArray) {
@@ -85,28 +61,46 @@ public final class PsBinarySearchSeeker extends BinarySearchSeeker {
                 return;
             }
             parsableByteArray.skipBytes(readUnsignedByte);
-            if (parsableByteArray.bytesLeft() >= 4) {
-                if (PsBinarySearchSeeker.peekIntAtPosition(parsableByteArray.getData(), parsableByteArray.getPosition()) == 443) {
-                    parsableByteArray.skipBytes(4);
-                    int readUnsignedShort = parsableByteArray.readUnsignedShort();
-                    if (parsableByteArray.bytesLeft() < readUnsignedShort) {
-                        parsableByteArray.setPosition(limit);
-                        return;
-                    }
-                    parsableByteArray.skipBytes(readUnsignedShort);
-                }
-                while (parsableByteArray.bytesLeft() >= 4 && (peekIntAtPosition = PsBinarySearchSeeker.peekIntAtPosition(parsableByteArray.getData(), parsableByteArray.getPosition())) != 442 && peekIntAtPosition != 441 && (peekIntAtPosition >>> 8) == 1) {
-                    parsableByteArray.skipBytes(4);
-                    if (parsableByteArray.bytesLeft() < 2) {
-                        parsableByteArray.setPosition(limit);
-                        return;
-                    }
-                    parsableByteArray.setPosition(Math.min(parsableByteArray.limit(), parsableByteArray.getPosition() + parsableByteArray.readUnsignedShort()));
-                }
+            if (parsableByteArray.bytesLeft() < 4) {
+                parsableByteArray.setPosition(limit);
                 return;
             }
-            parsableByteArray.setPosition(limit);
+            if (PsBinarySearchSeeker.peekIntAtPosition(parsableByteArray.getData(), parsableByteArray.getPosition()) == 443) {
+                parsableByteArray.skipBytes(4);
+                int readUnsignedShort = parsableByteArray.readUnsignedShort();
+                if (parsableByteArray.bytesLeft() < readUnsignedShort) {
+                    parsableByteArray.setPosition(limit);
+                    return;
+                }
+                parsableByteArray.skipBytes(readUnsignedShort);
+            }
+            while (parsableByteArray.bytesLeft() >= 4 && (peekIntAtPosition = PsBinarySearchSeeker.peekIntAtPosition(parsableByteArray.getData(), parsableByteArray.getPosition())) != 442 && peekIntAtPosition != 441 && (peekIntAtPosition >>> 8) == 1) {
+                parsableByteArray.skipBytes(4);
+                if (parsableByteArray.bytesLeft() < 2) {
+                    parsableByteArray.setPosition(limit);
+                    return;
+                }
+                parsableByteArray.setPosition(Math.min(parsableByteArray.limit(), parsableByteArray.getPosition() + parsableByteArray.readUnsignedShort()));
+            }
         }
+
+        @Override // com.google.android.exoplayer2.extractor.BinarySearchSeeker.TimestampSeeker
+        public void onSeekFinished() {
+            this.packetBuffer.reset(Util.EMPTY_BYTE_ARRAY);
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.BinarySearchSeeker.TimestampSeeker
+        public BinarySearchSeeker.TimestampSearchResult searchForTimestamp(ExtractorInput extractorInput, long j) {
+            long position = extractorInput.getPosition();
+            int min = (int) Math.min(20000L, extractorInput.getLength() - position);
+            this.packetBuffer.reset(min);
+            extractorInput.peekFully(this.packetBuffer.getData(), 0, min);
+            return searchForScrValueInBuffer(this.packetBuffer, j, position);
+        }
+    }
+
+    public PsBinarySearchSeeker(TimestampAdjuster timestampAdjuster, long j, long j2) {
+        super(new BinarySearchSeeker.DefaultSeekTimestampConverter(), new PsScrSeeker(timestampAdjuster), j, 0L, j + 1, 0L, j2, 188L, 1000);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

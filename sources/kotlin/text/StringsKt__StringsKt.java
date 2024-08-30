@@ -4,31 +4,26 @@ import kotlin.collections.ArraysKt;
 import kotlin.jvm.internal.Intrinsics;
 import kotlin.ranges.RangesKt___RangesKt;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: Strings.kt */
 /* loaded from: classes.dex */
-public class StringsKt__StringsKt extends StringsKt__StringsJVMKt {
+public abstract class StringsKt__StringsKt extends StringsKt__StringsJVMKt {
     public static final int getLastIndex(CharSequence charSequence) {
         Intrinsics.checkNotNullParameter(charSequence, "<this>");
         return charSequence.length() - 1;
     }
 
-    public static /* synthetic */ String substringAfterLast$default(String str, char c, String str2, int i, Object obj) {
-        if ((i & 2) != 0) {
-            str2 = str;
-        }
-        return substringAfterLast(str, c, str2);
+    public static final int lastIndexOf(CharSequence charSequence, char c, int i, boolean z) {
+        Intrinsics.checkNotNullParameter(charSequence, "<this>");
+        return (z || !(charSequence instanceof String)) ? lastIndexOfAny(charSequence, new char[]{c}, i, z) : ((String) charSequence).lastIndexOf(c, i);
     }
 
-    public static final String substringAfterLast(String str, char c, String missingDelimiterValue) {
-        Intrinsics.checkNotNullParameter(str, "<this>");
-        Intrinsics.checkNotNullParameter(missingDelimiterValue, "missingDelimiterValue");
-        int lastIndexOf$default = lastIndexOf$default(str, c, 0, false, 6, null);
-        if (lastIndexOf$default == -1) {
-            return missingDelimiterValue;
+    public static /* synthetic */ int lastIndexOf$default(CharSequence charSequence, char c, int i, boolean z, int i2, Object obj) {
+        if ((i2 & 2) != 0) {
+            i = getLastIndex(charSequence);
         }
-        String substring = str.substring(lastIndexOf$default + 1, str.length());
-        Intrinsics.checkNotNullExpressionValue(substring, "this as java.lang.String…ing(startIndex, endIndex)");
-        return substring;
+        if ((i2 & 4) != 0) {
+            z = false;
+        }
+        return lastIndexOf(charSequence, c, i, z);
     }
 
     public static final int lastIndexOfAny(CharSequence charSequence, char[] chars, int i, boolean z) {
@@ -49,18 +44,22 @@ public class StringsKt__StringsKt extends StringsKt__StringsJVMKt {
         return -1;
     }
 
-    public static /* synthetic */ int lastIndexOf$default(CharSequence charSequence, char c, int i, boolean z, int i2, Object obj) {
-        if ((i2 & 2) != 0) {
-            i = getLastIndex(charSequence);
+    public static final String substringAfterLast(String str, char c, String missingDelimiterValue) {
+        Intrinsics.checkNotNullParameter(str, "<this>");
+        Intrinsics.checkNotNullParameter(missingDelimiterValue, "missingDelimiterValue");
+        int lastIndexOf$default = lastIndexOf$default(str, c, 0, false, 6, null);
+        if (lastIndexOf$default == -1) {
+            return missingDelimiterValue;
         }
-        if ((i2 & 4) != 0) {
-            z = false;
-        }
-        return lastIndexOf(charSequence, c, i, z);
+        String substring = str.substring(lastIndexOf$default + 1, str.length());
+        Intrinsics.checkNotNullExpressionValue(substring, "this as java.lang.String…ing(startIndex, endIndex)");
+        return substring;
     }
 
-    public static final int lastIndexOf(CharSequence charSequence, char c, int i, boolean z) {
-        Intrinsics.checkNotNullParameter(charSequence, "<this>");
-        return (z || !(charSequence instanceof String)) ? lastIndexOfAny(charSequence, new char[]{c}, i, z) : ((String) charSequence).lastIndexOf(c, i);
+    public static /* synthetic */ String substringAfterLast$default(String str, char c, String str2, int i, Object obj) {
+        if ((i & 2) != 0) {
+            str2 = str;
+        }
+        return substringAfterLast(str, c, str2);
     }
 }

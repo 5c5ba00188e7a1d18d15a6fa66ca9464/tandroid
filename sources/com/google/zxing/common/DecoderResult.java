@@ -3,7 +3,7 @@ package com.google.zxing.common;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class DecoderResult {
-    private final List<byte[]> byteSegments;
+    private final List byteSegments;
     private final String ecLevel;
     private int numBits;
     private Object other;
@@ -12,7 +12,7 @@ public final class DecoderResult {
     private final int structuredAppendSequenceNumber;
     private final String text;
 
-    public DecoderResult(byte[] bArr, String str, List<byte[]> list, String str2, int i, int i2) {
+    public DecoderResult(byte[] bArr, String str, List list, String str2, int i, int i2) {
         this.rawBytes = bArr;
         this.numBits = bArr == null ? 0 : bArr.length * 8;
         this.text = str;
@@ -22,15 +22,7 @@ public final class DecoderResult {
         this.structuredAppendSequenceNumber = i;
     }
 
-    public byte[] getRawBytes() {
-        return this.rawBytes;
-    }
-
-    public String getText() {
-        return this.text;
-    }
-
-    public List<byte[]> getByteSegments() {
+    public List getByteSegments() {
         return this.byteSegments;
     }
 
@@ -42,12 +34,8 @@ public final class DecoderResult {
         return this.other;
     }
 
-    public void setOther(Object obj) {
-        this.other = obj;
-    }
-
-    public boolean hasStructuredAppend() {
-        return this.structuredAppendParity >= 0 && this.structuredAppendSequenceNumber >= 0;
+    public byte[] getRawBytes() {
+        return this.rawBytes;
     }
 
     public int getStructuredAppendParity() {
@@ -56,5 +44,17 @@ public final class DecoderResult {
 
     public int getStructuredAppendSequenceNumber() {
         return this.structuredAppendSequenceNumber;
+    }
+
+    public String getText() {
+        return this.text;
+    }
+
+    public boolean hasStructuredAppend() {
+        return this.structuredAppendParity >= 0 && this.structuredAppendSequenceNumber >= 0;
+    }
+
+    public void setOther(Object obj) {
+        this.other = obj;
     }
 }

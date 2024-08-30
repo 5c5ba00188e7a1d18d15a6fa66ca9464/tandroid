@@ -1,9 +1,24 @@
 package org.webrtc;
 /* loaded from: classes.dex */
 public interface VideoProcessor extends CapturerObserver {
-    void onFrameCaptured(VideoFrame videoFrame, FrameAdaptationParameters frameAdaptationParameters);
 
-    void setSink(VideoSink videoSink);
+    /* loaded from: classes.dex */
+    public abstract /* synthetic */ class -CC {
+        public static void $default$onFrameCaptured(VideoProcessor videoProcessor, VideoFrame videoFrame, FrameAdaptationParameters frameAdaptationParameters) {
+            VideoFrame applyFrameAdaptationParameters = applyFrameAdaptationParameters(videoFrame, frameAdaptationParameters);
+            if (applyFrameAdaptationParameters != null) {
+                videoProcessor.onFrameCaptured(applyFrameAdaptationParameters);
+                applyFrameAdaptationParameters.release();
+            }
+        }
+
+        public static VideoFrame applyFrameAdaptationParameters(VideoFrame videoFrame, FrameAdaptationParameters frameAdaptationParameters) {
+            if (frameAdaptationParameters.drop) {
+                return null;
+            }
+            return new VideoFrame(videoFrame.getBuffer().cropAndScale(frameAdaptationParameters.cropX, frameAdaptationParameters.cropY, frameAdaptationParameters.cropWidth, frameAdaptationParameters.cropHeight, frameAdaptationParameters.scaleWidth, frameAdaptationParameters.scaleHeight), videoFrame.getRotation(), frameAdaptationParameters.timestampNs);
+        }
+    }
 
     /* loaded from: classes.dex */
     public static class FrameAdaptationParameters {
@@ -28,21 +43,7 @@ public interface VideoProcessor extends CapturerObserver {
         }
     }
 
-    /* loaded from: classes.dex */
-    public final /* synthetic */ class -CC {
-        public static void $default$onFrameCaptured(VideoProcessor videoProcessor, VideoFrame videoFrame, FrameAdaptationParameters frameAdaptationParameters) {
-            VideoFrame applyFrameAdaptationParameters = applyFrameAdaptationParameters(videoFrame, frameAdaptationParameters);
-            if (applyFrameAdaptationParameters != null) {
-                videoProcessor.onFrameCaptured(applyFrameAdaptationParameters);
-                applyFrameAdaptationParameters.release();
-            }
-        }
+    void onFrameCaptured(VideoFrame videoFrame, FrameAdaptationParameters frameAdaptationParameters);
 
-        public static VideoFrame applyFrameAdaptationParameters(VideoFrame videoFrame, FrameAdaptationParameters frameAdaptationParameters) {
-            if (frameAdaptationParameters.drop) {
-                return null;
-            }
-            return new VideoFrame(videoFrame.getBuffer().cropAndScale(frameAdaptationParameters.cropX, frameAdaptationParameters.cropY, frameAdaptationParameters.cropWidth, frameAdaptationParameters.cropHeight, frameAdaptationParameters.scaleWidth, frameAdaptationParameters.scaleHeight), videoFrame.getRotation(), frameAdaptationParameters.timestampNs);
-        }
-    }
+    void setSink(VideoSink videoSink);
 }

@@ -15,10 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 /* loaded from: classes.dex */
 public class TypefaceCompatApi29Impl extends TypefaceCompatBaseImpl {
-    private static int getMatchScore(FontStyle fontStyle, FontStyle fontStyle2) {
-        return (Math.abs(fontStyle.getWeight() - fontStyle2.getWeight()) / 100) + (fontStyle.getSlant() == fontStyle2.getSlant() ? 0 : 2);
-    }
-
     private Font findBaseFont(FontFamily fontFamily, int i) {
         FontStyle fontStyle = new FontStyle((i & 1) != 0 ? 700 : 400, (i & 2) != 0 ? 1 : 0);
         Font font = fontFamily.getFont(0);
@@ -34,16 +30,34 @@ public class TypefaceCompatApi29Impl extends TypefaceCompatBaseImpl {
         return font;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // androidx.core.graphics.TypefaceCompatBaseImpl
-    public FontsContractCompat.FontInfo findBestInfo(FontsContractCompat.FontInfo[] fontInfoArr, int i) {
-        throw new RuntimeException("Do not use this function in API 29 or later.");
+    private static int getMatchScore(FontStyle fontStyle, FontStyle fontStyle2) {
+        return (Math.abs(fontStyle.getWeight() - fontStyle2.getWeight()) / 100) + (fontStyle.getSlant() == fontStyle2.getSlant() ? 0 : 2);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.core.graphics.TypefaceCompatBaseImpl
-    public Typeface createFromInputStream(Context context, InputStream inputStream) {
-        throw new RuntimeException("Do not use this function in API 29 or later.");
+    public Typeface createFromFontFamilyFilesResourceEntry(Context context, FontResourcesParserCompat.FontFamilyFilesResourceEntry fontFamilyFilesResourceEntry, Resources resources, int i) {
+        FontResourcesParserCompat.FontFileResourceEntry[] entries;
+        try {
+            FontFamily.Builder builder = null;
+            for (FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry : fontFamilyFilesResourceEntry.getEntries()) {
+                try {
+                    Font build = new Font.Builder(resources, fontFileResourceEntry.getResourceId()).setWeight(fontFileResourceEntry.getWeight()).setSlant(fontFileResourceEntry.isItalic() ? 1 : 0).setTtcIndex(fontFileResourceEntry.getTtcIndex()).setFontVariationSettings(fontFileResourceEntry.getVariationSettings()).build();
+                    if (builder == null) {
+                        builder = new FontFamily.Builder(build);
+                    } else {
+                        builder.addFont(build);
+                    }
+                } catch (IOException unused) {
+                }
+            }
+            if (builder == null) {
+                return null;
+            }
+            FontFamily build2 = builder.build();
+            return new Typeface.CustomFallbackBuilder(build2).setStyle(findBaseFont(build2, i).getStyle()).build();
+        } catch (Exception unused2) {
+            return null;
+        }
     }
 
     @Override // androidx.core.graphics.TypefaceCompatBaseImpl
@@ -92,30 +106,10 @@ public class TypefaceCompatApi29Impl extends TypefaceCompatBaseImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.core.graphics.TypefaceCompatBaseImpl
-    public Typeface createFromFontFamilyFilesResourceEntry(Context context, FontResourcesParserCompat.FontFamilyFilesResourceEntry fontFamilyFilesResourceEntry, Resources resources, int i) {
-        FontResourcesParserCompat.FontFileResourceEntry[] entries;
-        try {
-            FontFamily.Builder builder = null;
-            for (FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry : fontFamilyFilesResourceEntry.getEntries()) {
-                try {
-                    Font build = new Font.Builder(resources, fontFileResourceEntry.getResourceId()).setWeight(fontFileResourceEntry.getWeight()).setSlant(fontFileResourceEntry.isItalic() ? 1 : 0).setTtcIndex(fontFileResourceEntry.getTtcIndex()).setFontVariationSettings(fontFileResourceEntry.getVariationSettings()).build();
-                    if (builder == null) {
-                        builder = new FontFamily.Builder(build);
-                    } else {
-                        builder.addFont(build);
-                    }
-                } catch (IOException unused) {
-                }
-            }
-            if (builder == null) {
-                return null;
-            }
-            FontFamily build2 = builder.build();
-            return new Typeface.CustomFallbackBuilder(build2).setStyle(findBaseFont(build2, i).getStyle()).build();
-        } catch (Exception unused2) {
-            return null;
-        }
+    public Typeface createFromInputStream(Context context, InputStream inputStream) {
+        throw new RuntimeException("Do not use this function in API 29 or later.");
     }
 
     @Override // androidx.core.graphics.TypefaceCompatBaseImpl
@@ -126,5 +120,11 @@ public class TypefaceCompatApi29Impl extends TypefaceCompatBaseImpl {
         } catch (Exception unused) {
             return null;
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // androidx.core.graphics.TypefaceCompatBaseImpl
+    public FontsContractCompat.FontInfo findBestInfo(FontsContractCompat.FontInfo[] fontInfoArr, int i) {
+        throw new RuntimeException("Do not use this function in API 29 or later.");
     }
 }

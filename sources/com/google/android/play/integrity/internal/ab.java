@@ -1,5 +1,4 @@
 package com.google.android.play.integrity.internal;
-/* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
 final class ab extends t {
     final /* synthetic */ ad a;

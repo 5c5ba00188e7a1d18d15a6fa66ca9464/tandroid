@@ -1,7 +1,6 @@
 package com.google.mlkit.common.sdkinternal;
 
 import java.util.concurrent.Executor;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 final class zzv {
     final Executor zza;

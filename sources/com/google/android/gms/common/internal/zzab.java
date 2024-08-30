@@ -2,8 +2,6 @@ package com.google.android.gms.common.internal;
 
 import android.os.Bundle;
 import android.os.Parcel;
-import android.os.RemoteException;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class zzab extends com.google.android.gms.internal.common.zzb implements IGmsCallbacks {
     public zzab() {
@@ -11,7 +9,7 @@ public abstract class zzab extends com.google.android.gms.internal.common.zzb im
     }
 
     @Override // com.google.android.gms.internal.common.zzb
-    protected final boolean zza(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
+    protected final boolean zza(int i, Parcel parcel, Parcel parcel2, int i2) {
         if (i == 1) {
             com.google.android.gms.internal.common.zzc.zzb(parcel);
             onPostInitComplete(parcel.readInt(), parcel.readStrongBinder(), (Bundle) com.google.android.gms.internal.common.zzc.zza(parcel, Bundle.CREATOR));

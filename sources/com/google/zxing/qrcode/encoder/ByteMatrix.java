@@ -14,12 +14,10 @@ public final class ByteMatrix {
         this.height = i2;
     }
 
-    public int getHeight() {
-        return this.height;
-    }
-
-    public int getWidth() {
-        return this.width;
+    public void clear(byte b) {
+        for (byte[] bArr : this.bytes) {
+            Arrays.fill(bArr, b);
+        }
     }
 
     public byte get(int i, int i2) {
@@ -30,6 +28,14 @@ public final class ByteMatrix {
         return this.bytes;
     }
 
+    public int getHeight() {
+        return this.height;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
     public void set(int i, int i2, int i3) {
         this.bytes[i2][i] = (byte) i3;
     }
@@ -38,25 +44,13 @@ public final class ByteMatrix {
         this.bytes[i2][i] = z ? (byte) 1 : (byte) 0;
     }
 
-    public void clear(byte b) {
-        for (byte[] bArr : this.bytes) {
-            Arrays.fill(bArr, b);
-        }
-    }
-
     public String toString() {
         StringBuilder sb = new StringBuilder((this.width * 2 * this.height) + 2);
         for (int i = 0; i < this.height; i++) {
             byte[] bArr = this.bytes[i];
             for (int i2 = 0; i2 < this.width; i2++) {
                 byte b = bArr[i2];
-                if (b == 0) {
-                    sb.append(" 0");
-                } else if (b == 1) {
-                    sb.append(" 1");
-                } else {
-                    sb.append("  ");
-                }
+                sb.append(b != 0 ? b != 1 ? "  " : " 1" : " 0");
             }
             sb.append('\n');
         }

@@ -15,7 +15,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.Components.AnimationProperties;
 /* loaded from: classes3.dex */
 public class ZoomControlView extends View {
-    public final Property<ZoomControlView, Float> ZOOM_PROPERTY;
+    public final Property ZOOM_PROPERTY;
     private float animatingToZoom;
     private AnimatorSet animatorSet;
     private ZoomControlViewDelegate delegate;
@@ -48,7 +48,12 @@ public class ZoomControlView extends View {
     public ZoomControlView(Context context) {
         super(context);
         this.enabledTouch = true;
-        this.ZOOM_PROPERTY = new AnimationProperties.FloatProperty<ZoomControlView>("clipProgress") { // from class: org.telegram.ui.Components.ZoomControlView.1
+        this.ZOOM_PROPERTY = new AnimationProperties.FloatProperty("clipProgress") { // from class: org.telegram.ui.Components.ZoomControlView.1
+            @Override // android.util.Property
+            public Float get(ZoomControlView zoomControlView) {
+                return Float.valueOf(ZoomControlView.this.zoom);
+            }
+
             @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
             public void setValue(ZoomControlView zoomControlView, float f) {
                 ZoomControlView.this.zoom = f;
@@ -57,11 +62,6 @@ public class ZoomControlView extends View {
                 }
                 ZoomControlView.this.invalidate();
             }
-
-            @Override // android.util.Property
-            public Float get(ZoomControlView zoomControlView) {
-                return Float.valueOf(ZoomControlView.this.zoom);
-            }
         };
         this.minusDrawable = context.getResources().getDrawable(R.drawable.zoom_minus);
         this.plusDrawable = context.getResources().getDrawable(R.drawable.zoom_plus);
@@ -69,149 +69,6 @@ public class ZoomControlView extends View {
         this.filledProgressDrawable = context.getResources().getDrawable(R.drawable.zoom_slide_a);
         this.knobDrawable = context.getResources().getDrawable(R.drawable.zoom_round);
         this.pressedKnobDrawable = context.getResources().getDrawable(R.drawable.zoom_round_b);
-    }
-
-    public float getZoom() {
-        if (this.animatorSet != null) {
-            return this.animatingToZoom;
-        }
-        return this.zoom;
-    }
-
-    public void setZoom(float f, boolean z) {
-        ZoomControlViewDelegate zoomControlViewDelegate;
-        if (f == this.zoom) {
-            return;
-        }
-        if (f < 0.0f) {
-            f = 0.0f;
-        } else if (f > 1.0f) {
-            f = 1.0f;
-        }
-        this.zoom = f;
-        if (z && (zoomControlViewDelegate = this.delegate) != null) {
-            zoomControlViewDelegate.didSetZoom(f);
-        }
-        invalidate();
-    }
-
-    public void setDelegate(ZoomControlViewDelegate zoomControlViewDelegate) {
-        this.delegate = zoomControlViewDelegate;
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:95:0x01d5  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x01de  */
-    @Override // android.view.View
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        int i;
-        int i2;
-        boolean z;
-        if (!this.enabledTouch) {
-            return false;
-        }
-        float x = motionEvent.getX();
-        float y = motionEvent.getY();
-        int action = motionEvent.getAction();
-        boolean z2 = getMeasuredWidth() > getMeasuredHeight();
-        int i3 = this.progressStartX;
-        float f = i3;
-        float f2 = this.progressEndX - i3;
-        float f3 = this.zoom;
-        int i4 = (int) ((f2 * f3) + f);
-        int i5 = this.progressStartY;
-        float f4 = i5;
-        float f5 = this.progressEndY - i5;
-        int i6 = (int) ((f3 * f5) + f4);
-        if (action == 1 || action == 0) {
-            if (x < i4 - AndroidUtilities.dp(20.0f) || x > AndroidUtilities.dp(20.0f) + i4 || y < i6 - AndroidUtilities.dp(25.0f) || y > AndroidUtilities.dp(25.0f) + i6) {
-                if (x >= this.minusCx - AndroidUtilities.dp(16.0f) && x <= this.minusCx + AndroidUtilities.dp(16.0f) && y >= this.minusCy - AndroidUtilities.dp(16.0f) && y <= this.minusCy + AndroidUtilities.dp(16.0f)) {
-                    if (action == 1 && animateToZoom((((float) Math.floor(getZoom() / 0.25f)) * 0.25f) - 0.25f)) {
-                        performHapticFeedback(3);
-                    } else {
-                        this.pressed = true;
-                    }
-                } else if (x < this.plusCx - AndroidUtilities.dp(16.0f) || x > this.plusCx + AndroidUtilities.dp(16.0f) || y < this.plusCy - AndroidUtilities.dp(16.0f) || y > this.plusCy + AndroidUtilities.dp(16.0f)) {
-                    if (z2) {
-                        if (x >= this.progressStartX && x <= this.progressEndX) {
-                            if (action == 0) {
-                                this.knobStartX = x;
-                                this.pressed = true;
-                            } else if (Math.abs(this.knobStartX - x) <= AndroidUtilities.dp(10.0f)) {
-                                float f6 = (x - this.progressStartX) / (this.progressEndX - i2);
-                                this.zoom = f6;
-                                ZoomControlViewDelegate zoomControlViewDelegate = this.delegate;
-                                if (zoomControlViewDelegate != null) {
-                                    zoomControlViewDelegate.didSetZoom(f6);
-                                }
-                                invalidate();
-                            }
-                        }
-                    } else if (y >= this.progressStartY && y <= this.progressEndY) {
-                        if (action == 1) {
-                            this.knobStartY = y;
-                            this.pressed = true;
-                        } else if (Math.abs(this.knobStartY - y) <= AndroidUtilities.dp(10.0f)) {
-                            float f7 = (y - this.progressStartY) / (this.progressEndY - i);
-                            this.zoom = f7;
-                            ZoomControlViewDelegate zoomControlViewDelegate2 = this.delegate;
-                            if (zoomControlViewDelegate2 != null) {
-                                zoomControlViewDelegate2.didSetZoom(f7);
-                            }
-                            invalidate();
-                        }
-                    }
-                    if (action == 1) {
-                        this.pressed = false;
-                        this.knobPressed = false;
-                        invalidate();
-                    }
-                    return !z || this.pressed || this.knobPressed || super.onTouchEvent(motionEvent);
-                } else if (action == 1 && animateToZoom((((float) Math.floor(getZoom() / 0.25f)) * 0.25f) + 0.25f)) {
-                    performHapticFeedback(3);
-                } else {
-                    this.pressed = true;
-                }
-            } else if (action == 0) {
-                this.knobPressed = true;
-                this.knobStartX = x - i4;
-                this.knobStartY = y - i6;
-                invalidate();
-            }
-            z = true;
-            if (action == 1) {
-            }
-            if (z) {
-            }
-        } else if (action == 2 && this.knobPressed) {
-            if (z2) {
-                this.zoom = ((x + this.knobStartX) - f) / f2;
-            } else {
-                this.zoom = ((y + this.knobStartY) - f4) / f5;
-            }
-            float f8 = this.zoom;
-            if (f8 < 0.0f) {
-                this.zoom = 0.0f;
-            } else if (f8 > 1.0f) {
-                this.zoom = 1.0f;
-            }
-            ZoomControlViewDelegate zoomControlViewDelegate3 = this.delegate;
-            if (zoomControlViewDelegate3 != null) {
-                zoomControlViewDelegate3.didSetZoom(this.zoom);
-            }
-            invalidate();
-        }
-        z = false;
-        if (action == 1) {
-        }
-        if (z) {
-        }
-    }
-
-    public boolean isTouch() {
-        return this.pressed || this.knobPressed;
     }
 
     private boolean animateToZoom(float f) {
@@ -235,6 +92,14 @@ public class ZoomControlView extends View {
         });
         this.animatorSet.start();
         return true;
+    }
+
+    public float getZoom() {
+        return this.animatorSet != null ? this.animatingToZoom : this.zoom;
+    }
+
+    public boolean isTouch() {
+        return this.pressed || this.knobPressed;
     }
 
     @Override // android.view.View
@@ -291,5 +156,140 @@ public class ZoomControlView extends View {
         int intrinsicWidth = drawable.getIntrinsicWidth() / 2;
         drawable.setBounds(i5 - intrinsicWidth, i6 - intrinsicWidth, i5 + intrinsicWidth, i6 + intrinsicWidth);
         drawable.draw(canvas);
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x0063, code lost:
+        if (r0 > 1.0f) goto L19;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x00fb, code lost:
+        if (animateToZoom((((float) java.lang.Math.floor(getZoom() / 0.25f)) * 0.25f) - 0.25f) != false) goto L62;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:63:0x0142, code lost:
+        if (animateToZoom((((float) java.lang.Math.floor(getZoom() / 0.25f)) * 0.25f) + 0.25f) != false) goto L62;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x0144, code lost:
+        performHapticFeedback(3);
+     */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x01c5  */
+    @Override // android.view.View
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        int i;
+        int i2;
+        boolean z;
+        if (!this.enabledTouch) {
+            return false;
+        }
+        float x = motionEvent.getX();
+        float y = motionEvent.getY();
+        int action = motionEvent.getAction();
+        boolean z2 = getMeasuredWidth() > getMeasuredHeight();
+        int i3 = this.progressStartX;
+        float f = i3;
+        float f2 = this.progressEndX - i3;
+        float f3 = this.zoom;
+        int i4 = (int) ((f2 * f3) + f);
+        int i5 = this.progressStartY;
+        float f4 = i5;
+        float f5 = this.progressEndY - i5;
+        int i6 = (int) ((f3 * f5) + f4);
+        if (action == 1 || action == 0) {
+            if (x < i4 - AndroidUtilities.dp(20.0f) || x > AndroidUtilities.dp(20.0f) + i4 || y < i6 - AndroidUtilities.dp(25.0f) || y > AndroidUtilities.dp(25.0f) + i6) {
+                if (x < this.minusCx - AndroidUtilities.dp(16.0f) || x > this.minusCx + AndroidUtilities.dp(16.0f) || y < this.minusCy - AndroidUtilities.dp(16.0f) || y > this.minusCy + AndroidUtilities.dp(16.0f)) {
+                    if (x < this.plusCx - AndroidUtilities.dp(16.0f) || x > this.plusCx + AndroidUtilities.dp(16.0f) || y < this.plusCy - AndroidUtilities.dp(16.0f) || y > this.plusCy + AndroidUtilities.dp(16.0f)) {
+                        if (z2) {
+                            if (x >= this.progressStartX && x <= this.progressEndX) {
+                                if (action == 0) {
+                                    this.knobStartX = x;
+                                } else if (Math.abs(this.knobStartX - x) <= AndroidUtilities.dp(10.0f)) {
+                                    float f6 = (x - this.progressStartX) / (this.progressEndX - i2);
+                                    this.zoom = f6;
+                                    ZoomControlViewDelegate zoomControlViewDelegate = this.delegate;
+                                    if (zoomControlViewDelegate != null) {
+                                        zoomControlViewDelegate.didSetZoom(f6);
+                                    }
+                                    invalidate();
+                                }
+                            }
+                        } else if (y >= this.progressStartY && y <= this.progressEndY) {
+                            if (action == 1) {
+                                this.knobStartY = y;
+                            } else if (Math.abs(this.knobStartY - y) <= AndroidUtilities.dp(10.0f)) {
+                                float f7 = (y - this.progressStartY) / (this.progressEndY - i);
+                                this.zoom = f7;
+                                ZoomControlViewDelegate zoomControlViewDelegate2 = this.delegate;
+                                if (zoomControlViewDelegate2 != null) {
+                                    zoomControlViewDelegate2.didSetZoom(f7);
+                                }
+                                invalidate();
+                            }
+                        }
+                    } else if (action == 1) {
+                    }
+                    this.pressed = true;
+                } else {
+                    if (action == 1) {
+                    }
+                    this.pressed = true;
+                }
+                z = true;
+            } else {
+                if (action == 0) {
+                    this.knobPressed = true;
+                    this.knobStartX = x - i4;
+                    this.knobStartY = y - i6;
+                    invalidate();
+                }
+                z = true;
+            }
+            if (action == 1) {
+                this.pressed = false;
+                this.knobPressed = false;
+                invalidate();
+            }
+            return !z || this.pressed || this.knobPressed || super.onTouchEvent(motionEvent);
+        } else if (action == 2 && this.knobPressed) {
+            if (z2) {
+                this.zoom = ((x + this.knobStartX) - f) / f2;
+            } else {
+                this.zoom = ((y + this.knobStartY) - f4) / f5;
+            }
+            float f8 = this.zoom;
+            float f9 = f8 >= 0.0f ? 1.0f : 0.0f;
+            this.zoom = f9;
+            ZoomControlViewDelegate zoomControlViewDelegate3 = this.delegate;
+            if (zoomControlViewDelegate3 != null) {
+                zoomControlViewDelegate3.didSetZoom(this.zoom);
+            }
+            invalidate();
+        }
+        z = false;
+        if (action == 1) {
+        }
+        if (z) {
+        }
+    }
+
+    public void setDelegate(ZoomControlViewDelegate zoomControlViewDelegate) {
+        this.delegate = zoomControlViewDelegate;
+    }
+
+    public void setZoom(float f, boolean z) {
+        ZoomControlViewDelegate zoomControlViewDelegate;
+        if (f == this.zoom) {
+            return;
+        }
+        if (f < 0.0f) {
+            f = 0.0f;
+        } else if (f > 1.0f) {
+            f = 1.0f;
+        }
+        this.zoom = f;
+        if (z && (zoomControlViewDelegate = this.delegate) != null) {
+            zoomControlViewDelegate.didSetZoom(f);
+        }
+        invalidate();
     }
 }

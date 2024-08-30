@@ -8,7 +8,6 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.mlkit.common.MlKitException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public class MLTaskExecutor {
     private static final Object zza = new Object();
@@ -40,7 +39,7 @@ public class MLTaskExecutor {
         return zzh.zza;
     }
 
-    public <ResultT> Task<ResultT> scheduleCallable(final Callable<ResultT> callable) {
+    public Task scheduleCallable(final Callable callable) {
         final TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
         scheduleRunnable(new Runnable() { // from class: com.google.mlkit.common.sdkinternal.zzf
             @Override // java.lang.Runnable

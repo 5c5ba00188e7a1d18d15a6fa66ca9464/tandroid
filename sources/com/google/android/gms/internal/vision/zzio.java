@@ -1,16 +1,41 @@
 package com.google.android.gms.internal.vision;
 
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import com.google.android.gms.internal.vision.zzjb;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public class zzio {
     private static volatile zzio zzc;
     private static volatile zzio zzd;
     private static final zzio zze = new zzio(true);
-    private final Map<zza, zzjb.zze<?, ?>> zzf;
+    private final Map zzf = Collections.emptyMap();
+
+    /* loaded from: classes.dex */
+    private static final class zza {
+        private final Object zza;
+        private final int zzb;
+
+        zza(Object obj, int i) {
+            this.zza = obj;
+            this.zzb = i;
+        }
+
+        public final boolean equals(Object obj) {
+            if (obj instanceof zza) {
+                zza zzaVar = (zza) obj;
+                return this.zza == zzaVar.zza && this.zzb == zzaVar.zzb;
+            }
+            return false;
+        }
+
+        public final int hashCode() {
+            return (System.identityHashCode(this.zza) * 65535) + this.zzb;
+        }
+    }
+
+    private zzio(boolean z) {
+    }
 
     public static zzio zzb() {
         zzio zzioVar = zzc;
@@ -27,30 +52,6 @@ public class zzio {
             }
         }
         return zzioVar;
-    }
-
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
-    /* loaded from: classes.dex */
-    private static final class zza {
-        private final Object zza;
-        private final int zzb;
-
-        zza(Object obj, int i) {
-            this.zza = obj;
-            this.zzb = i;
-        }
-
-        public final int hashCode() {
-            return (System.identityHashCode(this.zza) * 65535) + this.zzb;
-        }
-
-        public final boolean equals(Object obj) {
-            if (obj instanceof zza) {
-                zza zzaVar = (zza) obj;
-                return this.zza == zzaVar.zza && this.zzb == zzaVar.zzb;
-            }
-            return false;
-        }
     }
 
     public static zzio zzc() {
@@ -73,15 +74,8 @@ public class zzio {
         }
     }
 
-    public final <ContainingType extends zzkk> zzjb.zze<ContainingType, ?> zza(ContainingType containingtype, int i) {
-        return (zzjb.zze<ContainingType, ?>) this.zzf.get(new zza(containingtype, i));
-    }
-
-    zzio() {
-        this.zzf = new HashMap();
-    }
-
-    private zzio(boolean z) {
-        this.zzf = Collections.emptyMap();
+    public final zzjb.zze zza(zzkk zzkkVar, int i) {
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(this.zzf.get(new zza(zzkkVar, i)));
+        return null;
     }
 }

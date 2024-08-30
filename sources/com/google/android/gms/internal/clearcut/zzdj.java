@@ -7,9 +7,9 @@ interface zzdj {
 
     Object zzb(Object obj, Object obj2);
 
-    Map<?, ?> zzg(Object obj);
+    Map zzg(Object obj);
 
-    Map<?, ?> zzh(Object obj);
+    Map zzh(Object obj);
 
     boolean zzi(Object obj);
 
@@ -17,5 +17,5 @@ interface zzdj {
 
     Object zzk(Object obj);
 
-    zzdh<?, ?> zzl(Object obj);
+    zzdh zzl(Object obj);
 }

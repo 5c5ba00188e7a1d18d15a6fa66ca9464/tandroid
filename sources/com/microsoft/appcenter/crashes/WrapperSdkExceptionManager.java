@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 /* loaded from: classes.dex */
-public class WrapperSdkExceptionManager {
-    static final Map<String, String> sWrapperExceptionDataContainer = new HashMap();
+public abstract class WrapperSdkExceptionManager {
+    static final Map sWrapperExceptionDataContainer = new HashMap();
 
     public static void deleteWrapperExceptionData(UUID uuid) {
         if (uuid == null) {
@@ -25,14 +25,19 @@ public class WrapperSdkExceptionManager {
         }
     }
 
+    private static File getFile(UUID uuid) {
+        File errorStorageDirectory = ErrorLogHelper.getErrorStorageDirectory();
+        return new File(errorStorageDirectory, uuid.toString() + ".dat");
+    }
+
     public static String loadWrapperExceptionData(UUID uuid) {
         String str = null;
         if (uuid == null) {
             AppCenterLog.error("AppCenterCrashes", "Failed to load wrapper exception data: null errorId");
             return null;
         }
-        Map<String, String> map = sWrapperExceptionDataContainer;
-        String str2 = map.get(uuid.toString());
+        Map map = sWrapperExceptionDataContainer;
+        String str2 = (String) map.get(uuid.toString());
         if (str2 != null) {
             return str2;
         }
@@ -41,10 +46,5 @@ public class WrapperSdkExceptionManager {
             map.put(uuid.toString(), str);
         }
         return str;
-    }
-
-    private static File getFile(UUID uuid) {
-        File errorStorageDirectory = ErrorLogHelper.getErrorStorageDirectory();
-        return new File(errorStorageDirectory, uuid.toString() + ".dat");
     }
 }

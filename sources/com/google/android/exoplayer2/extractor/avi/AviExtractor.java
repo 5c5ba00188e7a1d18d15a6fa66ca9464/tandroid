@@ -14,7 +14,6 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.common.collect.UnmodifiableIterator;
-import java.io.IOException;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public final class AviExtractor implements Extractor {
@@ -33,8 +32,229 @@ public final class AviExtractor implements Extractor {
     private int hdrlSize = -1;
     private long durationUs = -9223372036854775807L;
 
-    @Override // com.google.android.exoplayer2.extractor.Extractor
-    public void release() {
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public class AviSeekMap implements SeekMap {
+        private final long durationUs;
+
+        public AviSeekMap(long j) {
+            this.durationUs = j;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.SeekMap
+        public long getDurationUs() {
+            return this.durationUs;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.SeekMap
+        public SeekMap.SeekPoints getSeekPoints(long j) {
+            SeekMap.SeekPoints seekPoints = AviExtractor.this.chunkReaders[0].getSeekPoints(j);
+            for (int i = 1; i < AviExtractor.this.chunkReaders.length; i++) {
+                SeekMap.SeekPoints seekPoints2 = AviExtractor.this.chunkReaders[i].getSeekPoints(j);
+                if (seekPoints2.first.position < seekPoints.first.position) {
+                    seekPoints = seekPoints2;
+                }
+            }
+            return seekPoints;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.SeekMap
+        public boolean isSeekable() {
+            return true;
+        }
+    }
+
+    /* loaded from: classes.dex */
+    private static class ChunkHeaderHolder {
+        public int chunkType;
+        public int listType;
+        public int size;
+
+        private ChunkHeaderHolder() {
+        }
+
+        public void populateFrom(ParsableByteArray parsableByteArray) {
+            this.chunkType = parsableByteArray.readLittleEndianInt();
+            this.size = parsableByteArray.readLittleEndianInt();
+            this.listType = 0;
+        }
+
+        public void populateWithListHeaderFrom(ParsableByteArray parsableByteArray) {
+            populateFrom(parsableByteArray);
+            if (this.chunkType == 1414744396) {
+                this.listType = parsableByteArray.readLittleEndianInt();
+                return;
+            }
+            throw ParserException.createForMalformedContainer("LIST expected, found: " + this.chunkType, null);
+        }
+    }
+
+    private static void alignInputToEvenPosition(ExtractorInput extractorInput) {
+        if ((extractorInput.getPosition() & 1) == 1) {
+            extractorInput.skipFully(1);
+        }
+    }
+
+    private ChunkReader getChunkReader(int i) {
+        ChunkReader[] chunkReaderArr;
+        for (ChunkReader chunkReader : this.chunkReaders) {
+            if (chunkReader.handlesChunkId(i)) {
+                return chunkReader;
+            }
+        }
+        return null;
+    }
+
+    private void parseHdrlBody(ParsableByteArray parsableByteArray) {
+        ListChunk parseFrom = ListChunk.parseFrom(1819436136, parsableByteArray);
+        if (parseFrom.getType() != 1819436136) {
+            throw ParserException.createForMalformedContainer("Unexpected header list type " + parseFrom.getType(), null);
+        }
+        AviMainHeaderChunk aviMainHeaderChunk = (AviMainHeaderChunk) parseFrom.getChild(AviMainHeaderChunk.class);
+        if (aviMainHeaderChunk == null) {
+            throw ParserException.createForMalformedContainer("AviHeader not found", null);
+        }
+        this.aviHeader = aviMainHeaderChunk;
+        this.durationUs = aviMainHeaderChunk.totalFrames * aviMainHeaderChunk.frameDurationUs;
+        ArrayList arrayList = new ArrayList();
+        UnmodifiableIterator it = parseFrom.children.iterator();
+        int i = 0;
+        while (it.hasNext()) {
+            AviChunk aviChunk = (AviChunk) it.next();
+            if (aviChunk.getType() == 1819440243) {
+                int i2 = i + 1;
+                ChunkReader processStreamList = processStreamList((ListChunk) aviChunk, i);
+                if (processStreamList != null) {
+                    arrayList.add(processStreamList);
+                }
+                i = i2;
+            }
+        }
+        this.chunkReaders = (ChunkReader[]) arrayList.toArray(new ChunkReader[0]);
+        this.extractorOutput.endTracks();
+    }
+
+    private void parseIdx1Body(ParsableByteArray parsableByteArray) {
+        long peekSeekOffset = peekSeekOffset(parsableByteArray);
+        while (parsableByteArray.bytesLeft() >= 16) {
+            int readLittleEndianInt = parsableByteArray.readLittleEndianInt();
+            int readLittleEndianInt2 = parsableByteArray.readLittleEndianInt();
+            long readLittleEndianInt3 = parsableByteArray.readLittleEndianInt() + peekSeekOffset;
+            parsableByteArray.readLittleEndianInt();
+            ChunkReader chunkReader = getChunkReader(readLittleEndianInt);
+            if (chunkReader != null) {
+                if ((readLittleEndianInt2 & 16) == 16) {
+                    chunkReader.appendKeyFrameToIndex(readLittleEndianInt3);
+                }
+                chunkReader.incrementIndexChunkCount();
+            }
+        }
+        for (ChunkReader chunkReader2 : this.chunkReaders) {
+            chunkReader2.compactIndex();
+        }
+        this.seekMapHasBeenOutput = true;
+        this.extractorOutput.seekMap(new AviSeekMap(this.durationUs));
+    }
+
+    private long peekSeekOffset(ParsableByteArray parsableByteArray) {
+        if (parsableByteArray.bytesLeft() < 16) {
+            return 0L;
+        }
+        int position = parsableByteArray.getPosition();
+        parsableByteArray.skipBytes(8);
+        long j = this.moviStart;
+        long j2 = ((long) parsableByteArray.readLittleEndianInt()) <= j ? 8 + j : 0L;
+        parsableByteArray.setPosition(position);
+        return j2;
+    }
+
+    private ChunkReader processStreamList(ListChunk listChunk, int i) {
+        String str;
+        AviStreamHeaderChunk aviStreamHeaderChunk = (AviStreamHeaderChunk) listChunk.getChild(AviStreamHeaderChunk.class);
+        StreamFormatChunk streamFormatChunk = (StreamFormatChunk) listChunk.getChild(StreamFormatChunk.class);
+        if (aviStreamHeaderChunk == null) {
+            str = "Missing Stream Header";
+        } else if (streamFormatChunk != null) {
+            long durationUs = aviStreamHeaderChunk.getDurationUs();
+            Format format = streamFormatChunk.format;
+            Format.Builder buildUpon = format.buildUpon();
+            buildUpon.setId(i);
+            int i2 = aviStreamHeaderChunk.suggestedBufferSize;
+            if (i2 != 0) {
+                buildUpon.setMaxInputSize(i2);
+            }
+            StreamNameChunk streamNameChunk = (StreamNameChunk) listChunk.getChild(StreamNameChunk.class);
+            if (streamNameChunk != null) {
+                buildUpon.setLabel(streamNameChunk.name);
+            }
+            int trackType = MimeTypes.getTrackType(format.sampleMimeType);
+            if (trackType == 1 || trackType == 2) {
+                TrackOutput track = this.extractorOutput.track(i, trackType);
+                track.format(buildUpon.build());
+                ChunkReader chunkReader = new ChunkReader(i, trackType, durationUs, aviStreamHeaderChunk.length, track);
+                this.durationUs = durationUs;
+                return chunkReader;
+            }
+            return null;
+        } else {
+            str = "Missing Stream Format";
+        }
+        Log.w("AviExtractor", str);
+        return null;
+    }
+
+    private int readMoviChunks(ExtractorInput extractorInput) {
+        if (extractorInput.getPosition() >= this.moviEnd) {
+            return -1;
+        }
+        ChunkReader chunkReader = this.currentChunkReader;
+        if (chunkReader == null) {
+            alignInputToEvenPosition(extractorInput);
+            extractorInput.peekFully(this.scratch.getData(), 0, 12);
+            this.scratch.setPosition(0);
+            int readLittleEndianInt = this.scratch.readLittleEndianInt();
+            if (readLittleEndianInt == 1414744396) {
+                this.scratch.setPosition(8);
+                extractorInput.skipFully(this.scratch.readLittleEndianInt() != 1769369453 ? 8 : 12);
+                extractorInput.resetPeekPosition();
+                return 0;
+            }
+            int readLittleEndianInt2 = this.scratch.readLittleEndianInt();
+            if (readLittleEndianInt == 1263424842) {
+                this.pendingReposition = extractorInput.getPosition() + readLittleEndianInt2 + 8;
+                return 0;
+            }
+            extractorInput.skipFully(8);
+            extractorInput.resetPeekPosition();
+            ChunkReader chunkReader2 = getChunkReader(readLittleEndianInt);
+            if (chunkReader2 == null) {
+                this.pendingReposition = extractorInput.getPosition() + readLittleEndianInt2;
+                return 0;
+            }
+            chunkReader2.onChunkStart(readLittleEndianInt2);
+            this.currentChunkReader = chunkReader2;
+        } else if (chunkReader.onChunkData(extractorInput)) {
+            this.currentChunkReader = null;
+        }
+        return 0;
+    }
+
+    private boolean resolvePendingReposition(ExtractorInput extractorInput, PositionHolder positionHolder) {
+        boolean z;
+        if (this.pendingReposition != -1) {
+            long position = extractorInput.getPosition();
+            long j = this.pendingReposition;
+            if (j < position || j > 262144 + position) {
+                positionHolder.position = j;
+                z = true;
+                this.pendingReposition = -1L;
+                return z;
+            }
+            extractorInput.skipFully((int) (j - position));
+        }
+        z = false;
+        this.pendingReposition = -1L;
+        return z;
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
@@ -45,18 +265,7 @@ public final class AviExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public boolean sniff(ExtractorInput extractorInput) throws IOException {
-        extractorInput.peekFully(this.scratch.getData(), 0, 12);
-        this.scratch.setPosition(0);
-        if (this.scratch.readLittleEndianInt() != 1179011410) {
-            return false;
-        }
-        this.scratch.skipBytes(4);
-        return this.scratch.readLittleEndianInt() == 541677121;
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.Extractor
-    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
+    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) {
         if (resolvePendingReposition(extractorInput, positionHolder)) {
             return 1;
         }
@@ -73,12 +282,12 @@ public final class AviExtractor implements Extractor {
                 this.scratch.setPosition(0);
                 this.chunkHeaderHolder.populateWithListHeaderFrom(this.scratch);
                 ChunkHeaderHolder chunkHeaderHolder = this.chunkHeaderHolder;
-                if (chunkHeaderHolder.listType != 1819436136) {
-                    throw ParserException.createForMalformedContainer("hdrl expected, found: " + this.chunkHeaderHolder.listType, null);
+                if (chunkHeaderHolder.listType == 1819436136) {
+                    this.hdrlSize = chunkHeaderHolder.size;
+                    this.state = 2;
+                    return 0;
                 }
-                this.hdrlSize = chunkHeaderHolder.size;
-                this.state = 2;
-                return 0;
+                throw ParserException.createForMalformedContainer("hdrl expected, found: " + this.chunkHeaderHolder.listType, null);
             case 2:
                 int i = this.hdrlSize - 4;
                 ParsableByteArray parsableByteArray = new ParsableByteArray(i);
@@ -151,246 +360,33 @@ public final class AviExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
+    public void release() {
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.Extractor
     public void seek(long j, long j2) {
         this.pendingReposition = -1L;
         this.currentChunkReader = null;
         for (ChunkReader chunkReader : this.chunkReaders) {
             chunkReader.seekToPosition(j);
         }
-        if (j == 0) {
-            if (this.chunkReaders.length == 0) {
-                this.state = 0;
-                return;
-            } else {
-                this.state = 3;
-                return;
-            }
-        }
-        this.state = 6;
-    }
-
-    private boolean resolvePendingReposition(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
-        boolean z;
-        if (this.pendingReposition != -1) {
-            long position = extractorInput.getPosition();
-            long j = this.pendingReposition;
-            if (j < position || j > 262144 + position) {
-                positionHolder.position = j;
-                z = true;
-                this.pendingReposition = -1L;
-                return z;
-            }
-            extractorInput.skipFully((int) (j - position));
-        }
-        z = false;
-        this.pendingReposition = -1L;
-        return z;
-    }
-
-    private void parseHdrlBody(ParsableByteArray parsableByteArray) throws IOException {
-        ListChunk parseFrom = ListChunk.parseFrom(1819436136, parsableByteArray);
-        if (parseFrom.getType() != 1819436136) {
-            throw ParserException.createForMalformedContainer("Unexpected header list type " + parseFrom.getType(), null);
-        }
-        AviMainHeaderChunk aviMainHeaderChunk = (AviMainHeaderChunk) parseFrom.getChild(AviMainHeaderChunk.class);
-        if (aviMainHeaderChunk == null) {
-            throw ParserException.createForMalformedContainer("AviHeader not found", null);
-        }
-        this.aviHeader = aviMainHeaderChunk;
-        this.durationUs = aviMainHeaderChunk.totalFrames * aviMainHeaderChunk.frameDurationUs;
-        ArrayList arrayList = new ArrayList();
-        UnmodifiableIterator<AviChunk> it = parseFrom.children.iterator();
-        int i = 0;
-        while (it.hasNext()) {
-            AviChunk next = it.next();
-            if (next.getType() == 1819440243) {
-                int i2 = i + 1;
-                ChunkReader processStreamList = processStreamList((ListChunk) next, i);
-                if (processStreamList != null) {
-                    arrayList.add(processStreamList);
-                }
-                i = i2;
-            }
-        }
-        this.chunkReaders = (ChunkReader[]) arrayList.toArray(new ChunkReader[0]);
-        this.extractorOutput.endTracks();
-    }
-
-    private void parseIdx1Body(ParsableByteArray parsableByteArray) {
-        long peekSeekOffset = peekSeekOffset(parsableByteArray);
-        while (parsableByteArray.bytesLeft() >= 16) {
-            int readLittleEndianInt = parsableByteArray.readLittleEndianInt();
-            int readLittleEndianInt2 = parsableByteArray.readLittleEndianInt();
-            long readLittleEndianInt3 = parsableByteArray.readLittleEndianInt() + peekSeekOffset;
-            parsableByteArray.readLittleEndianInt();
-            ChunkReader chunkReader = getChunkReader(readLittleEndianInt);
-            if (chunkReader != null) {
-                if ((readLittleEndianInt2 & 16) == 16) {
-                    chunkReader.appendKeyFrameToIndex(readLittleEndianInt3);
-                }
-                chunkReader.incrementIndexChunkCount();
-            }
-        }
-        for (ChunkReader chunkReader2 : this.chunkReaders) {
-            chunkReader2.compactIndex();
-        }
-        this.seekMapHasBeenOutput = true;
-        this.extractorOutput.seekMap(new AviSeekMap(this.durationUs));
-    }
-
-    private long peekSeekOffset(ParsableByteArray parsableByteArray) {
-        if (parsableByteArray.bytesLeft() < 16) {
-            return 0L;
-        }
-        int position = parsableByteArray.getPosition();
-        parsableByteArray.skipBytes(8);
-        long j = this.moviStart;
-        long j2 = ((long) parsableByteArray.readLittleEndianInt()) <= j ? 8 + j : 0L;
-        parsableByteArray.setPosition(position);
-        return j2;
-    }
-
-    private ChunkReader getChunkReader(int i) {
-        ChunkReader[] chunkReaderArr;
-        for (ChunkReader chunkReader : this.chunkReaders) {
-            if (chunkReader.handlesChunkId(i)) {
-                return chunkReader;
-            }
-        }
-        return null;
-    }
-
-    private int readMoviChunks(ExtractorInput extractorInput) throws IOException {
-        if (extractorInput.getPosition() >= this.moviEnd) {
-            return -1;
-        }
-        ChunkReader chunkReader = this.currentChunkReader;
-        if (chunkReader != null) {
-            if (chunkReader.onChunkData(extractorInput)) {
-                this.currentChunkReader = null;
-            }
+        if (j != 0) {
+            this.state = 6;
+        } else if (this.chunkReaders.length == 0) {
+            this.state = 0;
         } else {
-            alignInputToEvenPosition(extractorInput);
-            extractorInput.peekFully(this.scratch.getData(), 0, 12);
-            this.scratch.setPosition(0);
-            int readLittleEndianInt = this.scratch.readLittleEndianInt();
-            if (readLittleEndianInt == 1414744396) {
-                this.scratch.setPosition(8);
-                extractorInput.skipFully(this.scratch.readLittleEndianInt() != 1769369453 ? 8 : 12);
-                extractorInput.resetPeekPosition();
-                return 0;
-            }
-            int readLittleEndianInt2 = this.scratch.readLittleEndianInt();
-            if (readLittleEndianInt == 1263424842) {
-                this.pendingReposition = extractorInput.getPosition() + readLittleEndianInt2 + 8;
-                return 0;
-            }
-            extractorInput.skipFully(8);
-            extractorInput.resetPeekPosition();
-            ChunkReader chunkReader2 = getChunkReader(readLittleEndianInt);
-            if (chunkReader2 == null) {
-                this.pendingReposition = extractorInput.getPosition() + readLittleEndianInt2;
-                return 0;
-            }
-            chunkReader2.onChunkStart(readLittleEndianInt2);
-            this.currentChunkReader = chunkReader2;
-        }
-        return 0;
-    }
-
-    private ChunkReader processStreamList(ListChunk listChunk, int i) {
-        AviStreamHeaderChunk aviStreamHeaderChunk = (AviStreamHeaderChunk) listChunk.getChild(AviStreamHeaderChunk.class);
-        StreamFormatChunk streamFormatChunk = (StreamFormatChunk) listChunk.getChild(StreamFormatChunk.class);
-        if (aviStreamHeaderChunk == null) {
-            Log.w("AviExtractor", "Missing Stream Header");
-            return null;
-        } else if (streamFormatChunk == null) {
-            Log.w("AviExtractor", "Missing Stream Format");
-            return null;
-        } else {
-            long durationUs = aviStreamHeaderChunk.getDurationUs();
-            Format format = streamFormatChunk.format;
-            Format.Builder buildUpon = format.buildUpon();
-            buildUpon.setId(i);
-            int i2 = aviStreamHeaderChunk.suggestedBufferSize;
-            if (i2 != 0) {
-                buildUpon.setMaxInputSize(i2);
-            }
-            StreamNameChunk streamNameChunk = (StreamNameChunk) listChunk.getChild(StreamNameChunk.class);
-            if (streamNameChunk != null) {
-                buildUpon.setLabel(streamNameChunk.name);
-            }
-            int trackType = MimeTypes.getTrackType(format.sampleMimeType);
-            if (trackType == 1 || trackType == 2) {
-                TrackOutput track = this.extractorOutput.track(i, trackType);
-                track.format(buildUpon.build());
-                ChunkReader chunkReader = new ChunkReader(i, trackType, durationUs, aviStreamHeaderChunk.length, track);
-                this.durationUs = durationUs;
-                return chunkReader;
-            }
-            return null;
+            this.state = 3;
         }
     }
 
-    private static void alignInputToEvenPosition(ExtractorInput extractorInput) throws IOException {
-        if ((extractorInput.getPosition() & 1) == 1) {
-            extractorInput.skipFully(1);
+    @Override // com.google.android.exoplayer2.extractor.Extractor
+    public boolean sniff(ExtractorInput extractorInput) {
+        extractorInput.peekFully(this.scratch.getData(), 0, 12);
+        this.scratch.setPosition(0);
+        if (this.scratch.readLittleEndianInt() != 1179011410) {
+            return false;
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class AviSeekMap implements SeekMap {
-        private final long durationUs;
-
-        @Override // com.google.android.exoplayer2.extractor.SeekMap
-        public boolean isSeekable() {
-            return true;
-        }
-
-        public AviSeekMap(long j) {
-            this.durationUs = j;
-        }
-
-        @Override // com.google.android.exoplayer2.extractor.SeekMap
-        public long getDurationUs() {
-            return this.durationUs;
-        }
-
-        @Override // com.google.android.exoplayer2.extractor.SeekMap
-        public SeekMap.SeekPoints getSeekPoints(long j) {
-            SeekMap.SeekPoints seekPoints = AviExtractor.this.chunkReaders[0].getSeekPoints(j);
-            for (int i = 1; i < AviExtractor.this.chunkReaders.length; i++) {
-                SeekMap.SeekPoints seekPoints2 = AviExtractor.this.chunkReaders[i].getSeekPoints(j);
-                if (seekPoints2.first.position < seekPoints.first.position) {
-                    seekPoints = seekPoints2;
-                }
-            }
-            return seekPoints;
-        }
-    }
-
-    /* loaded from: classes.dex */
-    private static class ChunkHeaderHolder {
-        public int chunkType;
-        public int listType;
-        public int size;
-
-        private ChunkHeaderHolder() {
-        }
-
-        public void populateWithListHeaderFrom(ParsableByteArray parsableByteArray) throws ParserException {
-            populateFrom(parsableByteArray);
-            if (this.chunkType != 1414744396) {
-                throw ParserException.createForMalformedContainer("LIST expected, found: " + this.chunkType, null);
-            }
-            this.listType = parsableByteArray.readLittleEndianInt();
-        }
-
-        public void populateFrom(ParsableByteArray parsableByteArray) {
-            this.chunkType = parsableByteArray.readLittleEndianInt();
-            this.size = parsableByteArray.readLittleEndianInt();
-            this.listType = 0;
-        }
+        this.scratch.skipBytes(4);
+        return this.scratch.readLittleEndianInt() == 541677121;
     }
 }

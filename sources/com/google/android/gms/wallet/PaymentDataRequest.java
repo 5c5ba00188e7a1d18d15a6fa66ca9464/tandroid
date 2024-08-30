@@ -7,7 +7,6 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class PaymentDataRequest extends AbstractSafeParcelable {
     public static final Parcelable.Creator<PaymentDataRequest> CREATOR = new zzac();
@@ -23,8 +22,6 @@ public final class PaymentDataRequest extends AbstractSafeParcelable {
     String zzj;
     Bundle zzk;
 
-    /* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
-    @Deprecated
     /* loaded from: classes.dex */
     public final class Builder {
         /* synthetic */ Builder(zzab zzabVar) {
@@ -48,13 +45,27 @@ public final class PaymentDataRequest extends AbstractSafeParcelable {
         this.zzi = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public PaymentDataRequest(boolean z, boolean z2, CardRequirements cardRequirements, boolean z3, ShippingAddressRequirements shippingAddressRequirements, ArrayList arrayList, PaymentMethodTokenizationParameters paymentMethodTokenizationParameters, TransactionInfo transactionInfo, boolean z4, String str, Bundle bundle) {
+        this.zza = z;
+        this.zzb = z2;
+        this.zzc = cardRequirements;
+        this.zzd = z3;
+        this.zze = shippingAddressRequirements;
+        this.zzf = arrayList;
+        this.zzg = paymentMethodTokenizationParameters;
+        this.zzh = transactionInfo;
+        this.zzi = z4;
+        this.zzj = str;
+        this.zzk = bundle;
+    }
+
     public static PaymentDataRequest fromJson(String str) {
         Builder newBuilder = newBuilder();
         PaymentDataRequest.this.zzj = (String) Preconditions.checkNotNull(str, "paymentDataRequestJson cannot be null!");
         return newBuilder.build();
     }
 
-    @Deprecated
     public static Builder newBuilder() {
         return new Builder(null);
     }
@@ -74,20 +85,5 @@ public final class PaymentDataRequest extends AbstractSafeParcelable {
         SafeParcelWriter.writeString(parcel, 10, this.zzj, false);
         SafeParcelWriter.writeBundle(parcel, 11, this.zzk, false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PaymentDataRequest(boolean z, boolean z2, CardRequirements cardRequirements, boolean z3, ShippingAddressRequirements shippingAddressRequirements, ArrayList arrayList, PaymentMethodTokenizationParameters paymentMethodTokenizationParameters, TransactionInfo transactionInfo, boolean z4, String str, Bundle bundle) {
-        this.zza = z;
-        this.zzb = z2;
-        this.zzc = cardRequirements;
-        this.zzd = z3;
-        this.zze = shippingAddressRequirements;
-        this.zzf = arrayList;
-        this.zzg = paymentMethodTokenizationParameters;
-        this.zzh = transactionInfo;
-        this.zzi = z4;
-        this.zzj = str;
-        this.zzk = bundle;
     }
 }

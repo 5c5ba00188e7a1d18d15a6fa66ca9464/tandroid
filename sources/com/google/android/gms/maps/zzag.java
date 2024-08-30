@@ -10,7 +10,6 @@ import com.google.android.gms.dynamic.ObjectWrapper;
 import com.google.android.gms.maps.internal.IMapViewDelegate;
 import com.google.android.gms.maps.internal.zzca;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 final class zzag implements LifecycleDelegate {
     private final ViewGroup zza;
@@ -25,6 +24,21 @@ final class zzag implements LifecycleDelegate {
     public final void getMapAsync(OnMapReadyCallback onMapReadyCallback) {
         try {
             this.zzb.getMapAsync(new zzaf(this, onMapReadyCallback));
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
+    }
+
+    @Override // com.google.android.gms.dynamic.LifecycleDelegate
+    public final void onCreate(Bundle bundle) {
+        try {
+            Bundle bundle2 = new Bundle();
+            zzca.zzb(bundle, bundle2);
+            this.zzb.onCreate(bundle2);
+            zzca.zzb(bundle2, bundle);
+            this.zzc = (View) ObjectWrapper.unwrap(this.zzb.getView());
+            this.zza.removeAllViews();
+            this.zza.addView(this.zzc);
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }
@@ -67,6 +81,18 @@ final class zzag implements LifecycleDelegate {
     }
 
     @Override // com.google.android.gms.dynamic.LifecycleDelegate
+    public final void onSaveInstanceState(Bundle bundle) {
+        try {
+            Bundle bundle2 = new Bundle();
+            zzca.zzb(bundle, bundle2);
+            this.zzb.onSaveInstanceState(bundle2);
+            zzca.zzb(bundle2, bundle);
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
+    }
+
+    @Override // com.google.android.gms.dynamic.LifecycleDelegate
     public final void onStart() {
         try {
             this.zzb.onStart();
@@ -84,26 +110,6 @@ final class zzag implements LifecycleDelegate {
         }
     }
 
-    public final void zzb() {
-        try {
-            this.zzb.onExitAmbient();
-        } catch (RemoteException e) {
-            throw new RuntimeRemoteException(e);
-        }
-    }
-
-    @Override // com.google.android.gms.dynamic.LifecycleDelegate
-    public final void onSaveInstanceState(Bundle bundle) {
-        try {
-            Bundle bundle2 = new Bundle();
-            zzca.zzb(bundle, bundle2);
-            this.zzb.onSaveInstanceState(bundle2);
-            zzca.zzb(bundle2, bundle);
-        } catch (RemoteException e) {
-            throw new RuntimeRemoteException(e);
-        }
-    }
-
     public final void zza(Bundle bundle) {
         try {
             Bundle bundle2 = new Bundle();
@@ -115,16 +121,9 @@ final class zzag implements LifecycleDelegate {
         }
     }
 
-    @Override // com.google.android.gms.dynamic.LifecycleDelegate
-    public final void onCreate(Bundle bundle) {
+    public final void zzb() {
         try {
-            Bundle bundle2 = new Bundle();
-            zzca.zzb(bundle, bundle2);
-            this.zzb.onCreate(bundle2);
-            zzca.zzb(bundle2, bundle);
-            this.zzc = (View) ObjectWrapper.unwrap(this.zzb.getView());
-            this.zza.removeAllViews();
-            this.zza.addView(this.zzc);
+            this.zzb.onExitAmbient();
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }

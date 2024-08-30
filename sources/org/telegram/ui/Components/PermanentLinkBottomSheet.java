@@ -150,30 +150,12 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         if (chat != null && ChatObject.isPublic(chat)) {
             linkActionView.setLink("https://t.me/" + ChatObject.getPublicUsername(chat));
             textView3.setVisibility(8);
-        } else if (tLRPC$ChatFull != null && (tLRPC$TL_chatInviteExported = tLRPC$ChatFull.exported_invite) != null) {
-            linkActionView.setLink(tLRPC$TL_chatInviteExported.link);
-        } else {
+        } else if (tLRPC$ChatFull == null || (tLRPC$TL_chatInviteExported = tLRPC$ChatFull.exported_invite) == null) {
             generateLink(false);
+        } else {
+            linkActionView.setLink(tLRPC$TL_chatInviteExported.link);
         }
         updateColors();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(View view) {
-        dismiss();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1() {
-        generateLink(true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$2(TLRPC$ChatFull tLRPC$ChatFull, BaseFragment baseFragment, View view) {
-        ManageLinksActivity manageLinksActivity = new ManageLinksActivity(tLRPC$ChatFull.id, 0L, 0);
-        manageLinksActivity.setInfo(tLRPC$ChatFull, tLRPC$ChatFull.exported_invite);
-        baseFragment.presentFragment(manageLinksActivity);
-        dismiss();
     }
 
     private void generateLink(final boolean z) {
@@ -188,16 +170,6 @@ public class PermanentLinkBottomSheet extends BottomSheet {
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 PermanentLinkBottomSheet.this.lambda$generateLink$4(z, tLObject, tLRPC$TL_error);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$generateLink$4(final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda6
-            @Override // java.lang.Runnable
-            public final void run() {
-                PermanentLinkBottomSheet.this.lambda$generateLink$3(tLRPC$TL_error, tLObject, z);
             }
         });
     }
@@ -222,15 +194,32 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         this.linkGenerating = false;
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
-    public void show() {
-        super.show();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda3
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$generateLink$4(final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                PermanentLinkBottomSheet.this.lambda$show$5();
+                PermanentLinkBottomSheet.this.lambda$generateLink$3(tLRPC$TL_error, tLObject, z);
             }
-        }, 50L);
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0(View view) {
+        dismiss();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$1() {
+        generateLink(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$2(TLRPC$ChatFull tLRPC$ChatFull, BaseFragment baseFragment, View view) {
+        ManageLinksActivity manageLinksActivity = new ManageLinksActivity(tLRPC$ChatFull.id, 0L, 0);
+        manageLinksActivity.setInfo(tLRPC$ChatFull, tLRPC$ChatFull.exported_invite);
+        baseFragment.presentFragment(manageLinksActivity);
+        dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -238,9 +227,34 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         this.linkIcon.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateColors() {
+        RLottieImageView rLottieImageView = this.imageView;
+        int dp = AndroidUtilities.dp(90.0f);
+        int i = Theme.key_featuredStickers_addButton;
+        rLottieImageView.setBackground(Theme.createCircleDrawable(dp, Theme.getColor(i)));
+        this.manage.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), 0, ColorUtils.setAlphaComponent(Theme.getColor(i), 120)));
+        int color = Theme.getColor(Theme.key_featuredStickers_buttonText);
+        this.linkIcon.setLayerColor("Top.**", color);
+        this.linkIcon.setLayerColor("Bottom.**", color);
+        this.linkIcon.setLayerColor("Center.**", color);
+        this.linkActionView.updateColors();
+        setBackgroundColor(Theme.getColor(Theme.key_dialogBackground));
+    }
+
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
+    public void dismiss() {
+        super.dismiss();
+    }
+
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ArrayList<ThemeDescription> arrayList = new ArrayList<>();
+    public void dismissInternal() {
+        super.dismissInternal();
+    }
+
+    @Override // org.telegram.ui.ActionBar.BottomSheet
+    public ArrayList getThemeDescriptions() {
+        ArrayList arrayList = new ArrayList();
         ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
@@ -264,28 +278,14 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         return arrayList;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void updateColors() {
-        RLottieImageView rLottieImageView = this.imageView;
-        int dp = AndroidUtilities.dp(90.0f);
-        int i = Theme.key_featuredStickers_addButton;
-        rLottieImageView.setBackground(Theme.createCircleDrawable(dp, Theme.getColor(i)));
-        this.manage.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), 0, ColorUtils.setAlphaComponent(Theme.getColor(i), 120)));
-        int color = Theme.getColor(Theme.key_featuredStickers_buttonText);
-        this.linkIcon.setLayerColor("Top.**", color);
-        this.linkIcon.setLayerColor("Bottom.**", color);
-        this.linkIcon.setLayerColor("Center.**", color);
-        this.linkActionView.updateColors();
-        setBackgroundColor(Theme.getColor(Theme.key_dialogBackground));
-    }
-
-    @Override // org.telegram.ui.ActionBar.BottomSheet
-    public void dismissInternal() {
-        super.dismissInternal();
-    }
-
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
-        super.dismiss();
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
+    public void show() {
+        super.show();
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                PermanentLinkBottomSheet.this.lambda$show$5();
+            }
+        }, 50L);
     }
 }

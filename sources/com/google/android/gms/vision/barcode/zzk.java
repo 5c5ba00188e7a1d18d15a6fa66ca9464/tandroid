@@ -4,16 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.vision.barcode.Barcode;
-/* compiled from: com.google.android.gms:play-services-vision@@20.1.3 */
 /* loaded from: classes.dex */
-public final class zzk implements Parcelable.Creator<Barcode.Sms> {
+public final class zzk implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ Barcode.Sms[] newArray(int i) {
-        return new Barcode.Sms[i];
-    }
-
-    @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ Barcode.Sms createFromParcel(Parcel parcel) {
+    public final /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         String str = null;
         String str2 = null;
@@ -22,13 +16,18 @@ public final class zzk implements Parcelable.Creator<Barcode.Sms> {
             int fieldId = SafeParcelReader.getFieldId(readHeader);
             if (fieldId == 2) {
                 str = SafeParcelReader.createString(parcel, readHeader);
-            } else if (fieldId == 3) {
-                str2 = SafeParcelReader.createString(parcel, readHeader);
-            } else {
+            } else if (fieldId != 3) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                str2 = SafeParcelReader.createString(parcel, readHeader);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
         return new Barcode.Sms(str, str2);
+    }
+
+    @Override // android.os.Parcelable.Creator
+    public final /* synthetic */ Object[] newArray(int i) {
+        return new Barcode.Sms[i];
     }
 }

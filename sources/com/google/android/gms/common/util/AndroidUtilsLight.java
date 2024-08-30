@@ -2,16 +2,13 @@ package com.google.android.gms.common.util;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import com.google.android.gms.common.wrappers.Wrappers;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public class AndroidUtilsLight {
-    @Deprecated
-    public static byte[] getPackageCertificateHashBytes(Context context, String str) throws PackageManager.NameNotFoundException {
+public abstract class AndroidUtilsLight {
+    public static byte[] getPackageCertificateHashBytes(Context context, String str) {
         MessageDigest zza;
         PackageInfo packageInfo = Wrappers.packageManager(context).getPackageInfo(str, 64);
         Signature[] signatureArr = packageInfo.signatures;

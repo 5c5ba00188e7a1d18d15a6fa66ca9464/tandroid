@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_channels_getForumTopicsByID extends TLObject {
     public TLRPC$InputChannel channel;
-    public ArrayList<Integer> topics = new ArrayList<>();
+    public ArrayList topics = new ArrayList();
 
     @Override // org.telegram.tgnet.TLObject
     public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
@@ -19,7 +19,7 @@ public class TLRPC$TL_channels_getForumTopicsByID extends TLObject {
         int size = this.topics.size();
         abstractSerializedData.writeInt32(size);
         for (int i = 0; i < size; i++) {
-            abstractSerializedData.writeInt32(this.topics.get(i).intValue());
+            abstractSerializedData.writeInt32(((Integer) this.topics.get(i)).intValue());
         }
     }
 }

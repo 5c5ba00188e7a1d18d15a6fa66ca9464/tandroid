@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.MissingFormatArgumentException;
 import org.json.JSONArray;
 import org.json.JSONException;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class NotificationParams {
     private final Bundle data;
@@ -32,6 +31,10 @@ public class NotificationParams {
 
     private static boolean isAnalyticsKey(String str) {
         return str.startsWith("google.c.a.") || str.equals("from");
+    }
+
+    public static boolean isNotification(Bundle bundle) {
+        return "1".equals(bundle.getString("gcm.n.e")) || "1".equals(bundle.getString(keyWithOldPrefix("gcm.n.e")));
     }
 
     private static boolean isReservedKey(String str) {
@@ -103,37 +106,40 @@ public class NotificationParams {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public int[] getLightSettings() {
+        String sb;
         JSONArray jSONArray = getJSONArray("gcm.n.light_settings");
         if (jSONArray == null) {
             return null;
         }
         int[] iArr = new int[3];
         try {
-            if (jSONArray.length() != 3) {
-                throw new JSONException("lightSettings don't have all three fields");
+            if (jSONArray.length() == 3) {
+                iArr[0] = getLightColor(jSONArray.optString(0));
+                iArr[1] = jSONArray.optInt(1);
+                iArr[2] = jSONArray.optInt(2);
+                return iArr;
             }
-            iArr[0] = getLightColor(jSONArray.optString(0));
-            iArr[1] = jSONArray.optInt(1);
-            iArr[2] = jSONArray.optInt(2);
-            return iArr;
+            throw new JSONException("lightSettings don't have all three fields");
         } catch (IllegalArgumentException e) {
             String valueOf = String.valueOf(jSONArray);
             String message = e.getMessage();
-            StringBuilder sb = new StringBuilder(valueOf.length() + 60 + String.valueOf(message).length());
-            sb.append("LightSettings is invalid: ");
-            sb.append(valueOf);
-            sb.append(". ");
-            sb.append(message);
-            sb.append(". Skipping setting LightSettings");
-            Log.w("NotificationParams", sb.toString());
+            StringBuilder sb2 = new StringBuilder(valueOf.length() + 60 + String.valueOf(message).length());
+            sb2.append("LightSettings is invalid: ");
+            sb2.append(valueOf);
+            sb2.append(". ");
+            sb2.append(message);
+            sb2.append(". Skipping setting LightSettings");
+            sb = sb2.toString();
+            Log.w("NotificationParams", sb);
             return null;
         } catch (JSONException unused) {
             String valueOf2 = String.valueOf(jSONArray);
-            StringBuilder sb2 = new StringBuilder(valueOf2.length() + 58);
-            sb2.append("LightSettings is invalid: ");
-            sb2.append(valueOf2);
-            sb2.append(". Skipping setting LightSettings");
-            Log.w("NotificationParams", sb2.toString());
+            StringBuilder sb3 = new StringBuilder(valueOf2.length() + 58);
+            sb3.append("LightSettings is invalid: ");
+            sb3.append(valueOf2);
+            sb3.append(". Skipping setting LightSettings");
+            sb = sb3.toString();
+            Log.w("NotificationParams", sb);
             return null;
         }
     }
@@ -282,15 +288,15 @@ public class NotificationParams {
             return null;
         }
         try {
-            if (jSONArray.length() <= 1) {
-                throw new JSONException("vibrateTimings have invalid length");
+            if (jSONArray.length() > 1) {
+                int length = jSONArray.length();
+                long[] jArr = new long[length];
+                for (int i = 0; i < length; i++) {
+                    jArr[i] = jSONArray.optLong(i);
+                }
+                return jArr;
             }
-            int length = jSONArray.length();
-            long[] jArr = new long[length];
-            for (int i = 0; i < length; i++) {
-                jArr[i] = jSONArray.optLong(i);
-            }
-            return jArr;
+            throw new JSONException("vibrateTimings have invalid length");
         } catch (NumberFormatException | JSONException unused) {
             String valueOf = String.valueOf(jSONArray);
             StringBuilder sb = new StringBuilder(valueOf.length() + 74);
@@ -338,9 +344,5 @@ public class NotificationParams {
             }
         }
         return bundle;
-    }
-
-    public static boolean isNotification(Bundle bundle) {
-        return "1".equals(bundle.getString("gcm.n.e")) || "1".equals(bundle.getString(keyWithOldPrefix("gcm.n.e")));
     }
 }

@@ -11,6 +11,10 @@ public final class BitSource {
         this.bytes = bArr;
     }
 
+    public int available() {
+        return ((this.bytes.length - this.byteOffset) * 8) - this.bitOffset;
+    }
+
     public int readBits(int i) {
         if (i < 1 || i > 32 || i > available()) {
             throw new IllegalArgumentException(String.valueOf(i));
@@ -51,9 +55,5 @@ public final class BitSource {
             return i3;
         }
         return i3;
-    }
-
-    public int available() {
-        return ((this.bytes.length - this.byteOffset) * 8) - this.bitOffset;
     }
 }

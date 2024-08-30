@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public abstract class zzbm extends zzca {
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
@@ -20,13 +19,6 @@ public abstract class zzbm extends zzca {
     public final boolean isEmpty() {
         return zza().isEmpty();
     }
-
-    @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
-    public final int size() {
-        return zza().size();
-    }
-
-    abstract Map zza();
 
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzca, java.util.AbstractSet, java.util.AbstractCollection, java.util.Collection, java.util.Set
     public final boolean removeAll(Collection collection) {
@@ -65,4 +57,11 @@ public abstract class zzbm extends zzca {
             return ((zzy) zza()).zzb.zzq().retainAll(hashSet);
         }
     }
+
+    @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
+    public final int size() {
+        return zza().size();
+    }
+
+    abstract Map zza();
 }

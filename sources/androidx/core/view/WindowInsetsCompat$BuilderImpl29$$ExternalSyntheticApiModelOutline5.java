@@ -1,5 +1,4 @@
 package androidx.core.view;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes.dex */
-public final /* synthetic */ class WindowInsetsCompat$BuilderImpl29$$ExternalSyntheticApiModelOutline5 {
+public abstract /* synthetic */ class WindowInsetsCompat$BuilderImpl29$$ExternalSyntheticApiModelOutline5 {
 }

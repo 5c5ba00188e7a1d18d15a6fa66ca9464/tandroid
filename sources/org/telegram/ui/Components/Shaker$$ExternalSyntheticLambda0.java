@@ -1,7 +1,6 @@
 package org.telegram.ui.Components;
 
 import android.view.View;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes3.dex */
 public final /* synthetic */ class Shaker$$ExternalSyntheticLambda0 implements Runnable {
     public final /* synthetic */ View f$0;

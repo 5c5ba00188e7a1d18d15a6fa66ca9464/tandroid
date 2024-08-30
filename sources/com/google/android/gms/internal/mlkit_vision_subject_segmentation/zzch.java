@@ -6,7 +6,6 @@ import com.google.firebase.encoders.ObjectEncoderContext;
 import com.google.firebase.encoders.config.EncoderConfig;
 import java.util.HashMap;
 import java.util.Map;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public final class zzch implements EncoderConfig {
     public static final /* synthetic */ int $r8$clinit = 0;

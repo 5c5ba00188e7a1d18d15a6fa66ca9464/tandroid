@@ -1,6 +1,27 @@
 package com.stripe.android.util;
 /* loaded from: classes.dex */
-public class StripeTextUtils {
+public abstract class StripeTextUtils {
+    public static String asCardBrand(String str) {
+        if (isBlank(str)) {
+            return null;
+        }
+        return "American Express".equalsIgnoreCase(str) ? "American Express" : "MasterCard".equalsIgnoreCase(str) ? "MasterCard" : "Diners Club".equalsIgnoreCase(str) ? "Diners Club" : "Discover".equalsIgnoreCase(str) ? "Discover" : "JCB".equalsIgnoreCase(str) ? "JCB" : "Visa".equalsIgnoreCase(str) ? "Visa" : "Unknown";
+    }
+
+    public static String asFundingType(String str) {
+        if (isBlank(str)) {
+            return null;
+        }
+        return "credit".equalsIgnoreCase(str) ? "credit" : "debit".equalsIgnoreCase(str) ? "debit" : "prepaid".equalsIgnoreCase(str) ? "prepaid" : "unknown";
+    }
+
+    public static String asTokenType(String str) {
+        if ("card".equals(str)) {
+            return "card";
+        }
+        return null;
+    }
+
     public static boolean hasAnyPrefix(String str, String... strArr) {
         if (str == null) {
             return false;
@@ -11,6 +32,10 @@ public class StripeTextUtils {
             }
         }
         return false;
+    }
+
+    public static boolean isBlank(String str) {
+        return str == null || str.trim().length() == 0;
     }
 
     public static boolean isWholePositiveNumber(String str) {
@@ -30,57 +55,5 @@ public class StripeTextUtils {
             return null;
         }
         return str;
-    }
-
-    public static boolean isBlank(String str) {
-        return str == null || str.trim().length() == 0;
-    }
-
-    public static String asCardBrand(String str) {
-        if (isBlank(str)) {
-            return null;
-        }
-        if ("American Express".equalsIgnoreCase(str)) {
-            return "American Express";
-        }
-        if ("MasterCard".equalsIgnoreCase(str)) {
-            return "MasterCard";
-        }
-        if ("Diners Club".equalsIgnoreCase(str)) {
-            return "Diners Club";
-        }
-        if ("Discover".equalsIgnoreCase(str)) {
-            return "Discover";
-        }
-        if ("JCB".equalsIgnoreCase(str)) {
-            return "JCB";
-        }
-        if ("Visa".equalsIgnoreCase(str)) {
-            return "Visa";
-        }
-        return "Unknown";
-    }
-
-    public static String asFundingType(String str) {
-        if (isBlank(str)) {
-            return null;
-        }
-        if ("credit".equalsIgnoreCase(str)) {
-            return "credit";
-        }
-        if ("debit".equalsIgnoreCase(str)) {
-            return "debit";
-        }
-        if ("prepaid".equalsIgnoreCase(str)) {
-            return "prepaid";
-        }
-        return "unknown";
-    }
-
-    public static String asTokenType(String str) {
-        if ("card".equals(str)) {
-            return "card";
-        }
-        return null;
     }
 }

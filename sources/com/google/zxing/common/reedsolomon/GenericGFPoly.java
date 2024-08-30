@@ -13,42 +13,68 @@ public final class GenericGFPoly {
         this.field = genericGF;
         int length = iArr.length;
         int i = 1;
-        if (length > 1 && iArr[0] == 0) {
-            while (i < length && iArr[i] == 0) {
-                i++;
-            }
-            if (i == length) {
-                this.coefficients = new int[]{0};
-                return;
-            }
-            int i2 = length - i;
-            int[] iArr2 = new int[i2];
-            this.coefficients = iArr2;
-            System.arraycopy(iArr, i, iArr2, 0, i2);
+        if (length <= 1 || iArr[0] != 0) {
+            this.coefficients = iArr;
             return;
         }
-        this.coefficients = iArr;
+        while (i < length && iArr[i] == 0) {
+            i++;
+        }
+        if (i == length) {
+            this.coefficients = new int[]{0};
+            return;
+        }
+        int i2 = length - i;
+        int[] iArr2 = new int[i2];
+        this.coefficients = iArr2;
+        System.arraycopy(iArr, i, iArr2, 0, i2);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public int[] getCoefficients() {
-        return this.coefficients;
+    public GenericGFPoly addOrSubtract(GenericGFPoly genericGFPoly) {
+        if (this.field.equals(genericGFPoly.field)) {
+            if (isZero()) {
+                return genericGFPoly;
+            }
+            if (genericGFPoly.isZero()) {
+                return this;
+            }
+            int[] iArr = this.coefficients;
+            int[] iArr2 = genericGFPoly.coefficients;
+            if (iArr.length <= iArr2.length) {
+                iArr = iArr2;
+                iArr2 = iArr;
+            }
+            int[] iArr3 = new int[iArr.length];
+            int length = iArr.length - iArr2.length;
+            System.arraycopy(iArr, 0, iArr3, 0, length);
+            for (int i = length; i < iArr.length; i++) {
+                iArr3[i] = GenericGF.addOrSubtract(iArr2[i - length], iArr[i]);
+            }
+            return new GenericGFPoly(this.field, iArr3);
+        }
+        throw new IllegalArgumentException("GenericGFPolys do not have same GenericGF field");
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public int getDegree() {
-        return this.coefficients.length - 1;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isZero() {
-        return this.coefficients[0] == 0;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getCoefficient(int i) {
-        int[] iArr = this.coefficients;
-        return iArr[(iArr.length - 1) - i];
+    public GenericGFPoly[] divide(GenericGFPoly genericGFPoly) {
+        if (this.field.equals(genericGFPoly.field)) {
+            if (genericGFPoly.isZero()) {
+                throw new IllegalArgumentException("Divide by 0");
+            }
+            GenericGFPoly zero = this.field.getZero();
+            int inverse = this.field.inverse(genericGFPoly.getCoefficient(genericGFPoly.getDegree()));
+            GenericGFPoly genericGFPoly2 = this;
+            while (genericGFPoly2.getDegree() >= genericGFPoly.getDegree() && !genericGFPoly2.isZero()) {
+                int degree = genericGFPoly2.getDegree() - genericGFPoly.getDegree();
+                int multiply = this.field.multiply(genericGFPoly2.getCoefficient(genericGFPoly2.getDegree()), inverse);
+                GenericGFPoly multiplyByMonomial = genericGFPoly.multiplyByMonomial(degree, multiply);
+                zero = zero.addOrSubtract(this.field.buildMonomial(degree, multiply));
+                genericGFPoly2 = genericGFPoly2.addOrSubtract(multiplyByMonomial);
+            }
+            return new GenericGFPoly[]{zero, genericGFPoly2};
+        }
+        throw new IllegalArgumentException("GenericGFPolys do not have same GenericGF field");
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -73,52 +99,24 @@ public final class GenericGFPoly {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public GenericGFPoly addOrSubtract(GenericGFPoly genericGFPoly) {
-        if (!this.field.equals(genericGFPoly.field)) {
-            throw new IllegalArgumentException("GenericGFPolys do not have same GenericGF field");
-        }
-        if (isZero()) {
-            return genericGFPoly;
-        }
-        if (genericGFPoly.isZero()) {
-            return this;
-        }
+    public int getCoefficient(int i) {
         int[] iArr = this.coefficients;
-        int[] iArr2 = genericGFPoly.coefficients;
-        if (iArr.length <= iArr2.length) {
-            iArr = iArr2;
-            iArr2 = iArr;
-        }
-        int[] iArr3 = new int[iArr.length];
-        int length = iArr.length - iArr2.length;
-        System.arraycopy(iArr, 0, iArr3, 0, length);
-        for (int i = length; i < iArr.length; i++) {
-            iArr3[i] = GenericGF.addOrSubtract(iArr2[i - length], iArr[i]);
-        }
-        return new GenericGFPoly(this.field, iArr3);
+        return iArr[(iArr.length - 1) - i];
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public GenericGFPoly multiply(GenericGFPoly genericGFPoly) {
-        if (!this.field.equals(genericGFPoly.field)) {
-            throw new IllegalArgumentException("GenericGFPolys do not have same GenericGF field");
-        }
-        if (isZero() || genericGFPoly.isZero()) {
-            return this.field.getZero();
-        }
-        int[] iArr = this.coefficients;
-        int length = iArr.length;
-        int[] iArr2 = genericGFPoly.coefficients;
-        int length2 = iArr2.length;
-        int[] iArr3 = new int[(length + length2) - 1];
-        for (int i = 0; i < length; i++) {
-            int i2 = iArr[i];
-            for (int i3 = 0; i3 < length2; i3++) {
-                int i4 = i + i3;
-                iArr3[i4] = GenericGF.addOrSubtract(iArr3[i4], this.field.multiply(i2, iArr2[i3]));
-            }
-        }
-        return new GenericGFPoly(this.field, iArr3);
+    public int[] getCoefficients() {
+        return this.coefficients;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public int getDegree() {
+        return this.coefficients.length - 1;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public boolean isZero() {
+        return this.coefficients[0] == 0;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -138,6 +136,29 @@ public final class GenericGFPoly {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
+    public GenericGFPoly multiply(GenericGFPoly genericGFPoly) {
+        if (this.field.equals(genericGFPoly.field)) {
+            if (isZero() || genericGFPoly.isZero()) {
+                return this.field.getZero();
+            }
+            int[] iArr = this.coefficients;
+            int length = iArr.length;
+            int[] iArr2 = genericGFPoly.coefficients;
+            int length2 = iArr2.length;
+            int[] iArr3 = new int[(length + length2) - 1];
+            for (int i = 0; i < length; i++) {
+                int i2 = iArr[i];
+                for (int i3 = 0; i3 < length2; i3++) {
+                    int i4 = i + i3;
+                    iArr3[i4] = GenericGF.addOrSubtract(iArr3[i4], this.field.multiply(i2, iArr2[i3]));
+                }
+            }
+            return new GenericGFPoly(this.field, iArr3);
+        }
+        throw new IllegalArgumentException("GenericGFPolys do not have same GenericGF field");
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
     public GenericGFPoly multiplyByMonomial(int i, int i2) {
         if (i >= 0) {
             if (i2 == 0) {
@@ -153,41 +174,18 @@ public final class GenericGFPoly {
         throw new IllegalArgumentException();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GenericGFPoly[] divide(GenericGFPoly genericGFPoly) {
-        if (!this.field.equals(genericGFPoly.field)) {
-            throw new IllegalArgumentException("GenericGFPolys do not have same GenericGF field");
-        }
-        if (genericGFPoly.isZero()) {
-            throw new IllegalArgumentException("Divide by 0");
-        }
-        GenericGFPoly zero = this.field.getZero();
-        int inverse = this.field.inverse(genericGFPoly.getCoefficient(genericGFPoly.getDegree()));
-        GenericGFPoly genericGFPoly2 = this;
-        while (genericGFPoly2.getDegree() >= genericGFPoly.getDegree() && !genericGFPoly2.isZero()) {
-            int degree = genericGFPoly2.getDegree() - genericGFPoly.getDegree();
-            int multiply = this.field.multiply(genericGFPoly2.getCoefficient(genericGFPoly2.getDegree()), inverse);
-            GenericGFPoly multiplyByMonomial = genericGFPoly.multiplyByMonomial(degree, multiply);
-            zero = zero.addOrSubtract(this.field.buildMonomial(degree, multiply));
-            genericGFPoly2 = genericGFPoly2.addOrSubtract(multiplyByMonomial);
-        }
-        return new GenericGFPoly[]{zero, genericGFPoly2};
-    }
-
     public String toString() {
+        char c;
         if (isZero()) {
             return "0";
         }
         StringBuilder sb = new StringBuilder(getDegree() * 8);
-        for (int degree = getDegree(); degree >= 0; degree--) {
+        int degree = getDegree();
+        while (degree >= 0) {
             int coefficient = getCoefficient(degree);
             if (coefficient != 0) {
                 if (coefficient < 0) {
-                    if (degree == getDegree()) {
-                        sb.append("-");
-                    } else {
-                        sb.append(" - ");
-                    }
+                    sb.append(degree == getDegree() ? "-" : " - ");
                     coefficient = -coefficient;
                 } else if (sb.length() > 0) {
                     sb.append(" + ");
@@ -195,13 +193,14 @@ public final class GenericGFPoly {
                 if (degree == 0 || coefficient != 1) {
                     int log = this.field.log(coefficient);
                     if (log == 0) {
-                        sb.append('1');
+                        c = '1';
                     } else if (log == 1) {
-                        sb.append('a');
+                        c = 'a';
                     } else {
                         sb.append("a^");
                         sb.append(log);
                     }
+                    sb.append(c);
                 }
                 if (degree != 0) {
                     if (degree == 1) {
@@ -212,6 +211,7 @@ public final class GenericGFPoly {
                     }
                 }
             }
+            degree--;
         }
         return sb.toString();
     }

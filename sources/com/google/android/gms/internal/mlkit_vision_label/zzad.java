@@ -4,9 +4,8 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
-class zzad extends AbstractCollection {
+abstract class zzad extends AbstractCollection {
     final Object zza;
     Collection zzb;
     final zzad zzc;
@@ -126,6 +125,18 @@ class zzad extends AbstractCollection {
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection
+    public final boolean retainAll(Collection collection) {
+        collection.getClass();
+        int size = size();
+        boolean retainAll = this.zzb.retainAll(collection);
+        if (retainAll) {
+            zzag.zzf(this.zze, this.zzb.size() - size);
+            zzc();
+        }
+        return retainAll;
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection
     public final int size() {
         zzb();
         return this.zzb.size();
@@ -170,17 +181,5 @@ class zzad extends AbstractCollection {
         } else if (this.zzb.isEmpty()) {
             zzag.zzj(this.zze).remove(this.zza);
         }
-    }
-
-    @Override // java.util.AbstractCollection, java.util.Collection
-    public final boolean retainAll(Collection collection) {
-        collection.getClass();
-        int size = size();
-        boolean retainAll = this.zzb.retainAll(collection);
-        if (retainAll) {
-            zzag.zzf(this.zze, this.zzb.size() - size);
-            zzc();
-        }
-        return retainAll;
     }
 }

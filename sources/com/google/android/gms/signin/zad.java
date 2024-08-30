@@ -2,9 +2,8 @@ package com.google.android.gms.signin;
 
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.Scope;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zad {
+public abstract class zad {
     public static final Api.ClientKey zaa;
     public static final Api.ClientKey zab;
     public static final Api.AbstractClientBuilder zac;

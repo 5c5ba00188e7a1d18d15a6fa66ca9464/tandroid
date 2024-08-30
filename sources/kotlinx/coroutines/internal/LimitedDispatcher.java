@@ -6,13 +6,12 @@ import kotlinx.coroutines.CoroutineDispatcher;
 import kotlinx.coroutines.CoroutineExceptionHandlerKt;
 import kotlinx.coroutines.DefaultExecutorKt;
 import kotlinx.coroutines.Delay;
-/* compiled from: LimitedDispatcher.kt */
 /* loaded from: classes.dex */
 public final class LimitedDispatcher extends CoroutineDispatcher implements Runnable, Delay {
     private final /* synthetic */ Delay $$delegate_0;
     private final CoroutineDispatcher dispatcher;
     private final int parallelism;
-    private final LockFreeTaskQueue<Runnable> queue;
+    private final LockFreeTaskQueue queue;
     private volatile int runningWorkers;
     private final Object workerAllocationLock;
 
@@ -21,8 +20,30 @@ public final class LimitedDispatcher extends CoroutineDispatcher implements Runn
         this.parallelism = i;
         Delay delay = coroutineDispatcher instanceof Delay ? (Delay) coroutineDispatcher : null;
         this.$$delegate_0 = delay == null ? DefaultExecutorKt.getDefaultDelay() : delay;
-        this.queue = new LockFreeTaskQueue<>(false);
+        this.queue = new LockFreeTaskQueue(false);
         this.workerAllocationLock = new Object();
+    }
+
+    private final boolean addAndTryDispatching(Runnable runnable) {
+        this.queue.addLast(runnable);
+        return this.runningWorkers >= this.parallelism;
+    }
+
+    private final boolean tryAllocateWorker() {
+        synchronized (this.workerAllocationLock) {
+            if (this.runningWorkers >= this.parallelism) {
+                return false;
+            }
+            this.runningWorkers++;
+            return true;
+        }
+    }
+
+    @Override // kotlinx.coroutines.CoroutineDispatcher
+    public void dispatch(CoroutineContext coroutineContext, Runnable runnable) {
+        if (!addAndTryDispatching(runnable) && tryAllocateWorker()) {
+            this.dispatcher.dispatch(this, this);
+        }
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:16:0x002a, code lost:
@@ -56,12 +77,12 @@ public final class LimitedDispatcher extends CoroutineDispatcher implements Runn
         while (true) {
             int i = 0;
             while (true) {
-                Runnable removeFirstOrNull = this.queue.removeFirstOrNull();
-                if (removeFirstOrNull == null) {
+                Runnable runnable = (Runnable) this.queue.removeFirstOrNull();
+                if (runnable == null) {
                     break;
                 }
                 try {
-                    removeFirstOrNull.run();
+                    runnable.run();
                 } catch (Throwable th) {
                     CoroutineExceptionHandlerKt.handleCoroutineException(EmptyCoroutineContext.INSTANCE, th);
                 }
@@ -72,27 +93,5 @@ public final class LimitedDispatcher extends CoroutineDispatcher implements Runn
                 }
             }
         }
-    }
-
-    @Override // kotlinx.coroutines.CoroutineDispatcher
-    public void dispatch(CoroutineContext coroutineContext, Runnable runnable) {
-        if (!addAndTryDispatching(runnable) && tryAllocateWorker()) {
-            this.dispatcher.dispatch(this, this);
-        }
-    }
-
-    private final boolean tryAllocateWorker() {
-        synchronized (this.workerAllocationLock) {
-            if (this.runningWorkers >= this.parallelism) {
-                return false;
-            }
-            this.runningWorkers++;
-            return true;
-        }
-    }
-
-    private final boolean addAndTryDispatching(Runnable runnable) {
-        this.queue.addLast(runnable);
-        return this.runningWorkers >= this.parallelism;
     }
 }

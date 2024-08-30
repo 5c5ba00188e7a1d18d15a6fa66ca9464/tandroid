@@ -67,7 +67,7 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
 import org.telegram.ui.Stories.recorder.CaptionContainerView;
 /* loaded from: classes4.dex */
-public class CaptionContainerView extends FrameLayout {
+public abstract class CaptionContainerView extends FrameLayout {
     public ImageView applyButton;
     private Drawable applyButtonCheck;
     private CombinedDrawable applyButtonDrawable;
@@ -97,7 +97,7 @@ public class CaptionContainerView extends FrameLayout {
     public final EditTextEmoji editText;
     private final LinearGradient fadeGradient;
     private final Paint fadePaint;
-    private Utilities.CallbackVoidReturn<Bitmap> getUiBlurBitmap;
+    private Utilities.CallbackVoidReturn getUiBlurBitmap;
     int goingToScrollY;
     private boolean hasReply;
     private final AnimatedFloat heightAnimated;
@@ -118,8 +118,8 @@ public class CaptionContainerView extends FrameLayout {
     private final Matrix matrix;
     private BlurringShader.StoryBlurDrawer mentionBackgroundBlur;
     public MentionsContainerView mentionContainer;
-    private Utilities.Callback<Integer> onHeightUpdate;
-    private Utilities.Callback<Boolean> onKeyboardOpen;
+    private Utilities.Callback onHeightUpdate;
+    private Utilities.Callback onKeyboardOpen;
     ObjectAnimator parentKeyboardAnimator;
     private final RectF rectF;
     protected final BlurringShader.StoryBlurDrawer replyBackgroundBlur;
@@ -140,81 +140,298 @@ public class CaptionContainerView extends FrameLayout {
     private Runnable updateShowKeyboard;
     boolean waitingForScrollYChange;
 
-    public int additionalRightMargin() {
-        return 0;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes4.dex */
+    public class 2 implements TextWatcher {
+        private int lastLength;
+        private boolean lastOverLimit;
+
+        2() {
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$afterTextChanged$0() {
+            CaptionContainerView.this.waitingForScrollYChange = false;
+        }
+
+        @Override // android.text.TextWatcher
+        public void afterTextChanged(Editable editable) {
+            String str;
+            CaptionContainerView captionContainerView;
+            CaptionContainerView.this.codePointCount = Character.codePointCount(editable, 0, editable.length());
+            int captionLimit = CaptionContainerView.this.getCaptionLimit();
+            if (CaptionContainerView.this.codePointCount + 25 > captionLimit) {
+                str = "" + (captionLimit - CaptionContainerView.this.codePointCount);
+            } else {
+                str = null;
+            }
+            CaptionContainerView.this.limitTextView.cancelAnimation();
+            CaptionContainerView.this.limitTextView.setText(str);
+            CaptionContainerView captionContainerView2 = CaptionContainerView.this;
+            captionContainerView2.limitTextView.setTextColor(captionContainerView2.codePointCount >= captionLimit ? -1280137 : -1);
+            if (CaptionContainerView.this.codePointCount > captionLimit && !UserConfig.getInstance(CaptionContainerView.this.currentAccount).isPremium() && CaptionContainerView.this.codePointCount < CaptionContainerView.this.getCaptionPremiumLimit() && CaptionContainerView.this.codePointCount > this.lastLength && (CaptionContainerView.this.captionLimitToast() || MessagesController.getInstance(CaptionContainerView.this.currentAccount).premiumFeaturesBlocked())) {
+                AndroidUtilities.shakeViewSpring(CaptionContainerView.this.limitTextView, captionContainerView.shiftDp = -captionContainerView.shiftDp);
+                BotWebViewVibrationEffect.APP_ERROR.vibrate();
+            }
+            this.lastLength = CaptionContainerView.this.codePointCount;
+            boolean z = CaptionContainerView.this.codePointCount > captionLimit;
+            if (z != this.lastOverLimit) {
+                CaptionContainerView.this.onCaptionLimitUpdate(z);
+            }
+            this.lastOverLimit = z;
+            if (!CaptionContainerView.this.ignoreTextChange) {
+                AndroidUtilities.cancelRunOnUIThread(CaptionContainerView.this.textChangeRunnable);
+                AndroidUtilities.runOnUIThread(CaptionContainerView.this.textChangeRunnable, 1500L);
+            }
+            CaptionContainerView.this.ignoreTextChange = false;
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$2$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    CaptionContainerView.2.this.lambda$afterTextChanged$0();
+                }
+            });
+        }
+
+        @Override // android.text.TextWatcher
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            if (CaptionContainerView.this.scrollAnimator == null || !CaptionContainerView.this.scrollAnimator.isRunning()) {
+                CaptionContainerView captionContainerView = CaptionContainerView.this;
+                captionContainerView.beforeScrollY = captionContainerView.editText.getEditText().getScrollY();
+                CaptionContainerView.this.waitingForScrollYChange = true;
+            }
+        }
+
+        @Override // android.text.TextWatcher
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            if (CaptionContainerView.this.editText.getEditText().suppressOnTextChanged) {
+                return;
+            }
+            CaptionContainerView captionContainerView = CaptionContainerView.this;
+            if (captionContainerView.mentionContainer == null) {
+                captionContainerView.createMentionsContainer();
+            }
+            if (CaptionContainerView.this.mentionContainer.getAdapter() != null) {
+                CaptionContainerView.this.mentionContainer.getAdapter().lambda$searchUsernameOrHashtag$7(charSequence, CaptionContainerView.this.editText.getEditText().getSelectionStart(), null, false, false);
+            }
+        }
     }
 
-    protected void afterUpdateShownKeyboard(boolean z) {
+    /* loaded from: classes4.dex */
+    public static class BounceableImageView extends ImageView {
+        private final ButtonBounce bounce;
+        private final float scale;
+
+        public BounceableImageView(Context context) {
+            this(context, 0.2f);
+        }
+
+        public BounceableImageView(Context context, float f) {
+            super(context);
+            this.bounce = new ButtonBounce(this);
+            this.scale = f;
+        }
+
+        @Override // android.view.View
+        public void draw(Canvas canvas) {
+            canvas.save();
+            float scale = this.bounce.getScale(this.scale);
+            canvas.scale(scale, scale, getWidth() / 2.0f, getHeight() / 2.0f);
+            super.draw(canvas);
+            canvas.restore();
+        }
+
+        @Override // android.view.View
+        public void setPressed(boolean z) {
+            super.setPressed(z);
+            this.bounce.setPressed(z);
+        }
     }
 
-    protected void beforeUpdateShownKeyboard(boolean z) {
-    }
+    /* loaded from: classes4.dex */
+    public static class PeriodDrawable extends Drawable {
+        private final Path activePath;
+        public final AnimatedTextView.AnimatedTextDrawable activeTextDrawable;
+        private boolean clear;
+        private float cx;
+        private float cy;
+        private final int dashes;
+        public float diameterDp;
+        private final Paint fillPaint;
+        private final AnimatedFloat fillT;
+        private boolean filled;
+        public final Paint strokePaint;
+        public final AnimatedTextView.AnimatedTextDrawable textDrawable;
+        public float textOffsetX;
+        public float textOffsetY;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean captionLimitToast() {
-        return false;
-    }
+        public PeriodDrawable() {
+            this(5);
+        }
 
-    protected boolean clipChild(View view) {
-        return true;
-    }
+        public PeriodDrawable(int i) {
+            Paint paint = new Paint(1);
+            this.strokePaint = paint;
+            this.fillPaint = new Paint(1);
+            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = new AnimatedTextView.AnimatedTextDrawable(true, false, false) { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView.PeriodDrawable.1
+                @Override // android.graphics.drawable.Drawable
+                public void invalidateSelf() {
+                    PeriodDrawable.this.invalidateSelf();
+                }
+            };
+            this.textDrawable = animatedTextDrawable;
+            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = new AnimatedTextView.AnimatedTextDrawable(true, false, false) { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView.PeriodDrawable.2
+                @Override // android.graphics.drawable.Drawable
+                public void invalidateSelf() {
+                    PeriodDrawable.this.invalidateSelf();
+                }
+            };
+            this.activeTextDrawable = animatedTextDrawable2;
+            this.filled = false;
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$PeriodDrawable$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    CaptionContainerView.PeriodDrawable.this.invalidateSelf();
+                }
+            };
+            CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
+            this.fillT = new AnimatedFloat(runnable, 0L, 350L, cubicBezierInterpolator);
+            this.activePath = new Path();
+            this.diameterDp = 21.0f;
+            this.dashes = i;
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(AndroidUtilities.dpf2(1.66f));
+            paint.setStrokeCap(Paint.Cap.ROUND);
+            animatedTextDrawable.setAnimationProperties(0.3f, 0L, 250L, cubicBezierInterpolator);
+            animatedTextDrawable.setTypeface(AndroidUtilities.getTypeface("fonts/num.otf"));
+            animatedTextDrawable.setTextSize(AndroidUtilities.dpf2(12.0f));
+            animatedTextDrawable.setGravity(17);
+            animatedTextDrawable2.setAnimationProperties(0.3f, 0L, 250L, cubicBezierInterpolator);
+            animatedTextDrawable2.setTypeface(AndroidUtilities.getTypeface("fonts/num.otf"));
+            animatedTextDrawable2.setTextSize(AndroidUtilities.dpf2(12.0f));
+            animatedTextDrawable2.setGravity(17);
+            updateColors(-1, -15033089, -1);
+        }
 
-    protected boolean customBlur() {
-        return false;
-    }
+        @Override // android.graphics.drawable.Drawable
+        public void draw(Canvas canvas) {
+            draw(canvas, 1.0f);
+        }
 
-    protected void drawBlur(BlurringShader.StoryBlurDrawer storyBlurDrawer, Canvas canvas, RectF rectF, float f, boolean z, float f2, float f3, boolean z2) {
-    }
+        public void draw(Canvas canvas, float f) {
+            float dpf2 = AndroidUtilities.dpf2(this.diameterDp) / 2.0f;
+            float f2 = this.fillT.set(this.filled);
+            if (f2 > 0.0f) {
+                this.fillPaint.setAlpha((int) (f * 255.0f * f2));
+                canvas.drawCircle(this.cx, this.cy, AndroidUtilities.dpf2(11.33f) * f2, this.fillPaint);
+            }
+            float f3 = f * 255.0f;
+            this.strokePaint.setAlpha((int) ((1.0f - f2) * f3));
+            RectF rectF = AndroidUtilities.rectTmp;
+            float f4 = this.cx;
+            float f5 = this.cy;
+            rectF.set(f4 - dpf2, f5 - dpf2, f4 + dpf2, f5 + dpf2);
+            canvas.drawArc(rectF, 90.0f, 180.0f, false, this.strokePaint);
+            int i = this.dashes;
+            float f6 = (i * 1.0f) + ((i + 1) * 1.5f);
+            float f7 = (1.0f / f6) * 180.0f;
+            float f8 = (1.5f / f6) * 180.0f;
+            float f9 = f8;
+            for (int i2 = 0; i2 < this.dashes; i2++) {
+                canvas.drawArc(AndroidUtilities.rectTmp, f9 + 270.0f, f7, false, this.strokePaint);
+                f9 += f7 + f8;
+            }
+            canvas.save();
+            canvas.translate(this.textOffsetX + 0.0f, this.textOffsetY);
+            Rect rect = AndroidUtilities.rectTmp2;
+            rect.set((int) (this.cx - AndroidUtilities.dp(20.0f)), (int) (this.cy - AndroidUtilities.dp(20.0f)), (int) (this.cx + AndroidUtilities.dp(20.0f)), (int) (this.cy + AndroidUtilities.dp(20.0f)));
+            this.textDrawable.setBounds(rect);
+            int i3 = (int) f3;
+            this.textDrawable.setAlpha(i3);
+            this.textDrawable.draw(canvas);
+            if (f2 > 0.0f) {
+                this.activePath.rewind();
+                this.activePath.addCircle(this.cx, this.cy + AndroidUtilities.dp(1.0f), AndroidUtilities.dpf2(11.33f) * f2, Path.Direction.CW);
+                canvas.clipPath(this.activePath);
+                this.activeTextDrawable.setBounds(rect);
+                this.activeTextDrawable.setAlpha(i3);
+                this.activeTextDrawable.draw(canvas);
+            }
+            canvas.restore();
+        }
 
-    public void drawOver(Canvas canvas, RectF rectF) {
-    }
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicHeight() {
+            return AndroidUtilities.dp(24.0f);
+        }
 
-    public void drawOver2(Canvas canvas, RectF rectF, float f) {
-    }
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicWidth() {
+            return AndroidUtilities.dp(24.0f);
+        }
 
-    public boolean drawOver2FromParent() {
-        return false;
-    }
+        @Override // android.graphics.drawable.Drawable
+        public int getOpacity() {
+            return -2;
+        }
 
-    protected int getCaptionDefaultLimit() {
-        return 0;
-    }
+        @Override // android.graphics.drawable.Drawable
+        public void setAlpha(int i) {
+        }
 
-    protected int getCaptionPremiumLimit() {
-        return 0;
-    }
+        @Override // android.graphics.drawable.Drawable
+        public void setBounds(int i, int i2, int i3, int i4) {
+            super.setBounds(i, i2, i3, i4);
+            this.cx = getBounds().centerX();
+            this.cy = getBounds().centerY();
+        }
 
-    protected int getEditTextLeft() {
-        return 0;
-    }
+        @Override // android.graphics.drawable.Drawable
+        public void setBounds(Rect rect) {
+            super.setBounds(rect);
+            this.cx = getBounds().centerX();
+            this.cy = getBounds().centerY();
+        }
 
-    protected int getEditTextStyle() {
-        return 2;
-    }
+        public void setCenterXY(float f, float f2) {
+            this.cx = f;
+            this.cy = f2;
+        }
 
-    protected boolean ignoreTouches(float f, float f2) {
-        return false;
-    }
+        public void setClear(boolean z) {
+            if (this.clear != z) {
+                this.clear = z;
+                this.strokePaint.setXfermode(z ? new PorterDuffXfermode(PorterDuff.Mode.CLEAR) : null);
+                this.textDrawable.getPaint().setXfermode(z ? new PorterDuffXfermode(PorterDuff.Mode.CLEAR) : null);
+            }
+        }
 
-    public void invalidateDrawOver2() {
-    }
+        @Override // android.graphics.drawable.Drawable
+        public void setColorFilter(ColorFilter colorFilter) {
+        }
 
-    protected void onCaptionLimitUpdate(boolean z) {
-    }
+        public void setTextSize(float f) {
+            this.activeTextDrawable.setTextSize(AndroidUtilities.dpf2(f));
+            this.textDrawable.setTextSize(AndroidUtilities.dpf2(f));
+        }
 
-    protected void onEditHeightChange(int i) {
-    }
+        public void setValue(int i, boolean z, boolean z2) {
+            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.textDrawable;
+            animatedTextDrawable.setText("" + i, z2);
+            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = this.activeTextDrawable;
+            animatedTextDrawable2.setText("" + i, z2);
+            this.filled = z;
+            if (!z2) {
+                this.fillT.set(z, true);
+            }
+            invalidateSelf();
+        }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* renamed from: onTextChange */
-    public void lambda$new$1() {
-    }
-
-    protected void onUpdateShowKeyboard(float f) {
-    }
-
-    public void setAccount(int i) {
-        this.currentAccount = i;
+        public void updateColors(int i, int i2, int i3) {
+            this.strokePaint.setColor(i);
+            this.textDrawable.setTextColor(i);
+            this.activeTextDrawable.setTextColor(i3);
+            this.fillPaint.setColor(i2);
+        }
     }
 
     public CaptionContainerView(Context context, FrameLayout frameLayout, SizeNotifierFrameLayout sizeNotifierFrameLayout, FrameLayout frameLayout2, Theme.ResourcesProvider resourcesProvider, final BlurringShader.BlurManager blurManager) {
@@ -274,30 +491,6 @@ public class CaptionContainerView extends FrameLayout {
                 return true;
             }
 
-            @Override // android.view.ViewGroup, android.view.View
-            public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-                CaptionContainerView captionContainerView = CaptionContainerView.this;
-                if ((captionContainerView instanceof CaptionStory) && ((CaptionStory) captionContainerView).isRecording()) {
-                    return false;
-                }
-                return super.dispatchTouchEvent(motionEvent);
-            }
-
-            @Override // org.telegram.ui.Components.EditTextEmoji
-            protected void updatedEmojiExpanded() {
-                CaptionContainerView.this.keyboardNotifier.fire();
-            }
-
-            @Override // org.telegram.ui.Components.EditTextEmoji
-            protected void onEmojiKeyboardUpdate() {
-                CaptionContainerView.this.keyboardNotifier.fire();
-            }
-
-            @Override // org.telegram.ui.Components.EditTextEmoji
-            protected void onWaitingForKeyboard() {
-                CaptionContainerView.this.keyboardNotifier.awaitKeyboard();
-            }
-
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextEmoji
             public void createEmojiView() {
@@ -316,19 +509,33 @@ public class CaptionContainerView extends FrameLayout {
                 }
             }
 
+            @Override // android.view.ViewGroup, android.view.View
+            public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+                CaptionContainerView captionContainerView = CaptionContainerView.this;
+                if ((captionContainerView instanceof CaptionStory) && ((CaptionStory) captionContainerView).isRecording()) {
+                    return false;
+                }
+                return super.dispatchTouchEvent(motionEvent);
+            }
+
             @Override // org.telegram.ui.Components.EditTextEmoji
             protected void drawEmojiBackground(Canvas canvas, View view) {
                 CaptionContainerView.this.rectF.set(0.0f, 0.0f, view.getWidth(), view.getHeight());
-                if (CaptionContainerView.this.customBlur()) {
-                    if (this.blurDrawer == null) {
-                        this.blurDrawer = new BlurringShader.StoryBlurDrawer(blurManager, view, 7);
-                    }
+                if (!CaptionContainerView.this.customBlur()) {
                     CaptionContainerView captionContainerView = CaptionContainerView.this;
-                    captionContainerView.drawBlur(this.blurDrawer, canvas, captionContainerView.rectF, 0.0f, false, 0.0f, -view.getY(), false);
+                    captionContainerView.drawBackground(canvas, captionContainerView.rectF, 0.0f, 0.95f, view);
                     return;
                 }
+                if (this.blurDrawer == null) {
+                    this.blurDrawer = new BlurringShader.StoryBlurDrawer(blurManager, view, 7);
+                }
                 CaptionContainerView captionContainerView2 = CaptionContainerView.this;
-                captionContainerView2.drawBackground(canvas, captionContainerView2.rectF, 0.0f, 0.95f, view);
+                captionContainerView2.drawBlur(this.blurDrawer, canvas, captionContainerView2.rectF, 0.0f, false, 0.0f, -view.getY(), false);
+            }
+
+            @Override // org.telegram.ui.Components.EditTextEmoji
+            protected void onEmojiKeyboardUpdate() {
+                CaptionContainerView.this.keyboardNotifier.fire();
             }
 
             @Override // org.telegram.ui.Components.EditTextEmoji
@@ -372,6 +579,16 @@ public class CaptionContainerView extends FrameLayout {
                     return true;
                 }
                 return true;
+            }
+
+            @Override // org.telegram.ui.Components.EditTextEmoji
+            protected void onWaitingForKeyboard() {
+                CaptionContainerView.this.keyboardNotifier.awaitKeyboard();
+            }
+
+            @Override // org.telegram.ui.Components.EditTextEmoji
+            protected void updatedEmojiExpanded() {
+                CaptionContainerView.this.keyboardNotifier.fire();
             }
         };
         this.editText = editTextEmoji;
@@ -431,149 +648,6 @@ public class CaptionContainerView extends FrameLayout {
         paint2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 implements TextWatcher {
-        private int lastLength;
-        private boolean lastOverLimit;
-
-        2() {
-        }
-
-        @Override // android.text.TextWatcher
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            if (CaptionContainerView.this.scrollAnimator == null || !CaptionContainerView.this.scrollAnimator.isRunning()) {
-                CaptionContainerView captionContainerView = CaptionContainerView.this;
-                captionContainerView.beforeScrollY = captionContainerView.editText.getEditText().getScrollY();
-                CaptionContainerView.this.waitingForScrollYChange = true;
-            }
-        }
-
-        @Override // android.text.TextWatcher
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            if (CaptionContainerView.this.editText.getEditText().suppressOnTextChanged) {
-                return;
-            }
-            CaptionContainerView captionContainerView = CaptionContainerView.this;
-            if (captionContainerView.mentionContainer == null) {
-                captionContainerView.createMentionsContainer();
-            }
-            if (CaptionContainerView.this.mentionContainer.getAdapter() != null) {
-                CaptionContainerView.this.mentionContainer.getAdapter().lambda$searchUsernameOrHashtag$7(charSequence, CaptionContainerView.this.editText.getEditText().getSelectionStart(), null, false, false);
-            }
-        }
-
-        @Override // android.text.TextWatcher
-        public void afterTextChanged(Editable editable) {
-            String str;
-            CaptionContainerView captionContainerView;
-            CaptionContainerView.this.codePointCount = Character.codePointCount(editable, 0, editable.length());
-            int captionLimit = CaptionContainerView.this.getCaptionLimit();
-            if (CaptionContainerView.this.codePointCount + 25 > captionLimit) {
-                str = "" + (captionLimit - CaptionContainerView.this.codePointCount);
-            } else {
-                str = null;
-            }
-            CaptionContainerView.this.limitTextView.cancelAnimation();
-            CaptionContainerView.this.limitTextView.setText(str);
-            CaptionContainerView captionContainerView2 = CaptionContainerView.this;
-            captionContainerView2.limitTextView.setTextColor(captionContainerView2.codePointCount >= captionLimit ? -1280137 : -1);
-            if (CaptionContainerView.this.codePointCount > captionLimit && !UserConfig.getInstance(CaptionContainerView.this.currentAccount).isPremium() && CaptionContainerView.this.codePointCount < CaptionContainerView.this.getCaptionPremiumLimit() && CaptionContainerView.this.codePointCount > this.lastLength && (CaptionContainerView.this.captionLimitToast() || MessagesController.getInstance(CaptionContainerView.this.currentAccount).premiumFeaturesBlocked())) {
-                AndroidUtilities.shakeViewSpring(CaptionContainerView.this.limitTextView, captionContainerView.shiftDp = -captionContainerView.shiftDp);
-                BotWebViewVibrationEffect.APP_ERROR.vibrate();
-            }
-            this.lastLength = CaptionContainerView.this.codePointCount;
-            boolean z = CaptionContainerView.this.codePointCount > captionLimit;
-            if (z != this.lastOverLimit) {
-                CaptionContainerView.this.onCaptionLimitUpdate(z);
-            }
-            this.lastOverLimit = z;
-            if (!CaptionContainerView.this.ignoreTextChange) {
-                AndroidUtilities.cancelRunOnUIThread(CaptionContainerView.this.textChangeRunnable);
-                AndroidUtilities.runOnUIThread(CaptionContainerView.this.textChangeRunnable, 1500L);
-            }
-            CaptionContainerView.this.ignoreTextChange = false;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$2$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    CaptionContainerView.2.this.lambda$afterTextChanged$0();
-                }
-            });
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$afterTextChanged$0() {
-            CaptionContainerView.this.waitingForScrollYChange = false;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(View view) {
-        closeKeyboard();
-        AndroidUtilities.cancelRunOnUIThread(this.textChangeRunnable);
-        this.textChangeRunnable.run();
-    }
-
-    public void invalidateBlur() {
-        invalidate();
-        this.editText.getEditText().invalidate();
-        this.editText.getEmojiButton().invalidate();
-        MentionsContainerView mentionsContainerView = this.mentionContainer;
-        if (mentionsContainerView != null) {
-            mentionsContainerView.invalidate();
-        }
-        if (this.editText.getEmojiView() == null || !customBlur()) {
-            return;
-        }
-        this.editText.getEmojiView().invalidate();
-    }
-
-    public void setUiBlurBitmap(Utilities.CallbackVoidReturn<Bitmap> callbackVoidReturn) {
-        this.getUiBlurBitmap = callbackVoidReturn;
-    }
-
-    public void closeKeyboard() {
-        this.editText.closeKeyboard();
-        this.editText.hidePopup(true);
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-        if (this.ignoreTouches || ((motionEvent.getAction() == 0 && ignoreTouches(motionEvent.getX(), motionEvent.getY())) || !(this.clickBounds.contains(motionEvent.getX(), motionEvent.getY()) || this.keyboardShown))) {
-            return false;
-        }
-        if (motionEvent.getAction() == 0 && !this.keyboardShown) {
-            if ((this instanceof CaptionStory) && ((CaptionStory) this).isRecording()) {
-                return super.dispatchTouchEvent(motionEvent);
-            }
-            for (int i = 0; i < getChildCount(); i++) {
-                View childAt = getChildAt(i);
-                if (childAt != null && childAt.isClickable() && childAt.getVisibility() == 0 && childAt.getAlpha() >= 0.5f && this.editText != childAt) {
-                    this.rectF.set(childAt.getX(), childAt.getY(), childAt.getX() + childAt.getWidth(), childAt.getY() + childAt.getHeight());
-                    if (this.rectF.contains(motionEvent.getX(), motionEvent.getY())) {
-                        return super.dispatchTouchEvent(motionEvent);
-                    }
-                }
-            }
-            this.editText.getEditText().setForceCursorEnd(true);
-            this.editText.getEditText().requestFocus();
-            this.editText.openKeyboard();
-            this.editText.getEditText().setScrollY(0);
-            this.bounce.setPressed(true);
-            return true;
-        }
-        if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
-            this.bounce.setPressed(false);
-        }
-        return super.dispatchTouchEvent(motionEvent);
-    }
-
-    @Override // android.view.View
-    public void setPressed(boolean z) {
-        super.setPressed(z);
-        this.bounce.setPressed(z && !this.keyboardShown);
-    }
-
     private void animateScrollTo(boolean z) {
         EditTextCaption editText = this.editText.getEditText();
         if (editText == null || editText.getLayout() == null) {
@@ -599,21 +673,25 @@ public class CaptionContainerView extends FrameLayout {
         MentionsContainerView mentionsContainerView = new MentionsContainerView(getContext(), UserConfig.getInstance(this.currentAccount).getClientUserId(), 0L, LaunchActivity.getLastFragment(), null, new DarkThemeResourceProvider()) { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView.3
             @Override // org.telegram.ui.Components.MentionsContainerView
             public void drawRoundRect(Canvas canvas, Rect rect, float f) {
+                Paint paint;
+                int i;
                 CaptionContainerView.this.rectF.set(rect);
-                if (!CaptionContainerView.this.customBlur()) {
-                    Paint paint = CaptionContainerView.this.mentionBackgroundBlur.getPaint(1.0f);
-                    if (paint != null) {
-                        canvas.drawRoundRect(CaptionContainerView.this.rectF, f, f, paint);
-                        CaptionContainerView.this.backgroundPaint.setAlpha(80);
-                        canvas.drawRoundRect(CaptionContainerView.this.rectF, f, f, CaptionContainerView.this.backgroundPaint);
-                        return;
-                    }
-                    CaptionContainerView.this.backgroundPaint.setAlpha(128);
-                    canvas.drawRoundRect(CaptionContainerView.this.rectF, f, f, CaptionContainerView.this.backgroundPaint);
+                if (CaptionContainerView.this.customBlur()) {
+                    CaptionContainerView captionContainerView = CaptionContainerView.this;
+                    captionContainerView.drawBlur(captionContainerView.mentionBackgroundBlur, canvas, CaptionContainerView.this.rectF, f, false, -CaptionContainerView.this.mentionContainer.getX(), -CaptionContainerView.this.mentionContainer.getY(), false);
                     return;
                 }
-                CaptionContainerView captionContainerView = CaptionContainerView.this;
-                captionContainerView.drawBlur(captionContainerView.mentionBackgroundBlur, canvas, CaptionContainerView.this.rectF, f, false, -CaptionContainerView.this.mentionContainer.getX(), -CaptionContainerView.this.mentionContainer.getY(), false);
+                Paint paint2 = CaptionContainerView.this.mentionBackgroundBlur.getPaint(1.0f);
+                if (paint2 == null) {
+                    paint = CaptionContainerView.this.backgroundPaint;
+                    i = 128;
+                } else {
+                    canvas.drawRoundRect(CaptionContainerView.this.rectF, f, f, paint2);
+                    paint = CaptionContainerView.this.backgroundPaint;
+                    i = 80;
+                }
+                paint.setAlpha(i);
+                canvas.drawRoundRect(CaptionContainerView.this.rectF, f, f, CaptionContainerView.this.backgroundPaint);
             }
         };
         this.mentionContainer = mentionsContainerView;
@@ -626,13 +704,13 @@ public class CaptionContainerView extends FrameLayout {
             }
 
             @Override // org.telegram.ui.Components.MentionsContainerView.Delegate
-            public /* synthetic */ void onStickerSelected(TLRPC$TL_document tLRPC$TL_document, String str, Object obj) {
-                MentionsContainerView.Delegate.-CC.$default$onStickerSelected(this, tLRPC$TL_document, str, obj);
+            public Paint.FontMetricsInt getFontMetrics() {
+                return CaptionContainerView.this.editText.getEditText().getPaint().getFontMetricsInt();
             }
 
             @Override // org.telegram.ui.Components.MentionsContainerView.Delegate
-            public /* synthetic */ void sendBotInlineResult(TLRPC$BotInlineResult tLRPC$BotInlineResult, boolean z, int i) {
-                MentionsContainerView.Delegate.-CC.$default$sendBotInlineResult(this, tLRPC$BotInlineResult, z, i);
+            public /* synthetic */ void onStickerSelected(TLRPC$TL_document tLRPC$TL_document, String str, Object obj) {
+                MentionsContainerView.Delegate.-CC.$default$onStickerSelected(this, tLRPC$TL_document, str, obj);
             }
 
             @Override // org.telegram.ui.Components.MentionsContainerView.Delegate
@@ -641,298 +719,64 @@ public class CaptionContainerView extends FrameLayout {
             }
 
             @Override // org.telegram.ui.Components.MentionsContainerView.Delegate
-            public Paint.FontMetricsInt getFontMetrics() {
-                return CaptionContainerView.this.editText.getEditText().getPaint().getFontMetricsInt();
+            public /* synthetic */ void sendBotInlineResult(TLRPC$BotInlineResult tLRPC$BotInlineResult, boolean z, int i) {
+                MentionsContainerView.Delegate.-CC.$default$sendBotInlineResult(this, tLRPC$BotInlineResult, z, i);
             }
         });
         this.containerView.addView(this.mentionContainer, LayoutHelper.createFrame(-1, -1, 83));
     }
 
-    protected void setupMentionContainer() {
-        this.mentionContainer.getAdapter().setAllowStickers(false);
-        this.mentionContainer.getAdapter().setAllowBots(false);
-        this.mentionContainer.getAdapter().setAllowChats(false);
-        this.mentionContainer.getAdapter().setSearchInDailogs(true);
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
-    public void replaceWithText(int i, int i2, CharSequence charSequence, boolean z) {
-        if (this.editText == null) {
-            return;
-        }
-        try {
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(this.editText.getText());
-            spannableStringBuilder.replace(i, i2 + i, charSequence);
-            if (z) {
-                Emoji.replaceEmoji((CharSequence) spannableStringBuilder, this.editText.getEditText().getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+    public void drawBackground(Canvas canvas, RectF rectF, float f, float f2, View view) {
+        Bitmap bitmap;
+        float f3 = 0.0f;
+        if (this.keyboardT > 0.0f && this.blurPaint != null && this.blurBitmapShader != null && (bitmap = this.blurBitmap) != null && !bitmap.isRecycled()) {
+            this.blurBitmapMatrix.reset();
+            this.blurBitmapMatrix.postScale(this.rootView.getWidth() / this.blurBitmap.getWidth(), this.rootView.getHeight() / this.blurBitmap.getHeight());
+            float f4 = 0.0f;
+            for (int i = 0; i < 8 && view != null; i++) {
+                f3 += view.getX();
+                f4 += view.getY();
+                ViewParent parent = view.getParent();
+                view = parent instanceof View ? (View) parent : null;
             }
-            this.editText.setText(spannableStringBuilder);
-            this.editText.setSelection(i + charSequence.length());
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-    }
-
-    public void onResume() {
-        this.editText.onResume();
-    }
-
-    public void onPause() {
-        this.editText.onPause();
-    }
-
-    public void setOnHeightUpdate(Utilities.Callback<Integer> callback) {
-        this.onHeightUpdate = callback;
-    }
-
-    public int getEditTextHeight() {
-        return (int) this.heightAnimated.get();
-    }
-
-    public int getEditTextHeightClosedKeyboard() {
-        return Math.min(AndroidUtilities.dp(82.0f), this.editText.getHeight());
-    }
-
-    public void setOnKeyboardOpen(Utilities.Callback<Boolean> callback) {
-        this.onKeyboardOpen = callback;
-    }
-
-    protected int additionalKeyboardHeight() {
-        return AndroidUtilities.navigationBarHeight;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void updateKeyboard(int i) {
-        SizeNotifierFrameLayout sizeNotifierFrameLayout = this.sizeNotifierFrameLayout;
-        if (sizeNotifierFrameLayout != null) {
-            sizeNotifierFrameLayout.notifyHeightChanged();
-        }
-        if (this.editText.isPopupShowing()) {
-            i = Math.max(0, additionalKeyboardHeight() + this.editText.getEmojiPadding());
-        } else if (this.editText.isWaitingForKeyboardOpen()) {
-            i = Math.max(0, additionalKeyboardHeight() + this.editText.getKeyboardHeight());
-        }
-        SizeNotifierFrameLayout sizeNotifierFrameLayout2 = this.sizeNotifierFrameLayout;
-        int max = Math.max(0, i - (sizeNotifierFrameLayout2 == null ? 0 : sizeNotifierFrameLayout2.getBottomPadding()));
-        View view = (View) getParent();
-        view.clearAnimation();
-        ObjectAnimator objectAnimator = this.parentKeyboardAnimator;
-        if (objectAnimator != null) {
-            objectAnimator.removeAllListeners();
-            this.parentKeyboardAnimator.cancel();
-            this.parentKeyboardAnimator = null;
-        }
-        this.parentKeyboardAnimator = ObjectAnimator.ofFloat(view, FrameLayout.TRANSLATION_Y, view.getTranslationY(), -max);
-        if (max > AndroidUtilities.dp(20.0f)) {
-            this.parentKeyboardAnimator.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
-            this.parentKeyboardAnimator.setDuration(250L);
-        } else {
-            this.parentKeyboardAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-            this.parentKeyboardAnimator.setDuration(640L);
-        }
-        this.parentKeyboardAnimator.start();
-        this.toKeyboardShow = max > AndroidUtilities.dp(20.0f);
-        AndroidUtilities.cancelRunOnUIThread(this.updateShowKeyboard);
-        AndroidUtilities.runOnUIThread(this.updateShowKeyboard);
-        if (max < AndroidUtilities.dp(20.0f)) {
-            this.editText.getEditText().clearFocus();
-            this.editText.hidePopup(true);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$2() {
-        updateShowKeyboard(this.toKeyboardShow, true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void updateEditTextLeft() {
-        this.editText.getEditText().setTranslationX(AndroidUtilities.lerp(AndroidUtilities.dp(-22.0f) + getEditTextLeft(), AndroidUtilities.dp(2.0f), this.keyboardT));
-    }
-
-    private void updateShowKeyboard(final boolean z, boolean z2) {
-        if (this.keyboardShown == z) {
-            return;
-        }
-        this.keyboardShown = z;
-        ValueAnimator valueAnimator = this.keyboardAnimator;
-        if (valueAnimator != null) {
-            valueAnimator.cancel();
-            this.keyboardAnimator = null;
-        }
-        Utilities.Callback<Boolean> callback = this.onKeyboardOpen;
-        if (callback != null) {
-            callback.run(Boolean.valueOf(z));
-        }
-        beforeUpdateShownKeyboard(z);
-        if (z2) {
-            if (z) {
-                MentionsContainerView mentionsContainerView = this.mentionContainer;
-                if (mentionsContainerView != null) {
-                    mentionsContainerView.setVisibility(0);
-                }
-                this.applyButton.setVisibility(0);
-            } else {
-                this.editText.getEditText().scrollBy(0, -this.editText.getEditText().getScrollY());
-            }
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.keyboardT, z ? 1.0f : 0.0f);
-            this.keyboardAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$$ExternalSyntheticLambda5
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    CaptionContainerView.this.lambda$updateShowKeyboard$3(valueAnimator2);
-                }
-            });
-            if (!z) {
-                this.editText.getEditText().setAllowDrawCursor(false);
-            }
-            this.keyboardAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView.5
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    if (!z) {
-                        CaptionContainerView.this.applyButton.setVisibility(8);
-                        MentionsContainerView mentionsContainerView2 = CaptionContainerView.this.mentionContainer;
-                        if (mentionsContainerView2 != null) {
-                            mentionsContainerView2.setVisibility(8);
-                        }
-                    }
-                    if (z) {
-                        CaptionContainerView.this.editText.getEditText().setAllowDrawCursor(true);
-                    }
-                    CaptionContainerView.this.afterUpdateShownKeyboard(z);
-                }
-            });
-            if (z) {
-                this.keyboardAnimator.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
-                this.keyboardAnimator.setDuration(250L);
-            } else {
-                this.keyboardAnimator.setInterpolator(new FastOutSlowInInterpolator());
-                this.keyboardAnimator.setDuration(420L);
-            }
-            this.keyboardAnimator.start();
-        } else {
-            this.keyboardT = z ? 1.0f : 0.0f;
-            this.editText.getEditText().setTranslationX(AndroidUtilities.lerp(AndroidUtilities.dp(-22.0f) + getEditTextLeft(), AndroidUtilities.dp(2.0f), this.keyboardT));
-            this.editText.setTranslationX(AndroidUtilities.lerp(0, AndroidUtilities.dp(-8.0f), this.keyboardT));
-            this.editText.setTranslationY(AndroidUtilities.lerp(0, AndroidUtilities.dp(10.0f), this.keyboardT));
-            this.limitTextContainer.setTranslationX(AndroidUtilities.lerp(-AndroidUtilities.dp(8.0f), AndroidUtilities.dp(2.0f), this.keyboardT));
-            this.limitTextContainer.setTranslationY(AndroidUtilities.lerp(-AndroidUtilities.dp(8.0f), 0, this.keyboardT));
-            this.editText.getEmojiButton().setAlpha(this.keyboardT);
-            this.applyButton.setVisibility(z ? 0 : 8);
-            this.applyButton.setAlpha(z ? 1.0f : 0.0f);
-            onUpdateShowKeyboard(this.keyboardT);
-            this.editText.getEditText().setAllowDrawCursor(z);
-            afterUpdateShownKeyboard(z);
-            invalidate();
-        }
-        animateScrollTo(z);
-        this.editText.setSuggestionsEnabled(z);
-        if (!z) {
-            this.editText.getEditText().setSpoilersRevealed(false, true);
-        }
-        if (!z || SharedConfig.getDevicePerformanceClass() < 1 || LiteMode.isPowerSaverApplied()) {
-            return;
-        }
-        if (this.blurBitmap == null) {
-            this.blurBitmap = Bitmap.createBitmap((int) (this.rootView.getWidth() / 12.0f), (int) (this.rootView.getHeight() / 12.0f), Bitmap.Config.ARGB_8888);
-        }
-        this.ignoreDraw = true;
-        drawBlurBitmap(this.blurBitmap, 12.0f);
-        this.ignoreDraw = false;
-        Bitmap bitmap = this.blurBitmap;
-        if (bitmap != null && !bitmap.isRecycled()) {
-            Bitmap bitmap2 = this.blurBitmap;
-            Shader.TileMode tileMode = Shader.TileMode.CLAMP;
-            this.blurBitmapShader = new BitmapShader(bitmap2, tileMode, tileMode);
-            Matrix matrix = this.blurBitmapMatrix;
-            if (matrix == null) {
-                this.blurBitmapMatrix = new Matrix();
-            } else {
-                matrix.reset();
-            }
+            this.blurBitmapMatrix.postTranslate(-f3, -f4);
             this.blurBitmapShader.setLocalMatrix(this.blurBitmapMatrix);
-            if (this.blurPaint == null) {
-                Paint paint = new Paint(3);
-                this.blurPaint = paint;
-                paint.setColor(-1);
-            }
-            this.blurPaint.setShader(this.blurBitmapShader);
-            return;
+            this.blurPaint.setAlpha((int) (this.keyboardT * 255.0f * f2));
+            canvas.drawRoundRect(rectF, f, f, this.blurPaint);
         }
-        this.blurBitmap = null;
+        this.backgroundPaint.setAlpha((int) (this.blurPaint == null ? 128.0f : f2 * AndroidUtilities.lerp(128, (int) NotificationCenter.recordStopped, this.keyboardT)));
+        canvas.drawRoundRect(rectF, f, f, this.backgroundPaint);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateShowKeyboard$3(ValueAnimator valueAnimator) {
-        this.keyboardT = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        this.editText.getEditText().setTranslationX(AndroidUtilities.lerp(AndroidUtilities.dp(-22.0f) + getEditTextLeft(), AndroidUtilities.dp(2.0f), this.keyboardT));
-        this.editText.setTranslationX(AndroidUtilities.lerp(0, AndroidUtilities.dp(-8.0f), this.keyboardT));
-        this.editText.setTranslationY(AndroidUtilities.lerp(0, AndroidUtilities.dp(10.0f), this.keyboardT));
-        this.limitTextContainer.setTranslationX(AndroidUtilities.lerp(-AndroidUtilities.dp(8.0f), AndroidUtilities.dp(2.0f), this.keyboardT));
-        this.limitTextContainer.setTranslationY(AndroidUtilities.lerp(-AndroidUtilities.dp(8.0f), 0, this.keyboardT));
-        this.editText.getEmojiButton().setAlpha(this.keyboardT);
-        this.applyButton.setAlpha((float) Math.pow(this.keyboardT, 16.0d));
-        onUpdateShowKeyboard(this.keyboardT);
-        MentionsContainerView mentionsContainerView = this.mentionContainer;
-        if (mentionsContainerView != null) {
-            mentionsContainerView.setAlpha((float) Math.pow(this.keyboardT, 4.0d));
-        }
-        this.editText.getEditText().invalidate();
-        invalidate();
-    }
-
-    public int getCodePointCount() {
-        return this.codePointCount;
-    }
-
-    public boolean isCaptionOverLimit() {
-        return getCodePointCount() > getCaptionLimit();
-    }
-
-    protected int getCaptionLimit() {
-        return UserConfig.getInstance(this.currentAccount).isPremium() ? getCaptionPremiumLimit() : getCaptionDefaultLimit();
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void drawBlurBitmap(Bitmap bitmap, float f) {
-        Utilities.stackBlurBitmap(bitmap, (int) f);
-    }
-
-    public boolean onBackPressed() {
-        EditTextEmoji editTextEmoji = this.editText;
-        if (editTextEmoji.emojiExpanded && editTextEmoji.getEmojiView() != null) {
-            if (this.keyboardNotifier.keyboardVisible()) {
-                this.editText.getEmojiView().hideSearchKeyboard();
-            } else {
-                this.editText.collapseEmojiView();
+    public void drawHint(Canvas canvas, Runnable runnable) {
+        if (!customBlur()) {
+            Paint paint = this.captionBlur.getPaint(1.0f);
+            this.editText.getEditText().setHintColor(paint != null ? -1 : -2130706433);
+            if (paint == null) {
+                runnable.run();
+                return;
             }
-            return true;
-        } else if (this.editText.isPopupShowing()) {
-            this.editText.hidePopup(true);
-            return true;
-        } else if (!this.editText.isKeyboardVisible() || this.keyboardNotifier.ignoring) {
-            return false;
+            EditTextCaption editText = this.editText.getEditText();
+            canvas.saveLayerAlpha(0.0f, 0.0f, editText.getWidth(), editText.getHeight(), NotificationCenter.voipServiceCreated, 31);
+            runnable.run();
+            canvas.drawRect(0.0f, 0.0f, editText.getWidth(), editText.getHeight(), paint);
+            canvas.restore();
+        } else if (this.hintTextBitmap == null) {
+            runnable.run();
         } else {
-            closeKeyboard();
-            return true;
+            EditTextCaption editText2 = this.editText.getEditText();
+            canvas.translate(-editText2.hintLayoutX, 0.0f);
+            canvas.saveLayerAlpha(0.0f, 0.0f, this.hintTextBitmap.getWidth(), this.hintTextBitmap.getHeight(), NotificationCenter.voipServiceCreated, 31);
+            this.rectF.set(0.0f, 1.0f, this.hintTextBitmap.getWidth(), this.hintTextBitmap.getHeight() - 1);
+            drawBlur(this.captionBlur, canvas, this.rectF, 0.0f, true, (-this.editText.getX()) - editText2.getPaddingLeft(), ((-this.editText.getY()) - editText2.getPaddingTop()) - editText2.getExtendedPaddingTop(), true);
+            canvas.save();
+            this.hintTextBitmapPaint.setAlpha(NotificationCenter.activeGroupCallsUpdated);
+            canvas.drawBitmap(this.hintTextBitmap, 0.0f, 0.0f, this.hintTextBitmapPaint);
+            canvas.restore();
+            canvas.restore();
         }
-    }
-
-    public void setReply(CharSequence charSequence, CharSequence charSequence2) {
-        if (charSequence == null && charSequence2 == null) {
-            this.hasReply = false;
-            invalidate();
-            return;
-        }
-        this.hasReply = true;
-        if (charSequence == null) {
-            charSequence = "";
-        }
-        this.replyTitle = new Text(charSequence, 14.0f, AndroidUtilities.bold());
-        if (charSequence2 == null) {
-            charSequence2 = "";
-        }
-        this.replyText = new Text(charSequence2, 14.0f);
     }
 
     private void drawReply(Canvas canvas) {
@@ -1026,44 +870,325 @@ public class CaptionContainerView extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x018d, code lost:
-        if ((r0 <= 0.0f) != (r1 <= 0.0f)) goto L58;
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0(View view) {
+        closeKeyboard();
+        AndroidUtilities.cancelRunOnUIThread(this.textChangeRunnable);
+        this.textChangeRunnable.run();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$2() {
+        updateShowKeyboard(this.toKeyboardShow, true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$updateShowKeyboard$3(ValueAnimator valueAnimator) {
+        this.keyboardT = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        this.editText.getEditText().setTranslationX(AndroidUtilities.lerp(AndroidUtilities.dp(-22.0f) + getEditTextLeft(), AndroidUtilities.dp(2.0f), this.keyboardT));
+        this.editText.setTranslationX(AndroidUtilities.lerp(0, AndroidUtilities.dp(-8.0f), this.keyboardT));
+        this.editText.setTranslationY(AndroidUtilities.lerp(0, AndroidUtilities.dp(10.0f), this.keyboardT));
+        this.limitTextContainer.setTranslationX(AndroidUtilities.lerp(-AndroidUtilities.dp(8.0f), AndroidUtilities.dp(2.0f), this.keyboardT));
+        this.limitTextContainer.setTranslationY(AndroidUtilities.lerp(-AndroidUtilities.dp(8.0f), 0, this.keyboardT));
+        this.editText.getEmojiButton().setAlpha(this.keyboardT);
+        this.applyButton.setAlpha((float) Math.pow(this.keyboardT, 16.0d));
+        onUpdateShowKeyboard(this.keyboardT);
+        MentionsContainerView mentionsContainerView = this.mentionContainer;
+        if (mentionsContainerView != null) {
+            mentionsContainerView.setAlpha((float) Math.pow(this.keyboardT, 4.0d));
+        }
+        this.editText.getEditText().invalidate();
+        invalidate();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void replaceWithText(int i, int i2, CharSequence charSequence, boolean z) {
+        if (this.editText == null) {
+            return;
+        }
+        try {
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(this.editText.getText());
+            spannableStringBuilder.replace(i, i2 + i, charSequence);
+            if (z) {
+                Emoji.replaceEmoji((CharSequence) spannableStringBuilder, this.editText.getEditText().getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+            }
+            this.editText.setText(spannableStringBuilder);
+            this.editText.setSelection(i + charSequence.length());
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0038  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x003a  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0050  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0078  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0087  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x009e  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00b1  */
+    /* JADX WARN: Removed duplicated region for block: B:31:? A[RETURN, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void updateKeyboard(int i) {
+        int additionalKeyboardHeight;
+        int keyboardHeight;
+        int max;
+        ObjectAnimator objectAnimator;
+        ObjectAnimator objectAnimator2;
+        long j;
+        SizeNotifierFrameLayout sizeNotifierFrameLayout = this.sizeNotifierFrameLayout;
+        if (sizeNotifierFrameLayout != null) {
+            sizeNotifierFrameLayout.notifyHeightChanged();
+        }
+        if (!this.editText.isPopupShowing()) {
+            if (this.editText.isWaitingForKeyboardOpen()) {
+                additionalKeyboardHeight = additionalKeyboardHeight();
+                keyboardHeight = this.editText.getKeyboardHeight();
+            }
+            SizeNotifierFrameLayout sizeNotifierFrameLayout2 = this.sizeNotifierFrameLayout;
+            max = Math.max(0, i - (sizeNotifierFrameLayout2 != null ? 0 : sizeNotifierFrameLayout2.getBottomPadding()));
+            View view = (View) getParent();
+            view.clearAnimation();
+            objectAnimator = this.parentKeyboardAnimator;
+            if (objectAnimator != null) {
+                objectAnimator.removeAllListeners();
+                this.parentKeyboardAnimator.cancel();
+                this.parentKeyboardAnimator = null;
+            }
+            this.parentKeyboardAnimator = ObjectAnimator.ofFloat(view, FrameLayout.TRANSLATION_Y, view.getTranslationY(), -max);
+            if (max <= AndroidUtilities.dp(20.0f)) {
+                this.parentKeyboardAnimator.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
+                objectAnimator2 = this.parentKeyboardAnimator;
+                j = 250;
+            } else {
+                this.parentKeyboardAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+                objectAnimator2 = this.parentKeyboardAnimator;
+                j = 640;
+            }
+            objectAnimator2.setDuration(j);
+            this.parentKeyboardAnimator.start();
+            this.toKeyboardShow = max > AndroidUtilities.dp(20.0f);
+            AndroidUtilities.cancelRunOnUIThread(this.updateShowKeyboard);
+            AndroidUtilities.runOnUIThread(this.updateShowKeyboard);
+            if (max >= AndroidUtilities.dp(20.0f)) {
+                this.editText.getEditText().clearFocus();
+                this.editText.hidePopup(true);
+                return;
+            }
+            return;
+        }
+        additionalKeyboardHeight = additionalKeyboardHeight();
+        keyboardHeight = this.editText.getEmojiPadding();
+        i = Math.max(0, additionalKeyboardHeight + keyboardHeight);
+        SizeNotifierFrameLayout sizeNotifierFrameLayout22 = this.sizeNotifierFrameLayout;
+        max = Math.max(0, i - (sizeNotifierFrameLayout22 != null ? 0 : sizeNotifierFrameLayout22.getBottomPadding()));
+        View view2 = (View) getParent();
+        view2.clearAnimation();
+        objectAnimator = this.parentKeyboardAnimator;
+        if (objectAnimator != null) {
+        }
+        this.parentKeyboardAnimator = ObjectAnimator.ofFloat(view2, FrameLayout.TRANSLATION_Y, view2.getTranslationY(), -max);
+        if (max <= AndroidUtilities.dp(20.0f)) {
+        }
+        objectAnimator2.setDuration(j);
+        this.parentKeyboardAnimator.start();
+        this.toKeyboardShow = max > AndroidUtilities.dp(20.0f);
+        AndroidUtilities.cancelRunOnUIThread(this.updateShowKeyboard);
+        AndroidUtilities.runOnUIThread(this.updateShowKeyboard);
+        if (max >= AndroidUtilities.dp(20.0f)) {
+        }
+    }
+
+    private void updateShowKeyboard(final boolean z, boolean z2) {
+        ValueAnimator valueAnimator;
+        long j;
+        if (this.keyboardShown == z) {
+            return;
+        }
+        this.keyboardShown = z;
+        ValueAnimator valueAnimator2 = this.keyboardAnimator;
+        if (valueAnimator2 != null) {
+            valueAnimator2.cancel();
+            this.keyboardAnimator = null;
+        }
+        Utilities.Callback callback = this.onKeyboardOpen;
+        if (callback != null) {
+            callback.run(Boolean.valueOf(z));
+        }
+        beforeUpdateShownKeyboard(z);
+        if (z2) {
+            if (z) {
+                MentionsContainerView mentionsContainerView = this.mentionContainer;
+                if (mentionsContainerView != null) {
+                    mentionsContainerView.setVisibility(0);
+                }
+                this.applyButton.setVisibility(0);
+            } else {
+                this.editText.getEditText().scrollBy(0, -this.editText.getEditText().getScrollY());
+            }
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.keyboardT, z ? 1.0f : 0.0f);
+            this.keyboardAnimator = ofFloat;
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$$ExternalSyntheticLambda5
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
+                    CaptionContainerView.this.lambda$updateShowKeyboard$3(valueAnimator3);
+                }
+            });
+            if (!z) {
+                this.editText.getEditText().setAllowDrawCursor(false);
+            }
+            this.keyboardAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView.5
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    if (!z) {
+                        CaptionContainerView.this.applyButton.setVisibility(8);
+                        MentionsContainerView mentionsContainerView2 = CaptionContainerView.this.mentionContainer;
+                        if (mentionsContainerView2 != null) {
+                            mentionsContainerView2.setVisibility(8);
+                        }
+                    }
+                    if (z) {
+                        CaptionContainerView.this.editText.getEditText().setAllowDrawCursor(true);
+                    }
+                    CaptionContainerView.this.afterUpdateShownKeyboard(z);
+                }
+            });
+            ValueAnimator valueAnimator3 = this.keyboardAnimator;
+            if (z) {
+                valueAnimator3.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
+                valueAnimator = this.keyboardAnimator;
+                j = 250;
+            } else {
+                valueAnimator3.setInterpolator(new FastOutSlowInInterpolator());
+                valueAnimator = this.keyboardAnimator;
+                j = 420;
+            }
+            valueAnimator.setDuration(j);
+            this.keyboardAnimator.start();
+        } else {
+            this.keyboardT = z ? 1.0f : 0.0f;
+            this.editText.getEditText().setTranslationX(AndroidUtilities.lerp(AndroidUtilities.dp(-22.0f) + getEditTextLeft(), AndroidUtilities.dp(2.0f), this.keyboardT));
+            this.editText.setTranslationX(AndroidUtilities.lerp(0, AndroidUtilities.dp(-8.0f), this.keyboardT));
+            this.editText.setTranslationY(AndroidUtilities.lerp(0, AndroidUtilities.dp(10.0f), this.keyboardT));
+            this.limitTextContainer.setTranslationX(AndroidUtilities.lerp(-AndroidUtilities.dp(8.0f), AndroidUtilities.dp(2.0f), this.keyboardT));
+            this.limitTextContainer.setTranslationY(AndroidUtilities.lerp(-AndroidUtilities.dp(8.0f), 0, this.keyboardT));
+            this.editText.getEmojiButton().setAlpha(this.keyboardT);
+            this.applyButton.setVisibility(z ? 0 : 8);
+            this.applyButton.setAlpha(z ? 1.0f : 0.0f);
+            onUpdateShowKeyboard(this.keyboardT);
+            this.editText.getEditText().setAllowDrawCursor(z);
+            afterUpdateShownKeyboard(z);
+            invalidate();
+        }
+        animateScrollTo(z);
+        this.editText.setSuggestionsEnabled(z);
+        if (!z) {
+            this.editText.getEditText().setSpoilersRevealed(false, true);
+        }
+        if (!z || SharedConfig.getDevicePerformanceClass() < 1 || LiteMode.isPowerSaverApplied()) {
+            return;
+        }
+        if (this.blurBitmap == null) {
+            this.blurBitmap = Bitmap.createBitmap((int) (this.rootView.getWidth() / 12.0f), (int) (this.rootView.getHeight() / 12.0f), Bitmap.Config.ARGB_8888);
+        }
+        this.ignoreDraw = true;
+        drawBlurBitmap(this.blurBitmap, 12.0f);
+        this.ignoreDraw = false;
+        Bitmap bitmap = this.blurBitmap;
+        if (bitmap == null || bitmap.isRecycled()) {
+            this.blurBitmap = null;
+            return;
+        }
+        Bitmap bitmap2 = this.blurBitmap;
+        Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+        this.blurBitmapShader = new BitmapShader(bitmap2, tileMode, tileMode);
+        Matrix matrix = this.blurBitmapMatrix;
+        if (matrix == null) {
+            this.blurBitmapMatrix = new Matrix();
+        } else {
+            matrix.reset();
+        }
+        this.blurBitmapShader.setLocalMatrix(this.blurBitmapMatrix);
+        if (this.blurPaint == null) {
+            Paint paint = new Paint(3);
+            this.blurPaint = paint;
+            paint.setColor(-1);
+        }
+        this.blurPaint.setShader(this.blurBitmapShader);
+    }
+
+    protected int additionalKeyboardHeight() {
+        return AndroidUtilities.navigationBarHeight;
+    }
+
+    public int additionalRightMargin() {
+        return 0;
+    }
+
+    protected abstract void afterUpdateShownKeyboard(boolean z);
+
+    protected abstract void beforeUpdateShownKeyboard(boolean z);
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public abstract boolean captionLimitToast();
+
+    public void clear() {
+        this.ignoreTextChange = true;
+        this.editText.setText("");
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    public void clearFocus() {
+        this.editText.clearFocus();
+    }
+
+    protected boolean clipChild(View view) {
+        return true;
+    }
+
+    public void closeKeyboard() {
+        this.editText.closeKeyboard();
+        this.editText.hidePopup(true);
+    }
+
+    protected boolean customBlur() {
+        return false;
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x017a, code lost:
+        if ((r0 <= 0.0f) != (r1 <= 0.0f)) goto L59;
      */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void dispatchDraw(Canvas canvas) {
-        int min;
         int i;
-        float dp;
+        Paint paint;
+        int i2;
         if (this.ignoreDraw) {
             return;
         }
         int height = this.editText.getHeight();
-        if (this.collapsed) {
-            min = AndroidUtilities.dp(40.0f);
-        } else if (this.keyboardShown) {
-            min = Math.max(AndroidUtilities.dp(46.0f), height);
-        } else {
-            min = Math.min(AndroidUtilities.dp(82.0f), height);
-        }
+        int dp = this.collapsed ? AndroidUtilities.dp(40.0f) : this.keyboardShown ? Math.max(AndroidUtilities.dp(46.0f), height) : Math.min(AndroidUtilities.dp(82.0f), height);
         if (!this.collapsed && this.hasReply) {
-            min += AndroidUtilities.dp(50.0f);
+            dp += AndroidUtilities.dp(50.0f);
         }
-        float f = min;
-        int i2 = (int) this.heightAnimated.set(f);
-        if (i2 != this.lastHeight) {
-            onEditHeightChange(i2);
-            Utilities.Callback<Integer> callback = this.onHeightUpdate;
+        float f = dp;
+        int i3 = (int) this.heightAnimated.set(f);
+        if (i3 != this.lastHeight) {
+            onEditHeightChange(i3);
+            Utilities.Callback callback = this.onHeightUpdate;
             if (callback != null) {
-                callback.run(Integer.valueOf(i2));
+                callback.run(Integer.valueOf(i3));
             }
-            this.lastHeight = min;
+            this.lastHeight = dp;
         }
         updateMentionsLayoutPosition();
         float dpf2 = (AndroidUtilities.dpf2(-1.0f) * this.keyboardT) + f;
-        float f2 = i2;
+        float f2 = i3;
         float f3 = dpf2 - f2;
         if (Math.abs(this.lastHeightTranslation - f3) >= 1.0f && !this.collapsed) {
             EditTextCaption editText = this.editText.getEditText();
@@ -1072,7 +1197,7 @@ public class CaptionContainerView extends FrameLayout {
         }
         float lerp = AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), 0, this.keyboardT);
         this.bounds.set(lerp, (getHeight() - lerp) - f2, getWidth() - lerp, getHeight() - lerp);
-        this.clickBounds.set(0.0f, (getHeight() - i2) - AndroidUtilities.dp(24.0f), getWidth(), getHeight());
+        this.clickBounds.set(0.0f, (getHeight() - i3) - AndroidUtilities.dp(24.0f), getWidth(), getHeight());
         canvas.save();
         float scale = this.bounce.getScale(0.018f);
         canvas.scale(scale, scale, this.bounds.centerX(), this.bounds.centerY());
@@ -1080,27 +1205,29 @@ public class CaptionContainerView extends FrameLayout {
         if (customBlur()) {
             i = 1;
             drawBlur(this.backgroundBlur, canvas, this.bounds, lerp2, false, 0.0f, 0.0f, true);
-            this.backgroundPaint.setAlpha(AndroidUtilities.lerp(38, 64, this.keyboardT));
-            canvas.drawRoundRect(this.bounds, lerp2, lerp2, this.backgroundPaint);
+            paint = this.backgroundPaint;
+            i2 = AndroidUtilities.lerp(38, 64, this.keyboardT);
         } else {
             i = 1;
             Paint[] paints = this.backgroundBlur.getPaints(1.0f, 0.0f, 0.0f);
             if (paints == null || paints[1] == null) {
-                this.backgroundPaint.setAlpha(128);
-                canvas.drawRoundRect(this.bounds, lerp2, lerp2, this.backgroundPaint);
+                paint = this.backgroundPaint;
+                i2 = 128;
             } else {
-                Paint paint = paints[0];
-                if (paint != null) {
-                    canvas.drawRoundRect(this.bounds, lerp2, lerp2, paint);
-                }
-                Paint paint2 = paints[1];
+                Paint paint2 = paints[0];
                 if (paint2 != null) {
                     canvas.drawRoundRect(this.bounds, lerp2, lerp2, paint2);
                 }
-                this.backgroundPaint.setAlpha(51);
-                canvas.drawRoundRect(this.bounds, lerp2, lerp2, this.backgroundPaint);
+                Paint paint3 = paints[1];
+                if (paint3 != null) {
+                    canvas.drawRoundRect(this.bounds, lerp2, lerp2, paint3);
+                }
+                paint = this.backgroundPaint;
+                i2 = 51;
             }
         }
+        paint.setAlpha(i2);
+        canvas.drawRoundRect(this.bounds, lerp2, lerp2, this.backgroundPaint);
         float f4 = this.collapsedT.get();
         float f5 = this.collapsedT.set(this.collapsed);
         if (Math.abs(f4 - f5) <= 0.001f) {
@@ -1112,40 +1239,36 @@ public class CaptionContainerView extends FrameLayout {
         drawReply(canvas);
         super.dispatchDraw(canvas);
         if (f5 > 0.0f) {
-            int i3 = this.collapsedFromX;
-            if (i3 == Integer.MAX_VALUE) {
-                dp = this.bounds.right - AndroidUtilities.dp(20.0f);
-            } else {
-                dp = i3 == Integer.MIN_VALUE ? this.bounds.left + AndroidUtilities.dp(20.0f) : i3;
-            }
-            float dp2 = this.bounds.bottom - AndroidUtilities.dp(20.0f);
+            int i4 = this.collapsedFromX;
+            float dp2 = i4 == Integer.MAX_VALUE ? this.bounds.right - AndroidUtilities.dp(20.0f) : i4 == Integer.MIN_VALUE ? this.bounds.left + AndroidUtilities.dp(20.0f) : i4;
+            float dp3 = this.bounds.bottom - AndroidUtilities.dp(20.0f);
             RectF rectF = this.bounds;
-            float distance = MathUtils.distance(rectF.left, rectF.top, dp, dp2);
+            float distance = MathUtils.distance(rectF.left, rectF.top, dp2, dp3);
             RectF rectF2 = this.bounds;
-            float max = Math.max(distance, MathUtils.distance(rectF2.left, rectF2.bottom, dp, dp2));
+            float max = Math.max(distance, MathUtils.distance(rectF2.left, rectF2.bottom, dp2, dp3));
             RectF rectF3 = this.bounds;
-            float distance2 = MathUtils.distance(rectF3.right, rectF3.top, dp, dp2);
+            float distance2 = MathUtils.distance(rectF3.right, rectF3.top, dp2, dp3);
             RectF rectF4 = this.bounds;
-            float max2 = Math.max(max, Math.max(distance2, MathUtils.distance(rectF4.right, rectF4.bottom, dp, dp2))) * f5;
+            float max2 = Math.max(max, Math.max(distance2, MathUtils.distance(rectF4.right, rectF4.bottom, dp2, dp3))) * f5;
             if (this.collapsePaint == null) {
-                Paint paint3 = new Paint(i);
-                this.collapsePaint = paint3;
+                Paint paint4 = new Paint(i);
+                this.collapsePaint = paint4;
                 PorterDuff.Mode mode = PorterDuff.Mode.DST_OUT;
-                paint3.setXfermode(new PorterDuffXfermode(mode));
+                paint4.setXfermode(new PorterDuffXfermode(mode));
                 Shader.TileMode tileMode = Shader.TileMode.CLAMP;
                 RadialGradient radialGradient = new RadialGradient(0.0f, 0.0f, 32.0f, new int[]{-1, -1, 0}, new float[]{0.0f, 0.6f, 1.0f}, tileMode);
                 this.collapseGradient = radialGradient;
                 this.collapsePaint.setShader(radialGradient);
                 this.collapseGradientMatrix = new Matrix();
-                Paint paint4 = new Paint(i);
-                this.collapseOutPaint = paint4;
-                paint4.setXfermode(new PorterDuffXfermode(mode));
+                Paint paint5 = new Paint(i);
+                this.collapseOutPaint = paint5;
+                paint5.setXfermode(new PorterDuffXfermode(mode));
                 RadialGradient radialGradient2 = new RadialGradient(0.0f, 0.0f, 32.0f, new int[]{0, 0, -1}, new float[]{0.0f, 0.5f, 1.0f}, tileMode);
                 this.collapseOutGradient = radialGradient2;
                 this.collapseOutPaint.setShader(radialGradient2);
             }
             this.collapseGradientMatrix.reset();
-            this.collapseGradientMatrix.postTranslate(dp, dp2);
+            this.collapseGradientMatrix.postTranslate(dp2, dp3);
             this.collapseGradientMatrix.preScale(Math.max(1.0f, max2) / 16.0f, Math.max(1.0f, max2) / 16.0f);
             this.collapseGradient.setLocalMatrix(this.collapseGradientMatrix);
             canvas.save();
@@ -1155,7 +1278,7 @@ public class CaptionContainerView extends FrameLayout {
             canvas.saveLayerAlpha(this.bounds, NotificationCenter.voipServiceCreated, 31);
             drawOver(canvas, this.bounds);
             this.collapseGradientMatrix.reset();
-            this.collapseGradientMatrix.postTranslate(dp, dp2);
+            this.collapseGradientMatrix.postTranslate(dp2, dp3);
             this.collapseGradientMatrix.preScale(Math.max(1.0f, max2) / 16.0f, Math.max(1.0f, max2) / 16.0f);
             this.collapseOutGradient.setLocalMatrix(this.collapseGradientMatrix);
             canvas.save();
@@ -1169,77 +1292,48 @@ public class CaptionContainerView extends FrameLayout {
         canvas.restore();
     }
 
-    public float getOver2Alpha() {
-        return this.collapsedT.get();
-    }
-
-    public void setCollapsed(boolean z, int i) {
-        this.collapsed = z;
-        this.collapsedFromX = i;
-        invalidate();
-    }
-
-    public RectF getBounds() {
-        return this.bounds;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void drawHint(Canvas canvas, Runnable runnable) {
-        if (customBlur()) {
-            if (this.hintTextBitmap == null) {
-                runnable.run();
-                return;
+    @Override // android.view.ViewGroup, android.view.View
+    public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+        if (this.ignoreTouches || ((motionEvent.getAction() == 0 && ignoreTouches(motionEvent.getX(), motionEvent.getY())) || !(this.clickBounds.contains(motionEvent.getX(), motionEvent.getY()) || this.keyboardShown))) {
+            return false;
+        }
+        if (motionEvent.getAction() != 0 || this.keyboardShown) {
+            if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
+                this.bounce.setPressed(false);
             }
-            EditTextCaption editText = this.editText.getEditText();
-            canvas.translate(-editText.hintLayoutX, 0.0f);
-            canvas.saveLayerAlpha(0.0f, 0.0f, this.hintTextBitmap.getWidth(), this.hintTextBitmap.getHeight(), NotificationCenter.voipServiceCreated, 31);
-            this.rectF.set(0.0f, 1.0f, this.hintTextBitmap.getWidth(), this.hintTextBitmap.getHeight() - 1);
-            drawBlur(this.captionBlur, canvas, this.rectF, 0.0f, true, (-this.editText.getX()) - editText.getPaddingLeft(), ((-this.editText.getY()) - editText.getPaddingTop()) - editText.getExtendedPaddingTop(), true);
-            canvas.save();
-            this.hintTextBitmapPaint.setAlpha(NotificationCenter.activeGroupCallsUpdated);
-            canvas.drawBitmap(this.hintTextBitmap, 0.0f, 0.0f, this.hintTextBitmapPaint);
-            canvas.restore();
-            canvas.restore();
-            return;
+            return super.dispatchTouchEvent(motionEvent);
+        } else if ((this instanceof CaptionStory) && ((CaptionStory) this).isRecording()) {
+            return super.dispatchTouchEvent(motionEvent);
+        } else {
+            for (int i = 0; i < getChildCount(); i++) {
+                View childAt = getChildAt(i);
+                if (childAt != null && childAt.isClickable() && childAt.getVisibility() == 0 && childAt.getAlpha() >= 0.5f && this.editText != childAt) {
+                    this.rectF.set(childAt.getX(), childAt.getY(), childAt.getX() + childAt.getWidth(), childAt.getY() + childAt.getHeight());
+                    if (this.rectF.contains(motionEvent.getX(), motionEvent.getY())) {
+                        return super.dispatchTouchEvent(motionEvent);
+                    }
+                }
+            }
+            this.editText.getEditText().setForceCursorEnd(true);
+            this.editText.getEditText().requestFocus();
+            this.editText.openKeyboard();
+            this.editText.getEditText().setScrollY(0);
+            this.bounce.setPressed(true);
+            return true;
         }
-        Paint paint = this.captionBlur.getPaint(1.0f);
-        this.editText.getEditText().setHintColor(paint != null ? -1 : -2130706433);
-        if (paint == null) {
-            runnable.run();
-            return;
-        }
-        EditTextCaption editText2 = this.editText.getEditText();
-        canvas.saveLayerAlpha(0.0f, 0.0f, editText2.getWidth(), editText2.getHeight(), NotificationCenter.voipServiceCreated, 31);
-        runnable.run();
-        canvas.drawRect(0.0f, 0.0f, editText2.getWidth(), editText2.getHeight(), paint);
-        canvas.restore();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void drawBackground(Canvas canvas, RectF rectF, float f, float f2, View view) {
-        Bitmap bitmap;
-        float f3 = 0.0f;
-        if (this.keyboardT > 0.0f && this.blurPaint != null && this.blurBitmapShader != null && (bitmap = this.blurBitmap) != null && !bitmap.isRecycled()) {
-            this.blurBitmapMatrix.reset();
-            this.blurBitmapMatrix.postScale(this.rootView.getWidth() / this.blurBitmap.getWidth(), this.rootView.getHeight() / this.blurBitmap.getHeight());
-            float f4 = 0.0f;
-            for (int i = 0; i < 8 && view != null; i++) {
-                f3 += view.getX();
-                f4 += view.getY();
-                ViewParent parent = view.getParent();
-                view = parent instanceof View ? (View) parent : null;
-            }
-            this.blurBitmapMatrix.postTranslate(-f3, -f4);
-            this.blurBitmapShader.setLocalMatrix(this.blurBitmapMatrix);
-            this.blurPaint.setAlpha((int) (this.keyboardT * 255.0f * f2));
-            canvas.drawRoundRect(rectF, f, f, this.blurPaint);
-        }
-        this.backgroundPaint.setAlpha((int) (this.blurPaint == null ? 128.0f : f2 * AndroidUtilities.lerp(128, (int) NotificationCenter.recordStopped, this.keyboardT)));
-        canvas.drawRoundRect(rectF, f, f, this.backgroundPaint);
+    protected void drawBlur(BlurringShader.StoryBlurDrawer storyBlurDrawer, Canvas canvas, RectF rectF, float f, boolean z, float f2, float f3, boolean z2) {
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void drawBlurBitmap(Bitmap bitmap, float f) {
+        Utilities.stackBlurBitmap(bitmap, (int) f);
     }
 
     @Override // android.view.ViewGroup
     protected boolean drawChild(Canvas canvas, View view, long j) {
+        boolean drawChild;
         EditTextEmoji editTextEmoji = this.editText;
         if (view == editTextEmoji) {
             float max = Math.max(0, (editTextEmoji.getHeight() - AndroidUtilities.dp(82.0f)) - this.editText.getScrollY()) * (1.0f - this.keyboardT);
@@ -1247,7 +1341,7 @@ public class CaptionContainerView extends FrameLayout {
             canvas.save();
             canvas.clipRect(this.bounds);
             canvas.translate(0.0f, max);
-            boolean drawChild = super.drawChild(canvas, view, j);
+            drawChild = super.drawChild(canvas, view, j);
             canvas.restore();
             canvas.save();
             this.matrix.reset();
@@ -1267,77 +1361,65 @@ public class CaptionContainerView extends FrameLayout {
             RectF rectF3 = this.bounds;
             canvas.drawRect(f3, dp, rectF3.right, rectF3.bottom, this.fadePaint);
             canvas.restore();
-            canvas.restore();
-            return drawChild;
-        } else if (clipChild(view)) {
+        } else if (!clipChild(view)) {
+            return super.drawChild(canvas, view, j);
+        } else {
             canvas.save();
             canvas.clipRect(this.bounds);
-            boolean drawChild2 = super.drawChild(canvas, view, j);
-            canvas.restore();
-            return drawChild2;
-        } else {
-            return super.drawChild(canvas, view, j);
+            drawChild = super.drawChild(canvas, view, j);
         }
+        canvas.restore();
+        return drawChild;
     }
 
-    @Override // android.view.ViewGroup, android.view.View
-    public void clearFocus() {
-        this.editText.clearFocus();
+    public void drawOver(Canvas canvas, RectF rectF) {
     }
 
-    public void clear() {
-        this.ignoreTextChange = true;
-        this.editText.setText("");
+    public void drawOver2(Canvas canvas, RectF rectF, float f) {
     }
 
-    public void setText(CharSequence charSequence) {
-        this.ignoreTextChange = true;
-        this.editText.setText(charSequence);
+    public boolean drawOver2FromParent() {
+        return false;
     }
 
-    public CharSequence getText() {
-        return this.editText.getText();
+    public RectF getBounds() {
+        return this.bounds;
     }
 
-    public void updateMentionsLayoutPosition() {
-        if (this.mentionContainer != null) {
-            float translationY = ((View) getParent()).getTranslationY() - this.heightAnimated.get();
-            if (this.mentionContainer.getY() != translationY) {
-                this.mentionContainer.setTranslationY(translationY);
-                this.mentionContainer.invalidate();
-            }
-        }
+    protected int getCaptionDefaultLimit() {
+        return 0;
     }
 
-    /* loaded from: classes4.dex */
-    public static class BounceableImageView extends ImageView {
-        private final ButtonBounce bounce;
-        private final float scale;
+    protected int getCaptionLimit() {
+        return UserConfig.getInstance(this.currentAccount).isPremium() ? getCaptionPremiumLimit() : getCaptionDefaultLimit();
+    }
 
-        public BounceableImageView(Context context) {
-            this(context, 0.2f);
-        }
+    protected int getCaptionPremiumLimit() {
+        return 0;
+    }
 
-        public BounceableImageView(Context context, float f) {
-            super(context);
-            this.bounce = new ButtonBounce(this);
-            this.scale = f;
-        }
+    public int getCodePointCount() {
+        return this.codePointCount;
+    }
 
-        @Override // android.view.View
-        public void setPressed(boolean z) {
-            super.setPressed(z);
-            this.bounce.setPressed(z);
-        }
+    public int getEditTextHeight() {
+        return (int) this.heightAnimated.get();
+    }
 
-        @Override // android.view.View
-        public void draw(Canvas canvas) {
-            canvas.save();
-            float scale = this.bounce.getScale(this.scale);
-            canvas.scale(scale, scale, getWidth() / 2.0f, getHeight() / 2.0f);
-            super.draw(canvas);
-            canvas.restore();
-        }
+    public int getEditTextHeightClosedKeyboard() {
+        return Math.min(AndroidUtilities.dp(82.0f), this.editText.getHeight());
+    }
+
+    protected int getEditTextLeft() {
+        return 0;
+    }
+
+    protected int getEditTextStyle() {
+        return 2;
+    }
+
+    public float getOver2Alpha() {
+        return this.collapsedT.get();
     }
 
     public int getSelectionLength() {
@@ -1352,10 +1434,31 @@ public class CaptionContainerView extends FrameLayout {
         return 0;
     }
 
-    public void updateColors(Theme.ResourcesProvider resourcesProvider) {
-        this.resourcesProvider = resourcesProvider;
-        this.applyButtonCheck.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_dialogFloatingIcon), PorterDuff.Mode.SRC_IN));
-        this.applyButtonDrawable.setBackgroundDrawable(Theme.createCircleDrawable(AndroidUtilities.dp(16.0f), Theme.getColor(Theme.key_chat_editMediaButton, resourcesProvider)));
+    public CharSequence getText() {
+        return this.editText.getText();
+    }
+
+    protected abstract boolean ignoreTouches(float f, float f2);
+
+    public void invalidateBlur() {
+        invalidate();
+        this.editText.getEditText().invalidate();
+        this.editText.getEmojiButton().invalidate();
+        MentionsContainerView mentionsContainerView = this.mentionContainer;
+        if (mentionsContainerView != null) {
+            mentionsContainerView.invalidate();
+        }
+        if (this.editText.getEmojiView() == null || !customBlur()) {
+            return;
+        }
+        this.editText.getEmojiView().invalidate();
+    }
+
+    public void invalidateDrawOver2() {
+    }
+
+    public boolean isCaptionOverLimit() {
+        return getCodePointCount() > getCaptionLimit();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -1376,6 +1479,29 @@ public class CaptionContainerView extends FrameLayout {
         }
     }
 
+    public boolean onBackPressed() {
+        EditTextEmoji editTextEmoji = this.editText;
+        if (editTextEmoji.emojiExpanded && editTextEmoji.getEmojiView() != null) {
+            if (this.keyboardNotifier.keyboardVisible()) {
+                this.editText.getEmojiView().hideSearchKeyboard();
+            } else {
+                this.editText.collapseEmojiView();
+            }
+            return true;
+        } else if (this.editText.isPopupShowing()) {
+            this.editText.hidePopup(true);
+            return true;
+        } else if (!this.editText.isKeyboardVisible() || this.keyboardNotifier.ignoring) {
+            return false;
+        } else {
+            closeKeyboard();
+            return true;
+        }
+    }
+
+    protected void onCaptionLimitUpdate(boolean z) {
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void onDetachedFromWindow() {
@@ -1393,190 +1519,99 @@ public class CaptionContainerView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
-    public static class PeriodDrawable extends Drawable {
-        private final Path activePath;
-        public final AnimatedTextView.AnimatedTextDrawable activeTextDrawable;
-        private boolean clear;
-        private float cx;
-        private float cy;
-        private final int dashes;
-        public float diameterDp;
-        private final Paint fillPaint;
-        private final AnimatedFloat fillT;
-        private boolean filled;
-        public final Paint strokePaint;
-        public final AnimatedTextView.AnimatedTextDrawable textDrawable;
-        public float textOffsetX;
-        public float textOffsetY;
+    protected void onEditHeightChange(int i) {
+    }
 
-        @Override // android.graphics.drawable.Drawable
-        public int getOpacity() {
-            return -2;
+    public void onPause() {
+        this.editText.onPause();
+    }
+
+    public void onResume() {
+        this.editText.onResume();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* renamed from: onTextChange */
+    public void lambda$new$1() {
+    }
+
+    protected abstract void onUpdateShowKeyboard(float f);
+
+    public void setAccount(int i) {
+        this.currentAccount = i;
+    }
+
+    public void setCollapsed(boolean z, int i) {
+        this.collapsed = z;
+        this.collapsedFromX = i;
+        invalidate();
+    }
+
+    public void setOnHeightUpdate(Utilities.Callback<Integer> callback) {
+        this.onHeightUpdate = callback;
+    }
+
+    public void setOnKeyboardOpen(Utilities.Callback<Boolean> callback) {
+        this.onKeyboardOpen = callback;
+    }
+
+    @Override // android.view.View
+    public void setPressed(boolean z) {
+        super.setPressed(z);
+        this.bounce.setPressed(z && !this.keyboardShown);
+    }
+
+    public void setReply(CharSequence charSequence, CharSequence charSequence2) {
+        if (charSequence == null && charSequence2 == null) {
+            this.hasReply = false;
+            invalidate();
+            return;
         }
-
-        @Override // android.graphics.drawable.Drawable
-        public void setAlpha(int i) {
+        this.hasReply = true;
+        if (charSequence == null) {
+            charSequence = "";
         }
-
-        @Override // android.graphics.drawable.Drawable
-        public void setColorFilter(ColorFilter colorFilter) {
+        this.replyTitle = new Text(charSequence, 14.0f, AndroidUtilities.bold());
+        if (charSequence2 == null) {
+            charSequence2 = "";
         }
+        this.replyText = new Text(charSequence2, 14.0f);
+    }
 
-        public PeriodDrawable() {
-            this(5);
-        }
+    public void setText(CharSequence charSequence) {
+        this.ignoreTextChange = true;
+        this.editText.setText(charSequence);
+    }
 
-        public PeriodDrawable(int i) {
-            Paint paint = new Paint(1);
-            this.strokePaint = paint;
-            this.fillPaint = new Paint(1);
-            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = new AnimatedTextView.AnimatedTextDrawable(true, false, false) { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView.PeriodDrawable.1
-                @Override // android.graphics.drawable.Drawable
-                public void invalidateSelf() {
-                    PeriodDrawable.this.invalidateSelf();
-                }
-            };
-            this.textDrawable = animatedTextDrawable;
-            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = new AnimatedTextView.AnimatedTextDrawable(true, false, false) { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView.PeriodDrawable.2
-                @Override // android.graphics.drawable.Drawable
-                public void invalidateSelf() {
-                    PeriodDrawable.this.invalidateSelf();
-                }
-            };
-            this.activeTextDrawable = animatedTextDrawable2;
-            this.filled = false;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$PeriodDrawable$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    CaptionContainerView.PeriodDrawable.this.invalidateSelf();
-                }
-            };
-            CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
-            this.fillT = new AnimatedFloat(runnable, 0L, 350L, cubicBezierInterpolator);
-            this.activePath = new Path();
-            this.diameterDp = 21.0f;
-            this.dashes = i;
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(AndroidUtilities.dpf2(1.66f));
-            paint.setStrokeCap(Paint.Cap.ROUND);
-            animatedTextDrawable.setAnimationProperties(0.3f, 0L, 250L, cubicBezierInterpolator);
-            animatedTextDrawable.setTypeface(AndroidUtilities.getTypeface("fonts/num.otf"));
-            animatedTextDrawable.setTextSize(AndroidUtilities.dpf2(12.0f));
-            animatedTextDrawable.setGravity(17);
-            animatedTextDrawable2.setAnimationProperties(0.3f, 0L, 250L, cubicBezierInterpolator);
-            animatedTextDrawable2.setTypeface(AndroidUtilities.getTypeface("fonts/num.otf"));
-            animatedTextDrawable2.setTextSize(AndroidUtilities.dpf2(12.0f));
-            animatedTextDrawable2.setGravity(17);
-            updateColors(-1, -15033089, -1);
-        }
+    public void setUiBlurBitmap(Utilities.CallbackVoidReturn<Bitmap> callbackVoidReturn) {
+        this.getUiBlurBitmap = callbackVoidReturn;
+    }
 
-        public void setTextSize(float f) {
-            this.activeTextDrawable.setTextSize(AndroidUtilities.dpf2(f));
-            this.textDrawable.setTextSize(AndroidUtilities.dpf2(f));
-        }
+    protected void setupMentionContainer() {
+        this.mentionContainer.getAdapter().setAllowStickers(false);
+        this.mentionContainer.getAdapter().setAllowBots(false);
+        this.mentionContainer.getAdapter().setAllowChats(false);
+        this.mentionContainer.getAdapter().setSearchInDailogs(true);
+    }
 
-        public void updateColors(int i, int i2, int i3) {
-            this.strokePaint.setColor(i);
-            this.textDrawable.setTextColor(i);
-            this.activeTextDrawable.setTextColor(i3);
-            this.fillPaint.setColor(i2);
-        }
+    public void updateColors(Theme.ResourcesProvider resourcesProvider) {
+        this.resourcesProvider = resourcesProvider;
+        this.applyButtonCheck.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_dialogFloatingIcon), PorterDuff.Mode.SRC_IN));
+        this.applyButtonDrawable.setBackgroundDrawable(Theme.createCircleDrawable(AndroidUtilities.dp(16.0f), Theme.getColor(Theme.key_chat_editMediaButton, resourcesProvider)));
+    }
 
-        public void setClear(boolean z) {
-            if (this.clear != z) {
-                this.clear = z;
-                this.strokePaint.setXfermode(z ? new PorterDuffXfermode(PorterDuff.Mode.CLEAR) : null);
-                this.textDrawable.getPaint().setXfermode(z ? new PorterDuffXfermode(PorterDuff.Mode.CLEAR) : null);
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void updateEditTextLeft() {
+        this.editText.getEditText().setTranslationX(AndroidUtilities.lerp(AndroidUtilities.dp(-22.0f) + getEditTextLeft(), AndroidUtilities.dp(2.0f), this.keyboardT));
+    }
+
+    public void updateMentionsLayoutPosition() {
+        if (this.mentionContainer != null) {
+            float translationY = ((View) getParent()).getTranslationY() - this.heightAnimated.get();
+            if (this.mentionContainer.getY() != translationY) {
+                this.mentionContainer.setTranslationY(translationY);
+                this.mentionContainer.invalidate();
             }
-        }
-
-        public void setCenterXY(float f, float f2) {
-            this.cx = f;
-            this.cy = f2;
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public void setBounds(Rect rect) {
-            super.setBounds(rect);
-            this.cx = getBounds().centerX();
-            this.cy = getBounds().centerY();
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public void setBounds(int i, int i2, int i3, int i4) {
-            super.setBounds(i, i2, i3, i4);
-            this.cx = getBounds().centerX();
-            this.cy = getBounds().centerY();
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public void draw(Canvas canvas) {
-            draw(canvas, 1.0f);
-        }
-
-        public void draw(Canvas canvas, float f) {
-            float dpf2 = AndroidUtilities.dpf2(this.diameterDp) / 2.0f;
-            float f2 = this.fillT.set(this.filled);
-            if (f2 > 0.0f) {
-                this.fillPaint.setAlpha((int) (f * 255.0f * f2));
-                canvas.drawCircle(this.cx, this.cy, AndroidUtilities.dpf2(11.33f) * f2, this.fillPaint);
-            }
-            float f3 = f * 255.0f;
-            this.strokePaint.setAlpha((int) ((1.0f - f2) * f3));
-            RectF rectF = AndroidUtilities.rectTmp;
-            float f4 = this.cx;
-            float f5 = this.cy;
-            rectF.set(f4 - dpf2, f5 - dpf2, f4 + dpf2, f5 + dpf2);
-            canvas.drawArc(rectF, 90.0f, 180.0f, false, this.strokePaint);
-            int i = this.dashes;
-            float f6 = (i * 1.0f) + ((i + 1) * 1.5f);
-            float f7 = (1.0f / f6) * 180.0f;
-            float f8 = (1.5f / f6) * 180.0f;
-            float f9 = f8;
-            for (int i2 = 0; i2 < this.dashes; i2++) {
-                canvas.drawArc(AndroidUtilities.rectTmp, f9 + 270.0f, f7, false, this.strokePaint);
-                f9 += f7 + f8;
-            }
-            canvas.save();
-            canvas.translate(this.textOffsetX + 0.0f, this.textOffsetY);
-            Rect rect = AndroidUtilities.rectTmp2;
-            rect.set((int) (this.cx - AndroidUtilities.dp(20.0f)), (int) (this.cy - AndroidUtilities.dp(20.0f)), (int) (this.cx + AndroidUtilities.dp(20.0f)), (int) (this.cy + AndroidUtilities.dp(20.0f)));
-            this.textDrawable.setBounds(rect);
-            int i3 = (int) f3;
-            this.textDrawable.setAlpha(i3);
-            this.textDrawable.draw(canvas);
-            if (f2 > 0.0f) {
-                this.activePath.rewind();
-                this.activePath.addCircle(this.cx, this.cy + AndroidUtilities.dp(1.0f), AndroidUtilities.dpf2(11.33f) * f2, Path.Direction.CW);
-                canvas.clipPath(this.activePath);
-                this.activeTextDrawable.setBounds(rect);
-                this.activeTextDrawable.setAlpha(i3);
-                this.activeTextDrawable.draw(canvas);
-            }
-            canvas.restore();
-        }
-
-        public void setValue(int i, boolean z, boolean z2) {
-            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.textDrawable;
-            animatedTextDrawable.setText("" + i, z2);
-            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = this.activeTextDrawable;
-            animatedTextDrawable2.setText("" + i, z2);
-            this.filled = z;
-            if (!z2) {
-                this.fillT.set(z, true);
-            }
-            invalidateSelf();
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public int getIntrinsicHeight() {
-            return AndroidUtilities.dp(24.0f);
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public int getIntrinsicWidth() {
-            return AndroidUtilities.dp(24.0f);
         }
     }
 }

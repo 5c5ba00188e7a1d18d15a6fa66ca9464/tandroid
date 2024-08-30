@@ -12,7 +12,6 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.primitives.Ints;
-import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,19 +24,85 @@ public class SubtitleExtractor implements Extractor {
     private TrackOutput trackOutput;
     private final CueEncoder cueEncoder = new CueEncoder();
     private final ParsableByteArray subtitleData = new ParsableByteArray();
-    private final List<Long> timestamps = new ArrayList();
-    private final List<ParsableByteArray> samples = new ArrayList();
+    private final List timestamps = new ArrayList();
+    private final List samples = new ArrayList();
     private int state = 0;
     private long seekTimeUs = -9223372036854775807L;
-
-    @Override // com.google.android.exoplayer2.extractor.Extractor
-    public boolean sniff(ExtractorInput extractorInput) throws IOException {
-        return true;
-    }
 
     public SubtitleExtractor(SubtitleDecoder subtitleDecoder, Format format) {
         this.subtitleDecoder = subtitleDecoder;
         this.format = format.buildUpon().setSampleMimeType("text/x-exoplayer-cues").setCodecs(format.sampleMimeType).build();
+    }
+
+    private void decode() {
+        SubtitleInputBuffer subtitleInputBuffer;
+        SubtitleOutputBuffer subtitleOutputBuffer;
+        try {
+            SubtitleDecoder subtitleDecoder = this.subtitleDecoder;
+            while (true) {
+                subtitleInputBuffer = (SubtitleInputBuffer) subtitleDecoder.dequeueInputBuffer();
+                if (subtitleInputBuffer != null) {
+                    break;
+                }
+                Thread.sleep(5L);
+                subtitleDecoder = this.subtitleDecoder;
+            }
+            subtitleInputBuffer.ensureSpaceForWrite(this.bytesRead);
+            subtitleInputBuffer.data.put(this.subtitleData.getData(), 0, this.bytesRead);
+            subtitleInputBuffer.data.limit(this.bytesRead);
+            this.subtitleDecoder.queueInputBuffer(subtitleInputBuffer);
+            SubtitleDecoder subtitleDecoder2 = this.subtitleDecoder;
+            while (true) {
+                subtitleOutputBuffer = (SubtitleOutputBuffer) subtitleDecoder2.dequeueOutputBuffer();
+                if (subtitleOutputBuffer != null) {
+                    break;
+                }
+                Thread.sleep(5L);
+                subtitleDecoder2 = this.subtitleDecoder;
+            }
+            for (int i = 0; i < subtitleOutputBuffer.getEventTimeCount(); i++) {
+                byte[] encode = this.cueEncoder.encode(subtitleOutputBuffer.getCues(subtitleOutputBuffer.getEventTime(i)));
+                this.timestamps.add(Long.valueOf(subtitleOutputBuffer.getEventTime(i)));
+                this.samples.add(new ParsableByteArray(encode));
+            }
+            subtitleOutputBuffer.release();
+        } catch (SubtitleDecoderException e) {
+            throw ParserException.createForMalformedContainer("SubtitleDecoder failed.", e);
+        } catch (InterruptedException unused) {
+            Thread.currentThread().interrupt();
+            throw new InterruptedIOException();
+        }
+    }
+
+    private boolean readFromInput(ExtractorInput extractorInput) {
+        int capacity = this.subtitleData.capacity();
+        int i = this.bytesRead;
+        if (capacity == i) {
+            this.subtitleData.ensureCapacity(i + 1024);
+        }
+        int read = extractorInput.read(this.subtitleData.getData(), this.bytesRead, this.subtitleData.capacity() - this.bytesRead);
+        if (read != -1) {
+            this.bytesRead += read;
+        }
+        long length = extractorInput.getLength();
+        return (length != -1 && ((long) this.bytesRead) == length) || read == -1;
+    }
+
+    private boolean skipInput(ExtractorInput extractorInput) {
+        return extractorInput.skip((extractorInput.getLength() > (-1L) ? 1 : (extractorInput.getLength() == (-1L) ? 0 : -1)) != 0 ? Ints.checkedCast(extractorInput.getLength()) : 1024) == -1;
+    }
+
+    private void writeToOutput() {
+        Assertions.checkStateNotNull(this.trackOutput);
+        Assertions.checkState(this.timestamps.size() == this.samples.size());
+        long j = this.seekTimeUs;
+        for (int binarySearchFloor = j == -9223372036854775807L ? 0 : Util.binarySearchFloor(this.timestamps, (Comparable) Long.valueOf(j), true, true); binarySearchFloor < this.samples.size(); binarySearchFloor++) {
+            ParsableByteArray parsableByteArray = (ParsableByteArray) this.samples.get(binarySearchFloor);
+            parsableByteArray.setPosition(0);
+            int length = parsableByteArray.getData().length;
+            this.trackOutput.sampleData(parsableByteArray, length);
+            this.trackOutput.sampleMetadata(((Long) this.timestamps.get(binarySearchFloor)).longValue(), 1, length, 0, null);
+        }
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
@@ -52,7 +117,7 @@ public class SubtitleExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
+    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) {
         int i = this.state;
         Assertions.checkState((i == 0 || i == 5) ? false : true);
         if (this.state == 1) {
@@ -73,6 +138,15 @@ public class SubtitleExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
+    public void release() {
+        if (this.state == 5) {
+            return;
+        }
+        this.subtitleDecoder.release();
+        this.state = 5;
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.Extractor
     public void seek(long j, long j2) {
         int i = this.state;
         Assertions.checkState((i == 0 || i == 5) ? false : true);
@@ -86,72 +160,7 @@ public class SubtitleExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public void release() {
-        if (this.state == 5) {
-            return;
-        }
-        this.subtitleDecoder.release();
-        this.state = 5;
-    }
-
-    private boolean skipInput(ExtractorInput extractorInput) throws IOException {
-        return extractorInput.skip((extractorInput.getLength() > (-1L) ? 1 : (extractorInput.getLength() == (-1L) ? 0 : -1)) != 0 ? Ints.checkedCast(extractorInput.getLength()) : 1024) == -1;
-    }
-
-    private boolean readFromInput(ExtractorInput extractorInput) throws IOException {
-        int capacity = this.subtitleData.capacity();
-        int i = this.bytesRead;
-        if (capacity == i) {
-            this.subtitleData.ensureCapacity(i + 1024);
-        }
-        int read = extractorInput.read(this.subtitleData.getData(), this.bytesRead, this.subtitleData.capacity() - this.bytesRead);
-        if (read != -1) {
-            this.bytesRead += read;
-        }
-        long length = extractorInput.getLength();
-        return (length != -1 && ((long) this.bytesRead) == length) || read == -1;
-    }
-
-    private void decode() throws IOException {
-        try {
-            SubtitleInputBuffer dequeueInputBuffer = this.subtitleDecoder.dequeueInputBuffer();
-            while (dequeueInputBuffer == null) {
-                Thread.sleep(5L);
-                dequeueInputBuffer = this.subtitleDecoder.dequeueInputBuffer();
-            }
-            dequeueInputBuffer.ensureSpaceForWrite(this.bytesRead);
-            dequeueInputBuffer.data.put(this.subtitleData.getData(), 0, this.bytesRead);
-            dequeueInputBuffer.data.limit(this.bytesRead);
-            this.subtitleDecoder.queueInputBuffer(dequeueInputBuffer);
-            SubtitleOutputBuffer dequeueOutputBuffer = this.subtitleDecoder.dequeueOutputBuffer();
-            while (dequeueOutputBuffer == null) {
-                Thread.sleep(5L);
-                dequeueOutputBuffer = this.subtitleDecoder.dequeueOutputBuffer();
-            }
-            for (int i = 0; i < dequeueOutputBuffer.getEventTimeCount(); i++) {
-                byte[] encode = this.cueEncoder.encode(dequeueOutputBuffer.getCues(dequeueOutputBuffer.getEventTime(i)));
-                this.timestamps.add(Long.valueOf(dequeueOutputBuffer.getEventTime(i)));
-                this.samples.add(new ParsableByteArray(encode));
-            }
-            dequeueOutputBuffer.release();
-        } catch (SubtitleDecoderException e) {
-            throw ParserException.createForMalformedContainer("SubtitleDecoder failed.", e);
-        } catch (InterruptedException unused) {
-            Thread.currentThread().interrupt();
-            throw new InterruptedIOException();
-        }
-    }
-
-    private void writeToOutput() {
-        Assertions.checkStateNotNull(this.trackOutput);
-        Assertions.checkState(this.timestamps.size() == this.samples.size());
-        long j = this.seekTimeUs;
-        for (int binarySearchFloor = j == -9223372036854775807L ? 0 : Util.binarySearchFloor((List<? extends Comparable<? super Long>>) this.timestamps, Long.valueOf(j), true, true); binarySearchFloor < this.samples.size(); binarySearchFloor++) {
-            ParsableByteArray parsableByteArray = this.samples.get(binarySearchFloor);
-            parsableByteArray.setPosition(0);
-            int length = parsableByteArray.getData().length;
-            this.trackOutput.sampleData(parsableByteArray, length);
-            this.trackOutput.sampleMetadata(this.timestamps.get(binarySearchFloor).longValue(), 1, length, 0, null);
-        }
+    public boolean sniff(ExtractorInput extractorInput) {
+        return true;
     }
 }

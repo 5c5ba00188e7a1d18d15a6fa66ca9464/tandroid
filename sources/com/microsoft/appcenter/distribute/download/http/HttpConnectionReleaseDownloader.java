@@ -27,66 +27,48 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         super(context, releaseDetails, listener);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public File getTargetFile() {
-        File externalFilesDir;
-        if (this.mTargetFile == null && (externalFilesDir = this.mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)) != null) {
-            this.mTargetFile = new File(externalFilesDir, this.mReleaseDetails.getReleaseHash() + ".apk");
+    private void cancelProgressNotification() {
+        getNotificationManager().cancel(getNotificationId());
+    }
+
+    private synchronized void check() {
+        this.mCheckTask = (HttpConnectionCheckTask) AsyncTaskUtils.execute("AppCenterDistribute", new HttpConnectionCheckTask(this), new Void[0]);
+    }
+
+    private synchronized void downloadFile(File file) {
+        if (this.mDownloadTask != null) {
+            AppCenterLog.debug("AppCenterDistribute", "Downloading of " + file.getPath() + " is already in progress.");
+            return;
         }
-        return this.mTargetFile;
+        Uri downloadUrl = this.mReleaseDetails.getDownloadUrl();
+        AppCenterLog.debug("AppCenterDistribute", "Start downloading new release from " + downloadUrl);
+        this.mDownloadTask = (HttpConnectionDownloadFileTask) AsyncTaskUtils.execute("AppCenterDistribute", new HttpConnectionDownloadFileTask(this, downloadUrl, file), new Void[0]);
+    }
+
+    private static int getNotificationId() {
+        return HttpConnectionReleaseDownloader.class.getName().hashCode();
     }
 
     private NotificationManager getNotificationManager() {
         return (NotificationManager) this.mContext.getSystemService("notification");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized String getDownloadedReleaseFilePath() {
-        return SharedPreferencesManager.getString("Distribute.downloaded_release_file", null);
+    private void removeFile(File file) {
+        AppCenterLog.debug("AppCenterDistribute", "Removing downloaded file from " + file.getAbsolutePath());
+        AsyncTaskUtils.execute("AppCenterDistribute", new HttpConnectionRemoveFileTask(file), new Void[0]);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void setDownloadedReleaseFilePath(String str) {
-        try {
-            if (isCancelled()) {
-                return;
-            }
-            if (str != null) {
-                SharedPreferencesManager.putString("Distribute.downloaded_release_file", str);
-            } else {
-                SharedPreferencesManager.remove("Distribute.downloaded_release_file");
-            }
-        } catch (Throwable th) {
-            throw th;
-        }
+    static String[] requiredPermissions() {
+        return (String[]) new ArrayList().toArray(new String[0]);
     }
 
-    Notification.Builder getNotificationBuilder() {
-        if (this.mNotificationBuilder == null) {
-            this.mNotificationBuilder = new Notification.Builder(this.mContext);
-        }
-        return this.mNotificationBuilder;
-    }
-
-    @Override // com.microsoft.appcenter.distribute.download.ReleaseDownloader
-    public synchronized boolean isDownloading() {
-        return this.mDownloadTask != null;
-    }
-
-    @Override // com.microsoft.appcenter.distribute.download.ReleaseDownloader
-    public synchronized void resume() {
-        if (isCancelled()) {
+    private void showProgressNotification(long j, long j2) {
+        if (this.mReleaseDetails.isMandatoryUpdate()) {
             return;
         }
-        if (!NetworkStateHelper.getSharedInstance(this.mContext).isNetworkConnected()) {
-            this.mListener.onError("No network connection, abort downloading.");
-            return;
-        }
-        if (!PermissionUtils.permissionsAreGranted(PermissionUtils.permissionsState(this.mContext, requiredPermissions()))) {
-            this.mListener.onError("No external storage permission.");
-        } else {
-            check();
-        }
+        Notification.Builder notificationBuilder = getNotificationBuilder();
+        notificationBuilder.setContentTitle(this.mContext.getString(R$string.appcenter_distribute_downloading_update)).setSmallIcon(this.mContext.getApplicationInfo().icon).setProgress((int) (j2 / 1024), (int) (j / 1024), j2 <= 0);
+        getNotificationManager().notify(getNotificationId(), notificationBuilder.build());
     }
 
     @Override // com.microsoft.appcenter.distribute.download.AbstractReleaseDownloader, com.microsoft.appcenter.distribute.download.ReleaseDownloader
@@ -117,62 +99,30 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         }
     }
 
-    private synchronized void check() {
-        this.mCheckTask = (HttpConnectionCheckTask) AsyncTaskUtils.execute("AppCenterDistribute", new HttpConnectionCheckTask(this), new Void[0]);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public synchronized String getDownloadedReleaseFilePath() {
+        return SharedPreferencesManager.getString("Distribute.downloaded_release_file", null);
     }
 
-    private synchronized void downloadFile(File file) {
-        if (this.mDownloadTask != null) {
-            AppCenterLog.debug("AppCenterDistribute", "Downloading of " + file.getPath() + " is already in progress.");
-            return;
+    Notification.Builder getNotificationBuilder() {
+        if (this.mNotificationBuilder == null) {
+            this.mNotificationBuilder = new Notification.Builder(this.mContext);
         }
-        Uri downloadUrl = this.mReleaseDetails.getDownloadUrl();
-        AppCenterLog.debug("AppCenterDistribute", "Start downloading new release from " + downloadUrl);
-        this.mDownloadTask = (HttpConnectionDownloadFileTask) AsyncTaskUtils.execute("AppCenterDistribute", new HttpConnectionDownloadFileTask(this, downloadUrl, file), new Void[0]);
-    }
-
-    private void removeFile(File file) {
-        AppCenterLog.debug("AppCenterDistribute", "Removing downloaded file from " + file.getAbsolutePath());
-        AsyncTaskUtils.execute("AppCenterDistribute", new HttpConnectionRemoveFileTask(file), new Void[0]);
-    }
-
-    private void showProgressNotification(long j, long j2) {
-        if (this.mReleaseDetails.isMandatoryUpdate()) {
-            return;
-        }
-        Notification.Builder notificationBuilder = getNotificationBuilder();
-        notificationBuilder.setContentTitle(this.mContext.getString(R$string.appcenter_distribute_downloading_update)).setSmallIcon(this.mContext.getApplicationInfo().icon).setProgress((int) (j2 / 1024), (int) (j / 1024), j2 <= 0);
-        getNotificationManager().notify(getNotificationId(), notificationBuilder.build());
-    }
-
-    private void cancelProgressNotification() {
-        getNotificationManager().cancel(getNotificationId());
+        return this.mNotificationBuilder;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void onStart(File file) {
-        if (isCancelled()) {
-            return;
+    public File getTargetFile() {
+        File externalFilesDir;
+        if (this.mTargetFile == null && (externalFilesDir = this.mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)) != null) {
+            this.mTargetFile = new File(externalFilesDir, this.mReleaseDetails.getReleaseHash() + ".apk");
         }
-        downloadFile(file);
+        return this.mTargetFile;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void onDownloadStarted(long j) {
-        if (isCancelled()) {
-            return;
-        }
-        showProgressNotification(0L, 0L);
-        this.mListener.onStart(j);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void onDownloadProgress(long j, long j2) {
-        if (isCancelled()) {
-            return;
-        }
-        showProgressNotification(j, j2);
-        this.mListener.onProgress(j, j2);
+    @Override // com.microsoft.appcenter.distribute.download.ReleaseDownloader
+    public synchronized boolean isDownloading() {
+        return this.mDownloadTask != null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -200,11 +150,61 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         this.mListener.onError(str);
     }
 
-    static String[] requiredPermissions() {
-        return (String[]) new ArrayList().toArray(new String[0]);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public synchronized void onDownloadProgress(long j, long j2) {
+        if (isCancelled()) {
+            return;
+        }
+        showProgressNotification(j, j2);
+        this.mListener.onProgress(j, j2);
     }
 
-    private static int getNotificationId() {
-        return HttpConnectionReleaseDownloader.class.getName().hashCode();
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public synchronized void onDownloadStarted(long j) {
+        if (isCancelled()) {
+            return;
+        }
+        showProgressNotification(0L, 0L);
+        this.mListener.onStart(j);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public synchronized void onStart(File file) {
+        if (isCancelled()) {
+            return;
+        }
+        downloadFile(file);
+    }
+
+    @Override // com.microsoft.appcenter.distribute.download.ReleaseDownloader
+    public synchronized void resume() {
+        if (isCancelled()) {
+            return;
+        }
+        if (!NetworkStateHelper.getSharedInstance(this.mContext).isNetworkConnected()) {
+            this.mListener.onError("No network connection, abort downloading.");
+            return;
+        }
+        if (PermissionUtils.permissionsAreGranted(PermissionUtils.permissionsState(this.mContext, requiredPermissions()))) {
+            check();
+        } else {
+            this.mListener.onError("No external storage permission.");
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public synchronized void setDownloadedReleaseFilePath(String str) {
+        try {
+            if (isCancelled()) {
+                return;
+            }
+            if (str != null) {
+                SharedPreferencesManager.putString("Distribute.downloaded_release_file", str);
+            } else {
+                SharedPreferencesManager.remove("Distribute.downloaded_release_file");
+            }
+        } catch (Throwable th) {
+            throw th;
+        }
     }
 }

@@ -3,7 +3,6 @@ package com.google.android.gms.internal.play_billing;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzdn {
     private static final zzdn zza = new zzdn();

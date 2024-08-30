@@ -23,120 +23,6 @@ public class WeatherView extends EntityView {
     public final LocationMarker marker;
     public Weather.State weather;
 
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected float getMaxScale() {
-        return 1.5f;
-    }
-
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected float getStickyPaddingLeft() {
-        return this.marker.padx;
-    }
-
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected float getStickyPaddingTop() {
-        return this.marker.pady;
-    }
-
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected float getStickyPaddingRight() {
-        return this.marker.padx;
-    }
-
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected float getStickyPaddingBottom() {
-        return this.marker.pady;
-    }
-
-    public WeatherView(Context context, Point point, int i, Weather.State state, float f, int i2) {
-        super(context, point);
-        LocationMarker locationMarker = new LocationMarker(context, 1, f, 0);
-        this.marker = locationMarker;
-        locationMarker.setMaxWidth(i2);
-        locationMarker.setType(0, this.currentColor);
-        setWeather(i, state);
-        addView(locationMarker, LayoutHelper.createFrame(-2, -2, 51));
-        setClipChildren(false);
-        setClipToPadding(false);
-        updatePosition();
-    }
-
-    public void setWeather(int i, Weather.State state) {
-        this.weather = state;
-        String emoji = state.getEmoji();
-        String temperature = state.getTemperature();
-        this.marker.setCodeEmoji(i, emoji);
-        this.marker.setText(temperature);
-        updateSelectionView();
-    }
-
-    public void setMaxWidth(int i) {
-        this.marker.setMaxWidth(i);
-    }
-
-    @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        super.onLayout(z, i, i2, i3, i4);
-        updatePosition();
-    }
-
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(i, i2);
-        updatePosition();
-    }
-
-    public void setColor(int i) {
-        this.hasColor = true;
-        this.currentColor = i;
-    }
-
-    public boolean hasColor() {
-        return this.hasColor;
-    }
-
-    public void setType(int i) {
-        LocationMarker locationMarker = this.marker;
-        this.currentType = i;
-        locationMarker.setType(i, this.currentColor);
-    }
-
-    public int getTypesCount() {
-        return this.marker.getTypesCount() - (!this.hasColor ? 1 : 0);
-    }
-
-    public int getColor() {
-        return this.currentColor;
-    }
-
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    public void setIsVideo(boolean z) {
-        this.marker.setIsVideo(true);
-    }
-
-    public int getType() {
-        return this.currentType;
-    }
-
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    public Rect getSelectionBounds() {
-        ViewGroup viewGroup = (ViewGroup) getParent();
-        if (viewGroup == null) {
-            return new Rect();
-        }
-        float scaleX = viewGroup.getScaleX();
-        float measuredWidth = (getMeasuredWidth() * getScale()) + (AndroidUtilities.dp(64.0f) / scaleX);
-        float measuredHeight = (getMeasuredHeight() * getScale()) + (AndroidUtilities.dp(64.0f) / scaleX);
-        float positionX = (getPositionX() - (measuredWidth / 2.0f)) * scaleX;
-        return new Rect(positionX, (getPositionY() - (measuredHeight / 2.0f)) * scaleX, ((measuredWidth * scaleX) + positionX) - positionX, measuredHeight * scaleX);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    public TextViewSelectionView createSelectionView() {
-        return new TextViewSelectionView(getContext());
-    }
-
     /* loaded from: classes3.dex */
     public class TextViewSelectionView extends EntityView.SelectionView {
         private final Paint clearPaint;
@@ -148,20 +34,6 @@ public class WeatherView extends EntityView {
             this.clearPaint = paint;
             this.path = new Path();
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        }
-
-        @Override // org.telegram.ui.Components.Paint.Views.EntityView.SelectionView
-        protected int pointInsideHandle(float f, float f2) {
-            float dp = AndroidUtilities.dp(19.5f);
-            float dp2 = AndroidUtilities.dp(1.0f) + dp;
-            float f3 = dp2 * 2.0f;
-            float measuredWidth = getMeasuredWidth() - f3;
-            float measuredHeight = ((getMeasuredHeight() - f3) / 2.0f) + dp2;
-            if (f <= dp2 - dp || f2 <= measuredHeight - dp || f >= dp2 + dp || f2 >= measuredHeight + dp) {
-                float f4 = dp2 + measuredWidth;
-                return (f <= f4 - dp || f2 <= measuredHeight - dp || f >= f4 + dp || f2 >= measuredHeight + dp) ? 0 : 2;
-            }
-            return 1;
         }
 
         @Override // android.view.View
@@ -220,5 +92,133 @@ public class WeatherView extends EntityView {
             canvas.drawCircle(dp, f11, (dpf2 + AndroidUtilities.dp(1.0f)) - 1.0f, this.clearPaint);
             canvas.restoreToCount(saveCount);
         }
+
+        @Override // org.telegram.ui.Components.Paint.Views.EntityView.SelectionView
+        protected int pointInsideHandle(float f, float f2) {
+            float dp = AndroidUtilities.dp(19.5f);
+            float dp2 = AndroidUtilities.dp(1.0f) + dp;
+            float f3 = dp2 * 2.0f;
+            float measuredWidth = getMeasuredWidth() - f3;
+            float measuredHeight = ((getMeasuredHeight() - f3) / 2.0f) + dp2;
+            if (f <= dp2 - dp || f2 <= measuredHeight - dp || f >= dp2 + dp || f2 >= measuredHeight + dp) {
+                float f4 = dp2 + measuredWidth;
+                return (f <= f4 - dp || f2 <= measuredHeight - dp || f >= f4 + dp || f2 >= measuredHeight + dp) ? 0 : 2;
+            }
+            return 1;
+        }
+    }
+
+    public WeatherView(Context context, Point point, int i, Weather.State state, float f, int i2) {
+        super(context, point);
+        LocationMarker locationMarker = new LocationMarker(context, 1, f, 0);
+        this.marker = locationMarker;
+        locationMarker.setMaxWidth(i2);
+        locationMarker.setType(0, this.currentColor);
+        setWeather(i, state);
+        addView(locationMarker, LayoutHelper.createFrame(-2, -2, 51));
+        setClipChildren(false);
+        setClipToPadding(false);
+        updatePosition();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    public TextViewSelectionView createSelectionView() {
+        return new TextViewSelectionView(getContext());
+    }
+
+    public int getColor() {
+        return this.currentColor;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getMaxScale() {
+        return 1.5f;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    public Rect getSelectionBounds() {
+        ViewGroup viewGroup = (ViewGroup) getParent();
+        if (viewGroup == null) {
+            return new Rect();
+        }
+        float scaleX = viewGroup.getScaleX();
+        float measuredWidth = (getMeasuredWidth() * getScale()) + (AndroidUtilities.dp(64.0f) / scaleX);
+        float measuredHeight = (getMeasuredHeight() * getScale()) + (AndroidUtilities.dp(64.0f) / scaleX);
+        float positionX = (getPositionX() - (measuredWidth / 2.0f)) * scaleX;
+        return new Rect(positionX, (getPositionY() - (measuredHeight / 2.0f)) * scaleX, ((measuredWidth * scaleX) + positionX) - positionX, measuredHeight * scaleX);
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getStickyPaddingBottom() {
+        return this.marker.pady;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getStickyPaddingLeft() {
+        return this.marker.padx;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getStickyPaddingRight() {
+        return this.marker.padx;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getStickyPaddingTop() {
+        return this.marker.pady;
+    }
+
+    public int getType() {
+        return this.currentType;
+    }
+
+    public int getTypesCount() {
+        return this.marker.getTypesCount() - (!this.hasColor ? 1 : 0);
+    }
+
+    public boolean hasColor() {
+        return this.hasColor;
+    }
+
+    @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        super.onLayout(z, i, i2, i3, i4);
+        updatePosition();
+    }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(i, i2);
+        updatePosition();
+    }
+
+    public void setColor(int i) {
+        this.hasColor = true;
+        this.currentColor = i;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    public void setIsVideo(boolean z) {
+        this.marker.setIsVideo(true);
+    }
+
+    public void setMaxWidth(int i) {
+        this.marker.setMaxWidth(i);
+    }
+
+    public void setType(int i) {
+        LocationMarker locationMarker = this.marker;
+        this.currentType = i;
+        locationMarker.setType(i, this.currentColor);
+    }
+
+    public void setWeather(int i, Weather.State state) {
+        this.weather = state;
+        String emoji = state.getEmoji();
+        String temperature = state.getTemperature();
+        this.marker.setCodeEmoji(i, emoji);
+        this.marker.setText(temperature);
+        updateSelectionView();
     }
 }

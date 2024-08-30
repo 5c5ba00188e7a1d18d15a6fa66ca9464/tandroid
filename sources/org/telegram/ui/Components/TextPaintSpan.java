@@ -10,8 +10,8 @@ public class TextPaintSpan extends MetricAffectingSpan {
         this.textPaint = textPaint;
     }
 
-    @Override // android.text.style.MetricAffectingSpan
-    public void updateMeasureState(TextPaint textPaint) {
+    @Override // android.text.style.CharacterStyle
+    public void updateDrawState(TextPaint textPaint) {
         textPaint.setColor(this.textPaint.getColor());
         textPaint.setTypeface(this.textPaint.getTypeface());
         textPaint.setFlags(this.textPaint.getFlags());
@@ -21,8 +21,8 @@ public class TextPaintSpan extends MetricAffectingSpan {
         textPaint.bgColor = textPaint2.bgColor;
     }
 
-    @Override // android.text.style.CharacterStyle
-    public void updateDrawState(TextPaint textPaint) {
+    @Override // android.text.style.MetricAffectingSpan
+    public void updateMeasureState(TextPaint textPaint) {
         textPaint.setColor(this.textPaint.getColor());
         textPaint.setTypeface(this.textPaint.getTypeface());
         textPaint.setFlags(this.textPaint.getFlags());

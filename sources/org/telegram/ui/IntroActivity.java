@@ -2,7 +2,6 @@ package org.telegram.ui;
 
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -96,17 +95,645 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
     private boolean justCreated = false;
     private boolean startPressed = false;
 
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public boolean hasForceLightStatusBar() {
-        return true;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes4.dex */
+    public class 2 implements TextureView.SurfaceTextureListener {
+        2() {
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onSurfaceTextureAvailable$0() {
+            Intro.setPage(IntroActivity.this.currentViewPagerPage);
+            Intro.setDate(((float) (System.currentTimeMillis() - IntroActivity.this.currentDate)) / 1000.0f);
+            Intro.onDrawFrame(0);
+            if (IntroActivity.this.eglThread == null || !IntroActivity.this.eglThread.isAlive() || IntroActivity.this.eglThread.eglDisplay == null || IntroActivity.this.eglThread.eglSurface == null) {
+                return;
+            }
+            try {
+                IntroActivity.this.eglThread.egl10.eglSwapBuffers(IntroActivity.this.eglThread.eglDisplay, IntroActivity.this.eglThread.eglSurface);
+            } catch (Exception unused) {
+            }
+        }
+
+        @Override // android.view.TextureView.SurfaceTextureListener
+        public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i2) {
+            if (IntroActivity.this.eglThread != null || surfaceTexture == null) {
+                return;
+            }
+            IntroActivity.this.eglThread = new EGLThread(surfaceTexture);
+            IntroActivity.this.eglThread.setSurfaceTextureSize(i, i2);
+            IntroActivity.this.eglThread.postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$2$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    IntroActivity.2.this.lambda$onSurfaceTextureAvailable$0();
+                }
+            });
+            IntroActivity.this.eglThread.postRunnable(IntroActivity.this.eglThread.drawRunnable);
+        }
+
+        @Override // android.view.TextureView.SurfaceTextureListener
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+            if (IntroActivity.this.eglThread != null) {
+                IntroActivity.this.eglThread.shutdown();
+                IntroActivity.this.eglThread = null;
+                return true;
+            }
+            return true;
+        }
+
+        @Override // android.view.TextureView.SurfaceTextureListener
+        public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i2) {
+            if (IntroActivity.this.eglThread != null) {
+                IntroActivity.this.eglThread.setSurfaceTextureSize(i, i2);
+            }
+        }
+
+        @Override // android.view.TextureView.SurfaceTextureListener
+        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+        }
     }
 
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public boolean onFragmentCreate() {
-        MessagesController.getGlobalMainSettings().edit().putLong("intro_crashed_time", System.currentTimeMillis()).apply();
-        this.titles = new String[]{LocaleController.getString(R.string.Page1Title), LocaleController.getString(R.string.Page2Title), LocaleController.getString(R.string.Page3Title), LocaleController.getString(R.string.Page5Title), LocaleController.getString(R.string.Page4Title), LocaleController.getString(R.string.Page6Title)};
-        this.messages = new String[]{LocaleController.getString(R.string.Page1Message), LocaleController.getString(R.string.Page2Message), LocaleController.getString(R.string.Page3Message), LocaleController.getString(R.string.Page5Message), LocaleController.getString(R.string.Page4Message), LocaleController.getString(R.string.Page6Message)};
-        return true;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes4.dex */
+    public class 5 implements NotificationCenter.NotificationCenterDelegate {
+        final /* synthetic */ AlertDialog val$loaderDialog;
+
+        5(AlertDialog alertDialog) {
+            this.val$loaderDialog = alertDialog;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$didReceivedNotification$0() {
+            IntroActivity.this.presentFragment(new LoginActivity().setIntroView(IntroActivity.this.frameContainerView, IntroActivity.this.startMessagingButton), true);
+            IntroActivity.this.destroyed = true;
+        }
+
+        @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+        public void didReceivedNotification(int i, int i2, Object... objArr) {
+            if (i == NotificationCenter.reloadInterface) {
+                this.val$loaderDialog.dismiss();
+                NotificationCenter.getGlobalInstance().removeObserver(this, i);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.IntroActivity$5$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        IntroActivity.5.this.lambda$didReceivedNotification$0();
+                    }
+                }, 100L);
+            }
+        }
+    }
+
+    /* loaded from: classes4.dex */
+    public class EGLThread extends DispatchQueue {
+        private Runnable drawRunnable;
+        private EGL10 egl10;
+        private EGLConfig eglConfig;
+        private EGLContext eglContext;
+        private EGLDisplay eglDisplay;
+        private EGLSurface eglSurface;
+        private boolean initied;
+        private long lastDrawFrame;
+        private float maxRefreshRate;
+        private SurfaceTexture surfaceTexture;
+        private GenericProvider telegramMaskProvider;
+        private int[] textures;
+
+        public EGLThread(SurfaceTexture surfaceTexture) {
+            super("EGLThread");
+            this.textures = new int[24];
+            this.telegramMaskProvider = new GenericProvider() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda1
+                @Override // org.telegram.messenger.GenericProvider
+                public final Object provide(Object obj) {
+                    Bitmap lambda$new$0;
+                    lambda$new$0 = IntroActivity.EGLThread.lambda$new$0((Void) obj);
+                    return lambda$new$0;
+                }
+            };
+            this.drawRunnable = new Runnable() { // from class: org.telegram.ui.IntroActivity.EGLThread.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    EGLThread eGLThread;
+                    float[] supportedRefreshRates;
+                    if (EGLThread.this.initied) {
+                        long currentTimeMillis = System.currentTimeMillis();
+                        if ((!EGLThread.this.eglContext.equals(EGLThread.this.egl10.eglGetCurrentContext()) || !EGLThread.this.eglSurface.equals(EGLThread.this.egl10.eglGetCurrentSurface(12377))) && !EGLThread.this.egl10.eglMakeCurrent(EGLThread.this.eglDisplay, EGLThread.this.eglSurface, EGLThread.this.eglSurface, EGLThread.this.eglContext)) {
+                            if (BuildVars.LOGS_ENABLED) {
+                                FileLog.e("eglMakeCurrent failed " + GLUtils.getEGLErrorString(EGLThread.this.egl10.eglGetError()));
+                                return;
+                            }
+                            return;
+                        }
+                        int min = (int) Math.min(currentTimeMillis - EGLThread.this.lastDrawFrame, 16L);
+                        Intro.setPage(IntroActivity.this.currentViewPagerPage);
+                        Intro.setDate(((float) (currentTimeMillis - IntroActivity.this.currentDate)) / 1000.0f);
+                        Intro.onDrawFrame(min);
+                        EGLThread.this.egl10.eglSwapBuffers(EGLThread.this.eglDisplay, EGLThread.this.eglSurface);
+                        EGLThread.this.lastDrawFrame = currentTimeMillis;
+                        float f = 0.0f;
+                        if (EGLThread.this.maxRefreshRate == 0.0f) {
+                            if (Build.VERSION.SDK_INT >= 21) {
+                                supportedRefreshRates = ((WindowManager) ApplicationLoader.applicationContext.getSystemService("window")).getDefaultDisplay().getSupportedRefreshRates();
+                                for (float f2 : supportedRefreshRates) {
+                                    if (f2 > f) {
+                                        f = f2;
+                                    }
+                                }
+                                eGLThread = EGLThread.this;
+                            } else {
+                                eGLThread = EGLThread.this;
+                                f = 60.0f;
+                            }
+                            eGLThread.maxRefreshRate = f;
+                        }
+                        long currentTimeMillis2 = System.currentTimeMillis() - currentTimeMillis;
+                        EGLThread eGLThread2 = EGLThread.this;
+                        eGLThread2.postRunnable(eGLThread2.drawRunnable, Math.max((1000.0f / EGLThread.this.maxRefreshRate) - currentTimeMillis2, 0L));
+                    }
+                }
+            };
+            this.surfaceTexture = surfaceTexture;
+        }
+
+        private boolean initGL() {
+            EGL10 egl10 = (EGL10) EGLContext.getEGL();
+            this.egl10 = egl10;
+            EGLDisplay eglGetDisplay = egl10.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY);
+            this.eglDisplay = eglGetDisplay;
+            if (eglGetDisplay == EGL10.EGL_NO_DISPLAY) {
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.e("eglGetDisplay failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                }
+                finish();
+                return false;
+            } else if (!this.egl10.eglInitialize(eglGetDisplay, new int[2])) {
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.e("eglInitialize failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                }
+                finish();
+                return false;
+            } else {
+                int[] iArr = new int[1];
+                EGLConfig[] eGLConfigArr = new EGLConfig[1];
+                if (!this.egl10.eglChooseConfig(this.eglDisplay, EmuDetector.with(IntroActivity.this.getParentActivity()).detect() ? new int[]{12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 24, 12344} : new int[]{12352, 4, 12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 24, 12326, 0, 12338, 1, 12337, 2, 12344}, eGLConfigArr, 1, iArr)) {
+                    if (BuildVars.LOGS_ENABLED) {
+                        FileLog.e("eglChooseConfig failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                    }
+                    finish();
+                    return false;
+                } else if (iArr[0] <= 0) {
+                    if (BuildVars.LOGS_ENABLED) {
+                        FileLog.e("eglConfig not initialized");
+                    }
+                    finish();
+                    return false;
+                } else {
+                    EGLConfig eGLConfig = eGLConfigArr[0];
+                    this.eglConfig = eGLConfig;
+                    EGLContext eglCreateContext = this.egl10.eglCreateContext(this.eglDisplay, eGLConfig, EGL10.EGL_NO_CONTEXT, new int[]{12440, 2, 12344});
+                    this.eglContext = eglCreateContext;
+                    if (eglCreateContext == null) {
+                        if (BuildVars.LOGS_ENABLED) {
+                            FileLog.e("eglCreateContext failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                        }
+                        finish();
+                        return false;
+                    }
+                    SurfaceTexture surfaceTexture = this.surfaceTexture;
+                    if (!(surfaceTexture instanceof SurfaceTexture)) {
+                        finish();
+                        return false;
+                    }
+                    EGLSurface eglCreateWindowSurface = this.egl10.eglCreateWindowSurface(this.eglDisplay, this.eglConfig, surfaceTexture, null);
+                    this.eglSurface = eglCreateWindowSurface;
+                    if (eglCreateWindowSurface == null || eglCreateWindowSurface == EGL10.EGL_NO_SURFACE) {
+                        if (BuildVars.LOGS_ENABLED) {
+                            FileLog.e("createWindowSurface failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                        }
+                        finish();
+                        return false;
+                    } else if (!this.egl10.eglMakeCurrent(this.eglDisplay, eglCreateWindowSurface, eglCreateWindowSurface, this.eglContext)) {
+                        if (BuildVars.LOGS_ENABLED) {
+                            FileLog.e("eglMakeCurrent failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                        }
+                        finish();
+                        return false;
+                    } else {
+                        GLES20.glGenTextures(23, this.textures, 0);
+                        loadTexture(R.drawable.intro_fast_arrow_shadow, 0);
+                        loadTexture(R.drawable.intro_fast_arrow, 1);
+                        loadTexture(R.drawable.intro_fast_body, 2);
+                        loadTexture(R.drawable.intro_fast_spiral, 3);
+                        loadTexture(R.drawable.intro_ic_bubble_dot, 4);
+                        loadTexture(R.drawable.intro_ic_bubble, 5);
+                        loadTexture(R.drawable.intro_ic_cam_lens, 6);
+                        loadTexture(R.drawable.intro_ic_cam, 7);
+                        loadTexture(R.drawable.intro_ic_pencil, 8);
+                        loadTexture(R.drawable.intro_ic_pin, 9);
+                        loadTexture(R.drawable.intro_ic_smile_eye, 10);
+                        loadTexture(R.drawable.intro_ic_smile, 11);
+                        loadTexture(R.drawable.intro_ic_videocam, 12);
+                        loadTexture(R.drawable.intro_knot_down, 13);
+                        loadTexture(R.drawable.intro_knot_up, 14);
+                        loadTexture(R.drawable.intro_powerful_infinity_white, 15);
+                        loadTexture(R.drawable.intro_powerful_infinity, 16);
+                        loadTexture(R.drawable.intro_powerful_mask, 17, Theme.getColor(Theme.key_windowBackgroundWhite), false);
+                        loadTexture(R.drawable.intro_powerful_star, 18);
+                        loadTexture(R.drawable.intro_private_door, 19);
+                        loadTexture(R.drawable.intro_private_screw, 20);
+                        loadTexture(R.drawable.intro_tg_plane, 21);
+                        loadTexture(new GenericProvider() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda2
+                            @Override // org.telegram.messenger.GenericProvider
+                            public final Object provide(Object obj) {
+                                Bitmap lambda$initGL$1;
+                                lambda$initGL$1 = IntroActivity.EGLThread.lambda$initGL$1((Void) obj);
+                                return lambda$initGL$1;
+                            }
+                        }, 22);
+                        loadTexture(this.telegramMaskProvider, 23);
+                        updateTelegramTextures();
+                        updatePowerfulTextures();
+                        int[] iArr2 = this.textures;
+                        Intro.setPrivateTextures(iArr2[19], iArr2[20]);
+                        int[] iArr3 = this.textures;
+                        Intro.setFreeTextures(iArr3[14], iArr3[13]);
+                        int[] iArr4 = this.textures;
+                        Intro.setFastTextures(iArr4[2], iArr4[3], iArr4[1], iArr4[0]);
+                        int[] iArr5 = this.textures;
+                        Intro.setIcTextures(iArr5[4], iArr5[5], iArr5[6], iArr5[7], iArr5[8], iArr5[9], iArr5[10], iArr5[11], iArr5[12]);
+                        Intro.onSurfaceCreated();
+                        IntroActivity.this.currentDate = System.currentTimeMillis() - 1000;
+                        return true;
+                    }
+                }
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ Bitmap lambda$initGL$1(Void r4) {
+            Paint paint = new Paint(1);
+            paint.setColor(-13851168);
+            int dp = AndroidUtilities.dp(150.0f);
+            Bitmap createBitmap = Bitmap.createBitmap(dp, dp, Bitmap.Config.ARGB_8888);
+            float f = dp / 2.0f;
+            new Canvas(createBitmap).drawCircle(f, f, f, paint);
+            return createBitmap;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ Bitmap lambda$new$0(Void r6) {
+            int dp = AndroidUtilities.dp(150.0f);
+            Bitmap createBitmap = Bitmap.createBitmap(AndroidUtilities.dp(200.0f), dp, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(createBitmap);
+            canvas.drawColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+            Paint paint = new Paint(1);
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+            canvas.drawCircle(createBitmap.getWidth() / 2.0f, createBitmap.getHeight() / 2.0f, dp / 2.0f, paint);
+            return createBitmap;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$shutdown$2() {
+            finish();
+            Looper myLooper = Looper.myLooper();
+            if (myLooper != null) {
+                myLooper.quit();
+            }
+        }
+
+        private void loadTexture(int i, int i2) {
+            loadTexture(i, i2, 0, false);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void loadTexture(int i, int i2, int i3, boolean z) {
+            Drawable drawable = IntroActivity.this.getParentActivity().getResources().getDrawable(i);
+            if (drawable instanceof BitmapDrawable) {
+                if (z) {
+                    GLES20.glDeleteTextures(1, this.textures, i2);
+                    GLES20.glGenTextures(1, this.textures, i2);
+                }
+                Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                GLES20.glBindTexture(3553, this.textures[i2]);
+                GLES20.glTexParameteri(3553, 10241, 9729);
+                GLES20.glTexParameteri(3553, 10240, 9729);
+                GLES20.glTexParameteri(3553, 10242, 33071);
+                GLES20.glTexParameteri(3553, 10243, 33071);
+                if (i3 == 0) {
+                    GLUtils.texImage2D(3553, 0, bitmap, 0);
+                    return;
+                }
+                Bitmap createBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(createBitmap);
+                Paint paint = new Paint(5);
+                paint.setColorFilter(new PorterDuffColorFilter(i3, PorterDuff.Mode.SRC_IN));
+                canvas.drawBitmap(bitmap, 0.0f, 0.0f, paint);
+                GLUtils.texImage2D(3553, 0, createBitmap, 0);
+                createBitmap.recycle();
+            }
+        }
+
+        private void loadTexture(GenericProvider genericProvider, int i) {
+            loadTexture(genericProvider, i, false);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void loadTexture(GenericProvider genericProvider, int i, boolean z) {
+            if (z) {
+                GLES20.glDeleteTextures(1, this.textures, i);
+                GLES20.glGenTextures(1, this.textures, i);
+            }
+            Bitmap bitmap = (Bitmap) genericProvider.provide(null);
+            GLES20.glBindTexture(3553, this.textures[i]);
+            GLES20.glTexParameteri(3553, 10241, 9729);
+            GLES20.glTexParameteri(3553, 10240, 9729);
+            GLES20.glTexParameteri(3553, 10242, 33071);
+            GLES20.glTexParameteri(3553, 10243, 33071);
+            GLUtils.texImage2D(3553, 0, bitmap, 0);
+            bitmap.recycle();
+        }
+
+        public void finish() {
+            if (this.eglSurface != null) {
+                EGL10 egl10 = this.egl10;
+                EGLDisplay eGLDisplay = this.eglDisplay;
+                EGLSurface eGLSurface = EGL10.EGL_NO_SURFACE;
+                egl10.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, EGL10.EGL_NO_CONTEXT);
+                this.egl10.eglDestroySurface(this.eglDisplay, this.eglSurface);
+                this.eglSurface = null;
+            }
+            EGLContext eGLContext = this.eglContext;
+            if (eGLContext != null) {
+                this.egl10.eglDestroyContext(this.eglDisplay, eGLContext);
+                this.eglContext = null;
+            }
+            EGLDisplay eGLDisplay2 = this.eglDisplay;
+            if (eGLDisplay2 != null) {
+                this.egl10.eglTerminate(eGLDisplay2);
+                this.eglDisplay = null;
+            }
+        }
+
+        @Override // org.telegram.messenger.DispatchQueue, java.lang.Thread, java.lang.Runnable
+        public void run() {
+            this.initied = initGL();
+            super.run();
+        }
+
+        public void setSurfaceTextureSize(int i, int i2) {
+            Intro.onSurfaceChanged(i, i2, Math.min(i / 150.0f, i2 / 150.0f), 0);
+        }
+
+        public void shutdown() {
+            postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    IntroActivity.EGLThread.this.lambda$shutdown$2();
+                }
+            });
+        }
+
+        public void updatePowerfulTextures() {
+            int[] iArr = this.textures;
+            Intro.setPowerfulTextures(iArr[17], iArr[18], iArr[16], iArr[15]);
+        }
+
+        public void updateTelegramTextures() {
+            int[] iArr = this.textures;
+            Intro.setTelegramTextures(iArr[22], iArr[21], iArr[23]);
+        }
+    }
+
+    /* loaded from: classes4.dex */
+    private class IntroAdapter extends PagerAdapter {
+        private IntroAdapter() {
+        }
+
+        @Override // androidx.viewpager.widget.PagerAdapter
+        public void destroyItem(ViewGroup viewGroup, int i, Object obj) {
+            viewGroup.removeView((View) obj);
+        }
+
+        @Override // androidx.viewpager.widget.PagerAdapter
+        public int getCount() {
+            return IntroActivity.this.titles.length;
+        }
+
+        @Override // androidx.viewpager.widget.PagerAdapter
+        public Object instantiateItem(ViewGroup viewGroup, int i) {
+            final TextView textView = new TextView(viewGroup.getContext());
+            textView.setTag(IntroActivity.this.pagerHeaderTag);
+            final TextView textView2 = new TextView(viewGroup.getContext());
+            textView2.setTag(IntroActivity.this.pagerMessageTag);
+            FrameLayout frameLayout = new FrameLayout(viewGroup.getContext()) { // from class: org.telegram.ui.IntroActivity.IntroAdapter.1
+                @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+                protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+                    int dp = (((((i5 - i3) / 4) * 3) - AndroidUtilities.dp(275.0f)) / 2) + AndroidUtilities.dp(150.0f) + AndroidUtilities.dp(16.0f);
+                    int dp2 = AndroidUtilities.dp(18.0f);
+                    TextView textView3 = textView;
+                    textView3.layout(dp2, dp, textView3.getMeasuredWidth() + dp2, textView.getMeasuredHeight() + dp);
+                    int textSize = ((int) (dp + textView.getTextSize())) + AndroidUtilities.dp(16.0f);
+                    int dp3 = AndroidUtilities.dp(16.0f);
+                    TextView textView4 = textView2;
+                    textView4.layout(dp3, textSize, textView4.getMeasuredWidth() + dp3, textView2.getMeasuredHeight() + textSize);
+                }
+            };
+            textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            textView.setTextSize(1, 26.0f);
+            textView.setGravity(17);
+            frameLayout.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 51, 18.0f, 244.0f, 18.0f, 0.0f));
+            textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3));
+            textView2.setTextSize(1, 15.0f);
+            textView2.setGravity(17);
+            frameLayout.addView(textView2, LayoutHelper.createFrame(-1, -2.0f, 51, 16.0f, 286.0f, 16.0f, 0.0f));
+            viewGroup.addView(frameLayout, 0);
+            textView.setText(IntroActivity.this.titles[i]);
+            textView2.setText(AndroidUtilities.replaceTags(IntroActivity.this.messages[i]));
+            return frameLayout;
+        }
+
+        @Override // androidx.viewpager.widget.PagerAdapter
+        public boolean isViewFromObject(View view, Object obj) {
+            return view.equals(obj);
+        }
+
+        @Override // androidx.viewpager.widget.PagerAdapter
+        public void restoreState(Parcelable parcelable, ClassLoader classLoader) {
+        }
+
+        @Override // androidx.viewpager.widget.PagerAdapter
+        public Parcelable saveState() {
+            return null;
+        }
+
+        @Override // androidx.viewpager.widget.PagerAdapter
+        public void setPrimaryItem(ViewGroup viewGroup, int i, Object obj) {
+            super.setPrimaryItem(viewGroup, i, obj);
+            IntroActivity.this.bottomPages.setCurrentPage(i);
+            IntroActivity.this.currentViewPagerPage = i;
+        }
+    }
+
+    private void checkContinueText() {
+        LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
+        final String str = MessagesController.getInstance(this.currentAccount).suggestedLangCode;
+        if ((str == null || (str.equals("en") && LocaleController.getInstance().getSystemDefaultLocale().getLanguage() != null && !LocaleController.getInstance().getSystemDefaultLocale().getLanguage().equals("en"))) && (str = LocaleController.getInstance().getSystemDefaultLocale().getLanguage()) == null) {
+            str = "en";
+        }
+        String str2 = str.contains("-") ? str.split("-")[0] : str;
+        String localeAlias = LocaleController.getLocaleAlias(str2);
+        LocaleController.LocaleInfo localeInfo = null;
+        LocaleController.LocaleInfo localeInfo2 = null;
+        for (int i = 0; i < LocaleController.getInstance().languages.size(); i++) {
+            LocaleController.LocaleInfo localeInfo3 = LocaleController.getInstance().languages.get(i);
+            if (localeInfo3.shortName.equals("en")) {
+                localeInfo = localeInfo3;
+            }
+            if (localeInfo3.shortName.replace("_", "-").equals(str) || localeInfo3.shortName.equals(str2) || localeInfo3.shortName.equals(localeAlias)) {
+                localeInfo2 = localeInfo3;
+            }
+            if (localeInfo != null && localeInfo2 != null) {
+                break;
+            }
+        }
+        if (localeInfo == null || localeInfo2 == null || localeInfo == localeInfo2) {
+            return;
+        }
+        TLRPC$TL_langpack_getStrings tLRPC$TL_langpack_getStrings = new TLRPC$TL_langpack_getStrings();
+        if (localeInfo2 != currentLocaleInfo) {
+            tLRPC$TL_langpack_getStrings.lang_code = localeInfo2.getLangCode();
+            this.localeInfo = localeInfo2;
+        } else {
+            tLRPC$TL_langpack_getStrings.lang_code = localeInfo.getLangCode();
+            this.localeInfo = localeInfo;
+        }
+        tLRPC$TL_langpack_getStrings.keys.add("ContinueOnThisLanguage");
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_langpack_getStrings, new RequestDelegate() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda4
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                IntroActivity.this.lambda$checkContinueText$4(str, tLObject, tLRPC$TL_error);
+            }
+        }, 8);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$checkContinueText$3(TLRPC$LangPackString tLRPC$LangPackString, String str) {
+        if (this.destroyed) {
+            return;
+        }
+        this.switchLanguageTextView.setText(tLRPC$LangPackString.value);
+        MessagesController.getGlobalMainSettings().edit().putString("language_showed2", str.toLowerCase()).apply();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$checkContinueText$4(final String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        if (tLObject != null) {
+            TLRPC$Vector tLRPC$Vector = (TLRPC$Vector) tLObject;
+            if (tLRPC$Vector.objects.isEmpty()) {
+                return;
+            }
+            final TLRPC$LangPackString tLRPC$LangPackString = (TLRPC$LangPackString) tLRPC$Vector.objects.get(0);
+            if (tLRPC$LangPackString instanceof TLRPC$TL_langPackString) {
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda5
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        IntroActivity.this.lambda$checkContinueText$3(tLRPC$LangPackString, str);
+                    }
+                });
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$0(RLottieImageView rLottieImageView, View view) {
+        if (DrawerProfileCell.switchingTheme) {
+            return;
+        }
+        DrawerProfileCell.switchingTheme = true;
+        boolean z = !Theme.isCurrentThemeDark();
+        Theme.ThemeInfo theme = Theme.getTheme(z ? "Night" : "Blue");
+        Theme.selectedAutoNightType = 0;
+        Theme.saveAutoNightThemeConfig();
+        Theme.cancelAutoNightThemeCallbacks();
+        RLottieDrawable rLottieDrawable = this.darkThemeDrawable;
+        rLottieDrawable.setCustomEndFrame(z ? rLottieDrawable.getFramesCount() - 1 : 0);
+        rLottieImageView.playAnimation();
+        rLottieImageView.getLocationInWindow(r4);
+        int[] iArr = {iArr[0] + (rLottieImageView.getMeasuredWidth() / 2), iArr[1] + (rLottieImageView.getMeasuredHeight() / 2)};
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, theme, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), rLottieImageView);
+        rLottieImageView.setContentDescription(LocaleController.getString(z ? R.string.AccDescrSwitchToDayTheme : R.string.AccDescrSwitchToNightTheme));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$1(View view) {
+        if (this.startPressed) {
+            return;
+        }
+        this.startPressed = true;
+        presentFragment(new LoginActivity().setIntroView(this.frameContainerView, this.startMessagingButton), true);
+        this.destroyed = true;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$2(View view) {
+        if (this.startPressed || this.localeInfo == null) {
+            return;
+        }
+        this.startPressed = true;
+        AlertDialog alertDialog = new AlertDialog(view.getContext(), 3);
+        alertDialog.setCanCancel(false);
+        alertDialog.showDelayed(1000L);
+        NotificationCenter.getGlobalInstance().addObserver(new 5(alertDialog), NotificationCenter.reloadInterface);
+        LocaleController.getInstance().applyLanguage(this.localeInfo, true, false, this.currentAccount);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$getThemeDescriptions$5() {
+        updateColors(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$updateColors$6() {
+        EGLThread eGLThread = this.eglThread;
+        int i = R.drawable.intro_powerful_mask;
+        int i2 = Theme.key_windowBackgroundWhite;
+        eGLThread.loadTexture(i, 17, Theme.getColor(i2), true);
+        this.eglThread.updatePowerfulTextures();
+        EGLThread eGLThread2 = this.eglThread;
+        eGLThread2.loadTexture(eGLThread2.telegramMaskProvider, 23, true);
+        this.eglThread.updateTelegramTextures();
+        Intro.setBackgroundColor(Theme.getColor(i2));
+    }
+
+    private void updateColors(boolean z) {
+        View view = this.fragmentView;
+        int i = Theme.key_windowBackgroundWhite;
+        view.setBackgroundColor(Theme.getColor(i));
+        this.switchLanguageTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4));
+        this.startMessagingButton.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
+        TextView textView = this.startMessagingButton;
+        int dp = AndroidUtilities.dp(6.0f);
+        int i2 = Theme.key_changephoneinfo_image2;
+        textView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(dp, Theme.getColor(i2), Theme.getColor(Theme.key_chats_actionPressedBackground)));
+        this.darkThemeDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i2), PorterDuff.Mode.SRC_IN));
+        this.bottomPages.invalidate();
+        if (!z) {
+            Intro.setBackgroundColor(Theme.getColor(i));
+            return;
+        }
+        EGLThread eGLThread = this.eglThread;
+        if (eGLThread != null) {
+            eGLThread.postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda6
+                @Override // java.lang.Runnable
+                public final void run() {
+                    IntroActivity.this.lambda$updateColors$6();
+                }
+            });
+        }
+        for (int i3 = 0; i3 < this.viewPager.getChildCount(); i3++) {
+            View childAt = this.viewPager.getChildAt(i3);
+            ((TextView) childAt.findViewWithTag(this.pagerHeaderTag)).setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            ((TextView) childAt.findViewWithTag(this.pagerMessageTag)).setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3));
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -175,21 +802,6 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         this.frameContainerView.addView(this.viewPager, LayoutHelper.createFrame(-1, -1.0f));
         this.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.IntroActivity.3
             @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-            public void onPageScrolled(int i2, float f, int i3) {
-                IntroActivity.this.bottomPages.setPageOffset(i2, f);
-                float measuredWidth = IntroActivity.this.viewPager.getMeasuredWidth();
-                if (measuredWidth == 0.0f) {
-                    return;
-                }
-                Intro.setScrollOffset((((i2 * measuredWidth) + i3) - (IntroActivity.this.currentViewPagerPage * measuredWidth)) / measuredWidth);
-            }
-
-            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-            public void onPageSelected(int i2) {
-                IntroActivity.this.currentViewPagerPage = i2;
-            }
-
-            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
             public void onPageScrollStateChanged(int i2) {
                 if (i2 == 1) {
                     IntroActivity.this.dragging = true;
@@ -205,6 +817,21 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
                         introActivity2.lastPage = introActivity2.viewPager.getCurrentItem();
                     }
                 }
+            }
+
+            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+            public void onPageScrolled(int i2, float f, int i3) {
+                IntroActivity.this.bottomPages.setPageOffset(i2, f);
+                float measuredWidth = IntroActivity.this.viewPager.getMeasuredWidth();
+                if (measuredWidth == 0.0f) {
+                    return;
+                }
+                Intro.setScrollOffset((((i2 * measuredWidth) + i3) - (IntroActivity.this.currentViewPagerPage * measuredWidth)) / measuredWidth);
+            }
+
+            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+            public void onPageSelected(int i2) {
+                IntroActivity.this.currentViewPagerPage = i2;
             }
         });
         TextView textView = new TextView(context) { // from class: org.telegram.ui.IntroActivity.4
@@ -229,10 +856,9 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             @Override // android.widget.TextView, android.view.View
             protected void onMeasure(int i2, int i3) {
                 if (View.MeasureSpec.getSize(i2) > AndroidUtilities.dp(260.0f)) {
-                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(320.0f), 1073741824), i3);
-                } else {
-                    super.onMeasure(i2, i3);
+                    i2 = View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(320.0f), 1073741824);
                 }
+                super.onMeasure(i2, i3);
             }
         };
         this.startMessagingButton = textView;
@@ -275,144 +901,76 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         return this.fragmentView;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$0(RLottieImageView rLottieImageView, View view) {
-        Theme.ThemeInfo theme;
-        if (DrawerProfileCell.switchingTheme) {
-            return;
-        }
-        DrawerProfileCell.switchingTheme = true;
-        boolean z = !Theme.isCurrentThemeDark();
-        if (z) {
-            theme = Theme.getTheme("Night");
-        } else {
-            theme = Theme.getTheme("Blue");
-        }
-        Theme.selectedAutoNightType = 0;
-        Theme.saveAutoNightThemeConfig();
-        Theme.cancelAutoNightThemeCallbacks();
-        RLottieDrawable rLottieDrawable = this.darkThemeDrawable;
-        rLottieDrawable.setCustomEndFrame(z ? rLottieDrawable.getFramesCount() - 1 : 0);
-        rLottieImageView.playAnimation();
-        rLottieImageView.getLocationInWindow(r4);
-        int[] iArr = {iArr[0] + (rLottieImageView.getMeasuredWidth() / 2), iArr[1] + (rLottieImageView.getMeasuredHeight() / 2)};
-        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, theme, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), rLottieImageView);
-        rLottieImageView.setContentDescription(LocaleController.getString(z ? R.string.AccDescrSwitchToDayTheme : R.string.AccDescrSwitchToNightTheme));
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 implements TextureView.SurfaceTextureListener {
-        @Override // android.view.TextureView.SurfaceTextureListener
-        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-        }
-
-        2() {
-        }
-
-        @Override // android.view.TextureView.SurfaceTextureListener
-        public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i2) {
-            if (IntroActivity.this.eglThread != null || surfaceTexture == null) {
-                return;
-            }
-            IntroActivity.this.eglThread = new EGLThread(surfaceTexture);
-            IntroActivity.this.eglThread.setSurfaceTextureSize(i, i2);
-            IntroActivity.this.eglThread.postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$2$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    IntroActivity.2.this.lambda$onSurfaceTextureAvailable$0();
-                }
-            });
-            IntroActivity.this.eglThread.postRunnable(IntroActivity.this.eglThread.drawRunnable);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onSurfaceTextureAvailable$0() {
-            Intro.setPage(IntroActivity.this.currentViewPagerPage);
-            Intro.setDate(((float) (System.currentTimeMillis() - IntroActivity.this.currentDate)) / 1000.0f);
-            Intro.onDrawFrame(0);
-            if (IntroActivity.this.eglThread == null || !IntroActivity.this.eglThread.isAlive() || IntroActivity.this.eglThread.eglDisplay == null || IntroActivity.this.eglThread.eglSurface == null) {
-                return;
-            }
-            try {
-                IntroActivity.this.eglThread.egl10.eglSwapBuffers(IntroActivity.this.eglThread.eglDisplay, IntroActivity.this.eglThread.eglSurface);
-            } catch (Exception unused) {
-            }
-        }
-
-        @Override // android.view.TextureView.SurfaceTextureListener
-        public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i2) {
-            if (IntroActivity.this.eglThread != null) {
-                IntroActivity.this.eglThread.setSurfaceTextureSize(i, i2);
-            }
-        }
-
-        @Override // android.view.TextureView.SurfaceTextureListener
-        public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-            if (IntroActivity.this.eglThread != null) {
-                IntroActivity.this.eglThread.shutdown();
-                IntroActivity.this.eglThread = null;
-                return true;
-            }
-            return true;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$1(View view) {
-        if (this.startPressed) {
-            return;
-        }
-        this.startPressed = true;
-        presentFragment(new LoginActivity().setIntroView(this.frameContainerView, this.startMessagingButton), true);
-        this.destroyed = true;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$2(View view) {
-        if (this.startPressed || this.localeInfo == null) {
-            return;
-        }
-        this.startPressed = true;
-        AlertDialog alertDialog = new AlertDialog(view.getContext(), 3);
-        alertDialog.setCanCancel(false);
-        alertDialog.showDelayed(1000L);
-        NotificationCenter.getGlobalInstance().addObserver(new 5(alertDialog), NotificationCenter.reloadInterface);
-        LocaleController.getInstance().applyLanguage(this.localeInfo, true, false, this.currentAccount);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 5 implements NotificationCenter.NotificationCenterDelegate {
-        final /* synthetic */ AlertDialog val$loaderDialog;
-
-        5(AlertDialog alertDialog) {
-            this.val$loaderDialog = alertDialog;
-        }
-
-        @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-        public void didReceivedNotification(int i, int i2, Object... objArr) {
-            if (i == NotificationCenter.reloadInterface) {
-                this.val$loaderDialog.dismiss();
-                NotificationCenter.getGlobalInstance().removeObserver(this, i);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.IntroActivity$5$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        IntroActivity.5.this.lambda$didReceivedNotification$0();
-                    }
-                }, 100L);
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$didReceivedNotification$0() {
-            IntroActivity.this.presentFragment(new LoginActivity().setIntroView(IntroActivity.this.frameContainerView, IntroActivity.this.startMessagingButton), true);
-            IntroActivity.this.destroyed = true;
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        if (i == NotificationCenter.suggestedLangpack || i == NotificationCenter.configLoaded) {
+            checkContinueText();
         }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    @SuppressLint({"SourceLockedOrientationActivity"})
+    public ArrayList getThemeDescriptions() {
+        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda0
+            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+            public final void didSetColor() {
+                IntroActivity.this.lambda$getThemeDescriptions$5();
+            }
+
+            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+            public /* synthetic */ void onAnimationProgress(float f) {
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
+            }
+        }, Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhiteBlueText4, Theme.key_chats_actionBackground, Theme.key_chats_actionPressedBackground, Theme.key_featuredStickers_buttonText, Theme.key_windowBackgroundWhiteBlackText, Theme.key_windowBackgroundWhiteGrayText3);
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public boolean hasForceLightStatusBar() {
+        return true;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public boolean isLightStatusBar() {
+        return ColorUtils.calculateLuminance(Theme.getColor(Theme.key_windowBackgroundWhite, null, true)) > 0.699999988079071d;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public AnimatorSet onCustomTransitionAnimation(boolean z, Runnable runnable) {
+        if (this.isOnLogout) {
+            AnimatorSet duration = new AnimatorSet().setDuration(50L);
+            duration.playTogether(ValueAnimator.ofFloat(new float[0]));
+            return duration;
+        }
+        return null;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public boolean onFragmentCreate() {
+        MessagesController.getGlobalMainSettings().edit().putLong("intro_crashed_time", System.currentTimeMillis()).apply();
+        this.titles = new String[]{LocaleController.getString(R.string.Page1Title), LocaleController.getString(R.string.Page2Title), LocaleController.getString(R.string.Page3Title), LocaleController.getString(R.string.Page5Title), LocaleController.getString(R.string.Page4Title), LocaleController.getString(R.string.Page6Title)};
+        this.messages = new String[]{LocaleController.getString(R.string.Page1Message), LocaleController.getString(R.string.Page2Message), LocaleController.getString(R.string.Page3Message), LocaleController.getString(R.string.Page5Message), LocaleController.getString(R.string.Page4Message), LocaleController.getString(R.string.Page6Message)};
+        return true;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onFragmentDestroy() {
+        super.onFragmentDestroy();
+        this.destroyed = true;
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.suggestedLangpack);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.configLoaded);
+        MessagesController.getGlobalMainSettings().edit().putLong("intro_crashed_time", 0L).apply();
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onPause() {
+        Activity parentActivity;
+        super.onPause();
+        if (AndroidUtilities.isTablet() || (parentActivity = getParentActivity()) == null) {
+            return;
+        }
+        parentActivity.setRequestedOrientation(-1);
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onResume() {
         Activity parentActivity;
         super.onResume();
@@ -432,568 +990,8 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         parentActivity.setRequestedOrientation(1);
     }
 
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onPause() {
-        Activity parentActivity;
-        super.onPause();
-        if (AndroidUtilities.isTablet() || (parentActivity = getParentActivity()) == null) {
-            return;
-        }
-        parentActivity.setRequestedOrientation(-1);
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onFragmentDestroy() {
-        super.onFragmentDestroy();
-        this.destroyed = true;
-        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.suggestedLangpack);
-        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.configLoaded);
-        MessagesController.getGlobalMainSettings().edit().putLong("intro_crashed_time", 0L).apply();
-    }
-
-    private void checkContinueText() {
-        LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
-        final String str = MessagesController.getInstance(this.currentAccount).suggestedLangCode;
-        if ((str == null || (str.equals("en") && LocaleController.getInstance().getSystemDefaultLocale().getLanguage() != null && !LocaleController.getInstance().getSystemDefaultLocale().getLanguage().equals("en"))) && (str = LocaleController.getInstance().getSystemDefaultLocale().getLanguage()) == null) {
-            str = "en";
-        }
-        String str2 = str.contains("-") ? str.split("-")[0] : str;
-        String localeAlias = LocaleController.getLocaleAlias(str2);
-        LocaleController.LocaleInfo localeInfo = null;
-        LocaleController.LocaleInfo localeInfo2 = null;
-        for (int i = 0; i < LocaleController.getInstance().languages.size(); i++) {
-            LocaleController.LocaleInfo localeInfo3 = LocaleController.getInstance().languages.get(i);
-            if (localeInfo3.shortName.equals("en")) {
-                localeInfo = localeInfo3;
-            }
-            if (localeInfo3.shortName.replace("_", "-").equals(str) || localeInfo3.shortName.equals(str2) || localeInfo3.shortName.equals(localeAlias)) {
-                localeInfo2 = localeInfo3;
-            }
-            if (localeInfo != null && localeInfo2 != null) {
-                break;
-            }
-        }
-        if (localeInfo == null || localeInfo2 == null || localeInfo == localeInfo2) {
-            return;
-        }
-        TLRPC$TL_langpack_getStrings tLRPC$TL_langpack_getStrings = new TLRPC$TL_langpack_getStrings();
-        if (localeInfo2 != currentLocaleInfo) {
-            tLRPC$TL_langpack_getStrings.lang_code = localeInfo2.getLangCode();
-            this.localeInfo = localeInfo2;
-        } else {
-            tLRPC$TL_langpack_getStrings.lang_code = localeInfo.getLangCode();
-            this.localeInfo = localeInfo;
-        }
-        tLRPC$TL_langpack_getStrings.keys.add("ContinueOnThisLanguage");
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_langpack_getStrings, new RequestDelegate() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda4
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                IntroActivity.this.lambda$checkContinueText$4(str, tLObject, tLRPC$TL_error);
-            }
-        }, 8);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkContinueText$4(final String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        if (tLObject != null) {
-            TLRPC$Vector tLRPC$Vector = (TLRPC$Vector) tLObject;
-            if (tLRPC$Vector.objects.isEmpty()) {
-                return;
-            }
-            final TLRPC$LangPackString tLRPC$LangPackString = (TLRPC$LangPackString) tLRPC$Vector.objects.get(0);
-            if (tLRPC$LangPackString instanceof TLRPC$TL_langPackString) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda5
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        IntroActivity.this.lambda$checkContinueText$3(tLRPC$LangPackString, str);
-                    }
-                });
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkContinueText$3(TLRPC$LangPackString tLRPC$LangPackString, String str) {
-        if (this.destroyed) {
-            return;
-        }
-        this.switchLanguageTextView.setText(tLRPC$LangPackString.value);
-        MessagesController.getGlobalMainSettings().edit().putString("language_showed2", str.toLowerCase()).apply();
-    }
-
-    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if (i == NotificationCenter.suggestedLangpack || i == NotificationCenter.configLoaded) {
-            checkContinueText();
-        }
-    }
-
     public IntroActivity setOnLogout() {
         this.isOnLogout = true;
         return this;
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public AnimatorSet onCustomTransitionAnimation(boolean z, Runnable runnable) {
-        if (this.isOnLogout) {
-            AnimatorSet duration = new AnimatorSet().setDuration(50L);
-            duration.playTogether(ValueAnimator.ofFloat(new float[0]));
-            return duration;
-        }
-        return null;
-    }
-
-    /* loaded from: classes4.dex */
-    private class IntroAdapter extends PagerAdapter {
-        @Override // androidx.viewpager.widget.PagerAdapter
-        public void restoreState(Parcelable parcelable, ClassLoader classLoader) {
-        }
-
-        @Override // androidx.viewpager.widget.PagerAdapter
-        public Parcelable saveState() {
-            return null;
-        }
-
-        private IntroAdapter() {
-        }
-
-        @Override // androidx.viewpager.widget.PagerAdapter
-        public int getCount() {
-            return IntroActivity.this.titles.length;
-        }
-
-        @Override // androidx.viewpager.widget.PagerAdapter
-        public Object instantiateItem(ViewGroup viewGroup, int i) {
-            final TextView textView = new TextView(viewGroup.getContext());
-            textView.setTag(IntroActivity.this.pagerHeaderTag);
-            final TextView textView2 = new TextView(viewGroup.getContext());
-            textView2.setTag(IntroActivity.this.pagerMessageTag);
-            FrameLayout frameLayout = new FrameLayout(viewGroup.getContext()) { // from class: org.telegram.ui.IntroActivity.IntroAdapter.1
-                @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
-                    int dp = (((((i5 - i3) / 4) * 3) - AndroidUtilities.dp(275.0f)) / 2) + AndroidUtilities.dp(150.0f) + AndroidUtilities.dp(16.0f);
-                    int dp2 = AndroidUtilities.dp(18.0f);
-                    TextView textView3 = textView;
-                    textView3.layout(dp2, dp, textView3.getMeasuredWidth() + dp2, textView.getMeasuredHeight() + dp);
-                    int textSize = ((int) (dp + textView.getTextSize())) + AndroidUtilities.dp(16.0f);
-                    int dp3 = AndroidUtilities.dp(16.0f);
-                    TextView textView4 = textView2;
-                    textView4.layout(dp3, textSize, textView4.getMeasuredWidth() + dp3, textView2.getMeasuredHeight() + textSize);
-                }
-            };
-            textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-            textView.setTextSize(1, 26.0f);
-            textView.setGravity(17);
-            frameLayout.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 51, 18.0f, 244.0f, 18.0f, 0.0f));
-            textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3));
-            textView2.setTextSize(1, 15.0f);
-            textView2.setGravity(17);
-            frameLayout.addView(textView2, LayoutHelper.createFrame(-1, -2.0f, 51, 16.0f, 286.0f, 16.0f, 0.0f));
-            viewGroup.addView(frameLayout, 0);
-            textView.setText(IntroActivity.this.titles[i]);
-            textView2.setText(AndroidUtilities.replaceTags(IntroActivity.this.messages[i]));
-            return frameLayout;
-        }
-
-        @Override // androidx.viewpager.widget.PagerAdapter
-        public void destroyItem(ViewGroup viewGroup, int i, Object obj) {
-            viewGroup.removeView((View) obj);
-        }
-
-        @Override // androidx.viewpager.widget.PagerAdapter
-        public void setPrimaryItem(ViewGroup viewGroup, int i, Object obj) {
-            super.setPrimaryItem(viewGroup, i, obj);
-            IntroActivity.this.bottomPages.setCurrentPage(i);
-            IntroActivity.this.currentViewPagerPage = i;
-        }
-
-        @Override // androidx.viewpager.widget.PagerAdapter
-        public boolean isViewFromObject(View view, Object obj) {
-            return view.equals(obj);
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class EGLThread extends DispatchQueue {
-        private Runnable drawRunnable;
-        private EGL10 egl10;
-        private EGLConfig eglConfig;
-        private EGLContext eglContext;
-        private EGLDisplay eglDisplay;
-        private EGLSurface eglSurface;
-        private boolean initied;
-        private long lastDrawFrame;
-        private float maxRefreshRate;
-        private SurfaceTexture surfaceTexture;
-        private GenericProvider<Void, Bitmap> telegramMaskProvider;
-        private int[] textures;
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ Bitmap lambda$new$0(Void r6) {
-            int dp = AndroidUtilities.dp(150.0f);
-            Bitmap createBitmap = Bitmap.createBitmap(AndroidUtilities.dp(200.0f), dp, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(createBitmap);
-            canvas.drawColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-            Paint paint = new Paint(1);
-            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-            canvas.drawCircle(createBitmap.getWidth() / 2.0f, createBitmap.getHeight() / 2.0f, dp / 2.0f, paint);
-            return createBitmap;
-        }
-
-        public EGLThread(SurfaceTexture surfaceTexture) {
-            super("EGLThread");
-            this.textures = new int[24];
-            this.telegramMaskProvider = new GenericProvider() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda1
-                @Override // org.telegram.messenger.GenericProvider
-                public final Object provide(Object obj) {
-                    Bitmap lambda$new$0;
-                    lambda$new$0 = IntroActivity.EGLThread.lambda$new$0((Void) obj);
-                    return lambda$new$0;
-                }
-            };
-            this.drawRunnable = new Runnable() { // from class: org.telegram.ui.IntroActivity.EGLThread.1
-                @Override // java.lang.Runnable
-                public void run() {
-                    float[] supportedRefreshRates;
-                    if (EGLThread.this.initied) {
-                        long currentTimeMillis = System.currentTimeMillis();
-                        if ((EGLThread.this.eglContext.equals(EGLThread.this.egl10.eglGetCurrentContext()) && EGLThread.this.eglSurface.equals(EGLThread.this.egl10.eglGetCurrentSurface(12377))) || EGLThread.this.egl10.eglMakeCurrent(EGLThread.this.eglDisplay, EGLThread.this.eglSurface, EGLThread.this.eglSurface, EGLThread.this.eglContext)) {
-                            int min = (int) Math.min(currentTimeMillis - EGLThread.this.lastDrawFrame, 16L);
-                            Intro.setPage(IntroActivity.this.currentViewPagerPage);
-                            Intro.setDate(((float) (currentTimeMillis - IntroActivity.this.currentDate)) / 1000.0f);
-                            Intro.onDrawFrame(min);
-                            EGLThread.this.egl10.eglSwapBuffers(EGLThread.this.eglDisplay, EGLThread.this.eglSurface);
-                            EGLThread.this.lastDrawFrame = currentTimeMillis;
-                            float f = 0.0f;
-                            if (EGLThread.this.maxRefreshRate == 0.0f) {
-                                if (Build.VERSION.SDK_INT < 21) {
-                                    EGLThread.this.maxRefreshRate = 60.0f;
-                                } else {
-                                    supportedRefreshRates = ((WindowManager) ApplicationLoader.applicationContext.getSystemService("window")).getDefaultDisplay().getSupportedRefreshRates();
-                                    for (float f2 : supportedRefreshRates) {
-                                        if (f2 > f) {
-                                            f = f2;
-                                        }
-                                    }
-                                    EGLThread.this.maxRefreshRate = f;
-                                }
-                            }
-                            long currentTimeMillis2 = System.currentTimeMillis() - currentTimeMillis;
-                            EGLThread eGLThread = EGLThread.this;
-                            eGLThread.postRunnable(eGLThread.drawRunnable, Math.max((1000.0f / EGLThread.this.maxRefreshRate) - currentTimeMillis2, 0L));
-                        } else if (BuildVars.LOGS_ENABLED) {
-                            FileLog.e("eglMakeCurrent failed " + GLUtils.getEGLErrorString(EGLThread.this.egl10.eglGetError()));
-                        }
-                    }
-                }
-            };
-            this.surfaceTexture = surfaceTexture;
-        }
-
-        private boolean initGL() {
-            EGL10 egl10 = (EGL10) EGLContext.getEGL();
-            this.egl10 = egl10;
-            EGLDisplay eglGetDisplay = egl10.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY);
-            this.eglDisplay = eglGetDisplay;
-            if (eglGetDisplay == EGL10.EGL_NO_DISPLAY) {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("eglGetDisplay failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                }
-                finish();
-                return false;
-            } else if (!this.egl10.eglInitialize(eglGetDisplay, new int[2])) {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("eglInitialize failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                }
-                finish();
-                return false;
-            } else {
-                int[] iArr = new int[1];
-                EGLConfig[] eGLConfigArr = new EGLConfig[1];
-                if (!this.egl10.eglChooseConfig(this.eglDisplay, EmuDetector.with(IntroActivity.this.getParentActivity()).detect() ? new int[]{12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 24, 12344} : new int[]{12352, 4, 12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 24, 12326, 0, 12338, 1, 12337, 2, 12344}, eGLConfigArr, 1, iArr)) {
-                    if (BuildVars.LOGS_ENABLED) {
-                        FileLog.e("eglChooseConfig failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                    }
-                    finish();
-                    return false;
-                } else if (iArr[0] > 0) {
-                    EGLConfig eGLConfig = eGLConfigArr[0];
-                    this.eglConfig = eGLConfig;
-                    EGLContext eglCreateContext = this.egl10.eglCreateContext(this.eglDisplay, eGLConfig, EGL10.EGL_NO_CONTEXT, new int[]{12440, 2, 12344});
-                    this.eglContext = eglCreateContext;
-                    if (eglCreateContext == null) {
-                        if (BuildVars.LOGS_ENABLED) {
-                            FileLog.e("eglCreateContext failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                        }
-                        finish();
-                        return false;
-                    }
-                    SurfaceTexture surfaceTexture = this.surfaceTexture;
-                    if (surfaceTexture instanceof SurfaceTexture) {
-                        EGLSurface eglCreateWindowSurface = this.egl10.eglCreateWindowSurface(this.eglDisplay, this.eglConfig, surfaceTexture, null);
-                        this.eglSurface = eglCreateWindowSurface;
-                        if (eglCreateWindowSurface == null || eglCreateWindowSurface == EGL10.EGL_NO_SURFACE) {
-                            if (BuildVars.LOGS_ENABLED) {
-                                FileLog.e("createWindowSurface failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                            }
-                            finish();
-                            return false;
-                        } else if (!this.egl10.eglMakeCurrent(this.eglDisplay, eglCreateWindowSurface, eglCreateWindowSurface, this.eglContext)) {
-                            if (BuildVars.LOGS_ENABLED) {
-                                FileLog.e("eglMakeCurrent failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                            }
-                            finish();
-                            return false;
-                        } else {
-                            GLES20.glGenTextures(23, this.textures, 0);
-                            loadTexture(R.drawable.intro_fast_arrow_shadow, 0);
-                            loadTexture(R.drawable.intro_fast_arrow, 1);
-                            loadTexture(R.drawable.intro_fast_body, 2);
-                            loadTexture(R.drawable.intro_fast_spiral, 3);
-                            loadTexture(R.drawable.intro_ic_bubble_dot, 4);
-                            loadTexture(R.drawable.intro_ic_bubble, 5);
-                            loadTexture(R.drawable.intro_ic_cam_lens, 6);
-                            loadTexture(R.drawable.intro_ic_cam, 7);
-                            loadTexture(R.drawable.intro_ic_pencil, 8);
-                            loadTexture(R.drawable.intro_ic_pin, 9);
-                            loadTexture(R.drawable.intro_ic_smile_eye, 10);
-                            loadTexture(R.drawable.intro_ic_smile, 11);
-                            loadTexture(R.drawable.intro_ic_videocam, 12);
-                            loadTexture(R.drawable.intro_knot_down, 13);
-                            loadTexture(R.drawable.intro_knot_up, 14);
-                            loadTexture(R.drawable.intro_powerful_infinity_white, 15);
-                            loadTexture(R.drawable.intro_powerful_infinity, 16);
-                            loadTexture(R.drawable.intro_powerful_mask, 17, Theme.getColor(Theme.key_windowBackgroundWhite), false);
-                            loadTexture(R.drawable.intro_powerful_star, 18);
-                            loadTexture(R.drawable.intro_private_door, 19);
-                            loadTexture(R.drawable.intro_private_screw, 20);
-                            loadTexture(R.drawable.intro_tg_plane, 21);
-                            loadTexture(new GenericProvider() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda2
-                                @Override // org.telegram.messenger.GenericProvider
-                                public final Object provide(Object obj) {
-                                    Bitmap lambda$initGL$1;
-                                    lambda$initGL$1 = IntroActivity.EGLThread.lambda$initGL$1((Void) obj);
-                                    return lambda$initGL$1;
-                                }
-                            }, 22);
-                            loadTexture(this.telegramMaskProvider, 23);
-                            updateTelegramTextures();
-                            updatePowerfulTextures();
-                            int[] iArr2 = this.textures;
-                            Intro.setPrivateTextures(iArr2[19], iArr2[20]);
-                            int[] iArr3 = this.textures;
-                            Intro.setFreeTextures(iArr3[14], iArr3[13]);
-                            int[] iArr4 = this.textures;
-                            Intro.setFastTextures(iArr4[2], iArr4[3], iArr4[1], iArr4[0]);
-                            int[] iArr5 = this.textures;
-                            Intro.setIcTextures(iArr5[4], iArr5[5], iArr5[6], iArr5[7], iArr5[8], iArr5[9], iArr5[10], iArr5[11], iArr5[12]);
-                            Intro.onSurfaceCreated();
-                            IntroActivity.this.currentDate = System.currentTimeMillis() - 1000;
-                            return true;
-                        }
-                    }
-                    finish();
-                    return false;
-                } else {
-                    if (BuildVars.LOGS_ENABLED) {
-                        FileLog.e("eglConfig not initialized");
-                    }
-                    finish();
-                    return false;
-                }
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ Bitmap lambda$initGL$1(Void r4) {
-            Paint paint = new Paint(1);
-            paint.setColor(-13851168);
-            int dp = AndroidUtilities.dp(150.0f);
-            Bitmap createBitmap = Bitmap.createBitmap(dp, dp, Bitmap.Config.ARGB_8888);
-            float f = dp / 2.0f;
-            new Canvas(createBitmap).drawCircle(f, f, f, paint);
-            return createBitmap;
-        }
-
-        public void updateTelegramTextures() {
-            int[] iArr = this.textures;
-            Intro.setTelegramTextures(iArr[22], iArr[21], iArr[23]);
-        }
-
-        public void updatePowerfulTextures() {
-            int[] iArr = this.textures;
-            Intro.setPowerfulTextures(iArr[17], iArr[18], iArr[16], iArr[15]);
-        }
-
-        public void finish() {
-            if (this.eglSurface != null) {
-                EGL10 egl10 = this.egl10;
-                EGLDisplay eGLDisplay = this.eglDisplay;
-                EGLSurface eGLSurface = EGL10.EGL_NO_SURFACE;
-                egl10.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, EGL10.EGL_NO_CONTEXT);
-                this.egl10.eglDestroySurface(this.eglDisplay, this.eglSurface);
-                this.eglSurface = null;
-            }
-            EGLContext eGLContext = this.eglContext;
-            if (eGLContext != null) {
-                this.egl10.eglDestroyContext(this.eglDisplay, eGLContext);
-                this.eglContext = null;
-            }
-            EGLDisplay eGLDisplay2 = this.eglDisplay;
-            if (eGLDisplay2 != null) {
-                this.egl10.eglTerminate(eGLDisplay2);
-                this.eglDisplay = null;
-            }
-        }
-
-        private void loadTexture(GenericProvider<Void, Bitmap> genericProvider, int i) {
-            loadTexture(genericProvider, i, false);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public void loadTexture(GenericProvider<Void, Bitmap> genericProvider, int i, boolean z) {
-            if (z) {
-                GLES20.glDeleteTextures(1, this.textures, i);
-                GLES20.glGenTextures(1, this.textures, i);
-            }
-            Bitmap provide = genericProvider.provide(null);
-            GLES20.glBindTexture(3553, this.textures[i]);
-            GLES20.glTexParameteri(3553, 10241, 9729);
-            GLES20.glTexParameteri(3553, 10240, 9729);
-            GLES20.glTexParameteri(3553, 10242, 33071);
-            GLES20.glTexParameteri(3553, 10243, 33071);
-            GLUtils.texImage2D(3553, 0, provide, 0);
-            provide.recycle();
-        }
-
-        private void loadTexture(int i, int i2) {
-            loadTexture(i, i2, 0, false);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public void loadTexture(int i, int i2, int i3, boolean z) {
-            Drawable drawable = IntroActivity.this.getParentActivity().getResources().getDrawable(i);
-            if (drawable instanceof BitmapDrawable) {
-                if (z) {
-                    GLES20.glDeleteTextures(1, this.textures, i2);
-                    GLES20.glGenTextures(1, this.textures, i2);
-                }
-                Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                GLES20.glBindTexture(3553, this.textures[i2]);
-                GLES20.glTexParameteri(3553, 10241, 9729);
-                GLES20.glTexParameteri(3553, 10240, 9729);
-                GLES20.glTexParameteri(3553, 10242, 33071);
-                GLES20.glTexParameteri(3553, 10243, 33071);
-                if (i3 != 0) {
-                    Bitmap createBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-                    Canvas canvas = new Canvas(createBitmap);
-                    Paint paint = new Paint(5);
-                    paint.setColorFilter(new PorterDuffColorFilter(i3, PorterDuff.Mode.SRC_IN));
-                    canvas.drawBitmap(bitmap, 0.0f, 0.0f, paint);
-                    GLUtils.texImage2D(3553, 0, createBitmap, 0);
-                    createBitmap.recycle();
-                    return;
-                }
-                GLUtils.texImage2D(3553, 0, bitmap, 0);
-            }
-        }
-
-        public void shutdown() {
-            postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    IntroActivity.EGLThread.this.lambda$shutdown$2();
-                }
-            });
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$shutdown$2() {
-            finish();
-            Looper myLooper = Looper.myLooper();
-            if (myLooper != null) {
-                myLooper.quit();
-            }
-        }
-
-        public void setSurfaceTextureSize(int i, int i2) {
-            Intro.onSurfaceChanged(i, i2, Math.min(i / 150.0f, i2 / 150.0f), 0);
-        }
-
-        @Override // org.telegram.messenger.DispatchQueue, java.lang.Thread, java.lang.Runnable
-        public void run() {
-            this.initied = initGL();
-            super.run();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getThemeDescriptions$5() {
-        updateColors(true);
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public ArrayList<ThemeDescription> getThemeDescriptions() {
-        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda0
-            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
-            public final void didSetColor() {
-                IntroActivity.this.lambda$getThemeDescriptions$5();
-            }
-
-            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
-            public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
-            }
-        }, Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhiteBlueText4, Theme.key_chats_actionBackground, Theme.key_chats_actionPressedBackground, Theme.key_featuredStickers_buttonText, Theme.key_windowBackgroundWhiteBlackText, Theme.key_windowBackgroundWhiteGrayText3);
-    }
-
-    private void updateColors(boolean z) {
-        View view = this.fragmentView;
-        int i = Theme.key_windowBackgroundWhite;
-        view.setBackgroundColor(Theme.getColor(i));
-        this.switchLanguageTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4));
-        this.startMessagingButton.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
-        TextView textView = this.startMessagingButton;
-        int dp = AndroidUtilities.dp(6.0f);
-        int i2 = Theme.key_changephoneinfo_image2;
-        textView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(dp, Theme.getColor(i2), Theme.getColor(Theme.key_chats_actionPressedBackground)));
-        this.darkThemeDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i2), PorterDuff.Mode.SRC_IN));
-        this.bottomPages.invalidate();
-        if (z) {
-            EGLThread eGLThread = this.eglThread;
-            if (eGLThread != null) {
-                eGLThread.postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda6
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        IntroActivity.this.lambda$updateColors$6();
-                    }
-                });
-            }
-            for (int i3 = 0; i3 < this.viewPager.getChildCount(); i3++) {
-                View childAt = this.viewPager.getChildAt(i3);
-                ((TextView) childAt.findViewWithTag(this.pagerHeaderTag)).setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-                ((TextView) childAt.findViewWithTag(this.pagerMessageTag)).setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3));
-            }
-            return;
-        }
-        Intro.setBackgroundColor(Theme.getColor(i));
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateColors$6() {
-        EGLThread eGLThread = this.eglThread;
-        int i = R.drawable.intro_powerful_mask;
-        int i2 = Theme.key_windowBackgroundWhite;
-        eGLThread.loadTexture(i, 17, Theme.getColor(i2), true);
-        this.eglThread.updatePowerfulTextures();
-        EGLThread eGLThread2 = this.eglThread;
-        eGLThread2.loadTexture(eGLThread2.telegramMaskProvider, 23, true);
-        this.eglThread.updateTelegramTextures();
-        Intro.setBackgroundColor(Theme.getColor(i2));
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public boolean isLightStatusBar() {
-        return ColorUtils.calculateLuminance(Theme.getColor(Theme.key_windowBackgroundWhite, null, true)) > 0.699999988079071d;
     }
 }

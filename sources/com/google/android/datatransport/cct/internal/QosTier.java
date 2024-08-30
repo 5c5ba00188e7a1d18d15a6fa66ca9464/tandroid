@@ -10,7 +10,7 @@ public enum QosTier {
     NEVER(4),
     UNRECOGNIZED(-1);
     
-    private static final SparseArray<QosTier> valueMap;
+    private static final SparseArray valueMap;
     private final int value;
 
     static {
@@ -20,7 +20,7 @@ public enum QosTier {
         QosTier qosTier4 = FAST_IF_RADIO_AWAKE;
         QosTier qosTier5 = NEVER;
         QosTier qosTier6 = UNRECOGNIZED;
-        SparseArray<QosTier> sparseArray = new SparseArray<>();
+        SparseArray sparseArray = new SparseArray();
         valueMap = sparseArray;
         sparseArray.put(0, qosTier);
         sparseArray.put(1, qosTier2);

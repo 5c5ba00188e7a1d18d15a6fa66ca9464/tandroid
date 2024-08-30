@@ -7,10 +7,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.RandomAccess;
 /* loaded from: classes.dex */
-public final class zzcw extends zzav<String> implements zzcx, RandomAccess {
+public final class zzcw extends zzav implements zzcx, RandomAccess {
     private static final zzcw zzlq;
     private static final zzcx zzlr;
-    private final List<Object> zzls;
+    private final List zzls;
 
     static {
         zzcw zzcwVar = new zzcw();
@@ -27,7 +27,7 @@ public final class zzcw extends zzav<String> implements zzcx, RandomAccess {
         this(new ArrayList(i));
     }
 
-    private zzcw(ArrayList<Object> arrayList) {
+    private zzcw(ArrayList arrayList) {
         this.zzls = arrayList;
     }
 
@@ -43,7 +43,7 @@ public final class zzcw extends zzav<String> implements zzcx, RandomAccess {
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzav, java.util.AbstractList, java.util.List
-    public final boolean addAll(int i, Collection<? extends String> collection) {
+    public final boolean addAll(int i, Collection collection) {
         zzw();
         if (collection instanceof zzcx) {
             collection = ((zzcx) collection).zzbt();
@@ -54,7 +54,7 @@ public final class zzcw extends zzav<String> implements zzcx, RandomAccess {
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzav, java.util.AbstractCollection, java.util.Collection, java.util.List
-    public final boolean addAll(Collection<? extends String> collection) {
+    public final boolean addAll(Collection collection) {
         return addAll(size(), collection);
     }
 
@@ -137,7 +137,7 @@ public final class zzcw extends zzav<String> implements zzcx, RandomAccess {
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzcx
-    public final List<?> zzbt() {
+    public final List zzbt() {
         return Collections.unmodifiableList(this.zzls);
     }
 

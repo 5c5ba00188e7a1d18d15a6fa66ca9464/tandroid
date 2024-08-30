@@ -14,25 +14,47 @@ import org.telegram.tgnet.ConnectionsManager;
 public class AutoDeleteMediaTask {
     public static Set<String> usingFilePaths = Collections.newSetFromMap(new ConcurrentHashMap());
 
-    public static void run() {
-        final int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
-        if (Math.abs(currentTimeMillis - SharedConfig.lastKeepMediaCheckTime) < 86400) {
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public static class FileInfoInternal extends CacheByChatsController.KeepMediaFile {
+        final long lastUsageDate;
+
+        private FileInfoInternal(File file) {
+            super(file);
+            this.lastUsageDate = Utilities.getLastUsageFileTime(file.getAbsolutePath());
+        }
+    }
+
+    private static void fillFilesRecursive(File file, ArrayList<FileInfoInternal> arrayList) {
+        File[] listFiles;
+        if (file == null || (listFiles = file.listFiles()) == null) {
             return;
         }
-        SharedConfig.lastKeepMediaCheckTime = currentTimeMillis;
-        final File checkDirectory = FileLoader.checkDirectory(4);
-        Utilities.cacheClearQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.AutoDeleteMediaTask$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                AutoDeleteMediaTask.lambda$run$1(currentTimeMillis, checkDirectory);
+        for (File file2 : listFiles) {
+            if (file2.isDirectory()) {
+                fillFilesRecursive(file2, arrayList);
+            } else if (!file2.getName().equals(".nomedia") && !usingFilePaths.contains(file2.getAbsolutePath())) {
+                arrayList.add(new FileInfoInternal(file2));
             }
-        });
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x02d8  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x0301  */
+    public static /* synthetic */ int lambda$run$0(FileInfoInternal fileInfoInternal, FileInfoInternal fileInfoInternal2) {
+        long j = fileInfoInternal2.lastUsageDate;
+        long j2 = fileInfoInternal.lastUsageDate;
+        if (j > j2) {
+            return -1;
+        }
+        return j < j2 ? 1 : 0;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x02d5  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x02fe  */
     /* JADX WARN: Removed duplicated region for block: B:205:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x0156  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x0157 A[Catch: all -> 0x00e8, TryCatch #4 {all -> 0x00e8, blocks: (B:49:0x00d2, B:58:0x00f3, B:52:0x00dd, B:60:0x00fb, B:62:0x0101, B:64:0x010e, B:66:0x0114, B:68:0x011e, B:85:0x015a, B:89:0x016f, B:69:0x012a, B:73:0x013a, B:84:0x0157, B:74:0x013f, B:76:0x0143), top: B:170:0x00d2 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -147,18 +169,19 @@ public class AutoDeleteMediaTask {
                             z = z4;
                             int i15 = keepMediaFile.keepMedia;
                             if (i15 != CacheByChatsController.KEEP_MEDIA_FOREVER) {
-                                if (i15 >= 0) {
-                                    j3 = CacheByChatsController.getDaysInSeconds(i15);
-                                } else {
+                                if (i15 < 0) {
                                     int i16 = keepMediaFile.dialogType;
                                     if (i16 >= 0) {
-                                        j3 = CacheByChatsController.getDaysInSeconds(iArr2[i16]);
+                                        i15 = iArr2[i16];
                                     } else if (!z) {
                                         j3 = j2;
+                                        if (j3 == Long.MAX_VALUE) {
+                                            j4 = i - j3;
+                                        }
                                     }
                                 }
-                                if (j3 != Long.MAX_VALUE) {
-                                    j4 = i - j3;
+                                j3 = CacheByChatsController.getDaysInSeconds(i15);
+                                if (j3 == Long.MAX_VALUE) {
                                 }
                             }
                             arrayList = arrayList3;
@@ -305,41 +328,6 @@ public class AutoDeleteMediaTask {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$run$0(FileInfoInternal fileInfoInternal, FileInfoInternal fileInfoInternal2) {
-        long j = fileInfoInternal2.lastUsageDate;
-        long j2 = fileInfoInternal.lastUsageDate;
-        if (j > j2) {
-            return -1;
-        }
-        return j < j2 ? 1 : 0;
-    }
-
-    private static void fillFilesRecursive(File file, ArrayList<FileInfoInternal> arrayList) {
-        File[] listFiles;
-        if (file == null || (listFiles = file.listFiles()) == null) {
-            return;
-        }
-        for (File file2 : listFiles) {
-            if (file2.isDirectory()) {
-                fillFilesRecursive(file2, arrayList);
-            } else if (!file2.getName().equals(".nomedia") && !usingFilePaths.contains(file2.getAbsolutePath())) {
-                arrayList.add(new FileInfoInternal(file2));
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class FileInfoInternal extends CacheByChatsController.KeepMediaFile {
-        final long lastUsageDate;
-
-        private FileInfoInternal(File file) {
-            super(file);
-            this.lastUsageDate = Utilities.getLastUsageFileTime(file.getAbsolutePath());
-        }
-    }
-
     public static void lockFile(File file) {
         if (file == null) {
             return;
@@ -347,18 +335,33 @@ public class AutoDeleteMediaTask {
         lockFile(file.getAbsolutePath());
     }
 
-    public static void unlockFile(File file) {
-        if (file == null) {
-            return;
-        }
-        unlockFile(file.getAbsolutePath());
-    }
-
     public static void lockFile(String str) {
         if (str == null) {
             return;
         }
         usingFilePaths.add(str);
+    }
+
+    public static void run() {
+        final int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
+        if (Math.abs(currentTimeMillis - SharedConfig.lastKeepMediaCheckTime) < 86400) {
+            return;
+        }
+        SharedConfig.lastKeepMediaCheckTime = currentTimeMillis;
+        final File checkDirectory = FileLoader.checkDirectory(4);
+        Utilities.cacheClearQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.AutoDeleteMediaTask$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                AutoDeleteMediaTask.lambda$run$1(currentTimeMillis, checkDirectory);
+            }
+        });
+    }
+
+    public static void unlockFile(File file) {
+        if (file == null) {
+            return;
+        }
+        unlockFile(file.getAbsolutePath());
     }
 
     public static void unlockFile(String str) {

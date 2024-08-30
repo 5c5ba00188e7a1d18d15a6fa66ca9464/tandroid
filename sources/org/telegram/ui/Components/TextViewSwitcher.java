@@ -12,27 +12,6 @@ public class TextViewSwitcher extends ViewSwitcher {
         super(context);
     }
 
-    public void setText(CharSequence charSequence) {
-        setText(charSequence, true);
-    }
-
-    public void setText(CharSequence charSequence, boolean z) {
-        setText(charSequence, z, false);
-    }
-
-    public boolean setText(CharSequence charSequence, boolean z, boolean z2) {
-        if (z2 || !TextUtils.equals(charSequence, getCurrentView().getText())) {
-            if (z) {
-                getNextView().setText(charSequence);
-                showNext();
-                return true;
-            }
-            getCurrentView().setText(charSequence);
-            return false;
-        }
-        return false;
-    }
-
     @Override // android.widget.ViewSwitcher, android.widget.ViewAnimator, android.view.ViewGroup
     public void addView(View view, int i, ViewGroup.LayoutParams layoutParams) {
         if (!(view instanceof TextView)) {
@@ -54,5 +33,26 @@ public class TextViewSwitcher extends ViewSwitcher {
     public void invalidateViews() {
         getCurrentView().invalidate();
         getNextView().invalidate();
+    }
+
+    public void setText(CharSequence charSequence) {
+        setText(charSequence, true);
+    }
+
+    public void setText(CharSequence charSequence, boolean z) {
+        setText(charSequence, z, false);
+    }
+
+    public boolean setText(CharSequence charSequence, boolean z, boolean z2) {
+        if (z2 || !TextUtils.equals(charSequence, getCurrentView().getText())) {
+            if (!z) {
+                getCurrentView().setText(charSequence);
+                return false;
+            }
+            getNextView().setText(charSequence);
+            showNext();
+            return true;
+        }
+        return false;
     }
 }

@@ -1,6 +1,5 @@
 package org.telegram.ui.Components.Premium.boosts.cells;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.SpannableStringBuilder;
 import org.telegram.messenger.AndroidUtilities;
@@ -12,16 +11,10 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.boosts.DiscountSpan;
-@SuppressLint({"ViewConstructor"})
 /* loaded from: classes3.dex */
 public class DurationWithDiscountCell extends DurationCell {
     protected final CheckBox2 checkBox;
     private TLRPC$TL_premiumGiftCodeOption option;
-
-    @Override // org.telegram.ui.Components.Premium.boosts.cells.DurationCell, org.telegram.ui.Components.Premium.boosts.cells.BaseCell
-    protected boolean needCheck() {
-        return true;
-    }
 
     public DurationWithDiscountCell(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context, resourcesProvider);
@@ -36,21 +29,13 @@ public class DurationWithDiscountCell extends DurationCell {
         updateLayouts();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Components.Premium.boosts.cells.BaseCell
-    public void updateLayouts() {
-        super.updateLayouts();
-        SimpleTextView simpleTextView = this.titleTextView;
-        boolean z = LocaleController.isRTL;
-        simpleTextView.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, (z ? 5 : 3) | 16, z ? 20.0f : 102.0f, 0.0f, z ? 102.0f : 20.0f, 0.0f));
-        SimpleTextView simpleTextView2 = this.subtitleTextView;
-        boolean z2 = LocaleController.isRTL;
-        simpleTextView2.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, (z2 ? 5 : 3) | 16, z2 ? 20.0f : 102.0f, 0.0f, z2 ? 102.0f : 20.0f, 0.0f));
-        CheckBox2 checkBox2 = this.checkBox;
-        if (checkBox2 != null) {
-            boolean z3 = LocaleController.isRTL;
-            checkBox2.setLayoutParams(LayoutHelper.createFrame(22, 22.0f, (z3 ? 5 : 3) | 16, z3 ? 15.0f : 20.0f, 0.0f, z3 ? 20.0f : 15.0f, 0.0f));
-        }
+    public TLRPC$TL_premiumGiftCodeOption getOption() {
+        return this.option;
+    }
+
+    @Override // org.telegram.ui.Components.Premium.boosts.cells.DurationCell, org.telegram.ui.Components.Premium.boosts.cells.BaseCell
+    protected boolean needCheck() {
+        return true;
     }
 
     @Override // org.telegram.ui.Components.Premium.boosts.cells.BaseCell
@@ -91,7 +76,20 @@ public class DurationWithDiscountCell extends DurationCell {
         this.checkBox.setChecked(z2, false);
     }
 
-    public TLRPC$TL_premiumGiftCodeOption getOption() {
-        return this.option;
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.Premium.boosts.cells.BaseCell
+    public void updateLayouts() {
+        super.updateLayouts();
+        SimpleTextView simpleTextView = this.titleTextView;
+        boolean z = LocaleController.isRTL;
+        simpleTextView.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, (z ? 5 : 3) | 16, z ? 20.0f : 102.0f, 0.0f, z ? 102.0f : 20.0f, 0.0f));
+        SimpleTextView simpleTextView2 = this.subtitleTextView;
+        boolean z2 = LocaleController.isRTL;
+        simpleTextView2.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, (z2 ? 5 : 3) | 16, z2 ? 20.0f : 102.0f, 0.0f, z2 ? 102.0f : 20.0f, 0.0f));
+        CheckBox2 checkBox2 = this.checkBox;
+        if (checkBox2 != null) {
+            boolean z3 = LocaleController.isRTL;
+            checkBox2.setLayoutParams(LayoutHelper.createFrame(22, 22.0f, (z3 ? 5 : 3) | 16, z3 ? 15.0f : 20.0f, 0.0f, z3 ? 20.0f : 15.0f, 0.0f));
+        }
     }
 }

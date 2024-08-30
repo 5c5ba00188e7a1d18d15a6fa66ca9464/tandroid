@@ -2,7 +2,6 @@ package com.google.firebase.appindexing.builders;
 
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.firebase.appindexing.Action;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
 public final class AssistActionBuilder extends Action.Builder {
     private String zza;

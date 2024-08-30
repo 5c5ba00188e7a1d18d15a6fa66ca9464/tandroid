@@ -18,7 +18,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$ReactionCount;
 import org.telegram.tgnet.TLRPC$TL_chatReactionsNone;
 import org.telegram.tgnet.TLRPC$TL_messageReactions;
 import org.telegram.ui.Cells.ChatMessageCell;
@@ -43,9 +42,59 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
     private ChatActivity parentFragment;
     private int[] pos;
     private ReactionsContainerLayout reactionsContainerLayout;
-    private List<MessageObject> selectedMessages;
+    private List selectedMessages;
     private float toOffsetY;
     private float translationOffsetY;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public class 3 implements ReactionsContainerLayout.ReactionsContainerDelegate {
+        3() {
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onReactionClicked$0() {
+            if (ChatSelectionReactionMenuOverlay.this.reactionsContainerLayout != null) {
+                ChatSelectionReactionMenuOverlay.this.reactionsContainerLayout.dismissParent(true);
+            }
+            hideMenu();
+        }
+
+        @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
+        public /* synthetic */ boolean drawBackground() {
+            return ReactionsContainerLayout.ReactionsContainerDelegate.-CC.$default$drawBackground(this);
+        }
+
+        @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
+        public /* synthetic */ void drawRoundRect(Canvas canvas, RectF rectF, float f, float f2, float f3, int i, boolean z) {
+            ReactionsContainerLayout.ReactionsContainerDelegate.-CC.$default$drawRoundRect(this, canvas, rectF, f, f2, f3, i, z);
+        }
+
+        public void hideMenu() {
+            ChatSelectionReactionMenuOverlay.this.parentFragment.clearSelectionMode(true);
+        }
+
+        @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
+        public /* synthetic */ boolean needEnterText() {
+            return ReactionsContainerLayout.ReactionsContainerDelegate.-CC.$default$needEnterText(this);
+        }
+
+        @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
+        public /* synthetic */ void onEmojiWindowDismissed() {
+            ReactionsContainerLayout.ReactionsContainerDelegate.-CC.$default$onEmojiWindowDismissed(this);
+        }
+
+        @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
+        public void onReactionClicked(View view, ReactionsLayoutInBubble.VisibleReaction visibleReaction, boolean z, boolean z2) {
+            ChatSelectionReactionMenuOverlay.this.parentFragment.selectReaction(null, ChatSelectionReactionMenuOverlay.this.currentPrimaryObject, ChatSelectionReactionMenuOverlay.this.reactionsContainerLayout, view, 0.0f, 0.0f, visibleReaction, false, z, z2, false);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$3$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ChatSelectionReactionMenuOverlay.3.this.lambda$onReactionClicked$0();
+                }
+            });
+        }
+    }
 
     public ChatSelectionReactionMenuOverlay(ChatActivity chatActivity, Context context) {
         super(context);
@@ -63,6 +112,40 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
                 ChatSelectionReactionMenuOverlay.this.invalidatePosition();
             }
         });
+    }
+
+    private void animateVisible(boolean z) {
+        if (z) {
+            setVisibility(0);
+            post(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ChatSelectionReactionMenuOverlay.this.lambda$animateVisible$0();
+                }
+            });
+            return;
+        }
+        this.messageSet = false;
+        ValueAnimator duration = ValueAnimator.ofFloat(1.0f, 0.0f).setDuration(150L);
+        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda2
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                ChatSelectionReactionMenuOverlay.this.lambda$animateVisible$1(valueAnimator);
+            }
+        });
+        duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay.4
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                ChatSelectionReactionMenuOverlay.this.setVisibility(8);
+                if (ChatSelectionReactionMenuOverlay.this.reactionsContainerLayout != null) {
+                    ChatSelectionReactionMenuOverlay chatSelectionReactionMenuOverlay = ChatSelectionReactionMenuOverlay.this;
+                    chatSelectionReactionMenuOverlay.removeView(chatSelectionReactionMenuOverlay.reactionsContainerLayout);
+                    ChatSelectionReactionMenuOverlay.this.reactionsContainerLayout = null;
+                }
+                ChatSelectionReactionMenuOverlay.this.currentPrimaryObject = null;
+            }
+        });
+        duration.start();
     }
 
     private void checkCreateReactionsLayout() {
@@ -123,67 +206,63 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 3 implements ReactionsContainerLayout.ReactionsContainerDelegate {
-        @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
-        public /* synthetic */ boolean drawBackground() {
-            return ReactionsContainerLayout.ReactionsContainerDelegate.-CC.$default$drawBackground(this);
+    private MessageObject findPrimaryObject() {
+        MessageObject.GroupedMessages group;
+        ArrayList<MessageObject> arrayList;
+        TLRPC$TL_messageReactions tLRPC$TL_messageReactions;
+        ArrayList arrayList2;
+        if (!this.isVisible || this.selectedMessages.isEmpty()) {
+            return null;
         }
-
-        @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
-        public /* synthetic */ void drawRoundRect(Canvas canvas, RectF rectF, float f, float f2, float f3, int i, boolean z) {
-            ReactionsContainerLayout.ReactionsContainerDelegate.-CC.$default$drawRoundRect(this, canvas, rectF, f, f2, f3, i, z);
-        }
-
-        @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
-        public /* synthetic */ boolean needEnterText() {
-            return ReactionsContainerLayout.ReactionsContainerDelegate.-CC.$default$needEnterText(this);
-        }
-
-        @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
-        public /* synthetic */ void onEmojiWindowDismissed() {
-            ReactionsContainerLayout.ReactionsContainerDelegate.-CC.$default$onEmojiWindowDismissed(this);
-        }
-
-        3() {
-        }
-
-        @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
-        public void onReactionClicked(View view, ReactionsLayoutInBubble.VisibleReaction visibleReaction, boolean z, boolean z2) {
-            ChatSelectionReactionMenuOverlay.this.parentFragment.selectReaction(null, ChatSelectionReactionMenuOverlay.this.currentPrimaryObject, ChatSelectionReactionMenuOverlay.this.reactionsContainerLayout, view, 0.0f, 0.0f, visibleReaction, false, z, z2, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$3$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatSelectionReactionMenuOverlay.3.this.lambda$onReactionClicked$0();
+        MessageObject messageObject = (MessageObject) this.selectedMessages.get(0);
+        if (messageObject.getGroupId() != 0 && (group = this.parentFragment.getGroup(messageObject.getGroupId())) != null && (arrayList = group.messages) != null) {
+            Iterator<MessageObject> it = arrayList.iterator();
+            while (it.hasNext()) {
+                MessageObject next = it.next();
+                TLRPC$Message tLRPC$Message = next.messageOwner;
+                if (tLRPC$Message != null && (tLRPC$TL_messageReactions = tLRPC$Message.reactions) != null && (arrayList2 = tLRPC$TL_messageReactions.results) != null && !arrayList2.isEmpty()) {
+                    return next;
                 }
-            });
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onReactionClicked$0() {
-            if (ChatSelectionReactionMenuOverlay.this.reactionsContainerLayout != null) {
-                ChatSelectionReactionMenuOverlay.this.reactionsContainerLayout.dismissParent(true);
             }
-            hideMenu();
         }
-
-        public void hideMenu() {
-            ChatSelectionReactionMenuOverlay.this.parentFragment.clearSelectionMode(true);
-        }
+        return messageObject;
     }
 
-    public boolean isVisible() {
-        return this.isVisible && !this.hiddenByScroll;
+    private boolean isMessageTypeAllowed(MessageObject messageObject) {
+        return (messageObject == null || messageObject.needDrawBluredPreview() || ((!MessageObject.isPhoto(messageObject.messageOwner) || MessageObject.getMedia(messageObject.messageOwner).webpage != null) && (messageObject.getDocument() == null || (!MessageObject.isVideoDocument(messageObject.getDocument()) && !MessageObject.isGifDocument(messageObject.getDocument()))))) ? false : true;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$animateVisible$0() {
+        this.currentPrimaryObject = findPrimaryObject();
+        checkCreateReactionsLayout();
+        invalidatePosition(false);
+        if (!this.reactionsContainerLayout.isEnabled()) {
+            this.messageSet = false;
+            this.reactionsContainerLayout.setTransitionProgress(1.0f);
+            return;
+        }
+        this.messageSet = true;
+        this.reactionsContainerLayout.setMessage(this.currentPrimaryObject, this.parentFragment.getCurrentChatInfo(), true);
+        this.reactionsContainerLayout.startEnterAnimation(false);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$animateVisible$1(ValueAnimator valueAnimator) {
+        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        ReactionsContainerLayout reactionsContainerLayout = this.reactionsContainerLayout;
+        if (reactionsContainerLayout != null) {
+            reactionsContainerLayout.setAlpha(floatValue);
+        }
     }
 
     public void invalidatePosition() {
         invalidatePosition(true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0160  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0175 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0176  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x015f  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0174 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0175  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -193,6 +272,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
         boolean z2;
         boolean z3;
         ReactionsContainerLayout reactionsContainerLayout;
+        float max;
         if (!this.isVisible || this.currentPrimaryObject == null || this.reactionsContainerLayout == null) {
             return;
         }
@@ -203,11 +283,20 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
         if (f != f2) {
             float f3 = ((float) min) / 220.0f;
             if (f2 > f) {
-                this.currentOffsetY = Math.min(f + f3, f2);
-            } else if (f2 < f) {
-                this.currentOffsetY = Math.max(f - f3, f2);
+                max = Math.min(f + f3, f2);
+            } else {
+                if (f2 < f) {
+                    max = Math.max(f - f3, f2);
+                }
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChatSelectionReactionMenuOverlay.this.invalidatePosition();
+                    }
+                });
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda2
+            this.currentOffsetY = max;
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatSelectionReactionMenuOverlay.this.invalidatePosition();
@@ -250,11 +339,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
                     if (y > dp - (f4 / 2.0f) && y < dp2) {
                         this.toOffsetY = 0.0f;
                         z2 = false;
-                    } else if (y >= (dp - f4) - AndroidUtilities.dp(92.0f) && y <= dp2) {
-                        this.translationOffsetY = height + AndroidUtilities.dp(56.0f);
-                        this.toOffsetY = 1.0f;
-                        z2 = true;
-                    } else {
+                    } else if (y < (dp - f4) - AndroidUtilities.dp(92.0f) || y > dp2) {
                         z2 = false;
                         z3 = false;
                         if (!z) {
@@ -267,7 +352,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
                         }
                         if (z2 != reactionsContainerLayout.isFlippedVertically()) {
                             this.reactionsContainerLayout.setFlippedVertically(z2);
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda2
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda0
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     ChatSelectionReactionMenuOverlay.this.invalidatePosition();
@@ -288,16 +373,16 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
                         this.reactionsContainerLayout.setTranslationY(MathUtils.clamp(interpolation, dp, dp2));
                         this.reactionsContainerLayout.setTranslationX(chatMessageCell.getNonAnimationTranslationX(true));
                         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.reactionsContainerLayout.getLayoutParams();
-                        int max = Math.max(0, chatMessageCell.getBackgroundDrawableLeft() - AndroidUtilities.dp(32.0f));
-                        int max2 = Math.max((int) chatMessageCell.getNonAnimationTranslationX(true), (chatMessageCell.getWidth() - chatMessageCell.getBackgroundDrawableRight()) - AndroidUtilities.dp(32.0f));
+                        int max2 = Math.max(0, chatMessageCell.getBackgroundDrawableLeft() - AndroidUtilities.dp(32.0f));
+                        int max3 = Math.max((int) chatMessageCell.getNonAnimationTranslationX(true), (chatMessageCell.getWidth() - chatMessageCell.getBackgroundDrawableRight()) - AndroidUtilities.dp(32.0f));
                         int dp3 = AndroidUtilities.dp(40.0f) * 8;
-                        if ((getWidth() - max2) - max < dp3) {
+                        if ((getWidth() - max3) - max2 < dp3) {
                             if (isOutOwner) {
-                                max = Math.min(max, getWidth() - dp3);
-                                max2 = 0;
-                            } else {
                                 max2 = Math.min(max2, getWidth() - dp3);
-                                max = 0;
+                                max3 = 0;
+                            } else {
+                                max3 = Math.min(max3, getWidth() - dp3);
+                                max2 = 0;
                             }
                         }
                         int i2 = isOutOwner ? 5 : 3;
@@ -305,12 +390,12 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
                             layoutParams.gravity = i2;
                             z5 = true;
                         }
-                        if (max != layoutParams.leftMargin) {
-                            layoutParams.leftMargin = max;
+                        if (max2 != layoutParams.leftMargin) {
+                            layoutParams.leftMargin = max2;
                             z5 = true;
                         }
-                        if (max2 != layoutParams.rightMargin) {
-                            layoutParams.rightMargin = max2;
+                        if (max3 != layoutParams.rightMargin) {
+                            layoutParams.rightMargin = max3;
                         } else {
                             z4 = z5;
                         }
@@ -319,6 +404,10 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
                             return;
                         }
                         return;
+                    } else {
+                        this.translationOffsetY = height + AndroidUtilities.dp(56.0f);
+                        this.toOffsetY = 1.0f;
+                        z2 = true;
                     }
                     z3 = true;
                     if (!z) {
@@ -337,30 +426,24 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
         this.reactionsContainerLayout.setEnabled(false);
     }
 
-    private MessageObject findPrimaryObject() {
-        MessageObject.GroupedMessages group;
-        ArrayList<MessageObject> arrayList;
-        TLRPC$TL_messageReactions tLRPC$TL_messageReactions;
-        ArrayList<TLRPC$ReactionCount> arrayList2;
-        if (!this.isVisible || this.selectedMessages.isEmpty()) {
-            return null;
-        }
-        MessageObject messageObject = this.selectedMessages.get(0);
-        if (messageObject.getGroupId() != 0 && (group = this.parentFragment.getGroup(messageObject.getGroupId())) != null && (arrayList = group.messages) != null) {
-            Iterator<MessageObject> it = arrayList.iterator();
-            while (it.hasNext()) {
-                MessageObject next = it.next();
-                TLRPC$Message tLRPC$Message = next.messageOwner;
-                if (tLRPC$Message != null && (tLRPC$TL_messageReactions = tLRPC$Message.reactions) != null && (arrayList2 = tLRPC$TL_messageReactions.results) != null && !arrayList2.isEmpty()) {
-                    return next;
-                }
-            }
-        }
-        return messageObject;
+    public boolean isVisible() {
+        return this.isVisible && !this.hiddenByScroll;
     }
 
-    private boolean isMessageTypeAllowed(MessageObject messageObject) {
-        return (messageObject == null || messageObject.needDrawBluredPreview() || ((!MessageObject.isPhoto(messageObject.messageOwner) || MessageObject.getMedia(messageObject.messageOwner).webpage != null) && (messageObject.getDocument() == null || (!MessageObject.isVideoDocument(messageObject.getDocument()) && !MessageObject.isGifDocument(messageObject.getDocument()))))) ? false : true;
+    public boolean onBackPressed() {
+        ReactionsContainerLayout reactionsContainerLayout = this.reactionsContainerLayout;
+        if (reactionsContainerLayout == null || reactionsContainerLayout.getReactionsWindow() == null) {
+            return true;
+        }
+        this.reactionsContainerLayout.dismissWindow();
+        return false;
+    }
+
+    public void setHiddenByScroll(boolean z) {
+        this.hiddenByScroll = z;
+        if (z) {
+            animateVisible(false);
+        }
     }
 
     public void setSelectedMessages(List<MessageObject> list) {
@@ -393,80 +476,6 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
             animateVisible(z);
         } else if (z) {
             this.currentPrimaryObject = findPrimaryObject();
-        }
-    }
-
-    private void animateVisible(boolean z) {
-        if (z) {
-            setVisibility(0);
-            post(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatSelectionReactionMenuOverlay.this.lambda$animateVisible$0();
-                }
-            });
-            return;
-        }
-        this.messageSet = false;
-        ValueAnimator duration = ValueAnimator.ofFloat(1.0f, 0.0f).setDuration(150L);
-        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda1
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                ChatSelectionReactionMenuOverlay.this.lambda$animateVisible$1(valueAnimator);
-            }
-        });
-        duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay.4
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                ChatSelectionReactionMenuOverlay.this.setVisibility(8);
-                if (ChatSelectionReactionMenuOverlay.this.reactionsContainerLayout != null) {
-                    ChatSelectionReactionMenuOverlay chatSelectionReactionMenuOverlay = ChatSelectionReactionMenuOverlay.this;
-                    chatSelectionReactionMenuOverlay.removeView(chatSelectionReactionMenuOverlay.reactionsContainerLayout);
-                    ChatSelectionReactionMenuOverlay.this.reactionsContainerLayout = null;
-                }
-                ChatSelectionReactionMenuOverlay.this.currentPrimaryObject = null;
-            }
-        });
-        duration.start();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$animateVisible$0() {
-        this.currentPrimaryObject = findPrimaryObject();
-        checkCreateReactionsLayout();
-        invalidatePosition(false);
-        if (this.reactionsContainerLayout.isEnabled()) {
-            this.messageSet = true;
-            this.reactionsContainerLayout.setMessage(this.currentPrimaryObject, this.parentFragment.getCurrentChatInfo(), true);
-            this.reactionsContainerLayout.startEnterAnimation(false);
-            return;
-        }
-        this.messageSet = false;
-        this.reactionsContainerLayout.setTransitionProgress(1.0f);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$animateVisible$1(ValueAnimator valueAnimator) {
-        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        ReactionsContainerLayout reactionsContainerLayout = this.reactionsContainerLayout;
-        if (reactionsContainerLayout != null) {
-            reactionsContainerLayout.setAlpha(floatValue);
-        }
-    }
-
-    public boolean onBackPressed() {
-        ReactionsContainerLayout reactionsContainerLayout = this.reactionsContainerLayout;
-        if (reactionsContainerLayout == null || reactionsContainerLayout.getReactionsWindow() == null) {
-            return true;
-        }
-        this.reactionsContainerLayout.dismissWindow();
-        return false;
-    }
-
-    public void setHiddenByScroll(boolean z) {
-        this.hiddenByScroll = z;
-        if (z) {
-            animateVisible(false);
         }
     }
 }

@@ -28,21 +28,6 @@ public final class SeekParameters {
         this.toleranceAfterUs = j2;
     }
 
-    public long resolveSeekPositionUs(long j, long j2, long j3) {
-        long j4 = this.toleranceBeforeUs;
-        if (j4 == 0 && this.toleranceAfterUs == 0) {
-            return j;
-        }
-        long subtractWithOverflowDefault = Util.subtractWithOverflowDefault(j, j4, Long.MIN_VALUE);
-        long addWithOverflowDefault = Util.addWithOverflowDefault(j, this.toleranceAfterUs, Long.MAX_VALUE);
-        boolean z = false;
-        boolean z2 = subtractWithOverflowDefault <= j2 && j2 <= addWithOverflowDefault;
-        if (subtractWithOverflowDefault <= j3 && j3 <= addWithOverflowDefault) {
-            z = true;
-        }
-        return (z2 && z) ? Math.abs(j2 - j) <= Math.abs(j3 - j) ? j2 : j3 : z2 ? j2 : z ? j3 : subtractWithOverflowDefault;
-    }
-
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -56,5 +41,20 @@ public final class SeekParameters {
 
     public int hashCode() {
         return (((int) this.toleranceBeforeUs) * 31) + ((int) this.toleranceAfterUs);
+    }
+
+    public long resolveSeekPositionUs(long j, long j2, long j3) {
+        long j4 = this.toleranceBeforeUs;
+        if (j4 == 0 && this.toleranceAfterUs == 0) {
+            return j;
+        }
+        long subtractWithOverflowDefault = Util.subtractWithOverflowDefault(j, j4, Long.MIN_VALUE);
+        long addWithOverflowDefault = Util.addWithOverflowDefault(j, this.toleranceAfterUs, Long.MAX_VALUE);
+        boolean z = false;
+        boolean z2 = subtractWithOverflowDefault <= j2 && j2 <= addWithOverflowDefault;
+        if (subtractWithOverflowDefault <= j3 && j3 <= addWithOverflowDefault) {
+            z = true;
+        }
+        return (z2 && z) ? Math.abs(j2 - j) <= Math.abs(j3 - j) ? j2 : j3 : z2 ? j2 : z ? j3 : subtractWithOverflowDefault;
     }
 }

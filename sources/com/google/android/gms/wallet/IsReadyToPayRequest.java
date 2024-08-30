@@ -6,7 +6,6 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class IsReadyToPayRequest extends AbstractSafeParcelable {
     public static final Parcelable.Creator<IsReadyToPayRequest> CREATOR = new zzq();
@@ -17,8 +16,6 @@ public final class IsReadyToPayRequest extends AbstractSafeParcelable {
     boolean zze;
     String zzf;
 
-    /* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
-    @Deprecated
     /* loaded from: classes.dex */
     public final class Builder {
         /* synthetic */ Builder(zzp zzpVar) {
@@ -32,13 +29,22 @@ public final class IsReadyToPayRequest extends AbstractSafeParcelable {
     IsReadyToPayRequest() {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public IsReadyToPayRequest(ArrayList arrayList, String str, String str2, ArrayList arrayList2, boolean z, String str3) {
+        this.zza = arrayList;
+        this.zzb = str;
+        this.zzc = str2;
+        this.zzd = arrayList2;
+        this.zze = z;
+        this.zzf = str3;
+    }
+
     public static IsReadyToPayRequest fromJson(String str) {
         Builder newBuilder = newBuilder();
         IsReadyToPayRequest.this.zzf = (String) Preconditions.checkNotNull(str, "isReadyToPayRequestJson cannot be null!");
         return newBuilder.build();
     }
 
-    @Deprecated
     public static Builder newBuilder() {
         return new Builder(null);
     }
@@ -53,15 +59,5 @@ public final class IsReadyToPayRequest extends AbstractSafeParcelable {
         SafeParcelWriter.writeBoolean(parcel, 7, this.zze);
         SafeParcelWriter.writeString(parcel, 8, this.zzf, false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public IsReadyToPayRequest(ArrayList arrayList, String str, String str2, ArrayList arrayList2, boolean z, String str3) {
-        this.zza = arrayList;
-        this.zzb = str;
-        this.zzc = str2;
-        this.zzd = arrayList2;
-        this.zze = z;
-        this.zzf = str3;
     }
 }

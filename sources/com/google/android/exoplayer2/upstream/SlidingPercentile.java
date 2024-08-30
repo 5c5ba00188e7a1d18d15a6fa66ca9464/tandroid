@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 /* loaded from: classes.dex */
 public class SlidingPercentile {
-    private static final Comparator<Sample> INDEX_COMPARATOR = new Comparator() { // from class: com.google.android.exoplayer2.upstream.SlidingPercentile$$ExternalSyntheticLambda0
+    private static final Comparator INDEX_COMPARATOR = new Comparator() { // from class: com.google.android.exoplayer2.upstream.SlidingPercentile$$ExternalSyntheticLambda0
         @Override // java.util.Comparator
         public final int compare(Object obj, Object obj2) {
             int lambda$static$0;
@@ -14,7 +14,7 @@ public class SlidingPercentile {
             return lambda$static$0;
         }
     };
-    private static final Comparator<Sample> VALUE_COMPARATOR = new Comparator() { // from class: com.google.android.exoplayer2.upstream.SlidingPercentile$$ExternalSyntheticLambda1
+    private static final Comparator VALUE_COMPARATOR = new Comparator() { // from class: com.google.android.exoplayer2.upstream.SlidingPercentile$$ExternalSyntheticLambda1
         @Override // java.util.Comparator
         public final int compare(Object obj, Object obj2) {
             int lambda$static$1;
@@ -27,90 +27,22 @@ public class SlidingPercentile {
     private int recycledSampleCount;
     private int totalWeight;
     private final Sample[] recycledSamples = new Sample[5];
-    private final ArrayList<Sample> samples = new ArrayList<>();
+    private final ArrayList samples = new ArrayList();
     private int currentSortOrder = -1;
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$static$0(Sample sample, Sample sample2) {
-        return sample.index - sample2.index;
-    }
+    /* loaded from: classes.dex */
+    public static class Sample {
+        public int index;
+        public float value;
+        public int weight;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$static$1(Sample sample, Sample sample2) {
-        return Float.compare(sample.value, sample2.value);
+        private Sample() {
+        }
     }
 
     public SlidingPercentile(int i) {
         this.maxWeight = i;
-    }
-
-    public void reset() {
-        this.samples.clear();
-        this.currentSortOrder = -1;
-        this.nextSampleIndex = 0;
-        this.totalWeight = 0;
-    }
-
-    public void addSample(int i, float f) {
-        Sample sample;
-        ensureSortedByIndex();
-        int i2 = this.recycledSampleCount;
-        if (i2 > 0) {
-            Sample[] sampleArr = this.recycledSamples;
-            int i3 = i2 - 1;
-            this.recycledSampleCount = i3;
-            sample = sampleArr[i3];
-        } else {
-            sample = new Sample();
-        }
-        int i4 = this.nextSampleIndex;
-        this.nextSampleIndex = i4 + 1;
-        sample.index = i4;
-        sample.weight = i;
-        sample.value = f;
-        this.samples.add(sample);
-        this.totalWeight += i;
-        while (true) {
-            int i5 = this.totalWeight;
-            int i6 = this.maxWeight;
-            if (i5 <= i6) {
-                return;
-            }
-            int i7 = i5 - i6;
-            Sample sample2 = this.samples.get(0);
-            int i8 = sample2.weight;
-            if (i8 <= i7) {
-                this.totalWeight -= i8;
-                this.samples.remove(0);
-                int i9 = this.recycledSampleCount;
-                if (i9 < 5) {
-                    Sample[] sampleArr2 = this.recycledSamples;
-                    this.recycledSampleCount = i9 + 1;
-                    sampleArr2[i9] = sample2;
-                }
-            } else {
-                sample2.weight = i8 - i7;
-                this.totalWeight -= i7;
-            }
-        }
-    }
-
-    public float getPercentile(float f) {
-        ensureSortedByValue();
-        float f2 = f * this.totalWeight;
-        int i = 0;
-        for (int i2 = 0; i2 < this.samples.size(); i2++) {
-            Sample sample = this.samples.get(i2);
-            i += sample.weight;
-            if (i >= f2) {
-                return sample.value;
-            }
-        }
-        if (this.samples.isEmpty()) {
-            return Float.NaN;
-        }
-        ArrayList<Sample> arrayList = this.samples;
-        return arrayList.get(arrayList.size() - 1).value;
     }
 
     private void ensureSortedByIndex() {
@@ -128,13 +60,86 @@ public class SlidingPercentile {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Sample {
-        public int index;
-        public float value;
-        public int weight;
+    public static /* synthetic */ int lambda$static$0(Sample sample, Sample sample2) {
+        return sample.index - sample2.index;
+    }
 
-        private Sample() {
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ int lambda$static$1(Sample sample, Sample sample2) {
+        return Float.compare(sample.value, sample2.value);
+    }
+
+    public void addSample(int i, float f) {
+        Sample sample;
+        int i2;
+        Sample sample2;
+        int i3;
+        ensureSortedByIndex();
+        int i4 = this.recycledSampleCount;
+        if (i4 > 0) {
+            Sample[] sampleArr = this.recycledSamples;
+            int i5 = i4 - 1;
+            this.recycledSampleCount = i5;
+            sample = sampleArr[i5];
+        } else {
+            sample = new Sample();
         }
+        int i6 = this.nextSampleIndex;
+        this.nextSampleIndex = i6 + 1;
+        sample.index = i6;
+        sample.weight = i;
+        sample.value = f;
+        this.samples.add(sample);
+        int i7 = this.totalWeight + i;
+        while (true) {
+            this.totalWeight = i7;
+            while (true) {
+                int i8 = this.totalWeight;
+                int i9 = this.maxWeight;
+                if (i8 <= i9) {
+                    return;
+                }
+                i2 = i8 - i9;
+                sample2 = (Sample) this.samples.get(0);
+                i3 = sample2.weight;
+                if (i3 <= i2) {
+                    this.totalWeight -= i3;
+                    this.samples.remove(0);
+                    int i10 = this.recycledSampleCount;
+                    if (i10 < 5) {
+                        Sample[] sampleArr2 = this.recycledSamples;
+                        this.recycledSampleCount = i10 + 1;
+                        sampleArr2[i10] = sample2;
+                    }
+                }
+            }
+            sample2.weight = i3 - i2;
+            i7 = this.totalWeight - i2;
+        }
+    }
+
+    public float getPercentile(float f) {
+        ensureSortedByValue();
+        float f2 = f * this.totalWeight;
+        int i = 0;
+        for (int i2 = 0; i2 < this.samples.size(); i2++) {
+            Sample sample = (Sample) this.samples.get(i2);
+            i += sample.weight;
+            if (i >= f2) {
+                return sample.value;
+            }
+        }
+        if (this.samples.isEmpty()) {
+            return Float.NaN;
+        }
+        ArrayList arrayList = this.samples;
+        return ((Sample) arrayList.get(arrayList.size() - 1)).value;
+    }
+
+    public void reset() {
+        this.samples.clear();
+        this.currentSortOrder = -1;
+        this.nextSampleIndex = 0;
+        this.totalWeight = 0;
     }
 }

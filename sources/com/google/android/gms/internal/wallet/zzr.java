@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.RemoteViews;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class zzr implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -23,10 +22,10 @@ public final class zzr implements Parcelable.Creator {
                 iArr = SafeParcelReader.createIntArray(parcel, readHeader);
             } else if (fieldId == 3) {
                 remoteViews = (RemoteViews) SafeParcelReader.createParcelable(parcel, readHeader, RemoteViews.CREATOR);
-            } else if (fieldId == 4) {
-                bArr = SafeParcelReader.createByteArray(parcel, readHeader);
-            } else {
+            } else if (fieldId != 4) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                bArr = SafeParcelReader.createByteArray(parcel, readHeader);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);

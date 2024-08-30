@@ -1,10 +1,9 @@
 package com.microsoft.appcenter.crashes;
 
-import com.microsoft.appcenter.crashes.ingestion.models.ErrorAttachmentLog;
 import com.microsoft.appcenter.crashes.model.ErrorReport;
 /* loaded from: classes.dex */
 public interface CrashesListener {
-    Iterable<ErrorAttachmentLog> getErrorAttachments(ErrorReport errorReport);
+    Iterable getErrorAttachments(ErrorReport errorReport);
 
     void onBeforeSending(ErrorReport errorReport);
 

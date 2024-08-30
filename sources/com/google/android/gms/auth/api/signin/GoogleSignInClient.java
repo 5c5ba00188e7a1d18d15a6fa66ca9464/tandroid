@@ -11,11 +11,15 @@ import com.google.android.gms.common.api.internal.ApiExceptionMapper;
 import com.google.android.gms.common.internal.PendingResultUtil;
 import com.google.android.gms.dynamite.DynamiteModule;
 import com.google.android.gms.tasks.Task;
-/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
-public class GoogleSignInClient extends GoogleApi<GoogleSignInOptions> {
+public class GoogleSignInClient extends GoogleApi {
     private static final zbb zbb = new zbb(null);
     static int zba = 1;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public GoogleSignInClient(Context context, GoogleSignInOptions googleSignInOptions) {
+        super(context, Auth.GOOGLE_SIGN_IN_API, googleSignInOptions, new ApiExceptionMapper());
+    }
 
     private final synchronized int zba() {
         int i;
@@ -47,27 +51,16 @@ public class GoogleSignInClient extends GoogleApi<GoogleSignInOptions> {
         int zba2 = zba();
         int i = zba2 - 1;
         if (zba2 != 0) {
-            if (i != 2) {
-                if (i == 3) {
-                    return zbm.zbc(applicationContext, getApiOptions());
-                }
-                return zbm.zbb(applicationContext, getApiOptions());
-            }
-            return zbm.zba(applicationContext, getApiOptions());
+            return i != 2 ? i != 3 ? zbm.zbb(applicationContext, (GoogleSignInOptions) getApiOptions()) : zbm.zbc(applicationContext, (GoogleSignInOptions) getApiOptions()) : zbm.zba(applicationContext, (GoogleSignInOptions) getApiOptions());
         }
         throw null;
     }
 
-    public Task<Void> revokeAccess() {
+    public Task revokeAccess() {
         return PendingResultUtil.toVoidTask(zbm.zbf(asGoogleApiClient(), getApplicationContext(), zba() == 3));
     }
 
-    public Task<Void> signOut() {
+    public Task signOut() {
         return PendingResultUtil.toVoidTask(zbm.zbg(asGoogleApiClient(), getApplicationContext(), zba() == 3));
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GoogleSignInClient(Context context, GoogleSignInOptions googleSignInOptions) {
-        super(context, Auth.GOOGLE_SIGN_IN_API, googleSignInOptions, new ApiExceptionMapper());
     }
 }

@@ -1,6 +1,6 @@
 package com.google.android.gms.internal.clearcut;
 /* loaded from: classes.dex */
-final class zzet {
+abstract class zzet {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static String zzc(zzbb zzbbVar) {
         String str;

@@ -26,7 +26,7 @@ import org.telegram.ui.Components.QuoteSpan;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
 /* loaded from: classes3.dex */
-public class EditTextEffects extends EditText {
+public abstract class EditTextEffects extends EditText {
     private static final int SPOILER_TIMEOUT = 10000;
     private static Boolean allowHackingTextCanvasCache;
     private ColorFilter animatedEmojiColorFilter;
@@ -60,41 +60,6 @@ public class EditTextEffects extends EditText {
     public boolean wrapCanvasToFixClipping;
     private NoClipCanvas wrappedCanvas;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$2() {
-        this.postedSpoilerTimeout = false;
-        this.isSpoilersRevealed = false;
-        invalidateSpoilers();
-        if (this.spoilers.isEmpty()) {
-            return;
-        }
-        this.spoilers.get(0).setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                EditTextEffects.this.lambda$new$1();
-            }
-        });
-        float sqrt = (float) Math.sqrt(Math.pow(getWidth(), 2.0d) + Math.pow(getHeight(), 2.0d));
-        for (SpoilerEffect spoilerEffect : this.spoilers) {
-            spoilerEffect.startRipple(this.lastRippleX, this.lastRippleY, sqrt, true);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0() {
-        setSpoilersRevealed(false, true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1() {
-        post(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                EditTextEffects.this.lambda$new$0();
-            }
-        });
-    }
-
     public EditTextEffects(Context context) {
         super(context);
         this.spoilers = new ArrayList();
@@ -122,54 +87,13 @@ public class EditTextEffects extends EditText {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2) {
-        if (this.isSpoilersRevealed) {
-            return;
+    public static boolean allowHackingTextCanvas() {
+        String str;
+        String str2;
+        if (allowHackingTextCanvasCache == null) {
+            allowHackingTextCanvasCache = Boolean.valueOf(Build.VERSION.SDK_INT > 20 && ((str = Build.MANUFACTURER) == null || !(str.toLowerCase().contains("honor") || str.toLowerCase().contains("huawei") || str.toLowerCase().contains("alps"))) && ((str2 = Build.MODEL) == null || !str2.toLowerCase().contains("mediapad")));
         }
-        this.lastRippleX = f;
-        this.lastRippleY = f2;
-        this.postedSpoilerTimeout = false;
-        removeCallbacks(this.spoilerTimeout);
-        setSpoilersRevealed(true, false);
-        spoilerEffect.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda6
-            @Override // java.lang.Runnable
-            public final void run() {
-                EditTextEffects.this.lambda$onSpoilerClicked$4();
-            }
-        });
-        float sqrt = (float) Math.sqrt(Math.pow(getWidth(), 2.0d) + Math.pow(getHeight(), 2.0d));
-        for (SpoilerEffect spoilerEffect2 : this.spoilers) {
-            spoilerEffect2.startRipple(f, f2, sqrt);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onSpoilerClicked$4() {
-        post(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda2
-            @Override // java.lang.Runnable
-            public final void run() {
-                EditTextEffects.this.lambda$onSpoilerClicked$3();
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onSpoilerClicked$3() {
-        invalidateSpoilers();
-        checkSpoilerTimeout();
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // android.widget.TextView
-    public void onSelectionChanged(int i, int i2) {
-        super.onSelectionChanged(i, i2);
-        if (this.suppressOnTextChanged) {
-            return;
-        }
-        this.selStart = i;
-        this.selEnd = i2;
-        checkSpoilerTimeout();
+        return allowHackingTextCanvasCache.booleanValue();
     }
 
     private void checkSpoilerTimeout() {
@@ -198,113 +122,89 @@ public class EditTextEffects extends EditText {
         postDelayed(this.spoilerTimeout, 10000L);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // android.view.View
-    public void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        removeCallbacks(this.spoilerTimeout);
-        AnimatedEmojiSpan.release(this, this.animatedEmojiDrawables);
-    }
-
-    public void recycleEmojis() {
-        AnimatedEmojiSpan.release(this, this.animatedEmojiDrawables);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // android.widget.TextView, android.view.View
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        updateAnimatedEmoji(true);
-        invalidateQuotes(false);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // android.view.View
-    public void onSizeChanged(int i, int i2, int i3, int i4) {
-        super.onSizeChanged(i, i2, i3, i4);
-        invalidateEffects();
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0047, code lost:
-        r7 = r7 - r6;
-        r3.selStart += r7;
-        r3.selEnd += r7;
-        onSpoilerClicked(r1, r5, r4);
-     */
-    @Override // android.widget.TextView
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        super.onTextChanged(charSequence, i, i2, i3);
-        if (!this.suppressOnTextChanged) {
-            invalidateEffects();
-            try {
-                Layout layout = getLayout();
-                if ((charSequence instanceof Spannable) && layout != null) {
-                    int lineForOffset = layout.getLineForOffset(i);
-                    int primaryHorizontal = (int) layout.getPrimaryHorizontal(i);
-                    int lineTop = (int) ((layout.getLineTop(lineForOffset) + layout.getLineBottom(lineForOffset)) / 2.0f);
-                    Iterator<SpoilerEffect> it = this.spoilers.iterator();
-                    while (true) {
-                        if (!it.hasNext()) {
-                            break;
-                        }
-                        SpoilerEffect next = it.next();
-                        if (next.getBounds().contains(primaryHorizontal, lineTop)) {
-                            break;
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-        updateAnimatedEmoji(true);
-        invalidateQuotes(true);
-        invalidate();
-    }
-
-    @Override // android.widget.EditText, android.widget.TextView
-    public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-        if (!this.suppressOnTextChanged) {
-            this.isSpoilersRevealed = false;
-            Stack<SpoilerEffect> stack = this.spoilersPool;
-            if (stack != null) {
-                stack.clear();
-            }
-        }
-        super.setText(charSequence, bufferType);
-    }
-
-    @Override // android.widget.TextView
-    public void setTextColor(int i) {
-        super.setTextColor(i);
-        this.animatedEmojiColorFilter = new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // android.widget.TextView, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        super.onLayout(z, i, i2, i3, i4);
-        invalidateQuotes(false);
-    }
-
-    public void setShouldRevealSpoilersByTouch(boolean z) {
-        this.shouldRevealSpoilersByTouch = z;
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$dispatchTouchEvent$5() {
         invalidateQuotes(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0() {
+        setSpoilersRevealed(false, true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$1() {
+        post(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                EditTextEffects.this.lambda$new$0();
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$2() {
+        this.postedSpoilerTimeout = false;
+        this.isSpoilersRevealed = false;
+        invalidateSpoilers();
+        if (this.spoilers.isEmpty()) {
+            return;
+        }
+        this.spoilers.get(0).setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                EditTextEffects.this.lambda$new$1();
+            }
+        });
+        float sqrt = (float) Math.sqrt(Math.pow(getWidth(), 2.0d) + Math.pow(getHeight(), 2.0d));
+        for (SpoilerEffect spoilerEffect : this.spoilers) {
+            spoilerEffect.startRipple(this.lastRippleX, this.lastRippleY, sqrt, true);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onSpoilerClicked$3() {
+        invalidateSpoilers();
+        checkSpoilerTimeout();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onSpoilerClicked$4() {
+        post(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                EditTextEffects.this.lambda$onSpoilerClicked$3();
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2) {
+        if (this.isSpoilersRevealed) {
+            return;
+        }
+        this.lastRippleX = f;
+        this.lastRippleY = f2;
+        this.postedSpoilerTimeout = false;
+        removeCallbacks(this.spoilerTimeout);
+        setSpoilersRevealed(true, false);
+        spoilerEffect.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                EditTextEffects.this.lambda$onSpoilerClicked$4();
+            }
+        });
+        float sqrt = (float) Math.sqrt(Math.pow(getWidth(), 2.0d) + Math.pow(getHeight(), 2.0d));
+        for (SpoilerEffect spoilerEffect2 : this.spoilers) {
+            spoilerEffect2.startRipple(f, f2, sqrt);
+        }
     }
 
     @Override // android.view.View
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
         boolean z;
         SpoilersClickDetector spoilersClickDetector;
-        if (QuoteSpan.onTouch(motionEvent, getPaddingTop() - getScrollY(), this.quoteBlocks, new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda5
+        if (QuoteSpan.onTouch(motionEvent, getPaddingTop() - getScrollY(), this.quoteBlocks, new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 EditTextEffects.this.lambda$dispatchTouchEvent$5();
@@ -325,42 +225,107 @@ public class EditTextEffects extends EditText {
         return super.dispatchTouchEvent(motionEvent) || z;
     }
 
-    public void setSpoilersRevealed(boolean z, boolean z2) {
-        TextStyleSpan[] textStyleSpanArr;
-        this.isSpoilersRevealed = z;
-        Editable text = getText();
-        if (text != null) {
-            for (TextStyleSpan textStyleSpan : (TextStyleSpan[]) text.getSpans(0, text.length(), TextStyleSpan.class)) {
-                if (textStyleSpan.isSpoiler()) {
-                    textStyleSpan.setSpoilerRevealed(z);
-                }
-            }
-        }
-        this.suppressOnTextChanged = true;
-        setText(text, TextView.BufferType.EDITABLE);
-        setSelection(this.selStart, this.selEnd);
-        this.suppressOnTextChanged = false;
-        if (z2) {
-            invalidateSpoilers();
-        }
-    }
-
-    public void setOffsetY(float f) {
-        this.offsetY = f;
-        invalidate();
+    protected int emojiCacheType() {
+        return AnimatedEmojiDrawable.getCacheTypeForEnterView();
     }
 
     public float getOffsetY() {
         return this.offsetY;
     }
 
-    public static boolean allowHackingTextCanvas() {
-        String str;
-        String str2;
-        if (allowHackingTextCanvasCache == null) {
-            allowHackingTextCanvasCache = Boolean.valueOf(Build.VERSION.SDK_INT > 20 && ((str = Build.MANUFACTURER) == null || !(str.toLowerCase().contains("honor") || str.toLowerCase().contains("huawei") || str.toLowerCase().contains("alps"))) && ((str2 = Build.MODEL) == null || !str2.toLowerCase().contains("mediapad")));
+    public CharSequence getTextToUse() {
+        return QuoteSpan.stripNewlineHacks(getText());
+    }
+
+    public void invalidateEffects() {
+        TextStyleSpan[] textStyleSpanArr;
+        Editable text = getText();
+        if (text != null) {
+            for (TextStyleSpan textStyleSpan : (TextStyleSpan[]) text.getSpans(0, text.length(), TextStyleSpan.class)) {
+                if (textStyleSpan.isSpoiler()) {
+                    textStyleSpan.setSpoilerRevealed(this.isSpoilersRevealed);
+                }
+            }
         }
-        return allowHackingTextCanvasCache.booleanValue();
+        invalidateSpoilers();
+    }
+
+    public void invalidateQuotes(boolean z) {
+        if (this.quoteBlocksUpdating) {
+            this.editedWhileQuoteUpdating = true;
+            return;
+        }
+        int i = 0;
+        int length = (getLayout() == null || getLayout().getText() == null) ? 0 : getLayout().getText().length();
+        if (z || this.lastText2Length != length) {
+            this.quoteUpdatesTries = 2;
+            this.lastText2Length = length;
+        }
+        if (this.quoteUpdatesTries > 0) {
+            if (this.quoteUpdateLayout == null) {
+                this.quoteUpdateLayout = new boolean[1];
+            }
+            this.quoteUpdateLayout[0] = false;
+            this.editedWhileQuoteUpdating = false;
+            this.quoteBlocksUpdating = true;
+            this.quoteBlocks = QuoteSpan.updateQuoteBlocks(this, getLayout(), this.quoteBlocks, this.quoteUpdateLayout);
+            if (this.editedWhileQuoteUpdating) {
+                this.quoteBlocks = QuoteSpan.updateQuoteBlocks(this, getLayout(), this.quoteBlocks, this.quoteUpdateLayout);
+            }
+            this.quoteBlocksUpdating = false;
+            this.editedWhileQuoteUpdating = false;
+            if (this.quoteUpdateLayout[0]) {
+                resetFontMetricsCache();
+            }
+            this.quoteUpdatesTries--;
+            if (getLayout() != null && getLayout().getText() != null) {
+                i = getLayout().getText().length();
+            }
+            this.lastText2Length = i;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void invalidateSpoilers() {
+        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans;
+        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans2;
+        List<SpoilerEffect> list = this.spoilers;
+        if (list == null) {
+            return;
+        }
+        this.spoilersPool.addAll(list);
+        this.spoilers.clear();
+        if (this.isSpoilersRevealed) {
+            invalidate();
+            return;
+        }
+        Layout layout = getLayout();
+        if (layout != null && (layout.getText() instanceof Spannable)) {
+            if (this.drawAnimatedEmojiDrawables && (emojiGroupedSpans2 = this.animatedEmojiDrawables) != null) {
+                emojiGroupedSpans2.recordPositions(false);
+            }
+            SpoilerEffect.addSpoilers(this, this.spoilersPool, this.spoilers, this.quoteBlocks);
+            if (this.drawAnimatedEmojiDrawables && (emojiGroupedSpans = this.animatedEmojiDrawables) != null) {
+                emojiGroupedSpans.recordPositions(true);
+            }
+        }
+        invalidate();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.widget.TextView, android.view.View
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        updateAnimatedEmoji(true);
+        invalidateQuotes(false);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.view.View
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        removeCallbacks(this.spoilerTimeout);
+        AnimatedEmojiSpan.release(this, this.animatedEmojiDrawables);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -433,6 +398,135 @@ public class EditTextEffects extends EditText {
         canvas.restore();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.widget.TextView, android.view.View
+    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        super.onLayout(z, i, i2, i3, i4);
+        invalidateQuotes(false);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.widget.TextView
+    public void onSelectionChanged(int i, int i2) {
+        super.onSelectionChanged(i, i2);
+        if (this.suppressOnTextChanged) {
+            return;
+        }
+        this.selStart = i;
+        this.selEnd = i2;
+        checkSpoilerTimeout();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.view.View
+    public void onSizeChanged(int i, int i2, int i3, int i4) {
+        super.onSizeChanged(i, i2, i3, i4);
+        invalidateEffects();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0047, code lost:
+        r7 = r7 - r6;
+        r3.selStart += r7;
+        r3.selEnd += r7;
+        onSpoilerClicked(r1, r5, r4);
+     */
+    @Override // android.widget.TextView
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        super.onTextChanged(charSequence, i, i2, i3);
+        if (!this.suppressOnTextChanged) {
+            invalidateEffects();
+            try {
+                Layout layout = getLayout();
+                if ((charSequence instanceof Spannable) && layout != null) {
+                    int lineForOffset = layout.getLineForOffset(i);
+                    int primaryHorizontal = (int) layout.getPrimaryHorizontal(i);
+                    int lineTop = (int) ((layout.getLineTop(lineForOffset) + layout.getLineBottom(lineForOffset)) / 2.0f);
+                    Iterator<SpoilerEffect> it = this.spoilers.iterator();
+                    while (true) {
+                        if (!it.hasNext()) {
+                            break;
+                        }
+                        SpoilerEffect next = it.next();
+                        if (next.getBounds().contains(primaryHorizontal, lineTop)) {
+                            break;
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+        updateAnimatedEmoji(true);
+        invalidateQuotes(true);
+        invalidate();
+    }
+
+    public void recycleEmojis() {
+        AnimatedEmojiSpan.release(this, this.animatedEmojiDrawables);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void resetFontMetricsCache() {
+        float textSize = getTextSize();
+        setTextSize(0, 1.0f + textSize);
+        setTextSize(0, textSize);
+    }
+
+    public void setClipToPadding(boolean z) {
+        this.clipToPadding = z;
+    }
+
+    public void setOffsetY(float f) {
+        this.offsetY = f;
+        invalidate();
+    }
+
+    public void setShouldRevealSpoilersByTouch(boolean z) {
+        this.shouldRevealSpoilersByTouch = z;
+    }
+
+    public void setSpoilersRevealed(boolean z, boolean z2) {
+        TextStyleSpan[] textStyleSpanArr;
+        this.isSpoilersRevealed = z;
+        Editable text = getText();
+        if (text != null) {
+            for (TextStyleSpan textStyleSpan : (TextStyleSpan[]) text.getSpans(0, text.length(), TextStyleSpan.class)) {
+                if (textStyleSpan.isSpoiler()) {
+                    textStyleSpan.setSpoilerRevealed(z);
+                }
+            }
+        }
+        this.suppressOnTextChanged = true;
+        setText(text, TextView.BufferType.EDITABLE);
+        setSelection(this.selStart, this.selEnd);
+        this.suppressOnTextChanged = false;
+        if (z2) {
+            invalidateSpoilers();
+        }
+    }
+
+    @Override // android.widget.EditText, android.widget.TextView
+    public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+        if (!this.suppressOnTextChanged) {
+            this.isSpoilersRevealed = false;
+            Stack<SpoilerEffect> stack = this.spoilersPool;
+            if (stack != null) {
+                stack.clear();
+            }
+        }
+        super.setText(charSequence, bufferType);
+    }
+
+    @Override // android.widget.TextView
+    public void setTextColor(int i) {
+        super.setTextColor(i);
+        this.animatedEmojiColorFilter = new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN);
+    }
+
     public void updateAnimatedEmoji(boolean z) {
         if (this.drawAnimatedEmojiDrawables) {
             int length = (getLayout() == null || getLayout().getText() == null) ? 0 : getLayout().getText().length();
@@ -443,99 +537,5 @@ public class EditTextEffects extends EditText {
             this.lastLayout = getLayout();
             this.lastTextLength = length;
         }
-    }
-
-    protected int emojiCacheType() {
-        return AnimatedEmojiDrawable.getCacheTypeForEnterView();
-    }
-
-    public void invalidateQuotes(boolean z) {
-        if (this.quoteBlocksUpdating) {
-            this.editedWhileQuoteUpdating = true;
-            return;
-        }
-        int i = 0;
-        int length = (getLayout() == null || getLayout().getText() == null) ? 0 : getLayout().getText().length();
-        if (z || this.lastText2Length != length) {
-            this.quoteUpdatesTries = 2;
-            this.lastText2Length = length;
-        }
-        if (this.quoteUpdatesTries > 0) {
-            if (this.quoteUpdateLayout == null) {
-                this.quoteUpdateLayout = new boolean[1];
-            }
-            this.quoteUpdateLayout[0] = false;
-            this.editedWhileQuoteUpdating = false;
-            this.quoteBlocksUpdating = true;
-            this.quoteBlocks = QuoteSpan.updateQuoteBlocks(this, getLayout(), this.quoteBlocks, this.quoteUpdateLayout);
-            if (this.editedWhileQuoteUpdating) {
-                this.quoteBlocks = QuoteSpan.updateQuoteBlocks(this, getLayout(), this.quoteBlocks, this.quoteUpdateLayout);
-            }
-            this.quoteBlocksUpdating = false;
-            this.editedWhileQuoteUpdating = false;
-            if (this.quoteUpdateLayout[0]) {
-                resetFontMetricsCache();
-            }
-            this.quoteUpdatesTries--;
-            if (getLayout() != null && getLayout().getText() != null) {
-                i = getLayout().getText().length();
-            }
-            this.lastText2Length = i;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void resetFontMetricsCache() {
-        float textSize = getTextSize();
-        setTextSize(0, 1.0f + textSize);
-        setTextSize(0, textSize);
-    }
-
-    public void invalidateEffects() {
-        TextStyleSpan[] textStyleSpanArr;
-        Editable text = getText();
-        if (text != null) {
-            for (TextStyleSpan textStyleSpan : (TextStyleSpan[]) text.getSpans(0, text.length(), TextStyleSpan.class)) {
-                if (textStyleSpan.isSpoiler()) {
-                    textStyleSpan.setSpoilerRevealed(this.isSpoilersRevealed);
-                }
-            }
-        }
-        invalidateSpoilers();
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void invalidateSpoilers() {
-        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans;
-        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans2;
-        List<SpoilerEffect> list = this.spoilers;
-        if (list == null) {
-            return;
-        }
-        this.spoilersPool.addAll(list);
-        this.spoilers.clear();
-        if (this.isSpoilersRevealed) {
-            invalidate();
-            return;
-        }
-        Layout layout = getLayout();
-        if (layout != null && (layout.getText() instanceof Spannable)) {
-            if (this.drawAnimatedEmojiDrawables && (emojiGroupedSpans2 = this.animatedEmojiDrawables) != null) {
-                emojiGroupedSpans2.recordPositions(false);
-            }
-            SpoilerEffect.addSpoilers(this, this.spoilersPool, this.spoilers, this.quoteBlocks);
-            if (this.drawAnimatedEmojiDrawables && (emojiGroupedSpans = this.animatedEmojiDrawables) != null) {
-                emojiGroupedSpans.recordPositions(true);
-            }
-        }
-        invalidate();
-    }
-
-    public void setClipToPadding(boolean z) {
-        this.clipToPadding = z;
-    }
-
-    public CharSequence getTextToUse() {
-        return QuoteSpan.stripNewlineHacks(getText());
     }
 }

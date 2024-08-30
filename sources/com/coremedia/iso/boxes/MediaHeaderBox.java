@@ -33,6 +33,13 @@ public class MediaHeaderBox extends AbstractFullBox {
         ajc$preClinit();
     }
 
+    public MediaHeaderBox() {
+        super("mdhd");
+        this.creationTime = new Date();
+        this.modificationTime = new Date();
+        this.language = "eng";
+    }
+
     private static /* synthetic */ void ajc$preClinit() {
         Factory factory = new Factory("MediaHeaderBox.java", MediaHeaderBox.class);
         ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getCreationTime", "com.coremedia.iso.boxes.MediaHeaderBox", "", "", "", "java.util.Date"), 46);
@@ -48,84 +55,24 @@ public class MediaHeaderBox extends AbstractFullBox {
         ajc$tjp_9 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setLanguage", "com.coremedia.iso.boxes.MediaHeaderBox", "java.lang.String", "language", "", "void"), 95);
     }
 
-    public MediaHeaderBox() {
-        super("mdhd");
-        this.creationTime = new Date();
-        this.modificationTime = new Date();
-        this.language = "eng";
-    }
-
-    public Date getCreationTime() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_0, this, this));
-        return this.creationTime;
-    }
-
-    public Date getModificationTime() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this));
-        return this.modificationTime;
-    }
-
-    public long getTimescale() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_2, this, this));
-        return this.timescale;
-    }
-
-    public long getDuration() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_3, this, this));
-        return this.duration;
-    }
-
-    public String getLanguage() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_4, this, this));
-        return this.language;
-    }
-
-    @Override // com.googlecode.mp4parser.AbstractBox
-    protected long getContentSize() {
-        return (getVersion() == 1 ? 32L : 20L) + 4;
-    }
-
-    public void setCreationTime(Date date) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_5, this, this, date));
-        this.creationTime = date;
-    }
-
-    public void setTimescale(long j) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_7, this, this, Conversions.longObject(j)));
-        this.timescale = j;
-    }
-
-    public void setDuration(long j) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_8, this, this, Conversions.longObject(j)));
-        this.duration = j;
-    }
-
-    public void setLanguage(String str) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_9, this, this, str));
-        this.language = str;
-    }
-
     @Override // com.googlecode.mp4parser.AbstractBox
     public void _parseDetails(ByteBuffer byteBuffer) {
+        long readUInt32;
         parseVersionAndFlags(byteBuffer);
         if (getVersion() == 1) {
             this.creationTime = DateHelper.convert(IsoTypeReader.readUInt64(byteBuffer));
             this.modificationTime = DateHelper.convert(IsoTypeReader.readUInt64(byteBuffer));
             this.timescale = IsoTypeReader.readUInt32(byteBuffer);
-            this.duration = IsoTypeReader.readUInt64(byteBuffer);
+            readUInt32 = IsoTypeReader.readUInt64(byteBuffer);
         } else {
             this.creationTime = DateHelper.convert(IsoTypeReader.readUInt32(byteBuffer));
             this.modificationTime = DateHelper.convert(IsoTypeReader.readUInt32(byteBuffer));
             this.timescale = IsoTypeReader.readUInt32(byteBuffer);
-            this.duration = IsoTypeReader.readUInt32(byteBuffer);
+            readUInt32 = IsoTypeReader.readUInt32(byteBuffer);
         }
+        this.duration = readUInt32;
         this.language = IsoTypeReader.readIso639(byteBuffer);
         IsoTypeReader.readUInt16(byteBuffer);
-    }
-
-    public String toString() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_10, this, this));
-        return "MediaHeaderBox[creationTime=" + getCreationTime() + ";modificationTime=" + getModificationTime() + ";timescale=" + getTimescale() + ";duration=" + getDuration() + ";language=" + getLanguage() + "]";
     }
 
     @Override // com.googlecode.mp4parser.AbstractBox
@@ -144,5 +91,60 @@ public class MediaHeaderBox extends AbstractFullBox {
         }
         IsoTypeWriter.writeIso639(byteBuffer, this.language);
         IsoTypeWriter.writeUInt16(byteBuffer, 0);
+    }
+
+    @Override // com.googlecode.mp4parser.AbstractBox
+    protected long getContentSize() {
+        return (getVersion() == 1 ? 32L : 20L) + 4;
+    }
+
+    public Date getCreationTime() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_0, this, this));
+        return this.creationTime;
+    }
+
+    public long getDuration() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_3, this, this));
+        return this.duration;
+    }
+
+    public String getLanguage() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_4, this, this));
+        return this.language;
+    }
+
+    public Date getModificationTime() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this));
+        return this.modificationTime;
+    }
+
+    public long getTimescale() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_2, this, this));
+        return this.timescale;
+    }
+
+    public void setCreationTime(Date date) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_5, this, this, date));
+        this.creationTime = date;
+    }
+
+    public void setDuration(long j) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_8, this, this, Conversions.longObject(j)));
+        this.duration = j;
+    }
+
+    public void setLanguage(String str) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_9, this, this, str));
+        this.language = str;
+    }
+
+    public void setTimescale(long j) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_7, this, this, Conversions.longObject(j)));
+        this.timescale = j;
+    }
+
+    public String toString() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_10, this, this));
+        return "MediaHeaderBox[creationTime=" + getCreationTime() + ";modificationTime=" + getModificationTime() + ";timescale=" + getTimescale() + ";duration=" + getDuration() + ";language=" + getLanguage() + "]";
     }
 }

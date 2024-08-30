@@ -1,31 +1,11 @@
 package com.google.android.datatransport.runtime.firebase.transport;
 
 import com.google.firebase.encoders.proto.ProtoEnum;
-import com.google.firebase.encoders.proto.Protobuf;
 /* loaded from: classes.dex */
 public final class LogEventDropped {
     private static final LogEventDropped DEFAULT_INSTANCE = new Builder().build();
     private final long events_dropped_count_;
     private final Reason reason_;
-
-    LogEventDropped(long j, Reason reason) {
-        this.events_dropped_count_ = j;
-        this.reason_ = reason;
-    }
-
-    public static Builder newBuilder() {
-        return new Builder();
-    }
-
-    @Protobuf(tag = 1)
-    public long getEventsDroppedCount() {
-        return this.events_dropped_count_;
-    }
-
-    @Protobuf(tag = 3)
-    public Reason getReason() {
-        return this.reason_;
-    }
 
     /* loaded from: classes.dex */
     public static final class Builder {
@@ -70,5 +50,22 @@ public final class LogEventDropped {
         public int getNumber() {
             return this.number_;
         }
+    }
+
+    LogEventDropped(long j, Reason reason) {
+        this.events_dropped_count_ = j;
+        this.reason_ = reason;
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    public long getEventsDroppedCount() {
+        return this.events_dropped_count_;
+    }
+
+    public Reason getReason() {
+        return this.reason_;
     }
 }

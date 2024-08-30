@@ -9,9 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-public final class zzdh {
+public abstract class zzdh {
     private static final char[] zza;
 
     static {
@@ -69,7 +68,10 @@ public final class zzdh {
                 sb.append("\n");
                 zzc(i, sb);
                 sb.append("}");
-            } else if (obj instanceof Map.Entry) {
+            } else if (!(obj instanceof Map.Entry)) {
+                sb.append(": ");
+                sb.append(obj);
+            } else {
                 sb.append(" {");
                 Map.Entry entry2 = (Map.Entry) obj;
                 int i3 = i + 2;
@@ -78,9 +80,6 @@ public final class zzdh {
                 sb.append("\n");
                 zzc(i, sb);
                 sb.append("}");
-            } else {
-                sb.append(": ");
-                sb.append(obj);
             }
         }
     }
@@ -98,8 +97,10 @@ public final class zzdh {
 
     private static void zzd(zzdf zzdfVar, StringBuilder sb, int i) {
         int i2;
-        boolean equals;
+        Object obj;
         Method method;
+        String substring;
+        Object zzl;
         Method method2;
         HashSet hashSet = new HashSet();
         HashMap hashMap = new HashMap();
@@ -127,73 +128,67 @@ public final class zzdh {
             i3++;
         }
         for (Map.Entry entry : treeMap.entrySet()) {
-            String substring = ((String) entry.getKey()).substring(i2);
-            if (!substring.endsWith("List") || substring.endsWith("OrBuilderList") || substring.equals("List") || (method2 = (Method) entry.getValue()) == null || !method2.getReturnType().equals(List.class)) {
-                if (!substring.endsWith("Map") || substring.equals("Map") || (method = (Method) entry.getValue()) == null || !method.getReturnType().equals(Map.class) || method.isAnnotationPresent(Deprecated.class) || !Modifier.isPublic(method.getModifiers())) {
-                    if (hashSet.contains("set".concat(substring)) && (!substring.endsWith("Bytes") || !treeMap.containsKey("get".concat(String.valueOf(substring.substring(0, substring.length() - 5)))))) {
-                        Method method4 = (Method) entry.getValue();
-                        Method method5 = (Method) hashMap.get("has".concat(substring));
-                        if (method4 != null) {
-                            Object zzl = zzcb.zzl(method4, zzdfVar, new Object[0]);
-                            if (method5 == null) {
-                                if (zzl instanceof Boolean) {
-                                    if (!((Boolean) zzl).booleanValue()) {
-                                    }
-                                    zzb(sb, i, substring, zzl);
-                                } else if (zzl instanceof Integer) {
-                                    if (((Integer) zzl).intValue() == 0) {
-                                    }
-                                    zzb(sb, i, substring, zzl);
-                                } else if (zzl instanceof Float) {
-                                    if (Float.floatToRawIntBits(((Float) zzl).floatValue()) == 0) {
-                                    }
-                                    zzb(sb, i, substring, zzl);
-                                } else if (zzl instanceof Double) {
-                                    if (Double.doubleToRawLongBits(((Double) zzl).doubleValue()) == 0) {
-                                    }
-                                    zzb(sb, i, substring, zzl);
-                                } else {
-                                    if (zzl instanceof String) {
-                                        equals = zzl.equals("");
-                                    } else if (zzl instanceof zzba) {
-                                        equals = zzl.equals(zzba.zzb);
-                                    } else if (zzl instanceof zzdf) {
-                                        if (zzl == ((zzdf) zzl).zzf()) {
-                                        }
-                                        zzb(sb, i, substring, zzl);
-                                    } else {
-                                        if ((zzl instanceof Enum) && ((Enum) zzl).ordinal() == 0) {
-                                        }
-                                        zzb(sb, i, substring, zzl);
-                                    }
-                                    if (equals) {
-                                    }
-                                    zzb(sb, i, substring, zzl);
-                                }
-                            } else {
-                                if (!((Boolean) zzcb.zzl(method5, zzdfVar, new Object[0])).booleanValue()) {
-                                }
-                                zzb(sb, i, substring, zzl);
+            String substring2 = ((String) entry.getKey()).substring(i2);
+            if (substring2.endsWith("List") && !substring2.endsWith("OrBuilderList") && !substring2.equals("List") && (method2 = (Method) entry.getValue()) != null && method2.getReturnType().equals(List.class)) {
+                substring = substring2.substring(0, substring2.length() - 4);
+                zzl = zzcb.zzl(method2, zzdfVar, new Object[0]);
+            } else if (!substring2.endsWith("Map") || substring2.equals("Map") || (method = (Method) entry.getValue()) == null || !method.getReturnType().equals(Map.class) || method.isAnnotationPresent(Deprecated.class) || !Modifier.isPublic(method.getModifiers())) {
+                if (hashSet.contains("set".concat(substring2)) && (!substring2.endsWith("Bytes") || !treeMap.containsKey("get".concat(String.valueOf(substring2.substring(0, substring2.length() - 5)))))) {
+                    Method method4 = (Method) entry.getValue();
+                    Method method5 = (Method) hashMap.get("has".concat(substring2));
+                    if (method4 != null) {
+                        Object zzl2 = zzcb.zzl(method4, zzdfVar, new Object[0]);
+                        if (method5 != null) {
+                            if (!((Boolean) zzcb.zzl(method5, zzdfVar, new Object[0])).booleanValue()) {
                             }
+                            zzb(sb, i, substring2, zzl2);
+                        } else if (zzl2 instanceof Boolean) {
+                            if (!((Boolean) zzl2).booleanValue()) {
+                            }
+                            zzb(sb, i, substring2, zzl2);
+                        } else if (zzl2 instanceof Integer) {
+                            if (((Integer) zzl2).intValue() == 0) {
+                            }
+                            zzb(sb, i, substring2, zzl2);
+                        } else if (zzl2 instanceof Float) {
+                            if (Float.floatToRawIntBits(((Float) zzl2).floatValue()) == 0) {
+                            }
+                            zzb(sb, i, substring2, zzl2);
+                        } else if (zzl2 instanceof Double) {
+                            if (Double.doubleToRawLongBits(((Double) zzl2).doubleValue()) == 0) {
+                            }
+                            zzb(sb, i, substring2, zzl2);
+                        } else {
+                            if (zzl2 instanceof String) {
+                                obj = "";
+                            } else if (zzl2 instanceof zzba) {
+                                obj = zzba.zzb;
+                            } else if (zzl2 instanceof zzdf) {
+                                if (zzl2 == ((zzdf) zzl2).zzf()) {
+                                }
+                                zzb(sb, i, substring2, zzl2);
+                            } else {
+                                if ((zzl2 instanceof Enum) && ((Enum) zzl2).ordinal() == 0) {
+                                }
+                                zzb(sb, i, substring2, zzl2);
+                            }
+                            if (zzl2.equals(obj)) {
+                            }
+                            zzb(sb, i, substring2, zzl2);
                         }
                     }
-                } else {
-                    zzb(sb, i, substring.substring(0, substring.length() - 3), zzcb.zzl(method, zzdfVar, new Object[0]));
                 }
+                i2 = 3;
             } else {
-                zzb(sb, i, substring.substring(0, substring.length() - 4), zzcb.zzl(method2, zzdfVar, new Object[0]));
+                substring = substring2.substring(0, substring2.length() - 3);
+                zzl = zzcb.zzl(method, zzdfVar, new Object[0]);
             }
+            zzb(sb, i, substring, zzl);
             i2 = 3;
         }
-        if (!(zzdfVar instanceof zzby)) {
-            zzeh zzehVar = ((zzcb) zzdfVar).zzc;
-            if (zzehVar != null) {
-                zzehVar.zzi(sb, i);
-                return;
-            }
-            return;
+        zzeh zzehVar = ((zzcb) zzdfVar).zzc;
+        if (zzehVar != null) {
+            zzehVar.zzi(sb, i);
         }
-        zzby zzbyVar = (zzby) zzdfVar;
-        throw null;
     }
 }

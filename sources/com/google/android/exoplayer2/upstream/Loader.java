@@ -1,6 +1,5 @@
 package com.google.android.exoplayer2.upstream;
 
-import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -13,7 +12,7 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 /* loaded from: classes.dex */
 public final class Loader implements LoaderErrorThrower {
-    private LoadTask<? extends Loadable> currentTask;
+    private LoadTask currentTask;
     private final ExecutorService downloadExecutorService;
     private IOException fatalError;
     public static final LoadErrorAction RETRY = createRetryAction(false, -9223372036854775807L);
@@ -22,31 +21,12 @@ public final class Loader implements LoaderErrorThrower {
     public static final LoadErrorAction DONT_RETRY_FATAL = new LoadErrorAction(3, -9223372036854775807L);
 
     /* loaded from: classes.dex */
-    public interface Callback<T extends Loadable> {
-        void onLoadCanceled(T t, long j, long j2, boolean z);
+    public interface Callback {
+        void onLoadCanceled(Loadable loadable, long j, long j2, boolean z);
 
-        void onLoadCompleted(T t, long j, long j2);
+        void onLoadCompleted(Loadable loadable, long j, long j2);
 
-        LoadErrorAction onLoadError(T t, long j, long j2, IOException iOException, int i);
-    }
-
-    /* loaded from: classes.dex */
-    public interface Loadable {
-        void cancelLoad();
-
-        void load() throws IOException;
-    }
-
-    /* loaded from: classes.dex */
-    public interface ReleaseCallback {
-        void onLoaderReleased();
-    }
-
-    /* loaded from: classes.dex */
-    public static final class UnexpectedLoaderException extends IOException {
-        public UnexpectedLoaderException(Throwable th) {
-            super("Unexpected " + th.getClass().getSimpleName() + ": " + th.getMessage(), th);
-        }
+        LoadErrorAction onLoadError(Loadable loadable, long j, long j2, IOException iOException, int i);
     }
 
     /* loaded from: classes.dex */
@@ -65,108 +45,38 @@ public final class Loader implements LoaderErrorThrower {
         }
     }
 
-    public Loader(String str) {
-        this.downloadExecutorService = Util.newSingleThreadExecutor("ExoPlayer:Loader:" + str);
-    }
-
-    public static LoadErrorAction createRetryAction(boolean z, long j) {
-        return new LoadErrorAction(z ? 1 : 0, j);
-    }
-
-    public boolean hasFatalError() {
-        return this.fatalError != null;
-    }
-
-    public void clearFatalError() {
-        this.fatalError = null;
-    }
-
-    public <T extends Loadable> long startLoading(T t, Callback<T> callback, int i) {
-        this.fatalError = null;
-        long elapsedRealtime = SystemClock.elapsedRealtime();
-        new LoadTask((Looper) Assertions.checkStateNotNull(Looper.myLooper()), t, callback, i, elapsedRealtime).start(0L);
-        return elapsedRealtime;
-    }
-
-    public boolean isLoading() {
-        return this.currentTask != null;
-    }
-
-    public void cancelLoading() {
-        ((LoadTask) Assertions.checkStateNotNull(this.currentTask)).cancel(false);
-    }
-
-    public void release() {
-        release(null);
-    }
-
-    public void release(ReleaseCallback releaseCallback) {
-        LoadTask<? extends Loadable> loadTask = this.currentTask;
-        if (loadTask != null) {
-            loadTask.cancel(true);
-        }
-        if (releaseCallback != null) {
-            this.downloadExecutorService.execute(new ReleaseTask(releaseCallback));
-        }
-        this.downloadExecutorService.shutdown();
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.LoaderErrorThrower
-    public void maybeThrowError() throws IOException {
-        maybeThrowError(Integer.MIN_VALUE);
-    }
-
-    public void maybeThrowError(int i) throws IOException {
-        IOException iOException = this.fatalError;
-        if (iOException != null) {
-            throw iOException;
-        }
-        LoadTask<? extends Loadable> loadTask = this.currentTask;
-        if (loadTask != null) {
-            if (i == Integer.MIN_VALUE) {
-                i = loadTask.defaultMinRetryCount;
-            }
-            loadTask.maybeThrowError(i);
-        }
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
-    @SuppressLint({"HandlerLeak"})
     /* loaded from: classes.dex */
-    public final class LoadTask<T extends Loadable> extends Handler implements Runnable {
-        private Callback<T> callback;
+    public final class LoadTask extends Handler implements Runnable {
+        private Callback callback;
         private boolean canceled;
         private IOException currentError;
         public final int defaultMinRetryCount;
         private int errorCount;
         private Thread executorThread;
-        private final T loadable;
+        private final Loadable loadable;
         private volatile boolean released;
         private final long startTimeMs;
 
-        public LoadTask(Looper looper, T t, Callback<T> callback, int i, long j) {
+        public LoadTask(Looper looper, Loadable loadable, Callback callback, int i, long j) {
             super(looper);
-            this.loadable = t;
+            this.loadable = loadable;
             this.callback = callback;
             this.defaultMinRetryCount = i;
             this.startTimeMs = j;
         }
 
-        public void maybeThrowError(int i) throws IOException {
-            IOException iOException = this.currentError;
-            if (iOException != null && this.errorCount > i) {
-                throw iOException;
-            }
+        private void execute() {
+            this.currentError = null;
+            Loader.this.downloadExecutorService.execute((Runnable) Assertions.checkNotNull(Loader.this.currentTask));
         }
 
-        public void start(long j) {
-            Assertions.checkState(Loader.this.currentTask == null);
-            Loader.this.currentTask = this;
-            if (j > 0) {
-                sendEmptyMessageDelayed(0, j);
-            } else {
-                execute();
-            }
+        private void finish() {
+            Loader.this.currentTask = null;
+        }
+
+        private long getRetryDelayMillis() {
+            return Math.min((this.errorCount - 1) * 1000, 5000);
         }
 
         public void cancel(boolean z) {
@@ -200,61 +110,8 @@ public final class Loader implements LoaderErrorThrower {
             }
         }
 
-        @Override // java.lang.Runnable
-        public void run() {
-            boolean z;
-            try {
-                synchronized (this) {
-                    z = !this.canceled;
-                    this.executorThread = Thread.currentThread();
-                }
-                if (z) {
-                    TraceUtil.beginSection("load:" + this.loadable.getClass().getSimpleName());
-                    try {
-                        this.loadable.load();
-                        TraceUtil.endSection();
-                    } catch (Throwable th) {
-                        TraceUtil.endSection();
-                        throw th;
-                    }
-                }
-                synchronized (this) {
-                    this.executorThread = null;
-                    Thread.interrupted();
-                }
-                if (this.released) {
-                    return;
-                }
-                sendEmptyMessage(1);
-            } catch (IOException e) {
-                if (this.released) {
-                    return;
-                }
-                obtainMessage(2, e).sendToTarget();
-            } catch (Error e2) {
-                if (!this.released) {
-                    Log.e("LoadTask", "Unexpected error loading stream", e2);
-                    obtainMessage(3, e2).sendToTarget();
-                }
-                throw e2;
-            } catch (Exception e3) {
-                if (this.released) {
-                    return;
-                }
-                Log.e("LoadTask", "Unexpected exception loading stream", e3);
-                obtainMessage(2, new UnexpectedLoaderException(e3)).sendToTarget();
-            } catch (OutOfMemoryError e4) {
-                if (this.released) {
-                    return;
-                }
-                Log.e("LoadTask", "OutOfMemory error loading stream", e4);
-                obtainMessage(2, new UnexpectedLoaderException(e4)).sendToTarget();
-            }
-        }
-
         @Override // android.os.Handler
         public void handleMessage(Message message) {
-            long retryDelayMillis;
             if (this.released) {
                 return;
             }
@@ -287,38 +144,105 @@ public final class Loader implements LoaderErrorThrower {
                     int i3 = this.errorCount + 1;
                     this.errorCount = i3;
                     LoadErrorAction onLoadError = callback.onLoadError(this.loadable, elapsedRealtime, j, iOException, i3);
-                    if (onLoadError.type != 3) {
-                        if (onLoadError.type != 2) {
-                            if (onLoadError.type == 1) {
-                                this.errorCount = 1;
-                            }
-                            if (onLoadError.retryDelayMillis != -9223372036854775807L) {
-                                retryDelayMillis = onLoadError.retryDelayMillis;
-                            } else {
-                                retryDelayMillis = getRetryDelayMillis();
-                            }
-                            start(retryDelayMillis);
-                            return;
+                    if (onLoadError.type == 3) {
+                        Loader.this.fatalError = this.currentError;
+                    } else if (onLoadError.type != 2) {
+                        if (onLoadError.type == 1) {
+                            this.errorCount = 1;
                         }
-                        return;
+                        start(onLoadError.retryDelayMillis != -9223372036854775807L ? onLoadError.retryDelayMillis : getRetryDelayMillis());
                     }
-                    Loader.this.fatalError = this.currentError;
                 }
             }
         }
 
-        private void execute() {
-            this.currentError = null;
-            Loader.this.downloadExecutorService.execute((Runnable) Assertions.checkNotNull(Loader.this.currentTask));
+        public void maybeThrowError(int i) {
+            IOException iOException = this.currentError;
+            if (iOException != null && this.errorCount > i) {
+                throw iOException;
+            }
         }
 
-        private void finish() {
-            Loader.this.currentTask = null;
+        @Override // java.lang.Runnable
+        public void run() {
+            Object unexpectedLoaderException;
+            Message obtainMessage;
+            boolean z;
+            try {
+                synchronized (this) {
+                    z = !this.canceled;
+                    this.executorThread = Thread.currentThread();
+                }
+                if (z) {
+                    TraceUtil.beginSection("load:" + this.loadable.getClass().getSimpleName());
+                    try {
+                        this.loadable.load();
+                        TraceUtil.endSection();
+                    } catch (Throwable th) {
+                        TraceUtil.endSection();
+                        throw th;
+                    }
+                }
+                synchronized (this) {
+                    this.executorThread = null;
+                    Thread.interrupted();
+                }
+                if (this.released) {
+                    return;
+                }
+                sendEmptyMessage(1);
+            } catch (IOException e) {
+                if (this.released) {
+                    return;
+                }
+                obtainMessage = obtainMessage(2, e);
+                obtainMessage.sendToTarget();
+            } catch (Error e2) {
+                if (!this.released) {
+                    Log.e("LoadTask", "Unexpected error loading stream", e2);
+                    obtainMessage(3, e2).sendToTarget();
+                }
+                throw e2;
+            } catch (Exception e3) {
+                if (this.released) {
+                    return;
+                }
+                Log.e("LoadTask", "Unexpected exception loading stream", e3);
+                unexpectedLoaderException = new UnexpectedLoaderException(e3);
+                obtainMessage = obtainMessage(2, unexpectedLoaderException);
+                obtainMessage.sendToTarget();
+            } catch (OutOfMemoryError e4) {
+                if (this.released) {
+                    return;
+                }
+                Log.e("LoadTask", "OutOfMemory error loading stream", e4);
+                unexpectedLoaderException = new UnexpectedLoaderException(e4);
+                obtainMessage = obtainMessage(2, unexpectedLoaderException);
+                obtainMessage.sendToTarget();
+            }
         }
 
-        private long getRetryDelayMillis() {
-            return Math.min((this.errorCount - 1) * 1000, 5000);
+        public void start(long j) {
+            Assertions.checkState(Loader.this.currentTask == null);
+            Loader.this.currentTask = this;
+            if (j > 0) {
+                sendEmptyMessageDelayed(0, j);
+            } else {
+                execute();
+            }
         }
+    }
+
+    /* loaded from: classes.dex */
+    public interface Loadable {
+        void cancelLoad();
+
+        void load();
+    }
+
+    /* loaded from: classes.dex */
+    public interface ReleaseCallback {
+        void onLoaderReleased();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -334,5 +258,77 @@ public final class Loader implements LoaderErrorThrower {
         public void run() {
             this.callback.onLoaderReleased();
         }
+    }
+
+    /* loaded from: classes.dex */
+    public static final class UnexpectedLoaderException extends IOException {
+        public UnexpectedLoaderException(Throwable th) {
+            super("Unexpected " + th.getClass().getSimpleName() + ": " + th.getMessage(), th);
+        }
+    }
+
+    public Loader(String str) {
+        this.downloadExecutorService = Util.newSingleThreadExecutor("ExoPlayer:Loader:" + str);
+    }
+
+    public static LoadErrorAction createRetryAction(boolean z, long j) {
+        return new LoadErrorAction(z ? 1 : 0, j);
+    }
+
+    public void cancelLoading() {
+        ((LoadTask) Assertions.checkStateNotNull(this.currentTask)).cancel(false);
+    }
+
+    public void clearFatalError() {
+        this.fatalError = null;
+    }
+
+    public boolean hasFatalError() {
+        return this.fatalError != null;
+    }
+
+    public boolean isLoading() {
+        return this.currentTask != null;
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.LoaderErrorThrower
+    public void maybeThrowError() {
+        maybeThrowError(Integer.MIN_VALUE);
+    }
+
+    public void maybeThrowError(int i) {
+        IOException iOException = this.fatalError;
+        if (iOException != null) {
+            throw iOException;
+        }
+        LoadTask loadTask = this.currentTask;
+        if (loadTask != null) {
+            if (i == Integer.MIN_VALUE) {
+                i = loadTask.defaultMinRetryCount;
+            }
+            loadTask.maybeThrowError(i);
+        }
+    }
+
+    public void release() {
+        release(null);
+    }
+
+    public void release(ReleaseCallback releaseCallback) {
+        LoadTask loadTask = this.currentTask;
+        if (loadTask != null) {
+            loadTask.cancel(true);
+        }
+        if (releaseCallback != null) {
+            this.downloadExecutorService.execute(new ReleaseTask(releaseCallback));
+        }
+        this.downloadExecutorService.shutdown();
+    }
+
+    public long startLoading(Loadable loadable, Callback callback, int i) {
+        this.fatalError = null;
+        long elapsedRealtime = SystemClock.elapsedRealtime();
+        new LoadTask((Looper) Assertions.checkStateNotNull(Looper.myLooper()), loadable, callback, i, elapsedRealtime).start(0L);
+        return elapsedRealtime;
     }
 }

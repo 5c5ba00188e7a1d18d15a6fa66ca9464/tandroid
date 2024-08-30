@@ -4,173 +4,12 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.telegram.messenger.NotificationCenter;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public abstract class zzii extends zzhq {
     private static final Logger zzb = Logger.getLogger(zzii.class.getName());
     private static final boolean zzc = zzma.zza();
     zzil zza;
 
-    public static zzii zza(byte[] bArr) {
-        return new zza(bArr, 0, bArr.length);
-    }
-
-    public static int zzb(double d) {
-        return 8;
-    }
-
-    public static int zzb(float f) {
-        return 4;
-    }
-
-    public static int zzb(boolean z) {
-        return 1;
-    }
-
-    public static int zze(long j) {
-        int i;
-        if (((-128) & j) == 0) {
-            return 1;
-        }
-        if (j < 0) {
-            return 10;
-        }
-        if (((-34359738368L) & j) != 0) {
-            j >>>= 28;
-            i = 6;
-        } else {
-            i = 2;
-        }
-        if (((-2097152) & j) != 0) {
-            i += 2;
-            j >>>= 14;
-        }
-        return (j & (-16384)) != 0 ? i + 1 : i;
-    }
-
-    public static int zzg(int i) {
-        if ((i & (-128)) == 0) {
-            return 1;
-        }
-        if ((i & (-16384)) == 0) {
-            return 2;
-        }
-        if (((-2097152) & i) == 0) {
-            return 3;
-        }
-        return (i & (-268435456)) == 0 ? 4 : 5;
-    }
-
-    public static int zzg(long j) {
-        return 8;
-    }
-
-    public static int zzh(long j) {
-        return 8;
-    }
-
-    public static int zzi(int i) {
-        return 4;
-    }
-
-    private static long zzi(long j) {
-        return (j >> 63) ^ (j << 1);
-    }
-
-    public static int zzj(int i) {
-        return 4;
-    }
-
-    private static int zzm(int i) {
-        return (i >> 31) ^ (i << 1);
-    }
-
-    public abstract int zza();
-
-    public abstract void zza(byte b) throws IOException;
-
-    public abstract void zza(int i) throws IOException;
-
-    public abstract void zza(int i, int i2) throws IOException;
-
-    public abstract void zza(int i, long j) throws IOException;
-
-    public abstract void zza(int i, zzht zzhtVar) throws IOException;
-
-    public abstract void zza(int i, zzkk zzkkVar) throws IOException;
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(int i, zzkk zzkkVar, zzlc zzlcVar) throws IOException;
-
-    public abstract void zza(int i, String str) throws IOException;
-
-    public abstract void zza(int i, boolean z) throws IOException;
-
-    public abstract void zza(long j) throws IOException;
-
-    public abstract void zza(zzht zzhtVar) throws IOException;
-
-    public abstract void zza(zzkk zzkkVar) throws IOException;
-
-    public abstract void zza(String str) throws IOException;
-
-    public abstract void zzb(int i) throws IOException;
-
-    public abstract void zzb(int i, int i2) throws IOException;
-
-    public abstract void zzb(int i, zzht zzhtVar) throws IOException;
-
-    public abstract void zzc(int i, int i2) throws IOException;
-
-    public abstract void zzc(int i, long j) throws IOException;
-
-    public abstract void zzc(long j) throws IOException;
-
-    public abstract void zzd(int i) throws IOException;
-
-    public abstract void zze(int i, int i2) throws IOException;
-
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
-    /* loaded from: classes.dex */
-    public static class zzb extends IOException {
-        zzb(Throwable th) {
-            super("CodedOutputStream was writing to a flat byte array and ran out of space.", th);
-        }
-
-        /* JADX WARN: Illegal instructions before constructor call */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        zzb(String str, Throwable th) {
-            super(r3.length() != 0 ? "CodedOutputStream was writing to a flat byte array and ran out of space.: ".concat(r3) : new String("CodedOutputStream was writing to a flat byte array and ran out of space.: "), th);
-            String valueOf = String.valueOf(str);
-        }
-    }
-
-    private zzii() {
-    }
-
-    public final void zzd(int i, int i2) throws IOException {
-        zzc(i, zzm(i2));
-    }
-
-    public final void zzb(int i, long j) throws IOException {
-        zza(i, zzi(j));
-    }
-
-    public final void zza(int i, float f) throws IOException {
-        zze(i, Float.floatToRawIntBits(f));
-    }
-
-    public final void zza(int i, double d) throws IOException {
-        zzc(i, Double.doubleToRawLongBits(d));
-    }
-
-    public final void zzc(int i) throws IOException {
-        zzb(zzm(i));
-    }
-
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
     private static class zza extends zzii {
         private final byte[] zzb;
@@ -192,103 +31,22 @@ public abstract class zzii extends zzhq {
             this.zzd = i2;
         }
 
-        @Override // com.google.android.gms.internal.vision.zzii
-        public final void zza(int i, int i2) throws IOException {
-            zzb((i << 3) | i2);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzii
-        public final void zzb(int i, int i2) throws IOException {
-            zza(i, 0);
-            zza(i2);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzii
-        public final void zzc(int i, int i2) throws IOException {
-            zza(i, 0);
-            zzb(i2);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzii
-        public final void zze(int i, int i2) throws IOException {
-            zza(i, 5);
-            zzd(i2);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzii
-        public final void zza(int i, long j) throws IOException {
-            zza(i, 0);
-            zza(j);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzii
-        public final void zzc(int i, long j) throws IOException {
-            zza(i, 1);
-            zzc(j);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzii
-        public final void zza(int i, boolean z) throws IOException {
-            zza(i, 0);
-            zza(z ? (byte) 1 : (byte) 0);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzii
-        public final void zza(int i, String str) throws IOException {
-            zza(i, 2);
-            zza(str);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzii
-        public final void zza(int i, zzht zzhtVar) throws IOException {
-            zza(i, 2);
-            zza(zzhtVar);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzii
-        public final void zza(zzht zzhtVar) throws IOException {
-            zzb(zzhtVar.zza());
-            zzhtVar.zza(this);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzii
-        final void zza(int i, zzkk zzkkVar, zzlc zzlcVar) throws IOException {
-            zza(i, 2);
-            zzhf zzhfVar = (zzhf) zzkkVar;
-            int zzi = zzhfVar.zzi();
-            if (zzi == -1) {
-                zzi = zzlcVar.zzb(zzhfVar);
-                zzhfVar.zzb(zzi);
+        private final void zzc(byte[] bArr, int i, int i2) {
+            try {
+                System.arraycopy(bArr, i, this.zzb, this.zze, i2);
+                this.zze += i2;
+            } catch (IndexOutOfBoundsException e) {
+                throw new zzb(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), Integer.valueOf(i2)), e);
             }
-            zzb(zzi);
-            zzlcVar.zza((zzlc) zzkkVar, (zzmr) this.zza);
         }
 
         @Override // com.google.android.gms.internal.vision.zzii
-        public final void zza(int i, zzkk zzkkVar) throws IOException {
-            zza(1, 3);
-            zzc(2, i);
-            zza(3, 2);
-            zza(zzkkVar);
-            zza(1, 4);
+        public final int zza() {
+            return this.zzd - this.zze;
         }
 
         @Override // com.google.android.gms.internal.vision.zzii
-        public final void zzb(int i, zzht zzhtVar) throws IOException {
-            zza(1, 3);
-            zzc(2, i);
-            zza(3, zzhtVar);
-            zza(1, 4);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzii
-        public final void zza(zzkk zzkkVar) throws IOException {
-            zzb(zzkkVar.zzm());
-            zzkkVar.zza(this);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzii
-        public final void zza(byte b) throws IOException {
+        public final void zza(byte b) {
             try {
                 byte[] bArr = this.zzb;
                 int i = this.zze;
@@ -300,7 +58,7 @@ public abstract class zzii extends zzhq {
         }
 
         @Override // com.google.android.gms.internal.vision.zzii
-        public final void zza(int i) throws IOException {
+        public final void zza(int i) {
             if (i >= 0) {
                 zzb(i);
             } else {
@@ -309,7 +67,133 @@ public abstract class zzii extends zzhq {
         }
 
         @Override // com.google.android.gms.internal.vision.zzii
-        public final void zzb(int i) throws IOException {
+        public final void zza(int i, int i2) {
+            zzb((i << 3) | i2);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzii
+        public final void zza(int i, long j) {
+            zza(i, 0);
+            zza(j);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzii
+        public final void zza(int i, zzht zzhtVar) {
+            zza(i, 2);
+            zza(zzhtVar);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzii
+        public final void zza(int i, zzkk zzkkVar) {
+            zza(1, 3);
+            zzc(2, i);
+            zza(3, 2);
+            zza(zzkkVar);
+            zza(1, 4);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzii
+        final void zza(int i, zzkk zzkkVar, zzlc zzlcVar) {
+            zza(i, 2);
+            zzhf zzhfVar = (zzhf) zzkkVar;
+            int zzi = zzhfVar.zzi();
+            if (zzi == -1) {
+                zzi = zzlcVar.zzb(zzhfVar);
+                zzhfVar.zzb(zzi);
+            }
+            zzb(zzi);
+            zzlcVar.zza((Object) zzkkVar, this.zza);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzii
+        public final void zza(int i, String str) {
+            zza(i, 2);
+            zza(str);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzii
+        public final void zza(int i, boolean z) {
+            zza(i, 0);
+            zza(z ? (byte) 1 : (byte) 0);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzii
+        public final void zza(long j) {
+            if (zzii.zzc && zza() >= 10) {
+                while ((j & (-128)) != 0) {
+                    byte[] bArr = this.zzb;
+                    int i = this.zze;
+                    this.zze = i + 1;
+                    zzma.zza(bArr, i, (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128));
+                    j >>>= 7;
+                }
+                byte[] bArr2 = this.zzb;
+                int i2 = this.zze;
+                this.zze = 1 + i2;
+                zzma.zza(bArr2, i2, (byte) j);
+                return;
+            }
+            while ((j & (-128)) != 0) {
+                try {
+                    byte[] bArr3 = this.zzb;
+                    int i3 = this.zze;
+                    this.zze = i3 + 1;
+                    bArr3[i3] = (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128);
+                    j >>>= 7;
+                } catch (IndexOutOfBoundsException e) {
+                    throw new zzb(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
+                }
+            }
+            byte[] bArr4 = this.zzb;
+            int i4 = this.zze;
+            this.zze = i4 + 1;
+            bArr4[i4] = (byte) j;
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzii
+        public final void zza(zzht zzhtVar) {
+            zzb(zzhtVar.zza());
+            zzhtVar.zza(this);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzii
+        public final void zza(zzkk zzkkVar) {
+            zzb(zzkkVar.zzm());
+            zzkkVar.zza(this);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzii
+        public final void zza(String str) {
+            int i = this.zze;
+            try {
+                int zzg = zzii.zzg(str.length() * 3);
+                int zzg2 = zzii.zzg(str.length());
+                if (zzg2 != zzg) {
+                    zzb(zzmd.zza(str));
+                    this.zze = zzmd.zza(str, this.zzb, this.zze, zza());
+                    return;
+                }
+                int i2 = i + zzg2;
+                this.zze = i2;
+                int zza = zzmd.zza(str, this.zzb, i2, zza());
+                this.zze = i;
+                zzb((zza - i) - zzg2);
+                this.zze = zza;
+            } catch (zzmg e) {
+                this.zze = i;
+                zza(str, e);
+            } catch (IndexOutOfBoundsException e2) {
+                throw new zzb(e2);
+            }
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzhq
+        public final void zza(byte[] bArr, int i, int i2) {
+            zzc(bArr, i, i2);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzii
+        public final void zzb(int i) {
             if (!zzii.zzc || zzhi.zza() || zza() < 5) {
                 while ((i & (-128)) != 0) {
                     try {
@@ -380,55 +264,33 @@ public abstract class zzii extends zzhq {
         }
 
         @Override // com.google.android.gms.internal.vision.zzii
-        public final void zzd(int i) throws IOException {
-            try {
-                byte[] bArr = this.zzb;
-                int i2 = this.zze;
-                bArr[i2] = (byte) i;
-                bArr[i2 + 1] = (byte) (i >> 8);
-                bArr[i2 + 2] = (byte) (i >> 16);
-                this.zze = i2 + 4;
-                bArr[i2 + 3] = (byte) (i >>> 24);
-            } catch (IndexOutOfBoundsException e) {
-                throw new zzb(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
-            }
+        public final void zzb(int i, int i2) {
+            zza(i, 0);
+            zza(i2);
         }
 
         @Override // com.google.android.gms.internal.vision.zzii
-        public final void zza(long j) throws IOException {
-            if (zzii.zzc && zza() >= 10) {
-                while ((j & (-128)) != 0) {
-                    byte[] bArr = this.zzb;
-                    int i = this.zze;
-                    this.zze = i + 1;
-                    zzma.zza(bArr, i, (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128));
-                    j >>>= 7;
-                }
-                byte[] bArr2 = this.zzb;
-                int i2 = this.zze;
-                this.zze = 1 + i2;
-                zzma.zza(bArr2, i2, (byte) j);
-                return;
-            }
-            while ((j & (-128)) != 0) {
-                try {
-                    byte[] bArr3 = this.zzb;
-                    int i3 = this.zze;
-                    this.zze = i3 + 1;
-                    bArr3[i3] = (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128);
-                    j >>>= 7;
-                } catch (IndexOutOfBoundsException e) {
-                    throw new zzb(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
-                }
-            }
-            byte[] bArr4 = this.zzb;
-            int i4 = this.zze;
-            this.zze = i4 + 1;
-            bArr4[i4] = (byte) j;
+        public final void zzb(int i, zzht zzhtVar) {
+            zza(1, 3);
+            zzc(2, i);
+            zza(3, zzhtVar);
+            zza(1, 4);
         }
 
         @Override // com.google.android.gms.internal.vision.zzii
-        public final void zzc(long j) throws IOException {
+        public final void zzc(int i, int i2) {
+            zza(i, 0);
+            zzb(i2);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzii
+        public final void zzc(int i, long j) {
+            zza(i, 1);
+            zzc(j);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzii
+        public final void zzc(long j) {
             try {
                 byte[] bArr = this.zzb;
                 int i = this.zze;
@@ -446,211 +308,45 @@ public abstract class zzii extends zzhq {
             }
         }
 
-        private final void zzc(byte[] bArr, int i, int i2) throws IOException {
+        @Override // com.google.android.gms.internal.vision.zzii
+        public final void zzd(int i) {
             try {
-                System.arraycopy(bArr, i, this.zzb, this.zze, i2);
-                this.zze += i2;
+                byte[] bArr = this.zzb;
+                int i2 = this.zze;
+                bArr[i2] = (byte) i;
+                bArr[i2 + 1] = (byte) (i >> 8);
+                bArr[i2 + 2] = (byte) (i >> 16);
+                this.zze = i2 + 4;
+                bArr[i2 + 3] = (byte) (i >>> 24);
             } catch (IndexOutOfBoundsException e) {
-                throw new zzb(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), Integer.valueOf(i2)), e);
-            }
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzhq
-        public final void zza(byte[] bArr, int i, int i2) throws IOException {
-            zzc(bArr, i, i2);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzii
-        public final void zza(String str) throws IOException {
-            int i = this.zze;
-            try {
-                int zzg = zzii.zzg(str.length() * 3);
-                int zzg2 = zzii.zzg(str.length());
-                if (zzg2 == zzg) {
-                    int i2 = i + zzg2;
-                    this.zze = i2;
-                    int zza = zzmd.zza(str, this.zzb, i2, zza());
-                    this.zze = i;
-                    zzb((zza - i) - zzg2);
-                    this.zze = zza;
-                    return;
-                }
-                zzb(zzmd.zza(str));
-                this.zze = zzmd.zza(str, this.zzb, this.zze, zza());
-            } catch (zzmg e) {
-                this.zze = i;
-                zza(str, e);
-            } catch (IndexOutOfBoundsException e2) {
-                throw new zzb(e2);
+                throw new zzb(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
             }
         }
 
         @Override // com.google.android.gms.internal.vision.zzii
-        public final int zza() {
-            return this.zzd - this.zze;
+        public final void zze(int i, int i2) {
+            zza(i, 5);
+            zzd(i2);
         }
     }
 
-    public final void zzb(long j) throws IOException {
-        zza(zzi(j));
-    }
-
-    public final void zza(float f) throws IOException {
-        zzd(Float.floatToRawIntBits(f));
-    }
-
-    public final void zza(double d) throws IOException {
-        zzc(Double.doubleToRawLongBits(d));
-    }
-
-    public final void zza(boolean z) throws IOException {
-        zza(z ? (byte) 1 : (byte) 0);
-    }
-
-    public static int zzf(int i, int i2) {
-        return zzg(i << 3) + zzf(i2);
-    }
-
-    public static int zzg(int i, int i2) {
-        return zzg(i << 3) + zzg(i2);
-    }
-
-    public static int zzh(int i, int i2) {
-        return zzg(i << 3) + zzg(zzm(i2));
-    }
-
-    public static int zzi(int i, int i2) {
-        return zzg(i << 3) + 4;
-    }
-
-    public static int zzj(int i, int i2) {
-        return zzg(i << 3) + 4;
-    }
-
-    public static int zzd(int i, long j) {
-        return zzg(i << 3) + zze(j);
-    }
-
-    public static int zze(int i, long j) {
-        return zzg(i << 3) + zze(j);
-    }
-
-    public static int zzf(int i, long j) {
-        return zzg(i << 3) + zze(zzi(j));
-    }
-
-    public static int zzg(int i, long j) {
-        return zzg(i << 3) + 8;
-    }
-
-    public static int zzh(int i, long j) {
-        return zzg(i << 3) + 8;
-    }
-
-    public static int zzb(int i, float f) {
-        return zzg(i << 3) + 4;
-    }
-
-    public static int zzb(int i, double d) {
-        return zzg(i << 3) + 8;
-    }
-
-    public static int zzb(int i, boolean z) {
-        return zzg(i << 3) + 1;
-    }
-
-    public static int zzk(int i, int i2) {
-        return zzg(i << 3) + zzf(i2);
-    }
-
-    public static int zzb(int i, String str) {
-        return zzg(i << 3) + zzb(str);
-    }
-
-    public static int zzc(int i, zzht zzhtVar) {
-        int zzg = zzg(i << 3);
-        int zza2 = zzhtVar.zza();
-        return zzg + zzg(zza2) + zza2;
-    }
-
-    public static int zza(int i, zzjt zzjtVar) {
-        int zzg = zzg(i << 3);
-        int zzb2 = zzjtVar.zzb();
-        return zzg + zzg(zzb2) + zzb2;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzb(int i, zzkk zzkkVar, zzlc zzlcVar) {
-        return zzg(i << 3) + zza(zzkkVar, zzlcVar);
-    }
-
-    public static int zzb(int i, zzkk zzkkVar) {
-        return (zzg(8) << 1) + zzg(2, i) + zzg(24) + zzb(zzkkVar);
-    }
-
-    public static int zzd(int i, zzht zzhtVar) {
-        return (zzg(8) << 1) + zzg(2, i) + zzc(3, zzhtVar);
-    }
-
-    public static int zzb(int i, zzjt zzjtVar) {
-        return (zzg(8) << 1) + zzg(2, i) + zza(3, zzjtVar);
-    }
-
-    public static int zze(int i) {
-        return zzg(i << 3);
-    }
-
-    public static int zzf(int i) {
-        if (i >= 0) {
-            return zzg(i);
+    /* loaded from: classes.dex */
+    public static class zzb extends IOException {
+        /* JADX WARN: Illegal instructions before constructor call */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        zzb(String str, Throwable th) {
+            super(r3.length() != 0 ? "CodedOutputStream was writing to a flat byte array and ran out of space.: ".concat(r3) : new String("CodedOutputStream was writing to a flat byte array and ran out of space.: "), th);
+            String valueOf = String.valueOf(str);
         }
-        return 10;
-    }
 
-    public static int zzh(int i) {
-        return zzg(zzm(i));
-    }
-
-    public static int zzd(long j) {
-        return zze(j);
-    }
-
-    public static int zzf(long j) {
-        return zze(zzi(j));
-    }
-
-    public static int zzk(int i) {
-        return zzf(i);
-    }
-
-    public static int zzb(String str) {
-        int length;
-        try {
-            length = zzmd.zza(str);
-        } catch (zzmg unused) {
-            length = str.getBytes(zzjf.zza).length;
+        zzb(Throwable th) {
+            super("CodedOutputStream was writing to a flat byte array and ran out of space.", th);
         }
-        return zzg(length) + length;
     }
 
-    public static int zza(zzjt zzjtVar) {
-        int zzb2 = zzjtVar.zzb();
-        return zzg(zzb2) + zzb2;
-    }
-
-    public static int zzb(zzht zzhtVar) {
-        int zza2 = zzhtVar.zza();
-        return zzg(zza2) + zza2;
-    }
-
-    public static int zzb(byte[] bArr) {
-        int length = bArr.length;
-        return zzg(length) + length;
-    }
-
-    public static int zzb(zzkk zzkkVar) {
-        int zzm = zzkkVar.zzm();
-        return zzg(zzm) + zzm;
+    private zzii() {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -664,13 +360,273 @@ public abstract class zzii extends zzhq {
         return zzg(zzi) + zzi;
     }
 
-    public final void zzb() {
-        if (zza() != 0) {
-            throw new IllegalStateException("Did not write as much data as expected.");
-        }
+    public static zzii zza(byte[] bArr) {
+        return new zza(bArr, 0, bArr.length);
     }
 
-    final void zza(String str, zzmg zzmgVar) throws IOException {
+    public static int zzb(double d) {
+        return 8;
+    }
+
+    public static int zzb(float f) {
+        return 4;
+    }
+
+    public static int zzb(int i, double d) {
+        return zzg(i << 3) + 8;
+    }
+
+    public static int zzb(int i, float f) {
+        return zzg(i << 3) + 4;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static int zzb(int i, zzkk zzkkVar, zzlc zzlcVar) {
+        return zzg(i << 3) + zza(zzkkVar, zzlcVar);
+    }
+
+    public static int zzb(int i, String str) {
+        return zzg(i << 3) + zzb(str);
+    }
+
+    public static int zzb(int i, boolean z) {
+        return zzg(i << 3) + 1;
+    }
+
+    public static int zzb(zzht zzhtVar) {
+        int zza2 = zzhtVar.zza();
+        return zzg(zza2) + zza2;
+    }
+
+    public static int zzb(zzkk zzkkVar) {
+        int zzm = zzkkVar.zzm();
+        return zzg(zzm) + zzm;
+    }
+
+    public static int zzb(String str) {
+        int length;
+        try {
+            length = zzmd.zza(str);
+        } catch (zzmg unused) {
+            length = str.getBytes(zzjf.zza).length;
+        }
+        return zzg(length) + length;
+    }
+
+    public static int zzb(boolean z) {
+        return 1;
+    }
+
+    public static int zzb(byte[] bArr) {
+        int length = bArr.length;
+        return zzg(length) + length;
+    }
+
+    public static int zzc(int i, zzht zzhtVar) {
+        int zzg = zzg(i << 3);
+        int zza2 = zzhtVar.zza();
+        return zzg + zzg(zza2) + zza2;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static int zzc(int i, zzkk zzkkVar, zzlc zzlcVar) {
+        int zzg = zzg(i << 3) << 1;
+        zzhf zzhfVar = (zzhf) zzkkVar;
+        int zzi = zzhfVar.zzi();
+        if (zzi == -1) {
+            zzi = zzlcVar.zzb(zzhfVar);
+            zzhfVar.zzb(zzi);
+        }
+        return zzg + zzi;
+    }
+
+    public static int zzc(zzkk zzkkVar) {
+        return zzkkVar.zzm();
+    }
+
+    public static int zzd(int i, long j) {
+        return zzg(i << 3) + zze(j);
+    }
+
+    public static int zzd(int i, zzht zzhtVar) {
+        return (zzg(8) << 1) + zzg(2, i) + zzc(3, zzhtVar);
+    }
+
+    public static int zzd(long j) {
+        return zze(j);
+    }
+
+    public static int zze(int i) {
+        return zzg(i << 3);
+    }
+
+    public static int zze(int i, long j) {
+        return zzg(i << 3) + zze(j);
+    }
+
+    public static int zze(long j) {
+        int i;
+        if (((-128) & j) == 0) {
+            return 1;
+        }
+        if (j < 0) {
+            return 10;
+        }
+        if (((-34359738368L) & j) != 0) {
+            j >>>= 28;
+            i = 6;
+        } else {
+            i = 2;
+        }
+        if (((-2097152) & j) != 0) {
+            i += 2;
+            j >>>= 14;
+        }
+        return (j & (-16384)) != 0 ? i + 1 : i;
+    }
+
+    public static int zzf(int i) {
+        if (i >= 0) {
+            return zzg(i);
+        }
+        return 10;
+    }
+
+    public static int zzf(int i, int i2) {
+        return zzg(i << 3) + zzf(i2);
+    }
+
+    public static int zzf(int i, long j) {
+        return zzg(i << 3) + zze(zzi(j));
+    }
+
+    public static int zzf(long j) {
+        return zze(zzi(j));
+    }
+
+    public static int zzg(int i) {
+        if ((i & (-128)) == 0) {
+            return 1;
+        }
+        if ((i & (-16384)) == 0) {
+            return 2;
+        }
+        if (((-2097152) & i) == 0) {
+            return 3;
+        }
+        return (i & (-268435456)) == 0 ? 4 : 5;
+    }
+
+    public static int zzg(int i, int i2) {
+        return zzg(i << 3) + zzg(i2);
+    }
+
+    public static int zzg(int i, long j) {
+        return zzg(i << 3) + 8;
+    }
+
+    public static int zzg(long j) {
+        return 8;
+    }
+
+    public static int zzh(int i) {
+        return zzg(zzm(i));
+    }
+
+    public static int zzh(int i, int i2) {
+        return zzg(i << 3) + zzg(zzm(i2));
+    }
+
+    public static int zzh(int i, long j) {
+        return zzg(i << 3) + 8;
+    }
+
+    public static int zzh(long j) {
+        return 8;
+    }
+
+    public static int zzi(int i) {
+        return 4;
+    }
+
+    public static int zzi(int i, int i2) {
+        return zzg(i << 3) + 4;
+    }
+
+    private static long zzi(long j) {
+        return (j >> 63) ^ (j << 1);
+    }
+
+    public static int zzj(int i) {
+        return 4;
+    }
+
+    public static int zzj(int i, int i2) {
+        return zzg(i << 3) + 4;
+    }
+
+    public static int zzk(int i) {
+        return zzf(i);
+    }
+
+    public static int zzk(int i, int i2) {
+        return zzg(i << 3) + zzf(i2);
+    }
+
+    public static int zzl(int i) {
+        return zzg(i);
+    }
+
+    private static int zzm(int i) {
+        return (i >> 31) ^ (i << 1);
+    }
+
+    public abstract int zza();
+
+    public abstract void zza(byte b);
+
+    public final void zza(double d) {
+        zzc(Double.doubleToRawLongBits(d));
+    }
+
+    public final void zza(float f) {
+        zzd(Float.floatToRawIntBits(f));
+    }
+
+    public abstract void zza(int i);
+
+    public final void zza(int i, double d) {
+        zzc(i, Double.doubleToRawLongBits(d));
+    }
+
+    public final void zza(int i, float f) {
+        zze(i, Float.floatToRawIntBits(f));
+    }
+
+    public abstract void zza(int i, int i2);
+
+    public abstract void zza(int i, long j);
+
+    public abstract void zza(int i, zzht zzhtVar);
+
+    public abstract void zza(int i, zzkk zzkkVar);
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public abstract void zza(int i, zzkk zzkkVar, zzlc zzlcVar);
+
+    public abstract void zza(int i, String str);
+
+    public abstract void zza(int i, boolean z);
+
+    public abstract void zza(long j);
+
+    public abstract void zza(zzht zzhtVar);
+
+    public abstract void zza(zzkk zzkkVar);
+
+    public abstract void zza(String str);
+
+    final void zza(String str, zzmg zzmgVar) {
         zzb.logp(Level.WARNING, "com.google.protobuf.CodedOutputStream", "inefficientWriteStringNoTag", "Converting ill-formed UTF-16. Your Protocol Buffer will not round trip correctly!", (Throwable) zzmgVar);
         byte[] bytes = str.getBytes(zzjf.zza);
         try {
@@ -683,26 +639,45 @@ public abstract class zzii extends zzhq {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Deprecated
-    public static int zzc(int i, zzkk zzkkVar, zzlc zzlcVar) {
-        int zzg = zzg(i << 3) << 1;
-        zzhf zzhfVar = (zzhf) zzkkVar;
-        int zzi = zzhfVar.zzi();
-        if (zzi == -1) {
-            zzi = zzlcVar.zzb(zzhfVar);
-            zzhfVar.zzb(zzi);
+    public final void zza(boolean z) {
+        zza(z ? (byte) 1 : (byte) 0);
+    }
+
+    public final void zzb() {
+        if (zza() != 0) {
+            throw new IllegalStateException("Did not write as much data as expected.");
         }
-        return zzg + zzi;
     }
 
-    @Deprecated
-    public static int zzc(zzkk zzkkVar) {
-        return zzkkVar.zzm();
+    public abstract void zzb(int i);
+
+    public abstract void zzb(int i, int i2);
+
+    public final void zzb(int i, long j) {
+        zza(i, zzi(j));
     }
 
-    @Deprecated
-    public static int zzl(int i) {
-        return zzg(i);
+    public abstract void zzb(int i, zzht zzhtVar);
+
+    public final void zzb(long j) {
+        zza(zzi(j));
     }
+
+    public final void zzc(int i) {
+        zzb(zzm(i));
+    }
+
+    public abstract void zzc(int i, int i2);
+
+    public abstract void zzc(int i, long j);
+
+    public abstract void zzc(long j);
+
+    public abstract void zzd(int i);
+
+    public final void zzd(int i, int i2) {
+        zzc(i, zzm(i2));
+    }
+
+    public abstract void zze(int i, int i2);
 }

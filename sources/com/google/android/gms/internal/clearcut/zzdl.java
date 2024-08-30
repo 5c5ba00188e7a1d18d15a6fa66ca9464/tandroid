@@ -1,6 +1,6 @@
 package com.google.android.gms.internal.clearcut;
 /* loaded from: classes.dex */
-final class zzdl {
+abstract class zzdl {
     private static final zzdj zzmf = zzce();
     private static final zzdj zzmg = new zzdk();
 

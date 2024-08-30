@@ -7,16 +7,11 @@ import com.google.android.gms.internal.location.zzbp;
 import com.google.android.gms.internal.location.zzbv;
 import com.google.android.gms.internal.location.zzcc;
 import com.google.android.gms.internal.location.zzce;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
-public class LocationServices {
-    @Deprecated
-    public static final Api<Api.ApiOptions.NoOptions> API = zzbp.zzb;
-    @Deprecated
+public abstract class LocationServices {
+    public static final Api API = zzbp.zzb;
     public static final FusedLocationProviderApi FusedLocationApi = new zzau();
-    @Deprecated
     public static final GeofencingApi GeofencingApi = new zzbv();
-    @Deprecated
     public static final SettingsApi SettingsApi = new zzcc();
 
     public static FusedLocationProviderClient getFusedLocationProviderClient(Context context) {

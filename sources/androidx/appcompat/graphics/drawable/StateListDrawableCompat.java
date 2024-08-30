@@ -6,24 +6,67 @@ import android.util.AttributeSet;
 import android.util.StateSet;
 import androidx.appcompat.graphics.drawable.DrawableContainerCompat;
 /* loaded from: classes.dex */
-public class StateListDrawableCompat extends DrawableContainerCompat {
+public abstract class StateListDrawableCompat extends DrawableContainerCompat {
     private boolean mMutated;
     private StateListState mStateListState;
 
-    @Override // android.graphics.drawable.Drawable
-    public boolean isStateful() {
-        return true;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class StateListState extends DrawableContainerCompat.DrawableContainerState {
+        int[][] mStateSets;
+
+        /* JADX INFO: Access modifiers changed from: package-private */
+        public StateListState(StateListState stateListState, StateListDrawableCompat stateListDrawableCompat, Resources resources) {
+            super(stateListState, stateListDrawableCompat, resources);
+            if (stateListState != null) {
+                this.mStateSets = stateListState.mStateSets;
+            } else {
+                this.mStateSets = new int[getCapacity()];
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: package-private */
+        public int addStateSet(int[] iArr, Drawable drawable) {
+            int addChild = addChild(drawable);
+            this.mStateSets[addChild] = iArr;
+            return addChild;
+        }
+
+        @Override // androidx.appcompat.graphics.drawable.DrawableContainerCompat.DrawableContainerState
+        public void growArray(int i, int i2) {
+            super.growArray(i, i2);
+            int[][] iArr = new int[i2];
+            System.arraycopy(this.mStateSets, 0, iArr, 0, i);
+            this.mStateSets = iArr;
+        }
+
+        /* JADX INFO: Access modifiers changed from: package-private */
+        public int indexOfStateSet(int[] iArr) {
+            int[][] iArr2 = this.mStateSets;
+            int childCount = getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                if (StateSet.stateSetMatches(iArr2[i], iArr)) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        @Override // androidx.appcompat.graphics.drawable.DrawableContainerCompat.DrawableContainerState
+        abstract void mutate();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // androidx.appcompat.graphics.drawable.DrawableContainerCompat, android.graphics.drawable.Drawable
-    public boolean onStateChange(int[] iArr) {
-        boolean onStateChange = super.onStateChange(iArr);
-        int indexOfStateSet = this.mStateListState.indexOfStateSet(iArr);
-        if (indexOfStateSet < 0) {
-            indexOfStateSet = this.mStateListState.indexOfStateSet(StateSet.WILD_CARD);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public StateListDrawableCompat(StateListState stateListState) {
+        if (stateListState != null) {
+            setConstantState(stateListState);
         }
-        return selectDrawable(indexOfStateSet) || onStateChange;
+    }
+
+    @Override // androidx.appcompat.graphics.drawable.DrawableContainerCompat, android.graphics.drawable.Drawable
+    public void applyTheme(Resources.Theme theme) {
+        super.applyTheme(theme);
+        onStateChange(getState());
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -54,81 +97,8 @@ public class StateListDrawableCompat extends DrawableContainerCompat {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // androidx.appcompat.graphics.drawable.DrawableContainerCompat
-    public StateListState cloneConstantState() {
-        return new StateListState(this.mStateListState, this, null);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class StateListState extends DrawableContainerCompat.DrawableContainerState {
-        int[][] mStateSets;
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public StateListState(StateListState stateListState, StateListDrawableCompat stateListDrawableCompat, Resources resources) {
-            super(stateListState, stateListDrawableCompat, resources);
-            if (stateListState != null) {
-                this.mStateSets = stateListState.mStateSets;
-            } else {
-                this.mStateSets = new int[getCapacity()];
-            }
-        }
-
-        @Override // androidx.appcompat.graphics.drawable.DrawableContainerCompat.DrawableContainerState
-        void mutate() {
-            int[][] iArr = this.mStateSets;
-            int[][] iArr2 = new int[iArr.length];
-            for (int length = iArr.length - 1; length >= 0; length--) {
-                int[] iArr3 = this.mStateSets[length];
-                iArr2[length] = iArr3 != null ? (int[]) iArr3.clone() : null;
-            }
-            this.mStateSets = iArr2;
-        }
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public int addStateSet(int[] iArr, Drawable drawable) {
-            int addChild = addChild(drawable);
-            this.mStateSets[addChild] = iArr;
-            return addChild;
-        }
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public int indexOfStateSet(int[] iArr) {
-            int[][] iArr2 = this.mStateSets;
-            int childCount = getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                if (StateSet.stateSetMatches(iArr2[i], iArr)) {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
-        @Override // android.graphics.drawable.Drawable.ConstantState
-        public Drawable newDrawable() {
-            return new StateListDrawableCompat(this, null);
-        }
-
-        @Override // android.graphics.drawable.Drawable.ConstantState
-        public Drawable newDrawable(Resources resources) {
-            return new StateListDrawableCompat(this, resources);
-        }
-
-        @Override // androidx.appcompat.graphics.drawable.DrawableContainerCompat.DrawableContainerState
-        public void growArray(int i, int i2) {
-            super.growArray(i, i2);
-            int[][] iArr = new int[i2];
-            System.arraycopy(this.mStateSets, 0, iArr, 0, i);
-            this.mStateSets = iArr;
-        }
-    }
-
-    @Override // androidx.appcompat.graphics.drawable.DrawableContainerCompat, android.graphics.drawable.Drawable
-    public void applyTheme(Resources.Theme theme) {
-        super.applyTheme(theme);
-        onStateChange(getState());
-    }
+    @Override // android.graphics.drawable.Drawable
+    protected abstract boolean onStateChange(int[] iArr);
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // androidx.appcompat.graphics.drawable.DrawableContainerCompat
@@ -136,18 +106,6 @@ public class StateListDrawableCompat extends DrawableContainerCompat {
         super.setConstantState(drawableContainerState);
         if (drawableContainerState instanceof StateListState) {
             this.mStateListState = (StateListState) drawableContainerState;
-        }
-    }
-
-    StateListDrawableCompat(StateListState stateListState, Resources resources) {
-        setConstantState(new StateListState(stateListState, this, resources));
-        onStateChange(getState());
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public StateListDrawableCompat(StateListState stateListState) {
-        if (stateListState != null) {
-            setConstantState(stateListState);
         }
     }
 }

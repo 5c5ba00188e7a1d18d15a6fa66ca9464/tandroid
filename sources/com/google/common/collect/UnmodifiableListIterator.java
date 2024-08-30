@@ -2,16 +2,14 @@ package com.google.common.collect;
 
 import java.util.ListIterator;
 /* loaded from: classes.dex */
-public abstract class UnmodifiableListIterator<E> extends UnmodifiableIterator<E> implements ListIterator<E> {
+public abstract class UnmodifiableListIterator extends UnmodifiableIterator implements ListIterator {
     @Override // java.util.ListIterator
-    @Deprecated
-    public final void add(E e) {
+    public final void add(Object obj) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.ListIterator
-    @Deprecated
-    public final void set(E e) {
+    public final void set(Object obj) {
         throw new UnsupportedOperationException();
     }
 }

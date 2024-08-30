@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /* loaded from: classes3.dex */
 public abstract class TLRPC$BotInlineMessage extends TLObject {
     public String address;
-    public ArrayList<TLRPC$MessageEntity> entities = new ArrayList<>();
+    public ArrayList entities = new ArrayList();
     public String first_name;
     public int flags;
     public boolean force_large_media;
@@ -82,7 +82,7 @@ public abstract class TLRPC$BotInlineMessage extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i7 = 0; i7 < size; i7++) {
-                                this.entities.get(i7).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i7)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         abstractSerializedData2.writeString(this.url);
@@ -137,7 +137,7 @@ public abstract class TLRPC$BotInlineMessage extends TLObject {
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i3 = 0; i3 < size; i3++) {
-                                this.entities.get(i3).serializeToStream(abstractSerializedData2);
+                                ((TLRPC$MessageEntity) this.entities.get(i3)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 4) != 0) {

@@ -26,41 +26,6 @@ public class PathInterpolatorCompat implements Interpolator {
         obtainAttributes.recycle();
     }
 
-    private void parseInterpolatorFromTypeArray(TypedArray typedArray, XmlPullParser xmlPullParser) {
-        if (TypedArrayUtils.hasAttribute(xmlPullParser, "pathData")) {
-            String namedString = TypedArrayUtils.getNamedString(typedArray, xmlPullParser, "pathData", 4);
-            Path createPathFromPathData = PathParser.createPathFromPathData(namedString);
-            if (createPathFromPathData == null) {
-                throw new InflateException("The path is null, which is created from " + namedString);
-            }
-            initPath(createPathFromPathData);
-        } else if (!TypedArrayUtils.hasAttribute(xmlPullParser, "controlX1")) {
-            throw new InflateException("pathInterpolator requires the controlX1 attribute");
-        } else {
-            if (!TypedArrayUtils.hasAttribute(xmlPullParser, "controlY1")) {
-                throw new InflateException("pathInterpolator requires the controlY1 attribute");
-            }
-            float namedFloat = TypedArrayUtils.getNamedFloat(typedArray, xmlPullParser, "controlX1", 0, 0.0f);
-            float namedFloat2 = TypedArrayUtils.getNamedFloat(typedArray, xmlPullParser, "controlY1", 1, 0.0f);
-            boolean hasAttribute = TypedArrayUtils.hasAttribute(xmlPullParser, "controlX2");
-            if (hasAttribute != TypedArrayUtils.hasAttribute(xmlPullParser, "controlY2")) {
-                throw new InflateException("pathInterpolator requires both controlX2 and controlY2 for cubic Beziers.");
-            }
-            if (!hasAttribute) {
-                initQuad(namedFloat, namedFloat2);
-            } else {
-                initCubic(namedFloat, namedFloat2, TypedArrayUtils.getNamedFloat(typedArray, xmlPullParser, "controlX2", 2, 0.0f), TypedArrayUtils.getNamedFloat(typedArray, xmlPullParser, "controlY2", 3, 0.0f));
-            }
-        }
-    }
-
-    private void initQuad(float f, float f2) {
-        Path path = new Path();
-        path.moveTo(0.0f, 0.0f);
-        path.quadTo(f, f2, 1.0f, 1.0f);
-        initPath(path);
-    }
-
     private void initCubic(float f, float f2, float f3, float f4) {
         Path path = new Path();
         path.moveTo(0.0f, 0.0f);
@@ -118,6 +83,42 @@ public class PathInterpolatorCompat implements Interpolator {
         sb.append(",");
         sb.append(this.mY[i6]);
         throw new IllegalArgumentException(sb.toString());
+    }
+
+    private void initQuad(float f, float f2) {
+        Path path = new Path();
+        path.moveTo(0.0f, 0.0f);
+        path.quadTo(f, f2, 1.0f, 1.0f);
+        initPath(path);
+    }
+
+    private void parseInterpolatorFromTypeArray(TypedArray typedArray, XmlPullParser xmlPullParser) {
+        if (TypedArrayUtils.hasAttribute(xmlPullParser, "pathData")) {
+            String namedString = TypedArrayUtils.getNamedString(typedArray, xmlPullParser, "pathData", 4);
+            Path createPathFromPathData = PathParser.createPathFromPathData(namedString);
+            if (createPathFromPathData != null) {
+                initPath(createPathFromPathData);
+                return;
+            }
+            throw new InflateException("The path is null, which is created from " + namedString);
+        } else if (!TypedArrayUtils.hasAttribute(xmlPullParser, "controlX1")) {
+            throw new InflateException("pathInterpolator requires the controlX1 attribute");
+        } else {
+            if (!TypedArrayUtils.hasAttribute(xmlPullParser, "controlY1")) {
+                throw new InflateException("pathInterpolator requires the controlY1 attribute");
+            }
+            float namedFloat = TypedArrayUtils.getNamedFloat(typedArray, xmlPullParser, "controlX1", 0, 0.0f);
+            float namedFloat2 = TypedArrayUtils.getNamedFloat(typedArray, xmlPullParser, "controlY1", 1, 0.0f);
+            boolean hasAttribute = TypedArrayUtils.hasAttribute(xmlPullParser, "controlX2");
+            if (hasAttribute != TypedArrayUtils.hasAttribute(xmlPullParser, "controlY2")) {
+                throw new InflateException("pathInterpolator requires both controlX2 and controlY2 for cubic Beziers.");
+            }
+            if (hasAttribute) {
+                initCubic(namedFloat, namedFloat2, TypedArrayUtils.getNamedFloat(typedArray, xmlPullParser, "controlX2", 2, 0.0f), TypedArrayUtils.getNamedFloat(typedArray, xmlPullParser, "controlY2", 3, 0.0f));
+            } else {
+                initQuad(namedFloat, namedFloat2);
+            }
+        }
     }
 
     @Override // android.animation.TimeInterpolator

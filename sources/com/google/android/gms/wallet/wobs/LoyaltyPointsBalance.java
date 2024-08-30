@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class LoyaltyPointsBalance extends AbstractSafeParcelable {
     public static final Parcelable.Creator<LoyaltyPointsBalance> CREATOR = new zzi();
@@ -15,10 +14,14 @@ public final class LoyaltyPointsBalance extends AbstractSafeParcelable {
     long zze;
     int zzf;
 
-    LoyaltyPointsBalance() {
-        this.zzf = -1;
-        this.zza = -1;
-        this.zzc = -1.0d;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public LoyaltyPointsBalance(int i, String str, double d, String str2, long j, int i2) {
+        this.zza = i;
+        this.zzb = str;
+        this.zzc = d;
+        this.zzd = str2;
+        this.zze = j;
+        this.zzf = i2;
     }
 
     @Override // android.os.Parcelable
@@ -31,15 +34,5 @@ public final class LoyaltyPointsBalance extends AbstractSafeParcelable {
         SafeParcelWriter.writeLong(parcel, 6, this.zze);
         SafeParcelWriter.writeInt(parcel, 7, this.zzf);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LoyaltyPointsBalance(int i, String str, double d, String str2, long j, int i2) {
-        this.zza = i;
-        this.zzb = str;
-        this.zzc = d;
-        this.zzd = str2;
-        this.zze = j;
-        this.zzf = i2;
     }
 }

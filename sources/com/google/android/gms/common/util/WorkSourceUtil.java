@@ -11,9 +11,8 @@ import com.google.android.gms.common.wrappers.Wrappers;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public class WorkSourceUtil {
+public abstract class WorkSourceUtil {
     private static final int zza = Process.myUid();
     private static final Method zzb;
     private static final Method zzc;
@@ -142,46 +141,48 @@ public class WorkSourceUtil {
 
     public static void add(WorkSource workSource, int i, String str) {
         Method method = zzc;
-        if (method == null) {
-            Method method2 = zzb;
-            if (method2 != null) {
-                try {
-                    method2.invoke(workSource, Integer.valueOf(i));
-                    return;
-                } catch (Exception e) {
-                    Log.wtf("WorkSourceUtil", "Unable to assign blame through WorkSource", e);
-                    return;
-                }
+        if (method != null) {
+            if (str == null) {
+                str = "";
             }
-            return;
+            try {
+                method.invoke(workSource, Integer.valueOf(i), str);
+                return;
+            } catch (Exception e) {
+                Log.wtf("WorkSourceUtil", "Unable to assign blame through WorkSource", e);
+                return;
+            }
         }
-        if (str == null) {
-            str = "";
-        }
-        try {
-            method.invoke(workSource, Integer.valueOf(i), str);
-        } catch (Exception e2) {
-            Log.wtf("WorkSourceUtil", "Unable to assign blame through WorkSource", e2);
+        Method method2 = zzb;
+        if (method2 != null) {
+            try {
+                method2.invoke(workSource, Integer.valueOf(i));
+            } catch (Exception e2) {
+                Log.wtf("WorkSourceUtil", "Unable to assign blame through WorkSource", e2);
+            }
         }
     }
 
     public static WorkSource fromPackage(Context context, String str) {
-        if (context != null && context.getPackageManager() != null && str != null) {
-            try {
-                ApplicationInfo applicationInfo = Wrappers.packageManager(context).getApplicationInfo(str, 0);
-                if (applicationInfo == null) {
-                    Log.e("WorkSourceUtil", "Could not get applicationInfo from package: ".concat(str));
-                    return null;
-                }
-                int i = applicationInfo.uid;
-                WorkSource workSource = new WorkSource();
-                add(workSource, i, str);
-                return workSource;
-            } catch (PackageManager.NameNotFoundException unused) {
-                Log.e("WorkSourceUtil", "Could not find package: ".concat(str));
-            }
+        String str2;
+        ApplicationInfo applicationInfo;
+        if (context == null || context.getPackageManager() == null || str == null) {
+            return null;
         }
-        return null;
+        try {
+            applicationInfo = Wrappers.packageManager(context).getApplicationInfo(str, 0);
+        } catch (PackageManager.NameNotFoundException unused) {
+            str2 = "Could not find package: ";
+        }
+        if (applicationInfo == null) {
+            str2 = "Could not get applicationInfo from package: ";
+            Log.e("WorkSourceUtil", str2.concat(str));
+            return null;
+        }
+        int i = applicationInfo.uid;
+        WorkSource workSource = new WorkSource();
+        add(workSource, i, str);
+        return workSource;
     }
 
     public static String getName(WorkSource workSource, int i) {
@@ -197,7 +198,7 @@ public class WorkSourceUtil {
         return null;
     }
 
-    public static List<String> getNames(WorkSource workSource) {
+    public static List getNames(WorkSource workSource) {
         ArrayList arrayList = new ArrayList();
         int size = workSource == null ? 0 : size(workSource);
         if (size != 0) {

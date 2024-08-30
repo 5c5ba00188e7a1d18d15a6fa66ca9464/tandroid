@@ -3,7 +3,6 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zzok implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -22,10 +21,10 @@ public final class zzok implements Parcelable.Creator {
                 f = SafeParcelReader.readFloat(parcel, readHeader);
             } else if (fieldId == 3) {
                 str2 = SafeParcelReader.createString(parcel, readHeader);
-            } else if (fieldId == 4) {
-                i = SafeParcelReader.readInt(parcel, readHeader);
-            } else {
+            } else if (fieldId != 4) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                i = SafeParcelReader.readInt(parcel, readHeader);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);

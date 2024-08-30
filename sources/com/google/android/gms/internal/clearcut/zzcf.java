@@ -13,12 +13,12 @@ final class zzcf implements zzdn {
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzdn
-    public final boolean zza(Class<?> cls) {
+    public final boolean zza(Class cls) {
         return zzcg.class.isAssignableFrom(cls);
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzdn
-    public final zzdm zzb(Class<?> cls) {
+    public final zzdm zzb(Class cls) {
         if (!zzcg.class.isAssignableFrom(cls)) {
             String name = cls.getName();
             throw new IllegalArgumentException(name.length() != 0 ? "Unsupported message type: ".concat(name) : new String("Unsupported message type: "));

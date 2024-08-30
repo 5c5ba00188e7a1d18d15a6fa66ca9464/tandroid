@@ -29,14 +29,6 @@ public class JoinToSendSettingsView extends LinearLayout {
     private ValueAnimator toggleAnimator;
     private float toggleValue;
 
-    public boolean onJoinRequestToggle(boolean z, Runnable runnable) {
-        return true;
-    }
-
-    public boolean onJoinToSendToggle(boolean z, Runnable runnable) {
-        return true;
-    }
-
     public JoinToSendSettingsView(Context context, TLRPC$Chat tLRPC$Chat) {
         super(context);
         TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights;
@@ -61,7 +53,7 @@ public class JoinToSendSettingsView extends LinearLayout {
         boolean z2 = this.isJoinToSend;
         textCheckCell2.setTextAndCheck(string, z2, z2);
         this.joinToSendCell.setEnabled(tLRPC$Chat.creator || ((tLRPC$TL_chatAdminRights2 = tLRPC$Chat.admin_rights) != null && tLRPC$TL_chatAdminRights2.ban_users));
-        this.joinToSendCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda1
+        this.joinToSendCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 JoinToSendSettingsView.this.lambda$new$2(view);
@@ -79,7 +71,7 @@ public class JoinToSendSettingsView extends LinearLayout {
             z = false;
         }
         textCheckCell4.setEnabled(z);
-        this.joinRequestCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda2
+        this.joinRequestCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 JoinToSendSettingsView.this.lambda$new$5(view);
@@ -100,6 +92,26 @@ public class JoinToSendSettingsView extends LinearLayout {
         updateToggleValue(this.toggleValue);
     }
 
+    private int calcHeight() {
+        return (int) (this.joinHeaderCell.getMeasuredHeight() + (this.joinToSendCell.getVisibility() == 0 ? this.joinToSendCell.getMeasuredHeight() + (this.joinRequestCell.getMeasuredHeight() * this.toggleValue) : this.joinRequestCell.getMeasuredHeight()) + AndroidUtilities.lerp(this.joinToSendInfoCell.getMeasuredHeight(), this.joinRequestInfoCell.getMeasuredHeight(), this.toggleValue));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0(boolean z, boolean z2) {
+        lambda$new$3(z);
+        setJoinToSend(z2);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$1(final boolean z, final boolean z2) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                JoinToSendSettingsView.this.lambda$new$0(z, z2);
+            }
+        });
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
         final boolean z = this.isJoinToSend;
@@ -117,19 +129,13 @@ public class JoinToSendSettingsView extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1(final boolean z, final boolean z2) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda5
+    public /* synthetic */ void lambda$new$4(final boolean z) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                JoinToSendSettingsView.this.lambda$new$0(z, z2);
+                JoinToSendSettingsView.this.lambda$new$3(z);
             }
         });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(boolean z, boolean z2) {
-        lambda$new$3(z);
-        setJoinToSend(z2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -147,27 +153,10 @@ public class JoinToSendSettingsView extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$4(final boolean z) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda6
-            @Override // java.lang.Runnable
-            public final void run() {
-                JoinToSendSettingsView.this.lambda$new$3(z);
-            }
-        });
-    }
-
-    public void setChat(TLRPC$Chat tLRPC$Chat) {
-        TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights;
-        TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights2;
-        this.currentChat = tLRPC$Chat;
-        boolean z = true;
-        this.joinToSendCell.setEnabled(tLRPC$Chat.creator || ((tLRPC$TL_chatAdminRights2 = tLRPC$Chat.admin_rights) != null && tLRPC$TL_chatAdminRights2.ban_users));
-        TextCheckCell textCheckCell = this.joinRequestCell;
-        TLRPC$Chat tLRPC$Chat2 = this.currentChat;
-        if (!tLRPC$Chat2.creator && ((tLRPC$TL_chatAdminRights = tLRPC$Chat2.admin_rights) == null || !tLRPC$TL_chatAdminRights.ban_users)) {
-            z = false;
-        }
-        textCheckCell.setEnabled(z);
+    public /* synthetic */ void lambda$setJoinToSend$6(ValueAnimator valueAnimator) {
+        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        this.toggleValue = floatValue;
+        updateToggleValue(floatValue);
     }
 
     private void updateToggleValue(float f) {
@@ -185,60 +174,12 @@ public class JoinToSendSettingsView extends LinearLayout {
         requestLayout();
     }
 
-    public void showJoinToSend(boolean z) {
-        this.joinToSendCell.setVisibility(z ? 0 : 8);
-        if (!z) {
-            this.isJoinToSend = true;
-            this.joinRequestCell.setVisibility(0);
-            updateToggleValue(1.0f);
-        }
-        requestLayout();
+    public boolean onJoinRequestToggle(boolean z, Runnable runnable) {
+        return true;
     }
 
-    /* renamed from: setJoinRequest */
-    public void lambda$new$3(boolean z) {
-        this.isJoinRequest = z;
-        this.joinRequestCell.setChecked(z);
-    }
-
-    public void setJoinToSend(boolean z) {
-        this.isJoinToSend = z;
-        this.joinToSendCell.setChecked(z);
-        this.joinToSendCell.setDivider(this.isJoinToSend);
-        this.joinRequestCell.setChecked(this.isJoinRequest);
-        ValueAnimator valueAnimator = this.toggleAnimator;
-        if (valueAnimator != null) {
-            valueAnimator.cancel();
-        }
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.toggleValue, this.isJoinToSend ? 1.0f : 0.0f);
-        this.toggleAnimator = ofFloat;
-        ofFloat.setDuration(200L);
-        this.toggleAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.toggleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                JoinToSendSettingsView.this.lambda$setJoinToSend$6(valueAnimator2);
-            }
-        });
-        this.toggleAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.JoinToSendSettingsView.3
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                JoinToSendSettingsView joinToSendSettingsView = JoinToSendSettingsView.this;
-                if (joinToSendSettingsView.isJoinToSend) {
-                    return;
-                }
-                joinToSendSettingsView.joinRequestCell.setVisibility(8);
-            }
-        });
-        this.joinRequestCell.setVisibility(0);
-        this.toggleAnimator.start();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setJoinToSend$6(ValueAnimator valueAnimator) {
-        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        this.toggleValue = floatValue;
-        updateToggleValue(floatValue);
+    public boolean onJoinToSendToggle(boolean z, Runnable runnable) {
+        return true;
     }
 
     @Override // android.widget.LinearLayout, android.view.ViewGroup, android.view.View
@@ -262,17 +203,6 @@ public class JoinToSendSettingsView extends LinearLayout {
         textInfoPrivacyCell2.layout(0, measuredHeight3, i5, textInfoPrivacyCell2.getMeasuredHeight() + measuredHeight3);
     }
 
-    private int calcHeight() {
-        float measuredHeight;
-        float measuredHeight2 = this.joinHeaderCell.getMeasuredHeight();
-        if (this.joinToSendCell.getVisibility() == 0) {
-            measuredHeight = this.joinToSendCell.getMeasuredHeight() + (this.joinRequestCell.getMeasuredHeight() * this.toggleValue);
-        } else {
-            measuredHeight = this.joinRequestCell.getMeasuredHeight();
-        }
-        return (int) (measuredHeight2 + measuredHeight + AndroidUtilities.lerp(this.joinToSendInfoCell.getMeasuredHeight(), this.joinRequestInfoCell.getMeasuredHeight(), this.toggleValue));
-    }
-
     @Override // android.widget.LinearLayout, android.view.View
     protected void onMeasure(int i, int i2) {
         this.joinHeaderCell.measure(i, this.MAXSPEC);
@@ -281,5 +211,68 @@ public class JoinToSendSettingsView extends LinearLayout {
         this.joinToSendInfoCell.measure(i, this.MAXSPEC);
         this.joinRequestInfoCell.measure(i, this.MAXSPEC);
         super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(calcHeight(), 1073741824));
+    }
+
+    public void setChat(TLRPC$Chat tLRPC$Chat) {
+        TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights;
+        TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights2;
+        this.currentChat = tLRPC$Chat;
+        boolean z = true;
+        this.joinToSendCell.setEnabled(tLRPC$Chat.creator || ((tLRPC$TL_chatAdminRights2 = tLRPC$Chat.admin_rights) != null && tLRPC$TL_chatAdminRights2.ban_users));
+        TextCheckCell textCheckCell = this.joinRequestCell;
+        TLRPC$Chat tLRPC$Chat2 = this.currentChat;
+        if (!tLRPC$Chat2.creator && ((tLRPC$TL_chatAdminRights = tLRPC$Chat2.admin_rights) == null || !tLRPC$TL_chatAdminRights.ban_users)) {
+            z = false;
+        }
+        textCheckCell.setEnabled(z);
+    }
+
+    /* renamed from: setJoinRequest */
+    public void lambda$new$3(boolean z) {
+        this.isJoinRequest = z;
+        this.joinRequestCell.setChecked(z);
+    }
+
+    public void setJoinToSend(boolean z) {
+        this.isJoinToSend = z;
+        this.joinToSendCell.setChecked(z);
+        this.joinToSendCell.setDivider(this.isJoinToSend);
+        this.joinRequestCell.setChecked(this.isJoinRequest);
+        ValueAnimator valueAnimator = this.toggleAnimator;
+        if (valueAnimator != null) {
+            valueAnimator.cancel();
+        }
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.toggleValue, this.isJoinToSend ? 1.0f : 0.0f);
+        this.toggleAnimator = ofFloat;
+        ofFloat.setDuration(200L);
+        this.toggleAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
+        this.toggleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda2
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                JoinToSendSettingsView.this.lambda$setJoinToSend$6(valueAnimator2);
+            }
+        });
+        this.toggleAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.JoinToSendSettingsView.3
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                JoinToSendSettingsView joinToSendSettingsView = JoinToSendSettingsView.this;
+                if (joinToSendSettingsView.isJoinToSend) {
+                    return;
+                }
+                joinToSendSettingsView.joinRequestCell.setVisibility(8);
+            }
+        });
+        this.joinRequestCell.setVisibility(0);
+        this.toggleAnimator.start();
+    }
+
+    public void showJoinToSend(boolean z) {
+        this.joinToSendCell.setVisibility(z ? 0 : 8);
+        if (!z) {
+            this.isJoinToSend = true;
+            this.joinRequestCell.setVisibility(0);
+            updateToggleValue(1.0f);
+        }
+        requestLayout();
     }
 }

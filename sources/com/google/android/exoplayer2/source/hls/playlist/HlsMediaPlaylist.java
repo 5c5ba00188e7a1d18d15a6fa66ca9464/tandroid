@@ -2,7 +2,6 @@ package com.google.android.exoplayer2.source.hls.playlist;
 
 import android.net.Uri;
 import com.google.android.exoplayer2.drm.DrmInitData;
-import com.google.android.exoplayer2.offline.StreamKey;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -23,68 +22,14 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
     public final int playlistType;
     public final boolean preciseStart;
     public final DrmInitData protectionSchemes;
-    public final Map<Uri, RenditionReport> renditionReports;
-    public final List<Segment> segments;
+    public final Map renditionReports;
+    public final List segments;
     public final ServerControl serverControl;
     public final long startOffsetUs;
     public final long startTimeUs;
     public final long targetDurationUs;
-    public final List<Part> trailingParts;
+    public final List trailingParts;
     public final int version;
-
-    @Override // com.google.android.exoplayer2.offline.FilterableManifest
-    public HlsPlaylist copy(List<StreamKey> list) {
-        return this;
-    }
-
-    @Override // com.google.android.exoplayer2.offline.FilterableManifest
-    public /* bridge */ /* synthetic */ HlsPlaylist copy(List list) {
-        return copy((List<StreamKey>) list);
-    }
-
-    /* loaded from: classes.dex */
-    public static final class ServerControl {
-        public final boolean canBlockReload;
-        public final boolean canSkipDateRanges;
-        public final long holdBackUs;
-        public final long partHoldBackUs;
-        public final long skipUntilUs;
-
-        public ServerControl(long j, boolean z, long j2, long j3, boolean z2) {
-            this.skipUntilUs = j;
-            this.canSkipDateRanges = z;
-            this.holdBackUs = j2;
-            this.partHoldBackUs = j3;
-            this.canBlockReload = z2;
-        }
-    }
-
-    /* loaded from: classes.dex */
-    public static final class Segment extends SegmentBase {
-        public final List<Part> parts;
-        public final String title;
-
-        public Segment(String str, long j, long j2, String str2, String str3) {
-            this(str, null, "", 0L, -1, -9223372036854775807L, null, str2, str3, j, j2, false, ImmutableList.of());
-        }
-
-        public Segment(String str, Segment segment, String str2, long j, int i, long j2, DrmInitData drmInitData, String str3, String str4, long j3, long j4, boolean z, List<Part> list) {
-            super(str, segment, j, i, j2, drmInitData, str3, str4, j3, j4, z);
-            this.title = str2;
-            this.parts = ImmutableList.copyOf((Collection) list);
-        }
-
-        public Segment copyWith(long j, int i) {
-            ArrayList arrayList = new ArrayList();
-            long j2 = j;
-            for (int i2 = 0; i2 < this.parts.size(); i2++) {
-                Part part = this.parts.get(i2);
-                arrayList.add(part.copyWith(j2, i));
-                j2 += part.durationUs;
-            }
-            return new Segment(this.url, this.initializationSegment, this.title, this.durationUs, i, j, this.drmInitData, this.fullSegmentEncryptionKeyUri, this.encryptionIV, this.byteRangeOffset, this.byteRangeLength, this.hasGapTag, arrayList);
-        }
-    }
 
     /* loaded from: classes.dex */
     public static final class Part extends SegmentBase {
@@ -103,7 +48,47 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
     }
 
     /* loaded from: classes.dex */
-    public static class SegmentBase implements Comparable<Long> {
+    public static final class RenditionReport {
+        public final long lastMediaSequence;
+        public final int lastPartIndex;
+        public final Uri playlistUri;
+
+        public RenditionReport(Uri uri, long j, int i) {
+            this.playlistUri = uri;
+            this.lastMediaSequence = j;
+            this.lastPartIndex = i;
+        }
+    }
+
+    /* loaded from: classes.dex */
+    public static final class Segment extends SegmentBase {
+        public final List parts;
+        public final String title;
+
+        public Segment(String str, long j, long j2, String str2, String str3) {
+            this(str, null, "", 0L, -1, -9223372036854775807L, null, str2, str3, j, j2, false, ImmutableList.of());
+        }
+
+        public Segment(String str, Segment segment, String str2, long j, int i, long j2, DrmInitData drmInitData, String str3, String str4, long j3, long j4, boolean z, List list) {
+            super(str, segment, j, i, j2, drmInitData, str3, str4, j3, j4, z);
+            this.title = str2;
+            this.parts = ImmutableList.copyOf((Collection) list);
+        }
+
+        public Segment copyWith(long j, int i) {
+            ArrayList arrayList = new ArrayList();
+            long j2 = j;
+            for (int i2 = 0; i2 < this.parts.size(); i2++) {
+                Part part = (Part) this.parts.get(i2);
+                arrayList.add(part.copyWith(j2, i));
+                j2 += part.durationUs;
+            }
+            return new Segment(this.url, this.initializationSegment, this.title, this.durationUs, i, j, this.drmInitData, this.fullSegmentEncryptionKeyUri, this.encryptionIV, this.byteRangeOffset, this.byteRangeLength, this.hasGapTag, arrayList);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    public static class SegmentBase implements Comparable {
         public final long byteRangeLength;
         public final long byteRangeOffset;
         public final DrmInitData drmInitData;
@@ -140,20 +125,31 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
     }
 
     /* loaded from: classes.dex */
-    public static final class RenditionReport {
-        public final long lastMediaSequence;
-        public final int lastPartIndex;
-        public final Uri playlistUri;
+    public static final class ServerControl {
+        public final boolean canBlockReload;
+        public final boolean canSkipDateRanges;
+        public final long holdBackUs;
+        public final long partHoldBackUs;
+        public final long skipUntilUs;
 
-        public RenditionReport(Uri uri, long j, int i) {
-            this.playlistUri = uri;
-            this.lastMediaSequence = j;
-            this.lastPartIndex = i;
+        public ServerControl(long j, boolean z, long j2, long j3, boolean z2) {
+            this.skipUntilUs = j;
+            this.canSkipDateRanges = z;
+            this.holdBackUs = j2;
+            this.partHoldBackUs = j3;
+            this.canBlockReload = z2;
         }
     }
 
-    public HlsMediaPlaylist(int i, String str, List<String> list, long j, boolean z, long j2, boolean z2, int i2, long j3, int i3, long j4, long j5, boolean z3, boolean z4, boolean z5, DrmInitData drmInitData, List<Segment> list2, List<Part> list3, ServerControl serverControl, Map<Uri, RenditionReport> map) {
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0079  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x008f  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0091  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public HlsMediaPlaylist(int i, String str, List list, long j, boolean z, long j2, boolean z2, int i2, long j3, int i3, long j4, long j5, boolean z3, boolean z4, boolean z5, DrmInitData drmInitData, List list2, List list3, ServerControl serverControl, Map map) {
         super(str, list, z3);
+        SegmentBase segmentBase;
         this.playlistType = i;
         this.startTimeUs = j2;
         this.preciseStart = z;
@@ -168,27 +164,47 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
         this.protectionSchemes = drmInitData;
         this.segments = ImmutableList.copyOf((Collection) list2);
         this.trailingParts = ImmutableList.copyOf((Collection) list3);
-        this.renditionReports = ImmutableMap.copyOf((Map) map);
+        this.renditionReports = ImmutableMap.copyOf(map);
         if (!list3.isEmpty()) {
-            Part part = (Part) Iterables.getLast(list3);
-            this.durationUs = part.relativeStartTimeUs + part.durationUs;
-        } else if (!list2.isEmpty()) {
-            Segment segment = (Segment) Iterables.getLast(list2);
-            this.durationUs = segment.relativeStartTimeUs + segment.durationUs;
-        } else {
+            segmentBase = (Part) Iterables.getLast(list3);
+        } else if (list2.isEmpty()) {
             this.durationUs = 0L;
-        }
-        long j6 = -9223372036854775807L;
-        if (j != -9223372036854775807L) {
-            if (j >= 0) {
-                j6 = Math.min(this.durationUs, j);
-            } else {
-                j6 = Math.max(0L, this.durationUs + j);
+            long j6 = -9223372036854775807L;
+            if (j != -9223372036854775807L) {
+                int i4 = (j > 0L ? 1 : (j == 0L ? 0 : -1));
+                long j7 = this.durationUs;
+                j6 = i4 >= 0 ? Math.min(j7, j) : Math.max(0L, j7 + j);
             }
+            this.startOffsetUs = j6;
+            this.hasPositiveStartOffset = j < 0;
+            this.serverControl = serverControl;
+        } else {
+            segmentBase = (Segment) Iterables.getLast(list2);
         }
-        this.startOffsetUs = j6;
-        this.hasPositiveStartOffset = j >= 0;
+        this.durationUs = segmentBase.relativeStartTimeUs + segmentBase.durationUs;
+        long j62 = -9223372036854775807L;
+        if (j != -9223372036854775807L) {
+        }
+        this.startOffsetUs = j62;
+        this.hasPositiveStartOffset = j < 0;
         this.serverControl = serverControl;
+    }
+
+    @Override // com.google.android.exoplayer2.offline.FilterableManifest
+    public HlsMediaPlaylist copy(List list) {
+        return this;
+    }
+
+    public HlsMediaPlaylist copyWith(long j, int i) {
+        return new HlsMediaPlaylist(this.playlistType, this.baseUri, this.tags, this.startOffsetUs, this.preciseStart, j, true, i, this.mediaSequence, this.version, this.targetDurationUs, this.partTargetDurationUs, this.hasIndependentSegments, this.hasEndTag, this.hasProgramDateTime, this.protectionSchemes, this.segments, this.trailingParts, this.serverControl, this.renditionReports);
+    }
+
+    public HlsMediaPlaylist copyWithEndTag() {
+        return this.hasEndTag ? this : new HlsMediaPlaylist(this.playlistType, this.baseUri, this.tags, this.startOffsetUs, this.preciseStart, this.startTimeUs, this.hasDiscontinuitySequence, this.discontinuitySequence, this.mediaSequence, this.version, this.targetDurationUs, this.partTargetDurationUs, this.hasIndependentSegments, true, this.hasProgramDateTime, this.protectionSchemes, this.segments, this.trailingParts, this.serverControl, this.renditionReports);
+    }
+
+    public long getEndTimeUs() {
+        return this.startTimeUs + this.durationUs;
     }
 
     public boolean isNewerThan(HlsMediaPlaylist hlsMediaPlaylist) {
@@ -213,17 +229,5 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
             return true;
         }
         return true;
-    }
-
-    public long getEndTimeUs() {
-        return this.startTimeUs + this.durationUs;
-    }
-
-    public HlsMediaPlaylist copyWith(long j, int i) {
-        return new HlsMediaPlaylist(this.playlistType, this.baseUri, this.tags, this.startOffsetUs, this.preciseStart, j, true, i, this.mediaSequence, this.version, this.targetDurationUs, this.partTargetDurationUs, this.hasIndependentSegments, this.hasEndTag, this.hasProgramDateTime, this.protectionSchemes, this.segments, this.trailingParts, this.serverControl, this.renditionReports);
-    }
-
-    public HlsMediaPlaylist copyWithEndTag() {
-        return this.hasEndTag ? this : new HlsMediaPlaylist(this.playlistType, this.baseUri, this.tags, this.startOffsetUs, this.preciseStart, this.startTimeUs, this.hasDiscontinuitySequence, this.discontinuitySequence, this.mediaSequence, this.version, this.targetDurationUs, this.partTargetDurationUs, this.hasIndependentSegments, true, this.hasProgramDateTime, this.protectionSchemes, this.segments, this.trailingParts, this.serverControl, this.renditionReports);
     }
 }

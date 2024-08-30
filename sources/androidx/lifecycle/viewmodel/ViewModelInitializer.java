@@ -1,27 +1,24 @@
 package androidx.lifecycle.viewmodel;
 
-import androidx.lifecycle.ViewModel;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.Intrinsics;
-/* compiled from: InitializerViewModelFactory.kt */
 /* loaded from: classes.dex */
-public final class ViewModelInitializer<T extends ViewModel> {
-    private final Class<T> clazz;
-    private final Function1<CreationExtras, T> initializer;
+public final class ViewModelInitializer {
+    private final Class clazz;
+    private final Function1 initializer;
 
-    /* JADX WARN: Multi-variable type inference failed */
-    public ViewModelInitializer(Class<T> clazz, Function1<? super CreationExtras, ? extends T> initializer) {
+    public ViewModelInitializer(Class clazz, Function1 initializer) {
         Intrinsics.checkNotNullParameter(clazz, "clazz");
         Intrinsics.checkNotNullParameter(initializer, "initializer");
         this.clazz = clazz;
         this.initializer = initializer;
     }
 
-    public final Class<T> getClazz$lifecycle_viewmodel_release() {
+    public final Class getClazz$lifecycle_viewmodel_release() {
         return this.clazz;
     }
 
-    public final Function1<CreationExtras, T> getInitializer$lifecycle_viewmodel_release() {
+    public final Function1 getInitializer$lifecycle_viewmodel_release() {
         return this.initializer;
     }
 }

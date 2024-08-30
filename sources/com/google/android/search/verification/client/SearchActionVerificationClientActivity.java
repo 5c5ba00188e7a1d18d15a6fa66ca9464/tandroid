@@ -6,11 +6,11 @@ import android.os.Build;
 import android.os.Bundle;
 /* loaded from: classes.dex */
 public abstract class SearchActionVerificationClientActivity extends Activity {
-    public abstract Class<? extends SearchActionVerificationClientService> getServiceClass();
+    public abstract Class getServiceClass();
 
     @Override // android.app.Activity
-    protected final void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected final void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         Intent intent = new Intent(this, getServiceClass());
         intent.putExtra(SearchActionVerificationClientService.EXTRA_INTENT, getIntent());
         if (Build.VERSION.SDK_INT >= 26) {

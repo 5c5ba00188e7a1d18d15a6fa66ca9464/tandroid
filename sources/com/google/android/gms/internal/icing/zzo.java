@@ -7,16 +7,18 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.List;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
 public final class zzo extends AbstractSafeParcelable implements Result {
     public static final Parcelable.Creator<zzo> CREATOR = new zzp();
     public Status zza;
-    public List<zzx> zzb;
-    @Deprecated
+    public List zzb;
     public String[] zzc;
 
-    public zzo() {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public zzo(Status status, List list, String[] strArr) {
+        this.zza = status;
+        this.zzb = list;
+        this.zzc = strArr;
     }
 
     @Override // com.google.android.gms.common.api.Result
@@ -31,12 +33,5 @@ public final class zzo extends AbstractSafeParcelable implements Result {
         SafeParcelWriter.writeTypedList(parcel, 2, this.zzb, false);
         SafeParcelWriter.writeStringArray(parcel, 3, this.zzc, false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzo(Status status, List<zzx> list, String[] strArr) {
-        this.zza = status;
-        this.zzb = list;
-        this.zzc = strArr;
     }
 }

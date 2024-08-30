@@ -2,7 +2,7 @@ package androidx.fragment;
 
 import org.telegram.messenger.R;
 /* loaded from: classes.dex */
-public final class R$styleable {
+public abstract class R$styleable {
     public static final int FragmentContainerView_android_name = 0;
     public static final int FragmentContainerView_android_tag = 1;
     public static final int Fragment_android_id = 1;

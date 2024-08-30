@@ -19,11 +19,11 @@ public class DistributeInfoTracker extends AbstractChannelListener {
         log.setDistributionGroupId(str2);
     }
 
-    public synchronized void updateDistributionGroupId(String str) {
-        this.mDistributionGroupId = str;
-    }
-
     public synchronized void removeDistributionGroupId() {
         this.mDistributionGroupId = null;
+    }
+
+    public synchronized void updateDistributionGroupId(String str) {
+        this.mDistributionGroupId = str;
     }
 }

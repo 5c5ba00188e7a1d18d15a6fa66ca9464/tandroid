@@ -3,19 +3,15 @@ package com.google.android.datatransport;
 public final class Encoding {
     private final String name;
 
-    public static Encoding of(String str) {
-        return new Encoding(str);
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
     private Encoding(String str) {
         if (str == null) {
             throw new NullPointerException("name is null");
         }
         this.name = str;
+    }
+
+    public static Encoding of(String str) {
+        return new Encoding(str);
     }
 
     public boolean equals(Object obj) {
@@ -26,6 +22,10 @@ public final class Encoding {
             return this.name.equals(((Encoding) obj).name);
         }
         return false;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     public int hashCode() {

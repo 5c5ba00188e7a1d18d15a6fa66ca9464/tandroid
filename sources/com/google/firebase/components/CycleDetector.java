@@ -3,19 +3,60 @@ package com.google.firebase.components;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class CycleDetector {
+public abstract class CycleDetector {
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class ComponentNode {
+        private final Component component;
+        private final Set dependencies = new HashSet();
+        private final Set dependents = new HashSet();
+
+        ComponentNode(Component component) {
+            this.component = component;
+        }
+
+        void addDependency(ComponentNode componentNode) {
+            this.dependencies.add(componentNode);
+        }
+
+        void addDependent(ComponentNode componentNode) {
+            this.dependents.add(componentNode);
+        }
+
+        Component getComponent() {
+            return this.component;
+        }
+
+        Set getDependencies() {
+            return this.dependencies;
+        }
+
+        boolean isLeaf() {
+            return this.dependencies.isEmpty();
+        }
+
+        boolean isRoot() {
+            return this.dependents.isEmpty();
+        }
+
+        void removeDependent(ComponentNode componentNode) {
+            this.dependents.remove(componentNode);
+        }
+    }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class Dep {
-        private final Class<?> anInterface;
+        private final Class anInterface;
         private final boolean set;
 
-        private Dep(Class<?> cls, boolean z) {
+        private Dep(Class cls, boolean z) {
             this.anInterface = cls;
             this.set = z;
         }
@@ -33,59 +74,19 @@ public class CycleDetector {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class ComponentNode {
-        private final Component<?> component;
-        private final Set<ComponentNode> dependencies = new HashSet();
-        private final Set<ComponentNode> dependents = new HashSet();
-
-        ComponentNode(Component<?> component) {
-            this.component = component;
-        }
-
-        void addDependency(ComponentNode componentNode) {
-            this.dependencies.add(componentNode);
-        }
-
-        void addDependent(ComponentNode componentNode) {
-            this.dependents.add(componentNode);
-        }
-
-        Set<ComponentNode> getDependencies() {
-            return this.dependencies;
-        }
-
-        void removeDependent(ComponentNode componentNode) {
-            this.dependents.remove(componentNode);
-        }
-
-        Component<?> getComponent() {
-            return this.component;
-        }
-
-        boolean isRoot() {
-            return this.dependents.isEmpty();
-        }
-
-        boolean isLeaf() {
-            return this.dependencies.isEmpty();
-        }
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static void detect(List<Component<?>> list) {
+    public static void detect(List list) {
         Set<ComponentNode> graph = toGraph(list);
-        Set<ComponentNode> roots = getRoots(graph);
+        Set roots = getRoots(graph);
         int i = 0;
         while (!roots.isEmpty()) {
-            ComponentNode next = roots.iterator().next();
-            roots.remove(next);
+            ComponentNode componentNode = (ComponentNode) roots.iterator().next();
+            roots.remove(componentNode);
             i++;
-            for (ComponentNode componentNode : next.getDependencies()) {
-                componentNode.removeDependent(next);
-                if (componentNode.isRoot()) {
-                    roots.add(componentNode);
+            for (ComponentNode componentNode2 : componentNode.getDependencies()) {
+                componentNode2.removeDependent(componentNode);
+                if (componentNode2.isRoot()) {
+                    roots.add(componentNode2);
                 }
             }
         }
@@ -93,20 +94,34 @@ public class CycleDetector {
             return;
         }
         ArrayList arrayList = new ArrayList();
-        for (ComponentNode componentNode2 : graph) {
-            if (!componentNode2.isRoot() && !componentNode2.isLeaf()) {
-                arrayList.add(componentNode2.getComponent());
+        for (ComponentNode componentNode3 : graph) {
+            if (!componentNode3.isRoot() && !componentNode3.isLeaf()) {
+                arrayList.add(componentNode3.getComponent());
             }
         }
         throw new DependencyCycleException(arrayList);
     }
 
-    private static Set<ComponentNode> toGraph(List<Component<?>> list) {
+    private static Set getRoots(Set set) {
+        HashSet hashSet = new HashSet();
+        Iterator it = set.iterator();
+        while (it.hasNext()) {
+            ComponentNode componentNode = (ComponentNode) it.next();
+            if (componentNode.isRoot()) {
+                hashSet.add(componentNode);
+            }
+        }
+        return hashSet;
+    }
+
+    private static Set toGraph(List list) {
         Set<ComponentNode> set;
         HashMap hashMap = new HashMap(list.size());
-        for (Component<?> component : list) {
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            Component component = (Component) it.next();
             ComponentNode componentNode = new ComponentNode(component);
-            for (Class<? super Object> cls : component.getProvidedInterfaces()) {
+            for (Class cls : component.getProvidedInterfaces()) {
                 Dep dep = new Dep(cls, !component.isValue());
                 if (!hashMap.containsKey(dep)) {
                     hashMap.put(dep, new HashSet());
@@ -133,16 +148,6 @@ public class CycleDetector {
         HashSet hashSet = new HashSet();
         for (Set set4 : hashMap.values()) {
             hashSet.addAll(set4);
-        }
-        return hashSet;
-    }
-
-    private static Set<ComponentNode> getRoots(Set<ComponentNode> set) {
-        HashSet hashSet = new HashSet();
-        for (ComponentNode componentNode : set) {
-            if (componentNode.isRoot()) {
-                hashSet.add(componentNode);
-            }
         }
         return hashSet;
     }

@@ -44,7 +44,7 @@ public class ChatNotificationsPopupWrapper {
     public interface Callback {
 
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class -CC {
+        public abstract /* synthetic */ class -CC {
             public static void $default$dismiss(Callback callback) {
             }
 
@@ -170,70 +170,6 @@ public class ChatNotificationsPopupWrapper {
         });
     }
 
-    public /* synthetic */ void lambda$new$1(Callback callback, View view) {
-        dismiss();
-        callback.toggleSound();
-    }
-
-    public /* synthetic */ void lambda$new$2(Callback callback, View view) {
-        dismiss();
-        callback.muteFor(this.muteForLastSelected1Time);
-    }
-
-    public /* synthetic */ void lambda$new$3(Callback callback, View view) {
-        dismiss();
-        callback.muteFor(this.muteForLastSelected2Time);
-    }
-
-    public /* synthetic */ void lambda$new$6(Context context, Theme.ResourcesProvider resourcesProvider, final int i, final Callback callback, View view) {
-        dismiss();
-        AlertsCreator.createMuteForPickerDialog(context, resourcesProvider, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda10
-            @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
-            public final void didSelectDate(boolean z, int i2) {
-                ChatNotificationsPopupWrapper.lambda$new$5(i, callback, z, i2);
-            }
-        });
-    }
-
-    public static /* synthetic */ void lambda$new$5(final int i, final Callback callback, boolean z, final int i2) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda11
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChatNotificationsPopupWrapper.lambda$new$4(i2, i, callback);
-            }
-        }, 16L);
-    }
-
-    public static /* synthetic */ void lambda$new$4(int i, int i2, Callback callback) {
-        if (i != 0) {
-            SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(i2);
-            notificationsSettings.edit().putInt("last_selected_mute_until_time", i).putInt("last_selected_mute_until_time2", notificationsSettings.getInt("last_selected_mute_until_time", 0)).apply();
-        }
-        callback.muteFor(i);
-    }
-
-    public /* synthetic */ void lambda$new$7(Callback callback, View view) {
-        dismiss();
-        callback.showCustomize();
-    }
-
-    public /* synthetic */ void lambda$new$9(final Callback callback, View view) {
-        dismiss();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda9
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChatNotificationsPopupWrapper.Callback.this.toggleMute();
-            }
-        });
-    }
-
-    public /* synthetic */ void lambda$new$10(Callback callback, View view) {
-        if (callback != null) {
-            callback.openExceptions();
-        }
-        dismiss();
-    }
-
     private void dismiss() {
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
         if (actionBarPopupWindow != null) {
@@ -242,75 +178,6 @@ public class ChatNotificationsPopupWrapper {
         }
         this.callback.dismiss();
         this.lastDismissTime = System.currentTimeMillis();
-    }
-
-    /* renamed from: update */
-    public void lambda$update$11(final long j, final long j2, final HashSet<Integer> hashSet) {
-        int i;
-        int i2;
-        int i3;
-        if (System.currentTimeMillis() - this.lastDismissTime < 200) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatNotificationsPopupWrapper.this.lambda$update$11(j, j2, hashSet);
-                }
-            });
-            return;
-        }
-        boolean isDialogMuted = MessagesController.getInstance(this.currentAccount).isDialogMuted(j, j2);
-        if (isDialogMuted) {
-            this.muteUnmuteButton.setTextAndIcon(LocaleController.getString(R.string.UnmuteNotifications), R.drawable.msg_unmute);
-            i = Theme.getColor(Theme.key_windowBackgroundWhiteGreenText2);
-            this.soundToggle.setVisibility(8);
-        } else {
-            this.muteUnmuteButton.setTextAndIcon(LocaleController.getString(R.string.MuteNotifications), R.drawable.msg_mute);
-            int color = Theme.getColor(Theme.key_text_RedBold);
-            this.soundToggle.setVisibility(0);
-            if (MessagesController.getInstance(this.currentAccount).isDialogNotificationsSoundEnabled(j, j2)) {
-                this.soundToggle.setTextAndIcon(LocaleController.getString(R.string.SoundOff), R.drawable.msg_tone_off);
-            } else {
-                this.soundToggle.setTextAndIcon(LocaleController.getString(R.string.SoundOn), R.drawable.msg_tone_on);
-            }
-            i = color;
-        }
-        if (this.type == 1) {
-            this.backItem.setVisibility(8);
-        }
-        if (isDialogMuted || this.type == 1) {
-            i2 = 0;
-            i3 = 0;
-        } else {
-            SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
-            i3 = notificationsSettings.getInt("last_selected_mute_until_time", 0);
-            i2 = notificationsSettings.getInt("last_selected_mute_until_time2", 0);
-        }
-        if (i3 != 0) {
-            this.muteForLastSelected1Time = i3;
-            this.muteForLastSelected.setVisibility(0);
-            this.muteForLastSelected.getImageView().setImageDrawable(TimerDrawable.getTtlIcon(i3));
-            this.muteForLastSelected.setText(formatMuteForTime(i3));
-        } else {
-            this.muteForLastSelected.setVisibility(8);
-        }
-        if (i2 != 0) {
-            this.muteForLastSelected2Time = i2;
-            this.muteForLastSelected2.setVisibility(0);
-            this.muteForLastSelected2.getImageView().setImageDrawable(TimerDrawable.getTtlIcon(i2));
-            this.muteForLastSelected2.setText(formatMuteForTime(i2));
-        } else {
-            this.muteForLastSelected2.setVisibility(8);
-        }
-        this.muteUnmuteButton.setColors(i, i);
-        this.muteUnmuteButton.setSelectorColor(Theme.multAlpha(i, 0.1f));
-        if (hashSet == null || hashSet.isEmpty()) {
-            this.gap.setVisibility(8);
-            this.topicsExceptionsTextView.setVisibility(8);
-            return;
-        }
-        this.gap.setVisibility(0);
-        this.topicsExceptionsTextView.setVisibility(0);
-        this.topicsExceptionsTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatPluralString("TopicNotificationsExceptions", hashSet.size(), new Object[0]), Theme.key_windowBackgroundWhiteBlueText, 1, null));
     }
 
     private String formatMuteForTime(int i) {
@@ -340,6 +207,70 @@ public class ChatNotificationsPopupWrapper {
         return LocaleController.formatString("MuteForButton", R.string.MuteForButton, sb.toString());
     }
 
+    public /* synthetic */ void lambda$new$1(Callback callback, View view) {
+        dismiss();
+        callback.toggleSound();
+    }
+
+    public /* synthetic */ void lambda$new$10(Callback callback, View view) {
+        if (callback != null) {
+            callback.openExceptions();
+        }
+        dismiss();
+    }
+
+    public /* synthetic */ void lambda$new$2(Callback callback, View view) {
+        dismiss();
+        callback.muteFor(this.muteForLastSelected1Time);
+    }
+
+    public /* synthetic */ void lambda$new$3(Callback callback, View view) {
+        dismiss();
+        callback.muteFor(this.muteForLastSelected2Time);
+    }
+
+    public static /* synthetic */ void lambda$new$4(int i, int i2, Callback callback) {
+        if (i != 0) {
+            SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(i2);
+            notificationsSettings.edit().putInt("last_selected_mute_until_time", i).putInt("last_selected_mute_until_time2", notificationsSettings.getInt("last_selected_mute_until_time", 0)).apply();
+        }
+        callback.muteFor(i);
+    }
+
+    public static /* synthetic */ void lambda$new$5(final int i, final Callback callback, boolean z, final int i2) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda11
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatNotificationsPopupWrapper.lambda$new$4(i2, i, callback);
+            }
+        }, 16L);
+    }
+
+    public /* synthetic */ void lambda$new$6(Context context, Theme.ResourcesProvider resourcesProvider, final int i, final Callback callback, View view) {
+        dismiss();
+        AlertsCreator.createMuteForPickerDialog(context, resourcesProvider, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda10
+            @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
+            public final void didSelectDate(boolean z, int i2) {
+                ChatNotificationsPopupWrapper.lambda$new$5(i, callback, z, i2);
+            }
+        });
+    }
+
+    public /* synthetic */ void lambda$new$7(Callback callback, View view) {
+        dismiss();
+        callback.showCustomize();
+    }
+
+    public /* synthetic */ void lambda$new$9(final Callback callback, View view) {
+        dismiss();
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda9
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatNotificationsPopupWrapper.Callback.this.toggleMute();
+            }
+        });
+    }
+
     public void showAsOptions(BaseFragment baseFragment, View view, float f, float f2) {
         if (baseFragment == null || baseFragment.getFragmentView() == null) {
             return;
@@ -365,5 +296,82 @@ public class ChatNotificationsPopupWrapper {
         }
         this.popupWindow.showAtLocation(baseFragment.getFragmentView(), 0, (int) (f - (this.windowLayout.getMeasuredWidth() / 2.0f)), (int) (f2 - (this.windowLayout.getMeasuredHeight() / 2.0f)));
         this.popupWindow.dimBehind();
+    }
+
+    /* renamed from: update */
+    public void lambda$update$11(final long j, final long j2, final HashSet hashSet) {
+        ActionBarMenuSubItem actionBarMenuSubItem;
+        String string;
+        int i;
+        int i2;
+        int i3;
+        int i4;
+        if (System.currentTimeMillis() - this.lastDismissTime < 200) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ChatNotificationsPopupWrapper.this.lambda$update$11(j, j2, hashSet);
+                }
+            });
+            return;
+        }
+        boolean isDialogMuted = MessagesController.getInstance(this.currentAccount).isDialogMuted(j, j2);
+        if (isDialogMuted) {
+            this.muteUnmuteButton.setTextAndIcon(LocaleController.getString(R.string.UnmuteNotifications), R.drawable.msg_unmute);
+            i2 = Theme.getColor(Theme.key_windowBackgroundWhiteGreenText2);
+            this.soundToggle.setVisibility(8);
+        } else {
+            this.muteUnmuteButton.setTextAndIcon(LocaleController.getString(R.string.MuteNotifications), R.drawable.msg_mute);
+            int color = Theme.getColor(Theme.key_text_RedBold);
+            this.soundToggle.setVisibility(0);
+            if (MessagesController.getInstance(this.currentAccount).isDialogNotificationsSoundEnabled(j, j2)) {
+                actionBarMenuSubItem = this.soundToggle;
+                string = LocaleController.getString(R.string.SoundOff);
+                i = R.drawable.msg_tone_off;
+            } else {
+                actionBarMenuSubItem = this.soundToggle;
+                string = LocaleController.getString(R.string.SoundOn);
+                i = R.drawable.msg_tone_on;
+            }
+            actionBarMenuSubItem.setTextAndIcon(string, i);
+            i2 = color;
+        }
+        if (this.type == 1) {
+            this.backItem.setVisibility(8);
+        }
+        if (isDialogMuted || this.type == 1) {
+            i3 = 0;
+            i4 = 0;
+        } else {
+            SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
+            i4 = notificationsSettings.getInt("last_selected_mute_until_time", 0);
+            i3 = notificationsSettings.getInt("last_selected_mute_until_time2", 0);
+        }
+        if (i4 != 0) {
+            this.muteForLastSelected1Time = i4;
+            this.muteForLastSelected.setVisibility(0);
+            this.muteForLastSelected.getImageView().setImageDrawable(TimerDrawable.getTtlIcon(i4));
+            this.muteForLastSelected.setText(formatMuteForTime(i4));
+        } else {
+            this.muteForLastSelected.setVisibility(8);
+        }
+        if (i3 != 0) {
+            this.muteForLastSelected2Time = i3;
+            this.muteForLastSelected2.setVisibility(0);
+            this.muteForLastSelected2.getImageView().setImageDrawable(TimerDrawable.getTtlIcon(i3));
+            this.muteForLastSelected2.setText(formatMuteForTime(i3));
+        } else {
+            this.muteForLastSelected2.setVisibility(8);
+        }
+        this.muteUnmuteButton.setColors(i2, i2);
+        this.muteUnmuteButton.setSelectorColor(Theme.multAlpha(i2, 0.1f));
+        if (hashSet == null || hashSet.isEmpty()) {
+            this.gap.setVisibility(8);
+            this.topicsExceptionsTextView.setVisibility(8);
+            return;
+        }
+        this.gap.setVisibility(0);
+        this.topicsExceptionsTextView.setVisibility(0);
+        this.topicsExceptionsTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatPluralString("TopicNotificationsExceptions", hashSet.size(), new Object[0]), Theme.key_windowBackgroundWhiteBlueText, 1, null));
     }
 }

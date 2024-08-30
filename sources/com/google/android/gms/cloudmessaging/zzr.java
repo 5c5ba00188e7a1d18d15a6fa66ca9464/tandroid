@@ -9,7 +9,6 @@ import android.util.Log;
 import com.google.android.gms.common.util.PlatformVersion;
 import com.google.android.gms.common.wrappers.Wrappers;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
 /* loaded from: classes.dex */
 public final class zzr {
     private final Context zza;
@@ -18,6 +17,19 @@ public final class zzr {
 
     public zzr(Context context) {
         this.zza = context;
+    }
+
+    private final PackageInfo zza(String str) {
+        try {
+            return Wrappers.packageManager(this.zza).getPackageInfo(str, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            String valueOf = String.valueOf(e);
+            StringBuilder sb = new StringBuilder(valueOf.length() + 23);
+            sb.append("Failed to find package ");
+            sb.append(valueOf);
+            Log.w("Metadata", sb.toString());
+            return null;
+        }
     }
 
     public final synchronized int zza() {
@@ -65,18 +77,5 @@ public final class zzr {
             throw th;
         }
         return this.zzb;
-    }
-
-    private final PackageInfo zza(String str) {
-        try {
-            return Wrappers.packageManager(this.zza).getPackageInfo(str, 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            String valueOf = String.valueOf(e);
-            StringBuilder sb = new StringBuilder(valueOf.length() + 23);
-            sb.append("Failed to find package ");
-            sb.append(valueOf);
-            Log.w("Metadata", sb.toString());
-            return null;
-        }
     }
 }

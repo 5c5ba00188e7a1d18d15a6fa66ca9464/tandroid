@@ -6,14 +6,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
-public final class zzga {
-    public static <T extends zzfz> String zza(T t) {
-        if (t == null) {
+public abstract class zzga {
+    public static String zza(zzfz zzfzVar) {
+        if (zzfzVar == null) {
             return "";
         }
         StringBuffer stringBuffer = new StringBuffer();
         try {
-            zza(null, t, new StringBuffer(), stringBuffer);
+            zza(null, zzfzVar, new StringBuffer(), stringBuffer);
             return stringBuffer.toString();
         } catch (IllegalAccessException e) {
             String valueOf = String.valueOf(e.getMessage());
@@ -24,7 +24,7 @@ public final class zzga {
         }
     }
 
-    private static void zza(String str, Object obj, StringBuffer stringBuffer, StringBuffer stringBuffer2) throws IllegalAccessException, InvocationTargetException {
+    private static void zza(String str, Object obj, StringBuffer stringBuffer, StringBuffer stringBuffer2) {
         Field[] fields;
         if (obj != null) {
             if (!(obj instanceof zzfz)) {

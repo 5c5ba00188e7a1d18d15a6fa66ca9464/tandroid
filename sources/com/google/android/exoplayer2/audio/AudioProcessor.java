@@ -8,22 +8,6 @@ import java.nio.ByteOrder;
 public interface AudioProcessor {
     public static final ByteBuffer EMPTY_BUFFER = ByteBuffer.allocateDirect(0).order(ByteOrder.nativeOrder());
 
-    AudioFormat configure(AudioFormat audioFormat) throws UnhandledAudioFormatException;
-
-    void flush();
-
-    ByteBuffer getOutput();
-
-    boolean isActive();
-
-    boolean isEnded();
-
-    void queueEndOfStream();
-
-    void queueInput(ByteBuffer byteBuffer);
-
-    void reset();
-
     /* loaded from: classes.dex */
     public static final class AudioFormat {
         public static final AudioFormat NOT_SET = new AudioFormat(-1, -1, -1);
@@ -37,10 +21,6 @@ public interface AudioProcessor {
             this.channelCount = i2;
             this.encoding = i3;
             this.bytesPerFrame = Util.isEncodingLinearPcm(i3) ? Util.getPcmFrameSize(i3, i2) : -1;
-        }
-
-        public String toString() {
-            return "AudioFormat[sampleRate=" + this.sampleRate + ", channelCount=" + this.channelCount + ", encoding=" + this.encoding + ']';
         }
 
         public boolean equals(Object obj) {
@@ -57,6 +37,10 @@ public interface AudioProcessor {
         public int hashCode() {
             return Objects.hashCode(Integer.valueOf(this.sampleRate), Integer.valueOf(this.channelCount), Integer.valueOf(this.encoding));
         }
+
+        public String toString() {
+            return "AudioFormat[sampleRate=" + this.sampleRate + ", channelCount=" + this.channelCount + ", encoding=" + this.encoding + ']';
+        }
     }
 
     /* loaded from: classes.dex */
@@ -65,4 +49,20 @@ public interface AudioProcessor {
             super("Unhandled format: " + audioFormat);
         }
     }
+
+    AudioFormat configure(AudioFormat audioFormat);
+
+    void flush();
+
+    ByteBuffer getOutput();
+
+    boolean isActive();
+
+    boolean isEnded();
+
+    void queueEndOfStream();
+
+    void queueInput(ByteBuffer byteBuffer);
+
+    void reset();
 }

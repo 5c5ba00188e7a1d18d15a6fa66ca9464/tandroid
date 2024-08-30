@@ -10,7 +10,6 @@ import com.google.android.datatransport.cct.CCTDestination;
 import com.google.android.datatransport.runtime.TransportRuntime;
 import com.google.firebase.components.Lazy;
 import com.google.firebase.inject.Provider;
-/* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public final class zzmp implements zzmc {
     private Provider zza;
@@ -54,13 +53,15 @@ public final class zzmp implements zzmc {
 
     @Override // com.google.android.gms.internal.mlkit_vision_common.zzmc
     public final void zza(zzmb zzmbVar) {
-        if (this.zzc.zza() != 0) {
-            ((Transport) this.zzb.get()).send(zzb(this.zzc, zzmbVar));
-            return;
+        Provider provider;
+        if (this.zzc.zza() == 0) {
+            provider = this.zza;
+            if (provider == null) {
+                return;
+            }
+        } else {
+            provider = this.zzb;
         }
-        Provider provider = this.zza;
-        if (provider != null) {
-            ((Transport) provider.get()).send(zzb(this.zzc, zzmbVar));
-        }
+        ((Transport) provider.get()).send(zzb(this.zzc, zzmbVar));
     }
 }

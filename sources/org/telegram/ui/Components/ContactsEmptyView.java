@@ -14,21 +14,28 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
+import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class ContactsEmptyView extends LinearLayout implements NotificationCenter.NotificationCenterDelegate {
     private int currentAccount;
     private LoadingStickerDrawable drawable;
-    private ArrayList<ImageView> imageViews;
+    private ArrayList imageViews;
     private BackupImageView stickerView;
-    private ArrayList<TextView> textViews;
+    private ArrayList textViews;
     private TextView titleTextView;
 
+    /* JADX WARN: Removed duplicated region for block: B:27:0x014a  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0163  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public ContactsEmptyView(Context context) {
         super(context);
-        this.textViews = new ArrayList<>();
-        this.imageViews = new ArrayList<>();
+        int i;
+        this.textViews = new ArrayList();
+        this.imageViews = new ArrayList();
         this.currentAccount = UserConfig.selectedAccount;
         setPadding(0, AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f));
         setOrientation(1);
@@ -51,40 +58,46 @@ public class ContactsEmptyView extends LinearLayout implements NotificationCente
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(1);
         addView(linearLayout, LayoutHelper.createLinear(-2, -2, 49));
-        int i = 0;
+        int i2 = 0;
         while (true) {
-            if (i >= 3) {
+            if (i2 >= 3) {
                 return;
             }
             LinearLayout linearLayout2 = new LinearLayout(context);
             linearLayout2.setOrientation(0);
             linearLayout.addView(linearLayout2, LayoutHelper.createLinear(-2, -2, LocaleController.isRTL ? 5 : 3, 0, 8, 0, 0));
             ImageView imageView = new ImageView(context);
-            int i2 = Theme.key_windowBackgroundWhiteGrayText;
-            imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i2), PorterDuff.Mode.MULTIPLY));
+            int i3 = Theme.key_windowBackgroundWhiteGrayText;
+            imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i3), PorterDuff.Mode.MULTIPLY));
             imageView.setImageResource(R.drawable.list_circle);
             this.imageViews.add(imageView);
             TextView textView2 = new TextView(context);
             textView2.setTextSize(1, 15.0f);
-            textView2.setTextColor(Theme.getColor(i2));
+            textView2.setTextColor(Theme.getColor(i3));
             textView2.setMaxWidth(AndroidUtilities.dp(260.0f));
             this.textViews.add(textView2);
             textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
-            if (i == 0) {
-                textView2.setText(LocaleController.getString(R.string.NoContactsYetLine1));
-            } else if (i == 1) {
-                textView2.setText(LocaleController.getString(R.string.NoContactsYetLine2));
-            } else if (i == 2) {
-                textView2.setText(LocaleController.getString(R.string.NoContactsYetLine3));
-            }
-            if (LocaleController.isRTL) {
-                linearLayout2.addView(textView2, LayoutHelper.createLinear(-2, -2));
-                linearLayout2.addView(imageView, LayoutHelper.createLinear(-2, -2, 8.0f, 7.0f, 0.0f, 0.0f));
+            if (i2 == 0) {
+                i = R.string.NoContactsYetLine1;
+            } else if (i2 != 1) {
+                if (i2 == 2) {
+                    i = R.string.NoContactsYetLine3;
+                }
+                if (LocaleController.isRTL) {
+                    linearLayout2.addView(imageView, LayoutHelper.createLinear(-2, -2, 0.0f, 8.0f, 8.0f, 0.0f));
+                    linearLayout2.addView(textView2, LayoutHelper.createLinear(-2, -2));
+                } else {
+                    linearLayout2.addView(textView2, LayoutHelper.createLinear(-2, -2));
+                    linearLayout2.addView(imageView, LayoutHelper.createLinear(-2, -2, 8.0f, 7.0f, 0.0f, 0.0f));
+                }
+                i2++;
             } else {
-                linearLayout2.addView(imageView, LayoutHelper.createLinear(-2, -2, 0.0f, 8.0f, 8.0f, 0.0f));
-                linearLayout2.addView(textView2, LayoutHelper.createLinear(-2, -2));
+                i = R.string.NoContactsYetLine2;
             }
-            i++;
+            textView2.setText(LocaleController.getString(i));
+            if (LocaleController.isRTL) {
+            }
+            i2++;
         }
     }
 
@@ -94,12 +107,19 @@ public class ContactsEmptyView extends LinearLayout implements NotificationCente
             stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME);
         }
         TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = stickerSetByName;
-        if (tLRPC$TL_messages_stickerSet != null && tLRPC$TL_messages_stickerSet.documents.size() >= 1) {
-            this.stickerView.setImage(ImageLocation.getForDocument(tLRPC$TL_messages_stickerSet.documents.get(0)), "130_130", "tgs", this.drawable, tLRPC$TL_messages_stickerSet);
+        if (tLRPC$TL_messages_stickerSet == null || tLRPC$TL_messages_stickerSet.documents.size() < 1) {
+            MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, true);
+            this.stickerView.setImageDrawable(this.drawable);
             return;
         }
-        MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, true);
-        this.stickerView.setImageDrawable(this.drawable);
+        this.stickerView.setImage(ImageLocation.getForDocument((TLRPC$Document) tLRPC$TL_messages_stickerSet.documents.get(0)), "130_130", "tgs", this.drawable, tLRPC$TL_messages_stickerSet);
+    }
+
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        if (i == NotificationCenter.diceStickersDidLoad && AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME.equals((String) objArr[0])) {
+            setSticker();
+        }
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -113,12 +133,5 @@ public class ContactsEmptyView extends LinearLayout implements NotificationCente
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.diceStickersDidLoad);
-    }
-
-    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if (i == NotificationCenter.diceStickersDidLoad && AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME.equals((String) objArr[0])) {
-            setSticker();
-        }
     }
 }

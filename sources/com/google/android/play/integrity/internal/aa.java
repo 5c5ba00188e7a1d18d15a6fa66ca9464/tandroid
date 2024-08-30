@@ -3,7 +3,6 @@ package com.google.android.play.integrity.internal;
 import android.os.IBinder;
 import android.os.IInterface;
 import java.util.List;
-/* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
 final class aa extends t {
     final /* synthetic */ IBinder a;

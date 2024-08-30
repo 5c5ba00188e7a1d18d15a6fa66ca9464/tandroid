@@ -3,9 +3,8 @@ package com.google.android.gms.maps.model;
 import android.graphics.Bitmap;
 import android.os.RemoteException;
 import com.google.android.gms.common.internal.Preconditions;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
-public final class BitmapDescriptorFactory {
+public abstract class BitmapDescriptorFactory {
     private static com.google.android.gms.internal.maps.zzi zza;
 
     public static BitmapDescriptor fromBitmap(Bitmap bitmap) {

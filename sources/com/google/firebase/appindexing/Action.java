@@ -4,11 +4,9 @@ import android.os.Bundle;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.firebase.appindexing.builders.IndexableBuilder;
 import com.google.firebase.appindexing.internal.zzc;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
 public interface Action {
 
-    /* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
     /* loaded from: classes.dex */
     public static class Builder {
         private final Bundle zza = new Bundle();
@@ -42,6 +40,11 @@ public interface Action {
                 }.zza();
             }
             return new zzc(str, str2, str3, str4, zzbVar, this.zzg, this.zza);
+        }
+
+        public Builder put(String str, String... strArr) {
+            IndexableBuilder.zza(this.zza, str, strArr);
+            return this;
         }
 
         public Builder setActionStatus(String str) {
@@ -83,11 +86,6 @@ public interface Action {
         /* JADX INFO: Access modifiers changed from: protected */
         public final String zzc() {
             return new String(this.zzg);
-        }
-
-        public Builder put(String str, String... strArr) {
-            IndexableBuilder.zza(this.zza, str, strArr);
-            return this;
         }
     }
 }

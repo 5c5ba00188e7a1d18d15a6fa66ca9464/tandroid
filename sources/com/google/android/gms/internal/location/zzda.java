@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Looper;
-import android.os.RemoteException;
 import androidx.collection.SimpleArrayMap;
 import com.google.android.gms.common.Feature;
 import com.google.android.gms.common.api.internal.ConnectionCallbacks;
@@ -16,7 +15,6 @@ import com.google.android.gms.location.LastLocationRequest;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.zzm;
 import com.google.android.gms.tasks.TaskCompletionSource;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class zzda extends GmsClient {
     private final SimpleArrayMap zzf;
@@ -102,7 +100,7 @@ public final class zzda extends GmsClient {
         return true;
     }
 
-    public final void zzB(ListenerHolder.ListenerKey listenerKey, boolean z, TaskCompletionSource taskCompletionSource) throws RemoteException {
+    public final void zzB(ListenerHolder.ListenerKey listenerKey, boolean z, TaskCompletionSource taskCompletionSource) {
         synchronized (this.zzg) {
             try {
                 zzcw zzcwVar = (zzcw) this.zzg.remove(listenerKey);
@@ -111,14 +109,12 @@ public final class zzda extends GmsClient {
                     return;
                 }
                 zzcwVar.zzh();
-                if (z) {
-                    if (zzE(zzm.zzj)) {
-                        ((zzo) getService()).zzy(zzdb.zzb(null, zzcwVar, null, null), new zzcl(this, Boolean.TRUE, taskCompletionSource));
-                    } else {
-                        ((zzo) getService()).zzz(new zzdf(2, null, null, zzcwVar, null, new zzcn(Boolean.TRUE, taskCompletionSource), null));
-                    }
-                } else {
+                if (!z) {
                     taskCompletionSource.setResult(Boolean.TRUE);
+                } else if (zzE(zzm.zzj)) {
+                    ((zzo) getService()).zzy(zzdb.zzb(null, zzcwVar, null, null), new zzcl(this, Boolean.TRUE, taskCompletionSource));
+                } else {
+                    ((zzo) getService()).zzz(new zzdf(2, null, null, zzcwVar, null, new zzcn(Boolean.TRUE, taskCompletionSource), null));
                 }
             } catch (Throwable th) {
                 throw th;
@@ -126,7 +122,7 @@ public final class zzda extends GmsClient {
         }
     }
 
-    public final void zzt(LastLocationRequest lastLocationRequest, TaskCompletionSource taskCompletionSource) throws RemoteException {
+    public final void zzt(LastLocationRequest lastLocationRequest, TaskCompletionSource taskCompletionSource) {
         getContext();
         if (zzE(zzm.zzf)) {
             ((zzo) getService()).zzj(lastLocationRequest, new zzcm(this, taskCompletionSource));
@@ -140,7 +136,7 @@ public final class zzda extends GmsClient {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public final void zzu(zzcs zzcsVar, LocationRequest locationRequest, TaskCompletionSource taskCompletionSource) throws RemoteException {
+    public final void zzu(zzcs zzcsVar, LocationRequest locationRequest, TaskCompletionSource taskCompletionSource) {
         zzcw zzcwVar;
         ListenerHolder zza = zzcsVar.zza();
         ListenerHolder.ListenerKey listenerKey = zza.getListenerKey();
@@ -155,12 +151,12 @@ public final class zzda extends GmsClient {
                     zzcwVar2 = null;
                     getContext();
                     String idString = listenerKey.toIdString();
-                    if (!zzE) {
-                        ((zzo) getService()).zzk(zzdb.zzb(zzcwVar2, zzcwVar, null, idString), locationRequest, new zzcl(this, null, taskCompletionSource));
-                    } else {
+                    if (zzE) {
                         LocationRequest.Builder builder = new LocationRequest.Builder(locationRequest);
                         builder.zzb(null);
                         ((zzo) getService()).zzz(new zzdf(1, zzdd.zza(null, builder.build()), null, zzcwVar, null, new zzcp(taskCompletionSource, zzcwVar), idString));
+                    } else {
+                        ((zzo) getService()).zzk(zzdb.zzb(zzcwVar2, zzcwVar, null, idString), locationRequest, new zzcl(this, null, taskCompletionSource));
                     }
                 }
                 zzcw zzcwVar3 = new zzcw(zzcsVar);
@@ -168,7 +164,7 @@ public final class zzda extends GmsClient {
                 zzcwVar = zzcwVar3;
                 getContext();
                 String idString2 = listenerKey.toIdString();
-                if (!zzE) {
+                if (zzE) {
                 }
             } catch (Throwable th) {
                 throw th;

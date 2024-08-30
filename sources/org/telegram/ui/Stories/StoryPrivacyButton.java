@@ -56,68 +56,6 @@ public class StoryPrivacyButton extends View {
         paint.setColor(-1);
     }
 
-    public boolean set(boolean z, TL_stories$StoryItem tL_stories$StoryItem, boolean z2) {
-        this.drawArrow = z;
-        this.draw = true;
-        if (tL_stories$StoryItem == null) {
-            this.draw = false;
-        } else if (tL_stories$StoryItem.close_friends) {
-            setIcon(R.drawable.msg_stories_closefriends, 15.0f);
-            setupGradient(-7808710, -13781445);
-            this.crossfadeT.set(z2, true);
-        } else if (tL_stories$StoryItem.contacts) {
-            setIcon(R.drawable.msg_folders_private, 17.33f);
-            setupGradient(-3905294, -6923014);
-            this.crossfadeT.set(z2, true);
-        } else if (tL_stories$StoryItem.selected_contacts) {
-            setIcon(R.drawable.msg_folders_groups, 17.33f);
-            setupGradient(-18621, -618956);
-            this.crossfadeT.set(z2, true);
-        } else if (z) {
-            setIcon(R.drawable.msg_folders_channels, 17.33f);
-            setupGradient(-15292942, -15630089);
-            this.crossfadeT.set(z2, true);
-        } else {
-            this.draw = false;
-        }
-        setVisibility(this.draw ? 0 : 8);
-        invalidate();
-        return this.draw;
-    }
-
-    public boolean set(boolean z, StoriesController.UploadingStory uploadingStory, boolean z2) {
-        StoryPrivacyBottomSheet.StoryPrivacy storyPrivacy;
-        this.drawArrow = z;
-        this.draw = true;
-        if (uploadingStory == null || (storyPrivacy = uploadingStory.entry.privacy) == null) {
-            this.draw = false;
-        } else {
-            int i = storyPrivacy.type;
-            if (i == 1) {
-                setIcon(R.drawable.msg_stories_closefriends, 15.0f);
-                setupGradient(-7808710, -13781445);
-                this.crossfadeT.set(z2, !z2);
-            } else if (i == 2) {
-                setIcon(R.drawable.msg_folders_private, 17.33f);
-                setupGradient(-3905294, -6923014);
-                this.crossfadeT.set(z2, !z2);
-            } else if (i == 3) {
-                setIcon(R.drawable.msg_folders_groups, 17.33f);
-                setupGradient(-18621, -618956);
-                this.crossfadeT.set(z2, !z2);
-            } else if (z) {
-                setIcon(R.drawable.msg_folders_channels, 17.33f);
-                setupGradient(-15292942, -15630089);
-                this.crossfadeT.set(z2, !z2);
-            } else {
-                this.draw = false;
-            }
-        }
-        setVisibility(this.draw ? 0 : 8);
-        invalidate();
-        return this.draw;
-    }
-
     private void setIcon(int i, float f) {
         Drawable[] drawableArr = this.icon;
         Drawable drawable = drawableArr[0];
@@ -148,6 +86,10 @@ public class StoryPrivacyButton extends View {
         linearGradient.setLocalMatrix(this.gradientMatrix);
         this.backgroundPaint[0].setShader(linearGradient);
         invalidate();
+    }
+
+    public float getCenterX() {
+        return getX() + (getWidth() / 2.0f) + (this.drawArrow ? 0 : AndroidUtilities.dp(14.0f));
     }
 
     @Override // android.view.View
@@ -198,17 +140,93 @@ public class StoryPrivacyButton extends View {
     }
 
     @Override // android.view.View
-    public void setPressed(boolean z) {
-        super.setPressed(z);
-        this.bounce.setPressed(z);
-    }
-
-    @Override // android.view.View
     protected void onMeasure(int i, int i2) {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(60.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(40.0f), 1073741824));
     }
 
-    public float getCenterX() {
-        return getX() + (getWidth() / 2.0f) + (this.drawArrow ? 0 : AndroidUtilities.dp(14.0f));
+    /* JADX WARN: Removed duplicated region for block: B:21:0x005a  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public boolean set(boolean z, TL_stories$StoryItem tL_stories$StoryItem, boolean z2) {
+        int i;
+        int i2;
+        this.drawArrow = z;
+        this.draw = true;
+        if (tL_stories$StoryItem != null) {
+            if (tL_stories$StoryItem.close_friends) {
+                setIcon(R.drawable.msg_stories_closefriends, 15.0f);
+                i = -7808710;
+                i2 = -13781445;
+            } else if (tL_stories$StoryItem.contacts) {
+                setIcon(R.drawable.msg_folders_private, 17.33f);
+                i = -3905294;
+                i2 = -6923014;
+            } else if (tL_stories$StoryItem.selected_contacts) {
+                setIcon(R.drawable.msg_folders_groups, 17.33f);
+                i = -18621;
+                i2 = -618956;
+            } else if (z) {
+                setIcon(R.drawable.msg_folders_channels, 17.33f);
+                i = -15292942;
+                i2 = -15630089;
+            }
+            setupGradient(i, i2);
+            this.crossfadeT.set(z2, true);
+            setVisibility(this.draw ? 0 : 8);
+            invalidate();
+            return this.draw;
+        }
+        this.draw = false;
+        setVisibility(this.draw ? 0 : 8);
+        invalidate();
+        return this.draw;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0061  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public boolean set(boolean z, StoriesController.UploadingStory uploadingStory, boolean z2) {
+        StoryPrivacyBottomSheet.StoryPrivacy storyPrivacy;
+        int i;
+        int i2;
+        this.drawArrow = z;
+        this.draw = true;
+        if (uploadingStory != null && (storyPrivacy = uploadingStory.entry.privacy) != null) {
+            int i3 = storyPrivacy.type;
+            if (i3 == 1) {
+                setIcon(R.drawable.msg_stories_closefriends, 15.0f);
+                i = -7808710;
+                i2 = -13781445;
+            } else if (i3 == 2) {
+                setIcon(R.drawable.msg_folders_private, 17.33f);
+                i = -3905294;
+                i2 = -6923014;
+            } else if (i3 == 3) {
+                setIcon(R.drawable.msg_folders_groups, 17.33f);
+                i = -18621;
+                i2 = -618956;
+            } else if (z) {
+                setIcon(R.drawable.msg_folders_channels, 17.33f);
+                i = -15292942;
+                i2 = -15630089;
+            }
+            setupGradient(i, i2);
+            this.crossfadeT.set(z2, !z2);
+            setVisibility(this.draw ? 0 : 8);
+            invalidate();
+            return this.draw;
+        }
+        this.draw = false;
+        setVisibility(this.draw ? 0 : 8);
+        invalidate();
+        return this.draw;
+    }
+
+    @Override // android.view.View
+    public void setPressed(boolean z) {
+        super.setPressed(z);
+        this.bounce.setPressed(z);
     }
 }

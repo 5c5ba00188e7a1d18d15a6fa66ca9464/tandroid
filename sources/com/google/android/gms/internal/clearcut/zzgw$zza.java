@@ -3,13 +3,13 @@ package com.google.android.gms.internal.clearcut;
 import com.google.android.gms.internal.clearcut.zzcg;
 import java.util.List;
 /* loaded from: classes.dex */
-public final class zzgw$zza extends zzcg<zzgw$zza, zza> implements zzdq {
-    private static volatile zzdz<zzgw$zza> zzbg;
+public final class zzgw$zza extends zzcg implements zzdq {
+    private static volatile zzdz zzbg;
     private static final zzgw$zza zzbir;
-    private zzcn<zzb> zzbiq = zzcg.zzbb();
+    private zzcn zzbiq = zzcg.zzbb();
 
     /* loaded from: classes.dex */
-    public static final class zza extends zzcg.zza<zzgw$zza, zza> implements zzdq {
+    public static final class zza extends zzcg.zza implements zzdq {
         private zza() {
             super(zzgw$zza.zzbir);
         }
@@ -20,8 +20,8 @@ public final class zzgw$zza extends zzcg<zzgw$zza, zza> implements zzdq {
     }
 
     /* loaded from: classes.dex */
-    public static final class zzb extends zzcg<zzb, zza> implements zzdq {
-        private static volatile zzdz<zzb> zzbg;
+    public static final class zzb extends zzcg implements zzdq {
+        private static volatile zzdz zzbg;
         private static final zzb zzbiv;
         private int zzbb;
         private String zzbis = "";
@@ -30,7 +30,7 @@ public final class zzgw$zza extends zzcg<zzgw$zza, zza> implements zzdq {
         private int zzya;
 
         /* loaded from: classes.dex */
-        public static final class zza extends zzcg.zza<zzb, zza> implements zzdq {
+        public static final class zza extends zzcg.zza implements zzdq {
             private zza() {
                 super(zzb.zzbiv);
             }
@@ -95,7 +95,7 @@ public final class zzgw$zza extends zzcg<zzgw$zza, zza> implements zzdq {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzdz<com.google.android.gms.internal.clearcut.zzgw$zza$zzb>, com.google.android.gms.internal.clearcut.zzcg$zzb] */
+        /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzdz, com.google.android.gms.internal.clearcut.zzcg$zzb] */
         @Override // com.google.android.gms.internal.clearcut.zzcg
         public final Object zza(int i, Object obj, Object obj2) {
             switch (zzgx.zzba[i - 1]) {
@@ -108,13 +108,13 @@ public final class zzgw$zza extends zzcg<zzgw$zza, zza> implements zzdq {
                 case 4:
                     return zzbiv;
                 case 5:
-                    zzdz<zzb> zzdzVar = zzbg;
-                    zzdz<zzb> zzdzVar2 = zzdzVar;
+                    zzdz zzdzVar = zzbg;
+                    zzdz zzdzVar2 = zzdzVar;
                     if (zzdzVar == null) {
                         synchronized (zzb.class) {
                             try {
-                                zzdz<zzb> zzdzVar3 = zzbg;
-                                zzdz<zzb> zzdzVar4 = zzdzVar3;
+                                zzdz zzdzVar3 = zzbg;
+                                zzdz zzdzVar4 = zzdzVar3;
                                 if (zzdzVar3 == null) {
                                     ?? zzbVar = new zzcg.zzb(zzbiv);
                                     zzbg = zzbVar;
@@ -164,12 +164,12 @@ public final class zzgw$zza extends zzcg<zzgw$zza, zza> implements zzdq {
         return zzbir;
     }
 
-    public static zzgw$zza zzi(byte[] bArr) throws zzco {
+    public static zzgw$zza zzi(byte[] bArr) {
         return (zzgw$zza) zzcg.zzb(zzbir, bArr);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzcg$zzb, com.google.android.gms.internal.clearcut.zzdz<com.google.android.gms.internal.clearcut.zzgw$zza>] */
+    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzdz, com.google.android.gms.internal.clearcut.zzcg$zzb] */
     @Override // com.google.android.gms.internal.clearcut.zzcg
     public final Object zza(int i, Object obj, Object obj2) {
         switch (zzgx.zzba[i - 1]) {
@@ -182,13 +182,13 @@ public final class zzgw$zza extends zzcg<zzgw$zza, zza> implements zzdq {
             case 4:
                 return zzbir;
             case 5:
-                zzdz<zzgw$zza> zzdzVar = zzbg;
-                zzdz<zzgw$zza> zzdzVar2 = zzdzVar;
+                zzdz zzdzVar = zzbg;
+                zzdz zzdzVar2 = zzdzVar;
                 if (zzdzVar == null) {
                     synchronized (zzgw$zza.class) {
                         try {
-                            zzdz<zzgw$zza> zzdzVar3 = zzbg;
-                            zzdz<zzgw$zza> zzdzVar4 = zzdzVar3;
+                            zzdz zzdzVar3 = zzbg;
+                            zzdz zzdzVar4 = zzdzVar3;
                             if (zzdzVar3 == null) {
                                 ?? zzbVar = new zzcg.zzb(zzbir);
                                 zzbg = zzbVar;
@@ -208,7 +208,7 @@ public final class zzgw$zza extends zzcg<zzgw$zza, zza> implements zzdq {
         }
     }
 
-    public final List<zzb> zzfs() {
+    public final List zzfs() {
         return this.zzbiq;
     }
 }

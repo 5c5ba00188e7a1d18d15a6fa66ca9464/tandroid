@@ -5,10 +5,9 @@ import com.google.android.gms.clearcut.ClearcutLogger;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.api.internal.ApiExceptionMapper;
 /* loaded from: classes.dex */
-public final class zze extends GoogleApi<Api.ApiOptions.NoOptions> implements com.google.android.gms.clearcut.zzb {
+public final class zze extends GoogleApi implements com.google.android.gms.clearcut.zzb {
     private zze(Context context) {
         super(context, ClearcutLogger.API, (Api.ApiOptions) null, new ApiExceptionMapper());
     }
@@ -18,7 +17,7 @@ public final class zze extends GoogleApi<Api.ApiOptions.NoOptions> implements co
     }
 
     @Override // com.google.android.gms.clearcut.zzb
-    public final PendingResult<Status> zzb(com.google.android.gms.clearcut.zze zzeVar) {
-        return doBestEffortWrite((zze) new zzh(zzeVar, asGoogleApiClient()));
+    public final PendingResult zzb(com.google.android.gms.clearcut.zze zzeVar) {
+        return doBestEffortWrite(new zzh(zzeVar, asGoogleApiClient()));
     }
 }

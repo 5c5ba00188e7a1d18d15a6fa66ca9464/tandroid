@@ -1,5 +1,4 @@
 package com.google.android.gms.internal.mlkit_vision_common;
-/* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public final class zzla {
     private final String zza;
@@ -51,57 +50,46 @@ public final class zzla {
         this.zzk = num2;
     }
 
-    @zzai(zza = 8)
     public final zzp zza() {
         return this.zze;
     }
 
-    @zzai(zza = 10)
     public final Boolean zzb() {
         return this.zzg;
     }
 
-    @zzai(zza = 12)
     public final Boolean zzc() {
         return this.zzi;
     }
 
-    @zzai(zza = 11)
     public final Boolean zzd() {
         return this.zzh;
     }
 
-    @zzai(zza = 13)
     public final Integer zze() {
         return this.zzj;
     }
 
-    @zzai(zza = 14)
     public final Integer zzf() {
         return this.zzk;
     }
 
-    @zzai(zza = 1)
     public final String zzg() {
         return this.zza;
     }
 
-    @zzai(zza = 2)
     public final String zzh() {
         return this.zzb;
     }
 
-    @zzai(zza = 9)
     public final String zzi() {
         return this.zzf;
     }
 
-    @zzai(zza = 4)
     public final String zzj() {
         return this.zzc;
     }
 
-    @zzai(zza = 5)
     public final String zzk() {
         return this.zzd;
     }

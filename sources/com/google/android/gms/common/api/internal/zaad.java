@@ -7,7 +7,6 @@ import j$.util.DesugarCollections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zaad {
     private final Map zaa = DesugarCollections.synchronizedMap(new WeakHashMap());
@@ -47,16 +46,24 @@ public final class zaad {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0018  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public final void zae(int i, String str) {
+        String str2;
         StringBuilder sb = new StringBuilder("The connection to Google Play services was lost");
-        if (i == 1) {
-            sb.append(" due to service disconnection.");
-        } else if (i == 3) {
-            sb.append(" due to dead object exception.");
+        if (i != 1) {
+            str2 = i == 3 ? " due to dead object exception." : " due to dead object exception.";
+            if (str != null) {
+                sb.append(" Last reason for disconnect: ");
+                sb.append(str);
+            }
+            zah(true, new Status(20, sb.toString()));
         }
+        str2 = " due to service disconnection.";
+        sb.append(str2);
         if (str != null) {
-            sb.append(" Last reason for disconnect: ");
-            sb.append(str);
         }
         zah(true, new Status(20, sb.toString()));
     }

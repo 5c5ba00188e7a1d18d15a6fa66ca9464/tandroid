@@ -1,5 +1,4 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public final class zzsc {
     private final String zza;
@@ -51,57 +50,46 @@ public final class zzsc {
         this.zzk = num2;
     }
 
-    @zzcd(zza = 8)
     public final zzav zza() {
         return this.zze;
     }
 
-    @zzcd(zza = 10)
     public final Boolean zzb() {
         return this.zzg;
     }
 
-    @zzcd(zza = 12)
     public final Boolean zzc() {
         return this.zzi;
     }
 
-    @zzcd(zza = 11)
     public final Boolean zzd() {
         return this.zzh;
     }
 
-    @zzcd(zza = 13)
     public final Integer zze() {
         return this.zzj;
     }
 
-    @zzcd(zza = 14)
     public final Integer zzf() {
         return this.zzk;
     }
 
-    @zzcd(zza = 1)
     public final String zzg() {
         return this.zza;
     }
 
-    @zzcd(zza = 2)
     public final String zzh() {
         return this.zzb;
     }
 
-    @zzcd(zza = 9)
     public final String zzi() {
         return this.zzf;
     }
 
-    @zzcd(zza = 4)
     public final String zzj() {
         return this.zzc;
     }
 
-    @zzcd(zza = 5)
     public final String zzk() {
         return this.zzd;
     }

@@ -7,41 +7,28 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 /* loaded from: classes.dex */
-public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
-    private transient ImmutableList<E> asList;
+public abstract class ImmutableSet extends ImmutableCollection implements Set {
+    private transient ImmutableList asList;
 
-    private static boolean shouldTrim(int i, int i2) {
-        return i < (i2 >> 1) + (i2 >> 2);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static int chooseTableSize(int i) {
+        int max = Math.max(i, 2);
+        if (max >= 751619276) {
+            Preconditions.checkArgument(max < 1073741824, "collection too large");
+            return 1073741824;
+        }
+        int highestOneBit = Integer.highestOneBit(max - 1) << 1;
+        while (true) {
+            double d = highestOneBit;
+            Double.isNaN(d);
+            if (d * 0.7d >= max) {
+                return highestOneBit;
+            }
+            highestOneBit <<= 1;
+        }
     }
 
-    boolean isHashCodeFast() {
-        return false;
-    }
-
-    @Override // com.google.common.collect.ImmutableCollection, java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
-    public abstract UnmodifiableIterator<E> iterator();
-
-    public static <E> ImmutableSet<E> of() {
-        return RegularImmutableSet.EMPTY;
-    }
-
-    public static <E> ImmutableSet<E> of(E e) {
-        return new SingletonImmutableSet(e);
-    }
-
-    public static <E> ImmutableSet<E> of(E e, E e2) {
-        return construct(2, e, e2);
-    }
-
-    public static <E> ImmutableSet<E> of(E e, E e2, E e3) {
-        return construct(3, e, e2, e3);
-    }
-
-    public static <E> ImmutableSet<E> of(E e, E e2, E e3, E e4, E e5) {
-        return construct(5, e, e2, e3, e4, e5);
-    }
-
-    private static <E> ImmutableSet<E> construct(int i, Object... objArr) {
+    private static ImmutableSet construct(int i, Object... objArr) {
         if (i != 0) {
             if (i == 1) {
                 Object obj = objArr[0];
@@ -90,28 +77,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         return of();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int chooseTableSize(int i) {
-        int max = Math.max(i, 2);
-        if (max < 751619276) {
-            int highestOneBit = Integer.highestOneBit(max - 1) << 1;
-            while (true) {
-                double d = highestOneBit;
-                Double.isNaN(d);
-                if (d * 0.7d >= max) {
-                    return highestOneBit;
-                }
-                highestOneBit <<= 1;
-            }
-        } else {
-            Preconditions.checkArgument(max < 1073741824, "collection too large");
-            return 1073741824;
-        }
-    }
-
-    public static <E> ImmutableSet<E> copyOf(Collection<? extends E> collection) {
+    public static ImmutableSet copyOf(Collection collection) {
         if ((collection instanceof ImmutableSet) && !(collection instanceof SortedSet)) {
-            ImmutableSet<E> immutableSet = (ImmutableSet) collection;
+            ImmutableSet immutableSet = (ImmutableSet) collection;
             if (!immutableSet.isPartialView()) {
                 return immutableSet;
             }
@@ -120,15 +88,48 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         return construct(array.length, array);
     }
 
-    public static <E> ImmutableSet<E> copyOf(E[] eArr) {
-        int length = eArr.length;
-        if (length != 0) {
-            if (length == 1) {
-                return of((Object) eArr[0]);
-            }
-            return construct(eArr.length, (Object[]) eArr.clone());
+    public static ImmutableSet copyOf(Object[] objArr) {
+        int length = objArr.length;
+        return length != 0 ? length != 1 ? construct(objArr.length, (Object[]) objArr.clone()) : of(objArr[0]) : of();
+    }
+
+    public static ImmutableSet of() {
+        return RegularImmutableSet.EMPTY;
+    }
+
+    public static ImmutableSet of(Object obj) {
+        return new SingletonImmutableSet(obj);
+    }
+
+    public static ImmutableSet of(Object obj, Object obj2) {
+        return construct(2, obj, obj2);
+    }
+
+    public static ImmutableSet of(Object obj, Object obj2, Object obj3) {
+        return construct(3, obj, obj2, obj3);
+    }
+
+    public static ImmutableSet of(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
+        return construct(5, obj, obj2, obj3, obj4, obj5);
+    }
+
+    private static boolean shouldTrim(int i, int i2) {
+        return i < (i2 >> 1) + (i2 >> 2);
+    }
+
+    @Override // com.google.common.collect.ImmutableCollection
+    public ImmutableList asList() {
+        ImmutableList immutableList = this.asList;
+        if (immutableList == null) {
+            ImmutableList createAsList = createAsList();
+            this.asList = createAsList;
+            return createAsList;
         }
-        return of();
+        return immutableList;
+    }
+
+    ImmutableList createAsList() {
+        return ImmutableList.asImmutableList(toArray());
     }
 
     @Override // java.util.Collection, java.util.Set
@@ -147,18 +148,10 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         return Sets.hashCodeImpl(this);
     }
 
-    @Override // com.google.common.collect.ImmutableCollection
-    public ImmutableList<E> asList() {
-        ImmutableList<E> immutableList = this.asList;
-        if (immutableList == null) {
-            ImmutableList<E> createAsList = createAsList();
-            this.asList = createAsList;
-            return createAsList;
-        }
-        return immutableList;
+    boolean isHashCodeFast() {
+        return false;
     }
 
-    ImmutableList<E> createAsList() {
-        return ImmutableList.asImmutableList(toArray());
-    }
+    @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
+    public abstract UnmodifiableIterator iterator();
 }

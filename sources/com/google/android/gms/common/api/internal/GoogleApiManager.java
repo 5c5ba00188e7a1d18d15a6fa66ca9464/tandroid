@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import androidx.collection.ArraySet;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -19,6 +20,7 @@ import com.google.android.gms.common.internal.RootTelemetryConfiguration;
 import com.google.android.gms.common.internal.TelemetryData;
 import com.google.android.gms.common.internal.TelemetryLogging;
 import com.google.android.gms.common.internal.TelemetryLoggingClient;
+import com.google.android.gms.common.internal.zal;
 import com.google.android.gms.common.util.DeviceProperties;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -31,7 +33,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public class GoogleApiManager implements Handler.Callback {
     public static final Status zaa = new Status(4, "Sign-out occurred while this API call was in progress.");
@@ -42,7 +43,7 @@ public class GoogleApiManager implements Handler.Callback {
     private TelemetryLoggingClient zaj;
     private final Context zak;
     private final GoogleApiAvailability zal;
-    private final com.google.android.gms.common.internal.zal zam;
+    private final zal zam;
     private final Handler zat;
     private volatile boolean zau;
     private long zae = 5000;
@@ -62,7 +63,7 @@ public class GoogleApiManager implements Handler.Callback {
         com.google.android.gms.internal.base.zau zauVar = new com.google.android.gms.internal.base.zau(looper, this);
         this.zat = zauVar;
         this.zal = googleApiAvailability;
-        this.zam = new com.google.android.gms.common.internal.zal(googleApiAvailability);
+        this.zam = new zal(googleApiAvailability);
         if (DeviceProperties.isAuto(context)) {
             this.zau = false;
         }
@@ -171,74 +172,52 @@ public class GoogleApiManager implements Handler.Callback {
                 }
                 break;
             case 2:
-                zal zalVar = (zal) message.obj;
-                Iterator it = zalVar.zab().iterator();
-                while (true) {
-                    if (it.hasNext()) {
-                        ApiKey apiKey6 = (ApiKey) it.next();
-                        zabq zabqVar2 = (zabq) this.zap.get(apiKey6);
-                        if (zabqVar2 != null) {
-                            if (zabqVar2.zay()) {
-                                zalVar.zac(apiKey6, ConnectionResult.RESULT_SUCCESS, zabqVar2.zaf().getEndpointPackageName());
-                            } else {
-                                ConnectionResult zad2 = zabqVar2.zad();
-                                if (zad2 != null) {
-                                    zalVar.zac(apiKey6, zad2, null);
-                                } else {
-                                    zabqVar2.zat(zalVar);
-                                    zabqVar2.zao();
-                                }
-                            }
-                        } else {
-                            zalVar.zac(apiKey6, new ConnectionResult(13), null);
-                            break;
-                        }
-                    } else {
-                        break;
-                    }
-                }
+                ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(message.obj);
+                throw null;
             case 3:
-                for (zabq zabqVar3 : this.zap.values()) {
-                    zabqVar3.zan();
-                    zabqVar3.zao();
+                for (zabq zabqVar2 : this.zap.values()) {
+                    zabqVar2.zan();
+                    zabqVar2.zao();
                 }
                 break;
             case 4:
             case 8:
             case 13:
                 zach zachVar = (zach) message.obj;
-                zabq zabqVar4 = (zabq) this.zap.get(zachVar.zac.getApiKey());
-                if (zabqVar4 == null) {
-                    zabqVar4 = zaI(zachVar.zac);
+                zabq zabqVar3 = (zabq) this.zap.get(zachVar.zac.getApiKey());
+                if (zabqVar3 == null) {
+                    zabqVar3 = zaI(zachVar.zac);
                 }
-                if (!zabqVar4.zaz() || this.zao.get() == zachVar.zab) {
-                    zabqVar4.zap(zachVar.zaa);
+                if (!zabqVar3.zaz() || this.zao.get() == zachVar.zab) {
+                    zabqVar3.zap(zachVar.zaa);
                     break;
                 } else {
                     zachVar.zaa.zad(zaa);
-                    zabqVar4.zav();
+                    zabqVar3.zav();
                     break;
                 }
             case 5:
                 int i2 = message.arg1;
                 ConnectionResult connectionResult = (ConnectionResult) message.obj;
-                Iterator it2 = this.zap.values().iterator();
+                Iterator it = this.zap.values().iterator();
                 while (true) {
-                    if (it2.hasNext()) {
-                        zabq zabqVar5 = (zabq) it2.next();
-                        zabqVar = zabqVar5.zab() == i2 ? zabqVar5 : null;
+                    if (it.hasNext()) {
+                        zabq zabqVar4 = (zabq) it.next();
+                        zabqVar = zabqVar4.zab() == i2 ? zabqVar4 : null;
                     }
                 }
-                if (zabqVar == null) {
-                    Log.wtf("GoogleApiManager", "Could not find API instance " + i2 + " while trying to fail enqueued calls.", new Exception());
-                    break;
-                } else if (connectionResult.getErrorCode() == 13) {
-                    String errorString = this.zal.getErrorString(connectionResult.getErrorCode());
-                    String errorMessage = connectionResult.getErrorMessage();
-                    zabq.zai(zabqVar, new Status(17, "Error resolution was canceled by the user, original error message: " + errorString + ": " + errorMessage));
-                    break;
+                if (zabqVar != null) {
+                    if (connectionResult.getErrorCode() == 13) {
+                        String errorString = this.zal.getErrorString(connectionResult.getErrorCode());
+                        String errorMessage = connectionResult.getErrorMessage();
+                        zabq.zai(zabqVar, new Status(17, "Error resolution was canceled by the user, original error message: " + errorString + ": " + errorMessage));
+                        break;
+                    } else {
+                        zabq.zai(zabqVar, zaH(zabq.zag(zabqVar), connectionResult));
+                        break;
+                    }
                 } else {
-                    zabq.zai(zabqVar, zaH(zabq.zag(zabqVar), connectionResult));
+                    Log.wtf("GoogleApiManager", "Could not find API instance " + i2 + " while trying to fail enqueued calls.", new Exception());
                     break;
                 }
             case 6:
@@ -261,10 +240,10 @@ public class GoogleApiManager implements Handler.Callback {
                 }
                 break;
             case 10:
-                for (ApiKey apiKey7 : this.zas) {
-                    zabq zabqVar6 = (zabq) this.zap.remove(apiKey7);
-                    if (zabqVar6 != null) {
-                        zabqVar6.zav();
+                for (ApiKey apiKey6 : this.zas) {
+                    zabq zabqVar5 = (zabq) this.zap.remove(apiKey6);
+                    if (zabqVar5 != null) {
+                        zabqVar5.zav();
                     }
                 }
                 this.zas.clear();
@@ -282,15 +261,8 @@ public class GoogleApiManager implements Handler.Callback {
                 }
                 break;
             case 14:
-                zaaf zaafVar = (zaaf) message.obj;
-                ApiKey zaa2 = zaafVar.zaa();
-                if (!this.zap.containsKey(zaa2)) {
-                    zaafVar.zab().setResult(Boolean.FALSE);
-                    break;
-                } else {
-                    zaafVar.zab().setResult(Boolean.valueOf(zabq.zax((zabq) this.zap.get(zaa2), false)));
-                    break;
-                }
+                ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(message.obj);
+                throw null;
             case 15:
                 zabs zabsVar = (zabs) message.obj;
                 Map map = this.zap;
@@ -325,11 +297,11 @@ public class GoogleApiManager implements Handler.Callback {
                     TelemetryData telemetryData = this.zai;
                     if (telemetryData != null) {
                         List zab2 = telemetryData.zab();
-                        if (telemetryData.zaa() == zaceVar.zab && (zab2 == null || zab2.size() < zaceVar.zad)) {
-                            this.zai.zac(zaceVar.zaa);
-                        } else {
+                        if (telemetryData.zaa() != zaceVar.zab || (zab2 != null && zab2.size() >= zaceVar.zad)) {
                             this.zat.removeMessages(17);
                             zaK();
+                        } else {
+                            this.zai.zac(zaceVar.zaa);
                         }
                     }
                     if (this.zai == null) {

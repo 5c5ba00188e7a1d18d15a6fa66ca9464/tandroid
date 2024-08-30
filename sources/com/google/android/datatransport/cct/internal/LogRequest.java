@@ -1,37 +1,17 @@
 package com.google.android.datatransport.cct.internal;
 
 import com.google.android.datatransport.cct.internal.AutoValue_LogRequest;
-import com.google.auto.value.AutoValue;
 import java.util.List;
-@AutoValue
 /* loaded from: classes.dex */
 public abstract class LogRequest {
-    public abstract ClientInfo getClientInfo();
 
-    public abstract List<LogEvent> getLogEvents();
-
-    public abstract Integer getLogSource();
-
-    public abstract String getLogSourceName();
-
-    public abstract QosTier getQosTier();
-
-    public abstract long getRequestTimeMs();
-
-    public abstract long getRequestUptimeMs();
-
-    public static Builder builder() {
-        return new AutoValue_LogRequest.Builder();
-    }
-
-    @AutoValue.Builder
     /* loaded from: classes.dex */
     public static abstract class Builder {
         public abstract LogRequest build();
 
         public abstract Builder setClientInfo(ClientInfo clientInfo);
 
-        public abstract Builder setLogEvents(List<LogEvent> list);
+        public abstract Builder setLogEvents(List list);
 
         abstract Builder setLogSource(Integer num);
 
@@ -51,4 +31,22 @@ public abstract class LogRequest {
             return setLogSourceName(str);
         }
     }
+
+    public static Builder builder() {
+        return new AutoValue_LogRequest.Builder();
+    }
+
+    public abstract ClientInfo getClientInfo();
+
+    public abstract List getLogEvents();
+
+    public abstract Integer getLogSource();
+
+    public abstract String getLogSourceName();
+
+    public abstract QosTier getQosTier();
+
+    public abstract long getRequestTimeMs();
+
+    public abstract long getRequestUptimeMs();
 }

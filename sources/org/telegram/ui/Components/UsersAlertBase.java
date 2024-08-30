@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
@@ -40,16 +39,16 @@ import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.UsersAlertBase;
 /* loaded from: classes3.dex */
-public class UsersAlertBase extends BottomSheet {
-    public static final Property<UsersAlertBase, Float> COLOR_PROGRESS = new AnimationProperties.FloatProperty<UsersAlertBase>("colorProgress") { // from class: org.telegram.ui.Components.UsersAlertBase.3
-        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
-        public void setValue(UsersAlertBase usersAlertBase, float f) {
-            usersAlertBase.setColorProgress(f);
-        }
-
+public abstract class UsersAlertBase extends BottomSheet {
+    public static final Property COLOR_PROGRESS = new AnimationProperties.FloatProperty("colorProgress") { // from class: org.telegram.ui.Components.UsersAlertBase.3
         @Override // android.util.Property
         public Float get(UsersAlertBase usersAlertBase) {
             return Float.valueOf(usersAlertBase.getColorProgress());
+        }
+
+        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
+        public void setValue(UsersAlertBase usersAlertBase, float f) {
+            usersAlertBase.setColorProgress(f);
         }
     };
     private int backgroundColor;
@@ -86,141 +85,214 @@ public class UsersAlertBase extends BottomSheet {
     private TextView titleView;
 
     /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
-        return false;
-    }
+    /* loaded from: classes3.dex */
+    public class ContainerView extends FrameLayout {
+        private boolean ignoreLayout;
+        float snapToTopOffset;
+        private Boolean statusBarOpen;
+        ValueAnimator valueAnimator;
 
-    protected void onSearchViewTouched(MotionEvent motionEvent, EditTextBoldCursor editTextBoldCursor) {
-    }
+        public ContainerView(Context context) {
+            super(context);
+            this.ignoreLayout = false;
+        }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void search(String str) {
-    }
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onMeasure$0(ValueAnimator valueAnimator) {
+            float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+            this.snapToTopOffset = floatValue;
+            setTranslationY(floatValue);
+        }
 
-    protected void updateColorKeys() {
-    }
-
-    public UsersAlertBase(Context context, boolean z, int i, Theme.ResourcesProvider resourcesProvider) {
-        super(context, z, resourcesProvider);
-        this.rect = new RectF();
-        this.needSnapToTop = true;
-        this.isEmptyViewVisible = true;
-        this.keyScrollUp = Theme.key_sheet_scrollUp;
-        this.keyListSelector = Theme.key_listSelector;
-        this.keySearchBackground = Theme.key_dialogSearchBackground;
-        int i2 = Theme.key_windowBackgroundWhite;
-        this.keyInviteMembersBackground = i2;
-        this.keyListViewBackground = i2;
-        this.keyActionBarUnscrolled = i2;
-        this.keyNameText = Theme.key_windowBackgroundWhiteBlackText;
-        int i3 = Theme.key_windowBackgroundWhiteGrayText;
-        this.keyLastSeenText = i3;
-        this.keyLastSeenTextUnscrolled = i3;
-        this.keySearchPlaceholder = Theme.key_dialogSearchHint;
-        this.keySearchText = Theme.key_dialogSearchText;
-        int i4 = Theme.key_dialogSearchIcon;
-        this.keySearchIcon = i4;
-        this.keySearchIconUnscrolled = i4;
-        this.drawTitle = true;
-        this.resourcesProvider = resourcesProvider;
-        updateColorKeys();
-        setDimBehindAlpha(75);
-        this.currentAccount = i;
-        this.shadowDrawable = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
-        ContainerView createContainerView = createContainerView(context);
-        this.containerView = createContainerView;
-        createContainerView.setWillNotDraw(false);
-        this.containerView.setClipChildren(false);
-        ViewGroup viewGroup = this.containerView;
-        int i5 = this.backgroundPaddingLeft;
-        viewGroup.setPadding(i5, 0, i5, 0);
-        this.frameLayout = new FrameLayout(context);
-        SearchField searchField = new SearchField(context);
-        this.searchView = searchField;
-        this.frameLayout.addView(searchField, LayoutHelper.createFrame(-1, -1, 51));
-        FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context);
-        this.flickerLoadingView = flickerLoadingView;
-        flickerLoadingView.setViewType(6);
-        this.flickerLoadingView.showDate(false);
-        this.flickerLoadingView.setUseHeaderOffset(true);
-        this.flickerLoadingView.setColors(this.keyInviteMembersBackground, this.keySearchBackground, this.keyActionBarUnscrolled);
-        StickerEmptyView stickerEmptyView = new StickerEmptyView(context, this.flickerLoadingView, 1);
-        this.emptyView = stickerEmptyView;
-        stickerEmptyView.addView(this.flickerLoadingView, 0, LayoutHelper.createFrame(-1, -1.0f, 0, 0.0f, 2.0f, 0.0f, 0.0f));
-        this.emptyView.title.setText(LocaleController.getString(R.string.NoResult));
-        this.emptyView.subtitle.setText(LocaleController.getString(R.string.SearchEmptyViewFilteredSubtitle2));
-        this.emptyView.setVisibility(8);
-        this.emptyView.setAnimateLayoutChange(true);
-        this.emptyView.showProgress(true, false);
-        this.emptyView.setColors(this.keyNameText, this.keyLastSeenText, this.keyInviteMembersBackground, this.keySearchBackground);
-        this.containerView.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 62.0f, 0.0f, 0.0f));
-        RecyclerListView recyclerListView = new RecyclerListView(context, resourcesProvider) { // from class: org.telegram.ui.Components.UsersAlertBase.1
-            @Override // org.telegram.ui.Components.RecyclerListView, android.view.View
-            public void setTranslationY(float f) {
-                super.setTranslationY(f);
-                getLocationInWindow(new int[2]);
+        private void updateLightStatusBar(boolean z) {
+            Boolean bool = this.statusBarOpen;
+            if (bool == null || bool.booleanValue() != z) {
+                boolean z2 = AndroidUtilities.computePerceivedBrightness(UsersAlertBase.this.getThemedColor(Theme.key_dialogBackground)) > 0.721f;
+                boolean z3 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(UsersAlertBase.this.getThemedColor(Theme.key_actionBarDefault), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
+                this.statusBarOpen = Boolean.valueOf(z);
+                if (!z) {
+                    z2 = z3;
+                }
+                AndroidUtilities.setLightStatusBar(UsersAlertBase.this.getWindow(), z2);
             }
+        }
 
-            @Override // org.telegram.ui.Components.RecyclerListView
-            public boolean emptyViewIsVisible() {
-                return getAdapter() != null && UsersAlertBase.this.isEmptyViewVisible && getAdapter().getItemCount() <= 2;
-            }
-        };
-        this.listView = recyclerListView;
-        recyclerListView.setOverScrollMode(2);
-        this.listView.setTag(13);
-        this.listView.setPadding(0, 0, 0, AndroidUtilities.dp(48.0f));
-        this.listView.setClipToPadding(false);
-        this.listView.setHideIfEmpty(false);
-        this.listView.setSelectorDrawableColor(Theme.getColor(this.keyListSelector, resourcesProvider));
-        FillLastLinearLayoutManager fillLastLinearLayoutManager = new FillLastLinearLayoutManager(getContext(), 1, false, AndroidUtilities.dp(8.0f), this.listView);
-        this.layoutManager = fillLastLinearLayoutManager;
-        fillLastLinearLayoutManager.setBind(false);
-        this.listView.setLayoutManager(fillLastLinearLayoutManager);
-        this.listView.setHorizontalScrollBarEnabled(false);
-        this.listView.setVerticalScrollBarEnabled(false);
-        this.containerView.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 0.0f));
-        this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.UsersAlertBase.2
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i6, int i7) {
-                UsersAlertBase.this.updateLayout();
-            }
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // android.view.ViewGroup, android.view.View
+        public void dispatchDraw(Canvas canvas) {
+            canvas.save();
+            canvas.clipRect(0, getPaddingTop(), getMeasuredWidth(), getMeasuredHeight());
+            super.dispatchDraw(canvas);
+            canvas.restore();
+        }
 
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrollStateChanged(RecyclerView recyclerView, int i6) {
-                RecyclerListView.Holder holder;
-                if (i6 == 0) {
-                    UsersAlertBase usersAlertBase = UsersAlertBase.this;
-                    if (!usersAlertBase.needSnapToTop || usersAlertBase.scrollOffsetY + ((BottomSheet) usersAlertBase).backgroundPaddingTop + AndroidUtilities.dp(13.0f) >= AndroidUtilities.statusBarHeight * 2 || !UsersAlertBase.this.listView.canScrollVertically(1) || (holder = (RecyclerListView.Holder) UsersAlertBase.this.listView.findViewHolderForAdapterPosition(0)) == null || holder.itemView.getTop() <= 0) {
-                        return;
+        /* JADX WARN: Removed duplicated region for block: B:15:0x00c6  */
+        /* JADX WARN: Removed duplicated region for block: B:20:0x0171  */
+        /* JADX WARN: Removed duplicated region for block: B:23:0x01ae  */
+        @Override // android.view.View
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        protected void onDraw(Canvas canvas) {
+            float f;
+            int i;
+            int i2;
+            int i3;
+            canvas.save();
+            UsersAlertBase usersAlertBase = UsersAlertBase.this;
+            int dp = (usersAlertBase.scrollOffsetY - ((BottomSheet) usersAlertBase).backgroundPaddingTop) + AndroidUtilities.dp(6.0f);
+            UsersAlertBase usersAlertBase2 = UsersAlertBase.this;
+            int dp2 = (usersAlertBase2.scrollOffsetY - ((BottomSheet) usersAlertBase2).backgroundPaddingTop) - AndroidUtilities.dp(13.0f);
+            int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(50.0f) + ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop;
+            if (Build.VERSION.SDK_INT >= 21) {
+                int i4 = AndroidUtilities.statusBarHeight;
+                dp2 += i4;
+                dp += i4;
+                measuredHeight -= i4;
+                float translationY = ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop + dp2 + getTranslationY();
+                int i5 = AndroidUtilities.statusBarHeight;
+                if (translationY < i5 * 2) {
+                    int min = (int) Math.min(i5, ((i2 - dp2) - ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop) - getTranslationY());
+                    dp2 -= min;
+                    measuredHeight += min;
+                    f = 1.0f - Math.min(1.0f, (min * 2) / AndroidUtilities.statusBarHeight);
+                } else {
+                    f = 1.0f;
+                }
+                float translationY2 = ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop + dp2 + getTranslationY();
+                float f2 = AndroidUtilities.statusBarHeight;
+                if (translationY2 < f2) {
+                    i = (int) Math.min(f2, ((i3 - dp2) - ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop) - getTranslationY());
+                    UsersAlertBase.this.shadowDrawable.setBounds(0, dp2, getMeasuredWidth(), measuredHeight);
+                    UsersAlertBase.this.shadowDrawable.draw(canvas);
+                    if (!UsersAlertBase.this.drawTitle) {
+                        if (f != 1.0f) {
+                            Theme.dialogs_onlineCirclePaint.setColor(UsersAlertBase.this.backgroundColor);
+                            UsersAlertBase.this.rect.set(((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop + dp2, getMeasuredWidth() - ((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop + dp2 + AndroidUtilities.dp(24.0f));
+                            canvas.drawRoundRect(UsersAlertBase.this.rect, AndroidUtilities.dp(12.0f) * f, AndroidUtilities.dp(12.0f) * f, Theme.dialogs_onlineCirclePaint);
+                        }
+                        int dp3 = AndroidUtilities.dp(36.0f);
+                        UsersAlertBase.this.rect.set((getMeasuredWidth() - dp3) / 2, dp, (getMeasuredWidth() + dp3) / 2, dp + AndroidUtilities.dp(4.0f));
+                        Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(UsersAlertBase.this.keyScrollUp));
+                        canvas.drawRoundRect(UsersAlertBase.this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
                     }
-                    UsersAlertBase.this.listView.smoothScrollBy(0, holder.itemView.getTop());
+                    if (i > 0) {
+                        Theme.dialogs_onlineCirclePaint.setColor(UsersAlertBase.this.backgroundColor);
+                        canvas.drawRect(((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, (AndroidUtilities.statusBarHeight - i) - getTranslationY(), getMeasuredWidth() - ((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - getTranslationY(), Theme.dialogs_onlineCirclePaint);
+                    }
+                    updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
+                    canvas.restore();
+                }
+            } else {
+                f = 1.0f;
+            }
+            i = 0;
+            UsersAlertBase.this.shadowDrawable.setBounds(0, dp2, getMeasuredWidth(), measuredHeight);
+            UsersAlertBase.this.shadowDrawable.draw(canvas);
+            if (!UsersAlertBase.this.drawTitle) {
+            }
+            if (i > 0) {
+            }
+            updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
+            canvas.restore();
+        }
+
+        @Override // android.view.ViewGroup
+        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+            if (motionEvent.getAction() == 0) {
+                float y = motionEvent.getY();
+                UsersAlertBase usersAlertBase = UsersAlertBase.this;
+                if (y < usersAlertBase.scrollOffsetY) {
+                    usersAlertBase.dismiss();
+                    return true;
                 }
             }
-        });
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(-1, AndroidUtilities.getShadowHeight(), 51);
-        layoutParams.topMargin = AndroidUtilities.dp(58.0f);
-        View view = new View(context);
-        this.shadow = view;
-        view.setBackgroundColor(Theme.getColor(Theme.key_dialogShadowLine));
-        this.shadow.setAlpha(0.0f);
-        this.shadow.setTag(1);
-        this.containerView.addView(this.shadow, layoutParams);
-        this.containerView.addView(this.frameLayout, LayoutHelper.createFrame(-1, 58, 51));
-        setColorProgress(0.0f);
-        this.listView.setEmptyView(this.emptyView);
-        this.listView.setAnimateEmptyView(true, 0);
-    }
+            return super.onInterceptTouchEvent(motionEvent);
+        }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet
-    public void onConfigurationChanged(Configuration configuration) {
-        super.onConfigurationChanged(configuration);
-        AndroidUtilities.statusBarHeight = AndroidUtilities.getStatusBarHeight(getContext());
-    }
+        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            super.onLayout(z, i, i2, i3, i4);
+            UsersAlertBase.this.updateLayout();
+        }
 
-    protected ContainerView createContainerView(Context context) {
-        return new ContainerView(context);
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            int measurePadding;
+            int size = View.MeasureSpec.getSize(i2);
+            if (Build.VERSION.SDK_INT >= 21) {
+                this.ignoreLayout = true;
+                setPadding(((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, ((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, 0);
+                this.ignoreLayout = false;
+            }
+            int paddingTop = size - getPaddingTop();
+            if (((BottomSheet) UsersAlertBase.this).keyboardVisible) {
+                measurePadding = AndroidUtilities.dp(8.0f);
+                UsersAlertBase.this.setAllowNestedScroll(false);
+                int i3 = UsersAlertBase.this.scrollOffsetY;
+                if (i3 != 0) {
+                    float f = i3;
+                    this.snapToTopOffset = f;
+                    setTranslationY(f);
+                    ValueAnimator valueAnimator = this.valueAnimator;
+                    if (valueAnimator != null) {
+                        valueAnimator.removeAllListeners();
+                        this.valueAnimator.cancel();
+                    }
+                    ValueAnimator ofFloat = ValueAnimator.ofFloat(this.snapToTopOffset, 0.0f);
+                    this.valueAnimator = ofFloat;
+                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.UsersAlertBase$ContainerView$$ExternalSyntheticLambda0
+                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                        public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                            UsersAlertBase.ContainerView.this.lambda$onMeasure$0(valueAnimator2);
+                        }
+                    });
+                    this.valueAnimator.setDuration(250L);
+                    this.valueAnimator.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
+                    this.valueAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.UsersAlertBase.ContainerView.1
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            super.onAnimationEnd(animator);
+                            ContainerView containerView = ContainerView.this;
+                            containerView.snapToTopOffset = 0.0f;
+                            containerView.setTranslationY(0.0f);
+                            ContainerView.this.valueAnimator = null;
+                        }
+                    });
+                    this.valueAnimator.start();
+                } else if (this.valueAnimator != null) {
+                    setTranslationY(this.snapToTopOffset);
+                }
+            } else {
+                measurePadding = UsersAlertBase.this.measurePadding(paddingTop);
+                UsersAlertBase.this.setAllowNestedScroll(true);
+            }
+            if (UsersAlertBase.this.listView.getPaddingTop() != measurePadding) {
+                this.ignoreLayout = true;
+                UsersAlertBase.this.listView.setPadding(0, measurePadding, 0, 0);
+                this.ignoreLayout = false;
+            }
+            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
+        }
+
+        @Override // android.view.View
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            return !UsersAlertBase.this.isDismissed() && super.onTouchEvent(motionEvent);
+        }
+
+        @Override // android.view.View, android.view.ViewParent
+        public void requestLayout() {
+            if (this.ignoreLayout) {
+                return;
+            }
+            super.requestLayout();
+        }
+
+        @Override // android.view.View
+        public void setTranslationY(float f) {
+            super.setTranslationY(f);
+            invalidate();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -297,14 +369,6 @@ public class UsersAlertBase extends BottomSheet {
             addView(this.searchEditText, LayoutHelper.createFrame(-1, 40.0f, 51, 54.0f, 9.0f, 46.0f, 0.0f));
             this.searchEditText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Components.UsersAlertBase.SearchField.3
                 @Override // android.text.TextWatcher
-                public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                }
-
-                @Override // android.text.TextWatcher
-                public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                }
-
-                @Override // android.text.TextWatcher
                 public void afterTextChanged(Editable editable) {
                     RecyclerListView recyclerListView;
                     boolean z = SearchField.this.searchEditText.length() > 0;
@@ -328,6 +392,14 @@ public class UsersAlertBase extends BottomSheet {
                         }
                     }
                     UsersAlertBase.this.flickerLoadingView.setVisibility(0);
+                }
+
+                @Override // android.text.TextWatcher
+                public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                }
+
+                @Override // android.text.TextWatcher
+                public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
                 }
             });
             this.searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.UsersAlertBase$SearchField$$ExternalSyntheticLambda1
@@ -358,21 +430,206 @@ public class UsersAlertBase extends BottomSheet {
             return false;
         }
 
+        public void closeSearch() {
+            this.clearSearchImageView.callOnClick();
+            AndroidUtilities.hideKeyboard(this.searchEditText);
+        }
+
         @Override // android.view.ViewGroup
         public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
             UsersAlertBase.this.onSearchViewTouched(motionEvent, this.searchEditText);
             return super.onInterceptTouchEvent(motionEvent);
         }
+    }
 
-        public void closeSearch() {
-            this.clearSearchImageView.callOnClick();
-            AndroidUtilities.hideKeyboard(this.searchEditText);
-        }
+    public UsersAlertBase(Context context, boolean z, int i, Theme.ResourcesProvider resourcesProvider) {
+        super(context, z, resourcesProvider);
+        this.rect = new RectF();
+        this.needSnapToTop = true;
+        this.isEmptyViewVisible = true;
+        this.keyScrollUp = Theme.key_sheet_scrollUp;
+        this.keyListSelector = Theme.key_listSelector;
+        this.keySearchBackground = Theme.key_dialogSearchBackground;
+        int i2 = Theme.key_windowBackgroundWhite;
+        this.keyInviteMembersBackground = i2;
+        this.keyListViewBackground = i2;
+        this.keyActionBarUnscrolled = i2;
+        this.keyNameText = Theme.key_windowBackgroundWhiteBlackText;
+        int i3 = Theme.key_windowBackgroundWhiteGrayText;
+        this.keyLastSeenText = i3;
+        this.keyLastSeenTextUnscrolled = i3;
+        this.keySearchPlaceholder = Theme.key_dialogSearchHint;
+        this.keySearchText = Theme.key_dialogSearchText;
+        int i4 = Theme.key_dialogSearchIcon;
+        this.keySearchIcon = i4;
+        this.keySearchIconUnscrolled = i4;
+        this.drawTitle = true;
+        this.resourcesProvider = resourcesProvider;
+        updateColorKeys();
+        setDimBehindAlpha(75);
+        this.currentAccount = i;
+        this.shadowDrawable = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
+        ContainerView createContainerView = createContainerView(context);
+        this.containerView = createContainerView;
+        createContainerView.setWillNotDraw(false);
+        this.containerView.setClipChildren(false);
+        ViewGroup viewGroup = this.containerView;
+        int i5 = this.backgroundPaddingLeft;
+        viewGroup.setPadding(i5, 0, i5, 0);
+        this.frameLayout = new FrameLayout(context);
+        SearchField searchField = new SearchField(context);
+        this.searchView = searchField;
+        this.frameLayout.addView(searchField, LayoutHelper.createFrame(-1, -1, 51));
+        FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context);
+        this.flickerLoadingView = flickerLoadingView;
+        flickerLoadingView.setViewType(6);
+        this.flickerLoadingView.showDate(false);
+        this.flickerLoadingView.setUseHeaderOffset(true);
+        this.flickerLoadingView.setColors(this.keyInviteMembersBackground, this.keySearchBackground, this.keyActionBarUnscrolled);
+        StickerEmptyView stickerEmptyView = new StickerEmptyView(context, this.flickerLoadingView, 1);
+        this.emptyView = stickerEmptyView;
+        stickerEmptyView.addView(this.flickerLoadingView, 0, LayoutHelper.createFrame(-1, -1.0f, 0, 0.0f, 2.0f, 0.0f, 0.0f));
+        this.emptyView.title.setText(LocaleController.getString(R.string.NoResult));
+        this.emptyView.subtitle.setText(LocaleController.getString(R.string.SearchEmptyViewFilteredSubtitle2));
+        this.emptyView.setVisibility(8);
+        this.emptyView.setAnimateLayoutChange(true);
+        this.emptyView.showProgress(true, false);
+        this.emptyView.setColors(this.keyNameText, this.keyLastSeenText, this.keyInviteMembersBackground, this.keySearchBackground);
+        this.containerView.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 62.0f, 0.0f, 0.0f));
+        RecyclerListView recyclerListView = new RecyclerListView(context, resourcesProvider) { // from class: org.telegram.ui.Components.UsersAlertBase.1
+            @Override // org.telegram.ui.Components.RecyclerListView
+            public boolean emptyViewIsVisible() {
+                return getAdapter() != null && UsersAlertBase.this.isEmptyViewVisible && getAdapter().getItemCount() <= 2;
+            }
+
+            @Override // org.telegram.ui.Components.RecyclerListView, android.view.View
+            public void setTranslationY(float f) {
+                super.setTranslationY(f);
+                getLocationInWindow(new int[2]);
+            }
+        };
+        this.listView = recyclerListView;
+        recyclerListView.setOverScrollMode(2);
+        this.listView.setTag(13);
+        this.listView.setPadding(0, 0, 0, AndroidUtilities.dp(48.0f));
+        this.listView.setClipToPadding(false);
+        this.listView.setHideIfEmpty(false);
+        this.listView.setSelectorDrawableColor(Theme.getColor(this.keyListSelector, resourcesProvider));
+        FillLastLinearLayoutManager fillLastLinearLayoutManager = new FillLastLinearLayoutManager(getContext(), 1, false, AndroidUtilities.dp(8.0f), this.listView);
+        this.layoutManager = fillLastLinearLayoutManager;
+        fillLastLinearLayoutManager.setBind(false);
+        this.listView.setLayoutManager(fillLastLinearLayoutManager);
+        this.listView.setHorizontalScrollBarEnabled(false);
+        this.listView.setVerticalScrollBarEnabled(false);
+        this.containerView.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 0.0f));
+        this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.UsersAlertBase.2
+            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+            public void onScrollStateChanged(RecyclerView recyclerView, int i6) {
+                RecyclerListView.Holder holder;
+                if (i6 == 0) {
+                    UsersAlertBase usersAlertBase = UsersAlertBase.this;
+                    if (!usersAlertBase.needSnapToTop || usersAlertBase.scrollOffsetY + ((BottomSheet) usersAlertBase).backgroundPaddingTop + AndroidUtilities.dp(13.0f) >= AndroidUtilities.statusBarHeight * 2 || !UsersAlertBase.this.listView.canScrollVertically(1) || (holder = (RecyclerListView.Holder) UsersAlertBase.this.listView.findViewHolderForAdapterPosition(0)) == null || holder.itemView.getTop() <= 0) {
+                        return;
+                    }
+                    UsersAlertBase.this.listView.smoothScrollBy(0, holder.itemView.getTop());
+                }
+            }
+
+            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+            public void onScrolled(RecyclerView recyclerView, int i6, int i7) {
+                UsersAlertBase.this.updateLayout();
+            }
+        });
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(-1, AndroidUtilities.getShadowHeight(), 51);
+        layoutParams.topMargin = AndroidUtilities.dp(58.0f);
+        View view = new View(context);
+        this.shadow = view;
+        view.setBackgroundColor(Theme.getColor(Theme.key_dialogShadowLine));
+        this.shadow.setAlpha(0.0f);
+        this.shadow.setTag(1);
+        this.containerView.addView(this.shadow, layoutParams);
+        this.containerView.addView(this.frameLayout, LayoutHelper.createFrame(-1, 58, 51));
+        setColorProgress(0.0f);
+        this.listView.setEmptyView(this.emptyView);
+        this.listView.setAnimateEmptyView(true, 0);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public float getColorProgress() {
         return this.colorProgress;
+    }
+
+    private void runShadowAnimation(final boolean z) {
+        if ((!z || this.shadow.getTag() == null) && (z || this.shadow.getTag() != null)) {
+            return;
+        }
+        this.shadow.setTag(z ? null : 1);
+        if (z) {
+            this.shadow.setVisibility(0);
+        }
+        AnimatorSet animatorSet = this.shadowAnimation;
+        if (animatorSet != null) {
+            animatorSet.cancel();
+        }
+        AnimatorSet animatorSet2 = new AnimatorSet();
+        this.shadowAnimation = animatorSet2;
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.shadow, View.ALPHA, z ? 1.0f : 0.0f));
+        this.shadowAnimation.setDuration(150L);
+        this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.UsersAlertBase.4
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationCancel(Animator animator) {
+                AnimatorSet animatorSet3 = UsersAlertBase.this.shadowAnimation;
+                if (animatorSet3 == null || !animatorSet3.equals(animator)) {
+                    return;
+                }
+                UsersAlertBase.this.shadowAnimation = null;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                AnimatorSet animatorSet3 = UsersAlertBase.this.shadowAnimation;
+                if (animatorSet3 == null || !animatorSet3.equals(animator)) {
+                    return;
+                }
+                if (!z) {
+                    UsersAlertBase.this.shadow.setVisibility(4);
+                }
+                UsersAlertBase.this.shadowAnimation = null;
+            }
+        });
+        this.shadowAnimation.start();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.ActionBar.BottomSheet
+    public boolean canDismissWithSwipe() {
+        return false;
+    }
+
+    protected ContainerView createContainerView(Context context) {
+        return new ContainerView(context);
+    }
+
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
+    public void dismiss() {
+        AndroidUtilities.hideKeyboard(this.searchView.searchEditText);
+        super.dismiss();
+    }
+
+    protected int measurePadding(int i) {
+        return (i - ((i / 5) * 3)) + AndroidUtilities.dp(8.0f);
+    }
+
+    @Override // org.telegram.ui.ActionBar.BottomSheet
+    public void onConfigurationChanged(Configuration configuration) {
+        super.onConfigurationChanged(configuration);
+        AndroidUtilities.statusBarHeight = AndroidUtilities.getStatusBarHeight(getContext());
+    }
+
+    protected abstract void onSearchViewTouched(MotionEvent motionEvent, EditTextBoldCursor editTextBoldCursor);
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void search(String str) {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -401,31 +658,24 @@ public class UsersAlertBase extends BottomSheet {
         this.container.invalidate();
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
-        AndroidUtilities.hideKeyboard(this.searchView.searchEditText);
-        super.dismiss();
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @SuppressLint({"NewApi"})
-    public void updateLayout() {
-        if (this.listView.getChildCount() <= 0) {
-            return;
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
+    public void setTitle(CharSequence charSequence) {
+        if (this.titleView == null) {
+            TextView textView = new TextView(getContext());
+            this.titleView = textView;
+            textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, this.resourcesProvider));
+            this.titleView.setTextSize(1, 20.0f);
+            this.titleView.setTypeface(AndroidUtilities.bold());
+            this.titleView.setLines(1);
+            this.titleView.setMaxLines(1);
+            this.titleView.setSingleLine(true);
+            this.titleView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+            this.titleView.setEllipsize(TextUtils.TruncateAt.END);
+            this.frameLayout.addView(this.titleView, LayoutHelper.createFrame(-1, 36.0f, 51, 16.0f, 0.0f, 0.0f, 0.0f));
+            ((FrameLayout.LayoutParams) this.searchView.getLayoutParams()).topMargin = AndroidUtilities.dp(30.0f);
+            this.frameLayout.getLayoutParams().height = AndroidUtilities.dp(94.0f);
         }
-        RecyclerView.ViewHolder findViewHolderForAdapterPosition = this.listView.findViewHolderForAdapterPosition(0);
-        int top = findViewHolderForAdapterPosition != null ? findViewHolderForAdapterPosition.itemView.getTop() - AndroidUtilities.dp(8.0f) : 0;
-        int i = (top <= 0 || findViewHolderForAdapterPosition == null || findViewHolderForAdapterPosition.getAdapterPosition() != 0) ? 0 : top;
-        if (top >= 0 && findViewHolderForAdapterPosition != null && findViewHolderForAdapterPosition.getAdapterPosition() == 0) {
-            runShadowAnimation(false);
-        } else {
-            runShadowAnimation(true);
-            top = i;
-        }
-        if (this.scrollOffsetY != top) {
-            this.scrollOffsetY = top;
-            setTranslationY(top);
-        }
+        this.titleView.setText(charSequence);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -435,47 +685,6 @@ public class UsersAlertBase extends BottomSheet {
         this.frameLayout.setTranslationY(f);
         this.emptyView.setTranslationY(f);
         this.containerView.invalidate();
-    }
-
-    private void runShadowAnimation(final boolean z) {
-        if ((!z || this.shadow.getTag() == null) && (z || this.shadow.getTag() != null)) {
-            return;
-        }
-        this.shadow.setTag(z ? null : 1);
-        if (z) {
-            this.shadow.setVisibility(0);
-        }
-        AnimatorSet animatorSet = this.shadowAnimation;
-        if (animatorSet != null) {
-            animatorSet.cancel();
-        }
-        AnimatorSet animatorSet2 = new AnimatorSet();
-        this.shadowAnimation = animatorSet2;
-        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.shadow, View.ALPHA, z ? 1.0f : 0.0f));
-        this.shadowAnimation.setDuration(150L);
-        this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.UsersAlertBase.4
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                AnimatorSet animatorSet3 = UsersAlertBase.this.shadowAnimation;
-                if (animatorSet3 == null || !animatorSet3.equals(animator)) {
-                    return;
-                }
-                if (!z) {
-                    UsersAlertBase.this.shadow.setVisibility(4);
-                }
-                UsersAlertBase.this.shadowAnimation = null;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationCancel(Animator animator) {
-                AnimatorSet animatorSet3 = UsersAlertBase.this.shadowAnimation;
-                if (animatorSet3 == null || !animatorSet3.equals(animator)) {
-                    return;
-                }
-                UsersAlertBase.this.shadowAnimation = null;
-            }
-        });
-        this.shadowAnimation.start();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -508,238 +717,26 @@ public class UsersAlertBase extends BottomSheet {
         }
     }
 
+    protected void updateColorKeys() {
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes3.dex */
-    public class ContainerView extends FrameLayout {
-        private boolean ignoreLayout;
-        float snapToTopOffset;
-        private Boolean statusBarOpen;
-        ValueAnimator valueAnimator;
-
-        public ContainerView(Context context) {
-            super(context);
-            this.ignoreLayout = false;
+    public void updateLayout() {
+        if (this.listView.getChildCount() <= 0) {
+            return;
         }
-
-        @Override // android.view.View
-        public void setTranslationY(float f) {
-            super.setTranslationY(f);
-            invalidate();
+        RecyclerView.ViewHolder findViewHolderForAdapterPosition = this.listView.findViewHolderForAdapterPosition(0);
+        int top = findViewHolderForAdapterPosition != null ? findViewHolderForAdapterPosition.itemView.getTop() - AndroidUtilities.dp(8.0f) : 0;
+        int i = (top <= 0 || findViewHolderForAdapterPosition == null || findViewHolderForAdapterPosition.getAdapterPosition() != 0) ? 0 : top;
+        if (top < 0 || findViewHolderForAdapterPosition == null || findViewHolderForAdapterPosition.getAdapterPosition() != 0) {
+            runShadowAnimation(true);
+            top = i;
+        } else {
+            runShadowAnimation(false);
         }
-
-        @Override // android.widget.FrameLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
-            int measurePadding;
-            int size = View.MeasureSpec.getSize(i2);
-            if (Build.VERSION.SDK_INT >= 21) {
-                this.ignoreLayout = true;
-                setPadding(((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, ((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, 0);
-                this.ignoreLayout = false;
-            }
-            int paddingTop = size - getPaddingTop();
-            if (((BottomSheet) UsersAlertBase.this).keyboardVisible) {
-                measurePadding = AndroidUtilities.dp(8.0f);
-                UsersAlertBase.this.setAllowNestedScroll(false);
-                int i3 = UsersAlertBase.this.scrollOffsetY;
-                if (i3 != 0) {
-                    float f = i3;
-                    this.snapToTopOffset = f;
-                    setTranslationY(f);
-                    ValueAnimator valueAnimator = this.valueAnimator;
-                    if (valueAnimator != null) {
-                        valueAnimator.removeAllListeners();
-                        this.valueAnimator.cancel();
-                    }
-                    ValueAnimator ofFloat = ValueAnimator.ofFloat(this.snapToTopOffset, 0.0f);
-                    this.valueAnimator = ofFloat;
-                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.UsersAlertBase$ContainerView$$ExternalSyntheticLambda0
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                            UsersAlertBase.ContainerView.this.lambda$onMeasure$0(valueAnimator2);
-                        }
-                    });
-                    this.valueAnimator.setDuration(250L);
-                    this.valueAnimator.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
-                    this.valueAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.UsersAlertBase.ContainerView.1
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            super.onAnimationEnd(animator);
-                            ContainerView containerView = ContainerView.this;
-                            containerView.snapToTopOffset = 0.0f;
-                            containerView.setTranslationY(0.0f);
-                            ContainerView.this.valueAnimator = null;
-                        }
-                    });
-                    this.valueAnimator.start();
-                } else if (this.valueAnimator != null) {
-                    setTranslationY(this.snapToTopOffset);
-                }
-            } else {
-                measurePadding = UsersAlertBase.this.measurePadding(paddingTop);
-                UsersAlertBase.this.setAllowNestedScroll(true);
-            }
-            if (UsersAlertBase.this.listView.getPaddingTop() != measurePadding) {
-                this.ignoreLayout = true;
-                UsersAlertBase.this.listView.setPadding(0, measurePadding, 0, 0);
-                this.ignoreLayout = false;
-            }
-            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
+        if (this.scrollOffsetY != top) {
+            this.scrollOffsetY = top;
+            setTranslationY(top);
         }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onMeasure$0(ValueAnimator valueAnimator) {
-            float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-            this.snapToTopOffset = floatValue;
-            setTranslationY(floatValue);
-        }
-
-        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            super.onLayout(z, i, i2, i3, i4);
-            UsersAlertBase.this.updateLayout();
-        }
-
-        @Override // android.view.ViewGroup
-        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-            if (motionEvent.getAction() == 0) {
-                float y = motionEvent.getY();
-                UsersAlertBase usersAlertBase = UsersAlertBase.this;
-                if (y < usersAlertBase.scrollOffsetY) {
-                    usersAlertBase.dismiss();
-                    return true;
-                }
-            }
-            return super.onInterceptTouchEvent(motionEvent);
-        }
-
-        @Override // android.view.View
-        public boolean onTouchEvent(MotionEvent motionEvent) {
-            return !UsersAlertBase.this.isDismissed() && super.onTouchEvent(motionEvent);
-        }
-
-        @Override // android.view.View, android.view.ViewParent
-        public void requestLayout() {
-            if (this.ignoreLayout) {
-                return;
-            }
-            super.requestLayout();
-        }
-
-        /* JADX WARN: Removed duplicated region for block: B:15:0x00c6  */
-        /* JADX WARN: Removed duplicated region for block: B:20:0x0171  */
-        /* JADX WARN: Removed duplicated region for block: B:23:0x01ae  */
-        @Override // android.view.View
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        protected void onDraw(Canvas canvas) {
-            float f;
-            int i;
-            int i2;
-            int i3;
-            canvas.save();
-            UsersAlertBase usersAlertBase = UsersAlertBase.this;
-            int dp = (usersAlertBase.scrollOffsetY - ((BottomSheet) usersAlertBase).backgroundPaddingTop) + AndroidUtilities.dp(6.0f);
-            UsersAlertBase usersAlertBase2 = UsersAlertBase.this;
-            int dp2 = (usersAlertBase2.scrollOffsetY - ((BottomSheet) usersAlertBase2).backgroundPaddingTop) - AndroidUtilities.dp(13.0f);
-            int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(50.0f) + ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop;
-            if (Build.VERSION.SDK_INT >= 21) {
-                int i4 = AndroidUtilities.statusBarHeight;
-                dp2 += i4;
-                dp += i4;
-                measuredHeight -= i4;
-                float translationY = ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop + dp2 + getTranslationY();
-                int i5 = AndroidUtilities.statusBarHeight;
-                if (translationY < i5 * 2) {
-                    int min = (int) Math.min(i5, ((i2 - dp2) - ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop) - getTranslationY());
-                    dp2 -= min;
-                    measuredHeight += min;
-                    f = 1.0f - Math.min(1.0f, (min * 2) / AndroidUtilities.statusBarHeight);
-                } else {
-                    f = 1.0f;
-                }
-                float translationY2 = ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop + dp2 + getTranslationY();
-                float f2 = AndroidUtilities.statusBarHeight;
-                if (translationY2 < f2) {
-                    i = (int) Math.min(f2, ((i3 - dp2) - ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop) - getTranslationY());
-                    UsersAlertBase.this.shadowDrawable.setBounds(0, dp2, getMeasuredWidth(), measuredHeight);
-                    UsersAlertBase.this.shadowDrawable.draw(canvas);
-                    if (!UsersAlertBase.this.drawTitle) {
-                        if (f != 1.0f) {
-                            Theme.dialogs_onlineCirclePaint.setColor(UsersAlertBase.this.backgroundColor);
-                            UsersAlertBase.this.rect.set(((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop + dp2, getMeasuredWidth() - ((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop + dp2 + AndroidUtilities.dp(24.0f));
-                            canvas.drawRoundRect(UsersAlertBase.this.rect, AndroidUtilities.dp(12.0f) * f, AndroidUtilities.dp(12.0f) * f, Theme.dialogs_onlineCirclePaint);
-                        }
-                        int dp3 = AndroidUtilities.dp(36.0f);
-                        UsersAlertBase.this.rect.set((getMeasuredWidth() - dp3) / 2, dp, (getMeasuredWidth() + dp3) / 2, dp + AndroidUtilities.dp(4.0f));
-                        Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(UsersAlertBase.this.keyScrollUp));
-                        canvas.drawRoundRect(UsersAlertBase.this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
-                    }
-                    if (i > 0) {
-                        Theme.dialogs_onlineCirclePaint.setColor(UsersAlertBase.this.backgroundColor);
-                        canvas.drawRect(((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, (AndroidUtilities.statusBarHeight - i) - getTranslationY(), getMeasuredWidth() - ((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - getTranslationY(), Theme.dialogs_onlineCirclePaint);
-                    }
-                    updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
-                    canvas.restore();
-                }
-            } else {
-                f = 1.0f;
-            }
-            i = 0;
-            UsersAlertBase.this.shadowDrawable.setBounds(0, dp2, getMeasuredWidth(), measuredHeight);
-            UsersAlertBase.this.shadowDrawable.draw(canvas);
-            if (!UsersAlertBase.this.drawTitle) {
-            }
-            if (i > 0) {
-            }
-            updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
-            canvas.restore();
-        }
-
-        private void updateLightStatusBar(boolean z) {
-            Boolean bool = this.statusBarOpen;
-            if (bool == null || bool.booleanValue() != z) {
-                boolean z2 = AndroidUtilities.computePerceivedBrightness(UsersAlertBase.this.getThemedColor(Theme.key_dialogBackground)) > 0.721f;
-                boolean z3 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(UsersAlertBase.this.getThemedColor(Theme.key_actionBarDefault), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
-                this.statusBarOpen = Boolean.valueOf(z);
-                if (!z) {
-                    z2 = z3;
-                }
-                AndroidUtilities.setLightStatusBar(UsersAlertBase.this.getWindow(), z2);
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: protected */
-        @Override // android.view.ViewGroup, android.view.View
-        public void dispatchDraw(Canvas canvas) {
-            canvas.save();
-            canvas.clipRect(0, getPaddingTop(), getMeasuredWidth(), getMeasuredHeight());
-            super.dispatchDraw(canvas);
-            canvas.restore();
-        }
-    }
-
-    protected int measurePadding(int i) {
-        return (i - ((i / 5) * 3)) + AndroidUtilities.dp(8.0f);
-    }
-
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
-    public void setTitle(CharSequence charSequence) {
-        if (this.titleView == null) {
-            TextView textView = new TextView(getContext());
-            this.titleView = textView;
-            textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, this.resourcesProvider));
-            this.titleView.setTextSize(1, 20.0f);
-            this.titleView.setTypeface(AndroidUtilities.bold());
-            this.titleView.setLines(1);
-            this.titleView.setMaxLines(1);
-            this.titleView.setSingleLine(true);
-            this.titleView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
-            this.titleView.setEllipsize(TextUtils.TruncateAt.END);
-            this.frameLayout.addView(this.titleView, LayoutHelper.createFrame(-1, 36.0f, 51, 16.0f, 0.0f, 0.0f, 0.0f));
-            ((FrameLayout.LayoutParams) this.searchView.getLayoutParams()).topMargin = AndroidUtilities.dp(30.0f);
-            this.frameLayout.getLayoutParams().height = AndroidUtilities.dp(94.0f);
-        }
-        this.titleView.setText(charSequence);
     }
 }

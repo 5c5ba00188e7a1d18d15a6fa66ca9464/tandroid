@@ -1,11 +1,9 @@
 package com.google.android.gms.common.api.internal;
 
 import com.google.android.gms.common.api.Api;
-import com.google.android.gms.common.api.Api.ApiOptions;
 import com.google.android.gms.common.internal.Objects;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class ApiKey<O extends Api.ApiOptions> {
+public final class ApiKey {
     private final int zaa;
     private final Api zab;
     private final Api.ApiOptions zac;
@@ -18,8 +16,8 @@ public final class ApiKey<O extends Api.ApiOptions> {
         this.zaa = Objects.hashCode(api, apiOptions, str);
     }
 
-    public static <O extends Api.ApiOptions> ApiKey<O> getSharedApiKey(Api<O> api, O o, String str) {
-        return new ApiKey<>(api, o, str);
+    public static ApiKey getSharedApiKey(Api api, Api.ApiOptions apiOptions, String str) {
+        return new ApiKey(api, apiOptions, str);
     }
 
     public final boolean equals(Object obj) {

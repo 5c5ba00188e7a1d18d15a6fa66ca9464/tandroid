@@ -1,5 +1,6 @@
 package com.microsoft.appcenter.distribute;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,8 +10,8 @@ import com.microsoft.appcenter.utils.AppCenterLog;
 import java.util.HashSet;
 import java.util.Set;
 /* loaded from: classes.dex */
-public class InstallerUtils {
-    private static final Set<String> LOCAL_STORES;
+public abstract class InstallerUtils {
+    private static final Set LOCAL_STORES;
     private static Boolean sInstalledFromAppStore;
 
     static {
@@ -60,7 +61,8 @@ public class InstallerUtils {
         boolean canRequestPackageInstalls;
         int i = Build.VERSION.SDK_INT;
         if (i < 26) {
-            return i < 21 ? "1".equals(Settings.Global.getString(context.getContentResolver(), "install_non_market_apps")) : "1".equals(Settings.Secure.getString(context.getContentResolver(), "install_non_market_apps"));
+            ContentResolver contentResolver = context.getContentResolver();
+            return "1".equals(i < 21 ? Settings.Global.getString(contentResolver, "install_non_market_apps") : Settings.Secure.getString(contentResolver, "install_non_market_apps"));
         }
         if (context.getApplicationInfo().targetSdkVersion >= 26) {
             canRequestPackageInstalls = context.getPackageManager().canRequestPackageInstalls();

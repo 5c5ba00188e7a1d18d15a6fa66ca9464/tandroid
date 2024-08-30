@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class LatLng extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<LatLng> CREATOR = new zzg();
@@ -13,11 +12,7 @@ public final class LatLng extends AbstractSafeParcelable implements ReflectedPar
     public final double longitude;
 
     public LatLng(double d, double d2) {
-        if (d2 < -180.0d || d2 >= 180.0d) {
-            this.longitude = ((((d2 - 180.0d) % 360.0d) + 360.0d) % 360.0d) - 180.0d;
-        } else {
-            this.longitude = d2;
-        }
+        this.longitude = (d2 < -180.0d || d2 >= 180.0d) ? ((((d2 - 180.0d) % 360.0d) + 360.0d) % 360.0d) - 180.0d : d2;
         this.latitude = Math.max(-90.0d, Math.min(90.0d, d));
     }
 

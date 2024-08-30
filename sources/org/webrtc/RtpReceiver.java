@@ -9,8 +9,18 @@ public class RtpReceiver {
 
     /* loaded from: classes.dex */
     public interface Observer {
-        @CalledByNative("Observer")
         void onFirstPacketReceived(MediaStreamTrack.MediaType mediaType);
+    }
+
+    public RtpReceiver(long j) {
+        this.nativeRtpReceiver = j;
+        this.cachedTrack = MediaStreamTrack.createMediaStreamTrack(nativeGetTrack(j));
+    }
+
+    private void checkRtpReceiverExists() {
+        if (this.nativeRtpReceiver == 0) {
+            throw new IllegalStateException("RtpReceiver has been disposed.");
+        }
     }
 
     private static native String nativeGetId(long j);
@@ -25,27 +35,15 @@ public class RtpReceiver {
 
     private static native void nativeUnsetObserver(long j, long j2);
 
-    @CalledByNative
-    public RtpReceiver(long j) {
-        this.nativeRtpReceiver = j;
-        this.cachedTrack = MediaStreamTrack.createMediaStreamTrack(nativeGetTrack(j));
-    }
-
-    public MediaStreamTrack track() {
-        return this.cachedTrack;
-    }
-
-    public RtpParameters getParameters() {
+    public void SetObserver(Observer observer) {
         checkRtpReceiverExists();
-        return nativeGetParameters(this.nativeRtpReceiver);
+        long j = this.nativeObserver;
+        if (j != 0) {
+            nativeUnsetObserver(this.nativeRtpReceiver, j);
+        }
+        this.nativeObserver = nativeSetObserver(this.nativeRtpReceiver, observer);
     }
 
-    public String id() {
-        checkRtpReceiverExists();
-        return nativeGetId(this.nativeRtpReceiver);
-    }
-
-    @CalledByNative
     public void dispose() {
         checkRtpReceiverExists();
         this.cachedTrack.dispose();
@@ -58,13 +56,14 @@ public class RtpReceiver {
         this.nativeRtpReceiver = 0L;
     }
 
-    public void SetObserver(Observer observer) {
+    public RtpParameters getParameters() {
         checkRtpReceiverExists();
-        long j = this.nativeObserver;
-        if (j != 0) {
-            nativeUnsetObserver(this.nativeRtpReceiver, j);
-        }
-        this.nativeObserver = nativeSetObserver(this.nativeRtpReceiver, observer);
+        return nativeGetParameters(this.nativeRtpReceiver);
+    }
+
+    public String id() {
+        checkRtpReceiverExists();
+        return nativeGetId(this.nativeRtpReceiver);
     }
 
     public void setFrameDecryptor(FrameDecryptor frameDecryptor) {
@@ -72,9 +71,7 @@ public class RtpReceiver {
         nativeSetFrameDecryptor(this.nativeRtpReceiver, frameDecryptor.getNativeFrameDecryptor());
     }
 
-    private void checkRtpReceiverExists() {
-        if (this.nativeRtpReceiver == 0) {
-            throw new IllegalStateException("RtpReceiver has been disposed.");
-        }
+    public MediaStreamTrack track() {
+        return this.cachedTrack;
     }
 }

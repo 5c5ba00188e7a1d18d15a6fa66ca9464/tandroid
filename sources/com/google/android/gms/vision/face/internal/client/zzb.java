@@ -15,58 +15,14 @@ import com.google.android.gms.vision.face.Contour;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.Landmark;
 import java.nio.ByteBuffer;
-/* compiled from: com.google.android.gms:play-services-vision@@20.1.3 */
 /* loaded from: classes.dex */
-public final class zzb extends zzt<zzh> {
+public final class zzb extends zzt {
     private final zzf zza;
 
     public zzb(Context context, zzf zzfVar) {
         super(context, "FaceNativeHandle", "face");
         this.zza = zzfVar;
         zzd();
-    }
-
-    public final Face[] zza(ByteBuffer byteBuffer, zzs zzsVar) {
-        if (!zzb()) {
-            return new Face[0];
-        }
-        try {
-            FaceParcel[] zza = ((zzh) Preconditions.checkNotNull(zzd())).zza(ObjectWrapper.wrap(byteBuffer), zzsVar);
-            Face[] faceArr = new Face[zza.length];
-            for (int i = 0; i < zza.length; i++) {
-                faceArr[i] = zza(zza[i]);
-            }
-            return faceArr;
-        } catch (RemoteException e) {
-            Log.e("FaceNativeHandle", "Could not call native face detector", e);
-            return new Face[0];
-        }
-    }
-
-    public final Face[] zza(Image.Plane[] planeArr, zzs zzsVar) {
-        if (!zzb()) {
-            Log.e("FaceNativeHandle", "Native handle is not ready to be used.");
-            return new Face[0];
-        } else if (planeArr != null && planeArr.length != 3) {
-            throw new IllegalArgumentException("Only android.graphics.ImageFormat#YUV_420_888 is supported which should have 3 planes.");
-        } else {
-            try {
-                FaceParcel[] zza = ((zzh) Preconditions.checkNotNull(zzd())).zza(ObjectWrapper.wrap(planeArr[0].getBuffer()), ObjectWrapper.wrap(planeArr[1].getBuffer()), ObjectWrapper.wrap(planeArr[2].getBuffer()), planeArr[0].getPixelStride(), planeArr[1].getPixelStride(), planeArr[2].getPixelStride(), planeArr[0].getRowStride(), planeArr[1].getRowStride(), planeArr[2].getRowStride(), zzsVar);
-                Face[] faceArr = new Face[zza.length];
-                for (int i = 0; i < zza.length; i++) {
-                    faceArr[i] = zza(zza[i]);
-                }
-                return faceArr;
-            } catch (RemoteException e) {
-                Log.e("FaceNativeHandle", "Could not call native face detector", e);
-                return new Face[0];
-            }
-        }
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzt
-    protected final void zza() throws RemoteException {
-        ((zzh) Preconditions.checkNotNull(zzd())).zza();
     }
 
     private static Face zza(FaceParcel faceParcel) {
@@ -108,16 +64,53 @@ public final class zzb extends zzt<zzh> {
     }
 
     @Override // com.google.android.gms.internal.vision.zzt
-    protected final /* synthetic */ zzh zza(DynamiteModule dynamiteModule, Context context) throws RemoteException, DynamiteModule.LoadingException {
-        zzi asInterface;
-        if (zzu.zza(context, "com.google.android.gms.vision.dynamite.face")) {
-            asInterface = zzl.asInterface(dynamiteModule.instantiate("com.google.android.gms.vision.face.NativeFaceDetectorV2Creator"));
-        } else {
-            asInterface = zzl.asInterface(dynamiteModule.instantiate("com.google.android.gms.vision.face.ChimeraNativeFaceDetectorCreator"));
-        }
+    protected final /* synthetic */ Object zza(DynamiteModule dynamiteModule, Context context) {
+        zzi asInterface = zzl.asInterface(dynamiteModule.instantiate(zzu.zza(context, "com.google.android.gms.vision.dynamite.face") ? "com.google.android.gms.vision.face.NativeFaceDetectorV2Creator" : "com.google.android.gms.vision.face.ChimeraNativeFaceDetectorCreator"));
         if (asInterface == null) {
             return null;
         }
         return asInterface.newFaceDetector(ObjectWrapper.wrap(context), (zzf) Preconditions.checkNotNull(this.zza));
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzt
+    protected final void zza() {
+        ((zzh) Preconditions.checkNotNull((zzh) zzd())).zza();
+    }
+
+    public final Face[] zza(ByteBuffer byteBuffer, zzs zzsVar) {
+        if (zzb()) {
+            try {
+                FaceParcel[] zza = ((zzh) Preconditions.checkNotNull((zzh) zzd())).zza(ObjectWrapper.wrap(byteBuffer), zzsVar);
+                Face[] faceArr = new Face[zza.length];
+                for (int i = 0; i < zza.length; i++) {
+                    faceArr[i] = zza(zza[i]);
+                }
+                return faceArr;
+            } catch (RemoteException e) {
+                Log.e("FaceNativeHandle", "Could not call native face detector", e);
+                return new Face[0];
+            }
+        }
+        return new Face[0];
+    }
+
+    public final Face[] zza(Image.Plane[] planeArr, zzs zzsVar) {
+        if (!zzb()) {
+            Log.e("FaceNativeHandle", "Native handle is not ready to be used.");
+        } else if (planeArr != null && planeArr.length != 3) {
+            throw new IllegalArgumentException("Only android.graphics.ImageFormat#YUV_420_888 is supported which should have 3 planes.");
+        } else {
+            try {
+                FaceParcel[] zza = ((zzh) Preconditions.checkNotNull((zzh) zzd())).zza(ObjectWrapper.wrap(planeArr[0].getBuffer()), ObjectWrapper.wrap(planeArr[1].getBuffer()), ObjectWrapper.wrap(planeArr[2].getBuffer()), planeArr[0].getPixelStride(), planeArr[1].getPixelStride(), planeArr[2].getPixelStride(), planeArr[0].getRowStride(), planeArr[1].getRowStride(), planeArr[2].getRowStride(), zzsVar);
+                Face[] faceArr = new Face[zza.length];
+                for (int i = 0; i < zza.length; i++) {
+                    faceArr[i] = zza(zza[i]);
+                }
+                return faceArr;
+            } catch (RemoteException e) {
+                Log.e("FaceNativeHandle", "Could not call native face detector", e);
+            }
+        }
+        return new Face[0];
     }
 }

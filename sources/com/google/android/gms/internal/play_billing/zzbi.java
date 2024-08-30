@@ -1,9 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public abstract class zzbi extends zzaq {
     public static final /* synthetic */ int $r8$clinit = 0;
@@ -11,15 +9,11 @@ public abstract class zzbi extends zzaq {
     private static final boolean zzd = zzeq.zzx();
     zzbj zza;
 
-    private zzbi() {
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zzbi(zzbh zzbhVar) {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    @Deprecated
     public static int zzt(int i, zzdf zzdfVar, zzdp zzdpVar) {
         int zza = ((zzak) zzdfVar).zza(zzdpVar);
         int zzx = zzx(i << 3);
@@ -94,7 +88,7 @@ public abstract class zzbi extends zzaq {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzB(String str, zzeu zzeuVar) throws IOException {
+    public final void zzB(String str, zzeu zzeuVar) {
         zzc.logp(Level.WARNING, "com.google.protobuf.CodedOutputStream", "inefficientWriteStringNoTag", "Converting ill-formed UTF-16. Your Protocol Buffer will not round trip correctly!", (Throwable) zzeuVar);
         byte[] bytes = str.getBytes(zzcg.zzb);
         try {
@@ -108,35 +102,35 @@ public abstract class zzbi extends zzaq {
 
     public abstract int zza();
 
-    public abstract void zzb(byte b) throws IOException;
+    public abstract void zzb(byte b);
 
-    public abstract void zzd(int i, boolean z) throws IOException;
+    public abstract void zzd(int i, boolean z);
 
-    public abstract void zze(int i, zzba zzbaVar) throws IOException;
+    public abstract void zze(int i, zzba zzbaVar);
 
-    public abstract void zzf(int i, int i2) throws IOException;
+    public abstract void zzf(int i, int i2);
 
-    public abstract void zzg(int i) throws IOException;
+    public abstract void zzg(int i);
 
-    public abstract void zzh(int i, long j) throws IOException;
+    public abstract void zzh(int i, long j);
 
-    public abstract void zzi(long j) throws IOException;
+    public abstract void zzi(long j);
 
-    public abstract void zzj(int i, int i2) throws IOException;
+    public abstract void zzj(int i, int i2);
 
-    public abstract void zzk(int i) throws IOException;
+    public abstract void zzk(int i);
 
-    public abstract void zzl(byte[] bArr, int i, int i2) throws IOException;
+    public abstract void zzl(byte[] bArr, int i, int i2);
 
-    public abstract void zzm(int i, String str) throws IOException;
+    public abstract void zzm(int i, String str);
 
-    public abstract void zzo(int i, int i2) throws IOException;
+    public abstract void zzo(int i, int i2);
 
-    public abstract void zzp(int i, int i2) throws IOException;
+    public abstract void zzp(int i, int i2);
 
-    public abstract void zzq(int i) throws IOException;
+    public abstract void zzq(int i);
 
-    public abstract void zzr(int i, long j) throws IOException;
+    public abstract void zzr(int i, long j);
 
-    public abstract void zzs(long j) throws IOException;
+    public abstract void zzs(long j);
 }

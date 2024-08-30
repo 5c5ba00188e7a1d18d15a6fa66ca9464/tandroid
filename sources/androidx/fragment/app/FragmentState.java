@@ -1,14 +1,12 @@
 package androidx.fragment.app;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 /* JADX INFO: Access modifiers changed from: package-private */
-@SuppressLint({"BanParcelableUsage"})
 /* loaded from: classes.dex */
 public final class FragmentState implements Parcelable {
-    public static final Parcelable.Creator<FragmentState> CREATOR = new Parcelable.Creator<FragmentState>() { // from class: androidx.fragment.app.FragmentState.1
+    public static final Parcelable.Creator<FragmentState> CREATOR = new Parcelable.Creator() { // from class: androidx.fragment.app.FragmentState.1
         @Override // android.os.Parcelable.Creator
         public FragmentState createFromParcel(Parcel parcel) {
             return new FragmentState(parcel);
@@ -33,9 +31,20 @@ public final class FragmentState implements Parcelable {
     final String mTag;
     final String mWho;
 
-    @Override // android.os.Parcelable
-    public int describeContents() {
-        return 0;
+    FragmentState(Parcel parcel) {
+        this.mClassName = parcel.readString();
+        this.mWho = parcel.readString();
+        this.mFromLayout = parcel.readInt() != 0;
+        this.mFragmentId = parcel.readInt();
+        this.mContainerId = parcel.readInt();
+        this.mTag = parcel.readString();
+        this.mRetainInstance = parcel.readInt() != 0;
+        this.mRemoving = parcel.readInt() != 0;
+        this.mDetached = parcel.readInt() != 0;
+        this.mArguments = parcel.readBundle();
+        this.mHidden = parcel.readInt() != 0;
+        this.mSavedFragmentState = parcel.readBundle();
+        this.mMaxLifecycleState = parcel.readInt();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -54,20 +63,9 @@ public final class FragmentState implements Parcelable {
         this.mMaxLifecycleState = fragment.mMaxState.ordinal();
     }
 
-    FragmentState(Parcel parcel) {
-        this.mClassName = parcel.readString();
-        this.mWho = parcel.readString();
-        this.mFromLayout = parcel.readInt() != 0;
-        this.mFragmentId = parcel.readInt();
-        this.mContainerId = parcel.readInt();
-        this.mTag = parcel.readString();
-        this.mRetainInstance = parcel.readInt() != 0;
-        this.mRemoving = parcel.readInt() != 0;
-        this.mDetached = parcel.readInt() != 0;
-        this.mArguments = parcel.readBundle();
-        this.mHidden = parcel.readInt() != 0;
-        this.mSavedFragmentState = parcel.readBundle();
-        this.mMaxLifecycleState = parcel.readInt();
+    @Override // android.os.Parcelable
+    public int describeContents() {
+        return 0;
     }
 
     public String toString() {

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import com.google.android.gms.common.ConnectionResult;
 import java.util.concurrent.locks.Lock;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zax implements zabz {
     final /* synthetic */ zaaa zaa;
@@ -50,7 +49,6 @@ public final class zax implements zabz {
         Lock lock;
         Lock lock2;
         boolean z2;
-        Lock lock3;
         ConnectionResult connectionResult;
         ConnectionResult connectionResult2;
         zabi zabiVar;
@@ -67,19 +65,14 @@ public final class zax implements zabz {
                         this.zaa.zal = true;
                         zabiVar = this.zaa.zae;
                         zabiVar.onConnectionSuspended(i);
-                        lock3 = this.zaa.zam;
-                        lock3.unlock();
                     }
                 }
             }
             this.zaa.zal = false;
             zaaa.zan(this.zaa, i, z);
-            lock3 = this.zaa.zam;
-            lock3.unlock();
-        } catch (Throwable th) {
+        } finally {
             lock2 = this.zaa.zam;
             lock2.unlock();
-            throw th;
         }
     }
 }

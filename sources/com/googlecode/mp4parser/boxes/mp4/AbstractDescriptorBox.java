@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.runtime.reflect.Factory;
 /* loaded from: classes.dex */
-public class AbstractDescriptorBox extends AbstractFullBox {
+public abstract class AbstractDescriptorBox extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_1 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_2 = null;
@@ -20,6 +20,15 @@ public class AbstractDescriptorBox extends AbstractFullBox {
     private static Logger log;
     protected ByteBuffer data;
     protected BaseDescriptor descriptor;
+
+    static {
+        ajc$preClinit();
+        log = Logger.getLogger(AbstractDescriptorBox.class.getName());
+    }
+
+    public AbstractDescriptorBox(String str) {
+        super(str);
+    }
 
     private static /* synthetic */ void ajc$preClinit() {
         Factory factory = new Factory("AbstractDescriptorBox.java", AbstractDescriptorBox.class);
@@ -30,13 +39,17 @@ public class AbstractDescriptorBox extends AbstractFullBox {
         ajc$tjp_4 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setData", "com.googlecode.mp4parser.boxes.mp4.AbstractDescriptorBox", "java.nio.ByteBuffer", "data", "", "void"), 70);
     }
 
-    static {
-        ajc$preClinit();
-        log = Logger.getLogger(AbstractDescriptorBox.class.getName());
-    }
-
-    public AbstractDescriptorBox(String str) {
-        super(str);
+    @Override // com.googlecode.mp4parser.AbstractBox
+    public void _parseDetails(ByteBuffer byteBuffer) {
+        parseVersionAndFlags(byteBuffer);
+        this.data = byteBuffer.slice();
+        byteBuffer.position(byteBuffer.position() + byteBuffer.remaining());
+        try {
+            this.data.rewind();
+            this.descriptor = ObjectDescriptorFactory.createFrom(-1, this.data);
+        } catch (IOException | IndexOutOfBoundsException e) {
+            log.log(Level.WARNING, "Error parsing ObjectDescriptor", e);
+        }
     }
 
     @Override // com.googlecode.mp4parser.AbstractBox
@@ -54,20 +67,5 @@ public class AbstractDescriptorBox extends AbstractFullBox {
     public void setData(ByteBuffer byteBuffer) {
         RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_4, this, this, byteBuffer));
         this.data = byteBuffer;
-    }
-
-    @Override // com.googlecode.mp4parser.AbstractBox
-    public void _parseDetails(ByteBuffer byteBuffer) {
-        parseVersionAndFlags(byteBuffer);
-        this.data = byteBuffer.slice();
-        byteBuffer.position(byteBuffer.position() + byteBuffer.remaining());
-        try {
-            this.data.rewind();
-            this.descriptor = ObjectDescriptorFactory.createFrom(-1, this.data);
-        } catch (IOException e) {
-            log.log(Level.WARNING, "Error parsing ObjectDescriptor", (Throwable) e);
-        } catch (IndexOutOfBoundsException e2) {
-            log.log(Level.WARNING, "Error parsing ObjectDescriptor", (Throwable) e2);
-        }
     }
 }

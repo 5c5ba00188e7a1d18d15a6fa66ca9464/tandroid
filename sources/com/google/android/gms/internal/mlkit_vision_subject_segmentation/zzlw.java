@@ -2,7 +2,6 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import com.google.firebase.encoders.config.Configurator;
 import com.google.firebase.encoders.config.EncoderConfig;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public final class zzlw implements Configurator {
     public static final Configurator zza = new zzlw();

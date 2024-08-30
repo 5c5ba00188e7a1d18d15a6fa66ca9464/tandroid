@@ -10,7 +10,6 @@ import com.google.mlkit.common.sdkinternal.SharedPrefManager;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public final class zzss {
     private static final zzat zzb = zzat.zzc("optional-module-barcode", "com.google.android.gms.vision.barcode");
@@ -51,7 +50,7 @@ public final class zzss {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ String zza() throws Exception {
+    public final /* synthetic */ String zza() {
         return LibraryVersion.getInstance().getVersion(this.zzi);
     }
 }

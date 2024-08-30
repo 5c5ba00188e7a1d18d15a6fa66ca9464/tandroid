@@ -26,10 +26,6 @@ public class AccessibilityNodeInfoCompat {
     public int mParentVirtualDescendantId = -1;
     private int mVirtualDescendantId = -1;
 
-    @Deprecated
-    public void recycle() {
-    }
-
     /* loaded from: classes.dex */
     public static class AccessibilityActionCompat {
         public static final AccessibilityActionCompat ACTION_CONTEXT_CLICK;
@@ -55,7 +51,7 @@ public class AccessibilityNodeInfoCompat {
         public static final AccessibilityActionCompat ACTION_SHOW_TOOLTIP;
         final Object mAction;
         private final int mId;
-        private final Class<? extends AccessibilityViewCommand.CommandArguments> mViewCommandArgumentClass;
+        private final Class mViewCommandArgumentClass;
         public static final AccessibilityActionCompat ACTION_FOCUS = new AccessibilityActionCompat(1, null);
         public static final AccessibilityActionCompat ACTION_CLEAR_FOCUS = new AccessibilityActionCompat(2, null);
         public static final AccessibilityActionCompat ACTION_SELECT = new AccessibilityActionCompat(4, null);
@@ -78,10 +74,6 @@ public class AccessibilityNodeInfoCompat {
         public static final AccessibilityActionCompat ACTION_COLLAPSE = new AccessibilityActionCompat(524288, null);
         public static final AccessibilityActionCompat ACTION_DISMISS = new AccessibilityActionCompat(FileLoaderPriorityQueue.PRIORITY_VALUE_MAX, null);
         public static final AccessibilityActionCompat ACTION_SET_TEXT = new AccessibilityActionCompat(2097152, null, AccessibilityViewCommand.SetTextArguments.class);
-
-        public boolean perform(View view, Bundle bundle) {
-            return false;
-        }
 
         static {
             AccessibilityNodeInfo.AccessibilityAction accessibilityAction;
@@ -272,22 +264,30 @@ public class AccessibilityNodeInfoCompat {
             this(null, i, charSequence, null, null);
         }
 
+        private AccessibilityActionCompat(int i, CharSequence charSequence, Class cls) {
+            this(null, i, charSequence, null, cls);
+        }
+
         AccessibilityActionCompat(Object obj) {
             this(obj, 0, null, null, null);
         }
 
-        private AccessibilityActionCompat(int i, CharSequence charSequence, Class<? extends AccessibilityViewCommand.CommandArguments> cls) {
-            this(null, i, charSequence, null, cls);
-        }
-
-        AccessibilityActionCompat(Object obj, int i, CharSequence charSequence, AccessibilityViewCommand accessibilityViewCommand, Class<? extends AccessibilityViewCommand.CommandArguments> cls) {
+        AccessibilityActionCompat(Object obj, int i, CharSequence charSequence, AccessibilityViewCommand accessibilityViewCommand, Class cls) {
             this.mId = i;
             if (Build.VERSION.SDK_INT >= 21 && obj == null) {
-                this.mAction = new AccessibilityNodeInfo.AccessibilityAction(i, charSequence);
-            } else {
-                this.mAction = obj;
+                obj = new AccessibilityNodeInfo.AccessibilityAction(i, charSequence);
             }
+            this.mAction = obj;
             this.mViewCommandArgumentClass = cls;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj != null && (obj instanceof AccessibilityActionCompat)) {
+                Object obj2 = this.mAction;
+                Object obj3 = ((AccessibilityActionCompat) obj).mAction;
+                return obj2 == null ? obj3 == null : obj2.equals(obj3);
+            }
+            return false;
         }
 
         public int getId() {
@@ -316,12 +316,7 @@ public class AccessibilityNodeInfoCompat {
             return 0;
         }
 
-        public boolean equals(Object obj) {
-            if (obj != null && (obj instanceof AccessibilityActionCompat)) {
-                AccessibilityActionCompat accessibilityActionCompat = (AccessibilityActionCompat) obj;
-                Object obj2 = this.mAction;
-                return obj2 == null ? accessibilityActionCompat.mAction == null : obj2.equals(accessibilityActionCompat.mAction);
-            }
+        public boolean perform(View view, Bundle bundle) {
             return false;
         }
 
@@ -337,9 +332,21 @@ public class AccessibilityNodeInfoCompat {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class Api19Impl {
+        public static Bundle getExtras(AccessibilityNodeInfo accessibilityNodeInfo) {
+            return accessibilityNodeInfo.getExtras();
+        }
+    }
+
     /* loaded from: classes.dex */
     public static class CollectionInfoCompat {
         final Object mInfo;
+
+        CollectionInfoCompat(Object obj) {
+            this.mInfo = obj;
+        }
 
         public static CollectionInfoCompat obtain(int i, int i2, boolean z, int i3) {
             AccessibilityNodeInfo.CollectionInfo obtain;
@@ -349,15 +356,19 @@ public class AccessibilityNodeInfoCompat {
             }
             return new CollectionInfoCompat(AccessibilityNodeInfo.CollectionInfo.obtain(i, i2, z));
         }
-
-        CollectionInfoCompat(Object obj) {
-            this.mInfo = obj;
-        }
     }
 
     /* loaded from: classes.dex */
     public static class CollectionItemInfoCompat {
         final Object mInfo;
+
+        CollectionItemInfoCompat(Object obj) {
+            this.mInfo = obj;
+        }
+
+        public static CollectionItemInfoCompat obtain(int i, int i2, int i3, int i4, boolean z) {
+            return new CollectionItemInfoCompat(AccessibilityNodeInfo.CollectionItemInfo.obtain(i, i2, i3, i4, z));
+        }
 
         public static CollectionItemInfoCompat obtain(int i, int i2, int i3, int i4, boolean z, boolean z2) {
             AccessibilityNodeInfo.CollectionItemInfo obtain;
@@ -366,14 +377,6 @@ public class AccessibilityNodeInfoCompat {
                 return new CollectionItemInfoCompat(obtain);
             }
             return new CollectionItemInfoCompat(AccessibilityNodeInfo.CollectionItemInfo.obtain(i, i2, i3, i4, z));
-        }
-
-        public static CollectionItemInfoCompat obtain(int i, int i2, int i3, int i4, boolean z) {
-            return new CollectionItemInfoCompat(AccessibilityNodeInfo.CollectionItemInfo.obtain(i, i2, i3, i4, z));
-        }
-
-        CollectionItemInfoCompat(Object obj) {
-            this.mInfo = obj;
         }
 
         public int getColumnIndex() {
@@ -392,7 +395,6 @@ public class AccessibilityNodeInfoCompat {
             return ((AccessibilityNodeInfo.CollectionItemInfo) this.mInfo).getRowSpan();
         }
 
-        @Deprecated
         public boolean isHeading() {
             return ((AccessibilityNodeInfo.CollectionItemInfo) this.mInfo).isHeading();
         }
@@ -402,12 +404,12 @@ public class AccessibilityNodeInfoCompat {
     public static class RangeInfoCompat {
         final Object mInfo;
 
-        public static RangeInfoCompat obtain(int i, float f, float f2, float f3) {
-            return new RangeInfoCompat(AccessibilityNodeInfo.RangeInfo.obtain(i, f, f2, f3));
-        }
-
         RangeInfoCompat(Object obj) {
             this.mInfo = obj;
+        }
+
+        public static RangeInfoCompat obtain(int i, float f, float f2, float f3) {
+            return new RangeInfoCompat(AccessibilityNodeInfo.RangeInfo.obtain(i, f, f2, f3));
         }
     }
 
@@ -415,49 +417,21 @@ public class AccessibilityNodeInfoCompat {
         this.mInfo = accessibilityNodeInfo;
     }
 
-    public static AccessibilityNodeInfoCompat wrap(AccessibilityNodeInfo accessibilityNodeInfo) {
-        return new AccessibilityNodeInfoCompat(accessibilityNodeInfo);
+    private void addSpanLocationToExtras(ClickableSpan clickableSpan, Spanned spanned, int i) {
+        extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_START_KEY").add(Integer.valueOf(spanned.getSpanStart(clickableSpan)));
+        extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_END_KEY").add(Integer.valueOf(spanned.getSpanEnd(clickableSpan)));
+        extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_FLAGS_KEY").add(Integer.valueOf(spanned.getSpanFlags(clickableSpan)));
+        extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_ID_KEY").add(Integer.valueOf(i));
     }
 
-    public AccessibilityNodeInfo unwrap() {
-        return this.mInfo;
+    private void clearExtrasSpans() {
+        Api19Impl.getExtras(this.mInfo).remove("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_START_KEY");
+        Api19Impl.getExtras(this.mInfo).remove("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_END_KEY");
+        Api19Impl.getExtras(this.mInfo).remove("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_FLAGS_KEY");
+        Api19Impl.getExtras(this.mInfo).remove("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_ID_KEY");
     }
 
-    public static AccessibilityNodeInfoCompat obtain(View view) {
-        return wrap(AccessibilityNodeInfo.obtain(view));
-    }
-
-    public static AccessibilityNodeInfoCompat obtain() {
-        return wrap(AccessibilityNodeInfo.obtain());
-    }
-
-    public static AccessibilityNodeInfoCompat obtain(AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
-        return wrap(AccessibilityNodeInfo.obtain(accessibilityNodeInfoCompat.mInfo));
-    }
-
-    public void setSource(View view, int i) {
-        this.mVirtualDescendantId = i;
-        this.mInfo.setSource(view, i);
-    }
-
-    public int getChildCount() {
-        return this.mInfo.getChildCount();
-    }
-
-    public void addChild(View view, int i) {
-        this.mInfo.addChild(view, i);
-    }
-
-    @Deprecated
-    public int getActions() {
-        return this.mInfo.getActions();
-    }
-
-    public void addAction(int i) {
-        this.mInfo.addAction(i);
-    }
-
-    private List<Integer> extrasIntList(String str) {
+    private List extrasIntList(String str) {
         ArrayList<Integer> integerArrayList = Api19Impl.getExtras(this.mInfo).getIntegerArrayList(str);
         if (integerArrayList == null) {
             ArrayList<Integer> arrayList = new ArrayList<>();
@@ -467,150 +441,198 @@ public class AccessibilityNodeInfoCompat {
         return integerArrayList;
     }
 
+    static String getActionSymbolicName(int i) {
+        if (i != 1) {
+            if (i != 2) {
+                switch (i) {
+                    case 4:
+                        return "ACTION_SELECT";
+                    case 8:
+                        return "ACTION_CLEAR_SELECTION";
+                    case 16:
+                        return "ACTION_CLICK";
+                    case 32:
+                        return "ACTION_LONG_CLICK";
+                    case 64:
+                        return "ACTION_ACCESSIBILITY_FOCUS";
+                    case 128:
+                        return "ACTION_CLEAR_ACCESSIBILITY_FOCUS";
+                    case 256:
+                        return "ACTION_NEXT_AT_MOVEMENT_GRANULARITY";
+                    case LiteMode.FLAG_CALLS_ANIMATIONS /* 512 */:
+                        return "ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY";
+                    case 1024:
+                        return "ACTION_NEXT_HTML_ELEMENT";
+                    case 2048:
+                        return "ACTION_PREVIOUS_HTML_ELEMENT";
+                    case LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM /* 4096 */:
+                        return "ACTION_SCROLL_FORWARD";
+                    case LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM /* 8192 */:
+                        return "ACTION_SCROLL_BACKWARD";
+                    case LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM /* 16384 */:
+                        return "ACTION_COPY";
+                    case LiteMode.FLAG_CHAT_SCALE /* 32768 */:
+                        return "ACTION_PASTE";
+                    case 65536:
+                        return "ACTION_CUT";
+                    case 131072:
+                        return "ACTION_SET_SELECTION";
+                    case 262144:
+                        return "ACTION_EXPAND";
+                    case 524288:
+                        return "ACTION_COLLAPSE";
+                    case 2097152:
+                        return "ACTION_SET_TEXT";
+                    case 16908354:
+                        return "ACTION_MOVE_WINDOW";
+                    default:
+                        switch (i) {
+                            case 16908342:
+                                return "ACTION_SHOW_ON_SCREEN";
+                            case 16908343:
+                                return "ACTION_SCROLL_TO_POSITION";
+                            case 16908344:
+                                return "ACTION_SCROLL_UP";
+                            case 16908345:
+                                return "ACTION_SCROLL_LEFT";
+                            case 16908346:
+                                return "ACTION_SCROLL_DOWN";
+                            case 16908347:
+                                return "ACTION_SCROLL_RIGHT";
+                            case 16908348:
+                                return "ACTION_CONTEXT_CLICK";
+                            case 16908349:
+                                return "ACTION_SET_PROGRESS";
+                            default:
+                                switch (i) {
+                                    case 16908356:
+                                        return "ACTION_SHOW_TOOLTIP";
+                                    case 16908357:
+                                        return "ACTION_HIDE_TOOLTIP";
+                                    case 16908358:
+                                        return "ACTION_PAGE_UP";
+                                    case 16908359:
+                                        return "ACTION_PAGE_DOWN";
+                                    case 16908360:
+                                        return "ACTION_PAGE_LEFT";
+                                    case 16908361:
+                                        return "ACTION_PAGE_RIGHT";
+                                    case 16908362:
+                                        return "ACTION_PRESS_AND_HOLD";
+                                    default:
+                                        switch (i) {
+                                            case 16908372:
+                                                return "ACTION_IME_ENTER";
+                                            case 16908373:
+                                                return "ACTION_DRAG_START";
+                                            case 16908374:
+                                                return "ACTION_DRAG_DROP";
+                                            case 16908375:
+                                                return "ACTION_DRAG_CANCEL";
+                                            default:
+                                                return "ACTION_UNKNOWN";
+                                        }
+                                }
+                        }
+                }
+            }
+            return "ACTION_CLEAR_FOCUS";
+        }
+        return "ACTION_FOCUS";
+    }
+
+    public static ClickableSpan[] getClickableSpans(CharSequence charSequence) {
+        if (charSequence instanceof Spanned) {
+            return (ClickableSpan[]) ((Spanned) charSequence).getSpans(0, charSequence.length(), ClickableSpan.class);
+        }
+        return null;
+    }
+
+    private SparseArray getOrCreateSpansFromViewTags(View view) {
+        SparseArray spansFromViewTags = getSpansFromViewTags(view);
+        if (spansFromViewTags == null) {
+            SparseArray sparseArray = new SparseArray();
+            view.setTag(R$id.tag_accessibility_clickable_spans, sparseArray);
+            return sparseArray;
+        }
+        return spansFromViewTags;
+    }
+
+    private SparseArray getSpansFromViewTags(View view) {
+        return (SparseArray) view.getTag(R$id.tag_accessibility_clickable_spans);
+    }
+
+    private boolean hasSpans() {
+        return !extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_START_KEY").isEmpty();
+    }
+
+    private int idForClickableSpan(ClickableSpan clickableSpan, SparseArray sparseArray) {
+        if (sparseArray != null) {
+            for (int i = 0; i < sparseArray.size(); i++) {
+                if (clickableSpan.equals((ClickableSpan) ((WeakReference) sparseArray.valueAt(i)).get())) {
+                    return sparseArray.keyAt(i);
+                }
+            }
+        }
+        int i2 = sClickableSpanId;
+        sClickableSpanId = i2 + 1;
+        return i2;
+    }
+
+    public static AccessibilityNodeInfoCompat obtain() {
+        return wrap(AccessibilityNodeInfo.obtain());
+    }
+
+    public static AccessibilityNodeInfoCompat obtain(View view) {
+        return wrap(AccessibilityNodeInfo.obtain(view));
+    }
+
+    public static AccessibilityNodeInfoCompat obtain(AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
+        return wrap(AccessibilityNodeInfo.obtain(accessibilityNodeInfoCompat.mInfo));
+    }
+
+    private void removeCollectedSpans(View view) {
+        SparseArray spansFromViewTags = getSpansFromViewTags(view);
+        if (spansFromViewTags != null) {
+            ArrayList arrayList = new ArrayList();
+            for (int i = 0; i < spansFromViewTags.size(); i++) {
+                if (((WeakReference) spansFromViewTags.valueAt(i)).get() == null) {
+                    arrayList.add(Integer.valueOf(i));
+                }
+            }
+            for (int i2 = 0; i2 < arrayList.size(); i2++) {
+                spansFromViewTags.remove(((Integer) arrayList.get(i2)).intValue());
+            }
+        }
+    }
+
+    private void setBooleanProperty(int i, boolean z) {
+        Bundle extras = getExtras();
+        if (extras != null) {
+            int i2 = extras.getInt("androidx.view.accessibility.AccessibilityNodeInfoCompat.BOOLEAN_PROPERTY_KEY", 0) & (i ^ (-1));
+            if (!z) {
+                i = 0;
+            }
+            extras.putInt("androidx.view.accessibility.AccessibilityNodeInfoCompat.BOOLEAN_PROPERTY_KEY", i | i2);
+        }
+    }
+
+    public static AccessibilityNodeInfoCompat wrap(AccessibilityNodeInfo accessibilityNodeInfo) {
+        return new AccessibilityNodeInfoCompat(accessibilityNodeInfo);
+    }
+
+    public void addAction(int i) {
+        this.mInfo.addAction(i);
+    }
+
     public void addAction(AccessibilityActionCompat accessibilityActionCompat) {
         if (Build.VERSION.SDK_INT >= 21) {
             this.mInfo.addAction(AccessibilityNodeInfoCompat$$ExternalSyntheticApiModelOutline2.m(accessibilityActionCompat.mAction));
         }
     }
 
-    public boolean removeAction(AccessibilityActionCompat accessibilityActionCompat) {
-        boolean removeAction;
-        if (Build.VERSION.SDK_INT >= 21) {
-            removeAction = this.mInfo.removeAction(AccessibilityNodeInfoCompat$$ExternalSyntheticApiModelOutline2.m(accessibilityActionCompat.mAction));
-            return removeAction;
-        }
-        return false;
-    }
-
-    public boolean performAction(int i, Bundle bundle) {
-        return this.mInfo.performAction(i, bundle);
-    }
-
-    public void setParent(View view) {
-        this.mParentVirtualDescendantId = -1;
-        this.mInfo.setParent(view);
-    }
-
-    public void setParent(View view, int i) {
-        this.mParentVirtualDescendantId = i;
-        this.mInfo.setParent(view, i);
-    }
-
-    @Deprecated
-    public void getBoundsInParent(Rect rect) {
-        this.mInfo.getBoundsInParent(rect);
-    }
-
-    @Deprecated
-    public void setBoundsInParent(Rect rect) {
-        this.mInfo.setBoundsInParent(rect);
-    }
-
-    public void getBoundsInScreen(Rect rect) {
-        this.mInfo.getBoundsInScreen(rect);
-    }
-
-    public void setBoundsInScreen(Rect rect) {
-        this.mInfo.setBoundsInScreen(rect);
-    }
-
-    public boolean isCheckable() {
-        return this.mInfo.isCheckable();
-    }
-
-    public boolean isChecked() {
-        return this.mInfo.isChecked();
-    }
-
-    public boolean isFocusable() {
-        return this.mInfo.isFocusable();
-    }
-
-    public void setFocusable(boolean z) {
-        this.mInfo.setFocusable(z);
-    }
-
-    public boolean isFocused() {
-        return this.mInfo.isFocused();
-    }
-
-    public void setFocused(boolean z) {
-        this.mInfo.setFocused(z);
-    }
-
-    public void setVisibleToUser(boolean z) {
-        this.mInfo.setVisibleToUser(z);
-    }
-
-    public void setAccessibilityFocused(boolean z) {
-        this.mInfo.setAccessibilityFocused(z);
-    }
-
-    public boolean isSelected() {
-        return this.mInfo.isSelected();
-    }
-
-    public boolean isClickable() {
-        return this.mInfo.isClickable();
-    }
-
-    public boolean isLongClickable() {
-        return this.mInfo.isLongClickable();
-    }
-
-    public boolean isEnabled() {
-        return this.mInfo.isEnabled();
-    }
-
-    public void setEnabled(boolean z) {
-        this.mInfo.setEnabled(z);
-    }
-
-    public boolean isPassword() {
-        return this.mInfo.isPassword();
-    }
-
-    public boolean isScrollable() {
-        return this.mInfo.isScrollable();
-    }
-
-    public void setScrollable(boolean z) {
-        this.mInfo.setScrollable(z);
-    }
-
-    public CharSequence getPackageName() {
-        return this.mInfo.getPackageName();
-    }
-
-    public void setPackageName(CharSequence charSequence) {
-        this.mInfo.setPackageName(charSequence);
-    }
-
-    public CharSequence getClassName() {
-        return this.mInfo.getClassName();
-    }
-
-    public void setClassName(CharSequence charSequence) {
-        this.mInfo.setClassName(charSequence);
-    }
-
-    public CharSequence getText() {
-        if (hasSpans()) {
-            List<Integer> extrasIntList = extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_START_KEY");
-            List<Integer> extrasIntList2 = extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_END_KEY");
-            List<Integer> extrasIntList3 = extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_FLAGS_KEY");
-            List<Integer> extrasIntList4 = extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_ID_KEY");
-            SpannableString spannableString = new SpannableString(TextUtils.substring(this.mInfo.getText(), 0, this.mInfo.getText().length()));
-            for (int i = 0; i < extrasIntList.size(); i++) {
-                spannableString.setSpan(new AccessibilityClickableSpanCompat(extrasIntList4.get(i).intValue(), this, getExtras().getInt("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_ACTION_ID_KEY")), extrasIntList.get(i).intValue(), extrasIntList2.get(i).intValue(), extrasIntList3.get(i).intValue());
-            }
-            return spannableString;
-        }
-        return this.mInfo.getText();
-    }
-
-    public void setText(CharSequence charSequence) {
-        this.mInfo.setText(charSequence);
+    public void addChild(View view, int i) {
+        this.mInfo.addChild(view, i);
     }
 
     public void addSpansToExtras(CharSequence charSequence, View view) {
@@ -622,182 +644,13 @@ public class AccessibilityNodeInfoCompat {
                 return;
             }
             getExtras().putInt("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_ACTION_ID_KEY", R$id.accessibility_action_clickable_span);
-            SparseArray<WeakReference<ClickableSpan>> orCreateSpansFromViewTags = getOrCreateSpansFromViewTags(view);
+            SparseArray orCreateSpansFromViewTags = getOrCreateSpansFromViewTags(view);
             for (int i = 0; i < clickableSpans.length; i++) {
                 int idForClickableSpan = idForClickableSpan(clickableSpans[i], orCreateSpansFromViewTags);
-                orCreateSpansFromViewTags.put(idForClickableSpan, new WeakReference<>(clickableSpans[i]));
+                orCreateSpansFromViewTags.put(idForClickableSpan, new WeakReference(clickableSpans[i]));
                 addSpanLocationToExtras(clickableSpans[i], (Spanned) charSequence, idForClickableSpan);
             }
         }
-    }
-
-    private SparseArray<WeakReference<ClickableSpan>> getOrCreateSpansFromViewTags(View view) {
-        SparseArray<WeakReference<ClickableSpan>> spansFromViewTags = getSpansFromViewTags(view);
-        if (spansFromViewTags == null) {
-            SparseArray<WeakReference<ClickableSpan>> sparseArray = new SparseArray<>();
-            view.setTag(R$id.tag_accessibility_clickable_spans, sparseArray);
-            return sparseArray;
-        }
-        return spansFromViewTags;
-    }
-
-    private SparseArray<WeakReference<ClickableSpan>> getSpansFromViewTags(View view) {
-        return (SparseArray) view.getTag(R$id.tag_accessibility_clickable_spans);
-    }
-
-    public static ClickableSpan[] getClickableSpans(CharSequence charSequence) {
-        if (charSequence instanceof Spanned) {
-            return (ClickableSpan[]) ((Spanned) charSequence).getSpans(0, charSequence.length(), ClickableSpan.class);
-        }
-        return null;
-    }
-
-    private int idForClickableSpan(ClickableSpan clickableSpan, SparseArray<WeakReference<ClickableSpan>> sparseArray) {
-        if (sparseArray != null) {
-            for (int i = 0; i < sparseArray.size(); i++) {
-                if (clickableSpan.equals(sparseArray.valueAt(i).get())) {
-                    return sparseArray.keyAt(i);
-                }
-            }
-        }
-        int i2 = sClickableSpanId;
-        sClickableSpanId = i2 + 1;
-        return i2;
-    }
-
-    private boolean hasSpans() {
-        return !extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_START_KEY").isEmpty();
-    }
-
-    private void clearExtrasSpans() {
-        Api19Impl.getExtras(this.mInfo).remove("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_START_KEY");
-        Api19Impl.getExtras(this.mInfo).remove("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_END_KEY");
-        Api19Impl.getExtras(this.mInfo).remove("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_FLAGS_KEY");
-        Api19Impl.getExtras(this.mInfo).remove("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_ID_KEY");
-    }
-
-    private void addSpanLocationToExtras(ClickableSpan clickableSpan, Spanned spanned, int i) {
-        extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_START_KEY").add(Integer.valueOf(spanned.getSpanStart(clickableSpan)));
-        extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_END_KEY").add(Integer.valueOf(spanned.getSpanEnd(clickableSpan)));
-        extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_FLAGS_KEY").add(Integer.valueOf(spanned.getSpanFlags(clickableSpan)));
-        extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_ID_KEY").add(Integer.valueOf(i));
-    }
-
-    private void removeCollectedSpans(View view) {
-        SparseArray<WeakReference<ClickableSpan>> spansFromViewTags = getSpansFromViewTags(view);
-        if (spansFromViewTags != null) {
-            ArrayList arrayList = new ArrayList();
-            for (int i = 0; i < spansFromViewTags.size(); i++) {
-                if (spansFromViewTags.valueAt(i).get() == null) {
-                    arrayList.add(Integer.valueOf(i));
-                }
-            }
-            for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                spansFromViewTags.remove(((Integer) arrayList.get(i2)).intValue());
-            }
-        }
-    }
-
-    public CharSequence getContentDescription() {
-        return this.mInfo.getContentDescription();
-    }
-
-    public void setStateDescription(CharSequence charSequence) {
-        if (BuildCompat.isAtLeastR()) {
-            this.mInfo.setStateDescription(charSequence);
-        } else {
-            Api19Impl.getExtras(this.mInfo).putCharSequence("androidx.view.accessibility.AccessibilityNodeInfoCompat.STATE_DESCRIPTION_KEY", charSequence);
-        }
-    }
-
-    public String getUniqueId() {
-        String uniqueId;
-        if (BuildCompat.isAtLeastT()) {
-            uniqueId = this.mInfo.getUniqueId();
-            return uniqueId;
-        }
-        return Api19Impl.getExtras(this.mInfo).getString("androidx.view.accessibility.AccessibilityNodeInfoCompat.UNIQUE_ID_KEY");
-    }
-
-    public String getViewIdResourceName() {
-        return this.mInfo.getViewIdResourceName();
-    }
-
-    public void setCollectionInfo(Object obj) {
-        this.mInfo.setCollectionInfo(obj == null ? null : (AccessibilityNodeInfo.CollectionInfo) ((CollectionInfoCompat) obj).mInfo);
-    }
-
-    public void setCollectionItemInfo(Object obj) {
-        this.mInfo.setCollectionItemInfo(obj == null ? null : (AccessibilityNodeInfo.CollectionItemInfo) ((CollectionItemInfoCompat) obj).mInfo);
-    }
-
-    public CollectionItemInfoCompat getCollectionItemInfo() {
-        AccessibilityNodeInfo.CollectionItemInfo collectionItemInfo = this.mInfo.getCollectionItemInfo();
-        if (collectionItemInfo != null) {
-            return new CollectionItemInfoCompat(collectionItemInfo);
-        }
-        return null;
-    }
-
-    public void setRangeInfo(RangeInfoCompat rangeInfoCompat) {
-        this.mInfo.setRangeInfo((AccessibilityNodeInfo.RangeInfo) rangeInfoCompat.mInfo);
-    }
-
-    public List<AccessibilityActionCompat> getActionList() {
-        List actionList = Build.VERSION.SDK_INT >= 21 ? this.mInfo.getActionList() : null;
-        if (actionList != null) {
-            ArrayList arrayList = new ArrayList();
-            int size = actionList.size();
-            for (int i = 0; i < size; i++) {
-                arrayList.add(new AccessibilityActionCompat(actionList.get(i)));
-            }
-            return arrayList;
-        }
-        return Collections.emptyList();
-    }
-
-    public void setHintText(CharSequence charSequence) {
-        if (Build.VERSION.SDK_INT >= 26) {
-            this.mInfo.setHintText(charSequence);
-        } else {
-            Api19Impl.getExtras(this.mInfo).putCharSequence("androidx.view.accessibility.AccessibilityNodeInfoCompat.HINT_TEXT_KEY", charSequence);
-        }
-    }
-
-    public Bundle getExtras() {
-        return Api19Impl.getExtras(this.mInfo);
-    }
-
-    public void setPaneTitle(CharSequence charSequence) {
-        if (Build.VERSION.SDK_INT >= 28) {
-            this.mInfo.setPaneTitle(charSequence);
-        } else {
-            Api19Impl.getExtras(this.mInfo).putCharSequence("androidx.view.accessibility.AccessibilityNodeInfoCompat.PANE_TITLE_KEY", charSequence);
-        }
-    }
-
-    public void setScreenReaderFocusable(boolean z) {
-        if (Build.VERSION.SDK_INT >= 28) {
-            this.mInfo.setScreenReaderFocusable(z);
-        } else {
-            setBooleanProperty(1, z);
-        }
-    }
-
-    public void setHeading(boolean z) {
-        if (Build.VERSION.SDK_INT >= 28) {
-            this.mInfo.setHeading(z);
-        } else {
-            setBooleanProperty(2, z);
-        }
-    }
-
-    public int hashCode() {
-        AccessibilityNodeInfo accessibilityNodeInfo = this.mInfo;
-        if (accessibilityNodeInfo == null) {
-            return 0;
-        }
-        return accessibilityNodeInfo.hashCode();
     }
 
     public boolean equals(Object obj) {
@@ -817,6 +670,262 @@ public class AccessibilityNodeInfoCompat {
             return this.mVirtualDescendantId == accessibilityNodeInfoCompat.mVirtualDescendantId && this.mParentVirtualDescendantId == accessibilityNodeInfoCompat.mParentVirtualDescendantId;
         }
         return false;
+    }
+
+    public List getActionList() {
+        List actionList = Build.VERSION.SDK_INT >= 21 ? this.mInfo.getActionList() : null;
+        if (actionList != null) {
+            ArrayList arrayList = new ArrayList();
+            int size = actionList.size();
+            for (int i = 0; i < size; i++) {
+                arrayList.add(new AccessibilityActionCompat(actionList.get(i)));
+            }
+            return arrayList;
+        }
+        return Collections.emptyList();
+    }
+
+    public int getActions() {
+        return this.mInfo.getActions();
+    }
+
+    public void getBoundsInParent(Rect rect) {
+        this.mInfo.getBoundsInParent(rect);
+    }
+
+    public void getBoundsInScreen(Rect rect) {
+        this.mInfo.getBoundsInScreen(rect);
+    }
+
+    public int getChildCount() {
+        return this.mInfo.getChildCount();
+    }
+
+    public CharSequence getClassName() {
+        return this.mInfo.getClassName();
+    }
+
+    public CollectionItemInfoCompat getCollectionItemInfo() {
+        AccessibilityNodeInfo.CollectionItemInfo collectionItemInfo = this.mInfo.getCollectionItemInfo();
+        if (collectionItemInfo != null) {
+            return new CollectionItemInfoCompat(collectionItemInfo);
+        }
+        return null;
+    }
+
+    public CharSequence getContentDescription() {
+        return this.mInfo.getContentDescription();
+    }
+
+    public Bundle getExtras() {
+        return Api19Impl.getExtras(this.mInfo);
+    }
+
+    public CharSequence getPackageName() {
+        return this.mInfo.getPackageName();
+    }
+
+    public CharSequence getText() {
+        if (hasSpans()) {
+            List extrasIntList = extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_START_KEY");
+            List extrasIntList2 = extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_END_KEY");
+            List extrasIntList3 = extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_FLAGS_KEY");
+            List extrasIntList4 = extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_ID_KEY");
+            SpannableString spannableString = new SpannableString(TextUtils.substring(this.mInfo.getText(), 0, this.mInfo.getText().length()));
+            for (int i = 0; i < extrasIntList.size(); i++) {
+                spannableString.setSpan(new AccessibilityClickableSpanCompat(((Integer) extrasIntList4.get(i)).intValue(), this, getExtras().getInt("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_ACTION_ID_KEY")), ((Integer) extrasIntList.get(i)).intValue(), ((Integer) extrasIntList2.get(i)).intValue(), ((Integer) extrasIntList3.get(i)).intValue());
+            }
+            return spannableString;
+        }
+        return this.mInfo.getText();
+    }
+
+    public String getUniqueId() {
+        String uniqueId;
+        if (BuildCompat.isAtLeastT()) {
+            uniqueId = this.mInfo.getUniqueId();
+            return uniqueId;
+        }
+        return Api19Impl.getExtras(this.mInfo).getString("androidx.view.accessibility.AccessibilityNodeInfoCompat.UNIQUE_ID_KEY");
+    }
+
+    public String getViewIdResourceName() {
+        return this.mInfo.getViewIdResourceName();
+    }
+
+    public int hashCode() {
+        AccessibilityNodeInfo accessibilityNodeInfo = this.mInfo;
+        if (accessibilityNodeInfo == null) {
+            return 0;
+        }
+        return accessibilityNodeInfo.hashCode();
+    }
+
+    public boolean isCheckable() {
+        return this.mInfo.isCheckable();
+    }
+
+    public boolean isChecked() {
+        return this.mInfo.isChecked();
+    }
+
+    public boolean isClickable() {
+        return this.mInfo.isClickable();
+    }
+
+    public boolean isEnabled() {
+        return this.mInfo.isEnabled();
+    }
+
+    public boolean isFocusable() {
+        return this.mInfo.isFocusable();
+    }
+
+    public boolean isFocused() {
+        return this.mInfo.isFocused();
+    }
+
+    public boolean isLongClickable() {
+        return this.mInfo.isLongClickable();
+    }
+
+    public boolean isPassword() {
+        return this.mInfo.isPassword();
+    }
+
+    public boolean isScrollable() {
+        return this.mInfo.isScrollable();
+    }
+
+    public boolean isSelected() {
+        return this.mInfo.isSelected();
+    }
+
+    public boolean performAction(int i, Bundle bundle) {
+        return this.mInfo.performAction(i, bundle);
+    }
+
+    public void recycle() {
+    }
+
+    public boolean removeAction(AccessibilityActionCompat accessibilityActionCompat) {
+        boolean removeAction;
+        if (Build.VERSION.SDK_INT >= 21) {
+            removeAction = this.mInfo.removeAction(AccessibilityNodeInfoCompat$$ExternalSyntheticApiModelOutline2.m(accessibilityActionCompat.mAction));
+            return removeAction;
+        }
+        return false;
+    }
+
+    public void setAccessibilityFocused(boolean z) {
+        this.mInfo.setAccessibilityFocused(z);
+    }
+
+    public void setBoundsInParent(Rect rect) {
+        this.mInfo.setBoundsInParent(rect);
+    }
+
+    public void setBoundsInScreen(Rect rect) {
+        this.mInfo.setBoundsInScreen(rect);
+    }
+
+    public void setClassName(CharSequence charSequence) {
+        this.mInfo.setClassName(charSequence);
+    }
+
+    public void setCollectionInfo(Object obj) {
+        this.mInfo.setCollectionInfo(obj == null ? null : (AccessibilityNodeInfo.CollectionInfo) ((CollectionInfoCompat) obj).mInfo);
+    }
+
+    public void setCollectionItemInfo(Object obj) {
+        this.mInfo.setCollectionItemInfo(obj == null ? null : (AccessibilityNodeInfo.CollectionItemInfo) ((CollectionItemInfoCompat) obj).mInfo);
+    }
+
+    public void setEnabled(boolean z) {
+        this.mInfo.setEnabled(z);
+    }
+
+    public void setFocusable(boolean z) {
+        this.mInfo.setFocusable(z);
+    }
+
+    public void setFocused(boolean z) {
+        this.mInfo.setFocused(z);
+    }
+
+    public void setHeading(boolean z) {
+        if (Build.VERSION.SDK_INT >= 28) {
+            this.mInfo.setHeading(z);
+        } else {
+            setBooleanProperty(2, z);
+        }
+    }
+
+    public void setHintText(CharSequence charSequence) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            this.mInfo.setHintText(charSequence);
+        } else {
+            Api19Impl.getExtras(this.mInfo).putCharSequence("androidx.view.accessibility.AccessibilityNodeInfoCompat.HINT_TEXT_KEY", charSequence);
+        }
+    }
+
+    public void setPackageName(CharSequence charSequence) {
+        this.mInfo.setPackageName(charSequence);
+    }
+
+    public void setPaneTitle(CharSequence charSequence) {
+        if (Build.VERSION.SDK_INT >= 28) {
+            this.mInfo.setPaneTitle(charSequence);
+        } else {
+            Api19Impl.getExtras(this.mInfo).putCharSequence("androidx.view.accessibility.AccessibilityNodeInfoCompat.PANE_TITLE_KEY", charSequence);
+        }
+    }
+
+    public void setParent(View view) {
+        this.mParentVirtualDescendantId = -1;
+        this.mInfo.setParent(view);
+    }
+
+    public void setParent(View view, int i) {
+        this.mParentVirtualDescendantId = i;
+        this.mInfo.setParent(view, i);
+    }
+
+    public void setRangeInfo(RangeInfoCompat rangeInfoCompat) {
+        this.mInfo.setRangeInfo((AccessibilityNodeInfo.RangeInfo) rangeInfoCompat.mInfo);
+    }
+
+    public void setScreenReaderFocusable(boolean z) {
+        if (Build.VERSION.SDK_INT >= 28) {
+            this.mInfo.setScreenReaderFocusable(z);
+        } else {
+            setBooleanProperty(1, z);
+        }
+    }
+
+    public void setScrollable(boolean z) {
+        this.mInfo.setScrollable(z);
+    }
+
+    public void setSource(View view, int i) {
+        this.mVirtualDescendantId = i;
+        this.mInfo.setSource(view, i);
+    }
+
+    public void setStateDescription(CharSequence charSequence) {
+        if (BuildCompat.isAtLeastR()) {
+            this.mInfo.setStateDescription(charSequence);
+        } else {
+            Api19Impl.getExtras(this.mInfo).putCharSequence("androidx.view.accessibility.AccessibilityNodeInfoCompat.STATE_DESCRIPTION_KEY", charSequence);
+        }
+    }
+
+    public void setText(CharSequence charSequence) {
+        this.mInfo.setText(charSequence);
+    }
+
+    public void setVisibleToUser(boolean z) {
+        this.mInfo.setVisibleToUser(z);
     }
 
     public String toString() {
@@ -860,9 +969,9 @@ public class AccessibilityNodeInfoCompat {
         sb.append("; scrollable: " + isScrollable());
         sb.append("; [");
         if (Build.VERSION.SDK_INT >= 21) {
-            List<AccessibilityActionCompat> actionList = getActionList();
+            List actionList = getActionList();
             for (int i = 0; i < actionList.size(); i++) {
-                AccessibilityActionCompat accessibilityActionCompat = actionList.get(i);
+                AccessibilityActionCompat accessibilityActionCompat = (AccessibilityActionCompat) actionList.get(i);
                 String actionSymbolicName = getActionSymbolicName(accessibilityActionCompat.getId());
                 if (actionSymbolicName.equals("ACTION_UNKNOWN") && accessibilityActionCompat.getLabel() != null) {
                     actionSymbolicName = accessibilityActionCompat.getLabel().toString();
@@ -887,122 +996,7 @@ public class AccessibilityNodeInfoCompat {
         return sb.toString();
     }
 
-    private void setBooleanProperty(int i, boolean z) {
-        Bundle extras = getExtras();
-        if (extras != null) {
-            int i2 = extras.getInt("androidx.view.accessibility.AccessibilityNodeInfoCompat.BOOLEAN_PROPERTY_KEY", 0) & (i ^ (-1));
-            if (!z) {
-                i = 0;
-            }
-            extras.putInt("androidx.view.accessibility.AccessibilityNodeInfoCompat.BOOLEAN_PROPERTY_KEY", i | i2);
-        }
-    }
-
-    static String getActionSymbolicName(int i) {
-        if (i != 1) {
-            if (i == 2) {
-                return "ACTION_CLEAR_FOCUS";
-            }
-            switch (i) {
-                case 4:
-                    return "ACTION_SELECT";
-                case 8:
-                    return "ACTION_CLEAR_SELECTION";
-                case 16:
-                    return "ACTION_CLICK";
-                case 32:
-                    return "ACTION_LONG_CLICK";
-                case 64:
-                    return "ACTION_ACCESSIBILITY_FOCUS";
-                case 128:
-                    return "ACTION_CLEAR_ACCESSIBILITY_FOCUS";
-                case 256:
-                    return "ACTION_NEXT_AT_MOVEMENT_GRANULARITY";
-                case LiteMode.FLAG_CALLS_ANIMATIONS /* 512 */:
-                    return "ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY";
-                case 1024:
-                    return "ACTION_NEXT_HTML_ELEMENT";
-                case 2048:
-                    return "ACTION_PREVIOUS_HTML_ELEMENT";
-                case LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM /* 4096 */:
-                    return "ACTION_SCROLL_FORWARD";
-                case LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM /* 8192 */:
-                    return "ACTION_SCROLL_BACKWARD";
-                case LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM /* 16384 */:
-                    return "ACTION_COPY";
-                case LiteMode.FLAG_CHAT_SCALE /* 32768 */:
-                    return "ACTION_PASTE";
-                case 65536:
-                    return "ACTION_CUT";
-                case 131072:
-                    return "ACTION_SET_SELECTION";
-                case 262144:
-                    return "ACTION_EXPAND";
-                case 524288:
-                    return "ACTION_COLLAPSE";
-                case 2097152:
-                    return "ACTION_SET_TEXT";
-                case 16908354:
-                    return "ACTION_MOVE_WINDOW";
-                default:
-                    switch (i) {
-                        case 16908342:
-                            return "ACTION_SHOW_ON_SCREEN";
-                        case 16908343:
-                            return "ACTION_SCROLL_TO_POSITION";
-                        case 16908344:
-                            return "ACTION_SCROLL_UP";
-                        case 16908345:
-                            return "ACTION_SCROLL_LEFT";
-                        case 16908346:
-                            return "ACTION_SCROLL_DOWN";
-                        case 16908347:
-                            return "ACTION_SCROLL_RIGHT";
-                        case 16908348:
-                            return "ACTION_CONTEXT_CLICK";
-                        case 16908349:
-                            return "ACTION_SET_PROGRESS";
-                        default:
-                            switch (i) {
-                                case 16908356:
-                                    return "ACTION_SHOW_TOOLTIP";
-                                case 16908357:
-                                    return "ACTION_HIDE_TOOLTIP";
-                                case 16908358:
-                                    return "ACTION_PAGE_UP";
-                                case 16908359:
-                                    return "ACTION_PAGE_DOWN";
-                                case 16908360:
-                                    return "ACTION_PAGE_LEFT";
-                                case 16908361:
-                                    return "ACTION_PAGE_RIGHT";
-                                case 16908362:
-                                    return "ACTION_PRESS_AND_HOLD";
-                                default:
-                                    switch (i) {
-                                        case 16908372:
-                                            return "ACTION_IME_ENTER";
-                                        case 16908373:
-                                            return "ACTION_DRAG_START";
-                                        case 16908374:
-                                            return "ACTION_DRAG_DROP";
-                                        case 16908375:
-                                            return "ACTION_DRAG_CANCEL";
-                                        default:
-                                            return "ACTION_UNKNOWN";
-                                    }
-                            }
-                    }
-            }
-        }
-        return "ACTION_FOCUS";
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api19Impl {
-        public static Bundle getExtras(AccessibilityNodeInfo accessibilityNodeInfo) {
-            return accessibilityNodeInfo.getExtras();
-        }
+    public AccessibilityNodeInfo unwrap() {
+        return this.mInfo;
     }
 }

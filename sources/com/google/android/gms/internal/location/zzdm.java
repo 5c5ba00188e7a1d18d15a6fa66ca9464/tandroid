@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.location;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
-public final class zzdm {
+public abstract class zzdm {
     public static int zza(int i, int i2, String str) {
         String zza;
         if (i < 0 || i >= i2) {
@@ -25,16 +24,8 @@ public final class zzdm {
     }
 
     public static void zzc(int i, int i2, int i3) {
-        String zzd;
         if (i < 0 || i2 < i || i2 > i3) {
-            if (i < 0 || i > i3) {
-                zzd = zzd(i, i3, "start index");
-            } else if (i2 < 0 || i2 > i3) {
-                zzd = zzd(i2, i3, "end index");
-            } else {
-                zzd = zzdn.zza("end index (%s) must not be less than start index (%s)", Integer.valueOf(i2), Integer.valueOf(i));
-            }
-            throw new IndexOutOfBoundsException(zzd);
+            throw new IndexOutOfBoundsException((i < 0 || i > i3) ? zzd(i, i3, "start index") : (i2 < 0 || i2 > i3) ? zzd(i2, i3, "end index") : zzdn.zza("end index (%s) must not be less than start index (%s)", Integer.valueOf(i2), Integer.valueOf(i)));
         }
     }
 

@@ -1,6 +1,5 @@
 package com.google.android.exoplayer2.extractor.ts;
 
-import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
 import com.google.android.exoplayer2.util.Assertions;
@@ -25,85 +24,6 @@ public final class PesReader implements TsPayloadReader {
 
     public PesReader(ElementaryStreamReader elementaryStreamReader) {
         this.reader = elementaryStreamReader;
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.ts.TsPayloadReader
-    public void init(TimestampAdjuster timestampAdjuster, ExtractorOutput extractorOutput, TsPayloadReader.TrackIdGenerator trackIdGenerator) {
-        this.timestampAdjuster = timestampAdjuster;
-        this.reader.createTracks(extractorOutput, trackIdGenerator);
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.ts.TsPayloadReader
-    public final void seek() {
-        this.state = 0;
-        this.bytesRead = 0;
-        this.seenFirstDts = false;
-        this.reader.seek();
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.ts.TsPayloadReader
-    public final void consume(ParsableByteArray parsableByteArray, int i) throws ParserException {
-        Assertions.checkStateNotNull(this.timestampAdjuster);
-        if ((i & 1) != 0) {
-            int i2 = this.state;
-            if (i2 != 0 && i2 != 1) {
-                if (i2 == 2) {
-                    Log.w("PesReader", "Unexpected start indicator reading extended header");
-                } else if (i2 == 3) {
-                    if (this.payloadSize != -1) {
-                        Log.w("PesReader", "Unexpected start indicator: expected " + this.payloadSize + " more bytes");
-                    }
-                    this.reader.packetFinished();
-                } else {
-                    throw new IllegalStateException();
-                }
-            }
-            setState(1);
-        }
-        while (parsableByteArray.bytesLeft() > 0) {
-            int i3 = this.state;
-            if (i3 != 0) {
-                if (i3 != 1) {
-                    if (i3 == 2) {
-                        if (continueRead(parsableByteArray, this.pesScratch.data, Math.min(10, this.extendedHeaderLength)) && continueRead(parsableByteArray, null, this.extendedHeaderLength)) {
-                            parseHeaderExtension();
-                            i |= this.dataAlignmentIndicator ? 4 : 0;
-                            this.reader.packetStarted(this.timeUs, i);
-                            setState(3);
-                        }
-                    } else if (i3 == 3) {
-                        int bytesLeft = parsableByteArray.bytesLeft();
-                        int i4 = this.payloadSize;
-                        int i5 = i4 != -1 ? bytesLeft - i4 : 0;
-                        if (i5 > 0) {
-                            bytesLeft -= i5;
-                            parsableByteArray.setLimit(parsableByteArray.getPosition() + bytesLeft);
-                        }
-                        this.reader.consume(parsableByteArray);
-                        int i6 = this.payloadSize;
-                        if (i6 != -1) {
-                            int i7 = i6 - bytesLeft;
-                            this.payloadSize = i7;
-                            if (i7 == 0) {
-                                this.reader.packetFinished();
-                                setState(1);
-                            }
-                        }
-                    } else {
-                        throw new IllegalStateException();
-                    }
-                } else if (continueRead(parsableByteArray, this.pesScratch.data, 9)) {
-                    setState(parseHeader() ? 2 : 0);
-                }
-            } else {
-                parsableByteArray.skipBytes(parsableByteArray.bytesLeft());
-            }
-        }
-    }
-
-    private void setState(int i) {
-        this.state = i;
-        this.bytesRead = 0;
     }
 
     private boolean continueRead(ParsableByteArray parsableByteArray, byte[] bArr, int i) {
@@ -139,16 +59,15 @@ public final class PesReader implements TsPayloadReader {
         this.pesScratch.skipBits(6);
         int readBits3 = this.pesScratch.readBits(8);
         this.extendedHeaderLength = readBits3;
-        if (readBits2 == 0) {
-            this.payloadSize = -1;
-        } else {
+        if (readBits2 != 0) {
             int i = (readBits2 - 3) - readBits3;
             this.payloadSize = i;
             if (i < 0) {
                 Log.w("PesReader", "Found negative packet payload size: " + this.payloadSize);
-                this.payloadSize = -1;
             }
+            return true;
         }
+        this.payloadSize = -1;
         return true;
     }
 
@@ -171,5 +90,93 @@ public final class PesReader implements TsPayloadReader {
             }
             this.timeUs = this.timestampAdjuster.adjustTsTimestamp(readBits);
         }
+    }
+
+    private void setState(int i) {
+        this.state = i;
+        this.bytesRead = 0;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:19:0x004d  */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:34:0x007a -> B:35:0x007c). Please submit an issue!!! */
+    @Override // com.google.android.exoplayer2.extractor.ts.TsPayloadReader
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public final void consume(ParsableByteArray parsableByteArray, int i) {
+        Assertions.checkStateNotNull(this.timestampAdjuster);
+        if ((i & 1) != 0) {
+            int i2 = this.state;
+            if (i2 != 0 && i2 != 1) {
+                if (i2 == 2) {
+                    Log.w("PesReader", "Unexpected start indicator reading extended header");
+                } else if (i2 != 3) {
+                    throw new IllegalStateException();
+                } else {
+                    if (this.payloadSize != -1) {
+                        Log.w("PesReader", "Unexpected start indicator: expected " + this.payloadSize + " more bytes");
+                    }
+                    this.reader.packetFinished();
+                }
+            }
+            setState(1);
+        }
+        while (parsableByteArray.bytesLeft() > 0) {
+            int i3 = this.state;
+            if (i3 != 0) {
+                if (i3 != 1) {
+                    if (i3 == 2) {
+                        if (continueRead(parsableByteArray, this.pesScratch.data, Math.min(10, this.extendedHeaderLength)) && continueRead(parsableByteArray, null, this.extendedHeaderLength)) {
+                            parseHeaderExtension();
+                            i |= this.dataAlignmentIndicator ? 4 : 0;
+                            this.reader.packetStarted(this.timeUs, i);
+                            setState(3);
+                        }
+                    } else if (i3 != 3) {
+                        throw new IllegalStateException();
+                    } else {
+                        int bytesLeft = parsableByteArray.bytesLeft();
+                        int i4 = this.payloadSize;
+                        int i5 = i4 != -1 ? bytesLeft - i4 : 0;
+                        if (i5 > 0) {
+                            bytesLeft -= i5;
+                            parsableByteArray.setLimit(parsableByteArray.getPosition() + bytesLeft);
+                        }
+                        this.reader.consume(parsableByteArray);
+                        int i6 = this.payloadSize;
+                        if (i6 != -1) {
+                            int i7 = i6 - bytesLeft;
+                            this.payloadSize = i7;
+                            if (i7 == 0) {
+                                this.reader.packetFinished();
+                                setState(1);
+                                while (parsableByteArray.bytesLeft() > 0) {
+                                }
+                            }
+                        } else {
+                            continue;
+                        }
+                    }
+                } else if (continueRead(parsableByteArray, this.pesScratch.data, 9)) {
+                    setState(parseHeader() ? 2 : 0);
+                }
+            } else {
+                parsableByteArray.skipBytes(parsableByteArray.bytesLeft());
+            }
+        }
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.ts.TsPayloadReader
+    public void init(TimestampAdjuster timestampAdjuster, ExtractorOutput extractorOutput, TsPayloadReader.TrackIdGenerator trackIdGenerator) {
+        this.timestampAdjuster = timestampAdjuster;
+        this.reader.createTracks(extractorOutput, trackIdGenerator);
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.ts.TsPayloadReader
+    public final void seek() {
+        this.state = 0;
+        this.bytesRead = 0;
+        this.seenFirstDts = false;
+        this.reader.seek();
     }
 }

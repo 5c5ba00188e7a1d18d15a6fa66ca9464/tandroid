@@ -9,7 +9,6 @@ import com.google.android.gms.common.internal.zzt;
 import com.google.android.gms.common.util.DeviceProperties;
 import com.google.android.gms.common.wrappers.Wrappers;
 import com.google.android.gms.internal.common.zzd;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class GoogleApiAvailabilityLight {
     public static final int GOOGLE_PLAY_SERVICES_VERSION_CODE = GooglePlayServicesUtilLight.GOOGLE_PLAY_SERVICES_VERSION_CODE;
@@ -27,33 +26,8 @@ public class GoogleApiAvailabilityLight {
         return GooglePlayServicesUtilLight.getApkVersion(context);
     }
 
-    @Deprecated
     public Intent getErrorResolutionIntent(int i) {
         return getErrorResolutionIntent(null, i, null);
-    }
-
-    public PendingIntent getErrorResolutionPendingIntent(Context context, int i, int i2) {
-        return getErrorResolutionPendingIntent(context, i, i2, null);
-    }
-
-    public String getErrorString(int i) {
-        return GooglePlayServicesUtilLight.getErrorString(i);
-    }
-
-    public int isGooglePlayServicesAvailable(Context context) {
-        return isGooglePlayServicesAvailable(context, GOOGLE_PLAY_SERVICES_VERSION_CODE);
-    }
-
-    public boolean isPlayServicesPossiblyUpdating(Context context, int i) {
-        return GooglePlayServicesUtilLight.isPlayServicesPossiblyUpdating(context, i);
-    }
-
-    public boolean isUninstalledAppPossiblyUpdating(Context context, String str) {
-        return GooglePlayServicesUtilLight.zza(context, str);
-    }
-
-    public boolean isUserResolvableError(int i) {
-        return GooglePlayServicesUtilLight.isUserRecoverableError(i);
     }
 
     public Intent getErrorResolutionIntent(Context context, int i, String str) {
@@ -87,6 +61,10 @@ public class GoogleApiAvailabilityLight {
         }
     }
 
+    public PendingIntent getErrorResolutionPendingIntent(Context context, int i, int i2) {
+        return getErrorResolutionPendingIntent(context, i, i2, null);
+    }
+
     public PendingIntent getErrorResolutionPendingIntent(Context context, int i, int i2, String str) {
         Intent errorResolutionIntent = getErrorResolutionIntent(context, i, str);
         if (errorResolutionIntent == null) {
@@ -95,11 +73,31 @@ public class GoogleApiAvailabilityLight {
         return PendingIntent.getActivity(context, i2, errorResolutionIntent, zzd.zza | 134217728);
     }
 
+    public String getErrorString(int i) {
+        return GooglePlayServicesUtilLight.getErrorString(i);
+    }
+
+    public int isGooglePlayServicesAvailable(Context context) {
+        return isGooglePlayServicesAvailable(context, GOOGLE_PLAY_SERVICES_VERSION_CODE);
+    }
+
     public int isGooglePlayServicesAvailable(Context context, int i) {
         int isGooglePlayServicesAvailable = GooglePlayServicesUtilLight.isGooglePlayServicesAvailable(context, i);
         if (GooglePlayServicesUtilLight.isPlayServicesPossiblyUpdating(context, isGooglePlayServicesAvailable)) {
             return 18;
         }
         return isGooglePlayServicesAvailable;
+    }
+
+    public boolean isPlayServicesPossiblyUpdating(Context context, int i) {
+        return GooglePlayServicesUtilLight.isPlayServicesPossiblyUpdating(context, i);
+    }
+
+    public boolean isUninstalledAppPossiblyUpdating(Context context, String str) {
+        return GooglePlayServicesUtilLight.zza(context, str);
+    }
+
+    public boolean isUserResolvableError(int i) {
+        return GooglePlayServicesUtilLight.isUserRecoverableError(i);
     }
 }

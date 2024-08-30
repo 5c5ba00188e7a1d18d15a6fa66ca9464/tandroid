@@ -2,9 +2,8 @@ package com.google.android.gms.internal.play_billing;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-public final class zzn {
+public abstract class zzn {
     public static String zza(String str, Object... objArr) {
         int length;
         int length2;

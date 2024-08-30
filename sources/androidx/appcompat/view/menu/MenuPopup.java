@@ -15,54 +15,6 @@ import android.widget.PopupWindow;
 public abstract class MenuPopup implements ShowableListMenu, MenuPresenter, AdapterView.OnItemClickListener {
     private Rect mEpicenterBounds;
 
-    public abstract void addMenu(MenuBuilder menuBuilder);
-
-    protected boolean closeMenuOnSubMenuOpened() {
-        return true;
-    }
-
-    @Override // androidx.appcompat.view.menu.MenuPresenter
-    public boolean collapseItemActionView(MenuBuilder menuBuilder, MenuItemImpl menuItemImpl) {
-        return false;
-    }
-
-    @Override // androidx.appcompat.view.menu.MenuPresenter
-    public boolean expandItemActionView(MenuBuilder menuBuilder, MenuItemImpl menuItemImpl) {
-        return false;
-    }
-
-    @Override // androidx.appcompat.view.menu.MenuPresenter
-    public void initForMenu(Context context, MenuBuilder menuBuilder) {
-    }
-
-    public abstract void setAnchorView(View view);
-
-    public abstract void setForceShowIcon(boolean z);
-
-    public abstract void setGravity(int i);
-
-    public abstract void setHorizontalOffset(int i);
-
-    public abstract void setOnDismissListener(PopupWindow.OnDismissListener onDismissListener);
-
-    public abstract void setShowTitle(boolean z);
-
-    public abstract void setVerticalOffset(int i);
-
-    public void setEpicenterBounds(Rect rect) {
-        this.mEpicenterBounds = rect;
-    }
-
-    public Rect getEpicenterBounds() {
-        return this.mEpicenterBounds;
-    }
-
-    @Override // android.widget.AdapterView.OnItemClickListener
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long j) {
-        ListAdapter listAdapter = (ListAdapter) adapterView.getAdapter();
-        toMenuAdapter(listAdapter).mAdapterMenu.performItemAction((MenuItem) listAdapter.getItem(i), this, closeMenuOnSubMenuOpened() ? 0 : 4);
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
     public static int measureIndividualMenuWidth(ListAdapter listAdapter, ViewGroup viewGroup, Context context, int i) {
         int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, 0);
@@ -94,14 +46,6 @@ public abstract class MenuPopup implements ShowableListMenu, MenuPresenter, Adap
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public static MenuAdapter toMenuAdapter(ListAdapter listAdapter) {
-        if (listAdapter instanceof HeaderViewListAdapter) {
-            return (MenuAdapter) ((HeaderViewListAdapter) listAdapter).getWrappedAdapter();
-        }
-        return (MenuAdapter) listAdapter;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
     public static boolean shouldPreserveIconSpacing(MenuBuilder menuBuilder) {
         int size = menuBuilder.size();
         for (int i = 0; i < size; i++) {
@@ -112,4 +56,57 @@ public abstract class MenuPopup implements ShowableListMenu, MenuPresenter, Adap
         }
         return false;
     }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public static MenuAdapter toMenuAdapter(ListAdapter listAdapter) {
+        return listAdapter instanceof HeaderViewListAdapter ? (MenuAdapter) ((HeaderViewListAdapter) listAdapter).getWrappedAdapter() : (MenuAdapter) listAdapter;
+    }
+
+    public abstract void addMenu(MenuBuilder menuBuilder);
+
+    protected boolean closeMenuOnSubMenuOpened() {
+        return true;
+    }
+
+    @Override // androidx.appcompat.view.menu.MenuPresenter
+    public boolean collapseItemActionView(MenuBuilder menuBuilder, MenuItemImpl menuItemImpl) {
+        return false;
+    }
+
+    @Override // androidx.appcompat.view.menu.MenuPresenter
+    public boolean expandItemActionView(MenuBuilder menuBuilder, MenuItemImpl menuItemImpl) {
+        return false;
+    }
+
+    public Rect getEpicenterBounds() {
+        return this.mEpicenterBounds;
+    }
+
+    @Override // androidx.appcompat.view.menu.MenuPresenter
+    public void initForMenu(Context context, MenuBuilder menuBuilder) {
+    }
+
+    @Override // android.widget.AdapterView.OnItemClickListener
+    public void onItemClick(AdapterView adapterView, View view, int i, long j) {
+        ListAdapter listAdapter = (ListAdapter) adapterView.getAdapter();
+        toMenuAdapter(listAdapter).mAdapterMenu.performItemAction((MenuItem) listAdapter.getItem(i), this, closeMenuOnSubMenuOpened() ? 0 : 4);
+    }
+
+    public abstract void setAnchorView(View view);
+
+    public void setEpicenterBounds(Rect rect) {
+        this.mEpicenterBounds = rect;
+    }
+
+    public abstract void setForceShowIcon(boolean z);
+
+    public abstract void setGravity(int i);
+
+    public abstract void setHorizontalOffset(int i);
+
+    public abstract void setOnDismissListener(PopupWindow.OnDismissListener onDismissListener);
+
+    public abstract void setShowTitle(boolean z);
+
+    public abstract void setVerticalOffset(int i);
 }

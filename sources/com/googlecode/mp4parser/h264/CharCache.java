@@ -8,14 +8,6 @@ public class CharCache {
         this.cache = new char[i];
     }
 
-    public String toString() {
-        return new String(this.cache, 0, this.pos);
-    }
-
-    public void clear() {
-        this.pos = 0;
-    }
-
     public void append(char c) {
         int i = this.pos;
         char[] cArr = this.cache;
@@ -25,7 +17,15 @@ public class CharCache {
         }
     }
 
+    public void clear() {
+        this.pos = 0;
+    }
+
     public int length() {
         return this.pos;
+    }
+
+    public String toString() {
+        return new String(this.cache, 0, this.pos);
     }
 }

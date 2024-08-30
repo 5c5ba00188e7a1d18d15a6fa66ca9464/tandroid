@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.play_billing;
 
 import org.telegram.tgnet.ConnectionsManager;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 final class zzbc extends zzbe {
     private final byte[] zzb;
@@ -17,7 +16,7 @@ final class zzbc extends zzbe {
         this.zzc = 0;
     }
 
-    public final int zza(int i) throws zzci {
+    public final int zza(int i) {
         int i2 = this.zze;
         this.zze = 0;
         int i3 = this.zzc + this.zzd;

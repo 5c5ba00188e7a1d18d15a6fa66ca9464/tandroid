@@ -6,7 +6,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class ChapterTocFrame extends Id3Frame {
-    public static final Parcelable.Creator<ChapterTocFrame> CREATOR = new Parcelable.Creator<ChapterTocFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.ChapterTocFrame.1
+    public static final Parcelable.Creator<ChapterTocFrame> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.id3.ChapterTocFrame.1
         @Override // android.os.Parcelable.Creator
         public ChapterTocFrame createFromParcel(Parcel parcel) {
             return new ChapterTocFrame(parcel);
@@ -23,15 +23,6 @@ public final class ChapterTocFrame extends Id3Frame {
     public final boolean isRoot;
     private final Id3Frame[] subFrames;
 
-    public ChapterTocFrame(String str, boolean z, boolean z2, String[] strArr, Id3Frame[] id3FrameArr) {
-        super("CTOC");
-        this.elementId = str;
-        this.isRoot = z;
-        this.isOrdered = z2;
-        this.children = strArr;
-        this.subFrames = id3FrameArr;
-    }
-
     ChapterTocFrame(Parcel parcel) {
         super("CTOC");
         this.elementId = (String) Util.castNonNull(parcel.readString());
@@ -43,6 +34,15 @@ public final class ChapterTocFrame extends Id3Frame {
         for (int i = 0; i < readInt; i++) {
             this.subFrames[i] = (Id3Frame) parcel.readParcelable(Id3Frame.class.getClassLoader());
         }
+    }
+
+    public ChapterTocFrame(String str, boolean z, boolean z2, String[] strArr, Id3Frame[] id3FrameArr) {
+        super("CTOC");
+        this.elementId = str;
+        this.isRoot = z;
+        this.isOrdered = z2;
+        this.children = strArr;
+        this.subFrames = id3FrameArr;
     }
 
     public boolean equals(Object obj) {

@@ -59,6 +59,11 @@ public class TrackHeaderBox extends AbstractFullBox {
         ajc$preClinit();
     }
 
+    public TrackHeaderBox() {
+        super("tkhd");
+        this.matrix = Matrix.ROTATE_0;
+    }
+
     private static /* synthetic */ void ajc$preClinit() {
         Factory factory = new Factory("TrackHeaderBox.java", TrackHeaderBox.class);
         ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getCreationTime", "com.coremedia.iso.boxes.TrackHeaderBox", "", "", "", "java.util.Date"), 60);
@@ -93,61 +98,6 @@ public class TrackHeaderBox extends AbstractFullBox {
         ajc$tjp_9 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getHeight", "com.coremedia.iso.boxes.TrackHeaderBox", "", "", "", "double"), 96);
     }
 
-    public TrackHeaderBox() {
-        super("tkhd");
-        this.matrix = Matrix.ROTATE_0;
-    }
-
-    public Date getCreationTime() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_0, this, this));
-        return this.creationTime;
-    }
-
-    public Date getModificationTime() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this));
-        return this.modificationTime;
-    }
-
-    public long getTrackId() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_2, this, this));
-        return this.trackId;
-    }
-
-    public long getDuration() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_3, this, this));
-        return this.duration;
-    }
-
-    public int getLayer() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_4, this, this));
-        return this.layer;
-    }
-
-    public int getAlternateGroup() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_5, this, this));
-        return this.alternateGroup;
-    }
-
-    public float getVolume() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_6, this, this));
-        return this.volume;
-    }
-
-    public double getWidth() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_8, this, this));
-        return this.width;
-    }
-
-    public double getHeight() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_9, this, this));
-        return this.height;
-    }
-
-    @Override // com.googlecode.mp4parser.AbstractBox
-    protected long getContentSize() {
-        return (getVersion() == 1 ? 36L : 24L) + 60;
-    }
-
     @Override // com.googlecode.mp4parser.AbstractBox
     public void _parseDetails(ByteBuffer byteBuffer) {
         parseVersionAndFlags(byteBuffer);
@@ -179,6 +129,11 @@ public class TrackHeaderBox extends AbstractFullBox {
         this.height = IsoTypeReader.readFixedPoint1616(byteBuffer);
     }
 
+    public int getAlternateGroup() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_5, this, this));
+        return this.alternateGroup;
+    }
+
     @Override // com.googlecode.mp4parser.AbstractBox
     public void getContent(ByteBuffer byteBuffer) {
         RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_10, this, this, byteBuffer));
@@ -207,9 +162,54 @@ public class TrackHeaderBox extends AbstractFullBox {
         IsoTypeWriter.writeFixedPoint1616(byteBuffer, this.height);
     }
 
-    public String toString() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_11, this, this));
-        return "TrackHeaderBox[creationTime=" + getCreationTime() + ";modificationTime=" + getModificationTime() + ";trackId=" + getTrackId() + ";duration=" + getDuration() + ";layer=" + getLayer() + ";alternateGroup=" + getAlternateGroup() + ";volume=" + getVolume() + ";matrix=" + this.matrix + ";width=" + getWidth() + ";height=" + getHeight() + "]";
+    @Override // com.googlecode.mp4parser.AbstractBox
+    protected long getContentSize() {
+        return (getVersion() == 1 ? 36L : 24L) + 60;
+    }
+
+    public Date getCreationTime() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_0, this, this));
+        return this.creationTime;
+    }
+
+    public long getDuration() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_3, this, this));
+        return this.duration;
+    }
+
+    public double getHeight() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_9, this, this));
+        return this.height;
+    }
+
+    public int getLayer() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_4, this, this));
+        return this.layer;
+    }
+
+    public Date getModificationTime() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this));
+        return this.modificationTime;
+    }
+
+    public long getTrackId() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_2, this, this));
+        return this.trackId;
+    }
+
+    public float getVolume() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_6, this, this));
+        return this.volume;
+    }
+
+    public double getWidth() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_8, this, this));
+        return this.width;
+    }
+
+    public void setAlternateGroup(int i) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_17, this, this, Conversions.intObject(i)));
+        this.alternateGroup = i;
     }
 
     public void setCreationTime(Date date) {
@@ -218,6 +218,44 @@ public class TrackHeaderBox extends AbstractFullBox {
         if (DateHelper.convert(date) >= 4294967296L) {
             setVersion(1);
         }
+    }
+
+    public void setDuration(long j) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_15, this, this, Conversions.longObject(j)));
+        this.duration = j;
+        if (j >= 4294967296L) {
+            setFlags(1);
+        }
+    }
+
+    public void setEnabled(boolean z) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_26, this, this, Conversions.booleanObject(z)));
+        setFlags(z ? getFlags() | 1 : getFlags() & (-2));
+    }
+
+    public void setHeight(double d) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_21, this, this, Conversions.doubleObject(d)));
+        this.height = d;
+    }
+
+    public void setInMovie(boolean z) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_27, this, this, Conversions.booleanObject(z)));
+        setFlags(z ? getFlags() | 2 : getFlags() & (-3));
+    }
+
+    public void setInPreview(boolean z) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_28, this, this, Conversions.booleanObject(z)));
+        setFlags(z ? getFlags() | 4 : getFlags() & (-5));
+    }
+
+    public void setLayer(int i) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_16, this, this, Conversions.intObject(i)));
+        this.layer = i;
+    }
+
+    public void setMatrix(Matrix matrix) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_19, this, this, matrix));
+        this.matrix = matrix;
     }
 
     public void setModificationTime(Date date) {
@@ -233,32 +271,9 @@ public class TrackHeaderBox extends AbstractFullBox {
         this.trackId = j;
     }
 
-    public void setDuration(long j) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_15, this, this, Conversions.longObject(j)));
-        this.duration = j;
-        if (j >= 4294967296L) {
-            setFlags(1);
-        }
-    }
-
-    public void setLayer(int i) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_16, this, this, Conversions.intObject(i)));
-        this.layer = i;
-    }
-
-    public void setAlternateGroup(int i) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_17, this, this, Conversions.intObject(i)));
-        this.alternateGroup = i;
-    }
-
     public void setVolume(float f) {
         RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_18, this, this, Conversions.floatObject(f)));
         this.volume = f;
-    }
-
-    public void setMatrix(Matrix matrix) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_19, this, this, matrix));
-        this.matrix = matrix;
     }
 
     public void setWidth(double d) {
@@ -266,35 +281,8 @@ public class TrackHeaderBox extends AbstractFullBox {
         this.width = d;
     }
 
-    public void setHeight(double d) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_21, this, this, Conversions.doubleObject(d)));
-        this.height = d;
-    }
-
-    public void setEnabled(boolean z) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_26, this, this, Conversions.booleanObject(z)));
-        if (z) {
-            setFlags(getFlags() | 1);
-        } else {
-            setFlags(getFlags() & (-2));
-        }
-    }
-
-    public void setInMovie(boolean z) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_27, this, this, Conversions.booleanObject(z)));
-        if (z) {
-            setFlags(getFlags() | 2);
-        } else {
-            setFlags(getFlags() & (-3));
-        }
-    }
-
-    public void setInPreview(boolean z) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_28, this, this, Conversions.booleanObject(z)));
-        if (z) {
-            setFlags(getFlags() | 4);
-        } else {
-            setFlags(getFlags() & (-5));
-        }
+    public String toString() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_11, this, this));
+        return "TrackHeaderBox[creationTime=" + getCreationTime() + ";modificationTime=" + getModificationTime() + ";trackId=" + getTrackId() + ";duration=" + getDuration() + ";layer=" + getLayer() + ";alternateGroup=" + getAlternateGroup() + ";volume=" + getVolume() + ";matrix=" + this.matrix + ";width=" + getWidth() + ";height=" + getHeight() + "]";
     }
 }

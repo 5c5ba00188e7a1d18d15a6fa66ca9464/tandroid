@@ -3,7 +3,6 @@ package com.google.mlkit.common.sdkinternal;
 import android.os.Handler;
 import java.util.concurrent.Executor;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public enum zzh implements Executor {
     zza;

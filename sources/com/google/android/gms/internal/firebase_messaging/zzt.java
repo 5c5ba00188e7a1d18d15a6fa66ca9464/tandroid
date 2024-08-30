@@ -2,9 +2,8 @@ package com.google.android.gms.internal.firebase_messaging;
 
 import java.io.PrintStream;
 import org.telegram.messenger.NotificationCenter;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
-public final class zzt {
+public abstract class zzt {
     static final zzn zza;
 
     static {
@@ -18,11 +17,7 @@ public final class zzt {
                 printStream.println("Failed to retrieve value from android.os.Build$VERSION.SDK_INT due to the following exception.");
                 e.printStackTrace(printStream);
             }
-            if (num == null || num.intValue() < 19) {
-                zzrVar = !Boolean.getBoolean("com.google.devtools.build.android.desugar.runtime.twr_disable_mimic") ? new zzq() : new zzr();
-            } else {
-                zzrVar = new zzs();
-            }
+            zzrVar = (num == null || num.intValue() < 19) ? !Boolean.getBoolean("com.google.devtools.build.android.desugar.runtime.twr_disable_mimic") ? new zzq() : new zzr() : new zzs();
         } catch (Throwable th) {
             PrintStream printStream2 = System.err;
             String name = zzr.class.getName();

@@ -2,8 +2,8 @@ package com.google.android.gms.internal.clearcut;
 
 import java.util.ListIterator;
 /* loaded from: classes.dex */
-final class zzfb implements ListIterator<String> {
-    private ListIterator<String> zzpc;
+final class zzfb implements ListIterator {
+    private ListIterator zzpc;
     private final /* synthetic */ int zzpd;
     private final /* synthetic */ zzfa zzpe;
 
@@ -17,7 +17,7 @@ final class zzfb implements ListIterator<String> {
     }
 
     @Override // java.util.ListIterator
-    public final /* synthetic */ void add(String str) {
+    public final /* synthetic */ void add(Object obj) {
         throw new UnsupportedOperationException();
     }
 
@@ -33,7 +33,7 @@ final class zzfb implements ListIterator<String> {
 
     @Override // java.util.ListIterator, java.util.Iterator
     public final /* synthetic */ Object next() {
-        return this.zzpc.next();
+        return (String) this.zzpc.next();
     }
 
     @Override // java.util.ListIterator
@@ -42,8 +42,8 @@ final class zzfb implements ListIterator<String> {
     }
 
     @Override // java.util.ListIterator
-    public final /* synthetic */ String previous() {
-        return this.zzpc.previous();
+    public final /* synthetic */ Object previous() {
+        return (String) this.zzpc.previous();
     }
 
     @Override // java.util.ListIterator
@@ -57,7 +57,7 @@ final class zzfb implements ListIterator<String> {
     }
 
     @Override // java.util.ListIterator
-    public final /* synthetic */ void set(String str) {
+    public final /* synthetic */ void set(Object obj) {
         throw new UnsupportedOperationException();
     }
 }

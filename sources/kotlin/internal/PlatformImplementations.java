@@ -5,19 +5,14 @@ import kotlin.collections.ArraysKt;
 import kotlin.jvm.internal.Intrinsics;
 import kotlin.random.FallbackThreadLocalRandom;
 import kotlin.random.Random;
-/* compiled from: PlatformImplementations.kt */
 /* loaded from: classes.dex */
 public class PlatformImplementations {
 
-    /* compiled from: PlatformImplementations.kt */
     /* loaded from: classes.dex */
     private static final class ReflectThrowable {
         public static final ReflectThrowable INSTANCE = new ReflectThrowable();
         public static final Method addSuppressed;
         public static final Method getSuppressed;
-
-        private ReflectThrowable() {
-        }
 
         static {
             Method method;
@@ -57,6 +52,9 @@ public class PlatformImplementations {
                 i++;
             }
             getSuppressed = method;
+        }
+
+        private ReflectThrowable() {
         }
     }
 

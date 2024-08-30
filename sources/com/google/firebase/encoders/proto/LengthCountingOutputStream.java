@@ -5,6 +5,11 @@ import java.io.OutputStream;
 final class LengthCountingOutputStream extends OutputStream {
     private long length = 0;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public long getLength() {
+        return this.length;
+    }
+
     @Override // java.io.OutputStream
     public void write(int i) {
         this.length++;
@@ -22,10 +27,5 @@ final class LengthCountingOutputStream extends OutputStream {
             throw new IndexOutOfBoundsException();
         }
         this.length += i2;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public long getLength() {
-        return this.length;
     }
 }

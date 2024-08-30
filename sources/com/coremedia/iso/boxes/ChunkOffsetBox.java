@@ -12,16 +12,16 @@ public abstract class ChunkOffsetBox extends AbstractFullBox {
         ajc$preClinit();
     }
 
+    public ChunkOffsetBox(String str) {
+        super(str);
+    }
+
     private static /* synthetic */ void ajc$preClinit() {
         Factory factory = new Factory("ChunkOffsetBox.java", ChunkOffsetBox.class);
         ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "toString", "com.coremedia.iso.boxes.ChunkOffsetBox", "", "", "", "java.lang.String"), 18);
     }
 
     public abstract long[] getChunkOffsets();
-
-    public ChunkOffsetBox(String str) {
-        super(str);
-    }
 
     public String toString() {
         RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_0, this, this));

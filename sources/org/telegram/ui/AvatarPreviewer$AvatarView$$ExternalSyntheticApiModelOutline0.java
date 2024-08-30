@@ -1,5 +1,4 @@
 package org.telegram.ui;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes4.dex */
-public final /* synthetic */ class AvatarPreviewer$AvatarView$$ExternalSyntheticApiModelOutline0 {
+public abstract /* synthetic */ class AvatarPreviewer$AvatarView$$ExternalSyntheticApiModelOutline0 {
 }

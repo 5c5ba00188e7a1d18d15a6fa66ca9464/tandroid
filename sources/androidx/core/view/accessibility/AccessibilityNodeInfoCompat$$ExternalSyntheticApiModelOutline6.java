@@ -1,5 +1,4 @@
 package androidx.core.view.accessibility;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes.dex */
-public final /* synthetic */ class AccessibilityNodeInfoCompat$$ExternalSyntheticApiModelOutline6 {
+public abstract /* synthetic */ class AccessibilityNodeInfoCompat$$ExternalSyntheticApiModelOutline6 {
 }

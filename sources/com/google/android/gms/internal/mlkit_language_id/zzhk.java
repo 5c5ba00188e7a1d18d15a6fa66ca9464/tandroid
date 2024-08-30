@@ -1,10 +1,9 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Iterator;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzhk implements Iterator<String> {
-    private Iterator<String> zza;
+final class zzhk implements Iterator {
+    private Iterator zza;
     private final /* synthetic */ zzhi zzb;
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -21,12 +20,12 @@ final class zzhk implements Iterator<String> {
     }
 
     @Override // java.util.Iterator
-    public final void remove() {
-        throw new UnsupportedOperationException();
+    public final /* synthetic */ Object next() {
+        return (String) this.zza.next();
     }
 
     @Override // java.util.Iterator
-    public final /* synthetic */ String next() {
-        return this.zza.next();
+    public final void remove() {
+        throw new UnsupportedOperationException();
     }
 }

@@ -10,7 +10,6 @@ import com.google.android.exoplayer2.mediacodec.AsynchronousMediaCodecBufferEnqu
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import java.util.concurrent.atomic.AtomicReference;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class zap extends LifecycleCallback implements DialogInterface.OnCancelListener {
     protected volatile boolean zaa;

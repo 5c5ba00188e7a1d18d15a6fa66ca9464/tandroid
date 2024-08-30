@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public class LanguageIdentificationJni extends ModelResource {
     private static boolean zza;
@@ -47,48 +46,22 @@ public class LanguageIdentificationJni extends ModelResource {
 
     private native long nativeInit(MappedByteBuffer mappedByteBuffer, long j);
 
-    public final <T> Task<T> zza(final Executor executor, Callable<T> callable, CancellationToken cancellationToken) {
-        final AtomicReference atomicReference = new AtomicReference(Thread.currentThread());
-        Task<T> callAfterLoad = callAfterLoad(new Executor(this, atomicReference, executor) { // from class: com.google.mlkit.nl.languageid.internal.zzb
-            private final LanguageIdentificationJni zza;
-            private final AtomicReference zzb;
-            private final Executor zzc;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zza = this;
-                this.zzb = atomicReference;
-                this.zzc = executor;
+    private static synchronized void zzb() {
+        synchronized (LanguageIdentificationJni.class) {
+            if (zza) {
+                return;
             }
-
-            @Override // java.util.concurrent.Executor
-            public final void execute(Runnable runnable) {
-                LanguageIdentificationJni languageIdentificationJni = this.zza;
-                AtomicReference atomicReference2 = this.zzb;
-                Executor executor2 = this.zzc;
-                if (Thread.currentThread().equals(atomicReference2.get()) && languageIdentificationJni.isLoaded()) {
-                    runnable.run();
-                } else {
-                    executor2.execute(runnable);
-                }
+            try {
+                System.loadLibrary("language_id_jni");
+                zza = true;
+            } catch (UnsatisfiedLinkError e) {
+                throw new MlKitException("Couldn't load language detection library.", 12, e);
             }
-        }, callable, cancellationToken);
-        atomicReference.set(null);
-        return callAfterLoad;
-    }
-
-    public final String zza(String str, float f) {
-        Preconditions.checkState(this.zze != 0);
-        return nativeIdentifyLanguage(this.zze, str.getBytes(com.google.android.gms.internal.mlkit_language_id.zzb.zza), f);
-    }
-
-    public final List<IdentifiedLanguage> zzb(String str, float f) {
-        Preconditions.checkState(this.zze != 0);
-        return Arrays.asList(nativeIdentifyPossibleLanguages(this.zze, str.getBytes(com.google.android.gms.internal.mlkit_language_id.zzb.zza), f));
+        }
     }
 
     @Override // com.google.mlkit.common.sdkinternal.ModelResource
-    public void load() throws MlKitException {
+    public void load() {
         this.taskQueue.checkIsRunningOnCurrentThread();
         long elapsedRealtime = SystemClock.elapsedRealtime();
         try {
@@ -149,17 +122,43 @@ public class LanguageIdentificationJni extends ModelResource {
         this.zzd = null;
     }
 
-    private static synchronized void zzb() throws MlKitException {
-        synchronized (LanguageIdentificationJni.class) {
-            if (zza) {
-                return;
+    public final <T> Task zza(final Executor executor, Callable<T> callable, CancellationToken cancellationToken) {
+        final AtomicReference atomicReference = new AtomicReference(Thread.currentThread());
+        Task callAfterLoad = callAfterLoad(new Executor(this, atomicReference, executor) { // from class: com.google.mlkit.nl.languageid.internal.zzb
+            private final LanguageIdentificationJni zza;
+            private final AtomicReference zzb;
+            private final Executor zzc;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.zza = this;
+                this.zzb = atomicReference;
+                this.zzc = executor;
             }
-            try {
-                System.loadLibrary("language_id_jni");
-                zza = true;
-            } catch (UnsatisfiedLinkError e) {
-                throw new MlKitException("Couldn't load language detection library.", 12, e);
+
+            @Override // java.util.concurrent.Executor
+            public final void execute(Runnable runnable) {
+                LanguageIdentificationJni languageIdentificationJni = this.zza;
+                AtomicReference atomicReference2 = this.zzb;
+                Executor executor2 = this.zzc;
+                if (Thread.currentThread().equals(atomicReference2.get()) && languageIdentificationJni.isLoaded()) {
+                    runnable.run();
+                } else {
+                    executor2.execute(runnable);
+                }
             }
-        }
+        }, callable, cancellationToken);
+        atomicReference.set(null);
+        return callAfterLoad;
+    }
+
+    public final String zza(String str, float f) {
+        Preconditions.checkState(this.zze != 0);
+        return nativeIdentifyLanguage(this.zze, str.getBytes(com.google.android.gms.internal.mlkit_language_id.zzb.zza), f);
+    }
+
+    public final List<IdentifiedLanguage> zzb(String str, float f) {
+        Preconditions.checkState(this.zze != 0);
+        return Arrays.asList(nativeIdentifyPossibleLanguages(this.zze, str.getBytes(com.google.android.gms.internal.mlkit_language_id.zzb.zza), f));
     }
 }

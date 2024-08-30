@@ -1,13 +1,12 @@
 package androidx.multidex;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.zip.CRC32;
 import java.util.zip.ZipException;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
-final class ZipUtil {
+abstract class ZipUtil {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
@@ -19,17 +18,28 @@ final class ZipUtil {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static long getZipCrc(File file) throws IOException {
-        RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
-        try {
-            return computeCrcOfCentralDir(randomAccessFile, findCentralDirectory(randomAccessFile));
-        } finally {
-            randomAccessFile.close();
+    static long computeCrcOfCentralDir(RandomAccessFile randomAccessFile, CentralDirectory centralDirectory) {
+        CRC32 crc32 = new CRC32();
+        long j = centralDirectory.size;
+        randomAccessFile.seek(centralDirectory.offset);
+        int min = (int) Math.min(16384L, j);
+        byte[] bArr = new byte[LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM];
+        while (true) {
+            int read = randomAccessFile.read(bArr, 0, min);
+            if (read == -1) {
+                break;
+            }
+            crc32.update(bArr, 0, read);
+            j -= read;
+            if (j == 0) {
+                break;
+            }
+            min = (int) Math.min(16384L, j);
         }
+        return crc32.getValue();
     }
 
-    static CentralDirectory findCentralDirectory(RandomAccessFile randomAccessFile) throws IOException, ZipException {
+    static CentralDirectory findCentralDirectory(RandomAccessFile randomAccessFile) {
         long length = randomAccessFile.length();
         long j = length - 22;
         if (j < 0) {
@@ -55,21 +65,13 @@ final class ZipUtil {
         throw new ZipException("End Of Central Directory signature not found");
     }
 
-    static long computeCrcOfCentralDir(RandomAccessFile randomAccessFile, CentralDirectory centralDirectory) throws IOException {
-        CRC32 crc32 = new CRC32();
-        long j = centralDirectory.size;
-        randomAccessFile.seek(centralDirectory.offset);
-        int min = (int) Math.min(16384L, j);
-        byte[] bArr = new byte[LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM];
-        int read = randomAccessFile.read(bArr, 0, min);
-        while (read != -1) {
-            crc32.update(bArr, 0, read);
-            j -= read;
-            if (j == 0) {
-                break;
-            }
-            read = randomAccessFile.read(bArr, 0, (int) Math.min(16384L, j));
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static long getZipCrc(File file) {
+        RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
+        try {
+            return computeCrcOfCentralDir(randomAccessFile, findCentralDirectory(randomAccessFile));
+        } finally {
+            randomAccessFile.close();
         }
-        return crc32.getValue();
     }
 }

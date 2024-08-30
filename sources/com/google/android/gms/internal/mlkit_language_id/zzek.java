@@ -11,7 +11,6 @@ jadx.core.utils.exceptions.JadxRuntimeException: Init of enum zzc uses external 
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzek {
     public static final zzek zza;
@@ -71,33 +70,8 @@ public final class zzek {
     private final zzfb zzaz;
     private final int zzba;
     private final zzem zzbb;
-    private final Class<?> zzbc;
+    private final Class zzbc;
     private final boolean zzbd;
-
-    public static zzek[] values() {
-        return (zzek[]) zzbg.clone();
-    }
-
-    private zzek(String str, int i, int i2, zzem zzemVar, zzfb zzfbVar) {
-        int i3;
-        this.zzba = i2;
-        this.zzbb = zzemVar;
-        this.zzaz = zzfbVar;
-        int i4 = zzen.zza[zzemVar.ordinal()];
-        boolean z = true;
-        if (i4 == 1) {
-            this.zzbc = zzfbVar.zza();
-        } else if (i4 == 2) {
-            this.zzbc = zzfbVar.zza();
-        } else {
-            this.zzbc = null;
-        }
-        this.zzbd = (zzemVar != zzem.zza || (i3 = zzen.zzb[zzfbVar.ordinal()]) == 1 || i3 == 2 || i3 == 3) ? false : false;
-    }
-
-    public final int zza() {
-        return this.zzba;
-    }
 
     static {
         zzem zzemVar = zzem.zza;
@@ -221,5 +195,24 @@ public final class zzek {
         for (zzek zzekVar52 : values) {
             zzbe[zzekVar52.zzba] = zzekVar52;
         }
+    }
+
+    private zzek(String str, int i, int i2, zzem zzemVar, zzfb zzfbVar) {
+        int i3;
+        this.zzba = i2;
+        this.zzbb = zzemVar;
+        this.zzaz = zzfbVar;
+        int i4 = zzen.zza[zzemVar.ordinal()];
+        boolean z = true;
+        this.zzbc = (i4 == 1 || i4 == 2) ? zzfbVar.zza() : null;
+        this.zzbd = (zzemVar != zzem.zza || (i3 = zzen.zzb[zzfbVar.ordinal()]) == 1 || i3 == 2 || i3 == 3) ? false : false;
+    }
+
+    public static zzek[] values() {
+        return (zzek[]) zzbg.clone();
+    }
+
+    public final int zza() {
+        return this.zzba;
     }
 }

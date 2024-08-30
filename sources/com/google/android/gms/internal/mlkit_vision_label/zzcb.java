@@ -3,9 +3,8 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
-public final class zzcb {
+public abstract class zzcb {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(Set set) {
         Iterator it = set.iterator();
@@ -15,15 +14,6 @@ public final class zzcb {
             i += next != null ? next.hashCode() : 0;
         }
         return i;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zzc(Set set, Iterator it) {
-        boolean z = false;
-        while (it.hasNext()) {
-            z |= set.remove(it.next());
-        }
-        return z;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -43,6 +33,15 @@ public final class zzcb {
                 it.remove();
                 z = true;
             }
+        }
+        return z;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static boolean zzc(Set set, Iterator it) {
+        boolean z = false;
+        while (it.hasNext()) {
+            z |= set.remove(it.next());
         }
         return z;
     }

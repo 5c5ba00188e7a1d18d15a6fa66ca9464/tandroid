@@ -1,5 +1,4 @@
 package com.google.android.gms.internal.mlkit_language_id;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 final class zzgm implements zzfx {
     private final zzfz zza;
@@ -33,21 +32,6 @@ final class zzgm implements zzfx {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final String zzd() {
-        return this.zzb;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Object[] zze() {
-        return this.zzc;
-    }
-
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzfx
-    public final zzfz zzc() {
-        return this.zza;
-    }
-
     @Override // com.google.android.gms.internal.mlkit_language_id.zzfx
     public final int zza() {
         return (this.zzd & 1) == 1 ? zzgl.zza : zzgl.zzb;
@@ -56,5 +40,20 @@ final class zzgm implements zzfx {
     @Override // com.google.android.gms.internal.mlkit_language_id.zzfx
     public final boolean zzb() {
         return (this.zzd & 2) == 2;
+    }
+
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzfx
+    public final zzfz zzc() {
+        return this.zza;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final String zzd() {
+        return this.zzb;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final Object[] zze() {
+        return this.zzc;
     }
 }

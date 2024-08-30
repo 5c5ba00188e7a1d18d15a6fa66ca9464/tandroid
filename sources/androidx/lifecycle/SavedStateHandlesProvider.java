@@ -7,7 +7,6 @@ import kotlin.Lazy;
 import kotlin.LazyKt__LazyJVMKt;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.internal.Intrinsics;
-/* compiled from: SavedStateHandleSupport.kt */
 /* loaded from: classes.dex */
 public final class SavedStateHandlesProvider implements SavedStateRegistry.SavedStateProvider {
     private boolean restored;
@@ -20,7 +19,7 @@ public final class SavedStateHandlesProvider implements SavedStateRegistry.Saved
         Intrinsics.checkNotNullParameter(savedStateRegistry, "savedStateRegistry");
         Intrinsics.checkNotNullParameter(viewModelStoreOwner, "viewModelStoreOwner");
         this.savedStateRegistry = savedStateRegistry;
-        lazy = LazyKt__LazyJVMKt.lazy(new Function0<SavedStateHandlesVM>() { // from class: androidx.lifecycle.SavedStateHandlesProvider$viewModel$2
+        lazy = LazyKt__LazyJVMKt.lazy(new Function0() { // from class: androidx.lifecycle.SavedStateHandlesProvider$viewModel$2
             /* JADX INFO: Access modifiers changed from: package-private */
             {
                 super(0);
@@ -38,33 +37,6 @@ public final class SavedStateHandlesProvider implements SavedStateRegistry.Saved
         return (SavedStateHandlesVM) this.viewModel$delegate.getValue();
     }
 
-    @Override // androidx.savedstate.SavedStateRegistry.SavedStateProvider
-    public Bundle saveState() {
-        Bundle bundle = new Bundle();
-        Bundle bundle2 = this.restoredState;
-        if (bundle2 != null) {
-            bundle.putAll(bundle2);
-        }
-        for (Map.Entry<String, SavedStateHandle> entry : getViewModel().getHandles().entrySet()) {
-            String key = entry.getKey();
-            Bundle saveState = entry.getValue().savedStateProvider().saveState();
-            if (!Intrinsics.areEqual(saveState, Bundle.EMPTY)) {
-                bundle.putBundle(key, saveState);
-            }
-        }
-        this.restored = false;
-        return bundle;
-    }
-
-    public final void performRestore() {
-        if (this.restored) {
-            return;
-        }
-        this.restoredState = this.savedStateRegistry.consumeRestoredStateForKey("androidx.lifecycle.internal.SavedStateHandlesProvider");
-        this.restored = true;
-        getViewModel();
-    }
-
     public final Bundle consumeRestoredStateForKey(String key) {
         Intrinsics.checkNotNullParameter(key, "key");
         performRestore();
@@ -79,5 +51,32 @@ public final class SavedStateHandlesProvider implements SavedStateRegistry.Saved
             this.restoredState = null;
         }
         return bundle2;
+    }
+
+    public final void performRestore() {
+        if (this.restored) {
+            return;
+        }
+        this.restoredState = this.savedStateRegistry.consumeRestoredStateForKey("androidx.lifecycle.internal.SavedStateHandlesProvider");
+        this.restored = true;
+        getViewModel();
+    }
+
+    @Override // androidx.savedstate.SavedStateRegistry.SavedStateProvider
+    public Bundle saveState() {
+        Bundle bundle = new Bundle();
+        Bundle bundle2 = this.restoredState;
+        if (bundle2 != null) {
+            bundle.putAll(bundle2);
+        }
+        for (Map.Entry entry : getViewModel().getHandles().entrySet()) {
+            String str = (String) entry.getKey();
+            Bundle saveState = ((SavedStateHandle) entry.getValue()).savedStateProvider().saveState();
+            if (!Intrinsics.areEqual(saveState, Bundle.EMPTY)) {
+                bundle.putBundle(str, saveState);
+            }
+        }
+        this.restored = false;
+        return bundle;
     }
 }

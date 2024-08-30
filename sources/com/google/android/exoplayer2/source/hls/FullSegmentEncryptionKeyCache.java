@@ -6,12 +6,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 /* loaded from: classes.dex */
 final class FullSegmentEncryptionKeyCache {
-    private final LinkedHashMap<Uri, byte[]> backingMap;
+    private final LinkedHashMap backingMap;
 
     public FullSegmentEncryptionKeyCache(final int i) {
-        this.backingMap = new LinkedHashMap<Uri, byte[]>(i + 1, 1.0f, false) { // from class: com.google.android.exoplayer2.source.hls.FullSegmentEncryptionKeyCache.1
+        this.backingMap = new LinkedHashMap(i + 1, 1.0f, false) { // from class: com.google.android.exoplayer2.source.hls.FullSegmentEncryptionKeyCache.1
             @Override // java.util.LinkedHashMap
-            protected boolean removeEldestEntry(Map.Entry<Uri, byte[]> entry) {
+            protected boolean removeEldestEntry(Map.Entry entry) {
                 return size() > i;
             }
         };
@@ -21,14 +21,14 @@ final class FullSegmentEncryptionKeyCache {
         if (uri == null) {
             return null;
         }
-        return this.backingMap.get(uri);
+        return (byte[]) this.backingMap.get(uri);
     }
 
     public byte[] put(Uri uri, byte[] bArr) {
-        return this.backingMap.put((Uri) Assertions.checkNotNull(uri), (byte[]) Assertions.checkNotNull(bArr));
+        return (byte[]) this.backingMap.put((Uri) Assertions.checkNotNull(uri), (byte[]) Assertions.checkNotNull(bArr));
     }
 
     public byte[] remove(Uri uri) {
-        return this.backingMap.remove(Assertions.checkNotNull(uri));
+        return (byte[]) this.backingMap.remove(Assertions.checkNotNull(uri));
     }
 }

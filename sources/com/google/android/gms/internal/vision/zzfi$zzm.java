@@ -1,20 +1,36 @@
 package com.google.android.gms.internal.vision;
 
 import com.google.android.gms.internal.vision.zzjb;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public final class zzfi$zzm extends zzjb<zzfi$zzm, zza> implements zzkm {
+public final class zzfi$zzm extends zzjb implements zzkm {
     private static final zzfi$zzm zzf;
-    private static volatile zzkx<zzfi$zzm> zzg;
+    private static volatile zzkx zzg;
     private int zzc;
     private int zzd;
     private int zze;
+
+    /* loaded from: classes.dex */
+    public static final class zza extends zzjb.zzb implements zzkm {
+        private zza() {
+            super(zzfi$zzm.zzf);
+        }
+
+        /* synthetic */ zza(zzfk zzfkVar) {
+            this();
+        }
+    }
+
+    static {
+        zzfi$zzm zzfi_zzm = new zzfi$zzm();
+        zzf = zzfi_zzm;
+        zzjb.zza(zzfi$zzm.class, zzfi_zzm);
+    }
 
     private zzfi$zzm() {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.vision.zzjb$zza, com.google.android.gms.internal.vision.zzkx<com.google.android.gms.internal.vision.zzfi$zzm>] */
+    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.vision.zzkx, com.google.android.gms.internal.vision.zzjb$zza] */
     @Override // com.google.android.gms.internal.vision.zzjb
     public final Object zza(int i, Object obj, Object obj2) {
         switch (zzfk.zza[i - 1]) {
@@ -27,13 +43,13 @@ public final class zzfi$zzm extends zzjb<zzfi$zzm, zza> implements zzkm {
             case 4:
                 return zzf;
             case 5:
-                zzkx<zzfi$zzm> zzkxVar = zzg;
-                zzkx<zzfi$zzm> zzkxVar2 = zzkxVar;
+                zzkx zzkxVar = zzg;
+                zzkx zzkxVar2 = zzkxVar;
                 if (zzkxVar == null) {
                     synchronized (zzfi$zzm.class) {
                         try {
-                            zzkx<zzfi$zzm> zzkxVar3 = zzg;
-                            zzkx<zzfi$zzm> zzkxVar4 = zzkxVar3;
+                            zzkx zzkxVar3 = zzg;
+                            zzkx zzkxVar4 = zzkxVar3;
                             if (zzkxVar3 == null) {
                                 ?? zzaVar = new zzjb.zza(zzf);
                                 zzg = zzaVar;
@@ -51,23 +67,5 @@ public final class zzfi$zzm extends zzjb<zzfi$zzm, zza> implements zzkm {
             default:
                 throw new UnsupportedOperationException();
         }
-    }
-
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
-    /* loaded from: classes.dex */
-    public static final class zza extends zzjb.zzb<zzfi$zzm, zza> implements zzkm {
-        private zza() {
-            super(zzfi$zzm.zzf);
-        }
-
-        /* synthetic */ zza(zzfk zzfkVar) {
-            this();
-        }
-    }
-
-    static {
-        zzfi$zzm zzfi_zzm = new zzfi$zzm();
-        zzf = zzfi_zzm;
-        zzjb.zza(zzfi$zzm.class, zzfi_zzm);
     }
 }

@@ -11,7 +11,6 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-/* compiled from: com.google.android.gms:play-services-safetynet@@17.0.1 */
 /* loaded from: classes.dex */
 public class SafeBrowsingData extends AbstractSafeParcelable {
     public static final Parcelable.Creator<SafeBrowsingData> CREATOR = new zzj();
@@ -23,8 +22,12 @@ public class SafeBrowsingData extends AbstractSafeParcelable {
     private byte[] zzg;
     private File zzh;
 
-    public SafeBrowsingData() {
-        this(null, null, null, 0L, null);
+    public SafeBrowsingData(String str, DataHolder dataHolder, ParcelFileDescriptor parcelFileDescriptor, long j, byte[] bArr) {
+        this.zzb = str;
+        this.zzc = dataHolder;
+        this.zzd = parcelFileDescriptor;
+        this.zze = j;
+        this.zzf = bArr;
     }
 
     private static final void zza(Closeable closeable) {
@@ -54,15 +57,7 @@ public class SafeBrowsingData extends AbstractSafeParcelable {
         return this.zzf;
     }
 
-    public SafeBrowsingData(String str, DataHolder dataHolder, ParcelFileDescriptor parcelFileDescriptor, long j, byte[] bArr) {
-        this.zzb = str;
-        this.zzc = dataHolder;
-        this.zzd = parcelFileDescriptor;
-        this.zze = j;
-        this.zzf = bArr;
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0044  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0043  */
     @Override // android.os.Parcelable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -110,14 +105,13 @@ public class SafeBrowsingData extends AbstractSafeParcelable {
                         dataOutputStream.writeInt(this.zzg.length);
                         dataOutputStream.write(this.zzg);
                         zza(dataOutputStream);
-                        zzj.zza(this, parcel, i | 1);
+                        i |= 1;
                     } catch (IOException unused3) {
                         zza(dataOutputStream);
                     } catch (Throwable th3) {
                         zza(dataOutputStream);
                         throw th3;
                     }
-                    this.zzd = null;
                 }
             }
             fileOutputStream = null;

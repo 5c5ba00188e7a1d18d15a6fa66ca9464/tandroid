@@ -1,12 +1,17 @@
 package com.google.android.gms.internal.vision;
 
 import org.telegram.tgnet.ConnectionsManager;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public abstract class zzif {
     int zzb;
     private int zzd;
     private boolean zze;
+
+    private zzif() {
+        this.zzb = 100;
+        this.zzd = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        this.zze = false;
+    }
 
     public static long zza(long j) {
         return (-(j & 1)) ^ (j >>> 1);
@@ -27,13 +32,7 @@ public abstract class zzif {
         return (-(i & 1)) ^ (i >>> 1);
     }
 
-    public abstract int zzc(int i) throws zzjk;
+    public abstract int zzc(int i);
 
     public abstract int zzu();
-
-    private zzif() {
-        this.zzb = 100;
-        this.zzd = ConnectionsManager.DEFAULT_DATACENTER_ID;
-        this.zze = false;
-    }
 }

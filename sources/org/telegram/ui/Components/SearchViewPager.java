@@ -66,7 +66,7 @@ import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.FilteredSearchView;
 import org.telegram.ui.TopicsFragment;
 /* loaded from: classes3.dex */
-public class SearchViewPager extends ViewPagerFixed implements FilteredSearchView.UiCallback, NotificationCenter.NotificationCenterDelegate {
+public abstract class SearchViewPager extends ViewPagerFixed implements FilteredSearchView.UiCallback, NotificationCenter.NotificationCenterDelegate {
     private ActionBarMenu actionMode;
     int animateFromCount;
     private boolean attached;
@@ -84,7 +84,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
     public RecyclerListView channelsSearchListView;
     ChatPreviewDelegate chatPreviewDelegate;
     int currentAccount;
-    private ArrayList<FiltersView.MediaFilterData> currentSearchFilters;
+    private ArrayList currentSearchFilters;
     private ActionBarMenuItem deleteItem;
     public DialogsSearchAdapter dialogsSearchAdapter;
     private SearchDownloadsContainer downloadsContainer;
@@ -105,7 +105,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
     public FrameLayout searchContainer;
     private LinearLayoutManager searchLayoutManager;
     public RecyclerListView searchListView;
-    private HashMap<FilteredSearchView.MessageHashId, MessageObject> selectedFiles;
+    private HashMap selectedFiles;
     private NumberTextView selectedMessagesCountTextView;
     private boolean showOnlyDialogsAdapter;
     private ActionBarMenuItem speedItem;
@@ -121,18 +121,129 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$showActionMode$0(View view, MotionEvent motionEvent) {
-        return true;
-    }
+    /* loaded from: classes3.dex */
+    public class ViewPagerAdapter extends ViewPagerFixed.Adapter {
+        ArrayList items = new ArrayList();
 
-    protected boolean includeDownloads() {
-        return true;
+        /* JADX INFO: Access modifiers changed from: private */
+        /* loaded from: classes3.dex */
+        public class Item {
+            int filterIndex;
+            private final int type;
+
+            private Item(int i) {
+                this.type = i;
+            }
+        }
+
+        public ViewPagerAdapter() {
+            updateItems();
+        }
+
+        @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
+        public void bindView(View view, int i, int i2) {
+            SearchViewPager searchViewPager = SearchViewPager.this;
+            searchViewPager.search(view, i, searchViewPager.lastSearchString, true);
+        }
+
+        @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
+        public View createView(int i) {
+            if (i == 1) {
+                return SearchViewPager.this.searchContainer;
+            }
+            if (i == 3) {
+                return SearchViewPager.this.channelsSearchContainer;
+            }
+            if (i == 4) {
+                return SearchViewPager.this.botsSearchContainer;
+            }
+            if (i != 2) {
+                FilteredSearchView filteredSearchView = new FilteredSearchView(SearchViewPager.this.parent);
+                filteredSearchView.setChatPreviewDelegate(SearchViewPager.this.chatPreviewDelegate);
+                filteredSearchView.setUiCallback(SearchViewPager.this);
+                filteredSearchView.recyclerListView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.SearchViewPager.ViewPagerAdapter.2
+                    @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+                    public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
+                        super.onScrolled(recyclerView, i2, i3);
+                        SearchViewPager.this.fragmentView.invalidateBlur();
+                    }
+                });
+                return filteredSearchView;
+            }
+            SearchViewPager searchViewPager = SearchViewPager.this;
+            SearchViewPager searchViewPager2 = SearchViewPager.this;
+            searchViewPager.downloadsContainer = new SearchDownloadsContainer(searchViewPager2.parent, searchViewPager2.currentAccount);
+            SearchViewPager.this.downloadsContainer.recyclerListView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.SearchViewPager.ViewPagerAdapter.1
+                @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+                public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
+                    super.onScrolled(recyclerView, i2, i3);
+                    SearchViewPager.this.fragmentView.invalidateBlur();
+                }
+            });
+            SearchViewPager.this.downloadsContainer.setUiCallback(SearchViewPager.this);
+            return SearchViewPager.this.downloadsContainer;
+        }
+
+        @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
+        public int getItemCount() {
+            return this.items.size();
+        }
+
+        @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
+        public String getItemTitle(int i) {
+            return ((Item) this.items.get(i)).type == 0 ? LocaleController.getString(R.string.SearchAllChatsShort) : ((Item) this.items.get(i)).type == 1 ? LocaleController.getString(R.string.ChannelsTab) : ((Item) this.items.get(i)).type == 4 ? LocaleController.getString(R.string.AppsTab) : ((Item) this.items.get(i)).type == 2 ? LocaleController.getString(R.string.DownloadsTabs) : FiltersView.filters[((Item) this.items.get(i)).filterIndex].getTitle();
+        }
+
+        @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
+        public int getItemViewType(int i) {
+            if (((Item) this.items.get(i)).type == 0) {
+                return 1;
+            }
+            if (((Item) this.items.get(i)).type == 1) {
+                return 3;
+            }
+            if (((Item) this.items.get(i)).type == 4) {
+                return 4;
+            }
+            if (((Item) this.items.get(i)).type == 2) {
+                return 2;
+            }
+            return ((Item) this.items.get(i)).type + i;
+        }
+
+        public void updateItems() {
+            this.items.clear();
+            this.items.add(new Item(0));
+            this.items.add(new Item(1));
+            this.items.add(new Item(4));
+            if (SearchViewPager.this.showOnlyDialogsAdapter) {
+                return;
+            }
+            Item item = new Item(3);
+            item.filterIndex = 0;
+            this.items.add(item);
+            if (SearchViewPager.this.includeDownloads()) {
+                this.items.add(new Item(2));
+            }
+            Item item2 = new Item(3);
+            item2.filterIndex = 1;
+            this.items.add(item2);
+            Item item3 = new Item(3);
+            item3.filterIndex = 2;
+            this.items.add(item3);
+            Item item4 = new Item(3);
+            item4.filterIndex = 3;
+            this.items.add(item4);
+            Item item5 = new Item(3);
+            item5.filterIndex = 4;
+            this.items.add(item5);
+        }
     }
 
     public SearchViewPager(Context context, final DialogsActivity dialogsActivity, int i, int i2, int i3, ChatPreviewDelegate chatPreviewDelegate) {
         super(context);
-        this.selectedFiles = new HashMap<>();
-        this.currentSearchFilters = new ArrayList<>();
+        this.selectedFiles = new HashMap();
+        this.currentSearchFilters = new ArrayList();
         this.currentAccount = UserConfig.selectedAccount;
         this.animateFromCount = 0;
         this.folderId = i3;
@@ -163,10 +274,10 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             }
         };
         if (i2 == 15) {
-            ArrayList<TLRPC$Dialog> dialogsArray = dialogsActivity.getDialogsArray(this.currentAccount, i2, i3, true);
-            ArrayList<Long> arrayList = new ArrayList<>();
+            ArrayList dialogsArray = dialogsActivity.getDialogsArray(this.currentAccount, i2, i3, true);
+            ArrayList arrayList = new ArrayList();
             for (int i4 = 0; i4 < dialogsArray.size(); i4++) {
-                arrayList.add(Long.valueOf(dialogsArray.get(i4).id));
+                arrayList.add(Long.valueOf(((TLRPC$Dialog) dialogsArray.get(i4)).id));
             }
             this.dialogsSearchAdapter.setFilterDialogIds(arrayList);
         }
@@ -331,27 +442,27 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         this.channelsSearchListView.setEmptyView(this.channelsEmptyView);
         RecyclerListView recyclerListView3 = this.channelsSearchListView;
         DialogsChannelsAdapter dialogsChannelsAdapter = new DialogsChannelsAdapter(recyclerListView3, context, this.currentAccount, i3, null) { // from class: org.telegram.ui.Components.SearchViewPager.8
-            @Override // org.telegram.ui.Components.UniversalAdapter
-            public void update(boolean z) {
-                ArrayList<MessageObject> arrayList2;
-                ArrayList<TLRPC$Chat> arrayList3;
-                ArrayList<TLRPC$Chat> arrayList4;
-                ArrayList<TLRPC$Chat> arrayList5;
-                super.update(z);
-                SearchViewPager.this.channelsEmptyView.showProgress(this.loadingMessages || this.loadingChannels || (arrayList2 = this.messages) == null || !arrayList2.isEmpty() || (arrayList3 = this.searchMyChannels) == null || !arrayList3.isEmpty() || (arrayList4 = this.searchChannels) == null || !arrayList4.isEmpty() || (arrayList5 = this.searchRecommendedChannels) == null || !arrayList5.isEmpty(), z);
-                if (TextUtils.isEmpty(this.query)) {
-                    SearchViewPager.this.channelsEmptyView.title.setText(LocaleController.getString(R.string.NoChannelsTitle));
-                    SearchViewPager.this.channelsEmptyView.subtitle.setVisibility(0);
-                    SearchViewPager.this.channelsEmptyView.subtitle.setText(LocaleController.getString(R.string.NoChannelsMessage));
-                    return;
-                }
-                SearchViewPager.this.channelsEmptyView.title.setText(LocaleController.getString(R.string.NoResult));
-                SearchViewPager.this.channelsEmptyView.subtitle.setVisibility(8);
-            }
-
             @Override // org.telegram.ui.Components.DialogsChannelsAdapter
             protected void hideKeyboard() {
                 AndroidUtilities.hideKeyboard(dialogsActivity.getParentActivity().getCurrentFocus());
+            }
+
+            @Override // org.telegram.ui.Components.UniversalAdapter
+            public void update(boolean z) {
+                ArrayList arrayList2;
+                ArrayList arrayList3;
+                ArrayList arrayList4;
+                ArrayList arrayList5;
+                super.update(z);
+                SearchViewPager.this.channelsEmptyView.showProgress(this.loadingMessages || this.loadingChannels || (arrayList2 = this.messages) == null || !arrayList2.isEmpty() || (arrayList3 = this.searchMyChannels) == null || !arrayList3.isEmpty() || (arrayList4 = this.searchChannels) == null || !arrayList4.isEmpty() || (arrayList5 = this.searchRecommendedChannels) == null || !arrayList5.isEmpty(), z);
+                if (!TextUtils.isEmpty(this.query)) {
+                    SearchViewPager.this.channelsEmptyView.title.setText(LocaleController.getString(R.string.NoResult));
+                    SearchViewPager.this.channelsEmptyView.subtitle.setVisibility(8);
+                    return;
+                }
+                SearchViewPager.this.channelsEmptyView.title.setText(LocaleController.getString(R.string.NoChannelsTitle));
+                SearchViewPager.this.channelsEmptyView.subtitle.setVisibility(0);
+                SearchViewPager.this.channelsEmptyView.subtitle.setText(LocaleController.getString(R.string.NoChannelsMessage));
             }
         };
         this.channelsSearchAdapter = dialogsChannelsAdapter;
@@ -420,7 +531,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         DialogsBotsAdapter dialogsBotsAdapter = new DialogsBotsAdapter(recyclerListView5, context, this.currentAccount, i3, false, null) { // from class: org.telegram.ui.Components.SearchViewPager.12
             @Override // org.telegram.ui.Components.UniversalAdapter
             public void update(boolean z) {
-                ArrayList<MessageObject> arrayList2;
+                ArrayList arrayList2;
                 super.update(z);
                 SearchViewPager.this.botsEmptyView.showProgress(this.loadingMessages || this.loadingBots || (arrayList2 = this.searchMessages) == null || !arrayList2.isEmpty(), z);
                 SearchViewPager.this.botsEmptyView.title.setText(LocaleController.getString(R.string.NoResult));
@@ -448,148 +559,188 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         setAdapter(viewPagerAdapter);
     }
 
-    public ActionBarMenu getActionMode() {
-        return this.actionMode;
-    }
-
-    public ActionBarMenuItem getSpeedItem() {
-        return this.speedItem;
-    }
-
-    public void onTextChanged(String str) {
-        View currentView = getCurrentView();
-        boolean z = TextUtils.isEmpty(this.lastSearchString) ? true : !this.attached;
-        this.lastSearchString = str;
-        search(currentView, getCurrentPosition(), str, z);
-    }
-
-    public void updateTabs() {
-        this.viewPagerAdapter.updateItems();
-        fillTabs(false);
-        ViewPagerFixed.TabsView tabsView = this.tabsView;
-        if (tabsView != null) {
-            tabsView.finishAddingTabs();
+    private boolean isSpeedItemVisible() {
+        if (!UserConfig.getInstance(this.currentAccount).isPremium() && !MessagesController.getInstance(this.currentAccount).premiumFeaturesBlocked()) {
+            for (MessageObject messageObject : this.selectedFiles.values()) {
+                if (messageObject.getDocument() != null && messageObject.getDocument().size >= 157286400) {
+                    return true;
+                }
+            }
         }
+        return false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$getThemeDescriptions$4() {
+        NumberTextView numberTextView = this.selectedMessagesCountTextView;
+        if (numberTextView != null) {
+            numberTextView.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onActionBarItemClick$2(ArrayList arrayList, DialogInterface dialogInterface, int i) {
+        dialogInterface.dismiss();
+        this.parent.getDownloadController().deleteRecentFiles(arrayList);
+        hideActionMode();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ boolean lambda$onActionBarItemClick$3(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
+        String str;
+        ArrayList<MessageObject> arrayList2 = new ArrayList<>();
+        for (FilteredSearchView.MessageHashId messageHashId : this.selectedFiles.keySet()) {
+            arrayList2.add((MessageObject) this.selectedFiles.get(messageHashId));
+        }
+        this.selectedFiles.clear();
+        showActionMode(false);
+        if (arrayList.size() > 1 || ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId == AccountInstance.getInstance(this.currentAccount).getUserConfig().getClientUserId() || charSequence != null) {
+            for (int i = 0; i < arrayList.size(); i++) {
+                long j = ((MessagesStorage.TopicKey) arrayList.get(i)).dialogId;
+                if (charSequence != null) {
+                    AccountInstance.getInstance(this.currentAccount).getSendMessagesHelper().sendMessage(SendMessagesHelper.SendMessageParams.of(charSequence.toString(), j, null, null, null, true, null, null, null, true, 0, null, false));
+                }
+                AccountInstance.getInstance(this.currentAccount).getSendMessagesHelper().sendMessage(arrayList2, j, false, false, true, 0);
+            }
+            dialogsActivity.finishFragment();
+        } else {
+            long j2 = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("scrollToTopOnResume", true);
+            if (DialogObject.isEncryptedDialog(j2)) {
+                bundle.putInt("enc_id", DialogObject.getEncryptedChatId(j2));
+            } else {
+                if (DialogObject.isUserDialog(j2)) {
+                    str = "user_id";
+                } else {
+                    j2 = -j2;
+                    str = "chat_id";
+                }
+                bundle.putLong(str, j2);
+                if (!AccountInstance.getInstance(this.currentAccount).getMessagesController().checkCanOpenChat(bundle, dialogsActivity)) {
+                    return true;
+                }
+            }
+            ChatActivity chatActivity = new ChatActivity(bundle);
+            dialogsActivity.presentFragment(chatActivity, true);
+            chatActivity.showFieldPanelForForward(true, arrayList2);
+        }
+        return true;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ boolean lambda$showActionMode$0(View view, MotionEvent motionEvent) {
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
     public void search(View view, int i, String str, boolean z) {
+        boolean z2;
+        StickerEmptyView stickerEmptyView;
+        int i2;
         DialogsSearchAdapter.DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.dialogsSearchAdapter.delegate;
         long searchForumDialogId = dialogsSearchAdapterDelegate != null ? dialogsSearchAdapterDelegate.getSearchForumDialogId() : 0L;
         long j = i == 0 ? 0L : searchForumDialogId;
-        int i2 = 0;
+        int i3 = 0;
         long j2 = 0;
         long j3 = 0;
-        for (int i3 = 0; i3 < this.currentSearchFilters.size(); i3++) {
-            FiltersView.MediaFilterData mediaFilterData = this.currentSearchFilters.get(i3);
-            int i4 = mediaFilterData.filterType;
-            if (i4 == 4) {
+        for (int i4 = 0; i4 < this.currentSearchFilters.size(); i4++) {
+            FiltersView.MediaFilterData mediaFilterData = (FiltersView.MediaFilterData) this.currentSearchFilters.get(i4);
+            int i5 = mediaFilterData.filterType;
+            if (i5 == 4) {
                 TLObject tLObject = mediaFilterData.chat;
                 if (tLObject instanceof TLRPC$User) {
                     j = ((TLRPC$User) tLObject).id;
                 } else if (tLObject instanceof TLRPC$Chat) {
                     j = -((TLRPC$Chat) tLObject).id;
                 }
-            } else if (i4 == 6) {
+            } else if (i5 == 6) {
                 FiltersView.DateData dateData = mediaFilterData.dateData;
                 j2 = dateData.minDate;
                 j3 = dateData.maxDate;
-            } else if (i4 == 7) {
-                i2 = 1;
+            } else if (i5 == 7) {
+                i3 = 1;
             }
         }
         if (view == this.channelsSearchContainer) {
             MessagesController.getInstance(this.currentAccount).getChannelRecommendations(0L);
             this.channelsSearchAdapter.search(str);
-            this.channelsEmptyView.setKeyboardHeight(this.keyboardSize, false);
-        } else if (view == this.botsSearchContainer) {
-            this.botsSearchAdapter.search(str);
-            this.botsEmptyView.setKeyboardHeight(this.keyboardSize, false);
-        } else if (view == this.searchContainer) {
-            if ((j == 0 && j2 == 0 && j3 == 0) || searchForumDialogId != 0) {
-                this.lastSearchScrolledToTop = false;
-                this.dialogsSearchAdapter.searchDialogs(str, i2);
-                this.dialogsSearchAdapter.setFiltersDelegate(this.filteredSearchViewDelegate, false);
-                this.noMediaFiltersSearchView.animate().setListener(null).cancel();
-                this.noMediaFiltersSearchView.setDelegate(null, false);
-                if (z) {
-                    this.emptyView.showProgress(!this.dialogsSearchAdapter.isSearching(), false);
-                    this.emptyView.showProgress(this.dialogsSearchAdapter.isSearching(), false);
-                } else if (!this.dialogsSearchAdapter.hasRecentSearch()) {
-                    this.emptyView.showProgress(this.dialogsSearchAdapter.isSearching(), true);
-                }
-                if (z) {
-                    this.noMediaFiltersSearchView.setVisibility(8);
-                } else if (this.noMediaFiltersSearchView.getVisibility() != 8) {
-                    this.noMediaFiltersSearchView.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SearchViewPager.14
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            SearchViewPager.this.noMediaFiltersSearchView.setVisibility(8);
-                        }
-                    }).setDuration(150L).start();
-                }
-                this.noMediaFiltersSearchView.setTag(null);
-            } else {
-                boolean z2 = true;
-                this.noMediaFiltersSearchView.setTag(1);
-                this.noMediaFiltersSearchView.setDelegate(this.filteredSearchViewDelegate, false);
-                this.noMediaFiltersSearchView.animate().setListener(null).cancel();
-                if (z) {
-                    this.noMediaFiltersSearchView.setVisibility(0);
-                    this.noMediaFiltersSearchView.setAlpha(1.0f);
-                    z2 = z;
-                } else {
-                    if (this.noMediaFiltersSearchView.getVisibility() != 0) {
-                        this.noMediaFiltersSearchView.setVisibility(0);
-                        this.noMediaFiltersSearchView.setAlpha(0.0f);
+            stickerEmptyView = this.channelsEmptyView;
+            i2 = this.keyboardSize;
+            z2 = false;
+        } else {
+            z2 = false;
+            if (view != this.botsSearchContainer) {
+                if (view != this.searchContainer) {
+                    if (view instanceof FilteredSearchView) {
+                        FilteredSearchView filteredSearchView = (FilteredSearchView) view;
+                        filteredSearchView.setUseFromUserAsAvatar(searchForumDialogId != 0);
+                        filteredSearchView.setKeyboardHeight(this.keyboardSize, false);
+                        filteredSearchView.search(j, j2, j3, FiltersView.filters[((ViewPagerAdapter.Item) this.viewPagerAdapter.items.get(i)).filterIndex], i3, str, z);
+                        return;
+                    } else if (view instanceof SearchDownloadsContainer) {
+                        SearchDownloadsContainer searchDownloadsContainer = (SearchDownloadsContainer) view;
+                        searchDownloadsContainer.setKeyboardHeight(this.keyboardSize, false);
+                        searchDownloadsContainer.search(str);
+                        return;
                     } else {
-                        z2 = z;
+                        return;
                     }
-                    this.noMediaFiltersSearchView.animate().alpha(1.0f).setDuration(150L).start();
                 }
-                this.noMediaFiltersSearchView.search(j, j2, j3, null, i2, str, z2);
-                this.emptyView.setVisibility(8);
+                if (!(j == 0 && j2 == 0 && j3 == 0) && searchForumDialogId == 0) {
+                    boolean z3 = true;
+                    this.noMediaFiltersSearchView.setTag(1);
+                    this.noMediaFiltersSearchView.setDelegate(this.filteredSearchViewDelegate, false);
+                    this.noMediaFiltersSearchView.animate().setListener(null).cancel();
+                    if (z) {
+                        this.noMediaFiltersSearchView.setVisibility(0);
+                        this.noMediaFiltersSearchView.setAlpha(1.0f);
+                        z3 = z;
+                    } else {
+                        if (this.noMediaFiltersSearchView.getVisibility() != 0) {
+                            this.noMediaFiltersSearchView.setVisibility(0);
+                            this.noMediaFiltersSearchView.setAlpha(0.0f);
+                        } else {
+                            z3 = z;
+                        }
+                        this.noMediaFiltersSearchView.animate().alpha(1.0f).setDuration(150L).start();
+                    }
+                    this.noMediaFiltersSearchView.search(j, j2, j3, null, i3, str, z3);
+                    this.emptyView.setVisibility(8);
+                } else {
+                    this.lastSearchScrolledToTop = false;
+                    this.dialogsSearchAdapter.searchDialogs(str, i3);
+                    this.dialogsSearchAdapter.setFiltersDelegate(this.filteredSearchViewDelegate, false);
+                    this.noMediaFiltersSearchView.animate().setListener(null).cancel();
+                    this.noMediaFiltersSearchView.setDelegate(null, false);
+                    if (z) {
+                        this.emptyView.showProgress(!this.dialogsSearchAdapter.isSearching(), false);
+                        this.emptyView.showProgress(this.dialogsSearchAdapter.isSearching(), false);
+                    } else if (!this.dialogsSearchAdapter.hasRecentSearch()) {
+                        this.emptyView.showProgress(this.dialogsSearchAdapter.isSearching(), true);
+                    }
+                    if (z) {
+                        this.noMediaFiltersSearchView.setVisibility(8);
+                    } else if (this.noMediaFiltersSearchView.getVisibility() != 8) {
+                        this.noMediaFiltersSearchView.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SearchViewPager.14
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                SearchViewPager.this.noMediaFiltersSearchView.setVisibility(8);
+                            }
+                        }).setDuration(150L).start();
+                    }
+                    this.noMediaFiltersSearchView.setTag(null);
+                }
+                this.emptyView.setKeyboardHeight(this.keyboardSize, false);
+                this.noMediaFiltersSearchView.setKeyboardHeight(this.keyboardSize, false);
+                return;
             }
-            this.emptyView.setKeyboardHeight(this.keyboardSize, false);
-            this.noMediaFiltersSearchView.setKeyboardHeight(this.keyboardSize, false);
-        } else if (view instanceof FilteredSearchView) {
-            FilteredSearchView filteredSearchView = (FilteredSearchView) view;
-            filteredSearchView.setUseFromUserAsAvatar(searchForumDialogId != 0);
-            filteredSearchView.setKeyboardHeight(this.keyboardSize, false);
-            filteredSearchView.search(j, j2, j3, FiltersView.filters[this.viewPagerAdapter.items.get(i).filterIndex], i2, str, z);
-        } else if (view instanceof SearchDownloadsContainer) {
-            SearchDownloadsContainer searchDownloadsContainer = (SearchDownloadsContainer) view;
-            searchDownloadsContainer.setKeyboardHeight(this.keyboardSize, false);
-            searchDownloadsContainer.search(str);
+            this.botsSearchAdapter.search(str);
+            stickerEmptyView = this.botsEmptyView;
+            i2 = this.keyboardSize;
         }
-    }
-
-    public SearchDownloadsContainer getDownloadsContainer() {
-        return this.downloadsContainer;
-    }
-
-    public void onResume() {
-        DialogsSearchAdapter dialogsSearchAdapter = this.dialogsSearchAdapter;
-        if (dialogsSearchAdapter != null) {
-            dialogsSearchAdapter.notifyDataSetChanged();
-        }
-    }
-
-    public void removeSearchFilter(FiltersView.MediaFilterData mediaFilterData) {
-        this.currentSearchFilters.remove(mediaFilterData);
-    }
-
-    public ArrayList<FiltersView.MediaFilterData> getCurrentSearchFilters() {
-        return this.currentSearchFilters;
-    }
-
-    public void clear() {
-        this.currentSearchFilters.clear();
-    }
-
-    public void setFilteredSearchViewDelegate(FilteredSearchView.Delegate delegate) {
-        this.filteredSearchViewDelegate = delegate;
+        stickerEmptyView.setKeyboardHeight(i2, z2);
     }
 
     private void showActionMode(boolean z) {
@@ -611,7 +762,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             int i = Theme.key_actionBarActionModeDefaultIcon;
             numberTextView2.setTextColor(Theme.getColor(i));
             this.actionMode.addView(this.selectedMessagesCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
-            this.selectedMessagesCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda3
+            this.selectedMessagesCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda7
                 @Override // android.view.View.OnTouchListener
                 public final boolean onTouch(View view, MotionEvent motionEvent) {
                     boolean lambda$showActionMode$0;
@@ -664,22 +815,214 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         }
         int size = this.viewsByType.size();
         for (int i3 = 0; i3 < size; i3++) {
-            View valueAt = this.viewsByType.valueAt(i3);
-            if (valueAt instanceof FilteredSearchView) {
-                ((FilteredSearchView) valueAt).update();
+            View view = (View) this.viewsByType.valueAt(i3);
+            if (view instanceof FilteredSearchView) {
+                ((FilteredSearchView) view).update();
             }
         }
     }
 
-    private boolean isSpeedItemVisible() {
-        if (!UserConfig.getInstance(this.currentAccount).isPremium() && !MessagesController.getInstance(this.currentAccount).premiumFeaturesBlocked()) {
-            for (MessageObject messageObject : this.selectedFiles.values()) {
-                if (messageObject.getDocument() != null && messageObject.getDocument().size >= 157286400) {
-                    return true;
+    @Override // org.telegram.ui.FilteredSearchView.UiCallback
+    public boolean actionModeShowing() {
+        return this.isActionModeShowed;
+    }
+
+    public void cancelEnterAnimation() {
+        this.itemsEnterAnimator.cancel();
+        this.searchListView.invalidate();
+        this.animateFromCount = 0;
+    }
+
+    public void clear() {
+        this.currentSearchFilters.clear();
+    }
+
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        UniversalAdapter universalAdapter;
+        if (i == NotificationCenter.channelRecommendationsLoaded) {
+            this.channelsEmptyView.showProgress(MessagesController.getInstance(this.currentAccount).getChannelRecommendations(0L) != null, true);
+        } else if (i != NotificationCenter.dialogDeleted && i != NotificationCenter.dialogsNeedReload) {
+            if (i == NotificationCenter.reloadWebappsHints) {
+                universalAdapter = this.botsSearchAdapter;
+                universalAdapter.update(true);
+            }
+            return;
+        }
+        this.channelsSearchAdapter.updateMyChannels();
+        universalAdapter = this.channelsSearchAdapter;
+        universalAdapter.update(true);
+    }
+
+    public ActionBarMenu getActionMode() {
+        return this.actionMode;
+    }
+
+    public ArrayList<FiltersView.MediaFilterData> getCurrentSearchFilters() {
+        return this.currentSearchFilters;
+    }
+
+    public SearchDownloadsContainer getDownloadsContainer() {
+        return this.downloadsContainer;
+    }
+
+    public int getFolderId() {
+        return this.folderId;
+    }
+
+    public int getPositionForType(int i) {
+        for (int i2 = 0; i2 < this.viewPagerAdapter.items.size(); i2++) {
+            if (((ViewPagerAdapter.Item) this.viewPagerAdapter.items.get(i2)).type == 3 && ((ViewPagerAdapter.Item) this.viewPagerAdapter.items.get(i2)).filterIndex == i) {
+                return i2;
+            }
+        }
+        return -1;
+    }
+
+    public ActionBarMenuItem getSpeedItem() {
+        return this.speedItem;
+    }
+
+    public ViewPagerFixed.TabsView getTabsView() {
+        return this.tabsView;
+    }
+
+    public void getThemeDescriptions(ArrayList arrayList) {
+        for (int i = 0; i < this.searchListView.getChildCount(); i++) {
+            View childAt = this.searchListView.getChildAt(i);
+            if ((childAt instanceof ProfileSearchCell) || (childAt instanceof DialogCell) || (childAt instanceof HashtagSearchCell)) {
+                arrayList.add(new ThemeDescription(childAt, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_windowBackgroundWhite));
+            }
+        }
+        for (int i2 = 0; i2 < getChildCount(); i2++) {
+            if (getChildAt(i2) instanceof FilteredSearchView) {
+                arrayList.addAll(((FilteredSearchView) getChildAt(i2)).getThemeDescriptions());
+            }
+        }
+        int size = this.viewsByType.size();
+        for (int i3 = 0; i3 < size; i3++) {
+            View view = (View) this.viewsByType.valueAt(i3);
+            if (view instanceof FilteredSearchView) {
+                arrayList.addAll(((FilteredSearchView) view).getThemeDescriptions());
+            }
+        }
+        FilteredSearchView filteredSearchView = this.noMediaFiltersSearchView;
+        if (filteredSearchView != null) {
+            arrayList.addAll(filteredSearchView.getThemeDescriptions());
+        }
+        arrayList.add(new ThemeDescription(this.emptyView.title, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
+        arrayList.add(new ThemeDescription(this.emptyView.subtitle, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteGrayText));
+        arrayList.addAll(SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda6
+            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+            public final void didSetColor() {
+                SearchViewPager.this.lambda$getThemeDescriptions$4();
+            }
+
+            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+            public /* synthetic */ void onAnimationProgress(float f) {
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
+            }
+        }, Theme.key_actionBarActionModeDefaultIcon));
+    }
+
+    @Override // org.telegram.ui.FilteredSearchView.UiCallback
+    public void goToMessage(MessageObject messageObject) {
+        String str;
+        Bundle bundle = new Bundle();
+        long dialogId = messageObject.getDialogId();
+        if (DialogObject.isEncryptedDialog(dialogId)) {
+            bundle.putInt("enc_id", DialogObject.getEncryptedChatId(dialogId));
+        } else {
+            if (DialogObject.isUserDialog(dialogId)) {
+                str = "user_id";
+            } else {
+                TLRPC$Chat chat = AccountInstance.getInstance(this.currentAccount).getMessagesController().getChat(Long.valueOf(-dialogId));
+                if (chat != null && chat.migrated_to != null) {
+                    bundle.putLong("migrated_to", dialogId);
+                    dialogId = -chat.migrated_to.channel_id;
+                }
+                dialogId = -dialogId;
+                str = "chat_id";
+            }
+            bundle.putLong(str, dialogId);
+        }
+        bundle.putInt("message_id", messageObject.getId());
+        this.parent.presentFragment(new ChatActivity(bundle));
+        showActionMode(false);
+    }
+
+    public void hideActionMode() {
+        showActionMode(false);
+    }
+
+    protected abstract boolean includeDownloads();
+
+    @Override // org.telegram.ui.Components.ViewPagerFixed
+    protected void invalidateBlur() {
+        this.fragmentView.invalidateBlur();
+    }
+
+    @Override // org.telegram.ui.FilteredSearchView.UiCallback
+    public boolean isSelected(FilteredSearchView.MessageHashId messageHashId) {
+        return this.selectedFiles.containsKey(messageHashId);
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x007c, code lost:
+        if (org.telegram.messenger.ChatObject.isChannel(r7, r11.currentAccount) != false) goto L31;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void messagesDeleted(long j, ArrayList arrayList) {
+        int i;
+        int size = this.viewsByType.size();
+        for (int i2 = 0; i2 < size; i2++) {
+            View view = (View) this.viewsByType.valueAt(i2);
+            if (view instanceof FilteredSearchView) {
+                ((FilteredSearchView) view).messagesDeleted(j, arrayList);
+            }
+        }
+        for (int i3 = 0; i3 < getChildCount(); i3++) {
+            if (getChildAt(i3) instanceof FilteredSearchView) {
+                ((FilteredSearchView) getChildAt(i3)).messagesDeleted(j, arrayList);
+            }
+        }
+        this.noMediaFiltersSearchView.messagesDeleted(j, arrayList);
+        if (this.selectedFiles.isEmpty()) {
+            return;
+        }
+        ArrayList arrayList2 = new ArrayList(this.selectedFiles.keySet());
+        ArrayList arrayList3 = null;
+        for (int i4 = 0; i4 < arrayList2.size(); i4++) {
+            FilteredSearchView.MessageHashId messageHashId = (FilteredSearchView.MessageHashId) arrayList2.get(i4);
+            MessageObject messageObject = (MessageObject) this.selectedFiles.get(messageHashId);
+            if (messageObject != null) {
+                long dialogId = messageObject.getDialogId();
+                if (dialogId < 0) {
+                    i = (int) (-dialogId);
+                }
+                i = 0;
+                if (i == j) {
+                    for (int i5 = 0; i5 < arrayList.size(); i5++) {
+                        if (messageObject.getId() == ((Integer) arrayList.get(i5)).intValue()) {
+                            arrayList3 = new ArrayList();
+                            arrayList3.add(messageHashId);
+                        }
+                    }
                 }
             }
         }
-        return false;
+        if (arrayList3 != null) {
+            int size2 = arrayList3.size();
+            for (int i6 = 0; i6 < size2; i6++) {
+                this.selectedFiles.remove(arrayList3.get(i6));
+            }
+            this.selectedMessagesCountTextView.setNumber(this.selectedFiles.size(), true);
+            ActionBarMenuItem actionBarMenuItem = this.gotoItem;
+            if (actionBarMenuItem != null) {
+                actionBarMenuItem.setVisibility(this.selectedFiles.size() != 1 ? 8 : 0);
+            }
+        }
     }
 
     public void onActionBarItemClick(int i) {
@@ -694,13 +1037,13 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
             spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceTags(LocaleController.formatPluralString("RemoveDocumentsMessage", this.selectedFiles.size(), new Object[0]))).append((CharSequence) "\n\n").append((CharSequence) LocaleController.getString(R.string.RemoveDocumentsAlertMessage));
             builder.setMessage(spannableStringBuilder);
-            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda5
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda3
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i2) {
                     dialogInterface.dismiss();
                 }
             });
-            builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda6
+            builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda4
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i2) {
                     SearchViewPager.this.lambda$onActionBarItemClick$2(arrayList, dialogInterface, i2);
@@ -718,13 +1061,13 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             if (this.selectedFiles.size() != 1) {
                 return;
             }
-            goToMessage(this.selectedFiles.values().iterator().next());
+            goToMessage((MessageObject) this.selectedFiles.values().iterator().next());
         } else if (i == 201) {
             Bundle bundle = new Bundle();
             bundle.putBoolean("onlySelect", true);
             bundle.putInt("dialogsType", 3);
             DialogsActivity dialogsActivity = new DialogsActivity(bundle);
-            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda7
+            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda5
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
                 public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList2, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                     boolean lambda$onActionBarItemClick$3;
@@ -736,85 +1079,147 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onActionBarItemClick$2(ArrayList arrayList, DialogInterface dialogInterface, int i) {
-        dialogInterface.dismiss();
-        this.parent.getDownloadController().deleteRecentFiles(arrayList);
-        hideActionMode();
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.channelRecommendationsLoaded);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.dialogDeleted);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.dialogsNeedReload);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.reloadWebappsHints);
+        this.attached = true;
+        DialogsChannelsAdapter dialogsChannelsAdapter = this.channelsSearchAdapter;
+        if (dialogsChannelsAdapter != null) {
+            dialogsChannelsAdapter.update(false);
+        }
+        DialogsBotsAdapter dialogsBotsAdapter = this.botsSearchAdapter;
+        if (dialogsBotsAdapter != null) {
+            dialogsBotsAdapter.update(false);
+        }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$onActionBarItemClick$3(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
-        ArrayList<MessageObject> arrayList2 = new ArrayList<>();
-        for (FilteredSearchView.MessageHashId messageHashId : this.selectedFiles.keySet()) {
-            arrayList2.add(this.selectedFiles.get(messageHashId));
-        }
-        this.selectedFiles.clear();
-        showActionMode(false);
-        if (arrayList.size() > 1 || ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId == AccountInstance.getInstance(this.currentAccount).getUserConfig().getClientUserId() || charSequence != null) {
-            for (int i = 0; i < arrayList.size(); i++) {
-                long j = ((MessagesStorage.TopicKey) arrayList.get(i)).dialogId;
-                if (charSequence != null) {
-                    AccountInstance.getInstance(this.currentAccount).getSendMessagesHelper().sendMessage(SendMessagesHelper.SendMessageParams.of(charSequence.toString(), j, null, null, null, true, null, null, null, true, 0, null, false));
-                }
-                AccountInstance.getInstance(this.currentAccount).getSendMessagesHelper().sendMessage(arrayList2, j, false, false, true, 0);
-            }
-            dialogsActivity.finishFragment();
-        } else {
-            long j2 = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
-            Bundle bundle = new Bundle();
-            bundle.putBoolean("scrollToTopOnResume", true);
-            if (DialogObject.isEncryptedDialog(j2)) {
-                bundle.putInt("enc_id", DialogObject.getEncryptedChatId(j2));
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        this.attached = false;
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.channelRecommendationsLoaded);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.dialogDeleted);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.dialogsNeedReload);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.reloadWebappsHints);
+    }
+
+    @Override // org.telegram.ui.Components.ViewPagerFixed
+    protected void onItemSelected(View view, View view2, int i, int i2) {
+        boolean z = true;
+        if (i == 0) {
+            if (this.noMediaFiltersSearchView.getVisibility() == 0) {
+                this.noMediaFiltersSearchView.setDelegate(this.filteredSearchViewDelegate, false);
+                this.dialogsSearchAdapter.setFiltersDelegate(null, false);
             } else {
-                if (DialogObject.isUserDialog(j2)) {
-                    bundle.putLong("user_id", j2);
-                } else {
-                    bundle.putLong("chat_id", -j2);
-                }
-                if (!AccountInstance.getInstance(this.currentAccount).getMessagesController().checkCanOpenChat(bundle, dialogsActivity)) {
-                    return true;
+                this.noMediaFiltersSearchView.setDelegate(null, false);
+                this.dialogsSearchAdapter.setFiltersDelegate(this.filteredSearchViewDelegate, true);
+            }
+        } else if (view instanceof FilteredSearchView) {
+            ((FilteredSearchView) view).setDelegate(this.filteredSearchViewDelegate, (i2 != 0 || this.noMediaFiltersSearchView.getVisibility() == 0) ? false : false);
+        }
+        if (view2 instanceof FilteredSearchView) {
+            ((FilteredSearchView) view2).setDelegate(null, false);
+            return;
+        }
+        this.dialogsSearchAdapter.setFiltersDelegate(null, false);
+        this.noMediaFiltersSearchView.setDelegate(null, false);
+    }
+
+    public void onResume() {
+        DialogsSearchAdapter dialogsSearchAdapter = this.dialogsSearchAdapter;
+        if (dialogsSearchAdapter != null) {
+            dialogsSearchAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public void onTextChanged(String str) {
+        View currentView = getCurrentView();
+        boolean z = TextUtils.isEmpty(this.lastSearchString) ? true : !this.attached;
+        this.lastSearchString = str;
+        search(currentView, getCurrentPosition(), str, z);
+    }
+
+    public void removeSearchFilter(FiltersView.MediaFilterData mediaFilterData) {
+        this.currentSearchFilters.remove(mediaFilterData);
+    }
+
+    public void reset() {
+        setPosition(0);
+        if (this.dialogsSearchAdapter.getItemCount() > 0) {
+            this.searchLayoutManager.scrollToPositionWithOffset(0, 0);
+        }
+        LinearLayoutManager linearLayoutManager = this.channelsSearchLayoutManager;
+        if (linearLayoutManager != null) {
+            linearLayoutManager.scrollToPositionWithOffset(0, 0);
+        }
+        LinearLayoutManager linearLayoutManager2 = this.botsSearchLayoutManager;
+        if (linearLayoutManager2 != null) {
+            linearLayoutManager2.scrollToPositionWithOffset(0, 0);
+        }
+        this.viewsByType.clear();
+    }
+
+    public void runResultsEnterAnimation() {
+        RecyclerItemsEnterAnimator recyclerItemsEnterAnimator = this.itemsEnterAnimator;
+        int i = this.animateFromCount;
+        recyclerItemsEnterAnimator.showItemsAnimated(i > 0 ? i + 1 : 0);
+        this.animateFromCount = this.dialogsSearchAdapter.getItemCount();
+    }
+
+    public void setFilteredSearchViewDelegate(FilteredSearchView.Delegate delegate) {
+        this.filteredSearchViewDelegate = delegate;
+    }
+
+    public void setKeyboardHeight(int i) {
+        FilteredSearchView filteredSearchView;
+        this.keyboardSize = i;
+        boolean z = getVisibility() == 0 && getAlpha() > 0.0f;
+        for (int i2 = 0; i2 < getChildCount(); i2++) {
+            if (getChildAt(i2) instanceof FilteredSearchView) {
+                filteredSearchView = (FilteredSearchView) getChildAt(i2);
+            } else if (getChildAt(i2) == this.searchContainer) {
+                this.emptyView.setKeyboardHeight(i, z);
+                filteredSearchView = this.noMediaFiltersSearchView;
+            } else {
+                if (getChildAt(i2) instanceof SearchDownloadsContainer) {
+                    ((SearchDownloadsContainer) getChildAt(i2)).setKeyboardHeight(i, z);
+                } else if (getChildAt(i2) == this.channelsSearchContainer) {
+                    this.channelsEmptyView.setKeyboardHeight(i, z);
                 }
             }
-            ChatActivity chatActivity = new ChatActivity(bundle);
-            dialogsActivity.presentFragment(chatActivity, true);
-            chatActivity.showFieldPanelForForward(true, arrayList2);
+            filteredSearchView.setKeyboardHeight(i, z);
         }
-        return true;
+    }
+
+    @Override // org.telegram.ui.Components.ViewPagerFixed
+    public void setPosition(int i) {
+        if (i < 0) {
+            return;
+        }
+        super.setPosition(i);
+        this.viewsByType.clear();
+        ViewPagerFixed.TabsView tabsView = this.tabsView;
+        if (tabsView != null) {
+            tabsView.selectTabWithId(i, 1.0f);
+        }
+        invalidate();
     }
 
     @Override // org.telegram.ui.FilteredSearchView.UiCallback
-    public void goToMessage(MessageObject messageObject) {
-        Bundle bundle = new Bundle();
-        long dialogId = messageObject.getDialogId();
-        if (DialogObject.isEncryptedDialog(dialogId)) {
-            bundle.putInt("enc_id", DialogObject.getEncryptedChatId(dialogId));
-        } else if (DialogObject.isUserDialog(dialogId)) {
-            bundle.putLong("user_id", dialogId);
-        } else {
-            TLRPC$Chat chat = AccountInstance.getInstance(this.currentAccount).getMessagesController().getChat(Long.valueOf(-dialogId));
-            if (chat != null && chat.migrated_to != null) {
-                bundle.putLong("migrated_to", dialogId);
-                dialogId = -chat.migrated_to.channel_id;
-            }
-            bundle.putLong("chat_id", -dialogId);
-        }
-        bundle.putInt("message_id", messageObject.getId());
-        this.parent.presentFragment(new ChatActivity(bundle));
-        showActionMode(false);
+    public void showActionMode() {
+        showActionMode(true);
     }
 
-    public int getFolderId() {
-        return this.folderId;
+    public void showDownloads() {
+        setPosition(4);
     }
 
-    @Override // org.telegram.ui.FilteredSearchView.UiCallback
-    public boolean actionModeShowing() {
-        return this.isActionModeShowed;
-    }
-
-    public void hideActionMode() {
-        showActionMode(false);
+    public void showOnlyDialogsAdapter(boolean z) {
+        this.showOnlyDialogsAdapter = z;
     }
 
     @Override // org.telegram.ui.FilteredSearchView.UiCallback
@@ -856,13 +1261,13 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                 }
             }
             if (this.deleteItem != null) {
-                Iterator<FilteredSearchView.MessageHashId> it = this.selectedFiles.keySet().iterator();
+                Iterator it = this.selectedFiles.keySet().iterator();
                 while (true) {
                     if (!it.hasNext()) {
                         z = true;
                         break;
                     }
-                    if (!this.selectedFiles.get(it.next()).isDownloadingFile) {
+                    if (!((MessageObject) this.selectedFiles.get((FilteredSearchView.MessageHashId) it.next())).isDownloadingFile) {
                         z = false;
                         break;
                     }
@@ -885,84 +1290,6 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         }
     }
 
-    @Override // org.telegram.ui.FilteredSearchView.UiCallback
-    public boolean isSelected(FilteredSearchView.MessageHashId messageHashId) {
-        return this.selectedFiles.containsKey(messageHashId);
-    }
-
-    @Override // org.telegram.ui.FilteredSearchView.UiCallback
-    public void showActionMode() {
-        showActionMode(true);
-    }
-
-    @Override // org.telegram.ui.Components.ViewPagerFixed
-    protected void onItemSelected(View view, View view2, int i, int i2) {
-        boolean z = true;
-        if (i == 0) {
-            if (this.noMediaFiltersSearchView.getVisibility() == 0) {
-                this.noMediaFiltersSearchView.setDelegate(this.filteredSearchViewDelegate, false);
-                this.dialogsSearchAdapter.setFiltersDelegate(null, false);
-            } else {
-                this.noMediaFiltersSearchView.setDelegate(null, false);
-                this.dialogsSearchAdapter.setFiltersDelegate(this.filteredSearchViewDelegate, true);
-            }
-        } else if (view instanceof FilteredSearchView) {
-            ((FilteredSearchView) view).setDelegate(this.filteredSearchViewDelegate, (i2 != 0 || this.noMediaFiltersSearchView.getVisibility() == 0) ? false : false);
-        }
-        if (view2 instanceof FilteredSearchView) {
-            ((FilteredSearchView) view2).setDelegate(null, false);
-            return;
-        }
-        this.dialogsSearchAdapter.setFiltersDelegate(null, false);
-        this.noMediaFiltersSearchView.setDelegate(null, false);
-    }
-
-    public void getThemeDescriptions(ArrayList<ThemeDescription> arrayList) {
-        for (int i = 0; i < this.searchListView.getChildCount(); i++) {
-            View childAt = this.searchListView.getChildAt(i);
-            if ((childAt instanceof ProfileSearchCell) || (childAt instanceof DialogCell) || (childAt instanceof HashtagSearchCell)) {
-                arrayList.add(new ThemeDescription(childAt, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_windowBackgroundWhite));
-            }
-        }
-        for (int i2 = 0; i2 < getChildCount(); i2++) {
-            if (getChildAt(i2) instanceof FilteredSearchView) {
-                arrayList.addAll(((FilteredSearchView) getChildAt(i2)).getThemeDescriptions());
-            }
-        }
-        int size = this.viewsByType.size();
-        for (int i3 = 0; i3 < size; i3++) {
-            View valueAt = this.viewsByType.valueAt(i3);
-            if (valueAt instanceof FilteredSearchView) {
-                arrayList.addAll(((FilteredSearchView) valueAt).getThemeDescriptions());
-            }
-        }
-        FilteredSearchView filteredSearchView = this.noMediaFiltersSearchView;
-        if (filteredSearchView != null) {
-            arrayList.addAll(filteredSearchView.getThemeDescriptions());
-        }
-        arrayList.add(new ThemeDescription(this.emptyView.title, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
-        arrayList.add(new ThemeDescription(this.emptyView.subtitle, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteGrayText));
-        arrayList.addAll(SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda4
-            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
-            public final void didSetColor() {
-                SearchViewPager.this.lambda$getThemeDescriptions$4();
-            }
-
-            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
-            public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
-            }
-        }, Theme.key_actionBarActionModeDefaultIcon));
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getThemeDescriptions$4() {
-        NumberTextView numberTextView = this.selectedMessagesCountTextView;
-        if (numberTextView != null) {
-            numberTextView.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
-        }
-    }
-
     public void updateColors() {
         for (int i = 0; i < getChildCount(); i++) {
             if (getChildAt(i) instanceof FilteredSearchView) {
@@ -978,9 +1305,9 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         }
         int size = this.viewsByType.size();
         for (int i3 = 0; i3 < size; i3++) {
-            View valueAt = this.viewsByType.valueAt(i3);
-            if (valueAt instanceof FilteredSearchView) {
-                RecyclerListView recyclerListView2 = ((FilteredSearchView) valueAt).recyclerListView;
+            View view = (View) this.viewsByType.valueAt(i3);
+            if (view instanceof FilteredSearchView) {
+                RecyclerListView recyclerListView2 = ((FilteredSearchView) view).recyclerListView;
                 int childCount2 = recyclerListView2.getChildCount();
                 for (int i4 = 0; i4 < childCount2; i4++) {
                     View childAt2 = recyclerListView2.getChildAt(i4);
@@ -1003,321 +1330,12 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         }
     }
 
-    public void reset() {
-        setPosition(0);
-        if (this.dialogsSearchAdapter.getItemCount() > 0) {
-            this.searchLayoutManager.scrollToPositionWithOffset(0, 0);
-        }
-        LinearLayoutManager linearLayoutManager = this.channelsSearchLayoutManager;
-        if (linearLayoutManager != null) {
-            linearLayoutManager.scrollToPositionWithOffset(0, 0);
-        }
-        LinearLayoutManager linearLayoutManager2 = this.botsSearchLayoutManager;
-        if (linearLayoutManager2 != null) {
-            linearLayoutManager2.scrollToPositionWithOffset(0, 0);
-        }
-        this.viewsByType.clear();
-    }
-
-    @Override // org.telegram.ui.Components.ViewPagerFixed
-    public void setPosition(int i) {
-        if (i < 0) {
-            return;
-        }
-        super.setPosition(i);
-        this.viewsByType.clear();
+    public void updateTabs() {
+        this.viewPagerAdapter.updateItems();
+        fillTabs(false);
         ViewPagerFixed.TabsView tabsView = this.tabsView;
         if (tabsView != null) {
-            tabsView.selectTabWithId(i, 1.0f);
-        }
-        invalidate();
-    }
-
-    public void setKeyboardHeight(int i) {
-        this.keyboardSize = i;
-        boolean z = getVisibility() == 0 && getAlpha() > 0.0f;
-        for (int i2 = 0; i2 < getChildCount(); i2++) {
-            if (getChildAt(i2) instanceof FilteredSearchView) {
-                ((FilteredSearchView) getChildAt(i2)).setKeyboardHeight(i, z);
-            } else if (getChildAt(i2) == this.searchContainer) {
-                this.emptyView.setKeyboardHeight(i, z);
-                this.noMediaFiltersSearchView.setKeyboardHeight(i, z);
-            } else if (getChildAt(i2) instanceof SearchDownloadsContainer) {
-                ((SearchDownloadsContainer) getChildAt(i2)).setKeyboardHeight(i, z);
-            } else if (getChildAt(i2) == this.channelsSearchContainer) {
-                this.channelsEmptyView.setKeyboardHeight(i, z);
-            }
-        }
-    }
-
-    public void showOnlyDialogsAdapter(boolean z) {
-        this.showOnlyDialogsAdapter = z;
-    }
-
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x007c, code lost:
-        if (org.telegram.messenger.ChatObject.isChannel(r7, r11.currentAccount) != false) goto L31;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public void messagesDeleted(long j, ArrayList<Integer> arrayList) {
-        int i;
-        int size = this.viewsByType.size();
-        for (int i2 = 0; i2 < size; i2++) {
-            View valueAt = this.viewsByType.valueAt(i2);
-            if (valueAt instanceof FilteredSearchView) {
-                ((FilteredSearchView) valueAt).messagesDeleted(j, arrayList);
-            }
-        }
-        for (int i3 = 0; i3 < getChildCount(); i3++) {
-            if (getChildAt(i3) instanceof FilteredSearchView) {
-                ((FilteredSearchView) getChildAt(i3)).messagesDeleted(j, arrayList);
-            }
-        }
-        this.noMediaFiltersSearchView.messagesDeleted(j, arrayList);
-        if (this.selectedFiles.isEmpty()) {
-            return;
-        }
-        ArrayList arrayList2 = new ArrayList(this.selectedFiles.keySet());
-        ArrayList arrayList3 = null;
-        for (int i4 = 0; i4 < arrayList2.size(); i4++) {
-            FilteredSearchView.MessageHashId messageHashId = (FilteredSearchView.MessageHashId) arrayList2.get(i4);
-            MessageObject messageObject = this.selectedFiles.get(messageHashId);
-            if (messageObject != null) {
-                long dialogId = messageObject.getDialogId();
-                if (dialogId < 0) {
-                    i = (int) (-dialogId);
-                }
-                i = 0;
-                if (i == j) {
-                    for (int i5 = 0; i5 < arrayList.size(); i5++) {
-                        if (messageObject.getId() == arrayList.get(i5).intValue()) {
-                            arrayList3 = new ArrayList();
-                            arrayList3.add(messageHashId);
-                        }
-                    }
-                }
-            }
-        }
-        if (arrayList3 != null) {
-            int size2 = arrayList3.size();
-            for (int i6 = 0; i6 < size2; i6++) {
-                this.selectedFiles.remove(arrayList3.get(i6));
-            }
-            this.selectedMessagesCountTextView.setNumber(this.selectedFiles.size(), true);
-            ActionBarMenuItem actionBarMenuItem = this.gotoItem;
-            if (actionBarMenuItem != null) {
-                actionBarMenuItem.setVisibility(this.selectedFiles.size() != 1 ? 8 : 0);
-            }
-        }
-    }
-
-    public void runResultsEnterAnimation() {
-        RecyclerItemsEnterAnimator recyclerItemsEnterAnimator = this.itemsEnterAnimator;
-        int i = this.animateFromCount;
-        recyclerItemsEnterAnimator.showItemsAnimated(i > 0 ? i + 1 : 0);
-        this.animateFromCount = this.dialogsSearchAdapter.getItemCount();
-    }
-
-    public ViewPagerFixed.TabsView getTabsView() {
-        return this.tabsView;
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.channelRecommendationsLoaded);
-        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.dialogDeleted);
-        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.dialogsNeedReload);
-        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.reloadWebappsHints);
-        this.attached = true;
-        DialogsChannelsAdapter dialogsChannelsAdapter = this.channelsSearchAdapter;
-        if (dialogsChannelsAdapter != null) {
-            dialogsChannelsAdapter.update(false);
-        }
-        DialogsBotsAdapter dialogsBotsAdapter = this.botsSearchAdapter;
-        if (dialogsBotsAdapter != null) {
-            dialogsBotsAdapter.update(false);
-        }
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        this.attached = false;
-        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.channelRecommendationsLoaded);
-        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.dialogDeleted);
-        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.dialogsNeedReload);
-        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.reloadWebappsHints);
-    }
-
-    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if (i == NotificationCenter.channelRecommendationsLoaded) {
-            this.channelsEmptyView.showProgress(MessagesController.getInstance(this.currentAccount).getChannelRecommendations(0L) != null, true);
-            this.channelsSearchAdapter.updateMyChannels();
-            this.channelsSearchAdapter.update(true);
-        } else if (i == NotificationCenter.dialogDeleted || i == NotificationCenter.dialogsNeedReload) {
-            this.channelsSearchAdapter.updateMyChannels();
-            this.channelsSearchAdapter.update(true);
-        } else if (i == NotificationCenter.reloadWebappsHints) {
-            this.botsSearchAdapter.update(true);
-        }
-    }
-
-    @Override // org.telegram.ui.Components.ViewPagerFixed
-    protected void invalidateBlur() {
-        this.fragmentView.invalidateBlur();
-    }
-
-    public void cancelEnterAnimation() {
-        this.itemsEnterAnimator.cancel();
-        this.searchListView.invalidate();
-        this.animateFromCount = 0;
-    }
-
-    public void showDownloads() {
-        setPosition(4);
-    }
-
-    public int getPositionForType(int i) {
-        for (int i2 = 0; i2 < this.viewPagerAdapter.items.size(); i2++) {
-            if (this.viewPagerAdapter.items.get(i2).type == 3 && this.viewPagerAdapter.items.get(i2).filterIndex == i) {
-                return i2;
-            }
-        }
-        return -1;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ViewPagerAdapter extends ViewPagerFixed.Adapter {
-        ArrayList<Item> items = new ArrayList<>();
-
-        public ViewPagerAdapter() {
-            updateItems();
-        }
-
-        public void updateItems() {
-            this.items.clear();
-            this.items.add(new Item(0));
-            this.items.add(new Item(1));
-            this.items.add(new Item(4));
-            if (SearchViewPager.this.showOnlyDialogsAdapter) {
-                return;
-            }
-            Item item = new Item(3);
-            item.filterIndex = 0;
-            this.items.add(item);
-            if (SearchViewPager.this.includeDownloads()) {
-                this.items.add(new Item(2));
-            }
-            Item item2 = new Item(3);
-            item2.filterIndex = 1;
-            this.items.add(item2);
-            Item item3 = new Item(3);
-            item3.filterIndex = 2;
-            this.items.add(item3);
-            Item item4 = new Item(3);
-            item4.filterIndex = 3;
-            this.items.add(item4);
-            Item item5 = new Item(3);
-            item5.filterIndex = 4;
-            this.items.add(item5);
-        }
-
-        @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
-        public String getItemTitle(int i) {
-            if (this.items.get(i).type == 0) {
-                return LocaleController.getString(R.string.SearchAllChatsShort);
-            }
-            if (this.items.get(i).type == 1) {
-                return LocaleController.getString(R.string.ChannelsTab);
-            }
-            if (this.items.get(i).type == 4) {
-                return LocaleController.getString(R.string.AppsTab);
-            }
-            if (this.items.get(i).type == 2) {
-                return LocaleController.getString(R.string.DownloadsTabs);
-            }
-            return FiltersView.filters[this.items.get(i).filterIndex].getTitle();
-        }
-
-        @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
-        public int getItemCount() {
-            return this.items.size();
-        }
-
-        @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
-        public View createView(int i) {
-            if (i == 1) {
-                return SearchViewPager.this.searchContainer;
-            }
-            if (i == 3) {
-                return SearchViewPager.this.channelsSearchContainer;
-            }
-            if (i == 4) {
-                return SearchViewPager.this.botsSearchContainer;
-            }
-            if (i == 2) {
-                SearchViewPager searchViewPager = SearchViewPager.this;
-                SearchViewPager searchViewPager2 = SearchViewPager.this;
-                searchViewPager.downloadsContainer = new SearchDownloadsContainer(searchViewPager2.parent, searchViewPager2.currentAccount);
-                SearchViewPager.this.downloadsContainer.recyclerListView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.SearchViewPager.ViewPagerAdapter.1
-                    @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-                    public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
-                        super.onScrolled(recyclerView, i2, i3);
-                        SearchViewPager.this.fragmentView.invalidateBlur();
-                    }
-                });
-                SearchViewPager.this.downloadsContainer.setUiCallback(SearchViewPager.this);
-                return SearchViewPager.this.downloadsContainer;
-            }
-            FilteredSearchView filteredSearchView = new FilteredSearchView(SearchViewPager.this.parent);
-            filteredSearchView.setChatPreviewDelegate(SearchViewPager.this.chatPreviewDelegate);
-            filteredSearchView.setUiCallback(SearchViewPager.this);
-            filteredSearchView.recyclerListView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.SearchViewPager.ViewPagerAdapter.2
-                @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-                public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
-                    super.onScrolled(recyclerView, i2, i3);
-                    SearchViewPager.this.fragmentView.invalidateBlur();
-                }
-            });
-            return filteredSearchView;
-        }
-
-        @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
-        public int getItemViewType(int i) {
-            if (this.items.get(i).type == 0) {
-                return 1;
-            }
-            if (this.items.get(i).type == 1) {
-                return 3;
-            }
-            if (this.items.get(i).type == 4) {
-                return 4;
-            }
-            if (this.items.get(i).type == 2) {
-                return 2;
-            }
-            return this.items.get(i).type + i;
-        }
-
-        @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
-        public void bindView(View view, int i, int i2) {
-            SearchViewPager searchViewPager = SearchViewPager.this;
-            searchViewPager.search(view, i, searchViewPager.lastSearchString, true);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public class Item {
-            int filterIndex;
-            private final int type;
-
-            private Item(int i) {
-                this.type = i;
-            }
+            tabsView.finishAddingTabs();
         }
     }
 }

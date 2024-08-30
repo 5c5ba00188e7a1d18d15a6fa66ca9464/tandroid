@@ -5,33 +5,12 @@ import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 /* loaded from: classes.dex */
 public abstract class OnBackPressedCallback {
-    private CopyOnWriteArrayList<Cancellable> mCancellables = new CopyOnWriteArrayList<>();
+    private CopyOnWriteArrayList mCancellables = new CopyOnWriteArrayList();
     private boolean mEnabled;
-    private Consumer<Boolean> mEnabledConsumer;
-
-    public abstract void handleOnBackPressed();
+    private Consumer mEnabledConsumer;
 
     public OnBackPressedCallback(boolean z) {
         this.mEnabled = z;
-    }
-
-    public final void setEnabled(boolean z) {
-        this.mEnabled = z;
-        Consumer<Boolean> consumer = this.mEnabledConsumer;
-        if (consumer != null) {
-            consumer.accept(Boolean.valueOf(z));
-        }
-    }
-
-    public final boolean isEnabled() {
-        return this.mEnabled;
-    }
-
-    public final void remove() {
-        Iterator<Cancellable> it = this.mCancellables.iterator();
-        while (it.hasNext()) {
-            it.next().cancel();
-        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -39,13 +18,34 @@ public abstract class OnBackPressedCallback {
         this.mCancellables.add(cancellable);
     }
 
+    public abstract void handleOnBackPressed();
+
+    public final boolean isEnabled() {
+        return this.mEnabled;
+    }
+
+    public final void remove() {
+        Iterator it = this.mCancellables.iterator();
+        while (it.hasNext()) {
+            ((Cancellable) it.next()).cancel();
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public void removeCancellable(Cancellable cancellable) {
         this.mCancellables.remove(cancellable);
     }
 
+    public final void setEnabled(boolean z) {
+        this.mEnabled = z;
+        Consumer consumer = this.mEnabledConsumer;
+        if (consumer != null) {
+            consumer.accept(Boolean.valueOf(z));
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void setIsEnabledConsumer(Consumer<Boolean> consumer) {
+    public void setIsEnabledConsumer(Consumer consumer) {
         this.mEnabledConsumer = consumer;
     }
 }

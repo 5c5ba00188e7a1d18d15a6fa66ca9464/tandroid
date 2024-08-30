@@ -5,7 +5,18 @@ public final class Singletons {
     private final FlagRegistry zzm = new FlagRegistry();
     private final zzb zzn = new zzb();
 
+    static {
+        Singletons singletons = new Singletons();
+        synchronized (Singletons.class) {
+            zzl = singletons;
+        }
+    }
+
     private Singletons() {
+    }
+
+    public static FlagRegistry flagRegistry() {
+        return zzc().zzm;
     }
 
     private static Singletons zzc() {
@@ -14,16 +25,5 @@ public final class Singletons {
             singletons = zzl;
         }
         return singletons;
-    }
-
-    public static FlagRegistry flagRegistry() {
-        return zzc().zzm;
-    }
-
-    static {
-        Singletons singletons = new Singletons();
-        synchronized (Singletons.class) {
-            zzl = singletons;
-        }
     }
 }

@@ -9,7 +9,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class IcyInfo implements Metadata.Entry {
-    public static final Parcelable.Creator<IcyInfo> CREATOR = new Parcelable.Creator<IcyInfo>() { // from class: com.google.android.exoplayer2.metadata.icy.IcyInfo.1
+    public static final Parcelable.Creator<IcyInfo> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.icy.IcyInfo.1
         @Override // android.os.Parcelable.Creator
         public IcyInfo createFromParcel(Parcel parcel) {
             return new IcyInfo(parcel);
@@ -24,19 +24,10 @@ public final class IcyInfo implements Metadata.Entry {
     public final String title;
     public final String url;
 
-    @Override // android.os.Parcelable
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
-    public /* synthetic */ byte[] getWrappedMetadataBytes() {
-        return Metadata.Entry.-CC.$default$getWrappedMetadataBytes(this);
-    }
-
-    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
-    public /* synthetic */ Format getWrappedMetadataFormat() {
-        return Metadata.Entry.-CC.$default$getWrappedMetadataFormat(this);
+    IcyInfo(Parcel parcel) {
+        this.rawMetadata = (byte[]) Assertions.checkNotNull(parcel.createByteArray());
+        this.title = parcel.readString();
+        this.url = parcel.readString();
     }
 
     public IcyInfo(byte[] bArr, String str, String str2) {
@@ -45,18 +36,9 @@ public final class IcyInfo implements Metadata.Entry {
         this.url = str2;
     }
 
-    IcyInfo(Parcel parcel) {
-        this.rawMetadata = (byte[]) Assertions.checkNotNull(parcel.createByteArray());
-        this.title = parcel.readString();
-        this.url = parcel.readString();
-    }
-
-    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
-    public void populateMediaMetadata(MediaMetadata.Builder builder) {
-        String str = this.title;
-        if (str != null) {
-            builder.setTitle(str);
-        }
+    @Override // android.os.Parcelable
+    public int describeContents() {
+        return 0;
     }
 
     public boolean equals(Object obj) {
@@ -69,8 +51,26 @@ public final class IcyInfo implements Metadata.Entry {
         return Arrays.equals(this.rawMetadata, ((IcyInfo) obj).rawMetadata);
     }
 
+    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
+    public /* synthetic */ byte[] getWrappedMetadataBytes() {
+        return Metadata.Entry.-CC.$default$getWrappedMetadataBytes(this);
+    }
+
+    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
+    public /* synthetic */ Format getWrappedMetadataFormat() {
+        return Metadata.Entry.-CC.$default$getWrappedMetadataFormat(this);
+    }
+
     public int hashCode() {
         return Arrays.hashCode(this.rawMetadata);
+    }
+
+    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
+    public void populateMediaMetadata(MediaMetadata.Builder builder) {
+        String str = this.title;
+        if (str != null) {
+            builder.setTitle(str);
+        }
     }
 
     public String toString() {

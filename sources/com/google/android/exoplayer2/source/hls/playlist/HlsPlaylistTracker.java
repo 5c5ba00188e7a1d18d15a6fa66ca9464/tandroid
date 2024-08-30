@@ -21,6 +21,24 @@ public interface HlsPlaylistTracker {
     }
 
     /* loaded from: classes.dex */
+    public static final class PlaylistResetException extends IOException {
+        public final Uri url;
+
+        public PlaylistResetException(Uri uri) {
+            this.url = uri;
+        }
+    }
+
+    /* loaded from: classes.dex */
+    public static final class PlaylistStuckException extends IOException {
+        public final Uri url;
+
+        public PlaylistStuckException(Uri uri) {
+            this.url = uri;
+        }
+    }
+
+    /* loaded from: classes.dex */
     public interface PrimaryPlaylistListener {
         void onPrimaryPlaylistRefreshed(HlsMediaPlaylist hlsMediaPlaylist);
     }
@@ -39,9 +57,9 @@ public interface HlsPlaylistTracker {
 
     boolean isSnapshotValid(Uri uri);
 
-    void maybeThrowPlaylistRefreshError(Uri uri) throws IOException;
+    void maybeThrowPlaylistRefreshError(Uri uri);
 
-    void maybeThrowPrimaryPlaylistRefreshError() throws IOException;
+    void maybeThrowPrimaryPlaylistRefreshError();
 
     void refreshPlaylist(Uri uri);
 
@@ -50,22 +68,4 @@ public interface HlsPlaylistTracker {
     void start(Uri uri, MediaSourceEventListener.EventDispatcher eventDispatcher, PrimaryPlaylistListener primaryPlaylistListener);
 
     void stop();
-
-    /* loaded from: classes.dex */
-    public static final class PlaylistStuckException extends IOException {
-        public final Uri url;
-
-        public PlaylistStuckException(Uri uri) {
-            this.url = uri;
-        }
-    }
-
-    /* loaded from: classes.dex */
-    public static final class PlaylistResetException extends IOException {
-        public final Uri url;
-
-        public PlaylistResetException(Uri uri) {
-            this.url = uri;
-        }
-    }
 }

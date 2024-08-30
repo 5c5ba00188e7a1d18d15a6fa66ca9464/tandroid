@@ -1,5 +1,4 @@
 package org.telegram.ui.ActionBar;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes4.dex */
-public final /* synthetic */ class Theme$$ExternalSyntheticApiModelOutline4 {
+public abstract /* synthetic */ class Theme$$ExternalSyntheticApiModelOutline4 {
 }

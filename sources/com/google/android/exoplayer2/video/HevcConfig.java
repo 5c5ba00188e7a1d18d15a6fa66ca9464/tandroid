@@ -10,12 +10,21 @@ import java.util.List;
 public final class HevcConfig {
     public final String codecs;
     public final int height;
-    public final List<byte[]> initializationData;
+    public final List initializationData;
     public final int nalUnitLengthFieldLength;
     public final float pixelWidthHeightRatio;
     public final int width;
 
-    public static HevcConfig parse(ParsableByteArray parsableByteArray) throws ParserException {
+    private HevcConfig(List list, int i, int i2, int i3, float f, String str) {
+        this.initializationData = list;
+        this.nalUnitLengthFieldLength = i;
+        this.width = i2;
+        this.height = i3;
+        this.pixelWidthHeightRatio = f;
+        this.codecs = str;
+    }
+
+    public static HevcConfig parse(ParsableByteArray parsableByteArray) {
         int i;
         int i2;
         try {
@@ -81,14 +90,5 @@ public final class HevcConfig {
         } catch (ArrayIndexOutOfBoundsException e) {
             throw ParserException.createForMalformedContainer("Error parsing HEVC config", e);
         }
-    }
-
-    private HevcConfig(List<byte[]> list, int i, int i2, int i3, float f, String str) {
-        this.initializationData = list;
-        this.nalUnitLengthFieldLength = i;
-        this.width = i2;
-        this.height = i3;
-        this.pixelWidthHeightRatio = f;
-        this.codecs = str;
     }
 }

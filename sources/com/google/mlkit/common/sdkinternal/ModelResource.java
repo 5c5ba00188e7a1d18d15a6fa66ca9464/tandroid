@@ -12,20 +12,13 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public abstract class ModelResource {
-    protected final TaskQueue taskQueue;
-    private final AtomicInteger zza;
-    private final AtomicBoolean zzb;
+    private final AtomicInteger zza = new AtomicInteger(0);
+    private final AtomicBoolean zzb = new AtomicBoolean(false);
+    protected final TaskQueue taskQueue = new TaskQueue();
 
-    public ModelResource() {
-        this.zza = new AtomicInteger(0);
-        this.zzb = new AtomicBoolean(false);
-        this.taskQueue = new TaskQueue();
-    }
-
-    public <T> Task<T> callAfterLoad(final Executor executor, final Callable<T> callable, final CancellationToken cancellationToken) {
+    public <T> Task callAfterLoad(final Executor executor, final Callable<T> callable, final CancellationToken cancellationToken) {
         Preconditions.checkState(this.zza.get() > 0);
         if (cancellationToken.isCancellationRequested()) {
             return Tasks.forCanceled();
@@ -59,7 +52,7 @@ public abstract class ModelResource {
         return this.zzb.get();
     }
 
-    public abstract void load() throws MlKitException;
+    public abstract void load();
 
     public void pin() {
         this.zza.incrementAndGet();
@@ -71,7 +64,7 @@ public abstract class ModelResource {
         unpinWithTask(executor);
     }
 
-    public Task<Void> unpinWithTask(Executor executor) {
+    public Task unpinWithTask(Executor executor) {
         Preconditions.checkState(this.zza.get() > 0);
         final TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
         this.taskQueue.submit(executor, new Runnable() { // from class: com.google.mlkit.common.sdkinternal.zzl
@@ -127,11 +120,5 @@ public abstract class ModelResource {
         }
         zzsc.zza();
         taskCompletionSource.setResult(null);
-    }
-
-    protected ModelResource(TaskQueue taskQueue) {
-        this.zza = new AtomicInteger(0);
-        this.zzb = new AtomicBoolean(false);
-        this.taskQueue = taskQueue;
     }
 }

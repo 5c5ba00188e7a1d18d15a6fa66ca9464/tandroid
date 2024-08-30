@@ -16,48 +16,9 @@ public class DarkThemeResourceProvider implements Theme.ResourcesProvider {
     Paint actionPaint;
     ColorFilter animatedEmojiColorFilter;
     Drawable msgOutMedia;
-    HashSet<Integer> debugUnknownKeys = new HashSet<>();
+    HashSet debugUnknownKeys = new HashSet();
     SparseIntArray sparseIntArray = new SparseIntArray();
     Paint dividerPaint = new Paint();
-
-    public void appendColors() {
-    }
-
-    @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-    public /* synthetic */ void applyServiceShaderMatrix(int i, int i2, float f, float f2) {
-        Theme.applyServiceShaderMatrix(i, i2, f, f2);
-    }
-
-    @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-    public /* synthetic */ int getColorOrDefault(int i) {
-        int color;
-        color = getColor(i);
-        return color;
-    }
-
-    @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-    public /* synthetic */ int getCurrentColor(int i) {
-        int color;
-        color = getColor(i);
-        return color;
-    }
-
-    @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-    public /* synthetic */ boolean hasGradientService() {
-        return Theme.ResourcesProvider.-CC.$default$hasGradientService(this);
-    }
-
-    @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-    public /* synthetic */ boolean isDark() {
-        boolean isCurrentThemeDark;
-        isCurrentThemeDark = Theme.isCurrentThemeDark();
-        return isCurrentThemeDark;
-    }
-
-    @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-    public /* synthetic */ void setAnimatedColor(int i, int i2) {
-        Theme.ResourcesProvider.-CC.$default$setAnimatedColor(this, i, i2);
-    }
 
     public DarkThemeResourceProvider() {
         this.sparseIntArray.put(Theme.key_statisticChartSignature, -1214008894);
@@ -198,6 +159,22 @@ public class DarkThemeResourceProvider implements Theme.ResourcesProvider {
         this.dividerPaint.setColor(getColor(i4));
     }
 
+    public void appendColors() {
+    }
+
+    @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+    public /* synthetic */ void applyServiceShaderMatrix(int i, int i2, float f, float f2) {
+        Theme.applyServiceShaderMatrix(i, i2, f, f2);
+    }
+
+    @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+    public ColorFilter getAnimatedEmojiColorFilter() {
+        if (this.animatedEmojiColorFilter == null) {
+            this.animatedEmojiColorFilter = new PorterDuffColorFilter(getColor(Theme.key_windowBackgroundWhiteBlackText), PorterDuff.Mode.SRC_IN);
+        }
+        return this.animatedEmojiColorFilter;
+    }
+
     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
     public int getColor(int i) {
         int indexOfKey = this.sparseIntArray.indexOfKey(i);
@@ -208,6 +185,20 @@ public class DarkThemeResourceProvider implements Theme.ResourcesProvider {
             this.debugUnknownKeys.add(Integer.valueOf(i));
         }
         return Theme.getColor(i);
+    }
+
+    @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+    public /* synthetic */ int getColorOrDefault(int i) {
+        int color;
+        color = getColor(i);
+        return color;
+    }
+
+    @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+    public /* synthetic */ int getCurrentColor(int i) {
+        int color;
+        color = getColor(i);
+        return color;
     }
 
     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
@@ -238,10 +229,19 @@ public class DarkThemeResourceProvider implements Theme.ResourcesProvider {
     }
 
     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-    public ColorFilter getAnimatedEmojiColorFilter() {
-        if (this.animatedEmojiColorFilter == null) {
-            this.animatedEmojiColorFilter = new PorterDuffColorFilter(getColor(Theme.key_windowBackgroundWhiteBlackText), PorterDuff.Mode.SRC_IN);
-        }
-        return this.animatedEmojiColorFilter;
+    public /* synthetic */ boolean hasGradientService() {
+        return Theme.ResourcesProvider.-CC.$default$hasGradientService(this);
+    }
+
+    @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+    public /* synthetic */ boolean isDark() {
+        boolean isCurrentThemeDark;
+        isCurrentThemeDark = Theme.isCurrentThemeDark();
+        return isCurrentThemeDark;
+    }
+
+    @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+    public /* synthetic */ void setAnimatedColor(int i, int i2) {
+        Theme.ResourcesProvider.-CC.$default$setAnimatedColor(this, i, i2);
     }
 }

@@ -1,5 +1,4 @@
 package com.google.android.gms.internal.vision;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 final class zzkd implements zzkl {
     private zzkl[] zza;
@@ -10,7 +9,7 @@ final class zzkd implements zzkl {
     }
 
     @Override // com.google.android.gms.internal.vision.zzkl
-    public final boolean zza(Class<?> cls) {
+    public final boolean zza(Class cls) {
         for (zzkl zzklVar : this.zza) {
             if (zzklVar.zza(cls)) {
                 return true;
@@ -20,7 +19,7 @@ final class zzkd implements zzkl {
     }
 
     @Override // com.google.android.gms.internal.vision.zzkl
-    public final zzki zzb(Class<?> cls) {
+    public final zzki zzb(Class cls) {
         zzkl[] zzklVarArr;
         for (zzkl zzklVar : this.zza) {
             if (zzklVar.zza(cls)) {

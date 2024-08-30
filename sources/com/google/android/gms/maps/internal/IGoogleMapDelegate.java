@@ -1,55 +1,53 @@
 package com.google.android.gms.maps.internal;
 
 import android.os.IInterface;
-import android.os.RemoteException;
 import com.google.android.gms.dynamic.IObjectWrapper;
 import com.google.android.gms.internal.maps.zzaa;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public interface IGoogleMapDelegate extends IInterface {
-    com.google.android.gms.internal.maps.zzl addCircle(CircleOptions circleOptions) throws RemoteException;
+    com.google.android.gms.internal.maps.zzl addCircle(CircleOptions circleOptions);
 
-    zzaa addMarker(MarkerOptions markerOptions) throws RemoteException;
+    zzaa addMarker(MarkerOptions markerOptions);
 
-    void animateCamera(IObjectWrapper iObjectWrapper) throws RemoteException;
+    void animateCamera(IObjectWrapper iObjectWrapper);
 
-    void animateCameraWithCallback(IObjectWrapper iObjectWrapper, zzd zzdVar) throws RemoteException;
+    void animateCameraWithCallback(IObjectWrapper iObjectWrapper, zzd zzdVar);
 
-    void animateCameraWithDurationAndCallback(IObjectWrapper iObjectWrapper, int i, zzd zzdVar) throws RemoteException;
+    void animateCameraWithDurationAndCallback(IObjectWrapper iObjectWrapper, int i, zzd zzdVar);
 
-    CameraPosition getCameraPosition() throws RemoteException;
+    CameraPosition getCameraPosition();
 
-    float getMaxZoomLevel() throws RemoteException;
+    float getMaxZoomLevel();
 
-    float getMinZoomLevel() throws RemoteException;
+    float getMinZoomLevel();
 
-    IProjectionDelegate getProjection() throws RemoteException;
+    IProjectionDelegate getProjection();
 
-    IUiSettingsDelegate getUiSettings() throws RemoteException;
+    IUiSettingsDelegate getUiSettings();
 
-    void moveCamera(IObjectWrapper iObjectWrapper) throws RemoteException;
+    void moveCamera(IObjectWrapper iObjectWrapper);
 
-    boolean setMapStyle(MapStyleOptions mapStyleOptions) throws RemoteException;
+    boolean setMapStyle(MapStyleOptions mapStyleOptions);
 
-    void setMapType(int i) throws RemoteException;
+    void setMapType(int i);
 
-    void setMyLocationEnabled(boolean z) throws RemoteException;
+    void setMyLocationEnabled(boolean z);
 
-    void setOnCameraIdleListener(zzp zzpVar) throws RemoteException;
+    void setOnCameraIdleListener(zzp zzpVar);
 
-    void setOnCameraMoveListener(zzt zztVar) throws RemoteException;
+    void setOnCameraMoveListener(zzt zztVar);
 
-    void setOnCameraMoveStartedListener(zzv zzvVar) throws RemoteException;
+    void setOnCameraMoveStartedListener(zzv zzvVar);
 
-    void setOnMapLoadedCallback(zzao zzaoVar) throws RemoteException;
+    void setOnMapLoadedCallback(zzao zzaoVar);
 
-    void setOnMarkerClickListener(zzau zzauVar) throws RemoteException;
+    void setOnMarkerClickListener(zzau zzauVar);
 
-    void setOnMyLocationChangeListener(zzba zzbaVar) throws RemoteException;
+    void setOnMyLocationChangeListener(zzba zzbaVar);
 
-    void setPadding(int i, int i2, int i3, int i4) throws RemoteException;
+    void setPadding(int i, int i2, int i3, int i4);
 }

@@ -9,6 +9,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /* loaded from: classes3.dex */
 public class SmsReceiver extends BroadcastReceiver {
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$onReceive$0(String str) {
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didReceiveSmsCode, str);
+    }
+
     @Override // android.content.BroadcastReceiver
     public void onReceive(Context context, Intent intent) {
         String str;
@@ -47,10 +52,5 @@ public class SmsReceiver extends BroadcastReceiver {
         } catch (Throwable th) {
             FileLog.e(th);
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$onReceive$0(String str) {
-        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didReceiveSmsCode, str);
     }
 }

@@ -3,7 +3,6 @@ package com.google.firebase.encoders.proto;
 import com.google.firebase.encoders.EncodingException;
 import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ValueEncoderContext;
-import java.io.IOException;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class ProtobufValueEncoderContext implements ValueEncoderContext {
@@ -17,13 +16,6 @@ public class ProtobufValueEncoderContext implements ValueEncoderContext {
         this.objEncoderCtx = protobufDataEncoderContext;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void resetContext(FieldDescriptor fieldDescriptor, boolean z) {
-        this.encoded = false;
-        this.field = fieldDescriptor;
-        this.skipDefault = z;
-    }
-
     private void checkNotUsed() {
         if (this.encoded) {
             throw new EncodingException("Cannot encode a second value in the ValueEncoderContext");
@@ -32,16 +24,23 @@ public class ProtobufValueEncoderContext implements ValueEncoderContext {
     }
 
     @Override // com.google.firebase.encoders.ValueEncoderContext
-    public ValueEncoderContext add(String str) throws IOException {
+    public ValueEncoderContext add(String str) {
         checkNotUsed();
         this.objEncoderCtx.add(this.field, str, this.skipDefault);
         return this;
     }
 
     @Override // com.google.firebase.encoders.ValueEncoderContext
-    public ValueEncoderContext add(boolean z) throws IOException {
+    public ValueEncoderContext add(boolean z) {
         checkNotUsed();
         this.objEncoderCtx.add(this.field, z, this.skipDefault);
         return this;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void resetContext(FieldDescriptor fieldDescriptor, boolean z) {
+        this.encoded = false;
+        this.field = fieldDescriptor;
+        this.skipDefault = z;
     }
 }

@@ -1,6 +1,5 @@
 package androidx.core.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.view.GestureDetector;
@@ -47,7 +46,6 @@ public final class GestureDetectorCompat {
         return this.mImpl.onTouchEvent(motionEvent);
     }
 
-    @SuppressLint({"KotlinPropertyAccess"})
     public void setIsLongpressEnabled(boolean z) {
         this.mImpl.setIsLongpressEnabled(z);
     }

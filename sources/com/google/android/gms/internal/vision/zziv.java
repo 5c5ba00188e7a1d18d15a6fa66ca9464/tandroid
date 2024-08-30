@@ -11,7 +11,6 @@ jadx.core.utils.exceptions.JadxRuntimeException: Init of enum zzc uses external 
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zziv {
     public static final zziv zza;
@@ -71,33 +70,8 @@ public final class zziv {
     private final zzjm zzaz;
     private final int zzba;
     private final zzix zzbb;
-    private final Class<?> zzbc;
+    private final Class zzbc;
     private final boolean zzbd;
-
-    public static zziv[] values() {
-        return (zziv[]) zzbg.clone();
-    }
-
-    private zziv(String str, int i, int i2, zzix zzixVar, zzjm zzjmVar) {
-        int i3;
-        this.zzba = i2;
-        this.zzbb = zzixVar;
-        this.zzaz = zzjmVar;
-        int i4 = zziy.zza[zzixVar.ordinal()];
-        boolean z = true;
-        if (i4 == 1) {
-            this.zzbc = zzjmVar.zza();
-        } else if (i4 == 2) {
-            this.zzbc = zzjmVar.zza();
-        } else {
-            this.zzbc = null;
-        }
-        this.zzbd = (zzixVar != zzix.zza || (i3 = zziy.zzb[zzjmVar.ordinal()]) == 1 || i3 == 2 || i3 == 3) ? false : false;
-    }
-
-    public final int zza() {
-        return this.zzba;
-    }
 
     static {
         zzix zzixVar = zzix.zza;
@@ -221,5 +195,24 @@ public final class zziv {
         for (zziv zzivVar52 : values) {
             zzbe[zzivVar52.zzba] = zzivVar52;
         }
+    }
+
+    private zziv(String str, int i, int i2, zzix zzixVar, zzjm zzjmVar) {
+        int i3;
+        this.zzba = i2;
+        this.zzbb = zzixVar;
+        this.zzaz = zzjmVar;
+        int i4 = zziy.zza[zzixVar.ordinal()];
+        boolean z = true;
+        this.zzbc = (i4 == 1 || i4 == 2) ? zzjmVar.zza() : null;
+        this.zzbd = (zzixVar != zzix.zza || (i3 = zziy.zzb[zzjmVar.ordinal()]) == 1 || i3 == 2 || i3 == 3) ? false : false;
+    }
+
+    public static zziv[] values() {
+        return (zziv[]) zzbg.clone();
+    }
+
+    public final int zza() {
+        return this.zzba;
     }
 }

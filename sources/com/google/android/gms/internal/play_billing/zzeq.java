@@ -9,9 +9,8 @@ import java.util.logging.Logger;
 import libcore.io.Memory;
 import org.telegram.messenger.NotificationCenter;
 import sun.misc.Unsafe;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-final class zzeq {
+abstract class zzeq {
     static final long zza;
     static final boolean zzb;
     private static final Unsafe zzc;
@@ -142,9 +141,6 @@ final class zzeq {
         if (zzB != null) {
         }
         zzb = ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN;
-    }
-
-    private zzeq() {
     }
 
     private static int zzA(Class cls) {

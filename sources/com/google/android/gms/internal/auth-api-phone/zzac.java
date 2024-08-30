@@ -1,9 +1,8 @@
 package com.google.android.gms.internal.auth-api-phone;
 
 import com.google.android.gms.common.Feature;
-/* compiled from: com.google.android.gms:play-services-auth-api-phone@@17.5.1 */
 /* loaded from: classes.dex */
-public final class zzac {
+public abstract class zzac {
     public static final Feature zza;
     public static final Feature zzb;
     public static final Feature zzc;

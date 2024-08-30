@@ -1,6 +1,5 @@
 package com.google.android.gms.common.api.internal;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
@@ -11,7 +10,6 @@ import com.google.android.gms.common.util.PlatformVersion;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class BackgroundDetector implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
     private static final BackgroundDetector zza = new BackgroundDetector();
@@ -20,7 +18,6 @@ public final class BackgroundDetector implements Application.ActivityLifecycleCa
     private final ArrayList zzd = new ArrayList();
     private boolean zze = false;
 
-    /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
     /* loaded from: classes.dex */
     public interface BackgroundStateChangeListener {
         void onBackgroundStateChanged(boolean z);
@@ -125,7 +122,6 @@ public final class BackgroundDetector implements Application.ActivityLifecycleCa
         }
     }
 
-    @TargetApi(16)
     public boolean readCurrentStateIfPossible(boolean z) {
         if (!this.zzc.get()) {
             if (!PlatformVersion.isAtLeastJellyBean()) {

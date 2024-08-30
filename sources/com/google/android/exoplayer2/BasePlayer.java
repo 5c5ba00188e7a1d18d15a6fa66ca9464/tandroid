@@ -6,31 +6,29 @@ import com.google.android.exoplayer2.video.VideoListener;
 public abstract class BasePlayer implements Player {
     protected final Timeline.Window window = new Timeline.Window();
 
+    private int getRepeatModeForNavigation() {
+        int repeatMode = getRepeatMode();
+        if (repeatMode == 1) {
+            return 0;
+        }
+        return repeatMode;
+    }
+
+    private void seekToCurrentItem(long j, int i) {
+        seekTo(getCurrentMediaItemIndex(), j, i, false);
+    }
+
     @Override // com.google.android.exoplayer2.Player
     public /* synthetic */ void addVideoListener(VideoListener videoListener) {
         Player.videoListeners.add(videoListener);
     }
 
-    public abstract void seekTo(int i, long j, int i2, boolean z);
-
-    @Override // com.google.android.exoplayer2.Player
-    public final void pause() {
-        setPlayWhenReady(false);
-    }
-
-    @Override // com.google.android.exoplayer2.Player
-    public final boolean hasPreviousMediaItem() {
-        return getPreviousMediaItemIndex() != -1;
-    }
-
-    @Override // com.google.android.exoplayer2.Player
-    public final boolean hasNextMediaItem() {
-        return getNextMediaItemIndex() != -1;
-    }
-
-    @Override // com.google.android.exoplayer2.Player
-    public final void seekTo(long j) {
-        seekToCurrentItem(j, 5);
+    public final long getContentDuration() {
+        Timeline currentTimeline = getCurrentTimeline();
+        if (currentTimeline.isEmpty()) {
+            return -9223372036854775807L;
+        }
+        return currentTimeline.getWindow(getCurrentMediaItemIndex(), this.window).getDurationMs();
     }
 
     public final int getNextMediaItemIndex() {
@@ -47,6 +45,16 @@ public abstract class BasePlayer implements Player {
             return -1;
         }
         return currentTimeline.getPreviousWindowIndex(getCurrentMediaItemIndex(), getRepeatModeForNavigation(), getShuffleModeEnabled());
+    }
+
+    @Override // com.google.android.exoplayer2.Player
+    public final boolean hasNextMediaItem() {
+        return getNextMediaItemIndex() != -1;
+    }
+
+    @Override // com.google.android.exoplayer2.Player
+    public final boolean hasPreviousMediaItem() {
+        return getPreviousMediaItemIndex() != -1;
     }
 
     @Override // com.google.android.exoplayer2.Player
@@ -67,23 +75,15 @@ public abstract class BasePlayer implements Player {
         return !currentTimeline.isEmpty() && currentTimeline.getWindow(getCurrentMediaItemIndex(), this.window).isSeekable;
     }
 
-    public final long getContentDuration() {
-        Timeline currentTimeline = getCurrentTimeline();
-        if (currentTimeline.isEmpty()) {
-            return -9223372036854775807L;
-        }
-        return currentTimeline.getWindow(getCurrentMediaItemIndex(), this.window).getDurationMs();
+    @Override // com.google.android.exoplayer2.Player
+    public final void pause() {
+        setPlayWhenReady(false);
     }
 
-    private int getRepeatModeForNavigation() {
-        int repeatMode = getRepeatMode();
-        if (repeatMode == 1) {
-            return 0;
-        }
-        return repeatMode;
-    }
+    public abstract void seekTo(int i, long j, int i2, boolean z);
 
-    private void seekToCurrentItem(long j, int i) {
-        seekTo(getCurrentMediaItemIndex(), j, i, false);
+    @Override // com.google.android.exoplayer2.Player
+    public final void seekTo(long j) {
+        seekToCurrentItem(j, 5);
     }
 }

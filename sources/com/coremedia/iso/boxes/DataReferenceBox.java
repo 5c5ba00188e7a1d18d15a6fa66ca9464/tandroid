@@ -2,7 +2,6 @@ package com.coremedia.iso.boxes;
 
 import com.coremedia.iso.IsoTypeWriter;
 import com.googlecode.mp4parser.AbstractContainerBox;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 /* loaded from: classes.dex */
@@ -15,7 +14,7 @@ public class DataReferenceBox extends AbstractContainerBox implements Box {
     }
 
     @Override // com.googlecode.mp4parser.AbstractContainerBox, com.coremedia.iso.boxes.Box
-    public void getBox(WritableByteChannel writableByteChannel) throws IOException {
+    public void getBox(WritableByteChannel writableByteChannel) {
         writableByteChannel.write(getHeader());
         ByteBuffer allocate = ByteBuffer.allocate(8);
         IsoTypeWriter.writeUInt8(allocate, this.version);

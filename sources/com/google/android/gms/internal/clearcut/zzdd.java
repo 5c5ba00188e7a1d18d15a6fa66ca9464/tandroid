@@ -12,7 +12,7 @@ public final class zzdd implements zzeg {
     }
 
     private zzdd(zzdn zzdnVar) {
-        this.zzly = (zzdn) zzci.zza(zzdnVar, "messageInfoFactory");
+        this.zzly = (zzdn) zzci.zza((Object) zzdnVar, "messageInfoFactory");
     }
 
     private static boolean zza(zzdm zzdmVar) {
@@ -28,8 +28,8 @@ public final class zzdd implements zzeg {
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzeg
-    public final <T> zzef<T> zzd(Class<T> cls) {
-        zzeh.zzf((Class<?>) cls);
+    public final zzef zzd(Class cls) {
+        zzeh.zzf(cls);
         zzdm zzb = this.zzly.zzb(cls);
         if (zzb.zzcg()) {
             return zzcg.class.isAssignableFrom(cls) ? zzdu.zza(zzeh.zzdo(), zzbx.zzap(), zzb.zzch()) : zzdu.zza(zzeh.zzdm(), zzbx.zzaq(), zzb.zzch());
@@ -37,13 +37,13 @@ public final class zzdd implements zzeg {
             boolean zza = zza(zzb);
             zzdw zzcj = zzdy.zzcj();
             zzcy zzbv = zzcy.zzbv();
-            return zza ? zzds.zza(cls, zzb, zzcj, zzbv, zzeh.zzdm(), zzbx.zzaq(), zzdl.zzcc()) : zzds.zza(cls, zzb, zzcj, zzbv, zzeh.zzdn(), (zzbu<?>) null, zzdl.zzcc());
+            return zza ? zzds.zza(cls, zzb, zzcj, zzbv, zzeh.zzdm(), zzbx.zzaq(), zzdl.zzcc()) : zzds.zza(cls, zzb, zzcj, zzbv, zzeh.zzdn(), (zzbu) null, zzdl.zzcc());
         } else {
             boolean zza2 = zza(zzb);
             zzdw zzck = zzdy.zzck();
             zzcy zzbw = zzcy.zzbw();
-            zzex<?, ?> zzdo = zzeh.zzdo();
-            return zza2 ? zzds.zza(cls, zzb, zzck, zzbw, zzdo, zzbx.zzap(), zzdl.zzcd()) : zzds.zza(cls, zzb, zzck, zzbw, zzdo, (zzbu<?>) null, zzdl.zzcd());
+            zzex zzdo = zzeh.zzdo();
+            return zza2 ? zzds.zza(cls, zzb, zzck, zzbw, zzdo, zzbx.zzap(), zzdl.zzcd()) : zzds.zza(cls, zzb, zzck, zzbw, zzdo, (zzbu) null, zzdl.zzcd());
         }
     }
 }

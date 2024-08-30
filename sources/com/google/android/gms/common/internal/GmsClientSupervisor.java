@@ -3,9 +3,7 @@ package com.google.android.gms.common.internal;
 import android.content.Context;
 import android.content.ServiceConnection;
 import android.os.HandlerThread;
-import android.os.Looper;
 import java.util.concurrent.Executor;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class GmsClientSupervisor {
     static HandlerThread zza = null;
@@ -19,17 +17,10 @@ public abstract class GmsClientSupervisor {
     }
 
     public static GmsClientSupervisor getInstance(Context context) {
-        Looper mainLooper;
         synchronized (zzc) {
             try {
                 if (zzd == null) {
-                    Context applicationContext = context.getApplicationContext();
-                    if (zze) {
-                        mainLooper = getOrStartHandlerThread().getLooper();
-                    } else {
-                        mainLooper = context.getMainLooper();
-                    }
-                    zzd = new zzr(applicationContext, mainLooper);
+                    zzd = new zzr(context.getApplicationContext(), zze ? getOrStartHandlerThread().getLooper() : context.getMainLooper());
                 }
             } catch (Throwable th) {
                 throw th;

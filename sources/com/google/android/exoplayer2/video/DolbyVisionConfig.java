@@ -7,6 +7,12 @@ public final class DolbyVisionConfig {
     public final int level;
     public final int profile;
 
+    private DolbyVisionConfig(int i, int i2, String str) {
+        this.profile = i;
+        this.level = i2;
+        this.codecs = str;
+    }
+
     public static DolbyVisionConfig parse(ParsableByteArray parsableByteArray) {
         String str;
         parsableByteArray.skipBytes(2);
@@ -29,11 +35,5 @@ public final class DolbyVisionConfig {
         sb.append(readUnsignedByte2 >= 10 ? "." : ".0");
         sb.append(readUnsignedByte2);
         return new DolbyVisionConfig(i, readUnsignedByte2, sb.toString());
-    }
-
-    private DolbyVisionConfig(int i, int i2, String str) {
-        this.profile = i;
-        this.level = i2;
-        this.codecs = str;
     }
 }

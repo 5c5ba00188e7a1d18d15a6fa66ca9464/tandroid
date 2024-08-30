@@ -3,7 +3,6 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 final class zzap extends AbstractSet {
     final /* synthetic */ zzau zza;
@@ -39,10 +38,7 @@ final class zzap extends AbstractSet {
     public final Iterator iterator() {
         zzau zzauVar = this.zza;
         Map zzl = zzauVar.zzl();
-        if (zzl != null) {
-            return zzl.entrySet().iterator();
-        }
-        return new zzan(zzauVar);
+        return zzl != null ? zzl.entrySet().iterator() : new zzan(zzauVar);
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set

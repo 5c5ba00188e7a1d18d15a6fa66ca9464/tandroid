@@ -1,5 +1,4 @@
 package org.telegram.messenger;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes3.dex */
 public final /* synthetic */ class MessagesController$$ExternalSyntheticLambda65 implements Runnable {
     public final /* synthetic */ MessagesController f$0;

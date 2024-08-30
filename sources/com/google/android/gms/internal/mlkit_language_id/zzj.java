@@ -2,39 +2,9 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public final class zzj {
-    public static String zza(@NullableDecl String str, @NullableDecl Object... objArr) {
-        int indexOf;
-        String valueOf = String.valueOf(str);
-        int i = 0;
-        for (int i2 = 0; i2 < objArr.length; i2++) {
-            objArr[i2] = zza(objArr[i2]);
-        }
-        StringBuilder sb = new StringBuilder(valueOf.length() + (objArr.length * 16));
-        int i3 = 0;
-        while (i < objArr.length && (indexOf = valueOf.indexOf("%s", i3)) != -1) {
-            sb.append((CharSequence) valueOf, i3, indexOf);
-            sb.append(objArr[i]);
-            i3 = indexOf + 2;
-            i++;
-        }
-        sb.append((CharSequence) valueOf, i3, valueOf.length());
-        if (i < objArr.length) {
-            sb.append(" [");
-            sb.append(objArr[i]);
-            for (int i4 = i + 1; i4 < objArr.length; i4++) {
-                sb.append(", ");
-                sb.append(objArr[i4]);
-            }
-            sb.append(']');
-        }
-        return sb.toString();
-    }
-
-    private static String zza(@NullableDecl Object obj) {
+public abstract class zzj {
+    private static String zza(Object obj) {
         if (obj == null) {
             return "null";
         }
@@ -61,5 +31,33 @@ public final class zzj {
             sb3.append(">");
             return sb3.toString();
         }
+    }
+
+    public static String zza(String str, Object... objArr) {
+        int indexOf;
+        String valueOf = String.valueOf(str);
+        int i = 0;
+        for (int i2 = 0; i2 < objArr.length; i2++) {
+            objArr[i2] = zza(objArr[i2]);
+        }
+        StringBuilder sb = new StringBuilder(valueOf.length() + (objArr.length * 16));
+        int i3 = 0;
+        while (i < objArr.length && (indexOf = valueOf.indexOf("%s", i3)) != -1) {
+            sb.append((CharSequence) valueOf, i3, indexOf);
+            sb.append(objArr[i]);
+            i3 = indexOf + 2;
+            i++;
+        }
+        sb.append((CharSequence) valueOf, i3, valueOf.length());
+        if (i < objArr.length) {
+            sb.append(" [");
+            sb.append(objArr[i]);
+            for (int i4 = i + 1; i4 < objArr.length; i4++) {
+                sb.append(", ");
+                sb.append(objArr[i4]);
+            }
+            sb.append(']');
+        }
+        return sb.toString();
     }
 }

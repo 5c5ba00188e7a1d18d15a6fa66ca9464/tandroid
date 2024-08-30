@@ -27,7 +27,7 @@ import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 /* loaded from: classes3.dex */
 public class PaintTextOptionsView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
-    private static final List<AlignFramePair> ALIGN_PAIRS = Arrays.asList(new AlignFramePair(0, 1, 20, 0), new AlignFramePair(0, 2, 20, 40), new AlignFramePair(1, 0, 0, 20), new AlignFramePair(1, 2, 60, 40), new AlignFramePair(2, 0, 40, 20), new AlignFramePair(2, 1, 40, 60));
+    private static final List ALIGN_PAIRS = Arrays.asList(new AlignFramePair(0, 1, 20, 0), new AlignFramePair(0, 2, 20, 40), new AlignFramePair(1, 0, 0, 20), new AlignFramePair(1, 2, 60, 40), new AlignFramePair(2, 0, 40, 20), new AlignFramePair(2, 1, 40, 60));
     private RLottieImageView alignView;
     private View colorClickableView;
     private int currentAlign;
@@ -42,6 +42,22 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
     private PaintTypefaceListView typefaceListView;
     private int x;
 
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public static final class AlignFramePair {
+        private final int fromAlign;
+        private final int fromFrame;
+        private final int toAlign;
+        private final int toFrame;
+
+        private AlignFramePair(int i, int i2, int i3, int i4) {
+            this.fromAlign = i;
+            this.toAlign = i2;
+            this.fromFrame = i3;
+            this.toFrame = i4;
+        }
+    }
+
     /* loaded from: classes3.dex */
     public interface Delegate {
         void onColorPickerSelected();
@@ -53,6 +69,62 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
         void onTextOutlineSelected(View view);
 
         void onTypefaceButtonClicked();
+    }
+
+    /* loaded from: classes3.dex */
+    public static final class TypefaceCell extends TextView {
+        private Drawable expandDrawable;
+        private boolean isCurrent;
+
+        public TypefaceCell(Context context) {
+            super(context);
+            setTextColor(-1);
+            setTextSize(1, 14.0f);
+            setCurrent(false);
+            setEllipsize(TextUtils.TruncateAt.END);
+            setSingleLine();
+        }
+
+        public void bind(PaintTypeface paintTypeface) {
+            setTypeface(paintTypeface.getTypeface());
+            setText(paintTypeface.getName());
+        }
+
+        @Override // android.widget.TextView, android.view.View
+        protected void onDraw(Canvas canvas) {
+            canvas.save();
+            canvas.translate(0.0f, AndroidUtilities.dp(-1.0f));
+            super.onDraw(canvas);
+            canvas.restore();
+            if (this.isCurrent) {
+                int height = (getHeight() - AndroidUtilities.dp(16.0f)) / 2;
+                if (LocaleController.isRTL) {
+                    this.expandDrawable.setBounds(AndroidUtilities.dp(7.0f), height, AndroidUtilities.dp(23.0f), AndroidUtilities.dp(16.0f) + height);
+                } else {
+                    this.expandDrawable.setBounds(getWidth() - AndroidUtilities.dp(23.0f), height, getWidth() - AndroidUtilities.dp(7.0f), AndroidUtilities.dp(16.0f) + height);
+                }
+                this.expandDrawable.draw(canvas);
+            }
+        }
+
+        public void setCurrent(boolean z) {
+            Drawable rect;
+            this.isCurrent = z;
+            if (z) {
+                setPadding(AndroidUtilities.dp(LocaleController.isRTL ? 27.0f : 12.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(LocaleController.isRTL ? 12.0f : 27.0f), AndroidUtilities.dp(6.0f));
+                rect = Theme.AdaptiveRipple.rect(1090519039, AndroidUtilities.dp(32.0f));
+            } else {
+                setPadding(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(14.0f), AndroidUtilities.dp(24.0f), AndroidUtilities.dp(14.0f));
+                rect = Theme.AdaptiveRipple.rect(-14145495);
+            }
+            setBackground(rect);
+            if (this.isCurrent && this.expandDrawable == null) {
+                Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.photo_expand);
+                this.expandDrawable = drawable;
+                drawable.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
+            }
+            invalidate();
+        }
     }
 
     public PaintTextOptionsView(Context context) {
@@ -147,16 +219,6 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
         this.delegate.onTypefaceButtonClicked();
     }
 
-    @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        this.x = getPaddingLeft();
-        layoutChild(this.colorClickableView);
-        layoutChild(this.alignView);
-        layoutChild(this.outlineView);
-        layoutChild(this.plusView);
-        this.typefaceCell.layout((getMeasuredWidth() - getPaddingRight()) - this.typefaceCell.getMeasuredWidth(), (getMeasuredHeight() - this.typefaceCell.getMeasuredHeight()) / 2, getMeasuredWidth() - getPaddingRight(), (getMeasuredHeight() + this.typefaceCell.getMeasuredHeight()) / 2);
-    }
-
     private void layoutChild(View view) {
         if (view.getVisibility() != 8) {
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) view.getLayoutParams();
@@ -165,6 +227,65 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
             view.layout(i, (getMeasuredHeight() - layoutParams.height) / 2, this.x + layoutParams.width, (getMeasuredHeight() + layoutParams.height) / 2);
             this.x += layoutParams.width + layoutParams.rightMargin;
         }
+    }
+
+    public void animatePlusToIcon(int i) {
+        if (i == 0) {
+            i = R.drawable.msg_add;
+        }
+        if (this.plusIcon != i) {
+            ImageView imageView = this.plusView;
+            this.plusIcon = i;
+            AndroidUtilities.updateImageViewImageAnimated(imageView, i);
+        }
+    }
+
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        String str;
+        if (i != NotificationCenter.customTypefacesLoaded || (str = this.lastTypefaceKey) == null) {
+            return;
+        }
+        setTypeface(str);
+        this.lastTypefaceKey = null;
+    }
+
+    public View getColorClickableView() {
+        return this.colorClickableView;
+    }
+
+    public ChatActivityEnterViewAnimatedIconView getEmojiButton() {
+        return this.emojiButton;
+    }
+
+    public TypefaceCell getTypefaceCell() {
+        return this.typefaceCell;
+    }
+
+    public void getTypefaceCellBounds(RectF rectF) {
+        rectF.set(this.typefaceCell.getLeft() + AndroidUtilities.dp(8.0f), this.typefaceCell.getTop(), this.typefaceCell.getRight() + AndroidUtilities.dp(8.0f), this.typefaceCell.getBottom());
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.customTypefacesLoaded);
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.customTypefacesLoaded);
+    }
+
+    @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        this.x = getPaddingLeft();
+        layoutChild(this.colorClickableView);
+        layoutChild(this.alignView);
+        layoutChild(this.outlineView);
+        layoutChild(this.plusView);
+        this.typefaceCell.layout((getMeasuredWidth() - getPaddingRight()) - this.typefaceCell.getMeasuredWidth(), (getMeasuredHeight() - this.typefaceCell.getMeasuredHeight()) / 2, getMeasuredWidth() - getPaddingRight(), (getMeasuredHeight() + this.typefaceCell.getMeasuredHeight()) / 2);
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -186,35 +307,60 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
         setMeasuredDimension(size, size2);
     }
 
-    public TypefaceCell getTypefaceCell() {
-        return this.typefaceCell;
+    public void setAlignment(int i) {
+        setAlignment(i, false);
     }
 
-    public void setTypefaceListView(PaintTypefaceListView paintTypefaceListView) {
-        this.typefaceListView = paintTypefaceListView;
-    }
-
-    public View getColorClickableView() {
-        return this.colorClickableView;
-    }
-
-    public void getTypefaceCellBounds(RectF rectF) {
-        rectF.set(this.typefaceCell.getLeft() + AndroidUtilities.dp(8.0f), this.typefaceCell.getTop(), this.typefaceCell.getRight() + AndroidUtilities.dp(8.0f), this.typefaceCell.getBottom());
-    }
-
-    public void animatePlusToIcon(int i) {
-        if (i == 0) {
-            i = R.drawable.msg_add;
+    public void setAlignment(int i, boolean z) {
+        int i2 = this.currentAlign;
+        this.currentAlign = i;
+        if (i2 == i) {
+            RLottieDrawable animatedDrawable = this.alignView.getAnimatedDrawable();
+            List list = ALIGN_PAIRS;
+            AlignFramePair alignFramePair = (AlignFramePair) list.get(0);
+            Iterator it = list.iterator();
+            while (true) {
+                if (!it.hasNext()) {
+                    break;
+                }
+                AlignFramePair alignFramePair2 = (AlignFramePair) it.next();
+                if (this.currentAlign == alignFramePair2.toAlign) {
+                    alignFramePair = alignFramePair2;
+                    break;
+                }
+            }
+            animatedDrawable.setCurrentFrame(alignFramePair.toFrame);
+            animatedDrawable.setCustomEndFrame(alignFramePair.toFrame);
+            if (z) {
+                this.delegate.onTextAlignmentSelected(i);
+                return;
+            }
+            return;
         }
-        if (this.plusIcon != i) {
-            ImageView imageView = this.plusView;
-            this.plusIcon = i;
-            AndroidUtilities.updateImageViewImageAnimated(imageView, i);
+        List list2 = ALIGN_PAIRS;
+        AlignFramePair alignFramePair3 = (AlignFramePair) list2.get(0);
+        Iterator it2 = list2.iterator();
+        while (true) {
+            if (!it2.hasNext()) {
+                break;
+            }
+            AlignFramePair alignFramePair4 = (AlignFramePair) it2.next();
+            if (i2 == alignFramePair4.fromAlign && this.currentAlign == alignFramePair4.toAlign) {
+                alignFramePair3 = alignFramePair4;
+                break;
+            }
+        }
+        RLottieDrawable animatedDrawable2 = this.alignView.getAnimatedDrawable();
+        animatedDrawable2.setCurrentFrame(alignFramePair3.fromFrame);
+        animatedDrawable2.setCustomEndFrame(alignFramePair3.toFrame);
+        animatedDrawable2.start();
+        if (z) {
+            this.delegate.onTextAlignmentSelected(i);
         }
     }
 
-    public ChatActivityEnterViewAnimatedIconView getEmojiButton() {
-        return this.emojiButton;
+    public void setDelegate(Delegate delegate) {
+        this.delegate = delegate;
     }
 
     public void setOutlineType(int i) {
@@ -222,20 +368,11 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
     }
 
     public void setOutlineType(int i, boolean z) {
-        int i2;
         if (this.outlineType == i) {
             return;
         }
         this.outlineType = i;
-        if (i == 1) {
-            i2 = R.drawable.msg_photo_text_framed2;
-        } else if (i == 2) {
-            i2 = R.drawable.msg_photo_text_framed3;
-        } else if (i != 3) {
-            i2 = R.drawable.msg_photo_text_framed;
-        } else {
-            i2 = R.drawable.msg_photo_text_regular;
-        }
+        int i2 = i != 1 ? i != 2 ? i != 3 ? R.drawable.msg_photo_text_framed : R.drawable.msg_photo_text_regular : R.drawable.msg_photo_text_framed3 : R.drawable.msg_photo_text_framed2;
         if (z) {
             AndroidUtilities.updateImageViewImageAnimated(this.outlineView, i2);
         } else {
@@ -256,151 +393,7 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
         }
     }
 
-    public void setDelegate(Delegate delegate) {
-        this.delegate = delegate;
-    }
-
-    public void setAlignment(int i) {
-        setAlignment(i, false);
-    }
-
-    public void setAlignment(int i, boolean z) {
-        int i2 = this.currentAlign;
-        this.currentAlign = i;
-        if (i2 == i) {
-            RLottieDrawable animatedDrawable = this.alignView.getAnimatedDrawable();
-            List<AlignFramePair> list = ALIGN_PAIRS;
-            AlignFramePair alignFramePair = list.get(0);
-            Iterator<AlignFramePair> it = list.iterator();
-            while (true) {
-                if (!it.hasNext()) {
-                    break;
-                }
-                AlignFramePair next = it.next();
-                if (this.currentAlign == next.toAlign) {
-                    alignFramePair = next;
-                    break;
-                }
-            }
-            animatedDrawable.setCurrentFrame(alignFramePair.toFrame);
-            animatedDrawable.setCustomEndFrame(alignFramePair.toFrame);
-            if (z) {
-                this.delegate.onTextAlignmentSelected(i);
-                return;
-            }
-            return;
-        }
-        List<AlignFramePair> list2 = ALIGN_PAIRS;
-        AlignFramePair alignFramePair2 = list2.get(0);
-        Iterator<AlignFramePair> it2 = list2.iterator();
-        while (true) {
-            if (!it2.hasNext()) {
-                break;
-            }
-            AlignFramePair next2 = it2.next();
-            if (i2 == next2.fromAlign && this.currentAlign == next2.toAlign) {
-                alignFramePair2 = next2;
-                break;
-            }
-        }
-        RLottieDrawable animatedDrawable2 = this.alignView.getAnimatedDrawable();
-        animatedDrawable2.setCurrentFrame(alignFramePair2.fromFrame);
-        animatedDrawable2.setCustomEndFrame(alignFramePair2.toFrame);
-        animatedDrawable2.start();
-        if (z) {
-            this.delegate.onTextAlignmentSelected(i);
-        }
-    }
-
-    /* loaded from: classes3.dex */
-    public static final class TypefaceCell extends TextView {
-        private Drawable expandDrawable;
-        private boolean isCurrent;
-
-        public TypefaceCell(Context context) {
-            super(context);
-            setTextColor(-1);
-            setTextSize(1, 14.0f);
-            setCurrent(false);
-            setEllipsize(TextUtils.TruncateAt.END);
-            setSingleLine();
-        }
-
-        @Override // android.widget.TextView, android.view.View
-        protected void onDraw(Canvas canvas) {
-            canvas.save();
-            canvas.translate(0.0f, AndroidUtilities.dp(-1.0f));
-            super.onDraw(canvas);
-            canvas.restore();
-            if (this.isCurrent) {
-                int height = (getHeight() - AndroidUtilities.dp(16.0f)) / 2;
-                if (LocaleController.isRTL) {
-                    this.expandDrawable.setBounds(AndroidUtilities.dp(7.0f), height, AndroidUtilities.dp(23.0f), AndroidUtilities.dp(16.0f) + height);
-                } else {
-                    this.expandDrawable.setBounds(getWidth() - AndroidUtilities.dp(23.0f), height, getWidth() - AndroidUtilities.dp(7.0f), AndroidUtilities.dp(16.0f) + height);
-                }
-                this.expandDrawable.draw(canvas);
-            }
-        }
-
-        public void setCurrent(boolean z) {
-            this.isCurrent = z;
-            if (z) {
-                setPadding(AndroidUtilities.dp(LocaleController.isRTL ? 27.0f : 12.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(LocaleController.isRTL ? 12.0f : 27.0f), AndroidUtilities.dp(6.0f));
-                setBackground(Theme.AdaptiveRipple.rect(1090519039, AndroidUtilities.dp(32.0f)));
-            } else {
-                setPadding(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(14.0f), AndroidUtilities.dp(24.0f), AndroidUtilities.dp(14.0f));
-                setBackground(Theme.AdaptiveRipple.rect(-14145495));
-            }
-            if (this.isCurrent && this.expandDrawable == null) {
-                Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.photo_expand);
-                this.expandDrawable = drawable;
-                drawable.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
-            }
-            invalidate();
-        }
-
-        public void bind(PaintTypeface paintTypeface) {
-            setTypeface(paintTypeface.getTypeface());
-            setText(paintTypeface.getName());
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static final class AlignFramePair {
-        private final int fromAlign;
-        private final int fromFrame;
-        private final int toAlign;
-        private final int toFrame;
-
-        private AlignFramePair(int i, int i2, int i3, int i4) {
-            this.fromAlign = i;
-            this.toAlign = i2;
-            this.fromFrame = i3;
-            this.toFrame = i4;
-        }
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.customTypefacesLoaded);
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.customTypefacesLoaded);
-    }
-
-    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        String str;
-        if (i != NotificationCenter.customTypefacesLoaded || (str = this.lastTypefaceKey) == null) {
-            return;
-        }
-        setTypeface(str);
-        this.lastTypefaceKey = null;
+    public void setTypefaceListView(PaintTypefaceListView paintTypefaceListView) {
+        this.typefaceListView = paintTypefaceListView;
     }
 }

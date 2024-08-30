@@ -2,11 +2,12 @@ package com.google.android.gms.internal.clearcut;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 /* loaded from: classes.dex */
-public final class zzdi<K, V> extends LinkedHashMap<K, V> {
+public final class zzdi extends LinkedHashMap {
     private static final zzdi zzme;
     private boolean zzfa;
 
@@ -20,12 +21,12 @@ public final class zzdi<K, V> extends LinkedHashMap<K, V> {
         this.zzfa = true;
     }
 
-    private zzdi(Map<K, V> map) {
+    private zzdi(Map map) {
         super(map);
         this.zzfa = true;
     }
 
-    public static <K, V> zzdi<K, V> zzbz() {
+    public static zzdi zzbz() {
         return zzme;
     }
 
@@ -52,7 +53,7 @@ public final class zzdi<K, V> extends LinkedHashMap<K, V> {
     }
 
     @Override // java.util.LinkedHashMap, java.util.HashMap, java.util.AbstractMap, java.util.Map
-    public final Set<Map.Entry<K, V>> entrySet() {
+    public final Set entrySet() {
         return isEmpty() ? Collections.emptySet() : super.entrySet();
     }
 
@@ -68,9 +69,11 @@ public final class zzdi<K, V> extends LinkedHashMap<K, V> {
             Map map = (Map) obj;
             if (this != map) {
                 if (size() == map.size()) {
-                    for (Map.Entry<K, V> entry : entrySet()) {
+                    Iterator it = entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry entry = (Map.Entry) it.next();
                         if (map.containsKey(entry.getKey())) {
-                            V value = entry.getValue();
+                            Object value = entry.getValue();
                             Object obj2 = map.get(entry.getKey());
                             if ((value instanceof byte[]) && (obj2 instanceof byte[])) {
                                 equals = Arrays.equals((byte[]) value, (byte[]) obj2);
@@ -98,8 +101,10 @@ public final class zzdi<K, V> extends LinkedHashMap<K, V> {
 
     @Override // java.util.AbstractMap, java.util.Map
     public final int hashCode() {
+        Iterator it = entrySet().iterator();
         int i = 0;
-        for (Map.Entry<K, V> entry : entrySet()) {
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
             i += zzf(entry.getValue()) ^ zzf(entry.getKey());
         }
         return i;
@@ -110,30 +115,30 @@ public final class zzdi<K, V> extends LinkedHashMap<K, V> {
     }
 
     @Override // java.util.HashMap, java.util.AbstractMap, java.util.Map
-    public final V put(K k, V v) {
+    public final Object put(Object obj, Object obj2) {
         zzcb();
-        zzci.checkNotNull(k);
-        zzci.checkNotNull(v);
-        return (V) super.put(k, v);
+        zzci.checkNotNull(obj);
+        zzci.checkNotNull(obj2);
+        return super.put(obj, obj2);
     }
 
     @Override // java.util.HashMap, java.util.AbstractMap, java.util.Map
-    public final void putAll(Map<? extends K, ? extends V> map) {
+    public final void putAll(Map map) {
         zzcb();
-        for (K k : map.keySet()) {
-            zzci.checkNotNull(k);
-            zzci.checkNotNull(map.get(k));
+        for (Object obj : map.keySet()) {
+            zzci.checkNotNull(obj);
+            zzci.checkNotNull(map.get(obj));
         }
         super.putAll(map);
     }
 
     @Override // java.util.HashMap, java.util.AbstractMap, java.util.Map
-    public final V remove(Object obj) {
+    public final Object remove(Object obj) {
         zzcb();
-        return (V) super.remove(obj);
+        return super.remove(obj);
     }
 
-    public final void zza(zzdi<K, V> zzdiVar) {
+    public final void zza(zzdi zzdiVar) {
         zzcb();
         if (zzdiVar.isEmpty()) {
             return;
@@ -141,8 +146,8 @@ public final class zzdi<K, V> extends LinkedHashMap<K, V> {
         putAll(zzdiVar);
     }
 
-    public final zzdi<K, V> zzca() {
-        return isEmpty() ? new zzdi<>() : new zzdi<>(this);
+    public final zzdi zzca() {
+        return isEmpty() ? new zzdi() : new zzdi(this);
     }
 
     public final void zzv() {

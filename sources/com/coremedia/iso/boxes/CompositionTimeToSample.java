@@ -15,52 +15,7 @@ import org.aspectj.runtime.reflect.Factory;
 public class CompositionTimeToSample extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_1 = null;
-    List<Entry> entries;
-
-    static {
-        ajc$preClinit();
-    }
-
-    private static /* synthetic */ void ajc$preClinit() {
-        Factory factory = new Factory("CompositionTimeToSample.java", CompositionTimeToSample.class);
-        ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getEntries", "com.coremedia.iso.boxes.CompositionTimeToSample", "", "", "", "java.util.List"), 57);
-        ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setEntries", "com.coremedia.iso.boxes.CompositionTimeToSample", "java.util.List", "entries", "", "void"), 61);
-    }
-
-    public CompositionTimeToSample() {
-        super("ctts");
-        this.entries = Collections.emptyList();
-    }
-
-    @Override // com.googlecode.mp4parser.AbstractBox
-    protected long getContentSize() {
-        return (this.entries.size() * 8) + 8;
-    }
-
-    public void setEntries(List<Entry> list) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this, list));
-        this.entries = list;
-    }
-
-    @Override // com.googlecode.mp4parser.AbstractBox
-    public void _parseDetails(ByteBuffer byteBuffer) {
-        parseVersionAndFlags(byteBuffer);
-        int l2i = CastUtils.l2i(IsoTypeReader.readUInt32(byteBuffer));
-        this.entries = new ArrayList(l2i);
-        for (int i = 0; i < l2i; i++) {
-            this.entries.add(new Entry(CastUtils.l2i(IsoTypeReader.readUInt32(byteBuffer)), byteBuffer.getInt()));
-        }
-    }
-
-    @Override // com.googlecode.mp4parser.AbstractBox
-    protected void getContent(ByteBuffer byteBuffer) {
-        writeVersionAndFlags(byteBuffer);
-        IsoTypeWriter.writeUInt32(byteBuffer, this.entries.size());
-        for (Entry entry : this.entries) {
-            IsoTypeWriter.writeUInt32(byteBuffer, entry.getCount());
-            byteBuffer.putInt(entry.getOffset());
-        }
-    }
+    List entries;
 
     /* loaded from: classes.dex */
     public static class Entry {
@@ -87,5 +42,50 @@ public class CompositionTimeToSample extends AbstractFullBox {
         public String toString() {
             return "Entry{count=" + this.count + ", offset=" + this.offset + '}';
         }
+    }
+
+    static {
+        ajc$preClinit();
+    }
+
+    public CompositionTimeToSample() {
+        super("ctts");
+        this.entries = Collections.emptyList();
+    }
+
+    private static /* synthetic */ void ajc$preClinit() {
+        Factory factory = new Factory("CompositionTimeToSample.java", CompositionTimeToSample.class);
+        ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getEntries", "com.coremedia.iso.boxes.CompositionTimeToSample", "", "", "", "java.util.List"), 57);
+        ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setEntries", "com.coremedia.iso.boxes.CompositionTimeToSample", "java.util.List", "entries", "", "void"), 61);
+    }
+
+    @Override // com.googlecode.mp4parser.AbstractBox
+    public void _parseDetails(ByteBuffer byteBuffer) {
+        parseVersionAndFlags(byteBuffer);
+        int l2i = CastUtils.l2i(IsoTypeReader.readUInt32(byteBuffer));
+        this.entries = new ArrayList(l2i);
+        for (int i = 0; i < l2i; i++) {
+            this.entries.add(new Entry(CastUtils.l2i(IsoTypeReader.readUInt32(byteBuffer)), byteBuffer.getInt()));
+        }
+    }
+
+    @Override // com.googlecode.mp4parser.AbstractBox
+    protected void getContent(ByteBuffer byteBuffer) {
+        writeVersionAndFlags(byteBuffer);
+        IsoTypeWriter.writeUInt32(byteBuffer, this.entries.size());
+        for (Entry entry : this.entries) {
+            IsoTypeWriter.writeUInt32(byteBuffer, entry.getCount());
+            byteBuffer.putInt(entry.getOffset());
+        }
+    }
+
+    @Override // com.googlecode.mp4parser.AbstractBox
+    protected long getContentSize() {
+        return (this.entries.size() * 8) + 8;
+    }
+
+    public void setEntries(List list) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this, list));
+        this.entries = list;
     }
 }

@@ -15,7 +15,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.VoIPFragment;
 import org.webrtc.OrientationHelper;
 /* loaded from: classes3.dex */
-public class VoIPWindowView extends FrameLayout {
+public abstract class VoIPWindowView extends FrameLayout {
     Activity activity;
     boolean finished;
     protected boolean lockOnScreen;
@@ -42,6 +42,80 @@ public class VoIPWindowView extends FrameLayout {
         this.runEnterTransition = true;
     }
 
+    public WindowManager.LayoutParams createWindowLayoutParams() {
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.height = -1;
+        layoutParams.format = -2;
+        layoutParams.width = -1;
+        layoutParams.gravity = 51;
+        layoutParams.type = 99;
+        layoutParams.screenOrientation = 1;
+        int i = Build.VERSION.SDK_INT;
+        if (i >= 28) {
+            layoutParams.layoutInDisplayCutoutMode = 1;
+        }
+        layoutParams.flags = i >= 21 ? -2147286784 : 131072;
+        layoutParams.flags |= 2621568;
+        return layoutParams;
+    }
+
+    public void finish() {
+        finish(330L);
+    }
+
+    public void finish(long j) {
+        if (this.finished) {
+            return;
+        }
+        this.finished = true;
+        VoIPFragment.clearInstance();
+        if (this.lockOnScreen) {
+            try {
+                ((WindowManager) this.activity.getSystemService("window")).removeView(this);
+                return;
+            } catch (Exception unused) {
+                return;
+            }
+        }
+        int i = UserConfig.selectedAccount;
+        this.notificationsLocker.lock();
+        animate().translationY(getMeasuredHeight()).alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPWindowView.1
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                VoIPWindowView.this.notificationsLocker.unlock();
+                if (VoIPWindowView.this.getParent() != null) {
+                    VoIPWindowView voIPWindowView = VoIPWindowView.this;
+                    voIPWindowView.activity.setRequestedOrientation(voIPWindowView.orientationBefore);
+                    WindowManager windowManager = (WindowManager) VoIPWindowView.this.activity.getSystemService("window");
+                    VoIPWindowView.this.setVisibility(8);
+                    try {
+                        windowManager.removeView(VoIPWindowView.this);
+                    } catch (Exception unused2) {
+                    }
+                    OrientationHelper.cameraRotationDisabled = false;
+                }
+            }
+        }).setDuration(j).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
+    }
+
+    public void finishImmediate() {
+        if (getParent() != null) {
+            this.activity.setRequestedOrientation(this.orientationBefore);
+            setVisibility(8);
+            ((WindowManager) this.activity.getSystemService("window")).removeView(this);
+            OrientationHelper.cameraRotationDisabled = false;
+        }
+    }
+
+    public boolean isLockOnScreen() {
+        return this.lockOnScreen;
+    }
+
+    @Override // android.view.ViewGroup
+    public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+        return onTouchEvent(motionEvent);
+    }
+
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
@@ -50,11 +124,6 @@ public class VoIPWindowView extends FrameLayout {
         }
         this.runEnterTransition = true;
         startEnterTransition();
-    }
-
-    @Override // android.view.ViewGroup
-    public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-        return onTouchEvent(motionEvent);
     }
 
     @Override // android.view.View
@@ -106,43 +175,12 @@ public class VoIPWindowView extends FrameLayout {
         return false;
     }
 
-    public void finish() {
-        finish(330L);
+    public void requestFullscreen(boolean z) {
+        setSystemUiVisibility(z ? getSystemUiVisibility() | 4 : getSystemUiVisibility() & (-5));
     }
 
-    public void finish(long j) {
-        if (this.finished) {
-            return;
-        }
-        this.finished = true;
-        VoIPFragment.clearInstance();
-        if (this.lockOnScreen) {
-            try {
-                ((WindowManager) this.activity.getSystemService("window")).removeView(this);
-                return;
-            } catch (Exception unused) {
-                return;
-            }
-        }
-        int i = UserConfig.selectedAccount;
-        this.notificationsLocker.lock();
-        animate().translationY(getMeasuredHeight()).alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPWindowView.1
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                VoIPWindowView.this.notificationsLocker.unlock();
-                if (VoIPWindowView.this.getParent() != null) {
-                    VoIPWindowView voIPWindowView = VoIPWindowView.this;
-                    voIPWindowView.activity.setRequestedOrientation(voIPWindowView.orientationBefore);
-                    WindowManager windowManager = (WindowManager) VoIPWindowView.this.activity.getSystemService("window");
-                    VoIPWindowView.this.setVisibility(8);
-                    try {
-                        windowManager.removeView(VoIPWindowView.this);
-                    } catch (Exception unused2) {
-                    }
-                    OrientationHelper.cameraRotationDisabled = false;
-                }
-            }
-        }).setDuration(j).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
+    public void setLockOnScreen(boolean z) {
+        this.lockOnScreen = z;
     }
 
     public void startEnterTransition() {
@@ -152,51 +190,5 @@ public class VoIPWindowView extends FrameLayout {
         setTranslationY(getMeasuredHeight());
         setAlpha(0.0f);
         animate().translationY(0.0f).alpha(1.0f).setDuration(330L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
-    }
-
-    public void setLockOnScreen(boolean z) {
-        this.lockOnScreen = z;
-    }
-
-    public WindowManager.LayoutParams createWindowLayoutParams() {
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.height = -1;
-        layoutParams.format = -2;
-        layoutParams.width = -1;
-        layoutParams.gravity = 51;
-        layoutParams.type = 99;
-        layoutParams.screenOrientation = 1;
-        int i = Build.VERSION.SDK_INT;
-        if (i >= 28) {
-            layoutParams.layoutInDisplayCutoutMode = 1;
-        }
-        if (i >= 21) {
-            layoutParams.flags = -2147286784;
-        } else {
-            layoutParams.flags = 131072;
-        }
-        layoutParams.flags |= 2621568;
-        return layoutParams;
-    }
-
-    public boolean isLockOnScreen() {
-        return this.lockOnScreen;
-    }
-
-    public void requestFullscreen(boolean z) {
-        if (z) {
-            setSystemUiVisibility(getSystemUiVisibility() | 4);
-        } else {
-            setSystemUiVisibility(getSystemUiVisibility() & (-5));
-        }
-    }
-
-    public void finishImmediate() {
-        if (getParent() != null) {
-            this.activity.setRequestedOrientation(this.orientationBefore);
-            setVisibility(8);
-            ((WindowManager) this.activity.getSystemService("window")).removeView(this);
-            OrientationHelper.cameraRotationDisabled = false;
-        }
     }
 }

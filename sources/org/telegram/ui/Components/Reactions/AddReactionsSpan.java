@@ -33,19 +33,16 @@ public class AddReactionsSpan extends ReplacementSpan {
         textPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText5, resourcesProvider));
     }
 
-    public void makeLayout() {
-        if (this.layout == null) {
-            StaticLayout staticLayout = new StaticLayout(LocaleController.getString(R.string.ReactionAddReactionsHint), this.textPaint, AndroidUtilities.displaySize.x, LocaleController.isRTL ? Layout.Alignment.ALIGN_OPPOSITE : Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-            this.layout = staticLayout;
-            this.width = staticLayout.getLineWidth(0);
-            this.height = this.layout.getHeight();
-        }
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$hide$1(View view, ValueAnimator valueAnimator) {
+        this.alpha = ((Integer) valueAnimator.getAnimatedValue()).intValue();
+        view.invalidate();
     }
 
-    @Override // android.text.style.ReplacementSpan
-    public int getSize(Paint paint, CharSequence charSequence, int i, int i2, Paint.FontMetricsInt fontMetricsInt) {
-        makeLayout();
-        return (int) (AndroidUtilities.dp(8.0f) + this.width);
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$show$0(View view, ValueAnimator valueAnimator) {
+        this.alpha = ((Integer) valueAnimator.getAnimatedValue()).intValue();
+        view.invalidate();
     }
 
     @Override // android.text.style.ReplacementSpan
@@ -58,22 +55,10 @@ public class AddReactionsSpan extends ReplacementSpan {
         canvas.restore();
     }
 
-    public void show(final View view) {
-        ValueAnimator ofInt = ValueAnimator.ofInt(this.alpha, NotificationCenter.voipServiceCreated);
-        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.AddReactionsSpan$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                AddReactionsSpan.this.lambda$show$0(view, valueAnimator);
-            }
-        });
-        ofInt.setDuration(200L);
-        ofInt.start();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$show$0(View view, ValueAnimator valueAnimator) {
-        this.alpha = ((Integer) valueAnimator.getAnimatedValue()).intValue();
-        view.invalidate();
+    @Override // android.text.style.ReplacementSpan
+    public int getSize(Paint paint, CharSequence charSequence, int i, int i2, Paint.FontMetricsInt fontMetricsInt) {
+        makeLayout();
+        return (int) (AndroidUtilities.dp(8.0f) + this.width);
     }
 
     public void hide(final View view, final Runnable runnable) {
@@ -94,9 +79,24 @@ public class AddReactionsSpan extends ReplacementSpan {
         ofInt.start();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$hide$1(View view, ValueAnimator valueAnimator) {
-        this.alpha = ((Integer) valueAnimator.getAnimatedValue()).intValue();
-        view.invalidate();
+    public void makeLayout() {
+        if (this.layout == null) {
+            StaticLayout staticLayout = new StaticLayout(LocaleController.getString(R.string.ReactionAddReactionsHint), this.textPaint, AndroidUtilities.displaySize.x, LocaleController.isRTL ? Layout.Alignment.ALIGN_OPPOSITE : Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            this.layout = staticLayout;
+            this.width = staticLayout.getLineWidth(0);
+            this.height = this.layout.getHeight();
+        }
+    }
+
+    public void show(final View view) {
+        ValueAnimator ofInt = ValueAnimator.ofInt(this.alpha, NotificationCenter.voipServiceCreated);
+        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.AddReactionsSpan$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                AddReactionsSpan.this.lambda$show$0(view, valueAnimator);
+            }
+        });
+        ofInt.setDuration(200L);
+        ofInt.start();
     }
 }

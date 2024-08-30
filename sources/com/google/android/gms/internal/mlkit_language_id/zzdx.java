@@ -1,9 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
-import java.io.IOException;
 import java.nio.charset.Charset;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public class zzdx extends zzdu {
     protected final byte[] zzb;
@@ -12,52 +10,6 @@ public class zzdx extends zzdu {
     public zzdx(byte[] bArr) {
         bArr.getClass();
         this.zzb = bArr;
-    }
-
-    protected int zze() {
-        return 0;
-    }
-
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
-    public byte zza(int i) {
-        return this.zzb[i];
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
-    public byte zzb(int i) {
-        return this.zzb[i];
-    }
-
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
-    public int zza() {
-        return this.zzb.length;
-    }
-
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
-    public final zzdn zza(int i, int i2) {
-        int zzb = zzdn.zzb(0, i2, zza());
-        if (zzb == 0) {
-            return zzdn.zza;
-        }
-        return new zzdq(this.zzb, zze(), zzb);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
-    public final void zza(zzdk zzdkVar) throws IOException {
-        zzdkVar.zza(this.zzb, zze(), zza());
-    }
-
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
-    protected final String zza(Charset charset) {
-        return new String(this.zzb, zze(), zza(), charset);
-    }
-
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
-    public final boolean zzc() {
-        int zze = zze();
-        return zzhp.zza(this.zzb, zze, zza() + zze);
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
@@ -81,6 +33,38 @@ public class zzdx extends zzdu {
             return obj.equals(this);
         }
         return false;
+    }
+
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
+    public byte zza(int i) {
+        return this.zzb[i];
+    }
+
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
+    public int zza() {
+        return this.zzb.length;
+    }
+
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
+    protected final int zza(int i, int i2, int i3) {
+        return zzeq.zza(i, this.zzb, zze(), i3);
+    }
+
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
+    public final zzdn zza(int i, int i2) {
+        int zzb = zzdn.zzb(0, i2, zza());
+        return zzb == 0 ? zzdn.zza : new zzdq(this.zzb, zze(), zzb);
+    }
+
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
+    protected final String zza(Charset charset) {
+        return new String(this.zzb, zze(), zza(), charset);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
+    public final void zza(zzdk zzdkVar) {
+        zzdkVar.zza(this.zzb, zze(), zza());
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzdu
@@ -120,8 +104,19 @@ public class zzdx extends zzdu {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
-    protected final int zza(int i, int i2, int i3) {
-        return zzeq.zza(i, this.zzb, zze(), i3);
+    public byte zzb(int i) {
+        return this.zzb[i];
+    }
+
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
+    public final boolean zzc() {
+        int zze = zze();
+        return zzhp.zza(this.zzb, zze, zza() + zze);
+    }
+
+    protected int zze() {
+        return 0;
     }
 }

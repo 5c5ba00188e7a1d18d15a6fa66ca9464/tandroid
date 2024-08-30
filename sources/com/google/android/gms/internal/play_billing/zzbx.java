@@ -1,21 +1,16 @@
 package com.google.android.gms.internal.play_billing;
-
-import com.google.android.gms.internal.play_billing.zzbx;
-import com.google.android.gms.internal.play_billing.zzcb;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-public class zzbx<MessageType extends zzcb<MessageType, BuilderType>, BuilderType extends zzbx<MessageType, BuilderType>> extends zzaj<MessageType, BuilderType> {
+public abstract class zzbx extends zzaj {
     protected zzcb zza;
     private final zzcb zzb;
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public zzbx(MessageType messagetype) {
-        this.zzb = messagetype;
-        if (!messagetype.zzt()) {
-            this.zza = messagetype.zzi();
-            return;
+    public zzbx(zzcb zzcbVar) {
+        this.zzb = zzcbVar;
+        if (zzcbVar.zzt()) {
+            throw new IllegalArgumentException("Default instance must be immutable.");
         }
-        throw new IllegalArgumentException("Default instance must be immutable.");
+        this.zza = zzcbVar.zzi();
     }
 
     /* renamed from: zzb */
@@ -25,8 +20,8 @@ public class zzbx<MessageType extends zzcb<MessageType, BuilderType>, BuilderTyp
         return zzbxVar;
     }
 
-    public final MessageType zzc() {
-        MessageType zze = zze();
+    public final zzcb zzc() {
+        zzcb zze = zze();
         if (zze.zzs()) {
             return zze;
         }
@@ -35,12 +30,12 @@ public class zzbx<MessageType extends zzcb<MessageType, BuilderType>, BuilderTyp
 
     @Override // com.google.android.gms.internal.play_billing.zzde
     /* renamed from: zzd */
-    public MessageType zze() {
+    public zzcb zze() {
         if (this.zza.zzt()) {
             this.zza.zzn();
-            return (MessageType) this.zza;
+            return this.zza;
         }
-        return (MessageType) this.zza;
+        return this.zza;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

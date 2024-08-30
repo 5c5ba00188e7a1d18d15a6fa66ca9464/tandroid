@@ -6,7 +6,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class MlltFrame extends Id3Frame {
-    public static final Parcelable.Creator<MlltFrame> CREATOR = new Parcelable.Creator<MlltFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.MlltFrame.1
+    public static final Parcelable.Creator<MlltFrame> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.id3.MlltFrame.1
         @Override // android.os.Parcelable.Creator
         public MlltFrame createFromParcel(Parcel parcel) {
             return new MlltFrame(parcel);
@@ -22,11 +22,6 @@ public final class MlltFrame extends Id3Frame {
     public final int millisecondsBetweenReference;
     public final int[] millisecondsDeviations;
     public final int mpegFramesBetweenReference;
-
-    @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame, android.os.Parcelable
-    public int describeContents() {
-        return 0;
-    }
 
     public MlltFrame(int i, int i2, int i3, int[] iArr, int[] iArr2) {
         super("MLLT");
@@ -44,6 +39,11 @@ public final class MlltFrame extends Id3Frame {
         this.millisecondsBetweenReference = parcel.readInt();
         this.bytesDeviations = (int[]) Util.castNonNull(parcel.createIntArray());
         this.millisecondsDeviations = (int[]) Util.castNonNull(parcel.createIntArray());
+    }
+
+    @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame, android.os.Parcelable
+    public int describeContents() {
+        return 0;
     }
 
     public boolean equals(Object obj) {

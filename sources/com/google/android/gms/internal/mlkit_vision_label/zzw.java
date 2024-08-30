@@ -3,7 +3,6 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 final class zzw extends zzbm {
     final /* synthetic */ zzy zza;

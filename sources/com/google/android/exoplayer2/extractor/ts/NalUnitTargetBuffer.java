@@ -17,25 +17,6 @@ final class NalUnitTargetBuffer {
         bArr[2] = 1;
     }
 
-    public void reset() {
-        this.isFilling = false;
-        this.isCompleted = false;
-    }
-
-    public boolean isCompleted() {
-        return this.isCompleted;
-    }
-
-    public void startNalUnit(int i) {
-        Assertions.checkState(!this.isFilling);
-        boolean z = i == this.targetType;
-        this.isFilling = z;
-        if (z) {
-            this.nalLength = 3;
-            this.isCompleted = false;
-        }
-    }
-
     public void appendToNalUnit(byte[] bArr, int i, int i2) {
         if (this.isFilling) {
             int i3 = i2 - i;
@@ -58,5 +39,24 @@ final class NalUnitTargetBuffer {
             return true;
         }
         return false;
+    }
+
+    public boolean isCompleted() {
+        return this.isCompleted;
+    }
+
+    public void reset() {
+        this.isFilling = false;
+        this.isCompleted = false;
+    }
+
+    public void startNalUnit(int i) {
+        Assertions.checkState(!this.isFilling);
+        boolean z = i == this.targetType;
+        this.isFilling = z;
+        if (z) {
+            this.nalLength = 3;
+            this.isCompleted = false;
+        }
     }
 }

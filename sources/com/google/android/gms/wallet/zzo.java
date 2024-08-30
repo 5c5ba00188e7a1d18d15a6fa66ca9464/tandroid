@@ -3,7 +3,6 @@ package com.google.android.gms.wallet;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class zzo implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -19,10 +18,10 @@ public final class zzo implements Parcelable.Creator {
                 str = SafeParcelReader.createString(parcel, readHeader);
             } else if (fieldId == 3) {
                 str2 = SafeParcelReader.createString(parcel, readHeader);
-            } else if (fieldId == 4) {
-                i = SafeParcelReader.readInt(parcel, readHeader);
-            } else {
+            } else if (fieldId != 4) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                i = SafeParcelReader.readInt(parcel, readHeader);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);

@@ -1,7 +1,6 @@
 package com.google.android.gms.vision.clearcut;
 
 import com.google.android.gms.internal.vision.zzfi$zzo;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 final class zza implements Runnable {
     private final /* synthetic */ int zza;

@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zzj extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zzj> CREATOR = new zzk();
@@ -14,14 +13,13 @@ public final class zzj extends AbstractSafeParcelable {
     public int zzd;
 
     public zzj(int i, int i2, float f, int i3) {
-        if (i == 1) {
-            this.zza = 1;
-            this.zzb = i2;
-            this.zzc = f;
-            this.zzd = i3;
-            return;
+        if (i != 1) {
+            throw new IllegalArgumentException("Unknown language.");
         }
-        throw new IllegalArgumentException("Unknown language.");
+        this.zza = 1;
+        this.zzb = i2;
+        this.zzc = f;
+        this.zzd = i3;
     }
 
     @Override // android.os.Parcelable

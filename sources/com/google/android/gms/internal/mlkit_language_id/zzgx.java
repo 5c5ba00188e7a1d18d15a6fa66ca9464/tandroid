@@ -2,9 +2,8 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzgx implements Iterator<Object> {
+final class zzgx implements Iterator {
     @Override // java.util.Iterator
     public final boolean hasNext() {
         return false;

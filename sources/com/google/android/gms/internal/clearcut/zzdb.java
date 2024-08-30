@@ -5,7 +5,7 @@ final class zzdb extends zzcy {
         super();
     }
 
-    private static <E> zzcn<E> zzc(Object obj, long j) {
+    private static zzcn zzc(Object obj, long j) {
         return (zzcn) zzfd.zzo(obj, j);
     }
 
@@ -16,27 +16,20 @@ final class zzdb extends zzcy {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r0v2, types: [java.util.List] */
     @Override // com.google.android.gms.internal.clearcut.zzcy
-    public final <E> void zza(Object obj, Object obj2, long j) {
-        zzcn<E> zzc = zzc(obj, j);
-        zzcn<E> zzc2 = zzc(obj2, j);
+    public final void zza(Object obj, Object obj2, long j) {
+        zzcn zzc = zzc(obj, j);
+        zzcn zzc2 = zzc(obj2, j);
         int size = zzc.size();
         int size2 = zzc2.size();
-        zzcn<E> zzcnVar = zzc;
-        zzcnVar = zzc;
         if (size > 0 && size2 > 0) {
-            boolean zzu = zzc.zzu();
-            zzcn<E> zzcnVar2 = zzc;
-            if (!zzu) {
-                zzcnVar2 = zzc.zzi(size2 + size);
+            if (!zzc.zzu()) {
+                zzc = zzc.zzi(size2 + size);
             }
-            zzcnVar2.addAll(zzc2);
-            zzcnVar = zzcnVar2;
+            zzc.addAll(zzc2);
         }
         if (size > 0) {
-            zzc2 = zzcnVar;
+            zzc2 = zzc;
         }
         zzfd.zza(obj, j, zzc2);
     }

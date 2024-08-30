@@ -22,71 +22,11 @@ import org.telegram.ui.StickersActivity;
 public class StickersArchiveAlert extends AlertDialog.Builder {
     private int currentType;
     private BaseFragment parentFragment;
-    private ArrayList<TLRPC$StickerSetCovered> stickerSets;
-
-    public StickersArchiveAlert(Context context, BaseFragment baseFragment, ArrayList<TLRPC$StickerSetCovered> arrayList) {
-        super(context);
-        TLRPC$StickerSetCovered tLRPC$StickerSetCovered = arrayList.get(0);
-        if (tLRPC$StickerSetCovered.set.masks) {
-            this.currentType = 1;
-            setTitle(LocaleController.getString(R.string.ArchivedMasksAlertTitle));
-        } else {
-            this.currentType = 0;
-            setTitle(LocaleController.getString(R.string.ArchivedStickersAlertTitle));
-        }
-        this.stickerSets = new ArrayList<>(arrayList);
-        this.parentFragment = baseFragment;
-        LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setOrientation(1);
-        setView(linearLayout);
-        TextView textView = new TextView(context);
-        textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-        textView.setGravity(LayoutHelper.getAbsoluteGravityStart());
-        textView.setTextSize(1, 16.0f);
-        textView.setPadding(AndroidUtilities.dp(23.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(23.0f), 0);
-        if (tLRPC$StickerSetCovered.set.masks) {
-            textView.setText(LocaleController.getString(R.string.ArchivedMasksAlertInfo));
-        } else {
-            textView.setText(LocaleController.getString(R.string.ArchivedStickersAlertInfo));
-        }
-        linearLayout.addView(textView, LayoutHelper.createLinear(-2, -2));
-        RecyclerListView recyclerListView = new RecyclerListView(context);
-        recyclerListView.setLayoutManager(new LinearLayoutManager(getContext(), 1, false));
-        recyclerListView.setAdapter(new ListAdapter(context));
-        recyclerListView.setVerticalScrollBarEnabled(false);
-        recyclerListView.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
-        recyclerListView.setGlowColor(-657673);
-        linearLayout.addView(recyclerListView, LayoutHelper.createLinear(-1, -2, 0.0f, 10.0f, 0.0f, 0.0f));
-        setNegativeButton(LocaleController.getString(R.string.Close), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.StickersArchiveAlert$$ExternalSyntheticLambda0
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        if (this.parentFragment != null) {
-            setPositiveButton(LocaleController.getString(R.string.Settings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.StickersArchiveAlert$$ExternalSyntheticLambda1
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    StickersArchiveAlert.this.lambda$new$1(dialogInterface, i);
-                }
-            });
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1(DialogInterface dialogInterface, int i) {
-        this.parentFragment.presentFragment(new StickersActivity(this.currentType, null));
-        dialogInterface.dismiss();
-    }
+    private ArrayList stickerSets;
 
     /* loaded from: classes3.dex */
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
         Context context;
-
-        @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
-        public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
-            return false;
-        }
 
         public ListAdapter(Context context) {
             this.context = context;
@@ -97,16 +37,74 @@ public class StickersArchiveAlert extends AlertDialog.Builder {
             return StickersArchiveAlert.this.stickerSets.size();
         }
 
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            ArchivedStickerSetCell archivedStickerSetCell = new ArchivedStickerSetCell(this.context, false);
-            archivedStickerSetCell.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(82.0f)));
-            return new RecyclerListView.Holder(archivedStickerSetCell);
+        @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
+        public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
+            return false;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             ((ArchivedStickerSetCell) viewHolder.itemView).setStickersSet((TLRPC$StickerSetCovered) StickersArchiveAlert.this.stickerSets.get(i), i != StickersArchiveAlert.this.stickerSets.size() - 1);
         }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            ArchivedStickerSetCell archivedStickerSetCell = new ArchivedStickerSetCell(this.context, false);
+            archivedStickerSetCell.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(82.0f)));
+            return new RecyclerListView.Holder(archivedStickerSetCell);
+        }
+    }
+
+    public StickersArchiveAlert(Context context, BaseFragment baseFragment, ArrayList arrayList) {
+        super(context);
+        int i;
+        TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) arrayList.get(0);
+        if (tLRPC$StickerSetCovered.set.masks) {
+            this.currentType = 1;
+            i = R.string.ArchivedMasksAlertTitle;
+        } else {
+            this.currentType = 0;
+            i = R.string.ArchivedStickersAlertTitle;
+        }
+        setTitle(LocaleController.getString(i));
+        this.stickerSets = new ArrayList(arrayList);
+        this.parentFragment = baseFragment;
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(1);
+        setView(linearLayout);
+        TextView textView = new TextView(context);
+        textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        textView.setGravity(LayoutHelper.getAbsoluteGravityStart());
+        textView.setTextSize(1, 16.0f);
+        textView.setPadding(AndroidUtilities.dp(23.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(23.0f), 0);
+        textView.setText(LocaleController.getString(tLRPC$StickerSetCovered.set.masks ? R.string.ArchivedMasksAlertInfo : R.string.ArchivedStickersAlertInfo));
+        linearLayout.addView(textView, LayoutHelper.createLinear(-2, -2));
+        RecyclerListView recyclerListView = new RecyclerListView(context);
+        recyclerListView.setLayoutManager(new LinearLayoutManager(getContext(), 1, false));
+        recyclerListView.setAdapter(new ListAdapter(context));
+        recyclerListView.setVerticalScrollBarEnabled(false);
+        recyclerListView.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
+        recyclerListView.setGlowColor(-657673);
+        linearLayout.addView(recyclerListView, LayoutHelper.createLinear(-1, -2, 0.0f, 10.0f, 0.0f, 0.0f));
+        setNegativeButton(LocaleController.getString(R.string.Close), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.StickersArchiveAlert$$ExternalSyntheticLambda0
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i2) {
+                dialogInterface.dismiss();
+            }
+        });
+        if (this.parentFragment != null) {
+            setPositiveButton(LocaleController.getString(R.string.Settings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.StickersArchiveAlert$$ExternalSyntheticLambda1
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i2) {
+                    StickersArchiveAlert.this.lambda$new$1(dialogInterface, i2);
+                }
+            });
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$1(DialogInterface dialogInterface, int i) {
+        this.parentFragment.presentFragment(new StickersActivity(this.currentType, null));
+        dialogInterface.dismiss();
     }
 }

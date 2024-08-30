@@ -40,7 +40,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void write(byte[] bArr, int i, int i2) throws IOException {
+        public final void write(byte[] bArr, int i, int i2) {
             try {
                 System.arraycopy(bArr, i, this.buffer, this.position, i2);
                 this.position += i2;
@@ -50,7 +50,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(byte b) throws IOException {
+        public final void zza(byte b) {
             try {
                 byte[] bArr = this.buffer;
                 int i = this.position;
@@ -62,25 +62,25 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(int i, long j) throws IOException {
+        public final void zza(int i, long j) {
             zzb(i, 0);
             zzb(j);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(int i, zzbb zzbbVar) throws IOException {
+        public final void zza(int i, zzbb zzbbVar) {
             zzb(i, 2);
             zza(zzbbVar);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(int i, zzdo zzdoVar) throws IOException {
+        public final void zza(int i, zzdo zzdoVar) {
             zzb(i, 2);
             zzb(zzdoVar);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        final void zza(int i, zzdo zzdoVar, zzef zzefVar) throws IOException {
+        final void zza(int i, zzdo zzdoVar, zzef zzefVar) {
             zzb(i, 2);
             zzas zzasVar = (zzas) zzdoVar;
             int zzs = zzasVar.zzs();
@@ -93,19 +93,19 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(int i, String str) throws IOException {
+        public final void zza(int i, String str) {
             zzb(i, 2);
             zzg(str);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(zzbb zzbbVar) throws IOException {
+        public final void zza(zzbb zzbbVar) {
             zzo(zzbbVar.size());
             zzbbVar.zza(this);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        final void zza(zzdo zzdoVar, zzef zzefVar) throws IOException {
+        final void zza(zzdo zzdoVar, zzef zzefVar) {
             zzas zzasVar = (zzas) zzdoVar;
             int zzs = zzasVar.zzs();
             if (zzs == -1) {
@@ -117,7 +117,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzba
-        public final void zza(byte[] bArr, int i, int i2) throws IOException {
+        public final void zza(byte[] bArr, int i, int i2) {
             write(bArr, i, i2);
         }
 
@@ -131,12 +131,12 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(int i, int i2) throws IOException {
+        public final void zzb(int i, int i2) {
             zzo((i << 3) | i2);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(int i, zzbb zzbbVar) throws IOException {
+        public final void zzb(int i, zzbb zzbbVar) {
             zzb(1, 3);
             zzd(2, i);
             zza(3, zzbbVar);
@@ -144,7 +144,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(int i, zzdo zzdoVar) throws IOException {
+        public final void zzb(int i, zzdo zzdoVar) {
             zzb(1, 3);
             zzd(2, i);
             zza(3, zzdoVar);
@@ -152,13 +152,13 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(int i, boolean z) throws IOException {
+        public final void zzb(int i, boolean z) {
             zzb(i, 0);
             zza(z ? (byte) 1 : (byte) 0);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(long j) throws IOException {
+        public final void zzb(long j) {
             if (zzbn.zzfy && zzag() >= 10) {
                 while ((j & (-128)) != 0) {
                     byte[] bArr = this.buffer;
@@ -191,31 +191,31 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(zzdo zzdoVar) throws IOException {
+        public final void zzb(zzdo zzdoVar) {
             zzo(zzdoVar.zzas());
             zzdoVar.zzb(this);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzc(int i, int i2) throws IOException {
+        public final void zzc(int i, int i2) {
             zzb(i, 0);
             zzn(i2);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzc(int i, long j) throws IOException {
+        public final void zzc(int i, long j) {
             zzb(i, 1);
             zzd(j);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzd(int i, int i2) throws IOException {
+        public final void zzd(int i, int i2) {
             zzb(i, 0);
             zzo(i2);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzd(long j) throws IOException {
+        public final void zzd(long j) {
             try {
                 byte[] bArr = this.buffer;
                 int i = this.position;
@@ -234,13 +234,13 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzf(int i, int i2) throws IOException {
+        public final void zzf(int i, int i2) {
             zzb(i, 5);
             zzq(i2);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzg(String str) throws IOException {
+        public final void zzg(String str) {
             int i = this.position;
             try {
                 int zzt = zzbn.zzt(str.length() * 3);
@@ -265,7 +265,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzn(int i) throws IOException {
+        public final void zzn(int i) {
             if (i >= 0) {
                 zzo(i);
             } else {
@@ -274,7 +274,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzo(int i) throws IOException {
+        public final void zzo(int i) {
             if (zzbn.zzfy && zzag() >= 10) {
                 while ((i & (-128)) != 0) {
                     byte[] bArr = this.buffer;
@@ -307,7 +307,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzq(int i) throws IOException {
+        public final void zzq(int i) {
             try {
                 byte[] bArr = this.buffer;
                 int i2 = this.position;
@@ -379,7 +379,7 @@ public abstract class zzbn extends zzba {
             this.zzgb = byteBuffer.position();
         }
 
-        private final void zzi(String str) throws IOException {
+        private final void zzi(String str) {
             try {
                 zzff.zza(str, this.zzgd);
             } catch (IndexOutOfBoundsException e) {
@@ -393,7 +393,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void write(byte[] bArr, int i, int i2) throws IOException {
+        public final void write(byte[] bArr, int i, int i2) {
             try {
                 this.zzgd.put(bArr, i, i2);
             } catch (IndexOutOfBoundsException e) {
@@ -404,7 +404,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(byte b) throws IOException {
+        public final void zza(byte b) {
             try {
                 this.zzgd.put(b);
             } catch (BufferOverflowException e) {
@@ -413,43 +413,43 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(int i, long j) throws IOException {
+        public final void zza(int i, long j) {
             zzb(i, 0);
             zzb(j);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(int i, zzbb zzbbVar) throws IOException {
+        public final void zza(int i, zzbb zzbbVar) {
             zzb(i, 2);
             zza(zzbbVar);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(int i, zzdo zzdoVar) throws IOException {
+        public final void zza(int i, zzdo zzdoVar) {
             zzb(i, 2);
             zzb(zzdoVar);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        final void zza(int i, zzdo zzdoVar, zzef zzefVar) throws IOException {
+        final void zza(int i, zzdo zzdoVar, zzef zzefVar) {
             zzb(i, 2);
             zza(zzdoVar, zzefVar);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(int i, String str) throws IOException {
+        public final void zza(int i, String str) {
             zzb(i, 2);
             zzg(str);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(zzbb zzbbVar) throws IOException {
+        public final void zza(zzbb zzbbVar) {
             zzo(zzbbVar.size());
             zzbbVar.zza(this);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        final void zza(zzdo zzdoVar, zzef zzefVar) throws IOException {
+        final void zza(zzdo zzdoVar, zzef zzefVar) {
             zzas zzasVar = (zzas) zzdoVar;
             int zzs = zzasVar.zzs();
             if (zzs == -1) {
@@ -461,7 +461,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzba
-        public final void zza(byte[] bArr, int i, int i2) throws IOException {
+        public final void zza(byte[] bArr, int i, int i2) {
             write(bArr, i, i2);
         }
 
@@ -471,12 +471,12 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(int i, int i2) throws IOException {
+        public final void zzb(int i, int i2) {
             zzo((i << 3) | i2);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(int i, zzbb zzbbVar) throws IOException {
+        public final void zzb(int i, zzbb zzbbVar) {
             zzb(1, 3);
             zzd(2, i);
             zza(3, zzbbVar);
@@ -484,7 +484,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(int i, zzdo zzdoVar) throws IOException {
+        public final void zzb(int i, zzdo zzdoVar) {
             zzb(1, 3);
             zzd(2, i);
             zza(3, zzdoVar);
@@ -492,13 +492,13 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(int i, boolean z) throws IOException {
+        public final void zzb(int i, boolean z) {
             zzb(i, 0);
             zza(z ? (byte) 1 : (byte) 0);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(long j) throws IOException {
+        public final void zzb(long j) {
             while (((-128) & j) != 0) {
                 try {
                     this.zzgd.put((byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128));
@@ -511,31 +511,31 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(zzdo zzdoVar) throws IOException {
+        public final void zzb(zzdo zzdoVar) {
             zzo(zzdoVar.zzas());
             zzdoVar.zzb(this);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzc(int i, int i2) throws IOException {
+        public final void zzc(int i, int i2) {
             zzb(i, 0);
             zzn(i2);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzc(int i, long j) throws IOException {
+        public final void zzc(int i, long j) {
             zzb(i, 1);
             zzd(j);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzd(int i, int i2) throws IOException {
+        public final void zzd(int i, int i2) {
             zzb(i, 0);
             zzo(i2);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzd(long j) throws IOException {
+        public final void zzd(long j) {
             try {
                 this.zzgd.putLong(j);
             } catch (BufferOverflowException e) {
@@ -544,13 +544,13 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzf(int i, int i2) throws IOException {
+        public final void zzf(int i, int i2) {
             zzb(i, 5);
             zzq(i2);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzg(String str) throws IOException {
+        public final void zzg(String str) {
             int position = this.zzgd.position();
             try {
                 int zzt = zzbn.zzt(str.length() * 3);
@@ -576,7 +576,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzn(int i) throws IOException {
+        public final void zzn(int i) {
             if (i >= 0) {
                 zzo(i);
             } else {
@@ -585,7 +585,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzo(int i) throws IOException {
+        public final void zzo(int i) {
             while ((i & (-128)) != 0) {
                 try {
                     this.zzgd.put((byte) ((i & NotificationCenter.dialogTranslate) | 128));
@@ -598,7 +598,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzq(int i) throws IOException {
+        public final void zzq(int i) {
             try {
                 this.zzgd.putInt(i);
             } catch (BufferOverflowException e) {
@@ -642,7 +642,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void write(byte[] bArr, int i, int i2) throws IOException {
+        public final void write(byte[] bArr, int i, int i2) {
             if (bArr != null && i >= 0 && i2 >= 0 && bArr.length - i2 >= i) {
                 long j = i2;
                 long j2 = this.zzgi;
@@ -659,7 +659,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(byte b) throws IOException {
+        public final void zza(byte b) {
             long j = this.zzgi;
             if (j >= this.zzgg) {
                 throw new zzc(String.format("Pos: %d, limit: %d, len: %d", Long.valueOf(this.zzgi), Long.valueOf(this.zzgg), 1));
@@ -669,43 +669,43 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(int i, long j) throws IOException {
+        public final void zza(int i, long j) {
             zzb(i, 0);
             zzb(j);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(int i, zzbb zzbbVar) throws IOException {
+        public final void zza(int i, zzbb zzbbVar) {
             zzb(i, 2);
             zza(zzbbVar);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(int i, zzdo zzdoVar) throws IOException {
+        public final void zza(int i, zzdo zzdoVar) {
             zzb(i, 2);
             zzb(zzdoVar);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        final void zza(int i, zzdo zzdoVar, zzef zzefVar) throws IOException {
+        final void zza(int i, zzdo zzdoVar, zzef zzefVar) {
             zzb(i, 2);
             zza(zzdoVar, zzefVar);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(int i, String str) throws IOException {
+        public final void zza(int i, String str) {
             zzb(i, 2);
             zzg(str);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(zzbb zzbbVar) throws IOException {
+        public final void zza(zzbb zzbbVar) {
             zzo(zzbbVar.size());
             zzbbVar.zza(this);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        final void zza(zzdo zzdoVar, zzef zzefVar) throws IOException {
+        final void zza(zzdo zzdoVar, zzef zzefVar) {
             zzas zzasVar = (zzas) zzdoVar;
             int zzs = zzasVar.zzs();
             if (zzs == -1) {
@@ -717,7 +717,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzba
-        public final void zza(byte[] bArr, int i, int i2) throws IOException {
+        public final void zza(byte[] bArr, int i, int i2) {
             write(bArr, i, i2);
         }
 
@@ -727,12 +727,12 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(int i, int i2) throws IOException {
+        public final void zzb(int i, int i2) {
             zzo((i << 3) | i2);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(int i, zzbb zzbbVar) throws IOException {
+        public final void zzb(int i, zzbb zzbbVar) {
             zzb(1, 3);
             zzd(2, i);
             zza(3, zzbbVar);
@@ -740,7 +740,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(int i, zzdo zzdoVar) throws IOException {
+        public final void zzb(int i, zzdo zzdoVar) {
             zzb(1, 3);
             zzd(2, i);
             zza(3, zzdoVar);
@@ -748,13 +748,13 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(int i, boolean z) throws IOException {
+        public final void zzb(int i, boolean z) {
             zzb(i, 0);
             zza(z ? (byte) 1 : (byte) 0);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(long j) throws IOException {
+        public final void zzb(long j) {
             if (this.zzgi <= this.zzgh) {
                 while (true) {
                     int i = ((j & (-128)) > 0L ? 1 : ((j & (-128)) == 0L ? 0 : -1));
@@ -787,43 +787,43 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzb(zzdo zzdoVar) throws IOException {
+        public final void zzb(zzdo zzdoVar) {
             zzo(zzdoVar.zzas());
             zzdoVar.zzb(this);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzc(int i, int i2) throws IOException {
+        public final void zzc(int i, int i2) {
             zzb(i, 0);
             zzn(i2);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzc(int i, long j) throws IOException {
+        public final void zzc(int i, long j) {
             zzb(i, 1);
             zzd(j);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzd(int i, int i2) throws IOException {
+        public final void zzd(int i, int i2) {
             zzb(i, 0);
             zzo(i2);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzd(long j) throws IOException {
+        public final void zzd(long j) {
             this.zzgd.putLong((int) (this.zzgi - this.zzge), j);
             this.zzgi += 8;
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzf(int i, int i2) throws IOException {
+        public final void zzf(int i, int i2) {
             zzb(i, 5);
             zzq(i2);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzg(String str) throws IOException {
+        public final void zzg(String str) {
             long j = this.zzgi;
             try {
                 int zzt = zzbn.zzt(str.length() * 3);
@@ -854,7 +854,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzn(int i) throws IOException {
+        public final void zzn(int i) {
             if (i >= 0) {
                 zzo(i);
             } else {
@@ -863,7 +863,7 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzo(int i) throws IOException {
+        public final void zzo(int i) {
             if (this.zzgi <= this.zzgh) {
                 while ((i & (-128)) != 0) {
                     long j = this.zzgi;
@@ -893,24 +893,13 @@ public abstract class zzbn extends zzba {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zzq(int i) throws IOException {
+        public final void zzq(int i) {
             this.zzgd.putInt((int) (this.zzgi - this.zzge), i);
             this.zzgi += 4;
         }
     }
 
     private zzbn() {
-    }
-
-    public static int zza(int i, zzcv zzcvVar) {
-        int zzr = zzr(i);
-        int zzas = zzcvVar.zzas();
-        return zzr + zzt(zzas) + zzas;
-    }
-
-    public static int zza(zzcv zzcvVar) {
-        int zzas = zzcvVar.zzas();
-        return zzt(zzas) + zzas;
     }
 
     public static zzbn zza(ByteBuffer byteBuffer) {
@@ -937,10 +926,6 @@ public abstract class zzbn extends zzba {
 
     public static int zzb(int i, float f) {
         return zzr(i) + 4;
-    }
-
-    public static int zzb(int i, zzcv zzcvVar) {
-        return (zzr(1) << 1) + zzh(2, i) + zza(3, zzcvVar);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -983,7 +968,6 @@ public abstract class zzbn extends zzba {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    @Deprecated
     public static int zzc(int i, zzdo zzdoVar, zzef zzefVar) {
         int zzr = zzr(i) << 1;
         zzas zzasVar = (zzas) zzdoVar;
@@ -1014,20 +998,6 @@ public abstract class zzbn extends zzba {
 
     public static int zzd(int i, zzbb zzbbVar) {
         return (zzr(1) << 1) + zzh(2, i) + zzc(3, zzbbVar);
-    }
-
-    public static int zzd(int i, zzdo zzdoVar) {
-        return (zzr(1) << 1) + zzh(2, i) + zzc(3, zzdoVar);
-    }
-
-    @Deprecated
-    public static int zzd(zzdo zzdoVar) {
-        return zzdoVar.zzas();
-    }
-
-    public static int zzd(byte[] bArr) {
-        int length = bArr.length;
-        return zzt(length) + length;
     }
 
     public static int zze(int i, long j) {
@@ -1165,49 +1135,44 @@ public abstract class zzbn extends zzba {
         return (i >> 31) ^ (i << 1);
     }
 
-    @Deprecated
-    public static int zzz(int i) {
-        return zzt(i);
-    }
+    public abstract void flush();
 
-    public abstract void flush() throws IOException;
+    public abstract void write(byte[] bArr, int i, int i2);
 
-    public abstract void write(byte[] bArr, int i, int i2) throws IOException;
+    public abstract void zza(byte b);
 
-    public abstract void zza(byte b) throws IOException;
-
-    public final void zza(double d) throws IOException {
+    public final void zza(double d) {
         zzd(Double.doubleToRawLongBits(d));
     }
 
-    public final void zza(float f) throws IOException {
+    public final void zza(float f) {
         zzq(Float.floatToRawIntBits(f));
     }
 
-    public final void zza(int i, double d) throws IOException {
+    public final void zza(int i, double d) {
         zzc(i, Double.doubleToRawLongBits(d));
     }
 
-    public final void zza(int i, float f) throws IOException {
+    public final void zza(int i, float f) {
         zzf(i, Float.floatToRawIntBits(f));
     }
 
-    public abstract void zza(int i, long j) throws IOException;
+    public abstract void zza(int i, long j);
 
-    public abstract void zza(int i, zzbb zzbbVar) throws IOException;
+    public abstract void zza(int i, zzbb zzbbVar);
 
-    public abstract void zza(int i, zzdo zzdoVar) throws IOException;
+    public abstract void zza(int i, zzdo zzdoVar);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(int i, zzdo zzdoVar, zzef zzefVar) throws IOException;
+    public abstract void zza(int i, zzdo zzdoVar, zzef zzefVar);
 
-    public abstract void zza(int i, String str) throws IOException;
+    public abstract void zza(int i, String str);
 
-    public abstract void zza(zzbb zzbbVar) throws IOException;
+    public abstract void zza(zzbb zzbbVar);
 
-    abstract void zza(zzdo zzdoVar, zzef zzefVar) throws IOException;
+    abstract void zza(zzdo zzdoVar, zzef zzefVar);
 
-    final void zza(String str, zzfi zzfiVar) throws IOException {
+    final void zza(String str, zzfi zzfiVar) {
         logger.logp(Level.WARNING, "com.google.protobuf.CodedOutputStream", "inefficientWriteStringNoTag", "Converting ill-formed UTF-16. Your Protocol Buffer will not round trip correctly!", (Throwable) zzfiVar);
         byte[] bytes = str.getBytes(zzci.UTF_8);
         try {
@@ -1220,55 +1185,55 @@ public abstract class zzbn extends zzba {
         }
     }
 
-    public final void zza(boolean z) throws IOException {
+    public final void zza(boolean z) {
         zza(z ? (byte) 1 : (byte) 0);
     }
 
     public abstract int zzag();
 
-    public abstract void zzb(int i, int i2) throws IOException;
+    public abstract void zzb(int i, int i2);
 
-    public final void zzb(int i, long j) throws IOException {
+    public final void zzb(int i, long j) {
         zza(i, zzj(j));
     }
 
-    public abstract void zzb(int i, zzbb zzbbVar) throws IOException;
+    public abstract void zzb(int i, zzbb zzbbVar);
 
-    public abstract void zzb(int i, zzdo zzdoVar) throws IOException;
+    public abstract void zzb(int i, zzdo zzdoVar);
 
-    public abstract void zzb(int i, boolean z) throws IOException;
+    public abstract void zzb(int i, boolean z);
 
-    public abstract void zzb(long j) throws IOException;
+    public abstract void zzb(long j);
 
-    public abstract void zzb(zzdo zzdoVar) throws IOException;
+    public abstract void zzb(zzdo zzdoVar);
 
-    public abstract void zzc(int i, int i2) throws IOException;
+    public abstract void zzc(int i, int i2);
 
-    public abstract void zzc(int i, long j) throws IOException;
+    public abstract void zzc(int i, long j);
 
-    public final void zzc(long j) throws IOException {
+    public final void zzc(long j) {
         zzb(zzj(j));
     }
 
-    public abstract void zzd(int i, int i2) throws IOException;
+    public abstract void zzd(int i, int i2);
 
-    public abstract void zzd(long j) throws IOException;
+    public abstract void zzd(long j);
 
-    public final void zze(int i, int i2) throws IOException {
+    public final void zze(int i, int i2) {
         zzd(i, zzy(i2));
     }
 
-    public abstract void zzf(int i, int i2) throws IOException;
+    public abstract void zzf(int i, int i2);
 
-    public abstract void zzg(String str) throws IOException;
+    public abstract void zzg(String str);
 
-    public abstract void zzn(int i) throws IOException;
+    public abstract void zzn(int i);
 
-    public abstract void zzo(int i) throws IOException;
+    public abstract void zzo(int i);
 
-    public final void zzp(int i) throws IOException {
+    public final void zzp(int i) {
         zzo(zzy(i));
     }
 
-    public abstract void zzq(int i) throws IOException;
+    public abstract void zzq(int i);
 }

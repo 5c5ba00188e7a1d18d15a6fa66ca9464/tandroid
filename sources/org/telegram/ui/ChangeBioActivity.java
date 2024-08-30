@@ -53,6 +53,98 @@ public class ChangeBioActivity extends BaseFragment {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ boolean lambda$createView$1(TextView textView, int i, KeyEvent keyEvent) {
+        View view;
+        if (i != 6 || (view = this.doneButton) == null) {
+            return false;
+        }
+        view.performClick();
+        return true;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$saveName$2(AlertDialog alertDialog, TLRPC$UserFull tLRPC$UserFull, String str, TLRPC$User tLRPC$User) {
+        try {
+            alertDialog.dismiss();
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        tLRPC$UserFull.about = str;
+        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.userInfoDidLoad, Long.valueOf(tLRPC$User.id), tLRPC$UserFull);
+        finishFragment();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$saveName$3(AlertDialog alertDialog, TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_account_updateProfile tLRPC$TL_account_updateProfile) {
+        try {
+            alertDialog.dismiss();
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        AlertsCreator.processError(this.currentAccount, tLRPC$TL_error, this, tLRPC$TL_account_updateProfile, new Object[0]);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$saveName$4(final AlertDialog alertDialog, final TLRPC$UserFull tLRPC$UserFull, final String str, final TLRPC$TL_account_updateProfile tLRPC$TL_account_updateProfile, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        if (tLRPC$TL_error != null) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeBioActivity$$ExternalSyntheticLambda5
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ChangeBioActivity.this.lambda$saveName$3(alertDialog, tLRPC$TL_error, tLRPC$TL_account_updateProfile);
+                }
+            });
+            return;
+        }
+        final TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeBioActivity$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChangeBioActivity.this.lambda$saveName$2(alertDialog, tLRPC$UserFull, str, tLRPC$User);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$saveName$5(int i, DialogInterface dialogInterface) {
+        ConnectionsManager.getInstance(this.currentAccount).cancelRequest(i, true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void saveName() {
+        final TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(UserConfig.getInstance(this.currentAccount).getClientUserId());
+        if (getParentActivity() == null || userFull == null) {
+            return;
+        }
+        String str = userFull.about;
+        if (str == null) {
+            str = "";
+        }
+        final String replace = this.firstNameField.getText().toString().replace("\n", "");
+        if (str.equals(replace)) {
+            finishFragment();
+            return;
+        }
+        final AlertDialog alertDialog = new AlertDialog(getParentActivity(), 3);
+        final TLRPC$TL_account_updateProfile tLRPC$TL_account_updateProfile = new TLRPC$TL_account_updateProfile();
+        tLRPC$TL_account_updateProfile.about = replace;
+        tLRPC$TL_account_updateProfile.flags |= 4;
+        final int sendRequest = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_updateProfile, new RequestDelegate() { // from class: org.telegram.ui.ChangeBioActivity$$ExternalSyntheticLambda2
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                ChangeBioActivity.this.lambda$saveName$4(alertDialog, userFull, replace, tLRPC$TL_account_updateProfile, tLObject, tLRPC$TL_error);
+            }
+        }, 2);
+        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(sendRequest, this.classGuid);
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChangeBioActivity$$ExternalSyntheticLambda3
+            @Override // android.content.DialogInterface.OnCancelListener
+            public final void onCancel(DialogInterface dialogInterface) {
+                ChangeBioActivity.this.lambda$saveName$5(sendRequest, dialogInterface);
+            }
+        });
+        alertDialog.show();
+    }
+
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         String str;
@@ -143,16 +235,16 @@ public class ChangeBioActivity extends BaseFragment {
         });
         this.firstNameField.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.ChangeBioActivity.4
             @Override // android.text.TextWatcher
+            public void afterTextChanged(Editable editable) {
+                ChangeBioActivity.this.checkTextView.setNumber(ChangeBioActivity.this.getMessagesController().getAboutLimit() - Character.codePointCount(editable, 0, editable.length()), true);
+            }
+
+            @Override // android.text.TextWatcher
             public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
             }
 
             @Override // android.text.TextWatcher
             public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
-            }
-
-            @Override // android.text.TextWatcher
-            public void afterTextChanged(Editable editable) {
-                ChangeBioActivity.this.checkTextView.setNumber(ChangeBioActivity.this.getMessagesController().getAboutLimit() - Character.codePointCount(editable, 0, editable.length()), true);
             }
         });
         frameLayout.addView(this.firstNameField, LayoutHelper.createFrame(-1, -2.0f, 51, 0.0f, 0.0f, 4.0f, 0.0f));
@@ -181,119 +273,9 @@ public class ChangeBioActivity extends BaseFragment {
         return this.fragmentView;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$createView$1(TextView textView, int i, KeyEvent keyEvent) {
-        View view;
-        if (i != 6 || (view = this.doneButton) == null) {
-            return false;
-        }
-        view.performClick();
-        return true;
-    }
-
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onResume() {
-        super.onResume();
-        if (MessagesController.getGlobalMainSettings().getBoolean("view_animations", true)) {
-            return;
-        }
-        this.firstNameField.requestFocus();
-        AndroidUtilities.showKeyboard(this.firstNameField);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void saveName() {
-        final TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(UserConfig.getInstance(this.currentAccount).getClientUserId());
-        if (getParentActivity() == null || userFull == null) {
-            return;
-        }
-        String str = userFull.about;
-        if (str == null) {
-            str = "";
-        }
-        final String replace = this.firstNameField.getText().toString().replace("\n", "");
-        if (str.equals(replace)) {
-            finishFragment();
-            return;
-        }
-        final AlertDialog alertDialog = new AlertDialog(getParentActivity(), 3);
-        final TLRPC$TL_account_updateProfile tLRPC$TL_account_updateProfile = new TLRPC$TL_account_updateProfile();
-        tLRPC$TL_account_updateProfile.about = replace;
-        tLRPC$TL_account_updateProfile.flags |= 4;
-        final int sendRequest = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_updateProfile, new RequestDelegate() { // from class: org.telegram.ui.ChangeBioActivity$$ExternalSyntheticLambda2
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ChangeBioActivity.this.lambda$saveName$4(alertDialog, userFull, replace, tLRPC$TL_account_updateProfile, tLObject, tLRPC$TL_error);
-            }
-        }, 2);
-        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(sendRequest, this.classGuid);
-        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChangeBioActivity$$ExternalSyntheticLambda3
-            @Override // android.content.DialogInterface.OnCancelListener
-            public final void onCancel(DialogInterface dialogInterface) {
-                ChangeBioActivity.this.lambda$saveName$5(sendRequest, dialogInterface);
-            }
-        });
-        alertDialog.show();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$saveName$4(final AlertDialog alertDialog, final TLRPC$UserFull tLRPC$UserFull, final String str, final TLRPC$TL_account_updateProfile tLRPC$TL_account_updateProfile, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        if (tLRPC$TL_error == null) {
-            final TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeBioActivity$$ExternalSyntheticLambda4
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChangeBioActivity.this.lambda$saveName$2(alertDialog, tLRPC$UserFull, str, tLRPC$User);
-                }
-            });
-            return;
-        }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeBioActivity$$ExternalSyntheticLambda5
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChangeBioActivity.this.lambda$saveName$3(alertDialog, tLRPC$TL_error, tLRPC$TL_account_updateProfile);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$saveName$2(AlertDialog alertDialog, TLRPC$UserFull tLRPC$UserFull, String str, TLRPC$User tLRPC$User) {
-        try {
-            alertDialog.dismiss();
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-        tLRPC$UserFull.about = str;
-        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.userInfoDidLoad, Long.valueOf(tLRPC$User.id), tLRPC$UserFull);
-        finishFragment();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$saveName$3(AlertDialog alertDialog, TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_account_updateProfile tLRPC$TL_account_updateProfile) {
-        try {
-            alertDialog.dismiss();
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-        AlertsCreator.processError(this.currentAccount, tLRPC$TL_error, this, tLRPC$TL_account_updateProfile, new Object[0]);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$saveName$5(int i, DialogInterface dialogInterface) {
-        ConnectionsManager.getInstance(this.currentAccount).cancelRequest(i, true);
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onTransitionAnimationEnd(boolean z, boolean z2) {
-        if (z) {
-            this.firstNameField.requestFocus();
-            AndroidUtilities.showKeyboard(this.firstNameField);
-        }
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ArrayList<ThemeDescription> arrayList = new ArrayList<>();
+    public ArrayList getThemeDescriptions() {
+        ArrayList arrayList = new ArrayList();
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_windowBackgroundWhite));
         arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_actionBarDefault));
         arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, Theme.key_actionBarDefaultIcon));
@@ -306,5 +288,23 @@ public class ChangeBioActivity extends BaseFragment {
         arrayList.add(new ThemeDescription(this.helpTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteGrayText8));
         arrayList.add(new ThemeDescription(this.checkTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteGrayText4));
         return arrayList;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onResume() {
+        super.onResume();
+        if (MessagesController.getGlobalMainSettings().getBoolean("view_animations", true)) {
+            return;
+        }
+        this.firstNameField.requestFocus();
+        AndroidUtilities.showKeyboard(this.firstNameField);
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onTransitionAnimationEnd(boolean z, boolean z2) {
+        if (z) {
+            this.firstNameField.requestFocus();
+            AndroidUtilities.showKeyboard(this.firstNameField);
+        }
     }
 }

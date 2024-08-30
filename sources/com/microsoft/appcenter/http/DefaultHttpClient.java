@@ -12,18 +12,14 @@ import java.util.concurrent.RejectedExecutionException;
 /* loaded from: classes.dex */
 public class DefaultHttpClient implements HttpClient, DefaultHttpClientCallTask.Tracker {
     private final boolean mCompressionEnabled;
-    private final Set<DefaultHttpClientCallTask> mTasks = new HashSet();
-
-    @Override // com.microsoft.appcenter.http.HttpClient
-    public void reopen() {
-    }
+    private final Set mTasks = new HashSet();
 
     public DefaultHttpClient(boolean z) {
         this.mCompressionEnabled = z;
     }
 
     @Override // com.microsoft.appcenter.http.HttpClient
-    public ServiceCall callAsync(String str, String str2, Map<String, String> map, HttpClient.CallTemplate callTemplate, final ServiceCallback serviceCallback) {
+    public ServiceCall callAsync(String str, String str2, Map map, HttpClient.CallTemplate callTemplate, final ServiceCallback serviceCallback) {
         final DefaultHttpClientCallTask defaultHttpClientCallTask = new DefaultHttpClientCallTask(str, str2, map, callTemplate, serviceCallback, this, this.mCompressionEnabled);
         try {
             defaultHttpClientCallTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Void[0]);
@@ -43,16 +39,6 @@ public class DefaultHttpClient implements HttpClient, DefaultHttpClientCallTask.
         };
     }
 
-    @Override // com.microsoft.appcenter.http.DefaultHttpClientCallTask.Tracker
-    public synchronized void onStart(DefaultHttpClientCallTask defaultHttpClientCallTask) {
-        this.mTasks.add(defaultHttpClientCallTask);
-    }
-
-    @Override // com.microsoft.appcenter.http.DefaultHttpClientCallTask.Tracker
-    public synchronized void onFinish(DefaultHttpClientCallTask defaultHttpClientCallTask) {
-        this.mTasks.remove(defaultHttpClientCallTask);
-    }
-
     @Override // java.io.Closeable, java.lang.AutoCloseable
     public synchronized void close() {
         try {
@@ -66,5 +52,19 @@ public class DefaultHttpClient implements HttpClient, DefaultHttpClientCallTask.
         } catch (Throwable th) {
             throw th;
         }
+    }
+
+    @Override // com.microsoft.appcenter.http.DefaultHttpClientCallTask.Tracker
+    public synchronized void onFinish(DefaultHttpClientCallTask defaultHttpClientCallTask) {
+        this.mTasks.remove(defaultHttpClientCallTask);
+    }
+
+    @Override // com.microsoft.appcenter.http.DefaultHttpClientCallTask.Tracker
+    public synchronized void onStart(DefaultHttpClientCallTask defaultHttpClientCallTask) {
+        this.mTasks.add(defaultHttpClientCallTask);
+    }
+
+    @Override // com.microsoft.appcenter.http.HttpClient
+    public void reopen() {
     }
 }

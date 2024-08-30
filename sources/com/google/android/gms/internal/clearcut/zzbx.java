@@ -1,10 +1,10 @@
 package com.google.android.gms.internal.clearcut;
 /* loaded from: classes.dex */
-final class zzbx {
-    private static final zzbu<?> zzgr = new zzbv();
-    private static final zzbu<?> zzgs = zzao();
+abstract class zzbx {
+    private static final zzbu zzgr = new zzbv();
+    private static final zzbu zzgs = zzao();
 
-    private static zzbu<?> zzao() {
+    private static zzbu zzao() {
         try {
             return (zzbu) Class.forName("com.google.protobuf.ExtensionSchemaFull").getDeclaredConstructor(null).newInstance(null);
         } catch (Exception unused) {
@@ -13,13 +13,13 @@ final class zzbx {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzbu<?> zzap() {
+    public static zzbu zzap() {
         return zzgr;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzbu<?> zzaq() {
-        zzbu<?> zzbuVar = zzgs;
+    public static zzbu zzaq() {
+        zzbu zzbuVar = zzgs;
         if (zzbuVar != null) {
             return zzbuVar;
         }

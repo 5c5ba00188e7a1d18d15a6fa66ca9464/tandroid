@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import java.util.IllegalFormatException;
 import java.util.Locale;
-/* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
 public final class s {
     private final String a;

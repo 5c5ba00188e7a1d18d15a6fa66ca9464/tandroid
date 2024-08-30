@@ -8,7 +8,7 @@ import androidx.core.view.ViewCompat;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 /* loaded from: classes.dex */
-public class ViewUtils {
+public abstract class ViewUtils {
     static final boolean SDK_LEVEL_SUPPORTS_AUTOSIZE;
     private static Method sComputeFitSystemWindowsMethod;
 
@@ -26,10 +26,6 @@ public class ViewUtils {
         }
     }
 
-    public static boolean isLayoutRtl(View view) {
-        return ViewCompat.getLayoutDirection(view) == 1;
-    }
-
     public static void computeFitSystemWindows(View view, Rect rect, Rect rect2) {
         Method method = sComputeFitSystemWindowsMethod;
         if (method != null) {
@@ -41,6 +37,10 @@ public class ViewUtils {
         }
     }
 
+    public static boolean isLayoutRtl(View view) {
+        return ViewCompat.getLayoutDirection(view) == 1;
+    }
+
     public static void makeOptionalFitsSystemWindows(View view) {
         try {
             Method method = view.getClass().getMethod("makeOptionalFitsSystemWindows", null);
@@ -49,11 +49,13 @@ public class ViewUtils {
             }
             method.invoke(view, null);
         } catch (IllegalAccessException e) {
+            e = e;
             Log.d("ViewUtils", "Could not invoke makeOptionalFitsSystemWindows", e);
         } catch (NoSuchMethodException unused) {
             Log.d("ViewUtils", "Could not find method makeOptionalFitsSystemWindows. Oh well...");
         } catch (InvocationTargetException e2) {
-            Log.d("ViewUtils", "Could not invoke makeOptionalFitsSystemWindows", e2);
+            e = e2;
+            Log.d("ViewUtils", "Could not invoke makeOptionalFitsSystemWindows", e);
         }
     }
 }

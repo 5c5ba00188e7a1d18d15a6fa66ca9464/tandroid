@@ -24,7 +24,7 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
         }
 
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-        /* JADX WARN: Code restructure failed: missing block: B:25:0x004a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:25:0x0047, code lost:
             if (r3.equals(org.telegram.messenger.MediaController.VIDEO_MIME_TYPE) == false) goto L14;
          */
         @Override // org.webrtc.Predicate
@@ -95,16 +95,6 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
         }
     };
 
-    @Override // org.webrtc.MediaCodecVideoDecoderFactory, org.webrtc.VideoDecoderFactory
-    public /* bridge */ /* synthetic */ VideoDecoder createDecoder(VideoCodecInfo videoCodecInfo) {
-        return super.createDecoder(videoCodecInfo);
-    }
-
-    @Override // org.webrtc.MediaCodecVideoDecoderFactory, org.webrtc.VideoDecoderFactory
-    public /* bridge */ /* synthetic */ VideoCodecInfo[] getSupportedCodecs() {
-        return super.getSupportedCodecs();
-    }
-
     @Deprecated
     public HardwareVideoDecoderFactory() {
         this(null);
@@ -114,17 +104,17 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
         this(context, null);
     }
 
-    /* JADX WARN: Illegal instructions before constructor call */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public HardwareVideoDecoderFactory(EglBase.Context context, Predicate<MediaCodecInfo> predicate) {
-        super(context, r3);
-        Predicate<MediaCodecInfo> and;
-        if (predicate == null) {
-            and = defaultAllowedPredicate;
-        } else {
-            and = predicate.and(defaultAllowedPredicate);
-        }
+        super(context, predicate == null ? defaultAllowedPredicate : predicate.and(defaultAllowedPredicate));
+    }
+
+    @Override // org.webrtc.MediaCodecVideoDecoderFactory, org.webrtc.VideoDecoderFactory
+    public /* bridge */ /* synthetic */ VideoDecoder createDecoder(VideoCodecInfo videoCodecInfo) {
+        return super.createDecoder(videoCodecInfo);
+    }
+
+    @Override // org.webrtc.MediaCodecVideoDecoderFactory, org.webrtc.VideoDecoderFactory
+    public /* bridge */ /* synthetic */ VideoCodecInfo[] getSupportedCodecs() {
+        return super.getSupportedCodecs();
     }
 }

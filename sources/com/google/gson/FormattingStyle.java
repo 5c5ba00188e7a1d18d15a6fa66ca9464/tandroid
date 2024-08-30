@@ -23,12 +23,12 @@ public class FormattingStyle {
         this.spaceAfterSeparators = z;
     }
 
-    public String getNewline() {
-        return this.newline;
-    }
-
     public String getIndent() {
         return this.indent;
+    }
+
+    public String getNewline() {
+        return this.newline;
     }
 
     public boolean usesSpaceAfterSeparators() {

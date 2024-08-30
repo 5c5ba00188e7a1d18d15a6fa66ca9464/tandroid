@@ -3,9 +3,7 @@ package com.google.android.gms.internal.maps;
 import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.os.Parcel;
-import android.os.RemoteException;
 import com.google.android.gms.dynamic.IObjectWrapper;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzg extends zza implements zzi {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -14,7 +12,7 @@ public final class zzg extends zza implements zzi {
     }
 
     @Override // com.google.android.gms.internal.maps.zzi
-    public final IObjectWrapper zzg(Bitmap bitmap) throws RemoteException {
+    public final IObjectWrapper zzg(Bitmap bitmap) {
         Parcel zza = zza();
         zzc.zze(zza, bitmap);
         Parcel zzH = zzH(6, zza);
@@ -24,7 +22,7 @@ public final class zzg extends zza implements zzi {
     }
 
     @Override // com.google.android.gms.internal.maps.zzi
-    public final IObjectWrapper zzj(int i) throws RemoteException {
+    public final IObjectWrapper zzj(int i) {
         Parcel zza = zza();
         zza.writeInt(i);
         Parcel zzH = zzH(1, zza);

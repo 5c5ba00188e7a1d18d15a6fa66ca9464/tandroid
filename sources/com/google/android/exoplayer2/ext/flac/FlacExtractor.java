@@ -55,16 +55,39 @@ public final class FlacExtractor implements Extractor {
     private boolean streamMetadataDecoded;
     private TrackOutput trackOutput;
 
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static final class FlacSeekMap implements SeekMap {
+        private final FlacDecoderJni decoderJni;
+        private final long durationUs;
+
+        public FlacSeekMap(long j, FlacDecoderJni flacDecoderJni) {
+            this.durationUs = j;
+            this.decoderJni = flacDecoderJni;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.SeekMap
+        public long getDurationUs() {
+            return this.durationUs;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.SeekMap
+        public SeekMap.SeekPoints getSeekPoints(long j) {
+            SeekMap.SeekPoints seekPoints = this.decoderJni.getSeekPoints(j);
+            return seekPoints == null ? new SeekMap.SeekPoints(SeekPoint.START) : seekPoints;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.SeekMap
+        public boolean isSeekable() {
+            return true;
+        }
+    }
+
     @Target({ElementType.TYPE_USE})
     @Documented
     @Retention(RetentionPolicy.SOURCE)
     /* loaded from: classes.dex */
     public @interface Flags {
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ Extractor[] lambda$static$0() {
-        return new Extractor[]{new FlacExtractor()};
     }
 
     public FlacExtractor() {
@@ -74,6 +97,74 @@ public final class FlacExtractor implements Extractor {
     public FlacExtractor(int i) {
         this.outputBuffer = new ParsableByteArray();
         this.id3MetadataDisabled = (i & 1) != 0;
+    }
+
+    private void decodeStreamMetadata(ExtractorInput extractorInput) {
+        if (this.streamMetadataDecoded) {
+            return;
+        }
+        FlacDecoderJni flacDecoderJni = this.decoderJni;
+        try {
+            FlacStreamMetadata decodeStreamMetadata = flacDecoderJni.decodeStreamMetadata();
+            this.streamMetadataDecoded = true;
+            if (this.streamMetadata == null) {
+                this.streamMetadata = decodeStreamMetadata;
+                this.outputBuffer.reset(decodeStreamMetadata.getMaxDecodedFrameSize());
+                this.outputFrameHolder = new FlacBinarySearchSeeker.OutputFrameHolder(ByteBuffer.wrap(this.outputBuffer.getData()));
+                this.binarySearchSeeker = outputSeekMap(flacDecoderJni, decodeStreamMetadata, extractorInput.getLength(), this.extractorOutput, this.outputFrameHolder);
+                outputFormat(decodeStreamMetadata, decodeStreamMetadata.getMetadataCopyWithAppendedEntriesFrom(this.id3Metadata), this.trackOutput);
+            }
+        } catch (IOException e) {
+            flacDecoderJni.reset(0L);
+            extractorInput.setRetryPosition(0L, e);
+            throw e;
+        }
+    }
+
+    private int handlePendingSeek(ExtractorInput extractorInput, PositionHolder positionHolder, ParsableByteArray parsableByteArray, FlacBinarySearchSeeker.OutputFrameHolder outputFrameHolder, TrackOutput trackOutput) {
+        int handlePendingSeek = this.binarySearchSeeker.handlePendingSeek(extractorInput, positionHolder);
+        ByteBuffer byteBuffer = outputFrameHolder.byteBuffer;
+        if (handlePendingSeek == 0 && byteBuffer.limit() > 0) {
+            outputSample(parsableByteArray, byteBuffer.limit(), outputFrameHolder.timeUs, trackOutput);
+        }
+        return handlePendingSeek;
+    }
+
+    private FlacDecoderJni initDecoderJni(ExtractorInput extractorInput) {
+        FlacDecoderJni flacDecoderJni = (FlacDecoderJni) Assertions.checkNotNull(this.decoderJni);
+        flacDecoderJni.setData(extractorInput);
+        return flacDecoderJni;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Extractor[] lambda$static$0() {
+        return new Extractor[]{new FlacExtractor()};
+    }
+
+    private static void outputFormat(FlacStreamMetadata flacStreamMetadata, Metadata metadata, TrackOutput trackOutput) {
+        trackOutput.format(new Format.Builder().setSampleMimeType("audio/raw").setAverageBitrate(flacStreamMetadata.getDecodedBitrate()).setPeakBitrate(flacStreamMetadata.getDecodedBitrate()).setMaxInputSize(flacStreamMetadata.getMaxDecodedFrameSize()).setChannelCount(flacStreamMetadata.channels).setSampleRate(flacStreamMetadata.sampleRate).setPcmEncoding(Util.getPcmEncoding(flacStreamMetadata.bitsPerSample)).setMetadata(metadata).build());
+    }
+
+    private static void outputSample(ParsableByteArray parsableByteArray, int i, long j, TrackOutput trackOutput) {
+        parsableByteArray.setPosition(0);
+        trackOutput.sampleData(parsableByteArray, i);
+        trackOutput.sampleMetadata(j, 1, i, 0, null);
+    }
+
+    private static FlacBinarySearchSeeker outputSeekMap(FlacDecoderJni flacDecoderJni, FlacStreamMetadata flacStreamMetadata, long j, ExtractorOutput extractorOutput, FlacBinarySearchSeeker.OutputFrameHolder outputFrameHolder) {
+        SeekMap unseekable;
+        FlacBinarySearchSeeker flacBinarySearchSeeker = null;
+        if (flacDecoderJni.getSeekPoints(0L) != null) {
+            unseekable = new FlacSeekMap(flacStreamMetadata.getDurationUs(), flacDecoderJni);
+        } else if (j == -1 || flacStreamMetadata.totalSamples <= 0) {
+            unseekable = new SeekMap.Unseekable(flacStreamMetadata.getDurationUs());
+        } else {
+            FlacBinarySearchSeeker flacBinarySearchSeeker2 = new FlacBinarySearchSeeker(flacStreamMetadata, flacDecoderJni.getDecodePosition(), j, flacDecoderJni, outputFrameHolder);
+            unseekable = flacBinarySearchSeeker2.getSeekMap();
+            flacBinarySearchSeeker = flacBinarySearchSeeker2;
+        }
+        extractorOutput.seekMap(unseekable);
+        return flacBinarySearchSeeker;
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
@@ -89,13 +180,7 @@ public final class FlacExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public boolean sniff(ExtractorInput extractorInput) throws IOException {
-        this.id3Metadata = FlacMetadataReader.peekId3Metadata(extractorInput, !this.id3MetadataDisabled);
-        return FlacMetadataReader.checkAndPeekStreamMarker(extractorInput);
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.Extractor
-    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
+    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) {
         if (extractorInput.getPosition() == 0 && !this.id3MetadataDisabled && this.id3Metadata == null) {
             this.id3Metadata = FlacMetadataReader.peekId3Metadata(extractorInput, true);
         }
@@ -125,6 +210,16 @@ public final class FlacExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
+    public void release() {
+        this.binarySearchSeeker = null;
+        FlacDecoderJni flacDecoderJni = this.decoderJni;
+        if (flacDecoderJni != null) {
+            flacDecoderJni.release();
+            this.decoderJni = null;
+        }
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.Extractor
     public void seek(long j, long j2) {
         if (j == 0) {
             this.streamMetadataDecoded = false;
@@ -140,103 +235,8 @@ public final class FlacExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public void release() {
-        this.binarySearchSeeker = null;
-        FlacDecoderJni flacDecoderJni = this.decoderJni;
-        if (flacDecoderJni != null) {
-            flacDecoderJni.release();
-            this.decoderJni = null;
-        }
-    }
-
-    private FlacDecoderJni initDecoderJni(ExtractorInput extractorInput) {
-        FlacDecoderJni flacDecoderJni = (FlacDecoderJni) Assertions.checkNotNull(this.decoderJni);
-        flacDecoderJni.setData(extractorInput);
-        return flacDecoderJni;
-    }
-
-    private void decodeStreamMetadata(ExtractorInput extractorInput) throws IOException {
-        if (this.streamMetadataDecoded) {
-            return;
-        }
-        FlacDecoderJni flacDecoderJni = this.decoderJni;
-        try {
-            FlacStreamMetadata decodeStreamMetadata = flacDecoderJni.decodeStreamMetadata();
-            this.streamMetadataDecoded = true;
-            if (this.streamMetadata == null) {
-                this.streamMetadata = decodeStreamMetadata;
-                this.outputBuffer.reset(decodeStreamMetadata.getMaxDecodedFrameSize());
-                this.outputFrameHolder = new FlacBinarySearchSeeker.OutputFrameHolder(ByteBuffer.wrap(this.outputBuffer.getData()));
-                this.binarySearchSeeker = outputSeekMap(flacDecoderJni, decodeStreamMetadata, extractorInput.getLength(), this.extractorOutput, this.outputFrameHolder);
-                outputFormat(decodeStreamMetadata, decodeStreamMetadata.getMetadataCopyWithAppendedEntriesFrom(this.id3Metadata), this.trackOutput);
-            }
-        } catch (IOException e) {
-            flacDecoderJni.reset(0L);
-            extractorInput.setRetryPosition(0L, e);
-            throw e;
-        }
-    }
-
-    private int handlePendingSeek(ExtractorInput extractorInput, PositionHolder positionHolder, ParsableByteArray parsableByteArray, FlacBinarySearchSeeker.OutputFrameHolder outputFrameHolder, TrackOutput trackOutput) throws IOException {
-        int handlePendingSeek = this.binarySearchSeeker.handlePendingSeek(extractorInput, positionHolder);
-        ByteBuffer byteBuffer = outputFrameHolder.byteBuffer;
-        if (handlePendingSeek == 0 && byteBuffer.limit() > 0) {
-            outputSample(parsableByteArray, byteBuffer.limit(), outputFrameHolder.timeUs, trackOutput);
-        }
-        return handlePendingSeek;
-    }
-
-    private static FlacBinarySearchSeeker outputSeekMap(FlacDecoderJni flacDecoderJni, FlacStreamMetadata flacStreamMetadata, long j, ExtractorOutput extractorOutput, FlacBinarySearchSeeker.OutputFrameHolder outputFrameHolder) {
-        SeekMap unseekable;
-        FlacBinarySearchSeeker flacBinarySearchSeeker = null;
-        if (flacDecoderJni.getSeekPoints(0L) != null) {
-            unseekable = new FlacSeekMap(flacStreamMetadata.getDurationUs(), flacDecoderJni);
-        } else if (j != -1 && flacStreamMetadata.totalSamples > 0) {
-            FlacBinarySearchSeeker flacBinarySearchSeeker2 = new FlacBinarySearchSeeker(flacStreamMetadata, flacDecoderJni.getDecodePosition(), j, flacDecoderJni, outputFrameHolder);
-            unseekable = flacBinarySearchSeeker2.getSeekMap();
-            flacBinarySearchSeeker = flacBinarySearchSeeker2;
-        } else {
-            unseekable = new SeekMap.Unseekable(flacStreamMetadata.getDurationUs());
-        }
-        extractorOutput.seekMap(unseekable);
-        return flacBinarySearchSeeker;
-    }
-
-    private static void outputFormat(FlacStreamMetadata flacStreamMetadata, Metadata metadata, TrackOutput trackOutput) {
-        trackOutput.format(new Format.Builder().setSampleMimeType("audio/raw").setAverageBitrate(flacStreamMetadata.getDecodedBitrate()).setPeakBitrate(flacStreamMetadata.getDecodedBitrate()).setMaxInputSize(flacStreamMetadata.getMaxDecodedFrameSize()).setChannelCount(flacStreamMetadata.channels).setSampleRate(flacStreamMetadata.sampleRate).setPcmEncoding(Util.getPcmEncoding(flacStreamMetadata.bitsPerSample)).setMetadata(metadata).build());
-    }
-
-    private static void outputSample(ParsableByteArray parsableByteArray, int i, long j, TrackOutput trackOutput) {
-        parsableByteArray.setPosition(0);
-        trackOutput.sampleData(parsableByteArray, i);
-        trackOutput.sampleMetadata(j, 1, i, 0, null);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class FlacSeekMap implements SeekMap {
-        private final FlacDecoderJni decoderJni;
-        private final long durationUs;
-
-        @Override // com.google.android.exoplayer2.extractor.SeekMap
-        public boolean isSeekable() {
-            return true;
-        }
-
-        public FlacSeekMap(long j, FlacDecoderJni flacDecoderJni) {
-            this.durationUs = j;
-            this.decoderJni = flacDecoderJni;
-        }
-
-        @Override // com.google.android.exoplayer2.extractor.SeekMap
-        public SeekMap.SeekPoints getSeekPoints(long j) {
-            SeekMap.SeekPoints seekPoints = this.decoderJni.getSeekPoints(j);
-            return seekPoints == null ? new SeekMap.SeekPoints(SeekPoint.START) : seekPoints;
-        }
-
-        @Override // com.google.android.exoplayer2.extractor.SeekMap
-        public long getDurationUs() {
-            return this.durationUs;
-        }
+    public boolean sniff(ExtractorInput extractorInput) {
+        this.id3Metadata = FlacMetadataReader.peekId3Metadata(extractorInput, !this.id3MetadataDisabled);
+        return FlacMetadataReader.checkAndPeekStreamMarker(extractorInput);
     }
 }

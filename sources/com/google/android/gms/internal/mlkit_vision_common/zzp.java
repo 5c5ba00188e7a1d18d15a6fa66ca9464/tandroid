@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-/* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public abstract class zzp extends zzl implements List, RandomAccess {
     private static final zzac zza = new zzn(zzu.zza, 0);
@@ -17,10 +16,7 @@ public abstract class zzp extends zzl implements List, RandomAccess {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static zzp zzh(Object[] objArr, int i) {
-        if (i == 0) {
-            return zzu.zza;
-        }
-        return new zzu(objArr, i);
+        return i == 0 ? zzu.zza : new zzu(objArr, i);
     }
 
     public static zzp zzi(Object obj) {
@@ -30,13 +26,11 @@ public abstract class zzp extends zzl implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    @Deprecated
     public final void add(int i, Object obj) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.List
-    @Deprecated
     public final boolean addAll(int i, Collection collection) {
         throw new UnsupportedOperationException();
     }
@@ -130,13 +124,11 @@ public abstract class zzp extends zzl implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    @Deprecated
     public final Object remove(int i) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.List
-    @Deprecated
     public final Object set(int i, Object obj) {
         throw new UnsupportedOperationException();
     }
@@ -156,13 +148,7 @@ public abstract class zzp extends zzl implements List, RandomAccess {
     public zzp subList(int i, int i2) {
         zzf.zzc(i, i2, size());
         int i3 = i2 - i;
-        if (i3 == size()) {
-            return this;
-        }
-        if (i3 != 0) {
-            return new zzo(this, i, i3);
-        }
-        return zzu.zza;
+        return i3 == size() ? this : i3 == 0 ? zzu.zza : new zzo(this, i, i3);
     }
 
     @Override // java.util.List

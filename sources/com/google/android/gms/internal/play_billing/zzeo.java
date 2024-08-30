@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.play_billing;
 
 import sun.misc.Unsafe;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 final class zzeo extends zzep {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -49,9 +48,6 @@ final class zzeo extends zzep {
 
     @Override // com.google.android.gms.internal.play_billing.zzep
     public final boolean zzg(Object obj, long j) {
-        if (zzeq.zzb) {
-            return zzeq.zzt(obj, j);
-        }
-        return zzeq.zzu(obj, j);
+        return zzeq.zzb ? zzeq.zzt(obj, j) : zzeq.zzu(obj, j);
     }
 }

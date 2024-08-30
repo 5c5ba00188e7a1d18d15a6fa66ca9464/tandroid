@@ -7,15 +7,23 @@ import android.util.LongSparseArray;
 import java.lang.reflect.Field;
 import java.util.Map;
 /* loaded from: classes.dex */
-class ResourcesFlusher {
+abstract class ResourcesFlusher {
     private static Field sDrawableCacheField;
     private static boolean sDrawableCacheFieldFetched;
     private static Field sResourcesImplField;
     private static boolean sResourcesImplFieldFetched;
-    private static Class<?> sThemedResourceCacheClazz;
+    private static Class sThemedResourceCacheClazz;
     private static boolean sThemedResourceCacheClazzFetched;
     private static Field sThemedResourceCache_mUnthemedEntriesField;
     private static boolean sThemedResourceCache_mUnthemedEntriesFieldFetched;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api16Impl {
+        static void clear(LongSparseArray longSparseArray) {
+            longSparseArray.clear();
+        }
+    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static void flush(Resources resources) {
@@ -152,7 +160,7 @@ class ResourcesFlusher {
             }
             sThemedResourceCacheClazzFetched = true;
         }
-        Class<?> cls = sThemedResourceCacheClazz;
+        Class cls = sThemedResourceCacheClazz;
         if (cls == null) {
             return;
         }
@@ -178,14 +186,6 @@ class ResourcesFlusher {
         }
         if (longSparseArray != null) {
             Api16Impl.clear(longSparseArray);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api16Impl {
-        static void clear(LongSparseArray longSparseArray) {
-            longSparseArray.clear();
         }
     }
 }

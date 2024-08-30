@@ -2,17 +2,21 @@ package kotlin;
 
 import java.io.Serializable;
 import kotlin.jvm.internal.Intrinsics;
-/* compiled from: Tuples.kt */
 /* loaded from: classes.dex */
-public final class Pair<A, B> implements Serializable {
-    private final A first;
-    private final B second;
+public final class Pair implements Serializable {
+    private final Object first;
+    private final Object second;
 
-    public final A component1() {
+    public Pair(Object obj, Object obj2) {
+        this.first = obj;
+        this.second = obj2;
+    }
+
+    public final Object component1() {
         return this.first;
     }
 
-    public final B component2() {
+    public final Object component2() {
         return this.second;
     }
 
@@ -27,24 +31,19 @@ public final class Pair<A, B> implements Serializable {
         return false;
     }
 
-    public int hashCode() {
-        A a = this.first;
-        int hashCode = (a == null ? 0 : a.hashCode()) * 31;
-        B b = this.second;
-        return hashCode + (b != null ? b.hashCode() : 0);
-    }
-
-    public Pair(A a, B b) {
-        this.first = a;
-        this.second = b;
-    }
-
-    public final A getFirst() {
+    public final Object getFirst() {
         return this.first;
     }
 
-    public final B getSecond() {
+    public final Object getSecond() {
         return this.second;
+    }
+
+    public int hashCode() {
+        Object obj = this.first;
+        int hashCode = (obj == null ? 0 : obj.hashCode()) * 31;
+        Object obj2 = this.second;
+        return hashCode + (obj2 != null ? obj2.hashCode() : 0);
     }
 
     public String toString() {

@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_vision_common;
 
 import java.util.AbstractMap;
-/* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 final class zzv extends zzp {
     final /* synthetic */ zzw zza;

@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-identity@@17.0.1 */
 /* loaded from: classes.dex */
 public final class UserAddress extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<UserAddress> CREATOR = new zzb();
@@ -25,7 +24,23 @@ public final class UserAddress extends AbstractSafeParcelable implements Reflect
     String zzn;
     String zzo;
 
-    UserAddress() {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public UserAddress(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, String str10, String str11, String str12, boolean z, String str13, String str14) {
+        this.zza = str;
+        this.zzb = str2;
+        this.zzc = str3;
+        this.zzd = str4;
+        this.zze = str5;
+        this.zzf = str6;
+        this.zzg = str7;
+        this.zzh = str8;
+        this.zzi = str9;
+        this.zzj = str10;
+        this.zzk = str11;
+        this.zzl = str12;
+        this.zzm = z;
+        this.zzn = str13;
+        this.zzo = str14;
     }
 
     @Override // android.os.Parcelable
@@ -47,24 +62,5 @@ public final class UserAddress extends AbstractSafeParcelable implements Reflect
         SafeParcelWriter.writeString(parcel, 15, this.zzn, false);
         SafeParcelWriter.writeString(parcel, 16, this.zzo, false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public UserAddress(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, String str10, String str11, String str12, boolean z, String str13, String str14) {
-        this.zza = str;
-        this.zzb = str2;
-        this.zzc = str3;
-        this.zzd = str4;
-        this.zze = str5;
-        this.zzf = str6;
-        this.zzg = str7;
-        this.zzh = str8;
-        this.zzi = str9;
-        this.zzj = str10;
-        this.zzk = str11;
-        this.zzl = str12;
-        this.zzm = z;
-        this.zzn = str13;
-        this.zzo = str14;
     }
 }

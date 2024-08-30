@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzn {
     private static final Uri zza = new Uri.Builder().scheme("content").authority("com.google.android.gms.chimera").build();
@@ -15,6 +14,16 @@ public final class zzn {
     private final ComponentName zzd;
     private final int zze;
     private final boolean zzf;
+
+    public zzn(String str, String str2, int i, boolean z) {
+        Preconditions.checkNotEmpty(str);
+        this.zzb = str;
+        Preconditions.checkNotEmpty(str2);
+        this.zzc = str2;
+        this.zzd = null;
+        this.zze = i;
+        this.zzf = z;
+    }
 
     public final boolean equals(Object obj) {
         if (this == obj) {
@@ -72,15 +81,5 @@ public final class zzn {
 
     public final String zzd() {
         return this.zzc;
-    }
-
-    public zzn(String str, String str2, int i, boolean z) {
-        Preconditions.checkNotEmpty(str);
-        this.zzb = str;
-        Preconditions.checkNotEmpty(str2);
-        this.zzc = str2;
-        this.zzd = null;
-        this.zze = i;
-        this.zzf = z;
     }
 }

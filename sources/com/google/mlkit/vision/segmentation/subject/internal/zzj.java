@@ -48,7 +48,6 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public final class zzj extends MLTask {
     private static final Feature[] zza = {OptionalModuleUtils.FEATURE_SUBJECT_SEGMENTATION};
@@ -109,7 +108,7 @@ public final class zzj extends MLTask {
     }
 
     @Override // com.google.mlkit.common.sdkinternal.ModelResource
-    public final synchronized void load() throws MlKitException {
+    public final synchronized void load() {
         try {
             long elapsedRealtime = SystemClock.elapsedRealtime();
             Context context = this.zzc;
@@ -149,11 +148,10 @@ public final class zzj extends MLTask {
             if (zzubVar != null) {
                 zzubVar.zzf();
             }
-            this.zzi = null;
         } catch (RemoteException unused) {
             Log.e("SubjectSegmenterTask", "Failed to release subject segmenter");
-            this.zzi = null;
         }
+        this.zzi = null;
         this.zzg = true;
         this.zze.zzf(new zztk() { // from class: com.google.mlkit.vision.segmentation.subject.internal.zzf
             @Override // com.google.android.gms.internal.mlkit_vision_subject_segmentation.zztk
@@ -167,7 +165,6 @@ public final class zzj extends MLTask {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ zzta zzc(long j, zzoa zzoaVar, boolean z, InputImage inputImage, zzuh zzuhVar) {
-        zznh zznhVar;
         zzra zzraVar = new zzra();
         zznn zznnVar = new zznn();
         zznnVar.zza(Long.valueOf(j));
@@ -177,20 +174,7 @@ public final class zzj extends MLTask {
         int format = inputImage.getFormat();
         int mobileVisionImageSize = zzb.getMobileVisionImageSize(inputImage);
         zzng zzngVar = new zzng();
-        if (format == -1) {
-            zznhVar = zznh.zzg;
-        } else if (format == 35) {
-            zznhVar = zznh.zze;
-        } else if (format == 842094169) {
-            zznhVar = zznh.zzd;
-        } else if (format == 16) {
-            zznhVar = zznh.zzb;
-        } else if (format == 17) {
-            zznhVar = zznh.zzc;
-        } else {
-            zznhVar = zznh.zza;
-        }
-        zzngVar.zza(zznhVar);
+        zzngVar.zza(format != -1 ? format != 35 ? format != 842094169 ? format != 16 ? format != 17 ? zznh.zza : zznh.zzc : zznh.zzb : zznh.zzd : zznh.zze : zznh.zzg);
         zzngVar.zzb(Integer.valueOf(mobileVisionImageSize));
         zzraVar.zze(zzngVar.zzd());
         zzraVar.zzi(this.zzd.zza());
@@ -230,7 +214,7 @@ public final class zzj extends MLTask {
 
     @Override // com.google.mlkit.common.sdkinternal.MLTask
     /* renamed from: zze */
-    public final synchronized SubjectSegmentationResult run(InputImage inputImage) throws MlKitException {
+    public final synchronized SubjectSegmentationResult run(InputImage inputImage) {
         zzuh zzd;
         ArrayList arrayList;
         try {

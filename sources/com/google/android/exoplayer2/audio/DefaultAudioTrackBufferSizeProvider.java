@@ -39,48 +39,6 @@ public class DefaultAudioTrackBufferSizeProvider implements DefaultAudioSink.Aud
         this.ac3BufferMultiplicationFactor = builder.ac3BufferMultiplicationFactor;
     }
 
-    @Override // com.google.android.exoplayer2.audio.DefaultAudioSink.AudioTrackBufferSizeProvider
-    public int getBufferSizeInBytes(int i, int i2, int i3, int i4, int i5, int i6, double d) {
-        double d2;
-        Double.isNaN(get1xBufferSizeInBytes(i, i2, i3, i4, i5, i6));
-        return (((Math.max(i, (int) (d2 * d)) + i4) - 1) / i4) * i4;
-    }
-
-    protected int get1xBufferSizeInBytes(int i, int i2, int i3, int i4, int i5, int i6) {
-        if (i3 != 0) {
-            if (i3 != 1) {
-                if (i3 == 2) {
-                    return getPassthroughBufferSizeInBytes(i2, i6);
-                }
-                throw new IllegalArgumentException();
-            }
-            return getOffloadBufferSizeInBytes(i2);
-        }
-        return getPcmBufferSizeInBytes(i, i5, i4);
-    }
-
-    protected int getPcmBufferSizeInBytes(int i, int i2, int i3) {
-        return Util.constrainValue(i * this.pcmBufferMultiplicationFactor, durationUsToBytes(this.minPcmBufferDurationUs, i2, i3), durationUsToBytes(this.maxPcmBufferDurationUs, i2, i3));
-    }
-
-    protected int getPassthroughBufferSizeInBytes(int i, int i2) {
-        int maximumEncodedRateBytesPerSecond;
-        int i3 = this.passthroughBufferDurationUs;
-        if (i == 5) {
-            i3 *= this.ac3BufferMultiplicationFactor;
-        }
-        if (i2 != -1) {
-            maximumEncodedRateBytesPerSecond = IntMath.divide(i2, 8, RoundingMode.CEILING);
-        } else {
-            maximumEncodedRateBytesPerSecond = getMaximumEncodedRateBytesPerSecond(i);
-        }
-        return Ints.checkedCast((i3 * maximumEncodedRateBytesPerSecond) / 1000000);
-    }
-
-    protected int getOffloadBufferSizeInBytes(int i) {
-        return Ints.checkedCast((this.offloadBufferDurationUs * getMaximumEncodedRateBytesPerSecond(i)) / 1000000);
-    }
-
     protected static int durationUsToBytes(int i, int i2, int i3) {
         return Ints.checkedCast(((i * i2) * i3) / 1000000);
     }
@@ -119,5 +77,41 @@ public class DefaultAudioTrackBufferSizeProvider implements DefaultAudioSink.Aud
             case 20:
                 return 63750;
         }
+    }
+
+    protected int get1xBufferSizeInBytes(int i, int i2, int i3, int i4, int i5, int i6) {
+        if (i3 != 0) {
+            if (i3 != 1) {
+                if (i3 == 2) {
+                    return getPassthroughBufferSizeInBytes(i2, i6);
+                }
+                throw new IllegalArgumentException();
+            }
+            return getOffloadBufferSizeInBytes(i2);
+        }
+        return getPcmBufferSizeInBytes(i, i5, i4);
+    }
+
+    @Override // com.google.android.exoplayer2.audio.DefaultAudioSink.AudioTrackBufferSizeProvider
+    public int getBufferSizeInBytes(int i, int i2, int i3, int i4, int i5, int i6, double d) {
+        double d2;
+        Double.isNaN(get1xBufferSizeInBytes(i, i2, i3, i4, i5, i6));
+        return (((Math.max(i, (int) (d2 * d)) + i4) - 1) / i4) * i4;
+    }
+
+    protected int getOffloadBufferSizeInBytes(int i) {
+        return Ints.checkedCast((this.offloadBufferDurationUs * getMaximumEncodedRateBytesPerSecond(i)) / 1000000);
+    }
+
+    protected int getPassthroughBufferSizeInBytes(int i, int i2) {
+        int i3 = this.passthroughBufferDurationUs;
+        if (i == 5) {
+            i3 *= this.ac3BufferMultiplicationFactor;
+        }
+        return Ints.checkedCast((i3 * (i2 != -1 ? IntMath.divide(i2, 8, RoundingMode.CEILING) : getMaximumEncodedRateBytesPerSecond(i))) / 1000000);
+    }
+
+    protected int getPcmBufferSizeInBytes(int i, int i2, int i3) {
+        return Util.constrainValue(i * this.pcmBufferMultiplicationFactor, durationUsToBytes(this.minPcmBufferDurationUs, i2, i3), durationUsToBytes(this.maxPcmBufferDurationUs, i2, i3));
     }
 }

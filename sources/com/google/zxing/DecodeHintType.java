@@ -15,7 +15,7 @@ public enum DecodeHintType {
     NEED_RESULT_POINT_CALLBACK(ResultPointCallback.class),
     ALLOWED_EAN_EXTENSIONS(int[].class);
     
-    private final Class<?> valueType;
+    private final Class valueType;
 
     DecodeHintType(Class cls) {
         this.valueType = cls;

@@ -34,12 +34,12 @@ final class zzdk implements zzdj {
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzdj
-    public final Map<?, ?> zzg(Object obj) {
+    public final Map zzg(Object obj) {
         return (zzdi) obj;
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzdj
-    public final Map<?, ?> zzh(Object obj) {
+    public final Map zzh(Object obj) {
         return (zzdi) obj;
     }
 
@@ -60,7 +60,7 @@ final class zzdk implements zzdj {
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzdj
-    public final zzdh<?, ?> zzl(Object obj) {
+    public final zzdh zzl(Object obj) {
         throw new NoSuchMethodError();
     }
 }

@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
 import com.google.android.gms.common.internal.Objects;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zzjt {
     private final zzjr zza;
@@ -36,12 +35,10 @@ public final class zzjt {
         return Objects.hashCode(this.zza, this.zzb, null, null);
     }
 
-    @zzcm(zza = 1)
     public final zzjr zza() {
         return this.zza;
     }
 
-    @zzcm(zza = 2)
     public final Integer zzb() {
         return this.zzb;
     }

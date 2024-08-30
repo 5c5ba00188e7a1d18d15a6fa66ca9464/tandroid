@@ -4,7 +4,6 @@ import com.google.firebase.encoders.ObjectEncoder;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zzcr {
     private final Map zza;

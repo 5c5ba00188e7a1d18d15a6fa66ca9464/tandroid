@@ -2,11 +2,9 @@ package com.android.billingclient.api;
 
 import android.app.Activity;
 import android.content.Context;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public abstract class BillingClient {
 
-    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static final class Builder {
         private volatile zzbe zzb;
@@ -21,10 +19,7 @@ public abstract class BillingClient {
             if (this.zzc != null) {
                 if (this.zzd != null) {
                     if (this.zzb != null) {
-                        if (this.zzd != null) {
-                            return new BillingClientImpl(null, this.zzb, this.zzc, this.zzd, null, null);
-                        }
-                        return new BillingClientImpl(null, this.zzb, this.zzc, null, null);
+                        return this.zzd != null ? new BillingClientImpl(null, this.zzb, this.zzc, this.zzd, null, null) : new BillingClientImpl(null, this.zzb, this.zzc, null, null);
                     }
                     throw new IllegalArgumentException("Pending purchases for one-time products must be supported.");
                 }

@@ -149,10 +149,10 @@ public class ManageLinksActivity extends BaseFragment {
     private int revokedLinksStartRow;
     private int rowCount;
     long timeDif;
-    private ArrayList<TLRPC$TL_chatInviteExported> invites = new ArrayList<>();
-    private ArrayList<TLRPC$TL_chatInviteExported> revokedInvites = new ArrayList<>();
-    private HashMap<Long, TLRPC$User> users = new HashMap<>();
-    private ArrayList<TLRPC$TL_chatAdminWithInvites> admins = new ArrayList<>();
+    private ArrayList invites = new ArrayList();
+    private ArrayList revokedInvites = new ArrayList();
+    private HashMap users = new HashMap();
+    private ArrayList admins = new ArrayList();
     Runnable updateTimerRunnable = new Runnable() { // from class: org.telegram.ui.ManageLinksActivity.1
         @Override // java.lang.Runnable
         public void run() {
@@ -175,9 +175,157 @@ public class ManageLinksActivity extends BaseFragment {
     private final LinkEditActivity.Callback linkEditActivityCallback = new 6();
     AnimationNotificationsLocker notificationsLocker = new AnimationNotificationsLocker();
 
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public boolean needDelayOpenAnimation() {
-        return true;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes4.dex */
+    public class 6 implements LinkEditActivity.Callback {
+        6() {
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onLinkCreated$0(TLObject tLObject) {
+            DiffCallback saveListState = ManageLinksActivity.this.saveListState();
+            ManageLinksActivity.this.invites.add(0, (TLRPC$TL_chatInviteExported) tLObject);
+            if (ManageLinksActivity.this.info != null) {
+                ManageLinksActivity.this.info.invitesCount++;
+                ManageLinksActivity.this.getMessagesStorage().saveChatLinksCount(ManageLinksActivity.this.currentChatId, ManageLinksActivity.this.info.invitesCount);
+            }
+            ManageLinksActivity.this.updateRecyclerViewAnimated(saveListState);
+        }
+
+        @Override // org.telegram.ui.LinkEditActivity.Callback
+        public void onLinkCreated(final TLObject tLObject) {
+            if (tLObject instanceof TLRPC$TL_chatInviteExported) {
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$6$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ManageLinksActivity.6.this.lambda$onLinkCreated$0(tLObject);
+                    }
+                }, 200L);
+            }
+        }
+
+        @Override // org.telegram.ui.LinkEditActivity.Callback
+        public void onLinkEdited(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLObject tLObject) {
+            if (tLObject instanceof TLRPC$TL_messages_exportedChatInvite) {
+                TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = (TLRPC$TL_chatInviteExported) ((TLRPC$TL_messages_exportedChatInvite) tLObject).invite;
+                ManageLinksActivity.this.fixDate(tLRPC$TL_chatInviteExported2);
+                for (int i = 0; i < ManageLinksActivity.this.invites.size(); i++) {
+                    if (((TLRPC$TL_chatInviteExported) ManageLinksActivity.this.invites.get(i)).link.equals(tLRPC$TL_chatInviteExported.link)) {
+                        if (!tLRPC$TL_chatInviteExported2.revoked) {
+                            ManageLinksActivity.this.invites.set(i, tLRPC$TL_chatInviteExported2);
+                            ManageLinksActivity.this.updateRows(true);
+                            return;
+                        }
+                        DiffCallback saveListState = ManageLinksActivity.this.saveListState();
+                        ManageLinksActivity.this.invites.remove(i);
+                        ManageLinksActivity.this.revokedInvites.add(0, tLRPC$TL_chatInviteExported2);
+                        ManageLinksActivity.this.updateRecyclerViewAnimated(saveListState);
+                        return;
+                    }
+                }
+            }
+        }
+
+        @Override // org.telegram.ui.LinkEditActivity.Callback
+        public void onLinkRemoved(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
+            for (int i = 0; i < ManageLinksActivity.this.revokedInvites.size(); i++) {
+                if (((TLRPC$TL_chatInviteExported) ManageLinksActivity.this.revokedInvites.get(i)).link.equals(tLRPC$TL_chatInviteExported.link)) {
+                    DiffCallback saveListState = ManageLinksActivity.this.saveListState();
+                    ManageLinksActivity.this.revokedInvites.remove(i);
+                    ManageLinksActivity.this.updateRecyclerViewAnimated(saveListState);
+                    return;
+                }
+            }
+        }
+
+        @Override // org.telegram.ui.LinkEditActivity.Callback
+        public void revokeLink(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
+            ManageLinksActivity.this.revokeLink(tLRPC$TL_chatInviteExported);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes4.dex */
+    public class DiffCallback extends DiffUtil.Callback {
+        SparseIntArray newPositionToItem;
+        int oldAdminsEndRow;
+        int oldAdminsStartRow;
+        ArrayList oldLinks;
+        int oldLinksEndRow;
+        int oldLinksStartRow;
+        SparseIntArray oldPositionToItem;
+        ArrayList oldRevokedLinks;
+        int oldRevokedLinksEndRow;
+        int oldRevokedLinksStartRow;
+        int oldRowCount;
+
+        private DiffCallback() {
+            this.oldPositionToItem = new SparseIntArray();
+            this.newPositionToItem = new SparseIntArray();
+            this.oldLinks = new ArrayList();
+            this.oldRevokedLinks = new ArrayList();
+        }
+
+        private void put(int i, int i2, SparseIntArray sparseIntArray) {
+            if (i2 >= 0) {
+                sparseIntArray.put(i2, i);
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.DiffUtil.Callback
+        public boolean areContentsTheSame(int i, int i2) {
+            return areItemsTheSame(i, i2);
+        }
+
+        @Override // androidx.recyclerview.widget.DiffUtil.Callback
+        public boolean areItemsTheSame(int i, int i2) {
+            ArrayList arrayList;
+            int i3;
+            if (((i < this.oldLinksStartRow || i >= this.oldLinksEndRow) && (i < this.oldRevokedLinksStartRow || i >= this.oldRevokedLinksEndRow)) || ((i2 < ManageLinksActivity.this.linksStartRow || i2 >= ManageLinksActivity.this.linksEndRow) && (i2 < ManageLinksActivity.this.revokedLinksStartRow || i2 >= ManageLinksActivity.this.revokedLinksEndRow))) {
+                if (i >= this.oldAdminsStartRow && i < this.oldAdminsEndRow && i2 >= ManageLinksActivity.this.adminsStartRow && i2 < ManageLinksActivity.this.adminsEndRow) {
+                    return i - this.oldAdminsStartRow == i2 - ManageLinksActivity.this.adminsStartRow;
+                }
+                int i4 = this.oldPositionToItem.get(i, -1);
+                return i4 >= 0 && i4 == this.newPositionToItem.get(i2, -1);
+            }
+            if (i2 < ManageLinksActivity.this.linksStartRow || i2 >= ManageLinksActivity.this.linksEndRow) {
+                arrayList = ManageLinksActivity.this.revokedInvites;
+                i3 = ManageLinksActivity.this.revokedLinksStartRow;
+            } else {
+                arrayList = ManageLinksActivity.this.invites;
+                i3 = ManageLinksActivity.this.linksStartRow;
+            }
+            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = (TLRPC$TL_chatInviteExported) arrayList.get(i2 - i3);
+            int i5 = this.oldLinksStartRow;
+            return ((TLRPC$TL_chatInviteExported) ((i < i5 || i >= this.oldLinksEndRow) ? this.oldRevokedLinks.get(i - this.oldRevokedLinksStartRow) : this.oldLinks.get(i - i5))).link.equals(tLRPC$TL_chatInviteExported.link);
+        }
+
+        public void fillPositions(SparseIntArray sparseIntArray) {
+            sparseIntArray.clear();
+            put(1, ManageLinksActivity.this.helpRow, sparseIntArray);
+            put(2, ManageLinksActivity.this.permanentLinkHeaderRow, sparseIntArray);
+            put(3, ManageLinksActivity.this.permanentLinkRow, sparseIntArray);
+            put(4, ManageLinksActivity.this.dividerRow, sparseIntArray);
+            put(5, ManageLinksActivity.this.createNewLinkRow, sparseIntArray);
+            put(6, ManageLinksActivity.this.revokedHeader, sparseIntArray);
+            put(7, ManageLinksActivity.this.revokeAllRow, sparseIntArray);
+            put(8, ManageLinksActivity.this.createLinkHelpRow, sparseIntArray);
+            put(9, ManageLinksActivity.this.creatorRow, sparseIntArray);
+            put(10, ManageLinksActivity.this.creatorDividerRow, sparseIntArray);
+            put(11, ManageLinksActivity.this.adminsHeaderRow, sparseIntArray);
+            put(12, ManageLinksActivity.this.linksHeaderRow, sparseIntArray);
+            put(13, ManageLinksActivity.this.linksLoadingRow, sparseIntArray);
+        }
+
+        @Override // androidx.recyclerview.widget.DiffUtil.Callback
+        public int getNewListSize() {
+            return ManageLinksActivity.this.rowCount;
+        }
+
+        @Override // androidx.recyclerview.widget.DiffUtil.Callback
+        public int getOldListSize() {
+            return this.oldRowCount;
+        }
     }
 
     /* loaded from: classes4.dex */
@@ -201,12 +349,19 @@ public class ManageLinksActivity extends BaseFragment {
                 stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME);
             }
             TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = stickerSetByName;
-            if (tLRPC$TL_messages_stickerSet != null && tLRPC$TL_messages_stickerSet.documents.size() >= 4) {
-                TLRPC$Document tLRPC$Document = tLRPC$TL_messages_stickerSet.documents.get(3);
-                this.stickerView.setImage(ImageLocation.getForDocument(tLRPC$Document), "104_104", "tgs", DocumentObject.getSvgThumb(tLRPC$Document, Theme.key_windowBackgroundGray, 1.0f), tLRPC$TL_messages_stickerSet);
+            if (tLRPC$TL_messages_stickerSet == null || tLRPC$TL_messages_stickerSet.documents.size() < 4) {
+                MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, tLRPC$TL_messages_stickerSet == null);
                 return;
             }
-            MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, tLRPC$TL_messages_stickerSet == null);
+            TLRPC$Document tLRPC$Document = (TLRPC$Document) tLRPC$TL_messages_stickerSet.documents.get(3);
+            this.stickerView.setImage(ImageLocation.getForDocument(tLRPC$Document), "104_104", "tgs", DocumentObject.getSvgThumb(tLRPC$Document, Theme.key_windowBackgroundGray, 1.0f), tLRPC$TL_messages_stickerSet);
+        }
+
+        @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+        public void didReceivedNotification(int i, int i2, Object... objArr) {
+            if (i == NotificationCenter.diceStickersDidLoad && AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME.equals((String) objArr[0])) {
+                setSticker();
+            }
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -221,11 +376,874 @@ public class ManageLinksActivity extends BaseFragment {
             super.onDetachedFromWindow();
             NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.diceStickersDidLoad);
         }
+    }
 
-        @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-        public void didReceivedNotification(int i, int i2, Object... objArr) {
-            if (i == NotificationCenter.diceStickersDidLoad && AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME.equals((String) objArr[0])) {
-                setSticker();
+    /* loaded from: classes4.dex */
+    public class HintInnerCell extends FrameLayout {
+        private EmptyView emptyView;
+        private TextView messageTextView;
+
+        public HintInnerCell(Context context) {
+            super(context);
+            EmptyView emptyView = new EmptyView(context);
+            this.emptyView = emptyView;
+            addView(emptyView, LayoutHelper.createFrame(-2, -2.0f, 49, 0.0f, 10.0f, 0.0f, 0.0f));
+            TextView textView = new TextView(context);
+            this.messageTextView = textView;
+            textView.setTextColor(Theme.getColor(Theme.key_chats_message));
+            this.messageTextView.setTextSize(1, 14.0f);
+            this.messageTextView.setGravity(17);
+            this.messageTextView.setText(LocaleController.getString(ManageLinksActivity.this.isChannel ? R.string.PrimaryLinkHelpChannel : R.string.PrimaryLinkHelp));
+            addView(this.messageTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 52.0f, 143.0f, 52.0f, 18.0f));
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), i2);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes4.dex */
+    public class LinkCell extends FrameLayout {
+        int animateFromState;
+        boolean animateHideExpiring;
+        float animateToStateProgress;
+        boolean drawDivider;
+        TLRPC$TL_chatInviteExported invite;
+        float lastDrawExpringProgress;
+        int lastDrawingState;
+        ImageView optionsView;
+        Paint paint;
+        Paint paint2;
+        int position;
+        private final LinearLayout priceLayout;
+        private final TextView priceSubitleView;
+        private final TextView priceTitleView;
+        RectF rectF;
+        private final TextView subtitleView;
+        private final LinearLayout textLayout;
+        private final TimerParticles timerParticles;
+        boolean timerRunning;
+        private final TextView titleView;
+
+        public LinkCell(Context context) {
+            super(context);
+            this.paint = new Paint(1);
+            this.paint2 = new Paint(1);
+            this.rectF = new RectF();
+            this.animateToStateProgress = 1.0f;
+            this.timerParticles = new TimerParticles();
+            this.paint2.setStyle(Paint.Style.STROKE);
+            this.paint2.setStrokeCap(Paint.Cap.ROUND);
+            LinearLayout linearLayout = new LinearLayout(context);
+            this.textLayout = linearLayout;
+            linearLayout.setOrientation(1);
+            addView(linearLayout, LayoutHelper.createFrame(-1, -2.0f, 16, 64.0f, 0.0f, 30.0f, 0.0f));
+            TextView textView = new TextView(context);
+            this.titleView = textView;
+            textView.setTextSize(1, 16.0f);
+            int i = Theme.key_windowBackgroundWhiteBlackText;
+            textView.setTextColor(Theme.getColor(i));
+            textView.setLines(1);
+            TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
+            textView.setEllipsize(truncateAt);
+            linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2));
+            TextView textView2 = new TextView(context);
+            this.subtitleView = textView2;
+            textView2.setTextSize(1, 13.0f);
+            int i2 = Theme.key_windowBackgroundWhiteGrayText;
+            textView2.setTextColor(Theme.getColor(i2));
+            linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 0.0f, 4.33f, 0.0f, 0.0f));
+            ImageView imageView = new ImageView(context);
+            this.optionsView = imageView;
+            imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_ab_other));
+            this.optionsView.setScaleType(ImageView.ScaleType.CENTER);
+            this.optionsView.setColorFilter(Theme.getColor(Theme.key_stickers_menu));
+            this.optionsView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda0
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    ManageLinksActivity.LinkCell.this.lambda$new$7(view);
+                }
+            });
+            this.optionsView.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 1));
+            addView(this.optionsView, LayoutHelper.createFrame(48, 48.0f, 21, 0.0f, 0.0f, 8.0f, 0.0f));
+            setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+            setWillNotDraw(false);
+            LinearLayout linearLayout2 = new LinearLayout(context);
+            this.priceLayout = linearLayout2;
+            linearLayout2.setOrientation(1);
+            TextView textView3 = new TextView(context);
+            this.priceTitleView = textView3;
+            textView3.setTextSize(1, 16.0f);
+            textView3.setTextColor(Theme.getColor(i));
+            textView3.setLines(1);
+            textView3.setEllipsize(truncateAt);
+            textView3.setTypeface(AndroidUtilities.bold());
+            textView3.setGravity(5);
+            linearLayout2.addView(textView3, LayoutHelper.createLinear(-1, -2, 5));
+            TextView textView4 = new TextView(context);
+            this.priceSubitleView = textView4;
+            textView4.setTextSize(1, 13.0f);
+            textView4.setTextColor(Theme.getColor(i2));
+            textView4.setGravity(5);
+            linearLayout2.addView(textView4, LayoutHelper.createLinear(-1, -2, 5, 0, 1, 0, 0));
+            addView(linearLayout2, LayoutHelper.createFrame(-2, -2.0f, 21, 0.0f, 0.0f, 18.0f, 0.0f));
+            linearLayout2.setVisibility(8);
+        }
+
+        private int getColor(int i, float f) {
+            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
+            return (tLRPC$TL_chatInviteExported == null || tLRPC$TL_chatInviteExported.subscription_pricing == null) ? i == 3 ? Theme.getColor(Theme.key_chat_attachAudioBackground) : i == 1 ? f > 0.5f ? ColorUtils.blendARGB(Theme.getColor(Theme.key_chat_attachLocationBackground), Theme.getColor(Theme.key_chat_attachPollBackground), 1.0f - ((f - 0.5f) / 0.5f)) : ColorUtils.blendARGB(Theme.getColor(Theme.key_chat_attachPollBackground), Theme.getColor(Theme.key_chat_attachAudioBackground), 1.0f - (f / 0.5f)) : i == 2 ? Theme.getColor(Theme.key_chat_attachPollBackground) : i == 4 ? Theme.getColor(Theme.key_chats_unreadCounterMuted) : Theme.getColor(Theme.key_featuredStickers_addButton) : Theme.getColor(Theme.key_color_green);
+        }
+
+        private boolean hasProgress(int i) {
+            return i == 2 || i == 1;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$new$0(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, DialogInterface dialogInterface, int i) {
+            ManageLinksActivity.this.deleteLink(tLRPC$TL_chatInviteExported);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$new$1() {
+            final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
+            new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity()).setTitle(LocaleController.getString(R.string.DeleteLink)).setMessage(LocaleController.getString(R.string.DeleteLinkHelp)).setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda7
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i) {
+                    ManageLinksActivity.LinkCell.this.lambda$new$0(tLRPC$TL_chatInviteExported, dialogInterface, i);
+                }
+            }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).show();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$new$2() {
+            try {
+                if (this.invite.link == null) {
+                    return;
+                }
+                ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", this.invite.link));
+                BulletinFactory.createCopyLinkBulletin(ManageLinksActivity.this).show();
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$new$3() {
+            try {
+                if (this.invite.link == null) {
+                    return;
+                }
+                ManageLinksActivity manageLinksActivity = ManageLinksActivity.this;
+                Context context = getContext();
+                String str = this.invite.link;
+                manageLinksActivity.showDialog(new ShareAlert(context, null, str, false, str, false, ManageLinksActivity.this.getResourceProvider()) { // from class: org.telegram.ui.ManageLinksActivity.LinkCell.1
+                    /* JADX INFO: Access modifiers changed from: protected */
+                    @Override // org.telegram.ui.Components.ShareAlert
+                    public void onSend(LongSparseArray longSparseArray, int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
+                        String formatString;
+                        if (longSparseArray == null || longSparseArray.size() != 1) {
+                            formatString = LocaleController.formatString(R.string.InvLinkToChats, LocaleController.formatPluralString("Chats", i, new Object[0]));
+                        } else {
+                            long j = ((TLRPC$Dialog) longSparseArray.valueAt(0)).id;
+                            formatString = (j == 0 || j == ManageLinksActivity.this.getUserConfig().getClientUserId()) ? LocaleController.getString(R.string.InvLinkToSavedMessages) : LocaleController.formatString(R.string.InvLinkToUser, ManageLinksActivity.this.getMessagesController().getPeerName(j, true));
+                        }
+                        Bulletin createSimpleBulletin = BulletinFactory.of(ManageLinksActivity.this).createSimpleBulletin(R.raw.forward, AndroidUtilities.replaceTags(formatString));
+                        createSimpleBulletin.hideAfterBottomSheet = false;
+                        createSimpleBulletin.show(true);
+                    }
+                });
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$new$4() {
+            ManageLinksActivity.this.editLink(this.invite);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$new$5(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, DialogInterface dialogInterface, int i) {
+            ManageLinksActivity.this.revokeLink(tLRPC$TL_chatInviteExported);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$new$6() {
+            final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
+            new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity()).setMessage(LocaleController.getString(R.string.RevokeAlert)).setTitle(LocaleController.getString(R.string.RevokeLink)).setPositiveButton(LocaleController.getString(R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda6
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i) {
+                    ManageLinksActivity.LinkCell.this.lambda$new$5(tLRPC$TL_chatInviteExported, dialogInterface, i);
+                }
+            }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).show();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$new$7(View view) {
+            if (this.invite == null) {
+                return;
+            }
+            View view2 = ManageLinksActivity.this.fragmentView;
+            if (view2 instanceof ViewGroup) {
+                ItemOptions makeOptions = ItemOptions.makeOptions((ViewGroup) view2, this);
+                boolean z = true;
+                if (this.invite.revoked) {
+                    makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString(R.string.Delete), true, new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda1
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ManageLinksActivity.LinkCell.this.lambda$new$1();
+                        }
+                    });
+                } else {
+                    makeOptions.add(R.drawable.msg_copy, LocaleController.getString(R.string.CopyLink), new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda2
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ManageLinksActivity.LinkCell.this.lambda$new$2();
+                        }
+                    });
+                    makeOptions.add(R.drawable.msg_share, LocaleController.getString(R.string.ShareLink), new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda3
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ManageLinksActivity.LinkCell.this.lambda$new$3();
+                        }
+                    });
+                    makeOptions.addIf((this.invite.permanent || !ManageLinksActivity.this.canEdit) ? false : false, R.drawable.msg_edit, LocaleController.getString(R.string.EditLink), new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda4
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ManageLinksActivity.LinkCell.this.lambda$new$4();
+                        }
+                    });
+                    makeOptions.addIf(ManageLinksActivity.this.canEdit, R.drawable.msg_delete, (CharSequence) LocaleController.getString(R.string.RevokeLink), true, new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda5
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ManageLinksActivity.LinkCell.this.lambda$new$6();
+                        }
+                    });
+                }
+                makeOptions.show();
+            }
+        }
+
+        /* JADX WARN: Code restructure failed: missing block: B:61:0x0107, code lost:
+            if (r4.revoked == false) goto L53;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:82:0x01cd  */
+        /* JADX WARN: Removed duplicated region for block: B:84:0x01f2  */
+        /* JADX WARN: Removed duplicated region for block: B:90:0x023e  */
+        /* JADX WARN: Removed duplicated region for block: B:92:? A[RETURN, SYNTHETIC] */
+        @Override // android.view.View
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        protected void onDraw(Canvas canvas) {
+            float f;
+            float f2;
+            int i;
+            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported;
+            Drawable drawable;
+            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2;
+            if (this.invite == null) {
+                return;
+            }
+            int dp = AndroidUtilities.dp(32.0f);
+            int measuredHeight = getMeasuredHeight() / 2;
+            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported3 = this.invite;
+            if (!tLRPC$TL_chatInviteExported3.expired && !tLRPC$TL_chatInviteExported3.revoked) {
+                int i2 = tLRPC$TL_chatInviteExported3.expire_date;
+                if (i2 > 0 || tLRPC$TL_chatInviteExported3.usage_limit > 0) {
+                    if (i2 > 0) {
+                        long currentTimeMillis = System.currentTimeMillis() + (ManageLinksActivity.this.timeDif * 1000);
+                        TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported4 = this.invite;
+                        long j = tLRPC$TL_chatInviteExported4.expire_date * 1000;
+                        int i3 = tLRPC$TL_chatInviteExported4.start_date;
+                        if (i3 <= 0) {
+                            i3 = tLRPC$TL_chatInviteExported4.date;
+                        }
+                        long j2 = i3 * 1000;
+                        f = 1.0f - (((float) (currentTimeMillis - j2)) / ((float) (j - j2)));
+                    } else {
+                        f = 1.0f;
+                    }
+                    int i4 = this.invite.usage_limit;
+                    f2 = Math.min(f, i4 > 0 ? (i4 - tLRPC$TL_chatInviteExported2.usage) / i4 : 1.0f);
+                    if (f2 <= 0.0f) {
+                        this.invite.expired = true;
+                        AndroidUtilities.updateVisibleRows(ManageLinksActivity.this.listView);
+                        i = 3;
+                    } else {
+                        i = 1;
+                    }
+                } else {
+                    f = 1.0f;
+                    f2 = 0.0f;
+                    i = 0;
+                }
+            } else if (tLRPC$TL_chatInviteExported3.revoked) {
+                i = 4;
+                f = 1.0f;
+                f2 = 0.0f;
+            } else {
+                f = 1.0f;
+                f2 = 0.0f;
+                i = 3;
+            }
+            int i5 = this.lastDrawingState;
+            if (i != i5 && i5 >= 0) {
+                this.animateFromState = i5;
+                this.animateToStateProgress = 0.0f;
+                if (!hasProgress(i5) || hasProgress(i)) {
+                    this.animateHideExpiring = false;
+                } else {
+                    this.animateHideExpiring = true;
+                }
+            }
+            this.lastDrawingState = i;
+            float f3 = this.animateToStateProgress;
+            if (f3 != 1.0f) {
+                float f4 = f3 + 0.064f;
+                this.animateToStateProgress = f4;
+                if (f4 >= 1.0f) {
+                    this.animateToStateProgress = 1.0f;
+                    this.animateHideExpiring = false;
+                } else {
+                    invalidate();
+                }
+            }
+            int blendARGB = this.animateToStateProgress != 1.0f ? ColorUtils.blendARGB(getColor(this.animateFromState, f2), getColor(i, f2), this.animateToStateProgress) : getColor(i, f2);
+            this.paint.setColor(blendARGB);
+            canvas.drawCircle(dp, measuredHeight, AndroidUtilities.dp(32.0f) / 2.0f, this.paint);
+            boolean z = this.animateHideExpiring;
+            if (!z) {
+                TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported5 = this.invite;
+                if (!tLRPC$TL_chatInviteExported5.expired) {
+                    if (tLRPC$TL_chatInviteExported5.expire_date > 0) {
+                    }
+                }
+                tLRPC$TL_chatInviteExported = this.invite;
+                if (tLRPC$TL_chatInviteExported.subscription_pricing == null) {
+                    ManageLinksActivity.this.linkIconRevenue.setBounds(dp - AndroidUtilities.dp(12.0f), measuredHeight - AndroidUtilities.dp(12.0f), dp + AndroidUtilities.dp(12.0f), measuredHeight + AndroidUtilities.dp(12.0f));
+                    drawable = ManageLinksActivity.this.linkIconRevenue;
+                } else if (tLRPC$TL_chatInviteExported.revoked) {
+                    ManageLinksActivity.this.linkIconRevoked.setBounds(dp - AndroidUtilities.dp(12.0f), measuredHeight - AndroidUtilities.dp(12.0f), dp + AndroidUtilities.dp(12.0f), measuredHeight + AndroidUtilities.dp(12.0f));
+                    drawable = ManageLinksActivity.this.linkIconRevoked;
+                } else {
+                    ManageLinksActivity.this.linkIcon.setBounds(dp - AndroidUtilities.dp(12.0f), measuredHeight - AndroidUtilities.dp(12.0f), dp + AndroidUtilities.dp(12.0f), measuredHeight + AndroidUtilities.dp(12.0f));
+                    drawable = ManageLinksActivity.this.linkIcon;
+                }
+                drawable.draw(canvas);
+                if (this.drawDivider) {
+                    return;
+                }
+                canvas.drawLine(AndroidUtilities.dp(70.0f), getMeasuredHeight() - 1, getMeasuredWidth() + AndroidUtilities.dp(23.0f), getMeasuredHeight(), Theme.dividerPaint);
+                return;
+            }
+            if (z) {
+                f = this.lastDrawExpringProgress;
+            }
+            float f5 = f;
+            this.paint2.setColor(blendARGB);
+            this.rectF.set(dp - AndroidUtilities.dp(20.0f), measuredHeight - AndroidUtilities.dp(20.0f), AndroidUtilities.dp(20.0f) + dp, AndroidUtilities.dp(20.0f) + measuredHeight);
+            if (this.animateToStateProgress == 1.0f || (hasProgress(this.animateFromState) && !this.animateHideExpiring)) {
+                float f6 = (-f5) * 360.0f;
+                canvas.drawArc(this.rectF, -90.0f, f6, false, this.paint2);
+                this.timerParticles.draw(canvas, this.paint2, this.rectF, f6, 1.0f);
+            } else {
+                canvas.save();
+                float f7 = this.animateHideExpiring ? 1.0f - this.animateToStateProgress : this.animateToStateProgress;
+                double d = 0.3f * f7;
+                Double.isNaN(d);
+                float f8 = (float) (d + 0.7d);
+                canvas.scale(f8, f8, this.rectF.centerX(), this.rectF.centerY());
+                float f9 = (-f5) * 360.0f;
+                canvas.drawArc(this.rectF, -90.0f, f9, false, this.paint2);
+                this.timerParticles.draw(canvas, this.paint2, this.rectF, f9, f7);
+                canvas.restore();
+            }
+            if (!((BaseFragment) ManageLinksActivity.this).isPaused) {
+                invalidate();
+            }
+            this.lastDrawExpringProgress = f5;
+            tLRPC$TL_chatInviteExported = this.invite;
+            if (tLRPC$TL_chatInviteExported.subscription_pricing == null) {
+            }
+            drawable.draw(canvas);
+            if (this.drawDivider) {
+            }
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(60.0f), 1073741824));
+            this.paint2.setStrokeWidth(AndroidUtilities.dp(2.0f));
+        }
+
+        public void setLink(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, int i) {
+            TextView textView;
+            String str;
+            String str2;
+            String formatPluralString;
+            SpannableStringBuilder spannableStringBuilder;
+            String string;
+            int i2;
+            TextView textView2;
+            String str3;
+            this.timerRunning = false;
+            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = this.invite;
+            if (tLRPC$TL_chatInviteExported2 == null || tLRPC$TL_chatInviteExported == null || !tLRPC$TL_chatInviteExported2.link.equals(tLRPC$TL_chatInviteExported.link)) {
+                this.lastDrawingState = -1;
+                this.animateToStateProgress = 1.0f;
+            }
+            this.invite = tLRPC$TL_chatInviteExported;
+            this.position = i;
+            if (tLRPC$TL_chatInviteExported == null) {
+                return;
+            }
+            int dp = AndroidUtilities.dp(30.0f);
+            int i3 = 8;
+            if (tLRPC$TL_chatInviteExported.subscription_pricing != null) {
+                this.priceLayout.setVisibility(0);
+                this.optionsView.setVisibility(8);
+                this.priceTitleView.setText(StarsIntroActivity.replaceStarsWithPlain("⭐️ " + LocaleController.formatNumber(tLRPC$TL_chatInviteExported.subscription_pricing.amount, ','), 0.75f));
+                int i4 = tLRPC$TL_chatInviteExported.subscription_pricing.period;
+                if (i4 == 2592000) {
+                    textView2 = this.priceSubitleView;
+                    str3 = LocaleController.getString(R.string.StarsParticipantSubscriptionPerMonth);
+                } else if (i4 == 300) {
+                    textView2 = this.priceSubitleView;
+                    str3 = "per 5 minutes";
+                } else {
+                    if (i4 == 60) {
+                        textView2 = this.priceSubitleView;
+                        str3 = "each minute";
+                    }
+                    dp = AndroidUtilities.dp(28.0f) + ((int) Math.max(HintView2.measureCorrectly(this.priceTitleView.getText(), this.priceTitleView.getPaint()), HintView2.measureCorrectly(this.priceSubitleView.getText(), this.priceSubitleView.getPaint())));
+                }
+                textView2.setText(str3);
+                dp = AndroidUtilities.dp(28.0f) + ((int) Math.max(HintView2.measureCorrectly(this.priceTitleView.getText(), this.priceTitleView.getPaint()), HintView2.measureCorrectly(this.priceSubitleView.getText(), this.priceSubitleView.getPaint())));
+            } else {
+                this.priceLayout.setVisibility(8);
+                this.optionsView.setVisibility(8);
+            }
+            ((ViewGroup.MarginLayoutParams) this.textLayout.getLayoutParams()).rightMargin = dp;
+            if (TextUtils.isEmpty(tLRPC$TL_chatInviteExported.title)) {
+                if (tLRPC$TL_chatInviteExported.link.startsWith("https://t.me/+")) {
+                    textView = this.titleView;
+                    str = MessagesController.getInstance(((BaseFragment) ManageLinksActivity.this).currentAccount).linkPrefix + "/" + tLRPC$TL_chatInviteExported.link.substring(14);
+                } else {
+                    if (tLRPC$TL_chatInviteExported.link.startsWith("https://t.me/joinchat/")) {
+                        textView = this.titleView;
+                        str2 = tLRPC$TL_chatInviteExported.link;
+                        i3 = 22;
+                    } else if (tLRPC$TL_chatInviteExported.link.startsWith("https://")) {
+                        textView = this.titleView;
+                        str2 = tLRPC$TL_chatInviteExported.link;
+                    } else {
+                        textView = this.titleView;
+                        str = tLRPC$TL_chatInviteExported.link;
+                    }
+                    str = str2.substring(i3);
+                }
+                textView.setText(str);
+            } else {
+                SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(tLRPC$TL_chatInviteExported.title);
+                Emoji.replaceEmoji((CharSequence) spannableStringBuilder2, this.titleView.getPaint().getFontMetricsInt(), (int) this.titleView.getPaint().getTextSize(), false);
+                this.titleView.setText(spannableStringBuilder2);
+            }
+            int i5 = tLRPC$TL_chatInviteExported.usage;
+            if (i5 == 0 && tLRPC$TL_chatInviteExported.usage_limit == 0 && tLRPC$TL_chatInviteExported.requested == 0) {
+                formatPluralString = LocaleController.getString(tLRPC$TL_chatInviteExported.subscription_pricing != null ? R.string.NoOneSubscribed : R.string.NoOneJoined);
+            } else {
+                int i6 = tLRPC$TL_chatInviteExported.usage_limit;
+                if (i6 > 0 && i5 == 0 && !tLRPC$TL_chatInviteExported.expired && !tLRPC$TL_chatInviteExported.revoked) {
+                    formatPluralString = LocaleController.formatPluralString("CanJoin", i6, new Object[0]);
+                } else if (i6 > 0 && tLRPC$TL_chatInviteExported.expired && tLRPC$TL_chatInviteExported.revoked) {
+                    formatPluralString = LocaleController.formatPluralString("PeopleJoined", tLRPC$TL_chatInviteExported.usage, new Object[0]) + ", " + LocaleController.formatPluralString("PeopleJoinedRemaining", tLRPC$TL_chatInviteExported.usage_limit - tLRPC$TL_chatInviteExported.usage, new Object[0]);
+                } else {
+                    formatPluralString = i5 > 0 ? LocaleController.formatPluralString("PeopleJoined", i5, new Object[0]) : "";
+                    if (tLRPC$TL_chatInviteExported.requested > 0) {
+                        if (tLRPC$TL_chatInviteExported.usage > 0) {
+                            formatPluralString = formatPluralString + ", ";
+                        }
+                        formatPluralString = formatPluralString + LocaleController.formatPluralString("JoinRequests", tLRPC$TL_chatInviteExported.requested, new Object[0]);
+                    }
+                }
+            }
+            if (tLRPC$TL_chatInviteExported.permanent && !tLRPC$TL_chatInviteExported.revoked) {
+                SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(formatPluralString);
+                DotDividerSpan dotDividerSpan = new DotDividerSpan();
+                dotDividerSpan.setTopPadding(AndroidUtilities.dp(1.5f));
+                spannableStringBuilder3.append((CharSequence) "  .  ").setSpan(dotDividerSpan, spannableStringBuilder3.length() - 3, spannableStringBuilder3.length() - 2, 0);
+                spannableStringBuilder3.append((CharSequence) LocaleController.getString(R.string.Permanent));
+                this.subtitleView.setText(spannableStringBuilder3);
+                return;
+            }
+            if (tLRPC$TL_chatInviteExported.expired || tLRPC$TL_chatInviteExported.revoked) {
+                if (tLRPC$TL_chatInviteExported.revoked && tLRPC$TL_chatInviteExported.usage == 0) {
+                    formatPluralString = LocaleController.getString(tLRPC$TL_chatInviteExported.subscription_pricing != null ? R.string.NoOneSubscribed : R.string.NoOneJoined);
+                }
+                spannableStringBuilder = new SpannableStringBuilder(formatPluralString);
+                DotDividerSpan dotDividerSpan2 = new DotDividerSpan();
+                dotDividerSpan2.setTopPadding(AndroidUtilities.dp(1.5f));
+                spannableStringBuilder.append((CharSequence) "  .  ").setSpan(dotDividerSpan2, spannableStringBuilder.length() - 3, spannableStringBuilder.length() - 2, 0);
+                boolean z = tLRPC$TL_chatInviteExported.revoked;
+                string = LocaleController.getString((z || (i2 = tLRPC$TL_chatInviteExported.usage_limit) <= 0 || tLRPC$TL_chatInviteExported.usage < i2) ? z ? R.string.Revoked : R.string.Expired : R.string.LinkLimitReached);
+            } else if (tLRPC$TL_chatInviteExported.expire_date <= 0) {
+                this.subtitleView.setText(formatPluralString);
+                return;
+            } else {
+                spannableStringBuilder = new SpannableStringBuilder(formatPluralString);
+                DotDividerSpan dotDividerSpan3 = new DotDividerSpan();
+                dotDividerSpan3.setTopPadding(AndroidUtilities.dp(1.5f));
+                spannableStringBuilder.append((CharSequence) "  .  ").setSpan(dotDividerSpan3, spannableStringBuilder.length() - 3, spannableStringBuilder.length() - 2, 0);
+                long currentTimeMillis = (tLRPC$TL_chatInviteExported.expire_date * 1000) - (System.currentTimeMillis() + (ManageLinksActivity.this.timeDif * 1000));
+                if (currentTimeMillis < 0) {
+                    currentTimeMillis = 0;
+                }
+                if (currentTimeMillis <= 86400000) {
+                    long j = currentTimeMillis / 1000;
+                    int i7 = (int) (j % 60);
+                    long j2 = j / 60;
+                    int i8 = (int) (j2 / 60);
+                    Locale locale = Locale.ENGLISH;
+                    spannableStringBuilder.append((CharSequence) String.format(locale, "%02d", Integer.valueOf(i8))).append((CharSequence) String.format(locale, ":%02d", Integer.valueOf((int) (j2 % 60)))).append((CharSequence) String.format(locale, ":%02d", Integer.valueOf(i7)));
+                    this.timerRunning = true;
+                    this.subtitleView.setText(spannableStringBuilder);
+                }
+                string = LocaleController.formatPluralString("DaysLeft", (int) (currentTimeMillis / 86400000), new Object[0]);
+            }
+            spannableStringBuilder.append((CharSequence) string);
+            this.subtitleView.setText(spannableStringBuilder);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes4.dex */
+    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+        private Context mContext;
+
+        public ListAdapter(Context context) {
+            this.mContext = context;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemCount() {
+            return ManageLinksActivity.this.rowCount;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemViewType(int i) {
+            if (i == ManageLinksActivity.this.helpRow) {
+                return 0;
+            }
+            if (i == ManageLinksActivity.this.permanentLinkHeaderRow || i == ManageLinksActivity.this.revokedHeader || i == ManageLinksActivity.this.adminsHeaderRow || i == ManageLinksActivity.this.linksHeaderRow) {
+                return 1;
+            }
+            if (i == ManageLinksActivity.this.permanentLinkRow) {
+                return 2;
+            }
+            if (i == ManageLinksActivity.this.createNewLinkRow) {
+                return 3;
+            }
+            if (i == ManageLinksActivity.this.dividerRow || i == ManageLinksActivity.this.revokedDivider || i == ManageLinksActivity.this.revokeAllDivider || i == ManageLinksActivity.this.creatorDividerRow || i == ManageLinksActivity.this.adminsDividerRow) {
+                return 4;
+            }
+            if (i < ManageLinksActivity.this.linksStartRow || i >= ManageLinksActivity.this.linksEndRow) {
+                if (i < ManageLinksActivity.this.revokedLinksStartRow || i >= ManageLinksActivity.this.revokedLinksEndRow) {
+                    if (i == ManageLinksActivity.this.linksLoadingRow) {
+                        return 6;
+                    }
+                    if (i == ManageLinksActivity.this.lastDivider) {
+                        return 7;
+                    }
+                    if (i == ManageLinksActivity.this.revokeAllRow) {
+                        return 8;
+                    }
+                    if (i == ManageLinksActivity.this.createLinkHelpRow) {
+                        return 9;
+                    }
+                    if (i != ManageLinksActivity.this.creatorRow) {
+                        if (i < ManageLinksActivity.this.adminsStartRow || i >= ManageLinksActivity.this.adminsEndRow) {
+                            return i == ManageLinksActivity.this.linksInfoRow ? 11 : 1;
+                        }
+                        return 10;
+                    }
+                    return 10;
+                }
+                return 5;
+            }
+            return 5;
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
+        public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
+            int adapterPosition = viewHolder.getAdapterPosition();
+            if (ManageLinksActivity.this.creatorRow == adapterPosition || ManageLinksActivity.this.createNewLinkRow == adapterPosition) {
+                return true;
+            }
+            if (adapterPosition < ManageLinksActivity.this.linksStartRow || adapterPosition >= ManageLinksActivity.this.linksEndRow) {
+                if ((adapterPosition < ManageLinksActivity.this.revokedLinksStartRow || adapterPosition >= ManageLinksActivity.this.revokedLinksEndRow) && adapterPosition != ManageLinksActivity.this.revokeAllRow) {
+                    return adapterPosition >= ManageLinksActivity.this.adminsStartRow && adapterPosition < ManageLinksActivity.this.adminsEndRow;
+                }
+                return true;
+            }
+            return true;
+        }
+
+        /* JADX WARN: Code restructure failed: missing block: B:19:0x005d, code lost:
+            if (org.telegram.messenger.ChatObject.isChannelAndNotMegaGroup(r0) != false) goto L18;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:36:0x0106, code lost:
+            if (org.telegram.messenger.ChatObject.isChannelAndNotMegaGroup(r0) != false) goto L18;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:37:0x0108, code lost:
+            r10 = org.telegram.messenger.R.string.ChannelLinksInfoPaid;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:45:0x0141, code lost:
+            if (r10 == (r8.this$0.linksEndRow - 1)) goto L51;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:48:0x015f, code lost:
+            if (r10 == (r8.this$0.revokedLinksEndRow - 1)) goto L51;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:49:0x0161, code lost:
+            r1 = false;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:30:0x00bf  */
+        /* JADX WARN: Removed duplicated region for block: B:89:? A[RETURN, SYNTHETIC] */
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+            int i2;
+            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported;
+            TextInfoPrivacyCell textInfoPrivacyCell;
+            int i3;
+            TLRPC$User tLRPC$User;
+            int itemViewType = viewHolder.getItemViewType();
+            boolean z = true;
+            if (itemViewType == 1) {
+                HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
+                if (i == ManageLinksActivity.this.permanentLinkHeaderRow) {
+                    i2 = (ManageLinksActivity.this.isPublic && ManageLinksActivity.this.adminId == ManageLinksActivity.this.getAccountInstance().getUserConfig().clientUserId) ? R.string.PublicLink : ManageLinksActivity.this.adminId == ManageLinksActivity.this.getAccountInstance().getUserConfig().clientUserId ? R.string.ChannelInviteLinkTitle : R.string.PermanentLinkForThisAdmin;
+                } else if (i == ManageLinksActivity.this.revokedHeader) {
+                    i2 = R.string.RevokedLinks;
+                } else if (i == ManageLinksActivity.this.linksHeaderRow) {
+                    i2 = R.string.LinksCreatedByThisAdmin;
+                } else if (i != ManageLinksActivity.this.adminsHeaderRow) {
+                    return;
+                } else {
+                    i2 = R.string.LinksCreatedByOtherAdmins;
+                }
+                headerCell.setText(LocaleController.getString(i2));
+            } else if (itemViewType == 2) {
+                LinkActionView linkActionView = (LinkActionView) viewHolder.itemView;
+                linkActionView.setCanEdit(ManageLinksActivity.this.adminId == ManageLinksActivity.this.getAccountInstance().getUserConfig().clientUserId);
+                if (ManageLinksActivity.this.isPublic && ManageLinksActivity.this.adminId == ManageLinksActivity.this.getAccountInstance().getUserConfig().clientUserId) {
+                    if (ManageLinksActivity.this.info != null) {
+                        linkActionView.setLink("https://t.me/" + ChatObject.getPublicUsername(ManageLinksActivity.this.currentChat));
+                        linkActionView.setUsers(0, null);
+                        linkActionView.hideRevokeOption(true);
+                        return;
+                    }
+                    return;
+                }
+                linkActionView.hideRevokeOption(!ManageLinksActivity.this.canEdit);
+                if (ManageLinksActivity.this.invite == null) {
+                    linkActionView.setLink(null);
+                    linkActionView.loadUsers(null, ManageLinksActivity.this.currentChatId);
+                    return;
+                }
+                TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = ManageLinksActivity.this.invite;
+                linkActionView.setLink(tLRPC$TL_chatInviteExported2.link);
+                linkActionView.loadUsers(tLRPC$TL_chatInviteExported2, ManageLinksActivity.this.currentChatId);
+            } else if (itemViewType == 3) {
+                Drawable drawable = this.mContext.getResources().getDrawable(R.drawable.poll_add_circle);
+                Drawable drawable2 = this.mContext.getResources().getDrawable(R.drawable.poll_add_plus);
+                int color = Theme.getColor(Theme.key_switchTrackChecked);
+                PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+                drawable.setColorFilter(new PorterDuffColorFilter(color, mode));
+                drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_checkboxCheck), mode));
+                ((CreationTextCell) viewHolder.itemView).setTextAndIcon(LocaleController.getString(R.string.CreateNewLink), new CombinedDrawable(drawable, drawable2), !ManageLinksActivity.this.invites.isEmpty());
+            } else if (itemViewType == 5) {
+                if (i < ManageLinksActivity.this.linksStartRow || i >= ManageLinksActivity.this.linksEndRow) {
+                    tLRPC$TL_chatInviteExported = (TLRPC$TL_chatInviteExported) ManageLinksActivity.this.revokedInvites.get(i - ManageLinksActivity.this.revokedLinksStartRow);
+                } else {
+                    tLRPC$TL_chatInviteExported = (TLRPC$TL_chatInviteExported) ManageLinksActivity.this.invites.get(i - ManageLinksActivity.this.linksStartRow);
+                }
+                LinkCell linkCell = (LinkCell) viewHolder.itemView;
+                linkCell.setLink(tLRPC$TL_chatInviteExported, i - ManageLinksActivity.this.linksStartRow);
+                linkCell.drawDivider = z;
+            } else {
+                switch (itemViewType) {
+                    case 9:
+                        textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
+                        TLRPC$ChatFull chatFull = ManageLinksActivity.this.getMessagesController().getChatFull(ManageLinksActivity.this.currentChatId);
+                        TLRPC$Chat chat = ManageLinksActivity.this.getMessagesController().getChat(Long.valueOf(ManageLinksActivity.this.currentChatId));
+                        if (chatFull != null) {
+                            if (chatFull.paid_media_allowed) {
+                                break;
+                            }
+                        }
+                        int i4 = R.string.ChannelLinksInfo;
+                        textInfoPrivacyCell.setText(LocaleController.getString(i4));
+                        return;
+                    case 10:
+                        ManageChatUserCell manageChatUserCell = (ManageChatUserCell) viewHolder.itemView;
+                        if (i == ManageLinksActivity.this.creatorRow) {
+                            tLRPC$User = ManageLinksActivity.this.getMessagesController().getUser(Long.valueOf(ManageLinksActivity.this.adminId));
+                            i3 = ManageLinksActivity.this.invitesCount;
+                        } else {
+                            TLRPC$TL_chatAdminWithInvites tLRPC$TL_chatAdminWithInvites = (TLRPC$TL_chatAdminWithInvites) ManageLinksActivity.this.admins.get(i - ManageLinksActivity.this.adminsStartRow);
+                            TLRPC$User tLRPC$User2 = (TLRPC$User) ManageLinksActivity.this.users.get(Long.valueOf(tLRPC$TL_chatAdminWithInvites.admin_id));
+                            i3 = tLRPC$TL_chatAdminWithInvites.invites_count;
+                            if (i != ManageLinksActivity.this.adminsEndRow - 1) {
+                                tLRPC$User = tLRPC$User2;
+                                if (tLRPC$User == null) {
+                                    manageChatUserCell.setData(tLRPC$User, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name), LocaleController.formatPluralString("InviteLinkCount", i3, new Object[0]), z);
+                                    return;
+                                }
+                                return;
+                            }
+                            tLRPC$User = tLRPC$User2;
+                        }
+                        z = false;
+                        if (tLRPC$User == null) {
+                        }
+                    case 11:
+                        textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
+                        textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                        if (i == ManageLinksActivity.this.linksInfoRow) {
+                            TLRPC$ChatFull chatFull2 = ManageLinksActivity.this.getMessagesController().getChatFull(ManageLinksActivity.this.currentChatId);
+                            TLRPC$Chat chat2 = ManageLinksActivity.this.getMessagesController().getChat(Long.valueOf(ManageLinksActivity.this.currentChatId));
+                            if (chatFull2 != null) {
+                                if (chatFull2.paid_media_allowed) {
+                                    break;
+                                }
+                            }
+                            int i42 = R.string.ChannelLinksInfo;
+                            textInfoPrivacyCell.setText(LocaleController.getString(i42));
+                            return;
+                        }
+                        return;
+                    default:
+                        return;
+                }
+            }
+        }
+
+        /* JADX WARN: Multi-variable type inference failed */
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            FlickerLoadingView flickerLoadingView;
+            TextSettingsCell textSettingsCell;
+            View view;
+            View view2;
+            switch (i) {
+                case 1:
+                    view2 = new HeaderCell(this.mContext, 23);
+                    view2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    textSettingsCell = view2;
+                    break;
+                case 2:
+                    Context context = this.mContext;
+                    ManageLinksActivity manageLinksActivity = ManageLinksActivity.this;
+                    final LinkActionView linkActionView = new LinkActionView(context, manageLinksActivity, null, manageLinksActivity.currentChatId, true, ManageLinksActivity.this.isChannel);
+                    linkActionView.setPermanent(true);
+                    linkActionView.setDelegate(new LinkActionView.Delegate() { // from class: org.telegram.ui.ManageLinksActivity.ListAdapter.1
+                        @Override // org.telegram.ui.Components.LinkActionView.Delegate
+                        public /* synthetic */ void editLink() {
+                            LinkActionView.Delegate.-CC.$default$editLink(this);
+                        }
+
+                        @Override // org.telegram.ui.Components.LinkActionView.Delegate
+                        public /* synthetic */ void removeLink() {
+                            LinkActionView.Delegate.-CC.$default$removeLink(this);
+                        }
+
+                        @Override // org.telegram.ui.Components.LinkActionView.Delegate
+                        public void revokeLink() {
+                            ManageLinksActivity.this.revokePermanent();
+                        }
+
+                        @Override // org.telegram.ui.Components.LinkActionView.Delegate
+                        public void showUsersForPermanentLink() {
+                            ManageLinksActivity manageLinksActivity2 = ManageLinksActivity.this;
+                            Context context2 = linkActionView.getContext();
+                            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = ManageLinksActivity.this.invite;
+                            TLRPC$ChatFull tLRPC$ChatFull = ManageLinksActivity.this.info;
+                            HashMap hashMap = ManageLinksActivity.this.users;
+                            ManageLinksActivity manageLinksActivity3 = ManageLinksActivity.this;
+                            manageLinksActivity2.inviteLinkBottomSheet = new InviteLinkBottomSheet(context2, tLRPC$TL_chatInviteExported, tLRPC$ChatFull, hashMap, manageLinksActivity3, manageLinksActivity3.currentChatId, true, ManageLinksActivity.this.isChannel);
+                            ManageLinksActivity.this.inviteLinkBottomSheet.show();
+                        }
+                    });
+                    flickerLoadingView = linkActionView;
+                    flickerLoadingView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    textSettingsCell = flickerLoadingView;
+                    break;
+                case 3:
+                    view2 = new CreationTextCell(this.mContext, 64, ((BaseFragment) ManageLinksActivity.this).resourceProvider);
+                    view2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    textSettingsCell = view2;
+                    break;
+                case 4:
+                    textSettingsCell = new ShadowSectionCell(this.mContext);
+                    break;
+                case 5:
+                    textSettingsCell = new LinkCell(this.mContext);
+                    break;
+                case 6:
+                    FlickerLoadingView flickerLoadingView2 = new FlickerLoadingView(this.mContext);
+                    flickerLoadingView2.setIsSingleCell(true);
+                    flickerLoadingView2.setViewType(9);
+                    flickerLoadingView2.showDate(false);
+                    flickerLoadingView = flickerLoadingView2;
+                    flickerLoadingView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    textSettingsCell = flickerLoadingView;
+                    break;
+                case 7:
+                    view = new ShadowSectionCell(this.mContext);
+                    view.setBackground(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                    textSettingsCell = view;
+                    break;
+                case 8:
+                    TextSettingsCell textSettingsCell2 = new TextSettingsCell(this.mContext);
+                    textSettingsCell2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    textSettingsCell2.setText(LocaleController.getString(R.string.DeleteAllRevokedLinks), false);
+                    textSettingsCell2.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
+                    textSettingsCell = textSettingsCell2;
+                    break;
+                case 9:
+                    view = new TextInfoPrivacyCell(this.mContext);
+                    view.setBackground(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                    textSettingsCell = view;
+                    break;
+                case 10:
+                    view2 = new ManageChatUserCell(this.mContext, 8, 6, false);
+                    view2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    textSettingsCell = view2;
+                    break;
+                case 11:
+                    textSettingsCell = new TextInfoPrivacyCell(this.mContext, ((BaseFragment) ManageLinksActivity.this).resourceProvider);
+                    break;
+                default:
+                    View hintInnerCell = new HintInnerCell(this.mContext);
+                    hintInnerCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundWhite));
+                    textSettingsCell = hintInnerCell;
+                    break;
+            }
+            textSettingsCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(textSettingsCell);
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void onViewRecycled(RecyclerView.ViewHolder viewHolder) {
+            View view = viewHolder.itemView;
+            if (view instanceof ManageChatUserCell) {
+                ((ManageChatUserCell) view).recycle();
             }
         }
     }
@@ -237,11 +1255,7 @@ public class ManageLinksActivity extends BaseFragment {
         TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j));
         this.currentChat = chat;
         this.isChannel = ChatObject.isChannel(chat) && !this.currentChat.megagroup;
-        if (j2 == 0) {
-            this.adminId = getAccountInstance().getUserConfig().clientUserId;
-        } else {
-            this.adminId = j2;
-        }
+        this.adminId = j2 == 0 ? getAccountInstance().getUserConfig().clientUserId : j2;
         TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.adminId));
         if (this.adminId == getAccountInstance().getUserConfig().clientUserId || (user != null && !user.bot)) {
             z = true;
@@ -250,74 +1264,150 @@ public class ManageLinksActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void loadLinks(boolean z) {
-        if (this.loadAdmins && !this.adminsLoaded) {
-            this.linksLoading = true;
-            TLRPC$TL_messages_getAdminsWithInvites tLRPC$TL_messages_getAdminsWithInvites = new TLRPC$TL_messages_getAdminsWithInvites();
-            tLRPC$TL_messages_getAdminsWithInvites.peer = getMessagesController().getInputPeer(-this.currentChatId);
-            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getAdminsWithInvites, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda0
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ManageLinksActivity.this.lambda$loadLinks$2(tLObject, tLRPC$TL_error);
+    public /* synthetic */ boolean lambda$createView$10(View view, int i) {
+        if ((i < this.linksStartRow || i >= this.linksEndRow) && (i < this.revokedLinksStartRow || i >= this.revokedLinksEndRow)) {
+            return false;
+        }
+        ((LinkCell) view).optionsView.callOnClick();
+        view.performHapticFeedback(0, 2);
+        return true;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$6(TLRPC$TL_error tLRPC$TL_error) {
+        this.deletingRevokedLinks = false;
+        if (tLRPC$TL_error == null) {
+            DiffCallback saveListState = saveListState();
+            this.revokedInvites.clear();
+            updateRecyclerViewAnimated(saveListState);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$7(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda15
+            @Override // java.lang.Runnable
+            public final void run() {
+                ManageLinksActivity.this.lambda$createView$6(tLRPC$TL_error);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$8(DialogInterface dialogInterface, int i) {
+        TLRPC$TL_messages_deleteRevokedExportedChatInvites tLRPC$TL_messages_deleteRevokedExportedChatInvites = new TLRPC$TL_messages_deleteRevokedExportedChatInvites();
+        tLRPC$TL_messages_deleteRevokedExportedChatInvites.peer = getMessagesController().getInputPeer(-this.currentChatId);
+        tLRPC$TL_messages_deleteRevokedExportedChatInvites.admin_id = this.adminId == getUserConfig().getClientUserId() ? getMessagesController().getInputUser(getUserConfig().getCurrentUser()) : getMessagesController().getInputUser(this.adminId);
+        this.deletingRevokedLinks = true;
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteRevokedExportedChatInvites, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda9
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                ManageLinksActivity.this.lambda$createView$7(tLObject, tLRPC$TL_error);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$9(Context context, View view, int i) {
+        BaseFragment baseFragment;
+        if (i == this.creatorRow) {
+            TLRPC$User tLRPC$User = (TLRPC$User) this.users.get(Long.valueOf(this.invite.admin_id));
+            if (tLRPC$User == null) {
+                return;
+            }
+            Bundle bundle = new Bundle();
+            bundle.putLong("user_id", tLRPC$User.id);
+            MessagesController.getInstance(UserConfig.selectedAccount).putUser(tLRPC$User, false);
+            baseFragment = new ProfileActivity(bundle);
+        } else if (i != this.createNewLinkRow) {
+            int i2 = this.linksStartRow;
+            if (i >= i2 && i < this.linksEndRow) {
+                InviteLinkBottomSheet inviteLinkBottomSheet = new InviteLinkBottomSheet(context, (TLRPC$TL_chatInviteExported) this.invites.get(i - i2), this.info, this.users, this, this.currentChatId, false, this.isChannel);
+                this.inviteLinkBottomSheet = inviteLinkBottomSheet;
+                inviteLinkBottomSheet.setCanEdit(this.canEdit);
+                this.inviteLinkBottomSheet.show();
+                return;
+            }
+            int i3 = this.revokedLinksStartRow;
+            if (i >= i3 && i < this.revokedLinksEndRow) {
+                InviteLinkBottomSheet inviteLinkBottomSheet2 = new InviteLinkBottomSheet(context, (TLRPC$TL_chatInviteExported) this.revokedInvites.get(i - i3), this.info, this.users, this, this.currentChatId, false, this.isChannel);
+                this.inviteLinkBottomSheet = inviteLinkBottomSheet2;
+                inviteLinkBottomSheet2.show();
+                return;
+            } else if (i == this.revokeAllRow) {
+                if (this.deletingRevokedLinks) {
+                    return;
                 }
-            }), getClassGuid());
-        } else {
-            TLRPC$TL_messages_getExportedChatInvites tLRPC$TL_messages_getExportedChatInvites = new TLRPC$TL_messages_getExportedChatInvites();
-            tLRPC$TL_messages_getExportedChatInvites.peer = getMessagesController().getInputPeer(-this.currentChatId);
-            if (this.adminId == getUserConfig().getClientUserId()) {
-                tLRPC$TL_messages_getExportedChatInvites.admin_id = getMessagesController().getInputUser(getUserConfig().getCurrentUser());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                builder.setTitle(LocaleController.getString(R.string.DeleteAllRevokedLinks));
+                builder.setMessage(LocaleController.getString(R.string.DeleteAllRevokedLinkHelp));
+                builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda6
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i4) {
+                        ManageLinksActivity.this.lambda$createView$8(dialogInterface, i4);
+                    }
+                });
+                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+                showDialog(builder.create());
+                return;
             } else {
-                tLRPC$TL_messages_getExportedChatInvites.admin_id = getMessagesController().getInputUser(this.adminId);
-            }
-            final boolean z2 = this.loadRevoked;
-            if (z2) {
-                tLRPC$TL_messages_getExportedChatInvites.revoked = true;
-                if (!this.revokedInvites.isEmpty()) {
-                    tLRPC$TL_messages_getExportedChatInvites.flags |= 4;
-                    ArrayList<TLRPC$TL_chatInviteExported> arrayList = this.revokedInvites;
-                    tLRPC$TL_messages_getExportedChatInvites.offset_link = arrayList.get(arrayList.size() - 1).link;
-                    ArrayList<TLRPC$TL_chatInviteExported> arrayList2 = this.revokedInvites;
-                    tLRPC$TL_messages_getExportedChatInvites.offset_date = arrayList2.get(arrayList2.size() - 1).date;
+                int i4 = this.adminsStartRow;
+                if (i < i4 || i >= this.adminsEndRow) {
+                    return;
                 }
-            } else if (!this.invites.isEmpty()) {
-                tLRPC$TL_messages_getExportedChatInvites.flags |= 4;
-                ArrayList<TLRPC$TL_chatInviteExported> arrayList3 = this.invites;
-                tLRPC$TL_messages_getExportedChatInvites.offset_link = arrayList3.get(arrayList3.size() - 1).link;
-                ArrayList<TLRPC$TL_chatInviteExported> arrayList4 = this.invites;
-                tLRPC$TL_messages_getExportedChatInvites.offset_date = arrayList4.get(arrayList4.size() - 1).date;
-            }
-            this.linksLoading = true;
-            final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.isPublic ? null : this.invite;
-            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getExportedChatInvites, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda1
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ManageLinksActivity.this.lambda$loadLinks$5(tLRPC$TL_chatInviteExported, z2, tLObject, tLRPC$TL_error);
+                TLRPC$TL_chatAdminWithInvites tLRPC$TL_chatAdminWithInvites = (TLRPC$TL_chatAdminWithInvites) this.admins.get(i - i4);
+                if (this.users.containsKey(Long.valueOf(tLRPC$TL_chatAdminWithInvites.admin_id))) {
+                    getMessagesController().putUser((TLRPC$User) this.users.get(Long.valueOf(tLRPC$TL_chatAdminWithInvites.admin_id)), false);
                 }
-            }), getClassGuid());
+                ManageLinksActivity manageLinksActivity = new ManageLinksActivity(this.currentChatId, tLRPC$TL_chatAdminWithInvites.admin_id, tLRPC$TL_chatAdminWithInvites.invites_count);
+                manageLinksActivity.setInfo(this.info, null);
+                presentFragment(manageLinksActivity);
+                return;
+            }
+        } else {
+            LinkEditActivity linkEditActivity = new LinkEditActivity(0, this.currentChatId);
+            linkEditActivity.setCallback(this.linkEditActivityCallback);
+            baseFragment = linkEditActivity;
         }
-        if (z) {
-            updateRows(true);
+        presentFragment(baseFragment);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$deleteLink$13(TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
+        if (tLRPC$TL_error == null) {
+            this.linkEditActivityCallback.onLinkRemoved(tLRPC$TL_chatInviteExported);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadLinks$1(final TLRPC$TL_error tLRPC$TL_error, final TLObject tLObject) {
-        getNotificationCenter().doOnIdle(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda10
+    public /* synthetic */ void lambda$deleteLink$14(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
-                ManageLinksActivity.this.lambda$loadLinks$0(tLRPC$TL_error, tLObject);
+                ManageLinksActivity.this.lambda$deleteLink$13(tLRPC$TL_error, tLRPC$TL_chatInviteExported);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadLinks$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda7
-            @Override // java.lang.Runnable
-            public final void run() {
-                ManageLinksActivity.this.lambda$loadLinks$1(tLRPC$TL_error, tLObject);
+    public /* synthetic */ void lambda$getThemeDescriptions$17() {
+        RecyclerListView recyclerListView = this.listView;
+        if (recyclerListView != null) {
+            int childCount = recyclerListView.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View childAt = this.listView.getChildAt(i);
+                if (childAt instanceof ManageChatUserCell) {
+                    ((ManageChatUserCell) childAt).update(0);
+                }
+                if (childAt instanceof LinkActionView) {
+                    ((LinkActionView) childAt).updateColors();
+                }
             }
-        });
+        }
+        InviteLinkBottomSheet inviteLinkBottomSheet = this.inviteLinkBottomSheet;
+        if (inviteLinkBottomSheet != null) {
+            inviteLinkBottomSheet.updateColors();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -327,13 +1417,13 @@ public class ManageLinksActivity extends BaseFragment {
         if (tLRPC$TL_error == null) {
             TLRPC$TL_messages_chatAdminsWithInvites tLRPC$TL_messages_chatAdminsWithInvites = (TLRPC$TL_messages_chatAdminsWithInvites) tLObject;
             for (int i = 0; i < tLRPC$TL_messages_chatAdminsWithInvites.admins.size(); i++) {
-                TLRPC$TL_chatAdminWithInvites tLRPC$TL_chatAdminWithInvites = tLRPC$TL_messages_chatAdminsWithInvites.admins.get(i);
+                TLRPC$TL_chatAdminWithInvites tLRPC$TL_chatAdminWithInvites = (TLRPC$TL_chatAdminWithInvites) tLRPC$TL_messages_chatAdminsWithInvites.admins.get(i);
                 if (tLRPC$TL_chatAdminWithInvites.admin_id != getAccountInstance().getUserConfig().clientUserId) {
                     this.admins.add(tLRPC$TL_chatAdminWithInvites);
                 }
             }
             for (int i2 = 0; i2 < tLRPC$TL_messages_chatAdminsWithInvites.users.size(); i2++) {
-                TLRPC$User tLRPC$User = tLRPC$TL_messages_chatAdminsWithInvites.users.get(i2);
+                TLRPC$User tLRPC$User = (TLRPC$User) tLRPC$TL_messages_chatAdminsWithInvites.users.get(i2);
                 this.users.put(Long.valueOf(tLRPC$User.id), tLRPC$User);
             }
         }
@@ -355,41 +1445,27 @@ public class ManageLinksActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadLinks$5(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2;
-        if (tLRPC$TL_error == null) {
-            TLRPC$TL_messages_exportedChatInvites tLRPC$TL_messages_exportedChatInvites = (TLRPC$TL_messages_exportedChatInvites) tLObject;
-            if (tLRPC$TL_messages_exportedChatInvites.invites.size() > 0 && tLRPC$TL_chatInviteExported != null) {
-                for (int i = 0; i < tLRPC$TL_messages_exportedChatInvites.invites.size(); i++) {
-                    if (((TLRPC$TL_chatInviteExported) tLRPC$TL_messages_exportedChatInvites.invites.get(i)).link.equals(tLRPC$TL_chatInviteExported.link)) {
-                        tLRPC$TL_chatInviteExported2 = (TLRPC$TL_chatInviteExported) tLRPC$TL_messages_exportedChatInvites.invites.remove(i);
-                        break;
-                    }
-                }
-            }
-        }
-        tLRPC$TL_chatInviteExported2 = null;
-        final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported3 = tLRPC$TL_chatInviteExported2;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda5
+    public /* synthetic */ void lambda$loadLinks$1(final TLRPC$TL_error tLRPC$TL_error, final TLObject tLObject) {
+        getNotificationCenter().doOnIdle(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
-                ManageLinksActivity.this.lambda$loadLinks$4(tLRPC$TL_chatInviteExported3, tLRPC$TL_error, tLObject, z);
+                ManageLinksActivity.this.lambda$loadLinks$0(tLRPC$TL_error, tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadLinks$4(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLRPC$TL_error tLRPC$TL_error, final TLObject tLObject, final boolean z) {
-        getNotificationCenter().doOnIdle(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda9
+    public /* synthetic */ void lambda$loadLinks$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
-                ManageLinksActivity.this.lambda$loadLinks$3(tLRPC$TL_chatInviteExported, tLRPC$TL_error, tLObject, z);
+                ManageLinksActivity.this.lambda$loadLinks$1(tLRPC$TL_error, tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x015a  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x0155  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -426,15 +1502,13 @@ public class ManageLinksActivity extends BaseFragment {
                 }
             }
             for (int i3 = 0; i3 < tLRPC$TL_messages_exportedChatInvites.users.size(); i3++) {
-                this.users.put(Long.valueOf(tLRPC$TL_messages_exportedChatInvites.users.get(i3).id), tLRPC$TL_messages_exportedChatInvites.users.get(i3));
+                this.users.put(Long.valueOf(((TLRPC$User) tLRPC$TL_messages_exportedChatInvites.users.get(i3)).id), (TLRPC$User) tLRPC$TL_messages_exportedChatInvites.users.get(i3));
             }
             int i4 = this.rowCount;
             if (tLRPC$TL_messages_exportedChatInvites.invites.size() == 0) {
                 this.hasMore = false;
-            } else if (z) {
-                this.hasMore = this.revokedInvites.size() + 1 < tLRPC$TL_messages_exportedChatInvites.count;
             } else {
-                this.hasMore = this.invites.size() + 1 < tLRPC$TL_messages_exportedChatInvites.count;
+                this.hasMore = !z ? this.invites.size() + 1 >= tLRPC$TL_messages_exportedChatInvites.count : this.revokedInvites.size() + 1 >= tLRPC$TL_messages_exportedChatInvites.count;
             }
             if (tLRPC$TL_messages_exportedChatInvites.invites.size() <= 0 || !this.isOpened) {
                 z2 = true;
@@ -457,10 +1531,7 @@ public class ManageLinksActivity extends BaseFragment {
         if (!this.hasMore && !this.loadRevoked && this.adminId == getAccountInstance().getUserConfig().clientUserId) {
             this.hasMore = true;
             this.loadAdmins = true;
-        } else if (!this.hasMore && !this.loadRevoked) {
-            this.hasMore = true;
-            this.loadRevoked = true;
-        } else {
+        } else if (this.hasMore || this.loadRevoked) {
             z3 = false;
             if (this.hasMore || this.invites.size() + this.revokedInvites.size() + this.admins.size() >= 5) {
                 resumeDelayedFragmentAnimation();
@@ -473,6 +1544,9 @@ public class ManageLinksActivity extends BaseFragment {
                 return;
             }
             updateRows(true);
+        } else {
+            this.hasMore = true;
+            this.loadRevoked = true;
         }
         z3 = true;
         if (this.hasMore) {
@@ -483,6 +1557,236 @@ public class ManageLinksActivity extends BaseFragment {
         if (!z2) {
         }
         updateRows(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$loadLinks$4(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLRPC$TL_error tLRPC$TL_error, final TLObject tLObject, final boolean z) {
+        getNotificationCenter().doOnIdle(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda10
+            @Override // java.lang.Runnable
+            public final void run() {
+                ManageLinksActivity.this.lambda$loadLinks$3(tLRPC$TL_chatInviteExported, tLRPC$TL_error, tLObject, z);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$loadLinks$5(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2;
+        if (tLRPC$TL_error == null) {
+            TLRPC$TL_messages_exportedChatInvites tLRPC$TL_messages_exportedChatInvites = (TLRPC$TL_messages_exportedChatInvites) tLObject;
+            if (tLRPC$TL_messages_exportedChatInvites.invites.size() > 0 && tLRPC$TL_chatInviteExported != null) {
+                for (int i = 0; i < tLRPC$TL_messages_exportedChatInvites.invites.size(); i++) {
+                    if (((TLRPC$TL_chatInviteExported) tLRPC$TL_messages_exportedChatInvites.invites.get(i)).link.equals(tLRPC$TL_chatInviteExported.link)) {
+                        tLRPC$TL_chatInviteExported2 = (TLRPC$TL_chatInviteExported) tLRPC$TL_messages_exportedChatInvites.invites.remove(i);
+                        break;
+                    }
+                }
+            }
+        }
+        tLRPC$TL_chatInviteExported2 = null;
+        final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported3 = tLRPC$TL_chatInviteExported2;
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                ManageLinksActivity.this.lambda$loadLinks$4(tLRPC$TL_chatInviteExported3, tLRPC$TL_error, tLObject, z);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$revokeLink$15(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
+        if (tLRPC$TL_error == null) {
+            if (tLObject instanceof TLRPC$TL_messages_exportedChatInviteReplaced) {
+                TLRPC$TL_messages_exportedChatInviteReplaced tLRPC$TL_messages_exportedChatInviteReplaced = (TLRPC$TL_messages_exportedChatInviteReplaced) tLObject;
+                if (!this.isPublic) {
+                    this.invite = (TLRPC$TL_chatInviteExported) tLRPC$TL_messages_exportedChatInviteReplaced.new_invite;
+                }
+                tLRPC$TL_chatInviteExported.revoked = true;
+                DiffCallback saveListState = saveListState();
+                if (this.isPublic && this.adminId == getAccountInstance().getUserConfig().getClientUserId()) {
+                    this.invites.remove(tLRPC$TL_chatInviteExported);
+                    this.invites.add(0, (TLRPC$TL_chatInviteExported) tLRPC$TL_messages_exportedChatInviteReplaced.new_invite);
+                } else if (this.invite != null) {
+                    this.invite = (TLRPC$TL_chatInviteExported) tLRPC$TL_messages_exportedChatInviteReplaced.new_invite;
+                }
+                this.revokedInvites.add(0, tLRPC$TL_chatInviteExported);
+                updateRecyclerViewAnimated(saveListState);
+            } else {
+                this.linkEditActivityCallback.onLinkEdited(tLRPC$TL_chatInviteExported, tLObject);
+                TLRPC$ChatFull tLRPC$ChatFull = this.info;
+                if (tLRPC$ChatFull != null) {
+                    int i = tLRPC$ChatFull.invitesCount - 1;
+                    tLRPC$ChatFull.invitesCount = i;
+                    if (i < 0) {
+                        tLRPC$ChatFull.invitesCount = 0;
+                    }
+                    getMessagesStorage().saveChatLinksCount(this.currentChatId, this.info.invitesCount);
+                }
+            }
+            if (getParentActivity() != null) {
+                BulletinFactory.of(this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString(R.string.InviteRevokedHint)).show();
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$revokeLink$16(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda16
+            @Override // java.lang.Runnable
+            public final void run() {
+                ManageLinksActivity.this.lambda$revokeLink$15(tLRPC$TL_error, tLObject, tLRPC$TL_chatInviteExported);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$revokePermanent$11(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
+        if (tLRPC$TL_error == null) {
+            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = (TLRPC$TL_chatInviteExported) tLObject;
+            this.invite = tLRPC$TL_chatInviteExported2;
+            TLRPC$ChatFull tLRPC$ChatFull = this.info;
+            if (tLRPC$ChatFull != null) {
+                tLRPC$ChatFull.exported_invite = tLRPC$TL_chatInviteExported2;
+            }
+            if (getParentActivity() == null) {
+                return;
+            }
+            tLRPC$TL_chatInviteExported.revoked = true;
+            DiffCallback saveListState = saveListState();
+            this.revokedInvites.add(0, tLRPC$TL_chatInviteExported);
+            updateRecyclerViewAnimated(saveListState);
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString(R.string.InviteRevokedHint)).show();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$revokePermanent$12(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda13
+            @Override // java.lang.Runnable
+            public final void run() {
+                ManageLinksActivity.this.lambda$revokePermanent$11(tLRPC$TL_error, tLObject, tLRPC$TL_chatInviteExported);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00d0  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00d2  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void loadLinks(boolean z) {
+        ArrayList arrayList;
+        int sendRequest;
+        if (!this.loadAdmins || this.adminsLoaded) {
+            TLRPC$TL_messages_getExportedChatInvites tLRPC$TL_messages_getExportedChatInvites = new TLRPC$TL_messages_getExportedChatInvites();
+            tLRPC$TL_messages_getExportedChatInvites.peer = getMessagesController().getInputPeer(-this.currentChatId);
+            int i = (this.adminId > getUserConfig().getClientUserId() ? 1 : (this.adminId == getUserConfig().getClientUserId() ? 0 : -1));
+            MessagesController messagesController = getMessagesController();
+            tLRPC$TL_messages_getExportedChatInvites.admin_id = i == 0 ? messagesController.getInputUser(getUserConfig().getCurrentUser()) : messagesController.getInputUser(this.adminId);
+            final boolean z2 = this.loadRevoked;
+            if (z2) {
+                tLRPC$TL_messages_getExportedChatInvites.revoked = true;
+                if (!this.revokedInvites.isEmpty()) {
+                    tLRPC$TL_messages_getExportedChatInvites.flags |= 4;
+                    ArrayList arrayList2 = this.revokedInvites;
+                    tLRPC$TL_messages_getExportedChatInvites.offset_link = ((TLRPC$TL_chatInviteExported) arrayList2.get(arrayList2.size() - 1)).link;
+                    arrayList = this.revokedInvites;
+                    tLRPC$TL_messages_getExportedChatInvites.offset_date = ((TLRPC$TL_chatInviteExported) arrayList.get(arrayList.size() - 1)).date;
+                }
+                this.linksLoading = true;
+                final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = !this.isPublic ? null : this.invite;
+                sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_getExportedChatInvites, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda1
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        ManageLinksActivity.this.lambda$loadLinks$5(tLRPC$TL_chatInviteExported, z2, tLObject, tLRPC$TL_error);
+                    }
+                });
+            } else {
+                if (!this.invites.isEmpty()) {
+                    tLRPC$TL_messages_getExportedChatInvites.flags |= 4;
+                    ArrayList arrayList3 = this.invites;
+                    tLRPC$TL_messages_getExportedChatInvites.offset_link = ((TLRPC$TL_chatInviteExported) arrayList3.get(arrayList3.size() - 1)).link;
+                    arrayList = this.invites;
+                    tLRPC$TL_messages_getExportedChatInvites.offset_date = ((TLRPC$TL_chatInviteExported) arrayList.get(arrayList.size() - 1)).date;
+                }
+                this.linksLoading = true;
+                if (!this.isPublic) {
+                }
+                sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_getExportedChatInvites, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda1
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        ManageLinksActivity.this.lambda$loadLinks$5(tLRPC$TL_chatInviteExported, z2, tLObject, tLRPC$TL_error);
+                    }
+                });
+            }
+        } else {
+            this.linksLoading = true;
+            TLRPC$TL_messages_getAdminsWithInvites tLRPC$TL_messages_getAdminsWithInvites = new TLRPC$TL_messages_getAdminsWithInvites();
+            tLRPC$TL_messages_getAdminsWithInvites.peer = getMessagesController().getInputPeer(-this.currentChatId);
+            sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_getAdminsWithInvites, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda0
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    ManageLinksActivity.this.lambda$loadLinks$2(tLObject, tLRPC$TL_error);
+                }
+            });
+        }
+        getConnectionsManager().bindRequestToGuid(sendRequest, getClassGuid());
+        if (z) {
+            updateRows(true);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void revokePermanent() {
+        if (this.adminId != getAccountInstance().getUserConfig().clientUserId) {
+            revokeLink(this.invite);
+            return;
+        }
+        TLRPC$TL_messages_exportChatInvite tLRPC$TL_messages_exportChatInvite = new TLRPC$TL_messages_exportChatInvite();
+        tLRPC$TL_messages_exportChatInvite.peer = getMessagesController().getInputPeer(-this.currentChatId);
+        tLRPC$TL_messages_exportChatInvite.legacy_revoke_permanent = true;
+        final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
+        this.invite = null;
+        this.info.exported_invite = null;
+        int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_exportChatInvite, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda8
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                ManageLinksActivity.this.lambda$revokePermanent$12(tLRPC$TL_chatInviteExported, tLObject, tLRPC$TL_error);
+            }
+        });
+        AndroidUtilities.updateVisibleRows(this.listView);
+        getConnectionsManager().bindRequestToGuid(sendRequest, this.classGuid);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public DiffCallback saveListState() {
+        DiffCallback diffCallback = new DiffCallback();
+        diffCallback.fillPositions(diffCallback.oldPositionToItem);
+        diffCallback.oldLinksStartRow = this.linksStartRow;
+        diffCallback.oldLinksEndRow = this.linksEndRow;
+        diffCallback.oldRevokedLinksStartRow = this.revokedLinksStartRow;
+        diffCallback.oldRevokedLinksEndRow = this.revokedLinksEndRow;
+        diffCallback.oldAdminsStartRow = this.adminsStartRow;
+        diffCallback.oldAdminsEndRow = this.adminsEndRow;
+        diffCallback.oldRowCount = this.rowCount;
+        diffCallback.oldLinks.clear();
+        diffCallback.oldLinks.addAll(this.invites);
+        diffCallback.oldRevokedLinks.clear();
+        diffCallback.oldRevokedLinks.addAll(this.revokedInvites);
+        return diffCallback;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateRecyclerViewAnimated(DiffCallback diffCallback) {
+        if (this.isPaused || this.listViewAdapter == null || this.listView == null) {
+            updateRows(true);
+            return;
+        }
+        updateRows(false);
+        diffCallback.fillPositions(diffCallback.newPositionToItem);
+        DiffUtil.calculateDiff(diffCallback).dispatchUpdatesTo(this.listViewAdapter);
+        AndroidUtilities.updateVisibleRows(this.listView);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -517,15 +1821,15 @@ public class ManageLinksActivity extends BaseFragment {
         this.linksInfoRow = -1;
         this.rowCount = 0;
         boolean z2 = this.adminId != getAccountInstance().getUserConfig().clientUserId;
+        int i = this.rowCount;
+        int i2 = i + 1;
         if (z2) {
-            int i = this.rowCount;
             this.creatorRow = i;
             this.rowCount = i + 2;
-            this.creatorDividerRow = i + 1;
+            this.creatorDividerRow = i2;
         } else {
-            int i2 = this.rowCount;
-            this.rowCount = i2 + 1;
-            this.helpRow = i2;
+            this.rowCount = i2;
+            this.helpRow = i;
         }
         int i3 = this.rowCount;
         this.permanentLinkHeaderRow = i3;
@@ -570,41 +1874,33 @@ public class ManageLinksActivity extends BaseFragment {
             this.adminsEndRow = size2;
         }
         if (!this.revokedInvites.isEmpty()) {
-            if (this.adminsStartRow >= 0) {
+            if (this.adminsStartRow >= 0 || (((!this.invites.isEmpty() || this.createNewLinkRow >= 0) && this.createLinkHelpRow == -1) || (z2 && this.linksStartRow == -1))) {
                 int i11 = this.rowCount;
                 this.rowCount = i11 + 1;
                 this.revokedDivider = i11;
-            } else if ((!this.invites.isEmpty() || this.createNewLinkRow >= 0) && this.createLinkHelpRow == -1) {
-                int i12 = this.rowCount;
-                this.rowCount = i12 + 1;
-                this.revokedDivider = i12;
-            } else if (z2 && this.linksStartRow == -1) {
-                int i13 = this.rowCount;
-                this.rowCount = i13 + 1;
-                this.revokedDivider = i13;
             }
-            int i14 = this.rowCount;
-            int i15 = i14 + 1;
-            this.rowCount = i15;
-            this.revokedHeader = i14;
-            this.revokedLinksStartRow = i15;
-            int size3 = i15 + this.revokedInvites.size();
+            int i12 = this.rowCount;
+            int i13 = i12 + 1;
+            this.rowCount = i13;
+            this.revokedHeader = i12;
+            this.revokedLinksStartRow = i13;
+            int size3 = i13 + this.revokedInvites.size();
             this.revokedLinksEndRow = size3;
             this.revokeAllDivider = size3;
             this.rowCount = size3 + 2;
             this.revokeAllRow = size3 + 1;
         }
         if (!this.loadAdmins && !this.loadRevoked && ((this.linksLoading || this.hasMore) && !z2)) {
-            int i16 = this.rowCount;
-            this.rowCount = i16 + 1;
-            this.linksLoadingRow = i16;
+            int i14 = this.rowCount;
+            this.rowCount = i14 + 1;
+            this.linksLoadingRow = i14;
         }
         if (!this.invites.isEmpty()) {
-            int i17 = this.linksEndRow;
-            int i18 = this.rowCount;
-            if (i17 == i18) {
-                this.rowCount = i18 + 1;
-                this.linksInfoRow = i18;
+            int i15 = this.linksEndRow;
+            int i16 = this.rowCount;
+            if (i15 == i16) {
+                this.rowCount = i16 + 1;
+                this.linksInfoRow = i16;
                 listAdapter = this.listViewAdapter;
                 if (listAdapter == null && z) {
                     listAdapter.notifyDataSetChanged();
@@ -613,9 +1909,9 @@ public class ManageLinksActivity extends BaseFragment {
             }
         }
         if (!this.invites.isEmpty() || !this.revokedInvites.isEmpty()) {
-            int i19 = this.rowCount;
-            this.rowCount = i19 + 1;
-            this.lastDivider = i19;
+            int i17 = this.rowCount;
+            this.rowCount = i17 + 1;
+            this.lastDivider = i17;
         }
         listAdapter = this.listViewAdapter;
         if (listAdapter == null) {
@@ -710,1076 +2006,16 @@ public class ManageLinksActivity extends BaseFragment {
         return this.fragmentView;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$9(Context context, View view, int i) {
-        if (i == this.creatorRow) {
-            TLRPC$User tLRPC$User = this.users.get(Long.valueOf(this.invite.admin_id));
-            if (tLRPC$User != null) {
-                Bundle bundle = new Bundle();
-                bundle.putLong("user_id", tLRPC$User.id);
-                MessagesController.getInstance(UserConfig.selectedAccount).putUser(tLRPC$User, false);
-                presentFragment(new ProfileActivity(bundle));
-            }
-        } else if (i == this.createNewLinkRow) {
-            LinkEditActivity linkEditActivity = new LinkEditActivity(0, this.currentChatId);
-            linkEditActivity.setCallback(this.linkEditActivityCallback);
-            presentFragment(linkEditActivity);
-        } else {
-            int i2 = this.linksStartRow;
-            if (i >= i2 && i < this.linksEndRow) {
-                InviteLinkBottomSheet inviteLinkBottomSheet = new InviteLinkBottomSheet(context, this.invites.get(i - i2), this.info, this.users, this, this.currentChatId, false, this.isChannel);
-                this.inviteLinkBottomSheet = inviteLinkBottomSheet;
-                inviteLinkBottomSheet.setCanEdit(this.canEdit);
-                this.inviteLinkBottomSheet.show();
-                return;
-            }
-            int i3 = this.revokedLinksStartRow;
-            if (i >= i3 && i < this.revokedLinksEndRow) {
-                InviteLinkBottomSheet inviteLinkBottomSheet2 = new InviteLinkBottomSheet(context, this.revokedInvites.get(i - i3), this.info, this.users, this, this.currentChatId, false, this.isChannel);
-                this.inviteLinkBottomSheet = inviteLinkBottomSheet2;
-                inviteLinkBottomSheet2.show();
-            } else if (i == this.revokeAllRow) {
-                if (this.deletingRevokedLinks) {
-                    return;
-                }
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString(R.string.DeleteAllRevokedLinks));
-                builder.setMessage(LocaleController.getString(R.string.DeleteAllRevokedLinkHelp));
-                builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda6
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i4) {
-                        ManageLinksActivity.this.lambda$createView$8(dialogInterface, i4);
-                    }
-                });
-                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-                showDialog(builder.create());
-            } else {
-                int i4 = this.adminsStartRow;
-                if (i < i4 || i >= this.adminsEndRow) {
-                    return;
-                }
-                TLRPC$TL_chatAdminWithInvites tLRPC$TL_chatAdminWithInvites = this.admins.get(i - i4);
-                if (this.users.containsKey(Long.valueOf(tLRPC$TL_chatAdminWithInvites.admin_id))) {
-                    getMessagesController().putUser(this.users.get(Long.valueOf(tLRPC$TL_chatAdminWithInvites.admin_id)), false);
-                }
-                ManageLinksActivity manageLinksActivity = new ManageLinksActivity(this.currentChatId, tLRPC$TL_chatAdminWithInvites.admin_id, tLRPC$TL_chatAdminWithInvites.invites_count);
-                manageLinksActivity.setInfo(this.info, null);
-                presentFragment(manageLinksActivity);
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$8(DialogInterface dialogInterface, int i) {
-        TLRPC$TL_messages_deleteRevokedExportedChatInvites tLRPC$TL_messages_deleteRevokedExportedChatInvites = new TLRPC$TL_messages_deleteRevokedExportedChatInvites();
-        tLRPC$TL_messages_deleteRevokedExportedChatInvites.peer = getMessagesController().getInputPeer(-this.currentChatId);
-        if (this.adminId == getUserConfig().getClientUserId()) {
-            tLRPC$TL_messages_deleteRevokedExportedChatInvites.admin_id = getMessagesController().getInputUser(getUserConfig().getCurrentUser());
-        } else {
-            tLRPC$TL_messages_deleteRevokedExportedChatInvites.admin_id = getMessagesController().getInputUser(this.adminId);
-        }
-        this.deletingRevokedLinks = true;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteRevokedExportedChatInvites, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda8
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ManageLinksActivity.this.lambda$createView$7(tLObject, tLRPC$TL_error);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$7(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda13
-            @Override // java.lang.Runnable
-            public final void run() {
-                ManageLinksActivity.this.lambda$createView$6(tLRPC$TL_error);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$6(TLRPC$TL_error tLRPC$TL_error) {
-        this.deletingRevokedLinks = false;
-        if (tLRPC$TL_error == null) {
-            DiffCallback saveListState = saveListState();
-            this.revokedInvites.clear();
-            updateRecyclerViewAnimated(saveListState);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$createView$10(View view, int i) {
-        if ((i < this.linksStartRow || i >= this.linksEndRow) && (i < this.revokedLinksStartRow || i >= this.revokedLinksEndRow)) {
-            return false;
-        }
-        ((LinkCell) view).optionsView.callOnClick();
-        view.performHapticFeedback(0, 2);
-        return true;
-    }
-
-    public void setInfo(TLRPC$ChatFull tLRPC$ChatFull, TLRPC$ExportedChatInvite tLRPC$ExportedChatInvite) {
-        this.info = tLRPC$ChatFull;
-        this.invite = (TLRPC$TL_chatInviteExported) tLRPC$ExportedChatInvite;
-        this.isPublic = ChatObject.isPublic(this.currentChat);
-        loadLinks(true);
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onResume() {
-        super.onResume();
-        ListAdapter listAdapter = this.listViewAdapter;
-        if (listAdapter != null) {
-            listAdapter.notifyDataSetChanged();
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class HintInnerCell extends FrameLayout {
-        private EmptyView emptyView;
-        private TextView messageTextView;
-
-        public HintInnerCell(Context context) {
-            super(context);
-            EmptyView emptyView = new EmptyView(context);
-            this.emptyView = emptyView;
-            addView(emptyView, LayoutHelper.createFrame(-2, -2.0f, 49, 0.0f, 10.0f, 0.0f, 0.0f));
-            TextView textView = new TextView(context);
-            this.messageTextView = textView;
-            textView.setTextColor(Theme.getColor(Theme.key_chats_message));
-            this.messageTextView.setTextSize(1, 14.0f);
-            this.messageTextView.setGravity(17);
-            this.messageTextView.setText(LocaleController.getString(ManageLinksActivity.this.isChannel ? R.string.PrimaryLinkHelpChannel : R.string.PrimaryLinkHelp));
-            addView(this.messageTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 52.0f, 143.0f, 52.0f, 18.0f));
-        }
-
-        @Override // android.widget.FrameLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), i2);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
-        private Context mContext;
-
-        public ListAdapter(Context context) {
-            this.mContext = context;
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
-        public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
-            int adapterPosition = viewHolder.getAdapterPosition();
-            if (ManageLinksActivity.this.creatorRow == adapterPosition || ManageLinksActivity.this.createNewLinkRow == adapterPosition) {
-                return true;
-            }
-            if (adapterPosition < ManageLinksActivity.this.linksStartRow || adapterPosition >= ManageLinksActivity.this.linksEndRow) {
-                if ((adapterPosition < ManageLinksActivity.this.revokedLinksStartRow || adapterPosition >= ManageLinksActivity.this.revokedLinksEndRow) && adapterPosition != ManageLinksActivity.this.revokeAllRow) {
-                    return adapterPosition >= ManageLinksActivity.this.adminsStartRow && adapterPosition < ManageLinksActivity.this.adminsEndRow;
-                }
-                return true;
-            }
-            return true;
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public int getItemCount() {
-            return ManageLinksActivity.this.rowCount;
-        }
-
-        /* JADX WARN: Multi-variable type inference failed */
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            FlickerLoadingView flickerLoadingView;
-            TextSettingsCell textSettingsCell;
-            switch (i) {
-                case 1:
-                    View headerCell = new HeaderCell(this.mContext, 23);
-                    headerCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    textSettingsCell = headerCell;
-                    break;
-                case 2:
-                    Context context = this.mContext;
-                    ManageLinksActivity manageLinksActivity = ManageLinksActivity.this;
-                    final LinkActionView linkActionView = new LinkActionView(context, manageLinksActivity, null, manageLinksActivity.currentChatId, true, ManageLinksActivity.this.isChannel);
-                    linkActionView.setPermanent(true);
-                    linkActionView.setDelegate(new LinkActionView.Delegate() { // from class: org.telegram.ui.ManageLinksActivity.ListAdapter.1
-                        @Override // org.telegram.ui.Components.LinkActionView.Delegate
-                        public /* synthetic */ void editLink() {
-                            LinkActionView.Delegate.-CC.$default$editLink(this);
-                        }
-
-                        @Override // org.telegram.ui.Components.LinkActionView.Delegate
-                        public /* synthetic */ void removeLink() {
-                            LinkActionView.Delegate.-CC.$default$removeLink(this);
-                        }
-
-                        @Override // org.telegram.ui.Components.LinkActionView.Delegate
-                        public void revokeLink() {
-                            ManageLinksActivity.this.revokePermanent();
-                        }
-
-                        @Override // org.telegram.ui.Components.LinkActionView.Delegate
-                        public void showUsersForPermanentLink() {
-                            ManageLinksActivity manageLinksActivity2 = ManageLinksActivity.this;
-                            Context context2 = linkActionView.getContext();
-                            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = ManageLinksActivity.this.invite;
-                            TLRPC$ChatFull tLRPC$ChatFull = ManageLinksActivity.this.info;
-                            HashMap hashMap = ManageLinksActivity.this.users;
-                            ManageLinksActivity manageLinksActivity3 = ManageLinksActivity.this;
-                            manageLinksActivity2.inviteLinkBottomSheet = new InviteLinkBottomSheet(context2, tLRPC$TL_chatInviteExported, tLRPC$ChatFull, hashMap, manageLinksActivity3, manageLinksActivity3.currentChatId, true, ManageLinksActivity.this.isChannel);
-                            ManageLinksActivity.this.inviteLinkBottomSheet.show();
-                        }
-                    });
-                    linkActionView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    flickerLoadingView = linkActionView;
-                    textSettingsCell = flickerLoadingView;
-                    break;
-                case 3:
-                    View creationTextCell = new CreationTextCell(this.mContext, 64, ((BaseFragment) ManageLinksActivity.this).resourceProvider);
-                    creationTextCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    textSettingsCell = creationTextCell;
-                    break;
-                case 4:
-                    textSettingsCell = new ShadowSectionCell(this.mContext);
-                    break;
-                case 5:
-                    textSettingsCell = new LinkCell(this.mContext);
-                    break;
-                case 6:
-                    FlickerLoadingView flickerLoadingView2 = new FlickerLoadingView(this.mContext);
-                    flickerLoadingView2.setIsSingleCell(true);
-                    flickerLoadingView2.setViewType(9);
-                    flickerLoadingView2.showDate(false);
-                    flickerLoadingView2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    flickerLoadingView = flickerLoadingView2;
-                    textSettingsCell = flickerLoadingView;
-                    break;
-                case 7:
-                    View shadowSectionCell = new ShadowSectionCell(this.mContext);
-                    shadowSectionCell.setBackground(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                    textSettingsCell = shadowSectionCell;
-                    break;
-                case 8:
-                    TextSettingsCell textSettingsCell2 = new TextSettingsCell(this.mContext);
-                    textSettingsCell2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    textSettingsCell2.setText(LocaleController.getString(R.string.DeleteAllRevokedLinks), false);
-                    textSettingsCell2.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
-                    textSettingsCell = textSettingsCell2;
-                    break;
-                case 9:
-                    View textInfoPrivacyCell = new TextInfoPrivacyCell(this.mContext);
-                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                    textSettingsCell = textInfoPrivacyCell;
-                    break;
-                case 10:
-                    View manageChatUserCell = new ManageChatUserCell(this.mContext, 8, 6, false);
-                    manageChatUserCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    textSettingsCell = manageChatUserCell;
-                    break;
-                case 11:
-                    textSettingsCell = new TextInfoPrivacyCell(this.mContext, ((BaseFragment) ManageLinksActivity.this).resourceProvider);
-                    break;
-                default:
-                    View hintInnerCell = new HintInnerCell(this.mContext);
-                    hintInnerCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundWhite));
-                    textSettingsCell = hintInnerCell;
-                    break;
-            }
-            textSettingsCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            return new RecyclerListView.Holder(textSettingsCell);
-        }
-
-        /* JADX WARN: Code restructure failed: missing block: B:45:0x015d, code lost:
-            if (r10 == (r8.this$0.linksEndRow - 1)) goto L55;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:48:0x017b, code lost:
-            if (r10 == (r8.this$0.revokedLinksEndRow - 1)) goto L55;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:49:0x017d, code lost:
-            r1 = false;
-         */
-        /* JADX WARN: Removed duplicated region for block: B:31:0x00d3  */
-        /* JADX WARN: Removed duplicated region for block: B:91:? A[RETURN, SYNTHETIC] */
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported;
-            int i2;
-            TLRPC$User tLRPC$User;
-            int itemViewType = viewHolder.getItemViewType();
-            boolean z = true;
-            if (itemViewType == 1) {
-                HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
-                if (i == ManageLinksActivity.this.permanentLinkHeaderRow) {
-                    if (!ManageLinksActivity.this.isPublic || ManageLinksActivity.this.adminId != ManageLinksActivity.this.getAccountInstance().getUserConfig().clientUserId) {
-                        if (ManageLinksActivity.this.adminId == ManageLinksActivity.this.getAccountInstance().getUserConfig().clientUserId) {
-                            headerCell.setText(LocaleController.getString(R.string.ChannelInviteLinkTitle));
-                            return;
-                        } else {
-                            headerCell.setText(LocaleController.getString(R.string.PermanentLinkForThisAdmin));
-                            return;
-                        }
-                    }
-                    headerCell.setText(LocaleController.getString(R.string.PublicLink));
-                } else if (i != ManageLinksActivity.this.revokedHeader) {
-                    if (i != ManageLinksActivity.this.linksHeaderRow) {
-                        if (i == ManageLinksActivity.this.adminsHeaderRow) {
-                            headerCell.setText(LocaleController.getString(R.string.LinksCreatedByOtherAdmins));
-                            return;
-                        }
-                        return;
-                    }
-                    headerCell.setText(LocaleController.getString(R.string.LinksCreatedByThisAdmin));
-                } else {
-                    headerCell.setText(LocaleController.getString(R.string.RevokedLinks));
-                }
-            } else if (itemViewType == 2) {
-                LinkActionView linkActionView = (LinkActionView) viewHolder.itemView;
-                linkActionView.setCanEdit(ManageLinksActivity.this.adminId == ManageLinksActivity.this.getAccountInstance().getUserConfig().clientUserId);
-                if (!ManageLinksActivity.this.isPublic || ManageLinksActivity.this.adminId != ManageLinksActivity.this.getAccountInstance().getUserConfig().clientUserId) {
-                    linkActionView.hideRevokeOption(!ManageLinksActivity.this.canEdit);
-                    if (ManageLinksActivity.this.invite != null) {
-                        TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = ManageLinksActivity.this.invite;
-                        linkActionView.setLink(tLRPC$TL_chatInviteExported2.link);
-                        linkActionView.loadUsers(tLRPC$TL_chatInviteExported2, ManageLinksActivity.this.currentChatId);
-                        return;
-                    }
-                    linkActionView.setLink(null);
-                    linkActionView.loadUsers(null, ManageLinksActivity.this.currentChatId);
-                } else if (ManageLinksActivity.this.info != null) {
-                    linkActionView.setLink("https://t.me/" + ChatObject.getPublicUsername(ManageLinksActivity.this.currentChat));
-                    linkActionView.setUsers(0, null);
-                    linkActionView.hideRevokeOption(true);
-                }
-            } else if (itemViewType == 3) {
-                Drawable drawable = this.mContext.getResources().getDrawable(R.drawable.poll_add_circle);
-                Drawable drawable2 = this.mContext.getResources().getDrawable(R.drawable.poll_add_plus);
-                int color = Theme.getColor(Theme.key_switchTrackChecked);
-                PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
-                drawable.setColorFilter(new PorterDuffColorFilter(color, mode));
-                drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_checkboxCheck), mode));
-                ((CreationTextCell) viewHolder.itemView).setTextAndIcon(LocaleController.getString(R.string.CreateNewLink), new CombinedDrawable(drawable, drawable2), !ManageLinksActivity.this.invites.isEmpty());
-            } else if (itemViewType == 5) {
-                if (i < ManageLinksActivity.this.linksStartRow || i >= ManageLinksActivity.this.linksEndRow) {
-                    tLRPC$TL_chatInviteExported = (TLRPC$TL_chatInviteExported) ManageLinksActivity.this.revokedInvites.get(i - ManageLinksActivity.this.revokedLinksStartRow);
-                } else {
-                    tLRPC$TL_chatInviteExported = (TLRPC$TL_chatInviteExported) ManageLinksActivity.this.invites.get(i - ManageLinksActivity.this.linksStartRow);
-                }
-                LinkCell linkCell = (LinkCell) viewHolder.itemView;
-                linkCell.setLink(tLRPC$TL_chatInviteExported, i - ManageLinksActivity.this.linksStartRow);
-                linkCell.drawDivider = z;
-            } else {
-                switch (itemViewType) {
-                    case 9:
-                        TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-                        TLRPC$ChatFull chatFull = ManageLinksActivity.this.getMessagesController().getChatFull(ManageLinksActivity.this.currentChatId);
-                        TLRPC$Chat chat = ManageLinksActivity.this.getMessagesController().getChat(Long.valueOf(ManageLinksActivity.this.currentChatId));
-                        if (chatFull != null && chatFull.paid_media_allowed && ChatObject.isChannelAndNotMegaGroup(chat)) {
-                            textInfoPrivacyCell.setText(LocaleController.getString(R.string.ChannelLinksInfoPaid));
-                            return;
-                        } else {
-                            textInfoPrivacyCell.setText(LocaleController.getString(R.string.ChannelLinksInfo));
-                            return;
-                        }
-                    case 10:
-                        ManageChatUserCell manageChatUserCell = (ManageChatUserCell) viewHolder.itemView;
-                        if (i == ManageLinksActivity.this.creatorRow) {
-                            tLRPC$User = ManageLinksActivity.this.getMessagesController().getUser(Long.valueOf(ManageLinksActivity.this.adminId));
-                            i2 = ManageLinksActivity.this.invitesCount;
-                        } else {
-                            TLRPC$TL_chatAdminWithInvites tLRPC$TL_chatAdminWithInvites = (TLRPC$TL_chatAdminWithInvites) ManageLinksActivity.this.admins.get(i - ManageLinksActivity.this.adminsStartRow);
-                            TLRPC$User tLRPC$User2 = (TLRPC$User) ManageLinksActivity.this.users.get(Long.valueOf(tLRPC$TL_chatAdminWithInvites.admin_id));
-                            i2 = tLRPC$TL_chatAdminWithInvites.invites_count;
-                            if (i != ManageLinksActivity.this.adminsEndRow - 1) {
-                                tLRPC$User = tLRPC$User2;
-                                if (tLRPC$User == null) {
-                                    manageChatUserCell.setData(tLRPC$User, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name), LocaleController.formatPluralString("InviteLinkCount", i2, new Object[0]), z);
-                                    return;
-                                }
-                                return;
-                            }
-                            tLRPC$User = tLRPC$User2;
-                        }
-                        z = false;
-                        if (tLRPC$User == null) {
-                        }
-                    case 11:
-                        TextInfoPrivacyCell textInfoPrivacyCell2 = (TextInfoPrivacyCell) viewHolder.itemView;
-                        textInfoPrivacyCell2.setBackground(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                        if (i == ManageLinksActivity.this.linksInfoRow) {
-                            TLRPC$ChatFull chatFull2 = ManageLinksActivity.this.getMessagesController().getChatFull(ManageLinksActivity.this.currentChatId);
-                            TLRPC$Chat chat2 = ManageLinksActivity.this.getMessagesController().getChat(Long.valueOf(ManageLinksActivity.this.currentChatId));
-                            if (chatFull2 != null && chatFull2.paid_media_allowed && ChatObject.isChannelAndNotMegaGroup(chat2)) {
-                                textInfoPrivacyCell2.setText(LocaleController.getString(R.string.ChannelLinksInfoPaid));
-                                return;
-                            } else {
-                                textInfoPrivacyCell2.setText(LocaleController.getString(R.string.ChannelLinksInfo));
-                                return;
-                            }
-                        }
-                        return;
-                    default:
-                        return;
-                }
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void onViewRecycled(RecyclerView.ViewHolder viewHolder) {
-            View view = viewHolder.itemView;
-            if (view instanceof ManageChatUserCell) {
-                ((ManageChatUserCell) view).recycle();
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public int getItemViewType(int i) {
-            if (i == ManageLinksActivity.this.helpRow) {
-                return 0;
-            }
-            if (i == ManageLinksActivity.this.permanentLinkHeaderRow || i == ManageLinksActivity.this.revokedHeader || i == ManageLinksActivity.this.adminsHeaderRow || i == ManageLinksActivity.this.linksHeaderRow) {
-                return 1;
-            }
-            if (i == ManageLinksActivity.this.permanentLinkRow) {
-                return 2;
-            }
-            if (i == ManageLinksActivity.this.createNewLinkRow) {
-                return 3;
-            }
-            if (i == ManageLinksActivity.this.dividerRow || i == ManageLinksActivity.this.revokedDivider || i == ManageLinksActivity.this.revokeAllDivider || i == ManageLinksActivity.this.creatorDividerRow || i == ManageLinksActivity.this.adminsDividerRow) {
-                return 4;
-            }
-            if (i < ManageLinksActivity.this.linksStartRow || i >= ManageLinksActivity.this.linksEndRow) {
-                if (i < ManageLinksActivity.this.revokedLinksStartRow || i >= ManageLinksActivity.this.revokedLinksEndRow) {
-                    if (i == ManageLinksActivity.this.linksLoadingRow) {
-                        return 6;
-                    }
-                    if (i == ManageLinksActivity.this.lastDivider) {
-                        return 7;
-                    }
-                    if (i == ManageLinksActivity.this.revokeAllRow) {
-                        return 8;
-                    }
-                    if (i == ManageLinksActivity.this.createLinkHelpRow) {
-                        return 9;
-                    }
-                    if (i != ManageLinksActivity.this.creatorRow) {
-                        if (i < ManageLinksActivity.this.adminsStartRow || i >= ManageLinksActivity.this.adminsEndRow) {
-                            return i == ManageLinksActivity.this.linksInfoRow ? 11 : 1;
-                        }
-                        return 10;
-                    }
-                    return 10;
-                }
-                return 5;
-            }
-            return 5;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void revokePermanent() {
-        if (this.adminId == getAccountInstance().getUserConfig().clientUserId) {
-            TLRPC$TL_messages_exportChatInvite tLRPC$TL_messages_exportChatInvite = new TLRPC$TL_messages_exportChatInvite();
-            tLRPC$TL_messages_exportChatInvite.peer = getMessagesController().getInputPeer(-this.currentChatId);
-            tLRPC$TL_messages_exportChatInvite.legacy_revoke_permanent = true;
-            final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
-            this.invite = null;
-            this.info.exported_invite = null;
-            int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_exportChatInvite, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda11
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ManageLinksActivity.this.lambda$revokePermanent$12(tLRPC$TL_chatInviteExported, tLObject, tLRPC$TL_error);
-                }
-            });
-            AndroidUtilities.updateVisibleRows(this.listView);
-            getConnectionsManager().bindRequestToGuid(sendRequest, this.classGuid);
-            return;
-        }
-        revokeLink(this.invite);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$revokePermanent$12(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda15
-            @Override // java.lang.Runnable
-            public final void run() {
-                ManageLinksActivity.this.lambda$revokePermanent$11(tLRPC$TL_error, tLObject, tLRPC$TL_chatInviteExported);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$revokePermanent$11(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
-        if (tLRPC$TL_error == null) {
-            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = (TLRPC$TL_chatInviteExported) tLObject;
-            this.invite = tLRPC$TL_chatInviteExported2;
-            TLRPC$ChatFull tLRPC$ChatFull = this.info;
-            if (tLRPC$ChatFull != null) {
-                tLRPC$ChatFull.exported_invite = tLRPC$TL_chatInviteExported2;
-            }
-            if (getParentActivity() == null) {
-                return;
-            }
-            tLRPC$TL_chatInviteExported.revoked = true;
-            DiffCallback saveListState = saveListState();
-            this.revokedInvites.add(0, tLRPC$TL_chatInviteExported);
-            updateRecyclerViewAnimated(saveListState);
-            BulletinFactory.of(this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString(R.string.InviteRevokedHint)).show();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class LinkCell extends FrameLayout {
-        int animateFromState;
-        boolean animateHideExpiring;
-        float animateToStateProgress;
-        boolean drawDivider;
-        TLRPC$TL_chatInviteExported invite;
-        float lastDrawExpringProgress;
-        int lastDrawingState;
-        ImageView optionsView;
-        Paint paint;
-        Paint paint2;
-        int position;
-        private final LinearLayout priceLayout;
-        private final TextView priceSubitleView;
-        private final TextView priceTitleView;
-        RectF rectF;
-        private final TextView subtitleView;
-        private final LinearLayout textLayout;
-        private final TimerParticles timerParticles;
-        boolean timerRunning;
-        private final TextView titleView;
-
-        private boolean hasProgress(int i) {
-            return i == 2 || i == 1;
-        }
-
-        public LinkCell(Context context) {
-            super(context);
-            this.paint = new Paint(1);
-            this.paint2 = new Paint(1);
-            this.rectF = new RectF();
-            this.animateToStateProgress = 1.0f;
-            this.timerParticles = new TimerParticles();
-            this.paint2.setStyle(Paint.Style.STROKE);
-            this.paint2.setStrokeCap(Paint.Cap.ROUND);
-            LinearLayout linearLayout = new LinearLayout(context);
-            this.textLayout = linearLayout;
-            linearLayout.setOrientation(1);
-            addView(linearLayout, LayoutHelper.createFrame(-1, -2.0f, 16, 64.0f, 0.0f, 30.0f, 0.0f));
-            TextView textView = new TextView(context);
-            this.titleView = textView;
-            textView.setTextSize(1, 16.0f);
-            int i = Theme.key_windowBackgroundWhiteBlackText;
-            textView.setTextColor(Theme.getColor(i));
-            textView.setLines(1);
-            TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
-            textView.setEllipsize(truncateAt);
-            linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2));
-            TextView textView2 = new TextView(context);
-            this.subtitleView = textView2;
-            textView2.setTextSize(1, 13.0f);
-            int i2 = Theme.key_windowBackgroundWhiteGrayText;
-            textView2.setTextColor(Theme.getColor(i2));
-            linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 0.0f, 4.33f, 0.0f, 0.0f));
-            ImageView imageView = new ImageView(context);
-            this.optionsView = imageView;
-            imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_ab_other));
-            this.optionsView.setScaleType(ImageView.ScaleType.CENTER);
-            this.optionsView.setColorFilter(Theme.getColor(Theme.key_stickers_menu));
-            this.optionsView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda0
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    ManageLinksActivity.LinkCell.this.lambda$new$7(view);
-                }
-            });
-            this.optionsView.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 1));
-            addView(this.optionsView, LayoutHelper.createFrame(48, 48.0f, 21, 0.0f, 0.0f, 8.0f, 0.0f));
-            setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-            setWillNotDraw(false);
-            LinearLayout linearLayout2 = new LinearLayout(context);
-            this.priceLayout = linearLayout2;
-            linearLayout2.setOrientation(1);
-            TextView textView3 = new TextView(context);
-            this.priceTitleView = textView3;
-            textView3.setTextSize(1, 16.0f);
-            textView3.setTextColor(Theme.getColor(i));
-            textView3.setLines(1);
-            textView3.setEllipsize(truncateAt);
-            textView3.setTypeface(AndroidUtilities.bold());
-            textView3.setGravity(5);
-            linearLayout2.addView(textView3, LayoutHelper.createLinear(-1, -2, 5));
-            TextView textView4 = new TextView(context);
-            this.priceSubitleView = textView4;
-            textView4.setTextSize(1, 13.0f);
-            textView4.setTextColor(Theme.getColor(i2));
-            textView4.setGravity(5);
-            linearLayout2.addView(textView4, LayoutHelper.createLinear(-1, -2, 5, 0, 1, 0, 0));
-            addView(linearLayout2, LayoutHelper.createFrame(-2, -2.0f, 21, 0.0f, 0.0f, 18.0f, 0.0f));
-            linearLayout2.setVisibility(8);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$7(View view) {
-            if (this.invite == null) {
-                return;
-            }
-            View view2 = ManageLinksActivity.this.fragmentView;
-            if (view2 instanceof ViewGroup) {
-                ItemOptions makeOptions = ItemOptions.makeOptions((ViewGroup) view2, this);
-                boolean z = true;
-                if (this.invite.revoked) {
-                    makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString(R.string.Delete), true, new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda1
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            ManageLinksActivity.LinkCell.this.lambda$new$1();
-                        }
-                    });
-                } else {
-                    makeOptions.add(R.drawable.msg_copy, LocaleController.getString(R.string.CopyLink), new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda2
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            ManageLinksActivity.LinkCell.this.lambda$new$2();
-                        }
-                    });
-                    makeOptions.add(R.drawable.msg_share, LocaleController.getString(R.string.ShareLink), new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda3
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            ManageLinksActivity.LinkCell.this.lambda$new$3();
-                        }
-                    });
-                    makeOptions.addIf((this.invite.permanent || !ManageLinksActivity.this.canEdit) ? false : false, R.drawable.msg_edit, LocaleController.getString(R.string.EditLink), new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda4
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            ManageLinksActivity.LinkCell.this.lambda$new$4();
-                        }
-                    });
-                    makeOptions.addIf(ManageLinksActivity.this.canEdit, R.drawable.msg_delete, (CharSequence) LocaleController.getString(R.string.RevokeLink), true, new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda5
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            ManageLinksActivity.LinkCell.this.lambda$new$6();
-                        }
-                    });
-                }
-                makeOptions.show();
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$1() {
-            final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
-            new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity()).setTitle(LocaleController.getString(R.string.DeleteLink)).setMessage(LocaleController.getString(R.string.DeleteLinkHelp)).setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda7
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    ManageLinksActivity.LinkCell.this.lambda$new$0(tLRPC$TL_chatInviteExported, dialogInterface, i);
-                }
-            }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).show();
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$0(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, DialogInterface dialogInterface, int i) {
-            ManageLinksActivity.this.deleteLink(tLRPC$TL_chatInviteExported);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$2() {
-            try {
-                if (this.invite.link == null) {
-                    return;
-                }
-                ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", this.invite.link));
-                BulletinFactory.createCopyLinkBulletin(ManageLinksActivity.this).show();
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$3() {
-            try {
-                if (this.invite.link == null) {
-                    return;
-                }
-                ManageLinksActivity manageLinksActivity = ManageLinksActivity.this;
-                Context context = getContext();
-                String str = this.invite.link;
-                manageLinksActivity.showDialog(new ShareAlert(context, null, str, false, str, false, ManageLinksActivity.this.getResourceProvider()) { // from class: org.telegram.ui.ManageLinksActivity.LinkCell.1
-                    /* JADX INFO: Access modifiers changed from: protected */
-                    @Override // org.telegram.ui.Components.ShareAlert
-                    public void onSend(LongSparseArray<TLRPC$Dialog> longSparseArray, int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
-                        String formatString;
-                        if (longSparseArray != null && longSparseArray.size() == 1) {
-                            long j = longSparseArray.valueAt(0).id;
-                            if (j == 0 || j == ManageLinksActivity.this.getUserConfig().getClientUserId()) {
-                                formatString = LocaleController.getString(R.string.InvLinkToSavedMessages);
-                            } else {
-                                formatString = LocaleController.formatString(R.string.InvLinkToUser, ManageLinksActivity.this.getMessagesController().getPeerName(j, true));
-                            }
-                        } else {
-                            formatString = LocaleController.formatString(R.string.InvLinkToChats, LocaleController.formatPluralString("Chats", i, new Object[0]));
-                        }
-                        Bulletin createSimpleBulletin = BulletinFactory.of(ManageLinksActivity.this).createSimpleBulletin(R.raw.forward, AndroidUtilities.replaceTags(formatString));
-                        createSimpleBulletin.hideAfterBottomSheet = false;
-                        createSimpleBulletin.show(true);
-                    }
-                });
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$4() {
-            ManageLinksActivity.this.editLink(this.invite);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$6() {
-            final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
-            new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity()).setMessage(LocaleController.getString(R.string.RevokeAlert)).setTitle(LocaleController.getString(R.string.RevokeLink)).setPositiveButton(LocaleController.getString(R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda6
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    ManageLinksActivity.LinkCell.this.lambda$new$5(tLRPC$TL_chatInviteExported, dialogInterface, i);
-                }
-            }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).show();
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$5(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, DialogInterface dialogInterface, int i) {
-            ManageLinksActivity.this.revokeLink(tLRPC$TL_chatInviteExported);
-        }
-
-        @Override // android.widget.FrameLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
-            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(60.0f), 1073741824));
-            this.paint2.setStrokeWidth(AndroidUtilities.dp(2.0f));
-        }
-
-        /* JADX WARN: Code restructure failed: missing block: B:61:0x0107, code lost:
-            if (r4.revoked == false) goto L52;
-         */
-        /* JADX WARN: Removed duplicated region for block: B:82:0x01cd  */
-        /* JADX WARN: Removed duplicated region for block: B:83:0x01f2  */
-        /* JADX WARN: Removed duplicated region for block: B:89:0x0243  */
-        /* JADX WARN: Removed duplicated region for block: B:91:? A[RETURN, SYNTHETIC] */
-        @Override // android.view.View
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        protected void onDraw(Canvas canvas) {
-            float f;
-            float f2;
-            int i;
-            int color;
-            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported;
-            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2;
-            if (this.invite == null) {
-                return;
-            }
-            int dp = AndroidUtilities.dp(32.0f);
-            int measuredHeight = getMeasuredHeight() / 2;
-            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported3 = this.invite;
-            if (tLRPC$TL_chatInviteExported3.expired || tLRPC$TL_chatInviteExported3.revoked) {
-                if (tLRPC$TL_chatInviteExported3.revoked) {
-                    i = 4;
-                    f = 1.0f;
-                    f2 = 0.0f;
-                } else {
-                    f = 1.0f;
-                    f2 = 0.0f;
-                    i = 3;
-                }
-            } else {
-                int i2 = tLRPC$TL_chatInviteExported3.expire_date;
-                if (i2 > 0 || tLRPC$TL_chatInviteExported3.usage_limit > 0) {
-                    if (i2 > 0) {
-                        long currentTimeMillis = System.currentTimeMillis() + (ManageLinksActivity.this.timeDif * 1000);
-                        TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported4 = this.invite;
-                        long j = tLRPC$TL_chatInviteExported4.expire_date * 1000;
-                        int i3 = tLRPC$TL_chatInviteExported4.start_date;
-                        if (i3 <= 0) {
-                            i3 = tLRPC$TL_chatInviteExported4.date;
-                        }
-                        long j2 = i3 * 1000;
-                        f = 1.0f - (((float) (currentTimeMillis - j2)) / ((float) (j - j2)));
-                    } else {
-                        f = 1.0f;
-                    }
-                    int i4 = this.invite.usage_limit;
-                    f2 = Math.min(f, i4 > 0 ? (i4 - tLRPC$TL_chatInviteExported2.usage) / i4 : 1.0f);
-                    if (f2 <= 0.0f) {
-                        this.invite.expired = true;
-                        AndroidUtilities.updateVisibleRows(ManageLinksActivity.this.listView);
-                        i = 3;
-                    } else {
-                        i = 1;
-                    }
-                } else {
-                    f = 1.0f;
-                    f2 = 0.0f;
-                    i = 0;
-                }
-            }
-            int i5 = this.lastDrawingState;
-            if (i != i5 && i5 >= 0) {
-                this.animateFromState = i5;
-                this.animateToStateProgress = 0.0f;
-                if (hasProgress(i5) && !hasProgress(i)) {
-                    this.animateHideExpiring = true;
-                } else {
-                    this.animateHideExpiring = false;
-                }
-            }
-            this.lastDrawingState = i;
-            float f3 = this.animateToStateProgress;
-            if (f3 != 1.0f) {
-                float f4 = f3 + 0.064f;
-                this.animateToStateProgress = f4;
-                if (f4 >= 1.0f) {
-                    this.animateToStateProgress = 1.0f;
-                    this.animateHideExpiring = false;
-                } else {
-                    invalidate();
-                }
-            }
-            if (this.animateToStateProgress != 1.0f) {
-                color = ColorUtils.blendARGB(getColor(this.animateFromState, f2), getColor(i, f2), this.animateToStateProgress);
-            } else {
-                color = getColor(i, f2);
-            }
-            this.paint.setColor(color);
-            canvas.drawCircle(dp, measuredHeight, AndroidUtilities.dp(32.0f) / 2.0f, this.paint);
-            boolean z = this.animateHideExpiring;
-            if (!z) {
-                TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported5 = this.invite;
-                if (!tLRPC$TL_chatInviteExported5.expired) {
-                    if (tLRPC$TL_chatInviteExported5.expire_date > 0) {
-                    }
-                }
-                tLRPC$TL_chatInviteExported = this.invite;
-                if (tLRPC$TL_chatInviteExported.subscription_pricing == null) {
-                    ManageLinksActivity.this.linkIconRevenue.setBounds(dp - AndroidUtilities.dp(12.0f), measuredHeight - AndroidUtilities.dp(12.0f), dp + AndroidUtilities.dp(12.0f), measuredHeight + AndroidUtilities.dp(12.0f));
-                    ManageLinksActivity.this.linkIconRevenue.draw(canvas);
-                } else if (tLRPC$TL_chatInviteExported.revoked) {
-                    ManageLinksActivity.this.linkIconRevoked.setBounds(dp - AndroidUtilities.dp(12.0f), measuredHeight - AndroidUtilities.dp(12.0f), dp + AndroidUtilities.dp(12.0f), measuredHeight + AndroidUtilities.dp(12.0f));
-                    ManageLinksActivity.this.linkIconRevoked.draw(canvas);
-                } else {
-                    ManageLinksActivity.this.linkIcon.setBounds(dp - AndroidUtilities.dp(12.0f), measuredHeight - AndroidUtilities.dp(12.0f), dp + AndroidUtilities.dp(12.0f), measuredHeight + AndroidUtilities.dp(12.0f));
-                    ManageLinksActivity.this.linkIcon.draw(canvas);
-                }
-                if (this.drawDivider) {
-                    return;
-                }
-                canvas.drawLine(AndroidUtilities.dp(70.0f), getMeasuredHeight() - 1, getMeasuredWidth() + AndroidUtilities.dp(23.0f), getMeasuredHeight(), Theme.dividerPaint);
-                return;
-            }
-            if (z) {
-                f = this.lastDrawExpringProgress;
-            }
-            float f5 = f;
-            this.paint2.setColor(color);
-            this.rectF.set(dp - AndroidUtilities.dp(20.0f), measuredHeight - AndroidUtilities.dp(20.0f), AndroidUtilities.dp(20.0f) + dp, AndroidUtilities.dp(20.0f) + measuredHeight);
-            if (this.animateToStateProgress != 1.0f && (!hasProgress(this.animateFromState) || this.animateHideExpiring)) {
-                canvas.save();
-                float f6 = this.animateHideExpiring ? 1.0f - this.animateToStateProgress : this.animateToStateProgress;
-                double d = 0.3f * f6;
-                Double.isNaN(d);
-                float f7 = (float) (d + 0.7d);
-                canvas.scale(f7, f7, this.rectF.centerX(), this.rectF.centerY());
-                float f8 = (-f5) * 360.0f;
-                canvas.drawArc(this.rectF, -90.0f, f8, false, this.paint2);
-                this.timerParticles.draw(canvas, this.paint2, this.rectF, f8, f6);
-                canvas.restore();
-            } else {
-                float f9 = (-f5) * 360.0f;
-                canvas.drawArc(this.rectF, -90.0f, f9, false, this.paint2);
-                this.timerParticles.draw(canvas, this.paint2, this.rectF, f9, 1.0f);
-            }
-            if (!((BaseFragment) ManageLinksActivity.this).isPaused) {
-                invalidate();
-            }
-            this.lastDrawExpringProgress = f5;
-            tLRPC$TL_chatInviteExported = this.invite;
-            if (tLRPC$TL_chatInviteExported.subscription_pricing == null) {
-            }
-            if (this.drawDivider) {
-            }
-        }
-
-        private int getColor(int i, float f) {
-            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
-            if (tLRPC$TL_chatInviteExported == null || tLRPC$TL_chatInviteExported.subscription_pricing == null) {
-                if (i == 3) {
-                    return Theme.getColor(Theme.key_chat_attachAudioBackground);
-                }
-                if (i == 1) {
-                    if (f > 0.5f) {
-                        return ColorUtils.blendARGB(Theme.getColor(Theme.key_chat_attachLocationBackground), Theme.getColor(Theme.key_chat_attachPollBackground), 1.0f - ((f - 0.5f) / 0.5f));
-                    }
-                    return ColorUtils.blendARGB(Theme.getColor(Theme.key_chat_attachPollBackground), Theme.getColor(Theme.key_chat_attachAudioBackground), 1.0f - (f / 0.5f));
-                } else if (i == 2) {
-                    return Theme.getColor(Theme.key_chat_attachPollBackground);
-                } else {
-                    if (i == 4) {
-                        return Theme.getColor(Theme.key_chats_unreadCounterMuted);
-                    }
-                    return Theme.getColor(Theme.key_featuredStickers_addButton);
-                }
-            }
-            return Theme.getColor(Theme.key_color_green);
-        }
-
-        public void setLink(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, int i) {
-            String str;
-            int i2;
-            this.timerRunning = false;
-            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = this.invite;
-            if (tLRPC$TL_chatInviteExported2 == null || tLRPC$TL_chatInviteExported == null || !tLRPC$TL_chatInviteExported2.link.equals(tLRPC$TL_chatInviteExported.link)) {
-                this.lastDrawingState = -1;
-                this.animateToStateProgress = 1.0f;
-            }
-            this.invite = tLRPC$TL_chatInviteExported;
-            this.position = i;
-            if (tLRPC$TL_chatInviteExported == null) {
-                return;
-            }
-            int dp = AndroidUtilities.dp(30.0f);
-            if (tLRPC$TL_chatInviteExported.subscription_pricing != null) {
-                this.priceLayout.setVisibility(0);
-                this.optionsView.setVisibility(8);
-                this.priceTitleView.setText(StarsIntroActivity.replaceStarsWithPlain("⭐️ " + LocaleController.formatNumber(tLRPC$TL_chatInviteExported.subscription_pricing.amount, ','), 0.75f));
-                int i3 = tLRPC$TL_chatInviteExported.subscription_pricing.period;
-                if (i3 == 2592000) {
-                    this.priceSubitleView.setText(LocaleController.getString(R.string.StarsParticipantSubscriptionPerMonth));
-                } else if (i3 == 300) {
-                    this.priceSubitleView.setText("per 5 minutes");
-                } else if (i3 == 60) {
-                    this.priceSubitleView.setText("each minute");
-                }
-                dp = AndroidUtilities.dp(28.0f) + ((int) Math.max(HintView2.measureCorrectly(this.priceTitleView.getText(), this.priceTitleView.getPaint()), HintView2.measureCorrectly(this.priceSubitleView.getText(), this.priceSubitleView.getPaint())));
-            } else {
-                this.priceLayout.setVisibility(8);
-                this.optionsView.setVisibility(8);
-            }
-            ((ViewGroup.MarginLayoutParams) this.textLayout.getLayoutParams()).rightMargin = dp;
-            if (!TextUtils.isEmpty(tLRPC$TL_chatInviteExported.title)) {
-                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(tLRPC$TL_chatInviteExported.title);
-                Emoji.replaceEmoji((CharSequence) spannableStringBuilder, this.titleView.getPaint().getFontMetricsInt(), (int) this.titleView.getPaint().getTextSize(), false);
-                this.titleView.setText(spannableStringBuilder);
-            } else if (tLRPC$TL_chatInviteExported.link.startsWith("https://t.me/+")) {
-                this.titleView.setText(MessagesController.getInstance(((BaseFragment) ManageLinksActivity.this).currentAccount).linkPrefix + "/" + tLRPC$TL_chatInviteExported.link.substring(14));
-            } else if (tLRPC$TL_chatInviteExported.link.startsWith("https://t.me/joinchat/")) {
-                this.titleView.setText(tLRPC$TL_chatInviteExported.link.substring(22));
-            } else if (tLRPC$TL_chatInviteExported.link.startsWith("https://")) {
-                this.titleView.setText(tLRPC$TL_chatInviteExported.link.substring(8));
-            } else {
-                this.titleView.setText(tLRPC$TL_chatInviteExported.link);
-            }
-            int i4 = tLRPC$TL_chatInviteExported.usage;
-            if (i4 == 0 && tLRPC$TL_chatInviteExported.usage_limit == 0 && tLRPC$TL_chatInviteExported.requested == 0) {
-                str = LocaleController.getString(tLRPC$TL_chatInviteExported.subscription_pricing != null ? R.string.NoOneSubscribed : R.string.NoOneJoined);
-            } else {
-                int i5 = tLRPC$TL_chatInviteExported.usage_limit;
-                if (i5 > 0 && i4 == 0 && !tLRPC$TL_chatInviteExported.expired && !tLRPC$TL_chatInviteExported.revoked) {
-                    str = LocaleController.formatPluralString("CanJoin", i5, new Object[0]);
-                } else if (i5 > 0 && tLRPC$TL_chatInviteExported.expired && tLRPC$TL_chatInviteExported.revoked) {
-                    str = LocaleController.formatPluralString("PeopleJoined", tLRPC$TL_chatInviteExported.usage, new Object[0]) + ", " + LocaleController.formatPluralString("PeopleJoinedRemaining", tLRPC$TL_chatInviteExported.usage_limit - tLRPC$TL_chatInviteExported.usage, new Object[0]);
-                } else {
-                    if (i4 <= 0) {
-                        str = "";
-                    } else {
-                        str = LocaleController.formatPluralString("PeopleJoined", i4, new Object[0]);
-                    }
-                    if (tLRPC$TL_chatInviteExported.requested > 0) {
-                        if (tLRPC$TL_chatInviteExported.usage > 0) {
-                            str = str + ", ";
-                        }
-                        str = str + LocaleController.formatPluralString("JoinRequests", tLRPC$TL_chatInviteExported.requested, new Object[0]);
-                    }
-                }
-            }
-            if (tLRPC$TL_chatInviteExported.permanent && !tLRPC$TL_chatInviteExported.revoked) {
-                SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(str);
-                DotDividerSpan dotDividerSpan = new DotDividerSpan();
-                dotDividerSpan.setTopPadding(AndroidUtilities.dp(1.5f));
-                spannableStringBuilder2.append((CharSequence) "  .  ").setSpan(dotDividerSpan, spannableStringBuilder2.length() - 3, spannableStringBuilder2.length() - 2, 0);
-                spannableStringBuilder2.append((CharSequence) LocaleController.getString(R.string.Permanent));
-                this.subtitleView.setText(spannableStringBuilder2);
-            } else if (tLRPC$TL_chatInviteExported.expired || tLRPC$TL_chatInviteExported.revoked) {
-                if (tLRPC$TL_chatInviteExported.revoked && tLRPC$TL_chatInviteExported.usage == 0) {
-                    str = LocaleController.getString(tLRPC$TL_chatInviteExported.subscription_pricing != null ? R.string.NoOneSubscribed : R.string.NoOneJoined);
-                }
-                SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(str);
-                DotDividerSpan dotDividerSpan2 = new DotDividerSpan();
-                dotDividerSpan2.setTopPadding(AndroidUtilities.dp(1.5f));
-                spannableStringBuilder3.append((CharSequence) "  .  ").setSpan(dotDividerSpan2, spannableStringBuilder3.length() - 3, spannableStringBuilder3.length() - 2, 0);
-                boolean z = tLRPC$TL_chatInviteExported.revoked;
-                if (z || (i2 = tLRPC$TL_chatInviteExported.usage_limit) <= 0 || tLRPC$TL_chatInviteExported.usage < i2) {
-                    spannableStringBuilder3.append((CharSequence) LocaleController.getString(z ? R.string.Revoked : R.string.Expired));
-                } else {
-                    spannableStringBuilder3.append((CharSequence) LocaleController.getString(R.string.LinkLimitReached));
-                }
-                this.subtitleView.setText(spannableStringBuilder3);
-            } else if (tLRPC$TL_chatInviteExported.expire_date > 0) {
-                SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder(str);
-                DotDividerSpan dotDividerSpan3 = new DotDividerSpan();
-                dotDividerSpan3.setTopPadding(AndroidUtilities.dp(1.5f));
-                spannableStringBuilder4.append((CharSequence) "  .  ").setSpan(dotDividerSpan3, spannableStringBuilder4.length() - 3, spannableStringBuilder4.length() - 2, 0);
-                long currentTimeMillis = (tLRPC$TL_chatInviteExported.expire_date * 1000) - (System.currentTimeMillis() + (ManageLinksActivity.this.timeDif * 1000));
-                if (currentTimeMillis < 0) {
-                    currentTimeMillis = 0;
-                }
-                if (currentTimeMillis > 86400000) {
-                    spannableStringBuilder4.append((CharSequence) LocaleController.formatPluralString("DaysLeft", (int) (currentTimeMillis / 86400000), new Object[0]));
-                } else {
-                    long j = currentTimeMillis / 1000;
-                    int i6 = (int) (j % 60);
-                    long j2 = j / 60;
-                    int i7 = (int) (j2 / 60);
-                    Locale locale = Locale.ENGLISH;
-                    spannableStringBuilder4.append((CharSequence) String.format(locale, "%02d", Integer.valueOf(i7))).append((CharSequence) String.format(locale, ":%02d", Integer.valueOf((int) (j2 % 60)))).append((CharSequence) String.format(locale, ":%02d", Integer.valueOf(i6)));
-                    this.timerRunning = true;
-                }
-                this.subtitleView.setText(spannableStringBuilder4);
-            } else {
-                this.subtitleView.setText(str);
-            }
-        }
-    }
-
     public void deleteLink(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
         TLRPC$TL_messages_deleteExportedChatInvite tLRPC$TL_messages_deleteExportedChatInvite = new TLRPC$TL_messages_deleteExportedChatInvite();
         tLRPC$TL_messages_deleteExportedChatInvite.link = tLRPC$TL_chatInviteExported.link;
         tLRPC$TL_messages_deleteExportedChatInvite.peer = getMessagesController().getInputPeer(-this.currentChatId);
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda12
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda14
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ManageLinksActivity.this.lambda$deleteLink$14(tLRPC$TL_chatInviteExported, tLObject, tLRPC$TL_error);
             }
         });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$deleteLink$14(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda17
-            @Override // java.lang.Runnable
-            public final void run() {
-                ManageLinksActivity.this.lambda$deleteLink$13(tLRPC$TL_error, tLRPC$TL_chatInviteExported);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$deleteLink$13(TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
-        if (tLRPC$TL_error == null) {
-            this.linkEditActivityCallback.onLinkRemoved(tLRPC$TL_chatInviteExported);
-        }
     }
 
     public void editLink(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
@@ -1789,259 +2025,35 @@ public class ManageLinksActivity extends BaseFragment {
         presentFragment(linkEditActivity);
     }
 
-    public void revokeLink(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
-        TLRPC$TL_messages_editExportedChatInvite tLRPC$TL_messages_editExportedChatInvite = new TLRPC$TL_messages_editExportedChatInvite();
-        tLRPC$TL_messages_editExportedChatInvite.link = tLRPC$TL_chatInviteExported.link;
-        tLRPC$TL_messages_editExportedChatInvite.revoked = true;
-        tLRPC$TL_messages_editExportedChatInvite.peer = getMessagesController().getInputPeer(-this.currentChatId);
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_editExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda14
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ManageLinksActivity.this.lambda$revokeLink$16(tLRPC$TL_chatInviteExported, tLObject, tLRPC$TL_error);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$revokeLink$16(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda16
-            @Override // java.lang.Runnable
-            public final void run() {
-                ManageLinksActivity.this.lambda$revokeLink$15(tLRPC$TL_error, tLObject, tLRPC$TL_chatInviteExported);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$revokeLink$15(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
-        if (tLRPC$TL_error == null) {
-            if (tLObject instanceof TLRPC$TL_messages_exportedChatInviteReplaced) {
-                TLRPC$TL_messages_exportedChatInviteReplaced tLRPC$TL_messages_exportedChatInviteReplaced = (TLRPC$TL_messages_exportedChatInviteReplaced) tLObject;
-                if (!this.isPublic) {
-                    this.invite = (TLRPC$TL_chatInviteExported) tLRPC$TL_messages_exportedChatInviteReplaced.new_invite;
-                }
-                tLRPC$TL_chatInviteExported.revoked = true;
-                DiffCallback saveListState = saveListState();
-                if (this.isPublic && this.adminId == getAccountInstance().getUserConfig().getClientUserId()) {
-                    this.invites.remove(tLRPC$TL_chatInviteExported);
-                    this.invites.add(0, (TLRPC$TL_chatInviteExported) tLRPC$TL_messages_exportedChatInviteReplaced.new_invite);
-                } else if (this.invite != null) {
-                    this.invite = (TLRPC$TL_chatInviteExported) tLRPC$TL_messages_exportedChatInviteReplaced.new_invite;
-                }
-                this.revokedInvites.add(0, tLRPC$TL_chatInviteExported);
-                updateRecyclerViewAnimated(saveListState);
-            } else {
-                this.linkEditActivityCallback.onLinkEdited(tLRPC$TL_chatInviteExported, tLObject);
-                TLRPC$ChatFull tLRPC$ChatFull = this.info;
-                if (tLRPC$ChatFull != null) {
-                    int i = tLRPC$ChatFull.invitesCount - 1;
-                    tLRPC$ChatFull.invitesCount = i;
-                    if (i < 0) {
-                        tLRPC$ChatFull.invitesCount = 0;
-                    }
-                    getMessagesStorage().saveChatLinksCount(this.currentChatId, this.info.invitesCount);
-                }
-            }
-            if (getParentActivity() != null) {
-                BulletinFactory.of(this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString(R.string.InviteRevokedHint)).show();
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 6 implements LinkEditActivity.Callback {
-        6() {
-        }
-
-        @Override // org.telegram.ui.LinkEditActivity.Callback
-        public void onLinkCreated(final TLObject tLObject) {
-            if (tLObject instanceof TLRPC$TL_chatInviteExported) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$6$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ManageLinksActivity.6.this.lambda$onLinkCreated$0(tLObject);
-                    }
-                }, 200L);
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onLinkCreated$0(TLObject tLObject) {
-            DiffCallback saveListState = ManageLinksActivity.this.saveListState();
-            ManageLinksActivity.this.invites.add(0, (TLRPC$TL_chatInviteExported) tLObject);
-            if (ManageLinksActivity.this.info != null) {
-                ManageLinksActivity.this.info.invitesCount++;
-                ManageLinksActivity.this.getMessagesStorage().saveChatLinksCount(ManageLinksActivity.this.currentChatId, ManageLinksActivity.this.info.invitesCount);
-            }
-            ManageLinksActivity.this.updateRecyclerViewAnimated(saveListState);
-        }
-
-        @Override // org.telegram.ui.LinkEditActivity.Callback
-        public void onLinkEdited(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLObject tLObject) {
-            if (tLObject instanceof TLRPC$TL_messages_exportedChatInvite) {
-                TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = (TLRPC$TL_chatInviteExported) ((TLRPC$TL_messages_exportedChatInvite) tLObject).invite;
-                ManageLinksActivity.this.fixDate(tLRPC$TL_chatInviteExported2);
-                for (int i = 0; i < ManageLinksActivity.this.invites.size(); i++) {
-                    if (((TLRPC$TL_chatInviteExported) ManageLinksActivity.this.invites.get(i)).link.equals(tLRPC$TL_chatInviteExported.link)) {
-                        if (tLRPC$TL_chatInviteExported2.revoked) {
-                            DiffCallback saveListState = ManageLinksActivity.this.saveListState();
-                            ManageLinksActivity.this.invites.remove(i);
-                            ManageLinksActivity.this.revokedInvites.add(0, tLRPC$TL_chatInviteExported2);
-                            ManageLinksActivity.this.updateRecyclerViewAnimated(saveListState);
-                            return;
-                        }
-                        ManageLinksActivity.this.invites.set(i, tLRPC$TL_chatInviteExported2);
-                        ManageLinksActivity.this.updateRows(true);
-                        return;
-                    }
-                }
-            }
-        }
-
-        @Override // org.telegram.ui.LinkEditActivity.Callback
-        public void onLinkRemoved(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
-            for (int i = 0; i < ManageLinksActivity.this.revokedInvites.size(); i++) {
-                if (((TLRPC$TL_chatInviteExported) ManageLinksActivity.this.revokedInvites.get(i)).link.equals(tLRPC$TL_chatInviteExported.link)) {
-                    DiffCallback saveListState = ManageLinksActivity.this.saveListState();
-                    ManageLinksActivity.this.revokedInvites.remove(i);
-                    ManageLinksActivity.this.updateRecyclerViewAnimated(saveListState);
-                    return;
-                }
-            }
-        }
-
-        @Override // org.telegram.ui.LinkEditActivity.Callback
-        public void revokeLink(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
-            ManageLinksActivity.this.revokeLink(tLRPC$TL_chatInviteExported);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void updateRecyclerViewAnimated(DiffCallback diffCallback) {
-        if (this.isPaused || this.listViewAdapter == null || this.listView == null) {
-            updateRows(true);
-            return;
-        }
-        updateRows(false);
-        diffCallback.fillPositions(diffCallback.newPositionToItem);
-        DiffUtil.calculateDiff(diffCallback).dispatchUpdatesTo(this.listViewAdapter);
-        AndroidUtilities.updateVisibleRows(this.listView);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class DiffCallback extends DiffUtil.Callback {
-        SparseIntArray newPositionToItem;
-        int oldAdminsEndRow;
-        int oldAdminsStartRow;
-        ArrayList<TLRPC$TL_chatInviteExported> oldLinks;
-        int oldLinksEndRow;
-        int oldLinksStartRow;
-        SparseIntArray oldPositionToItem;
-        ArrayList<TLRPC$TL_chatInviteExported> oldRevokedLinks;
-        int oldRevokedLinksEndRow;
-        int oldRevokedLinksStartRow;
-        int oldRowCount;
-
-        private DiffCallback() {
-            this.oldPositionToItem = new SparseIntArray();
-            this.newPositionToItem = new SparseIntArray();
-            this.oldLinks = new ArrayList<>();
-            this.oldRevokedLinks = new ArrayList<>();
-        }
-
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public int getOldListSize() {
-            return this.oldRowCount;
-        }
-
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public int getNewListSize() {
-            return ManageLinksActivity.this.rowCount;
-        }
-
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public boolean areItemsTheSame(int i, int i2) {
-            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported;
-            if (((i >= this.oldLinksStartRow && i < this.oldLinksEndRow) || (i >= this.oldRevokedLinksStartRow && i < this.oldRevokedLinksEndRow)) && ((i2 >= ManageLinksActivity.this.linksStartRow && i2 < ManageLinksActivity.this.linksEndRow) || (i2 >= ManageLinksActivity.this.revokedLinksStartRow && i2 < ManageLinksActivity.this.revokedLinksEndRow))) {
-                TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = (i2 < ManageLinksActivity.this.linksStartRow || i2 >= ManageLinksActivity.this.linksEndRow) ? (TLRPC$TL_chatInviteExported) ManageLinksActivity.this.revokedInvites.get(i2 - ManageLinksActivity.this.revokedLinksStartRow) : (TLRPC$TL_chatInviteExported) ManageLinksActivity.this.invites.get(i2 - ManageLinksActivity.this.linksStartRow);
-                int i3 = this.oldLinksStartRow;
-                if (i >= i3 && i < this.oldLinksEndRow) {
-                    tLRPC$TL_chatInviteExported = this.oldLinks.get(i - i3);
-                } else {
-                    tLRPC$TL_chatInviteExported = this.oldRevokedLinks.get(i - this.oldRevokedLinksStartRow);
-                }
-                return tLRPC$TL_chatInviteExported.link.equals(tLRPC$TL_chatInviteExported2.link);
-            } else if (i >= this.oldAdminsStartRow && i < this.oldAdminsEndRow && i2 >= ManageLinksActivity.this.adminsStartRow && i2 < ManageLinksActivity.this.adminsEndRow) {
-                return i - this.oldAdminsStartRow == i2 - ManageLinksActivity.this.adminsStartRow;
-            } else {
-                int i4 = this.oldPositionToItem.get(i, -1);
-                return i4 >= 0 && i4 == this.newPositionToItem.get(i2, -1);
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public boolean areContentsTheSame(int i, int i2) {
-            return areItemsTheSame(i, i2);
-        }
-
-        public void fillPositions(SparseIntArray sparseIntArray) {
-            sparseIntArray.clear();
-            put(1, ManageLinksActivity.this.helpRow, sparseIntArray);
-            put(2, ManageLinksActivity.this.permanentLinkHeaderRow, sparseIntArray);
-            put(3, ManageLinksActivity.this.permanentLinkRow, sparseIntArray);
-            put(4, ManageLinksActivity.this.dividerRow, sparseIntArray);
-            put(5, ManageLinksActivity.this.createNewLinkRow, sparseIntArray);
-            put(6, ManageLinksActivity.this.revokedHeader, sparseIntArray);
-            put(7, ManageLinksActivity.this.revokeAllRow, sparseIntArray);
-            put(8, ManageLinksActivity.this.createLinkHelpRow, sparseIntArray);
-            put(9, ManageLinksActivity.this.creatorRow, sparseIntArray);
-            put(10, ManageLinksActivity.this.creatorDividerRow, sparseIntArray);
-            put(11, ManageLinksActivity.this.adminsHeaderRow, sparseIntArray);
-            put(12, ManageLinksActivity.this.linksHeaderRow, sparseIntArray);
-            put(13, ManageLinksActivity.this.linksLoadingRow, sparseIntArray);
-        }
-
-        private void put(int i, int i2, SparseIntArray sparseIntArray) {
-            if (i2 >= 0) {
-                sparseIntArray.put(i2, i);
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public DiffCallback saveListState() {
-        DiffCallback diffCallback = new DiffCallback();
-        diffCallback.fillPositions(diffCallback.oldPositionToItem);
-        diffCallback.oldLinksStartRow = this.linksStartRow;
-        diffCallback.oldLinksEndRow = this.linksEndRow;
-        diffCallback.oldRevokedLinksStartRow = this.revokedLinksStartRow;
-        diffCallback.oldRevokedLinksEndRow = this.revokedLinksEndRow;
-        diffCallback.oldAdminsStartRow = this.adminsStartRow;
-        diffCallback.oldAdminsEndRow = this.adminsEndRow;
-        diffCallback.oldRowCount = this.rowCount;
-        diffCallback.oldLinks.clear();
-        diffCallback.oldLinks.addAll(this.invites);
-        diffCallback.oldRevokedLinks.clear();
-        diffCallback.oldRevokedLinks.addAll(this.revokedInvites);
-        return diffCallback;
-    }
-
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x0017, code lost:
+        if (r3.usage >= r0) goto L9;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x0019, code lost:
+        r0 = true;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x001b, code lost:
+        r0 = false;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:5:0x000e, code lost:
+        if (getConnectionsManager().getCurrentTime() >= r3.expire_date) goto L9;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void fixDate(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
-        if (tLRPC$TL_chatInviteExported.expire_date > 0) {
-            tLRPC$TL_chatInviteExported.expired = getConnectionsManager().getCurrentTime() >= tLRPC$TL_chatInviteExported.expire_date;
-            return;
+        boolean z;
+        if (tLRPC$TL_chatInviteExported.expire_date <= 0) {
+            int i = tLRPC$TL_chatInviteExported.usage_limit;
+            if (i <= 0) {
+                return;
+            }
         }
-        int i = tLRPC$TL_chatInviteExported.usage_limit;
-        if (i > 0) {
-            tLRPC$TL_chatInviteExported.expired = tLRPC$TL_chatInviteExported.usage >= i;
-        }
+        tLRPC$TL_chatInviteExported.expired = z;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ArrayList<ThemeDescription> arrayList = new ArrayList<>();
+    public ArrayList getThemeDescriptions() {
+        ArrayList arrayList = new ArrayList();
         ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
@@ -2097,24 +2109,17 @@ public class ManageLinksActivity extends BaseFragment {
         return arrayList;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getThemeDescriptions$17() {
-        RecyclerListView recyclerListView = this.listView;
-        if (recyclerListView != null) {
-            int childCount = recyclerListView.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View childAt = this.listView.getChildAt(i);
-                if (childAt instanceof ManageChatUserCell) {
-                    ((ManageChatUserCell) childAt).update(0);
-                }
-                if (childAt instanceof LinkActionView) {
-                    ((LinkActionView) childAt).updateColors();
-                }
-            }
-        }
-        InviteLinkBottomSheet inviteLinkBottomSheet = this.inviteLinkBottomSheet;
-        if (inviteLinkBottomSheet != null) {
-            inviteLinkBottomSheet.updateColors();
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public boolean needDelayOpenAnimation() {
+        return true;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onResume() {
+        super.onResume();
+        ListAdapter listAdapter = this.listViewAdapter;
+        if (listAdapter != null) {
+            listAdapter.notifyDataSetChanged();
         }
     }
 
@@ -2135,5 +2140,25 @@ public class ManageLinksActivity extends BaseFragment {
     public void onTransitionAnimationStart(boolean z, boolean z2) {
         super.onTransitionAnimationStart(z, z2);
         this.notificationsLocker.lock();
+    }
+
+    public void revokeLink(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
+        TLRPC$TL_messages_editExportedChatInvite tLRPC$TL_messages_editExportedChatInvite = new TLRPC$TL_messages_editExportedChatInvite();
+        tLRPC$TL_messages_editExportedChatInvite.link = tLRPC$TL_chatInviteExported.link;
+        tLRPC$TL_messages_editExportedChatInvite.revoked = true;
+        tLRPC$TL_messages_editExportedChatInvite.peer = getMessagesController().getInputPeer(-this.currentChatId);
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_editExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda12
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                ManageLinksActivity.this.lambda$revokeLink$16(tLRPC$TL_chatInviteExported, tLObject, tLRPC$TL_error);
+            }
+        });
+    }
+
+    public void setInfo(TLRPC$ChatFull tLRPC$ChatFull, TLRPC$ExportedChatInvite tLRPC$ExportedChatInvite) {
+        this.info = tLRPC$ChatFull;
+        this.invite = (TLRPC$TL_chatInviteExported) tLRPC$ExportedChatInvite;
+        this.isPublic = ChatObject.isPublic(this.currentChat);
+        loadLinks(true);
     }
 }

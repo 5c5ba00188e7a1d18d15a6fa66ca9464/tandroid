@@ -2,11 +2,7 @@ package com.google.common.primitives;
 
 import com.google.common.base.Preconditions;
 /* loaded from: classes.dex */
-public final class Chars {
-    public static char fromBytes(byte b, byte b2) {
-        return (char) ((b << 8) | (b2 & 255));
-    }
-
+public abstract class Chars {
     public static char checkedCast(long j) {
         char c = (char) j;
         Preconditions.checkArgument(((long) c) == j, "Out of range: %s", j);
@@ -20,5 +16,9 @@ public final class Chars {
             }
         }
         return false;
+    }
+
+    public static char fromBytes(byte b, byte b2) {
+        return (char) ((b << 8) | (b2 & 255));
     }
 }

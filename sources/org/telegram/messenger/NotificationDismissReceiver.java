@@ -19,11 +19,14 @@ public class NotificationDismissReceiver extends BroadcastReceiver {
                 NotificationsController.getInstance(intExtra).processIgnoreStories();
             } else if (intent.hasExtra("storyReaction") && intent.getBooleanExtra("storyReaction", false)) {
                 NotificationsController.getInstance(intExtra).processIgnoreStoryReactions();
-            } else if (longExtra == 0) {
-                MessagesController.getNotificationsSettings(intExtra).edit().putInt("dismissDate", intExtra2).commit();
             } else {
+                String str = "dismissDate";
+                int i = (longExtra > 0L ? 1 : (longExtra == 0L ? 0 : -1));
                 SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(intExtra).edit();
-                edit.putInt("dismissDate" + longExtra, intExtra2).commit();
+                if (i != 0) {
+                    str = "dismissDate" + longExtra;
+                }
+                edit.putInt(str, intExtra2).commit();
             }
         }
     }

@@ -3,7 +3,7 @@ package com.google.android.gms.flags.impl;
 import android.content.SharedPreferences;
 import java.util.concurrent.Callable;
 /* loaded from: classes.dex */
-final class zzi implements Callable<String> {
+final class zzi implements Callable {
     private final /* synthetic */ SharedPreferences zzo;
     private final /* synthetic */ String zzp;
     private final /* synthetic */ String zzt;
@@ -16,7 +16,7 @@ final class zzi implements Callable<String> {
     }
 
     @Override // java.util.concurrent.Callable
-    public final /* synthetic */ String call() throws Exception {
+    public final /* synthetic */ Object call() {
         return this.zzo.getString(this.zzp, this.zzt);
     }
 }

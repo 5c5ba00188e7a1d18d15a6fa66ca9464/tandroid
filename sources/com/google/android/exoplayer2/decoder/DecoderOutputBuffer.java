@@ -5,8 +5,8 @@ public abstract class DecoderOutputBuffer extends Buffer {
     public long timeUs;
 
     /* loaded from: classes.dex */
-    public interface Owner<S extends DecoderOutputBuffer> {
-        void releaseOutputBuffer(S s);
+    public interface Owner {
+        void releaseOutputBuffer(DecoderOutputBuffer decoderOutputBuffer);
     }
 
     public abstract void release();

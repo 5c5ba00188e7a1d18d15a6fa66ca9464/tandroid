@@ -3,9 +3,8 @@ package kotlin.internal;
 import kotlin.internal.jdk7.JDK7PlatformImplementations;
 import kotlin.internal.jdk8.JDK8PlatformImplementations;
 import kotlin.jvm.internal.Intrinsics;
-/* compiled from: PlatformImplementations.kt */
 /* loaded from: classes.dex */
-public final class PlatformImplementationsKt {
+public abstract class PlatformImplementationsKt {
     public static final PlatformImplementations IMPLEMENTATIONS;
 
     static {

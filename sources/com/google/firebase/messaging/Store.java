@@ -11,14 +11,12 @@ import java.util.concurrent.TimeUnit;
 import org.json.JSONException;
 import org.json.JSONObject;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class Store {
     final Context context;
     final SharedPreferences store;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
     /* loaded from: classes.dex */
     public static class Token {
         private static final long REFRESH_PERIOD_MILLIS = TimeUnit.DAYS.toMillis(7);

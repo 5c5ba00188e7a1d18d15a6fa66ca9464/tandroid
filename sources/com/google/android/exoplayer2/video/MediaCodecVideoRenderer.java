@@ -1,7 +1,5 @@
 package com.google.android.exoplayer2.video;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Point;
 import android.hardware.display.DisplayManager;
@@ -81,114 +79,6 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     OnFrameRenderedListenerV23 tunnelingOnFrameRenderedListener;
     private int videoFrameProcessingOffsetCount;
 
-    private static boolean isBufferLate(long j) {
-        return j < -30000;
-    }
-
-    private static boolean isBufferVeryLate(long j) {
-        return j < -500000;
-    }
-
-    public MediaCodecVideoRenderer(Context context, MediaCodecAdapter.Factory factory, MediaCodecSelector mediaCodecSelector, long j, boolean z, Handler handler, VideoRendererEventListener videoRendererEventListener, int i) {
-        this(context, factory, mediaCodecSelector, j, z, handler, videoRendererEventListener, i, 30.0f);
-    }
-
-    public MediaCodecVideoRenderer(Context context, MediaCodecAdapter.Factory factory, MediaCodecSelector mediaCodecSelector, long j, boolean z, Handler handler, VideoRendererEventListener videoRendererEventListener, int i, float f) {
-        super(2, factory, mediaCodecSelector, z, f);
-        this.allowedJoiningTimeMs = j;
-        this.maxDroppedFramesToNotify = i;
-        Context applicationContext = context.getApplicationContext();
-        this.context = applicationContext;
-        this.frameReleaseHelper = new VideoFrameReleaseHelper(applicationContext);
-        this.eventDispatcher = new VideoRendererEventListener.EventDispatcher(handler, videoRendererEventListener);
-        this.deviceNeedsNoPostProcessWorkaround = deviceNeedsNoPostProcessWorkaround();
-        this.joiningDeadlineMs = -9223372036854775807L;
-        this.currentWidth = -1;
-        this.currentHeight = -1;
-        this.currentPixelWidthHeightRatio = -1.0f;
-        this.scalingMode = 1;
-        this.tunnelingAudioSessionId = 0;
-        clearReportedVideoSize();
-    }
-
-    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
-    public String getName() {
-        return "MediaCodecVideoRenderer";
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    protected int supportsFormat(MediaCodecSelector mediaCodecSelector, Format format) throws MediaCodecUtil.DecoderQueryException {
-        boolean z;
-        int i = 0;
-        if (!MimeTypes.isVideo(format.sampleMimeType)) {
-            return RendererCapabilities.-CC.create(0);
-        }
-        boolean z2 = format.drmInitData != null;
-        List<MediaCodecInfo> decoderInfos = getDecoderInfos(this.context, mediaCodecSelector, format, z2, false);
-        if (z2 && decoderInfos.isEmpty()) {
-            decoderInfos = getDecoderInfos(this.context, mediaCodecSelector, format, false, false);
-        }
-        if (decoderInfos.isEmpty()) {
-            return RendererCapabilities.-CC.create(1);
-        }
-        if (!MediaCodecRenderer.supportsFormatDrm(format)) {
-            return RendererCapabilities.-CC.create(2);
-        }
-        MediaCodecInfo mediaCodecInfo = decoderInfos.get(0);
-        boolean isFormatSupported = mediaCodecInfo.isFormatSupported(format);
-        if (!isFormatSupported) {
-            for (int i2 = 1; i2 < decoderInfos.size(); i2++) {
-                MediaCodecInfo mediaCodecInfo2 = decoderInfos.get(i2);
-                if (mediaCodecInfo2.isFormatSupported(format)) {
-                    mediaCodecInfo = mediaCodecInfo2;
-                    z = false;
-                    isFormatSupported = true;
-                    break;
-                }
-            }
-        }
-        z = true;
-        int i3 = isFormatSupported ? 4 : 3;
-        int i4 = mediaCodecInfo.isSeamlessAdaptationSupported(format) ? 16 : 8;
-        int i5 = mediaCodecInfo.hardwareAccelerated ? 64 : 0;
-        int i6 = z ? 128 : 0;
-        if (Util.SDK_INT >= 26 && "video/dolby-vision".equals(format.sampleMimeType) && !Api26.doesDisplaySupportDolbyVision(this.context)) {
-            i6 = 256;
-        }
-        if (isFormatSupported) {
-            List<MediaCodecInfo> decoderInfos2 = getDecoderInfos(this.context, mediaCodecSelector, format, z2, true);
-            if (!decoderInfos2.isEmpty()) {
-                MediaCodecInfo mediaCodecInfo3 = MediaCodecUtil.getDecoderInfosSortedByFormatSupport(decoderInfos2, format).get(0);
-                if (mediaCodecInfo3.isFormatSupported(format) && mediaCodecInfo3.isSeamlessAdaptationSupported(format)) {
-                    i = 32;
-                }
-            }
-        }
-        return RendererCapabilities.-CC.create(i3, i4, i, i5, i6);
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    protected List<MediaCodecInfo> getDecoderInfos(MediaCodecSelector mediaCodecSelector, Format format, boolean z) throws MediaCodecUtil.DecoderQueryException {
-        return MediaCodecUtil.getDecoderInfosSortedByFormatSupport(getDecoderInfos(this.context, mediaCodecSelector, format, z, this.tunneling), format);
-    }
-
-    private static List<MediaCodecInfo> getDecoderInfos(Context context, MediaCodecSelector mediaCodecSelector, Format format, boolean z, boolean z2) throws MediaCodecUtil.DecoderQueryException {
-        String str = format.sampleMimeType;
-        if (str == null) {
-            return ImmutableList.of();
-        }
-        List<MediaCodecInfo> decoderInfos = mediaCodecSelector.getDecoderInfos(str, z, z2);
-        String alternativeCodecMimeType = MediaCodecUtil.getAlternativeCodecMimeType(format);
-        if (alternativeCodecMimeType == null) {
-            return ImmutableList.copyOf((Collection) decoderInfos);
-        }
-        List<MediaCodecInfo> decoderInfos2 = mediaCodecSelector.getDecoderInfos(alternativeCodecMimeType, z, z2);
-        if (Util.SDK_INT >= 26 && "video/dolby-vision".equals(format.sampleMimeType) && !decoderInfos2.isEmpty() && !Api26.doesDisplaySupportDolbyVision(context)) {
-            return ImmutableList.copyOf((Collection) decoderInfos2);
-        }
-        return ImmutableList.builder().addAll((Iterable) decoderInfos).addAll((Iterable) decoderInfos2).build();
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class Api26 {
@@ -217,937 +107,6 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
-    public void onEnabled(boolean z, boolean z2) throws ExoPlaybackException {
-        super.onEnabled(z, z2);
-        boolean z3 = getConfiguration().tunneling;
-        Assertions.checkState((z3 && this.tunnelingAudioSessionId == 0) ? false : true);
-        if (this.tunneling != z3) {
-            this.tunneling = z3;
-            releaseCodec();
-        }
-        this.eventDispatcher.enabled(this.decoderCounters);
-        this.mayRenderFirstFrameAfterEnableIfNotStarted = z2;
-        this.renderedFirstFrameAfterEnable = false;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
-    public void onPositionReset(long j, boolean z) throws ExoPlaybackException {
-        super.onPositionReset(j, z);
-        clearRenderedFirstFrame();
-        this.frameReleaseHelper.onPositionReset();
-        this.lastBufferPresentationTimeUs = -9223372036854775807L;
-        this.initialPositionUs = -9223372036854775807L;
-        this.consecutiveDroppedFrameCount = 0;
-        if (z) {
-            setJoiningDeadlineMs();
-        } else {
-            this.joiningDeadlineMs = -9223372036854775807L;
-        }
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.Renderer
-    public boolean isReady() {
-        PlaceholderSurface placeholderSurface;
-        if (super.isReady() && (this.renderedFirstFrameAfterReset || (((placeholderSurface = this.placeholderSurface) != null && this.surface == placeholderSurface) || getCodec() == null || this.tunneling))) {
-            this.joiningDeadlineMs = -9223372036854775807L;
-            return true;
-        } else if (this.joiningDeadlineMs == -9223372036854775807L) {
-            return false;
-        } else {
-            if (SystemClock.elapsedRealtime() < this.joiningDeadlineMs) {
-                return true;
-            }
-            this.joiningDeadlineMs = -9223372036854775807L;
-            return false;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
-    public void onStarted() {
-        super.onStarted();
-        this.droppedFrames = 0;
-        this.droppedFrameAccumulationStartTimeMs = SystemClock.elapsedRealtime();
-        this.lastRenderRealtimeUs = SystemClock.elapsedRealtime() * 1000;
-        this.totalVideoFrameProcessingOffsetUs = 0L;
-        this.videoFrameProcessingOffsetCount = 0;
-        this.frameReleaseHelper.onStarted();
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
-    public void onStopped() {
-        this.joiningDeadlineMs = -9223372036854775807L;
-        maybeNotifyDroppedFrames();
-        maybeNotifyVideoFrameProcessingOffset();
-        this.frameReleaseHelper.onStopped();
-        super.onStopped();
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
-    public void onDisabled() {
-        clearReportedVideoSize();
-        clearRenderedFirstFrame();
-        this.haveReportedFirstFrameRenderedForCurrentSurface = false;
-        this.tunnelingOnFrameRenderedListener = null;
-        try {
-            super.onDisabled();
-        } finally {
-            this.eventDispatcher.disabled(this.decoderCounters);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
-    @TargetApi(17)
-    public void onReset() {
-        try {
-            super.onReset();
-        } finally {
-            if (this.placeholderSurface != null) {
-                releasePlaceholderSurface();
-            }
-        }
-    }
-
-    @Override // com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.PlayerMessage.Target
-    public void handleMessage(int i, Object obj) throws ExoPlaybackException {
-        if (i == 1) {
-            setOutput(obj);
-        } else if (i == 7) {
-            this.frameMetadataListener = (VideoFrameMetadataListener) obj;
-        } else if (i == 10) {
-            int intValue = ((Integer) obj).intValue();
-            if (this.tunnelingAudioSessionId != intValue) {
-                this.tunnelingAudioSessionId = intValue;
-                if (this.tunneling) {
-                    releaseCodec();
-                }
-            }
-        } else if (i != 4) {
-            if (i == 5) {
-                this.frameReleaseHelper.setChangeFrameRateStrategy(((Integer) obj).intValue());
-            } else {
-                super.handleMessage(i, obj);
-            }
-        } else {
-            this.scalingMode = ((Integer) obj).intValue();
-            MediaCodecAdapter codec = getCodec();
-            if (codec != null) {
-                codec.setVideoScalingMode(this.scalingMode);
-            }
-        }
-    }
-
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r4v0, types: [com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.video.MediaCodecVideoRenderer] */
-    /* JADX WARN: Type inference failed for: r5v9, types: [android.view.Surface] */
-    private void setOutput(Object obj) throws ExoPlaybackException {
-        PlaceholderSurface placeholderSurface = obj instanceof Surface ? (Surface) obj : null;
-        if (placeholderSurface == null) {
-            PlaceholderSurface placeholderSurface2 = this.placeholderSurface;
-            if (placeholderSurface2 != null) {
-                placeholderSurface = placeholderSurface2;
-            } else {
-                MediaCodecInfo codecInfo = getCodecInfo();
-                if (codecInfo != null && shouldUsePlaceholderSurface(codecInfo)) {
-                    placeholderSurface = PlaceholderSurface.newInstanceV17(this.context, codecInfo.secure);
-                    this.placeholderSurface = placeholderSurface;
-                }
-            }
-        }
-        if (this.surface != placeholderSurface) {
-            this.surface = placeholderSurface;
-            this.frameReleaseHelper.onSurfaceChanged(placeholderSurface);
-            this.haveReportedFirstFrameRenderedForCurrentSurface = false;
-            int state = getState();
-            MediaCodecAdapter codec = getCodec();
-            if (codec != null) {
-                if (Util.SDK_INT >= 23 && placeholderSurface != null && !this.codecNeedsSetOutputSurfaceWorkaround) {
-                    try {
-                        setOutputSurfaceV23(codec, placeholderSurface);
-                    } catch (Throwable th) {
-                        th.printStackTrace();
-                        throw new SurfaceNotValidException(th);
-                    }
-                } else {
-                    releaseCodec();
-                    maybeInitCodecOrBypass();
-                }
-            }
-            if (placeholderSurface != null && placeholderSurface != this.placeholderSurface) {
-                maybeRenotifyVideoSizeChanged();
-                clearRenderedFirstFrame();
-                if (state == 2) {
-                    setJoiningDeadlineMs();
-                    return;
-                }
-                return;
-            }
-            clearReportedVideoSize();
-            clearRenderedFirstFrame();
-        } else if (placeholderSurface == null || placeholderSurface == this.placeholderSurface) {
-        } else {
-            maybeRenotifyVideoSizeChanged();
-            maybeRenotifyRenderedFirstFrame();
-        }
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    protected boolean shouldInitCodec(MediaCodecInfo mediaCodecInfo) {
-        return this.surface != null || shouldUsePlaceholderSurface(mediaCodecInfo);
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    protected boolean getCodecNeedsEosPropagation() {
-        return this.tunneling && Util.SDK_INT < 23;
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    @TargetApi(17)
-    protected MediaCodecAdapter.Configuration getMediaCodecConfiguration(MediaCodecInfo mediaCodecInfo, Format format, MediaCrypto mediaCrypto, float f) {
-        PlaceholderSurface placeholderSurface = this.placeholderSurface;
-        if (placeholderSurface != null && placeholderSurface.secure != mediaCodecInfo.secure) {
-            releasePlaceholderSurface();
-        }
-        String str = mediaCodecInfo.codecMimeType;
-        CodecMaxValues codecMaxValues = getCodecMaxValues(mediaCodecInfo, format, getStreamFormats());
-        this.codecMaxValues = codecMaxValues;
-        MediaFormat mediaFormat = getMediaFormat(format, str, codecMaxValues, f, this.deviceNeedsNoPostProcessWorkaround, this.tunneling ? this.tunnelingAudioSessionId : 0);
-        if (this.surface == null) {
-            if (!shouldUsePlaceholderSurface(mediaCodecInfo)) {
-                throw new IllegalStateException();
-            }
-            if (this.placeholderSurface == null) {
-                this.placeholderSurface = PlaceholderSurface.newInstanceV17(this.context, mediaCodecInfo.secure);
-            }
-            this.surface = this.placeholderSurface;
-        }
-        return MediaCodecAdapter.Configuration.createForVideoDecoding(mediaCodecInfo, mediaFormat, format, this.surface, mediaCrypto);
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    protected DecoderReuseEvaluation canReuseCodec(MediaCodecInfo mediaCodecInfo, Format format, Format format2) {
-        DecoderReuseEvaluation canReuseCodec = mediaCodecInfo.canReuseCodec(format, format2);
-        int i = canReuseCodec.discardReasons;
-        int i2 = format2.width;
-        CodecMaxValues codecMaxValues = this.codecMaxValues;
-        if (i2 > codecMaxValues.width || format2.height > codecMaxValues.height) {
-            i |= 256;
-        }
-        if (getMaxInputSize(mediaCodecInfo, format2) > this.codecMaxValues.inputSize) {
-            i |= 64;
-        }
-        int i3 = i;
-        return new DecoderReuseEvaluation(mediaCodecInfo.name, format, format2, i3 != 0 ? 0 : canReuseCodec.result, i3);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    public void resetCodecStateForFlush() {
-        super.resetCodecStateForFlush();
-        this.buffersInCodecCount = 0;
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.Renderer
-    public void setPlaybackSpeed(float f, float f2) throws ExoPlaybackException {
-        super.setPlaybackSpeed(f, f2);
-        this.frameReleaseHelper.onPlaybackSpeed(f);
-    }
-
-    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x0081, code lost:
-        if (r3.equals("video/av01") == false) goto L16;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public static int getCodecMaxInputSize(MediaCodecInfo mediaCodecInfo, Format format) {
-        int intValue;
-        int i = format.width;
-        int i2 = format.height;
-        if (i == -1 || i2 == -1) {
-            return -1;
-        }
-        String str = format.sampleMimeType;
-        char c = 1;
-        if ("video/dolby-vision".equals(str)) {
-            Pair<Integer, Integer> codecProfileAndLevel = MediaCodecUtil.getCodecProfileAndLevel(format);
-            str = (codecProfileAndLevel == null || !((intValue = ((Integer) codecProfileAndLevel.first).intValue()) == 512 || intValue == 1 || intValue == 2)) ? "video/hevc" : MediaController.VIDEO_MIME_TYPE;
-        }
-        str.hashCode();
-        switch (str.hashCode()) {
-            case -1664118616:
-                if (str.equals("video/3gpp")) {
-                    c = 0;
-                    break;
-                }
-                c = 65535;
-                break;
-            case -1662735862:
-                break;
-            case -1662541442:
-                if (str.equals("video/hevc")) {
-                    c = 2;
-                    break;
-                }
-                c = 65535;
-                break;
-            case 1187890754:
-                if (str.equals("video/mp4v-es")) {
-                    c = 3;
-                    break;
-                }
-                c = 65535;
-                break;
-            case 1331836730:
-                if (str.equals(MediaController.VIDEO_MIME_TYPE)) {
-                    c = 4;
-                    break;
-                }
-                c = 65535;
-                break;
-            case 1599127256:
-                if (str.equals("video/x-vnd.on2.vp8")) {
-                    c = 5;
-                    break;
-                }
-                c = 65535;
-                break;
-            case 1599127257:
-                if (str.equals("video/x-vnd.on2.vp9")) {
-                    c = 6;
-                    break;
-                }
-                c = 65535;
-                break;
-            default:
-                c = 65535;
-                break;
-        }
-        switch (c) {
-            case 0:
-            case 1:
-            case 3:
-            case 5:
-                return getMaxSampleSize(i * i2, 2);
-            case 2:
-                return Math.max(2097152, getMaxSampleSize(i * i2, 2));
-            case 4:
-                String str2 = Util.MODEL;
-                if ("BRAVIA 4K 2015".equals(str2) || ("Amazon".equals(Util.MANUFACTURER) && ("KFSOWI".equals(str2) || ("AFTS".equals(str2) && mediaCodecInfo.secure)))) {
-                    return -1;
-                }
-                return getMaxSampleSize(Util.ceilDivide(i, 16) * Util.ceilDivide(i2, 16) * 256, 2);
-            case 6:
-                return getMaxSampleSize(i * i2, 4);
-            default:
-                return -1;
-        }
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    protected float getCodecOperatingRateV23(float f, Format format, Format[] formatArr) {
-        float f2 = -1.0f;
-        for (Format format2 : formatArr) {
-            float f3 = format2.frameRate;
-            if (f3 != -1.0f) {
-                f2 = Math.max(f2, f3);
-            }
-        }
-        if (f2 == -1.0f) {
-            return -1.0f;
-        }
-        return f2 * f;
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    protected void onCodecInitialized(String str, MediaCodecAdapter.Configuration configuration, long j, long j2) {
-        this.eventDispatcher.decoderInitialized(str, j, j2);
-        this.codecNeedsSetOutputSurfaceWorkaround = codecNeedsSetOutputSurfaceWorkaround(str);
-        this.codecHandlesHdr10PlusOutOfBandMetadata = ((MediaCodecInfo) Assertions.checkNotNull(getCodecInfo())).isHdr10PlusOutOfBandMetadataSupported();
-        if (Util.SDK_INT < 23 || !this.tunneling) {
-            return;
-        }
-        this.tunnelingOnFrameRenderedListener = new OnFrameRenderedListenerV23((MediaCodecAdapter) Assertions.checkNotNull(getCodec()));
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    protected void onCodecReleased(String str) {
-        this.eventDispatcher.decoderReleased(str);
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    protected void onCodecError(Exception exc) {
-        Log.e("MediaCodecVideoRenderer", "Video codec error", exc);
-        this.eventDispatcher.videoCodecError(exc);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    public DecoderReuseEvaluation onInputFormatChanged(FormatHolder formatHolder) throws ExoPlaybackException {
-        DecoderReuseEvaluation onInputFormatChanged = super.onInputFormatChanged(formatHolder);
-        this.eventDispatcher.inputFormatChanged(formatHolder.format, onInputFormatChanged);
-        return onInputFormatChanged;
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    protected void onQueueInputBuffer(DecoderInputBuffer decoderInputBuffer) throws ExoPlaybackException {
-        boolean z = this.tunneling;
-        if (!z) {
-            this.buffersInCodecCount++;
-        }
-        if (Util.SDK_INT >= 23 || !z) {
-            return;
-        }
-        onProcessedTunneledBuffer(decoderInputBuffer.timeUs);
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    protected void onOutputFormatChanged(Format format, MediaFormat mediaFormat) {
-        int integer;
-        int integer2;
-        MediaCodecAdapter codec = getCodec();
-        if (codec != null) {
-            codec.setVideoScalingMode(this.scalingMode);
-        }
-        if (this.tunneling) {
-            this.currentWidth = format.width;
-            this.currentHeight = format.height;
-        } else {
-            Assertions.checkNotNull(mediaFormat);
-            boolean z = mediaFormat.containsKey("crop-right") && mediaFormat.containsKey("crop-left") && mediaFormat.containsKey("crop-bottom") && mediaFormat.containsKey("crop-top");
-            if (z) {
-                integer = (mediaFormat.getInteger("crop-right") - mediaFormat.getInteger("crop-left")) + 1;
-            } else {
-                integer = mediaFormat.getInteger("width");
-            }
-            this.currentWidth = integer;
-            if (z) {
-                integer2 = (mediaFormat.getInteger("crop-bottom") - mediaFormat.getInteger("crop-top")) + 1;
-            } else {
-                integer2 = mediaFormat.getInteger("height");
-            }
-            this.currentHeight = integer2;
-        }
-        float f = format.pixelWidthHeightRatio;
-        this.currentPixelWidthHeightRatio = f;
-        if (Util.SDK_INT >= 21) {
-            int i = format.rotationDegrees;
-            if (i == 90 || i == 270) {
-                int i2 = this.currentWidth;
-                this.currentWidth = this.currentHeight;
-                this.currentHeight = i2;
-                this.currentPixelWidthHeightRatio = 1.0f / f;
-            }
-        } else {
-            this.currentUnappliedRotationDegrees = format.rotationDegrees;
-        }
-        this.frameReleaseHelper.onFormatChanged(format.frameRate);
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    @TargetApi(29)
-    protected void handleInputBufferSupplementalData(DecoderInputBuffer decoderInputBuffer) throws ExoPlaybackException {
-        if (this.codecHandlesHdr10PlusOutOfBandMetadata) {
-            ByteBuffer byteBuffer = (ByteBuffer) Assertions.checkNotNull(decoderInputBuffer.supplementalData);
-            if (byteBuffer.remaining() >= 7) {
-                byte b = byteBuffer.get();
-                short s = byteBuffer.getShort();
-                short s2 = byteBuffer.getShort();
-                byte b2 = byteBuffer.get();
-                byte b3 = byteBuffer.get();
-                byteBuffer.position(0);
-                if (b == -75 && s == 60 && s2 == 1 && b2 == 4) {
-                    if (b3 == 0 || b3 == 1) {
-                        byte[] bArr = new byte[byteBuffer.remaining()];
-                        byteBuffer.get(bArr);
-                        byteBuffer.position(0);
-                        setHdr10PlusInfoV29(getCodec(), bArr);
-                    }
-                }
-            }
-        }
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    protected boolean processOutputBuffer(long j, long j2, MediaCodecAdapter mediaCodecAdapter, ByteBuffer byteBuffer, int i, int i2, int i3, long j3, boolean z, boolean z2, Format format) throws ExoPlaybackException {
-        long j4;
-        boolean z3;
-        Assertions.checkNotNull(mediaCodecAdapter);
-        if (this.initialPositionUs == -9223372036854775807L) {
-            this.initialPositionUs = j;
-        }
-        if (j3 != this.lastBufferPresentationTimeUs) {
-            this.frameReleaseHelper.onNextFrame(j3);
-            this.lastBufferPresentationTimeUs = j3;
-        }
-        long outputStreamOffsetUs = getOutputStreamOffsetUs();
-        long j5 = j3 - outputStreamOffsetUs;
-        if (z && !z2) {
-            skipOutputBuffer(mediaCodecAdapter, i, j5);
-            return true;
-        }
-        double playbackSpeed = getPlaybackSpeed();
-        boolean z4 = getState() == 2;
-        long elapsedRealtime = SystemClock.elapsedRealtime() * 1000;
-        double d = j3 - j;
-        Double.isNaN(d);
-        Double.isNaN(playbackSpeed);
-        long j6 = (long) (d / playbackSpeed);
-        if (z4) {
-            j6 -= elapsedRealtime - j2;
-        }
-        if (this.surface == this.placeholderSurface) {
-            if (isBufferLate(j6)) {
-                skipOutputBuffer(mediaCodecAdapter, i, j5);
-                updateVideoFrameProcessingOffsetCounters(j6);
-                return true;
-            }
-            return false;
-        }
-        long j7 = elapsedRealtime - this.lastRenderRealtimeUs;
-        if (this.renderedFirstFrameAfterEnable ? this.renderedFirstFrameAfterReset : !(z4 || this.mayRenderFirstFrameAfterEnableIfNotStarted)) {
-            j4 = j7;
-            z3 = false;
-        } else {
-            j4 = j7;
-            z3 = true;
-        }
-        if (this.joiningDeadlineMs == -9223372036854775807L && j >= outputStreamOffsetUs && (z3 || (z4 && shouldForceRenderOutputBuffer(j6, j4)))) {
-            long nanoTime = System.nanoTime();
-            notifyFrameMetadataListener(j5, nanoTime, format);
-            if (Util.SDK_INT >= 21) {
-                renderOutputBufferV21(mediaCodecAdapter, i, j5, nanoTime);
-            } else {
-                renderOutputBuffer(mediaCodecAdapter, i, j5);
-            }
-            updateVideoFrameProcessingOffsetCounters(j6);
-            return true;
-        }
-        if (z4 && j != this.initialPositionUs) {
-            long nanoTime2 = System.nanoTime();
-            long adjustReleaseTime = this.frameReleaseHelper.adjustReleaseTime((j6 * 1000) + nanoTime2);
-            long j8 = (adjustReleaseTime - nanoTime2) / 1000;
-            boolean z5 = this.joiningDeadlineMs != -9223372036854775807L;
-            if (shouldDropBuffersToKeyframe(j8, j2, z2) && maybeDropBuffersToKeyframe(j, z5)) {
-                return false;
-            }
-            if (shouldDropOutputBuffer(j8, j2, z2)) {
-                if (z5) {
-                    skipOutputBuffer(mediaCodecAdapter, i, j5);
-                } else {
-                    dropOutputBuffer(mediaCodecAdapter, i, j5);
-                }
-                updateVideoFrameProcessingOffsetCounters(j8);
-                return true;
-            } else if (Util.SDK_INT >= 21) {
-                if (j8 < 50000) {
-                    notifyFrameMetadataListener(j5, adjustReleaseTime, format);
-                    renderOutputBufferV21(mediaCodecAdapter, i, j5, adjustReleaseTime);
-                    updateVideoFrameProcessingOffsetCounters(j8);
-                    return true;
-                }
-            } else if (j8 < 30000) {
-                if (j8 > 11000) {
-                    try {
-                        Thread.sleep((j8 - 10000) / 1000);
-                    } catch (InterruptedException unused) {
-                        Thread.currentThread().interrupt();
-                        return false;
-                    }
-                }
-                notifyFrameMetadataListener(j5, adjustReleaseTime, format);
-                renderOutputBuffer(mediaCodecAdapter, i, j5);
-                updateVideoFrameProcessingOffsetCounters(j8);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void notifyFrameMetadataListener(long j, long j2, Format format) {
-        VideoFrameMetadataListener videoFrameMetadataListener = this.frameMetadataListener;
-        if (videoFrameMetadataListener != null) {
-            videoFrameMetadataListener.onVideoFrameAboutToBeRendered(j, j2, format, getCodecOutputMediaFormat());
-        }
-    }
-
-    protected void onProcessedTunneledBuffer(long j) throws ExoPlaybackException {
-        updateOutputFormatForTime(j);
-        maybeNotifyVideoSizeChanged();
-        this.decoderCounters.renderedOutputBufferCount++;
-        maybeNotifyRenderedFirstFrame();
-        onProcessedOutputBuffer(j);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void onProcessedTunneledEndOfStream() {
-        setPendingOutputEndOfStream();
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    public void onProcessedOutputBuffer(long j) {
-        super.onProcessedOutputBuffer(j);
-        if (this.tunneling) {
-            return;
-        }
-        this.buffersInCodecCount--;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    public void onProcessedStreamChange() {
-        super.onProcessedStreamChange();
-        clearRenderedFirstFrame();
-    }
-
-    protected boolean shouldDropOutputBuffer(long j, long j2, boolean z) {
-        return isBufferLate(j) && !z;
-    }
-
-    protected boolean shouldDropBuffersToKeyframe(long j, long j2, boolean z) {
-        return isBufferVeryLate(j) && !z;
-    }
-
-    protected boolean shouldForceRenderOutputBuffer(long j, long j2) {
-        return isBufferLate(j) && j2 > 100000;
-    }
-
-    protected void skipOutputBuffer(MediaCodecAdapter mediaCodecAdapter, int i, long j) {
-        TraceUtil.beginSection("skipVideoBuffer");
-        mediaCodecAdapter.releaseOutputBuffer(i, false);
-        TraceUtil.endSection();
-        this.decoderCounters.skippedOutputBufferCount++;
-    }
-
-    protected void dropOutputBuffer(MediaCodecAdapter mediaCodecAdapter, int i, long j) {
-        TraceUtil.beginSection("dropVideoBuffer");
-        mediaCodecAdapter.releaseOutputBuffer(i, false);
-        TraceUtil.endSection();
-        updateDroppedBufferCounters(0, 1);
-    }
-
-    protected boolean maybeDropBuffersToKeyframe(long j, boolean z) throws ExoPlaybackException {
-        int skipSource = skipSource(j);
-        if (skipSource == 0) {
-            return false;
-        }
-        if (z) {
-            DecoderCounters decoderCounters = this.decoderCounters;
-            decoderCounters.skippedInputBufferCount += skipSource;
-            decoderCounters.skippedOutputBufferCount += this.buffersInCodecCount;
-        } else {
-            this.decoderCounters.droppedToKeyframeCount++;
-            updateDroppedBufferCounters(skipSource, this.buffersInCodecCount);
-        }
-        flushOrReinitializeCodec();
-        return true;
-    }
-
-    protected void updateDroppedBufferCounters(int i, int i2) {
-        DecoderCounters decoderCounters = this.decoderCounters;
-        decoderCounters.droppedInputBufferCount += i;
-        int i3 = i + i2;
-        decoderCounters.droppedBufferCount += i3;
-        this.droppedFrames += i3;
-        int i4 = this.consecutiveDroppedFrameCount + i3;
-        this.consecutiveDroppedFrameCount = i4;
-        decoderCounters.maxConsecutiveDroppedBufferCount = Math.max(i4, decoderCounters.maxConsecutiveDroppedBufferCount);
-        int i5 = this.maxDroppedFramesToNotify;
-        if (i5 <= 0 || this.droppedFrames < i5) {
-            return;
-        }
-        maybeNotifyDroppedFrames();
-    }
-
-    protected void updateVideoFrameProcessingOffsetCounters(long j) {
-        this.decoderCounters.addVideoFrameProcessingOffset(j);
-        this.totalVideoFrameProcessingOffsetUs += j;
-        this.videoFrameProcessingOffsetCount++;
-    }
-
-    protected void renderOutputBuffer(MediaCodecAdapter mediaCodecAdapter, int i, long j) {
-        maybeNotifyVideoSizeChanged();
-        TraceUtil.beginSection("releaseOutputBuffer");
-        mediaCodecAdapter.releaseOutputBuffer(i, true);
-        TraceUtil.endSection();
-        this.lastRenderRealtimeUs = SystemClock.elapsedRealtime() * 1000;
-        this.decoderCounters.renderedOutputBufferCount++;
-        this.consecutiveDroppedFrameCount = 0;
-        maybeNotifyRenderedFirstFrame();
-    }
-
-    protected void renderOutputBufferV21(MediaCodecAdapter mediaCodecAdapter, int i, long j, long j2) {
-        maybeNotifyVideoSizeChanged();
-        TraceUtil.beginSection("releaseOutputBuffer");
-        mediaCodecAdapter.releaseOutputBuffer(i, j2);
-        TraceUtil.endSection();
-        this.lastRenderRealtimeUs = SystemClock.elapsedRealtime() * 1000;
-        this.decoderCounters.renderedOutputBufferCount++;
-        this.consecutiveDroppedFrameCount = 0;
-        maybeNotifyRenderedFirstFrame();
-    }
-
-    private boolean shouldUsePlaceholderSurface(MediaCodecInfo mediaCodecInfo) {
-        return Util.SDK_INT >= 23 && !this.tunneling && !codecNeedsSetOutputSurfaceWorkaround(mediaCodecInfo.name) && (!mediaCodecInfo.secure || PlaceholderSurface.isSecureSupported(this.context));
-    }
-
-    private void releasePlaceholderSurface() {
-        Surface surface = this.surface;
-        PlaceholderSurface placeholderSurface = this.placeholderSurface;
-        if (surface == placeholderSurface) {
-            this.surface = null;
-        }
-        placeholderSurface.release();
-        this.placeholderSurface = null;
-    }
-
-    private void setJoiningDeadlineMs() {
-        this.joiningDeadlineMs = this.allowedJoiningTimeMs > 0 ? SystemClock.elapsedRealtime() + this.allowedJoiningTimeMs : -9223372036854775807L;
-    }
-
-    private void clearRenderedFirstFrame() {
-        MediaCodecAdapter codec;
-        this.renderedFirstFrameAfterReset = false;
-        if (Util.SDK_INT < 23 || !this.tunneling || (codec = getCodec()) == null) {
-            return;
-        }
-        this.tunnelingOnFrameRenderedListener = new OnFrameRenderedListenerV23(codec);
-    }
-
-    void maybeNotifyRenderedFirstFrame() {
-        this.renderedFirstFrameAfterEnable = true;
-        if (this.renderedFirstFrameAfterReset) {
-            return;
-        }
-        this.renderedFirstFrameAfterReset = true;
-        this.eventDispatcher.renderedFirstFrame(this.surface);
-        this.haveReportedFirstFrameRenderedForCurrentSurface = true;
-    }
-
-    private void maybeRenotifyRenderedFirstFrame() {
-        if (this.haveReportedFirstFrameRenderedForCurrentSurface) {
-            this.eventDispatcher.renderedFirstFrame(this.surface);
-        }
-    }
-
-    private void clearReportedVideoSize() {
-        this.reportedVideoSize = null;
-    }
-
-    private void maybeNotifyVideoSizeChanged() {
-        int i = this.currentWidth;
-        if (i == -1 && this.currentHeight == -1) {
-            return;
-        }
-        VideoSize videoSize = this.reportedVideoSize;
-        if (videoSize != null && videoSize.width == i && videoSize.height == this.currentHeight && videoSize.unappliedRotationDegrees == this.currentUnappliedRotationDegrees && videoSize.pixelWidthHeightRatio == this.currentPixelWidthHeightRatio) {
-            return;
-        }
-        VideoSize videoSize2 = new VideoSize(this.currentWidth, this.currentHeight, this.currentUnappliedRotationDegrees, this.currentPixelWidthHeightRatio);
-        this.reportedVideoSize = videoSize2;
-        this.eventDispatcher.videoSizeChanged(videoSize2);
-    }
-
-    private void maybeRenotifyVideoSizeChanged() {
-        VideoSize videoSize = this.reportedVideoSize;
-        if (videoSize != null) {
-            this.eventDispatcher.videoSizeChanged(videoSize);
-        }
-    }
-
-    private void maybeNotifyDroppedFrames() {
-        if (this.droppedFrames > 0) {
-            long elapsedRealtime = SystemClock.elapsedRealtime();
-            this.eventDispatcher.droppedFrames(this.droppedFrames, elapsedRealtime - this.droppedFrameAccumulationStartTimeMs);
-            this.droppedFrames = 0;
-            this.droppedFrameAccumulationStartTimeMs = elapsedRealtime;
-        }
-    }
-
-    private void maybeNotifyVideoFrameProcessingOffset() {
-        int i = this.videoFrameProcessingOffsetCount;
-        if (i != 0) {
-            this.eventDispatcher.reportVideoFrameProcessingOffset(this.totalVideoFrameProcessingOffsetUs, i);
-            this.totalVideoFrameProcessingOffsetUs = 0L;
-            this.videoFrameProcessingOffsetCount = 0;
-        }
-    }
-
-    private static void setHdr10PlusInfoV29(MediaCodecAdapter mediaCodecAdapter, byte[] bArr) {
-        Bundle bundle = new Bundle();
-        bundle.putByteArray("hdr10-plus-info", bArr);
-        mediaCodecAdapter.setParameters(bundle);
-    }
-
-    protected void setOutputSurfaceV23(MediaCodecAdapter mediaCodecAdapter, Surface surface) {
-        mediaCodecAdapter.setOutputSurface(surface);
-    }
-
-    private static void configureTunnelingV21(MediaFormat mediaFormat, int i) {
-        mediaFormat.setFeatureEnabled("tunneled-playback", true);
-        mediaFormat.setInteger("audio-session-id", i);
-    }
-
-    @SuppressLint({"InlinedApi"})
-    @TargetApi(21)
-    protected MediaFormat getMediaFormat(Format format, String str, CodecMaxValues codecMaxValues, float f, boolean z, int i) {
-        Pair<Integer, Integer> codecProfileAndLevel;
-        MediaFormat mediaFormat = new MediaFormat();
-        mediaFormat.setString("mime", str);
-        mediaFormat.setInteger("width", format.width);
-        mediaFormat.setInteger("height", format.height);
-        MediaFormatUtil.setCsdBuffers(mediaFormat, format.initializationData);
-        MediaFormatUtil.maybeSetFloat(mediaFormat, "frame-rate", format.frameRate);
-        MediaFormatUtil.maybeSetInteger(mediaFormat, "rotation-degrees", format.rotationDegrees);
-        MediaFormatUtil.maybeSetColorInfo(mediaFormat, format.colorInfo);
-        if ("video/dolby-vision".equals(format.sampleMimeType) && (codecProfileAndLevel = MediaCodecUtil.getCodecProfileAndLevel(format)) != null) {
-            MediaFormatUtil.maybeSetInteger(mediaFormat, "profile", ((Integer) codecProfileAndLevel.first).intValue());
-        }
-        mediaFormat.setInteger("max-width", codecMaxValues.width);
-        mediaFormat.setInteger("max-height", codecMaxValues.height);
-        MediaFormatUtil.maybeSetInteger(mediaFormat, "max-input-size", codecMaxValues.inputSize);
-        if (Util.SDK_INT >= 23) {
-            mediaFormat.setInteger("priority", 0);
-            if (f != -1.0f) {
-                mediaFormat.setFloat("operating-rate", f);
-            }
-        }
-        if (z) {
-            mediaFormat.setInteger("no-post-process", 1);
-            mediaFormat.setInteger("auto-frc", 0);
-        }
-        if (i != 0) {
-            configureTunnelingV21(mediaFormat, i);
-        }
-        return mediaFormat;
-    }
-
-    protected CodecMaxValues getCodecMaxValues(MediaCodecInfo mediaCodecInfo, Format format, Format[] formatArr) {
-        int codecMaxInputSize;
-        int i = format.width;
-        int i2 = format.height;
-        int maxInputSize = getMaxInputSize(mediaCodecInfo, format);
-        if (formatArr.length == 1) {
-            if (maxInputSize != -1 && (codecMaxInputSize = getCodecMaxInputSize(mediaCodecInfo, format)) != -1) {
-                maxInputSize = Math.min((int) (maxInputSize * 1.5f), codecMaxInputSize);
-            }
-            return new CodecMaxValues(i, i2, maxInputSize);
-        }
-        int length = formatArr.length;
-        boolean z = false;
-        for (int i3 = 0; i3 < length; i3++) {
-            Format format2 = formatArr[i3];
-            if (format.colorInfo != null && format2.colorInfo == null) {
-                format2 = format2.buildUpon().setColorInfo(format.colorInfo).build();
-            }
-            if (mediaCodecInfo.canReuseCodec(format, format2).result != 0) {
-                int i4 = format2.width;
-                z |= i4 == -1 || format2.height == -1;
-                i = Math.max(i, i4);
-                i2 = Math.max(i2, format2.height);
-                maxInputSize = Math.max(maxInputSize, getMaxInputSize(mediaCodecInfo, format2));
-            }
-        }
-        if (z) {
-            Log.w("MediaCodecVideoRenderer", "Resolutions unknown. Codec max resolution: " + i + "x" + i2);
-            Point codecMaxSize = getCodecMaxSize(mediaCodecInfo, format);
-            if (codecMaxSize != null) {
-                i = Math.max(i, codecMaxSize.x);
-                i2 = Math.max(i2, codecMaxSize.y);
-                maxInputSize = Math.max(maxInputSize, getCodecMaxInputSize(mediaCodecInfo, format.buildUpon().setWidth(i).setHeight(i2).build()));
-                Log.w("MediaCodecVideoRenderer", "Codec max resolution adjusted to: " + i + "x" + i2);
-            }
-        }
-        return new CodecMaxValues(i, i2, maxInputSize);
-    }
-
-    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    protected MediaCodecDecoderException createDecoderException(Throwable th, MediaCodecInfo mediaCodecInfo) {
-        return new MediaCodecVideoDecoderException(th, mediaCodecInfo, this.surface);
-    }
-
-    private static Point getCodecMaxSize(MediaCodecInfo mediaCodecInfo, Format format) {
-        int[] iArr;
-        int i = format.height;
-        int i2 = format.width;
-        boolean z = i > i2;
-        int i3 = z ? i : i2;
-        if (z) {
-            i = i2;
-        }
-        float f = i / i3;
-        for (int i4 : STANDARD_LONG_EDGE_VIDEO_PX) {
-            int i5 = (int) (i4 * f);
-            if (i4 <= i3 || i5 <= i) {
-                break;
-            }
-            if (Util.SDK_INT >= 21) {
-                int i6 = z ? i5 : i4;
-                if (!z) {
-                    i4 = i5;
-                }
-                Point alignVideoSizeV21 = mediaCodecInfo.alignVideoSizeV21(i6, i4);
-                if (mediaCodecInfo.isVideoSizeAndRateSupportedV21(alignVideoSizeV21.x, alignVideoSizeV21.y, format.frameRate)) {
-                    return alignVideoSizeV21;
-                }
-            } else {
-                try {
-                    int ceilDivide = Util.ceilDivide(i4, 16) * 16;
-                    int ceilDivide2 = Util.ceilDivide(i5, 16) * 16;
-                    if (ceilDivide * ceilDivide2 <= MediaCodecUtil.maxH264DecodableFrameSize()) {
-                        int i7 = z ? ceilDivide2 : ceilDivide;
-                        if (!z) {
-                            ceilDivide = ceilDivide2;
-                        }
-                        return new Point(i7, ceilDivide);
-                    }
-                } catch (MediaCodecUtil.DecoderQueryException unused) {
-                }
-            }
-        }
-        return null;
-    }
-
-    protected static int getMaxInputSize(MediaCodecInfo mediaCodecInfo, Format format) {
-        if (format.maxInputSize != -1) {
-            int size = format.initializationData.size();
-            int i = 0;
-            for (int i2 = 0; i2 < size; i2++) {
-                i += format.initializationData.get(i2).length;
-            }
-            return format.maxInputSize + i;
-        }
-        return getCodecMaxInputSize(mediaCodecInfo, format);
-    }
-
-    private static boolean deviceNeedsNoPostProcessWorkaround() {
-        return "NVIDIA".equals(Util.MANUFACTURER);
-    }
-
-    protected boolean codecNeedsSetOutputSurfaceWorkaround(String str) {
-        if (str.startsWith("OMX.google")) {
-            return false;
-        }
-        synchronized (MediaCodecVideoRenderer.class) {
-            try {
-                if (!evaluatedDeviceNeedsSetOutputSurfaceWorkaround) {
-                    deviceNeedsSetOutputSurfaceWorkaround = evaluateDeviceNeedsSetOutputSurfaceWorkaround();
-                    evaluatedDeviceNeedsSetOutputSurfaceWorkaround = true;
-                }
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-        return deviceNeedsSetOutputSurfaceWorkaround;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes.dex */
     public static final class CodecMaxValues {
         public final int height;
@@ -1161,12 +120,98 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         }
     }
 
-    private static int getMaxSampleSize(int i, int i2) {
-        return (i * 3) / (i2 * 2);
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public final class OnFrameRenderedListenerV23 implements MediaCodecAdapter.OnFrameRenderedListener, Handler.Callback {
+        private final Handler handler;
+
+        public OnFrameRenderedListenerV23(MediaCodecAdapter mediaCodecAdapter) {
+            Handler createHandlerForCurrentLooper = Util.createHandlerForCurrentLooper(this);
+            this.handler = createHandlerForCurrentLooper;
+            mediaCodecAdapter.setOnFrameRenderedListener(this, createHandlerForCurrentLooper);
+        }
+
+        private void handleFrameRendered(long j) {
+            MediaCodecVideoRenderer mediaCodecVideoRenderer = MediaCodecVideoRenderer.this;
+            if (this != mediaCodecVideoRenderer.tunnelingOnFrameRenderedListener || mediaCodecVideoRenderer.getCodec() == null) {
+                return;
+            }
+            if (j == Long.MAX_VALUE) {
+                MediaCodecVideoRenderer.this.onProcessedTunneledEndOfStream();
+                return;
+            }
+            try {
+                MediaCodecVideoRenderer.this.onProcessedTunneledBuffer(j);
+            } catch (ExoPlaybackException e) {
+                MediaCodecVideoRenderer.this.setPendingPlaybackException(e);
+            }
+        }
+
+        @Override // android.os.Handler.Callback
+        public boolean handleMessage(Message message) {
+            if (message.what != 0) {
+                return false;
+            }
+            handleFrameRendered(Util.toLong(message.arg1, message.arg2));
+            return true;
+        }
+
+        @Override // com.google.android.exoplayer2.mediacodec.MediaCodecAdapter.OnFrameRenderedListener
+        public void onFrameRendered(MediaCodecAdapter mediaCodecAdapter, long j, long j2) {
+            if (Util.SDK_INT >= 30) {
+                handleFrameRendered(j);
+                return;
+            }
+            this.handler.sendMessageAtFrontOfQueue(Message.obtain(this.handler, 0, (int) (j >> 32), (int) j));
+        }
+    }
+
+    public MediaCodecVideoRenderer(Context context, MediaCodecAdapter.Factory factory, MediaCodecSelector mediaCodecSelector, long j, boolean z, Handler handler, VideoRendererEventListener videoRendererEventListener, int i) {
+        this(context, factory, mediaCodecSelector, j, z, handler, videoRendererEventListener, i, 30.0f);
+    }
+
+    public MediaCodecVideoRenderer(Context context, MediaCodecAdapter.Factory factory, MediaCodecSelector mediaCodecSelector, long j, boolean z, Handler handler, VideoRendererEventListener videoRendererEventListener, int i, float f) {
+        super(2, factory, mediaCodecSelector, z, f);
+        this.allowedJoiningTimeMs = j;
+        this.maxDroppedFramesToNotify = i;
+        Context applicationContext = context.getApplicationContext();
+        this.context = applicationContext;
+        this.frameReleaseHelper = new VideoFrameReleaseHelper(applicationContext);
+        this.eventDispatcher = new VideoRendererEventListener.EventDispatcher(handler, videoRendererEventListener);
+        this.deviceNeedsNoPostProcessWorkaround = deviceNeedsNoPostProcessWorkaround();
+        this.joiningDeadlineMs = -9223372036854775807L;
+        this.currentWidth = -1;
+        this.currentHeight = -1;
+        this.currentPixelWidthHeightRatio = -1.0f;
+        this.scalingMode = 1;
+        this.tunnelingAudioSessionId = 0;
+        clearReportedVideoSize();
+    }
+
+    private void clearRenderedFirstFrame() {
+        MediaCodecAdapter codec;
+        this.renderedFirstFrameAfterReset = false;
+        if (Util.SDK_INT < 23 || !this.tunneling || (codec = getCodec()) == null) {
+            return;
+        }
+        this.tunnelingOnFrameRenderedListener = new OnFrameRenderedListenerV23(codec);
+    }
+
+    private void clearReportedVideoSize() {
+        this.reportedVideoSize = null;
+    }
+
+    private static void configureTunnelingV21(MediaFormat mediaFormat, int i) {
+        mediaFormat.setFeatureEnabled("tunneled-playback", true);
+        mediaFormat.setInteger("audio-session-id", i);
+    }
+
+    private static boolean deviceNeedsNoPostProcessWorkaround() {
+        return "NVIDIA".equals(Util.MANUFACTURER);
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:621:0x084d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:621:0x0848, code lost:
         if (r0.equals("PGN528") == false) goto L46;
      */
     /*
@@ -2474,49 +1519,995 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public final class OnFrameRenderedListenerV23 implements MediaCodecAdapter.OnFrameRenderedListener, Handler.Callback {
-        private final Handler handler;
-
-        public OnFrameRenderedListenerV23(MediaCodecAdapter mediaCodecAdapter) {
-            Handler createHandlerForCurrentLooper = Util.createHandlerForCurrentLooper(this);
-            this.handler = createHandlerForCurrentLooper;
-            mediaCodecAdapter.setOnFrameRenderedListener(this, createHandlerForCurrentLooper);
+    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x007a, code lost:
+        if (r3.equals("video/av01") == false) goto L16;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static int getCodecMaxInputSize(MediaCodecInfo mediaCodecInfo, Format format) {
+        int intValue;
+        int i = format.width;
+        int i2 = format.height;
+        if (i == -1 || i2 == -1) {
+            return -1;
         }
+        String str = format.sampleMimeType;
+        char c = 1;
+        if ("video/dolby-vision".equals(str)) {
+            Pair codecProfileAndLevel = MediaCodecUtil.getCodecProfileAndLevel(format);
+            str = (codecProfileAndLevel == null || !((intValue = ((Integer) codecProfileAndLevel.first).intValue()) == 512 || intValue == 1 || intValue == 2)) ? "video/hevc" : MediaController.VIDEO_MIME_TYPE;
+        }
+        str.hashCode();
+        switch (str.hashCode()) {
+            case -1664118616:
+                if (str.equals("video/3gpp")) {
+                    c = 0;
+                    break;
+                }
+                c = 65535;
+                break;
+            case -1662735862:
+                break;
+            case -1662541442:
+                if (str.equals("video/hevc")) {
+                    c = 2;
+                    break;
+                }
+                c = 65535;
+                break;
+            case 1187890754:
+                if (str.equals("video/mp4v-es")) {
+                    c = 3;
+                    break;
+                }
+                c = 65535;
+                break;
+            case 1331836730:
+                if (str.equals(MediaController.VIDEO_MIME_TYPE)) {
+                    c = 4;
+                    break;
+                }
+                c = 65535;
+                break;
+            case 1599127256:
+                if (str.equals("video/x-vnd.on2.vp8")) {
+                    c = 5;
+                    break;
+                }
+                c = 65535;
+                break;
+            case 1599127257:
+                if (str.equals("video/x-vnd.on2.vp9")) {
+                    c = 6;
+                    break;
+                }
+                c = 65535;
+                break;
+            default:
+                c = 65535;
+                break;
+        }
+        switch (c) {
+            case 0:
+            case 1:
+            case 3:
+            case 5:
+                return getMaxSampleSize(i * i2, 2);
+            case 2:
+                return Math.max(2097152, getMaxSampleSize(i * i2, 2));
+            case 4:
+                String str2 = Util.MODEL;
+                if ("BRAVIA 4K 2015".equals(str2) || ("Amazon".equals(Util.MANUFACTURER) && ("KFSOWI".equals(str2) || ("AFTS".equals(str2) && mediaCodecInfo.secure)))) {
+                    return -1;
+                }
+                return getMaxSampleSize(Util.ceilDivide(i, 16) * Util.ceilDivide(i2, 16) * 256, 2);
+            case 6:
+                return getMaxSampleSize(i * i2, 4);
+            default:
+                return -1;
+        }
+    }
 
-        @Override // com.google.android.exoplayer2.mediacodec.MediaCodecAdapter.OnFrameRenderedListener
-        public void onFrameRendered(MediaCodecAdapter mediaCodecAdapter, long j, long j2) {
-            if (Util.SDK_INT < 30) {
-                this.handler.sendMessageAtFrontOfQueue(Message.obtain(this.handler, 0, (int) (j >> 32), (int) j));
+    private static Point getCodecMaxSize(MediaCodecInfo mediaCodecInfo, Format format) {
+        int[] iArr;
+        int i = format.height;
+        int i2 = format.width;
+        boolean z = i > i2;
+        int i3 = z ? i : i2;
+        if (z) {
+            i = i2;
+        }
+        float f = i / i3;
+        for (int i4 : STANDARD_LONG_EDGE_VIDEO_PX) {
+            int i5 = (int) (i4 * f);
+            if (i4 <= i3 || i5 <= i) {
+                break;
+            }
+            if (Util.SDK_INT >= 21) {
+                int i6 = z ? i5 : i4;
+                if (!z) {
+                    i4 = i5;
+                }
+                Point alignVideoSizeV21 = mediaCodecInfo.alignVideoSizeV21(i6, i4);
+                if (mediaCodecInfo.isVideoSizeAndRateSupportedV21(alignVideoSizeV21.x, alignVideoSizeV21.y, format.frameRate)) {
+                    return alignVideoSizeV21;
+                }
+            } else {
+                try {
+                    int ceilDivide = Util.ceilDivide(i4, 16) * 16;
+                    int ceilDivide2 = Util.ceilDivide(i5, 16) * 16;
+                    if (ceilDivide * ceilDivide2 <= MediaCodecUtil.maxH264DecodableFrameSize()) {
+                        int i7 = z ? ceilDivide2 : ceilDivide;
+                        if (!z) {
+                            ceilDivide = ceilDivide2;
+                        }
+                        return new Point(i7, ceilDivide);
+                    }
+                } catch (MediaCodecUtil.DecoderQueryException unused) {
+                }
+            }
+        }
+        return null;
+    }
+
+    private static List getDecoderInfos(Context context, MediaCodecSelector mediaCodecSelector, Format format, boolean z, boolean z2) {
+        String str = format.sampleMimeType;
+        if (str == null) {
+            return ImmutableList.of();
+        }
+        List decoderInfos = mediaCodecSelector.getDecoderInfos(str, z, z2);
+        String alternativeCodecMimeType = MediaCodecUtil.getAlternativeCodecMimeType(format);
+        if (alternativeCodecMimeType == null) {
+            return ImmutableList.copyOf((Collection) decoderInfos);
+        }
+        List decoderInfos2 = mediaCodecSelector.getDecoderInfos(alternativeCodecMimeType, z, z2);
+        return (Util.SDK_INT < 26 || !"video/dolby-vision".equals(format.sampleMimeType) || decoderInfos2.isEmpty() || Api26.doesDisplaySupportDolbyVision(context)) ? ImmutableList.builder().addAll((Iterable) decoderInfos).addAll((Iterable) decoderInfos2).build() : ImmutableList.copyOf((Collection) decoderInfos2);
+    }
+
+    protected static int getMaxInputSize(MediaCodecInfo mediaCodecInfo, Format format) {
+        if (format.maxInputSize != -1) {
+            int size = format.initializationData.size();
+            int i = 0;
+            for (int i2 = 0; i2 < size; i2++) {
+                i += ((byte[]) format.initializationData.get(i2)).length;
+            }
+            return format.maxInputSize + i;
+        }
+        return getCodecMaxInputSize(mediaCodecInfo, format);
+    }
+
+    private static int getMaxSampleSize(int i, int i2) {
+        return (i * 3) / (i2 * 2);
+    }
+
+    private static boolean isBufferLate(long j) {
+        return j < -30000;
+    }
+
+    private static boolean isBufferVeryLate(long j) {
+        return j < -500000;
+    }
+
+    private void maybeNotifyDroppedFrames() {
+        if (this.droppedFrames > 0) {
+            long elapsedRealtime = SystemClock.elapsedRealtime();
+            this.eventDispatcher.droppedFrames(this.droppedFrames, elapsedRealtime - this.droppedFrameAccumulationStartTimeMs);
+            this.droppedFrames = 0;
+            this.droppedFrameAccumulationStartTimeMs = elapsedRealtime;
+        }
+    }
+
+    private void maybeNotifyVideoFrameProcessingOffset() {
+        int i = this.videoFrameProcessingOffsetCount;
+        if (i != 0) {
+            this.eventDispatcher.reportVideoFrameProcessingOffset(this.totalVideoFrameProcessingOffsetUs, i);
+            this.totalVideoFrameProcessingOffsetUs = 0L;
+            this.videoFrameProcessingOffsetCount = 0;
+        }
+    }
+
+    private void maybeNotifyVideoSizeChanged() {
+        int i = this.currentWidth;
+        if (i == -1 && this.currentHeight == -1) {
+            return;
+        }
+        VideoSize videoSize = this.reportedVideoSize;
+        if (videoSize != null && videoSize.width == i && videoSize.height == this.currentHeight && videoSize.unappliedRotationDegrees == this.currentUnappliedRotationDegrees && videoSize.pixelWidthHeightRatio == this.currentPixelWidthHeightRatio) {
+            return;
+        }
+        VideoSize videoSize2 = new VideoSize(this.currentWidth, this.currentHeight, this.currentUnappliedRotationDegrees, this.currentPixelWidthHeightRatio);
+        this.reportedVideoSize = videoSize2;
+        this.eventDispatcher.videoSizeChanged(videoSize2);
+    }
+
+    private void maybeRenotifyRenderedFirstFrame() {
+        if (this.haveReportedFirstFrameRenderedForCurrentSurface) {
+            this.eventDispatcher.renderedFirstFrame(this.surface);
+        }
+    }
+
+    private void maybeRenotifyVideoSizeChanged() {
+        VideoSize videoSize = this.reportedVideoSize;
+        if (videoSize != null) {
+            this.eventDispatcher.videoSizeChanged(videoSize);
+        }
+    }
+
+    private void notifyFrameMetadataListener(long j, long j2, Format format) {
+        VideoFrameMetadataListener videoFrameMetadataListener = this.frameMetadataListener;
+        if (videoFrameMetadataListener != null) {
+            videoFrameMetadataListener.onVideoFrameAboutToBeRendered(j, j2, format, getCodecOutputMediaFormat());
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void onProcessedTunneledEndOfStream() {
+        setPendingOutputEndOfStream();
+    }
+
+    private void releasePlaceholderSurface() {
+        Surface surface = this.surface;
+        PlaceholderSurface placeholderSurface = this.placeholderSurface;
+        if (surface == placeholderSurface) {
+            this.surface = null;
+        }
+        placeholderSurface.release();
+        this.placeholderSurface = null;
+    }
+
+    private static void setHdr10PlusInfoV29(MediaCodecAdapter mediaCodecAdapter, byte[] bArr) {
+        Bundle bundle = new Bundle();
+        bundle.putByteArray("hdr10-plus-info", bArr);
+        mediaCodecAdapter.setParameters(bundle);
+    }
+
+    private void setJoiningDeadlineMs() {
+        this.joiningDeadlineMs = this.allowedJoiningTimeMs > 0 ? SystemClock.elapsedRealtime() + this.allowedJoiningTimeMs : -9223372036854775807L;
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r4v0, types: [com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.video.MediaCodecVideoRenderer] */
+    /* JADX WARN: Type inference failed for: r5v9, types: [android.view.Surface] */
+    private void setOutput(Object obj) {
+        PlaceholderSurface placeholderSurface = obj instanceof Surface ? (Surface) obj : null;
+        if (placeholderSurface == null) {
+            PlaceholderSurface placeholderSurface2 = this.placeholderSurface;
+            if (placeholderSurface2 != null) {
+                placeholderSurface = placeholderSurface2;
+            } else {
+                MediaCodecInfo codecInfo = getCodecInfo();
+                if (codecInfo != null && shouldUsePlaceholderSurface(codecInfo)) {
+                    placeholderSurface = PlaceholderSurface.newInstanceV17(this.context, codecInfo.secure);
+                    this.placeholderSurface = placeholderSurface;
+                }
+            }
+        }
+        if (this.surface == placeholderSurface) {
+            if (placeholderSurface == null || placeholderSurface == this.placeholderSurface) {
                 return;
             }
-            handleFrameRendered(j);
+            maybeRenotifyVideoSizeChanged();
+            maybeRenotifyRenderedFirstFrame();
+            return;
         }
-
-        @Override // android.os.Handler.Callback
-        public boolean handleMessage(Message message) {
-            if (message.what != 0) {
-                return false;
+        this.surface = placeholderSurface;
+        this.frameReleaseHelper.onSurfaceChanged(placeholderSurface);
+        this.haveReportedFirstFrameRenderedForCurrentSurface = false;
+        int state = getState();
+        MediaCodecAdapter codec = getCodec();
+        if (codec != null) {
+            if (Util.SDK_INT < 23 || placeholderSurface == null || this.codecNeedsSetOutputSurfaceWorkaround) {
+                releaseCodec();
+                maybeInitCodecOrBypass();
+            } else {
+                try {
+                    setOutputSurfaceV23(codec, placeholderSurface);
+                } catch (Throwable th) {
+                    th.printStackTrace();
+                    throw new SurfaceNotValidException(th);
+                }
             }
-            handleFrameRendered(Util.toLong(message.arg1, message.arg2));
+        }
+        if (placeholderSurface == null || placeholderSurface == this.placeholderSurface) {
+            clearReportedVideoSize();
+            clearRenderedFirstFrame();
+            return;
+        }
+        maybeRenotifyVideoSizeChanged();
+        clearRenderedFirstFrame();
+        if (state == 2) {
+            setJoiningDeadlineMs();
+        }
+    }
+
+    private boolean shouldUsePlaceholderSurface(MediaCodecInfo mediaCodecInfo) {
+        return Util.SDK_INT >= 23 && !this.tunneling && !codecNeedsSetOutputSurfaceWorkaround(mediaCodecInfo.name) && (!mediaCodecInfo.secure || PlaceholderSurface.isSecureSupported(this.context));
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    protected DecoderReuseEvaluation canReuseCodec(MediaCodecInfo mediaCodecInfo, Format format, Format format2) {
+        DecoderReuseEvaluation canReuseCodec = mediaCodecInfo.canReuseCodec(format, format2);
+        int i = canReuseCodec.discardReasons;
+        int i2 = format2.width;
+        CodecMaxValues codecMaxValues = this.codecMaxValues;
+        if (i2 > codecMaxValues.width || format2.height > codecMaxValues.height) {
+            i |= 256;
+        }
+        if (getMaxInputSize(mediaCodecInfo, format2) > this.codecMaxValues.inputSize) {
+            i |= 64;
+        }
+        int i3 = i;
+        return new DecoderReuseEvaluation(mediaCodecInfo.name, format, format2, i3 != 0 ? 0 : canReuseCodec.result, i3);
+    }
+
+    protected boolean codecNeedsSetOutputSurfaceWorkaround(String str) {
+        if (str.startsWith("OMX.google")) {
+            return false;
+        }
+        synchronized (MediaCodecVideoRenderer.class) {
+            try {
+                if (!evaluatedDeviceNeedsSetOutputSurfaceWorkaround) {
+                    deviceNeedsSetOutputSurfaceWorkaround = evaluateDeviceNeedsSetOutputSurfaceWorkaround();
+                    evaluatedDeviceNeedsSetOutputSurfaceWorkaround = true;
+                }
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+        return deviceNeedsSetOutputSurfaceWorkaround;
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    protected MediaCodecDecoderException createDecoderException(Throwable th, MediaCodecInfo mediaCodecInfo) {
+        return new MediaCodecVideoDecoderException(th, mediaCodecInfo, this.surface);
+    }
+
+    protected void dropOutputBuffer(MediaCodecAdapter mediaCodecAdapter, int i, long j) {
+        TraceUtil.beginSection("dropVideoBuffer");
+        mediaCodecAdapter.releaseOutputBuffer(i, false);
+        TraceUtil.endSection();
+        updateDroppedBufferCounters(0, 1);
+    }
+
+    protected CodecMaxValues getCodecMaxValues(MediaCodecInfo mediaCodecInfo, Format format, Format[] formatArr) {
+        int codecMaxInputSize;
+        int i = format.width;
+        int i2 = format.height;
+        int maxInputSize = getMaxInputSize(mediaCodecInfo, format);
+        if (formatArr.length == 1) {
+            if (maxInputSize != -1 && (codecMaxInputSize = getCodecMaxInputSize(mediaCodecInfo, format)) != -1) {
+                maxInputSize = Math.min((int) (maxInputSize * 1.5f), codecMaxInputSize);
+            }
+            return new CodecMaxValues(i, i2, maxInputSize);
+        }
+        int length = formatArr.length;
+        boolean z = false;
+        for (int i3 = 0; i3 < length; i3++) {
+            Format format2 = formatArr[i3];
+            if (format.colorInfo != null && format2.colorInfo == null) {
+                format2 = format2.buildUpon().setColorInfo(format.colorInfo).build();
+            }
+            if (mediaCodecInfo.canReuseCodec(format, format2).result != 0) {
+                int i4 = format2.width;
+                z |= i4 == -1 || format2.height == -1;
+                i = Math.max(i, i4);
+                i2 = Math.max(i2, format2.height);
+                maxInputSize = Math.max(maxInputSize, getMaxInputSize(mediaCodecInfo, format2));
+            }
+        }
+        if (z) {
+            Log.w("MediaCodecVideoRenderer", "Resolutions unknown. Codec max resolution: " + i + "x" + i2);
+            Point codecMaxSize = getCodecMaxSize(mediaCodecInfo, format);
+            if (codecMaxSize != null) {
+                i = Math.max(i, codecMaxSize.x);
+                i2 = Math.max(i2, codecMaxSize.y);
+                maxInputSize = Math.max(maxInputSize, getCodecMaxInputSize(mediaCodecInfo, format.buildUpon().setWidth(i).setHeight(i2).build()));
+                Log.w("MediaCodecVideoRenderer", "Codec max resolution adjusted to: " + i + "x" + i2);
+            }
+        }
+        return new CodecMaxValues(i, i2, maxInputSize);
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    protected boolean getCodecNeedsEosPropagation() {
+        return this.tunneling && Util.SDK_INT < 23;
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    protected float getCodecOperatingRateV23(float f, Format format, Format[] formatArr) {
+        float f2 = -1.0f;
+        for (Format format2 : formatArr) {
+            float f3 = format2.frameRate;
+            if (f3 != -1.0f) {
+                f2 = Math.max(f2, f3);
+            }
+        }
+        if (f2 == -1.0f) {
+            return -1.0f;
+        }
+        return f2 * f;
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    protected List getDecoderInfos(MediaCodecSelector mediaCodecSelector, Format format, boolean z) {
+        return MediaCodecUtil.getDecoderInfosSortedByFormatSupport(getDecoderInfos(this.context, mediaCodecSelector, format, z, this.tunneling), format);
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    protected MediaCodecAdapter.Configuration getMediaCodecConfiguration(MediaCodecInfo mediaCodecInfo, Format format, MediaCrypto mediaCrypto, float f) {
+        PlaceholderSurface placeholderSurface = this.placeholderSurface;
+        if (placeholderSurface != null && placeholderSurface.secure != mediaCodecInfo.secure) {
+            releasePlaceholderSurface();
+        }
+        String str = mediaCodecInfo.codecMimeType;
+        CodecMaxValues codecMaxValues = getCodecMaxValues(mediaCodecInfo, format, getStreamFormats());
+        this.codecMaxValues = codecMaxValues;
+        MediaFormat mediaFormat = getMediaFormat(format, str, codecMaxValues, f, this.deviceNeedsNoPostProcessWorkaround, this.tunneling ? this.tunnelingAudioSessionId : 0);
+        if (this.surface == null) {
+            if (!shouldUsePlaceholderSurface(mediaCodecInfo)) {
+                throw new IllegalStateException();
+            }
+            if (this.placeholderSurface == null) {
+                this.placeholderSurface = PlaceholderSurface.newInstanceV17(this.context, mediaCodecInfo.secure);
+            }
+            this.surface = this.placeholderSurface;
+        }
+        return MediaCodecAdapter.Configuration.createForVideoDecoding(mediaCodecInfo, mediaFormat, format, this.surface, mediaCrypto);
+    }
+
+    protected MediaFormat getMediaFormat(Format format, String str, CodecMaxValues codecMaxValues, float f, boolean z, int i) {
+        Pair codecProfileAndLevel;
+        MediaFormat mediaFormat = new MediaFormat();
+        mediaFormat.setString("mime", str);
+        mediaFormat.setInteger("width", format.width);
+        mediaFormat.setInteger("height", format.height);
+        MediaFormatUtil.setCsdBuffers(mediaFormat, format.initializationData);
+        MediaFormatUtil.maybeSetFloat(mediaFormat, "frame-rate", format.frameRate);
+        MediaFormatUtil.maybeSetInteger(mediaFormat, "rotation-degrees", format.rotationDegrees);
+        MediaFormatUtil.maybeSetColorInfo(mediaFormat, format.colorInfo);
+        if ("video/dolby-vision".equals(format.sampleMimeType) && (codecProfileAndLevel = MediaCodecUtil.getCodecProfileAndLevel(format)) != null) {
+            MediaFormatUtil.maybeSetInteger(mediaFormat, "profile", ((Integer) codecProfileAndLevel.first).intValue());
+        }
+        mediaFormat.setInteger("max-width", codecMaxValues.width);
+        mediaFormat.setInteger("max-height", codecMaxValues.height);
+        MediaFormatUtil.maybeSetInteger(mediaFormat, "max-input-size", codecMaxValues.inputSize);
+        if (Util.SDK_INT >= 23) {
+            mediaFormat.setInteger("priority", 0);
+            if (f != -1.0f) {
+                mediaFormat.setFloat("operating-rate", f);
+            }
+        }
+        if (z) {
+            mediaFormat.setInteger("no-post-process", 1);
+            mediaFormat.setInteger("auto-frc", 0);
+        }
+        if (i != 0) {
+            configureTunnelingV21(mediaFormat, i);
+        }
+        return mediaFormat;
+    }
+
+    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
+    public String getName() {
+        return "MediaCodecVideoRenderer";
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    protected void handleInputBufferSupplementalData(DecoderInputBuffer decoderInputBuffer) {
+        if (this.codecHandlesHdr10PlusOutOfBandMetadata) {
+            ByteBuffer byteBuffer = (ByteBuffer) Assertions.checkNotNull(decoderInputBuffer.supplementalData);
+            if (byteBuffer.remaining() >= 7) {
+                byte b = byteBuffer.get();
+                short s = byteBuffer.getShort();
+                short s2 = byteBuffer.getShort();
+                byte b2 = byteBuffer.get();
+                byte b3 = byteBuffer.get();
+                byteBuffer.position(0);
+                if (b == -75 && s == 60 && s2 == 1 && b2 == 4) {
+                    if (b3 == 0 || b3 == 1) {
+                        byte[] bArr = new byte[byteBuffer.remaining()];
+                        byteBuffer.get(bArr);
+                        byteBuffer.position(0);
+                        setHdr10PlusInfoV29(getCodec(), bArr);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override // com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.PlayerMessage.Target
+    public void handleMessage(int i, Object obj) {
+        if (i == 1) {
+            setOutput(obj);
+        } else if (i == 7) {
+            this.frameMetadataListener = (VideoFrameMetadataListener) obj;
+        } else if (i == 10) {
+            int intValue = ((Integer) obj).intValue();
+            if (this.tunnelingAudioSessionId != intValue) {
+                this.tunnelingAudioSessionId = intValue;
+                if (this.tunneling) {
+                    releaseCodec();
+                }
+            }
+        } else if (i != 4) {
+            if (i != 5) {
+                super.handleMessage(i, obj);
+            } else {
+                this.frameReleaseHelper.setChangeFrameRateStrategy(((Integer) obj).intValue());
+            }
+        } else {
+            this.scalingMode = ((Integer) obj).intValue();
+            MediaCodecAdapter codec = getCodec();
+            if (codec != null) {
+                codec.setVideoScalingMode(this.scalingMode);
+            }
+        }
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.Renderer
+    public boolean isReady() {
+        PlaceholderSurface placeholderSurface;
+        if (super.isReady() && (this.renderedFirstFrameAfterReset || (((placeholderSurface = this.placeholderSurface) != null && this.surface == placeholderSurface) || getCodec() == null || this.tunneling))) {
+            this.joiningDeadlineMs = -9223372036854775807L;
+            return true;
+        } else if (this.joiningDeadlineMs == -9223372036854775807L) {
+            return false;
+        } else {
+            if (SystemClock.elapsedRealtime() < this.joiningDeadlineMs) {
+                return true;
+            }
+            this.joiningDeadlineMs = -9223372036854775807L;
+            return false;
+        }
+    }
+
+    protected boolean maybeDropBuffersToKeyframe(long j, boolean z) {
+        int skipSource = skipSource(j);
+        if (skipSource == 0) {
+            return false;
+        }
+        if (z) {
+            DecoderCounters decoderCounters = this.decoderCounters;
+            decoderCounters.skippedInputBufferCount += skipSource;
+            decoderCounters.skippedOutputBufferCount += this.buffersInCodecCount;
+        } else {
+            this.decoderCounters.droppedToKeyframeCount++;
+            updateDroppedBufferCounters(skipSource, this.buffersInCodecCount);
+        }
+        flushOrReinitializeCodec();
+        return true;
+    }
+
+    void maybeNotifyRenderedFirstFrame() {
+        this.renderedFirstFrameAfterEnable = true;
+        if (this.renderedFirstFrameAfterReset) {
+            return;
+        }
+        this.renderedFirstFrameAfterReset = true;
+        this.eventDispatcher.renderedFirstFrame(this.surface);
+        this.haveReportedFirstFrameRenderedForCurrentSurface = true;
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    protected void onCodecError(Exception exc) {
+        Log.e("MediaCodecVideoRenderer", "Video codec error", exc);
+        this.eventDispatcher.videoCodecError(exc);
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    protected void onCodecInitialized(String str, MediaCodecAdapter.Configuration configuration, long j, long j2) {
+        this.eventDispatcher.decoderInitialized(str, j, j2);
+        this.codecNeedsSetOutputSurfaceWorkaround = codecNeedsSetOutputSurfaceWorkaround(str);
+        this.codecHandlesHdr10PlusOutOfBandMetadata = ((MediaCodecInfo) Assertions.checkNotNull(getCodecInfo())).isHdr10PlusOutOfBandMetadataSupported();
+        if (Util.SDK_INT < 23 || !this.tunneling) {
+            return;
+        }
+        this.tunnelingOnFrameRenderedListener = new OnFrameRenderedListenerV23((MediaCodecAdapter) Assertions.checkNotNull(getCodec()));
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    protected void onCodecReleased(String str) {
+        this.eventDispatcher.decoderReleased(str);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
+    public void onDisabled() {
+        clearReportedVideoSize();
+        clearRenderedFirstFrame();
+        this.haveReportedFirstFrameRenderedForCurrentSurface = false;
+        this.tunnelingOnFrameRenderedListener = null;
+        try {
+            super.onDisabled();
+        } finally {
+            this.eventDispatcher.disabled(this.decoderCounters);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
+    public void onEnabled(boolean z, boolean z2) {
+        super.onEnabled(z, z2);
+        boolean z3 = getConfiguration().tunneling;
+        Assertions.checkState((z3 && this.tunnelingAudioSessionId == 0) ? false : true);
+        if (this.tunneling != z3) {
+            this.tunneling = z3;
+            releaseCodec();
+        }
+        this.eventDispatcher.enabled(this.decoderCounters);
+        this.mayRenderFirstFrameAfterEnableIfNotStarted = z2;
+        this.renderedFirstFrameAfterEnable = false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    public DecoderReuseEvaluation onInputFormatChanged(FormatHolder formatHolder) {
+        DecoderReuseEvaluation onInputFormatChanged = super.onInputFormatChanged(formatHolder);
+        this.eventDispatcher.inputFormatChanged(formatHolder.format, onInputFormatChanged);
+        return onInputFormatChanged;
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    protected void onOutputFormatChanged(Format format, MediaFormat mediaFormat) {
+        MediaCodecAdapter codec = getCodec();
+        if (codec != null) {
+            codec.setVideoScalingMode(this.scalingMode);
+        }
+        if (this.tunneling) {
+            this.currentWidth = format.width;
+            this.currentHeight = format.height;
+        } else {
+            Assertions.checkNotNull(mediaFormat);
+            boolean z = mediaFormat.containsKey("crop-right") && mediaFormat.containsKey("crop-left") && mediaFormat.containsKey("crop-bottom") && mediaFormat.containsKey("crop-top");
+            this.currentWidth = z ? (mediaFormat.getInteger("crop-right") - mediaFormat.getInteger("crop-left")) + 1 : mediaFormat.getInteger("width");
+            this.currentHeight = z ? (mediaFormat.getInteger("crop-bottom") - mediaFormat.getInteger("crop-top")) + 1 : mediaFormat.getInteger("height");
+        }
+        float f = format.pixelWidthHeightRatio;
+        this.currentPixelWidthHeightRatio = f;
+        if (Util.SDK_INT >= 21) {
+            int i = format.rotationDegrees;
+            if (i == 90 || i == 270) {
+                int i2 = this.currentWidth;
+                this.currentWidth = this.currentHeight;
+                this.currentHeight = i2;
+                this.currentPixelWidthHeightRatio = 1.0f / f;
+            }
+        } else {
+            this.currentUnappliedRotationDegrees = format.rotationDegrees;
+        }
+        this.frameReleaseHelper.onFormatChanged(format.frameRate);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
+    public void onPositionReset(long j, boolean z) {
+        super.onPositionReset(j, z);
+        clearRenderedFirstFrame();
+        this.frameReleaseHelper.onPositionReset();
+        this.lastBufferPresentationTimeUs = -9223372036854775807L;
+        this.initialPositionUs = -9223372036854775807L;
+        this.consecutiveDroppedFrameCount = 0;
+        if (z) {
+            setJoiningDeadlineMs();
+        } else {
+            this.joiningDeadlineMs = -9223372036854775807L;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    public void onProcessedOutputBuffer(long j) {
+        super.onProcessedOutputBuffer(j);
+        if (this.tunneling) {
+            return;
+        }
+        this.buffersInCodecCount--;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    public void onProcessedStreamChange() {
+        super.onProcessedStreamChange();
+        clearRenderedFirstFrame();
+    }
+
+    protected void onProcessedTunneledBuffer(long j) {
+        updateOutputFormatForTime(j);
+        maybeNotifyVideoSizeChanged();
+        this.decoderCounters.renderedOutputBufferCount++;
+        maybeNotifyRenderedFirstFrame();
+        onProcessedOutputBuffer(j);
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    protected void onQueueInputBuffer(DecoderInputBuffer decoderInputBuffer) {
+        boolean z = this.tunneling;
+        if (!z) {
+            this.buffersInCodecCount++;
+        }
+        if (Util.SDK_INT >= 23 || !z) {
+            return;
+        }
+        onProcessedTunneledBuffer(decoderInputBuffer.timeUs);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
+    public void onReset() {
+        try {
+            super.onReset();
+        } finally {
+            if (this.placeholderSurface != null) {
+                releasePlaceholderSurface();
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
+    public void onStarted() {
+        super.onStarted();
+        this.droppedFrames = 0;
+        this.droppedFrameAccumulationStartTimeMs = SystemClock.elapsedRealtime();
+        this.lastRenderRealtimeUs = SystemClock.elapsedRealtime() * 1000;
+        this.totalVideoFrameProcessingOffsetUs = 0L;
+        this.videoFrameProcessingOffsetCount = 0;
+        this.frameReleaseHelper.onStarted();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
+    public void onStopped() {
+        this.joiningDeadlineMs = -9223372036854775807L;
+        maybeNotifyDroppedFrames();
+        maybeNotifyVideoFrameProcessingOffset();
+        this.frameReleaseHelper.onStopped();
+        super.onStopped();
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    protected boolean processOutputBuffer(long j, long j2, MediaCodecAdapter mediaCodecAdapter, ByteBuffer byteBuffer, int i, int i2, int i3, long j3, boolean z, boolean z2, Format format) {
+        long j4;
+        boolean z3;
+        MediaCodecVideoRenderer mediaCodecVideoRenderer;
+        MediaCodecAdapter mediaCodecAdapter2;
+        int i4;
+        long j5;
+        long j6;
+        Assertions.checkNotNull(mediaCodecAdapter);
+        if (this.initialPositionUs == -9223372036854775807L) {
+            this.initialPositionUs = j;
+        }
+        if (j3 != this.lastBufferPresentationTimeUs) {
+            this.frameReleaseHelper.onNextFrame(j3);
+            this.lastBufferPresentationTimeUs = j3;
+        }
+        long outputStreamOffsetUs = getOutputStreamOffsetUs();
+        long j7 = j3 - outputStreamOffsetUs;
+        if (z && !z2) {
+            skipOutputBuffer(mediaCodecAdapter, i, j7);
             return true;
         }
-
-        private void handleFrameRendered(long j) {
-            MediaCodecVideoRenderer mediaCodecVideoRenderer = MediaCodecVideoRenderer.this;
-            if (this != mediaCodecVideoRenderer.tunnelingOnFrameRenderedListener || mediaCodecVideoRenderer.getCodec() == null) {
-                return;
-            }
-            if (j == Long.MAX_VALUE) {
-                MediaCodecVideoRenderer.this.onProcessedTunneledEndOfStream();
-                return;
-            }
-            try {
-                MediaCodecVideoRenderer.this.onProcessedTunneledBuffer(j);
-            } catch (ExoPlaybackException e) {
-                MediaCodecVideoRenderer.this.setPendingPlaybackException(e);
-            }
+        double playbackSpeed = getPlaybackSpeed();
+        boolean z4 = getState() == 2;
+        long elapsedRealtime = SystemClock.elapsedRealtime() * 1000;
+        double d = j3 - j;
+        Double.isNaN(d);
+        Double.isNaN(playbackSpeed);
+        long j8 = (long) (d / playbackSpeed);
+        if (z4) {
+            j8 -= elapsedRealtime - j2;
         }
+        if (this.surface == this.placeholderSurface) {
+            if (isBufferLate(j8)) {
+                skipOutputBuffer(mediaCodecAdapter, i, j7);
+                updateVideoFrameProcessingOffsetCounters(j8);
+                return true;
+            }
+            return false;
+        }
+        long j9 = elapsedRealtime - this.lastRenderRealtimeUs;
+        if (this.renderedFirstFrameAfterEnable ? this.renderedFirstFrameAfterReset : !(z4 || this.mayRenderFirstFrameAfterEnableIfNotStarted)) {
+            j4 = j9;
+            z3 = false;
+        } else {
+            j4 = j9;
+            z3 = true;
+        }
+        if (this.joiningDeadlineMs != -9223372036854775807L || j < outputStreamOffsetUs || (!z3 && (!z4 || !shouldForceRenderOutputBuffer(j8, j4)))) {
+            if (z4 && j != this.initialPositionUs) {
+                long nanoTime = System.nanoTime();
+                long adjustReleaseTime = this.frameReleaseHelper.adjustReleaseTime((j8 * 1000) + nanoTime);
+                long j10 = (adjustReleaseTime - nanoTime) / 1000;
+                boolean z5 = this.joiningDeadlineMs != -9223372036854775807L;
+                if (shouldDropBuffersToKeyframe(j10, j2, z2) && maybeDropBuffersToKeyframe(j, z5)) {
+                    return false;
+                }
+                if (shouldDropOutputBuffer(j10, j2, z2)) {
+                    if (z5) {
+                        skipOutputBuffer(mediaCodecAdapter, i, j7);
+                    } else {
+                        dropOutputBuffer(mediaCodecAdapter, i, j7);
+                    }
+                    j8 = j10;
+                } else {
+                    j8 = j10;
+                    if (Util.SDK_INT >= 21) {
+                        if (j8 < 50000) {
+                            mediaCodecVideoRenderer = this;
+                            mediaCodecVideoRenderer.notifyFrameMetadataListener(j7, adjustReleaseTime, format);
+                            mediaCodecAdapter2 = mediaCodecAdapter;
+                            i4 = i;
+                            j5 = j7;
+                            j6 = adjustReleaseTime;
+                            mediaCodecVideoRenderer.renderOutputBufferV21(mediaCodecAdapter2, i4, j5, j6);
+                        }
+                    } else if (j8 < 30000) {
+                        if (j8 > 11000) {
+                            try {
+                                Thread.sleep((j8 - 10000) / 1000);
+                            } catch (InterruptedException unused) {
+                                Thread.currentThread().interrupt();
+                                return false;
+                            }
+                        }
+                        notifyFrameMetadataListener(j7, adjustReleaseTime, format);
+                        renderOutputBuffer(mediaCodecAdapter, i, j7);
+                    }
+                }
+            }
+            return false;
+        }
+        long nanoTime2 = System.nanoTime();
+        notifyFrameMetadataListener(j7, nanoTime2, format);
+        if (Util.SDK_INT >= 21) {
+            mediaCodecVideoRenderer = this;
+            mediaCodecAdapter2 = mediaCodecAdapter;
+            i4 = i;
+            j5 = j7;
+            j6 = nanoTime2;
+            mediaCodecVideoRenderer.renderOutputBufferV21(mediaCodecAdapter2, i4, j5, j6);
+        }
+        renderOutputBuffer(mediaCodecAdapter, i, j7);
+        updateVideoFrameProcessingOffsetCounters(j8);
+        return true;
+    }
+
+    protected void renderOutputBuffer(MediaCodecAdapter mediaCodecAdapter, int i, long j) {
+        maybeNotifyVideoSizeChanged();
+        TraceUtil.beginSection("releaseOutputBuffer");
+        mediaCodecAdapter.releaseOutputBuffer(i, true);
+        TraceUtil.endSection();
+        this.lastRenderRealtimeUs = SystemClock.elapsedRealtime() * 1000;
+        this.decoderCounters.renderedOutputBufferCount++;
+        this.consecutiveDroppedFrameCount = 0;
+        maybeNotifyRenderedFirstFrame();
+    }
+
+    protected void renderOutputBufferV21(MediaCodecAdapter mediaCodecAdapter, int i, long j, long j2) {
+        maybeNotifyVideoSizeChanged();
+        TraceUtil.beginSection("releaseOutputBuffer");
+        mediaCodecAdapter.releaseOutputBuffer(i, j2);
+        TraceUtil.endSection();
+        this.lastRenderRealtimeUs = SystemClock.elapsedRealtime() * 1000;
+        this.decoderCounters.renderedOutputBufferCount++;
+        this.consecutiveDroppedFrameCount = 0;
+        maybeNotifyRenderedFirstFrame();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    public void resetCodecStateForFlush() {
+        super.resetCodecStateForFlush();
+        this.buffersInCodecCount = 0;
+    }
+
+    protected void setOutputSurfaceV23(MediaCodecAdapter mediaCodecAdapter, Surface surface) {
+        mediaCodecAdapter.setOutputSurface(surface);
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.Renderer
+    public void setPlaybackSpeed(float f, float f2) {
+        super.setPlaybackSpeed(f, f2);
+        this.frameReleaseHelper.onPlaybackSpeed(f);
+    }
+
+    protected boolean shouldDropBuffersToKeyframe(long j, long j2, boolean z) {
+        return isBufferVeryLate(j) && !z;
+    }
+
+    protected boolean shouldDropOutputBuffer(long j, long j2, boolean z) {
+        return isBufferLate(j) && !z;
+    }
+
+    protected boolean shouldForceRenderOutputBuffer(long j, long j2) {
+        return isBufferLate(j) && j2 > 100000;
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    protected boolean shouldInitCodec(MediaCodecInfo mediaCodecInfo) {
+        return this.surface != null || shouldUsePlaceholderSurface(mediaCodecInfo);
+    }
+
+    protected void skipOutputBuffer(MediaCodecAdapter mediaCodecAdapter, int i, long j) {
+        TraceUtil.beginSection("skipVideoBuffer");
+        mediaCodecAdapter.releaseOutputBuffer(i, false);
+        TraceUtil.endSection();
+        this.decoderCounters.skippedOutputBufferCount++;
+    }
+
+    @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+    protected int supportsFormat(MediaCodecSelector mediaCodecSelector, Format format) {
+        boolean z;
+        int i = 0;
+        if (MimeTypes.isVideo(format.sampleMimeType)) {
+            boolean z2 = format.drmInitData != null;
+            List decoderInfos = getDecoderInfos(this.context, mediaCodecSelector, format, z2, false);
+            if (z2 && decoderInfos.isEmpty()) {
+                decoderInfos = getDecoderInfos(this.context, mediaCodecSelector, format, false, false);
+            }
+            if (decoderInfos.isEmpty()) {
+                return RendererCapabilities.-CC.create(1);
+            }
+            if (MediaCodecRenderer.supportsFormatDrm(format)) {
+                MediaCodecInfo mediaCodecInfo = (MediaCodecInfo) decoderInfos.get(0);
+                boolean isFormatSupported = mediaCodecInfo.isFormatSupported(format);
+                if (!isFormatSupported) {
+                    for (int i2 = 1; i2 < decoderInfos.size(); i2++) {
+                        MediaCodecInfo mediaCodecInfo2 = (MediaCodecInfo) decoderInfos.get(i2);
+                        if (mediaCodecInfo2.isFormatSupported(format)) {
+                            mediaCodecInfo = mediaCodecInfo2;
+                            z = false;
+                            isFormatSupported = true;
+                            break;
+                        }
+                    }
+                }
+                z = true;
+                int i3 = isFormatSupported ? 4 : 3;
+                int i4 = mediaCodecInfo.isSeamlessAdaptationSupported(format) ? 16 : 8;
+                int i5 = mediaCodecInfo.hardwareAccelerated ? 64 : 0;
+                int i6 = z ? 128 : 0;
+                if (Util.SDK_INT >= 26 && "video/dolby-vision".equals(format.sampleMimeType) && !Api26.doesDisplaySupportDolbyVision(this.context)) {
+                    i6 = 256;
+                }
+                if (isFormatSupported) {
+                    List decoderInfos2 = getDecoderInfos(this.context, mediaCodecSelector, format, z2, true);
+                    if (!decoderInfos2.isEmpty()) {
+                        MediaCodecInfo mediaCodecInfo3 = (MediaCodecInfo) MediaCodecUtil.getDecoderInfosSortedByFormatSupport(decoderInfos2, format).get(0);
+                        if (mediaCodecInfo3.isFormatSupported(format) && mediaCodecInfo3.isSeamlessAdaptationSupported(format)) {
+                            i = 32;
+                        }
+                    }
+                }
+                return RendererCapabilities.-CC.create(i3, i4, i, i5, i6);
+            }
+            return RendererCapabilities.-CC.create(2);
+        }
+        return RendererCapabilities.-CC.create(0);
+    }
+
+    protected void updateDroppedBufferCounters(int i, int i2) {
+        DecoderCounters decoderCounters = this.decoderCounters;
+        decoderCounters.droppedInputBufferCount += i;
+        int i3 = i + i2;
+        decoderCounters.droppedBufferCount += i3;
+        this.droppedFrames += i3;
+        int i4 = this.consecutiveDroppedFrameCount + i3;
+        this.consecutiveDroppedFrameCount = i4;
+        decoderCounters.maxConsecutiveDroppedBufferCount = Math.max(i4, decoderCounters.maxConsecutiveDroppedBufferCount);
+        int i5 = this.maxDroppedFramesToNotify;
+        if (i5 <= 0 || this.droppedFrames < i5) {
+            return;
+        }
+        maybeNotifyDroppedFrames();
+    }
+
+    protected void updateVideoFrameProcessingOffsetCounters(long j) {
+        this.decoderCounters.addVideoFrameProcessingOffset(j);
+        this.totalVideoFrameProcessingOffsetUs += j;
+        this.videoFrameProcessingOffsetCount++;
     }
 }

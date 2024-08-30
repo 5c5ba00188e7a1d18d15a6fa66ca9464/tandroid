@@ -1,5 +1,4 @@
 package com.google.android.datatransport.runtime.scheduling.jobscheduling;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes.dex */
-public final /* synthetic */ class SchedulerConfig$$ExternalSyntheticApiModelOutline3 {
+public abstract /* synthetic */ class SchedulerConfig$$ExternalSyntheticApiModelOutline3 {
 }

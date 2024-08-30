@@ -11,7 +11,6 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
 import com.google.android.play.integrity.internal.d;
 import java.util.ArrayList;
-/* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
 final class aj {
     final com.google.android.play.integrity.internal.ae a;
@@ -26,17 +25,17 @@ final class aj {
         this.b = sVar;
         this.d = atVar;
         this.e = kVar;
-        if (!com.google.android.play.integrity.internal.ai.b(context)) {
-            sVar.b("Phonesky is not installed.", new Object[0]);
-            this.a = null;
+        if (com.google.android.play.integrity.internal.ai.b(context)) {
+            this.a = new com.google.android.play.integrity.internal.ae(context, sVar, "IntegrityService", ak.a, new com.google.android.play.integrity.internal.z() { // from class: com.google.android.play.core.integrity.ae
+                @Override // com.google.android.play.integrity.internal.z
+                public final Object a(IBinder iBinder) {
+                    return com.google.android.play.integrity.internal.m.b(iBinder);
+                }
+            }, null);
             return;
         }
-        this.a = new com.google.android.play.integrity.internal.ae(context, sVar, "IntegrityService", ak.a, new com.google.android.play.integrity.internal.z() { // from class: com.google.android.play.core.integrity.ae
-            @Override // com.google.android.play.integrity.internal.z
-            public final Object a(IBinder iBinder) {
-                return com.google.android.play.integrity.internal.m.b(iBinder);
-            }
-        }, null);
+        sVar.b("Phonesky is not installed.", new Object[0]);
+        this.a = null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

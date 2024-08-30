@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.common.util.ArrayUtils;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class zzf implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -21,10 +20,10 @@ public final class zzf implements Parcelable.Creator {
                 str = SafeParcelReader.createString(parcel, readHeader);
             } else if (fieldId == 3) {
                 str2 = SafeParcelReader.createString(parcel, readHeader);
-            } else if (fieldId == 4) {
-                newArrayList = SafeParcelReader.createTypedList(parcel, readHeader, LabelValue.CREATOR);
-            } else {
+            } else if (fieldId != 4) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                newArrayList = SafeParcelReader.createTypedList(parcel, readHeader, LabelValue.CREATOR);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);

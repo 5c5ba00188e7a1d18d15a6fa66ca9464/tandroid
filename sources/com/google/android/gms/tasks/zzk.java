@@ -1,7 +1,6 @@
 package com.google.android.gms.tasks;
 
 import com.google.android.gms.common.internal.Preconditions;
-/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
 final class zzk implements Runnable {
     final /* synthetic */ Task zza;

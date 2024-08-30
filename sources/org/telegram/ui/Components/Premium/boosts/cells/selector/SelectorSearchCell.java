@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
@@ -44,10 +43,9 @@ import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.GroupCreateSpan;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell;
-@SuppressLint({"ViewConstructor"})
 /* loaded from: classes3.dex */
-public class SelectorSearchCell extends ScrollView {
-    public ArrayList<GroupCreateSpan> allSpans;
+public abstract class SelectorSearchCell extends ScrollView {
+    public ArrayList allSpans;
     private final LinearGradient bottomGradient;
     private final AnimatedFloat bottomGradientAlpha;
     private final Matrix bottomGradientMatrix;
@@ -59,7 +57,7 @@ public class SelectorSearchCell extends ScrollView {
     private int hintTextWidth;
     private boolean ignoreScrollEvent;
     private boolean ignoreTextChange;
-    private Utilities.Callback<String> onSearchTextChange;
+    private Utilities.Callback onSearchTextChange;
     private int prevResultContainerHeight;
     private final Theme.ResourcesProvider resourcesProvider;
     public int resultContainerHeight;
@@ -71,13 +69,375 @@ public class SelectorSearchCell extends ScrollView {
     private final Paint topGradientPaint;
     private Runnable updateHeight;
 
-    public EditTextBoldCursor getEditText() {
-        return this.editText;
+    /* loaded from: classes3.dex */
+    public class SpansContainer extends ViewGroup {
+        private View addingSpan;
+        private ArrayList animAddingSpans;
+        private ArrayList animRemovingSpans;
+        private boolean animationStarted;
+        private ArrayList animators;
+        private AnimatorSet currentAnimation;
+        private final int heightDp;
+        private final int padDp;
+        private final int padXDp;
+        private final int padYDp;
+        private final ArrayList removingSpans;
+
+        public SpansContainer(Context context) {
+            super(context);
+            this.animAddingSpans = new ArrayList();
+            this.animRemovingSpans = new ArrayList();
+            this.animators = new ArrayList();
+            this.removingSpans = new ArrayList();
+            this.padDp = 14;
+            this.padYDp = 4;
+            this.padXDp = 6;
+            this.heightDp = 28;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onMeasure$0() {
+            SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
+        }
+
+        private void setupEndValues() {
+            AnimatorSet animatorSet = this.currentAnimation;
+            if (animatorSet != null) {
+                animatorSet.cancel();
+            }
+            for (int i = 0; i < this.animAddingSpans.size(); i++) {
+                ((View) this.animAddingSpans.get(i)).setScaleX(1.0f);
+                ((View) this.animAddingSpans.get(i)).setScaleY(1.0f);
+                ((View) this.animAddingSpans.get(i)).setAlpha(1.0f);
+            }
+            for (int i2 = 0; i2 < this.animRemovingSpans.size(); i2++) {
+                ((View) this.animRemovingSpans.get(i2)).setScaleX(0.0f);
+                ((View) this.animRemovingSpans.get(i2)).setScaleY(0.0f);
+                ((View) this.animRemovingSpans.get(i2)).setAlpha(0.0f);
+            }
+            this.animAddingSpans.clear();
+            this.animRemovingSpans.clear();
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            int childCount = getChildCount();
+            for (int i5 = 0; i5 < childCount; i5++) {
+                View childAt = getChildAt(i5);
+                childAt.layout(0, 0, childAt.getMeasuredWidth(), childAt.getMeasuredHeight());
+            }
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:33:0x00d9  */
+        @Override // android.view.View
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        protected void onMeasure(int i, int i2) {
+            int min;
+            int i3;
+            int childCount = getChildCount();
+            int size = View.MeasureSpec.getSize(i);
+            float f = 28.0f;
+            int dp = size - AndroidUtilities.dp(28.0f);
+            int dp2 = AndroidUtilities.dp(10.0f);
+            int dp3 = AndroidUtilities.dp(10.0f);
+            int i4 = 0;
+            int i5 = 0;
+            int i6 = 0;
+            while (i4 < childCount) {
+                View childAt = getChildAt(i4);
+                if (childAt instanceof GroupCreateSpan) {
+                    childAt.measure(View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(f), 1073741824));
+                    boolean contains = this.removingSpans.contains(childAt);
+                    if (!contains && childAt.getMeasuredWidth() + i5 > dp) {
+                        dp2 += childAt.getMeasuredHeight() + AndroidUtilities.dp(4.0f);
+                        i5 = 0;
+                    }
+                    if (childAt.getMeasuredWidth() + i6 > dp) {
+                        dp3 += childAt.getMeasuredHeight() + AndroidUtilities.dp(4.0f);
+                        i6 = 0;
+                    }
+                    int dp4 = AndroidUtilities.dp(14.0f) + i5;
+                    if (!this.animationStarted) {
+                        if (contains) {
+                            childAt.setTranslationX(AndroidUtilities.dp(14.0f) + i6);
+                            childAt.setTranslationY(dp3);
+                        } else {
+                            if (this.removingSpans.isEmpty()) {
+                                i3 = childCount;
+                                childAt.setTranslationX(dp4);
+                                childAt.setTranslationY(dp2);
+                            } else {
+                                float f2 = dp4;
+                                if (childAt.getTranslationX() != f2) {
+                                    i3 = childCount;
+                                    this.animators.add(ObjectAnimator.ofFloat(childAt, View.TRANSLATION_X, f2));
+                                } else {
+                                    i3 = childCount;
+                                }
+                                float f3 = dp2;
+                                if (childAt.getTranslationY() != f3) {
+                                    this.animators.add(ObjectAnimator.ofFloat(childAt, View.TRANSLATION_Y, f3));
+                                }
+                            }
+                            if (!contains) {
+                                i5 += childAt.getMeasuredWidth() + AndroidUtilities.dp(6.0f);
+                            }
+                            i6 += childAt.getMeasuredWidth() + AndroidUtilities.dp(6.0f);
+                        }
+                    }
+                    i3 = childCount;
+                    if (!contains) {
+                    }
+                    i6 += childAt.getMeasuredWidth() + AndroidUtilities.dp(6.0f);
+                } else {
+                    i3 = childCount;
+                }
+                i4++;
+                childCount = i3;
+                f = 28.0f;
+            }
+            if (AndroidUtilities.isTablet()) {
+                min = AndroidUtilities.dp(376.0f);
+            } else {
+                Point point = AndroidUtilities.displaySize;
+                min = Math.min(point.x, point.y) - AndroidUtilities.dp(154.0f);
+            }
+            int i7 = min / 3;
+            if (dp - i5 < i7) {
+                dp2 += AndroidUtilities.dp(36.0f);
+                i5 = 0;
+            }
+            if (dp - i6 < i7) {
+                dp3 += AndroidUtilities.dp(36.0f);
+            }
+            SelectorSearchCell.this.editText.measure(View.MeasureSpec.makeMeasureSpec(dp - i5, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(28.0f), 1073741824));
+            SelectorSearchCell.this.editText.setHintVisible(SelectorSearchCell.this.editText.getMeasuredWidth() > SelectorSearchCell.this.hintTextWidth, true);
+            if (!this.animationStarted) {
+                int dp5 = dp3 + AndroidUtilities.dp(38.0f);
+                int dp6 = i5 + AndroidUtilities.dp(16.0f);
+                SelectorSearchCell.this.fieldY = dp2;
+                if (this.currentAnimation != null) {
+                    int dp7 = dp2 + AndroidUtilities.dp(38.0f);
+                    SelectorSearchCell selectorSearchCell = SelectorSearchCell.this;
+                    selectorSearchCell.resultContainerHeight = dp7;
+                    float f4 = dp7;
+                    if (selectorSearchCell.containerHeight != f4) {
+                        this.animators.add(selectorSearchCell.getContainerHeightAnimator(f4));
+                    }
+                    float f5 = dp6;
+                    if (SelectorSearchCell.this.editText.getTranslationX() != f5) {
+                        this.animators.add(ObjectAnimator.ofFloat(SelectorSearchCell.this.editText, View.TRANSLATION_X, f5));
+                    }
+                    if (SelectorSearchCell.this.editText.getTranslationY() != SelectorSearchCell.this.fieldY) {
+                        this.animators.add(ObjectAnimator.ofFloat(SelectorSearchCell.this.editText, View.TRANSLATION_Y, SelectorSearchCell.this.fieldY));
+                    }
+                    SelectorSearchCell.this.editText.setAllowDrawCursor(false);
+                    this.currentAnimation.playTogether(this.animators);
+                    this.currentAnimation.setDuration(180L);
+                    this.currentAnimation.setInterpolator(new LinearInterpolator());
+                    this.currentAnimation.start();
+                    this.animationStarted = true;
+                    if (SelectorSearchCell.this.updateHeight != null) {
+                        SelectorSearchCell.this.updateHeight.run();
+                    }
+                } else {
+                    SelectorSearchCell selectorSearchCell2 = SelectorSearchCell.this;
+                    selectorSearchCell2.resultContainerHeight = dp5;
+                    selectorSearchCell2.containerHeight = dp5;
+                    selectorSearchCell2.editText.setTranslationX(dp6);
+                    SelectorSearchCell.this.editText.setTranslationY(SelectorSearchCell.this.fieldY);
+                    if (SelectorSearchCell.this.updateHeight != null) {
+                        SelectorSearchCell.this.updateHeight.run();
+                    }
+                    if (SelectorSearchCell.this.scroll) {
+                        post(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$SpansContainer$$ExternalSyntheticLambda0
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                SelectorSearchCell.SpansContainer.this.lambda$onMeasure$0();
+                            }
+                        });
+                        SelectorSearchCell.this.scroll = false;
+                    }
+                }
+                SelectorSearchCell selectorSearchCell3 = SelectorSearchCell.this;
+                selectorSearchCell3.prevResultContainerHeight = selectorSearchCell3.resultContainerHeight;
+            } else if (this.currentAnimation != null) {
+                if (!SelectorSearchCell.this.ignoreScrollEvent && this.removingSpans.isEmpty()) {
+                    SelectorSearchCell.this.editText.bringPointIntoView(SelectorSearchCell.this.editText.getSelectionStart());
+                }
+                if (SelectorSearchCell.this.scroll) {
+                    SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
+                    SelectorSearchCell.this.scroll = false;
+                }
+            }
+            setMeasuredDimension(size, (int) SelectorSearchCell.this.containerHeight);
+        }
+
+        public void removeAllSpans(boolean z) {
+            SelectorSearchCell.this.ignoreScrollEvent = true;
+            final ArrayList arrayList = new ArrayList(SelectorSearchCell.this.allSpans);
+            this.removingSpans.clear();
+            this.removingSpans.addAll(SelectorSearchCell.this.allSpans);
+            SelectorSearchCell.this.allSpans.clear();
+            for (int i = 0; i < arrayList.size(); i++) {
+                ((GroupCreateSpan) arrayList.get(i)).setOnClickListener(null);
+            }
+            setupEndValues();
+            if (z) {
+                this.animationStarted = false;
+                AnimatorSet animatorSet = new AnimatorSet();
+                this.currentAnimation = animatorSet;
+                animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell.SpansContainer.3
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        for (int i2 = 0; i2 < arrayList.size(); i2++) {
+                            SpansContainer.this.removeView((View) arrayList.get(i2));
+                        }
+                        SpansContainer.this.removingSpans.clear();
+                        SpansContainer.this.currentAnimation = null;
+                        SpansContainer.this.animationStarted = false;
+                        SelectorSearchCell.this.editText.setAllowDrawCursor(true);
+                        if (SelectorSearchCell.this.updateHeight != null) {
+                            SelectorSearchCell.this.updateHeight.run();
+                        }
+                        if (SelectorSearchCell.this.scroll) {
+                            SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
+                            SelectorSearchCell.this.scroll = false;
+                        }
+                    }
+                });
+                this.animators.clear();
+                this.animAddingSpans.clear();
+                this.animRemovingSpans.clear();
+                for (int i2 = 0; i2 < arrayList.size(); i2++) {
+                    GroupCreateSpan groupCreateSpan = (GroupCreateSpan) arrayList.get(i2);
+                    this.animAddingSpans.add(groupCreateSpan);
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_X, 1.0f, 0.01f));
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_Y, 1.0f, 0.01f));
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.ALPHA, 1.0f, 0.0f));
+                }
+            } else {
+                for (int i3 = 0; i3 < arrayList.size(); i3++) {
+                    removeView((View) arrayList.get(i3));
+                }
+                this.removingSpans.clear();
+                this.currentAnimation = null;
+                this.animationStarted = false;
+                SelectorSearchCell.this.editText.setAllowDrawCursor(true);
+            }
+            requestLayout();
+        }
+
+        public void removeSpan(final GroupCreateSpan groupCreateSpan) {
+            SelectorSearchCell.this.ignoreScrollEvent = true;
+            SelectorSearchCell.this.allSpans.remove(groupCreateSpan);
+            groupCreateSpan.setOnClickListener(null);
+            setupEndValues();
+            this.animationStarted = false;
+            AnimatorSet animatorSet = new AnimatorSet();
+            this.currentAnimation = animatorSet;
+            animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell.SpansContainer.1
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    SpansContainer.this.removeView(groupCreateSpan);
+                    SpansContainer.this.removingSpans.clear();
+                    SpansContainer.this.currentAnimation = null;
+                    SpansContainer.this.animationStarted = false;
+                    SelectorSearchCell.this.editText.setAllowDrawCursor(true);
+                    if (SelectorSearchCell.this.updateHeight != null) {
+                        SelectorSearchCell.this.updateHeight.run();
+                    }
+                    if (SelectorSearchCell.this.scroll) {
+                        SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
+                        SelectorSearchCell.this.scroll = false;
+                    }
+                }
+            });
+            this.removingSpans.clear();
+            this.removingSpans.add(groupCreateSpan);
+            this.animAddingSpans.clear();
+            this.animRemovingSpans.clear();
+            this.animAddingSpans.add(groupCreateSpan);
+            this.animators.clear();
+            this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_X, 1.0f, 0.01f));
+            this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_Y, 1.0f, 0.01f));
+            this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.ALPHA, 1.0f, 0.0f));
+            requestLayout();
+        }
+
+        public void updateSpans(final ArrayList arrayList, ArrayList arrayList2, boolean z) {
+            SelectorSearchCell.this.ignoreScrollEvent = true;
+            SelectorSearchCell.this.allSpans.removeAll(arrayList);
+            SelectorSearchCell.this.allSpans.addAll(arrayList2);
+            this.removingSpans.clear();
+            this.removingSpans.addAll(arrayList);
+            for (int i = 0; i < arrayList.size(); i++) {
+                ((GroupCreateSpan) arrayList.get(i)).setOnClickListener(null);
+            }
+            setupEndValues();
+            if (z) {
+                this.animationStarted = false;
+                AnimatorSet animatorSet = new AnimatorSet();
+                this.currentAnimation = animatorSet;
+                animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell.SpansContainer.2
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        for (int i2 = 0; i2 < arrayList.size(); i2++) {
+                            SpansContainer.this.removeView((View) arrayList.get(i2));
+                        }
+                        SpansContainer.this.addingSpan = null;
+                        SpansContainer.this.removingSpans.clear();
+                        SpansContainer.this.currentAnimation = null;
+                        SpansContainer.this.animationStarted = false;
+                        SelectorSearchCell.this.editText.setAllowDrawCursor(true);
+                        if (SelectorSearchCell.this.updateHeight != null) {
+                            SelectorSearchCell.this.updateHeight.run();
+                        }
+                        if (SelectorSearchCell.this.scroll) {
+                            SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
+                            SelectorSearchCell.this.scroll = false;
+                        }
+                    }
+                });
+                this.animators.clear();
+                this.animAddingSpans.clear();
+                this.animRemovingSpans.clear();
+                for (int i2 = 0; i2 < arrayList.size(); i2++) {
+                    GroupCreateSpan groupCreateSpan = (GroupCreateSpan) arrayList.get(i2);
+                    this.animRemovingSpans.add(groupCreateSpan);
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_X, 1.0f, 0.01f));
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_Y, 1.0f, 0.01f));
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.ALPHA, 1.0f, 0.0f));
+                }
+                for (int i3 = 0; i3 < arrayList2.size(); i3++) {
+                    GroupCreateSpan groupCreateSpan2 = (GroupCreateSpan) arrayList2.get(i3);
+                    this.animAddingSpans.add(groupCreateSpan2);
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan2, View.SCALE_X, 0.01f, 1.0f));
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan2, View.SCALE_Y, 0.01f, 1.0f));
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan2, View.ALPHA, 0.0f, 1.0f));
+                }
+            } else {
+                for (int i4 = 0; i4 < arrayList.size(); i4++) {
+                    removeView((View) arrayList.get(i4));
+                }
+                this.addingSpan = null;
+                this.removingSpans.clear();
+                this.currentAnimation = null;
+                this.animationStarted = false;
+                SelectorSearchCell.this.editText.setAllowDrawCursor(true);
+            }
+            for (int i5 = 0; i5 < arrayList2.size(); i5++) {
+                addView((View) arrayList2.get(i5));
+            }
+            requestLayout();
+        }
     }
 
     public SelectorSearchCell(Context context, Theme.ResourcesProvider resourcesProvider, Runnable runnable) {
         super(context);
-        this.allSpans = new ArrayList<>();
+        this.allSpans = new ArrayList();
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
         this.topGradientAlpha = new AnimatedFloat(this, 0L, 300L, cubicBezierInterpolator);
         Shader.TileMode tileMode = Shader.TileMode.CLAMP;
@@ -147,102 +507,31 @@ public class SelectorSearchCell extends ScrollView {
         this.hintTextWidth = (int) this.editText.getPaint().measureText(LocaleController.getString(i2));
         this.editText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell.2
             @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
-            }
-
-            @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
-            }
-
-            @Override // android.text.TextWatcher
             public void afterTextChanged(Editable editable) {
                 if (SelectorSearchCell.this.ignoreTextChange || SelectorSearchCell.this.onSearchTextChange == null || editable == null) {
                     return;
                 }
                 SelectorSearchCell.this.onSearchTextChange.run(editable.toString());
             }
-        });
-    }
 
-    public void setHintText(String str, boolean z) {
-        this.editText.setHintText(str, z);
-    }
-
-    public void updateSpans(boolean z, final HashSet<Long> hashSet, final Runnable runnable, List<TLRPC$TL_help_country> list) {
-        Object chat;
-        TLRPC$TL_help_country tLRPC$TL_help_country;
-        MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
-        ArrayList<GroupCreateSpan> arrayList = new ArrayList<>();
-        ArrayList<GroupCreateSpan> arrayList2 = new ArrayList<>();
-        for (int i = 0; i < this.allSpans.size(); i++) {
-            GroupCreateSpan groupCreateSpan = this.allSpans.get(i);
-            if (!hashSet.contains(Long.valueOf(groupCreateSpan.getUid()))) {
-                arrayList.add(groupCreateSpan);
+            @Override // android.text.TextWatcher
+            public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
             }
-        }
-        Iterator<Long> it = hashSet.iterator();
-        while (it.hasNext()) {
-            Long next = it.next();
-            long longValue = next.longValue();
-            int i2 = 0;
-            while (true) {
-                if (i2 >= this.allSpans.size()) {
-                    if (longValue >= 0) {
-                        chat = messagesController.getUser(next);
-                    } else {
-                        chat = messagesController.getChat(Long.valueOf(-longValue));
-                    }
-                    if (list != null) {
-                        for (TLRPC$TL_help_country tLRPC$TL_help_country2 : list) {
-                            if (tLRPC$TL_help_country2.default_name.hashCode() == longValue) {
-                                tLRPC$TL_help_country = tLRPC$TL_help_country2;
-                                break;
-                            }
-                        }
-                    }
-                    tLRPC$TL_help_country = chat;
-                    if (tLRPC$TL_help_country != null) {
-                        GroupCreateSpan groupCreateSpan2 = new GroupCreateSpan(getContext(), tLRPC$TL_help_country, null, true, this.resourcesProvider);
-                        groupCreateSpan2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$$ExternalSyntheticLambda1
-                            @Override // android.view.View.OnClickListener
-                            public final void onClick(View view) {
-                                SelectorSearchCell.this.lambda$updateSpans$0(hashSet, runnable, view);
-                            }
-                        });
-                        arrayList2.add(groupCreateSpan2);
-                    }
-                } else if (this.allSpans.get(i2).getUid() == longValue) {
-                    break;
-                } else {
-                    i2++;
-                }
-            }
-        }
-        if (!arrayList.isEmpty() || !arrayList2.isEmpty()) {
-            this.spansContainer.updateSpans(arrayList, arrayList2, z);
-        }
-        this.editText.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell.3
-            private boolean wasEmpty;
 
-            @Override // android.view.View.OnKeyListener
-            public boolean onKey(View view, int i3, KeyEvent keyEvent) {
-                if (i3 == 67) {
-                    if (keyEvent.getAction() == 0) {
-                        this.wasEmpty = SelectorSearchCell.this.editText.length() == 0;
-                    } else if (keyEvent.getAction() == 1 && this.wasEmpty && !SelectorSearchCell.this.allSpans.isEmpty()) {
-                        ArrayList<GroupCreateSpan> arrayList3 = SelectorSearchCell.this.allSpans;
-                        SelectorSearchCell.this.lambda$updateSpans$0(arrayList3.get(arrayList3.size() - 1), hashSet, runnable);
-                        return true;
-                    }
-                }
-                return false;
+            @Override // android.text.TextWatcher
+            public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$getContainerHeightAnimator$1(ValueAnimator valueAnimator) {
+        setContainerHeight(((Float) valueAnimator.getAnimatedValue()).floatValue());
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: onDeleteSpanClicked */
-    public void lambda$updateSpans$0(View view, HashSet<Long> hashSet, Runnable runnable) {
+    public void lambda$updateSpans$0(View view, HashSet hashSet, Runnable runnable) {
         if (this.allSpans.contains(view)) {
             GroupCreateSpan groupCreateSpan = (GroupCreateSpan) view;
             if (groupCreateSpan.isDeleting()) {
@@ -290,14 +579,24 @@ public class SelectorSearchCell extends ScrollView {
         return super.dispatchTouchEvent(motionEvent);
     }
 
-    public void setText(CharSequence charSequence) {
-        this.ignoreTextChange = true;
-        this.editText.setText(charSequence);
-        this.ignoreTextChange = false;
+    protected Animator getContainerHeightAnimator(float f) {
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.containerHeight, f);
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$$ExternalSyntheticLambda2
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                SelectorSearchCell.this.lambda$getContainerHeightAnimator$1(valueAnimator);
+            }
+        });
+        return ofFloat;
     }
 
-    public void setOnSearchTextChange(Utilities.Callback<String> callback) {
-        this.onSearchTextChange = callback;
+    public EditTextBoldCursor getEditText() {
+        return this.editText;
+    }
+
+    @Override // android.widget.ScrollView, android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(150.0f), Integer.MIN_VALUE));
     }
 
     @Override // android.widget.ScrollView, android.view.ViewGroup, android.view.ViewParent
@@ -312,11 +611,6 @@ public class SelectorSearchCell extends ScrollView {
         return super.requestChildRectangleOnScreen(view, rect, z);
     }
 
-    @Override // android.widget.ScrollView, android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(150.0f), Integer.MIN_VALUE));
-    }
-
     public void setContainerHeight(float f) {
         this.containerHeight = f;
         SpansContainer spansContainer = this.spansContainer;
@@ -325,384 +619,86 @@ public class SelectorSearchCell extends ScrollView {
         }
     }
 
-    protected Animator getContainerHeightAnimator(float f) {
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.containerHeight, f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$$ExternalSyntheticLambda2
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                SelectorSearchCell.this.lambda$getContainerHeightAnimator$1(valueAnimator);
+    public void setHintText(String str, boolean z) {
+        this.editText.setHintText(str, z);
+    }
+
+    public void setOnSearchTextChange(Utilities.Callback<String> callback) {
+        this.onSearchTextChange = callback;
+    }
+
+    public void setText(CharSequence charSequence) {
+        this.ignoreTextChange = true;
+        this.editText.setText(charSequence);
+        this.ignoreTextChange = false;
+    }
+
+    public void updateSpans(boolean z, final HashSet hashSet, final Runnable runnable, List list) {
+        TLRPC$TL_help_country tLRPC$TL_help_country;
+        MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
+        ArrayList arrayList = new ArrayList();
+        ArrayList arrayList2 = new ArrayList();
+        for (int i = 0; i < this.allSpans.size(); i++) {
+            GroupCreateSpan groupCreateSpan = (GroupCreateSpan) this.allSpans.get(i);
+            if (!hashSet.contains(Long.valueOf(groupCreateSpan.getUid()))) {
+                arrayList.add(groupCreateSpan);
             }
-        });
-        return ofFloat;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getContainerHeightAnimator$1(ValueAnimator valueAnimator) {
-        setContainerHeight(((Float) valueAnimator.getAnimatedValue()).floatValue());
-    }
-
-    /* loaded from: classes3.dex */
-    public class SpansContainer extends ViewGroup {
-        private View addingSpan;
-        private ArrayList<View> animAddingSpans;
-        private ArrayList<View> animRemovingSpans;
-        private boolean animationStarted;
-        private ArrayList<Animator> animators;
-        private AnimatorSet currentAnimation;
-        private final int heightDp;
-        private final int padDp;
-        private final int padXDp;
-        private final int padYDp;
-        private final ArrayList<View> removingSpans;
-
-        public SpansContainer(Context context) {
-            super(context);
-            this.animAddingSpans = new ArrayList<>();
-            this.animRemovingSpans = new ArrayList<>();
-            this.animators = new ArrayList<>();
-            this.removingSpans = new ArrayList<>();
-            this.padDp = 14;
-            this.padYDp = 4;
-            this.padXDp = 6;
-            this.heightDp = 28;
         }
-
-        /* JADX WARN: Removed duplicated region for block: B:33:0x00d9  */
-        @Override // android.view.View
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        protected void onMeasure(int i, int i2) {
-            int min;
-            int i3;
-            int childCount = getChildCount();
-            int size = View.MeasureSpec.getSize(i);
-            float f = 28.0f;
-            int dp = size - AndroidUtilities.dp(28.0f);
-            int dp2 = AndroidUtilities.dp(10.0f);
-            int dp3 = AndroidUtilities.dp(10.0f);
-            int i4 = 0;
-            int i5 = 0;
-            int i6 = 0;
-            while (i4 < childCount) {
-                View childAt = getChildAt(i4);
-                if (childAt instanceof GroupCreateSpan) {
-                    childAt.measure(View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(f), 1073741824));
-                    boolean contains = this.removingSpans.contains(childAt);
-                    if (!contains && childAt.getMeasuredWidth() + i5 > dp) {
-                        dp2 += childAt.getMeasuredHeight() + AndroidUtilities.dp(4.0f);
-                        i5 = 0;
-                    }
-                    if (childAt.getMeasuredWidth() + i6 > dp) {
-                        dp3 += childAt.getMeasuredHeight() + AndroidUtilities.dp(4.0f);
-                        i6 = 0;
-                    }
-                    int dp4 = AndroidUtilities.dp(14.0f) + i5;
-                    if (!this.animationStarted) {
-                        if (contains) {
-                            childAt.setTranslationX(AndroidUtilities.dp(14.0f) + i6);
-                            childAt.setTranslationY(dp3);
-                        } else {
-                            if (!this.removingSpans.isEmpty()) {
-                                float f2 = dp4;
-                                if (childAt.getTranslationX() != f2) {
-                                    i3 = childCount;
-                                    this.animators.add(ObjectAnimator.ofFloat(childAt, View.TRANSLATION_X, f2));
-                                } else {
-                                    i3 = childCount;
-                                }
-                                float f3 = dp2;
-                                if (childAt.getTranslationY() != f3) {
-                                    this.animators.add(ObjectAnimator.ofFloat(childAt, View.TRANSLATION_Y, f3));
-                                }
-                            } else {
-                                i3 = childCount;
-                                childAt.setTranslationX(dp4);
-                                childAt.setTranslationY(dp2);
+        Iterator it = hashSet.iterator();
+        while (it.hasNext()) {
+            Long l = (Long) it.next();
+            long longValue = l.longValue();
+            int i2 = 0;
+            while (true) {
+                if (i2 >= this.allSpans.size()) {
+                    Object user = longValue >= 0 ? messagesController.getUser(l) : messagesController.getChat(Long.valueOf(-longValue));
+                    if (list != null) {
+                        Iterator it2 = list.iterator();
+                        while (it2.hasNext()) {
+                            TLRPC$TL_help_country tLRPC$TL_help_country2 = (TLRPC$TL_help_country) it2.next();
+                            if (tLRPC$TL_help_country2.default_name.hashCode() == longValue) {
+                                tLRPC$TL_help_country = tLRPC$TL_help_country2;
+                                break;
                             }
-                            if (!contains) {
-                                i5 += childAt.getMeasuredWidth() + AndroidUtilities.dp(6.0f);
-                            }
-                            i6 += childAt.getMeasuredWidth() + AndroidUtilities.dp(6.0f);
                         }
                     }
-                    i3 = childCount;
-                    if (!contains) {
-                    }
-                    i6 += childAt.getMeasuredWidth() + AndroidUtilities.dp(6.0f);
-                } else {
-                    i3 = childCount;
-                }
-                i4++;
-                childCount = i3;
-                f = 28.0f;
-            }
-            if (AndroidUtilities.isTablet()) {
-                min = AndroidUtilities.dp(376.0f) / 3;
-            } else {
-                Point point = AndroidUtilities.displaySize;
-                min = (Math.min(point.x, point.y) - AndroidUtilities.dp(154.0f)) / 3;
-            }
-            if (dp - i5 < min) {
-                dp2 += AndroidUtilities.dp(36.0f);
-                i5 = 0;
-            }
-            if (dp - i6 < min) {
-                dp3 += AndroidUtilities.dp(36.0f);
-            }
-            SelectorSearchCell.this.editText.measure(View.MeasureSpec.makeMeasureSpec(dp - i5, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(28.0f), 1073741824));
-            SelectorSearchCell.this.editText.setHintVisible(SelectorSearchCell.this.editText.getMeasuredWidth() > SelectorSearchCell.this.hintTextWidth, true);
-            if (!this.animationStarted) {
-                int dp5 = dp3 + AndroidUtilities.dp(38.0f);
-                int dp6 = i5 + AndroidUtilities.dp(16.0f);
-                SelectorSearchCell.this.fieldY = dp2;
-                if (this.currentAnimation != null) {
-                    int dp7 = dp2 + AndroidUtilities.dp(38.0f);
-                    SelectorSearchCell selectorSearchCell = SelectorSearchCell.this;
-                    selectorSearchCell.resultContainerHeight = dp7;
-                    float f4 = dp7;
-                    if (selectorSearchCell.containerHeight != f4) {
-                        this.animators.add(selectorSearchCell.getContainerHeightAnimator(f4));
-                    }
-                    float f5 = dp6;
-                    if (SelectorSearchCell.this.editText.getTranslationX() != f5) {
-                        this.animators.add(ObjectAnimator.ofFloat(SelectorSearchCell.this.editText, View.TRANSLATION_X, f5));
-                    }
-                    if (SelectorSearchCell.this.editText.getTranslationY() != SelectorSearchCell.this.fieldY) {
-                        this.animators.add(ObjectAnimator.ofFloat(SelectorSearchCell.this.editText, View.TRANSLATION_Y, SelectorSearchCell.this.fieldY));
-                    }
-                    SelectorSearchCell.this.editText.setAllowDrawCursor(false);
-                    this.currentAnimation.playTogether(this.animators);
-                    this.currentAnimation.setDuration(180L);
-                    this.currentAnimation.setInterpolator(new LinearInterpolator());
-                    this.currentAnimation.start();
-                    this.animationStarted = true;
-                    if (SelectorSearchCell.this.updateHeight != null) {
-                        SelectorSearchCell.this.updateHeight.run();
-                    }
-                } else {
-                    SelectorSearchCell selectorSearchCell2 = SelectorSearchCell.this;
-                    selectorSearchCell2.resultContainerHeight = dp5;
-                    selectorSearchCell2.containerHeight = dp5;
-                    selectorSearchCell2.editText.setTranslationX(dp6);
-                    SelectorSearchCell.this.editText.setTranslationY(SelectorSearchCell.this.fieldY);
-                    if (SelectorSearchCell.this.updateHeight != null) {
-                        SelectorSearchCell.this.updateHeight.run();
-                    }
-                    if (SelectorSearchCell.this.scroll) {
-                        post(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$SpansContainer$$ExternalSyntheticLambda0
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                SelectorSearchCell.SpansContainer.this.lambda$onMeasure$0();
+                    tLRPC$TL_help_country = user;
+                    if (tLRPC$TL_help_country != null) {
+                        GroupCreateSpan groupCreateSpan2 = new GroupCreateSpan(getContext(), tLRPC$TL_help_country, null, true, this.resourcesProvider);
+                        groupCreateSpan2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$$ExternalSyntheticLambda1
+                            @Override // android.view.View.OnClickListener
+                            public final void onClick(View view) {
+                                SelectorSearchCell.this.lambda$updateSpans$0(hashSet, runnable, view);
                             }
                         });
-                        SelectorSearchCell.this.scroll = false;
+                        arrayList2.add(groupCreateSpan2);
+                    }
+                } else if (((GroupCreateSpan) this.allSpans.get(i2)).getUid() == longValue) {
+                    break;
+                } else {
+                    i2++;
+                }
+            }
+        }
+        if (!arrayList.isEmpty() || !arrayList2.isEmpty()) {
+            this.spansContainer.updateSpans(arrayList, arrayList2, z);
+        }
+        this.editText.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell.3
+            private boolean wasEmpty;
+
+            @Override // android.view.View.OnKeyListener
+            public boolean onKey(View view, int i3, KeyEvent keyEvent) {
+                if (i3 == 67) {
+                    if (keyEvent.getAction() == 0) {
+                        this.wasEmpty = SelectorSearchCell.this.editText.length() == 0;
+                    } else if (keyEvent.getAction() == 1 && this.wasEmpty && !SelectorSearchCell.this.allSpans.isEmpty()) {
+                        ArrayList arrayList3 = SelectorSearchCell.this.allSpans;
+                        SelectorSearchCell.this.lambda$updateSpans$0((GroupCreateSpan) arrayList3.get(arrayList3.size() - 1), hashSet, runnable);
+                        return true;
                     }
                 }
-                SelectorSearchCell selectorSearchCell3 = SelectorSearchCell.this;
-                selectorSearchCell3.prevResultContainerHeight = selectorSearchCell3.resultContainerHeight;
-            } else if (this.currentAnimation != null) {
-                if (!SelectorSearchCell.this.ignoreScrollEvent && this.removingSpans.isEmpty()) {
-                    SelectorSearchCell.this.editText.bringPointIntoView(SelectorSearchCell.this.editText.getSelectionStart());
-                }
-                if (SelectorSearchCell.this.scroll) {
-                    SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
-                    SelectorSearchCell.this.scroll = false;
-                }
+                return false;
             }
-            setMeasuredDimension(size, (int) SelectorSearchCell.this.containerHeight);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onMeasure$0() {
-            SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
-        }
-
-        @Override // android.view.ViewGroup, android.view.View
-        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            int childCount = getChildCount();
-            for (int i5 = 0; i5 < childCount; i5++) {
-                View childAt = getChildAt(i5);
-                childAt.layout(0, 0, childAt.getMeasuredWidth(), childAt.getMeasuredHeight());
-            }
-        }
-
-        public void removeSpan(final GroupCreateSpan groupCreateSpan) {
-            SelectorSearchCell.this.ignoreScrollEvent = true;
-            SelectorSearchCell.this.allSpans.remove(groupCreateSpan);
-            groupCreateSpan.setOnClickListener(null);
-            setupEndValues();
-            this.animationStarted = false;
-            AnimatorSet animatorSet = new AnimatorSet();
-            this.currentAnimation = animatorSet;
-            animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell.SpansContainer.1
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    SpansContainer.this.removeView(groupCreateSpan);
-                    SpansContainer.this.removingSpans.clear();
-                    SpansContainer.this.currentAnimation = null;
-                    SpansContainer.this.animationStarted = false;
-                    SelectorSearchCell.this.editText.setAllowDrawCursor(true);
-                    if (SelectorSearchCell.this.updateHeight != null) {
-                        SelectorSearchCell.this.updateHeight.run();
-                    }
-                    if (SelectorSearchCell.this.scroll) {
-                        SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
-                        SelectorSearchCell.this.scroll = false;
-                    }
-                }
-            });
-            this.removingSpans.clear();
-            this.removingSpans.add(groupCreateSpan);
-            this.animAddingSpans.clear();
-            this.animRemovingSpans.clear();
-            this.animAddingSpans.add(groupCreateSpan);
-            this.animators.clear();
-            this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_X, 1.0f, 0.01f));
-            this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_Y, 1.0f, 0.01f));
-            this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.ALPHA, 1.0f, 0.0f));
-            requestLayout();
-        }
-
-        public void updateSpans(final ArrayList<GroupCreateSpan> arrayList, ArrayList<GroupCreateSpan> arrayList2, boolean z) {
-            SelectorSearchCell.this.ignoreScrollEvent = true;
-            SelectorSearchCell.this.allSpans.removeAll(arrayList);
-            SelectorSearchCell.this.allSpans.addAll(arrayList2);
-            this.removingSpans.clear();
-            this.removingSpans.addAll(arrayList);
-            for (int i = 0; i < arrayList.size(); i++) {
-                arrayList.get(i).setOnClickListener(null);
-            }
-            setupEndValues();
-            if (z) {
-                this.animationStarted = false;
-                AnimatorSet animatorSet = new AnimatorSet();
-                this.currentAnimation = animatorSet;
-                animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell.SpansContainer.2
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                            SpansContainer.this.removeView((View) arrayList.get(i2));
-                        }
-                        SpansContainer.this.addingSpan = null;
-                        SpansContainer.this.removingSpans.clear();
-                        SpansContainer.this.currentAnimation = null;
-                        SpansContainer.this.animationStarted = false;
-                        SelectorSearchCell.this.editText.setAllowDrawCursor(true);
-                        if (SelectorSearchCell.this.updateHeight != null) {
-                            SelectorSearchCell.this.updateHeight.run();
-                        }
-                        if (SelectorSearchCell.this.scroll) {
-                            SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
-                            SelectorSearchCell.this.scroll = false;
-                        }
-                    }
-                });
-                this.animators.clear();
-                this.animAddingSpans.clear();
-                this.animRemovingSpans.clear();
-                for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                    GroupCreateSpan groupCreateSpan = arrayList.get(i2);
-                    this.animRemovingSpans.add(groupCreateSpan);
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_X, 1.0f, 0.01f));
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_Y, 1.0f, 0.01f));
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.ALPHA, 1.0f, 0.0f));
-                }
-                for (int i3 = 0; i3 < arrayList2.size(); i3++) {
-                    GroupCreateSpan groupCreateSpan2 = arrayList2.get(i3);
-                    this.animAddingSpans.add(groupCreateSpan2);
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan2, View.SCALE_X, 0.01f, 1.0f));
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan2, View.SCALE_Y, 0.01f, 1.0f));
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan2, View.ALPHA, 0.0f, 1.0f));
-                }
-            } else {
-                for (int i4 = 0; i4 < arrayList.size(); i4++) {
-                    removeView(arrayList.get(i4));
-                }
-                this.addingSpan = null;
-                this.removingSpans.clear();
-                this.currentAnimation = null;
-                this.animationStarted = false;
-                SelectorSearchCell.this.editText.setAllowDrawCursor(true);
-            }
-            for (int i5 = 0; i5 < arrayList2.size(); i5++) {
-                addView(arrayList2.get(i5));
-            }
-            requestLayout();
-        }
-
-        public void removeAllSpans(boolean z) {
-            SelectorSearchCell.this.ignoreScrollEvent = true;
-            final ArrayList arrayList = new ArrayList(SelectorSearchCell.this.allSpans);
-            this.removingSpans.clear();
-            this.removingSpans.addAll(SelectorSearchCell.this.allSpans);
-            SelectorSearchCell.this.allSpans.clear();
-            for (int i = 0; i < arrayList.size(); i++) {
-                ((GroupCreateSpan) arrayList.get(i)).setOnClickListener(null);
-            }
-            setupEndValues();
-            if (z) {
-                this.animationStarted = false;
-                AnimatorSet animatorSet = new AnimatorSet();
-                this.currentAnimation = animatorSet;
-                animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell.SpansContainer.3
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                            SpansContainer.this.removeView((View) arrayList.get(i2));
-                        }
-                        SpansContainer.this.removingSpans.clear();
-                        SpansContainer.this.currentAnimation = null;
-                        SpansContainer.this.animationStarted = false;
-                        SelectorSearchCell.this.editText.setAllowDrawCursor(true);
-                        if (SelectorSearchCell.this.updateHeight != null) {
-                            SelectorSearchCell.this.updateHeight.run();
-                        }
-                        if (SelectorSearchCell.this.scroll) {
-                            SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
-                            SelectorSearchCell.this.scroll = false;
-                        }
-                    }
-                });
-                this.animators.clear();
-                this.animAddingSpans.clear();
-                this.animRemovingSpans.clear();
-                for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                    GroupCreateSpan groupCreateSpan = (GroupCreateSpan) arrayList.get(i2);
-                    this.animAddingSpans.add(groupCreateSpan);
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_X, 1.0f, 0.01f));
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_Y, 1.0f, 0.01f));
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.ALPHA, 1.0f, 0.0f));
-                }
-            } else {
-                for (int i3 = 0; i3 < arrayList.size(); i3++) {
-                    removeView((View) arrayList.get(i3));
-                }
-                this.removingSpans.clear();
-                this.currentAnimation = null;
-                this.animationStarted = false;
-                SelectorSearchCell.this.editText.setAllowDrawCursor(true);
-            }
-            requestLayout();
-        }
-
-        private void setupEndValues() {
-            AnimatorSet animatorSet = this.currentAnimation;
-            if (animatorSet != null) {
-                animatorSet.cancel();
-            }
-            for (int i = 0; i < this.animAddingSpans.size(); i++) {
-                this.animAddingSpans.get(i).setScaleX(1.0f);
-                this.animAddingSpans.get(i).setScaleY(1.0f);
-                this.animAddingSpans.get(i).setAlpha(1.0f);
-            }
-            for (int i2 = 0; i2 < this.animRemovingSpans.size(); i2++) {
-                this.animRemovingSpans.get(i2).setScaleX(0.0f);
-                this.animRemovingSpans.get(i2).setScaleY(0.0f);
-                this.animRemovingSpans.get(i2).setAlpha(0.0f);
-            }
-            this.animAddingSpans.clear();
-            this.animRemovingSpans.clear();
-        }
+        });
     }
 }

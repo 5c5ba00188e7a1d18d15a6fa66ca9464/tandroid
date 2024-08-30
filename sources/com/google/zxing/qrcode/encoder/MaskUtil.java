@@ -1,9 +1,36 @@
 package com.google.zxing.qrcode.encoder;
 /* loaded from: classes.dex */
-final class MaskUtil {
+abstract class MaskUtil {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int applyMaskPenaltyRule1(ByteMatrix byteMatrix) {
         return applyMaskPenaltyRule1Internal(byteMatrix, true) + applyMaskPenaltyRule1Internal(byteMatrix, false);
+    }
+
+    private static int applyMaskPenaltyRule1Internal(ByteMatrix byteMatrix, boolean z) {
+        int height = z ? byteMatrix.getHeight() : byteMatrix.getWidth();
+        int width = z ? byteMatrix.getWidth() : byteMatrix.getHeight();
+        byte[][] array = byteMatrix.getArray();
+        int i = 0;
+        for (int i2 = 0; i2 < height; i2++) {
+            byte b = -1;
+            int i3 = 0;
+            for (int i4 = 0; i4 < width; i4++) {
+                byte b2 = z ? array[i2][i4] : array[i4][i2];
+                if (b2 == b) {
+                    i3++;
+                } else {
+                    if (i3 >= 5) {
+                        i += i3 - 2;
+                    }
+                    b = b2;
+                    i3 = 1;
+                }
+            }
+            if (i3 >= 5) {
+                i += i3 - 2;
+            }
+        }
+        return i;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -50,26 +77,6 @@ final class MaskUtil {
             }
         }
         return i * 40;
-    }
-
-    private static boolean isWhiteHorizontal(byte[] bArr, int i, int i2) {
-        int min = Math.min(i2, bArr.length);
-        for (int max = Math.max(i, 0); max < min; max++) {
-            if (bArr[max] == 1) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static boolean isWhiteVertical(byte[][] bArr, int i, int i2, int i3) {
-        int min = Math.min(i3, bArr.length);
-        for (int max = Math.max(i2, 0); max < min; max++) {
-            if (bArr[max][i] == 1) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -134,30 +141,23 @@ final class MaskUtil {
         return i4 == 0;
     }
 
-    private static int applyMaskPenaltyRule1Internal(ByteMatrix byteMatrix, boolean z) {
-        int height = z ? byteMatrix.getHeight() : byteMatrix.getWidth();
-        int width = z ? byteMatrix.getWidth() : byteMatrix.getHeight();
-        byte[][] array = byteMatrix.getArray();
-        int i = 0;
-        for (int i2 = 0; i2 < height; i2++) {
-            byte b = -1;
-            int i3 = 0;
-            for (int i4 = 0; i4 < width; i4++) {
-                byte b2 = z ? array[i2][i4] : array[i4][i2];
-                if (b2 == b) {
-                    i3++;
-                } else {
-                    if (i3 >= 5) {
-                        i += i3 - 2;
-                    }
-                    b = b2;
-                    i3 = 1;
-                }
-            }
-            if (i3 >= 5) {
-                i += i3 - 2;
+    private static boolean isWhiteHorizontal(byte[] bArr, int i, int i2) {
+        int min = Math.min(i2, bArr.length);
+        for (int max = Math.max(i, 0); max < min; max++) {
+            if (bArr[max] == 1) {
+                return false;
             }
         }
-        return i;
+        return true;
+    }
+
+    private static boolean isWhiteVertical(byte[][] bArr, int i, int i2, int i3) {
+        int min = Math.min(i3, bArr.length);
+        for (int max = Math.max(i2, 0); max < min; max++) {
+            if (bArr[max][i] == 1) {
+                return false;
+            }
+        }
+        return true;
     }
 }

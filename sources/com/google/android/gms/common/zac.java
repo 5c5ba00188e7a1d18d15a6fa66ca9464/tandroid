@@ -1,14 +1,11 @@
 package com.google.android.gms.common;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import com.google.android.gms.internal.base.zau;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
-@SuppressLint({"HandlerLeak"})
 /* loaded from: classes.dex */
 public final class zac extends zau {
     final /* synthetic */ GoogleApiAvailability zaa;
@@ -24,14 +21,13 @@ public final class zac extends zau {
     @Override // android.os.Handler
     public final void handleMessage(Message message) {
         int i = message.what;
-        if (i == 1) {
-            int isGooglePlayServicesAvailable = this.zaa.isGooglePlayServicesAvailable(this.zab);
-            if (this.zaa.isUserResolvableError(isGooglePlayServicesAvailable)) {
-                this.zaa.showErrorNotification(this.zab, isGooglePlayServicesAvailable);
-                return;
-            }
+        if (i != 1) {
+            Log.w("GoogleApiAvailability", "Don't know how to handle this message: " + i);
             return;
         }
-        Log.w("GoogleApiAvailability", "Don't know how to handle this message: " + i);
+        int isGooglePlayServicesAvailable = this.zaa.isGooglePlayServicesAvailable(this.zab);
+        if (this.zaa.isUserResolvableError(isGooglePlayServicesAvailable)) {
+            this.zaa.showErrorNotification(this.zab, isGooglePlayServicesAvailable);
+        }
     }
 }

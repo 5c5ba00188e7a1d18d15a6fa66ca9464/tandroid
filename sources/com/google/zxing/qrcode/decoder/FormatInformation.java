@@ -13,11 +13,6 @@ final class FormatInformation {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static int numBitsDiffering(int i, int i2) {
-        return Integer.bitCount(i ^ i2);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
     public static FormatInformation decodeFormatInformation(int i, int i2) {
         FormatInformation doDecodeFormatInformation = doDecodeFormatInformation(i, i2);
         return doDecodeFormatInformation != null ? doDecodeFormatInformation : doDecodeFormatInformation(i ^ 21522, i2 ^ 21522);
@@ -50,17 +45,8 @@ final class FormatInformation {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public ErrorCorrectionLevel getErrorCorrectionLevel() {
-        return this.errorCorrectionLevel;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public byte getDataMask() {
-        return this.dataMask;
-    }
-
-    public int hashCode() {
-        return (this.errorCorrectionLevel.ordinal() << 3) | this.dataMask;
+    public static int numBitsDiffering(int i, int i2) {
+        return Integer.bitCount(i ^ i2);
     }
 
     public boolean equals(Object obj) {
@@ -69,5 +55,19 @@ final class FormatInformation {
             return this.errorCorrectionLevel == formatInformation.errorCorrectionLevel && this.dataMask == formatInformation.dataMask;
         }
         return false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public byte getDataMask() {
+        return this.dataMask;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public ErrorCorrectionLevel getErrorCorrectionLevel() {
+        return this.errorCorrectionLevel;
+    }
+
+    public int hashCode() {
+        return (this.errorCorrectionLevel.ordinal() << 3) | this.dataMask;
     }
 }

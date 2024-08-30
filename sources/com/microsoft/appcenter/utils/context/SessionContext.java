@@ -11,8 +11,41 @@ import java.util.UUID;
 /* loaded from: classes.dex */
 public class SessionContext {
     private static SessionContext sInstance;
-    private final NavigableMap<Long, SessionInfo> mSessions = new TreeMap();
+    private final NavigableMap mSessions = new TreeMap();
     private final long mAppLaunchTimestamp = System.currentTimeMillis();
+
+    /* loaded from: classes.dex */
+    public static class SessionInfo {
+        private final long mAppLaunchTimestamp;
+        private final UUID mSessionId;
+        private final long mTimestamp;
+
+        SessionInfo(long j, UUID uuid, long j2) {
+            this.mTimestamp = j;
+            this.mSessionId = uuid;
+            this.mAppLaunchTimestamp = j2;
+        }
+
+        public long getAppLaunchTimestamp() {
+            return this.mAppLaunchTimestamp;
+        }
+
+        public UUID getSessionId() {
+            return this.mSessionId;
+        }
+
+        long getTimestamp() {
+            return this.mTimestamp;
+        }
+
+        public String toString() {
+            String str = getTimestamp() + "/";
+            if (getSessionId() != null) {
+                str = str + getSessionId();
+            }
+            return str + "/" + getAppLaunchTimestamp();
+        }
+    }
 
     private SessionContext() {
         Set<String> stringSet = SharedPreferencesManager.getStringSet("sessions");
@@ -64,49 +97,16 @@ public class SessionContext {
         }
     }
 
-    public synchronized SessionInfo getSessionAt(long j) {
-        Map.Entry<Long, SessionInfo> floorEntry = this.mSessions.floorEntry(Long.valueOf(j));
-        if (floorEntry != null) {
-            return floorEntry.getValue();
-        }
-        return null;
-    }
-
     public synchronized void clearSessions() {
         this.mSessions.clear();
         SharedPreferencesManager.remove("sessions");
     }
 
-    /* loaded from: classes.dex */
-    public static class SessionInfo {
-        private final long mAppLaunchTimestamp;
-        private final UUID mSessionId;
-        private final long mTimestamp;
-
-        SessionInfo(long j, UUID uuid, long j2) {
-            this.mTimestamp = j;
-            this.mSessionId = uuid;
-            this.mAppLaunchTimestamp = j2;
+    public synchronized SessionInfo getSessionAt(long j) {
+        Map.Entry floorEntry = this.mSessions.floorEntry(Long.valueOf(j));
+        if (floorEntry != null) {
+            return (SessionInfo) floorEntry.getValue();
         }
-
-        long getTimestamp() {
-            return this.mTimestamp;
-        }
-
-        public UUID getSessionId() {
-            return this.mSessionId;
-        }
-
-        public long getAppLaunchTimestamp() {
-            return this.mAppLaunchTimestamp;
-        }
-
-        public String toString() {
-            String str = getTimestamp() + "/";
-            if (getSessionId() != null) {
-                str = str + getSessionId();
-            }
-            return str + "/" + getAppLaunchTimestamp();
-        }
+        return null;
     }
 }

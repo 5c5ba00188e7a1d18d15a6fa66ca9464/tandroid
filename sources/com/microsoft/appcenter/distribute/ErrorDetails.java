@@ -1,6 +1,5 @@
 package com.microsoft.appcenter.distribute;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 /* loaded from: classes.dex */
 class ErrorDetails {
@@ -10,7 +9,7 @@ class ErrorDetails {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static ErrorDetails parse(String str) throws JSONException {
+    public static ErrorDetails parse(String str) {
         JSONObject jSONObject = new JSONObject(str);
         ErrorDetails errorDetails = new ErrorDetails();
         errorDetails.code = jSONObject.getString("code");

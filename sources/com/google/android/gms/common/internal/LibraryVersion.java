@@ -5,8 +5,6 @@ import j$.util.concurrent.ConcurrentHashMap;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
-@Deprecated
 /* loaded from: classes.dex */
 public class LibraryVersion {
     private static final GmsLogger zza = new GmsLogger("LibraryVersion", "");
@@ -20,48 +18,37 @@ public class LibraryVersion {
         return zzb;
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x009c  */
-    /* JADX WARN: Type inference failed for: r3v11 */
-    /* JADX WARN: Type inference failed for: r3v14 */
-    /* JADX WARN: Type inference failed for: r3v15 */
-    /* JADX WARN: Type inference failed for: r3v16 */
-    /* JADX WARN: Type inference failed for: r3v5 */
-    /* JADX WARN: Type inference failed for: r3v6, types: [java.lang.Object, java.lang.String] */
-    /* JADX WARN: Type inference failed for: r3v7, types: [java.lang.String] */
-    /* JADX WARN: Type inference failed for: r3v9 */
-    @Deprecated
+    /* JADX WARN: Removed duplicated region for block: B:28:0x009b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public String getVersion(String str) {
-        Object obj;
+        String str2;
         InputStream resourceAsStream;
         Preconditions.checkNotEmpty(str, "Please provide a valid libraryName");
         if (this.zzc.containsKey(str)) {
             return (String) this.zzc.get(str);
         }
         Properties properties = new Properties();
-        Object obj2 = null;
-        obj2 = 0;
-        obj2 = 0;
         InputStream inputStream = null;
+        r3 = null;
+        String str3 = null;
+        inputStream = null;
         try {
             try {
                 resourceAsStream = LibraryVersion.class.getResourceAsStream(String.format("/%s.properties", str));
-            } catch (Throwable th) {
-                th = th;
+            } catch (IOException e) {
+                e = e;
+                str2 = null;
             }
-        } catch (IOException e) {
-            e = e;
-            obj = null;
+        } catch (Throwable th) {
+            th = th;
         }
         try {
             if (resourceAsStream != null) {
                 properties.load(resourceAsStream);
-                String property = properties.getProperty("version", null);
-                zza.v("LibraryVersion", str + " version is " + property);
-                obj2 = property;
+                str3 = properties.getProperty("version", null);
+                zza.v("LibraryVersion", str + " version is " + str3);
             } else {
                 zza.w("LibraryVersion", "Failed to get app version for libraryName: " + str);
             }
@@ -70,30 +57,30 @@ public class LibraryVersion {
             }
         } catch (IOException e2) {
             e = e2;
-            obj = obj2;
+            str2 = str3;
             inputStream = resourceAsStream;
             zza.e("LibraryVersion", "Failed to get app version for libraryName: " + str, e);
             if (inputStream != null) {
                 IOUtils.closeQuietly(inputStream);
             }
-            obj2 = obj;
-            if (obj2 == 0) {
+            str3 = str2;
+            if (str3 == null) {
             }
-            this.zzc.put(str, obj2);
-            return obj2;
+            this.zzc.put(str, str3);
+            return str3;
         } catch (Throwable th2) {
             th = th2;
-            obj2 = resourceAsStream;
-            if (obj2 != null) {
-                IOUtils.closeQuietly(obj2);
+            inputStream = resourceAsStream;
+            if (inputStream != null) {
+                IOUtils.closeQuietly(inputStream);
             }
             throw th;
         }
-        if (obj2 == 0) {
+        if (str3 == null) {
             zza.d("LibraryVersion", ".properties file is dropped during release process. Failure to read app version is expected during Google internal testing where locally-built libraries are used");
-            obj2 = "UNKNOWN";
+            str3 = "UNKNOWN";
         }
-        this.zzc.put(str, obj2);
-        return obj2;
+        this.zzc.put(str, str3);
+        return str3;
     }
 }

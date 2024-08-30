@@ -1,6 +1,5 @@
 package org.telegram.ui.Components.Premium.boosts.cells;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -14,7 +13,6 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CombinedDrawable;
-@SuppressLint({"ViewConstructor"})
 /* loaded from: classes3.dex */
 public class AddChannelCell extends FrameLayout {
     private final ImageView imageView;
@@ -47,14 +45,6 @@ public class AddChannelCell extends FrameLayout {
         setBackgroundColor(Theme.getColor(Theme.key_dialogBackground, resourcesProvider));
     }
 
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        int size = View.MeasureSpec.getSize(i);
-        this.textView.measure(View.MeasureSpec.makeMeasureSpec(size - AndroidUtilities.dp(94.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
-        this.imageView.measure(View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50.0f), 1073741824));
-        setMeasuredDimension(size, AndroidUtilities.dp(50.0f));
-    }
-
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         int dp;
@@ -70,5 +60,13 @@ public class AddChannelCell extends FrameLayout {
         int dp2 = !LocaleController.isRTL ? AndroidUtilities.dp(24.0f) : (i5 - this.imageView.getMeasuredWidth()) - AndroidUtilities.dp(24.0f);
         ImageView imageView = this.imageView;
         imageView.layout(dp2, 0, imageView.getMeasuredWidth() + dp2, this.imageView.getMeasuredHeight());
+    }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        int size = View.MeasureSpec.getSize(i);
+        this.textView.measure(View.MeasureSpec.makeMeasureSpec(size - AndroidUtilities.dp(94.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
+        this.imageView.measure(View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50.0f), 1073741824));
+        setMeasuredDimension(size, AndroidUtilities.dp(50.0f));
     }
 }

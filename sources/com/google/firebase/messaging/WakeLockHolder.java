@@ -5,9 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import com.google.android.gms.stats.WakeLock;
 import java.util.concurrent.TimeUnit;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
-final class WakeLockHolder {
+abstract class WakeLockHolder {
     private static final long WAKE_LOCK_ACQUIRE_TIMEOUT_MILLIS = TimeUnit.MINUTES.toMillis(1);
     private static final Object syncObject = new Object();
     private static WakeLock wakeLock;

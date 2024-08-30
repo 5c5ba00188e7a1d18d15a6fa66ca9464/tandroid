@@ -3,7 +3,7 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_secureRequiredTypeOneOf extends TLRPC$SecureRequiredType {
-    public ArrayList<TLRPC$SecureRequiredType> types = new ArrayList<>();
+    public ArrayList types = new ArrayList();
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -31,7 +31,7 @@ public class TLRPC$TL_secureRequiredTypeOneOf extends TLRPC$SecureRequiredType {
         int size = this.types.size();
         abstractSerializedData.writeInt32(size);
         for (int i = 0; i < size; i++) {
-            this.types.get(i).serializeToStream(abstractSerializedData);
+            ((TLRPC$SecureRequiredType) this.types.get(i)).serializeToStream(abstractSerializedData);
         }
     }
 }

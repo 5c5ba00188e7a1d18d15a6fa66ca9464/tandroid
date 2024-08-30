@@ -1,23 +1,53 @@
 package com.google.android.gms.internal.vision;
 
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.Iterator;
 import java.util.Map;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 final class zzkg implements zzkh {
     @Override // com.google.android.gms.internal.vision.zzkh
-    public final Map<?, ?> zza(Object obj) {
+    public final int zza(int i, Object obj, Object obj2) {
+        zzke zzkeVar = (zzke) obj;
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(obj2);
+        if (zzkeVar.isEmpty()) {
+            return 0;
+        }
+        Iterator it = zzkeVar.entrySet().iterator();
+        if (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            entry.getKey();
+            entry.getValue();
+            throw new NoSuchMethodError();
+        }
+        return 0;
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzkh
+    public final Object zza(Object obj, Object obj2) {
+        zzke zzkeVar = (zzke) obj;
+        zzke zzkeVar2 = (zzke) obj2;
+        if (!zzkeVar2.isEmpty()) {
+            if (!zzkeVar.zzd()) {
+                zzkeVar = zzkeVar.zzb();
+            }
+            zzkeVar.zza(zzkeVar2);
+        }
+        return zzkeVar;
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzkh
+    public final Map zza(Object obj) {
         return (zzke) obj;
     }
 
     @Override // com.google.android.gms.internal.vision.zzkh
-    public final zzkf<?, ?> zzb(Object obj) {
-        zzkc zzkcVar = (zzkc) obj;
+    public final zzkf zzb(Object obj) {
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(obj);
         throw new NoSuchMethodError();
     }
 
     @Override // com.google.android.gms.internal.vision.zzkh
-    public final Map<?, ?> zzc(Object obj) {
+    public final Map zzc(Object obj) {
         return (zzke) obj;
     }
 
@@ -35,35 +65,5 @@ final class zzkg implements zzkh {
     @Override // com.google.android.gms.internal.vision.zzkh
     public final Object zzf(Object obj) {
         return zzke.zza().zzb();
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzkh
-    public final Object zza(Object obj, Object obj2) {
-        zzke zzkeVar = (zzke) obj;
-        zzke zzkeVar2 = (zzke) obj2;
-        if (!zzkeVar2.isEmpty()) {
-            if (!zzkeVar.zzd()) {
-                zzkeVar = zzkeVar.zzb();
-            }
-            zzkeVar.zza(zzkeVar2);
-        }
-        return zzkeVar;
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzkh
-    public final int zza(int i, Object obj, Object obj2) {
-        zzke zzkeVar = (zzke) obj;
-        zzkc zzkcVar = (zzkc) obj2;
-        if (zzkeVar.isEmpty()) {
-            return 0;
-        }
-        Iterator it = zzkeVar.entrySet().iterator();
-        if (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            entry.getKey();
-            entry.getValue();
-            throw new NoSuchMethodError();
-        }
-        return 0;
     }
 }

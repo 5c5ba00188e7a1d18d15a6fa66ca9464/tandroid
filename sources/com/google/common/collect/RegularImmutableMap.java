@@ -8,24 +8,168 @@ import java.util.Map;
 import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
-    static final ImmutableMap<Object, Object> EMPTY = new RegularImmutableMap(null, new Object[0], 0);
+public final class RegularImmutableMap extends ImmutableMap {
+    static final ImmutableMap EMPTY = new RegularImmutableMap(null, new Object[0], 0);
     final transient Object[] alternatingKeysAndValues;
     private final transient Object hashTable;
     private final transient int size;
 
-    @Override // com.google.common.collect.ImmutableMap
-    boolean isPartialView() {
-        return false;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class EntrySet extends ImmutableSet {
+        private final transient Object[] alternatingKeysAndValues;
+        private final transient int keyOffset;
+        private final transient ImmutableMap map;
+        private final transient int size;
+
+        EntrySet(ImmutableMap immutableMap, Object[] objArr, int i, int i2) {
+            this.map = immutableMap;
+            this.alternatingKeysAndValues = objArr;
+            this.keyOffset = i;
+            this.size = i2;
+        }
+
+        @Override // com.google.common.collect.ImmutableCollection, java.util.AbstractCollection, java.util.Collection
+        public boolean contains(Object obj) {
+            if (obj instanceof Map.Entry) {
+                Map.Entry entry = (Map.Entry) obj;
+                Object key = entry.getKey();
+                Object value = entry.getValue();
+                return value != null && value.equals(this.map.get(key));
+            }
+            return false;
+        }
+
+        @Override // com.google.common.collect.ImmutableCollection
+        int copyIntoArray(Object[] objArr, int i) {
+            return asList().copyIntoArray(objArr, i);
+        }
+
+        @Override // com.google.common.collect.ImmutableSet
+        ImmutableList createAsList() {
+            return new ImmutableList() { // from class: com.google.common.collect.RegularImmutableMap.EntrySet.1
+                @Override // java.util.List
+                public Map.Entry get(int i) {
+                    Preconditions.checkElementIndex(i, EntrySet.this.size);
+                    int i2 = i * 2;
+                    Object obj = EntrySet.this.alternatingKeysAndValues[EntrySet.this.keyOffset + i2];
+                    Objects.requireNonNull(obj);
+                    Object obj2 = EntrySet.this.alternatingKeysAndValues[i2 + (EntrySet.this.keyOffset ^ 1)];
+                    Objects.requireNonNull(obj2);
+                    return new AbstractMap.SimpleImmutableEntry(obj, obj2);
+                }
+
+                @Override // com.google.common.collect.ImmutableCollection
+                public boolean isPartialView() {
+                    return true;
+                }
+
+                @Override // java.util.AbstractCollection, java.util.Collection, java.util.List
+                public int size() {
+                    return EntrySet.this.size;
+                }
+            };
+        }
+
+        /* JADX INFO: Access modifiers changed from: package-private */
+        @Override // com.google.common.collect.ImmutableCollection
+        public boolean isPartialView() {
+            return true;
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
+        public UnmodifiableIterator iterator() {
+            return asList().iterator();
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
+        public int size() {
+            return this.size;
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static final class KeySet extends ImmutableSet {
+        private final transient ImmutableList list;
+        private final transient ImmutableMap map;
+
+        KeySet(ImmutableMap immutableMap, ImmutableList immutableList) {
+            this.map = immutableMap;
+            this.list = immutableList;
+        }
+
+        @Override // com.google.common.collect.ImmutableSet, com.google.common.collect.ImmutableCollection
+        public ImmutableList asList() {
+            return this.list;
+        }
+
+        @Override // com.google.common.collect.ImmutableCollection, java.util.AbstractCollection, java.util.Collection
+        public boolean contains(Object obj) {
+            return this.map.get(obj) != null;
+        }
+
+        @Override // com.google.common.collect.ImmutableCollection
+        int copyIntoArray(Object[] objArr, int i) {
+            return asList().copyIntoArray(objArr, i);
+        }
+
+        /* JADX INFO: Access modifiers changed from: package-private */
+        @Override // com.google.common.collect.ImmutableCollection
+        public boolean isPartialView() {
+            return true;
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
+        public UnmodifiableIterator iterator() {
+            return asList().iterator();
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
+        public int size() {
+            return this.map.size();
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static final class KeysOrValuesAsList extends ImmutableList {
+        private final transient Object[] alternatingKeysAndValues;
+        private final transient int offset;
+        private final transient int size;
+
+        KeysOrValuesAsList(Object[] objArr, int i, int i2) {
+            this.alternatingKeysAndValues = objArr;
+            this.offset = i;
+            this.size = i2;
+        }
+
+        @Override // java.util.List
+        public Object get(int i) {
+            Preconditions.checkElementIndex(i, this.size);
+            Object obj = this.alternatingKeysAndValues[(i * 2) + this.offset];
+            Objects.requireNonNull(obj);
+            return obj;
+        }
+
+        /* JADX INFO: Access modifiers changed from: package-private */
+        @Override // com.google.common.collect.ImmutableCollection
+        public boolean isPartialView() {
+            return true;
+        }
+
+        @Override // java.util.AbstractCollection, java.util.Collection, java.util.List
+        public int size() {
+            return this.size;
+        }
+    }
+
+    private RegularImmutableMap(Object obj, Object[] objArr, int i) {
+        this.hashTable = obj;
+        this.alternatingKeysAndValues = objArr;
+        this.size = i;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <K, V> RegularImmutableMap<K, V> create(int i, Object[] objArr) {
-        return create(i, objArr, null);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static <K, V> RegularImmutableMap<K, V> create(int i, Object[] objArr, ImmutableMap.Builder<K, V> builder) {
+    public static RegularImmutableMap create(int i, Object[] objArr, ImmutableMap.Builder builder) {
         if (i == 0) {
             return (RegularImmutableMap) EMPTY;
         }
@@ -35,7 +179,7 @@ public final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
             Object obj2 = objArr[1];
             Objects.requireNonNull(obj2);
             CollectPreconditions.checkEntryNotNull(obj, obj2);
-            return new RegularImmutableMap<>(null, objArr, 1);
+            return new RegularImmutableMap(null, objArr, 1);
         }
         Preconditions.checkPositionIndex(i, objArr.length >> 1);
         Object createHashTable = createHashTable(objArr, i, ImmutableSet.chooseTableSize(i), 0);
@@ -52,7 +196,7 @@ public final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
             createHashTable = obj3;
             i = intValue;
         }
-        return new RegularImmutableMap<>(createHashTable, objArr, i);
+        return new RegularImmutableMap(createHashTable, objArr, i);
     }
 
     private static Object createHashTable(Object[] objArr, int i, int i2, int i3) {
@@ -182,26 +326,6 @@ public final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         }
     }
 
-    private RegularImmutableMap(Object obj, Object[] objArr, int i) {
-        this.hashTable = obj;
-        this.alternatingKeysAndValues = objArr;
-        this.size = i;
-    }
-
-    @Override // java.util.Map
-    public int size() {
-        return this.size;
-    }
-
-    @Override // com.google.common.collect.ImmutableMap, java.util.Map
-    public V get(Object obj) {
-        V v = (V) get(this.hashTable, this.alternatingKeysAndValues, this.size, 0, obj);
-        if (v == null) {
-            return null;
-        }
-        return v;
-    }
-
     static Object get(Object obj, Object[] objArr, int i, int i2, Object obj2) {
         if (obj2 == null) {
             return null;
@@ -268,167 +392,36 @@ public final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
 
     @Override // com.google.common.collect.ImmutableMap
-    ImmutableSet<Map.Entry<K, V>> createEntrySet() {
+    ImmutableSet createEntrySet() {
         return new EntrySet(this, this.alternatingKeysAndValues, 0, this.size);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class EntrySet<K, V> extends ImmutableSet<Map.Entry<K, V>> {
-        private final transient Object[] alternatingKeysAndValues;
-        private final transient int keyOffset;
-        private final transient ImmutableMap<K, V> map;
-        private final transient int size;
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        @Override // com.google.common.collect.ImmutableCollection
-        public boolean isPartialView() {
-            return true;
-        }
-
-        EntrySet(ImmutableMap<K, V> immutableMap, Object[] objArr, int i, int i2) {
-            this.map = immutableMap;
-            this.alternatingKeysAndValues = objArr;
-            this.keyOffset = i;
-            this.size = i2;
-        }
-
-        @Override // com.google.common.collect.ImmutableSet, com.google.common.collect.ImmutableCollection, java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
-        public UnmodifiableIterator<Map.Entry<K, V>> iterator() {
-            return asList().iterator();
-        }
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        @Override // com.google.common.collect.ImmutableCollection
-        public int copyIntoArray(Object[] objArr, int i) {
-            return asList().copyIntoArray(objArr, i);
-        }
-
-        @Override // com.google.common.collect.ImmutableSet
-        ImmutableList<Map.Entry<K, V>> createAsList() {
-            return new ImmutableList<Map.Entry<K, V>>() { // from class: com.google.common.collect.RegularImmutableMap.EntrySet.1
-                @Override // com.google.common.collect.ImmutableCollection
-                public boolean isPartialView() {
-                    return true;
-                }
-
-                @Override // java.util.List
-                public Map.Entry<K, V> get(int i) {
-                    Preconditions.checkElementIndex(i, EntrySet.this.size);
-                    int i2 = i * 2;
-                    Object obj = EntrySet.this.alternatingKeysAndValues[EntrySet.this.keyOffset + i2];
-                    Objects.requireNonNull(obj);
-                    Object obj2 = EntrySet.this.alternatingKeysAndValues[i2 + (EntrySet.this.keyOffset ^ 1)];
-                    Objects.requireNonNull(obj2);
-                    return new AbstractMap.SimpleImmutableEntry(obj, obj2);
-                }
-
-                @Override // java.util.AbstractCollection, java.util.Collection, java.util.List
-                public int size() {
-                    return EntrySet.this.size;
-                }
-            };
-        }
-
-        @Override // com.google.common.collect.ImmutableCollection, java.util.AbstractCollection, java.util.Collection
-        public boolean contains(Object obj) {
-            if (obj instanceof Map.Entry) {
-                Map.Entry entry = (Map.Entry) obj;
-                Object key = entry.getKey();
-                Object value = entry.getValue();
-                return value != null && value.equals(this.map.get(key));
-            }
-            return false;
-        }
-
-        @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
-        public int size() {
-            return this.size;
-        }
-    }
-
     @Override // com.google.common.collect.ImmutableMap
-    ImmutableSet<K> createKeySet() {
+    ImmutableSet createKeySet() {
         return new KeySet(this, new KeysOrValuesAsList(this.alternatingKeysAndValues, 0, this.size));
     }
 
-    /* loaded from: classes.dex */
-    static final class KeysOrValuesAsList extends ImmutableList<Object> {
-        private final transient Object[] alternatingKeysAndValues;
-        private final transient int offset;
-        private final transient int size;
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        @Override // com.google.common.collect.ImmutableCollection
-        public boolean isPartialView() {
-            return true;
-        }
-
-        KeysOrValuesAsList(Object[] objArr, int i, int i2) {
-            this.alternatingKeysAndValues = objArr;
-            this.offset = i;
-            this.size = i2;
-        }
-
-        @Override // java.util.List
-        public Object get(int i) {
-            Preconditions.checkElementIndex(i, this.size);
-            Object obj = this.alternatingKeysAndValues[(i * 2) + this.offset];
-            Objects.requireNonNull(obj);
-            return obj;
-        }
-
-        @Override // java.util.AbstractCollection, java.util.Collection, java.util.List
-        public int size() {
-            return this.size;
-        }
+    @Override // com.google.common.collect.ImmutableMap
+    ImmutableCollection createValues() {
+        return new KeysOrValuesAsList(this.alternatingKeysAndValues, 1, this.size);
     }
 
-    /* loaded from: classes.dex */
-    static final class KeySet<K> extends ImmutableSet<K> {
-        private final transient ImmutableList<K> list;
-        private final transient ImmutableMap<K, ?> map;
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        @Override // com.google.common.collect.ImmutableCollection
-        public boolean isPartialView() {
-            return true;
+    @Override // com.google.common.collect.ImmutableMap, java.util.Map
+    public Object get(Object obj) {
+        Object obj2 = get(this.hashTable, this.alternatingKeysAndValues, this.size, 0, obj);
+        if (obj2 == null) {
+            return null;
         }
-
-        KeySet(ImmutableMap<K, ?> immutableMap, ImmutableList<K> immutableList) {
-            this.map = immutableMap;
-            this.list = immutableList;
-        }
-
-        @Override // com.google.common.collect.ImmutableSet, com.google.common.collect.ImmutableCollection, java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
-        public UnmodifiableIterator<K> iterator() {
-            return asList().iterator();
-        }
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        @Override // com.google.common.collect.ImmutableCollection
-        public int copyIntoArray(Object[] objArr, int i) {
-            return asList().copyIntoArray(objArr, i);
-        }
-
-        @Override // com.google.common.collect.ImmutableSet, com.google.common.collect.ImmutableCollection
-        public ImmutableList<K> asList() {
-            return this.list;
-        }
-
-        @Override // com.google.common.collect.ImmutableCollection, java.util.AbstractCollection, java.util.Collection
-        public boolean contains(Object obj) {
-            return this.map.get(obj) != null;
-        }
-
-        @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
-        public int size() {
-            return this.map.size();
-        }
+        return obj2;
     }
 
     @Override // com.google.common.collect.ImmutableMap
-    ImmutableCollection<V> createValues() {
-        return new KeysOrValuesAsList(this.alternatingKeysAndValues, 1, this.size);
+    boolean isPartialView() {
+        return false;
+    }
+
+    @Override // java.util.Map
+    public int size() {
+        return this.size;
     }
 }

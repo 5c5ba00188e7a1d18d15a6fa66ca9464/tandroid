@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.dynamic.IObjectWrapper;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class MarkerOptions extends AbstractSafeParcelable {
     public static final Parcelable.Creator<MarkerOptions> CREATOR = new zzi();
@@ -34,6 +33,32 @@ public final class MarkerOptions extends AbstractSafeParcelable {
         this.zzk = 0.5f;
         this.zzl = 0.0f;
         this.zzm = 1.0f;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public MarkerOptions(LatLng latLng, String str, String str2, IBinder iBinder, float f, float f2, boolean z, boolean z2, boolean z3, float f3, float f4, float f5, float f6, float f7) {
+        this.zze = 0.5f;
+        this.zzf = 1.0f;
+        this.zzh = true;
+        this.zzi = false;
+        this.zzj = 0.0f;
+        this.zzk = 0.5f;
+        this.zzl = 0.0f;
+        this.zzm = 1.0f;
+        this.zza = latLng;
+        this.zzb = str;
+        this.zzc = str2;
+        this.zzd = iBinder == null ? null : new BitmapDescriptor(IObjectWrapper.Stub.asInterface(iBinder));
+        this.zze = f;
+        this.zzf = f2;
+        this.zzg = z;
+        this.zzh = z2;
+        this.zzi = z3;
+        this.zzj = f3;
+        this.zzk = f4;
+        this.zzl = f5;
+        this.zzm = f6;
+        this.zzn = f7;
     }
 
     public MarkerOptions anchor(float f, float f2) {
@@ -141,35 +166,5 @@ public final class MarkerOptions extends AbstractSafeParcelable {
         SafeParcelWriter.writeFloat(parcel, 14, getAlpha());
         SafeParcelWriter.writeFloat(parcel, 15, getZIndex());
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public MarkerOptions(LatLng latLng, String str, String str2, IBinder iBinder, float f, float f2, boolean z, boolean z2, boolean z3, float f3, float f4, float f5, float f6, float f7) {
-        this.zze = 0.5f;
-        this.zzf = 1.0f;
-        this.zzh = true;
-        this.zzi = false;
-        this.zzj = 0.0f;
-        this.zzk = 0.5f;
-        this.zzl = 0.0f;
-        this.zzm = 1.0f;
-        this.zza = latLng;
-        this.zzb = str;
-        this.zzc = str2;
-        if (iBinder == null) {
-            this.zzd = null;
-        } else {
-            this.zzd = new BitmapDescriptor(IObjectWrapper.Stub.asInterface(iBinder));
-        }
-        this.zze = f;
-        this.zzf = f2;
-        this.zzg = z;
-        this.zzh = z2;
-        this.zzi = z3;
-        this.zzj = f3;
-        this.zzk = f4;
-        this.zzl = f5;
-        this.zzm = f6;
-        this.zzn = f7;
     }
 }

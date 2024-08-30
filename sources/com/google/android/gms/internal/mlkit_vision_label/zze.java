@@ -3,9 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
-import android.os.RemoteException;
 import com.google.android.gms.dynamic.IObjectWrapper;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zze extends zza implements zzg {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -14,7 +12,7 @@ public final class zze extends zza implements zzg {
     }
 
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzg
-    public final zzd zzd(IObjectWrapper iObjectWrapper, zzj zzjVar) throws RemoteException {
+    public final zzd zzd(IObjectWrapper iObjectWrapper, zzj zzjVar) {
         zzd zzdVar;
         Parcel zza = zza();
         zzc.zzb(zza, iObjectWrapper);

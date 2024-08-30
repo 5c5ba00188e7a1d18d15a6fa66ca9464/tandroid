@@ -3,7 +3,7 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_inputPrivacyValueAllowUsers extends TLRPC$InputPrivacyRule {
-    public ArrayList<TLRPC$InputUser> users = new ArrayList<>();
+    public ArrayList users = new ArrayList();
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -31,7 +31,7 @@ public class TLRPC$TL_inputPrivacyValueAllowUsers extends TLRPC$InputPrivacyRule
         int size = this.users.size();
         abstractSerializedData.writeInt32(size);
         for (int i = 0; i < size; i++) {
-            this.users.get(i).serializeToStream(abstractSerializedData);
+            ((TLRPC$InputUser) this.users.get(i)).serializeToStream(abstractSerializedData);
         }
     }
 }

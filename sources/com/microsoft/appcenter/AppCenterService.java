@@ -3,12 +3,11 @@ package com.microsoft.appcenter;
 import android.app.Application;
 import android.content.Context;
 import com.microsoft.appcenter.channel.Channel;
-import com.microsoft.appcenter.ingestion.models.json.LogFactory;
 import com.microsoft.appcenter.utils.ApplicationLifecycleListener;
 import java.util.Map;
 /* loaded from: classes.dex */
 public interface AppCenterService extends Application.ActivityLifecycleCallbacks, ApplicationLifecycleListener.ApplicationLifecycleCallbacks {
-    Map<String, LogFactory> getLogFactories();
+    Map getLogFactories();
 
     String getServiceName();
 

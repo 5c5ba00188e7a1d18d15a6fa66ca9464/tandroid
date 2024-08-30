@@ -6,7 +6,6 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.appindexing.Action;
 import com.google.firebase.appindexing.FirebaseAppIndexingInvalidArgumentException;
 import com.google.firebase.appindexing.FirebaseUserActions;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
 public final class zzt extends FirebaseUserActions {
     private final zzr zza;
@@ -15,7 +14,7 @@ public final class zzt extends FirebaseUserActions {
         this.zza = new zzr(context);
     }
 
-    private final Task<Void> zza(int i, Action action) {
+    private final Task zza(int i, Action action) {
         zzc[] zzcVarArr = new zzc[1];
         if (action != null) {
             if (!(action instanceof zzc)) {
@@ -29,7 +28,7 @@ public final class zzt extends FirebaseUserActions {
     }
 
     @Override // com.google.firebase.appindexing.FirebaseUserActions
-    public final Task<Void> end(Action action) {
+    public final Task end(Action action) {
         return zza(2, action);
     }
 }

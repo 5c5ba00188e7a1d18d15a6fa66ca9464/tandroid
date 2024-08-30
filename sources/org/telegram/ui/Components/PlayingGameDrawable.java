@@ -20,31 +20,25 @@ public class PlayingGameDrawable extends StatusDrawable {
     private boolean started = false;
     private RectF rect = new RectF();
 
-    @Override // android.graphics.drawable.Drawable
-    public int getOpacity() {
-        return -2;
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setAlpha(int i) {
-    }
-
-    @Override // org.telegram.ui.Components.StatusDrawable
-    public void setColor(int i) {
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setColorFilter(ColorFilter colorFilter) {
-    }
-
     public PlayingGameDrawable(boolean z, Theme.ResourcesProvider resourcesProvider) {
         this.isDialogScreen = z;
         this.resourcesProvider = resourcesProvider;
     }
 
-    @Override // org.telegram.ui.Components.StatusDrawable
-    public void setIsChat(boolean z) {
-        this.isChat = z;
+    /* JADX INFO: Access modifiers changed from: private */
+    public void checkUpdate() {
+        if (this.started) {
+            if (NotificationCenter.getInstance(this.currentAccount).isAnimationInProgress()) {
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PlayingGameDrawable$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        PlayingGameDrawable.this.checkUpdate();
+                    }
+                }, 100L);
+            } else {
+                update();
+            }
+        }
     }
 
     private void update() {
@@ -65,19 +59,6 @@ public class PlayingGameDrawable extends StatusDrawable {
         invalidateSelf();
     }
 
-    @Override // org.telegram.ui.Components.StatusDrawable
-    public void start() {
-        this.lastUpdateTime = System.currentTimeMillis();
-        this.started = true;
-        invalidateSelf();
-    }
-
-    @Override // org.telegram.ui.Components.StatusDrawable
-    public void stop() {
-        this.progress = 0.0f;
-        this.started = false;
-    }
-
     @Override // android.graphics.drawable.Drawable
     public void draw(Canvas canvas) {
         int dp = AndroidUtilities.dp(10.0f);
@@ -95,12 +76,10 @@ public class PlayingGameDrawable extends StatusDrawable {
             float dp2 = ((AndroidUtilities.dp(5.0f) * i3) + AndroidUtilities.dp(9.2f)) - (AndroidUtilities.dp(5.0f) * f2);
             if (i3 == 2) {
                 this.paint.setAlpha(Math.min((int) NotificationCenter.voipServiceCreated, (int) ((f2 * 255.0f) / 0.5f)));
-            } else if (i3 != 0) {
+            } else if (i3 != 0 || f2 <= 0.5f) {
                 this.paint.setAlpha(NotificationCenter.voipServiceCreated);
-            } else if (f2 > 0.5f) {
-                this.paint.setAlpha((int) ((1.0f - ((f2 - 0.5f) / 0.5f)) * 255.0f));
             } else {
-                this.paint.setAlpha(NotificationCenter.voipServiceCreated);
+                this.paint.setAlpha((int) ((1.0f - ((f2 - 0.5f) / 0.5f)) * 255.0f));
             }
             canvas.drawCircle(dp2, (dp / 2) + i, AndroidUtilities.dp(1.2f), this.paint);
         }
@@ -111,20 +90,9 @@ public class PlayingGameDrawable extends StatusDrawable {
         checkUpdate();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void checkUpdate() {
-        if (this.started) {
-            if (!NotificationCenter.getInstance(this.currentAccount).isAnimationInProgress()) {
-                update();
-            } else {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PlayingGameDrawable$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        PlayingGameDrawable.this.checkUpdate();
-                    }
-                }, 100L);
-            }
-        }
+    @Override // android.graphics.drawable.Drawable
+    public int getIntrinsicHeight() {
+        return AndroidUtilities.dp(18.0f);
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -133,7 +101,37 @@ public class PlayingGameDrawable extends StatusDrawable {
     }
 
     @Override // android.graphics.drawable.Drawable
-    public int getIntrinsicHeight() {
-        return AndroidUtilities.dp(18.0f);
+    public int getOpacity() {
+        return -2;
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setAlpha(int i) {
+    }
+
+    @Override // org.telegram.ui.Components.StatusDrawable
+    public void setColor(int i) {
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setColorFilter(ColorFilter colorFilter) {
+    }
+
+    @Override // org.telegram.ui.Components.StatusDrawable
+    public void setIsChat(boolean z) {
+        this.isChat = z;
+    }
+
+    @Override // org.telegram.ui.Components.StatusDrawable
+    public void start() {
+        this.lastUpdateTime = System.currentTimeMillis();
+        this.started = true;
+        invalidateSelf();
+    }
+
+    @Override // org.telegram.ui.Components.StatusDrawable
+    public void stop() {
+        this.progress = 0.0f;
+        this.started = false;
     }
 }

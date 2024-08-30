@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,7 +27,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 /* loaded from: classes.dex */
-public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<ListenableFuture<Void>> {
+public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver {
     private static final Object GET_INSTANCE_LOCK = new Object();
     private static volatile ShortcutInfoCompatSaverImpl sInstance;
     final File mBitmapsDir;
@@ -34,36 +35,8 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
     final Context mContext;
     private final ExecutorService mDiskIoService;
     final File mTargetsXmlFile;
-    final Map<String, ShortcutsInfoSerialization.ShortcutContainer> mShortcutsMap = new ArrayMap();
-    final Map<String, ListenableFuture<?>> mScheduledBitmapTasks = new ArrayMap();
-
-    @Override // androidx.core.content.pm.ShortcutInfoCompatSaver
-    public /* bridge */ /* synthetic */ ListenableFuture<Void> addShortcuts(List list) {
-        return addShortcuts((List<ShortcutInfoCompat>) list);
-    }
-
-    @Override // androidx.core.content.pm.ShortcutInfoCompatSaver
-    public /* bridge */ /* synthetic */ ListenableFuture<Void> removeShortcuts(List list) {
-        return removeShortcuts((List<String>) list);
-    }
-
-    public static ShortcutInfoCompatSaverImpl getInstance(Context context) {
-        if (sInstance == null) {
-            synchronized (GET_INSTANCE_LOCK) {
-                try {
-                    if (sInstance == null) {
-                        sInstance = new ShortcutInfoCompatSaverImpl(context, createExecutorService(), createExecutorService());
-                    }
-                } finally {
-                }
-            }
-        }
-        return sInstance;
-    }
-
-    static ExecutorService createExecutorService() {
-        return new ThreadPoolExecutor(0, 1, 20L, TimeUnit.SECONDS, new LinkedBlockingQueue());
-    }
+    final Map mShortcutsMap = new ArrayMap();
+    final Map mScheduledBitmapTasks = new ArrayMap();
 
     ShortcutInfoCompatSaverImpl(Context context, ExecutorService executorService, ExecutorService executorService2) {
         this.mContext = context.getApplicationContext();
@@ -88,127 +61,76 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
         });
     }
 
-    @Override // androidx.core.content.pm.ShortcutInfoCompatSaver
-    public ListenableFuture<Void> removeShortcuts(List<String> list) {
-        final ArrayList arrayList = new ArrayList(list);
-        final ResolvableFuture create = ResolvableFuture.create();
-        this.mCacheUpdateService.submit(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.2
-            @Override // java.lang.Runnable
-            public void run() {
-                for (String str : arrayList) {
-                    ShortcutInfoCompatSaverImpl.this.mShortcutsMap.remove(str);
-                    ListenableFuture<?> remove = ShortcutInfoCompatSaverImpl.this.mScheduledBitmapTasks.remove(str);
-                    if (remove != null) {
-                        remove.cancel(false);
+    static ExecutorService createExecutorService() {
+        return new ThreadPoolExecutor(0, 1, 20L, TimeUnit.SECONDS, new LinkedBlockingQueue());
+    }
+
+    static boolean ensureDir(File file) {
+        if (!file.exists() || file.isDirectory() || file.delete()) {
+            if (file.exists()) {
+                return true;
+            }
+            return file.mkdirs();
+        }
+        return false;
+    }
+
+    public static ShortcutInfoCompatSaverImpl getInstance(Context context) {
+        if (sInstance == null) {
+            synchronized (GET_INSTANCE_LOCK) {
+                try {
+                    if (sInstance == null) {
+                        sInstance = new ShortcutInfoCompatSaverImpl(context, createExecutorService(), createExecutorService());
                     }
+                } finally {
                 }
-                ShortcutInfoCompatSaverImpl.this.scheduleSyncCurrentState(create);
             }
-        });
-        return create;
+        }
+        return sInstance;
     }
 
-    @Override // androidx.core.content.pm.ShortcutInfoCompatSaver
-    public ListenableFuture<Void> removeAllShortcuts() {
+    private ListenableFuture submitDiskOperation(final Runnable runnable) {
         final ResolvableFuture create = ResolvableFuture.create();
-        this.mCacheUpdateService.submit(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.3
+        this.mDiskIoService.submit(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.9
             @Override // java.lang.Runnable
             public void run() {
-                ShortcutInfoCompatSaverImpl.this.mShortcutsMap.clear();
-                for (ListenableFuture<?> listenableFuture : ShortcutInfoCompatSaverImpl.this.mScheduledBitmapTasks.values()) {
-                    listenableFuture.cancel(false);
+                if (create.isCancelled()) {
+                    return;
                 }
-                ShortcutInfoCompatSaverImpl.this.mScheduledBitmapTasks.clear();
-                ShortcutInfoCompatSaverImpl.this.scheduleSyncCurrentState(create);
+                try {
+                    runnable.run();
+                    create.set(null);
+                } catch (Exception e) {
+                    create.setException(e);
+                }
             }
         });
         return create;
     }
 
     @Override // androidx.core.content.pm.ShortcutInfoCompatSaver
-    public List<ShortcutInfoCompat> getShortcuts() throws Exception {
-        return (List) this.mCacheUpdateService.submit(new Callable<ArrayList<ShortcutInfoCompat>>() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.4
-            @Override // java.util.concurrent.Callable
-            public ArrayList<ShortcutInfoCompat> call() {
-                ArrayList<ShortcutInfoCompat> arrayList = new ArrayList<>();
-                for (ShortcutsInfoSerialization.ShortcutContainer shortcutContainer : ShortcutInfoCompatSaverImpl.this.mShortcutsMap.values()) {
-                    arrayList.add(new ShortcutInfoCompat.Builder(shortcutContainer.mShortcutInfo).build());
-                }
-                return arrayList;
-            }
-        }).get();
-    }
-
-    public IconCompat getShortcutIcon(final String str) throws Exception {
-        int i;
-        Bitmap bitmap;
-        final ShortcutsInfoSerialization.ShortcutContainer shortcutContainer = (ShortcutsInfoSerialization.ShortcutContainer) this.mCacheUpdateService.submit(new Callable<ShortcutsInfoSerialization.ShortcutContainer>() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.5
-            @Override // java.util.concurrent.Callable
-            public ShortcutsInfoSerialization.ShortcutContainer call() {
-                return ShortcutInfoCompatSaverImpl.this.mShortcutsMap.get(str);
-            }
-        }).get();
-        if (shortcutContainer == null) {
-            return null;
-        }
-        if (!TextUtils.isEmpty(shortcutContainer.mResourceName)) {
-            try {
-                i = this.mContext.getResources().getIdentifier(shortcutContainer.mResourceName, null, null);
-            } catch (Exception unused) {
-                i = 0;
-            }
-            if (i != 0) {
-                return IconCompat.createWithResource(this.mContext, i);
-            }
-        }
-        if (TextUtils.isEmpty(shortcutContainer.mBitmapPath) || (bitmap = (Bitmap) this.mDiskIoService.submit(new Callable<Bitmap>() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.6
-            @Override // java.util.concurrent.Callable
-            public Bitmap call() {
-                return BitmapFactory.decodeFile(shortcutContainer.mBitmapPath);
-            }
-        }).get()) == null) {
-            return null;
-        }
-        return IconCompat.createWithBitmap(bitmap);
-    }
-
-    void deleteDanglingBitmaps(List<ShortcutsInfoSerialization.ShortcutContainer> list) {
-        File[] listFiles;
-        ArrayList arrayList = new ArrayList();
-        for (ShortcutsInfoSerialization.ShortcutContainer shortcutContainer : list) {
-            if (!TextUtils.isEmpty(shortcutContainer.mBitmapPath)) {
-                arrayList.add(shortcutContainer.mBitmapPath);
-            }
-        }
-        for (File file : this.mBitmapsDir.listFiles()) {
-            if (!arrayList.contains(file.getAbsolutePath())) {
-                file.delete();
-            }
-        }
-    }
-
-    @Override // androidx.core.content.pm.ShortcutInfoCompatSaver
-    public ListenableFuture<Void> addShortcuts(List<ShortcutInfoCompat> list) {
+    public ListenableFuture addShortcuts(List list) {
         final ArrayList arrayList = new ArrayList(list.size());
-        for (ShortcutInfoCompat shortcutInfoCompat : list) {
-            arrayList.add(new ShortcutInfoCompat.Builder(shortcutInfoCompat).build());
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            arrayList.add(new ShortcutInfoCompat.Builder((ShortcutInfoCompat) it.next()).build());
         }
         final ResolvableFuture create = ResolvableFuture.create();
         this.mCacheUpdateService.submit(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.7
             @Override // java.lang.Runnable
             public void run() {
-                for (ShortcutInfoCompat shortcutInfoCompat2 : arrayList) {
-                    Set<String> categories = shortcutInfoCompat2.getCategories();
+                for (ShortcutInfoCompat shortcutInfoCompat : arrayList) {
+                    Set categories = shortcutInfoCompat.getCategories();
                     if (categories != null && !categories.isEmpty()) {
-                        ShortcutsInfoSerialization.ShortcutContainer containerFrom = ShortcutInfoCompatSaverImpl.this.containerFrom(shortcutInfoCompat2);
-                        Bitmap bitmap = containerFrom.mBitmapPath != null ? shortcutInfoCompat2.getIcon().getBitmap() : null;
-                        final String id = shortcutInfoCompat2.getId();
+                        ShortcutsInfoSerialization.ShortcutContainer containerFrom = ShortcutInfoCompatSaverImpl.this.containerFrom(shortcutInfoCompat);
+                        Bitmap bitmap = containerFrom.mBitmapPath != null ? shortcutInfoCompat.getIcon().getBitmap() : null;
+                        final String id = shortcutInfoCompat.getId();
                         ShortcutInfoCompatSaverImpl.this.mShortcutsMap.put(id, containerFrom);
                         if (bitmap != null) {
-                            final ListenableFuture<Void> scheduleBitmapSaving = ShortcutInfoCompatSaverImpl.this.scheduleBitmapSaving(bitmap, containerFrom.mBitmapPath);
-                            ListenableFuture<?> put = ShortcutInfoCompatSaverImpl.this.mScheduledBitmapTasks.put(id, scheduleBitmapSaving);
-                            if (put != null) {
-                                put.cancel(false);
+                            final ListenableFuture scheduleBitmapSaving = ShortcutInfoCompatSaverImpl.this.scheduleBitmapSaving(bitmap, containerFrom.mBitmapPath);
+                            ListenableFuture listenableFuture = (ListenableFuture) ShortcutInfoCompatSaverImpl.this.mScheduledBitmapTasks.put(id, scheduleBitmapSaving);
+                            if (listenableFuture != null) {
+                                listenableFuture.cancel(false);
                             }
                             scheduleBitmapSaving.addListener(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.7.1
                                 @Override // java.lang.Runnable
@@ -231,56 +153,6 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
             }
         });
         return create;
-    }
-
-    ListenableFuture<Void> scheduleBitmapSaving(final Bitmap bitmap, final String str) {
-        return submitDiskOperation(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.8
-            @Override // java.lang.Runnable
-            public void run() {
-                ShortcutInfoCompatSaverImpl.this.saveBitmap(bitmap, str);
-            }
-        });
-    }
-
-    private ListenableFuture<Void> submitDiskOperation(final Runnable runnable) {
-        final ResolvableFuture create = ResolvableFuture.create();
-        this.mDiskIoService.submit(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.9
-            @Override // java.lang.Runnable
-            public void run() {
-                if (create.isCancelled()) {
-                    return;
-                }
-                try {
-                    runnable.run();
-                    create.set(null);
-                } catch (Exception e) {
-                    create.setException(e);
-                }
-            }
-        });
-        return create;
-    }
-
-    void scheduleSyncCurrentState(final ResolvableFuture<Void> resolvableFuture) {
-        final ArrayList arrayList = new ArrayList(this.mShortcutsMap.values());
-        final ListenableFuture<Void> submitDiskOperation = submitDiskOperation(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.10
-            @Override // java.lang.Runnable
-            public void run() {
-                ShortcutInfoCompatSaverImpl.this.deleteDanglingBitmaps(arrayList);
-                ShortcutsInfoSerialization.saveAsXml(arrayList, ShortcutInfoCompatSaverImpl.this.mTargetsXmlFile);
-            }
-        });
-        submitDiskOperation.addListener(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.11
-            @Override // java.lang.Runnable
-            public void run() {
-                try {
-                    submitDiskOperation.get();
-                    resolvableFuture.set(null);
-                } catch (Exception e) {
-                    resolvableFuture.setException(e);
-                }
-            }
-        }, this.mCacheUpdateService);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:9:0x0012, code lost:
@@ -311,6 +183,107 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
         return new ShortcutsInfoSerialization.ShortcutContainer(new ShortcutInfoCompat.Builder(shortcutInfoCompat).setIcon(null).build(), str, str2);
     }
 
+    void deleteDanglingBitmaps(List list) {
+        File[] listFiles;
+        ArrayList arrayList = new ArrayList();
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            ShortcutsInfoSerialization.ShortcutContainer shortcutContainer = (ShortcutsInfoSerialization.ShortcutContainer) it.next();
+            if (!TextUtils.isEmpty(shortcutContainer.mBitmapPath)) {
+                arrayList.add(shortcutContainer.mBitmapPath);
+            }
+        }
+        for (File file : this.mBitmapsDir.listFiles()) {
+            if (!arrayList.contains(file.getAbsolutePath())) {
+                file.delete();
+            }
+        }
+    }
+
+    public IconCompat getShortcutIcon(final String str) {
+        int i;
+        Bitmap bitmap;
+        final ShortcutsInfoSerialization.ShortcutContainer shortcutContainer = (ShortcutsInfoSerialization.ShortcutContainer) this.mCacheUpdateService.submit(new Callable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.5
+            @Override // java.util.concurrent.Callable
+            public ShortcutsInfoSerialization.ShortcutContainer call() {
+                return (ShortcutsInfoSerialization.ShortcutContainer) ShortcutInfoCompatSaverImpl.this.mShortcutsMap.get(str);
+            }
+        }).get();
+        if (shortcutContainer == null) {
+            return null;
+        }
+        if (!TextUtils.isEmpty(shortcutContainer.mResourceName)) {
+            try {
+                i = this.mContext.getResources().getIdentifier(shortcutContainer.mResourceName, null, null);
+            } catch (Exception unused) {
+                i = 0;
+            }
+            if (i != 0) {
+                return IconCompat.createWithResource(this.mContext, i);
+            }
+        }
+        if (TextUtils.isEmpty(shortcutContainer.mBitmapPath) || (bitmap = (Bitmap) this.mDiskIoService.submit(new Callable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.6
+            @Override // java.util.concurrent.Callable
+            public Bitmap call() {
+                return BitmapFactory.decodeFile(shortcutContainer.mBitmapPath);
+            }
+        }).get()) == null) {
+            return null;
+        }
+        return IconCompat.createWithBitmap(bitmap);
+    }
+
+    @Override // androidx.core.content.pm.ShortcutInfoCompatSaver
+    public List getShortcuts() {
+        return (List) this.mCacheUpdateService.submit(new Callable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.4
+            @Override // java.util.concurrent.Callable
+            public ArrayList call() {
+                ArrayList arrayList = new ArrayList();
+                for (ShortcutsInfoSerialization.ShortcutContainer shortcutContainer : ShortcutInfoCompatSaverImpl.this.mShortcutsMap.values()) {
+                    arrayList.add(new ShortcutInfoCompat.Builder(shortcutContainer.mShortcutInfo).build());
+                }
+                return arrayList;
+            }
+        }).get();
+    }
+
+    @Override // androidx.core.content.pm.ShortcutInfoCompatSaver
+    public ListenableFuture removeAllShortcuts() {
+        final ResolvableFuture create = ResolvableFuture.create();
+        this.mCacheUpdateService.submit(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.3
+            @Override // java.lang.Runnable
+            public void run() {
+                ShortcutInfoCompatSaverImpl.this.mShortcutsMap.clear();
+                for (ListenableFuture listenableFuture : ShortcutInfoCompatSaverImpl.this.mScheduledBitmapTasks.values()) {
+                    listenableFuture.cancel(false);
+                }
+                ShortcutInfoCompatSaverImpl.this.mScheduledBitmapTasks.clear();
+                ShortcutInfoCompatSaverImpl.this.scheduleSyncCurrentState(create);
+            }
+        });
+        return create;
+    }
+
+    @Override // androidx.core.content.pm.ShortcutInfoCompatSaver
+    public ListenableFuture removeShortcuts(List list) {
+        final ArrayList arrayList = new ArrayList(list);
+        final ResolvableFuture create = ResolvableFuture.create();
+        this.mCacheUpdateService.submit(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.2
+            @Override // java.lang.Runnable
+            public void run() {
+                for (String str : arrayList) {
+                    ShortcutInfoCompatSaverImpl.this.mShortcutsMap.remove(str);
+                    ListenableFuture listenableFuture = (ListenableFuture) ShortcutInfoCompatSaverImpl.this.mScheduledBitmapTasks.remove(str);
+                    if (listenableFuture != null) {
+                        listenableFuture.cancel(false);
+                    }
+                }
+                ShortcutInfoCompatSaverImpl.this.scheduleSyncCurrentState(create);
+            }
+        });
+        return create;
+    }
+
     void saveBitmap(Bitmap bitmap, String str) {
         if (bitmap == null) {
             throw new IllegalArgumentException("bitmap is null");
@@ -321,11 +294,12 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(new File(str));
             try {
-                if (!bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)) {
-                    Log.wtf("ShortcutInfoCompatSaver", "Unable to compress bitmap");
-                    throw new RuntimeException("Unable to compress bitmap for saving " + str);
+                if (bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)) {
+                    fileOutputStream.close();
+                    return;
                 }
-                fileOutputStream.close();
+                Log.wtf("ShortcutInfoCompatSaver", "Unable to compress bitmap");
+                throw new RuntimeException("Unable to compress bitmap for saving " + str);
             } catch (Throwable th) {
                 try {
                     fileOutputStream.close();
@@ -340,13 +314,34 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
         }
     }
 
-    static boolean ensureDir(File file) {
-        if (!file.exists() || file.isDirectory() || file.delete()) {
-            if (file.exists()) {
-                return true;
+    ListenableFuture scheduleBitmapSaving(final Bitmap bitmap, final String str) {
+        return submitDiskOperation(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.8
+            @Override // java.lang.Runnable
+            public void run() {
+                ShortcutInfoCompatSaverImpl.this.saveBitmap(bitmap, str);
             }
-            return file.mkdirs();
-        }
-        return false;
+        });
+    }
+
+    void scheduleSyncCurrentState(final ResolvableFuture resolvableFuture) {
+        final ArrayList arrayList = new ArrayList(this.mShortcutsMap.values());
+        final ListenableFuture submitDiskOperation = submitDiskOperation(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.10
+            @Override // java.lang.Runnable
+            public void run() {
+                ShortcutInfoCompatSaverImpl.this.deleteDanglingBitmaps(arrayList);
+                ShortcutsInfoSerialization.saveAsXml(arrayList, ShortcutInfoCompatSaverImpl.this.mTargetsXmlFile);
+            }
+        });
+        submitDiskOperation.addListener(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.11
+            @Override // java.lang.Runnable
+            public void run() {
+                try {
+                    submitDiskOperation.get();
+                    resolvableFuture.set(null);
+                } catch (Exception e) {
+                    resolvableFuture.setException(e);
+                }
+            }
+        }, this.mCacheUpdateService);
     }
 }

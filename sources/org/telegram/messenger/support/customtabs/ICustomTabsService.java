@@ -4,22 +4,11 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
-import android.os.RemoteException;
 /* loaded from: classes3.dex */
 public interface ICustomTabsService extends IInterface {
-    boolean newSession(ICustomTabsCallback iCustomTabsCallback) throws RemoteException;
-
-    boolean warmup(long j) throws RemoteException;
 
     /* loaded from: classes3.dex */
     public static abstract class Stub extends Binder implements ICustomTabsService {
-        public static ICustomTabsService asInterface(IBinder iBinder) {
-            if (iBinder == null) {
-                return null;
-            }
-            IInterface queryLocalInterface = iBinder.queryLocalInterface("android.support.customtabs.ICustomTabsService");
-            return (queryLocalInterface == null || !(queryLocalInterface instanceof ICustomTabsService)) ? new Proxy(iBinder) : (ICustomTabsService) queryLocalInterface;
-        }
 
         /* loaded from: classes3.dex */
         private static class Proxy implements ICustomTabsService {
@@ -35,23 +24,7 @@ public interface ICustomTabsService extends IInterface {
             }
 
             @Override // org.telegram.messenger.support.customtabs.ICustomTabsService
-            public boolean warmup(long j) throws RemoteException {
-                Parcel obtain = Parcel.obtain();
-                Parcel obtain2 = Parcel.obtain();
-                try {
-                    obtain.writeInterfaceToken("android.support.customtabs.ICustomTabsService");
-                    obtain.writeLong(j);
-                    this.mRemote.transact(2, obtain, obtain2, 0);
-                    obtain2.readException();
-                    return obtain2.readInt() != 0;
-                } finally {
-                    obtain2.recycle();
-                    obtain.recycle();
-                }
-            }
-
-            @Override // org.telegram.messenger.support.customtabs.ICustomTabsService
-            public boolean newSession(ICustomTabsCallback iCustomTabsCallback) throws RemoteException {
+            public boolean newSession(ICustomTabsCallback iCustomTabsCallback) {
                 Parcel obtain = Parcel.obtain();
                 Parcel obtain2 = Parcel.obtain();
                 try {
@@ -69,6 +42,34 @@ public interface ICustomTabsService extends IInterface {
                     throw th;
                 }
             }
+
+            @Override // org.telegram.messenger.support.customtabs.ICustomTabsService
+            public boolean warmup(long j) {
+                Parcel obtain = Parcel.obtain();
+                Parcel obtain2 = Parcel.obtain();
+                try {
+                    obtain.writeInterfaceToken("android.support.customtabs.ICustomTabsService");
+                    obtain.writeLong(j);
+                    this.mRemote.transact(2, obtain, obtain2, 0);
+                    obtain2.readException();
+                    return obtain2.readInt() != 0;
+                } finally {
+                    obtain2.recycle();
+                    obtain.recycle();
+                }
+            }
+        }
+
+        public static ICustomTabsService asInterface(IBinder iBinder) {
+            if (iBinder == null) {
+                return null;
+            }
+            IInterface queryLocalInterface = iBinder.queryLocalInterface("android.support.customtabs.ICustomTabsService");
+            return (queryLocalInterface == null || !(queryLocalInterface instanceof ICustomTabsService)) ? new Proxy(iBinder) : (ICustomTabsService) queryLocalInterface;
         }
     }
+
+    boolean newSession(ICustomTabsCallback iCustomTabsCallback);
+
+    boolean warmup(long j);
 }

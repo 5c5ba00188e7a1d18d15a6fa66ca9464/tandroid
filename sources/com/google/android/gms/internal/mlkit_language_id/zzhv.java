@@ -9,7 +9,6 @@ jadx.core.utils.exceptions.JadxRuntimeException: Init of enum zzc uses external 
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public class zzhv {
     public static final zzhv zza;
@@ -33,19 +32,6 @@ public class zzhv {
     private static final /* synthetic */ zzhv[] zzu;
     private final zzhy zzs;
     private final int zzt;
-
-    public static zzhv[] values() {
-        return (zzhv[]) zzu.clone();
-    }
-
-    private zzhv(String str, int i, zzhy zzhyVar, int i2) {
-        this.zzs = zzhyVar;
-        this.zzt = i2;
-    }
-
-    public final zzhy zza() {
-        return this.zzs;
-    }
 
     static {
         zzhv zzhvVar = new zzhv("DOUBLE", 0, zzhy.zzd, 1);
@@ -94,5 +80,18 @@ public class zzhv {
         zzhv zzhvVar18 = new zzhv("SINT64", 17, zzhyVar, 0);
         zzr = zzhvVar18;
         zzu = new zzhv[]{zzhvVar, zzhvVar2, zzhvVar3, zzhvVar4, zzhvVar5, zzhvVar6, zzhvVar7, zzhvVar8, zzhvVar9, zzhvVar10, zzhvVar11, zzhvVar12, zzhvVar13, zzhvVar14, zzhvVar15, zzhvVar16, zzhvVar17, zzhvVar18};
+    }
+
+    private zzhv(String str, int i, zzhy zzhyVar, int i2) {
+        this.zzs = zzhyVar;
+        this.zzt = i2;
+    }
+
+    public static zzhv[] values() {
+        return (zzhv[]) zzu.clone();
+    }
+
+    public final zzhy zza() {
+        return this.zzs;
     }
 }

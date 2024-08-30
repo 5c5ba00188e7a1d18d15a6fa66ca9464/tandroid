@@ -14,6 +14,16 @@ public final class VorbisBitArray {
         this.byteLimit = bArr.length;
     }
 
+    private void assertValidOffset() {
+        int i;
+        int i2 = this.byteOffset;
+        Assertions.checkState(i2 >= 0 && (i2 < (i = this.byteLimit) || (i2 == i && this.bitOffset == 0)));
+    }
+
+    public int getPosition() {
+        return (this.byteOffset * 8) + this.bitOffset;
+    }
+
     public boolean readBit() {
         boolean z = (((this.data[this.byteOffset] & 255) >> this.bitOffset) & 1) == 1;
         skipBits(1);
@@ -46,15 +56,5 @@ public final class VorbisBitArray {
             this.bitOffset = i4 - 8;
         }
         assertValidOffset();
-    }
-
-    public int getPosition() {
-        return (this.byteOffset * 8) + this.bitOffset;
-    }
-
-    private void assertValidOffset() {
-        int i;
-        int i2 = this.byteOffset;
-        Assertions.checkState(i2 >= 0 && (i2 < (i = this.byteLimit) || (i2 == i && this.bitOffset == 0)));
     }
 }

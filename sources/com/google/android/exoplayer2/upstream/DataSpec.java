@@ -8,22 +8,17 @@ import java.util.HashMap;
 import java.util.Map;
 /* loaded from: classes.dex */
 public final class DataSpec {
-    @Deprecated
     public final long absoluteStreamPosition;
     public final Object customData;
     public final int flags;
     public final byte[] httpBody;
     public final int httpMethod;
-    public final Map<String, String> httpRequestHeaders;
+    public final Map httpRequestHeaders;
     public final String key;
     public final long length;
     public final long position;
     public final Uri uri;
     public final long uriPositionOffset;
-
-    static {
-        ExoPlayerLibraryInfo.registerModule("goog.exo.datasource");
-    }
 
     /* loaded from: classes.dex */
     public static final class Builder {
@@ -31,7 +26,7 @@ public final class DataSpec {
         private int flags;
         private byte[] httpBody;
         private int httpMethod;
-        private Map<String, String> httpRequestHeaders;
+        private Map httpRequestHeaders;
         private String key;
         private long length;
         private long position;
@@ -57,18 +52,13 @@ public final class DataSpec {
             this.customData = dataSpec.customData;
         }
 
-        public Builder setUri(String str) {
-            this.uri = Uri.parse(str);
-            return this;
+        public DataSpec build() {
+            Assertions.checkStateNotNull(this.uri, "The uri must be set.");
+            return new DataSpec(this.uri, this.uriPositionOffset, this.httpMethod, this.httpBody, this.httpRequestHeaders, this.position, this.length, this.key, this.flags, this.customData);
         }
 
-        public Builder setUri(Uri uri) {
-            this.uri = uri;
-            return this;
-        }
-
-        public Builder setHttpMethod(int i) {
-            this.httpMethod = i;
+        public Builder setFlags(int i) {
+            this.flags = i;
             return this;
         }
 
@@ -77,18 +67,13 @@ public final class DataSpec {
             return this;
         }
 
-        public Builder setHttpRequestHeaders(Map<String, String> map) {
+        public Builder setHttpMethod(int i) {
+            this.httpMethod = i;
+            return this;
+        }
+
+        public Builder setHttpRequestHeaders(Map map) {
             this.httpRequestHeaders = map;
-            return this;
-        }
-
-        public Builder setPosition(long j) {
-            this.position = j;
-            return this;
-        }
-
-        public Builder setLength(long j) {
-            this.length = j;
             return this;
         }
 
@@ -97,39 +82,36 @@ public final class DataSpec {
             return this;
         }
 
-        public Builder setFlags(int i) {
-            this.flags = i;
+        public Builder setLength(long j) {
+            this.length = j;
             return this;
         }
 
-        public DataSpec build() {
-            Assertions.checkStateNotNull(this.uri, "The uri must be set.");
-            return new DataSpec(this.uri, this.uriPositionOffset, this.httpMethod, this.httpBody, this.httpRequestHeaders, this.position, this.length, this.key, this.flags, this.customData);
+        public Builder setPosition(long j) {
+            this.position = j;
+            return this;
+        }
+
+        public Builder setUri(Uri uri) {
+            this.uri = uri;
+            return this;
+        }
+
+        public Builder setUri(String str) {
+            this.uri = Uri.parse(str);
+            return this;
         }
     }
 
-    public static String getStringForHttpMethod(int i) {
-        if (i != 1) {
-            if (i != 2) {
-                if (i == 3) {
-                    return "HEAD";
-                }
-                throw new IllegalStateException();
-            }
-            return "POST";
-        }
-        return "GET";
+    static {
+        ExoPlayerLibraryInfo.registerModule("goog.exo.datasource");
     }
 
     public DataSpec(Uri uri) {
         this(uri, 0L, -1L);
     }
 
-    public DataSpec(Uri uri, long j, long j2) {
-        this(uri, 0L, 1, null, Collections.emptyMap(), j, j2, null, 0, null);
-    }
-
-    private DataSpec(Uri uri, long j, int i, byte[] bArr, Map<String, String> map, long j2, long j3, String str, int i2, Object obj) {
+    private DataSpec(Uri uri, long j, int i, byte[] bArr, Map map, long j2, long j3, String str, int i2, Object obj) {
         byte[] bArr2 = bArr;
         long j4 = j + j2;
         boolean z = false;
@@ -149,16 +131,33 @@ public final class DataSpec {
         this.customData = obj;
     }
 
-    public boolean isFlagSet(int i) {
-        return (this.flags & i) == i;
+    public DataSpec(Uri uri, long j, long j2) {
+        this(uri, 0L, 1, null, Collections.emptyMap(), j, j2, null, 0, null);
+    }
+
+    public static String getStringForHttpMethod(int i) {
+        if (i != 1) {
+            if (i != 2) {
+                if (i == 3) {
+                    return "HEAD";
+                }
+                throw new IllegalStateException();
+            }
+            return "POST";
+        }
+        return "GET";
+    }
+
+    public Builder buildUpon() {
+        return new Builder();
     }
 
     public final String getHttpMethodString() {
         return getStringForHttpMethod(this.httpMethod);
     }
 
-    public Builder buildUpon() {
-        return new Builder();
+    public boolean isFlagSet(int i) {
+        return (this.flags & i) == i;
     }
 
     public DataSpec subrange(long j) {

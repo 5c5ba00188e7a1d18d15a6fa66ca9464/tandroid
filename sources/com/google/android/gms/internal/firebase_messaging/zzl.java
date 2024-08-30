@@ -1,18 +1,16 @@
 package com.google.android.gms.internal.firebase_messaging;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
-public final class zzl {
+public abstract class zzl {
     private static final OutputStream zza = new zzj();
 
-    public static byte[] zza(InputStream inputStream) throws IOException {
+    public static byte[] zza(InputStream inputStream) {
         ArrayDeque arrayDeque = new ArrayDeque(20);
         int i = LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
         int i2 = 0;
@@ -43,13 +41,13 @@ public final class zzl {
         return new zzk(inputStream, 1048577L);
     }
 
-    private static byte[] zzc(Queue<byte[]> queue, int i) {
+    private static byte[] zzc(Queue queue, int i) {
         byte[] bArr = new byte[i];
         int i2 = i;
         while (i2 > 0) {
-            byte[] remove = queue.remove();
-            int min = Math.min(i2, remove.length);
-            System.arraycopy(remove, 0, bArr, i - i2, min);
+            byte[] bArr2 = (byte[]) queue.remove();
+            int min = Math.min(i2, bArr2.length);
+            System.arraycopy(bArr2, 0, bArr, i - i2, min);
             i2 -= min;
         }
         return bArr;

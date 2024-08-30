@@ -1,5 +1,5 @@
 package com.google.android.datatransport;
 /* loaded from: classes.dex */
-public interface Transformer<T, U> {
-    U apply(T t);
+public interface Transformer {
+    Object apply(Object obj);
 }

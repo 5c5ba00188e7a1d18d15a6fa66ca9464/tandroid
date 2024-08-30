@@ -10,6 +10,10 @@ public class NestedScrollingParentHelper {
     public NestedScrollingParentHelper(ViewGroup viewGroup) {
     }
 
+    public int getNestedScrollAxes() {
+        return this.mNestedScrollAxesTouch | this.mNestedScrollAxesNonTouch;
+    }
+
     public void onNestedScrollAccepted(View view, View view2, int i) {
         onNestedScrollAccepted(view, view2, i, 0);
     }
@@ -20,10 +24,6 @@ public class NestedScrollingParentHelper {
         } else {
             this.mNestedScrollAxesTouch = i;
         }
-    }
-
-    public int getNestedScrollAxes() {
-        return this.mNestedScrollAxesTouch | this.mNestedScrollAxesNonTouch;
     }
 
     public void onStopNestedScroll(View view) {

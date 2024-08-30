@@ -17,7 +17,6 @@ import com.google.mlkit.vision.label.defaults.ImageLabelerOptions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 final class zzc implements zzb {
     private final Context zza;
@@ -44,27 +43,27 @@ final class zzc implements zzb {
     }
 
     @Override // com.google.mlkit.vision.label.defaults.thin.zzb
-    public final List zza(InputImage inputImage) throws MlKitException {
+    public final List zza(InputImage inputImage) {
         if (this.zze == null) {
             zzb();
         }
-        if (this.zze == null) {
-            throw new MlKitException("Waiting for the image labeling module to be downloaded. Please wait.", 14);
-        }
-        try {
-            com.google.android.gms.internal.mlkit_vision_label.zzh[] zze = ((com.google.android.gms.internal.mlkit_vision_label.zzd) Preconditions.checkNotNull(this.zze)).zze(ObjectWrapper.wrap(ImageConvertUtils.getInstance().convertToUpRightBitmap(inputImage)), new zzl(-1));
-            ArrayList arrayList = new ArrayList();
-            for (com.google.android.gms.internal.mlkit_vision_label.zzh zzhVar : zze) {
-                arrayList.add(new ImageLabel(zzhVar.zzb, zzhVar.zzc, zzhVar.zzd, zzhVar.zza));
+        if (this.zze != null) {
+            try {
+                com.google.android.gms.internal.mlkit_vision_label.zzh[] zze = ((com.google.android.gms.internal.mlkit_vision_label.zzd) Preconditions.checkNotNull(this.zze)).zze(ObjectWrapper.wrap(ImageConvertUtils.getInstance().convertToUpRightBitmap(inputImage)), new zzl(-1));
+                ArrayList arrayList = new ArrayList();
+                for (com.google.android.gms.internal.mlkit_vision_label.zzh zzhVar : zze) {
+                    arrayList.add(new ImageLabel(zzhVar.zzb, zzhVar.zzc, zzhVar.zzd, zzhVar.zza));
+                }
+                return arrayList;
+            } catch (RemoteException e) {
+                throw new MlKitException("Failed to run legacy image labeler.", 13, e);
             }
-            return arrayList;
-        } catch (RemoteException e) {
-            throw new MlKitException("Failed to run legacy image labeler.", 13, e);
         }
+        throw new MlKitException("Waiting for the image labeling module to be downloaded. Please wait.", 14);
     }
 
     @Override // com.google.mlkit.vision.label.defaults.thin.zzb
-    public final void zzb() throws MlKitException {
+    public final void zzb() {
         Log.d("LegacyLabelDelegate", "Try to load legacy label module.");
         if (this.zze != null) {
             return;

@@ -11,7 +11,6 @@ import com.google.android.gms.common.internal.TelemetryLoggingOptions;
 import com.google.android.gms.internal.base.zaf;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zao extends GoogleApi implements TelemetryLoggingClient {
     public static final /* synthetic */ int $r8$clinit = 0;
@@ -32,7 +31,7 @@ public final class zao extends GoogleApi implements TelemetryLoggingClient {
     }
 
     @Override // com.google.android.gms.common.internal.TelemetryLoggingClient
-    public final Task<Void> log(final TelemetryData telemetryData) {
+    public final Task log(final TelemetryData telemetryData) {
         TaskApiCall.Builder builder = TaskApiCall.builder();
         builder.setFeatures(zaf.zaa);
         builder.setAutoResolveMissingFeatures(false);

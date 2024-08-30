@@ -1,6 +1,5 @@
 package com.google.android.gms.internal.mlkit_language_id;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzhc implements zzhf {
     private final /* synthetic */ zzdn zza;
@@ -11,12 +10,12 @@ public final class zzhc implements zzhf {
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzhf
-    public final int zza() {
-        return this.zza.zza();
+    public final byte zza(int i) {
+        return this.zza.zza(i);
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzhf
-    public final byte zza(int i) {
-        return this.zza.zza(i);
+    public final int zza() {
+        return this.zza.zza();
     }
 }

@@ -26,6 +26,14 @@ public class MenuPopupHelper {
     private final int mPopupStyleRes;
     private MenuPresenter.Callback mPresenterCallback;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api17Impl {
+        static void getRealSize(Display display, Point point) {
+            display.getRealSize(point);
+        }
+    }
+
     public MenuPopupHelper(Context context, MenuBuilder menuBuilder, View view, boolean z, int i) {
         this(context, menuBuilder, view, z, i, 0);
     }
@@ -46,78 +54,18 @@ public class MenuPopupHelper {
         this.mPopupStyleRes = i2;
     }
 
-    public void setOnDismissListener(PopupWindow.OnDismissListener onDismissListener) {
-        this.mOnDismissListener = onDismissListener;
-    }
-
-    public void setAnchorView(View view) {
-        this.mAnchorView = view;
-    }
-
-    public void setForceShowIcon(boolean z) {
-        this.mForceShowIcon = z;
-        MenuPopup menuPopup = this.mPopup;
-        if (menuPopup != null) {
-            menuPopup.setForceShowIcon(z);
-        }
-    }
-
-    public void setGravity(int i) {
-        this.mDropDownGravity = i;
-    }
-
-    public void show() {
-        if (!tryShow()) {
-            throw new IllegalStateException("MenuPopupHelper cannot be used without an anchor");
-        }
-    }
-
-    public MenuPopup getPopup() {
-        if (this.mPopup == null) {
-            this.mPopup = createPopup();
-        }
-        return this.mPopup;
-    }
-
-    public boolean tryShow() {
-        if (isShowing()) {
-            return true;
-        }
-        if (this.mAnchorView == null) {
-            return false;
-        }
-        showPopup(0, 0, false, false);
-        return true;
-    }
-
-    public boolean tryShow(int i, int i2) {
-        if (isShowing()) {
-            return true;
-        }
-        if (this.mAnchorView == null) {
-            return false;
-        }
-        showPopup(i, i2, true, true);
-        return true;
-    }
-
     private MenuPopup createPopup() {
-        MenuPopup standardMenuPopup;
         Display defaultDisplay = ((WindowManager) this.mContext.getSystemService("window")).getDefaultDisplay();
         Point point = new Point();
         Api17Impl.getRealSize(defaultDisplay, point);
-        if (Math.min(point.x, point.y) >= this.mContext.getResources().getDimensionPixelSize(R$dimen.abc_cascading_menus_min_smallest_width)) {
-            standardMenuPopup = new CascadingMenuPopup(this.mContext, this.mAnchorView, this.mPopupStyleAttr, this.mPopupStyleRes, this.mOverflowOnly);
-        } else {
-            standardMenuPopup = new StandardMenuPopup(this.mContext, this.mMenu, this.mAnchorView, this.mPopupStyleAttr, this.mPopupStyleRes, this.mOverflowOnly);
-        }
-        standardMenuPopup.addMenu(this.mMenu);
-        standardMenuPopup.setOnDismissListener(this.mInternalOnDismissListener);
-        standardMenuPopup.setAnchorView(this.mAnchorView);
-        standardMenuPopup.setCallback(this.mPresenterCallback);
-        standardMenuPopup.setForceShowIcon(this.mForceShowIcon);
-        standardMenuPopup.setGravity(this.mDropDownGravity);
-        return standardMenuPopup;
+        MenuPopup cascadingMenuPopup = Math.min(point.x, point.y) >= this.mContext.getResources().getDimensionPixelSize(R$dimen.abc_cascading_menus_min_smallest_width) ? new CascadingMenuPopup(this.mContext, this.mAnchorView, this.mPopupStyleAttr, this.mPopupStyleRes, this.mOverflowOnly) : new StandardMenuPopup(this.mContext, this.mMenu, this.mAnchorView, this.mPopupStyleAttr, this.mPopupStyleRes, this.mOverflowOnly);
+        cascadingMenuPopup.addMenu(this.mMenu);
+        cascadingMenuPopup.setOnDismissListener(this.mInternalOnDismissListener);
+        cascadingMenuPopup.setAnchorView(this.mAnchorView);
+        cascadingMenuPopup.setCallback(this.mPresenterCallback);
+        cascadingMenuPopup.setForceShowIcon(this.mForceShowIcon);
+        cascadingMenuPopup.setGravity(this.mDropDownGravity);
+        return cascadingMenuPopup;
     }
 
     private void showPopup(int i, int i2, boolean z, boolean z2) {
@@ -141,6 +89,18 @@ public class MenuPopupHelper {
         }
     }
 
+    public MenuPopup getPopup() {
+        if (this.mPopup == null) {
+            this.mPopup = createPopup();
+        }
+        return this.mPopup;
+    }
+
+    public boolean isShowing() {
+        MenuPopup menuPopup = this.mPopup;
+        return menuPopup != null && menuPopup.isShowing();
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     public void onDismiss() {
         this.mPopup = null;
@@ -150,9 +110,24 @@ public class MenuPopupHelper {
         }
     }
 
-    public boolean isShowing() {
+    public void setAnchorView(View view) {
+        this.mAnchorView = view;
+    }
+
+    public void setForceShowIcon(boolean z) {
+        this.mForceShowIcon = z;
         MenuPopup menuPopup = this.mPopup;
-        return menuPopup != null && menuPopup.isShowing();
+        if (menuPopup != null) {
+            menuPopup.setForceShowIcon(z);
+        }
+    }
+
+    public void setGravity(int i) {
+        this.mDropDownGravity = i;
+    }
+
+    public void setOnDismissListener(PopupWindow.OnDismissListener onDismissListener) {
+        this.mOnDismissListener = onDismissListener;
     }
 
     public void setPresenterCallback(MenuPresenter.Callback callback) {
@@ -163,11 +138,31 @@ public class MenuPopupHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api17Impl {
-        static void getRealSize(Display display, Point point) {
-            display.getRealSize(point);
+    public void show() {
+        if (!tryShow()) {
+            throw new IllegalStateException("MenuPopupHelper cannot be used without an anchor");
         }
+    }
+
+    public boolean tryShow() {
+        if (isShowing()) {
+            return true;
+        }
+        if (this.mAnchorView == null) {
+            return false;
+        }
+        showPopup(0, 0, false, false);
+        return true;
+    }
+
+    public boolean tryShow(int i, int i2) {
+        if (isShowing()) {
+            return true;
+        }
+        if (this.mAnchorView == null) {
+            return false;
+        }
+        showPopup(i, i2, true, true);
+        return true;
     }
 }

@@ -22,8 +22,8 @@ public final class zzcq {
     public static final zzcq zzlf;
     public static final zzcq zzlg;
     private static final /* synthetic */ zzcq[] zzlk;
-    private final Class<?> zzlh;
-    private final Class<?> zzli;
+    private final Class zzlh;
+    private final Class zzli;
     private final Object zzlj;
 
     static {
@@ -61,7 +61,7 @@ public final class zzcq {
         return (zzcq[]) zzlk.clone();
     }
 
-    public final Class<?> zzbq() {
+    public final Class zzbq() {
         return this.zzli;
     }
 }

@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import com.microsoft.appcenter.http.HttpClient;
 import com.microsoft.appcenter.utils.AppCenterLog;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -19,10 +18,10 @@ import javax.net.ssl.HttpsURLConnection;
 import org.json.JSONObject;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
+public class DefaultHttpClientCallTask extends AsyncTask {
     private final HttpClient.CallTemplate mCallTemplate;
     private final boolean mCompressionEnabled;
-    private final Map<String, String> mHeaders;
+    private final Map mHeaders;
     private final String mMethod;
     private final ServiceCallback mServiceCallback;
     private final Tracker mTracker;
@@ -40,7 +39,7 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public DefaultHttpClientCallTask(String str, String str2, Map<String, String> map, HttpClient.CallTemplate callTemplate, ServiceCallback serviceCallback, Tracker tracker, boolean z) {
+    public DefaultHttpClientCallTask(String str, String str2, Map map, HttpClient.CallTemplate callTemplate, ServiceCallback serviceCallback, Tracker tracker, boolean z) {
         this.mUrl = str;
         this.mMethod = str2;
         this.mHeaders = map;
@@ -50,46 +49,7 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
         this.mCompressionEnabled = z;
     }
 
-    private static InputStream getInputStream(HttpsURLConnection httpsURLConnection) throws IOException {
-        int responseCode = httpsURLConnection.getResponseCode();
-        if (responseCode >= 200 && responseCode < 400) {
-            return httpsURLConnection.getInputStream();
-        }
-        return httpsURLConnection.getErrorStream();
-    }
-
-    private void writePayload(OutputStream outputStream, byte[] bArr) throws IOException {
-        for (int i = 0; i < bArr.length; i += 1024) {
-            outputStream.write(bArr, i, Math.min(bArr.length - i, 1024));
-            if (isCancelled()) {
-                return;
-            }
-        }
-    }
-
-    private String readResponse(HttpsURLConnection httpsURLConnection) throws IOException {
-        StringBuilder sb = new StringBuilder(Math.max(httpsURLConnection.getContentLength(), 16));
-        InputStream inputStream = getInputStream(httpsURLConnection);
-        try {
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-            char[] cArr = new char[1024];
-            do {
-                int read = inputStreamReader.read(cArr);
-                if (read <= 0) {
-                    break;
-                }
-                sb.append(cArr, 0, read);
-            } while (!isCancelled());
-            String sb2 = sb.toString();
-            inputStream.close();
-            return sb2;
-        } catch (Throwable th) {
-            inputStream.close();
-            throw th;
-        }
-    }
-
-    private HttpResponse doHttpCall() throws Exception {
+    private HttpResponse doHttpCall() {
         String str;
         byte[] bArr;
         String replaceAll;
@@ -115,8 +75,8 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
             if (z) {
                 this.mHeaders.put("Content-Encoding", "gzip");
             }
-            for (Map.Entry<String, String> entry : this.mHeaders.entrySet()) {
-                createHttpsConnection.setRequestProperty(entry.getKey(), entry.getValue());
+            for (Map.Entry entry : this.mHeaders.entrySet()) {
+                createHttpsConnection.setRequestProperty((String) entry.getKey(), (String) entry.getValue());
             }
             if (isCancelled()) {
                 createHttpsConnection.disconnect();
@@ -180,6 +140,42 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
         }
     }
 
+    private static InputStream getInputStream(HttpsURLConnection httpsURLConnection) {
+        int responseCode = httpsURLConnection.getResponseCode();
+        return (responseCode < 200 || responseCode >= 400) ? httpsURLConnection.getErrorStream() : httpsURLConnection.getInputStream();
+    }
+
+    private String readResponse(HttpsURLConnection httpsURLConnection) {
+        StringBuilder sb = new StringBuilder(Math.max(httpsURLConnection.getContentLength(), 16));
+        InputStream inputStream = getInputStream(httpsURLConnection);
+        try {
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+            char[] cArr = new char[1024];
+            do {
+                int read = inputStreamReader.read(cArr);
+                if (read <= 0) {
+                    break;
+                }
+                sb.append(cArr, 0, read);
+            } while (!isCancelled());
+            String sb2 = sb.toString();
+            inputStream.close();
+            return sb2;
+        } catch (Throwable th) {
+            inputStream.close();
+            throw th;
+        }
+    }
+
+    private void writePayload(OutputStream outputStream, byte[] bArr) {
+        for (int i = 0; i < bArr.length; i += 1024) {
+            outputStream.write(bArr, i, Math.min(bArr.length - i, 1024));
+            if (isCancelled()) {
+                return;
+            }
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.os.AsyncTask
     public Object doInBackground(Void... voidArr) {
@@ -194,8 +190,12 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
     }
 
     @Override // android.os.AsyncTask
-    protected void onPreExecute() {
-        this.mTracker.onStart(this);
+    protected void onCancelled(Object obj) {
+        if ((obj instanceof HttpResponse) || (obj instanceof HttpException)) {
+            onPostExecute(obj);
+        } else {
+            this.mTracker.onFinish(this);
+        }
     }
 
     @Override // android.os.AsyncTask
@@ -209,11 +209,7 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
     }
 
     @Override // android.os.AsyncTask
-    protected void onCancelled(Object obj) {
-        if ((obj instanceof HttpResponse) || (obj instanceof HttpException)) {
-            onPostExecute(obj);
-        } else {
-            this.mTracker.onFinish(this);
-        }
+    protected void onPreExecute() {
+        this.mTracker.onStart(this);
     }
 }

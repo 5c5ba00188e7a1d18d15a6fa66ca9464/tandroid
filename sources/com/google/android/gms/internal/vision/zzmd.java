@@ -1,56 +1,11 @@
 package com.google.android.gms.internal.vision;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public final class zzmd {
+public abstract class zzmd {
     private static final zzme zza;
 
-    public static boolean zza(byte[] bArr) {
-        return zza.zza(bArr, 0, bArr.length);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static int zzb(int i) {
-        if (i > -12) {
-            return -1;
-        }
-        return i;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static int zzb(int i, int i2) {
-        if (i > -12 || i2 > -65) {
-            return -1;
-        }
-        return i ^ (i2 << 8);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static int zzb(int i, int i2, int i3) {
-        if (i > -12 || i2 > -65 || i3 > -65) {
-            return -1;
-        }
-        return (i ^ (i2 << 8)) ^ (i3 << 16);
-    }
-
-    public static boolean zza(byte[] bArr, int i, int i2) {
-        return zza.zza(bArr, i, i2);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static int zzd(byte[] bArr, int i, int i2) {
-        byte b = bArr[i - 1];
-        int i3 = i2 - i;
-        if (i3 != 0) {
-            if (i3 != 1) {
-                if (i3 == 2) {
-                    return zzb(b, bArr[i], bArr[i + 1]);
-                }
-                throw new AssertionError();
-            }
-            return zzb(b, bArr[i]);
-        }
-        return zzb(b);
+    static {
+        zza = (zzma.zza() && zzma.zzb() && !zzhi.zza()) ? new zzmj() : new zzmh();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -104,18 +59,56 @@ public final class zzmd {
         return zza.zza(charSequence, bArr, i, i2);
     }
 
+    public static boolean zza(byte[] bArr) {
+        return zza.zza(bArr, 0, bArr.length);
+    }
+
+    public static boolean zza(byte[] bArr, int i, int i2) {
+        return zza.zza(bArr, i, i2);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static int zzb(int i) {
+        if (i > -12) {
+            return -1;
+        }
+        return i;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static int zzb(int i, int i2) {
+        if (i > -12 || i2 > -65) {
+            return -1;
+        }
+        return i ^ (i2 << 8);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static int zzb(int i, int i2, int i3) {
+        if (i > -12 || i2 > -65 || i3 > -65) {
+            return -1;
+        }
+        return (i ^ (i2 << 8)) ^ (i3 << 16);
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static String zzb(byte[] bArr, int i, int i2) throws zzjk {
+    public static String zzb(byte[] bArr, int i, int i2) {
         return zza.zzb(bArr, i, i2);
     }
 
-    static {
-        zzme zzmhVar;
-        if (zzma.zza() && zzma.zzb() && !zzhi.zza()) {
-            zzmhVar = new zzmj();
-        } else {
-            zzmhVar = new zzmh();
+    /* JADX INFO: Access modifiers changed from: private */
+    public static int zzd(byte[] bArr, int i, int i2) {
+        byte b = bArr[i - 1];
+        int i3 = i2 - i;
+        if (i3 != 0) {
+            if (i3 != 1) {
+                if (i3 == 2) {
+                    return zzb(b, bArr[i], bArr[i + 1]);
+                }
+                throw new AssertionError();
+            }
+            return zzb(b, bArr[i]);
         }
-        zza = zzmhVar;
+        return zzb(b);
     }
 }

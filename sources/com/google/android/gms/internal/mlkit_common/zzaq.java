@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public abstract class zzaq extends zzam implements List, RandomAccess {
     public static final /* synthetic */ int $r8$clinit = 0;
@@ -13,10 +12,7 @@ public abstract class zzaq extends zzam implements List, RandomAccess {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static zzaq zzg(Object[] objArr, int i) {
-        if (i == 0) {
-            return zzaw.zza;
-        }
-        return new zzaw(objArr, i);
+        return i == 0 ? zzaw.zza : new zzaw(objArr, i);
     }
 
     public static zzaq zzh(Object obj) {
@@ -32,13 +28,11 @@ public abstract class zzaq extends zzam implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    @Deprecated
     public final void add(int i, Object obj) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.List
-    @Deprecated
     public final boolean addAll(int i, Collection collection) {
         throw new UnsupportedOperationException();
     }
@@ -132,13 +126,11 @@ public abstract class zzaq extends zzam implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    @Deprecated
     public final Object remove(int i) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.List
-    @Deprecated
     public final Object set(int i, Object obj) {
         throw new UnsupportedOperationException();
     }
@@ -158,13 +150,7 @@ public abstract class zzaq extends zzam implements List, RandomAccess {
     public zzaq subList(int i, int i2) {
         zzae.zzd(i, i2, size());
         int i3 = i2 - i;
-        if (i3 == size()) {
-            return this;
-        }
-        if (i3 != 0) {
-            return new zzap(this, i, i3);
-        }
-        return zzaw.zza;
+        return i3 == size() ? this : i3 == 0 ? zzaw.zza : new zzap(this, i, i3);
     }
 
     @Override // java.util.List

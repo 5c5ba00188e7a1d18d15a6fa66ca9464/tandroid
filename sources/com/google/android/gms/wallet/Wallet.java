@@ -6,18 +6,15 @@ import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.wallet.wobs.WalletObjects;
 import java.util.Locale;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
-public final class Wallet {
-    public static final Api<WalletOptions> API;
+public abstract class Wallet {
+    public static final Api API;
     public static final WalletObjects zza;
-    @Deprecated
     public static final com.google.android.gms.internal.wallet.zzv zzb;
     public static final com.google.android.gms.internal.wallet.zzad zzc;
     private static final Api.ClientKey zzd;
     private static final Api.AbstractClientBuilder zze;
 
-    /* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
     /* loaded from: classes.dex */
     public static final class WalletOptions implements Api.ApiOptions.HasAccountOptions {
         public final int environment;
@@ -25,7 +22,6 @@ public final class Wallet {
         public final Account zza;
         final boolean zzb;
 
-        /* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
         /* loaded from: classes.dex */
         public static final class Builder {
             private int zza = 3;
@@ -55,10 +51,6 @@ public final class Wallet {
                 }
                 throw new IllegalArgumentException(String.format(Locale.US, "Invalid theme value %d", Integer.valueOf(i)));
             }
-        }
-
-        private WalletOptions() {
-            this(new Builder());
         }
 
         private WalletOptions(Builder builder) {
@@ -93,7 +85,7 @@ public final class Wallet {
         zzd = clientKey;
         zzap zzapVar = new zzap();
         zze = zzapVar;
-        API = new Api<>("Wallet.API", zzapVar, clientKey);
+        API = new Api("Wallet.API", zzapVar, clientKey);
         zzb = new com.google.android.gms.internal.wallet.zzv();
         zza = new com.google.android.gms.internal.wallet.zzaf();
         zzc = new com.google.android.gms.internal.wallet.zzad();

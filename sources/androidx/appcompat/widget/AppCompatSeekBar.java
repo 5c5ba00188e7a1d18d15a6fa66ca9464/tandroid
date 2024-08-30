@@ -22,12 +22,6 @@ public class AppCompatSeekBar extends SeekBar {
     }
 
     @Override // android.widget.AbsSeekBar, android.widget.ProgressBar, android.view.View
-    protected synchronized void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        this.mAppCompatSeekBarHelper.drawTickMarks(canvas);
-    }
-
-    @Override // android.widget.AbsSeekBar, android.widget.ProgressBar, android.view.View
     protected void drawableStateChanged() {
         super.drawableStateChanged();
         this.mAppCompatSeekBarHelper.drawableStateChanged();
@@ -37,5 +31,11 @@ public class AppCompatSeekBar extends SeekBar {
     public void jumpDrawablesToCurrentState() {
         super.jumpDrawablesToCurrentState();
         this.mAppCompatSeekBarHelper.jumpDrawablesToCurrentState();
+    }
+
+    @Override // android.widget.AbsSeekBar, android.widget.ProgressBar, android.view.View
+    protected synchronized void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        this.mAppCompatSeekBarHelper.drawTickMarks(canvas);
     }
 }

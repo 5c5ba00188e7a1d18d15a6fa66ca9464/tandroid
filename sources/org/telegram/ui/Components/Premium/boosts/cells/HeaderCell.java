@@ -1,6 +1,5 @@
 package org.telegram.ui.Components.Premium.boosts.cells;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -24,7 +23,6 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
@@ -33,7 +31,6 @@ import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.Premium.GLIcon.GLIconRenderer;
 import org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView;
 import org.telegram.ui.Components.Premium.StarParticlesView;
-@SuppressLint({"ViewConstructor"})
 /* loaded from: classes3.dex */
 public class HeaderCell extends FrameLayout {
     private final GLIconTextureView iconTextureView;
@@ -77,13 +74,6 @@ public class HeaderCell extends FrameLayout {
         gLIconRenderer.updateColors();
         linearLayout.addView(gLIconTextureView, LayoutHelper.createLinear((int) NotificationCenter.audioRouteChanged, (int) NotificationCenter.audioRouteChanged, 1));
         StarParticlesView starParticlesView = new StarParticlesView(context) { // from class: org.telegram.ui.Components.Premium.boosts.cells.HeaderCell.2
-            /* JADX INFO: Access modifiers changed from: protected */
-            @Override // org.telegram.ui.Components.Premium.StarParticlesView, android.view.View
-            public void onMeasure(int i2, int i3) {
-                super.onMeasure(i2, i3);
-                this.drawable.rect2.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight() - AndroidUtilities.dp(52.0f));
-            }
-
             @Override // android.view.View
             protected void onAttachedToWindow() {
                 super.onAttachedToWindow();
@@ -94,6 +84,13 @@ public class HeaderCell extends FrameLayout {
             protected void onDetachedFromWindow() {
                 super.onDetachedFromWindow();
                 HeaderCell.this.starParticlesView.setPaused(true);
+            }
+
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.Components.Premium.StarParticlesView, android.view.View
+            public void onMeasure(int i2, int i3) {
+                super.onMeasure(i2, i3);
+                this.drawable.rect2.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight() - AndroidUtilities.dp(52.0f));
             }
         };
         this.starParticlesView = starParticlesView;
@@ -129,6 +126,27 @@ public class HeaderCell extends FrameLayout {
         setWillNotDraw(false);
     }
 
+    @Override // android.view.View
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (this.links != null) {
+            canvas.save();
+            canvas.translate(this.subtitleView.getLeft(), this.subtitleView.getTop());
+            if (this.links.draw(canvas)) {
+                invalidate();
+            }
+            canvas.restore();
+        }
+    }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(i, i2);
+        float top = this.iconTextureView.getTop() + (this.iconTextureView.getMeasuredHeight() / 2.0f);
+        StarParticlesView starParticlesView = this.starParticlesView;
+        starParticlesView.setTranslationY(top - (starParticlesView.getMeasuredHeight() / 2.0f));
+    }
+
     public void setBoostViaGifsText(TLRPC$Chat tLRPC$Chat) {
         if (Build.VERSION.SDK_INT >= 21) {
             setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.Premium.boosts.cells.HeaderCell.3
@@ -149,22 +167,12 @@ public class HeaderCell extends FrameLayout {
         this.subtitleView.setTextColor(Theme.getColor(Theme.key_dialogTextGray3, this.resourcesProvider));
     }
 
-    public void setUsedGiftLinkText() {
-        this.titleView.setText(LocaleController.formatString("BoostingUsedGiftLink", R.string.BoostingUsedGiftLink, new Object[0]));
-        this.subtitleView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BoostingLinkUsed", R.string.BoostingLinkUsed, new Object[0])));
-    }
-
     public void setGiftLinkText() {
         this.titleView.setText(LocaleController.formatString("BoostingGiftLink", R.string.BoostingGiftLink, new Object[0]));
         this.subtitleView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BoostingLinkAllows", R.string.BoostingLinkAllows, new Object[0])));
     }
 
-    public void setUnclaimedText() {
-        this.titleView.setText(LocaleController.formatString("BoostingGiftLink", R.string.BoostingGiftLink, new Object[0]));
-        this.subtitleView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BoostingLinkAllowsAnyone", R.string.BoostingLinkAllowsAnyone, new Object[0])));
-    }
-
-    public void setGiftLinkToUserText(long j, final Utilities.Callback<TLObject> callback) {
+    public void setGiftLinkToUserText(long j, final Utilities.Callback callback) {
         this.titleView.setText(LocaleController.formatString("BoostingGiftLink", R.string.BoostingGiftLink, new Object[0]));
         SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.getString(R.string.BoostingLinkAllowsToUser));
         final TLRPC$User user = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(j));
@@ -176,29 +184,18 @@ public class HeaderCell extends FrameLayout {
         }, this.resourcesProvider)));
     }
 
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(i, i2);
-        float top = this.iconTextureView.getTop() + (this.iconTextureView.getMeasuredHeight() / 2.0f);
-        StarParticlesView starParticlesView = this.starParticlesView;
-        starParticlesView.setTranslationY(top - (starParticlesView.getMeasuredHeight() / 2.0f));
-    }
-
     public void setPaused(boolean z) {
         this.iconTextureView.setPaused(z);
         this.starParticlesView.setPaused(z);
     }
 
-    @Override // android.view.View
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        if (this.links != null) {
-            canvas.save();
-            canvas.translate(this.subtitleView.getLeft(), this.subtitleView.getTop());
-            if (this.links.draw(canvas)) {
-                invalidate();
-            }
-            canvas.restore();
-        }
+    public void setUnclaimedText() {
+        this.titleView.setText(LocaleController.formatString("BoostingGiftLink", R.string.BoostingGiftLink, new Object[0]));
+        this.subtitleView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BoostingLinkAllowsAnyone", R.string.BoostingLinkAllowsAnyone, new Object[0])));
+    }
+
+    public void setUsedGiftLinkText() {
+        this.titleView.setText(LocaleController.formatString("BoostingUsedGiftLink", R.string.BoostingUsedGiftLink, new Object[0]));
+        this.subtitleView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BoostingLinkUsed", R.string.BoostingLinkUsed, new Object[0])));
     }
 }

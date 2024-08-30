@@ -7,7 +7,6 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class LocationSettingsRequest extends AbstractSafeParcelable {
     public static final Parcelable.Creator<LocationSettingsRequest> CREATOR = new zzz();
@@ -15,7 +14,6 @@ public final class LocationSettingsRequest extends AbstractSafeParcelable {
     private final boolean zzb;
     private final boolean zzc;
 
-    /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
     /* loaded from: classes.dex */
     public static final class Builder {
         private final ArrayList zza = new ArrayList();

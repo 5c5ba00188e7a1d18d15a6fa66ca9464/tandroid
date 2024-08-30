@@ -18,16 +18,15 @@ public class VideoCodecInfo {
     @Deprecated
     public final int payload;
 
-    @CalledByNative
-    public VideoCodecInfo(String str, Map<String, String> map) {
-        this.payload = 0;
+    @Deprecated
+    public VideoCodecInfo(int i, String str, Map<String, String> map) {
+        this.payload = i;
         this.name = str;
         this.params = map;
     }
 
-    @Deprecated
-    public VideoCodecInfo(int i, String str, Map<String, String> map) {
-        this.payload = i;
+    public VideoCodecInfo(String str, Map<String, String> map) {
+        this.payload = 0;
         this.name = str;
         this.params = map;
     }
@@ -46,18 +45,16 @@ public class VideoCodecInfo {
         return false;
     }
 
-    public int hashCode() {
-        return Arrays.hashCode(new Object[]{this.name.toUpperCase(Locale.ROOT), this.params});
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
-    @CalledByNative
     public String getName() {
         return this.name;
     }
 
-    @CalledByNative
     Map getParams() {
         return this.params;
+    }
+
+    public int hashCode() {
+        return Arrays.hashCode(new Object[]{this.name.toUpperCase(Locale.ROOT), this.params});
     }
 }

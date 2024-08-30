@@ -16,20 +16,6 @@ final class AutoValue_LibraryVersion extends LibraryVersion {
         this.version = str2;
     }
 
-    @Override // com.google.firebase.platforminfo.LibraryVersion
-    public String getLibraryName() {
-        return this.libraryName;
-    }
-
-    @Override // com.google.firebase.platforminfo.LibraryVersion
-    public String getVersion() {
-        return this.version;
-    }
-
-    public String toString() {
-        return "LibraryVersion{libraryName=" + this.libraryName + ", version=" + this.version + "}";
-    }
-
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -41,7 +27,21 @@ final class AutoValue_LibraryVersion extends LibraryVersion {
         return false;
     }
 
+    @Override // com.google.firebase.platforminfo.LibraryVersion
+    public String getLibraryName() {
+        return this.libraryName;
+    }
+
+    @Override // com.google.firebase.platforminfo.LibraryVersion
+    public String getVersion() {
+        return this.version;
+    }
+
     public int hashCode() {
         return ((this.libraryName.hashCode() ^ 1000003) * 1000003) ^ this.version.hashCode();
+    }
+
+    public String toString() {
+        return "LibraryVersion{libraryName=" + this.libraryName + ", version=" + this.version + "}";
     }
 }

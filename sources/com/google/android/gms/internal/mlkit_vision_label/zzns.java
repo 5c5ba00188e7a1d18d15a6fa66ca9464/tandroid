@@ -3,7 +3,6 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.firebase.encoders.json.JsonDataEncoderBuilder;
 import java.io.UnsupportedEncodingException;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zzns implements zznf {
     private final zzkg zza;

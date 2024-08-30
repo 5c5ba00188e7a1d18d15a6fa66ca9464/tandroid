@@ -1,10 +1,7 @@
 package org.telegram.ui.Stories;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import org.telegram.ui.Components.AvatarsImageView;
-/* compiled from: HwLayouts.java */
-@SuppressLint({"ViewConstructor"})
 /* loaded from: classes4.dex */
 class HwAvatarsImageView extends AvatarsImageView {
     public HwAvatarsImageView(Context context, boolean z) {

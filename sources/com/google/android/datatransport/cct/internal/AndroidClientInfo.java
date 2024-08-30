@@ -1,12 +1,9 @@
 package com.google.android.datatransport.cct.internal;
 
 import com.google.android.datatransport.cct.internal.AutoValue_AndroidClientInfo;
-import com.google.auto.value.AutoValue;
-@AutoValue
 /* loaded from: classes.dex */
 public abstract class AndroidClientInfo {
 
-    @AutoValue.Builder
     /* loaded from: classes.dex */
     public static abstract class Builder {
         public abstract AndroidClientInfo build();
@@ -36,6 +33,10 @@ public abstract class AndroidClientInfo {
         public abstract Builder setSdkVersion(Integer num);
     }
 
+    public static Builder builder() {
+        return new AutoValue_AndroidClientInfo.Builder();
+    }
+
     public abstract String getApplicationBuild();
 
     public abstract String getCountry();
@@ -59,8 +60,4 @@ public abstract class AndroidClientInfo {
     public abstract String getProduct();
 
     public abstract Integer getSdkVersion();
-
-    public static Builder builder() {
-        return new AutoValue_AndroidClientInfo.Builder();
-    }
 }

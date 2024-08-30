@@ -3,11 +3,10 @@ package com.google.android.gms.internal.icing;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
-public final class zzy implements Parcelable.Creator<zzx> {
+public final class zzy implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ zzx createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         zzi zziVar = null;
         String str = null;
@@ -58,7 +57,7 @@ public final class zzy implements Parcelable.Creator<zzx> {
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ zzx[] newArray(int i) {
+    public final /* bridge */ /* synthetic */ Object[] newArray(int i) {
         return new zzx[i];
     }
 }

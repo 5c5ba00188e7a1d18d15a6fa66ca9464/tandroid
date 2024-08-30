@@ -10,7 +10,6 @@ import com.google.android.datatransport.cct.CCTDestination;
 import com.google.android.datatransport.runtime.TransportRuntime;
 import com.google.firebase.components.Lazy;
 import com.google.firebase.inject.Provider;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public final class zztt implements zztb {
     private Provider zza;
@@ -50,21 +49,22 @@ public final class zztt implements zztb {
 
     static Event zzb(zztd zztdVar, zzta zztaVar) {
         int zza = zztdVar.zza();
-        if (zztaVar.zza() == 0) {
-            return Event.ofTelemetry(zztaVar.zze(zza, false));
-        }
-        return Event.ofData(zztaVar.zze(zza, false));
+        int zza2 = zztaVar.zza();
+        byte[] zze = zztaVar.zze(zza, false);
+        return zza2 != 0 ? Event.ofData(zze) : Event.ofTelemetry(zze);
     }
 
     @Override // com.google.android.gms.internal.mlkit_vision_subject_segmentation.zztb
     public final void zza(zzta zztaVar) {
-        if (this.zzc.zza() != 0) {
-            ((Transport) this.zzb.get()).send(zzb(this.zzc, zztaVar));
-            return;
+        Provider provider;
+        if (this.zzc.zza() == 0) {
+            provider = this.zza;
+            if (provider == null) {
+                return;
+            }
+        } else {
+            provider = this.zzb;
         }
-        Provider provider = this.zza;
-        if (provider != null) {
-            ((Transport) provider.get()).send(zzb(this.zzc, zztaVar));
-        }
+        ((Transport) provider.get()).send(zzb(this.zzc, zztaVar));
     }
 }

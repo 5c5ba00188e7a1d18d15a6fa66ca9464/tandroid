@@ -3,11 +3,7 @@ package com.google.common.base;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /* loaded from: classes.dex */
-public final class Strings {
-    public static String nullToEmpty(String str) {
-        return Platform.nullToEmpty(str);
-    }
-
+public abstract class Strings {
     public static String lenientFormat(String str, Object... objArr) {
         int indexOf;
         String valueOf = String.valueOf(str);

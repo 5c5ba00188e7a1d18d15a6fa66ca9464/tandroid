@@ -11,15 +11,15 @@ import java.util.Comparator;
 import java.util.List;
 /* loaded from: classes.dex */
 final class WebvttSubtitle implements Subtitle {
-    private final List<WebvttCueInfo> cueInfos;
+    private final List cueInfos;
     private final long[] cueTimesUs;
     private final long[] sortedCueTimesUs;
 
-    public WebvttSubtitle(List<WebvttCueInfo> list) {
+    public WebvttSubtitle(List list) {
         this.cueInfos = Collections.unmodifiableList(new ArrayList(list));
         this.cueTimesUs = new long[list.size() * 2];
         for (int i = 0; i < list.size(); i++) {
-            WebvttCueInfo webvttCueInfo = list.get(i);
+            WebvttCueInfo webvttCueInfo = (WebvttCueInfo) list.get(i);
             int i2 = i * 2;
             long[] jArr = this.cueTimesUs;
             jArr[i2] = webvttCueInfo.startTimeUs;
@@ -31,36 +31,20 @@ final class WebvttSubtitle implements Subtitle {
         Arrays.sort(copyOf);
     }
 
-    @Override // com.google.android.exoplayer2.text.Subtitle
-    public int getNextEventTimeIndex(long j) {
-        int binarySearchCeil = Util.binarySearchCeil(this.sortedCueTimesUs, j, false, false);
-        if (binarySearchCeil < this.sortedCueTimesUs.length) {
-            return binarySearchCeil;
-        }
-        return -1;
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ int lambda$getCues$0(WebvttCueInfo webvttCueInfo, WebvttCueInfo webvttCueInfo2) {
+        return Long.compare(webvttCueInfo.startTimeUs, webvttCueInfo2.startTimeUs);
     }
 
     @Override // com.google.android.exoplayer2.text.Subtitle
-    public int getEventTimeCount() {
-        return this.sortedCueTimesUs.length;
-    }
-
-    @Override // com.google.android.exoplayer2.text.Subtitle
-    public long getEventTime(int i) {
-        Assertions.checkArgument(i >= 0);
-        Assertions.checkArgument(i < this.sortedCueTimesUs.length);
-        return this.sortedCueTimesUs[i];
-    }
-
-    @Override // com.google.android.exoplayer2.text.Subtitle
-    public List<Cue> getCues(long j) {
+    public List getCues(long j) {
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
         for (int i = 0; i < this.cueInfos.size(); i++) {
             long[] jArr = this.cueTimesUs;
             int i2 = i * 2;
             if (jArr[i2] <= j && j < jArr[i2 + 1]) {
-                WebvttCueInfo webvttCueInfo = this.cueInfos.get(i);
+                WebvttCueInfo webvttCueInfo = (WebvttCueInfo) this.cueInfos.get(i);
                 Cue cue = webvttCueInfo.cue;
                 if (cue.line == -3.4028235E38f) {
                     arrayList2.add(webvttCueInfo);
@@ -83,8 +67,24 @@ final class WebvttSubtitle implements Subtitle {
         return arrayList;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$getCues$0(WebvttCueInfo webvttCueInfo, WebvttCueInfo webvttCueInfo2) {
-        return Long.compare(webvttCueInfo.startTimeUs, webvttCueInfo2.startTimeUs);
+    @Override // com.google.android.exoplayer2.text.Subtitle
+    public long getEventTime(int i) {
+        Assertions.checkArgument(i >= 0);
+        Assertions.checkArgument(i < this.sortedCueTimesUs.length);
+        return this.sortedCueTimesUs[i];
+    }
+
+    @Override // com.google.android.exoplayer2.text.Subtitle
+    public int getEventTimeCount() {
+        return this.sortedCueTimesUs.length;
+    }
+
+    @Override // com.google.android.exoplayer2.text.Subtitle
+    public int getNextEventTimeIndex(long j) {
+        int binarySearchCeil = Util.binarySearchCeil(this.sortedCueTimesUs, j, false, false);
+        if (binarySearchCeil < this.sortedCueTimesUs.length) {
+            return binarySearchCeil;
+        }
+        return -1;
     }
 }

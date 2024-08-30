@@ -6,7 +6,6 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class CircleOptions extends AbstractSafeParcelable {
     public static final Parcelable.Creator<CircleOptions> CREATOR = new zzc();
@@ -30,6 +29,19 @@ public final class CircleOptions extends AbstractSafeParcelable {
         this.zzg = true;
         this.zzh = false;
         this.zzi = null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public CircleOptions(LatLng latLng, double d, float f, int i, int i2, float f2, boolean z, boolean z2, List list) {
+        this.zza = latLng;
+        this.zzb = d;
+        this.zzc = f;
+        this.zzd = i;
+        this.zze = i2;
+        this.zzf = f2;
+        this.zzg = z;
+        this.zzh = z2;
+        this.zzi = list;
     }
 
     public CircleOptions center(LatLng latLng) {
@@ -59,7 +71,7 @@ public final class CircleOptions extends AbstractSafeParcelable {
         return this.zzd;
     }
 
-    public List<PatternItem> getStrokePattern() {
+    public List getStrokePattern() {
         return this.zzi;
     }
 
@@ -89,7 +101,7 @@ public final class CircleOptions extends AbstractSafeParcelable {
         return this;
     }
 
-    public CircleOptions strokePattern(List<PatternItem> list) {
+    public CircleOptions strokePattern(List list) {
         this.zzi = list;
         return this;
     }
@@ -112,18 +124,5 @@ public final class CircleOptions extends AbstractSafeParcelable {
         SafeParcelWriter.writeBoolean(parcel, 9, isClickable());
         SafeParcelWriter.writeTypedList(parcel, 10, getStrokePattern(), false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CircleOptions(LatLng latLng, double d, float f, int i, int i2, float f2, boolean z, boolean z2, List list) {
-        this.zza = latLng;
-        this.zzb = d;
-        this.zzc = f;
-        this.zzd = i;
-        this.zze = i2;
-        this.zzf = f2;
-        this.zzg = z;
-        this.zzh = z2;
-        this.zzi = list;
     }
 }

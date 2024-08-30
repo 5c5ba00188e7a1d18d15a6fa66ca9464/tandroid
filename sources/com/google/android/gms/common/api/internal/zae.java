@@ -1,10 +1,8 @@
 package com.google.android.gms.common.api.internal;
 
-import android.os.DeadObjectException;
 import android.util.Log;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.internal.Preconditions;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zae extends zai {
     protected final BaseImplementation$ApiMethodImpl zaa;
@@ -35,7 +33,7 @@ public final class zae extends zai {
     }
 
     @Override // com.google.android.gms.common.api.internal.zai
-    public final void zaf(zabq zabqVar) throws DeadObjectException {
+    public final void zaf(zabq zabqVar) {
         try {
             this.zaa.run(zabqVar.zaf());
         } catch (RuntimeException e) {

@@ -3,9 +3,8 @@ package com.coremedia.iso;
 import com.googlecode.mp4parser.BasicContainer;
 import com.googlecode.mp4parser.util.Logger;
 import java.io.Closeable;
-import java.io.IOException;
 /* loaded from: classes.dex */
-public class IsoFile extends BasicContainer implements Closeable {
+public abstract class IsoFile extends BasicContainer implements Closeable {
     private static Logger LOG = Logger.getLogger(IsoFile.class);
 
     public static byte[] fourCCtoBytes(String str) {
@@ -16,15 +15,5 @@ public class IsoFile extends BasicContainer implements Closeable {
             }
         }
         return bArr;
-    }
-
-    @Override // com.googlecode.mp4parser.BasicContainer, java.io.Closeable, java.lang.AutoCloseable
-    public void close() throws IOException {
-        throw null;
-    }
-
-    @Override // com.googlecode.mp4parser.BasicContainer
-    public String toString() {
-        throw null;
     }
 }

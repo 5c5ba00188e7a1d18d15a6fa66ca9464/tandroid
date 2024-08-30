@@ -1,7 +1,4 @@
 package com.google.android.gms.internal.firebase_messaging;
-
-import java.lang.annotation.Annotation;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 final class zzu implements zzz {
     private final int zza;
@@ -14,7 +11,7 @@ final class zzu implements zzz {
     }
 
     @Override // java.lang.annotation.Annotation
-    public final Class<? extends Annotation> annotationType() {
+    public final Class annotationType() {
         return zzz.class;
     }
 

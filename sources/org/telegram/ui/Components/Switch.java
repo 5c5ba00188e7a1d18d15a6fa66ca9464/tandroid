@@ -20,7 +20,6 @@ import android.os.Build;
 import android.util.StateSet;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
-import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
@@ -65,13 +64,6 @@ public class Switch extends View {
     public interface OnCheckedChangeListener {
     }
 
-    protected int processColor(int i) {
-        return i;
-    }
-
-    public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
-    }
-
     public Switch(Context context) {
         this(context, null);
     }
@@ -96,32 +88,30 @@ public class Switch extends View {
         setHapticFeedbackEnabled(true);
     }
 
-    @Keep
-    public void setProgress(float f) {
-        if (this.progress == f) {
-            return;
-        }
-        this.progress = f;
-        invalidate();
+    private void animateIcon(boolean z) {
+        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "iconProgress", z ? 1.0f : 0.0f);
+        this.iconAnimator = ofFloat;
+        ofFloat.setDuration(200L);
+        this.iconAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Switch.3
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                Switch.this.iconAnimator = null;
+            }
+        });
+        this.iconAnimator.start();
     }
 
-    @Keep
-    public float getProgress() {
-        return this.progress;
-    }
-
-    @Keep
-    public void setIconProgress(float f) {
-        if (this.iconProgress == f) {
-            return;
-        }
-        this.iconProgress = f;
-        invalidate();
-    }
-
-    @Keep
-    public float getIconProgress() {
-        return this.iconProgress;
+    private void animateToCheckedState(boolean z) {
+        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "progress", z ? 1.0f : 0.0f);
+        this.checkAnimator = ofFloat;
+        ofFloat.setDuration(200L);
+        this.checkAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Switch.2
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                Switch.this.checkAnimator = null;
+            }
+        });
+        this.checkAnimator.start();
     }
 
     private void cancelCheckAnimator() {
@@ -140,95 +130,20 @@ public class Switch extends View {
         }
     }
 
-    public void setDrawIconType(int i) {
-        this.drawIconType = i;
+    public float getIconProgress() {
+        return this.iconProgress;
     }
 
-    public void setDrawRipple(boolean z) {
-        int i = Build.VERSION.SDK_INT;
-        if (i < 21 || z == this.drawRipple) {
-            return;
-        }
-        this.drawRipple = z;
-        if (this.rippleDrawable == null) {
-            Paint paint = new Paint(1);
-            this.ripplePaint = paint;
-            paint.setColor(-1);
-            BaseCell.RippleDrawableSafe rippleDrawableSafe = new BaseCell.RippleDrawableSafe(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{0}), null, i >= 23 ? null : new Drawable() { // from class: org.telegram.ui.Components.Switch.1
-                @Override // android.graphics.drawable.Drawable
-                public int getOpacity() {
-                    return 0;
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public void setAlpha(int i2) {
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public void setColorFilter(ColorFilter colorFilter) {
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public void draw(Canvas canvas) {
-                    android.graphics.Rect bounds = getBounds();
-                    canvas.drawCircle(bounds.centerX(), bounds.centerY(), AndroidUtilities.dp(18.0f), Switch.this.ripplePaint);
-                }
-            });
-            this.rippleDrawable = rippleDrawableSafe;
-            if (i >= 23) {
-                rippleDrawableSafe.setRadius(AndroidUtilities.dp(18.0f));
-            }
-            this.rippleDrawable.setCallback(this);
-        }
-        boolean z2 = this.isChecked;
-        if ((z2 && this.colorSet != 2) || (!z2 && this.colorSet != 1)) {
-            this.rippleDrawable.setColor(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{processColor(Theme.getColor(z2 ? Theme.key_switchTrackBlueSelectorChecked : Theme.key_switchTrackBlueSelector, this.resourcesProvider))}));
-            this.colorSet = this.isChecked ? 2 : 1;
-        }
-        if (i >= 28 && z) {
-            this.rippleDrawable.setHotspot(this.isChecked ? 0.0f : AndroidUtilities.dp(100.0f), AndroidUtilities.dp(18.0f));
-        }
-        this.rippleDrawable.setState(z ? this.pressedState : StateSet.NOTHING);
-        invalidate();
+    public float getProgress() {
+        return this.progress;
     }
 
-    @Override // android.view.View
-    protected boolean verifyDrawable(Drawable drawable) {
-        RippleDrawable rippleDrawable;
-        return super.verifyDrawable(drawable) || ((rippleDrawable = this.rippleDrawable) != null && drawable == rippleDrawable);
+    public boolean hasIcon() {
+        return this.iconDrawable != null;
     }
 
-    public void setColors(int i, int i2, int i3, int i4) {
-        this.trackColorKey = i;
-        this.trackCheckedColorKey = i2;
-        this.thumbColorKey = i3;
-        this.thumbCheckedColorKey = i4;
-    }
-
-    private void animateToCheckedState(boolean z) {
-        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "progress", z ? 1.0f : 0.0f);
-        this.checkAnimator = ofFloat;
-        ofFloat.setDuration(200L);
-        this.checkAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Switch.2
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                Switch.this.checkAnimator = null;
-            }
-        });
-        this.checkAnimator.start();
-    }
-
-    private void animateIcon(boolean z) {
-        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "iconProgress", z ? 1.0f : 0.0f);
-        this.iconAnimator = ofFloat;
-        ofFloat.setDuration(200L);
-        this.iconAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Switch.3
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                Switch.this.iconAnimator = null;
-            }
-        });
-        this.iconAnimator.start();
+    public boolean isChecked() {
+        return this.isChecked;
     }
 
     @Override // android.view.View
@@ -241,99 +156,6 @@ public class Switch extends View {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.attachedToWindow = false;
-    }
-
-    public void setChecked(boolean z, boolean z2) {
-        setChecked(z, this.drawIconType, z2);
-    }
-
-    public void setChecked(boolean z, int i, boolean z2) {
-        if (z != this.isChecked) {
-            this.isChecked = z;
-            if (this.attachedToWindow && z2) {
-                animateToCheckedState(z);
-            } else {
-                cancelCheckAnimator();
-                setProgress(z ? 1.0f : 0.0f);
-            }
-        }
-        setDrawIconType(i, z2);
-    }
-
-    public void setIcon(int i) {
-        if (i != 0) {
-            Drawable mutate = getResources().getDrawable(i).mutate();
-            this.iconDrawable = mutate;
-            if (mutate != null) {
-                int color = Theme.getColor(this.isChecked ? this.trackCheckedColorKey : this.trackColorKey, this.resourcesProvider);
-                this.lastIconColor = color;
-                mutate.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
-            }
-        } else {
-            this.iconDrawable = null;
-        }
-        invalidate();
-    }
-
-    public void setDrawIconType(int i, boolean z) {
-        if (this.drawIconType != i) {
-            this.drawIconType = i;
-            if (this.attachedToWindow && z) {
-                animateIcon(i == 0);
-                return;
-            }
-            cancelIconAnimator();
-            setIconProgress(i == 0 ? 1.0f : 0.0f);
-        }
-    }
-
-    public boolean hasIcon() {
-        return this.iconDrawable != null;
-    }
-
-    public boolean isChecked() {
-        return this.isChecked;
-    }
-
-    public void setOverrideColor(int i) {
-        if (this.overrideColorProgress == i) {
-            return;
-        }
-        if (this.overlayBitmap == null) {
-            try {
-                this.overlayBitmap = new Bitmap[2];
-                this.overlayCanvas = new Canvas[2];
-                for (int i2 = 0; i2 < 2; i2++) {
-                    this.overlayBitmap[i2] = Bitmap.createBitmap(getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-                    this.overlayCanvas[i2] = new Canvas(this.overlayBitmap[i2]);
-                }
-                this.overlayMaskBitmap = Bitmap.createBitmap(getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-                this.overlayMaskCanvas = new Canvas(this.overlayMaskBitmap);
-                Paint paint = new Paint(1);
-                this.overlayEraserPaint = paint;
-                paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-                Paint paint2 = new Paint(1);
-                this.overlayMaskPaint = paint2;
-                paint2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-                this.bitmapsCreated = true;
-            } catch (Throwable unused) {
-                return;
-            }
-        }
-        if (this.bitmapsCreated) {
-            this.overrideColorProgress = i;
-            this.overlayCx = 0.0f;
-            this.overlayCy = 0.0f;
-            this.overlayRad = 0.0f;
-            invalidate();
-        }
-    }
-
-    public void setOverrideColorProgress(float f, float f2, float f3) {
-        this.overlayCx = f;
-        this.overlayCy = f2;
-        this.overlayRad = f3;
-        invalidate();
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:19:0x00a8, code lost:
@@ -532,5 +354,178 @@ public class Switch extends View {
         accessibilityNodeInfo.setClassName("android.widget.Switch");
         accessibilityNodeInfo.setCheckable(true);
         accessibilityNodeInfo.setChecked(this.isChecked);
+    }
+
+    protected int processColor(int i) {
+        return i;
+    }
+
+    public void setChecked(boolean z, int i, boolean z2) {
+        if (z != this.isChecked) {
+            this.isChecked = z;
+            if (this.attachedToWindow && z2) {
+                animateToCheckedState(z);
+            } else {
+                cancelCheckAnimator();
+                setProgress(z ? 1.0f : 0.0f);
+            }
+        }
+        setDrawIconType(i, z2);
+    }
+
+    public void setChecked(boolean z, boolean z2) {
+        setChecked(z, this.drawIconType, z2);
+    }
+
+    public void setColors(int i, int i2, int i3, int i4) {
+        this.trackColorKey = i;
+        this.trackCheckedColorKey = i2;
+        this.thumbColorKey = i3;
+        this.thumbCheckedColorKey = i4;
+    }
+
+    public void setDrawIconType(int i) {
+        this.drawIconType = i;
+    }
+
+    public void setDrawIconType(int i, boolean z) {
+        if (this.drawIconType != i) {
+            this.drawIconType = i;
+            if (this.attachedToWindow && z) {
+                animateIcon(i == 0);
+                return;
+            }
+            cancelIconAnimator();
+            setIconProgress(i == 0 ? 1.0f : 0.0f);
+        }
+    }
+
+    public void setDrawRipple(boolean z) {
+        int i = Build.VERSION.SDK_INT;
+        if (i < 21 || z == this.drawRipple) {
+            return;
+        }
+        this.drawRipple = z;
+        if (this.rippleDrawable == null) {
+            Paint paint = new Paint(1);
+            this.ripplePaint = paint;
+            paint.setColor(-1);
+            BaseCell.RippleDrawableSafe rippleDrawableSafe = new BaseCell.RippleDrawableSafe(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{0}), null, i >= 23 ? null : new Drawable() { // from class: org.telegram.ui.Components.Switch.1
+                @Override // android.graphics.drawable.Drawable
+                public void draw(Canvas canvas) {
+                    android.graphics.Rect bounds = getBounds();
+                    canvas.drawCircle(bounds.centerX(), bounds.centerY(), AndroidUtilities.dp(18.0f), Switch.this.ripplePaint);
+                }
+
+                @Override // android.graphics.drawable.Drawable
+                public int getOpacity() {
+                    return 0;
+                }
+
+                @Override // android.graphics.drawable.Drawable
+                public void setAlpha(int i2) {
+                }
+
+                @Override // android.graphics.drawable.Drawable
+                public void setColorFilter(ColorFilter colorFilter) {
+                }
+            });
+            this.rippleDrawable = rippleDrawableSafe;
+            if (i >= 23) {
+                rippleDrawableSafe.setRadius(AndroidUtilities.dp(18.0f));
+            }
+            this.rippleDrawable.setCallback(this);
+        }
+        boolean z2 = this.isChecked;
+        if ((z2 && this.colorSet != 2) || (!z2 && this.colorSet != 1)) {
+            this.rippleDrawable.setColor(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{processColor(Theme.getColor(z2 ? Theme.key_switchTrackBlueSelectorChecked : Theme.key_switchTrackBlueSelector, this.resourcesProvider))}));
+            this.colorSet = this.isChecked ? 2 : 1;
+        }
+        if (i >= 28 && z) {
+            this.rippleDrawable.setHotspot(this.isChecked ? 0.0f : AndroidUtilities.dp(100.0f), AndroidUtilities.dp(18.0f));
+        }
+        this.rippleDrawable.setState(z ? this.pressedState : StateSet.NOTHING);
+        invalidate();
+    }
+
+    public void setIcon(int i) {
+        if (i != 0) {
+            Drawable mutate = getResources().getDrawable(i).mutate();
+            this.iconDrawable = mutate;
+            if (mutate != null) {
+                int color = Theme.getColor(this.isChecked ? this.trackCheckedColorKey : this.trackColorKey, this.resourcesProvider);
+                this.lastIconColor = color;
+                mutate.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
+            }
+        } else {
+            this.iconDrawable = null;
+        }
+        invalidate();
+    }
+
+    public void setIconProgress(float f) {
+        if (this.iconProgress == f) {
+            return;
+        }
+        this.iconProgress = f;
+        invalidate();
+    }
+
+    public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
+    }
+
+    public void setOverrideColor(int i) {
+        if (this.overrideColorProgress == i) {
+            return;
+        }
+        if (this.overlayBitmap == null) {
+            try {
+                this.overlayBitmap = new Bitmap[2];
+                this.overlayCanvas = new Canvas[2];
+                for (int i2 = 0; i2 < 2; i2++) {
+                    this.overlayBitmap[i2] = Bitmap.createBitmap(getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                    this.overlayCanvas[i2] = new Canvas(this.overlayBitmap[i2]);
+                }
+                this.overlayMaskBitmap = Bitmap.createBitmap(getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                this.overlayMaskCanvas = new Canvas(this.overlayMaskBitmap);
+                Paint paint = new Paint(1);
+                this.overlayEraserPaint = paint;
+                paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+                Paint paint2 = new Paint(1);
+                this.overlayMaskPaint = paint2;
+                paint2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+                this.bitmapsCreated = true;
+            } catch (Throwable unused) {
+                return;
+            }
+        }
+        if (this.bitmapsCreated) {
+            this.overrideColorProgress = i;
+            this.overlayCx = 0.0f;
+            this.overlayCy = 0.0f;
+            this.overlayRad = 0.0f;
+            invalidate();
+        }
+    }
+
+    public void setOverrideColorProgress(float f, float f2, float f3) {
+        this.overlayCx = f;
+        this.overlayCy = f2;
+        this.overlayRad = f3;
+        invalidate();
+    }
+
+    public void setProgress(float f) {
+        if (this.progress == f) {
+            return;
+        }
+        this.progress = f;
+        invalidate();
+    }
+
+    @Override // android.view.View
+    protected boolean verifyDrawable(Drawable drawable) {
+        RippleDrawable rippleDrawable;
+        return super.verifyDrawable(drawable) || ((rippleDrawable = this.rippleDrawable) != null && drawable == rippleDrawable);
     }
 }

@@ -29,17 +29,6 @@ public class PersistedInstallation {
         this.firebaseApp = firebaseApp;
     }
 
-    public PersistedInstallationEntry readPersistedInstallationEntryValue() {
-        JSONObject readJSONFromFile = readJSONFromFile();
-        String optString = readJSONFromFile.optString("Fid", null);
-        int optInt = readJSONFromFile.optInt("Status", RegistrationStatus.ATTEMPT_MIGRATION.ordinal());
-        String optString2 = readJSONFromFile.optString("AuthToken", null);
-        String optString3 = readJSONFromFile.optString("RefreshToken", null);
-        long optLong = readJSONFromFile.optLong("TokenCreationEpochInSecs", 0L);
-        long optLong2 = readJSONFromFile.optLong("ExpiresInSecs", 0L);
-        return PersistedInstallationEntry.builder().setFirebaseInstallationId(optString).setRegistrationStatus(RegistrationStatus.values()[optInt]).setAuthToken(optString2).setRefreshToken(optString3).setTokenCreationEpochInSecs(optLong).setExpiresInSecs(optLong2).setFisError(readJSONFromFile.optString("FisError", null)).build();
-    }
-
     private JSONObject readJSONFromFile() {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         byte[] bArr = new byte[LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM];
@@ -47,13 +36,12 @@ public class PersistedInstallation {
             FileInputStream fileInputStream = new FileInputStream(this.dataFile);
             while (true) {
                 int read = fileInputStream.read(bArr, 0, LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
-                if (read >= 0) {
-                    byteArrayOutputStream.write(bArr, 0, read);
-                } else {
+                if (read < 0) {
                     JSONObject jSONObject = new JSONObject(byteArrayOutputStream.toString());
                     fileInputStream.close();
                     return jSONObject;
                 }
+                byteArrayOutputStream.write(bArr, 0, read);
             }
         } catch (IOException | JSONException unused) {
             return new JSONObject();
@@ -81,5 +69,16 @@ public class PersistedInstallation {
             return persistedInstallationEntry;
         }
         throw new IOException("unable to rename the tmpfile to PersistedInstallation");
+    }
+
+    public PersistedInstallationEntry readPersistedInstallationEntryValue() {
+        JSONObject readJSONFromFile = readJSONFromFile();
+        String optString = readJSONFromFile.optString("Fid", null);
+        int optInt = readJSONFromFile.optInt("Status", RegistrationStatus.ATTEMPT_MIGRATION.ordinal());
+        String optString2 = readJSONFromFile.optString("AuthToken", null);
+        String optString3 = readJSONFromFile.optString("RefreshToken", null);
+        long optLong = readJSONFromFile.optLong("TokenCreationEpochInSecs", 0L);
+        long optLong2 = readJSONFromFile.optLong("ExpiresInSecs", 0L);
+        return PersistedInstallationEntry.builder().setFirebaseInstallationId(optString).setRegistrationStatus(RegistrationStatus.values()[optInt]).setAuthToken(optString2).setRefreshToken(optString3).setTokenCreationEpochInSecs(optLong).setExpiresInSecs(optLong2).setFisError(readJSONFromFile.optString("FisError", null)).build();
     }
 }

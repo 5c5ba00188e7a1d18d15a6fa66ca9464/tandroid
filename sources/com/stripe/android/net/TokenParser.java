@@ -4,11 +4,10 @@ import com.stripe.android.model.Token;
 import com.stripe.android.util.StripeJsonUtils;
 import com.stripe.android.util.StripeTextUtils;
 import java.util.Date;
-import org.json.JSONException;
 import org.json.JSONObject;
 /* loaded from: classes.dex */
-public class TokenParser {
-    public static Token parseToken(String str) throws JSONException {
+public abstract class TokenParser {
+    public static Token parseToken(String str) {
         JSONObject jSONObject = new JSONObject(str);
         String string = StripeJsonUtils.getString(jSONObject, "id");
         long j = jSONObject.getLong("created");

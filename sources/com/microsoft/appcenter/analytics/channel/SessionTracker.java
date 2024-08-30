@@ -24,22 +24,14 @@ public class SessionTracker extends AbstractChannelListener {
         this.mGroupName = str;
     }
 
-    @Override // com.microsoft.appcenter.channel.AbstractChannelListener, com.microsoft.appcenter.channel.Channel.Listener
-    public void onPreparingLog(Log log, String str) {
-        if ((log instanceof StartSessionLog) || (log instanceof StartServiceLog)) {
-            return;
+    private boolean hasSessionTimedOut() {
+        if (this.mLastPausedTime == null) {
+            return false;
         }
-        Date timestamp = log.getTimestamp();
-        if (timestamp != null) {
-            SessionContext.SessionInfo sessionAt = SessionContext.getInstance().getSessionAt(timestamp.getTime());
-            if (sessionAt != null) {
-                log.setSid(sessionAt.getSessionId());
-                return;
-            }
-            return;
-        }
-        log.setSid(this.mSid);
-        this.mLastQueuedLogTime = SystemClock.elapsedRealtime();
+        boolean z = SystemClock.elapsedRealtime() - this.mLastQueuedLogTime >= 20000;
+        boolean z2 = this.mLastResumedTime.longValue() - Math.max(this.mLastPausedTime.longValue(), this.mLastQueuedLogTime) >= 20000;
+        AppCenterLog.debug("AppCenterAnalytics", "noLogSentForLong=" + z + " wasBackgroundForLong=" + z2);
+        return z && z2;
     }
 
     private void sendStartSessionIfNeeded() {
@@ -53,10 +45,8 @@ public class SessionTracker extends AbstractChannelListener {
         }
     }
 
-    public void onActivityResumed() {
-        AppCenterLog.debug("AppCenterAnalytics", "onActivityResumed");
-        this.mLastResumedTime = Long.valueOf(SystemClock.elapsedRealtime());
-        sendStartSessionIfNeeded();
+    public void clearSessions() {
+        SessionContext.getInstance().clearSessions();
     }
 
     public void onActivityPaused() {
@@ -64,17 +54,26 @@ public class SessionTracker extends AbstractChannelListener {
         this.mLastPausedTime = Long.valueOf(SystemClock.elapsedRealtime());
     }
 
-    public void clearSessions() {
-        SessionContext.getInstance().clearSessions();
+    public void onActivityResumed() {
+        AppCenterLog.debug("AppCenterAnalytics", "onActivityResumed");
+        this.mLastResumedTime = Long.valueOf(SystemClock.elapsedRealtime());
+        sendStartSessionIfNeeded();
     }
 
-    private boolean hasSessionTimedOut() {
-        if (this.mLastPausedTime == null) {
-            return false;
+    @Override // com.microsoft.appcenter.channel.AbstractChannelListener, com.microsoft.appcenter.channel.Channel.Listener
+    public void onPreparingLog(Log log, String str) {
+        if ((log instanceof StartSessionLog) || (log instanceof StartServiceLog)) {
+            return;
         }
-        boolean z = SystemClock.elapsedRealtime() - this.mLastQueuedLogTime >= 20000;
-        boolean z2 = this.mLastResumedTime.longValue() - Math.max(this.mLastPausedTime.longValue(), this.mLastQueuedLogTime) >= 20000;
-        AppCenterLog.debug("AppCenterAnalytics", "noLogSentForLong=" + z + " wasBackgroundForLong=" + z2);
-        return z && z2;
+        Date timestamp = log.getTimestamp();
+        if (timestamp == null) {
+            log.setSid(this.mSid);
+            this.mLastQueuedLogTime = SystemClock.elapsedRealtime();
+            return;
+        }
+        SessionContext.SessionInfo sessionAt = SessionContext.getInstance().getSessionAt(timestamp.getTime());
+        if (sessionAt != null) {
+            log.setSid(sessionAt.getSessionId());
+        }
     }
 }

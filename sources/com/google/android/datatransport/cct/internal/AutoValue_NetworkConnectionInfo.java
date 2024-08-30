@@ -6,23 +6,32 @@ final class AutoValue_NetworkConnectionInfo extends NetworkConnectionInfo {
     private final NetworkConnectionInfo.MobileSubtype mobileSubtype;
     private final NetworkConnectionInfo.NetworkType networkType;
 
+    /* loaded from: classes.dex */
+    static final class Builder extends NetworkConnectionInfo.Builder {
+        private NetworkConnectionInfo.MobileSubtype mobileSubtype;
+        private NetworkConnectionInfo.NetworkType networkType;
+
+        @Override // com.google.android.datatransport.cct.internal.NetworkConnectionInfo.Builder
+        public NetworkConnectionInfo build() {
+            return new AutoValue_NetworkConnectionInfo(this.networkType, this.mobileSubtype);
+        }
+
+        @Override // com.google.android.datatransport.cct.internal.NetworkConnectionInfo.Builder
+        public NetworkConnectionInfo.Builder setMobileSubtype(NetworkConnectionInfo.MobileSubtype mobileSubtype) {
+            this.mobileSubtype = mobileSubtype;
+            return this;
+        }
+
+        @Override // com.google.android.datatransport.cct.internal.NetworkConnectionInfo.Builder
+        public NetworkConnectionInfo.Builder setNetworkType(NetworkConnectionInfo.NetworkType networkType) {
+            this.networkType = networkType;
+            return this;
+        }
+    }
+
     private AutoValue_NetworkConnectionInfo(NetworkConnectionInfo.NetworkType networkType, NetworkConnectionInfo.MobileSubtype mobileSubtype) {
         this.networkType = networkType;
         this.mobileSubtype = mobileSubtype;
-    }
-
-    @Override // com.google.android.datatransport.cct.internal.NetworkConnectionInfo
-    public NetworkConnectionInfo.NetworkType getNetworkType() {
-        return this.networkType;
-    }
-
-    @Override // com.google.android.datatransport.cct.internal.NetworkConnectionInfo
-    public NetworkConnectionInfo.MobileSubtype getMobileSubtype() {
-        return this.mobileSubtype;
-    }
-
-    public String toString() {
-        return "NetworkConnectionInfo{networkType=" + this.networkType + ", mobileSubtype=" + this.mobileSubtype + "}";
     }
 
     public boolean equals(Object obj) {
@@ -34,17 +43,28 @@ final class AutoValue_NetworkConnectionInfo extends NetworkConnectionInfo {
             NetworkConnectionInfo.NetworkType networkType = this.networkType;
             if (networkType != null ? networkType.equals(networkConnectionInfo.getNetworkType()) : networkConnectionInfo.getNetworkType() == null) {
                 NetworkConnectionInfo.MobileSubtype mobileSubtype = this.mobileSubtype;
+                NetworkConnectionInfo.MobileSubtype mobileSubtype2 = networkConnectionInfo.getMobileSubtype();
                 if (mobileSubtype == null) {
-                    if (networkConnectionInfo.getMobileSubtype() == null) {
+                    if (mobileSubtype2 == null) {
                         return true;
                     }
-                } else if (mobileSubtype.equals(networkConnectionInfo.getMobileSubtype())) {
+                } else if (mobileSubtype.equals(mobileSubtype2)) {
                     return true;
                 }
             }
             return false;
         }
         return false;
+    }
+
+    @Override // com.google.android.datatransport.cct.internal.NetworkConnectionInfo
+    public NetworkConnectionInfo.MobileSubtype getMobileSubtype() {
+        return this.mobileSubtype;
+    }
+
+    @Override // com.google.android.datatransport.cct.internal.NetworkConnectionInfo
+    public NetworkConnectionInfo.NetworkType getNetworkType() {
+        return this.networkType;
     }
 
     public int hashCode() {
@@ -54,26 +74,7 @@ final class AutoValue_NetworkConnectionInfo extends NetworkConnectionInfo {
         return hashCode ^ (mobileSubtype != null ? mobileSubtype.hashCode() : 0);
     }
 
-    /* loaded from: classes.dex */
-    static final class Builder extends NetworkConnectionInfo.Builder {
-        private NetworkConnectionInfo.MobileSubtype mobileSubtype;
-        private NetworkConnectionInfo.NetworkType networkType;
-
-        @Override // com.google.android.datatransport.cct.internal.NetworkConnectionInfo.Builder
-        public NetworkConnectionInfo.Builder setNetworkType(NetworkConnectionInfo.NetworkType networkType) {
-            this.networkType = networkType;
-            return this;
-        }
-
-        @Override // com.google.android.datatransport.cct.internal.NetworkConnectionInfo.Builder
-        public NetworkConnectionInfo.Builder setMobileSubtype(NetworkConnectionInfo.MobileSubtype mobileSubtype) {
-            this.mobileSubtype = mobileSubtype;
-            return this;
-        }
-
-        @Override // com.google.android.datatransport.cct.internal.NetworkConnectionInfo.Builder
-        public NetworkConnectionInfo build() {
-            return new AutoValue_NetworkConnectionInfo(this.networkType, this.mobileSubtype);
-        }
+    public String toString() {
+        return "NetworkConnectionInfo{networkType=" + this.networkType + ", mobileSubtype=" + this.mobileSubtype + "}";
     }
 }

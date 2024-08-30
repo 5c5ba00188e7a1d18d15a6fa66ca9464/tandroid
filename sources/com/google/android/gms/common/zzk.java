@@ -1,7 +1,6 @@
 package com.google.android.gms.common;
 
 import java.util.Arrays;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 final class zzk extends zzj {
     private final byte[] zza;

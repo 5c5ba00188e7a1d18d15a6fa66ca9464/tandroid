@@ -6,7 +6,6 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.Util;
-import java.io.IOException;
 /* loaded from: classes.dex */
 final class TsDurationReader {
     private boolean isDurationRead;
@@ -24,44 +23,6 @@ final class TsDurationReader {
         this.timestampSearchBytes = i;
     }
 
-    public boolean isDurationReadFinished() {
-        return this.isDurationRead;
-    }
-
-    public int readDuration(ExtractorInput extractorInput, PositionHolder positionHolder, int i) throws IOException {
-        if (i <= 0) {
-            return finishReadDuration(extractorInput);
-        }
-        if (!this.isLastPcrValueRead) {
-            return readLastPcrValue(extractorInput, positionHolder, i);
-        }
-        if (this.lastPcrValue == -9223372036854775807L) {
-            return finishReadDuration(extractorInput);
-        }
-        if (!this.isFirstPcrValueRead) {
-            return readFirstPcrValue(extractorInput, positionHolder, i);
-        }
-        long j = this.firstPcrValue;
-        if (j == -9223372036854775807L) {
-            return finishReadDuration(extractorInput);
-        }
-        long adjustTsTimestamp = this.pcrTimestampAdjuster.adjustTsTimestamp(this.lastPcrValue) - this.pcrTimestampAdjuster.adjustTsTimestamp(j);
-        this.durationUs = adjustTsTimestamp;
-        if (adjustTsTimestamp < 0) {
-            Log.w("TsDurationReader", "Invalid duration: " + this.durationUs + ". Using TIME_UNSET instead.");
-            this.durationUs = -9223372036854775807L;
-        }
-        return finishReadDuration(extractorInput);
-    }
-
-    public long getDurationUs() {
-        return this.durationUs;
-    }
-
-    public TimestampAdjuster getPcrTimestampAdjuster() {
-        return this.pcrTimestampAdjuster;
-    }
-
     private int finishReadDuration(ExtractorInput extractorInput) {
         this.packetBuffer.reset(Util.EMPTY_BYTE_ARRAY);
         this.isDurationRead = true;
@@ -69,7 +30,7 @@ final class TsDurationReader {
         return 0;
     }
 
-    private int readFirstPcrValue(ExtractorInput extractorInput, PositionHolder positionHolder, int i) throws IOException {
+    private int readFirstPcrValue(ExtractorInput extractorInput, PositionHolder positionHolder, int i) {
         int min = (int) Math.min(this.timestampSearchBytes, extractorInput.getLength());
         long j = 0;
         if (extractorInput.getPosition() != j) {
@@ -97,7 +58,7 @@ final class TsDurationReader {
         return -9223372036854775807L;
     }
 
-    private int readLastPcrValue(ExtractorInput extractorInput, PositionHolder positionHolder, int i) throws IOException {
+    private int readLastPcrValue(ExtractorInput extractorInput, PositionHolder positionHolder, int i) {
         long length = extractorInput.getLength();
         int min = (int) Math.min(this.timestampSearchBytes, length);
         long j = length - min;
@@ -125,5 +86,43 @@ final class TsDurationReader {
             }
         }
         return -9223372036854775807L;
+    }
+
+    public long getDurationUs() {
+        return this.durationUs;
+    }
+
+    public TimestampAdjuster getPcrTimestampAdjuster() {
+        return this.pcrTimestampAdjuster;
+    }
+
+    public boolean isDurationReadFinished() {
+        return this.isDurationRead;
+    }
+
+    public int readDuration(ExtractorInput extractorInput, PositionHolder positionHolder, int i) {
+        if (i <= 0) {
+            return finishReadDuration(extractorInput);
+        }
+        if (this.isLastPcrValueRead) {
+            if (this.lastPcrValue == -9223372036854775807L) {
+                return finishReadDuration(extractorInput);
+            }
+            if (this.isFirstPcrValueRead) {
+                long j = this.firstPcrValue;
+                if (j == -9223372036854775807L) {
+                    return finishReadDuration(extractorInput);
+                }
+                long adjustTsTimestamp = this.pcrTimestampAdjuster.adjustTsTimestamp(this.lastPcrValue) - this.pcrTimestampAdjuster.adjustTsTimestamp(j);
+                this.durationUs = adjustTsTimestamp;
+                if (adjustTsTimestamp < 0) {
+                    Log.w("TsDurationReader", "Invalid duration: " + this.durationUs + ". Using TIME_UNSET instead.");
+                    this.durationUs = -9223372036854775807L;
+                }
+                return finishReadDuration(extractorInput);
+            }
+            return readFirstPcrValue(extractorInput, positionHolder, i);
+        }
+        return readLastPcrValue(extractorInput, positionHolder, i);
     }
 }

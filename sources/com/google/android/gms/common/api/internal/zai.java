@@ -1,9 +1,7 @@
 package com.google.android.gms.common.api.internal;
 
-import android.os.DeadObjectException;
 import android.os.RemoteException;
 import com.google.android.gms.common.api.Status;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class zai {
     public final int zac;
@@ -21,7 +19,7 @@ public abstract class zai {
 
     public abstract void zae(Exception exc);
 
-    public abstract void zaf(zabq zabqVar) throws DeadObjectException;
+    public abstract void zaf(zabq zabqVar);
 
     public abstract void zag(zaad zaadVar, boolean z);
 }

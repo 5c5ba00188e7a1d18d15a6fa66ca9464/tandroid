@@ -4,11 +4,10 @@ import android.accounts.Account;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
-public final class zzh implements Parcelable.Creator<zzg> {
+public final class zzh implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ zzg createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         zzk[] zzkVarArr = null;
         String str = null;
@@ -23,10 +22,10 @@ public final class zzh implements Parcelable.Creator<zzg> {
                 str = SafeParcelReader.createString(parcel, readHeader);
             } else if (fieldId == 3) {
                 z = SafeParcelReader.readBoolean(parcel, readHeader);
-            } else if (fieldId == 4) {
-                account = (Account) SafeParcelReader.createParcelable(parcel, readHeader, Account.CREATOR);
-            } else {
+            } else if (fieldId != 4) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                account = (Account) SafeParcelReader.createParcelable(parcel, readHeader, Account.CREATOR);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
@@ -34,7 +33,7 @@ public final class zzh implements Parcelable.Creator<zzg> {
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ zzg[] newArray(int i) {
+    public final /* bridge */ /* synthetic */ Object[] newArray(int i) {
         return new zzg[i];
     }
 }

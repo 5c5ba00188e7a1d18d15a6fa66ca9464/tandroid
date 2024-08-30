@@ -2,12 +2,9 @@ package com.google.android.datatransport.cct.internal;
 
 import android.util.SparseArray;
 import com.google.android.datatransport.cct.internal.AutoValue_NetworkConnectionInfo;
-import com.google.auto.value.AutoValue;
-@AutoValue
 /* loaded from: classes.dex */
 public abstract class NetworkConnectionInfo {
 
-    @AutoValue.Builder
     /* loaded from: classes.dex */
     public static abstract class Builder {
         public abstract NetworkConnectionInfo build();
@@ -15,91 +12,6 @@ public abstract class NetworkConnectionInfo {
         public abstract Builder setMobileSubtype(MobileSubtype mobileSubtype);
 
         public abstract Builder setNetworkType(NetworkType networkType);
-    }
-
-    public abstract MobileSubtype getMobileSubtype();
-
-    public abstract NetworkType getNetworkType();
-
-    /* loaded from: classes.dex */
-    public enum NetworkType {
-        MOBILE(0),
-        WIFI(1),
-        MOBILE_MMS(2),
-        MOBILE_SUPL(3),
-        MOBILE_DUN(4),
-        MOBILE_HIPRI(5),
-        WIMAX(6),
-        BLUETOOTH(7),
-        DUMMY(8),
-        ETHERNET(9),
-        MOBILE_FOTA(10),
-        MOBILE_IMS(11),
-        MOBILE_CBS(12),
-        WIFI_P2P(13),
-        MOBILE_IA(14),
-        MOBILE_EMERGENCY(15),
-        PROXY(16),
-        VPN(17),
-        NONE(-1);
-        
-        private static final SparseArray<NetworkType> valueMap;
-        private final int value;
-
-        static {
-            NetworkType networkType = MOBILE;
-            NetworkType networkType2 = WIFI;
-            NetworkType networkType3 = MOBILE_MMS;
-            NetworkType networkType4 = MOBILE_SUPL;
-            NetworkType networkType5 = MOBILE_DUN;
-            NetworkType networkType6 = MOBILE_HIPRI;
-            NetworkType networkType7 = WIMAX;
-            NetworkType networkType8 = BLUETOOTH;
-            NetworkType networkType9 = DUMMY;
-            NetworkType networkType10 = ETHERNET;
-            NetworkType networkType11 = MOBILE_FOTA;
-            NetworkType networkType12 = MOBILE_IMS;
-            NetworkType networkType13 = MOBILE_CBS;
-            NetworkType networkType14 = WIFI_P2P;
-            NetworkType networkType15 = MOBILE_IA;
-            NetworkType networkType16 = MOBILE_EMERGENCY;
-            NetworkType networkType17 = PROXY;
-            NetworkType networkType18 = VPN;
-            NetworkType networkType19 = NONE;
-            SparseArray<NetworkType> sparseArray = new SparseArray<>();
-            valueMap = sparseArray;
-            sparseArray.put(0, networkType);
-            sparseArray.put(1, networkType2);
-            sparseArray.put(2, networkType3);
-            sparseArray.put(3, networkType4);
-            sparseArray.put(4, networkType5);
-            sparseArray.put(5, networkType6);
-            sparseArray.put(6, networkType7);
-            sparseArray.put(7, networkType8);
-            sparseArray.put(8, networkType9);
-            sparseArray.put(9, networkType10);
-            sparseArray.put(10, networkType11);
-            sparseArray.put(11, networkType12);
-            sparseArray.put(12, networkType13);
-            sparseArray.put(13, networkType14);
-            sparseArray.put(14, networkType15);
-            sparseArray.put(15, networkType16);
-            sparseArray.put(16, networkType17);
-            sparseArray.put(17, networkType18);
-            sparseArray.put(-1, networkType19);
-        }
-
-        NetworkType(int i) {
-            this.value = i;
-        }
-
-        public int getValue() {
-            return this.value;
-        }
-
-        public static NetworkType forNumber(int i) {
-            return valueMap.get(i);
-        }
     }
 
     /* loaded from: classes.dex */
@@ -126,7 +38,7 @@ public abstract class NetworkConnectionInfo {
         LTE_CA(19),
         COMBINED(100);
         
-        private static final SparseArray<MobileSubtype> valueMap;
+        private static final SparseArray valueMap;
         private final int value;
 
         static {
@@ -150,7 +62,7 @@ public abstract class NetworkConnectionInfo {
             MobileSubtype mobileSubtype18 = TD_SCDMA;
             MobileSubtype mobileSubtype19 = IWLAN;
             MobileSubtype mobileSubtype20 = LTE_CA;
-            SparseArray<MobileSubtype> sparseArray = new SparseArray<>();
+            SparseArray sparseArray = new SparseArray();
             valueMap = sparseArray;
             sparseArray.put(0, mobileSubtype);
             sparseArray.put(1, mobileSubtype2);
@@ -178,16 +90,101 @@ public abstract class NetworkConnectionInfo {
             this.value = i;
         }
 
+        public static MobileSubtype forNumber(int i) {
+            return (MobileSubtype) valueMap.get(i);
+        }
+
         public int getValue() {
             return this.value;
         }
+    }
 
-        public static MobileSubtype forNumber(int i) {
-            return valueMap.get(i);
+    /* loaded from: classes.dex */
+    public enum NetworkType {
+        MOBILE(0),
+        WIFI(1),
+        MOBILE_MMS(2),
+        MOBILE_SUPL(3),
+        MOBILE_DUN(4),
+        MOBILE_HIPRI(5),
+        WIMAX(6),
+        BLUETOOTH(7),
+        DUMMY(8),
+        ETHERNET(9),
+        MOBILE_FOTA(10),
+        MOBILE_IMS(11),
+        MOBILE_CBS(12),
+        WIFI_P2P(13),
+        MOBILE_IA(14),
+        MOBILE_EMERGENCY(15),
+        PROXY(16),
+        VPN(17),
+        NONE(-1);
+        
+        private static final SparseArray valueMap;
+        private final int value;
+
+        static {
+            NetworkType networkType = MOBILE;
+            NetworkType networkType2 = WIFI;
+            NetworkType networkType3 = MOBILE_MMS;
+            NetworkType networkType4 = MOBILE_SUPL;
+            NetworkType networkType5 = MOBILE_DUN;
+            NetworkType networkType6 = MOBILE_HIPRI;
+            NetworkType networkType7 = WIMAX;
+            NetworkType networkType8 = BLUETOOTH;
+            NetworkType networkType9 = DUMMY;
+            NetworkType networkType10 = ETHERNET;
+            NetworkType networkType11 = MOBILE_FOTA;
+            NetworkType networkType12 = MOBILE_IMS;
+            NetworkType networkType13 = MOBILE_CBS;
+            NetworkType networkType14 = WIFI_P2P;
+            NetworkType networkType15 = MOBILE_IA;
+            NetworkType networkType16 = MOBILE_EMERGENCY;
+            NetworkType networkType17 = PROXY;
+            NetworkType networkType18 = VPN;
+            NetworkType networkType19 = NONE;
+            SparseArray sparseArray = new SparseArray();
+            valueMap = sparseArray;
+            sparseArray.put(0, networkType);
+            sparseArray.put(1, networkType2);
+            sparseArray.put(2, networkType3);
+            sparseArray.put(3, networkType4);
+            sparseArray.put(4, networkType5);
+            sparseArray.put(5, networkType6);
+            sparseArray.put(6, networkType7);
+            sparseArray.put(7, networkType8);
+            sparseArray.put(8, networkType9);
+            sparseArray.put(9, networkType10);
+            sparseArray.put(10, networkType11);
+            sparseArray.put(11, networkType12);
+            sparseArray.put(12, networkType13);
+            sparseArray.put(13, networkType14);
+            sparseArray.put(14, networkType15);
+            sparseArray.put(15, networkType16);
+            sparseArray.put(16, networkType17);
+            sparseArray.put(17, networkType18);
+            sparseArray.put(-1, networkType19);
+        }
+
+        NetworkType(int i) {
+            this.value = i;
+        }
+
+        public static NetworkType forNumber(int i) {
+            return (NetworkType) valueMap.get(i);
+        }
+
+        public int getValue() {
+            return this.value;
         }
     }
 
     public static Builder builder() {
         return new AutoValue_NetworkConnectionInfo.Builder();
     }
+
+    public abstract MobileSubtype getMobileSubtype();
+
+    public abstract NetworkType getNetworkType();
 }

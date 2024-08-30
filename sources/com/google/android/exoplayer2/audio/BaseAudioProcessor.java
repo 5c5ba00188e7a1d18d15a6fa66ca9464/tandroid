@@ -13,17 +13,6 @@ public abstract class BaseAudioProcessor implements AudioProcessor {
     private AudioProcessor.AudioFormat pendingInputAudioFormat;
     private AudioProcessor.AudioFormat pendingOutputAudioFormat;
 
-    protected abstract AudioProcessor.AudioFormat onConfigure(AudioProcessor.AudioFormat audioFormat) throws AudioProcessor.UnhandledAudioFormatException;
-
-    protected void onFlush() {
-    }
-
-    protected void onQueueEndOfStream() {
-    }
-
-    protected void onReset() {
-    }
-
     public BaseAudioProcessor() {
         ByteBuffer byteBuffer = AudioProcessor.EMPTY_BUFFER;
         this.buffer = byteBuffer;
@@ -36,33 +25,10 @@ public abstract class BaseAudioProcessor implements AudioProcessor {
     }
 
     @Override // com.google.android.exoplayer2.audio.AudioProcessor
-    public final AudioProcessor.AudioFormat configure(AudioProcessor.AudioFormat audioFormat) throws AudioProcessor.UnhandledAudioFormatException {
+    public final AudioProcessor.AudioFormat configure(AudioProcessor.AudioFormat audioFormat) {
         this.pendingInputAudioFormat = audioFormat;
         this.pendingOutputAudioFormat = onConfigure(audioFormat);
         return isActive() ? this.pendingOutputAudioFormat : AudioProcessor.AudioFormat.NOT_SET;
-    }
-
-    @Override // com.google.android.exoplayer2.audio.AudioProcessor
-    public boolean isActive() {
-        return this.pendingOutputAudioFormat != AudioProcessor.AudioFormat.NOT_SET;
-    }
-
-    @Override // com.google.android.exoplayer2.audio.AudioProcessor
-    public final void queueEndOfStream() {
-        this.inputEnded = true;
-        onQueueEndOfStream();
-    }
-
-    @Override // com.google.android.exoplayer2.audio.AudioProcessor
-    public ByteBuffer getOutput() {
-        ByteBuffer byteBuffer = this.outputBuffer;
-        this.outputBuffer = AudioProcessor.EMPTY_BUFFER;
-        return byteBuffer;
-    }
-
-    @Override // com.google.android.exoplayer2.audio.AudioProcessor
-    public boolean isEnded() {
-        return this.inputEnded && this.outputBuffer == AudioProcessor.EMPTY_BUFFER;
     }
 
     @Override // com.google.android.exoplayer2.audio.AudioProcessor
@@ -75,15 +41,42 @@ public abstract class BaseAudioProcessor implements AudioProcessor {
     }
 
     @Override // com.google.android.exoplayer2.audio.AudioProcessor
-    public final void reset() {
-        flush();
-        this.buffer = AudioProcessor.EMPTY_BUFFER;
-        AudioProcessor.AudioFormat audioFormat = AudioProcessor.AudioFormat.NOT_SET;
-        this.pendingInputAudioFormat = audioFormat;
-        this.pendingOutputAudioFormat = audioFormat;
-        this.inputAudioFormat = audioFormat;
-        this.outputAudioFormat = audioFormat;
-        onReset();
+    public ByteBuffer getOutput() {
+        ByteBuffer byteBuffer = this.outputBuffer;
+        this.outputBuffer = AudioProcessor.EMPTY_BUFFER;
+        return byteBuffer;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final boolean hasPendingOutput() {
+        return this.outputBuffer.hasRemaining();
+    }
+
+    @Override // com.google.android.exoplayer2.audio.AudioProcessor
+    public boolean isActive() {
+        return this.pendingOutputAudioFormat != AudioProcessor.AudioFormat.NOT_SET;
+    }
+
+    @Override // com.google.android.exoplayer2.audio.AudioProcessor
+    public boolean isEnded() {
+        return this.inputEnded && this.outputBuffer == AudioProcessor.EMPTY_BUFFER;
+    }
+
+    protected abstract AudioProcessor.AudioFormat onConfigure(AudioProcessor.AudioFormat audioFormat);
+
+    protected void onFlush() {
+    }
+
+    protected void onQueueEndOfStream() {
+    }
+
+    protected void onReset() {
+    }
+
+    @Override // com.google.android.exoplayer2.audio.AudioProcessor
+    public final void queueEndOfStream() {
+        this.inputEnded = true;
+        onQueueEndOfStream();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -98,8 +91,15 @@ public abstract class BaseAudioProcessor implements AudioProcessor {
         return byteBuffer;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final boolean hasPendingOutput() {
-        return this.outputBuffer.hasRemaining();
+    @Override // com.google.android.exoplayer2.audio.AudioProcessor
+    public final void reset() {
+        flush();
+        this.buffer = AudioProcessor.EMPTY_BUFFER;
+        AudioProcessor.AudioFormat audioFormat = AudioProcessor.AudioFormat.NOT_SET;
+        this.pendingInputAudioFormat = audioFormat;
+        this.pendingOutputAudioFormat = audioFormat;
+        this.inputAudioFormat = audioFormat;
+        this.outputAudioFormat = audioFormat;
+        onReset();
     }
 }

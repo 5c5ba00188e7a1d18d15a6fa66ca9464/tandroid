@@ -30,6 +30,38 @@ public class TextStyleSpan extends MetricAffectingSpan {
             this.urlEntity = textStyleRun.urlEntity;
         }
 
+        public void applyStyle(TextPaint textPaint) {
+            Typeface typeface = getTypeface();
+            if (typeface != null) {
+                textPaint.setTypeface(typeface);
+            }
+            textPaint.setFlags((this.flags & 16) != 0 ? textPaint.getFlags() | 8 : textPaint.getFlags() & (-9));
+            textPaint.setFlags((this.flags & 8) != 0 ? textPaint.getFlags() | 16 : textPaint.getFlags() & (-17));
+            if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
+                textPaint.bgColor = Theme.getColor(Theme.key_chats_archivePullDownBackground);
+            }
+        }
+
+        public Typeface getTypeface() {
+            String str;
+            int i = this.flags;
+            if ((i & 4) == 0 && (i & 2048) == 0) {
+                int i2 = i & 1;
+                if (i2 != 0 && (i & 2) != 0) {
+                    str = AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM_ITALIC;
+                } else if (i2 != 0) {
+                    return AndroidUtilities.bold();
+                } else {
+                    if ((i & 2) == 0) {
+                        return null;
+                    }
+                    str = "fonts/ritalic.ttf";
+                }
+                return AndroidUtilities.getTypeface(str);
+            }
+            return Typeface.MONOSPACE;
+        }
+
         public void merge(TextStyleRun textStyleRun) {
             TLRPC$MessageEntity tLRPC$MessageEntity;
             this.flags |= textStyleRun.flags;
@@ -42,44 +74,6 @@ public class TextStyleSpan extends MetricAffectingSpan {
         public void replace(TextStyleRun textStyleRun) {
             this.flags = textStyleRun.flags;
             this.urlEntity = textStyleRun.urlEntity;
-        }
-
-        public void applyStyle(TextPaint textPaint) {
-            Typeface typeface = getTypeface();
-            if (typeface != null) {
-                textPaint.setTypeface(typeface);
-            }
-            if ((this.flags & 16) != 0) {
-                textPaint.setFlags(textPaint.getFlags() | 8);
-            } else {
-                textPaint.setFlags(textPaint.getFlags() & (-9));
-            }
-            if ((this.flags & 8) != 0) {
-                textPaint.setFlags(textPaint.getFlags() | 16);
-            } else {
-                textPaint.setFlags(textPaint.getFlags() & (-17));
-            }
-            if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
-                textPaint.bgColor = Theme.getColor(Theme.key_chats_archivePullDownBackground);
-            }
-        }
-
-        public Typeface getTypeface() {
-            int i = this.flags;
-            if ((i & 4) == 0 && (i & 2048) == 0) {
-                int i2 = i & 1;
-                if (i2 == 0 || (i & 2) == 0) {
-                    if (i2 != 0) {
-                        return AndroidUtilities.bold();
-                    }
-                    if ((i & 2) != 0) {
-                        return AndroidUtilities.getTypeface("fonts/ritalic.ttf");
-                    }
-                    return null;
-                }
-                return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM_ITALIC);
-            }
-            return Typeface.MONOSPACE;
         }
     }
 
@@ -108,21 +102,16 @@ public class TextStyleSpan extends MetricAffectingSpan {
     }
 
     public void setSpoilerRevealed(boolean z) {
+        TextStyleRun textStyleRun;
+        int i;
         if (z) {
-            this.style.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
-            return;
+            textStyleRun = this.style;
+            i = textStyleRun.flags | LiteMode.FLAG_CALLS_ANIMATIONS;
+        } else {
+            textStyleRun = this.style;
+            i = textStyleRun.flags & (-513);
         }
-        this.style.flags &= -513;
-    }
-
-    @Override // android.text.style.MetricAffectingSpan
-    public void updateMeasureState(TextPaint textPaint) {
-        int i = this.textSize;
-        if (i != 0) {
-            textPaint.setTextSize(i);
-        }
-        textPaint.setFlags(textPaint.getFlags() | 128);
-        this.style.applyStyle(textPaint);
+        textStyleRun.flags = i;
     }
 
     @Override // android.text.style.CharacterStyle
@@ -134,6 +123,16 @@ public class TextStyleSpan extends MetricAffectingSpan {
         int i2 = this.color;
         if (i2 != 0) {
             textPaint.setColor(i2);
+        }
+        textPaint.setFlags(textPaint.getFlags() | 128);
+        this.style.applyStyle(textPaint);
+    }
+
+    @Override // android.text.style.MetricAffectingSpan
+    public void updateMeasureState(TextPaint textPaint) {
+        int i = this.textSize;
+        if (i != 0) {
+            textPaint.setTextSize(i);
         }
         textPaint.setFlags(textPaint.getFlags() | 128);
         this.style.applyStyle(textPaint);

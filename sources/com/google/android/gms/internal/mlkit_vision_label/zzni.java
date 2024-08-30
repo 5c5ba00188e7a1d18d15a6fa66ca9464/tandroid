@@ -3,7 +3,6 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zzni implements zzno {
     final List zza;

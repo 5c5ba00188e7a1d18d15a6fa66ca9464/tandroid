@@ -6,13 +6,13 @@ public class TL_fragment$TL_inputCollectibleUsername extends TL_fragment$InputCo
     public String username;
 
     @Override // org.telegram.tgnet.TLObject
-    public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(-476815191);
-        abstractSerializedData.writeString(this.username);
+    public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
+        this.username = abstractSerializedData.readString(z);
     }
 
     @Override // org.telegram.tgnet.TLObject
-    public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-        this.username = abstractSerializedData.readString(z);
+    public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+        abstractSerializedData.writeInt32(-476815191);
+        abstractSerializedData.writeString(this.username);
     }
 }

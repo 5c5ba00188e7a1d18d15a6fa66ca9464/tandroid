@@ -1,6 +1,5 @@
 package com.google.firebase.messaging;
 
-import android.annotation.TargetApi;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -23,12 +22,10 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.telegram.tgnet.ConnectionsManager;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
-public final class CommonNotificationBuilder {
+public abstract class CommonNotificationBuilder {
     private static final AtomicInteger requestCodeProvider = new AtomicInteger((int) SystemClock.elapsedRealtime());
 
-    /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
     /* loaded from: classes.dex */
     public static class DisplayNotificationInfo {
         public final int id = 0;
@@ -69,6 +66,66 @@ public final class CommonNotificationBuilder {
     public static DisplayNotificationInfo createNotificationInfo(Context context, NotificationParams notificationParams) {
         Bundle manifestMetadata = getManifestMetadata(context.getPackageManager(), context.getPackageName());
         return createNotificationInfo(context, context.getPackageName(), notificationParams, getOrCreateChannel(context, notificationParams.getNotificationChannelId(), manifestMetadata), context.getResources(), context.getPackageManager(), manifestMetadata);
+    }
+
+    public static DisplayNotificationInfo createNotificationInfo(Context context, String str, NotificationParams notificationParams, String str2, Resources resources, PackageManager packageManager, Bundle bundle) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, str2);
+        String possiblyLocalizedString = notificationParams.getPossiblyLocalizedString(resources, str, "gcm.n.title");
+        if (!TextUtils.isEmpty(possiblyLocalizedString)) {
+            builder.setContentTitle(possiblyLocalizedString);
+        }
+        String possiblyLocalizedString2 = notificationParams.getPossiblyLocalizedString(resources, str, "gcm.n.body");
+        if (!TextUtils.isEmpty(possiblyLocalizedString2)) {
+            builder.setContentText(possiblyLocalizedString2);
+            builder.setStyle(new NotificationCompat.BigTextStyle().bigText(possiblyLocalizedString2));
+        }
+        builder.setSmallIcon(getSmallIcon(packageManager, resources, str, notificationParams.getString("gcm.n.icon"), bundle));
+        Uri sound = getSound(str, notificationParams, resources);
+        if (sound != null) {
+            builder.setSound(sound);
+        }
+        builder.setContentIntent(createContentIntent(context, notificationParams, str, packageManager));
+        PendingIntent createDeleteIntent = createDeleteIntent(context, notificationParams);
+        if (createDeleteIntent != null) {
+            builder.setDeleteIntent(createDeleteIntent);
+        }
+        Integer color = getColor(context, notificationParams.getString("gcm.n.color"), bundle);
+        if (color != null) {
+            builder.setColor(color.intValue());
+        }
+        builder.setAutoCancel(!notificationParams.getBoolean("gcm.n.sticky"));
+        builder.setLocalOnly(notificationParams.getBoolean("gcm.n.local_only"));
+        String string = notificationParams.getString("gcm.n.ticker");
+        if (string != null) {
+            builder.setTicker(string);
+        }
+        Integer notificationPriority = notificationParams.getNotificationPriority();
+        if (notificationPriority != null) {
+            builder.setPriority(notificationPriority.intValue());
+        }
+        Integer visibility = notificationParams.getVisibility();
+        if (visibility != null) {
+            builder.setVisibility(visibility.intValue());
+        }
+        Integer notificationCount = notificationParams.getNotificationCount();
+        if (notificationCount != null) {
+            builder.setNumber(notificationCount.intValue());
+        }
+        Long l = notificationParams.getLong("gcm.n.event_time");
+        if (l != null) {
+            builder.setShowWhen(true);
+            builder.setWhen(l.longValue());
+        }
+        long[] vibrateTimings = notificationParams.getVibrateTimings();
+        if (vibrateTimings != null) {
+            builder.setVibrate(vibrateTimings);
+        }
+        int[] lightSettings = notificationParams.getLightSettings();
+        if (lightSettings != null) {
+            builder.setLights(lightSettings[0], lightSettings[1], lightSettings[2]);
+        }
+        builder.setDefaults(getConsolidatedDefaults(notificationParams));
+        return new DisplayNotificationInfo(builder, getTag(notificationParams), 0);
     }
 
     private static Intent createTargetIntent(String str, NotificationParams notificationParams, PackageManager packageManager) {
@@ -155,9 +212,9 @@ public final class CommonNotificationBuilder {
         return Bundle.EMPTY;
     }
 
-    @TargetApi(26)
     public static String getOrCreateChannel(Context context, String str, Bundle bundle) {
         Object systemService;
+        String str2;
         NotificationChannel notificationChannel;
         String string;
         NotificationChannel notificationChannel2;
@@ -181,15 +238,16 @@ public final class CommonNotificationBuilder {
                     Log.w("FirebaseMessaging", sb.toString());
                 }
                 String string2 = bundle.getString("com.google.firebase.messaging.default_notification_channel_id");
-                if (!TextUtils.isEmpty(string2)) {
+                if (TextUtils.isEmpty(string2)) {
+                    str2 = "Missing Default Notification Channel metadata in AndroidManifest. Default value will be used.";
+                } else {
                     notificationChannel2 = notificationManager.getNotificationChannel(string2);
                     if (notificationChannel2 != null) {
                         return string2;
                     }
-                    Log.w("FirebaseMessaging", "Notification Channel set in AndroidManifest.xml has not been created by the app. Default value will be used.");
-                } else {
-                    Log.w("FirebaseMessaging", "Missing Default Notification Channel metadata in AndroidManifest. Default value will be used.");
+                    str2 = "Notification Channel set in AndroidManifest.xml has not been created by the app. Default value will be used.";
                 }
+                Log.w("FirebaseMessaging", str2);
                 notificationChannel = notificationManager.getNotificationChannel("fcm_fallback_notification_channel");
                 if (notificationChannel == null) {
                     int identifier = context.getResources().getIdentifier("fcm_fallback_notification_channel_label", "string", context.getPackageName());
@@ -274,7 +332,6 @@ public final class CommonNotificationBuilder {
         return string;
     }
 
-    @TargetApi(26)
     private static boolean isValidIcon(Resources resources, int i) {
         Drawable drawable;
         if (Build.VERSION.SDK_INT != 26) {
@@ -302,65 +359,5 @@ public final class CommonNotificationBuilder {
 
     static boolean shouldUploadMetrics(NotificationParams notificationParams) {
         return notificationParams.getBoolean("google.c.a.e");
-    }
-
-    public static DisplayNotificationInfo createNotificationInfo(Context context, String str, NotificationParams notificationParams, String str2, Resources resources, PackageManager packageManager, Bundle bundle) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, str2);
-        String possiblyLocalizedString = notificationParams.getPossiblyLocalizedString(resources, str, "gcm.n.title");
-        if (!TextUtils.isEmpty(possiblyLocalizedString)) {
-            builder.setContentTitle(possiblyLocalizedString);
-        }
-        String possiblyLocalizedString2 = notificationParams.getPossiblyLocalizedString(resources, str, "gcm.n.body");
-        if (!TextUtils.isEmpty(possiblyLocalizedString2)) {
-            builder.setContentText(possiblyLocalizedString2);
-            builder.setStyle(new NotificationCompat.BigTextStyle().bigText(possiblyLocalizedString2));
-        }
-        builder.setSmallIcon(getSmallIcon(packageManager, resources, str, notificationParams.getString("gcm.n.icon"), bundle));
-        Uri sound = getSound(str, notificationParams, resources);
-        if (sound != null) {
-            builder.setSound(sound);
-        }
-        builder.setContentIntent(createContentIntent(context, notificationParams, str, packageManager));
-        PendingIntent createDeleteIntent = createDeleteIntent(context, notificationParams);
-        if (createDeleteIntent != null) {
-            builder.setDeleteIntent(createDeleteIntent);
-        }
-        Integer color = getColor(context, notificationParams.getString("gcm.n.color"), bundle);
-        if (color != null) {
-            builder.setColor(color.intValue());
-        }
-        builder.setAutoCancel(!notificationParams.getBoolean("gcm.n.sticky"));
-        builder.setLocalOnly(notificationParams.getBoolean("gcm.n.local_only"));
-        String string = notificationParams.getString("gcm.n.ticker");
-        if (string != null) {
-            builder.setTicker(string);
-        }
-        Integer notificationPriority = notificationParams.getNotificationPriority();
-        if (notificationPriority != null) {
-            builder.setPriority(notificationPriority.intValue());
-        }
-        Integer visibility = notificationParams.getVisibility();
-        if (visibility != null) {
-            builder.setVisibility(visibility.intValue());
-        }
-        Integer notificationCount = notificationParams.getNotificationCount();
-        if (notificationCount != null) {
-            builder.setNumber(notificationCount.intValue());
-        }
-        Long l = notificationParams.getLong("gcm.n.event_time");
-        if (l != null) {
-            builder.setShowWhen(true);
-            builder.setWhen(l.longValue());
-        }
-        long[] vibrateTimings = notificationParams.getVibrateTimings();
-        if (vibrateTimings != null) {
-            builder.setVibrate(vibrateTimings);
-        }
-        int[] lightSettings = notificationParams.getLightSettings();
-        if (lightSettings != null) {
-            builder.setLights(lightSettings[0], lightSettings[1], lightSettings[2]);
-        }
-        builder.setDefaults(getConsolidatedDefaults(notificationParams));
-        return new DisplayNotificationInfo(builder, getTag(notificationParams), 0);
     }
 }

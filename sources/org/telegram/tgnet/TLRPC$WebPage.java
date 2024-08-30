@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes3.dex */
 public abstract class TLRPC$WebPage extends TLObject {
-    public ArrayList<TLRPC$WebPageAttribute> attributes = new ArrayList<>();
+    public ArrayList attributes = new ArrayList();
     public String author;
     public TLRPC$Page cached_page;
     public int date;

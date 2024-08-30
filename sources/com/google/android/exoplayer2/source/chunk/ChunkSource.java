@@ -2,17 +2,16 @@ package com.google.android.exoplayer2.source.chunk;
 
 import com.google.android.exoplayer2.SeekParameters;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
-import java.io.IOException;
 import java.util.List;
 /* loaded from: classes.dex */
 public interface ChunkSource {
     long getAdjustedSeekPositionUs(long j, SeekParameters seekParameters);
 
-    void getNextChunk(long j, long j2, List<? extends MediaChunk> list, ChunkHolder chunkHolder);
+    void getNextChunk(long j, long j2, List list, ChunkHolder chunkHolder);
 
-    int getPreferredQueueSize(long j, List<? extends MediaChunk> list);
+    int getPreferredQueueSize(long j, List list);
 
-    void maybeThrowError() throws IOException;
+    void maybeThrowError();
 
     void onChunkLoadCompleted(Chunk chunk);
 
@@ -20,5 +19,5 @@ public interface ChunkSource {
 
     void release();
 
-    boolean shouldCancelLoad(long j, Chunk chunk, List<? extends MediaChunk> list);
+    boolean shouldCancelLoad(long j, Chunk chunk, List list);
 }

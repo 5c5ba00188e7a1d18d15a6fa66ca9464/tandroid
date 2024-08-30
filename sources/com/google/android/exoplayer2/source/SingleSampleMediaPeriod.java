@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callback<SourceLoadable> {
+public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callback {
     private final DataSource.Factory dataSourceFactory;
     private final DataSpec dataSpec;
     private final long durationUs;
@@ -37,156 +37,8 @@ public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callba
     private final TrackGroupArray tracks;
     private final TransferListener transferListener;
     final boolean treatLoadErrorsAsEndOfStream;
-    private final ArrayList<SampleStreamImpl> sampleStreams = new ArrayList<>();
+    private final ArrayList sampleStreams = new ArrayList();
     final Loader loader = new Loader("SingleSampleMediaPeriod");
-
-    @Override // com.google.android.exoplayer2.source.MediaPeriod
-    public void discardBuffer(long j, boolean z) {
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaPeriod
-    public long getAdjustedSeekPositionUs(long j, SeekParameters seekParameters) {
-        return j;
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaPeriod
-    public void maybeThrowPrepareError() {
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaPeriod
-    public long readDiscontinuity() {
-        return -9223372036854775807L;
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-    public void reevaluateBuffer(long j) {
-    }
-
-    public SingleSampleMediaPeriod(DataSpec dataSpec, DataSource.Factory factory, TransferListener transferListener, Format format, long j, LoadErrorHandlingPolicy loadErrorHandlingPolicy, MediaSourceEventListener.EventDispatcher eventDispatcher, boolean z) {
-        this.dataSpec = dataSpec;
-        this.dataSourceFactory = factory;
-        this.transferListener = transferListener;
-        this.format = format;
-        this.durationUs = j;
-        this.loadErrorHandlingPolicy = loadErrorHandlingPolicy;
-        this.eventDispatcher = eventDispatcher;
-        this.treatLoadErrorsAsEndOfStream = z;
-        this.tracks = new TrackGroupArray(new TrackGroup(format));
-    }
-
-    public void release() {
-        this.loader.release();
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaPeriod
-    public void prepare(MediaPeriod.Callback callback, long j) {
-        callback.onPrepared(this);
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaPeriod
-    public TrackGroupArray getTrackGroups() {
-        return this.tracks;
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaPeriod
-    public long selectTracks(ExoTrackSelection[] exoTrackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr, boolean[] zArr2, long j) {
-        for (int i = 0; i < exoTrackSelectionArr.length; i++) {
-            SampleStream sampleStream = sampleStreamArr[i];
-            if (sampleStream != null && (exoTrackSelectionArr[i] == null || !zArr[i])) {
-                this.sampleStreams.remove(sampleStream);
-                sampleStreamArr[i] = null;
-            }
-            if (sampleStreamArr[i] == null && exoTrackSelectionArr[i] != null) {
-                SampleStreamImpl sampleStreamImpl = new SampleStreamImpl();
-                this.sampleStreams.add(sampleStreamImpl);
-                sampleStreamArr[i] = sampleStreamImpl;
-                zArr2[i] = true;
-            }
-        }
-        return j;
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-    public boolean continueLoading(long j) {
-        if (this.loadingFinished || this.loader.isLoading() || this.loader.hasFatalError()) {
-            return false;
-        }
-        DataSource createDataSource = this.dataSourceFactory.createDataSource();
-        TransferListener transferListener = this.transferListener;
-        if (transferListener != null) {
-            createDataSource.addTransferListener(transferListener);
-        }
-        SourceLoadable sourceLoadable = new SourceLoadable(this.dataSpec, createDataSource);
-        this.eventDispatcher.loadStarted(new LoadEventInfo(sourceLoadable.loadTaskId, this.dataSpec, this.loader.startLoading(sourceLoadable, this, this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(1))), 1, -1, this.format, 0, null, 0L, this.durationUs);
-        return true;
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-    public boolean isLoading() {
-        return this.loader.isLoading();
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-    public long getNextLoadPositionUs() {
-        return (this.loadingFinished || this.loader.isLoading()) ? Long.MIN_VALUE : 0L;
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-    public long getBufferedPositionUs() {
-        return this.loadingFinished ? Long.MIN_VALUE : 0L;
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaPeriod
-    public long seekToUs(long j) {
-        for (int i = 0; i < this.sampleStreams.size(); i++) {
-            this.sampleStreams.get(i).reset();
-        }
-        return j;
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
-    public void onLoadCompleted(SourceLoadable sourceLoadable, long j, long j2) {
-        this.sampleSize = (int) sourceLoadable.dataSource.getBytesRead();
-        this.sampleData = (byte[]) Assertions.checkNotNull(sourceLoadable.sampleData);
-        this.loadingFinished = true;
-        StatsDataSource statsDataSource = sourceLoadable.dataSource;
-        LoadEventInfo loadEventInfo = new LoadEventInfo(sourceLoadable.loadTaskId, sourceLoadable.dataSpec, statsDataSource.getLastOpenedUri(), statsDataSource.getLastResponseHeaders(), j, j2, this.sampleSize);
-        this.loadErrorHandlingPolicy.onLoadTaskConcluded(sourceLoadable.loadTaskId);
-        this.eventDispatcher.loadCompleted(loadEventInfo, 1, -1, this.format, 0, null, 0L, this.durationUs);
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
-    public void onLoadCanceled(SourceLoadable sourceLoadable, long j, long j2, boolean z) {
-        StatsDataSource statsDataSource = sourceLoadable.dataSource;
-        LoadEventInfo loadEventInfo = new LoadEventInfo(sourceLoadable.loadTaskId, sourceLoadable.dataSpec, statsDataSource.getLastOpenedUri(), statsDataSource.getLastResponseHeaders(), j, j2, statsDataSource.getBytesRead());
-        this.loadErrorHandlingPolicy.onLoadTaskConcluded(sourceLoadable.loadTaskId);
-        this.eventDispatcher.loadCanceled(loadEventInfo, 1, -1, null, 0, null, 0L, this.durationUs);
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
-    public Loader.LoadErrorAction onLoadError(SourceLoadable sourceLoadable, long j, long j2, IOException iOException, int i) {
-        Loader.LoadErrorAction loadErrorAction;
-        StatsDataSource statsDataSource = sourceLoadable.dataSource;
-        LoadEventInfo loadEventInfo = new LoadEventInfo(sourceLoadable.loadTaskId, sourceLoadable.dataSpec, statsDataSource.getLastOpenedUri(), statsDataSource.getLastResponseHeaders(), j, j2, statsDataSource.getBytesRead());
-        long retryDelayMsFor = this.loadErrorHandlingPolicy.getRetryDelayMsFor(new LoadErrorHandlingPolicy.LoadErrorInfo(loadEventInfo, new MediaLoadData(1, -1, this.format, 0, null, 0L, Util.usToMs(this.durationUs)), iOException, i));
-        boolean z = retryDelayMsFor == -9223372036854775807L || i >= this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(1);
-        if (this.treatLoadErrorsAsEndOfStream && z) {
-            Log.w("SingleSampleMediaPeriod", "Loading failed, treating as end-of-stream.", iOException);
-            this.loadingFinished = true;
-            loadErrorAction = Loader.DONT_RETRY;
-        } else if (retryDelayMsFor != -9223372036854775807L) {
-            loadErrorAction = Loader.createRetryAction(false, retryDelayMsFor);
-        } else {
-            loadErrorAction = Loader.DONT_RETRY_FATAL;
-        }
-        Loader.LoadErrorAction loadErrorAction2 = loadErrorAction;
-        boolean z2 = !loadErrorAction2.isRetry();
-        this.eventDispatcher.loadError(loadEventInfo, 1, -1, this.format, 0, null, 0L, this.durationUs, iOException, z2);
-        if (z2) {
-            this.loadErrorHandlingPolicy.onLoadTaskConcluded(sourceLoadable.loadTaskId);
-        }
-        return loadErrorAction2;
-    }
 
     /* loaded from: classes.dex */
     private final class SampleStreamImpl implements SampleStream {
@@ -196,10 +48,12 @@ public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callba
         private SampleStreamImpl() {
         }
 
-        public void reset() {
-            if (this.streamState == 2) {
-                this.streamState = 1;
+        private void maybeNotifyDownstreamFormat() {
+            if (this.notifiedDownstreamFormat) {
+                return;
             }
+            SingleSampleMediaPeriod.this.eventDispatcher.downstreamFormatChanged(MimeTypes.getTrackType(SingleSampleMediaPeriod.this.format.sampleMimeType), SingleSampleMediaPeriod.this.format, 0, null, 0L);
+            this.notifiedDownstreamFormat = true;
         }
 
         @Override // com.google.android.exoplayer2.source.SampleStream
@@ -208,7 +62,7 @@ public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callba
         }
 
         @Override // com.google.android.exoplayer2.source.SampleStream
-        public void maybeThrowError() throws IOException {
+        public void maybeThrowError() {
             SingleSampleMediaPeriod singleSampleMediaPeriod = SingleSampleMediaPeriod.this;
             if (singleSampleMediaPeriod.treatLoadErrorsAsEndOfStream) {
                 return;
@@ -251,6 +105,12 @@ public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callba
             }
         }
 
+        public void reset() {
+            if (this.streamState == 2) {
+                this.streamState = 1;
+            }
+        }
+
         @Override // com.google.android.exoplayer2.source.SampleStream
         public int skipData(long j) {
             maybeNotifyDownstreamFormat();
@@ -259,14 +119,6 @@ public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callba
             }
             this.streamState = 2;
             return 1;
-        }
-
-        private void maybeNotifyDownstreamFormat() {
-            if (this.notifiedDownstreamFormat) {
-                return;
-            }
-            SingleSampleMediaPeriod.this.eventDispatcher.downstreamFormatChanged(MimeTypes.getTrackType(SingleSampleMediaPeriod.this.format.sampleMimeType), SingleSampleMediaPeriod.this.format, 0, null, 0L);
-            this.notifiedDownstreamFormat = true;
         }
     }
 
@@ -278,17 +130,17 @@ public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callba
         public final long loadTaskId = LoadEventInfo.getNewId();
         private byte[] sampleData;
 
-        @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
-        public void cancelLoad() {
-        }
-
         public SourceLoadable(DataSpec dataSpec, DataSource dataSource) {
             this.dataSpec = dataSpec;
             this.dataSource = new StatsDataSource(dataSource);
         }
 
         @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
-        public void load() throws IOException {
+        public void cancelLoad() {
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
+        public void load() {
             this.dataSource.resetBytesRead();
             try {
                 this.dataSource.open(this.dataSpec);
@@ -311,5 +163,151 @@ public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callba
                 throw th;
             }
         }
+    }
+
+    public SingleSampleMediaPeriod(DataSpec dataSpec, DataSource.Factory factory, TransferListener transferListener, Format format, long j, LoadErrorHandlingPolicy loadErrorHandlingPolicy, MediaSourceEventListener.EventDispatcher eventDispatcher, boolean z) {
+        this.dataSpec = dataSpec;
+        this.dataSourceFactory = factory;
+        this.transferListener = transferListener;
+        this.format = format;
+        this.durationUs = j;
+        this.loadErrorHandlingPolicy = loadErrorHandlingPolicy;
+        this.eventDispatcher = eventDispatcher;
+        this.treatLoadErrorsAsEndOfStream = z;
+        this.tracks = new TrackGroupArray(new TrackGroup(format));
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
+    public boolean continueLoading(long j) {
+        if (this.loadingFinished || this.loader.isLoading() || this.loader.hasFatalError()) {
+            return false;
+        }
+        DataSource createDataSource = this.dataSourceFactory.createDataSource();
+        TransferListener transferListener = this.transferListener;
+        if (transferListener != null) {
+            createDataSource.addTransferListener(transferListener);
+        }
+        SourceLoadable sourceLoadable = new SourceLoadable(this.dataSpec, createDataSource);
+        this.eventDispatcher.loadStarted(new LoadEventInfo(sourceLoadable.loadTaskId, this.dataSpec, this.loader.startLoading(sourceLoadable, this, this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(1))), 1, -1, this.format, 0, null, 0L, this.durationUs);
+        return true;
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaPeriod
+    public void discardBuffer(long j, boolean z) {
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaPeriod
+    public long getAdjustedSeekPositionUs(long j, SeekParameters seekParameters) {
+        return j;
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
+    public long getBufferedPositionUs() {
+        return this.loadingFinished ? Long.MIN_VALUE : 0L;
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
+    public long getNextLoadPositionUs() {
+        return (this.loadingFinished || this.loader.isLoading()) ? Long.MIN_VALUE : 0L;
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaPeriod
+    public TrackGroupArray getTrackGroups() {
+        return this.tracks;
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
+    public boolean isLoading() {
+        return this.loader.isLoading();
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaPeriod
+    public void maybeThrowPrepareError() {
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
+    public void onLoadCanceled(SourceLoadable sourceLoadable, long j, long j2, boolean z) {
+        StatsDataSource statsDataSource = sourceLoadable.dataSource;
+        LoadEventInfo loadEventInfo = new LoadEventInfo(sourceLoadable.loadTaskId, sourceLoadable.dataSpec, statsDataSource.getLastOpenedUri(), statsDataSource.getLastResponseHeaders(), j, j2, statsDataSource.getBytesRead());
+        this.loadErrorHandlingPolicy.onLoadTaskConcluded(sourceLoadable.loadTaskId);
+        this.eventDispatcher.loadCanceled(loadEventInfo, 1, -1, null, 0, null, 0L, this.durationUs);
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
+    public void onLoadCompleted(SourceLoadable sourceLoadable, long j, long j2) {
+        this.sampleSize = (int) sourceLoadable.dataSource.getBytesRead();
+        this.sampleData = (byte[]) Assertions.checkNotNull(sourceLoadable.sampleData);
+        this.loadingFinished = true;
+        StatsDataSource statsDataSource = sourceLoadable.dataSource;
+        LoadEventInfo loadEventInfo = new LoadEventInfo(sourceLoadable.loadTaskId, sourceLoadable.dataSpec, statsDataSource.getLastOpenedUri(), statsDataSource.getLastResponseHeaders(), j, j2, this.sampleSize);
+        this.loadErrorHandlingPolicy.onLoadTaskConcluded(sourceLoadable.loadTaskId);
+        this.eventDispatcher.loadCompleted(loadEventInfo, 1, -1, this.format, 0, null, 0L, this.durationUs);
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
+    public Loader.LoadErrorAction onLoadError(SourceLoadable sourceLoadable, long j, long j2, IOException iOException, int i) {
+        Loader.LoadErrorAction createRetryAction;
+        StatsDataSource statsDataSource = sourceLoadable.dataSource;
+        LoadEventInfo loadEventInfo = new LoadEventInfo(sourceLoadable.loadTaskId, sourceLoadable.dataSpec, statsDataSource.getLastOpenedUri(), statsDataSource.getLastResponseHeaders(), j, j2, statsDataSource.getBytesRead());
+        long retryDelayMsFor = this.loadErrorHandlingPolicy.getRetryDelayMsFor(new LoadErrorHandlingPolicy.LoadErrorInfo(loadEventInfo, new MediaLoadData(1, -1, this.format, 0, null, 0L, Util.usToMs(this.durationUs)), iOException, i));
+        boolean z = retryDelayMsFor == -9223372036854775807L || i >= this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(1);
+        if (this.treatLoadErrorsAsEndOfStream && z) {
+            Log.w("SingleSampleMediaPeriod", "Loading failed, treating as end-of-stream.", iOException);
+            this.loadingFinished = true;
+            createRetryAction = Loader.DONT_RETRY;
+        } else {
+            createRetryAction = retryDelayMsFor != -9223372036854775807L ? Loader.createRetryAction(false, retryDelayMsFor) : Loader.DONT_RETRY_FATAL;
+        }
+        Loader.LoadErrorAction loadErrorAction = createRetryAction;
+        boolean z2 = !loadErrorAction.isRetry();
+        this.eventDispatcher.loadError(loadEventInfo, 1, -1, this.format, 0, null, 0L, this.durationUs, iOException, z2);
+        if (z2) {
+            this.loadErrorHandlingPolicy.onLoadTaskConcluded(sourceLoadable.loadTaskId);
+        }
+        return loadErrorAction;
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaPeriod
+    public void prepare(MediaPeriod.Callback callback, long j) {
+        callback.onPrepared(this);
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaPeriod
+    public long readDiscontinuity() {
+        return -9223372036854775807L;
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
+    public void reevaluateBuffer(long j) {
+    }
+
+    public void release() {
+        this.loader.release();
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaPeriod
+    public long seekToUs(long j) {
+        for (int i = 0; i < this.sampleStreams.size(); i++) {
+            ((SampleStreamImpl) this.sampleStreams.get(i)).reset();
+        }
+        return j;
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaPeriod
+    public long selectTracks(ExoTrackSelection[] exoTrackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr, boolean[] zArr2, long j) {
+        for (int i = 0; i < exoTrackSelectionArr.length; i++) {
+            SampleStream sampleStream = sampleStreamArr[i];
+            if (sampleStream != null && (exoTrackSelectionArr[i] == null || !zArr[i])) {
+                this.sampleStreams.remove(sampleStream);
+                sampleStreamArr[i] = null;
+            }
+            if (sampleStreamArr[i] == null && exoTrackSelectionArr[i] != null) {
+                SampleStreamImpl sampleStreamImpl = new SampleStreamImpl();
+                this.sampleStreams.add(sampleStreamImpl);
+                sampleStreamArr[i] = sampleStreamImpl;
+                zArr2[i] = true;
+            }
+        }
+        return j;
     }
 }

@@ -5,8 +5,6 @@ import com.google.android.exoplayer2.analytics.PlayerId;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.upstream.DataReader;
-import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 /* loaded from: classes.dex */
 public interface ProgressiveMediaExtractor {
@@ -20,9 +18,9 @@ public interface ProgressiveMediaExtractor {
 
     long getCurrentInputPosition();
 
-    void init(DataReader dataReader, Uri uri, Map<String, List<String>> map, long j, long j2, ExtractorOutput extractorOutput) throws IOException;
+    void init(DataReader dataReader, Uri uri, Map map, long j, long j2, ExtractorOutput extractorOutput);
 
-    int read(PositionHolder positionHolder) throws IOException;
+    int read(PositionHolder positionHolder);
 
     void release();
 

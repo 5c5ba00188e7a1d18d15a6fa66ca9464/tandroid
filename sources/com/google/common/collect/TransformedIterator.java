@@ -3,13 +3,11 @@ package com.google.common.collect;
 import com.google.common.base.Preconditions;
 import java.util.Iterator;
 /* loaded from: classes.dex */
-abstract class TransformedIterator<F, T> implements Iterator<T> {
-    final Iterator<? extends F> backingIterator;
-
-    abstract T transform(F f);
+abstract class TransformedIterator implements Iterator {
+    final Iterator backingIterator;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public TransformedIterator(Iterator<? extends F> it) {
+    public TransformedIterator(Iterator it) {
         this.backingIterator = (Iterator) Preconditions.checkNotNull(it);
     }
 
@@ -19,7 +17,7 @@ abstract class TransformedIterator<F, T> implements Iterator<T> {
     }
 
     @Override // java.util.Iterator
-    public final T next() {
+    public final Object next() {
         return transform(this.backingIterator.next());
     }
 
@@ -27,4 +25,6 @@ abstract class TransformedIterator<F, T> implements Iterator<T> {
     public final void remove() {
         this.backingIterator.remove();
     }
+
+    abstract Object transform(Object obj);
 }

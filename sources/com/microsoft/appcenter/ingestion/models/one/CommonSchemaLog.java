@@ -3,7 +3,6 @@ package com.microsoft.appcenter.ingestion.models.one;
 import com.microsoft.appcenter.ingestion.models.AbstractLog;
 import com.microsoft.appcenter.ingestion.models.json.JSONDateUtils;
 import com.microsoft.appcenter.ingestion.models.json.JSONUtils;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 /* loaded from: classes.dex */
@@ -16,114 +15,6 @@ public abstract class CommonSchemaLog extends AbstractLog {
     private String name;
     private Double popSample;
     private String ver;
-
-    public String getVer() {
-        return this.ver;
-    }
-
-    public void setVer(String str) {
-        this.ver = str;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String str) {
-        this.name = str;
-    }
-
-    public Double getPopSample() {
-        return this.popSample;
-    }
-
-    public void setPopSample(Double d) {
-        this.popSample = d;
-    }
-
-    public String getIKey() {
-        return this.iKey;
-    }
-
-    public void setIKey(String str) {
-        this.iKey = str;
-    }
-
-    public Long getFlags() {
-        return this.flags;
-    }
-
-    public void setFlags(Long l) {
-        this.flags = l;
-    }
-
-    public String getCV() {
-        return this.cV;
-    }
-
-    public void setCV(String str) {
-        this.cV = str;
-    }
-
-    public Extensions getExt() {
-        return this.ext;
-    }
-
-    public void setExt(Extensions extensions) {
-        this.ext = extensions;
-    }
-
-    public Data getData() {
-        return this.data;
-    }
-
-    public void setData(Data data) {
-        this.data = data;
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.AbstractLog, com.microsoft.appcenter.ingestion.models.Model
-    public void read(JSONObject jSONObject) throws JSONException {
-        setVer(jSONObject.getString("ver"));
-        setName(jSONObject.getString("name"));
-        setTimestamp(JSONDateUtils.toDate(jSONObject.getString("time")));
-        if (jSONObject.has("popSample")) {
-            setPopSample(Double.valueOf(jSONObject.getDouble("popSample")));
-        }
-        setIKey(jSONObject.optString("iKey", null));
-        setFlags(JSONUtils.readLong(jSONObject, "flags"));
-        setCV(jSONObject.optString("cV", null));
-        if (jSONObject.has("ext")) {
-            Extensions extensions = new Extensions();
-            extensions.read(jSONObject.getJSONObject("ext"));
-            setExt(extensions);
-        }
-        if (jSONObject.has("data")) {
-            Data data = new Data();
-            data.read(jSONObject.getJSONObject("data"));
-            setData(data);
-        }
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.AbstractLog, com.microsoft.appcenter.ingestion.models.Model
-    public void write(JSONStringer jSONStringer) throws JSONException {
-        jSONStringer.key("ver").value(getVer());
-        jSONStringer.key("name").value(getName());
-        jSONStringer.key("time").value(JSONDateUtils.toString(getTimestamp()));
-        JSONUtils.write(jSONStringer, "popSample", getPopSample());
-        JSONUtils.write(jSONStringer, "iKey", getIKey());
-        JSONUtils.write(jSONStringer, "flags", getFlags());
-        JSONUtils.write(jSONStringer, "cV", getCV());
-        if (getExt() != null) {
-            jSONStringer.key("ext").object();
-            getExt().write(jSONStringer);
-            jSONStringer.endObject();
-        }
-        if (getData() != null) {
-            jSONStringer.key("data").object();
-            getData().write(jSONStringer);
-            jSONStringer.endObject();
-        }
-    }
 
     @Override // com.microsoft.appcenter.ingestion.models.AbstractLog
     public boolean equals(Object obj) {
@@ -167,6 +58,38 @@ public abstract class CommonSchemaLog extends AbstractLog {
         return false;
     }
 
+    public String getCV() {
+        return this.cV;
+    }
+
+    public Data getData() {
+        return this.data;
+    }
+
+    public Extensions getExt() {
+        return this.ext;
+    }
+
+    public Long getFlags() {
+        return this.flags;
+    }
+
+    public String getIKey() {
+        return this.iKey;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public Double getPopSample() {
+        return this.popSample;
+    }
+
+    public String getVer() {
+        return this.ver;
+    }
+
     @Override // com.microsoft.appcenter.ingestion.models.AbstractLog
     public int hashCode() {
         int hashCode = super.hashCode() * 31;
@@ -186,5 +109,81 @@ public abstract class CommonSchemaLog extends AbstractLog {
         int hashCode8 = (hashCode7 + (extensions != null ? extensions.hashCode() : 0)) * 31;
         Data data = this.data;
         return hashCode8 + (data != null ? data.hashCode() : 0);
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.AbstractLog, com.microsoft.appcenter.ingestion.models.Model
+    public void read(JSONObject jSONObject) {
+        setVer(jSONObject.getString("ver"));
+        setName(jSONObject.getString("name"));
+        setTimestamp(JSONDateUtils.toDate(jSONObject.getString("time")));
+        if (jSONObject.has("popSample")) {
+            setPopSample(Double.valueOf(jSONObject.getDouble("popSample")));
+        }
+        setIKey(jSONObject.optString("iKey", null));
+        setFlags(JSONUtils.readLong(jSONObject, "flags"));
+        setCV(jSONObject.optString("cV", null));
+        if (jSONObject.has("ext")) {
+            Extensions extensions = new Extensions();
+            extensions.read(jSONObject.getJSONObject("ext"));
+            setExt(extensions);
+        }
+        if (jSONObject.has("data")) {
+            Data data = new Data();
+            data.read(jSONObject.getJSONObject("data"));
+            setData(data);
+        }
+    }
+
+    public void setCV(String str) {
+        this.cV = str;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
+
+    public void setExt(Extensions extensions) {
+        this.ext = extensions;
+    }
+
+    public void setFlags(Long l) {
+        this.flags = l;
+    }
+
+    public void setIKey(String str) {
+        this.iKey = str;
+    }
+
+    public void setName(String str) {
+        this.name = str;
+    }
+
+    public void setPopSample(Double d) {
+        this.popSample = d;
+    }
+
+    public void setVer(String str) {
+        this.ver = str;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.AbstractLog, com.microsoft.appcenter.ingestion.models.Model
+    public void write(JSONStringer jSONStringer) {
+        jSONStringer.key("ver").value(getVer());
+        jSONStringer.key("name").value(getName());
+        jSONStringer.key("time").value(JSONDateUtils.toString(getTimestamp()));
+        JSONUtils.write(jSONStringer, "popSample", getPopSample());
+        JSONUtils.write(jSONStringer, "iKey", getIKey());
+        JSONUtils.write(jSONStringer, "flags", getFlags());
+        JSONUtils.write(jSONStringer, "cV", getCV());
+        if (getExt() != null) {
+            jSONStringer.key("ext").object();
+            getExt().write(jSONStringer);
+            jSONStringer.endObject();
+        }
+        if (getData() != null) {
+            jSONStringer.key("data").object();
+            getData().write(jSONStringer);
+            jSONStringer.endObject();
+        }
     }
 }

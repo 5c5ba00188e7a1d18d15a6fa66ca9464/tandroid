@@ -1,23 +1,16 @@
 package com.google.android.gms.internal.play_billing;
 
-import java.io.IOException;
 import java.util.Arrays;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzeh {
     private static final zzeh zza = new zzeh(0, new int[0], new Object[0], false);
     private int zzb;
     private int[] zzc;
     private Object[] zzd;
-    private int zze;
+    private int zze = -1;
     private boolean zzf;
 
-    private zzeh() {
-        this(0, new int[8], new Object[8], true);
-    }
-
     private zzeh(int i, int[] iArr, Object[] objArr, boolean z) {
-        this.zze = -1;
         this.zzb = i;
         this.zzc = iArr;
         this.zzd = objArr;
@@ -135,11 +128,11 @@ public final class zzeh {
                         zzy = ((zzeh) this.zzd[i4]).zza();
                         int zzx2 = zzbi.zzx(i9);
                         zzx = zzx2 + zzx2;
-                    } else if (i7 == 5) {
+                    } else if (i7 != 5) {
+                        throw new IllegalStateException(zzci.zza());
+                    } else {
                         ((Integer) this.zzd[i4]).intValue();
                         i = zzbi.zzx(i6 << 3) + 4;
-                    } else {
-                        throw new IllegalStateException(zzci.zza());
                     }
                     i3 += i;
                 } else {
@@ -219,7 +212,7 @@ public final class zzeh {
         this.zzb = i2 + 1;
     }
 
-    public final void zzk(zzey zzeyVar) throws IOException {
+    public final void zzk(zzey zzeyVar) {
         if (this.zzb != 0) {
             for (int i = 0; i < this.zzb; i++) {
                 int i2 = this.zzc[i];
@@ -236,10 +229,10 @@ public final class zzeh {
                     zzeyVar.zzE(i4);
                     ((zzeh) obj).zzk(zzeyVar);
                     zzeyVar.zzh(i4);
-                } else if (i3 == 5) {
-                    zzeyVar.zzk(i4, ((Integer) obj).intValue());
-                } else {
+                } else if (i3 != 5) {
                     throw new RuntimeException(zzci.zza());
+                } else {
+                    zzeyVar.zzk(i4, ((Integer) obj).intValue());
                 }
             }
         }

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.view.accessibility.CaptioningManager;
 import com.google.android.exoplayer2.Bundleable;
-import com.google.android.exoplayer2.source.TrackGroup;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.BundleableUtil;
 import com.google.android.exoplayer2.util.Util;
@@ -24,9 +23,7 @@ import java.util.Map;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class TrackSelectionParameters implements Bundleable {
-    @Deprecated
-    public static final Bundleable.Creator<TrackSelectionParameters> CREATOR;
-    @Deprecated
+    public static final Bundleable.Creator CREATOR;
     public static final TrackSelectionParameters DEFAULT;
     public static final TrackSelectionParameters DEFAULT_WITHOUT_CONTEXT;
     private static final String FIELD_DISABLED_TRACK_TYPE;
@@ -55,7 +52,7 @@ public class TrackSelectionParameters implements Bundleable {
     private static final String FIELD_VIEWPORT_HEIGHT;
     private static final String FIELD_VIEWPORT_ORIENTATION_MAY_CHANGE;
     private static final String FIELD_VIEWPORT_WIDTH;
-    public final ImmutableSet<Integer> disabledTrackTypes;
+    public final ImmutableSet disabledTrackTypes;
     public final boolean forceHighestSupportedBitrate;
     public final boolean forceLowestBitrate;
     public final int ignoredTextSelectionFlags;
@@ -69,13 +66,13 @@ public class TrackSelectionParameters implements Bundleable {
     public final int minVideoFrameRate;
     public final int minVideoHeight;
     public final int minVideoWidth;
-    public final ImmutableMap<TrackGroup, TrackSelectionOverride> overrides;
-    public final ImmutableList<String> preferredAudioLanguages;
-    public final ImmutableList<String> preferredAudioMimeTypes;
+    public final ImmutableMap overrides;
+    public final ImmutableList preferredAudioLanguages;
+    public final ImmutableList preferredAudioMimeTypes;
     public final int preferredAudioRoleFlags;
-    public final ImmutableList<String> preferredTextLanguages;
+    public final ImmutableList preferredTextLanguages;
     public final int preferredTextRoleFlags;
-    public final ImmutableList<String> preferredVideoMimeTypes;
+    public final ImmutableList preferredVideoMimeTypes;
     public final int preferredVideoRoleFlags;
     public final boolean selectUndeterminedTextLanguage;
     public final int viewportHeight;
@@ -84,7 +81,7 @@ public class TrackSelectionParameters implements Bundleable {
 
     /* loaded from: classes.dex */
     public static class Builder {
-        private HashSet<Integer> disabledTrackTypes;
+        private HashSet disabledTrackTypes;
         private boolean forceHighestSupportedBitrate;
         private boolean forceLowestBitrate;
         private int ignoredTextSelectionFlags;
@@ -98,20 +95,19 @@ public class TrackSelectionParameters implements Bundleable {
         private int minVideoFrameRate;
         private int minVideoHeight;
         private int minVideoWidth;
-        private HashMap<TrackGroup, TrackSelectionOverride> overrides;
-        private ImmutableList<String> preferredAudioLanguages;
-        private ImmutableList<String> preferredAudioMimeTypes;
+        private HashMap overrides;
+        private ImmutableList preferredAudioLanguages;
+        private ImmutableList preferredAudioMimeTypes;
         private int preferredAudioRoleFlags;
-        private ImmutableList<String> preferredTextLanguages;
+        private ImmutableList preferredTextLanguages;
         private int preferredTextRoleFlags;
-        private ImmutableList<String> preferredVideoMimeTypes;
+        private ImmutableList preferredVideoMimeTypes;
         private int preferredVideoRoleFlags;
         private boolean selectUndeterminedTextLanguage;
         private int viewportHeight;
         private boolean viewportOrientationMayChange;
         private int viewportWidth;
 
-        @Deprecated
         public Builder() {
             this.maxVideoWidth = ConnectionsManager.DEFAULT_DATACENTER_ID;
             this.maxVideoHeight = ConnectionsManager.DEFAULT_DATACENTER_ID;
@@ -133,8 +129,8 @@ public class TrackSelectionParameters implements Bundleable {
             this.selectUndeterminedTextLanguage = false;
             this.forceLowestBitrate = false;
             this.forceHighestSupportedBitrate = false;
-            this.overrides = new HashMap<>();
-            this.disabledTrackTypes = new HashSet<>();
+            this.overrides = new HashMap();
+            this.disabledTrackTypes = new HashSet();
         }
 
         public Builder(Context context) {
@@ -144,13 +140,7 @@ public class TrackSelectionParameters implements Bundleable {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        public Builder(TrackSelectionParameters trackSelectionParameters) {
-            init(trackSelectionParameters);
-        }
-
-        /* JADX INFO: Access modifiers changed from: protected */
         public Builder(Bundle bundle) {
-            ImmutableList fromBundleList;
             String str = TrackSelectionParameters.FIELD_MAX_VIDEO_WIDTH;
             TrackSelectionParameters trackSelectionParameters = TrackSelectionParameters.DEFAULT_WITHOUT_CONTEXT;
             this.maxVideoWidth = bundle.getInt(str, trackSelectionParameters.maxVideoWidth);
@@ -178,21 +168,22 @@ public class TrackSelectionParameters implements Bundleable {
             this.forceLowestBitrate = bundle.getBoolean(TrackSelectionParameters.FIELD_FORCE_LOWEST_BITRATE, trackSelectionParameters.forceLowestBitrate);
             this.forceHighestSupportedBitrate = bundle.getBoolean(TrackSelectionParameters.FIELD_FORCE_HIGHEST_SUPPORTED_BITRATE, trackSelectionParameters.forceHighestSupportedBitrate);
             ArrayList parcelableArrayList = bundle.getParcelableArrayList(TrackSelectionParameters.FIELD_SELECTION_OVERRIDES);
-            if (parcelableArrayList == null) {
-                fromBundleList = ImmutableList.of();
-            } else {
-                fromBundleList = BundleableUtil.fromBundleList(TrackSelectionOverride.CREATOR, parcelableArrayList);
-            }
-            this.overrides = new HashMap<>();
-            for (int i = 0; i < fromBundleList.size(); i++) {
-                TrackSelectionOverride trackSelectionOverride = (TrackSelectionOverride) fromBundleList.get(i);
+            ImmutableList of = parcelableArrayList == null ? ImmutableList.of() : BundleableUtil.fromBundleList(TrackSelectionOverride.CREATOR, parcelableArrayList);
+            this.overrides = new HashMap();
+            for (int i = 0; i < of.size(); i++) {
+                TrackSelectionOverride trackSelectionOverride = (TrackSelectionOverride) of.get(i);
                 this.overrides.put(trackSelectionOverride.mediaTrackGroup, trackSelectionOverride);
             }
             int[] iArr = (int[]) MoreObjects.firstNonNull(bundle.getIntArray(TrackSelectionParameters.FIELD_DISABLED_TRACK_TYPE), new int[0]);
-            this.disabledTrackTypes = new HashSet<>();
+            this.disabledTrackTypes = new HashSet();
             for (int i2 : iArr) {
                 this.disabledTrackTypes.add(Integer.valueOf(i2));
             }
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder(TrackSelectionParameters trackSelectionParameters) {
+            init(trackSelectionParameters);
         }
 
         private void init(TrackSelectionParameters trackSelectionParameters) {
@@ -220,25 +211,36 @@ public class TrackSelectionParameters implements Bundleable {
             this.selectUndeterminedTextLanguage = trackSelectionParameters.selectUndeterminedTextLanguage;
             this.forceLowestBitrate = trackSelectionParameters.forceLowestBitrate;
             this.forceHighestSupportedBitrate = trackSelectionParameters.forceHighestSupportedBitrate;
-            this.disabledTrackTypes = new HashSet<>(trackSelectionParameters.disabledTrackTypes);
-            this.overrides = new HashMap<>(trackSelectionParameters.overrides);
+            this.disabledTrackTypes = new HashSet(trackSelectionParameters.disabledTrackTypes);
+            this.overrides = new HashMap(trackSelectionParameters.overrides);
+        }
+
+        private static ImmutableList normalizeLanguageCodes(String[] strArr) {
+            ImmutableList.Builder builder = ImmutableList.builder();
+            for (String str : (String[]) Assertions.checkNotNull(strArr)) {
+                builder.add((Object) Util.normalizeLanguageCode((String) Assertions.checkNotNull(str)));
+            }
+            return builder.build();
+        }
+
+        private void setPreferredTextLanguageAndRoleFlagsToCaptioningManagerSettingsV19(Context context) {
+            CaptioningManager captioningManager;
+            if ((Util.SDK_INT >= 23 || Looper.myLooper() != null) && (captioningManager = (CaptioningManager) context.getSystemService("captioning")) != null && captioningManager.isEnabled()) {
+                this.preferredTextRoleFlags = 1088;
+                Locale locale = captioningManager.getLocale();
+                if (locale != null) {
+                    this.preferredTextLanguages = ImmutableList.of((Object) Util.getLocaleLanguageTag(locale));
+                }
+            }
+        }
+
+        public TrackSelectionParameters build() {
+            return new TrackSelectionParameters(this);
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
         public Builder set(TrackSelectionParameters trackSelectionParameters) {
             init(trackSelectionParameters);
-            return this;
-        }
-
-        public Builder setViewportSizeToPhysicalDisplaySize(Context context, boolean z) {
-            Point currentDisplayModeSize = Util.getCurrentDisplayModeSize(context);
-            return setViewportSize(currentDisplayModeSize.x, currentDisplayModeSize.y, z);
-        }
-
-        public Builder setViewportSize(int i, int i2, boolean z) {
-            this.viewportWidth = i;
-            this.viewportHeight = i2;
-            this.viewportOrientationMayChange = z;
             return this;
         }
 
@@ -258,27 +260,16 @@ public class TrackSelectionParameters implements Bundleable {
             return this;
         }
 
-        public TrackSelectionParameters build() {
-            return new TrackSelectionParameters(this);
+        public Builder setViewportSize(int i, int i2, boolean z) {
+            this.viewportWidth = i;
+            this.viewportHeight = i2;
+            this.viewportOrientationMayChange = z;
+            return this;
         }
 
-        private void setPreferredTextLanguageAndRoleFlagsToCaptioningManagerSettingsV19(Context context) {
-            CaptioningManager captioningManager;
-            if ((Util.SDK_INT >= 23 || Looper.myLooper() != null) && (captioningManager = (CaptioningManager) context.getSystemService("captioning")) != null && captioningManager.isEnabled()) {
-                this.preferredTextRoleFlags = 1088;
-                Locale locale = captioningManager.getLocale();
-                if (locale != null) {
-                    this.preferredTextLanguages = ImmutableList.of(Util.getLocaleLanguageTag(locale));
-                }
-            }
-        }
-
-        private static ImmutableList<String> normalizeLanguageCodes(String[] strArr) {
-            ImmutableList.Builder builder = ImmutableList.builder();
-            for (String str : (String[]) Assertions.checkNotNull(strArr)) {
-                builder.add((ImmutableList.Builder) Util.normalizeLanguageCode((String) Assertions.checkNotNull(str)));
-            }
-            return builder.build();
+        public Builder setViewportSizeToPhysicalDisplaySize(Context context, boolean z) {
+            Point currentDisplayModeSize = Util.getCurrentDisplayModeSize(context);
+            return setViewportSize(currentDisplayModeSize.x, currentDisplayModeSize.y, z);
         }
     }
 
@@ -350,6 +341,10 @@ public class TrackSelectionParameters implements Bundleable {
         this.disabledTrackTypes = ImmutableSet.copyOf((Collection) builder.disabledTrackTypes);
     }
 
+    public static TrackSelectionParameters fromBundle(Bundle bundle) {
+        return new Builder(bundle).build();
+    }
+
     public Builder buildUpon() {
         return new Builder(this);
     }
@@ -399,9 +394,5 @@ public class TrackSelectionParameters implements Bundleable {
         bundle.putParcelableArrayList(FIELD_SELECTION_OVERRIDES, BundleableUtil.toBundleArrayList(this.overrides.values()));
         bundle.putIntArray(FIELD_DISABLED_TRACK_TYPE, Ints.toArray(this.disabledTrackTypes));
         return bundle;
-    }
-
-    public static TrackSelectionParameters fromBundle(Bundle bundle) {
-        return new Builder(bundle).build();
     }
 }

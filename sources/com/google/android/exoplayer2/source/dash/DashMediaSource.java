@@ -14,7 +14,6 @@ import com.google.android.exoplayer2.drm.DefaultDrmSessionManagerProvider;
 import com.google.android.exoplayer2.drm.DrmSessionManager;
 import com.google.android.exoplayer2.drm.DrmSessionManagerProvider;
 import com.google.android.exoplayer2.offline.FilteringManifestParser;
-import com.google.android.exoplayer2.offline.StreamKey;
 import com.google.android.exoplayer2.source.BaseMediaSource;
 import com.google.android.exoplayer2.source.CompositeSequenceableLoaderFactory;
 import com.google.android.exoplayer2.source.DefaultCompositeSequenceableLoaderFactory;
@@ -84,20 +83,131 @@ public final class DashMediaSource extends BaseMediaSource {
     private final LoaderErrorThrower manifestLoadErrorThrower;
     private boolean manifestLoadPending;
     private long manifestLoadStartTimestampMs;
-    private final ParsingLoadable.Parser<? extends DashManifest> manifestParser;
+    private final ParsingLoadable.Parser manifestParser;
     private Uri manifestUri;
     private final Object manifestUriLock;
     private final MediaItem mediaItem;
     private TransferListener mediaTransferListener;
-    private final SparseArray<DashMediaPeriod> periodsById;
+    private final SparseArray periodsById;
     private final PlayerEmsgHandler.PlayerEmsgCallback playerEmsgCallback;
     private final Runnable refreshManifestRunnable;
     private final boolean sideloadedManifest;
     private final Runnable simulateManifestRefreshRunnable;
     private int staleManifestReloadAttempt;
 
-    static {
-        ExoPlayerLibraryInfo.registerModule("goog.exo.dash");
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static final class DashTimeline extends Timeline {
+        private final long elapsedRealtimeEpochOffsetMs;
+        private final int firstPeriodId;
+        private final MediaItem.LiveConfiguration liveConfiguration;
+        private final DashManifest manifest;
+        private final MediaItem mediaItem;
+        private final long offsetInFirstPeriodUs;
+        private final long presentationStartTimeMs;
+        private final long windowDefaultStartPositionUs;
+        private final long windowDurationUs;
+        private final long windowStartTimeMs;
+
+        public DashTimeline(long j, long j2, long j3, int i, long j4, long j5, long j6, DashManifest dashManifest, MediaItem mediaItem, MediaItem.LiveConfiguration liveConfiguration) {
+            Assertions.checkState(dashManifest.dynamic == (liveConfiguration != null));
+            this.presentationStartTimeMs = j;
+            this.windowStartTimeMs = j2;
+            this.elapsedRealtimeEpochOffsetMs = j3;
+            this.firstPeriodId = i;
+            this.offsetInFirstPeriodUs = j4;
+            this.windowDurationUs = j5;
+            this.windowDefaultStartPositionUs = j6;
+            this.manifest = dashManifest;
+            this.mediaItem = mediaItem;
+            this.liveConfiguration = liveConfiguration;
+        }
+
+        private long getAdjustedWindowDefaultStartPositionUs(long j) {
+            DashSegmentIndex index;
+            long j2 = this.windowDefaultStartPositionUs;
+            if (isMovingLiveWindow(this.manifest)) {
+                if (j > 0) {
+                    j2 += j;
+                    if (j2 > this.windowDurationUs) {
+                        return -9223372036854775807L;
+                    }
+                }
+                long j3 = this.offsetInFirstPeriodUs + j2;
+                long periodDurationUs = this.manifest.getPeriodDurationUs(0);
+                int i = 0;
+                while (i < this.manifest.getPeriodCount() - 1 && j3 >= periodDurationUs) {
+                    j3 -= periodDurationUs;
+                    i++;
+                    periodDurationUs = this.manifest.getPeriodDurationUs(i);
+                }
+                Period period = this.manifest.getPeriod(i);
+                int adaptationSetIndex = period.getAdaptationSetIndex(2);
+                return (adaptationSetIndex == -1 || (index = ((Representation) ((AdaptationSet) period.adaptationSets.get(adaptationSetIndex)).representations.get(0)).getIndex()) == null || index.getSegmentCount(periodDurationUs) == 0) ? j2 : (j2 + index.getTimeUs(index.getSegmentNum(j3, periodDurationUs))) - j3;
+            }
+            return j2;
+        }
+
+        private static boolean isMovingLiveWindow(DashManifest dashManifest) {
+            return dashManifest.dynamic && dashManifest.minUpdatePeriodMs != -9223372036854775807L && dashManifest.durationMs == -9223372036854775807L;
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public int getIndexOfPeriod(Object obj) {
+            int intValue;
+            if ((obj instanceof Integer) && (intValue = ((Integer) obj).intValue() - this.firstPeriodId) >= 0 && intValue < getPeriodCount()) {
+                return intValue;
+            }
+            return -1;
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public Timeline.Period getPeriod(int i, Timeline.Period period, boolean z) {
+            Assertions.checkIndex(i, 0, getPeriodCount());
+            return period.set(z ? this.manifest.getPeriod(i).id : null, z ? Integer.valueOf(this.firstPeriodId + i) : null, 0, this.manifest.getPeriodDurationUs(i), Util.msToUs(this.manifest.getPeriod(i).startMs - this.manifest.getPeriod(0).startMs) - this.offsetInFirstPeriodUs);
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public int getPeriodCount() {
+            return this.manifest.getPeriodCount();
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public Object getUidOfPeriod(int i) {
+            Assertions.checkIndex(i, 0, getPeriodCount());
+            return Integer.valueOf(this.firstPeriodId + i);
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public Timeline.Window getWindow(int i, Timeline.Window window, long j) {
+            Assertions.checkIndex(i, 0, 1);
+            long adjustedWindowDefaultStartPositionUs = getAdjustedWindowDefaultStartPositionUs(j);
+            Object obj = Timeline.Window.SINGLE_WINDOW_UID;
+            MediaItem mediaItem = this.mediaItem;
+            DashManifest dashManifest = this.manifest;
+            return window.set(obj, mediaItem, dashManifest, this.presentationStartTimeMs, this.windowStartTimeMs, this.elapsedRealtimeEpochOffsetMs, true, isMovingLiveWindow(dashManifest), this.liveConfiguration, adjustedWindowDefaultStartPositionUs, this.windowDurationUs, 0, getPeriodCount() - 1, this.offsetInFirstPeriodUs);
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public int getWindowCount() {
+            return 1;
+        }
+    }
+
+    /* loaded from: classes.dex */
+    private final class DefaultPlayerEmsgCallback implements PlayerEmsgHandler.PlayerEmsgCallback {
+        private DefaultPlayerEmsgCallback() {
+        }
+
+        @Override // com.google.android.exoplayer2.source.dash.PlayerEmsgHandler.PlayerEmsgCallback
+        public void onDashManifestPublishTimeExpired(long j) {
+            DashMediaSource.this.onDashManifestPublishTimeExpired(j);
+        }
+
+        @Override // com.google.android.exoplayer2.source.dash.PlayerEmsgHandler.PlayerEmsgCallback
+        public void onDashManifestRefreshRequested() {
+            DashMediaSource.this.onDashManifestRefreshRequested();
+        }
     }
 
     /* loaded from: classes.dex */
@@ -108,11 +218,7 @@ public final class DashMediaSource extends BaseMediaSource {
         private long fallbackTargetLiveOffsetMs;
         private LoadErrorHandlingPolicy loadErrorHandlingPolicy;
         private final DataSource.Factory manifestDataSourceFactory;
-        private ParsingLoadable.Parser<? extends DashManifest> manifestParser;
-
-        public Factory(DataSource.Factory factory) {
-            this(new DefaultDashChunkSource.Factory(factory), factory);
-        }
+        private ParsingLoadable.Parser manifestParser;
 
         public Factory(DashChunkSource.Factory factory, DataSource.Factory factory2) {
             this.chunkSourceFactory = (DashChunkSource.Factory) Assertions.checkNotNull(factory);
@@ -121,6 +227,21 @@ public final class DashMediaSource extends BaseMediaSource {
             this.loadErrorHandlingPolicy = new DefaultLoadErrorHandlingPolicy();
             this.fallbackTargetLiveOffsetMs = 30000L;
             this.compositeSequenceableLoaderFactory = new DefaultCompositeSequenceableLoaderFactory();
+        }
+
+        public Factory(DataSource.Factory factory) {
+            this(new DefaultDashChunkSource.Factory(factory), factory);
+        }
+
+        @Override // com.google.android.exoplayer2.source.MediaSource.Factory
+        public DashMediaSource createMediaSource(MediaItem mediaItem) {
+            Assertions.checkNotNull(mediaItem.localConfiguration);
+            ParsingLoadable.Parser parser = this.manifestParser;
+            if (parser == null) {
+                parser = new DashManifestParser();
+            }
+            List list = mediaItem.localConfiguration.streamKeys;
+            return new DashMediaSource(mediaItem, null, this.manifestDataSourceFactory, !list.isEmpty() ? new FilteringManifestParser(parser, list) : parser, this.chunkSourceFactory, this.compositeSequenceableLoaderFactory, this.drmSessionManagerProvider.get(mediaItem), this.loadErrorHandlingPolicy, this.fallbackTargetLiveOffsetMs);
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSource.Factory
@@ -134,20 +255,120 @@ public final class DashMediaSource extends BaseMediaSource {
             this.loadErrorHandlingPolicy = (LoadErrorHandlingPolicy) Assertions.checkNotNull(loadErrorHandlingPolicy, "MediaSource.Factory#setLoadErrorHandlingPolicy no longer handles null by instantiating a new DefaultLoadErrorHandlingPolicy. Explicitly construct and pass an instance in order to retain the old behavior.");
             return this;
         }
+    }
 
-        @Override // com.google.android.exoplayer2.source.MediaSource.Factory
-        public DashMediaSource createMediaSource(MediaItem mediaItem) {
-            Assertions.checkNotNull(mediaItem.localConfiguration);
-            ParsingLoadable.Parser parser = this.manifestParser;
-            if (parser == null) {
-                parser = new DashManifestParser();
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static final class Iso8601Parser implements ParsingLoadable.Parser {
+        private static final Pattern TIMESTAMP_WITH_TIMEZONE_PATTERN = Pattern.compile("(.+?)(Z|((\\+|-|−)(\\d\\d)(:?(\\d\\d))?))");
+
+        Iso8601Parser() {
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
+        public Long parse(Uri uri, InputStream inputStream) {
+            String readLine = new BufferedReader(new InputStreamReader(inputStream, Charsets.UTF_8)).readLine();
+            try {
+                Matcher matcher = TIMESTAMP_WITH_TIMEZONE_PATTERN.matcher(readLine);
+                if (!matcher.matches()) {
+                    throw ParserException.createForMalformedManifest("Couldn't parse timestamp: " + readLine, null);
+                }
+                String group = matcher.group(1);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+                simpleDateFormat.setTimeZone(DesugarTimeZone.getTimeZone("UTC"));
+                long time = simpleDateFormat.parse(group).getTime();
+                if (!"Z".equals(matcher.group(2))) {
+                    long j = "+".equals(matcher.group(4)) ? 1L : -1L;
+                    long parseLong = Long.parseLong(matcher.group(5));
+                    String group2 = matcher.group(7);
+                    time -= j * (((parseLong * 60) + (TextUtils.isEmpty(group2) ? 0L : Long.parseLong(group2))) * 60000);
+                }
+                return Long.valueOf(time);
+            } catch (ParseException e) {
+                throw ParserException.createForMalformedManifest(null, e);
             }
-            List<StreamKey> list = mediaItem.localConfiguration.streamKeys;
-            return new DashMediaSource(mediaItem, null, this.manifestDataSourceFactory, !list.isEmpty() ? new FilteringManifestParser(parser, list) : parser, this.chunkSourceFactory, this.compositeSequenceableLoaderFactory, this.drmSessionManagerProvider.get(mediaItem), this.loadErrorHandlingPolicy, this.fallbackTargetLiveOffsetMs);
         }
     }
 
-    private DashMediaSource(MediaItem mediaItem, DashManifest dashManifest, DataSource.Factory factory, ParsingLoadable.Parser<? extends DashManifest> parser, DashChunkSource.Factory factory2, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, DrmSessionManager drmSessionManager, LoadErrorHandlingPolicy loadErrorHandlingPolicy, long j) {
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public final class ManifestCallback implements Loader.Callback {
+        private ManifestCallback() {
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
+        public void onLoadCanceled(ParsingLoadable parsingLoadable, long j, long j2, boolean z) {
+            DashMediaSource.this.onLoadCanceled(parsingLoadable, j, j2);
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
+        public void onLoadCompleted(ParsingLoadable parsingLoadable, long j, long j2) {
+            DashMediaSource.this.onManifestLoadCompleted(parsingLoadable, j, j2);
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
+        public Loader.LoadErrorAction onLoadError(ParsingLoadable parsingLoadable, long j, long j2, IOException iOException, int i) {
+            return DashMediaSource.this.onManifestLoadError(parsingLoadable, j, j2, iOException, i);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    final class ManifestLoadErrorThrower implements LoaderErrorThrower {
+        ManifestLoadErrorThrower() {
+        }
+
+        private void maybeThrowManifestError() {
+            if (DashMediaSource.this.manifestFatalError != null) {
+                throw DashMediaSource.this.manifestFatalError;
+            }
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.LoaderErrorThrower
+        public void maybeThrowError() {
+            DashMediaSource.this.loader.maybeThrowError();
+            maybeThrowManifestError();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public final class UtcTimestampCallback implements Loader.Callback {
+        private UtcTimestampCallback() {
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
+        public void onLoadCanceled(ParsingLoadable parsingLoadable, long j, long j2, boolean z) {
+            DashMediaSource.this.onLoadCanceled(parsingLoadable, j, j2);
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
+        public void onLoadCompleted(ParsingLoadable parsingLoadable, long j, long j2) {
+            DashMediaSource.this.onUtcTimestampLoadCompleted(parsingLoadable, j, j2);
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
+        public Loader.LoadErrorAction onLoadError(ParsingLoadable parsingLoadable, long j, long j2, IOException iOException, int i) {
+            return DashMediaSource.this.onUtcTimestampLoadError(parsingLoadable, j, j2, iOException);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static final class XsDateTimeParser implements ParsingLoadable.Parser {
+        private XsDateTimeParser() {
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
+        public Long parse(Uri uri, InputStream inputStream) {
+            return Long.valueOf(Util.parseXsDateTime(new BufferedReader(new InputStreamReader(inputStream)).readLine()));
+        }
+    }
+
+    static {
+        ExoPlayerLibraryInfo.registerModule("goog.exo.dash");
+    }
+
+    private DashMediaSource(MediaItem mediaItem, DashManifest dashManifest, DataSource.Factory factory, ParsingLoadable.Parser parser, DashChunkSource.Factory factory2, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, DrmSessionManager drmSessionManager, LoadErrorHandlingPolicy loadErrorHandlingPolicy, long j) {
         this.mediaItem = mediaItem;
         this.liveConfiguration = mediaItem.liveConfiguration;
         this.manifestUri = ((MediaItem.LocalConfiguration) Assertions.checkNotNull(mediaItem.localConfiguration)).uri;
@@ -165,32 +386,124 @@ public final class DashMediaSource extends BaseMediaSource {
         this.sideloadedManifest = z;
         this.manifestEventDispatcher = createEventDispatcher(null);
         this.manifestUriLock = new Object();
-        this.periodsById = new SparseArray<>();
+        this.periodsById = new SparseArray();
         this.playerEmsgCallback = new DefaultPlayerEmsgCallback();
         this.expiredManifestPublishTimeUs = -9223372036854775807L;
         this.elapsedRealtimeOffsetMs = -9223372036854775807L;
-        if (z) {
-            Assertions.checkState(true ^ dashManifest.dynamic);
-            this.manifestCallback = null;
-            this.refreshManifestRunnable = null;
-            this.simulateManifestRefreshRunnable = null;
-            this.manifestLoadErrorThrower = new LoaderErrorThrower.Dummy();
+        if (!z) {
+            this.manifestCallback = new ManifestCallback();
+            this.manifestLoadErrorThrower = new ManifestLoadErrorThrower();
+            this.refreshManifestRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.dash.DashMediaSource$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DashMediaSource.this.startLoadingManifest();
+                }
+            };
+            this.simulateManifestRefreshRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.dash.DashMediaSource$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DashMediaSource.this.lambda$new$0();
+                }
+            };
             return;
         }
-        this.manifestCallback = new ManifestCallback();
-        this.manifestLoadErrorThrower = new ManifestLoadErrorThrower();
-        this.refreshManifestRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.dash.DashMediaSource$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                DashMediaSource.this.startLoadingManifest();
+        Assertions.checkState(true ^ dashManifest.dynamic);
+        this.manifestCallback = null;
+        this.refreshManifestRunnable = null;
+        this.simulateManifestRefreshRunnable = null;
+        this.manifestLoadErrorThrower = new LoaderErrorThrower.Dummy();
+    }
+
+    private static long getAvailableEndTimeInManifestUs(Period period, long j, long j2) {
+        long msToUs = Util.msToUs(period.startMs);
+        boolean hasVideoOrAudioAdaptationSets = hasVideoOrAudioAdaptationSets(period);
+        long j3 = Long.MAX_VALUE;
+        for (int i = 0; i < period.adaptationSets.size(); i++) {
+            AdaptationSet adaptationSet = (AdaptationSet) period.adaptationSets.get(i);
+            List list = adaptationSet.representations;
+            int i2 = adaptationSet.type;
+            boolean z = true;
+            z = (i2 == 1 || i2 == 2) ? false : false;
+            if ((!hasVideoOrAudioAdaptationSets || !z) && !list.isEmpty()) {
+                DashSegmentIndex index = ((Representation) list.get(0)).getIndex();
+                if (index == null) {
+                    return msToUs + j;
+                }
+                long availableSegmentCount = index.getAvailableSegmentCount(j, j2);
+                if (availableSegmentCount == 0) {
+                    return msToUs;
+                }
+                long firstAvailableSegmentNum = (index.getFirstAvailableSegmentNum(j, j2) + availableSegmentCount) - 1;
+                j3 = Math.min(j3, index.getDurationUs(firstAvailableSegmentNum, j) + index.getTimeUs(firstAvailableSegmentNum) + msToUs);
             }
-        };
-        this.simulateManifestRefreshRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.dash.DashMediaSource$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                DashMediaSource.this.lambda$new$0();
+        }
+        return j3;
+    }
+
+    private static long getAvailableStartTimeInManifestUs(Period period, long j, long j2) {
+        long msToUs = Util.msToUs(period.startMs);
+        boolean hasVideoOrAudioAdaptationSets = hasVideoOrAudioAdaptationSets(period);
+        long j3 = msToUs;
+        for (int i = 0; i < period.adaptationSets.size(); i++) {
+            AdaptationSet adaptationSet = (AdaptationSet) period.adaptationSets.get(i);
+            List list = adaptationSet.representations;
+            int i2 = adaptationSet.type;
+            boolean z = true;
+            z = (i2 == 1 || i2 == 2) ? false : false;
+            if ((!hasVideoOrAudioAdaptationSets || !z) && !list.isEmpty()) {
+                DashSegmentIndex index = ((Representation) list.get(0)).getIndex();
+                if (index == null || index.getAvailableSegmentCount(j, j2) == 0) {
+                    return msToUs;
+                }
+                j3 = Math.max(j3, index.getTimeUs(index.getFirstAvailableSegmentNum(j, j2)) + msToUs);
             }
-        };
+        }
+        return j3;
+    }
+
+    private static long getIntervalUntilNextManifestRefreshMs(DashManifest dashManifest, long j) {
+        DashSegmentIndex index;
+        int periodCount = dashManifest.getPeriodCount() - 1;
+        Period period = dashManifest.getPeriod(periodCount);
+        long msToUs = Util.msToUs(period.startMs);
+        long periodDurationUs = dashManifest.getPeriodDurationUs(periodCount);
+        long msToUs2 = Util.msToUs(j);
+        long msToUs3 = Util.msToUs(dashManifest.availabilityStartTimeMs);
+        long msToUs4 = Util.msToUs(5000L);
+        for (int i = 0; i < period.adaptationSets.size(); i++) {
+            List list = ((AdaptationSet) period.adaptationSets.get(i)).representations;
+            if (!list.isEmpty() && (index = ((Representation) list.get(0)).getIndex()) != null) {
+                long nextSegmentAvailableTimeUs = ((msToUs3 + msToUs) + index.getNextSegmentAvailableTimeUs(periodDurationUs, msToUs2)) - msToUs2;
+                if (nextSegmentAvailableTimeUs < msToUs4 - 100000 || (nextSegmentAvailableTimeUs > msToUs4 && nextSegmentAvailableTimeUs < msToUs4 + 100000)) {
+                    msToUs4 = nextSegmentAvailableTimeUs;
+                }
+            }
+        }
+        return LongMath.divide(msToUs4, 1000L, RoundingMode.CEILING);
+    }
+
+    private long getManifestLoadRetryDelayMillis() {
+        return Math.min((this.staleManifestReloadAttempt - 1) * 1000, 5000);
+    }
+
+    private static boolean hasVideoOrAudioAdaptationSets(Period period) {
+        for (int i = 0; i < period.adaptationSets.size(); i++) {
+            int i2 = ((AdaptationSet) period.adaptationSets.get(i)).type;
+            if (i2 == 1 || i2 == 2) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isIndexExplicit(Period period) {
+        for (int i = 0; i < period.adaptationSets.size(); i++) {
+            DashSegmentIndex index = ((Representation) ((AdaptationSet) period.adaptationSets.get(i)).representations.get(0)).getIndex();
+            if (index == null || index.isExplicit()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -198,243 +511,29 @@ public final class DashMediaSource extends BaseMediaSource {
         processManifest(false);
     }
 
-    @Override // com.google.android.exoplayer2.source.MediaSource
-    public MediaItem getMediaItem() {
-        return this.mediaItem;
-    }
-
-    @Override // com.google.android.exoplayer2.source.BaseMediaSource
-    protected void prepareSourceInternal(TransferListener transferListener) {
-        this.mediaTransferListener = transferListener;
-        this.drmSessionManager.prepare();
-        this.drmSessionManager.setPlayer(Looper.myLooper(), getPlayerId());
-        if (this.sideloadedManifest) {
-            processManifest(false);
-            return;
-        }
-        this.dataSource = this.manifestDataSourceFactory.createDataSource();
-        this.loader = new Loader("DashMediaSource");
-        this.handler = Util.createHandlerForCurrentLooper();
-        startLoadingManifest();
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaSource
-    public void maybeThrowSourceInfoRefreshError() throws IOException {
-        this.manifestLoadErrorThrower.maybeThrowError();
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaSource
-    public MediaPeriod createPeriod(MediaSource.MediaPeriodId mediaPeriodId, Allocator allocator, long j) {
-        int intValue = ((Integer) mediaPeriodId.periodUid).intValue() - this.firstPeriodId;
-        MediaSourceEventListener.EventDispatcher createEventDispatcher = createEventDispatcher(mediaPeriodId, this.manifest.getPeriod(intValue).startMs);
-        DashMediaPeriod dashMediaPeriod = new DashMediaPeriod(intValue + this.firstPeriodId, this.manifest, this.baseUrlExclusionList, intValue, this.chunkSourceFactory, this.mediaTransferListener, this.drmSessionManager, createDrmEventDispatcher(mediaPeriodId), this.loadErrorHandlingPolicy, createEventDispatcher, this.elapsedRealtimeOffsetMs, this.manifestLoadErrorThrower, allocator, this.compositeSequenceableLoaderFactory, this.playerEmsgCallback, getPlayerId());
-        this.periodsById.put(dashMediaPeriod.id, dashMediaPeriod);
-        return dashMediaPeriod;
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaSource
-    public void releasePeriod(MediaPeriod mediaPeriod) {
-        DashMediaPeriod dashMediaPeriod = (DashMediaPeriod) mediaPeriod;
-        dashMediaPeriod.release();
-        this.periodsById.remove(dashMediaPeriod.id);
-    }
-
-    @Override // com.google.android.exoplayer2.source.BaseMediaSource
-    protected void releaseSourceInternal() {
-        this.manifestLoadPending = false;
-        this.dataSource = null;
-        Loader loader = this.loader;
-        if (loader != null) {
-            loader.release();
-            this.loader = null;
-        }
-        this.manifestLoadStartTimestampMs = 0L;
-        this.manifestLoadEndTimestampMs = 0L;
-        this.manifest = this.sideloadedManifest ? this.manifest : null;
-        this.manifestUri = this.initialManifestUri;
-        this.manifestFatalError = null;
-        Handler handler = this.handler;
-        if (handler != null) {
-            handler.removeCallbacksAndMessages(null);
-            this.handler = null;
-        }
-        this.elapsedRealtimeOffsetMs = -9223372036854775807L;
-        this.staleManifestReloadAttempt = 0;
-        this.expiredManifestPublishTimeUs = -9223372036854775807L;
-        this.firstPeriodId = 0;
-        this.periodsById.clear();
-        this.baseUrlExclusionList.reset();
-        this.drmSessionManager.release();
-    }
-
-    void onDashManifestRefreshRequested() {
-        this.handler.removeCallbacks(this.simulateManifestRefreshRunnable);
-        startLoadingManifest();
-    }
-
-    void onDashManifestPublishTimeExpired(long j) {
-        long j2 = this.expiredManifestPublishTimeUs;
-        if (j2 == -9223372036854775807L || j2 < j) {
-            this.expiredManifestPublishTimeUs = j;
-        }
-    }
-
-    void onManifestLoadCompleted(ParsingLoadable<DashManifest> parsingLoadable, long j, long j2) {
-        LoadEventInfo loadEventInfo = new LoadEventInfo(parsingLoadable.loadTaskId, parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), j, j2, parsingLoadable.bytesLoaded());
-        this.loadErrorHandlingPolicy.onLoadTaskConcluded(parsingLoadable.loadTaskId);
-        this.manifestEventDispatcher.loadCompleted(loadEventInfo, parsingLoadable.type);
-        DashManifest result = parsingLoadable.getResult();
-        DashManifest dashManifest = this.manifest;
-        int periodCount = dashManifest == null ? 0 : dashManifest.getPeriodCount();
-        long j3 = result.getPeriod(0).startMs;
-        int i = 0;
-        while (i < periodCount && this.manifest.getPeriod(i).startMs < j3) {
-            i++;
-        }
-        if (result.dynamic) {
-            if (periodCount - i > result.getPeriodCount()) {
-                Log.w("DashMediaSource", "Loaded out of sync manifest");
-            } else {
-                long j4 = this.expiredManifestPublishTimeUs;
-                if (j4 != -9223372036854775807L && result.publishTimeMs * 1000 <= j4) {
-                    Log.w("DashMediaSource", "Loaded stale dynamic manifest: " + result.publishTimeMs + ", " + this.expiredManifestPublishTimeUs);
-                } else {
-                    this.staleManifestReloadAttempt = 0;
-                }
-            }
-            int i2 = this.staleManifestReloadAttempt;
-            this.staleManifestReloadAttempt = i2 + 1;
-            if (i2 < this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(parsingLoadable.type)) {
-                scheduleManifestRefresh(getManifestLoadRetryDelayMillis());
-                return;
-            } else {
-                this.manifestFatalError = new DashManifestStaleException();
-                return;
-            }
-        }
-        this.manifest = result;
-        this.manifestLoadPending = result.dynamic & this.manifestLoadPending;
-        this.manifestLoadStartTimestampMs = j - j2;
-        this.manifestLoadEndTimestampMs = j;
-        synchronized (this.manifestUriLock) {
-            try {
-                if (parsingLoadable.dataSpec.uri == this.manifestUri) {
-                    Uri uri = this.manifest.location;
-                    if (uri == null) {
-                        uri = parsingLoadable.getUri();
-                    }
-                    this.manifestUri = uri;
-                }
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-        if (periodCount == 0) {
-            DashManifest dashManifest2 = this.manifest;
-            if (dashManifest2.dynamic) {
-                UtcTimingElement utcTimingElement = dashManifest2.utcTiming;
-                if (utcTimingElement != null) {
-                    resolveUtcTimingElement(utcTimingElement);
-                    return;
-                } else {
-                    loadNtpTimeOffset();
-                    return;
-                }
-            }
-            processManifest(true);
-            return;
-        }
-        this.firstPeriodId += i;
-        processManifest(true);
-    }
-
-    Loader.LoadErrorAction onManifestLoadError(ParsingLoadable<DashManifest> parsingLoadable, long j, long j2, IOException iOException, int i) {
-        Loader.LoadErrorAction createRetryAction;
-        LoadEventInfo loadEventInfo = new LoadEventInfo(parsingLoadable.loadTaskId, parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), j, j2, parsingLoadable.bytesLoaded());
-        long retryDelayMsFor = this.loadErrorHandlingPolicy.getRetryDelayMsFor(new LoadErrorHandlingPolicy.LoadErrorInfo(loadEventInfo, new MediaLoadData(parsingLoadable.type), iOException, i));
-        if (retryDelayMsFor == -9223372036854775807L) {
-            createRetryAction = Loader.DONT_RETRY_FATAL;
-        } else {
-            createRetryAction = Loader.createRetryAction(false, retryDelayMsFor);
-        }
-        boolean z = !createRetryAction.isRetry();
-        this.manifestEventDispatcher.loadError(loadEventInfo, parsingLoadable.type, iOException, z);
-        if (z) {
-            this.loadErrorHandlingPolicy.onLoadTaskConcluded(parsingLoadable.loadTaskId);
-        }
-        return createRetryAction;
-    }
-
-    void onUtcTimestampLoadCompleted(ParsingLoadable<Long> parsingLoadable, long j, long j2) {
-        LoadEventInfo loadEventInfo = new LoadEventInfo(parsingLoadable.loadTaskId, parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), j, j2, parsingLoadable.bytesLoaded());
-        this.loadErrorHandlingPolicy.onLoadTaskConcluded(parsingLoadable.loadTaskId);
-        this.manifestEventDispatcher.loadCompleted(loadEventInfo, parsingLoadable.type);
-        onUtcTimestampResolved(parsingLoadable.getResult().longValue() - j);
-    }
-
-    Loader.LoadErrorAction onUtcTimestampLoadError(ParsingLoadable<Long> parsingLoadable, long j, long j2, IOException iOException) {
-        this.manifestEventDispatcher.loadError(new LoadEventInfo(parsingLoadable.loadTaskId, parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), j, j2, parsingLoadable.bytesLoaded()), parsingLoadable.type, iOException, true);
-        this.loadErrorHandlingPolicy.onLoadTaskConcluded(parsingLoadable.loadTaskId);
-        onUtcTimestampResolutionError(iOException);
-        return Loader.DONT_RETRY;
-    }
-
-    void onLoadCanceled(ParsingLoadable<?> parsingLoadable, long j, long j2) {
-        LoadEventInfo loadEventInfo = new LoadEventInfo(parsingLoadable.loadTaskId, parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), j, j2, parsingLoadable.bytesLoaded());
-        this.loadErrorHandlingPolicy.onLoadTaskConcluded(parsingLoadable.loadTaskId);
-        this.manifestEventDispatcher.loadCanceled(loadEventInfo, parsingLoadable.type);
-    }
-
-    private void resolveUtcTimingElement(UtcTimingElement utcTimingElement) {
-        String str = utcTimingElement.schemeIdUri;
-        if (Util.areEqual(str, "urn:mpeg:dash:utc:direct:2014") || Util.areEqual(str, "urn:mpeg:dash:utc:direct:2012")) {
-            resolveUtcTimingElementDirect(utcTimingElement);
-        } else if (Util.areEqual(str, "urn:mpeg:dash:utc:http-iso:2014") || Util.areEqual(str, "urn:mpeg:dash:utc:http-iso:2012")) {
-            resolveUtcTimingElementHttp(utcTimingElement, new Iso8601Parser());
-        } else if (Util.areEqual(str, "urn:mpeg:dash:utc:http-xsdate:2014") || Util.areEqual(str, "urn:mpeg:dash:utc:http-xsdate:2012")) {
-            resolveUtcTimingElementHttp(utcTimingElement, new XsDateTimeParser());
-        } else if (Util.areEqual(str, "urn:mpeg:dash:utc:ntp:2014") || Util.areEqual(str, "urn:mpeg:dash:utc:ntp:2012")) {
-            loadNtpTimeOffset();
-        } else {
-            onUtcTimestampResolutionError(new IOException("Unsupported UTC timing scheme"));
-        }
-    }
-
-    private void resolveUtcTimingElementDirect(UtcTimingElement utcTimingElement) {
-        try {
-            onUtcTimestampResolved(Util.parseXsDateTime(utcTimingElement.value) - this.manifestLoadEndTimestampMs);
-        } catch (ParserException e) {
-            onUtcTimestampResolutionError(e);
-        }
-    }
-
-    private void resolveUtcTimingElementHttp(UtcTimingElement utcTimingElement, ParsingLoadable.Parser<Long> parser) {
-        startLoading(new ParsingLoadable(this.dataSource, Uri.parse(utcTimingElement.value), 5, parser), new UtcTimestampCallback(), 1);
-    }
-
     private void loadNtpTimeOffset() {
         SntpClient.initialize(this.loader, new SntpClient.InitializationCallback() { // from class: com.google.android.exoplayer2.source.dash.DashMediaSource.1
             @Override // com.google.android.exoplayer2.util.SntpClient.InitializationCallback
-            public void onInitialized() {
-                DashMediaSource.this.onUtcTimestampResolved(SntpClient.getElapsedRealtimeOffsetMs());
+            public void onInitializationFailed(IOException iOException) {
+                DashMediaSource.this.onUtcTimestampResolutionError(iOException);
             }
 
             @Override // com.google.android.exoplayer2.util.SntpClient.InitializationCallback
-            public void onInitializationFailed(IOException iOException) {
-                DashMediaSource.this.onUtcTimestampResolutionError(iOException);
+            public void onInitialized() {
+                DashMediaSource.this.onUtcTimestampResolved(SntpClient.getElapsedRealtimeOffsetMs());
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void onUtcTimestampResolved(long j) {
-        this.elapsedRealtimeOffsetMs = j;
+    public void onUtcTimestampResolutionError(IOException iOException) {
+        Log.e("DashMediaSource", "Failed to resolve time offset.", iOException);
         processManifest(true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void onUtcTimestampResolutionError(IOException iOException) {
-        Log.e("DashMediaSource", "Failed to resolve time offset.", iOException);
+    public void onUtcTimestampResolved(long j) {
+        this.elapsedRealtimeOffsetMs = j;
         processManifest(true);
     }
 
@@ -445,7 +544,7 @@ public final class DashMediaSource extends BaseMediaSource {
         for (int i = 0; i < this.periodsById.size(); i++) {
             int keyAt = this.periodsById.keyAt(i);
             if (keyAt >= this.firstPeriodId) {
-                this.periodsById.valueAt(i).updateManifest(this.manifest, keyAt - this.firstPeriodId);
+                ((DashMediaPeriod) this.periodsById.valueAt(i)).updateManifest(this.manifest, keyAt - this.firstPeriodId);
             }
         }
         Period period2 = this.manifest.getPeriod(0);
@@ -510,141 +609,47 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0046  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0056  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x005b  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x006f  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0079  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0094  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0099  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x00be  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x00d1  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    private void updateLiveConfiguration(long j, long j2) {
-        long j3;
-        long min;
-        long usToMs;
-        long j4;
-        long j5;
-        long j6;
-        long j7;
-        float f;
-        float f2;
-        ServiceDescriptionElement serviceDescriptionElement;
-        long usToMs2 = Util.usToMs(j);
-        long j8 = this.mediaItem.liveConfiguration.maxOffsetMs;
-        if (j8 != -9223372036854775807L) {
-            min = Math.min(usToMs2, j8);
-        } else {
-            ServiceDescriptionElement serviceDescriptionElement2 = this.manifest.serviceDescription;
-            if (serviceDescriptionElement2 != null) {
-                long j9 = serviceDescriptionElement2.maxOffsetMs;
-                if (j9 != -9223372036854775807L) {
-                    min = Math.min(usToMs2, j9);
-                }
-            }
-            j3 = usToMs2;
-            usToMs = Util.usToMs(j - j2);
-            if (usToMs < 0 && j3 > 0) {
-                usToMs = 0;
-            }
-            j4 = this.manifest.minBufferTimeMs;
-            if (j4 != -9223372036854775807L) {
-                usToMs = Math.min(usToMs + j4, usToMs2);
-            }
-            j5 = usToMs;
-            j6 = this.mediaItem.liveConfiguration.minOffsetMs;
-            if (j6 == -9223372036854775807L) {
-                j5 = Util.constrainValue(j6, j5, usToMs2);
+    private void resolveUtcTimingElement(UtcTimingElement utcTimingElement) {
+        ParsingLoadable.Parser iso8601Parser;
+        String str = utcTimingElement.schemeIdUri;
+        if (Util.areEqual(str, "urn:mpeg:dash:utc:direct:2014") || Util.areEqual(str, "urn:mpeg:dash:utc:direct:2012")) {
+            resolveUtcTimingElementDirect(utcTimingElement);
+            return;
+        }
+        if (Util.areEqual(str, "urn:mpeg:dash:utc:http-iso:2014") || Util.areEqual(str, "urn:mpeg:dash:utc:http-iso:2012")) {
+            iso8601Parser = new Iso8601Parser();
+        } else if (!Util.areEqual(str, "urn:mpeg:dash:utc:http-xsdate:2014") && !Util.areEqual(str, "urn:mpeg:dash:utc:http-xsdate:2012")) {
+            if (Util.areEqual(str, "urn:mpeg:dash:utc:ntp:2014") || Util.areEqual(str, "urn:mpeg:dash:utc:ntp:2012")) {
+                loadNtpTimeOffset();
+                return;
             } else {
-                ServiceDescriptionElement serviceDescriptionElement3 = this.manifest.serviceDescription;
-                if (serviceDescriptionElement3 != null) {
-                    long j10 = serviceDescriptionElement3.minOffsetMs;
-                    if (j10 != -9223372036854775807L) {
-                        j5 = Util.constrainValue(j10, j5, usToMs2);
-                    }
-                }
+                onUtcTimestampResolutionError(new IOException("Unsupported UTC timing scheme"));
+                return;
             }
-            if (j5 > j3) {
-                j3 = j5;
-            }
-            j7 = this.liveConfiguration.targetOffsetMs;
-            if (j7 == -9223372036854775807L) {
-                DashManifest dashManifest = this.manifest;
-                ServiceDescriptionElement serviceDescriptionElement4 = dashManifest.serviceDescription;
-                if (serviceDescriptionElement4 != null) {
-                    long j11 = serviceDescriptionElement4.targetOffsetMs;
-                    if (j11 != -9223372036854775807L) {
-                        j7 = j11;
-                    }
-                }
-                j7 = dashManifest.suggestedPresentationDelayMs;
-                if (j7 == -9223372036854775807L) {
-                    j7 = this.fallbackTargetLiveOffsetMs;
-                }
-            }
-            if (j7 < j5) {
-                j7 = j5;
-            }
-            if (j7 > j3) {
-                j7 = Util.constrainValue(Util.usToMs(j - Math.min(5000000L, j2 / 2)), j5, j3);
-            }
-            MediaItem.LiveConfiguration liveConfiguration = this.mediaItem.liveConfiguration;
-            f = liveConfiguration.minPlaybackSpeed;
-            if (f == -3.4028235E38f) {
-                ServiceDescriptionElement serviceDescriptionElement5 = this.manifest.serviceDescription;
-                f = serviceDescriptionElement5 != null ? serviceDescriptionElement5.minPlaybackSpeed : -3.4028235E38f;
-            }
-            f2 = liveConfiguration.maxPlaybackSpeed;
-            if (f2 == -3.4028235E38f) {
-                ServiceDescriptionElement serviceDescriptionElement6 = this.manifest.serviceDescription;
-                f2 = serviceDescriptionElement6 != null ? serviceDescriptionElement6.maxPlaybackSpeed : -3.4028235E38f;
-            }
-            if (f == -3.4028235E38f && f2 == -3.4028235E38f && ((serviceDescriptionElement = this.manifest.serviceDescription) == null || serviceDescriptionElement.targetOffsetMs == -9223372036854775807L)) {
-                f = 1.0f;
-                f2 = 1.0f;
-            }
-            this.liveConfiguration = new MediaItem.LiveConfiguration.Builder().setTargetOffsetMs(j7).setMinOffsetMs(j5).setMaxOffsetMs(j3).setMinPlaybackSpeed(f).setMaxPlaybackSpeed(f2).build();
+        } else {
+            iso8601Parser = new XsDateTimeParser();
         }
-        j3 = min;
-        usToMs = Util.usToMs(j - j2);
-        if (usToMs < 0) {
-            usToMs = 0;
+        resolveUtcTimingElementHttp(utcTimingElement, iso8601Parser);
+    }
+
+    private void resolveUtcTimingElementDirect(UtcTimingElement utcTimingElement) {
+        try {
+            onUtcTimestampResolved(Util.parseXsDateTime(utcTimingElement.value) - this.manifestLoadEndTimestampMs);
+        } catch (ParserException e) {
+            onUtcTimestampResolutionError(e);
         }
-        j4 = this.manifest.minBufferTimeMs;
-        if (j4 != -9223372036854775807L) {
-        }
-        j5 = usToMs;
-        j6 = this.mediaItem.liveConfiguration.minOffsetMs;
-        if (j6 == -9223372036854775807L) {
-        }
-        if (j5 > j3) {
-        }
-        j7 = this.liveConfiguration.targetOffsetMs;
-        if (j7 == -9223372036854775807L) {
-        }
-        if (j7 < j5) {
-        }
-        if (j7 > j3) {
-        }
-        MediaItem.LiveConfiguration liveConfiguration2 = this.mediaItem.liveConfiguration;
-        f = liveConfiguration2.minPlaybackSpeed;
-        if (f == -3.4028235E38f) {
-        }
-        f2 = liveConfiguration2.maxPlaybackSpeed;
-        if (f2 == -3.4028235E38f) {
-        }
-        if (f == -3.4028235E38f) {
-            f = 1.0f;
-            f2 = 1.0f;
-        }
-        this.liveConfiguration = new MediaItem.LiveConfiguration.Builder().setTargetOffsetMs(j7).setMinOffsetMs(j5).setMaxOffsetMs(j3).setMinPlaybackSpeed(f).setMaxPlaybackSpeed(f2).build();
+    }
+
+    private void resolveUtcTimingElementHttp(UtcTimingElement utcTimingElement, ParsingLoadable.Parser parser) {
+        startLoading(new ParsingLoadable(this.dataSource, Uri.parse(utcTimingElement.value), 5, parser), new UtcTimestampCallback(), 1);
     }
 
     private void scheduleManifestRefresh(long j) {
         this.handler.postDelayed(this.refreshManifestRunnable, j);
+    }
+
+    private void startLoading(ParsingLoadable parsingLoadable, Loader.Callback callback, int i) {
+        this.manifestEventDispatcher.loadStarted(new LoadEventInfo(parsingLoadable.loadTaskId, parsingLoadable.dataSpec, this.loader.startLoading(parsingLoadable, callback, i)), parsingLoadable.type);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -665,321 +670,333 @@ public final class DashMediaSource extends BaseMediaSource {
         startLoading(new ParsingLoadable(this.dataSource, uri, 4, this.manifestParser), this.manifestCallback, this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(4));
     }
 
-    private long getManifestLoadRetryDelayMillis() {
-        return Math.min((this.staleManifestReloadAttempt - 1) * 1000, 5000);
-    }
-
-    private <T> void startLoading(ParsingLoadable<T> parsingLoadable, Loader.Callback<ParsingLoadable<T>> callback, int i) {
-        this.manifestEventDispatcher.loadStarted(new LoadEventInfo(parsingLoadable.loadTaskId, parsingLoadable.dataSpec, this.loader.startLoading(parsingLoadable, callback, i)), parsingLoadable.type);
-    }
-
-    private static long getIntervalUntilNextManifestRefreshMs(DashManifest dashManifest, long j) {
-        DashSegmentIndex index;
-        int periodCount = dashManifest.getPeriodCount() - 1;
-        Period period = dashManifest.getPeriod(periodCount);
-        long msToUs = Util.msToUs(period.startMs);
-        long periodDurationUs = dashManifest.getPeriodDurationUs(periodCount);
-        long msToUs2 = Util.msToUs(j);
-        long msToUs3 = Util.msToUs(dashManifest.availabilityStartTimeMs);
-        long msToUs4 = Util.msToUs(5000L);
-        for (int i = 0; i < period.adaptationSets.size(); i++) {
-            List<Representation> list = period.adaptationSets.get(i).representations;
-            if (!list.isEmpty() && (index = list.get(0).getIndex()) != null) {
-                long nextSegmentAvailableTimeUs = ((msToUs3 + msToUs) + index.getNextSegmentAvailableTimeUs(periodDurationUs, msToUs2)) - msToUs2;
-                if (nextSegmentAvailableTimeUs < msToUs4 - 100000 || (nextSegmentAvailableTimeUs > msToUs4 && nextSegmentAvailableTimeUs < msToUs4 + 100000)) {
-                    msToUs4 = nextSegmentAvailableTimeUs;
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x005d, code lost:
+        if (r1 != (-9223372036854775807L)) goto L65;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x0020, code lost:
+        if (r1 != (-9223372036854775807L)) goto L66;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0042  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0053  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0067  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0071  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x008c  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0091  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x00b6  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00c9  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x00d9  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    private void updateLiveConfiguration(long j, long j2) {
+        long min;
+        long usToMs;
+        long j3;
+        long j4;
+        long j5;
+        long j6;
+        float f;
+        float f2;
+        ServiceDescriptionElement serviceDescriptionElement;
+        long usToMs2 = Util.usToMs(j);
+        long j7 = this.mediaItem.liveConfiguration.maxOffsetMs;
+        if (j7 == -9223372036854775807L) {
+            ServiceDescriptionElement serviceDescriptionElement2 = this.manifest.serviceDescription;
+            if (serviceDescriptionElement2 != null) {
+                j7 = serviceDescriptionElement2.maxOffsetMs;
+            }
+            min = usToMs2;
+            usToMs = Util.usToMs(j - j2);
+            if (usToMs < 0 && min > 0) {
+                usToMs = 0;
+            }
+            j3 = this.manifest.minBufferTimeMs;
+            if (j3 != -9223372036854775807L) {
+                usToMs = Math.min(usToMs + j3, usToMs2);
+            }
+            j4 = usToMs;
+            j5 = this.mediaItem.liveConfiguration.minOffsetMs;
+            if (j5 == -9223372036854775807L) {
+                ServiceDescriptionElement serviceDescriptionElement3 = this.manifest.serviceDescription;
+                if (serviceDescriptionElement3 != null) {
+                    j5 = serviceDescriptionElement3.minOffsetMs;
                 }
-            }
-        }
-        return LongMath.divide(msToUs4, 1000L, RoundingMode.CEILING);
-    }
-
-    private static long getAvailableStartTimeInManifestUs(Period period, long j, long j2) {
-        long msToUs = Util.msToUs(period.startMs);
-        boolean hasVideoOrAudioAdaptationSets = hasVideoOrAudioAdaptationSets(period);
-        long j3 = msToUs;
-        for (int i = 0; i < period.adaptationSets.size(); i++) {
-            AdaptationSet adaptationSet = period.adaptationSets.get(i);
-            List<Representation> list = adaptationSet.representations;
-            int i2 = adaptationSet.type;
-            boolean z = true;
-            z = (i2 == 1 || i2 == 2) ? false : false;
-            if ((!hasVideoOrAudioAdaptationSets || !z) && !list.isEmpty()) {
-                DashSegmentIndex index = list.get(0).getIndex();
-                if (index == null || index.getAvailableSegmentCount(j, j2) == 0) {
-                    return msToUs;
+                if (j4 > min) {
+                    min = j4;
                 }
-                j3 = Math.max(j3, index.getTimeUs(index.getFirstAvailableSegmentNum(j, j2)) + msToUs);
-            }
-        }
-        return j3;
-    }
-
-    private static long getAvailableEndTimeInManifestUs(Period period, long j, long j2) {
-        long msToUs = Util.msToUs(period.startMs);
-        boolean hasVideoOrAudioAdaptationSets = hasVideoOrAudioAdaptationSets(period);
-        long j3 = Long.MAX_VALUE;
-        for (int i = 0; i < period.adaptationSets.size(); i++) {
-            AdaptationSet adaptationSet = period.adaptationSets.get(i);
-            List<Representation> list = adaptationSet.representations;
-            int i2 = adaptationSet.type;
-            boolean z = true;
-            z = (i2 == 1 || i2 == 2) ? false : false;
-            if ((!hasVideoOrAudioAdaptationSets || !z) && !list.isEmpty()) {
-                DashSegmentIndex index = list.get(0).getIndex();
-                if (index == null) {
-                    return msToUs + j;
-                }
-                long availableSegmentCount = index.getAvailableSegmentCount(j, j2);
-                if (availableSegmentCount == 0) {
-                    return msToUs;
-                }
-                long firstAvailableSegmentNum = (index.getFirstAvailableSegmentNum(j, j2) + availableSegmentCount) - 1;
-                j3 = Math.min(j3, index.getDurationUs(firstAvailableSegmentNum, j) + index.getTimeUs(firstAvailableSegmentNum) + msToUs);
-            }
-        }
-        return j3;
-    }
-
-    private static boolean isIndexExplicit(Period period) {
-        for (int i = 0; i < period.adaptationSets.size(); i++) {
-            DashSegmentIndex index = period.adaptationSets.get(i).representations.get(0).getIndex();
-            if (index == null || index.isExplicit()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean hasVideoOrAudioAdaptationSets(Period period) {
-        for (int i = 0; i < period.adaptationSets.size(); i++) {
-            int i2 = period.adaptationSets.get(i).type;
-            if (i2 == 1 || i2 == 2) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class DashTimeline extends Timeline {
-        private final long elapsedRealtimeEpochOffsetMs;
-        private final int firstPeriodId;
-        private final MediaItem.LiveConfiguration liveConfiguration;
-        private final DashManifest manifest;
-        private final MediaItem mediaItem;
-        private final long offsetInFirstPeriodUs;
-        private final long presentationStartTimeMs;
-        private final long windowDefaultStartPositionUs;
-        private final long windowDurationUs;
-        private final long windowStartTimeMs;
-
-        @Override // com.google.android.exoplayer2.Timeline
-        public int getWindowCount() {
-            return 1;
-        }
-
-        public DashTimeline(long j, long j2, long j3, int i, long j4, long j5, long j6, DashManifest dashManifest, MediaItem mediaItem, MediaItem.LiveConfiguration liveConfiguration) {
-            Assertions.checkState(dashManifest.dynamic == (liveConfiguration != null));
-            this.presentationStartTimeMs = j;
-            this.windowStartTimeMs = j2;
-            this.elapsedRealtimeEpochOffsetMs = j3;
-            this.firstPeriodId = i;
-            this.offsetInFirstPeriodUs = j4;
-            this.windowDurationUs = j5;
-            this.windowDefaultStartPositionUs = j6;
-            this.manifest = dashManifest;
-            this.mediaItem = mediaItem;
-            this.liveConfiguration = liveConfiguration;
-        }
-
-        @Override // com.google.android.exoplayer2.Timeline
-        public int getPeriodCount() {
-            return this.manifest.getPeriodCount();
-        }
-
-        @Override // com.google.android.exoplayer2.Timeline
-        public Timeline.Period getPeriod(int i, Timeline.Period period, boolean z) {
-            Assertions.checkIndex(i, 0, getPeriodCount());
-            return period.set(z ? this.manifest.getPeriod(i).id : null, z ? Integer.valueOf(this.firstPeriodId + i) : null, 0, this.manifest.getPeriodDurationUs(i), Util.msToUs(this.manifest.getPeriod(i).startMs - this.manifest.getPeriod(0).startMs) - this.offsetInFirstPeriodUs);
-        }
-
-        @Override // com.google.android.exoplayer2.Timeline
-        public Timeline.Window getWindow(int i, Timeline.Window window, long j) {
-            Assertions.checkIndex(i, 0, 1);
-            long adjustedWindowDefaultStartPositionUs = getAdjustedWindowDefaultStartPositionUs(j);
-            Object obj = Timeline.Window.SINGLE_WINDOW_UID;
-            MediaItem mediaItem = this.mediaItem;
-            DashManifest dashManifest = this.manifest;
-            return window.set(obj, mediaItem, dashManifest, this.presentationStartTimeMs, this.windowStartTimeMs, this.elapsedRealtimeEpochOffsetMs, true, isMovingLiveWindow(dashManifest), this.liveConfiguration, adjustedWindowDefaultStartPositionUs, this.windowDurationUs, 0, getPeriodCount() - 1, this.offsetInFirstPeriodUs);
-        }
-
-        @Override // com.google.android.exoplayer2.Timeline
-        public int getIndexOfPeriod(Object obj) {
-            int intValue;
-            if ((obj instanceof Integer) && (intValue = ((Integer) obj).intValue() - this.firstPeriodId) >= 0 && intValue < getPeriodCount()) {
-                return intValue;
-            }
-            return -1;
-        }
-
-        private long getAdjustedWindowDefaultStartPositionUs(long j) {
-            DashSegmentIndex index;
-            long j2 = this.windowDefaultStartPositionUs;
-            if (isMovingLiveWindow(this.manifest)) {
-                if (j > 0) {
-                    j2 += j;
-                    if (j2 > this.windowDurationUs) {
-                        return -9223372036854775807L;
+                j6 = this.liveConfiguration.targetOffsetMs;
+                if (j6 == -9223372036854775807L) {
+                    DashManifest dashManifest = this.manifest;
+                    ServiceDescriptionElement serviceDescriptionElement4 = dashManifest.serviceDescription;
+                    if (serviceDescriptionElement4 != null) {
+                        long j8 = serviceDescriptionElement4.targetOffsetMs;
+                        if (j8 != -9223372036854775807L) {
+                            j6 = j8;
+                        }
+                    }
+                    j6 = dashManifest.suggestedPresentationDelayMs;
+                    if (j6 == -9223372036854775807L) {
+                        j6 = this.fallbackTargetLiveOffsetMs;
                     }
                 }
-                long j3 = this.offsetInFirstPeriodUs + j2;
-                long periodDurationUs = this.manifest.getPeriodDurationUs(0);
-                int i = 0;
-                while (i < this.manifest.getPeriodCount() - 1 && j3 >= periodDurationUs) {
-                    j3 -= periodDurationUs;
-                    i++;
-                    periodDurationUs = this.manifest.getPeriodDurationUs(i);
+                if (j6 < j4) {
+                    j6 = j4;
                 }
-                Period period = this.manifest.getPeriod(i);
-                int adaptationSetIndex = period.getAdaptationSetIndex(2);
-                return (adaptationSetIndex == -1 || (index = period.adaptationSets.get(adaptationSetIndex).representations.get(0).getIndex()) == null || index.getSegmentCount(periodDurationUs) == 0) ? j2 : (j2 + index.getTimeUs(index.getSegmentNum(j3, periodDurationUs))) - j3;
+                if (j6 > min) {
+                    j6 = Util.constrainValue(Util.usToMs(j - Math.min(5000000L, j2 / 2)), j4, min);
+                }
+                MediaItem.LiveConfiguration liveConfiguration = this.mediaItem.liveConfiguration;
+                f = liveConfiguration.minPlaybackSpeed;
+                if (f == -3.4028235E38f) {
+                    ServiceDescriptionElement serviceDescriptionElement5 = this.manifest.serviceDescription;
+                    f = serviceDescriptionElement5 != null ? serviceDescriptionElement5.minPlaybackSpeed : -3.4028235E38f;
+                }
+                f2 = liveConfiguration.maxPlaybackSpeed;
+                if (f2 == -3.4028235E38f) {
+                    ServiceDescriptionElement serviceDescriptionElement6 = this.manifest.serviceDescription;
+                    f2 = serviceDescriptionElement6 != null ? serviceDescriptionElement6.maxPlaybackSpeed : -3.4028235E38f;
+                }
+                if (f == -3.4028235E38f && f2 == -3.4028235E38f && ((serviceDescriptionElement = this.manifest.serviceDescription) == null || serviceDescriptionElement.targetOffsetMs == -9223372036854775807L)) {
+                    f = 1.0f;
+                    f2 = 1.0f;
+                }
+                this.liveConfiguration = new MediaItem.LiveConfiguration.Builder().setTargetOffsetMs(j6).setMinOffsetMs(j4).setMaxOffsetMs(min).setMinPlaybackSpeed(f).setMaxPlaybackSpeed(f2).build();
             }
-            return j2;
+            j4 = Util.constrainValue(j5, j4, usToMs2);
+            if (j4 > min) {
+            }
+            j6 = this.liveConfiguration.targetOffsetMs;
+            if (j6 == -9223372036854775807L) {
+            }
+            if (j6 < j4) {
+            }
+            if (j6 > min) {
+            }
+            MediaItem.LiveConfiguration liveConfiguration2 = this.mediaItem.liveConfiguration;
+            f = liveConfiguration2.minPlaybackSpeed;
+            if (f == -3.4028235E38f) {
+            }
+            f2 = liveConfiguration2.maxPlaybackSpeed;
+            if (f2 == -3.4028235E38f) {
+            }
+            if (f == -3.4028235E38f) {
+                f = 1.0f;
+                f2 = 1.0f;
+            }
+            this.liveConfiguration = new MediaItem.LiveConfiguration.Builder().setTargetOffsetMs(j6).setMinOffsetMs(j4).setMaxOffsetMs(min).setMinPlaybackSpeed(f).setMaxPlaybackSpeed(f2).build();
         }
-
-        @Override // com.google.android.exoplayer2.Timeline
-        public Object getUidOfPeriod(int i) {
-            Assertions.checkIndex(i, 0, getPeriodCount());
-            return Integer.valueOf(this.firstPeriodId + i);
+        min = Math.min(usToMs2, j7);
+        usToMs = Util.usToMs(j - j2);
+        if (usToMs < 0) {
+            usToMs = 0;
         }
+        j3 = this.manifest.minBufferTimeMs;
+        if (j3 != -9223372036854775807L) {
+        }
+        j4 = usToMs;
+        j5 = this.mediaItem.liveConfiguration.minOffsetMs;
+        if (j5 == -9223372036854775807L) {
+        }
+        j4 = Util.constrainValue(j5, j4, usToMs2);
+        if (j4 > min) {
+        }
+        j6 = this.liveConfiguration.targetOffsetMs;
+        if (j6 == -9223372036854775807L) {
+        }
+        if (j6 < j4) {
+        }
+        if (j6 > min) {
+        }
+        MediaItem.LiveConfiguration liveConfiguration22 = this.mediaItem.liveConfiguration;
+        f = liveConfiguration22.minPlaybackSpeed;
+        if (f == -3.4028235E38f) {
+        }
+        f2 = liveConfiguration22.maxPlaybackSpeed;
+        if (f2 == -3.4028235E38f) {
+        }
+        if (f == -3.4028235E38f) {
+        }
+        this.liveConfiguration = new MediaItem.LiveConfiguration.Builder().setTargetOffsetMs(j6).setMinOffsetMs(j4).setMaxOffsetMs(min).setMinPlaybackSpeed(f).setMaxPlaybackSpeed(f2).build();
+    }
 
-        private static boolean isMovingLiveWindow(DashManifest dashManifest) {
-            return dashManifest.dynamic && dashManifest.minUpdatePeriodMs != -9223372036854775807L && dashManifest.durationMs == -9223372036854775807L;
+    @Override // com.google.android.exoplayer2.source.MediaSource
+    public MediaPeriod createPeriod(MediaSource.MediaPeriodId mediaPeriodId, Allocator allocator, long j) {
+        int intValue = ((Integer) mediaPeriodId.periodUid).intValue() - this.firstPeriodId;
+        MediaSourceEventListener.EventDispatcher createEventDispatcher = createEventDispatcher(mediaPeriodId, this.manifest.getPeriod(intValue).startMs);
+        DashMediaPeriod dashMediaPeriod = new DashMediaPeriod(intValue + this.firstPeriodId, this.manifest, this.baseUrlExclusionList, intValue, this.chunkSourceFactory, this.mediaTransferListener, this.drmSessionManager, createDrmEventDispatcher(mediaPeriodId), this.loadErrorHandlingPolicy, createEventDispatcher, this.elapsedRealtimeOffsetMs, this.manifestLoadErrorThrower, allocator, this.compositeSequenceableLoaderFactory, this.playerEmsgCallback, getPlayerId());
+        this.periodsById.put(dashMediaPeriod.id, dashMediaPeriod);
+        return dashMediaPeriod;
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaSource
+    public MediaItem getMediaItem() {
+        return this.mediaItem;
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaSource
+    public void maybeThrowSourceInfoRefreshError() {
+        this.manifestLoadErrorThrower.maybeThrowError();
+    }
+
+    void onDashManifestPublishTimeExpired(long j) {
+        long j2 = this.expiredManifestPublishTimeUs;
+        if (j2 == -9223372036854775807L || j2 < j) {
+            this.expiredManifestPublishTimeUs = j;
         }
     }
 
-    /* loaded from: classes.dex */
-    private final class DefaultPlayerEmsgCallback implements PlayerEmsgHandler.PlayerEmsgCallback {
-        private DefaultPlayerEmsgCallback() {
-        }
-
-        @Override // com.google.android.exoplayer2.source.dash.PlayerEmsgHandler.PlayerEmsgCallback
-        public void onDashManifestRefreshRequested() {
-            DashMediaSource.this.onDashManifestRefreshRequested();
-        }
-
-        @Override // com.google.android.exoplayer2.source.dash.PlayerEmsgHandler.PlayerEmsgCallback
-        public void onDashManifestPublishTimeExpired(long j) {
-            DashMediaSource.this.onDashManifestPublishTimeExpired(j);
-        }
+    void onDashManifestRefreshRequested() {
+        this.handler.removeCallbacks(this.simulateManifestRefreshRunnable);
+        startLoadingManifest();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public final class ManifestCallback implements Loader.Callback<ParsingLoadable<DashManifest>> {
-        private ManifestCallback() {
-        }
-
-        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
-        public void onLoadCompleted(ParsingLoadable<DashManifest> parsingLoadable, long j, long j2) {
-            DashMediaSource.this.onManifestLoadCompleted(parsingLoadable, j, j2);
-        }
-
-        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
-        public void onLoadCanceled(ParsingLoadable<DashManifest> parsingLoadable, long j, long j2, boolean z) {
-            DashMediaSource.this.onLoadCanceled(parsingLoadable, j, j2);
-        }
-
-        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
-        public Loader.LoadErrorAction onLoadError(ParsingLoadable<DashManifest> parsingLoadable, long j, long j2, IOException iOException, int i) {
-            return DashMediaSource.this.onManifestLoadError(parsingLoadable, j, j2, iOException, i);
-        }
+    void onLoadCanceled(ParsingLoadable parsingLoadable, long j, long j2) {
+        LoadEventInfo loadEventInfo = new LoadEventInfo(parsingLoadable.loadTaskId, parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), j, j2, parsingLoadable.bytesLoaded());
+        this.loadErrorHandlingPolicy.onLoadTaskConcluded(parsingLoadable.loadTaskId);
+        this.manifestEventDispatcher.loadCanceled(loadEventInfo, parsingLoadable.type);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public final class UtcTimestampCallback implements Loader.Callback<ParsingLoadable<Long>> {
-        private UtcTimestampCallback() {
+    void onManifestLoadCompleted(ParsingLoadable parsingLoadable, long j, long j2) {
+        LoadEventInfo loadEventInfo = new LoadEventInfo(parsingLoadable.loadTaskId, parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), j, j2, parsingLoadable.bytesLoaded());
+        this.loadErrorHandlingPolicy.onLoadTaskConcluded(parsingLoadable.loadTaskId);
+        this.manifestEventDispatcher.loadCompleted(loadEventInfo, parsingLoadable.type);
+        DashManifest dashManifest = (DashManifest) parsingLoadable.getResult();
+        DashManifest dashManifest2 = this.manifest;
+        int periodCount = dashManifest2 == null ? 0 : dashManifest2.getPeriodCount();
+        long j3 = dashManifest.getPeriod(0).startMs;
+        int i = 0;
+        while (i < periodCount && this.manifest.getPeriod(i).startMs < j3) {
+            i++;
         }
-
-        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
-        public void onLoadCompleted(ParsingLoadable<Long> parsingLoadable, long j, long j2) {
-            DashMediaSource.this.onUtcTimestampLoadCompleted(parsingLoadable, j, j2);
+        if (dashManifest.dynamic) {
+            if (periodCount - i > dashManifest.getPeriodCount()) {
+                Log.w("DashMediaSource", "Loaded out of sync manifest");
+            } else {
+                long j4 = this.expiredManifestPublishTimeUs;
+                if (j4 == -9223372036854775807L || dashManifest.publishTimeMs * 1000 > j4) {
+                    this.staleManifestReloadAttempt = 0;
+                } else {
+                    Log.w("DashMediaSource", "Loaded stale dynamic manifest: " + dashManifest.publishTimeMs + ", " + this.expiredManifestPublishTimeUs);
+                }
+            }
+            int i2 = this.staleManifestReloadAttempt;
+            this.staleManifestReloadAttempt = i2 + 1;
+            if (i2 < this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(parsingLoadable.type)) {
+                scheduleManifestRefresh(getManifestLoadRetryDelayMillis());
+                return;
+            } else {
+                this.manifestFatalError = new DashManifestStaleException();
+                return;
+            }
         }
-
-        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
-        public void onLoadCanceled(ParsingLoadable<Long> parsingLoadable, long j, long j2, boolean z) {
-            DashMediaSource.this.onLoadCanceled(parsingLoadable, j, j2);
-        }
-
-        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
-        public Loader.LoadErrorAction onLoadError(ParsingLoadable<Long> parsingLoadable, long j, long j2, IOException iOException, int i) {
-            return DashMediaSource.this.onUtcTimestampLoadError(parsingLoadable, j, j2, iOException);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class XsDateTimeParser implements ParsingLoadable.Parser<Long> {
-        private XsDateTimeParser() {
-        }
-
-        @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
-        public Long parse(Uri uri, InputStream inputStream) throws IOException {
-            return Long.valueOf(Util.parseXsDateTime(new BufferedReader(new InputStreamReader(inputStream)).readLine()));
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class Iso8601Parser implements ParsingLoadable.Parser<Long> {
-        private static final Pattern TIMESTAMP_WITH_TIMEZONE_PATTERN = Pattern.compile("(.+?)(Z|((\\+|-|−)(\\d\\d)(:?(\\d\\d))?))");
-
-        Iso8601Parser() {
-        }
-
-        @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
-        public Long parse(Uri uri, InputStream inputStream) throws IOException {
-            String readLine = new BufferedReader(new InputStreamReader(inputStream, Charsets.UTF_8)).readLine();
+        this.manifest = dashManifest;
+        this.manifestLoadPending = dashManifest.dynamic & this.manifestLoadPending;
+        this.manifestLoadStartTimestampMs = j - j2;
+        this.manifestLoadEndTimestampMs = j;
+        synchronized (this.manifestUriLock) {
             try {
-                Matcher matcher = TIMESTAMP_WITH_TIMEZONE_PATTERN.matcher(readLine);
-                if (!matcher.matches()) {
-                    throw ParserException.createForMalformedManifest("Couldn't parse timestamp: " + readLine, null);
+                if (parsingLoadable.dataSpec.uri == this.manifestUri) {
+                    Uri uri = this.manifest.location;
+                    if (uri == null) {
+                        uri = parsingLoadable.getUri();
+                    }
+                    this.manifestUri = uri;
                 }
-                String group = matcher.group(1);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
-                simpleDateFormat.setTimeZone(DesugarTimeZone.getTimeZone("UTC"));
-                long time = simpleDateFormat.parse(group).getTime();
-                if (!"Z".equals(matcher.group(2))) {
-                    long j = "+".equals(matcher.group(4)) ? 1L : -1L;
-                    long parseLong = Long.parseLong(matcher.group(5));
-                    String group2 = matcher.group(7);
-                    time -= j * (((parseLong * 60) + (TextUtils.isEmpty(group2) ? 0L : Long.parseLong(group2))) * 60000);
-                }
-                return Long.valueOf(time);
-            } catch (ParseException e) {
-                throw ParserException.createForMalformedManifest(null, e);
+            } catch (Throwable th) {
+                throw th;
             }
         }
+        if (periodCount == 0) {
+            DashManifest dashManifest3 = this.manifest;
+            if (dashManifest3.dynamic) {
+                UtcTimingElement utcTimingElement = dashManifest3.utcTiming;
+                if (utcTimingElement != null) {
+                    resolveUtcTimingElement(utcTimingElement);
+                    return;
+                } else {
+                    loadNtpTimeOffset();
+                    return;
+                }
+            }
+        } else {
+            this.firstPeriodId += i;
+        }
+        processManifest(true);
     }
 
-    /* loaded from: classes.dex */
-    final class ManifestLoadErrorThrower implements LoaderErrorThrower {
-        ManifestLoadErrorThrower() {
+    Loader.LoadErrorAction onManifestLoadError(ParsingLoadable parsingLoadable, long j, long j2, IOException iOException, int i) {
+        LoadEventInfo loadEventInfo = new LoadEventInfo(parsingLoadable.loadTaskId, parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), j, j2, parsingLoadable.bytesLoaded());
+        long retryDelayMsFor = this.loadErrorHandlingPolicy.getRetryDelayMsFor(new LoadErrorHandlingPolicy.LoadErrorInfo(loadEventInfo, new MediaLoadData(parsingLoadable.type), iOException, i));
+        Loader.LoadErrorAction createRetryAction = retryDelayMsFor == -9223372036854775807L ? Loader.DONT_RETRY_FATAL : Loader.createRetryAction(false, retryDelayMsFor);
+        boolean z = !createRetryAction.isRetry();
+        this.manifestEventDispatcher.loadError(loadEventInfo, parsingLoadable.type, iOException, z);
+        if (z) {
+            this.loadErrorHandlingPolicy.onLoadTaskConcluded(parsingLoadable.loadTaskId);
         }
+        return createRetryAction;
+    }
 
-        @Override // com.google.android.exoplayer2.upstream.LoaderErrorThrower
-        public void maybeThrowError() throws IOException {
-            DashMediaSource.this.loader.maybeThrowError();
-            maybeThrowManifestError();
-        }
+    void onUtcTimestampLoadCompleted(ParsingLoadable parsingLoadable, long j, long j2) {
+        LoadEventInfo loadEventInfo = new LoadEventInfo(parsingLoadable.loadTaskId, parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), j, j2, parsingLoadable.bytesLoaded());
+        this.loadErrorHandlingPolicy.onLoadTaskConcluded(parsingLoadable.loadTaskId);
+        this.manifestEventDispatcher.loadCompleted(loadEventInfo, parsingLoadable.type);
+        onUtcTimestampResolved(((Long) parsingLoadable.getResult()).longValue() - j);
+    }
 
-        private void maybeThrowManifestError() throws IOException {
-            if (DashMediaSource.this.manifestFatalError != null) {
-                throw DashMediaSource.this.manifestFatalError;
-            }
+    Loader.LoadErrorAction onUtcTimestampLoadError(ParsingLoadable parsingLoadable, long j, long j2, IOException iOException) {
+        this.manifestEventDispatcher.loadError(new LoadEventInfo(parsingLoadable.loadTaskId, parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), j, j2, parsingLoadable.bytesLoaded()), parsingLoadable.type, iOException, true);
+        this.loadErrorHandlingPolicy.onLoadTaskConcluded(parsingLoadable.loadTaskId);
+        onUtcTimestampResolutionError(iOException);
+        return Loader.DONT_RETRY;
+    }
+
+    @Override // com.google.android.exoplayer2.source.BaseMediaSource
+    protected void prepareSourceInternal(TransferListener transferListener) {
+        this.mediaTransferListener = transferListener;
+        this.drmSessionManager.prepare();
+        this.drmSessionManager.setPlayer(Looper.myLooper(), getPlayerId());
+        if (this.sideloadedManifest) {
+            processManifest(false);
+            return;
         }
+        this.dataSource = this.manifestDataSourceFactory.createDataSource();
+        this.loader = new Loader("DashMediaSource");
+        this.handler = Util.createHandlerForCurrentLooper();
+        startLoadingManifest();
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaSource
+    public void releasePeriod(MediaPeriod mediaPeriod) {
+        DashMediaPeriod dashMediaPeriod = (DashMediaPeriod) mediaPeriod;
+        dashMediaPeriod.release();
+        this.periodsById.remove(dashMediaPeriod.id);
+    }
+
+    @Override // com.google.android.exoplayer2.source.BaseMediaSource
+    protected void releaseSourceInternal() {
+        this.manifestLoadPending = false;
+        this.dataSource = null;
+        Loader loader = this.loader;
+        if (loader != null) {
+            loader.release();
+            this.loader = null;
+        }
+        this.manifestLoadStartTimestampMs = 0L;
+        this.manifestLoadEndTimestampMs = 0L;
+        this.manifest = this.sideloadedManifest ? this.manifest : null;
+        this.manifestUri = this.initialManifestUri;
+        this.manifestFatalError = null;
+        Handler handler = this.handler;
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+            this.handler = null;
+        }
+        this.elapsedRealtimeOffsetMs = -9223372036854775807L;
+        this.staleManifestReloadAttempt = 0;
+        this.expiredManifestPublishTimeUs = -9223372036854775807L;
+        this.firstPeriodId = 0;
+        this.periodsById.clear();
+        this.baseUrlExclusionList.reset();
+        this.drmSessionManager.release();
     }
 }

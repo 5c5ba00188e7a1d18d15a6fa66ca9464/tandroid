@@ -12,9 +12,8 @@ import com.google.android.gms.common.api.PendingResults;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.api.internal.GoogleApiManager;
 import com.google.android.gms.common.logging.Logger;
-/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
-public final class zbm {
+public abstract class zbm {
     private static final Logger zba = new Logger("GoogleSignInCommon", new String[0]);
 
     public static Intent zba(Context context, GoogleSignInOptions googleSignInOptions) {
@@ -62,19 +61,13 @@ public final class zbm {
         zba.d("Revoking access", new Object[0]);
         String savedRefreshToken = Storage.getInstance(context).getSavedRefreshToken();
         zbh(context);
-        if (z) {
-            return zbb.zba(savedRefreshToken);
-        }
-        return googleApiClient.execute(new zbk(googleApiClient));
+        return z ? zbb.zba(savedRefreshToken) : googleApiClient.execute(new zbk(googleApiClient));
     }
 
     public static PendingResult zbg(GoogleApiClient googleApiClient, Context context, boolean z) {
         zba.d("Signing out", new Object[0]);
         zbh(context);
-        if (z) {
-            return PendingResults.immediatePendingResult(Status.RESULT_SUCCESS, googleApiClient);
-        }
-        return googleApiClient.execute(new zbi(googleApiClient));
+        return z ? PendingResults.immediatePendingResult(Status.RESULT_SUCCESS, googleApiClient) : googleApiClient.execute(new zbi(googleApiClient));
     }
 
     private static void zbh(Context context) {

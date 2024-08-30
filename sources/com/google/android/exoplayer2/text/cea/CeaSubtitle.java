@@ -1,26 +1,20 @@
 package com.google.android.exoplayer2.text.cea;
 
-import com.google.android.exoplayer2.text.Cue;
 import com.google.android.exoplayer2.text.Subtitle;
 import com.google.android.exoplayer2.util.Assertions;
 import java.util.Collections;
 import java.util.List;
 /* loaded from: classes.dex */
 final class CeaSubtitle implements Subtitle {
-    private final List<Cue> cues;
+    private final List cues;
 
-    @Override // com.google.android.exoplayer2.text.Subtitle
-    public int getEventTimeCount() {
-        return 1;
-    }
-
-    @Override // com.google.android.exoplayer2.text.Subtitle
-    public int getNextEventTimeIndex(long j) {
-        return j < 0 ? 0 : -1;
-    }
-
-    public CeaSubtitle(List<Cue> list) {
+    public CeaSubtitle(List list) {
         this.cues = list;
+    }
+
+    @Override // com.google.android.exoplayer2.text.Subtitle
+    public List getCues(long j) {
+        return j >= 0 ? this.cues : Collections.emptyList();
     }
 
     @Override // com.google.android.exoplayer2.text.Subtitle
@@ -30,7 +24,12 @@ final class CeaSubtitle implements Subtitle {
     }
 
     @Override // com.google.android.exoplayer2.text.Subtitle
-    public List<Cue> getCues(long j) {
-        return j >= 0 ? this.cues : Collections.emptyList();
+    public int getEventTimeCount() {
+        return 1;
+    }
+
+    @Override // com.google.android.exoplayer2.text.Subtitle
+    public int getNextEventTimeIndex(long j) {
+        return j < 0 ? 0 : -1;
     }
 }

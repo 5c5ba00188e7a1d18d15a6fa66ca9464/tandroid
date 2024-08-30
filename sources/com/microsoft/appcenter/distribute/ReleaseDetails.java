@@ -18,7 +18,7 @@ public class ReleaseDetails {
     private int version;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static ReleaseDetails parse(String str) throws JSONException {
+    public static ReleaseDetails parse(String str) {
         JSONObject jSONObject = new JSONObject(str);
         ReleaseDetails releaseDetails = new ReleaseDetails();
         releaseDetails.id = jSONObject.getInt("id");
@@ -40,20 +40,25 @@ public class ReleaseDetails {
         return releaseDetails;
     }
 
+    public String getDistributionGroupId() {
+        return this.distributionGroupId;
+    }
+
+    public Uri getDownloadUrl() {
+        return this.downloadUrl;
+    }
+
     public int getId() {
         return this.id;
     }
 
-    public int getVersion() {
-        return this.version;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public int getMinApiLevel() {
+        return this.minApiLevel;
     }
 
-    public long getSize() {
-        return this.size;
-    }
-
-    public String getShortVersion() {
-        return this.shortVersion;
+    public String getReleaseHash() {
+        return this.releaseHash;
     }
 
     public String getReleaseNotes() {
@@ -64,24 +69,19 @@ public class ReleaseDetails {
         return this.releaseNotesUrl;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getMinApiLevel() {
-        return this.minApiLevel;
+    public String getShortVersion() {
+        return this.shortVersion;
     }
 
-    public Uri getDownloadUrl() {
-        return this.downloadUrl;
+    public long getSize() {
+        return this.size;
+    }
+
+    public int getVersion() {
+        return this.version;
     }
 
     public boolean isMandatoryUpdate() {
         return this.mandatoryUpdate;
-    }
-
-    public String getReleaseHash() {
-        return this.releaseHash;
-    }
-
-    public String getDistributionGroupId() {
-        return this.distributionGroupId;
     }
 }

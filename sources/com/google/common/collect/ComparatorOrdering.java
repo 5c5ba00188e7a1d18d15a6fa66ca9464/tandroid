@@ -3,19 +3,18 @@ package com.google.common.collect;
 import com.google.common.base.Preconditions;
 import java.io.Serializable;
 import java.util.Comparator;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class ComparatorOrdering<T> extends Ordering<T> implements Serializable {
-    final Comparator<T> comparator;
+final class ComparatorOrdering extends Ordering implements Serializable {
+    final Comparator comparator;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public ComparatorOrdering(Comparator<T> comparator) {
+    public ComparatorOrdering(Comparator comparator) {
         this.comparator = (Comparator) Preconditions.checkNotNull(comparator);
     }
 
     @Override // com.google.common.collect.Ordering, java.util.Comparator
-    public int compare(T t, T t2) {
-        return this.comparator.compare(t, t2);
+    public int compare(Object obj, Object obj2) {
+        return this.comparator.compare(obj, obj2);
     }
 
     @Override // java.util.Comparator

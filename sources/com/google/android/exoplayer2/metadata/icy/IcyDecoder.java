@@ -16,6 +16,37 @@ public final class IcyDecoder extends SimpleMetadataDecoder {
     private final CharsetDecoder utf8Decoder = Charsets.UTF_8.newDecoder();
     private final CharsetDecoder iso88591Decoder = Charsets.ISO_8859_1.newDecoder();
 
+    private String decodeToString(ByteBuffer byteBuffer) {
+        String charBuffer;
+        CharsetDecoder charsetDecoder;
+        try {
+            charBuffer = this.utf8Decoder.decode(byteBuffer).toString();
+            charsetDecoder = this.utf8Decoder;
+        } catch (CharacterCodingException unused) {
+            this.utf8Decoder.reset();
+            byteBuffer.rewind();
+            try {
+                charBuffer = this.iso88591Decoder.decode(byteBuffer).toString();
+                charsetDecoder = this.iso88591Decoder;
+            } catch (CharacterCodingException unused2) {
+                this.iso88591Decoder.reset();
+                byteBuffer.rewind();
+                return null;
+            } catch (Throwable th) {
+                this.iso88591Decoder.reset();
+                byteBuffer.rewind();
+                throw th;
+            }
+        } catch (Throwable th2) {
+            this.utf8Decoder.reset();
+            byteBuffer.rewind();
+            throw th2;
+        }
+        charsetDecoder.reset();
+        byteBuffer.rewind();
+        return charBuffer;
+    }
+
     @Override // com.google.android.exoplayer2.metadata.SimpleMetadataDecoder
     protected Metadata decode(MetadataInputBuffer metadataInputBuffer, ByteBuffer byteBuffer) {
         String decodeToString = decodeToString(byteBuffer);
@@ -41,29 +72,5 @@ public final class IcyDecoder extends SimpleMetadataDecoder {
             }
         }
         return new Metadata(new IcyInfo(bArr, str, str2));
-    }
-
-    private String decodeToString(ByteBuffer byteBuffer) {
-        try {
-            return this.utf8Decoder.decode(byteBuffer).toString();
-        } catch (CharacterCodingException unused) {
-            try {
-                String charBuffer = this.iso88591Decoder.decode(byteBuffer).toString();
-                this.iso88591Decoder.reset();
-                byteBuffer.rewind();
-                return charBuffer;
-            } catch (CharacterCodingException unused2) {
-                this.iso88591Decoder.reset();
-                byteBuffer.rewind();
-                return null;
-            } catch (Throwable th) {
-                this.iso88591Decoder.reset();
-                byteBuffer.rewind();
-                throw th;
-            }
-        } finally {
-            this.utf8Decoder.reset();
-            byteBuffer.rewind();
-        }
     }
 }

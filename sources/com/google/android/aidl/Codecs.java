@@ -3,11 +3,8 @@ package com.google.android.aidl;
 import android.os.Parcel;
 import android.os.Parcelable;
 /* loaded from: classes.dex */
-public class Codecs {
+public abstract class Codecs {
     private static final ClassLoader CLASS_LOADER = Codecs.class.getClassLoader();
-
-    private Codecs() {
-    }
 
     public static boolean createBoolean(Parcel parcel) {
         return parcel.readInt() != 0;

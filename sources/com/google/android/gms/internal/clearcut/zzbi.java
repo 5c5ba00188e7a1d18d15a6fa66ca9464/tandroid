@@ -1,6 +1,5 @@
 package com.google.android.gms.internal.clearcut;
 
-import java.io.IOException;
 import java.nio.charset.Charset;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
@@ -58,7 +57,7 @@ public class zzbi extends zzbh {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzbb
-    public final void zza(zzba zzbaVar) throws IOException {
+    public final void zza(zzba zzbaVar) {
         zzbaVar.zza(this.zzfp, zzac(), size());
     }
 

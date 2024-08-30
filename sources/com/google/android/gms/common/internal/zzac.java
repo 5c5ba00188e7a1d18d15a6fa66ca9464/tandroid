@@ -2,8 +2,6 @@ package com.google.android.gms.common.internal;
 
 import android.os.IBinder;
 import android.os.Parcel;
-import android.os.RemoteException;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 final class zzac implements IGmsServiceBroker {
     private final IBinder zza;
@@ -19,7 +17,7 @@ final class zzac implements IGmsServiceBroker {
     }
 
     @Override // com.google.android.gms.common.internal.IGmsServiceBroker
-    public final void getService(IGmsCallbacks iGmsCallbacks, GetServiceRequest getServiceRequest) throws RemoteException {
+    public final void getService(IGmsCallbacks iGmsCallbacks, GetServiceRequest getServiceRequest) {
         Parcel obtain = Parcel.obtain();
         Parcel obtain2 = Parcel.obtain();
         try {

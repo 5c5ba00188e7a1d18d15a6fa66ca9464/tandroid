@@ -1,7 +1,6 @@
 package com.microsoft.appcenter.ingestion.models;
 
 import com.microsoft.appcenter.ingestion.models.json.JSONUtils;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 /* loaded from: classes.dex */
@@ -22,176 +21,6 @@ public class Device extends WrapperSdk {
     private String sdkName;
     private String sdkVersion;
     private Integer timeZoneOffset;
-
-    public String getSdkName() {
-        return this.sdkName;
-    }
-
-    public void setSdkName(String str) {
-        this.sdkName = str;
-    }
-
-    public String getSdkVersion() {
-        return this.sdkVersion;
-    }
-
-    public void setSdkVersion(String str) {
-        this.sdkVersion = str;
-    }
-
-    public String getModel() {
-        return this.model;
-    }
-
-    public void setModel(String str) {
-        this.model = str;
-    }
-
-    public String getOemName() {
-        return this.oemName;
-    }
-
-    public void setOemName(String str) {
-        this.oemName = str;
-    }
-
-    public String getOsName() {
-        return this.osName;
-    }
-
-    public void setOsName(String str) {
-        this.osName = str;
-    }
-
-    public String getOsVersion() {
-        return this.osVersion;
-    }
-
-    public void setOsVersion(String str) {
-        this.osVersion = str;
-    }
-
-    public String getOsBuild() {
-        return this.osBuild;
-    }
-
-    public void setOsBuild(String str) {
-        this.osBuild = str;
-    }
-
-    public Integer getOsApiLevel() {
-        return this.osApiLevel;
-    }
-
-    public void setOsApiLevel(Integer num) {
-        this.osApiLevel = num;
-    }
-
-    public String getLocale() {
-        return this.locale;
-    }
-
-    public void setLocale(String str) {
-        this.locale = str;
-    }
-
-    public Integer getTimeZoneOffset() {
-        return this.timeZoneOffset;
-    }
-
-    public void setTimeZoneOffset(Integer num) {
-        this.timeZoneOffset = num;
-    }
-
-    public String getScreenSize() {
-        return this.screenSize;
-    }
-
-    public void setScreenSize(String str) {
-        this.screenSize = str;
-    }
-
-    public String getAppVersion() {
-        return this.appVersion;
-    }
-
-    public void setAppVersion(String str) {
-        this.appVersion = str;
-    }
-
-    public String getCarrierName() {
-        return this.carrierName;
-    }
-
-    public void setCarrierName(String str) {
-        this.carrierName = str;
-    }
-
-    public String getCarrierCountry() {
-        return this.carrierCountry;
-    }
-
-    public void setCarrierCountry(String str) {
-        this.carrierCountry = str;
-    }
-
-    public String getAppBuild() {
-        return this.appBuild;
-    }
-
-    public void setAppBuild(String str) {
-        this.appBuild = str;
-    }
-
-    public String getAppNamespace() {
-        return this.appNamespace;
-    }
-
-    public void setAppNamespace(String str) {
-        this.appNamespace = str;
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.WrapperSdk, com.microsoft.appcenter.ingestion.models.Model
-    public void read(JSONObject jSONObject) throws JSONException {
-        super.read(jSONObject);
-        setSdkName(jSONObject.getString("sdkName"));
-        setSdkVersion(jSONObject.getString("sdkVersion"));
-        setModel(jSONObject.getString("model"));
-        setOemName(jSONObject.getString("oemName"));
-        setOsName(jSONObject.getString("osName"));
-        setOsVersion(jSONObject.getString("osVersion"));
-        setOsBuild(jSONObject.optString("osBuild", null));
-        setOsApiLevel(JSONUtils.readInteger(jSONObject, "osApiLevel"));
-        setLocale(jSONObject.getString("locale"));
-        setTimeZoneOffset(Integer.valueOf(jSONObject.getInt("timeZoneOffset")));
-        setScreenSize(jSONObject.getString("screenSize"));
-        setAppVersion(jSONObject.getString("appVersion"));
-        setCarrierName(jSONObject.optString("carrierName", null));
-        setCarrierCountry(jSONObject.optString("carrierCountry", null));
-        setAppBuild(jSONObject.getString("appBuild"));
-        setAppNamespace(jSONObject.optString("appNamespace", null));
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.WrapperSdk, com.microsoft.appcenter.ingestion.models.Model
-    public void write(JSONStringer jSONStringer) throws JSONException {
-        super.write(jSONStringer);
-        jSONStringer.key("sdkName").value(getSdkName());
-        jSONStringer.key("sdkVersion").value(getSdkVersion());
-        jSONStringer.key("model").value(getModel());
-        jSONStringer.key("oemName").value(getOemName());
-        jSONStringer.key("osName").value(getOsName());
-        jSONStringer.key("osVersion").value(getOsVersion());
-        JSONUtils.write(jSONStringer, "osBuild", getOsBuild());
-        JSONUtils.write(jSONStringer, "osApiLevel", getOsApiLevel());
-        jSONStringer.key("locale").value(getLocale());
-        jSONStringer.key("timeZoneOffset").value(getTimeZoneOffset());
-        jSONStringer.key("screenSize").value(getScreenSize());
-        jSONStringer.key("appVersion").value(getAppVersion());
-        JSONUtils.write(jSONStringer, "carrierName", getCarrierName());
-        JSONUtils.write(jSONStringer, "carrierCountry", getCarrierCountry());
-        jSONStringer.key("appBuild").value(getAppBuild());
-        JSONUtils.write(jSONStringer, "appNamespace", getAppNamespace());
-    }
 
     @Override // com.microsoft.appcenter.ingestion.models.WrapperSdk
     public boolean equals(Object obj) {
@@ -267,6 +96,70 @@ public class Device extends WrapperSdk {
         return false;
     }
 
+    public String getAppBuild() {
+        return this.appBuild;
+    }
+
+    public String getAppNamespace() {
+        return this.appNamespace;
+    }
+
+    public String getAppVersion() {
+        return this.appVersion;
+    }
+
+    public String getCarrierCountry() {
+        return this.carrierCountry;
+    }
+
+    public String getCarrierName() {
+        return this.carrierName;
+    }
+
+    public String getLocale() {
+        return this.locale;
+    }
+
+    public String getModel() {
+        return this.model;
+    }
+
+    public String getOemName() {
+        return this.oemName;
+    }
+
+    public Integer getOsApiLevel() {
+        return this.osApiLevel;
+    }
+
+    public String getOsBuild() {
+        return this.osBuild;
+    }
+
+    public String getOsName() {
+        return this.osName;
+    }
+
+    public String getOsVersion() {
+        return this.osVersion;
+    }
+
+    public String getScreenSize() {
+        return this.screenSize;
+    }
+
+    public String getSdkName() {
+        return this.sdkName;
+    }
+
+    public String getSdkVersion() {
+        return this.sdkVersion;
+    }
+
+    public Integer getTimeZoneOffset() {
+        return this.timeZoneOffset;
+    }
+
     @Override // com.microsoft.appcenter.ingestion.models.WrapperSdk
     public int hashCode() {
         int hashCode = super.hashCode() * 31;
@@ -302,5 +195,111 @@ public class Device extends WrapperSdk {
         int hashCode16 = (hashCode15 + (str13 != null ? str13.hashCode() : 0)) * 31;
         String str14 = this.appNamespace;
         return hashCode16 + (str14 != null ? str14.hashCode() : 0);
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.WrapperSdk, com.microsoft.appcenter.ingestion.models.Model
+    public void read(JSONObject jSONObject) {
+        super.read(jSONObject);
+        setSdkName(jSONObject.getString("sdkName"));
+        setSdkVersion(jSONObject.getString("sdkVersion"));
+        setModel(jSONObject.getString("model"));
+        setOemName(jSONObject.getString("oemName"));
+        setOsName(jSONObject.getString("osName"));
+        setOsVersion(jSONObject.getString("osVersion"));
+        setOsBuild(jSONObject.optString("osBuild", null));
+        setOsApiLevel(JSONUtils.readInteger(jSONObject, "osApiLevel"));
+        setLocale(jSONObject.getString("locale"));
+        setTimeZoneOffset(Integer.valueOf(jSONObject.getInt("timeZoneOffset")));
+        setScreenSize(jSONObject.getString("screenSize"));
+        setAppVersion(jSONObject.getString("appVersion"));
+        setCarrierName(jSONObject.optString("carrierName", null));
+        setCarrierCountry(jSONObject.optString("carrierCountry", null));
+        setAppBuild(jSONObject.getString("appBuild"));
+        setAppNamespace(jSONObject.optString("appNamespace", null));
+    }
+
+    public void setAppBuild(String str) {
+        this.appBuild = str;
+    }
+
+    public void setAppNamespace(String str) {
+        this.appNamespace = str;
+    }
+
+    public void setAppVersion(String str) {
+        this.appVersion = str;
+    }
+
+    public void setCarrierCountry(String str) {
+        this.carrierCountry = str;
+    }
+
+    public void setCarrierName(String str) {
+        this.carrierName = str;
+    }
+
+    public void setLocale(String str) {
+        this.locale = str;
+    }
+
+    public void setModel(String str) {
+        this.model = str;
+    }
+
+    public void setOemName(String str) {
+        this.oemName = str;
+    }
+
+    public void setOsApiLevel(Integer num) {
+        this.osApiLevel = num;
+    }
+
+    public void setOsBuild(String str) {
+        this.osBuild = str;
+    }
+
+    public void setOsName(String str) {
+        this.osName = str;
+    }
+
+    public void setOsVersion(String str) {
+        this.osVersion = str;
+    }
+
+    public void setScreenSize(String str) {
+        this.screenSize = str;
+    }
+
+    public void setSdkName(String str) {
+        this.sdkName = str;
+    }
+
+    public void setSdkVersion(String str) {
+        this.sdkVersion = str;
+    }
+
+    public void setTimeZoneOffset(Integer num) {
+        this.timeZoneOffset = num;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.WrapperSdk, com.microsoft.appcenter.ingestion.models.Model
+    public void write(JSONStringer jSONStringer) {
+        super.write(jSONStringer);
+        jSONStringer.key("sdkName").value(getSdkName());
+        jSONStringer.key("sdkVersion").value(getSdkVersion());
+        jSONStringer.key("model").value(getModel());
+        jSONStringer.key("oemName").value(getOemName());
+        jSONStringer.key("osName").value(getOsName());
+        jSONStringer.key("osVersion").value(getOsVersion());
+        JSONUtils.write(jSONStringer, "osBuild", getOsBuild());
+        JSONUtils.write(jSONStringer, "osApiLevel", getOsApiLevel());
+        jSONStringer.key("locale").value(getLocale());
+        jSONStringer.key("timeZoneOffset").value(getTimeZoneOffset());
+        jSONStringer.key("screenSize").value(getScreenSize());
+        jSONStringer.key("appVersion").value(getAppVersion());
+        JSONUtils.write(jSONStringer, "carrierName", getCarrierName());
+        JSONUtils.write(jSONStringer, "carrierCountry", getCarrierCountry());
+        jSONStringer.key("appBuild").value(getAppBuild());
+        JSONUtils.write(jSONStringer, "appNamespace", getAppNamespace());
     }
 }

@@ -6,7 +6,6 @@ import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.drm.DefaultDrmSessionManagerProvider;
 import com.google.android.exoplayer2.drm.DrmSessionManager;
 import com.google.android.exoplayer2.drm.DrmSessionManagerProvider;
-import com.google.android.exoplayer2.offline.StreamKey;
 import com.google.android.exoplayer2.source.BaseMediaSource;
 import com.google.android.exoplayer2.source.CompositeSequenceableLoaderFactory;
 import com.google.android.exoplayer2.source.DefaultCompositeSequenceableLoaderFactory;
@@ -28,7 +27,6 @@ import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
-import java.io.IOException;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylistTracker.PrimaryPlaylistListener {
@@ -47,10 +45,6 @@ public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylist
     private final HlsPlaylistTracker playlistTracker;
     private final boolean useSessionKeys;
 
-    static {
-        ExoPlayerLibraryInfo.registerModule("goog.exo.hls");
-    }
-
     /* loaded from: classes.dex */
     public static final class Factory implements MediaSource.Factory {
         private boolean allowChunklessPreparation;
@@ -65,10 +59,6 @@ public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylist
         private HlsPlaylistTracker.Factory playlistTrackerFactory;
         private boolean useSessionKeys;
 
-        public Factory(DataSource.Factory factory) {
-            this(new DefaultHlsDataSourceFactory(factory));
-        }
-
         public Factory(HlsDataSourceFactory hlsDataSourceFactory) {
             this.hlsDataSourceFactory = (HlsDataSourceFactory) Assertions.checkNotNull(hlsDataSourceFactory);
             this.drmSessionManagerProvider = new DefaultDrmSessionManagerProvider();
@@ -82,23 +72,15 @@ public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylist
             this.allowChunklessPreparation = true;
         }
 
-        @Override // com.google.android.exoplayer2.source.MediaSource.Factory
-        public Factory setLoadErrorHandlingPolicy(LoadErrorHandlingPolicy loadErrorHandlingPolicy) {
-            this.loadErrorHandlingPolicy = (LoadErrorHandlingPolicy) Assertions.checkNotNull(loadErrorHandlingPolicy, "MediaSource.Factory#setLoadErrorHandlingPolicy no longer handles null by instantiating a new DefaultLoadErrorHandlingPolicy. Explicitly construct and pass an instance in order to retain the old behavior.");
-            return this;
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaSource.Factory
-        public Factory setDrmSessionManagerProvider(DrmSessionManagerProvider drmSessionManagerProvider) {
-            this.drmSessionManagerProvider = (DrmSessionManagerProvider) Assertions.checkNotNull(drmSessionManagerProvider, "MediaSource.Factory#setDrmSessionManagerProvider no longer handles null by instantiating a new DefaultDrmSessionManagerProvider. Explicitly construct and pass an instance in order to retain the old behavior.");
-            return this;
+        public Factory(DataSource.Factory factory) {
+            this(new DefaultHlsDataSourceFactory(factory));
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSource.Factory
         public HlsMediaSource createMediaSource(MediaItem mediaItem) {
             Assertions.checkNotNull(mediaItem.localConfiguration);
             HlsPlaylistParserFactory hlsPlaylistParserFactory = this.playlistParserFactory;
-            List<StreamKey> list = mediaItem.localConfiguration.streamKeys;
+            List list = mediaItem.localConfiguration.streamKeys;
             if (!list.isEmpty()) {
                 hlsPlaylistParserFactory = new FilteringHlsPlaylistParserFactory(hlsPlaylistParserFactory, list);
             }
@@ -109,6 +91,22 @@ public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylist
             LoadErrorHandlingPolicy loadErrorHandlingPolicy = this.loadErrorHandlingPolicy;
             return new HlsMediaSource(mediaItem, hlsDataSourceFactory, hlsExtractorFactory, compositeSequenceableLoaderFactory, drmSessionManager, loadErrorHandlingPolicy, this.playlistTrackerFactory.createTracker(this.hlsDataSourceFactory, loadErrorHandlingPolicy, hlsPlaylistParserFactory), this.elapsedRealTimeOffsetMs, this.allowChunklessPreparation, this.metadataType, this.useSessionKeys);
         }
+
+        @Override // com.google.android.exoplayer2.source.MediaSource.Factory
+        public Factory setDrmSessionManagerProvider(DrmSessionManagerProvider drmSessionManagerProvider) {
+            this.drmSessionManagerProvider = (DrmSessionManagerProvider) Assertions.checkNotNull(drmSessionManagerProvider, "MediaSource.Factory#setDrmSessionManagerProvider no longer handles null by instantiating a new DefaultDrmSessionManagerProvider. Explicitly construct and pass an instance in order to retain the old behavior.");
+            return this;
+        }
+
+        @Override // com.google.android.exoplayer2.source.MediaSource.Factory
+        public Factory setLoadErrorHandlingPolicy(LoadErrorHandlingPolicy loadErrorHandlingPolicy) {
+            this.loadErrorHandlingPolicy = (LoadErrorHandlingPolicy) Assertions.checkNotNull(loadErrorHandlingPolicy, "MediaSource.Factory#setLoadErrorHandlingPolicy no longer handles null by instantiating a new DefaultLoadErrorHandlingPolicy. Explicitly construct and pass an instance in order to retain the old behavior.");
+            return this;
+        }
+    }
+
+    static {
+        ExoPlayerLibraryInfo.registerModule("goog.exo.hls");
     }
 
     private HlsMediaSource(MediaItem mediaItem, HlsDataSourceFactory hlsDataSourceFactory, HlsExtractorFactory hlsExtractorFactory, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, DrmSessionManager drmSessionManager, LoadErrorHandlingPolicy loadErrorHandlingPolicy, HlsPlaylistTracker hlsPlaylistTracker, long j, boolean z, int i, boolean z2) {
@@ -127,68 +125,12 @@ public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylist
         this.useSessionKeys = z2;
     }
 
-    @Override // com.google.android.exoplayer2.source.MediaSource
-    public MediaItem getMediaItem() {
-        return this.mediaItem;
-    }
-
-    @Override // com.google.android.exoplayer2.source.BaseMediaSource
-    protected void prepareSourceInternal(TransferListener transferListener) {
-        this.mediaTransferListener = transferListener;
-        this.drmSessionManager.prepare();
-        this.drmSessionManager.setPlayer((Looper) Assertions.checkNotNull(Looper.myLooper()), getPlayerId());
-        this.playlistTracker.start(this.localConfiguration.uri, createEventDispatcher(null), this);
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaSource
-    public void maybeThrowSourceInfoRefreshError() throws IOException {
-        this.playlistTracker.maybeThrowPrimaryPlaylistRefreshError();
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaSource
-    public MediaPeriod createPeriod(MediaSource.MediaPeriodId mediaPeriodId, Allocator allocator, long j) {
-        MediaSourceEventListener.EventDispatcher createEventDispatcher = createEventDispatcher(mediaPeriodId);
-        return new HlsMediaPeriod(this.extractorFactory, this.playlistTracker, this.dataSourceFactory, this.mediaTransferListener, this.drmSessionManager, createDrmEventDispatcher(mediaPeriodId), this.loadErrorHandlingPolicy, createEventDispatcher, allocator, this.compositeSequenceableLoaderFactory, this.allowChunklessPreparation, this.metadataType, this.useSessionKeys, getPlayerId());
-    }
-
-    @Override // com.google.android.exoplayer2.source.MediaSource
-    public void releasePeriod(MediaPeriod mediaPeriod) {
-        ((HlsMediaPeriod) mediaPeriod).release();
-    }
-
-    @Override // com.google.android.exoplayer2.source.BaseMediaSource
-    protected void releaseSourceInternal() {
-        this.playlistTracker.stop();
-        this.drmSessionManager.release();
-    }
-
-    @Override // com.google.android.exoplayer2.source.hls.playlist.HlsPlaylistTracker.PrimaryPlaylistListener
-    public void onPrimaryPlaylistRefreshed(HlsMediaPlaylist hlsMediaPlaylist) {
-        SinglePeriodTimeline createTimelineForOnDemand;
-        long usToMs = hlsMediaPlaylist.hasProgramDateTime ? Util.usToMs(hlsMediaPlaylist.startTimeUs) : -9223372036854775807L;
-        int i = hlsMediaPlaylist.playlistType;
-        long j = (i == 2 || i == 1) ? usToMs : -9223372036854775807L;
-        HlsManifest hlsManifest = new HlsManifest((HlsMultivariantPlaylist) Assertions.checkNotNull(this.playlistTracker.getMultivariantPlaylist()), hlsMediaPlaylist);
-        if (this.playlistTracker.isLive()) {
-            createTimelineForOnDemand = createTimelineForLive(hlsMediaPlaylist, j, usToMs, hlsManifest);
-        } else {
-            createTimelineForOnDemand = createTimelineForOnDemand(hlsMediaPlaylist, j, usToMs, hlsManifest);
-        }
-        refreshSourceInfo(createTimelineForOnDemand);
-    }
-
     private SinglePeriodTimeline createTimelineForLive(HlsMediaPlaylist hlsMediaPlaylist, long j, long j2, HlsManifest hlsManifest) {
-        long targetLiveOffsetUs;
         long initialStartTimeUs = hlsMediaPlaylist.startTimeUs - this.playlistTracker.getInitialStartTimeUs();
         long j3 = hlsMediaPlaylist.hasEndTag ? initialStartTimeUs + hlsMediaPlaylist.durationUs : -9223372036854775807L;
         long liveEdgeOffsetUs = getLiveEdgeOffsetUs(hlsMediaPlaylist);
         long j4 = this.liveConfiguration.targetOffsetMs;
-        if (j4 != -9223372036854775807L) {
-            targetLiveOffsetUs = Util.msToUs(j4);
-        } else {
-            targetLiveOffsetUs = getTargetLiveOffsetUs(hlsMediaPlaylist, liveEdgeOffsetUs);
-        }
-        updateLiveConfiguration(hlsMediaPlaylist, Util.constrainValue(targetLiveOffsetUs, liveEdgeOffsetUs, hlsMediaPlaylist.durationUs + liveEdgeOffsetUs));
+        updateLiveConfiguration(hlsMediaPlaylist, Util.constrainValue(j4 != -9223372036854775807L ? Util.msToUs(j4) : getTargetLiveOffsetUs(hlsMediaPlaylist, liveEdgeOffsetUs), liveEdgeOffsetUs, hlsMediaPlaylist.durationUs + liveEdgeOffsetUs));
         return new SinglePeriodTimeline(j, j2, -9223372036854775807L, j3, hlsMediaPlaylist.durationUs, initialStartTimeUs, getLiveWindowDefaultStartPositionUs(hlsMediaPlaylist, liveEdgeOffsetUs), true, !hlsMediaPlaylist.hasEndTag, hlsMediaPlaylist.playlistType == 2 && hlsMediaPlaylist.hasPositiveStartOffset, hlsManifest, this.mediaItem, this.liveConfiguration);
     }
 
@@ -208,6 +150,24 @@ public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylist
         long j5 = j3;
         long j6 = hlsMediaPlaylist.durationUs;
         return new SinglePeriodTimeline(j, j2, -9223372036854775807L, j6, j6, 0L, j5, true, false, true, hlsManifest, this.mediaItem, null);
+    }
+
+    private static HlsMediaPlaylist.Part findClosestPrecedingIndependentPart(List list, long j) {
+        HlsMediaPlaylist.Part part = null;
+        for (int i = 0; i < list.size(); i++) {
+            HlsMediaPlaylist.Part part2 = (HlsMediaPlaylist.Part) list.get(i);
+            long j2 = part2.relativeStartTimeUs;
+            if (j2 <= j && part2.isIndependent) {
+                part = part2;
+            } else if (j2 > j) {
+                break;
+            }
+        }
+        return part;
+    }
+
+    private static HlsMediaPlaylist.Segment findClosestPrecedingSegment(List list, long j) {
+        return (HlsMediaPlaylist.Segment) list.get(Util.binarySearchFloor(list, (Comparable) Long.valueOf(j), true, true));
     }
 
     private long getLiveEdgeOffsetUs(HlsMediaPlaylist hlsMediaPlaylist) {
@@ -234,10 +194,25 @@ public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylist
         }
         HlsMediaPlaylist.Segment findClosestPrecedingSegment = findClosestPrecedingSegment(hlsMediaPlaylist.segments, j2);
         HlsMediaPlaylist.Part findClosestPrecedingIndependentPart2 = findClosestPrecedingIndependentPart(findClosestPrecedingSegment.parts, j2);
-        if (findClosestPrecedingIndependentPart2 != null) {
-            return findClosestPrecedingIndependentPart2.relativeStartTimeUs;
+        return findClosestPrecedingIndependentPart2 != null ? findClosestPrecedingIndependentPart2.relativeStartTimeUs : findClosestPrecedingSegment.relativeStartTimeUs;
+    }
+
+    private static long getTargetLiveOffsetUs(HlsMediaPlaylist hlsMediaPlaylist, long j) {
+        long j2;
+        HlsMediaPlaylist.ServerControl serverControl = hlsMediaPlaylist.serverControl;
+        long j3 = hlsMediaPlaylist.startOffsetUs;
+        if (j3 != -9223372036854775807L) {
+            j2 = hlsMediaPlaylist.durationUs - j3;
+        } else {
+            long j4 = serverControl.partHoldBackUs;
+            if (j4 == -9223372036854775807L || hlsMediaPlaylist.partTargetDurationUs == -9223372036854775807L) {
+                long j5 = serverControl.holdBackUs;
+                j2 = j5 != -9223372036854775807L ? j5 : hlsMediaPlaylist.targetDurationUs * 3;
+            } else {
+                j2 = j4;
+            }
         }
-        return findClosestPrecedingSegment.relativeStartTimeUs;
+        return j2 + j;
     }
 
     /* JADX WARN: Removed duplicated region for block: B:14:0x003a  */
@@ -260,39 +235,47 @@ public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylist
         this.liveConfiguration = new MediaItem.LiveConfiguration.Builder().setTargetOffsetMs(Util.usToMs(j)).setMinPlaybackSpeed(!z ? 1.0f : this.liveConfiguration.minPlaybackSpeed).setMaxPlaybackSpeed(z ? 1.0f : this.liveConfiguration.maxPlaybackSpeed).build();
     }
 
-    private static long getTargetLiveOffsetUs(HlsMediaPlaylist hlsMediaPlaylist, long j) {
-        long j2;
-        HlsMediaPlaylist.ServerControl serverControl = hlsMediaPlaylist.serverControl;
-        long j3 = hlsMediaPlaylist.startOffsetUs;
-        if (j3 != -9223372036854775807L) {
-            j2 = hlsMediaPlaylist.durationUs - j3;
-        } else {
-            long j4 = serverControl.partHoldBackUs;
-            if (j4 == -9223372036854775807L || hlsMediaPlaylist.partTargetDurationUs == -9223372036854775807L) {
-                long j5 = serverControl.holdBackUs;
-                j2 = j5 != -9223372036854775807L ? j5 : hlsMediaPlaylist.targetDurationUs * 3;
-            } else {
-                j2 = j4;
-            }
-        }
-        return j2 + j;
+    @Override // com.google.android.exoplayer2.source.MediaSource
+    public MediaPeriod createPeriod(MediaSource.MediaPeriodId mediaPeriodId, Allocator allocator, long j) {
+        MediaSourceEventListener.EventDispatcher createEventDispatcher = createEventDispatcher(mediaPeriodId);
+        return new HlsMediaPeriod(this.extractorFactory, this.playlistTracker, this.dataSourceFactory, this.mediaTransferListener, this.drmSessionManager, createDrmEventDispatcher(mediaPeriodId), this.loadErrorHandlingPolicy, createEventDispatcher, allocator, this.compositeSequenceableLoaderFactory, this.allowChunklessPreparation, this.metadataType, this.useSessionKeys, getPlayerId());
     }
 
-    private static HlsMediaPlaylist.Part findClosestPrecedingIndependentPart(List<HlsMediaPlaylist.Part> list, long j) {
-        HlsMediaPlaylist.Part part = null;
-        for (int i = 0; i < list.size(); i++) {
-            HlsMediaPlaylist.Part part2 = list.get(i);
-            long j2 = part2.relativeStartTimeUs;
-            if (j2 <= j && part2.isIndependent) {
-                part = part2;
-            } else if (j2 > j) {
-                break;
-            }
-        }
-        return part;
+    @Override // com.google.android.exoplayer2.source.MediaSource
+    public MediaItem getMediaItem() {
+        return this.mediaItem;
     }
 
-    private static HlsMediaPlaylist.Segment findClosestPrecedingSegment(List<HlsMediaPlaylist.Segment> list, long j) {
-        return list.get(Util.binarySearchFloor((List<? extends Comparable<? super Long>>) list, Long.valueOf(j), true, true));
+    @Override // com.google.android.exoplayer2.source.MediaSource
+    public void maybeThrowSourceInfoRefreshError() {
+        this.playlistTracker.maybeThrowPrimaryPlaylistRefreshError();
+    }
+
+    @Override // com.google.android.exoplayer2.source.hls.playlist.HlsPlaylistTracker.PrimaryPlaylistListener
+    public void onPrimaryPlaylistRefreshed(HlsMediaPlaylist hlsMediaPlaylist) {
+        long usToMs = hlsMediaPlaylist.hasProgramDateTime ? Util.usToMs(hlsMediaPlaylist.startTimeUs) : -9223372036854775807L;
+        int i = hlsMediaPlaylist.playlistType;
+        long j = (i == 2 || i == 1) ? usToMs : -9223372036854775807L;
+        HlsManifest hlsManifest = new HlsManifest((HlsMultivariantPlaylist) Assertions.checkNotNull(this.playlistTracker.getMultivariantPlaylist()), hlsMediaPlaylist);
+        refreshSourceInfo(this.playlistTracker.isLive() ? createTimelineForLive(hlsMediaPlaylist, j, usToMs, hlsManifest) : createTimelineForOnDemand(hlsMediaPlaylist, j, usToMs, hlsManifest));
+    }
+
+    @Override // com.google.android.exoplayer2.source.BaseMediaSource
+    protected void prepareSourceInternal(TransferListener transferListener) {
+        this.mediaTransferListener = transferListener;
+        this.drmSessionManager.prepare();
+        this.drmSessionManager.setPlayer((Looper) Assertions.checkNotNull(Looper.myLooper()), getPlayerId());
+        this.playlistTracker.start(this.localConfiguration.uri, createEventDispatcher(null), this);
+    }
+
+    @Override // com.google.android.exoplayer2.source.MediaSource
+    public void releasePeriod(MediaPeriod mediaPeriod) {
+        ((HlsMediaPeriod) mediaPeriod).release();
+    }
+
+    @Override // com.google.android.exoplayer2.source.BaseMediaSource
+    protected void releaseSourceInternal() {
+        this.playlistTracker.stop();
+        this.drmSessionManager.release();
     }
 }

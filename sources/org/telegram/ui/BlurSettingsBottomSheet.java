@@ -21,10 +21,6 @@ public class BlurSettingsBottomSheet extends BottomSheet {
     SizeNotifierFrameLayout contentView;
     BaseFragment fragment;
 
-    public static void show(BaseFragment baseFragment) {
-        new BlurSettingsBottomSheet(baseFragment).show();
-    }
-
     private BlurSettingsBottomSheet(BaseFragment baseFragment) {
         super(baseFragment.getParentActivity(), false);
         this.fragment = baseFragment;
@@ -57,16 +53,16 @@ public class BlurSettingsBottomSheet extends BottomSheet {
             }
 
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
-            public void onSeekBarPressed(boolean z) {
-            }
-
-            @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public void onSeekBarDrag(boolean z, float f) {
                 BlurSettingsBottomSheet.saturation = f;
                 TextView textView2 = textView;
                 textView2.setText("Saturation " + (f * 5.0f));
                 BlurSettingsBottomSheet.this.contentView.invalidateBlurredViews();
                 BlurSettingsBottomSheet.this.contentView.invalidateBlur();
+            }
+
+            @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+            public void onSeekBarPressed(boolean z) {
             }
         });
         seekBarView.setReportChanges(true);
@@ -93,15 +89,15 @@ public class BlurSettingsBottomSheet extends BottomSheet {
             }
 
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
-            public void onSeekBarPressed(boolean z) {
-            }
-
-            @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public void onSeekBarDrag(boolean z, float f) {
                 TextView textView3 = textView2;
                 textView3.setText("Alpha " + BlurSettingsBottomSheet.blurAlpha);
                 BlurSettingsBottomSheet.blurAlpha = f;
                 BlurSettingsBottomSheet.this.contentView.invalidateBlur();
+            }
+
+            @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+            public void onSeekBarPressed(boolean z) {
             }
         });
         seekBarView2.setReportChanges(true);
@@ -156,5 +152,9 @@ public class BlurSettingsBottomSheet extends BottomSheet {
 
     public static void onThemeApplyed() {
         blurAlpha = 1.0f - (Color.alpha(Theme.getColor(Theme.key_chat_BlurAlpha, null, true)) / 255.0f);
+    }
+
+    public static void show(BaseFragment baseFragment) {
+        new BlurSettingsBottomSheet(baseFragment).show();
     }
 }

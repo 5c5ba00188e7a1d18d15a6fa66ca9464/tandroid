@@ -6,7 +6,6 @@ import com.google.firebase.encoders.ObjectEncoderContext;
 import com.google.firebase.encoders.config.EncoderConfig;
 import java.util.HashMap;
 import java.util.Map;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zzcq implements EncoderConfig {
     public static final /* synthetic */ int $r8$clinit = 0;

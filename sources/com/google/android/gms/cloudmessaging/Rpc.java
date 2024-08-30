@@ -25,7 +25,6 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-/* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
 /* loaded from: classes.dex */
 public class Rpc {
     private static int zza;
@@ -36,7 +35,7 @@ public class Rpc {
     private final ScheduledExecutorService zzg;
     private Messenger zzi;
     private zza zzj;
-    private final SimpleArrayMap<String, TaskCompletionSource<Bundle>> zzd = new SimpleArrayMap<>();
+    private final SimpleArrayMap zzd = new SimpleArrayMap();
     private Messenger zzh = new Messenger(new zzy(this, Looper.getMainLooper()));
 
     public Rpc(Context context) {
@@ -46,6 +45,51 @@ public class Rpc {
         scheduledThreadPoolExecutor.setKeepAliveTime(60L, TimeUnit.SECONDS);
         scheduledThreadPoolExecutor.allowCoreThreadTimeOut(true);
         this.zzg = scheduledThreadPoolExecutor;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static final /* synthetic */ Bundle zza(Task task) {
+        if (task.isSuccessful()) {
+            return (Bundle) task.getResult();
+        }
+        if (Log.isLoggable("Rpc", 3)) {
+            String valueOf = String.valueOf(task.getException());
+            StringBuilder sb = new StringBuilder(valueOf.length() + 22);
+            sb.append("Error making request: ");
+            sb.append(valueOf);
+            Log.d("Rpc", sb.toString());
+        }
+        throw new IOException("SERVICE_NOT_AVAILABLE", task.getException());
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static final /* synthetic */ Task zza(Bundle bundle) {
+        return zzb(bundle) ? Tasks.forResult(null) : Tasks.forResult(bundle);
+    }
+
+    private static synchronized String zza() {
+        String num;
+        synchronized (Rpc.class) {
+            int i = zza;
+            zza = i + 1;
+            num = Integer.toString(i);
+        }
+        return num;
+    }
+
+    private static synchronized void zza(Context context, Intent intent) {
+        synchronized (Rpc.class) {
+            try {
+                if (zzb == null) {
+                    Intent intent2 = new Intent();
+                    intent2.setPackage("com.google.example.invalidpackage");
+                    zzb = PendingIntent.getBroadcast(context, 0, intent2, 0);
+                }
+                intent.putExtra("app", zzb);
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -78,37 +122,42 @@ public class Rpc {
                 if (stringExtra == null) {
                     stringExtra = intent2.getStringExtra("unregistered");
                 }
-                if (stringExtra == null) {
-                    String stringExtra2 = intent2.getStringExtra("error");
-                    if (stringExtra2 == null) {
-                        String valueOf2 = String.valueOf(intent2.getExtras());
-                        StringBuilder sb = new StringBuilder(valueOf2.length() + 49);
-                        sb.append("Unexpected response, no error or registration id ");
-                        sb.append(valueOf2);
-                        Log.w("Rpc", sb.toString());
-                        return;
-                    }
-                    if (Log.isLoggable("Rpc", 3)) {
-                        Log.d("Rpc", stringExtra2.length() != 0 ? "Received InstanceID error ".concat(stringExtra2) : new String("Received InstanceID error "));
-                    }
-                    if (stringExtra2.startsWith("|")) {
-                        String[] split = stringExtra2.split("\\|");
-                        if (split.length <= 2 || !"ID".equals(split[1])) {
-                            Log.w("Rpc", stringExtra2.length() != 0 ? "Unexpected structured response ".concat(stringExtra2) : new String("Unexpected structured response "));
+                if (stringExtra != null) {
+                    Matcher matcher = Pattern.compile("\\|ID\\|([^|]+)\\|:?+(.*)").matcher(stringExtra);
+                    if (!matcher.matches()) {
+                        if (Log.isLoggable("Rpc", 3)) {
+                            Log.d("Rpc", stringExtra.length() != 0 ? "Unexpected response string: ".concat(stringExtra) : new String("Unexpected response string: "));
                             return;
                         }
-                        String str = split[2];
-                        String str2 = split[3];
-                        if (str2.startsWith(":")) {
-                            str2 = str2.substring(1);
-                        }
-                        zza(str, intent2.putExtra("error", str2).getExtras());
                         return;
                     }
+                    String group = matcher.group(1);
+                    String group2 = matcher.group(2);
+                    if (group != null) {
+                        Bundle extras = intent2.getExtras();
+                        extras.putString("registration_id", group2);
+                        zza(group, extras);
+                        return;
+                    }
+                    return;
+                }
+                String stringExtra2 = intent2.getStringExtra("error");
+                if (stringExtra2 == null) {
+                    String valueOf2 = String.valueOf(intent2.getExtras());
+                    StringBuilder sb = new StringBuilder(valueOf2.length() + 49);
+                    sb.append("Unexpected response, no error or registration id ");
+                    sb.append(valueOf2);
+                    Log.w("Rpc", sb.toString());
+                    return;
+                }
+                if (Log.isLoggable("Rpc", 3)) {
+                    Log.d("Rpc", stringExtra2.length() != 0 ? "Received InstanceID error ".concat(stringExtra2) : new String("Received InstanceID error "));
+                }
+                if (!stringExtra2.startsWith("|")) {
                     synchronized (this.zzd) {
                         for (int i = 0; i < this.zzd.size(); i++) {
                             try {
-                                zza(this.zzd.keyAt(i), intent2.getExtras());
+                                zza((String) this.zzd.keyAt(i), intent2.getExtras());
                             } catch (Throwable th) {
                                 throw th;
                             }
@@ -116,110 +165,59 @@ public class Rpc {
                     }
                     return;
                 }
-                Matcher matcher = Pattern.compile("\\|ID\\|([^|]+)\\|:?+(.*)").matcher(stringExtra);
-                if (!matcher.matches()) {
-                    if (Log.isLoggable("Rpc", 3)) {
-                        Log.d("Rpc", stringExtra.length() != 0 ? "Unexpected response string: ".concat(stringExtra) : new String("Unexpected response string: "));
-                        return;
-                    }
+                String[] split = stringExtra2.split("\\|");
+                if (split.length <= 2 || !"ID".equals(split[1])) {
+                    Log.w("Rpc", stringExtra2.length() != 0 ? "Unexpected structured response ".concat(stringExtra2) : new String("Unexpected structured response "));
                     return;
                 }
-                String group = matcher.group(1);
-                String group2 = matcher.group(2);
-                if (group != null) {
-                    Bundle extras = intent2.getExtras();
-                    extras.putString("registration_id", group2);
-                    zza(group, extras);
-                    return;
+                String str = split[2];
+                String str2 = split[3];
+                if (str2.startsWith(":")) {
+                    str2 = str2.substring(1);
                 }
+                zza(str, intent2.putExtra("error", str2).getExtras());
                 return;
             }
         }
         Log.w("Rpc", "Dropping invalid message");
     }
 
-    private static synchronized void zza(Context context, Intent intent) {
-        synchronized (Rpc.class) {
-            try {
-                if (zzb == null) {
-                    Intent intent2 = new Intent();
-                    intent2.setPackage("com.google.example.invalidpackage");
-                    zzb = PendingIntent.getBroadcast(context, 0, intent2, 0);
-                }
-                intent.putExtra("app", zzb);
-            } catch (Throwable th) {
-                throw th;
-            }
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static final /* synthetic */ void zza(TaskCompletionSource taskCompletionSource) {
+        if (taskCompletionSource.trySetException(new IOException("TIMEOUT"))) {
+            Log.w("Rpc", "No response");
         }
     }
 
     private final void zza(String str, Bundle bundle) {
         synchronized (this.zzd) {
             try {
-                TaskCompletionSource<Bundle> remove = this.zzd.remove(str);
-                if (remove == null) {
-                    String valueOf = String.valueOf(str);
-                    Log.w("Rpc", valueOf.length() != 0 ? "Missing callback for ".concat(valueOf) : new String("Missing callback for "));
+                TaskCompletionSource taskCompletionSource = (TaskCompletionSource) this.zzd.remove(str);
+                if (taskCompletionSource != null) {
+                    taskCompletionSource.setResult(bundle);
                     return;
                 }
-                remove.setResult(bundle);
+                String valueOf = String.valueOf(str);
+                Log.w("Rpc", valueOf.length() != 0 ? "Missing callback for ".concat(valueOf) : new String("Missing callback for "));
             } catch (Throwable th) {
                 throw th;
             }
         }
     }
 
-    public Task<Bundle> send(final Bundle bundle) {
-        if (this.zzf.zzb() >= 12000000) {
-            return zze.zza(this.zze).zzb(1, bundle).continueWith(zzc, zzt.zza);
-        }
-        if (this.zzf.zza() == 0) {
-            return Tasks.forException(new IOException("MISSING_INSTANCEID_SERVICE"));
-        }
-        return zzc(bundle).continueWithTask(zzc, new Continuation(this, bundle) { // from class: com.google.android.gms.cloudmessaging.zzv
-            private final Rpc zza;
-            private final Bundle zzb;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zza = this;
-                this.zzb = bundle;
-            }
-
-            @Override // com.google.android.gms.tasks.Continuation
-            public final Object then(Task task) {
-                return this.zza.zza(this.zzb, task);
-            }
-        });
-    }
-
     private static boolean zzb(Bundle bundle) {
         return bundle != null && bundle.containsKey("google.messenger");
     }
 
-    private static synchronized String zza() {
-        String num;
-        synchronized (Rpc.class) {
-            int i = zza;
-            zza = i + 1;
-            num = Integer.toString(i);
-        }
-        return num;
-    }
-
-    private final Task<Bundle> zzc(Bundle bundle) {
+    private final Task zzc(Bundle bundle) {
         final String zza2 = zza();
-        final TaskCompletionSource<Bundle> taskCompletionSource = new TaskCompletionSource<>();
+        final TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
         synchronized (this.zzd) {
             this.zzd.put(zza2, taskCompletionSource);
         }
         Intent intent = new Intent();
         intent.setPackage("com.google.android.gms");
-        if (this.zzf.zza() == 2) {
-            intent.setAction("com.google.iid.TOKEN_REQUEST");
-        } else {
-            intent.setAction("com.google.android.c2dm.intent.REGISTER");
-        }
+        intent.setAction(this.zzf.zza() == 2 ? "com.google.iid.TOKEN_REQUEST" : "com.google.android.c2dm.intent.REGISTER");
         intent.putExtras(bundle);
         zza(this.zze, intent);
         StringBuilder sb = new StringBuilder(String.valueOf(zza2).length() + 5);
@@ -320,46 +318,34 @@ public class Rpc {
         return taskCompletionSource.getTask();
     }
 
+    public Task send(final Bundle bundle) {
+        return this.zzf.zzb() >= 12000000 ? zze.zza(this.zze).zzb(1, bundle).continueWith(zzc, zzt.zza) : this.zzf.zza() != 0 ? zzc(bundle).continueWithTask(zzc, new Continuation(this, bundle) { // from class: com.google.android.gms.cloudmessaging.zzv
+            private final Rpc zza;
+            private final Bundle zzb;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.zza = this;
+                this.zzb = bundle;
+            }
+
+            @Override // com.google.android.gms.tasks.Continuation
+            public final Object then(Task task) {
+                return this.zza.zza(this.zzb, task);
+            }
+        }) : Tasks.forException(new IOException("MISSING_INSTANCEID_SERVICE"));
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final /* synthetic */ Task zza(Bundle bundle, Task task) {
+        return (task.isSuccessful() && zzb((Bundle) task.getResult())) ? zzc(bundle).onSuccessTask(zzc, zzw.zza) : task;
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void zza(String str, ScheduledFuture scheduledFuture, Task task) {
         synchronized (this.zzd) {
             this.zzd.remove(str);
         }
         scheduledFuture.cancel(false);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final /* synthetic */ void zza(TaskCompletionSource taskCompletionSource) {
-        if (taskCompletionSource.trySetException(new IOException("TIMEOUT"))) {
-            Log.w("Rpc", "No response");
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ Task zza(Bundle bundle, Task task) throws Exception {
-        return (task.isSuccessful() && zzb((Bundle) task.getResult())) ? zzc(bundle).onSuccessTask(zzc, zzw.zza) : task;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final /* synthetic */ Task zza(Bundle bundle) throws Exception {
-        if (zzb(bundle)) {
-            return Tasks.forResult(null);
-        }
-        return Tasks.forResult(bundle);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final /* synthetic */ Bundle zza(Task task) throws Exception {
-        if (task.isSuccessful()) {
-            return (Bundle) task.getResult();
-        }
-        if (Log.isLoggable("Rpc", 3)) {
-            String valueOf = String.valueOf(task.getException());
-            StringBuilder sb = new StringBuilder(valueOf.length() + 22);
-            sb.append("Error making request: ");
-            sb.append(valueOf);
-            Log.d("Rpc", sb.toString());
-        }
-        throw new IOException("SERVICE_NOT_AVAILABLE", task.getException());
     }
 }

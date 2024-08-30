@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
-import java.io.IOException;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class zzey {
@@ -34,7 +33,7 @@ public final class zzey {
         return new zzey(i, copyOf, copyOf2, true);
     }
 
-    private static void zzb(int i, Object obj, zzfr zzfrVar) throws IOException {
+    private static void zzb(int i, Object obj, zzfr zzfrVar) {
         int i2 = i >>> 3;
         int i3 = i & 7;
         if (i3 == 0) {
@@ -120,7 +119,7 @@ public final class zzey {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza(zzfr zzfrVar) throws IOException {
+    public final void zza(zzfr zzfrVar) {
         if (zzfrVar.zzaj() == zzcg.zzg.zzkp) {
             for (int i = this.count - 1; i >= 0; i--) {
                 zzfrVar.zza(this.zzpa[i] >>> 3, this.zzmj[i]);
@@ -188,7 +187,7 @@ public final class zzey {
         this.count = i4 + 1;
     }
 
-    public final void zzb(zzfr zzfrVar) throws IOException {
+    public final void zzb(zzfr zzfrVar) {
         if (this.count == 0) {
             return;
         }

@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.util.AbstractMap;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 final class zzbv extends zzbe {
     final /* synthetic */ zzbw zza;

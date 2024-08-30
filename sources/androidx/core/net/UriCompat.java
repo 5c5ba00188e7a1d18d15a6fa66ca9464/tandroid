@@ -2,7 +2,7 @@ package androidx.core.net;
 
 import android.net.Uri;
 /* loaded from: classes.dex */
-public final class UriCompat {
+public abstract class UriCompat {
     public static String toSafeString(Uri uri) {
         String scheme = uri.getScheme();
         String schemeSpecificPart = uri.getSchemeSpecificPart();
@@ -14,11 +14,10 @@ public final class UriCompat {
                 if (schemeSpecificPart != null) {
                     for (int i = 0; i < schemeSpecificPart.length(); i++) {
                         char charAt = schemeSpecificPart.charAt(i);
-                        if (charAt == '-' || charAt == '@' || charAt == '.') {
-                            sb.append(charAt);
-                        } else {
-                            sb.append('x');
+                        if (charAt != '-' && charAt != '@' && charAt != '.') {
+                            charAt = 'x';
                         }
+                        sb.append(charAt);
                     }
                 }
                 return sb.toString();

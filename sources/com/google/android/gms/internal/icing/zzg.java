@@ -7,7 +7,6 @@ import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.Arrays;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
 public final class zzg extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zzg> CREATOR = new zzh();
@@ -15,6 +14,14 @@ public final class zzg extends AbstractSafeParcelable {
     public final String zzb;
     public final boolean zzc;
     public final Account zzd;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public zzg(zzk[] zzkVarArr, String str, boolean z, Account account) {
+        this.zza = zzkVarArr;
+        this.zzb = str;
+        this.zzc = z;
+        this.zzd = account;
+    }
 
     public final boolean equals(Object obj) {
         if (obj instanceof zzg) {
@@ -38,13 +45,5 @@ public final class zzg extends AbstractSafeParcelable {
         SafeParcelWriter.writeBoolean(parcel, 3, this.zzc);
         SafeParcelWriter.writeParcelable(parcel, 4, this.zzd, i, false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzg(zzk[] zzkVarArr, String str, boolean z, Account account) {
-        this.zza = zzkVarArr;
-        this.zzb = str;
-        this.zzc = z;
-        this.zzd = account;
     }
 }

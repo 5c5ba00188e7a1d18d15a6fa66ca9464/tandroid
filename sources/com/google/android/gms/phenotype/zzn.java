@@ -1,6 +1,6 @@
 package com.google.android.gms.phenotype;
 /* loaded from: classes.dex */
-public final class zzn {
+public abstract class zzn {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean equals(Object obj, Object obj2) {
         if (obj != obj2) {

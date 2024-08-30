@@ -4,12 +4,7 @@ import android.net.Uri;
 import java.util.List;
 import java.util.Map;
 /* loaded from: classes.dex */
-public final class FileTypes {
-    public static int inferFileTypeFromResponseHeaders(Map<String, List<String>> map) {
-        List<String> list = map.get("Content-Type");
-        return inferFileTypeFromMimeType((list == null || list.isEmpty()) ? null : list.get(0));
-    }
-
+public abstract class FileTypes {
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     public static int inferFileTypeFromMimeType(String str) {
         char c;
@@ -251,6 +246,11 @@ public final class FileTypes {
             default:
                 return -1;
         }
+    }
+
+    public static int inferFileTypeFromResponseHeaders(Map map) {
+        List list = (List) map.get("Content-Type");
+        return inferFileTypeFromMimeType((list == null || list.isEmpty()) ? null : (String) list.get(0));
     }
 
     public static int inferFileTypeFromUri(Uri uri) {

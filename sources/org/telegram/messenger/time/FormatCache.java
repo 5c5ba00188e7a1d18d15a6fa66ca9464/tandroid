@@ -15,78 +15,6 @@ public abstract class FormatCache<F extends Format> {
     private static final ConcurrentMap<MultipartKey, String> cDateTimeInstanceCache = new ConcurrentHashMap(7);
     private final ConcurrentMap<MultipartKey, F> cInstanceCache = new ConcurrentHashMap(7);
 
-    protected abstract F createInstance(String str, TimeZone timeZone, Locale locale);
-
-    public F getInstance() {
-        return getDateTimeInstance(3, 3, TimeZone.getDefault(), Locale.getDefault());
-    }
-
-    public F getInstance(String str, TimeZone timeZone, Locale locale) {
-        if (str == null) {
-            throw new NullPointerException("pattern must not be null");
-        }
-        if (timeZone == null) {
-            timeZone = TimeZone.getDefault();
-        }
-        if (locale == null) {
-            locale = Locale.getDefault();
-        }
-        MultipartKey multipartKey = new MultipartKey(str, timeZone, locale);
-        F f = this.cInstanceCache.get(multipartKey);
-        if (f == null) {
-            F createInstance = createInstance(str, timeZone, locale);
-            F putIfAbsent = this.cInstanceCache.putIfAbsent(multipartKey, createInstance);
-            return putIfAbsent != null ? putIfAbsent : createInstance;
-        }
-        return f;
-    }
-
-    private F getDateTimeInstance(Integer num, Integer num2, TimeZone timeZone, Locale locale) {
-        if (locale == null) {
-            locale = Locale.getDefault();
-        }
-        return getInstance(getPatternForStyle(num, num2, locale), timeZone, locale);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public F getDateTimeInstance(int i, int i2, TimeZone timeZone, Locale locale) {
-        return getDateTimeInstance(Integer.valueOf(i), Integer.valueOf(i2), timeZone, locale);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public F getDateInstance(int i, TimeZone timeZone, Locale locale) {
-        return getDateTimeInstance(Integer.valueOf(i), (Integer) null, timeZone, locale);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public F getTimeInstance(int i, TimeZone timeZone, Locale locale) {
-        return getDateTimeInstance((Integer) null, Integer.valueOf(i), timeZone, locale);
-    }
-
-    static String getPatternForStyle(Integer num, Integer num2, Locale locale) {
-        DateFormat dateTimeInstance;
-        MultipartKey multipartKey = new MultipartKey(num, num2, locale);
-        ConcurrentMap<MultipartKey, String> concurrentMap = cDateTimeInstanceCache;
-        String str = concurrentMap.get(multipartKey);
-        if (str == null) {
-            try {
-                if (num == null) {
-                    dateTimeInstance = DateFormat.getTimeInstance(num2.intValue(), locale);
-                } else if (num2 == null) {
-                    dateTimeInstance = DateFormat.getDateInstance(num.intValue(), locale);
-                } else {
-                    dateTimeInstance = DateFormat.getDateTimeInstance(num.intValue(), num2.intValue(), locale);
-                }
-                String pattern = ((SimpleDateFormat) dateTimeInstance).toPattern();
-                String putIfAbsent = concurrentMap.putIfAbsent(multipartKey, pattern);
-                return putIfAbsent != null ? putIfAbsent : pattern;
-            } catch (ClassCastException unused) {
-                throw new IllegalArgumentException("No date time pattern for locale: " + locale);
-            }
-        }
-        return str;
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class MultipartKey {
@@ -114,5 +42,69 @@ public abstract class FormatCache<F extends Format> {
             }
             return this.hashCode;
         }
+    }
+
+    private F getDateTimeInstance(Integer num, Integer num2, TimeZone timeZone, Locale locale) {
+        if (locale == null) {
+            locale = Locale.getDefault();
+        }
+        return getInstance(getPatternForStyle(num, num2, locale), timeZone, locale);
+    }
+
+    static String getPatternForStyle(Integer num, Integer num2, Locale locale) {
+        MultipartKey multipartKey = new MultipartKey(num, num2, locale);
+        ConcurrentMap<MultipartKey, String> concurrentMap = cDateTimeInstanceCache;
+        String str = concurrentMap.get(multipartKey);
+        if (str == null) {
+            try {
+                String pattern = ((SimpleDateFormat) (num == null ? DateFormat.getTimeInstance(num2.intValue(), locale) : num2 == null ? DateFormat.getDateInstance(num.intValue(), locale) : DateFormat.getDateTimeInstance(num.intValue(), num2.intValue(), locale))).toPattern();
+                String putIfAbsent = concurrentMap.putIfAbsent(multipartKey, pattern);
+                return putIfAbsent != null ? putIfAbsent : pattern;
+            } catch (ClassCastException unused) {
+                throw new IllegalArgumentException("No date time pattern for locale: " + locale);
+            }
+        }
+        return str;
+    }
+
+    protected abstract F createInstance(String str, TimeZone timeZone, Locale locale);
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public F getDateInstance(int i, TimeZone timeZone, Locale locale) {
+        return getDateTimeInstance(Integer.valueOf(i), (Integer) null, timeZone, locale);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public F getDateTimeInstance(int i, int i2, TimeZone timeZone, Locale locale) {
+        return getDateTimeInstance(Integer.valueOf(i), Integer.valueOf(i2), timeZone, locale);
+    }
+
+    public F getInstance() {
+        return getDateTimeInstance(3, 3, TimeZone.getDefault(), Locale.getDefault());
+    }
+
+    public F getInstance(String str, TimeZone timeZone, Locale locale) {
+        if (str != null) {
+            if (timeZone == null) {
+                timeZone = TimeZone.getDefault();
+            }
+            if (locale == null) {
+                locale = Locale.getDefault();
+            }
+            MultipartKey multipartKey = new MultipartKey(str, timeZone, locale);
+            F f = this.cInstanceCache.get(multipartKey);
+            if (f == null) {
+                F createInstance = createInstance(str, timeZone, locale);
+                F putIfAbsent = this.cInstanceCache.putIfAbsent(multipartKey, createInstance);
+                return putIfAbsent != null ? putIfAbsent : createInstance;
+            }
+            return f;
+        }
+        throw new NullPointerException("pattern must not be null");
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public F getTimeInstance(int i, TimeZone timeZone, Locale locale) {
+        return getDateTimeInstance((Integer) null, Integer.valueOf(i), timeZone, locale);
     }
 }

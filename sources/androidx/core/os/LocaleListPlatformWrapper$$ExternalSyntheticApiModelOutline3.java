@@ -1,5 +1,9 @@
 package androidx.core.os;
-/* compiled from: R8$$SyntheticClass */
+
+import android.os.LocaleList;
 /* loaded from: classes.dex */
-public final /* synthetic */ class LocaleListPlatformWrapper$$ExternalSyntheticApiModelOutline3 {
+public abstract /* synthetic */ class LocaleListPlatformWrapper$$ExternalSyntheticApiModelOutline3 {
+    public static /* bridge */ /* synthetic */ LocaleList m(Object obj) {
+        return (LocaleList) obj;
+    }
 }

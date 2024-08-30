@@ -64,6 +64,320 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
     private int shiftDp = -4;
     private boolean valueSet;
 
+    private void checkDone(boolean z) {
+        if (this.doneButton == null) {
+            return;
+        }
+        boolean hasChanges = hasChanges();
+        this.doneButton.setEnabled(hasChanges);
+        if (z) {
+            this.doneButton.animate().alpha(hasChanges ? 1.0f : 0.0f).scaleX(hasChanges ? 1.0f : 0.0f).scaleY(hasChanges ? 1.0f : 0.0f).setDuration(180L).start();
+            return;
+        }
+        this.doneButton.setAlpha(hasChanges ? 1.0f : 0.0f);
+        this.doneButton.setScaleX(hasChanges ? 1.0f : 0.0f);
+        this.doneButton.setScaleY(hasChanges ? 1.0f : 0.0f);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void fillItems(ArrayList arrayList, UniversalAdapter universalAdapter) {
+        arrayList.add(UItem.asTopView(LocaleController.getString(R.string.BusinessAwayInfo), "RestrictedEmoji", "💤"));
+        arrayList.add(UItem.asCheck(1, LocaleController.getString(R.string.BusinessAwaySend)).setChecked(this.enabled));
+        arrayList.add(UItem.asShadow(null));
+        if (this.enabled) {
+            QuickRepliesController.QuickReply findReply = QuickRepliesController.getInstance(this.currentAccount).findReply("away");
+            arrayList.add(findReply != null ? UItem.asLargeQuickReply(findReply) : UItem.asButton(2, R.drawable.msg2_chats_add, LocaleController.getString(R.string.BusinessAwayCreate)).accent());
+            arrayList.add(UItem.asShadow(null));
+            int i = R.string.BusinessAwaySchedule;
+            arrayList.add(UItem.asHeader(LocaleController.getString(i)));
+            arrayList.add(UItem.asRadio(3, LocaleController.getString(R.string.BusinessAwayScheduleAlways)).setChecked(this.schedule == 0));
+            if (this.hasHours) {
+                arrayList.add(UItem.asRadio(4, LocaleController.getString(R.string.BusinessAwayScheduleOutsideHours)).setChecked(this.schedule == 1));
+            }
+            arrayList.add(UItem.asRadio(5, LocaleController.getString(R.string.BusinessAwayScheduleCustom)).setChecked(this.schedule == 2));
+            if (this.schedule == 2) {
+                arrayList.add(UItem.asShadow(null));
+                arrayList.add(UItem.asHeader(LocaleController.getString(i)));
+                arrayList.add(UItem.asButton(8, LocaleController.getString(R.string.BusinessAwayScheduleCustomStart), LocaleController.formatShortDateTime(this.scheduleCustomStart)));
+                arrayList.add(UItem.asButton(9, LocaleController.getString(R.string.BusinessAwayScheduleCustomEnd), LocaleController.formatShortDateTime(this.scheduleCustomEnd)));
+            }
+            arrayList.add(UItem.asShadow(null));
+            arrayList.add(UItem.asCheck(10, LocaleController.getString(R.string.BusinessAwayOnlyOffline)).setChecked(this.offline_only));
+            arrayList.add(UItem.asShadow(LocaleController.getString(R.string.BusinessAwayOnlyOfflineInfo)));
+            arrayList.add(UItem.asHeader(LocaleController.getString(R.string.BusinessRecipients)));
+            arrayList.add(UItem.asRadio(6, LocaleController.getString(R.string.BusinessChatsAllPrivateExcept)).setChecked(this.exclude));
+            arrayList.add(UItem.asRadio(7, LocaleController.getString(R.string.BusinessChatsOnlySelected)).setChecked(true ^ this.exclude));
+            arrayList.add(UItem.asShadow(null));
+            this.recipientsHelper.fillItems(arrayList);
+            arrayList.add(UItem.asShadow(null));
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$0() {
+        this.listView.adapter.update(true);
+        checkDone(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onBackPressed$3(DialogInterface dialogInterface, int i) {
+        processDone();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onBackPressed$4(DialogInterface dialogInterface, int i) {
+        finishFragment();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onClick$5(View view, boolean z, int i) {
+        this.scheduleCustomStart = i;
+        ((TextCell) view).setValue(LocaleController.formatShortDateTime(i), true);
+        checkDone(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onClick$6(View view, boolean z, int i) {
+        this.scheduleCustomEnd = i;
+        ((TextCell) view).setValue(LocaleController.formatShortDateTime(i), true);
+        checkDone(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$processDone$1(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
+        if (tLRPC$TL_error != null) {
+            this.doneButtonDrawable.animateToProgress(0.0f);
+            BulletinFactory.showError(tLRPC$TL_error);
+        } else if (!(tLObject instanceof TLRPC$TL_boolFalse)) {
+            finishFragment();
+        } else {
+            this.doneButtonDrawable.animateToProgress(0.0f);
+            BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$processDone$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda8
+            @Override // java.lang.Runnable
+            public final void run() {
+                AwayMessagesActivity.this.lambda$processDone$1(tLRPC$TL_error, tLObject);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void onClick(UItem uItem, final View view, int i, float f, float f2) {
+        Context context;
+        String string;
+        String string2;
+        long j;
+        AlertsCreator.ScheduleDatePickerDelegate scheduleDatePickerDelegate;
+        if (this.recipientsHelper.onClick(uItem)) {
+            return;
+        }
+        int i2 = uItem.id;
+        if (i2 == 2 || uItem.viewType == 17) {
+            Bundle bundle = new Bundle();
+            bundle.putLong("user_id", getUserConfig().getClientUserId());
+            bundle.putInt("chatMode", 5);
+            bundle.putString("quick_reply", "away");
+            presentFragment(new ChatActivity(bundle));
+            return;
+        }
+        if (i2 == 1) {
+            this.enabled = !this.enabled;
+        } else if (i2 == 6) {
+            BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
+            this.exclude = true;
+            businessRecipientsHelper.setExclude(true);
+        } else if (i2 == 7) {
+            BusinessRecipientsHelper businessRecipientsHelper2 = this.recipientsHelper;
+            this.exclude = false;
+            businessRecipientsHelper2.setExclude(false);
+        } else if (i2 == 3) {
+            this.schedule = 0;
+        } else if (i2 == 4) {
+            this.schedule = 1;
+        } else if (i2 != 5) {
+            if (i2 == 8) {
+                context = getContext();
+                string = LocaleController.getString(R.string.BusinessAwayScheduleCustomStartTitle);
+                string2 = LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton);
+                j = this.scheduleCustomStart;
+                scheduleDatePickerDelegate = new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda6
+                    @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
+                    public final void didSelectDate(boolean z, int i3) {
+                        AwayMessagesActivity.this.lambda$onClick$5(view, z, i3);
+                    }
+                };
+            } else if (i2 != 9) {
+                if (i2 == 10) {
+                    boolean z = !this.offline_only;
+                    this.offline_only = z;
+                    ((TextCheckCell) view).setChecked(z);
+                    checkDone(true);
+                }
+                return;
+            } else {
+                context = getContext();
+                string = LocaleController.getString(R.string.BusinessAwayScheduleCustomEndTitle);
+                string2 = LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton);
+                j = this.scheduleCustomEnd;
+                scheduleDatePickerDelegate = new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda7
+                    @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
+                    public final void didSelectDate(boolean z2, int i3) {
+                        AwayMessagesActivity.this.lambda$onClick$6(view, z2, i3);
+                    }
+                };
+            }
+            AlertsCreator.createDatePickerDialog(context, string, string2, j, scheduleDatePickerDelegate);
+            return;
+        } else {
+            this.schedule = 2;
+        }
+        this.listView.adapter.update(true);
+        checkDone(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x00be  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void processDone() {
+        TLRPC$TL_inputBusinessAwayMessage tLRPC$TL_inputBusinessAwayMessage;
+        TLRPC$BusinessAwayMessageSchedule tLRPC$TL_businessAwayMessageScheduleOutsideWorkHours;
+        if (this.doneButtonDrawable.getProgress() > 0.0f) {
+            return;
+        }
+        if (!hasChanges()) {
+            finishFragment();
+            return;
+        }
+        QuickRepliesController.QuickReply findReply = QuickRepliesController.getInstance(this.currentAccount).findReply("away");
+        boolean z = this.enabled;
+        if (z && findReply == null) {
+            BotWebViewVibrationEffect.APP_ERROR.vibrate();
+            View findViewByItemId = this.listView.findViewByItemId(2);
+            int i = -this.shiftDp;
+            this.shiftDp = i;
+            AndroidUtilities.shakeViewSpring(findViewByItemId, i);
+            UniversalRecyclerView universalRecyclerView = this.listView;
+            universalRecyclerView.smoothScrollToPosition(universalRecyclerView.findPositionByItemId(2));
+        } else if (!z || this.recipientsHelper.validate(this.listView)) {
+            this.doneButtonDrawable.animateToProgress(1.0f);
+            TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
+            TLRPC$TL_account_updateBusinessAwayMessage tLRPC$TL_account_updateBusinessAwayMessage = new TLRPC$TL_account_updateBusinessAwayMessage();
+            if (this.enabled) {
+                TLRPC$TL_inputBusinessAwayMessage tLRPC$TL_inputBusinessAwayMessage2 = new TLRPC$TL_inputBusinessAwayMessage();
+                tLRPC$TL_account_updateBusinessAwayMessage.message = tLRPC$TL_inputBusinessAwayMessage2;
+                tLRPC$TL_inputBusinessAwayMessage2.offline_only = this.offline_only;
+                tLRPC$TL_inputBusinessAwayMessage2.shortcut_id = findReply.id;
+                tLRPC$TL_inputBusinessAwayMessage2.recipients = this.recipientsHelper.getInputValue();
+                int i2 = this.schedule;
+                if (i2 == 0) {
+                    tLRPC$TL_inputBusinessAwayMessage = tLRPC$TL_account_updateBusinessAwayMessage.message;
+                    tLRPC$TL_businessAwayMessageScheduleOutsideWorkHours = new TLRPC$TL_businessAwayMessageScheduleAlways();
+                } else if (i2 == 1) {
+                    tLRPC$TL_inputBusinessAwayMessage = tLRPC$TL_account_updateBusinessAwayMessage.message;
+                    tLRPC$TL_businessAwayMessageScheduleOutsideWorkHours = new TLRPC$TL_businessAwayMessageScheduleOutsideWorkHours();
+                } else {
+                    if (i2 == 2) {
+                        TLRPC$TL_businessAwayMessageScheduleCustom tLRPC$TL_businessAwayMessageScheduleCustom = new TLRPC$TL_businessAwayMessageScheduleCustom();
+                        tLRPC$TL_businessAwayMessageScheduleCustom.start_date = this.scheduleCustomStart;
+                        tLRPC$TL_businessAwayMessageScheduleCustom.end_date = this.scheduleCustomEnd;
+                        tLRPC$TL_account_updateBusinessAwayMessage.message.schedule = tLRPC$TL_businessAwayMessageScheduleCustom;
+                    }
+                    tLRPC$TL_account_updateBusinessAwayMessage.flags |= 1;
+                    if (userFull != null) {
+                        userFull.flags2 |= 8;
+                        TLRPC$TL_businessAwayMessage tLRPC$TL_businessAwayMessage = new TLRPC$TL_businessAwayMessage();
+                        userFull.business_away_message = tLRPC$TL_businessAwayMessage;
+                        tLRPC$TL_businessAwayMessage.offline_only = this.offline_only;
+                        tLRPC$TL_businessAwayMessage.shortcut_id = findReply.id;
+                        tLRPC$TL_businessAwayMessage.recipients = this.recipientsHelper.getValue();
+                        userFull.business_away_message.schedule = tLRPC$TL_account_updateBusinessAwayMessage.message.schedule;
+                    }
+                }
+                tLRPC$TL_inputBusinessAwayMessage.schedule = tLRPC$TL_businessAwayMessageScheduleOutsideWorkHours;
+                tLRPC$TL_account_updateBusinessAwayMessage.flags |= 1;
+                if (userFull != null) {
+                }
+            } else if (userFull != null) {
+                userFull.flags2 &= -9;
+                userFull.business_away_message = null;
+            }
+            getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessAwayMessage, new RequestDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda5
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    AwayMessagesActivity.this.lambda$processDone$2(tLObject, tLRPC$TL_error);
+                }
+            });
+            getMessagesStorage().updateUserInfo(userFull, false);
+        }
+    }
+
+    private void setValue() {
+        UniversalRecyclerView universalRecyclerView;
+        UniversalAdapter universalAdapter;
+        if (this.valueSet) {
+            return;
+        }
+        TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
+        if (userFull == null) {
+            getMessagesController().loadUserInfo(getUserConfig().getCurrentUser(), true, getClassGuid());
+            return;
+        }
+        TLRPC$TL_businessAwayMessage tLRPC$TL_businessAwayMessage = userFull.business_away_message;
+        this.currentValue = tLRPC$TL_businessAwayMessage;
+        this.hasHours = userFull.business_work_hours != null;
+        this.enabled = tLRPC$TL_businessAwayMessage != null;
+        this.exclude = tLRPC$TL_businessAwayMessage != null ? tLRPC$TL_businessAwayMessage.recipients.exclude_selected : true;
+        this.offline_only = tLRPC$TL_businessAwayMessage != null ? tLRPC$TL_businessAwayMessage.offline_only : true;
+        BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
+        if (businessRecipientsHelper != null) {
+            businessRecipientsHelper.setValue(tLRPC$TL_businessAwayMessage == null ? null : tLRPC$TL_businessAwayMessage.recipients);
+        }
+        TLRPC$TL_businessAwayMessage tLRPC$TL_businessAwayMessage2 = this.currentValue;
+        if (tLRPC$TL_businessAwayMessage2 != null) {
+            TLRPC$BusinessAwayMessageSchedule tLRPC$BusinessAwayMessageSchedule = tLRPC$TL_businessAwayMessage2.schedule;
+            if (tLRPC$BusinessAwayMessageSchedule instanceof TLRPC$TL_businessAwayMessageScheduleCustom) {
+                this.currentValueScheduleType = 2;
+                this.schedule = 2;
+                TLRPC$TL_businessAwayMessageScheduleCustom tLRPC$TL_businessAwayMessageScheduleCustom = (TLRPC$TL_businessAwayMessageScheduleCustom) tLRPC$BusinessAwayMessageSchedule;
+                int i = tLRPC$TL_businessAwayMessageScheduleCustom.start_date;
+                this.currentScheduleCustomStart = i;
+                this.scheduleCustomStart = i;
+                int i2 = tLRPC$TL_businessAwayMessageScheduleCustom.end_date;
+                this.currentScheduleCustomEnd = i2;
+                this.scheduleCustomEnd = i2;
+                universalRecyclerView = this.listView;
+                if (universalRecyclerView != null && (universalAdapter = universalRecyclerView.adapter) != null) {
+                    universalAdapter.update(true);
+                }
+                checkDone(true);
+                this.valueSet = true;
+            }
+        }
+        this.scheduleCustomStart = getConnectionsManager().getCurrentTime();
+        this.scheduleCustomEnd = getConnectionsManager().getCurrentTime() + 86400;
+        TLRPC$TL_businessAwayMessage tLRPC$TL_businessAwayMessage3 = this.currentValue;
+        if ((tLRPC$TL_businessAwayMessage3 == null || !(tLRPC$TL_businessAwayMessage3.schedule instanceof TLRPC$TL_businessAwayMessageScheduleAlways)) && tLRPC$TL_businessAwayMessage3 != null && (tLRPC$TL_businessAwayMessage3.schedule instanceof TLRPC$TL_businessAwayMessageScheduleOutsideWorkHours)) {
+            this.currentValueScheduleType = 1;
+            this.schedule = 1;
+        } else {
+            this.currentValueScheduleType = 0;
+            this.schedule = 0;
+        }
+        universalRecyclerView = this.listView;
+        if (universalRecyclerView != null) {
+            universalAdapter.update(true);
+        }
+        checkDone(true);
+        this.valueSet = true;
+    }
+
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
@@ -120,73 +434,21 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
         return frameLayout;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$0() {
-        this.listView.adapter.update(true);
-        checkDone(true);
-    }
-
-    private void setValue() {
-        UniversalRecyclerView universalRecyclerView;
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
         UniversalAdapter universalAdapter;
-        if (this.valueSet) {
-            return;
-        }
-        TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
-        if (userFull == null) {
-            getMessagesController().loadUserInfo(getUserConfig().getCurrentUser(), true, getClassGuid());
-            return;
-        }
-        TLRPC$TL_businessAwayMessage tLRPC$TL_businessAwayMessage = userFull.business_away_message;
-        this.currentValue = tLRPC$TL_businessAwayMessage;
-        this.hasHours = userFull.business_work_hours != null;
-        this.enabled = tLRPC$TL_businessAwayMessage != null;
-        this.exclude = tLRPC$TL_businessAwayMessage != null ? tLRPC$TL_businessAwayMessage.recipients.exclude_selected : true;
-        this.offline_only = tLRPC$TL_businessAwayMessage != null ? tLRPC$TL_businessAwayMessage.offline_only : true;
-        BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
-        if (businessRecipientsHelper != null) {
-            businessRecipientsHelper.setValue(tLRPC$TL_businessAwayMessage == null ? null : tLRPC$TL_businessAwayMessage.recipients);
-        }
-        TLRPC$TL_businessAwayMessage tLRPC$TL_businessAwayMessage2 = this.currentValue;
-        if (tLRPC$TL_businessAwayMessage2 != null) {
-            TLRPC$BusinessAwayMessageSchedule tLRPC$BusinessAwayMessageSchedule = tLRPC$TL_businessAwayMessage2.schedule;
-            if (tLRPC$BusinessAwayMessageSchedule instanceof TLRPC$TL_businessAwayMessageScheduleCustom) {
-                this.currentValueScheduleType = 2;
-                this.schedule = 2;
-                TLRPC$TL_businessAwayMessageScheduleCustom tLRPC$TL_businessAwayMessageScheduleCustom = (TLRPC$TL_businessAwayMessageScheduleCustom) tLRPC$BusinessAwayMessageSchedule;
-                int i = tLRPC$TL_businessAwayMessageScheduleCustom.start_date;
-                this.currentScheduleCustomStart = i;
-                this.scheduleCustomStart = i;
-                int i2 = tLRPC$TL_businessAwayMessageScheduleCustom.end_date;
-                this.currentScheduleCustomEnd = i2;
-                this.scheduleCustomEnd = i2;
-                universalRecyclerView = this.listView;
-                if (universalRecyclerView != null && (universalAdapter = universalRecyclerView.adapter) != null) {
-                    universalAdapter.update(true);
-                }
-                checkDone(true);
-                this.valueSet = true;
+        if (i != NotificationCenter.quickRepliesUpdated) {
+            if (i == NotificationCenter.userInfoDidLoad) {
+                setValue();
+                return;
             }
+            return;
         }
-        this.scheduleCustomStart = getConnectionsManager().getCurrentTime();
-        this.scheduleCustomEnd = getConnectionsManager().getCurrentTime() + 86400;
-        TLRPC$TL_businessAwayMessage tLRPC$TL_businessAwayMessage3 = this.currentValue;
-        if (tLRPC$TL_businessAwayMessage3 != null && (tLRPC$TL_businessAwayMessage3.schedule instanceof TLRPC$TL_businessAwayMessageScheduleAlways)) {
-            this.currentValueScheduleType = 0;
-            this.schedule = 0;
-        } else if (tLRPC$TL_businessAwayMessage3 != null && (tLRPC$TL_businessAwayMessage3.schedule instanceof TLRPC$TL_businessAwayMessageScheduleOutsideWorkHours)) {
-            this.currentValueScheduleType = 1;
-            this.schedule = 1;
-        } else {
-            this.currentValueScheduleType = 0;
-            this.schedule = 0;
-        }
-        universalRecyclerView = this.listView;
-        if (universalRecyclerView != null) {
+        UniversalRecyclerView universalRecyclerView = this.listView;
+        if (universalRecyclerView != null && (universalAdapter = universalRecyclerView.adapter) != null) {
             universalAdapter.update(true);
         }
         checkDone(true);
-        this.valueSet = true;
     }
 
     public boolean hasChanges() {
@@ -218,108 +480,6 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
         return false;
     }
 
-    private void checkDone(boolean z) {
-        if (this.doneButton == null) {
-            return;
-        }
-        boolean hasChanges = hasChanges();
-        this.doneButton.setEnabled(hasChanges);
-        if (z) {
-            this.doneButton.animate().alpha(hasChanges ? 1.0f : 0.0f).scaleX(hasChanges ? 1.0f : 0.0f).scaleY(hasChanges ? 1.0f : 0.0f).setDuration(180L).start();
-            return;
-        }
-        this.doneButton.setAlpha(hasChanges ? 1.0f : 0.0f);
-        this.doneButton.setScaleX(hasChanges ? 1.0f : 0.0f);
-        this.doneButton.setScaleY(hasChanges ? 1.0f : 0.0f);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void processDone() {
-        if (this.doneButtonDrawable.getProgress() > 0.0f) {
-            return;
-        }
-        if (!hasChanges()) {
-            finishFragment();
-            return;
-        }
-        QuickRepliesController.QuickReply findReply = QuickRepliesController.getInstance(this.currentAccount).findReply("away");
-        boolean z = this.enabled;
-        if (z && findReply == null) {
-            BotWebViewVibrationEffect.APP_ERROR.vibrate();
-            View findViewByItemId = this.listView.findViewByItemId(2);
-            int i = -this.shiftDp;
-            this.shiftDp = i;
-            AndroidUtilities.shakeViewSpring(findViewByItemId, i);
-            UniversalRecyclerView universalRecyclerView = this.listView;
-            universalRecyclerView.smoothScrollToPosition(universalRecyclerView.findPositionByItemId(2));
-        } else if (!z || this.recipientsHelper.validate(this.listView)) {
-            this.doneButtonDrawable.animateToProgress(1.0f);
-            TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
-            TLRPC$TL_account_updateBusinessAwayMessage tLRPC$TL_account_updateBusinessAwayMessage = new TLRPC$TL_account_updateBusinessAwayMessage();
-            if (this.enabled) {
-                TLRPC$TL_inputBusinessAwayMessage tLRPC$TL_inputBusinessAwayMessage = new TLRPC$TL_inputBusinessAwayMessage();
-                tLRPC$TL_account_updateBusinessAwayMessage.message = tLRPC$TL_inputBusinessAwayMessage;
-                tLRPC$TL_inputBusinessAwayMessage.offline_only = this.offline_only;
-                tLRPC$TL_inputBusinessAwayMessage.shortcut_id = findReply.id;
-                tLRPC$TL_inputBusinessAwayMessage.recipients = this.recipientsHelper.getInputValue();
-                int i2 = this.schedule;
-                if (i2 == 0) {
-                    tLRPC$TL_account_updateBusinessAwayMessage.message.schedule = new TLRPC$TL_businessAwayMessageScheduleAlways();
-                } else if (i2 == 1) {
-                    tLRPC$TL_account_updateBusinessAwayMessage.message.schedule = new TLRPC$TL_businessAwayMessageScheduleOutsideWorkHours();
-                } else if (i2 == 2) {
-                    TLRPC$TL_businessAwayMessageScheduleCustom tLRPC$TL_businessAwayMessageScheduleCustom = new TLRPC$TL_businessAwayMessageScheduleCustom();
-                    tLRPC$TL_businessAwayMessageScheduleCustom.start_date = this.scheduleCustomStart;
-                    tLRPC$TL_businessAwayMessageScheduleCustom.end_date = this.scheduleCustomEnd;
-                    tLRPC$TL_account_updateBusinessAwayMessage.message.schedule = tLRPC$TL_businessAwayMessageScheduleCustom;
-                }
-                tLRPC$TL_account_updateBusinessAwayMessage.flags |= 1;
-                if (userFull != null) {
-                    userFull.flags2 |= 8;
-                    TLRPC$TL_businessAwayMessage tLRPC$TL_businessAwayMessage = new TLRPC$TL_businessAwayMessage();
-                    userFull.business_away_message = tLRPC$TL_businessAwayMessage;
-                    tLRPC$TL_businessAwayMessage.offline_only = this.offline_only;
-                    tLRPC$TL_businessAwayMessage.shortcut_id = findReply.id;
-                    tLRPC$TL_businessAwayMessage.recipients = this.recipientsHelper.getValue();
-                    userFull.business_away_message.schedule = tLRPC$TL_account_updateBusinessAwayMessage.message.schedule;
-                }
-            } else if (userFull != null) {
-                userFull.flags2 &= -9;
-                userFull.business_away_message = null;
-            }
-            getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessAwayMessage, new RequestDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda5
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    AwayMessagesActivity.this.lambda$processDone$2(tLObject, tLRPC$TL_error);
-                }
-            });
-            getMessagesStorage().updateUserInfo(userFull, false);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processDone$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda8
-            @Override // java.lang.Runnable
-            public final void run() {
-                AwayMessagesActivity.this.lambda$processDone$1(tLRPC$TL_error, tLObject);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processDone$1(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
-        if (tLRPC$TL_error != null) {
-            this.doneButtonDrawable.animateToProgress(0.0f);
-            BulletinFactory.showError(tLRPC$TL_error);
-        } else if (tLObject instanceof TLRPC$TL_boolFalse) {
-            this.doneButtonDrawable.animateToProgress(0.0f);
-            BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
-        } else {
-            finishFragment();
-        }
-    }
-
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onBackPressed() {
         if (hasChanges()) {
@@ -346,144 +506,6 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
             return false;
         }
         return super.onBackPressed();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onBackPressed$3(DialogInterface dialogInterface, int i) {
-        processDone();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onBackPressed$4(DialogInterface dialogInterface, int i) {
-        finishFragment();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void fillItems(ArrayList<UItem> arrayList, UniversalAdapter universalAdapter) {
-        arrayList.add(UItem.asTopView(LocaleController.getString(R.string.BusinessAwayInfo), "RestrictedEmoji", "💤"));
-        arrayList.add(UItem.asCheck(1, LocaleController.getString(R.string.BusinessAwaySend)).setChecked(this.enabled));
-        arrayList.add(UItem.asShadow(null));
-        if (this.enabled) {
-            QuickRepliesController.QuickReply findReply = QuickRepliesController.getInstance(this.currentAccount).findReply("away");
-            if (findReply != null) {
-                arrayList.add(UItem.asLargeQuickReply(findReply));
-            } else {
-                arrayList.add(UItem.asButton(2, R.drawable.msg2_chats_add, LocaleController.getString(R.string.BusinessAwayCreate)).accent());
-            }
-            arrayList.add(UItem.asShadow(null));
-            int i = R.string.BusinessAwaySchedule;
-            arrayList.add(UItem.asHeader(LocaleController.getString(i)));
-            arrayList.add(UItem.asRadio(3, LocaleController.getString(R.string.BusinessAwayScheduleAlways)).setChecked(this.schedule == 0));
-            if (this.hasHours) {
-                arrayList.add(UItem.asRadio(4, LocaleController.getString(R.string.BusinessAwayScheduleOutsideHours)).setChecked(this.schedule == 1));
-            }
-            arrayList.add(UItem.asRadio(5, LocaleController.getString(R.string.BusinessAwayScheduleCustom)).setChecked(this.schedule == 2));
-            if (this.schedule == 2) {
-                arrayList.add(UItem.asShadow(null));
-                arrayList.add(UItem.asHeader(LocaleController.getString(i)));
-                arrayList.add(UItem.asButton(8, LocaleController.getString(R.string.BusinessAwayScheduleCustomStart), LocaleController.formatShortDateTime(this.scheduleCustomStart)));
-                arrayList.add(UItem.asButton(9, LocaleController.getString(R.string.BusinessAwayScheduleCustomEnd), LocaleController.formatShortDateTime(this.scheduleCustomEnd)));
-            }
-            arrayList.add(UItem.asShadow(null));
-            arrayList.add(UItem.asCheck(10, LocaleController.getString(R.string.BusinessAwayOnlyOffline)).setChecked(this.offline_only));
-            arrayList.add(UItem.asShadow(LocaleController.getString(R.string.BusinessAwayOnlyOfflineInfo)));
-            arrayList.add(UItem.asHeader(LocaleController.getString(R.string.BusinessRecipients)));
-            arrayList.add(UItem.asRadio(6, LocaleController.getString(R.string.BusinessChatsAllPrivateExcept)).setChecked(this.exclude));
-            arrayList.add(UItem.asRadio(7, LocaleController.getString(R.string.BusinessChatsOnlySelected)).setChecked(true ^ this.exclude));
-            arrayList.add(UItem.asShadow(null));
-            this.recipientsHelper.fillItems(arrayList);
-            arrayList.add(UItem.asShadow(null));
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void onClick(UItem uItem, final View view, int i, float f, float f2) {
-        if (this.recipientsHelper.onClick(uItem)) {
-            return;
-        }
-        int i2 = uItem.id;
-        if (i2 == 2 || uItem.viewType == 17) {
-            Bundle bundle = new Bundle();
-            bundle.putLong("user_id", getUserConfig().getClientUserId());
-            bundle.putInt("chatMode", 5);
-            bundle.putString("quick_reply", "away");
-            presentFragment(new ChatActivity(bundle));
-        } else if (i2 == 1) {
-            this.enabled = !this.enabled;
-            this.listView.adapter.update(true);
-            checkDone(true);
-        } else if (i2 == 6) {
-            BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
-            this.exclude = true;
-            businessRecipientsHelper.setExclude(true);
-            this.listView.adapter.update(true);
-            checkDone(true);
-        } else if (i2 == 7) {
-            BusinessRecipientsHelper businessRecipientsHelper2 = this.recipientsHelper;
-            this.exclude = false;
-            businessRecipientsHelper2.setExclude(false);
-            this.listView.adapter.update(true);
-            checkDone(true);
-        } else if (i2 == 3) {
-            this.schedule = 0;
-            this.listView.adapter.update(true);
-            checkDone(true);
-        } else if (i2 == 4) {
-            this.schedule = 1;
-            this.listView.adapter.update(true);
-            checkDone(true);
-        } else if (i2 == 5) {
-            this.schedule = 2;
-            this.listView.adapter.update(true);
-            checkDone(true);
-        } else if (i2 == 8) {
-            AlertsCreator.createDatePickerDialog(getContext(), LocaleController.getString(R.string.BusinessAwayScheduleCustomStartTitle), LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton), this.scheduleCustomStart, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda6
-                @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
-                public final void didSelectDate(boolean z, int i3) {
-                    AwayMessagesActivity.this.lambda$onClick$5(view, z, i3);
-                }
-            });
-        } else if (i2 == 9) {
-            AlertsCreator.createDatePickerDialog(getContext(), LocaleController.getString(R.string.BusinessAwayScheduleCustomEndTitle), LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton), this.scheduleCustomEnd, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda7
-                @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
-                public final void didSelectDate(boolean z, int i3) {
-                    AwayMessagesActivity.this.lambda$onClick$6(view, z, i3);
-                }
-            });
-        } else if (i2 == 10) {
-            boolean z = !this.offline_only;
-            this.offline_only = z;
-            ((TextCheckCell) view).setChecked(z);
-            checkDone(true);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onClick$5(View view, boolean z, int i) {
-        this.scheduleCustomStart = i;
-        ((TextCell) view).setValue(LocaleController.formatShortDateTime(i), true);
-        checkDone(true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onClick$6(View view, boolean z, int i) {
-        this.scheduleCustomEnd = i;
-        ((TextCell) view).setValue(LocaleController.formatShortDateTime(i), true);
-        checkDone(true);
-    }
-
-    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        UniversalAdapter universalAdapter;
-        if (i == NotificationCenter.quickRepliesUpdated) {
-            UniversalRecyclerView universalRecyclerView = this.listView;
-            if (universalRecyclerView != null && (universalAdapter = universalRecyclerView.adapter) != null) {
-                universalAdapter.update(true);
-            }
-            checkDone(true);
-        } else if (i == NotificationCenter.userInfoDidLoad) {
-            setValue();
-        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

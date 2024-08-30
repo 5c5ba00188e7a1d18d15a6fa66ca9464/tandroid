@@ -46,6 +46,37 @@ public class JavaAudioDeviceModule implements AudioDeviceModule {
     }
 
     /* loaded from: classes.dex */
+    public static class AudioSamples {
+        private final int audioFormat;
+        private final int channelCount;
+        private final byte[] data;
+        private final int sampleRate;
+
+        public AudioSamples(int i, int i2, int i3, byte[] bArr) {
+            this.audioFormat = i;
+            this.channelCount = i2;
+            this.sampleRate = i3;
+            this.data = bArr;
+        }
+
+        public int getAudioFormat() {
+            return this.audioFormat;
+        }
+
+        public int getChannelCount() {
+            return this.channelCount;
+        }
+
+        public byte[] getData() {
+            return this.data;
+        }
+
+        public int getSampleRate() {
+            return this.sampleRate;
+        }
+    }
+
+    /* loaded from: classes.dex */
     public interface AudioTrackErrorCallback {
         void onWebRtcAudioTrackError(String str);
 
@@ -65,17 +96,6 @@ public class JavaAudioDeviceModule implements AudioDeviceModule {
         void onWebRtcAudioTrackStart();
 
         void onWebRtcAudioTrackStop();
-    }
-
-    /* loaded from: classes.dex */
-    public interface SamplesReadyCallback {
-        void onWebRtcAudioRecordSamplesReady(AudioSamples audioSamples);
-    }
-
-    private static native long nativeCreateAudioDeviceModule(Context context, AudioManager audioManager, WebRtcAudioRecord webRtcAudioRecord, WebRtcAudioTrack webRtcAudioTrack, int i, int i2, boolean z, boolean z2);
-
-    public static Builder builder(Context context) {
-        return new Builder(context);
     }
 
     /* loaded from: classes.dex */
@@ -112,15 +132,70 @@ public class JavaAudioDeviceModule implements AudioDeviceModule {
             this.useLowLatency = false;
         }
 
-        public Builder setScheduler(ScheduledExecutorService scheduledExecutorService) {
-            this.scheduler = scheduledExecutorService;
+        public JavaAudioDeviceModule createAudioDeviceModule() {
+            String str;
+            String str2;
+            Logging.d(JavaAudioDeviceModule.TAG, "createAudioDeviceModule");
+            if (this.useHardwareNoiseSuppressor) {
+                str = "HW NS will be used.";
+            } else {
+                if (JavaAudioDeviceModule.isBuiltInNoiseSuppressorSupported()) {
+                    Logging.d(JavaAudioDeviceModule.TAG, "Overriding default behavior; now using WebRTC NS!");
+                }
+                str = "HW NS will not be used.";
+            }
+            Logging.d(JavaAudioDeviceModule.TAG, str);
+            if (this.useHardwareAcousticEchoCanceler) {
+                str2 = "HW AEC will be used.";
+            } else {
+                if (JavaAudioDeviceModule.isBuiltInAcousticEchoCancelerSupported()) {
+                    Logging.d(JavaAudioDeviceModule.TAG, "Overriding default behavior; now using WebRTC AEC!");
+                }
+                str2 = "HW AEC will not be used.";
+            }
+            Logging.d(JavaAudioDeviceModule.TAG, str2);
+            if (this.useLowLatency && Build.VERSION.SDK_INT >= 26) {
+                Logging.d(JavaAudioDeviceModule.TAG, "Low latency mode will be used.");
+            }
+            ScheduledExecutorService scheduledExecutorService = this.scheduler;
+            if (scheduledExecutorService == null) {
+                scheduledExecutorService = WebRtcAudioRecord.newDefaultScheduler();
+            }
+            return new JavaAudioDeviceModule(this.context, this.audioManager, new WebRtcAudioRecord(this.context, scheduledExecutorService, this.audioManager, this.audioSource, this.audioFormat, this.audioRecordErrorCallback, this.audioRecordStateCallback, this.samplesReadyCallback, this.useHardwareAcousticEchoCanceler, this.useHardwareNoiseSuppressor), new WebRtcAudioTrack(this.context, this.audioManager, this.audioAttributes, this.audioTrackErrorCallback, this.audioTrackStateCallback, this.useLowLatency), this.inputSampleRate, this.outputSampleRate, this.useStereoInput, this.useStereoOutput);
+        }
+
+        public Builder setAudioAttributes(AudioAttributes audioAttributes) {
+            this.audioAttributes = audioAttributes;
             return this;
         }
 
-        public Builder setSampleRate(int i) {
-            Logging.d(JavaAudioDeviceModule.TAG, "Input/Output sample rate overridden to: " + i);
-            this.inputSampleRate = i;
-            this.outputSampleRate = i;
+        public Builder setAudioFormat(int i) {
+            this.audioFormat = i;
+            return this;
+        }
+
+        public Builder setAudioRecordErrorCallback(AudioRecordErrorCallback audioRecordErrorCallback) {
+            this.audioRecordErrorCallback = audioRecordErrorCallback;
+            return this;
+        }
+
+        public Builder setAudioRecordStateCallback(AudioRecordStateCallback audioRecordStateCallback) {
+            this.audioRecordStateCallback = audioRecordStateCallback;
+            return this;
+        }
+
+        public Builder setAudioSource(int i) {
+            this.audioSource = i;
+            return this;
+        }
+
+        public Builder setAudioTrackErrorCallback(AudioTrackErrorCallback audioTrackErrorCallback) {
+            this.audioTrackErrorCallback = audioTrackErrorCallback;
+            return this;
+        }
+
+        public Builder setAudioTrackStateCallback(AudioTrackStateCallback audioTrackStateCallback) {
+            this.audioTrackStateCallback = audioTrackStateCallback;
             return this;
         }
 
@@ -136,23 +211,10 @@ public class JavaAudioDeviceModule implements AudioDeviceModule {
             return this;
         }
 
-        public Builder setAudioSource(int i) {
-            this.audioSource = i;
-            return this;
-        }
-
-        public Builder setAudioFormat(int i) {
-            this.audioFormat = i;
-            return this;
-        }
-
-        public Builder setAudioTrackErrorCallback(AudioTrackErrorCallback audioTrackErrorCallback) {
-            this.audioTrackErrorCallback = audioTrackErrorCallback;
-            return this;
-        }
-
-        public Builder setAudioRecordErrorCallback(AudioRecordErrorCallback audioRecordErrorCallback) {
-            this.audioRecordErrorCallback = audioRecordErrorCallback;
+        public Builder setSampleRate(int i) {
+            Logging.d(JavaAudioDeviceModule.TAG, "Input/Output sample rate overridden to: " + i);
+            this.inputSampleRate = i;
+            this.outputSampleRate = i;
             return this;
         }
 
@@ -161,22 +223,8 @@ public class JavaAudioDeviceModule implements AudioDeviceModule {
             return this;
         }
 
-        public Builder setAudioTrackStateCallback(AudioTrackStateCallback audioTrackStateCallback) {
-            this.audioTrackStateCallback = audioTrackStateCallback;
-            return this;
-        }
-
-        public Builder setAudioRecordStateCallback(AudioRecordStateCallback audioRecordStateCallback) {
-            this.audioRecordStateCallback = audioRecordStateCallback;
-            return this;
-        }
-
-        public Builder setUseHardwareNoiseSuppressor(boolean z) {
-            if (z && !JavaAudioDeviceModule.isBuiltInNoiseSuppressorSupported()) {
-                Logging.e(JavaAudioDeviceModule.TAG, "HW NS not supported");
-                z = false;
-            }
-            this.useHardwareNoiseSuppressor = z;
+        public Builder setScheduler(ScheduledExecutorService scheduledExecutorService) {
+            this.scheduler = scheduledExecutorService;
             return this;
         }
 
@@ -189,6 +237,20 @@ public class JavaAudioDeviceModule implements AudioDeviceModule {
             return this;
         }
 
+        public Builder setUseHardwareNoiseSuppressor(boolean z) {
+            if (z && !JavaAudioDeviceModule.isBuiltInNoiseSuppressorSupported()) {
+                Logging.e(JavaAudioDeviceModule.TAG, "HW NS not supported");
+                z = false;
+            }
+            this.useHardwareNoiseSuppressor = z;
+            return this;
+        }
+
+        public Builder setUseLowLatency(boolean z) {
+            this.useLowLatency = z;
+            return this;
+        }
+
         public Builder setUseStereoInput(boolean z) {
             this.useStereoInput = z;
             return this;
@@ -198,83 +260,11 @@ public class JavaAudioDeviceModule implements AudioDeviceModule {
             this.useStereoOutput = z;
             return this;
         }
-
-        public Builder setUseLowLatency(boolean z) {
-            this.useLowLatency = z;
-            return this;
-        }
-
-        public Builder setAudioAttributes(AudioAttributes audioAttributes) {
-            this.audioAttributes = audioAttributes;
-            return this;
-        }
-
-        public JavaAudioDeviceModule createAudioDeviceModule() {
-            Logging.d(JavaAudioDeviceModule.TAG, "createAudioDeviceModule");
-            if (this.useHardwareNoiseSuppressor) {
-                Logging.d(JavaAudioDeviceModule.TAG, "HW NS will be used.");
-            } else {
-                if (JavaAudioDeviceModule.isBuiltInNoiseSuppressorSupported()) {
-                    Logging.d(JavaAudioDeviceModule.TAG, "Overriding default behavior; now using WebRTC NS!");
-                }
-                Logging.d(JavaAudioDeviceModule.TAG, "HW NS will not be used.");
-            }
-            if (this.useHardwareAcousticEchoCanceler) {
-                Logging.d(JavaAudioDeviceModule.TAG, "HW AEC will be used.");
-            } else {
-                if (JavaAudioDeviceModule.isBuiltInAcousticEchoCancelerSupported()) {
-                    Logging.d(JavaAudioDeviceModule.TAG, "Overriding default behavior; now using WebRTC AEC!");
-                }
-                Logging.d(JavaAudioDeviceModule.TAG, "HW AEC will not be used.");
-            }
-            if (this.useLowLatency && Build.VERSION.SDK_INT >= 26) {
-                Logging.d(JavaAudioDeviceModule.TAG, "Low latency mode will be used.");
-            }
-            ScheduledExecutorService scheduledExecutorService = this.scheduler;
-            if (scheduledExecutorService == null) {
-                scheduledExecutorService = WebRtcAudioRecord.newDefaultScheduler();
-            }
-            return new JavaAudioDeviceModule(this.context, this.audioManager, new WebRtcAudioRecord(this.context, scheduledExecutorService, this.audioManager, this.audioSource, this.audioFormat, this.audioRecordErrorCallback, this.audioRecordStateCallback, this.samplesReadyCallback, this.useHardwareAcousticEchoCanceler, this.useHardwareNoiseSuppressor), new WebRtcAudioTrack(this.context, this.audioManager, this.audioAttributes, this.audioTrackErrorCallback, this.audioTrackStateCallback, this.useLowLatency), this.inputSampleRate, this.outputSampleRate, this.useStereoInput, this.useStereoOutput);
-        }
     }
 
     /* loaded from: classes.dex */
-    public static class AudioSamples {
-        private final int audioFormat;
-        private final int channelCount;
-        private final byte[] data;
-        private final int sampleRate;
-
-        public AudioSamples(int i, int i2, int i3, byte[] bArr) {
-            this.audioFormat = i;
-            this.channelCount = i2;
-            this.sampleRate = i3;
-            this.data = bArr;
-        }
-
-        public int getAudioFormat() {
-            return this.audioFormat;
-        }
-
-        public int getChannelCount() {
-            return this.channelCount;
-        }
-
-        public int getSampleRate() {
-            return this.sampleRate;
-        }
-
-        public byte[] getData() {
-            return this.data;
-        }
-    }
-
-    public static boolean isBuiltInAcousticEchoCancelerSupported() {
-        return WebRtcAudioEffects.isAcousticEchoCancelerSupported();
-    }
-
-    public static boolean isBuiltInNoiseSuppressorSupported() {
-        return WebRtcAudioEffects.isNoiseSuppressorSupported();
+    public interface SamplesReadyCallback {
+        void onWebRtcAudioRecordSamplesReady(AudioSamples audioSamples);
     }
 
     private JavaAudioDeviceModule(Context context, AudioManager audioManager, WebRtcAudioRecord webRtcAudioRecord, WebRtcAudioTrack webRtcAudioTrack, int i, int i2, boolean z, boolean z2) {
@@ -288,6 +278,20 @@ public class JavaAudioDeviceModule implements AudioDeviceModule {
         this.useStereoInput = z;
         this.useStereoOutput = z2;
     }
+
+    public static Builder builder(Context context) {
+        return new Builder(context);
+    }
+
+    public static boolean isBuiltInAcousticEchoCancelerSupported() {
+        return WebRtcAudioEffects.isAcousticEchoCancelerSupported();
+    }
+
+    public static boolean isBuiltInNoiseSuppressorSupported() {
+        return WebRtcAudioEffects.isNoiseSuppressorSupported();
+    }
+
+    private static native long nativeCreateAudioDeviceModule(Context context, AudioManager audioManager, WebRtcAudioRecord webRtcAudioRecord, WebRtcAudioTrack webRtcAudioTrack, int i, int i2, boolean z, boolean z2);
 
     @Override // org.webrtc.audio.AudioDeviceModule
     public long getNativeAudioDeviceModulePointer() {
@@ -321,12 +325,6 @@ public class JavaAudioDeviceModule implements AudioDeviceModule {
     }
 
     @Override // org.webrtc.audio.AudioDeviceModule
-    public void setSpeakerMute(boolean z) {
-        Logging.d(TAG, "setSpeakerMute: " + z);
-        this.audioOutput.setSpeakerMute(z);
-    }
-
-    @Override // org.webrtc.audio.AudioDeviceModule
     public void setMicrophoneMute(boolean z) {
         Logging.d(TAG, "setMicrophoneMute: " + z);
         this.audioInput.setMicrophoneMute(z);
@@ -335,5 +333,11 @@ public class JavaAudioDeviceModule implements AudioDeviceModule {
     public void setPreferredInputDevice(AudioDeviceInfo audioDeviceInfo) {
         Logging.d(TAG, "setPreferredInputDevice: " + audioDeviceInfo);
         this.audioInput.setPreferredDevice(audioDeviceInfo);
+    }
+
+    @Override // org.webrtc.audio.AudioDeviceModule
+    public void setSpeakerMute(boolean z) {
+        Logging.d(TAG, "setSpeakerMute: " + z);
+        this.audioOutput.setSpeakerMute(z);
     }
 }

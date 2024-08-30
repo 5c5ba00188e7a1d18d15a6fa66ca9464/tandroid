@@ -1,6 +1,5 @@
 package org.telegram.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -42,9 +41,9 @@ import org.telegram.ui.Components.SimpleThemeDescription;
 /* loaded from: classes4.dex */
 public class ChatReactionsEditActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private RadioCell allReactions;
-    private ArrayList<TLRPC$TL_availableReaction> availableReactions;
+    private ArrayList availableReactions;
     private long chatId;
-    private List<String> chatReactions;
+    private List chatReactions;
     private LinearLayout contentView;
     LinearLayout contorlsLayout;
     private TLRPC$Chat currentChat;
@@ -54,7 +53,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
     boolean isChannel;
     private RecyclerView.Adapter listAdapter;
     private RecyclerListView listView;
-    ArrayList<RadioCell> radioCells;
+    ArrayList radioCells;
     int selectedType;
     private RadioCell someReactions;
     int startFromType;
@@ -62,36 +61,152 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
     public ChatReactionsEditActivity(Bundle bundle) {
         super(bundle);
         this.chatReactions = new ArrayList();
-        this.availableReactions = new ArrayList<>();
+        this.availableReactions = new ArrayList();
         this.selectedType = -1;
-        this.radioCells = new ArrayList<>();
+        this.radioCells = new ArrayList();
         this.chatId = bundle.getLong("chat_id", 0L);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x004c, code lost:
-        if (r0 == null) goto L9;
-     */
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public boolean onFragmentCreate() {
-        TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
-        this.currentChat = chat;
-        if (chat == null) {
-            TLRPC$Chat chatSync = MessagesStorage.getInstance(this.currentAccount).getChatSync(this.chatId);
-            this.currentChat = chatSync;
-            if (chatSync != null) {
-                getMessagesController().putChat(this.currentChat, true);
-                if (this.info == null) {
-                    TLRPC$ChatFull loadChatInfo = MessagesStorage.getInstance(this.currentAccount).loadChatInfo(this.chatId, ChatObject.isChannel(this.currentChat), new CountDownLatch(1), false, false);
-                    this.info = loadChatInfo;
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$0(View view) {
+        setCheckedEnableReactionCell(this.enableReactionsCell.isChecked() ? 2 : 1, true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$1() {
+        setCheckedEnableReactionCell(0, true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$2(View view) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatReactionsEditActivity.this.lambda$createView$1();
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$3() {
+        setCheckedEnableReactionCell(1, true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$4(View view) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda7
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatReactionsEditActivity.this.lambda$createView$3();
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$5() {
+        setCheckedEnableReactionCell(2, true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$6(View view) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda8
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatReactionsEditActivity.this.lambda$createView$5();
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$7(View view, int i) {
+        boolean z = this.isChannel;
+        if (i <= (z ? 1 : 2)) {
+            return;
+        }
+        AvailableReactionCell availableReactionCell = (AvailableReactionCell) view;
+        TLRPC$TL_availableReaction tLRPC$TL_availableReaction = (TLRPC$TL_availableReaction) this.availableReactions.get(i - (z ? 2 : 3));
+        boolean z2 = !this.chatReactions.contains(tLRPC$TL_availableReaction.reaction);
+        if (z2) {
+            this.chatReactions.add(tLRPC$TL_availableReaction.reaction);
+        } else {
+            this.chatReactions.remove(tLRPC$TL_availableReaction.reaction);
+            if (this.chatReactions.isEmpty()) {
+                RecyclerView.Adapter adapter = this.listAdapter;
+                if (adapter != null) {
+                    adapter.notifyItemRangeRemoved(this.isChannel ? 1 : 2, this.availableReactions.size() + 1);
+                }
+                setCheckedEnableReactionCell(2, true);
+            }
+        }
+        availableReactionCell.setChecked(z2, true);
+    }
+
+    private void setCheckedEnableReactionCell(int i, boolean z) {
+        RecyclerView.Adapter adapter;
+        if (this.selectedType == i) {
+            return;
+        }
+        TextCheckCell textCheckCell = this.enableReactionsCell;
+        if (textCheckCell != null) {
+            boolean z2 = i == 1 || i == 0;
+            textCheckCell.setChecked(z2);
+            int color = Theme.getColor(z2 ? Theme.key_windowBackgroundChecked : Theme.key_windowBackgroundUnchecked);
+            if (z2) {
+                this.enableReactionsCell.setBackgroundColorAnimated(z2, color);
+            } else {
+                this.enableReactionsCell.setBackgroundColorAnimatedReverse(color);
+            }
+        }
+        this.selectedType = i;
+        int i2 = 0;
+        while (i2 < this.radioCells.size()) {
+            ((RadioCell) this.radioCells.get(i2)).setChecked(i == i2, z);
+            i2++;
+        }
+        if (i == 1) {
+            if (z) {
+                this.chatReactions.clear();
+                Iterator it = this.availableReactions.iterator();
+                while (it.hasNext()) {
+                    TLRPC$TL_availableReaction tLRPC$TL_availableReaction = (TLRPC$TL_availableReaction) it.next();
+                    if (tLRPC$TL_availableReaction.reaction.equals("👍") || tLRPC$TL_availableReaction.reaction.equals("👎")) {
+                        this.chatReactions.add(tLRPC$TL_availableReaction.reaction);
+                    }
+                }
+                if (this.chatReactions.isEmpty() && this.availableReactions.size() >= 2) {
+                    this.chatReactions.add(((TLRPC$TL_availableReaction) this.availableReactions.get(0)).reaction);
+                    this.chatReactions.add(((TLRPC$TL_availableReaction) this.availableReactions.get(1)).reaction);
                 }
             }
-            return false;
+            RecyclerView.Adapter adapter2 = this.listAdapter;
+            if (adapter2 != null && z) {
+                adapter2.notifyItemRangeInserted(this.isChannel ? 1 : 2, this.availableReactions.size() + 1);
+            }
+        } else if (!this.chatReactions.isEmpty()) {
+            this.chatReactions.clear();
+            RecyclerView.Adapter adapter3 = this.listAdapter;
+            if (adapter3 != null && z) {
+                adapter3.notifyItemRangeRemoved(this.isChannel ? 1 : 2, this.availableReactions.size() + 1);
+            }
         }
-        getNotificationCenter().addObserver(this, NotificationCenter.reactionsDidLoad);
-        return super.onFragmentCreate();
+        if (!this.isChannel && (adapter = this.listAdapter) != null && z) {
+            adapter.notifyItemChanged(1);
+        }
+        RecyclerView.Adapter adapter4 = this.listAdapter;
+        if (adapter4 == null || z) {
+            return;
+        }
+        adapter4.notifyDataSetChanged();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateColors() {
+        this.contentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        TextCheckCell textCheckCell = this.enableReactionsCell;
+        if (textCheckCell != null) {
+            textCheckCell.setColors(Theme.key_windowBackgroundCheckText, Theme.key_switchTrackBlue, Theme.key_switchTrackBlueChecked, Theme.key_switchTrackBlueThumb, Theme.key_switchTrackBlueThumbChecked);
+        }
+        this.listAdapter.notifyDataSetChanged();
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -182,27 +297,36 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
         RecyclerListView recyclerListView2 = this.listView;
         RecyclerView.Adapter adapter = new RecyclerView.Adapter() { // from class: org.telegram.ui.ChatReactionsEditActivity.2
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i3) {
-                if (i3 != 0) {
-                    if (i3 != 1) {
-                        if (i3 != 3) {
-                            return new RecyclerListView.Holder(new AvailableReactionCell(context, false, false));
-                        }
-                        FrameLayout frameLayout = new FrameLayout(context);
-                        if (ChatReactionsEditActivity.this.contorlsLayout.getParent() != null) {
-                            ((ViewGroup) ChatReactionsEditActivity.this.contorlsLayout.getParent()).removeView(ChatReactionsEditActivity.this.contorlsLayout);
-                        }
-                        frameLayout.addView(ChatReactionsEditActivity.this.contorlsLayout);
-                        frameLayout.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-                        return new RecyclerListView.Holder(frameLayout);
-                    }
-                    return new RecyclerListView.Holder(new HeaderCell(context, 23));
+            public int getItemCount() {
+                ChatReactionsEditActivity chatReactionsEditActivity = ChatReactionsEditActivity.this;
+                boolean z = chatReactionsEditActivity.isChannel;
+                boolean isEmpty = chatReactionsEditActivity.chatReactions.isEmpty();
+                if (z) {
+                    return (isEmpty ? 0 : ChatReactionsEditActivity.this.availableReactions.size() + 1) + 1;
                 }
-                return new RecyclerListView.Holder(new TextInfoPrivacyCell(context));
+                return (isEmpty ? 0 : ChatReactionsEditActivity.this.availableReactions.size() + 1) + 2;
+            }
+
+            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+            public int getItemViewType(int i3) {
+                if (ChatReactionsEditActivity.this.isChannel) {
+                    if (i3 == 0) {
+                        return 0;
+                    }
+                    return i3 == 1 ? 1 : 2;
+                } else if (i3 == 0) {
+                    return 3;
+                } else {
+                    if (i3 == 1) {
+                        return 0;
+                    }
+                    return i3 == 2 ? 1 : 2;
+                }
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i3) {
+                int i4;
                 int itemViewType = getItemViewType(i3);
                 if (itemViewType != 0) {
                     if (itemViewType == 1) {
@@ -223,44 +347,41 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
                 textInfoPrivacyCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText4));
                 ChatReactionsEditActivity chatReactionsEditActivity = ChatReactionsEditActivity.this;
                 if (chatReactionsEditActivity.isChannel) {
-                    textInfoPrivacyCell.setText(ChatObject.isChannelAndNotMegaGroup(chatReactionsEditActivity.currentChat) ? LocaleController.getString(R.string.EnableReactionsChannelInfo) : LocaleController.getString(R.string.EnableReactionsGroupInfo));
-                    return;
-                }
-                textInfoPrivacyCell.setForeground(Theme.getThemedDrawableByKey(chatReactionsEditActivity.getContext(), R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                int i4 = ChatReactionsEditActivity.this.selectedType;
-                if (i4 == 1) {
-                    textInfoPrivacyCell.setText(LocaleController.getString(R.string.EnableSomeReactionsInfo));
-                } else if (i4 == 0) {
-                    textInfoPrivacyCell.setText(LocaleController.getString(R.string.EnableAllReactionsInfo));
-                } else if (i4 == 2) {
-                    textInfoPrivacyCell.setText(LocaleController.getString(R.string.DisableReactionsInfo));
-                }
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public int getItemCount() {
-                ChatReactionsEditActivity chatReactionsEditActivity = ChatReactionsEditActivity.this;
-                if (chatReactionsEditActivity.isChannel) {
-                    return (chatReactionsEditActivity.chatReactions.isEmpty() ? 0 : ChatReactionsEditActivity.this.availableReactions.size() + 1) + 1;
-                }
-                return (chatReactionsEditActivity.chatReactions.isEmpty() ? 0 : ChatReactionsEditActivity.this.availableReactions.size() + 1) + 2;
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public int getItemViewType(int i3) {
-                if (ChatReactionsEditActivity.this.isChannel) {
-                    if (i3 == 0) {
-                        return 0;
-                    }
-                    return i3 == 1 ? 1 : 2;
-                } else if (i3 == 0) {
-                    return 3;
+                    i4 = ChatObject.isChannelAndNotMegaGroup(chatReactionsEditActivity.currentChat) ? R.string.EnableReactionsChannelInfo : R.string.EnableReactionsGroupInfo;
                 } else {
-                    if (i3 == 1) {
-                        return 0;
+                    textInfoPrivacyCell.setForeground(Theme.getThemedDrawableByKey(chatReactionsEditActivity.getContext(), R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                    int i5 = ChatReactionsEditActivity.this.selectedType;
+                    if (i5 == 1) {
+                        i4 = R.string.EnableSomeReactionsInfo;
+                    } else if (i5 == 0) {
+                        i4 = R.string.EnableAllReactionsInfo;
+                    } else if (i5 != 2) {
+                        return;
+                    } else {
+                        i4 = R.string.DisableReactionsInfo;
                     }
-                    return i3 == 2 ? 1 : 2;
                 }
+                textInfoPrivacyCell.setText(LocaleController.getString(i4));
+            }
+
+            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i3) {
+                if (i3 != 0) {
+                    if (i3 != 1) {
+                        if (i3 != 3) {
+                            return new RecyclerListView.Holder(new AvailableReactionCell(context, false, false));
+                        }
+                        FrameLayout frameLayout = new FrameLayout(context);
+                        if (ChatReactionsEditActivity.this.contorlsLayout.getParent() != null) {
+                            ((ViewGroup) ChatReactionsEditActivity.this.contorlsLayout.getParent()).removeView(ChatReactionsEditActivity.this.contorlsLayout);
+                        }
+                        frameLayout.addView(ChatReactionsEditActivity.this.contorlsLayout);
+                        frameLayout.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(frameLayout);
+                    }
+                    return new RecyclerListView.Holder(new HeaderCell(context, 23));
+                }
+                return new RecyclerListView.Holder(new TextInfoPrivacyCell(context));
             }
         };
         this.listAdapter = adapter;
@@ -278,171 +399,17 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
         return this.contentView;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$0(View view) {
-        setCheckedEnableReactionCell(this.enableReactionsCell.isChecked() ? 2 : 1, true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$1() {
-        setCheckedEnableReactionCell(0, true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$2(View view) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda6
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChatReactionsEditActivity.this.lambda$createView$1();
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$3() {
-        setCheckedEnableReactionCell(1, true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$4(View view) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda7
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChatReactionsEditActivity.this.lambda$createView$3();
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$5() {
-        setCheckedEnableReactionCell(2, true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$6(View view) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda8
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChatReactionsEditActivity.this.lambda$createView$5();
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$7(View view, int i) {
-        boolean z = this.isChannel;
-        if (i <= (z ? 1 : 2)) {
-            return;
-        }
-        AvailableReactionCell availableReactionCell = (AvailableReactionCell) view;
-        TLRPC$TL_availableReaction tLRPC$TL_availableReaction = this.availableReactions.get(i - (z ? 2 : 3));
-        boolean z2 = !this.chatReactions.contains(tLRPC$TL_availableReaction.reaction);
-        if (z2) {
-            this.chatReactions.add(tLRPC$TL_availableReaction.reaction);
-        } else {
-            this.chatReactions.remove(tLRPC$TL_availableReaction.reaction);
-            if (this.chatReactions.isEmpty()) {
-                RecyclerView.Adapter adapter = this.listAdapter;
-                if (adapter != null) {
-                    adapter.notifyItemRangeRemoved(this.isChannel ? 1 : 2, this.availableReactions.size() + 1);
-                }
-                setCheckedEnableReactionCell(2, true);
-            }
-        }
-        availableReactionCell.setChecked(z2, true);
-    }
-
-    private void setCheckedEnableReactionCell(int i, boolean z) {
-        RecyclerView.Adapter adapter;
-        if (this.selectedType == i) {
-            return;
-        }
-        TextCheckCell textCheckCell = this.enableReactionsCell;
-        if (textCheckCell != null) {
-            boolean z2 = i == 1 || i == 0;
-            textCheckCell.setChecked(z2);
-            int color = Theme.getColor(z2 ? Theme.key_windowBackgroundChecked : Theme.key_windowBackgroundUnchecked);
-            if (z2) {
-                this.enableReactionsCell.setBackgroundColorAnimated(z2, color);
-            } else {
-                this.enableReactionsCell.setBackgroundColorAnimatedReverse(color);
-            }
-        }
-        this.selectedType = i;
-        int i2 = 0;
-        while (i2 < this.radioCells.size()) {
-            this.radioCells.get(i2).setChecked(i == i2, z);
-            i2++;
-        }
-        if (i == 1) {
-            if (z) {
-                this.chatReactions.clear();
-                Iterator<TLRPC$TL_availableReaction> it = this.availableReactions.iterator();
-                while (it.hasNext()) {
-                    TLRPC$TL_availableReaction next = it.next();
-                    if (next.reaction.equals("👍") || next.reaction.equals("👎")) {
-                        this.chatReactions.add(next.reaction);
-                    }
-                }
-                if (this.chatReactions.isEmpty() && this.availableReactions.size() >= 2) {
-                    this.chatReactions.add(this.availableReactions.get(0).reaction);
-                    this.chatReactions.add(this.availableReactions.get(1).reaction);
-                }
-            }
-            RecyclerView.Adapter adapter2 = this.listAdapter;
-            if (adapter2 != null && z) {
-                adapter2.notifyItemRangeInserted(this.isChannel ? 1 : 2, this.availableReactions.size() + 1);
-            }
-        } else if (!this.chatReactions.isEmpty()) {
-            this.chatReactions.clear();
-            RecyclerView.Adapter adapter3 = this.listAdapter;
-            if (adapter3 != null && z) {
-                adapter3.notifyItemRangeRemoved(this.isChannel ? 1 : 2, this.availableReactions.size() + 1);
-            }
-        }
-        if (!this.isChannel && (adapter = this.listAdapter) != null && z) {
-            adapter.notifyItemChanged(1);
-        }
-        RecyclerView.Adapter adapter4 = this.listAdapter;
-        if (adapter4 == null || z) {
-            return;
-        }
-        adapter4.notifyDataSetChanged();
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onFragmentDestroy() {
-        super.onFragmentDestroy();
-        getMessagesController().setChatReactions(this.chatId, this.selectedType, this.chatReactions);
-        getNotificationCenter().removeObserver(this, NotificationCenter.reactionsDidLoad);
-    }
-
-    public void setInfo(TLRPC$ChatFull tLRPC$ChatFull) {
-        this.info = tLRPC$ChatFull;
-        if (tLRPC$ChatFull != null) {
-            if (this.currentChat == null) {
-                this.currentChat = getMessagesController().getChat(Long.valueOf(this.chatId));
-            }
-            this.chatReactions = new ArrayList();
-            TLRPC$ChatReactions tLRPC$ChatReactions = tLRPC$ChatFull.available_reactions;
-            if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsAll) {
-                this.startFromType = 0;
-            } else if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsNone) {
-                this.startFromType = 2;
-            } else if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsSome) {
-                TLRPC$TL_chatReactionsSome tLRPC$TL_chatReactionsSome = (TLRPC$TL_chatReactionsSome) tLRPC$ChatReactions;
-                for (int i = 0; i < tLRPC$TL_chatReactionsSome.reactions.size(); i++) {
-                    if (tLRPC$TL_chatReactionsSome.reactions.get(i) instanceof TLRPC$TL_reactionEmoji) {
-                        this.chatReactions.add(((TLRPC$TL_reactionEmoji) tLRPC$TL_chatReactionsSome.reactions.get(i)).emoticon);
-                    }
-                }
-                this.startFromType = 1;
-            }
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        if (i2 == this.currentAccount && i == NotificationCenter.reactionsDidLoad) {
+            this.availableReactions.clear();
+            this.availableReactions.addAll(getMediaDataController().getEnabledReactionsList());
+            this.listAdapter.notifyDataSetChanged();
         }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public ArrayList<ThemeDescription> getThemeDescriptions() {
+    public ArrayList getThemeDescriptions() {
         return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
@@ -456,24 +423,66 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
         }, Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhiteBlackText, Theme.key_windowBackgroundWhiteGrayText2, Theme.key_listSelector, Theme.key_windowBackgroundGray, Theme.key_windowBackgroundWhiteGrayText4, Theme.key_text_RedRegular, Theme.key_windowBackgroundChecked, Theme.key_windowBackgroundCheckText, Theme.key_switchTrackBlue, Theme.key_switchTrackBlueChecked, Theme.key_switchTrackBlueThumb, Theme.key_switchTrackBlueThumbChecked);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    @SuppressLint({"NotifyDataSetChanged"})
-    public void updateColors() {
-        this.contentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
-        TextCheckCell textCheckCell = this.enableReactionsCell;
-        if (textCheckCell != null) {
-            textCheckCell.setColors(Theme.key_windowBackgroundCheckText, Theme.key_switchTrackBlue, Theme.key_switchTrackBlueChecked, Theme.key_switchTrackBlueThumb, Theme.key_switchTrackBlueThumbChecked);
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x004c, code lost:
+        if (r0 == null) goto L9;
+     */
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public boolean onFragmentCreate() {
+        TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
+        this.currentChat = chat;
+        if (chat == null) {
+            TLRPC$Chat chatSync = MessagesStorage.getInstance(this.currentAccount).getChatSync(this.chatId);
+            this.currentChat = chatSync;
+            if (chatSync != null) {
+                getMessagesController().putChat(this.currentChat, true);
+                if (this.info == null) {
+                    TLRPC$ChatFull loadChatInfo = MessagesStorage.getInstance(this.currentAccount).loadChatInfo(this.chatId, ChatObject.isChannel(this.currentChat), new CountDownLatch(1), false, false);
+                    this.info = loadChatInfo;
+                }
+            }
+            return false;
         }
-        this.listAdapter.notifyDataSetChanged();
+        getNotificationCenter().addObserver(this, NotificationCenter.reactionsDidLoad);
+        return super.onFragmentCreate();
     }
 
-    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    @SuppressLint({"NotifyDataSetChanged"})
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if (i2 == this.currentAccount && i == NotificationCenter.reactionsDidLoad) {
-            this.availableReactions.clear();
-            this.availableReactions.addAll(getMediaDataController().getEnabledReactionsList());
-            this.listAdapter.notifyDataSetChanged();
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onFragmentDestroy() {
+        super.onFragmentDestroy();
+        getMessagesController().setChatReactions(this.chatId, this.selectedType, this.chatReactions);
+        getNotificationCenter().removeObserver(this, NotificationCenter.reactionsDidLoad);
+    }
+
+    public void setInfo(TLRPC$ChatFull tLRPC$ChatFull) {
+        int i;
+        this.info = tLRPC$ChatFull;
+        if (tLRPC$ChatFull != null) {
+            if (this.currentChat == null) {
+                this.currentChat = getMessagesController().getChat(Long.valueOf(this.chatId));
+            }
+            this.chatReactions = new ArrayList();
+            TLRPC$ChatReactions tLRPC$ChatReactions = tLRPC$ChatFull.available_reactions;
+            if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsAll) {
+                this.startFromType = 0;
+                return;
+            }
+            if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsNone) {
+                i = 2;
+            } else if (!(tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsSome)) {
+                return;
+            } else {
+                TLRPC$TL_chatReactionsSome tLRPC$TL_chatReactionsSome = (TLRPC$TL_chatReactionsSome) tLRPC$ChatReactions;
+                for (int i2 = 0; i2 < tLRPC$TL_chatReactionsSome.reactions.size(); i2++) {
+                    if (tLRPC$TL_chatReactionsSome.reactions.get(i2) instanceof TLRPC$TL_reactionEmoji) {
+                        this.chatReactions.add(((TLRPC$TL_reactionEmoji) tLRPC$TL_chatReactionsSome.reactions.get(i2)).emoticon);
+                    }
+                }
+                i = 1;
+            }
+            this.startFromType = i;
         }
     }
 }

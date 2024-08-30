@@ -45,18 +45,17 @@ public class AppCompatCheckBox extends CheckBox implements TintableCompoundButto
         return this.mAppCompatEmojiTextHelper;
     }
 
-    @Override // android.widget.CompoundButton
-    public void setButtonDrawable(Drawable drawable) {
-        super.setButtonDrawable(drawable);
-        AppCompatCompoundButtonHelper appCompatCompoundButtonHelper = this.mCompoundButtonHelper;
-        if (appCompatCompoundButtonHelper != null) {
-            appCompatCompoundButtonHelper.onSetButtonDrawable();
+    @Override // android.widget.CompoundButton, android.widget.TextView, android.view.View
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            appCompatBackgroundHelper.applySupportBackgroundTint();
         }
-    }
-
-    @Override // android.widget.CompoundButton
-    public void setButtonDrawable(int i) {
-        setButtonDrawable(AppCompatResources.getDrawable(getContext(), i));
+        AppCompatTextHelper appCompatTextHelper = this.mTextHelper;
+        if (appCompatTextHelper != null) {
+            appCompatTextHelper.applyCompoundDrawablesTints();
+        }
     }
 
     @Override // android.widget.CompoundButton, android.widget.TextView
@@ -64,46 +63,6 @@ public class AppCompatCheckBox extends CheckBox implements TintableCompoundButto
         int compoundPaddingLeft = super.getCompoundPaddingLeft();
         AppCompatCompoundButtonHelper appCompatCompoundButtonHelper = this.mCompoundButtonHelper;
         return appCompatCompoundButtonHelper != null ? appCompatCompoundButtonHelper.getCompoundPaddingLeft(compoundPaddingLeft) : compoundPaddingLeft;
-    }
-
-    @Override // androidx.core.widget.TintableCompoundButton
-    public void setSupportButtonTintList(ColorStateList colorStateList) {
-        AppCompatCompoundButtonHelper appCompatCompoundButtonHelper = this.mCompoundButtonHelper;
-        if (appCompatCompoundButtonHelper != null) {
-            appCompatCompoundButtonHelper.setSupportButtonTintList(colorStateList);
-        }
-    }
-
-    public ColorStateList getSupportButtonTintList() {
-        AppCompatCompoundButtonHelper appCompatCompoundButtonHelper = this.mCompoundButtonHelper;
-        if (appCompatCompoundButtonHelper != null) {
-            return appCompatCompoundButtonHelper.getSupportButtonTintList();
-        }
-        return null;
-    }
-
-    @Override // androidx.core.widget.TintableCompoundButton
-    public void setSupportButtonTintMode(PorterDuff.Mode mode) {
-        AppCompatCompoundButtonHelper appCompatCompoundButtonHelper = this.mCompoundButtonHelper;
-        if (appCompatCompoundButtonHelper != null) {
-            appCompatCompoundButtonHelper.setSupportButtonTintMode(mode);
-        }
-    }
-
-    public PorterDuff.Mode getSupportButtonTintMode() {
-        AppCompatCompoundButtonHelper appCompatCompoundButtonHelper = this.mCompoundButtonHelper;
-        if (appCompatCompoundButtonHelper != null) {
-            return appCompatCompoundButtonHelper.getSupportButtonTintMode();
-        }
-        return null;
-    }
-
-    @Override // androidx.core.view.TintableBackgroundView
-    public void setSupportBackgroundTintList(ColorStateList colorStateList) {
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            appCompatBackgroundHelper.setSupportBackgroundTintList(colorStateList);
-        }
     }
 
     @Override // androidx.core.view.TintableBackgroundView
@@ -116,20 +75,42 @@ public class AppCompatCheckBox extends CheckBox implements TintableCompoundButto
     }
 
     @Override // androidx.core.view.TintableBackgroundView
-    public void setSupportBackgroundTintMode(PorterDuff.Mode mode) {
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            appCompatBackgroundHelper.setSupportBackgroundTintMode(mode);
-        }
-    }
-
-    @Override // androidx.core.view.TintableBackgroundView
     public PorterDuff.Mode getSupportBackgroundTintMode() {
         AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
         if (appCompatBackgroundHelper != null) {
             return appCompatBackgroundHelper.getSupportBackgroundTintMode();
         }
         return null;
+    }
+
+    public ColorStateList getSupportButtonTintList() {
+        AppCompatCompoundButtonHelper appCompatCompoundButtonHelper = this.mCompoundButtonHelper;
+        if (appCompatCompoundButtonHelper != null) {
+            return appCompatCompoundButtonHelper.getSupportButtonTintList();
+        }
+        return null;
+    }
+
+    public PorterDuff.Mode getSupportButtonTintMode() {
+        AppCompatCompoundButtonHelper appCompatCompoundButtonHelper = this.mCompoundButtonHelper;
+        if (appCompatCompoundButtonHelper != null) {
+            return appCompatCompoundButtonHelper.getSupportButtonTintMode();
+        }
+        return null;
+    }
+
+    public ColorStateList getSupportCompoundDrawablesTintList() {
+        return this.mTextHelper.getCompoundDrawableTintList();
+    }
+
+    public PorterDuff.Mode getSupportCompoundDrawablesTintMode() {
+        return this.mTextHelper.getCompoundDrawableTintMode();
+    }
+
+    @Override // android.widget.TextView
+    public void setAllCaps(boolean z) {
+        super.setAllCaps(z);
+        getEmojiTextViewHelper().setAllCaps(z);
     }
 
     @Override // android.view.View
@@ -150,32 +131,18 @@ public class AppCompatCheckBox extends CheckBox implements TintableCompoundButto
         }
     }
 
-    @Override // android.widget.CompoundButton, android.widget.TextView, android.view.View
-    protected void drawableStateChanged() {
-        super.drawableStateChanged();
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            appCompatBackgroundHelper.applySupportBackgroundTint();
+    @Override // android.widget.CompoundButton
+    public void setButtonDrawable(int i) {
+        setButtonDrawable(AppCompatResources.getDrawable(getContext(), i));
+    }
+
+    @Override // android.widget.CompoundButton
+    public void setButtonDrawable(Drawable drawable) {
+        super.setButtonDrawable(drawable);
+        AppCompatCompoundButtonHelper appCompatCompoundButtonHelper = this.mCompoundButtonHelper;
+        if (appCompatCompoundButtonHelper != null) {
+            appCompatCompoundButtonHelper.onSetButtonDrawable();
         }
-        AppCompatTextHelper appCompatTextHelper = this.mTextHelper;
-        if (appCompatTextHelper != null) {
-            appCompatTextHelper.applyCompoundDrawablesTints();
-        }
-    }
-
-    @Override // android.widget.TextView
-    public void setFilters(InputFilter[] inputFilterArr) {
-        super.setFilters(getEmojiTextViewHelper().getFilters(inputFilterArr));
-    }
-
-    @Override // android.widget.TextView
-    public void setAllCaps(boolean z) {
-        super.setAllCaps(z);
-        getEmojiTextViewHelper().setAllCaps(z);
-    }
-
-    public void setEmojiCompatEnabled(boolean z) {
-        getEmojiTextViewHelper().setEnabled(z);
     }
 
     @Override // android.widget.TextView
@@ -196,18 +163,51 @@ public class AppCompatCheckBox extends CheckBox implements TintableCompoundButto
         }
     }
 
-    public ColorStateList getSupportCompoundDrawablesTintList() {
-        return this.mTextHelper.getCompoundDrawableTintList();
+    public void setEmojiCompatEnabled(boolean z) {
+        getEmojiTextViewHelper().setEnabled(z);
+    }
+
+    @Override // android.widget.TextView
+    public void setFilters(InputFilter[] inputFilterArr) {
+        super.setFilters(getEmojiTextViewHelper().getFilters(inputFilterArr));
+    }
+
+    @Override // androidx.core.view.TintableBackgroundView
+    public void setSupportBackgroundTintList(ColorStateList colorStateList) {
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            appCompatBackgroundHelper.setSupportBackgroundTintList(colorStateList);
+        }
+    }
+
+    @Override // androidx.core.view.TintableBackgroundView
+    public void setSupportBackgroundTintMode(PorterDuff.Mode mode) {
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            appCompatBackgroundHelper.setSupportBackgroundTintMode(mode);
+        }
+    }
+
+    @Override // androidx.core.widget.TintableCompoundButton
+    public void setSupportButtonTintList(ColorStateList colorStateList) {
+        AppCompatCompoundButtonHelper appCompatCompoundButtonHelper = this.mCompoundButtonHelper;
+        if (appCompatCompoundButtonHelper != null) {
+            appCompatCompoundButtonHelper.setSupportButtonTintList(colorStateList);
+        }
+    }
+
+    @Override // androidx.core.widget.TintableCompoundButton
+    public void setSupportButtonTintMode(PorterDuff.Mode mode) {
+        AppCompatCompoundButtonHelper appCompatCompoundButtonHelper = this.mCompoundButtonHelper;
+        if (appCompatCompoundButtonHelper != null) {
+            appCompatCompoundButtonHelper.setSupportButtonTintMode(mode);
+        }
     }
 
     @Override // androidx.core.widget.TintableCompoundDrawablesView
     public void setSupportCompoundDrawablesTintList(ColorStateList colorStateList) {
         this.mTextHelper.setCompoundDrawableTintList(colorStateList);
         this.mTextHelper.applyCompoundDrawablesTints();
-    }
-
-    public PorterDuff.Mode getSupportCompoundDrawablesTintMode() {
-        return this.mTextHelper.getCompoundDrawableTintMode();
     }
 
     @Override // androidx.core.widget.TintableCompoundDrawablesView

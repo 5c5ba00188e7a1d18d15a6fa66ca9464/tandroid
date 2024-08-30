@@ -4,20 +4,18 @@ import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.mlkit.vision.common.internal.MultiFlavorDetectorCreator;
 import java.util.concurrent.Executor;
-/* compiled from: com.google.mlkit:image-labeling-common@@18.1.0 */
 /* loaded from: classes.dex */
-public abstract class ImageLabelerOptionsBase implements MultiFlavorDetectorCreator.DetectorOptions<ImageLabeler> {
+public abstract class ImageLabelerOptionsBase implements MultiFlavorDetectorCreator.DetectorOptions {
     private final Executor zza;
     private final float zzb;
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* compiled from: com.google.mlkit:image-labeling-common@@18.1.0 */
     /* loaded from: classes.dex */
-    public static abstract class Builder<B extends Builder<B>> {
+    public static abstract class Builder {
         private float zza = -1.0f;
         private Executor zzb;
 
-        public B setConfidenceThreshold(float f) {
+        public Builder setConfidenceThreshold(float f) {
             boolean z = false;
             if (Float.compare(f, 0.0f) >= 0 && Float.compare(f, 1.0f) <= 0) {
                 z = true;
@@ -29,9 +27,9 @@ public abstract class ImageLabelerOptionsBase implements MultiFlavorDetectorCrea
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public ImageLabelerOptionsBase(Builder<?> builder) {
-        this.zzb = ((Builder) builder).zza;
-        this.zza = ((Builder) builder).zzb;
+    public ImageLabelerOptionsBase(Builder builder) {
+        this.zzb = builder.zza;
+        this.zza = builder.zzb;
     }
 
     public boolean equals(Object obj) {

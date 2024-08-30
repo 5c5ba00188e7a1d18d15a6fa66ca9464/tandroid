@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
-public final class zzi {
+public abstract class zzi {
     public static int zza(int i, int i2, String str) {
         String zza;
         if (i < 0 || i >= i2) {
@@ -25,16 +24,8 @@ public final class zzi {
     }
 
     public static void zzc(int i, int i2, int i3) {
-        String zze;
         if (i < 0 || i2 < i || i2 > i3) {
-            if (i < 0 || i > i3) {
-                zze = zze(i, i3, "start index");
-            } else if (i2 < 0 || i2 > i3) {
-                zze = zze(i2, i3, "end index");
-            } else {
-                zze = zzj.zza("end index (%s) must not be less than start index (%s)", Integer.valueOf(i2), Integer.valueOf(i));
-            }
-            throw new IndexOutOfBoundsException(zze);
+            throw new IndexOutOfBoundsException((i < 0 || i > i3) ? zze(i, i3, "start index") : (i2 < 0 || i2 > i3) ? zze(i2, i3, "end index") : zzj.zza("end index (%s) must not be less than start index (%s)", Integer.valueOf(i2), Integer.valueOf(i)));
         }
     }
 

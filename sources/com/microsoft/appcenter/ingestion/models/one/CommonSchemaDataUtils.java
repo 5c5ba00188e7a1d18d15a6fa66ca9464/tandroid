@@ -13,9 +13,9 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 /* loaded from: classes.dex */
-public class CommonSchemaDataUtils {
-    public static void addCommonSchemaData(List<TypedProperty> list, CommonSchemaLog commonSchemaLog) {
-        Iterator<TypedProperty> it;
+public abstract class CommonSchemaDataUtils {
+    public static void addCommonSchemaData(List list, CommonSchemaLog commonSchemaLog) {
+        Iterator it;
         if (list == null) {
             return;
         }
@@ -23,19 +23,22 @@ public class CommonSchemaDataUtils {
             Data data = new Data();
             commonSchemaLog.setData(data);
             MetadataExtension metadataExtension = new MetadataExtension();
-            Iterator<TypedProperty> it2 = list.iterator();
+            Iterator it2 = list.iterator();
             while (it2.hasNext()) {
-                TypedProperty next = it2.next();
+                TypedProperty typedProperty = (TypedProperty) it2.next();
                 try {
-                    Object validateProperty = validateProperty(next);
-                    Integer metadataType = getMetadataType(next);
-                    String[] split = next.getName().split("\\.", -1);
+                    Object validateProperty = validateProperty(typedProperty);
+                    Integer metadataType = getMetadataType(typedProperty);
+                    String[] split = typedProperty.getName().split("\\.", -1);
                     int length = split.length - 1;
                     JSONObject properties = data.getProperties();
                     JSONObject metadata = metadataExtension.getMetadata();
                     int i = 0;
-                    while (i < length) {
-                        Iterator<TypedProperty> it3 = it2;
+                    while (true) {
+                        it = it2;
+                        if (i >= length) {
+                            break;
+                        }
                         String str = split[i];
                         JSONObject optJSONObject = properties.optJSONObject(str);
                         if (optJSONObject == null) {
@@ -50,9 +53,8 @@ public class CommonSchemaDataUtils {
                         }
                         metadata = addIntermediateMetadata(metadata, str);
                         i++;
-                        it2 = it3;
+                        it2 = it;
                     }
-                    it = it2;
                     String str2 = split[length];
                     if (properties.has(str2)) {
                         AppCenterLog.warn("AppCenter", "Property key '" + str2 + "' already has a value, the old value will be overridden.");
@@ -88,51 +90,22 @@ public class CommonSchemaDataUtils {
         }
     }
 
-    private static Object validateProperty(TypedProperty typedProperty) throws IllegalArgumentException, JSONException {
-        Object valueOf;
-        String name = typedProperty.getName();
-        if (name == null) {
-            throw new IllegalArgumentException("Property key cannot be null.");
+    private static JSONObject addIntermediateMetadata(JSONObject jSONObject, String str) {
+        JSONObject optJSONObject = jSONObject.optJSONObject("f");
+        if (optJSONObject == null) {
+            optJSONObject = new JSONObject();
+            jSONObject.put("f", optJSONObject);
         }
-        if (name.equals("baseType") && !(typedProperty instanceof StringTypedProperty)) {
-            throw new IllegalArgumentException("baseType must be a string.");
+        JSONObject optJSONObject2 = optJSONObject.optJSONObject(str);
+        if (optJSONObject2 == null) {
+            JSONObject jSONObject2 = new JSONObject();
+            optJSONObject.put(str, jSONObject2);
+            return jSONObject2;
         }
-        if (name.startsWith("baseType.")) {
-            throw new IllegalArgumentException("baseType must be a string.");
-        }
-        if (name.equals("baseData")) {
-            throw new IllegalArgumentException("baseData must be an object.");
-        }
-        if (typedProperty instanceof StringTypedProperty) {
-            valueOf = ((StringTypedProperty) typedProperty).getValue();
-        } else if (typedProperty instanceof LongTypedProperty) {
-            valueOf = Long.valueOf(((LongTypedProperty) typedProperty).getValue());
-        } else if (typedProperty instanceof DoubleTypedProperty) {
-            valueOf = Double.valueOf(((DoubleTypedProperty) typedProperty).getValue());
-        } else if (typedProperty instanceof DateTimeTypedProperty) {
-            valueOf = JSONDateUtils.toString(((DateTimeTypedProperty) typedProperty).getValue());
-        } else if (typedProperty instanceof BooleanTypedProperty) {
-            valueOf = Boolean.valueOf(((BooleanTypedProperty) typedProperty).getValue());
-        } else {
-            throw new IllegalArgumentException("Unsupported property type: " + typedProperty.getType());
-        }
-        if (valueOf != null) {
-            return valueOf;
-        }
-        throw new IllegalArgumentException("Value of property with key '" + name + "' cannot be null.");
+        return optJSONObject2;
     }
 
-    private static Integer getMetadataType(TypedProperty typedProperty) {
-        if (typedProperty instanceof LongTypedProperty) {
-            return 4;
-        }
-        if (typedProperty instanceof DoubleTypedProperty) {
-            return 6;
-        }
-        return typedProperty instanceof DateTimeTypedProperty ? 9 : null;
-    }
-
-    private static void addLeafMetadata(Integer num, JSONObject jSONObject, String str) throws JSONException {
+    private static void addLeafMetadata(Integer num, JSONObject jSONObject, String str) {
         JSONObject optJSONObject = jSONObject.optJSONObject("f");
         if (num == null) {
             if (optJSONObject != null) {
@@ -148,21 +121,6 @@ public class CommonSchemaDataUtils {
         optJSONObject.put(str, num);
     }
 
-    private static JSONObject addIntermediateMetadata(JSONObject jSONObject, String str) throws JSONException {
-        JSONObject optJSONObject = jSONObject.optJSONObject("f");
-        if (optJSONObject == null) {
-            optJSONObject = new JSONObject();
-            jSONObject.put("f", optJSONObject);
-        }
-        JSONObject optJSONObject2 = optJSONObject.optJSONObject(str);
-        if (optJSONObject2 == null) {
-            JSONObject jSONObject2 = new JSONObject();
-            optJSONObject.put(str, jSONObject2);
-            return jSONObject2;
-        }
-        return optJSONObject2;
-    }
-
     private static boolean cleanUpEmptyObjectsInMetadata(JSONObject jSONObject) {
         Iterator<String> keys = jSONObject.keys();
         while (keys.hasNext()) {
@@ -172,5 +130,53 @@ public class CommonSchemaDataUtils {
             }
         }
         return jSONObject.length() == 0;
+    }
+
+    private static Integer getMetadataType(TypedProperty typedProperty) {
+        int i;
+        if (typedProperty instanceof LongTypedProperty) {
+            i = 4;
+        } else if (typedProperty instanceof DoubleTypedProperty) {
+            i = 6;
+        } else if (!(typedProperty instanceof DateTimeTypedProperty)) {
+            return null;
+        } else {
+            i = 9;
+        }
+        return Integer.valueOf(i);
+    }
+
+    private static Object validateProperty(TypedProperty typedProperty) {
+        Object valueOf;
+        String name = typedProperty.getName();
+        if (name != null) {
+            if (!name.equals("baseType") || (typedProperty instanceof StringTypedProperty)) {
+                if (name.startsWith("baseType.")) {
+                    throw new IllegalArgumentException("baseType must be a string.");
+                }
+                if (name.equals("baseData")) {
+                    throw new IllegalArgumentException("baseData must be an object.");
+                }
+                if (typedProperty instanceof StringTypedProperty) {
+                    valueOf = ((StringTypedProperty) typedProperty).getValue();
+                } else if (typedProperty instanceof LongTypedProperty) {
+                    valueOf = Long.valueOf(((LongTypedProperty) typedProperty).getValue());
+                } else if (typedProperty instanceof DoubleTypedProperty) {
+                    valueOf = Double.valueOf(((DoubleTypedProperty) typedProperty).getValue());
+                } else if (typedProperty instanceof DateTimeTypedProperty) {
+                    valueOf = JSONDateUtils.toString(((DateTimeTypedProperty) typedProperty).getValue());
+                } else if (!(typedProperty instanceof BooleanTypedProperty)) {
+                    throw new IllegalArgumentException("Unsupported property type: " + typedProperty.getType());
+                } else {
+                    valueOf = Boolean.valueOf(((BooleanTypedProperty) typedProperty).getValue());
+                }
+                if (valueOf != null) {
+                    return valueOf;
+                }
+                throw new IllegalArgumentException("Value of property with key '" + name + "' cannot be null.");
+            }
+            throw new IllegalArgumentException("baseType must be a string.");
+        }
+        throw new IllegalArgumentException("Property key cannot be null.");
     }
 }

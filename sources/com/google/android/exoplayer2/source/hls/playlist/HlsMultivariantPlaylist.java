@@ -2,7 +2,6 @@ package com.google.android.exoplayer2.source.hls.playlist;
 
 import android.net.Uri;
 import com.google.android.exoplayer2.Format;
-import com.google.android.exoplayer2.drm.DrmInitData;
 import com.google.android.exoplayer2.offline.StreamKey;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,20 +10,30 @@ import java.util.Map;
 /* loaded from: classes.dex */
 public class HlsMultivariantPlaylist extends HlsPlaylist {
     public static final HlsMultivariantPlaylist EMPTY = new HlsMultivariantPlaylist("", Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), null, Collections.emptyList(), false, Collections.emptyMap(), Collections.emptyList());
-    public final List<Rendition> audios;
-    public final List<Rendition> closedCaptions;
-    public final List<Uri> mediaPlaylistUrls;
+    public final List audios;
+    public final List closedCaptions;
+    public final List mediaPlaylistUrls;
     public final Format muxedAudioFormat;
-    public final List<Format> muxedCaptionFormats;
-    public final List<DrmInitData> sessionKeyDrmInitData;
-    public final List<Rendition> subtitles;
-    public final Map<String, String> variableDefinitions;
-    public final List<Variant> variants;
-    public final List<Rendition> videos;
+    public final List muxedCaptionFormats;
+    public final List sessionKeyDrmInitData;
+    public final List subtitles;
+    public final Map variableDefinitions;
+    public final List variants;
+    public final List videos;
 
-    @Override // com.google.android.exoplayer2.offline.FilterableManifest
-    public /* bridge */ /* synthetic */ HlsPlaylist copy(List list) {
-        return copy((List<StreamKey>) list);
+    /* loaded from: classes.dex */
+    public static final class Rendition {
+        public final Format format;
+        public final String groupId;
+        public final String name;
+        public final Uri url;
+
+        public Rendition(Uri uri, Format format, String str, String str2) {
+            this.url = uri;
+            this.format = format;
+            this.groupId = str;
+            this.name = str2;
+        }
     }
 
     /* loaded from: classes.dex */
@@ -54,22 +63,7 @@ public class HlsMultivariantPlaylist extends HlsPlaylist {
         }
     }
 
-    /* loaded from: classes.dex */
-    public static final class Rendition {
-        public final Format format;
-        public final String groupId;
-        public final String name;
-        public final Uri url;
-
-        public Rendition(Uri uri, Format format, String str, String str2) {
-            this.url = uri;
-            this.format = format;
-            this.groupId = str;
-            this.name = str2;
-        }
-    }
-
-    public HlsMultivariantPlaylist(String str, List<String> list, List<Variant> list2, List<Rendition> list3, List<Rendition> list4, List<Rendition> list5, List<Rendition> list6, Format format, List<Format> list7, boolean z, Map<String, String> map, List<DrmInitData> list8) {
+    public HlsMultivariantPlaylist(String str, List list, List list2, List list3, List list4, List list5, List list6, Format format, List list7, boolean z, Map map, List list8) {
         super(str, list, z);
         this.mediaPlaylistUrls = Collections.unmodifiableList(getMediaPlaylistUrls(list2, list3, list4, list5, list6));
         this.variants = Collections.unmodifiableList(list2);
@@ -83,19 +77,42 @@ public class HlsMultivariantPlaylist extends HlsPlaylist {
         this.sessionKeyDrmInitData = Collections.unmodifiableList(list8);
     }
 
-    @Override // com.google.android.exoplayer2.offline.FilterableManifest
-    public HlsPlaylist copy(List<StreamKey> list) {
-        return new HlsMultivariantPlaylist(this.baseUri, this.tags, copyStreams(this.variants, 0, list), Collections.emptyList(), copyStreams(this.audios, 1, list), copyStreams(this.subtitles, 2, list), Collections.emptyList(), this.muxedAudioFormat, this.muxedCaptionFormats, this.hasIndependentSegments, this.variableDefinitions, this.sessionKeyDrmInitData);
+    private static void addMediaPlaylistUrls(List list, List list2) {
+        for (int i = 0; i < list.size(); i++) {
+            Uri uri = ((Rendition) list.get(i)).url;
+            if (uri != null && !list2.contains(uri)) {
+                list2.add(uri);
+            }
+        }
+    }
+
+    private static List copyStreams(List list, int i, List list2) {
+        ArrayList arrayList = new ArrayList(list2.size());
+        for (int i2 = 0; i2 < list.size(); i2++) {
+            Object obj = list.get(i2);
+            int i3 = 0;
+            while (true) {
+                if (i3 < list2.size()) {
+                    StreamKey streamKey = (StreamKey) list2.get(i3);
+                    if (streamKey.groupIndex == i && streamKey.streamIndex == i2) {
+                        arrayList.add(obj);
+                        break;
+                    }
+                    i3++;
+                }
+            }
+        }
+        return arrayList;
     }
 
     public static HlsMultivariantPlaylist createSingleVariantMultivariantPlaylist(String str) {
         return new HlsMultivariantPlaylist("", Collections.emptyList(), Collections.singletonList(Variant.createMediaPlaylistVariantUrl(Uri.parse(str))), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), null, null, false, Collections.emptyMap(), Collections.emptyList());
     }
 
-    private static List<Uri> getMediaPlaylistUrls(List<Variant> list, List<Rendition> list2, List<Rendition> list3, List<Rendition> list4, List<Rendition> list5) {
+    private static List getMediaPlaylistUrls(List list, List list2, List list3, List list4, List list5) {
         ArrayList arrayList = new ArrayList();
         for (int i = 0; i < list.size(); i++) {
-            Uri uri = list.get(i).url;
+            Uri uri = ((Variant) list.get(i)).url;
             if (!arrayList.contains(uri)) {
                 arrayList.add(uri);
             }
@@ -107,31 +124,8 @@ public class HlsMultivariantPlaylist extends HlsPlaylist {
         return arrayList;
     }
 
-    private static void addMediaPlaylistUrls(List<Rendition> list, List<Uri> list2) {
-        for (int i = 0; i < list.size(); i++) {
-            Uri uri = list.get(i).url;
-            if (uri != null && !list2.contains(uri)) {
-                list2.add(uri);
-            }
-        }
-    }
-
-    private static <T> List<T> copyStreams(List<T> list, int i, List<StreamKey> list2) {
-        ArrayList arrayList = new ArrayList(list2.size());
-        for (int i2 = 0; i2 < list.size(); i2++) {
-            T t = list.get(i2);
-            int i3 = 0;
-            while (true) {
-                if (i3 < list2.size()) {
-                    StreamKey streamKey = list2.get(i3);
-                    if (streamKey.groupIndex == i && streamKey.streamIndex == i2) {
-                        arrayList.add(t);
-                        break;
-                    }
-                    i3++;
-                }
-            }
-        }
-        return arrayList;
+    @Override // com.google.android.exoplayer2.offline.FilterableManifest
+    public HlsMultivariantPlaylist copy(List list) {
+        return new HlsMultivariantPlaylist(this.baseUri, this.tags, copyStreams(this.variants, 0, list), Collections.emptyList(), copyStreams(this.audios, 1, list), copyStreams(this.subtitles, 2, list), Collections.emptyList(), this.muxedAudioFormat, this.muxedCaptionFormats, this.hasIndependentSegments, this.variableDefinitions, this.sessionKeyDrmInitData);
     }
 }

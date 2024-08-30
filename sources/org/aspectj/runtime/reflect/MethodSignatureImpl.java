@@ -12,13 +12,6 @@ public class MethodSignatureImpl extends CodeSignatureImpl implements MethodSign
         this.returnType = cls2;
     }
 
-    public Class getReturnType() {
-        if (this.returnType == null) {
-            this.returnType = extractType(6);
-        }
-        return this.returnType;
-    }
-
     @Override // org.aspectj.runtime.reflect.SignatureImpl
     protected String createToString(StringMaker stringMaker) {
         StringBuffer stringBuffer = new StringBuffer();
@@ -35,5 +28,12 @@ public class MethodSignatureImpl extends CodeSignatureImpl implements MethodSign
         stringMaker.addSignature(stringBuffer, getParameterTypes());
         stringMaker.addThrows(stringBuffer, getExceptionTypes());
         return stringBuffer.toString();
+    }
+
+    public Class getReturnType() {
+        if (this.returnType == null) {
+            this.returnType = extractType(6);
+        }
+        return this.returnType;
     }
 }

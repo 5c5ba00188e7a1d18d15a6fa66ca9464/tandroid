@@ -1,6 +1,5 @@
 package com.google.android.gms.internal.location;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class zzdt extends zzds {
     static final zzds zza = new zzdt(new Object[0], 0);

@@ -1,9 +1,8 @@
 package com.google.android.gms.internal.mlkit_common;
 
 import org.telegram.tgnet.ConnectionsManager;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
-public class zzal {
+public abstract class zzal {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i, int i2) {
         if (i2 >= 0) {

@@ -9,12 +9,11 @@ import com.google.android.exoplayer2.drm.DrmSessionManagerProvider;
 import com.google.android.exoplayer2.upstream.Allocator;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.upstream.TransferListener;
-import java.io.IOException;
 /* loaded from: classes.dex */
 public interface MediaSource {
 
     /* loaded from: classes.dex */
-    public final /* synthetic */ class -CC {
+    public abstract /* synthetic */ class -CC {
         public static Timeline $default$getInitialTimeline(MediaSource mediaSource) {
             return null;
         }
@@ -31,6 +30,34 @@ public interface MediaSource {
         Factory setDrmSessionManagerProvider(DrmSessionManagerProvider drmSessionManagerProvider);
 
         Factory setLoadErrorHandlingPolicy(LoadErrorHandlingPolicy loadErrorHandlingPolicy);
+    }
+
+    /* loaded from: classes.dex */
+    public static final class MediaPeriodId extends com.google.android.exoplayer2.source.MediaPeriodId {
+        public MediaPeriodId(com.google.android.exoplayer2.source.MediaPeriodId mediaPeriodId) {
+            super(mediaPeriodId);
+        }
+
+        public MediaPeriodId(Object obj) {
+            super(obj);
+        }
+
+        public MediaPeriodId(Object obj, int i, int i2, long j) {
+            super(obj, i, i2, j);
+        }
+
+        public MediaPeriodId(Object obj, long j) {
+            super(obj, j);
+        }
+
+        public MediaPeriodId(Object obj, long j, int i) {
+            super(obj, j, i);
+        }
+
+        @Override // com.google.android.exoplayer2.source.MediaPeriodId
+        public MediaPeriodId copyWithPeriodUid(Object obj) {
+            return new MediaPeriodId(super.copyWithPeriodUid(obj));
+        }
     }
 
     /* loaded from: classes.dex */
@@ -54,7 +81,7 @@ public interface MediaSource {
 
     boolean isSingleWindow();
 
-    void maybeThrowSourceInfoRefreshError() throws IOException;
+    void maybeThrowSourceInfoRefreshError();
 
     void prepareSource(MediaSourceCaller mediaSourceCaller, TransferListener transferListener, PlayerId playerId);
 
@@ -65,32 +92,4 @@ public interface MediaSource {
     void removeDrmEventListener(DrmSessionEventListener drmSessionEventListener);
 
     void removeEventListener(MediaSourceEventListener mediaSourceEventListener);
-
-    /* loaded from: classes.dex */
-    public static final class MediaPeriodId extends com.google.android.exoplayer2.source.MediaPeriodId {
-        public MediaPeriodId(Object obj) {
-            super(obj);
-        }
-
-        public MediaPeriodId(Object obj, long j) {
-            super(obj, j);
-        }
-
-        public MediaPeriodId(Object obj, long j, int i) {
-            super(obj, j, i);
-        }
-
-        public MediaPeriodId(Object obj, int i, int i2, long j) {
-            super(obj, i, i2, j);
-        }
-
-        public MediaPeriodId(com.google.android.exoplayer2.source.MediaPeriodId mediaPeriodId) {
-            super(mediaPeriodId);
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaPeriodId
-        public MediaPeriodId copyWithPeriodUid(Object obj) {
-            return new MediaPeriodId(super.copyWithPeriodUid(obj));
-        }
-    }
 }

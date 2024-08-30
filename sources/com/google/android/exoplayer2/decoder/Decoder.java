@@ -1,17 +1,15 @@
 package com.google.android.exoplayer2.decoder;
-
-import com.google.android.exoplayer2.decoder.DecoderException;
 /* loaded from: classes.dex */
-public interface Decoder<I, O, E extends DecoderException> {
-    I dequeueInputBuffer() throws DecoderException;
+public interface Decoder {
+    Object dequeueInputBuffer();
 
-    O dequeueOutputBuffer() throws DecoderException;
+    Object dequeueOutputBuffer();
 
     void flush();
 
     String getName();
 
-    void queueInputBuffer(I i) throws DecoderException;
+    void queueInputBuffer(Object obj);
 
     void release();
 }

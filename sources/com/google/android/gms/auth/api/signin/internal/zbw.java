@@ -4,7 +4,6 @@ import android.os.Bundle;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import com.google.android.gms.common.api.GoogleApiClient;
-/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 final class zbw implements LoaderManager.LoaderCallbacks {
     final /* synthetic */ SignInHubActivity zba;

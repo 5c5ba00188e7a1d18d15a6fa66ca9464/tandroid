@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.io.OutputStream;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 final class zzcj extends OutputStream {
     private long zza = 0;
@@ -16,11 +15,6 @@ final class zzcj extends OutputStream {
         this.zza += bArr.length;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final long zza() {
-        return this.zza;
-    }
-
     @Override // java.io.OutputStream
     public final void write(byte[] bArr, int i, int i2) {
         int length;
@@ -29,5 +23,10 @@ final class zzcj extends OutputStream {
             throw new IndexOutOfBoundsException();
         }
         this.zza += i2;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final long zza() {
+        return this.zza;
     }
 }

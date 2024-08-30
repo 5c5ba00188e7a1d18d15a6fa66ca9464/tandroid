@@ -2,32 +2,30 @@ package com.google.android.gms.maps.internal;
 
 import android.os.Bundle;
 import android.os.IInterface;
-import android.os.RemoteException;
 import com.google.android.gms.dynamic.IObjectWrapper;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public interface IMapViewDelegate extends IInterface {
-    void getMapAsync(zzas zzasVar) throws RemoteException;
+    void getMapAsync(zzas zzasVar);
 
-    IObjectWrapper getView() throws RemoteException;
+    IObjectWrapper getView();
 
-    void onCreate(Bundle bundle) throws RemoteException;
+    void onCreate(Bundle bundle);
 
-    void onDestroy() throws RemoteException;
+    void onDestroy();
 
-    void onEnterAmbient(Bundle bundle) throws RemoteException;
+    void onEnterAmbient(Bundle bundle);
 
-    void onExitAmbient() throws RemoteException;
+    void onExitAmbient();
 
-    void onLowMemory() throws RemoteException;
+    void onLowMemory();
 
-    void onPause() throws RemoteException;
+    void onPause();
 
-    void onResume() throws RemoteException;
+    void onResume();
 
-    void onSaveInstanceState(Bundle bundle) throws RemoteException;
+    void onSaveInstanceState(Bundle bundle);
 
-    void onStart() throws RemoteException;
+    void onStart();
 
-    void onStop() throws RemoteException;
+    void onStop();
 }

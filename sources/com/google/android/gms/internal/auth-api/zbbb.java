@@ -2,9 +2,8 @@ package com.google.android.gms.internal.auth-api;
 
 import android.util.Base64;
 import java.util.Random;
-/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
-public final class zbbb {
+public abstract class zbbb {
     private static final Random zba = new Random();
 
     public static String zba() {

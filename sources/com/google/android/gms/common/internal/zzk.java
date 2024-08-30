@@ -5,7 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.Feature;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzk implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -24,10 +23,10 @@ public final class zzk implements Parcelable.Creator {
                 featureArr = (Feature[]) SafeParcelReader.createTypedArray(parcel, readHeader, Feature.CREATOR);
             } else if (fieldId == 3) {
                 i = SafeParcelReader.readInt(parcel, readHeader);
-            } else if (fieldId == 4) {
-                connectionTelemetryConfiguration = (ConnectionTelemetryConfiguration) SafeParcelReader.createParcelable(parcel, readHeader, ConnectionTelemetryConfiguration.CREATOR);
-            } else {
+            } else if (fieldId != 4) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                connectionTelemetryConfiguration = (ConnectionTelemetryConfiguration) SafeParcelReader.createParcelable(parcel, readHeader, ConnectionTelemetryConfiguration.CREATOR);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);

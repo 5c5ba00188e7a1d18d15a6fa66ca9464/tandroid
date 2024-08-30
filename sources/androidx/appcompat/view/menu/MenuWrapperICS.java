@@ -21,18 +21,8 @@ public class MenuWrapperICS extends BaseMenuWrapper implements Menu {
     }
 
     @Override // android.view.Menu
-    public MenuItem add(CharSequence charSequence) {
-        return getMenuItemWrapper(this.mWrappedObject.add(charSequence));
-    }
-
-    @Override // android.view.Menu
     public MenuItem add(int i) {
         return getMenuItemWrapper(this.mWrappedObject.add(i));
-    }
-
-    @Override // android.view.Menu
-    public MenuItem add(int i, int i2, int i3, CharSequence charSequence) {
-        return getMenuItemWrapper(this.mWrappedObject.add(i, i2, i3, charSequence));
     }
 
     @Override // android.view.Menu
@@ -41,23 +31,13 @@ public class MenuWrapperICS extends BaseMenuWrapper implements Menu {
     }
 
     @Override // android.view.Menu
-    public SubMenu addSubMenu(CharSequence charSequence) {
-        return getSubMenuWrapper(this.mWrappedObject.addSubMenu(charSequence));
+    public MenuItem add(int i, int i2, int i3, CharSequence charSequence) {
+        return getMenuItemWrapper(this.mWrappedObject.add(i, i2, i3, charSequence));
     }
 
     @Override // android.view.Menu
-    public SubMenu addSubMenu(int i) {
-        return getSubMenuWrapper(this.mWrappedObject.addSubMenu(i));
-    }
-
-    @Override // android.view.Menu
-    public SubMenu addSubMenu(int i, int i2, int i3, CharSequence charSequence) {
-        return getSubMenuWrapper(this.mWrappedObject.addSubMenu(i, i2, i3, charSequence));
-    }
-
-    @Override // android.view.Menu
-    public SubMenu addSubMenu(int i, int i2, int i3, int i4) {
-        return getSubMenuWrapper(this.mWrappedObject.addSubMenu(i, i2, i3, i4));
+    public MenuItem add(CharSequence charSequence) {
+        return getMenuItemWrapper(this.mWrappedObject.add(charSequence));
     }
 
     @Override // android.view.Menu
@@ -74,15 +54,23 @@ public class MenuWrapperICS extends BaseMenuWrapper implements Menu {
     }
 
     @Override // android.view.Menu
-    public void removeItem(int i) {
-        internalRemoveItem(i);
-        this.mWrappedObject.removeItem(i);
+    public SubMenu addSubMenu(int i) {
+        return getSubMenuWrapper(this.mWrappedObject.addSubMenu(i));
     }
 
     @Override // android.view.Menu
-    public void removeGroup(int i) {
-        internalRemoveGroup(i);
-        this.mWrappedObject.removeGroup(i);
+    public SubMenu addSubMenu(int i, int i2, int i3, int i4) {
+        return getSubMenuWrapper(this.mWrappedObject.addSubMenu(i, i2, i3, i4));
+    }
+
+    @Override // android.view.Menu
+    public SubMenu addSubMenu(int i, int i2, int i3, CharSequence charSequence) {
+        return getSubMenuWrapper(this.mWrappedObject.addSubMenu(i, i2, i3, charSequence));
+    }
+
+    @Override // android.view.Menu
+    public SubMenu addSubMenu(CharSequence charSequence) {
+        return getSubMenuWrapper(this.mWrappedObject.addSubMenu(charSequence));
     }
 
     @Override // android.view.Menu
@@ -92,23 +80,8 @@ public class MenuWrapperICS extends BaseMenuWrapper implements Menu {
     }
 
     @Override // android.view.Menu
-    public void setGroupCheckable(int i, boolean z, boolean z2) {
-        this.mWrappedObject.setGroupCheckable(i, z, z2);
-    }
-
-    @Override // android.view.Menu
-    public void setGroupVisible(int i, boolean z) {
-        this.mWrappedObject.setGroupVisible(i, z);
-    }
-
-    @Override // android.view.Menu
-    public void setGroupEnabled(int i, boolean z) {
-        this.mWrappedObject.setGroupEnabled(i, z);
-    }
-
-    @Override // android.view.Menu
-    public boolean hasVisibleItems() {
-        return this.mWrappedObject.hasVisibleItems();
+    public void close() {
+        this.mWrappedObject.close();
     }
 
     @Override // android.view.Menu
@@ -117,23 +90,13 @@ public class MenuWrapperICS extends BaseMenuWrapper implements Menu {
     }
 
     @Override // android.view.Menu
-    public int size() {
-        return this.mWrappedObject.size();
-    }
-
-    @Override // android.view.Menu
     public MenuItem getItem(int i) {
         return getMenuItemWrapper(this.mWrappedObject.getItem(i));
     }
 
     @Override // android.view.Menu
-    public void close() {
-        this.mWrappedObject.close();
-    }
-
-    @Override // android.view.Menu
-    public boolean performShortcut(int i, KeyEvent keyEvent, int i2) {
-        return this.mWrappedObject.performShortcut(i, keyEvent, i2);
+    public boolean hasVisibleItems() {
+        return this.mWrappedObject.hasVisibleItems();
     }
 
     @Override // android.view.Menu
@@ -147,7 +110,44 @@ public class MenuWrapperICS extends BaseMenuWrapper implements Menu {
     }
 
     @Override // android.view.Menu
+    public boolean performShortcut(int i, KeyEvent keyEvent, int i2) {
+        return this.mWrappedObject.performShortcut(i, keyEvent, i2);
+    }
+
+    @Override // android.view.Menu
+    public void removeGroup(int i) {
+        internalRemoveGroup(i);
+        this.mWrappedObject.removeGroup(i);
+    }
+
+    @Override // android.view.Menu
+    public void removeItem(int i) {
+        internalRemoveItem(i);
+        this.mWrappedObject.removeItem(i);
+    }
+
+    @Override // android.view.Menu
+    public void setGroupCheckable(int i, boolean z, boolean z2) {
+        this.mWrappedObject.setGroupCheckable(i, z, z2);
+    }
+
+    @Override // android.view.Menu
+    public void setGroupEnabled(int i, boolean z) {
+        this.mWrappedObject.setGroupEnabled(i, z);
+    }
+
+    @Override // android.view.Menu
+    public void setGroupVisible(int i, boolean z) {
+        this.mWrappedObject.setGroupVisible(i, z);
+    }
+
+    @Override // android.view.Menu
     public void setQwertyMode(boolean z) {
         this.mWrappedObject.setQwertyMode(z);
+    }
+
+    @Override // android.view.Menu
+    public int size() {
+        return this.mWrappedObject.size();
     }
 }

@@ -28,12 +28,7 @@ public class VideoFileRenderer implements VideoSink {
     private final FileOutputStream videoOutFile;
     private YuvConverter yuvConverter;
 
-    @Override // org.webrtc.VideoSink
-    public /* synthetic */ void setParentSink(VideoSink videoSink) {
-        VideoSink.-CC.$default$setParentSink(this, videoSink);
-    }
-
-    public VideoFileRenderer(String str, int i, int i2, final EglBase.Context context) throws IOException {
+    public VideoFileRenderer(String str, int i, int i2, final EglBase.Context context) {
         if (i % 2 == 1 || i2 % 2 == 1) {
             throw new IllegalArgumentException("Does not support uneven width or height");
         }
@@ -66,15 +61,36 @@ public class VideoFileRenderer implements VideoSink {
         });
     }
 
-    @Override // org.webrtc.VideoSink
-    public void onFrame(final VideoFrame videoFrame) {
-        videoFrame.retain();
-        this.renderThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                VideoFileRenderer.this.lambda$onFrame$0(videoFrame);
-            }
-        });
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$release$2(CountDownLatch countDownLatch) {
+        this.yuvConverter.release();
+        this.eglBase.release();
+        this.renderThread.quit();
+        countDownLatch.countDown();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$release$3() {
+        try {
+            this.videoOutFile.close();
+            Logging.d(TAG, "Video written to disk as " + this.outputFileName + ". The number of frames is " + this.frameCount + " and the dimensions of the frames are " + this.outputFileWidth + "x" + this.outputFileHeight + ".");
+            this.fileThread.quit();
+        } catch (IOException e) {
+            throw new RuntimeException("Error closing output file", e);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$renderFrameOnRenderThread$1(VideoFrame.I420Buffer i420Buffer, VideoFrame videoFrame) {
+        YuvHelper.I420Rotate(i420Buffer.getDataY(), i420Buffer.getStrideY(), i420Buffer.getDataU(), i420Buffer.getStrideU(), i420Buffer.getDataV(), i420Buffer.getStrideV(), this.outputFrameBuffer, i420Buffer.getWidth(), i420Buffer.getHeight(), videoFrame.getRotation());
+        i420Buffer.release();
+        try {
+            this.videoOutFile.write("FRAME\n".getBytes(Charset.forName("US-ASCII")));
+            this.videoOutFile.write(this.outputFrameBuffer.array(), this.outputFrameBuffer.arrayOffset(), this.outputFrameSize);
+            this.frameCount++;
+        } catch (IOException e) {
+            throw new RuntimeException("Error writing video to disk", e);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -104,17 +120,15 @@ public class VideoFileRenderer implements VideoSink {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$renderFrameOnRenderThread$1(VideoFrame.I420Buffer i420Buffer, VideoFrame videoFrame) {
-        YuvHelper.I420Rotate(i420Buffer.getDataY(), i420Buffer.getStrideY(), i420Buffer.getDataU(), i420Buffer.getStrideU(), i420Buffer.getDataV(), i420Buffer.getStrideV(), this.outputFrameBuffer, i420Buffer.getWidth(), i420Buffer.getHeight(), videoFrame.getRotation());
-        i420Buffer.release();
-        try {
-            this.videoOutFile.write("FRAME\n".getBytes(Charset.forName("US-ASCII")));
-            this.videoOutFile.write(this.outputFrameBuffer.array(), this.outputFrameBuffer.arrayOffset(), this.outputFrameSize);
-            this.frameCount++;
-        } catch (IOException e) {
-            throw new RuntimeException("Error writing video to disk", e);
-        }
+    @Override // org.webrtc.VideoSink
+    public void onFrame(final VideoFrame videoFrame) {
+        videoFrame.retain();
+        this.renderThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                VideoFileRenderer.this.lambda$onFrame$0(videoFrame);
+            }
+        });
     }
 
     public void release() {
@@ -140,22 +154,8 @@ public class VideoFileRenderer implements VideoSink {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$release$2(CountDownLatch countDownLatch) {
-        this.yuvConverter.release();
-        this.eglBase.release();
-        this.renderThread.quit();
-        countDownLatch.countDown();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$release$3() {
-        try {
-            this.videoOutFile.close();
-            Logging.d(TAG, "Video written to disk as " + this.outputFileName + ". The number of frames is " + this.frameCount + " and the dimensions of the frames are " + this.outputFileWidth + "x" + this.outputFileHeight + ".");
-            this.fileThread.quit();
-        } catch (IOException e) {
-            throw new RuntimeException("Error closing output file", e);
-        }
+    @Override // org.webrtc.VideoSink
+    public /* synthetic */ void setParentSink(VideoSink videoSink) {
+        VideoSink.-CC.$default$setParentSink(this, videoSink);
     }
 }

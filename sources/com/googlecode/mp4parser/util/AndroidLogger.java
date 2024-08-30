@@ -13,9 +13,4 @@ public class AndroidLogger extends Logger {
     public void logDebug(String str) {
         Log.d("isoparser", String.valueOf(this.name) + ":" + str);
     }
-
-    @Override // com.googlecode.mp4parser.util.Logger
-    public void logError(String str) {
-        Log.e("isoparser", String.valueOf(this.name) + ":" + str);
-    }
 }

@@ -20,56 +20,6 @@ final class ViewingConditions {
         DEFAULT = make(fArr, (float) ((yFromLStar * 63.66197723675813d) / 100.0d), 50.0f, 2.0f, false);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public float getAw() {
-        return this.mAw;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public float getN() {
-        return this.mN;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public float getNbb() {
-        return this.mNbb;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public float getNcb() {
-        return this.mNcb;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public float getC() {
-        return this.mC;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public float getNc() {
-        return this.mNc;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public float[] getRgbD() {
-        return this.mRgbD;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public float getFl() {
-        return this.mFl;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public float getFlRoot() {
-        return this.mFlRoot;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public float getZ() {
-        return this.mZ;
-    }
-
     private ViewingConditions(float f, float f2, float f3, float f4, float f5, float f6, float[] fArr, float f7, float f8, float f9) {
         this.mN = f;
         this.mAw = f2;
@@ -128,5 +78,55 @@ final class ViewingConditions {
         float f18 = fArr7[2];
         float[] fArr8 = {f15, f17, (400.0f * f18) / (f18 + 27.13f)};
         return new ViewingConditions(yFromLStar, ((fArr8[0] * 2.0f) + fArr8[1] + (fArr8[2] * 0.05f)) * pow, pow, pow, lerp, f10, fArr6, cbrt, (float) Math.pow(cbrt, 0.25d), sqrt);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public float getAw() {
+        return this.mAw;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public float getC() {
+        return this.mC;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public float getFl() {
+        return this.mFl;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public float getFlRoot() {
+        return this.mFlRoot;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public float getN() {
+        return this.mN;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public float getNbb() {
+        return this.mNbb;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public float getNc() {
+        return this.mNc;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public float getNcb() {
+        return this.mNcb;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public float[] getRgbD() {
+        return this.mRgbD;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public float getZ() {
+        return this.mZ;
     }
 }

@@ -1,5 +1,4 @@
 package com.google.android.gms.internal.vision;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 final class zzhw extends zzid {
     private final int zzc;
@@ -33,15 +32,15 @@ final class zzhw extends zzid {
         return this.zzb[this.zzc + i];
     }
 
+    @Override // com.google.android.gms.internal.vision.zzid, com.google.android.gms.internal.vision.zzht
+    public final int zza() {
+        return this.zzd;
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzid, com.google.android.gms.internal.vision.zzht
     public final byte zzb(int i) {
         return this.zzb[this.zzc + i];
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzid, com.google.android.gms.internal.vision.zzht
-    public final int zza() {
-        return this.zzd;
     }
 
     @Override // com.google.android.gms.internal.vision.zzid

@@ -6,9 +6,9 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.internal.clearcut.zzr;
 import com.google.android.gms.phenotype.ExperimentTokens;
 /* loaded from: classes.dex */
-public final class zzf implements Parcelable.Creator<zze> {
+public final class zzf implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ zze createFromParcel(Parcel parcel) {
+    public final /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         zzr zzrVar = null;
         byte[] bArr = null;
@@ -55,7 +55,7 @@ public final class zzf implements Parcelable.Creator<zze> {
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ zze[] newArray(int i) {
+    public final /* synthetic */ Object[] newArray(int i) {
         return new zze[i];
     }
 }

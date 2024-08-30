@@ -8,16 +8,27 @@ import java.util.Set;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class RestrictedComponentContainer extends AbstractComponentContainer {
-    private final Set<Class<?>> allowedDeferredInterfaces;
-    private final Set<Class<?>> allowedDirectInterfaces;
-    private final Set<Class<?>> allowedProviderInterfaces;
-    private final Set<Class<?>> allowedPublishedEvents;
-    private final Set<Class<?>> allowedSetDirectInterfaces;
-    private final Set<Class<?>> allowedSetProviderInterfaces;
+    private final Set allowedDeferredInterfaces;
+    private final Set allowedDirectInterfaces;
+    private final Set allowedProviderInterfaces;
+    private final Set allowedPublishedEvents;
+    private final Set allowedSetDirectInterfaces;
+    private final Set allowedSetProviderInterfaces;
     private final ComponentContainer delegateContainer;
 
+    /* loaded from: classes.dex */
+    private static class RestrictedPublisher implements Publisher {
+        private final Set allowedPublishedEvents;
+        private final Publisher delegate;
+
+        public RestrictedPublisher(Set set, Publisher publisher) {
+            this.allowedPublishedEvents = set;
+            this.delegate = publisher;
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
-    public RestrictedComponentContainer(Component<?> component, ComponentContainer componentContainer) {
+    public RestrictedComponentContainer(Component component, ComponentContainer componentContainer) {
         HashSet hashSet = new HashSet();
         HashSet hashSet2 = new HashSet();
         HashSet hashSet3 = new HashSet();
@@ -25,17 +36,23 @@ public final class RestrictedComponentContainer extends AbstractComponentContain
         HashSet hashSet5 = new HashSet();
         for (Dependency dependency : component.getDependencies()) {
             if (dependency.isDirectInjection()) {
-                if (dependency.isSet()) {
-                    hashSet4.add(dependency.getInterface());
+                boolean isSet = dependency.isSet();
+                Class cls = dependency.getInterface();
+                if (isSet) {
+                    hashSet4.add(cls);
                 } else {
-                    hashSet.add(dependency.getInterface());
+                    hashSet.add(cls);
                 }
             } else if (dependency.isDeferred()) {
                 hashSet3.add(dependency.getInterface());
-            } else if (dependency.isSet()) {
-                hashSet5.add(dependency.getInterface());
             } else {
-                hashSet2.add(dependency.getInterface());
+                boolean isSet2 = dependency.isSet();
+                Class cls2 = dependency.getInterface();
+                if (isSet2) {
+                    hashSet5.add(cls2);
+                } else {
+                    hashSet2.add(cls2);
+                }
             }
         }
         if (!component.getPublishedEvents().isEmpty()) {
@@ -51,46 +68,35 @@ public final class RestrictedComponentContainer extends AbstractComponentContain
     }
 
     @Override // com.google.firebase.components.AbstractComponentContainer, com.google.firebase.components.ComponentContainer
-    public <T> T get(Class<T> cls) {
-        if (!this.allowedDirectInterfaces.contains(cls)) {
-            throw new DependencyException(String.format("Attempting to request an undeclared dependency %s.", cls));
+    public Object get(Class cls) {
+        if (this.allowedDirectInterfaces.contains(cls)) {
+            Object obj = this.delegateContainer.get(cls);
+            return !cls.equals(Publisher.class) ? obj : new RestrictedPublisher(this.allowedPublishedEvents, (Publisher) obj);
         }
-        T t = (T) this.delegateContainer.get(cls);
-        return !cls.equals(Publisher.class) ? t : (T) new RestrictedPublisher(this.allowedPublishedEvents, (Publisher) t);
+        throw new DependencyException(String.format("Attempting to request an undeclared dependency %s.", cls));
     }
 
     @Override // com.google.firebase.components.ComponentContainer
-    public <T> Provider<T> getProvider(Class<T> cls) {
-        if (!this.allowedProviderInterfaces.contains(cls)) {
-            throw new DependencyException(String.format("Attempting to request an undeclared dependency Provider<%s>.", cls));
+    public Provider getProvider(Class cls) {
+        if (this.allowedProviderInterfaces.contains(cls)) {
+            return this.delegateContainer.getProvider(cls);
         }
-        return this.delegateContainer.getProvider(cls);
-    }
-
-    @Override // com.google.firebase.components.ComponentContainer
-    public <T> Provider<Set<T>> setOfProvider(Class<T> cls) {
-        if (!this.allowedSetProviderInterfaces.contains(cls)) {
-            throw new DependencyException(String.format("Attempting to request an undeclared dependency Provider<Set<%s>>.", cls));
-        }
-        return this.delegateContainer.setOfProvider(cls);
+        throw new DependencyException(String.format("Attempting to request an undeclared dependency Provider<%s>.", cls));
     }
 
     @Override // com.google.firebase.components.AbstractComponentContainer, com.google.firebase.components.ComponentContainer
-    public <T> Set<T> setOf(Class<T> cls) {
-        if (!this.allowedSetDirectInterfaces.contains(cls)) {
-            throw new DependencyException(String.format("Attempting to request an undeclared dependency Set<%s>.", cls));
+    public Set setOf(Class cls) {
+        if (this.allowedSetDirectInterfaces.contains(cls)) {
+            return this.delegateContainer.setOf(cls);
         }
-        return this.delegateContainer.setOf(cls);
+        throw new DependencyException(String.format("Attempting to request an undeclared dependency Set<%s>.", cls));
     }
 
-    /* loaded from: classes.dex */
-    private static class RestrictedPublisher implements Publisher {
-        private final Set<Class<?>> allowedPublishedEvents;
-        private final Publisher delegate;
-
-        public RestrictedPublisher(Set<Class<?>> set, Publisher publisher) {
-            this.allowedPublishedEvents = set;
-            this.delegate = publisher;
+    @Override // com.google.firebase.components.ComponentContainer
+    public Provider setOfProvider(Class cls) {
+        if (this.allowedSetProviderInterfaces.contains(cls)) {
+            return this.delegateContainer.setOfProvider(cls);
         }
+        throw new DependencyException(String.format("Attempting to request an undeclared dependency Provider<Set<%s>>.", cls));
     }
 }

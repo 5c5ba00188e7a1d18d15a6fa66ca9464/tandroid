@@ -16,21 +16,72 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-/* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
 /* loaded from: classes.dex */
 public abstract class CloudMessagingReceiver extends BroadcastReceiver {
     private final ExecutorService zza = com.google.android.gms.internal.cloudmessaging.zza.zza().zza(new NamedThreadFactory("firebase-iid-executor"), com.google.android.gms.internal.cloudmessaging.zzf.zza);
 
-    protected abstract int onMessageReceive(Context context, CloudMessage cloudMessage);
-
-    protected void onNotificationDismissed(Context context, Bundle bundle) {
+    private final int zza(Context context, Intent intent) {
+        PendingIntent pendingIntent = (PendingIntent) intent.getParcelableExtra("pending_intent");
+        if (pendingIntent != null) {
+            try {
+                pendingIntent.send();
+            } catch (PendingIntent.CanceledException unused) {
+                Log.e("CloudMessagingReceiver", "Notification pending intent canceled");
+            }
+        }
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            extras.remove("pending_intent");
+        } else {
+            extras = new Bundle();
+        }
+        if ("com.google.firebase.messaging.NOTIFICATION_OPEN".equals(intent.getAction())) {
+            onNotificationOpen(context, extras);
+            return -1;
+        } else if ("com.google.firebase.messaging.NOTIFICATION_DISMISS".equals(intent.getAction())) {
+            onNotificationDismissed(context, extras);
+            return -1;
+        } else {
+            Log.e("CloudMessagingReceiver", "Unknown notification action");
+            return 500;
+        }
     }
 
-    protected void onNotificationOpen(Context context, Bundle bundle) {
+    private final int zzb(Context context, Intent intent) {
+        Task zza;
+        if (intent.getExtras() == null) {
+            return 500;
+        }
+        String stringExtra = intent.getStringExtra("google.message_id");
+        if (TextUtils.isEmpty(stringExtra)) {
+            zza = Tasks.forResult(null);
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putString("google.message_id", stringExtra);
+            zza = zze.zza(context).zza(2, bundle);
+        }
+        int onMessageReceive = onMessageReceive(context, new CloudMessage(intent));
+        try {
+            Tasks.await(zza, TimeUnit.SECONDS.toMillis(1L), TimeUnit.MILLISECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            String valueOf = String.valueOf(e);
+            StringBuilder sb = new StringBuilder(valueOf.length() + 20);
+            sb.append("Message ack failed: ");
+            sb.append(valueOf);
+            Log.w("CloudMessagingReceiver", sb.toString());
+        }
+        return onMessageReceive;
     }
 
     protected Executor getBroadcastExecutor() {
         return this.zza;
+    }
+
+    protected abstract int onMessageReceive(Context context, CloudMessage cloudMessage);
+
+    protected abstract void onNotificationDismissed(Context context, Bundle bundle);
+
+    protected void onNotificationOpen(Context context, Bundle bundle) {
     }
 
     @Override // android.content.BroadcastReceiver
@@ -63,72 +114,14 @@ public abstract class CloudMessagingReceiver extends BroadcastReceiver {
         });
     }
 
-    private final int zza(Context context, Intent intent) {
-        PendingIntent pendingIntent = (PendingIntent) intent.getParcelableExtra("pending_intent");
-        if (pendingIntent != null) {
-            try {
-                pendingIntent.send();
-            } catch (PendingIntent.CanceledException unused) {
-                Log.e("CloudMessagingReceiver", "Notification pending intent canceled");
-            }
-        }
-        Bundle extras = intent.getExtras();
-        if (extras != null) {
-            extras.remove("pending_intent");
-        } else {
-            extras = new Bundle();
-        }
-        if ("com.google.firebase.messaging.NOTIFICATION_OPEN".equals(intent.getAction())) {
-            onNotificationOpen(context, extras);
-            return -1;
-        } else if (!"com.google.firebase.messaging.NOTIFICATION_DISMISS".equals(intent.getAction())) {
-            Log.e("CloudMessagingReceiver", "Unknown notification action");
-            return 500;
-        } else {
-            onNotificationDismissed(context, extras);
-            return -1;
-        }
-    }
-
-    private final int zzb(Context context, Intent intent) {
-        Task<Void> zza;
-        if (intent.getExtras() == null) {
-            return 500;
-        }
-        String stringExtra = intent.getStringExtra("google.message_id");
-        if (TextUtils.isEmpty(stringExtra)) {
-            zza = Tasks.forResult(null);
-        } else {
-            Bundle bundle = new Bundle();
-            bundle.putString("google.message_id", stringExtra);
-            zza = zze.zza(context).zza(2, bundle);
-        }
-        int onMessageReceive = onMessageReceive(context, new CloudMessage(intent));
-        try {
-            Tasks.await(zza, TimeUnit.SECONDS.toMillis(1L), TimeUnit.MILLISECONDS);
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            String valueOf = String.valueOf(e);
-            StringBuilder sb = new StringBuilder(valueOf.length() + 20);
-            sb.append("Message ack failed: ");
-            sb.append(valueOf);
-            Log.w("CloudMessagingReceiver", sb.toString());
-        }
-        return onMessageReceive;
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void zza(Intent intent, Context context, boolean z, BroadcastReceiver.PendingResult pendingResult) {
-        int zzb;
         try {
             Parcelable parcelableExtra = intent.getParcelableExtra("wrapped_intent");
             Intent intent2 = parcelableExtra instanceof Intent ? (Intent) parcelableExtra : null;
-            if (intent2 != null) {
-                zzb = zza(context, intent2);
-            } else {
-                zzb = zzb(context, intent);
-            }
+            int zza = intent2 != null ? zza(context, intent2) : zzb(context, intent);
             if (z) {
-                pendingResult.setResultCode(zzb);
+                pendingResult.setResultCode(zza);
             }
             pendingResult.finish();
         } catch (Throwable th) {

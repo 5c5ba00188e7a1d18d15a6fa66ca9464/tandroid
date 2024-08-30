@@ -3,11 +3,9 @@ package com.google.common.collect;
 import com.google.common.base.Preconditions;
 import java.util.NoSuchElementException;
 /* loaded from: classes.dex */
-abstract class AbstractIndexedListIterator<E> extends UnmodifiableListIterator<E> {
+abstract class AbstractIndexedListIterator extends UnmodifiableListIterator {
     private int position;
     private final int size;
-
-    protected abstract E get(int i);
 
     /* JADX INFO: Access modifiers changed from: protected */
     public AbstractIndexedListIterator(int i, int i2) {
@@ -16,19 +14,26 @@ abstract class AbstractIndexedListIterator<E> extends UnmodifiableListIterator<E
         this.position = i2;
     }
 
+    protected abstract Object get(int i);
+
     @Override // java.util.Iterator, java.util.ListIterator
     public final boolean hasNext() {
         return this.position < this.size;
     }
 
+    @Override // java.util.ListIterator
+    public final boolean hasPrevious() {
+        return this.position > 0;
+    }
+
     @Override // java.util.Iterator, java.util.ListIterator
-    public final E next() {
-        if (!hasNext()) {
-            throw new NoSuchElementException();
+    public final Object next() {
+        if (hasNext()) {
+            int i = this.position;
+            this.position = i + 1;
+            return get(i);
         }
-        int i = this.position;
-        this.position = i + 1;
-        return get(i);
+        throw new NoSuchElementException();
     }
 
     @Override // java.util.ListIterator
@@ -37,18 +42,13 @@ abstract class AbstractIndexedListIterator<E> extends UnmodifiableListIterator<E
     }
 
     @Override // java.util.ListIterator
-    public final boolean hasPrevious() {
-        return this.position > 0;
-    }
-
-    @Override // java.util.ListIterator
-    public final E previous() {
-        if (!hasPrevious()) {
-            throw new NoSuchElementException();
+    public final Object previous() {
+        if (hasPrevious()) {
+            int i = this.position - 1;
+            this.position = i;
+            return get(i);
         }
-        int i = this.position - 1;
-        this.position = i;
-        return get(i);
+        throw new NoSuchElementException();
     }
 
     @Override // java.util.ListIterator

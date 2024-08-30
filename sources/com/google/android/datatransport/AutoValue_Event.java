@@ -1,40 +1,21 @@
 package com.google.android.datatransport;
 /* loaded from: classes.dex */
-final class AutoValue_Event<T> extends Event<T> {
+final class AutoValue_Event extends Event {
     private final Integer code;
-    private final T payload;
+    private final Object payload;
     private final Priority priority;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public AutoValue_Event(Integer num, T t, Priority priority) {
+    public AutoValue_Event(Integer num, Object obj, Priority priority) {
         this.code = num;
-        if (t == null) {
+        if (obj == null) {
             throw new NullPointerException("Null payload");
         }
-        this.payload = t;
+        this.payload = obj;
         if (priority == null) {
             throw new NullPointerException("Null priority");
         }
         this.priority = priority;
-    }
-
-    @Override // com.google.android.datatransport.Event
-    public Integer getCode() {
-        return this.code;
-    }
-
-    @Override // com.google.android.datatransport.Event
-    public T getPayload() {
-        return this.payload;
-    }
-
-    @Override // com.google.android.datatransport.Event
-    public Priority getPriority() {
-        return this.priority;
-    }
-
-    public String toString() {
-        return "Event{code=" + this.code + ", payload=" + this.payload + ", priority=" + this.priority + "}";
     }
 
     public boolean equals(Object obj) {
@@ -54,8 +35,27 @@ final class AutoValue_Event<T> extends Event<T> {
         return false;
     }
 
+    @Override // com.google.android.datatransport.Event
+    public Integer getCode() {
+        return this.code;
+    }
+
+    @Override // com.google.android.datatransport.Event
+    public Object getPayload() {
+        return this.payload;
+    }
+
+    @Override // com.google.android.datatransport.Event
+    public Priority getPriority() {
+        return this.priority;
+    }
+
     public int hashCode() {
         Integer num = this.code;
         return (((((num == null ? 0 : num.hashCode()) ^ 1000003) * 1000003) ^ this.payload.hashCode()) * 1000003) ^ this.priority.hashCode();
+    }
+
+    public String toString() {
+        return "Event{code=" + this.code + ", payload=" + this.payload + ", priority=" + this.priority + "}";
     }
 }

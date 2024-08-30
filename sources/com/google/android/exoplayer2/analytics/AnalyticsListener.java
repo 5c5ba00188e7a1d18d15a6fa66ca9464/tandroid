@@ -17,7 +17,6 @@ import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.source.LoadEventInfo;
 import com.google.android.exoplayer2.source.MediaLoadData;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.text.Cue;
 import com.google.android.exoplayer2.text.CueGroup;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.FlagSet;
@@ -29,14 +28,13 @@ import java.util.List;
 public interface AnalyticsListener {
 
     /* loaded from: classes.dex */
-    public final /* synthetic */ class -CC {
+    public abstract /* synthetic */ class -CC {
         public static void $default$onAudioAttributesChanged(AnalyticsListener analyticsListener, EventTime eventTime, AudioAttributes audioAttributes) {
         }
 
         public static void $default$onAudioCodecError(AnalyticsListener analyticsListener, EventTime eventTime, Exception exc) {
         }
 
-        @Deprecated
         public static void $default$onAudioDecoderInitialized(AnalyticsListener analyticsListener, EventTime eventTime, String str, long j) {
         }
 
@@ -52,7 +50,6 @@ public interface AnalyticsListener {
         public static void $default$onAudioEnabled(AnalyticsListener analyticsListener, EventTime eventTime, DecoderCounters decoderCounters) {
         }
 
-        @Deprecated
         public static void $default$onAudioInputFormatChanged(AnalyticsListener analyticsListener, EventTime eventTime, Format format) {
         }
 
@@ -77,23 +74,18 @@ public interface AnalyticsListener {
         public static void $default$onCues(AnalyticsListener analyticsListener, EventTime eventTime, CueGroup cueGroup) {
         }
 
-        @Deprecated
         public static void $default$onCues(AnalyticsListener analyticsListener, EventTime eventTime, List list) {
         }
 
-        @Deprecated
         public static void $default$onDecoderDisabled(AnalyticsListener analyticsListener, EventTime eventTime, int i, DecoderCounters decoderCounters) {
         }
 
-        @Deprecated
         public static void $default$onDecoderEnabled(AnalyticsListener analyticsListener, EventTime eventTime, int i, DecoderCounters decoderCounters) {
         }
 
-        @Deprecated
         public static void $default$onDecoderInitialized(AnalyticsListener analyticsListener, EventTime eventTime, int i, String str, long j) {
         }
 
-        @Deprecated
         public static void $default$onDecoderInputFormatChanged(AnalyticsListener analyticsListener, EventTime eventTime, int i, Format format) {
         }
 
@@ -115,7 +107,6 @@ public interface AnalyticsListener {
         public static void $default$onDrmKeysRestored(AnalyticsListener analyticsListener, EventTime eventTime) {
         }
 
-        @Deprecated
         public static void $default$onDrmSessionAcquired(AnalyticsListener analyticsListener, EventTime eventTime) {
         }
 
@@ -152,7 +143,6 @@ public interface AnalyticsListener {
         public static void $default$onLoadStarted(AnalyticsListener analyticsListener, EventTime eventTime, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
         }
 
-        @Deprecated
         public static void $default$onLoadingChanged(AnalyticsListener analyticsListener, EventTime eventTime, boolean z) {
         }
 
@@ -186,11 +176,9 @@ public interface AnalyticsListener {
         public static void $default$onPlayerReleased(AnalyticsListener analyticsListener, EventTime eventTime) {
         }
 
-        @Deprecated
         public static void $default$onPlayerStateChanged(AnalyticsListener analyticsListener, EventTime eventTime, boolean z, int i) {
         }
 
-        @Deprecated
         public static void $default$onPositionDiscontinuity(AnalyticsListener analyticsListener, EventTime eventTime, int i) {
         }
 
@@ -203,11 +191,9 @@ public interface AnalyticsListener {
         public static void $default$onRepeatModeChanged(AnalyticsListener analyticsListener, EventTime eventTime, int i) {
         }
 
-        @Deprecated
         public static void $default$onSeekProcessed(AnalyticsListener analyticsListener, EventTime eventTime) {
         }
 
-        @Deprecated
         public static void $default$onSeekStarted(AnalyticsListener analyticsListener, EventTime eventTime) {
         }
 
@@ -229,7 +215,6 @@ public interface AnalyticsListener {
         public static void $default$onVideoCodecError(AnalyticsListener analyticsListener, EventTime eventTime, Exception exc) {
         }
 
-        @Deprecated
         public static void $default$onVideoDecoderInitialized(AnalyticsListener analyticsListener, EventTime eventTime, String str, long j) {
         }
 
@@ -248,14 +233,12 @@ public interface AnalyticsListener {
         public static void $default$onVideoFrameProcessingOffset(AnalyticsListener analyticsListener, EventTime eventTime, long j, int i) {
         }
 
-        @Deprecated
         public static void $default$onVideoInputFormatChanged(AnalyticsListener analyticsListener, EventTime eventTime, Format format) {
         }
 
         public static void $default$onVideoInputFormatChanged(AnalyticsListener analyticsListener, EventTime eventTime, Format format, DecoderReuseEvaluation decoderReuseEvaluation) {
         }
 
-        @Deprecated
         public static void $default$onVideoSizeChanged(AnalyticsListener analyticsListener, EventTime eventTime, int i, int i2, int i3, float f) {
         }
 
@@ -263,200 +246,6 @@ public interface AnalyticsListener {
         }
 
         public static void $default$onVolumeChanged(AnalyticsListener analyticsListener, EventTime eventTime, float f) {
-        }
-    }
-
-    void onAudioAttributesChanged(EventTime eventTime, AudioAttributes audioAttributes);
-
-    void onAudioCodecError(EventTime eventTime, Exception exc);
-
-    @Deprecated
-    void onAudioDecoderInitialized(EventTime eventTime, String str, long j);
-
-    void onAudioDecoderInitialized(EventTime eventTime, String str, long j, long j2);
-
-    void onAudioDecoderReleased(EventTime eventTime, String str);
-
-    void onAudioDisabled(EventTime eventTime, DecoderCounters decoderCounters);
-
-    void onAudioEnabled(EventTime eventTime, DecoderCounters decoderCounters);
-
-    @Deprecated
-    void onAudioInputFormatChanged(EventTime eventTime, Format format);
-
-    void onAudioInputFormatChanged(EventTime eventTime, Format format, DecoderReuseEvaluation decoderReuseEvaluation);
-
-    void onAudioPositionAdvancing(EventTime eventTime, long j);
-
-    void onAudioSinkError(EventTime eventTime, Exception exc);
-
-    void onAudioUnderrun(EventTime eventTime, int i, long j, long j2);
-
-    void onAvailableCommandsChanged(EventTime eventTime, Player.Commands commands);
-
-    void onBandwidthEstimate(EventTime eventTime, int i, long j, long j2);
-
-    void onCues(EventTime eventTime, CueGroup cueGroup);
-
-    @Deprecated
-    void onCues(EventTime eventTime, List<Cue> list);
-
-    @Deprecated
-    void onDecoderDisabled(EventTime eventTime, int i, DecoderCounters decoderCounters);
-
-    @Deprecated
-    void onDecoderEnabled(EventTime eventTime, int i, DecoderCounters decoderCounters);
-
-    @Deprecated
-    void onDecoderInitialized(EventTime eventTime, int i, String str, long j);
-
-    @Deprecated
-    void onDecoderInputFormatChanged(EventTime eventTime, int i, Format format);
-
-    void onDeviceInfoChanged(EventTime eventTime, DeviceInfo deviceInfo);
-
-    void onDeviceVolumeChanged(EventTime eventTime, int i, boolean z);
-
-    void onDownstreamFormatChanged(EventTime eventTime, MediaLoadData mediaLoadData);
-
-    void onDrmKeysLoaded(EventTime eventTime);
-
-    void onDrmKeysRemoved(EventTime eventTime);
-
-    void onDrmKeysRestored(EventTime eventTime);
-
-    @Deprecated
-    void onDrmSessionAcquired(EventTime eventTime);
-
-    void onDrmSessionAcquired(EventTime eventTime, int i);
-
-    void onDrmSessionManagerError(EventTime eventTime, Exception exc);
-
-    void onDrmSessionReleased(EventTime eventTime);
-
-    void onDroppedVideoFrames(EventTime eventTime, int i, long j);
-
-    void onEvents(Player player, Events events);
-
-    void onIsLoadingChanged(EventTime eventTime, boolean z);
-
-    void onIsPlayingChanged(EventTime eventTime, boolean z);
-
-    void onLoadCanceled(EventTime eventTime, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData);
-
-    void onLoadCompleted(EventTime eventTime, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData);
-
-    void onLoadError(EventTime eventTime, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData, IOException iOException, boolean z);
-
-    void onLoadStarted(EventTime eventTime, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData);
-
-    @Deprecated
-    void onLoadingChanged(EventTime eventTime, boolean z);
-
-    void onMediaItemTransition(EventTime eventTime, MediaItem mediaItem, int i);
-
-    void onMediaMetadataChanged(EventTime eventTime, MediaMetadata mediaMetadata);
-
-    void onMetadata(EventTime eventTime, Metadata metadata);
-
-    void onPlayWhenReadyChanged(EventTime eventTime, boolean z, int i);
-
-    void onPlaybackParametersChanged(EventTime eventTime, PlaybackParameters playbackParameters);
-
-    void onPlaybackStateChanged(EventTime eventTime, int i);
-
-    void onPlaybackSuppressionReasonChanged(EventTime eventTime, int i);
-
-    void onPlayerError(EventTime eventTime, PlaybackException playbackException);
-
-    void onPlayerErrorChanged(EventTime eventTime, PlaybackException playbackException);
-
-    void onPlayerReleased(EventTime eventTime);
-
-    @Deprecated
-    void onPlayerStateChanged(EventTime eventTime, boolean z, int i);
-
-    @Deprecated
-    void onPositionDiscontinuity(EventTime eventTime, int i);
-
-    void onPositionDiscontinuity(EventTime eventTime, Player.PositionInfo positionInfo, Player.PositionInfo positionInfo2, int i);
-
-    void onRenderedFirstFrame(EventTime eventTime, Object obj, long j);
-
-    void onRepeatModeChanged(EventTime eventTime, int i);
-
-    @Deprecated
-    void onSeekProcessed(EventTime eventTime);
-
-    @Deprecated
-    void onSeekStarted(EventTime eventTime);
-
-    void onSkipSilenceEnabledChanged(EventTime eventTime, boolean z);
-
-    void onSurfaceSizeChanged(EventTime eventTime, int i, int i2);
-
-    void onTimelineChanged(EventTime eventTime, int i);
-
-    void onTracksChanged(EventTime eventTime, Tracks tracks);
-
-    void onUpstreamDiscarded(EventTime eventTime, MediaLoadData mediaLoadData);
-
-    void onVideoCodecError(EventTime eventTime, Exception exc);
-
-    @Deprecated
-    void onVideoDecoderInitialized(EventTime eventTime, String str, long j);
-
-    void onVideoDecoderInitialized(EventTime eventTime, String str, long j, long j2);
-
-    void onVideoDecoderReleased(EventTime eventTime, String str);
-
-    void onVideoDisabled(EventTime eventTime, DecoderCounters decoderCounters);
-
-    void onVideoEnabled(EventTime eventTime, DecoderCounters decoderCounters);
-
-    void onVideoFrameProcessingOffset(EventTime eventTime, long j, int i);
-
-    @Deprecated
-    void onVideoInputFormatChanged(EventTime eventTime, Format format);
-
-    void onVideoInputFormatChanged(EventTime eventTime, Format format, DecoderReuseEvaluation decoderReuseEvaluation);
-
-    @Deprecated
-    void onVideoSizeChanged(EventTime eventTime, int i, int i2, int i3, float f);
-
-    void onVideoSizeChanged(EventTime eventTime, VideoSize videoSize);
-
-    void onVolumeChanged(EventTime eventTime, float f);
-
-    /* loaded from: classes.dex */
-    public static final class Events {
-        private final SparseArray<EventTime> eventTimes;
-        private final FlagSet flags;
-
-        public Events(FlagSet flagSet, SparseArray<EventTime> sparseArray) {
-            this.flags = flagSet;
-            SparseArray<EventTime> sparseArray2 = new SparseArray<>(flagSet.size());
-            for (int i = 0; i < flagSet.size(); i++) {
-                int i2 = flagSet.get(i);
-                sparseArray2.append(i2, (EventTime) Assertions.checkNotNull(sparseArray.get(i2)));
-            }
-            this.eventTimes = sparseArray2;
-        }
-
-        public EventTime getEventTime(int i) {
-            return (EventTime) Assertions.checkNotNull(this.eventTimes.get(i));
-        }
-
-        public boolean contains(int i) {
-            return this.flags.contains(i);
-        }
-
-        public int size() {
-            return this.flags.size();
-        }
-
-        public int get(int i) {
-            return this.flags.get(i);
         }
     }
 
@@ -501,4 +290,182 @@ public interface AnalyticsListener {
             return Objects.hashCode(Long.valueOf(this.realtimeMs), this.timeline, Integer.valueOf(this.windowIndex), this.mediaPeriodId, Long.valueOf(this.eventPlaybackPositionMs), this.currentTimeline, Integer.valueOf(this.currentWindowIndex), this.currentMediaPeriodId, Long.valueOf(this.currentPlaybackPositionMs), Long.valueOf(this.totalBufferedDurationMs));
         }
     }
+
+    /* loaded from: classes.dex */
+    public static final class Events {
+        private final SparseArray eventTimes;
+        private final FlagSet flags;
+
+        public Events(FlagSet flagSet, SparseArray sparseArray) {
+            this.flags = flagSet;
+            SparseArray sparseArray2 = new SparseArray(flagSet.size());
+            for (int i = 0; i < flagSet.size(); i++) {
+                int i2 = flagSet.get(i);
+                sparseArray2.append(i2, (EventTime) Assertions.checkNotNull((EventTime) sparseArray.get(i2)));
+            }
+            this.eventTimes = sparseArray2;
+        }
+
+        public boolean contains(int i) {
+            return this.flags.contains(i);
+        }
+
+        public int get(int i) {
+            return this.flags.get(i);
+        }
+
+        public EventTime getEventTime(int i) {
+            return (EventTime) Assertions.checkNotNull((EventTime) this.eventTimes.get(i));
+        }
+
+        public int size() {
+            return this.flags.size();
+        }
+    }
+
+    void onAudioAttributesChanged(EventTime eventTime, AudioAttributes audioAttributes);
+
+    void onAudioCodecError(EventTime eventTime, Exception exc);
+
+    void onAudioDecoderInitialized(EventTime eventTime, String str, long j);
+
+    void onAudioDecoderInitialized(EventTime eventTime, String str, long j, long j2);
+
+    void onAudioDecoderReleased(EventTime eventTime, String str);
+
+    void onAudioDisabled(EventTime eventTime, DecoderCounters decoderCounters);
+
+    void onAudioEnabled(EventTime eventTime, DecoderCounters decoderCounters);
+
+    void onAudioInputFormatChanged(EventTime eventTime, Format format);
+
+    void onAudioInputFormatChanged(EventTime eventTime, Format format, DecoderReuseEvaluation decoderReuseEvaluation);
+
+    void onAudioPositionAdvancing(EventTime eventTime, long j);
+
+    void onAudioSinkError(EventTime eventTime, Exception exc);
+
+    void onAudioUnderrun(EventTime eventTime, int i, long j, long j2);
+
+    void onAvailableCommandsChanged(EventTime eventTime, Player.Commands commands);
+
+    void onBandwidthEstimate(EventTime eventTime, int i, long j, long j2);
+
+    void onCues(EventTime eventTime, CueGroup cueGroup);
+
+    void onCues(EventTime eventTime, List list);
+
+    void onDecoderDisabled(EventTime eventTime, int i, DecoderCounters decoderCounters);
+
+    void onDecoderEnabled(EventTime eventTime, int i, DecoderCounters decoderCounters);
+
+    void onDecoderInitialized(EventTime eventTime, int i, String str, long j);
+
+    void onDecoderInputFormatChanged(EventTime eventTime, int i, Format format);
+
+    void onDeviceInfoChanged(EventTime eventTime, DeviceInfo deviceInfo);
+
+    void onDeviceVolumeChanged(EventTime eventTime, int i, boolean z);
+
+    void onDownstreamFormatChanged(EventTime eventTime, MediaLoadData mediaLoadData);
+
+    void onDrmKeysLoaded(EventTime eventTime);
+
+    void onDrmKeysRemoved(EventTime eventTime);
+
+    void onDrmKeysRestored(EventTime eventTime);
+
+    void onDrmSessionAcquired(EventTime eventTime);
+
+    void onDrmSessionAcquired(EventTime eventTime, int i);
+
+    void onDrmSessionManagerError(EventTime eventTime, Exception exc);
+
+    void onDrmSessionReleased(EventTime eventTime);
+
+    void onDroppedVideoFrames(EventTime eventTime, int i, long j);
+
+    void onEvents(Player player, Events events);
+
+    void onIsLoadingChanged(EventTime eventTime, boolean z);
+
+    void onIsPlayingChanged(EventTime eventTime, boolean z);
+
+    void onLoadCanceled(EventTime eventTime, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData);
+
+    void onLoadCompleted(EventTime eventTime, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData);
+
+    void onLoadError(EventTime eventTime, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData, IOException iOException, boolean z);
+
+    void onLoadStarted(EventTime eventTime, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData);
+
+    void onLoadingChanged(EventTime eventTime, boolean z);
+
+    void onMediaItemTransition(EventTime eventTime, MediaItem mediaItem, int i);
+
+    void onMediaMetadataChanged(EventTime eventTime, MediaMetadata mediaMetadata);
+
+    void onMetadata(EventTime eventTime, Metadata metadata);
+
+    void onPlayWhenReadyChanged(EventTime eventTime, boolean z, int i);
+
+    void onPlaybackParametersChanged(EventTime eventTime, PlaybackParameters playbackParameters);
+
+    void onPlaybackStateChanged(EventTime eventTime, int i);
+
+    void onPlaybackSuppressionReasonChanged(EventTime eventTime, int i);
+
+    void onPlayerError(EventTime eventTime, PlaybackException playbackException);
+
+    void onPlayerErrorChanged(EventTime eventTime, PlaybackException playbackException);
+
+    void onPlayerReleased(EventTime eventTime);
+
+    void onPlayerStateChanged(EventTime eventTime, boolean z, int i);
+
+    void onPositionDiscontinuity(EventTime eventTime, int i);
+
+    void onPositionDiscontinuity(EventTime eventTime, Player.PositionInfo positionInfo, Player.PositionInfo positionInfo2, int i);
+
+    void onRenderedFirstFrame(EventTime eventTime, Object obj, long j);
+
+    void onRepeatModeChanged(EventTime eventTime, int i);
+
+    void onSeekProcessed(EventTime eventTime);
+
+    void onSeekStarted(EventTime eventTime);
+
+    void onSkipSilenceEnabledChanged(EventTime eventTime, boolean z);
+
+    void onSurfaceSizeChanged(EventTime eventTime, int i, int i2);
+
+    void onTimelineChanged(EventTime eventTime, int i);
+
+    void onTracksChanged(EventTime eventTime, Tracks tracks);
+
+    void onUpstreamDiscarded(EventTime eventTime, MediaLoadData mediaLoadData);
+
+    void onVideoCodecError(EventTime eventTime, Exception exc);
+
+    void onVideoDecoderInitialized(EventTime eventTime, String str, long j);
+
+    void onVideoDecoderInitialized(EventTime eventTime, String str, long j, long j2);
+
+    void onVideoDecoderReleased(EventTime eventTime, String str);
+
+    void onVideoDisabled(EventTime eventTime, DecoderCounters decoderCounters);
+
+    void onVideoEnabled(EventTime eventTime, DecoderCounters decoderCounters);
+
+    void onVideoFrameProcessingOffset(EventTime eventTime, long j, int i);
+
+    void onVideoInputFormatChanged(EventTime eventTime, Format format);
+
+    void onVideoInputFormatChanged(EventTime eventTime, Format format, DecoderReuseEvaluation decoderReuseEvaluation);
+
+    void onVideoSizeChanged(EventTime eventTime, int i, int i2, int i3, float f);
+
+    void onVideoSizeChanged(EventTime eventTime, VideoSize videoSize);
+
+    void onVolumeChanged(EventTime eventTime, float f);
 }

@@ -5,7 +5,6 @@ import java.io.Closeable;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-/* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public class zzlx implements Closeable {
     private static final Map zza = new HashMap();
@@ -43,6 +42,15 @@ public class zzlx implements Closeable {
             map.put("detectorTaskWithResource#run", new zzlx("detectorTaskWithResource#run"));
         }
         return (zzlx) map.get("detectorTaskWithResource#run");
+    }
+
+    @Override // java.io.Closeable, java.lang.AutoCloseable
+    public void close() {
+        long j = this.zze;
+        if (j == 0) {
+            throw new IllegalStateException("Did you forget to call start()?");
+        }
+        zzd(j);
     }
 
     public zzlx zzb() {
@@ -84,15 +92,5 @@ public class zzlx implements Closeable {
 
     public void zzd(long j) {
         zzc((SystemClock.elapsedRealtimeNanos() / 1000) - j);
-    }
-
-    @Override // java.io.Closeable, java.lang.AutoCloseable
-    public void close() {
-        long j = this.zze;
-        if (j != 0) {
-            zzd(j);
-            return;
-        }
-        throw new IllegalStateException("Did you forget to call start()?");
     }
 }

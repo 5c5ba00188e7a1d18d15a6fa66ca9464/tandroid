@@ -3,7 +3,6 @@ package com.google.android.gms.maps.model;
 import android.os.RemoteException;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.internal.maps.zzl;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class Circle {
     private final zzl zza;
@@ -47,6 +46,15 @@ public final class Circle {
         }
     }
 
+    public void setCenter(LatLng latLng) {
+        try {
+            Preconditions.checkNotNull(latLng, "center must not be null.");
+            this.zza.zzo(latLng);
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
+    }
+
     public void setFillColor(int i) {
         try {
             this.zza.zzq(i);
@@ -66,15 +74,6 @@ public final class Circle {
     public void setStrokeColor(int i) {
         try {
             this.zza.zzs(i);
-        } catch (RemoteException e) {
-            throw new RuntimeRemoteException(e);
-        }
-    }
-
-    public void setCenter(LatLng latLng) {
-        try {
-            Preconditions.checkNotNull(latLng, "center must not be null.");
-            this.zza.zzo(latLng);
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }

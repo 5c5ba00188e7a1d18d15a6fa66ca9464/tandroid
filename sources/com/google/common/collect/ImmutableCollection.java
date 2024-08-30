@@ -7,134 +7,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
-public abstract class ImmutableCollection<E> extends AbstractCollection<E> implements Serializable {
+public abstract class ImmutableCollection extends AbstractCollection implements Serializable {
     private static final Object[] EMPTY_ARRAY = new Object[0];
 
-    @Override // java.util.AbstractCollection, java.util.Collection
-    public abstract boolean contains(Object obj);
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Object[] internalArray() {
-        return null;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract boolean isPartialView();
-
-    @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
-    public abstract UnmodifiableIterator<E> iterator();
-
-    @Override // java.util.AbstractCollection, java.util.Collection
-    public final Object[] toArray() {
-        return toArray(EMPTY_ARRAY);
-    }
-
-    @Override // java.util.AbstractCollection, java.util.Collection
-    public final <T> T[] toArray(T[] tArr) {
-        Preconditions.checkNotNull(tArr);
-        int size = size();
-        if (tArr.length < size) {
-            Object[] internalArray = internalArray();
-            if (internalArray != null) {
-                return (T[]) Platform.copy(internalArray, internalArrayStart(), internalArrayEnd(), tArr);
-            }
-            tArr = (T[]) ObjectArrays.newArray(tArr, size);
-        } else if (tArr.length > size) {
-            tArr[size] = null;
-        }
-        copyIntoArray(tArr, 0);
-        return tArr;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int internalArrayStart() {
-        throw new UnsupportedOperationException();
-    }
-
-    int internalArrayEnd() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override // java.util.AbstractCollection, java.util.Collection
-    @Deprecated
-    public final boolean add(E e) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override // java.util.AbstractCollection, java.util.Collection
-    @Deprecated
-    public final boolean remove(Object obj) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override // java.util.AbstractCollection, java.util.Collection
-    @Deprecated
-    public final boolean addAll(Collection<? extends E> collection) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override // java.util.AbstractCollection, java.util.Collection
-    @Deprecated
-    public final boolean removeAll(Collection<?> collection) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override // java.util.AbstractCollection, java.util.Collection
-    @Deprecated
-    public final boolean retainAll(Collection<?> collection) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override // java.util.AbstractCollection, java.util.Collection
-    @Deprecated
-    public final void clear() {
-        throw new UnsupportedOperationException();
-    }
-
-    public ImmutableList<E> asList() {
-        return isEmpty() ? ImmutableList.of() : ImmutableList.asImmutableList(toArray());
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int copyIntoArray(Object[] objArr, int i) {
-        UnmodifiableIterator<E> it = iterator();
-        while (it.hasNext()) {
-            objArr[i] = it.next();
-            i++;
-        }
-        return i;
-    }
-
-    /* loaded from: classes.dex */
-    public static abstract class Builder<E> {
-        public abstract Builder<E> add(E e);
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public static int expandedCapacity(int i, int i2) {
-            if (i2 >= 0) {
-                int i3 = i + (i >> 1) + 1;
-                if (i3 < i2) {
-                    i3 = Integer.highestOneBit(i2 - 1) << 1;
-                }
-                return i3 < 0 ? ConnectionsManager.DEFAULT_DATACENTER_ID : i3;
-            }
-            throw new AssertionError("cannot store more than MAX_VALUE elements");
-        }
-
-        Builder() {
-        }
-
-        public Builder<E> addAll(Iterable<? extends E> iterable) {
-            for (E e : iterable) {
-                add(e);
-            }
-            return this;
-        }
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static abstract class ArrayBasedBuilder<E> extends Builder<E> {
+    public static abstract class ArrayBasedBuilder extends Builder {
         Object[] contents;
         boolean forceCopy;
         int size;
@@ -150,26 +28,27 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
             Object[] objArr = this.contents;
             if (objArr.length < i) {
                 this.contents = Arrays.copyOf(objArr, Builder.expandedCapacity(objArr.length, i));
-                this.forceCopy = false;
-            } else if (this.forceCopy) {
+            } else if (!this.forceCopy) {
+                return;
+            } else {
                 this.contents = (Object[]) objArr.clone();
-                this.forceCopy = false;
             }
+            this.forceCopy = false;
         }
 
         @Override // com.google.common.collect.ImmutableCollection.Builder
-        public ArrayBasedBuilder<E> add(E e) {
-            Preconditions.checkNotNull(e);
+        public ArrayBasedBuilder add(Object obj) {
+            Preconditions.checkNotNull(obj);
             getReadyToExpandTo(this.size + 1);
             Object[] objArr = this.contents;
             int i = this.size;
             this.size = i + 1;
-            objArr[i] = e;
+            objArr[i] = obj;
             return this;
         }
 
         @Override // com.google.common.collect.ImmutableCollection.Builder
-        public Builder<E> addAll(Iterable<? extends E> iterable) {
+        public Builder addAll(Iterable iterable) {
             if (iterable instanceof Collection) {
                 Collection collection = (Collection) iterable;
                 getReadyToExpandTo(this.size + collection.size());
@@ -181,5 +60,108 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
             super.addAll(iterable);
             return this;
         }
+    }
+
+    /* loaded from: classes.dex */
+    public static abstract class Builder {
+        Builder() {
+        }
+
+        /* JADX INFO: Access modifiers changed from: package-private */
+        public static int expandedCapacity(int i, int i2) {
+            if (i2 >= 0) {
+                int i3 = i + (i >> 1) + 1;
+                if (i3 < i2) {
+                    i3 = Integer.highestOneBit(i2 - 1) << 1;
+                }
+                return i3 < 0 ? ConnectionsManager.DEFAULT_DATACENTER_ID : i3;
+            }
+            throw new AssertionError("cannot store more than MAX_VALUE elements");
+        }
+
+        public abstract Builder add(Object obj);
+
+        public Builder addAll(Iterable iterable) {
+            for (Object obj : iterable) {
+                add(obj);
+            }
+            return this;
+        }
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection
+    public final boolean add(Object obj) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection
+    public final boolean addAll(Collection collection) {
+        throw new UnsupportedOperationException();
+    }
+
+    public abstract ImmutableList asList();
+
+    @Override // java.util.AbstractCollection, java.util.Collection
+    public final void clear() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection
+    public abstract boolean contains(Object obj);
+
+    abstract int copyIntoArray(Object[] objArr, int i);
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public Object[] internalArray() {
+        return null;
+    }
+
+    int internalArrayEnd() {
+        throw new UnsupportedOperationException();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public int internalArrayStart() {
+        throw new UnsupportedOperationException();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public abstract boolean isPartialView();
+
+    @Override // java.util.AbstractCollection, java.util.Collection
+    public final boolean remove(Object obj) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection
+    public final boolean removeAll(Collection collection) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection
+    public final boolean retainAll(Collection collection) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection
+    public final Object[] toArray() {
+        return toArray(EMPTY_ARRAY);
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection
+    public final Object[] toArray(Object[] objArr) {
+        Preconditions.checkNotNull(objArr);
+        int size = size();
+        if (objArr.length < size) {
+            Object[] internalArray = internalArray();
+            if (internalArray != null) {
+                return Platform.copy(internalArray, internalArrayStart(), internalArrayEnd(), objArr);
+            }
+            objArr = ObjectArrays.newArray(objArr, size);
+        } else if (objArr.length > size) {
+            objArr[size] = null;
+        }
+        copyIntoArray(objArr, 0);
+        return objArr;
     }
 }

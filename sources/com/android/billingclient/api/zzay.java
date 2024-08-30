@@ -10,7 +10,6 @@ import com.google.android.datatransport.runtime.TransportRuntime;
 import com.google.android.gms.internal.play_billing.zzb;
 import com.google.android.gms.internal.play_billing.zzfz;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzay {
     private boolean zza;
@@ -32,14 +31,17 @@ public final class zzay {
     }
 
     public final void zza(zzfz zzfzVar) {
+        String str;
         if (this.zza) {
-            zzb.zzj("BillingLogger", "Skipping logging since initialization failed.");
-            return;
+            str = "Skipping logging since initialization failed.";
+        } else {
+            try {
+                this.zzb.send(Event.ofData(zzfzVar));
+                return;
+            } catch (Throwable unused) {
+                str = "logging failed.";
+            }
         }
-        try {
-            this.zzb.send(Event.ofData(zzfzVar));
-        } catch (Throwable unused) {
-            zzb.zzj("BillingLogger", "logging failed.");
-        }
+        zzb.zzj("BillingLogger", str);
     }
 }

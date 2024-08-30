@@ -3,11 +3,9 @@ package com.google.android.gms.common.api.internal;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Keep;
 import com.google.android.gms.common.internal.Preconditions;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class LifecycleCallback {
     protected final LifecycleFragment mLifecycleFragment;
@@ -17,13 +15,23 @@ public class LifecycleCallback {
         this.mLifecycleFragment = lifecycleFragment;
     }
 
-    @Keep
     private static LifecycleFragment getChimeraLifecycleFragmentImpl(LifecycleActivity lifecycleActivity) {
         throw new IllegalStateException("Method not available in SDK.");
     }
 
     public static LifecycleFragment getFragment(Activity activity) {
         return getFragment(new LifecycleActivity(activity));
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public static LifecycleFragment getFragment(LifecycleActivity lifecycleActivity) {
+        if (lifecycleActivity.zzd()) {
+            return zzd.zzc(lifecycleActivity.zzb());
+        }
+        if (lifecycleActivity.zzc()) {
+            return zzb.zzc(lifecycleActivity.zza());
+        }
+        throw new IllegalArgumentException("Can't get fragment for unexpected activity.");
     }
 
     public void dump(String str, FileDescriptor fileDescriptor, PrintWriter printWriter, String[] strArr) {
@@ -54,16 +62,5 @@ public class LifecycleCallback {
     }
 
     public void onStop() {
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static LifecycleFragment getFragment(LifecycleActivity lifecycleActivity) {
-        if (lifecycleActivity.zzd()) {
-            return zzd.zzc(lifecycleActivity.zzb());
-        }
-        if (lifecycleActivity.zzc()) {
-            return zzb.zzc(lifecycleActivity.zza());
-        }
-        throw new IllegalArgumentException("Can't get fragment for unexpected activity.");
     }
 }

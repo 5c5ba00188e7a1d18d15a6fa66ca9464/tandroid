@@ -15,12 +15,6 @@ import com.google.android.exoplayer2.text.webvtt.WebvttDecoder;
 public interface SubtitleDecoderFactory {
     public static final SubtitleDecoderFactory DEFAULT = new SubtitleDecoderFactory() { // from class: com.google.android.exoplayer2.text.SubtitleDecoderFactory.1
         @Override // com.google.android.exoplayer2.text.SubtitleDecoderFactory
-        public boolean supportsFormat(Format format) {
-            String str = format.sampleMimeType;
-            return "text/vtt".equals(str) || "text/x-ssa".equals(str) || "application/ttml+xml".equals(str) || "application/x-mp4-vtt".equals(str) || "application/x-subrip".equals(str) || "application/x-quicktime-tx3g".equals(str) || "application/cea-608".equals(str) || "application/x-mp4-cea-608".equals(str) || "application/cea-708".equals(str) || "application/dvbsubs".equals(str) || "application/pgs".equals(str) || "text/x-exoplayer-cues".equals(str);
-        }
-
-        @Override // com.google.android.exoplayer2.text.SubtitleDecoderFactory
         public SubtitleDecoder createDecoder(Format format) {
             String str = format.sampleMimeType;
             if (str != null) {
@@ -126,6 +120,12 @@ public interface SubtitleDecoderFactory {
                 }
             }
             throw new IllegalArgumentException("Attempted to create decoder for unsupported MIME type: " + str);
+        }
+
+        @Override // com.google.android.exoplayer2.text.SubtitleDecoderFactory
+        public boolean supportsFormat(Format format) {
+            String str = format.sampleMimeType;
+            return "text/vtt".equals(str) || "text/x-ssa".equals(str) || "application/ttml+xml".equals(str) || "application/x-mp4-vtt".equals(str) || "application/x-subrip".equals(str) || "application/x-quicktime-tx3g".equals(str) || "application/cea-608".equals(str) || "application/x-mp4-cea-608".equals(str) || "application/cea-708".equals(str) || "application/dvbsubs".equals(str) || "application/pgs".equals(str) || "text/x-exoplayer-cues".equals(str);
         }
     };
 

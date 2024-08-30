@@ -4,7 +4,6 @@ import com.google.mlkit.common.sdkinternal.Cleaner;
 import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
 import java.util.Set;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 final class zzd extends PhantomReference implements Cleaner.Cleanable {
     private final Set zza;

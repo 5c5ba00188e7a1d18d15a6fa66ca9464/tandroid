@@ -1,5 +1,4 @@
 package com.google.android.gms.internal.play_billing;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzfb extends zzcb implements zzdg {
     private static final zzfb zzb;
@@ -29,7 +28,7 @@ public final class zzfb extends zzcb implements zzdg {
         return (zzfa) zzb.zzg();
     }
 
-    public static zzfb zzx(byte[] bArr, zzbn zzbnVar) throws zzci {
+    public static zzfb zzx(byte[] bArr, zzbn zzbnVar) {
         return (zzfb) zzcb.zzj(zzb, bArr, zzbnVar);
     }
 

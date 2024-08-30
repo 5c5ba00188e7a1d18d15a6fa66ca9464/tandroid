@@ -29,7 +29,33 @@ public final class AssetDataSource extends BaseDataSource {
     }
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
-    public long open(DataSpec dataSpec) throws AssetDataSourceException {
+    public void close() {
+        this.uri = null;
+        try {
+            try {
+                InputStream inputStream = this.inputStream;
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (IOException e) {
+                throw new AssetDataSourceException(e, 2000);
+            }
+        } finally {
+            this.inputStream = null;
+            if (this.opened) {
+                this.opened = false;
+                transferEnded();
+            }
+        }
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.DataSource
+    public Uri getUri() {
+        return this.uri;
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.DataSource
+    public long open(DataSpec dataSpec) {
         try {
             Uri uri = dataSpec.uri;
             this.uri = uri;
@@ -42,22 +68,22 @@ public final class AssetDataSource extends BaseDataSource {
             transferInitializing(dataSpec);
             InputStream open = this.assetManager.open(str, 1);
             this.inputStream = open;
-            if (open.skip(dataSpec.position) < dataSpec.position) {
-                throw new AssetDataSourceException(null, 2008);
-            }
-            long j = dataSpec.length;
-            if (j != -1) {
-                this.bytesRemaining = j;
-            } else {
-                long available = this.inputStream.available();
-                this.bytesRemaining = available;
-                if (available == 2147483647L) {
-                    this.bytesRemaining = -1L;
+            if (open.skip(dataSpec.position) >= dataSpec.position) {
+                long j = dataSpec.length;
+                if (j != -1) {
+                    this.bytesRemaining = j;
+                } else {
+                    long available = this.inputStream.available();
+                    this.bytesRemaining = available;
+                    if (available == 2147483647L) {
+                        this.bytesRemaining = -1L;
+                    }
                 }
+                this.opened = true;
+                transferStarted(dataSpec);
+                return this.bytesRemaining;
             }
-            this.opened = true;
-            transferStarted(dataSpec);
-            return this.bytesRemaining;
+            throw new AssetDataSourceException(null, 2008);
         } catch (AssetDataSourceException e) {
             throw e;
         } catch (IOException e2) {
@@ -66,7 +92,7 @@ public final class AssetDataSource extends BaseDataSource {
     }
 
     @Override // com.google.android.exoplayer2.upstream.DataReader
-    public int read(byte[] bArr, int i, int i2) throws AssetDataSourceException {
+    public int read(byte[] bArr, int i, int i2) {
         if (i2 == 0) {
             return 0;
         }
@@ -91,31 +117,5 @@ public final class AssetDataSource extends BaseDataSource {
         }
         bytesTransferred(read);
         return read;
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.DataSource
-    public Uri getUri() {
-        return this.uri;
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.DataSource
-    public void close() throws AssetDataSourceException {
-        this.uri = null;
-        try {
-            try {
-                InputStream inputStream = this.inputStream;
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            } catch (IOException e) {
-                throw new AssetDataSourceException(e, 2000);
-            }
-        } finally {
-            this.inputStream = null;
-            if (this.opened) {
-                this.opened = false;
-                transferEnded();
-            }
-        }
     }
 }

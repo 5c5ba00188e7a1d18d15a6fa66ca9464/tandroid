@@ -13,10 +13,6 @@ public class BitReaderBuffer {
         this.initialPos = byteBuffer.position();
     }
 
-    public boolean readBool() {
-        return readBits(1) == 1;
-    }
-
     public int readBits(int i) {
         int readBits;
         int i2 = this.buffer.get(this.initialPos + (this.position / 8));
@@ -38,6 +34,10 @@ public class BitReaderBuffer {
         Double.isNaN(d);
         byteBuffer.position(i6 + ((int) Math.ceil(d / 8.0d)));
         return readBits;
+    }
+
+    public boolean readBool() {
+        return readBits(1) == 1;
     }
 
     public int remainingBits() {

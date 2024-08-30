@@ -47,12 +47,12 @@ public class ArchTaskExecutor extends TaskExecutor {
     }
 
     @Override // androidx.arch.core.executor.TaskExecutor
-    public void postToMainThread(Runnable runnable) {
-        this.mDelegate.postToMainThread(runnable);
+    public boolean isMainThread() {
+        return this.mDelegate.isMainThread();
     }
 
     @Override // androidx.arch.core.executor.TaskExecutor
-    public boolean isMainThread() {
-        return this.mDelegate.isMainThread();
+    public void postToMainThread(Runnable runnable) {
+        this.mDelegate.postToMainThread(runnable);
     }
 }

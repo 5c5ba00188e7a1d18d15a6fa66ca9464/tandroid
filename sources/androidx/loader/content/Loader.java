@@ -5,10 +5,10 @@ import androidx.core.util.DebugUtils;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 /* loaded from: classes.dex */
-public class Loader<D> {
+public abstract class Loader {
     Context mContext;
     int mId;
-    OnLoadCompleteListener<D> mListener;
+    OnLoadCompleteListener mListener;
     boolean mStarted = false;
     boolean mAbandoned = false;
     boolean mReset = true;
@@ -16,86 +16,12 @@ public class Loader<D> {
     boolean mProcessingChange = false;
 
     /* loaded from: classes.dex */
-    public interface OnLoadCompleteListener<D> {
-        void onLoadComplete(Loader<D> loader, D d);
-    }
-
-    public void deliverCancellation() {
-    }
-
-    protected void onAbandon() {
-    }
-
-    protected boolean onCancelLoad() {
-        throw null;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onForceLoad() {
-    }
-
-    protected void onReset() {
-    }
-
-    protected void onStartLoading() {
-        throw null;
-    }
-
-    protected void onStopLoading() {
+    public interface OnLoadCompleteListener {
+        void onLoadComplete(Loader loader, Object obj);
     }
 
     public Loader(Context context) {
         this.mContext = context.getApplicationContext();
-    }
-
-    public void deliverResult(D d) {
-        OnLoadCompleteListener<D> onLoadCompleteListener = this.mListener;
-        if (onLoadCompleteListener != null) {
-            onLoadCompleteListener.onLoadComplete(this, d);
-        }
-    }
-
-    public void registerListener(int i, OnLoadCompleteListener<D> onLoadCompleteListener) {
-        if (this.mListener != null) {
-            throw new IllegalStateException("There is already a listener registered");
-        }
-        this.mListener = onLoadCompleteListener;
-        this.mId = i;
-    }
-
-    public void unregisterListener(OnLoadCompleteListener<D> onLoadCompleteListener) {
-        OnLoadCompleteListener<D> onLoadCompleteListener2 = this.mListener;
-        if (onLoadCompleteListener2 == null) {
-            throw new IllegalStateException("No listener register");
-        }
-        if (onLoadCompleteListener2 != onLoadCompleteListener) {
-            throw new IllegalArgumentException("Attempting to unregister the wrong listener");
-        }
-        this.mListener = null;
-    }
-
-    public boolean isAbandoned() {
-        return this.mAbandoned;
-    }
-
-    public final void startLoading() {
-        this.mStarted = true;
-        this.mReset = false;
-        this.mAbandoned = false;
-        onStartLoading();
-    }
-
-    public boolean cancelLoad() {
-        return onCancelLoad();
-    }
-
-    public void forceLoad() {
-        onForceLoad();
-    }
-
-    public void stopLoading() {
-        this.mStarted = false;
-        onStopLoading();
     }
 
     public void abandon() {
@@ -103,50 +29,31 @@ public class Loader<D> {
         onAbandon();
     }
 
-    public void reset() {
-        onReset();
-        this.mReset = true;
-        this.mStarted = false;
-        this.mAbandoned = false;
-        this.mContentChanged = false;
-        this.mProcessingChange = false;
+    public boolean cancelLoad() {
+        return onCancelLoad();
     }
 
     public void commitContentChanged() {
         this.mProcessingChange = false;
     }
 
-    public void rollbackContentChanged() {
-        if (this.mProcessingChange) {
-            onContentChanged();
-        }
-    }
-
-    public void onContentChanged() {
-        if (this.mStarted) {
-            forceLoad();
-        } else {
-            this.mContentChanged = true;
-        }
-    }
-
-    public String dataToString(D d) {
+    public String dataToString(Object obj) {
         StringBuilder sb = new StringBuilder(64);
-        DebugUtils.buildShortClassTag(d, sb);
+        DebugUtils.buildShortClassTag(obj, sb);
         sb.append("}");
         return sb.toString();
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder(64);
-        DebugUtils.buildShortClassTag(this, sb);
-        sb.append(" id=");
-        sb.append(this.mId);
-        sb.append("}");
-        return sb.toString();
+    public void deliverCancellation() {
     }
 
-    @Deprecated
+    public void deliverResult(Object obj) {
+        OnLoadCompleteListener onLoadCompleteListener = this.mListener;
+        if (onLoadCompleteListener != null) {
+            onLoadCompleteListener.onLoadComplete(this, obj);
+        }
+    }
+
     public void dump(String str, FileDescriptor fileDescriptor, PrintWriter printWriter, String[] strArr) {
         printWriter.print(str);
         printWriter.print("mId=");
@@ -169,5 +76,93 @@ public class Loader<D> {
             printWriter.print(" mReset=");
             printWriter.println(this.mReset);
         }
+    }
+
+    public void forceLoad() {
+        onForceLoad();
+    }
+
+    public boolean isAbandoned() {
+        return this.mAbandoned;
+    }
+
+    protected void onAbandon() {
+    }
+
+    protected abstract boolean onCancelLoad();
+
+    public void onContentChanged() {
+        if (this.mStarted) {
+            forceLoad();
+        } else {
+            this.mContentChanged = true;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void onForceLoad() {
+    }
+
+    protected void onReset() {
+    }
+
+    protected abstract void onStartLoading();
+
+    protected void onStopLoading() {
+    }
+
+    public void registerListener(int i, OnLoadCompleteListener onLoadCompleteListener) {
+        if (this.mListener != null) {
+            throw new IllegalStateException("There is already a listener registered");
+        }
+        this.mListener = onLoadCompleteListener;
+        this.mId = i;
+    }
+
+    public void reset() {
+        onReset();
+        this.mReset = true;
+        this.mStarted = false;
+        this.mAbandoned = false;
+        this.mContentChanged = false;
+        this.mProcessingChange = false;
+    }
+
+    public void rollbackContentChanged() {
+        if (this.mProcessingChange) {
+            onContentChanged();
+        }
+    }
+
+    public final void startLoading() {
+        this.mStarted = true;
+        this.mReset = false;
+        this.mAbandoned = false;
+        onStartLoading();
+    }
+
+    public void stopLoading() {
+        this.mStarted = false;
+        onStopLoading();
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder(64);
+        DebugUtils.buildShortClassTag(this, sb);
+        sb.append(" id=");
+        sb.append(this.mId);
+        sb.append("}");
+        return sb.toString();
+    }
+
+    public void unregisterListener(OnLoadCompleteListener onLoadCompleteListener) {
+        OnLoadCompleteListener onLoadCompleteListener2 = this.mListener;
+        if (onLoadCompleteListener2 == null) {
+            throw new IllegalStateException("No listener register");
+        }
+        if (onLoadCompleteListener2 != onLoadCompleteListener) {
+            throw new IllegalArgumentException("Attempting to unregister the wrong listener");
+        }
+        this.mListener = null;
     }
 }

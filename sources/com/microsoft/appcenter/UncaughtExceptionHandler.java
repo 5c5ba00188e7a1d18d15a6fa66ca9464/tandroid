@@ -19,6 +19,12 @@ class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
         this.mChannel = channel;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void register() {
+        this.mDefaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+        Thread.setDefaultUncaughtExceptionHandler(this);
+    }
+
     @Override // java.lang.Thread.UncaughtExceptionHandler
     public void uncaughtException(Thread thread, Throwable th) {
         if (AppCenter.getInstance().isInstanceEnabled()) {
@@ -45,11 +51,5 @@ class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
         } else {
             ShutdownHelper.shutdown(10);
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void register() {
-        this.mDefaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
-        Thread.setDefaultUncaughtExceptionHandler(this);
     }
 }

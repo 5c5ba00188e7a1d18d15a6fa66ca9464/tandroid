@@ -1,12 +1,10 @@
 package com.google.android.gms.common.moduleinstall.internal;
 
 import android.os.Parcel;
-import android.os.RemoteException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.moduleinstall.ModuleAvailabilityResponse;
 import com.google.android.gms.common.moduleinstall.ModuleInstallIntentResponse;
 import com.google.android.gms.common.moduleinstall.ModuleInstallResponse;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class zad extends com.google.android.gms.internal.base.zab implements zae {
     public zad() {
@@ -14,7 +12,7 @@ public abstract class zad extends com.google.android.gms.internal.base.zab imple
     }
 
     @Override // com.google.android.gms.internal.base.zab
-    protected final boolean zaa(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
+    protected final boolean zaa(int i, Parcel parcel, Parcel parcel2, int i2) {
         if (i == 1) {
             com.google.android.gms.internal.base.zac.zab(parcel);
             zae((Status) com.google.android.gms.internal.base.zac.zaa(parcel, Status.CREATOR), (ModuleAvailabilityResponse) com.google.android.gms.internal.base.zac.zaa(parcel, ModuleAvailabilityResponse.CREATOR));

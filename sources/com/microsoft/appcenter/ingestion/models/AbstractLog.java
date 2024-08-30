@@ -17,106 +17,12 @@ public abstract class AbstractLog implements Log {
     private UUID sid;
     private Object tag;
     private Date timestamp;
-    private final Set<String> transmissionTargetTokens = new LinkedHashSet();
+    private final Set transmissionTargetTokens = new LinkedHashSet();
     private String userId;
-
-    @Override // com.microsoft.appcenter.ingestion.models.Log
-    public Date getTimestamp() {
-        return this.timestamp;
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.Log
-    public void setTimestamp(Date date) {
-        this.timestamp = date;
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.Log
-    public UUID getSid() {
-        return this.sid;
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.Log
-    public void setSid(UUID uuid) {
-        this.sid = uuid;
-    }
-
-    public String getDistributionGroupId() {
-        return this.distributionGroupId;
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.Log
-    public void setDistributionGroupId(String str) {
-        this.distributionGroupId = str;
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.Log
-    public String getUserId() {
-        return this.userId;
-    }
-
-    public void setUserId(String str) {
-        this.userId = str;
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.Log
-    public Device getDevice() {
-        return this.device;
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.Log
-    public void setDevice(Device device) {
-        this.device = device;
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.Log
-    public Object getTag() {
-        return this.tag;
-    }
-
-    public void setTag(Object obj) {
-        this.tag = obj;
-    }
 
     @Override // com.microsoft.appcenter.ingestion.models.Log
     public synchronized void addTransmissionTarget(String str) {
         this.transmissionTargetTokens.add(str);
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.Log
-    public synchronized Set<String> getTransmissionTargetTokens() {
-        return Collections.unmodifiableSet(this.transmissionTargetTokens);
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.Model
-    public void write(JSONStringer jSONStringer) throws JSONException {
-        JSONUtils.write(jSONStringer, "type", getType());
-        jSONStringer.key("timestamp").value(JSONDateUtils.toString(getTimestamp()));
-        JSONUtils.write(jSONStringer, "sid", getSid());
-        JSONUtils.write(jSONStringer, "distributionGroupId", getDistributionGroupId());
-        JSONUtils.write(jSONStringer, "userId", getUserId());
-        if (getDevice() != null) {
-            jSONStringer.key("device").object();
-            getDevice().write(jSONStringer);
-            jSONStringer.endObject();
-        }
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.Model
-    public void read(JSONObject jSONObject) throws JSONException {
-        if (!jSONObject.getString("type").equals(getType())) {
-            throw new JSONException("Invalid type");
-        }
-        setTimestamp(JSONDateUtils.toDate(jSONObject.getString("timestamp")));
-        if (jSONObject.has("sid")) {
-            setSid(UUID.fromString(jSONObject.getString("sid")));
-        }
-        setDistributionGroupId(jSONObject.optString("distributionGroupId", null));
-        setUserId(jSONObject.optString("userId", null));
-        if (jSONObject.has("device")) {
-            Device device = new Device();
-            device.read(jSONObject.getJSONObject("device"));
-            setDevice(device);
-        }
     }
 
     public boolean equals(Object obj) {
@@ -155,6 +61,40 @@ public abstract class AbstractLog implements Log {
         return false;
     }
 
+    @Override // com.microsoft.appcenter.ingestion.models.Log
+    public Device getDevice() {
+        return this.device;
+    }
+
+    public String getDistributionGroupId() {
+        return this.distributionGroupId;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Log
+    public UUID getSid() {
+        return this.sid;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Log
+    public Object getTag() {
+        return this.tag;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Log
+    public Date getTimestamp() {
+        return this.timestamp;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Log
+    public synchronized Set getTransmissionTargetTokens() {
+        return Collections.unmodifiableSet(this.transmissionTargetTokens);
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Log
+    public String getUserId() {
+        return this.userId;
+    }
+
     public int hashCode() {
         int hashCode = this.transmissionTargetTokens.hashCode() * 31;
         Date date = this.timestamp;
@@ -169,5 +109,65 @@ public abstract class AbstractLog implements Log {
         int hashCode6 = (hashCode5 + (device != null ? device.hashCode() : 0)) * 31;
         Object obj = this.tag;
         return hashCode6 + (obj != null ? obj.hashCode() : 0);
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Model
+    public void read(JSONObject jSONObject) {
+        if (!jSONObject.getString("type").equals(getType())) {
+            throw new JSONException("Invalid type");
+        }
+        setTimestamp(JSONDateUtils.toDate(jSONObject.getString("timestamp")));
+        if (jSONObject.has("sid")) {
+            setSid(UUID.fromString(jSONObject.getString("sid")));
+        }
+        setDistributionGroupId(jSONObject.optString("distributionGroupId", null));
+        setUserId(jSONObject.optString("userId", null));
+        if (jSONObject.has("device")) {
+            Device device = new Device();
+            device.read(jSONObject.getJSONObject("device"));
+            setDevice(device);
+        }
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Log
+    public void setDevice(Device device) {
+        this.device = device;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Log
+    public void setDistributionGroupId(String str) {
+        this.distributionGroupId = str;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Log
+    public void setSid(UUID uuid) {
+        this.sid = uuid;
+    }
+
+    public void setTag(Object obj) {
+        this.tag = obj;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Log
+    public void setTimestamp(Date date) {
+        this.timestamp = date;
+    }
+
+    public void setUserId(String str) {
+        this.userId = str;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Model
+    public void write(JSONStringer jSONStringer) {
+        JSONUtils.write(jSONStringer, "type", getType());
+        jSONStringer.key("timestamp").value(JSONDateUtils.toString(getTimestamp()));
+        JSONUtils.write(jSONStringer, "sid", getSid());
+        JSONUtils.write(jSONStringer, "distributionGroupId", getDistributionGroupId());
+        JSONUtils.write(jSONStringer, "userId", getUserId());
+        if (getDevice() != null) {
+            jSONStringer.key("device").object();
+            getDevice().write(jSONStringer);
+            jSONStringer.endObject();
+        }
     }
 }

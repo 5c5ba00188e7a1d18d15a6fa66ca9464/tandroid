@@ -1,8 +1,15 @@
 package com.google.common.collect;
 /* loaded from: classes.dex */
-public final class ObjectArrays {
-    public static <T> T[] newArray(T[] tArr, int i) {
-        return (T[]) Platform.newArray(tArr, i);
+public abstract class ObjectArrays {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static Object checkElementNotNull(Object obj, int i) {
+        if (obj != null) {
+            return obj;
+        }
+        StringBuilder sb = new StringBuilder(20);
+        sb.append("at index ");
+        sb.append(i);
+        throw new NullPointerException(sb.toString());
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -18,14 +25,7 @@ public final class ObjectArrays {
         return objArr;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object checkElementNotNull(Object obj, int i) {
-        if (obj != null) {
-            return obj;
-        }
-        StringBuilder sb = new StringBuilder(20);
-        sb.append("at index ");
-        sb.append(i);
-        throw new NullPointerException(sb.toString());
+    public static Object[] newArray(Object[] objArr, int i) {
+        return Platform.newArray(objArr, i);
     }
 }

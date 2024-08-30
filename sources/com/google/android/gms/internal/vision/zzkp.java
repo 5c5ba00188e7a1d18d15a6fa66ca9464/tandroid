@@ -1,17 +1,14 @@
 package com.google.android.gms.internal.vision;
 
-import com.google.android.gms.internal.vision.zzjb;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public final class zzkp {
+public abstract class zzkp {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static String zza(zzkk zzkkVar, String str) {
         StringBuilder sb = new StringBuilder();
@@ -21,19 +18,31 @@ public final class zzkp {
         return sb.toString();
     }
 
+    private static final String zza(String str) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < str.length(); i++) {
+            char charAt = str.charAt(i);
+            if (Character.isUpperCase(charAt)) {
+                sb.append("_");
+            }
+            sb.append(Character.toLowerCase(charAt));
+        }
+        return sb.toString();
+    }
+
     /* JADX WARN: Code restructure failed: missing block: B:83:0x01e4, code lost:
         if (((java.lang.Boolean) r6).booleanValue() == false) goto L82;
      */
     /* JADX WARN: Code restructure failed: missing block: B:84:0x01e6, code lost:
         r4 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x01f7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x01f6, code lost:
         if (((java.lang.Integer) r6).intValue() == 0) goto L82;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:94:0x0208, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:94:0x0207, code lost:
         if (((java.lang.Float) r6).floatValue() == 0.0f) goto L82;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:99:0x021a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:99:0x0219, code lost:
         if (((java.lang.Double) r6).doubleValue() == 0.0d) goto L82;
      */
     /*
@@ -41,6 +50,7 @@ public final class zzkp {
     */
     private static void zza(zzkk zzkkVar, StringBuilder sb, int i) {
         Method[] declaredMethods;
+        Object obj;
         boolean equals;
         HashMap hashMap = new HashMap();
         HashMap hashMap2 = new HashMap();
@@ -94,12 +104,13 @@ public final class zzkp {
                                 if (!(zza instanceof Float)) {
                                     if (!(zza instanceof Double)) {
                                         if (zza instanceof String) {
-                                            equals = zza.equals("");
+                                            obj = "";
                                         } else if (zza instanceof zzht) {
-                                            equals = zza.equals(zzht.zza);
+                                            obj = zzht.zza;
                                         } else {
                                             equals = !(zza instanceof zzkk) ? false : false;
                                         }
+                                        equals = zza.equals(obj);
                                     }
                                 }
                             }
@@ -114,18 +125,6 @@ public final class zzkp {
                         zza(sb, i, zza(concat3), zza);
                     }
                 }
-            }
-        }
-        if (zzkkVar instanceof zzjb.zzc) {
-            Iterator<Map.Entry<zzjb.zzf, Object>> zzd = ((zzjb.zzc) zzkkVar).zzc.zzd();
-            while (zzd.hasNext()) {
-                Map.Entry<zzjb.zzf, Object> next = zzd.next();
-                int i2 = next.getKey().zzb;
-                StringBuilder sb2 = new StringBuilder(13);
-                sb2.append("[");
-                sb2.append(i2);
-                sb2.append("]");
-                zza(sb, i, sb2.toString(), next.getValue());
             }
         }
         zzlx zzlxVar = ((zzjb) zzkkVar).zzb;
@@ -168,7 +167,10 @@ public final class zzkp {
                     i2++;
                 }
                 sb.append("}");
-            } else if (obj instanceof Map.Entry) {
+            } else if (!(obj instanceof Map.Entry)) {
+                sb.append(": ");
+                sb.append(obj.toString());
+            } else {
                 sb.append(" {");
                 Map.Entry entry2 = (Map.Entry) obj;
                 int i4 = i + 2;
@@ -180,22 +182,7 @@ public final class zzkp {
                     i2++;
                 }
                 sb.append("}");
-            } else {
-                sb.append(": ");
-                sb.append(obj.toString());
             }
         }
-    }
-
-    private static final String zza(String str) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < str.length(); i++) {
-            char charAt = str.charAt(i);
-            if (Character.isUpperCase(charAt)) {
-                sb.append("_");
-            }
-            sb.append(Character.toLowerCase(charAt));
-        }
-        return sb.toString();
     }
 }

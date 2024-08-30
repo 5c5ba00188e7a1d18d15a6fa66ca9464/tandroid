@@ -3,12 +3,11 @@ package com.google.android.exoplayer2.source;
 import com.google.android.exoplayer2.SeekParameters;
 import com.google.android.exoplayer2.source.SequenceableLoader;
 import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
-import java.io.IOException;
 /* loaded from: classes.dex */
 public interface MediaPeriod extends SequenceableLoader {
 
     /* loaded from: classes.dex */
-    public interface Callback extends SequenceableLoader.Callback<MediaPeriod> {
+    public interface Callback extends SequenceableLoader.Callback {
         void onPrepared(MediaPeriod mediaPeriod);
     }
 
@@ -30,7 +29,7 @@ public interface MediaPeriod extends SequenceableLoader {
     @Override // com.google.android.exoplayer2.source.SequenceableLoader
     boolean isLoading();
 
-    void maybeThrowPrepareError() throws IOException;
+    void maybeThrowPrepareError();
 
     void prepare(Callback callback, long j);
 

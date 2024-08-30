@@ -30,21 +30,10 @@ public class AbtExperimentInfo {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static AbtExperimentInfo fromMap(Map<String, String> map) throws AbtException {
-        String str;
+    public static AbtExperimentInfo fromMap(Map map) {
         validateExperimentInfoMap(map);
         try {
-            Date parse = protoTimestampStringParser.parse(map.get("experimentStartTime"));
-            long parseLong = Long.parseLong(map.get("triggerTimeoutMillis"));
-            long parseLong2 = Long.parseLong(map.get("timeToLiveMillis"));
-            String str2 = map.get("experimentId");
-            String str3 = map.get("variantId");
-            if (map.containsKey("triggerEvent")) {
-                str = map.get("triggerEvent");
-            } else {
-                str = "";
-            }
-            return new AbtExperimentInfo(str2, str3, str, parse, parseLong, parseLong2);
+            return new AbtExperimentInfo((String) map.get("experimentId"), (String) map.get("variantId"), map.containsKey("triggerEvent") ? (String) map.get("triggerEvent") : "", protoTimestampStringParser.parse((String) map.get("experimentStartTime")), Long.parseLong((String) map.get("triggerTimeoutMillis")), Long.parseLong((String) map.get("timeToLiveMillis")));
         } catch (NumberFormatException e) {
             throw new AbtException("Could not process experiment: one of the durations could not be converted into a long.", e);
         } catch (ParseException e2) {
@@ -52,16 +41,7 @@ public class AbtExperimentInfo {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public String getExperimentId() {
-        return this.experimentId;
-    }
-
-    long getStartTimeInMillisSinceEpoch() {
-        return this.experimentStartTime.getTime();
-    }
-
-    private static void validateExperimentInfoMap(Map<String, String> map) throws AbtException {
+    private static void validateExperimentInfoMap(Map map) {
         String[] strArr;
         ArrayList arrayList = new ArrayList();
         for (String str : ALL_REQUIRED_KEYS) {
@@ -72,6 +52,15 @@ public class AbtExperimentInfo {
         if (!arrayList.isEmpty()) {
             throw new AbtException(String.format("The following keys are missing from the experiment info map: %s", arrayList));
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public String getExperimentId() {
+        return this.experimentId;
+    }
+
+    long getStartTimeInMillisSinceEpoch() {
+        return this.experimentStartTime.getTime();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -16,7 +16,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import javax.net.ssl.HttpsURLConnection;
 /* loaded from: classes.dex */
-class HttpConnectionDownloadFileTask extends AsyncTask<Void, Void, Void> {
+class HttpConnectionDownloadFileTask extends AsyncTask {
     private final Uri mDownloadUri;
     private final HttpConnectionReleaseDownloader mDownloader;
     private final File mTargetFile;
@@ -28,68 +28,18 @@ class HttpConnectionDownloadFileTask extends AsyncTask<Void, Void, Void> {
         this.mTargetFile = file;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // android.os.AsyncTask
-    public Void doInBackground(Void... voidArr) {
-        TrafficStats.setThreadStatsTag(-667034599);
-        try {
-            try {
-                this.mDownloader.onDownloadStarted(System.currentTimeMillis());
-            } catch (IOException e) {
-                this.mDownloader.onDownloadError(e.getMessage());
-            }
-            if (downloadFile(createConnection()) > 0) {
-                this.mDownloader.onDownloadComplete(this.mTargetFile);
-                return null;
-            }
-            throw new IOException("The content of downloaded file is empty");
-        } finally {
-            TrafficStats.clearThreadStatsTag();
-        }
-    }
-
-    private URLConnection createConnection() throws IOException {
-        HttpsURLConnection createHttpsConnection = HttpUtils.createHttpsConnection(new URL(this.mDownloadUri.toString()));
-        createHttpsConnection.setInstanceFollowRedirects(true);
-        createHttpsConnection.connect();
-        if (!"application/vnd.android.package-archive".equals(createHttpsConnection.getContentType())) {
-            AppCenterLog.warn("AppCenterDistribute", "The requested download has not expected content type.");
-        }
-        int responseCode = createHttpsConnection.getResponseCode();
-        if (responseCode < 200 || responseCode >= 300) {
-            throw new IOException("Download failed with HTTP error code: " + responseCode);
-        }
-        return createHttpsConnection;
-    }
-
-    private long downloadFile(URLConnection uRLConnection) throws IOException {
-        FileOutputStream fileOutputStream;
-        BufferedInputStream bufferedInputStream = null;
-        try {
-            BufferedInputStream bufferedInputStream2 = new BufferedInputStream(uRLConnection.getInputStream());
-            try {
-                fileOutputStream = new FileOutputStream(this.mTargetFile);
+    private static void close(Closeable... closeableArr) {
+        for (Closeable closeable : closeableArr) {
+            if (closeable != null) {
                 try {
-                    long copyStream = copyStream(bufferedInputStream2, fileOutputStream, uRLConnection.getContentLength());
-                    close(bufferedInputStream2, fileOutputStream);
-                    return copyStream;
-                } catch (Throwable th) {
-                    th = th;
-                    bufferedInputStream = bufferedInputStream2;
-                    close(bufferedInputStream, fileOutputStream);
-                    throw th;
+                    closeable.close();
+                } catch (IOException unused) {
                 }
-            } catch (Throwable th2) {
-                th = th2;
-                fileOutputStream = null;
             }
-        } catch (Throwable th3) {
-            th = th3;
-            fileOutputStream = null;
         }
     }
 
-    private long copyStream(InputStream inputStream, OutputStream outputStream, long j) throws IOException {
+    private long copyStream(InputStream inputStream, OutputStream outputStream, long j) {
         long j2;
         byte[] bArr = new byte[1024];
         long j3 = 0;
@@ -120,14 +70,64 @@ class HttpConnectionDownloadFileTask extends AsyncTask<Void, Void, Void> {
         return j3;
     }
 
-    private static void close(Closeable... closeableArr) {
-        for (Closeable closeable : closeableArr) {
-            if (closeable != null) {
+    private URLConnection createConnection() {
+        HttpsURLConnection createHttpsConnection = HttpUtils.createHttpsConnection(new URL(this.mDownloadUri.toString()));
+        createHttpsConnection.setInstanceFollowRedirects(true);
+        createHttpsConnection.connect();
+        if (!"application/vnd.android.package-archive".equals(createHttpsConnection.getContentType())) {
+            AppCenterLog.warn("AppCenterDistribute", "The requested download has not expected content type.");
+        }
+        int responseCode = createHttpsConnection.getResponseCode();
+        if (responseCode < 200 || responseCode >= 300) {
+            throw new IOException("Download failed with HTTP error code: " + responseCode);
+        }
+        return createHttpsConnection;
+    }
+
+    private long downloadFile(URLConnection uRLConnection) {
+        FileOutputStream fileOutputStream;
+        BufferedInputStream bufferedInputStream = null;
+        try {
+            BufferedInputStream bufferedInputStream2 = new BufferedInputStream(uRLConnection.getInputStream());
+            try {
+                fileOutputStream = new FileOutputStream(this.mTargetFile);
                 try {
-                    closeable.close();
-                } catch (IOException unused) {
+                    long copyStream = copyStream(bufferedInputStream2, fileOutputStream, uRLConnection.getContentLength());
+                    close(bufferedInputStream2, fileOutputStream);
+                    return copyStream;
+                } catch (Throwable th) {
+                    th = th;
+                    bufferedInputStream = bufferedInputStream2;
+                    close(bufferedInputStream, fileOutputStream);
+                    throw th;
                 }
+            } catch (Throwable th2) {
+                th = th2;
+                fileOutputStream = null;
             }
+        } catch (Throwable th3) {
+            th = th3;
+            fileOutputStream = null;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.os.AsyncTask
+    public Void doInBackground(Void... voidArr) {
+        TrafficStats.setThreadStatsTag(-667034599);
+        try {
+            try {
+                this.mDownloader.onDownloadStarted(System.currentTimeMillis());
+            } catch (IOException e) {
+                this.mDownloader.onDownloadError(e.getMessage());
+            }
+            if (downloadFile(createConnection()) > 0) {
+                this.mDownloader.onDownloadComplete(this.mTargetFile);
+                return null;
+            }
+            throw new IOException("The content of downloaded file is empty");
+        } finally {
+            TrafficStats.clearThreadStatsTag();
         }
     }
 }

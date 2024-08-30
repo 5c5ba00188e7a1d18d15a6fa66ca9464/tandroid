@@ -9,57 +9,45 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 /* loaded from: classes.dex */
-public final class CopyOnWriteMultiset<E> implements Iterable<E> {
+public final class CopyOnWriteMultiset implements Iterable {
     private final Object lock = new Object();
-    private final Map<E, Integer> elementCounts = new HashMap();
-    private Set<E> elementSet = Collections.emptySet();
-    private List<E> elements = Collections.emptyList();
+    private final Map elementCounts = new HashMap();
+    private Set elementSet = Collections.emptySet();
+    private List elements = Collections.emptyList();
 
-    public void add(E e) {
+    public void add(Object obj) {
         synchronized (this.lock) {
             try {
                 ArrayList arrayList = new ArrayList(this.elements);
-                arrayList.add(e);
+                arrayList.add(obj);
                 this.elements = Collections.unmodifiableList(arrayList);
-                Integer num = this.elementCounts.get(e);
+                Integer num = (Integer) this.elementCounts.get(obj);
                 if (num == null) {
                     HashSet hashSet = new HashSet(this.elementSet);
-                    hashSet.add(e);
+                    hashSet.add(obj);
                     this.elementSet = Collections.unmodifiableSet(hashSet);
                 }
-                this.elementCounts.put(e, Integer.valueOf(num != null ? 1 + num.intValue() : 1));
+                this.elementCounts.put(obj, Integer.valueOf(num != null ? 1 + num.intValue() : 1));
             } catch (Throwable th) {
                 throw th;
             }
         }
     }
 
-    public void remove(E e) {
+    public int count(Object obj) {
+        int intValue;
         synchronized (this.lock) {
             try {
-                Integer num = this.elementCounts.get(e);
-                if (num == null) {
-                    return;
-                }
-                ArrayList arrayList = new ArrayList(this.elements);
-                arrayList.remove(e);
-                this.elements = Collections.unmodifiableList(arrayList);
-                if (num.intValue() == 1) {
-                    this.elementCounts.remove(e);
-                    HashSet hashSet = new HashSet(this.elementSet);
-                    hashSet.remove(e);
-                    this.elementSet = Collections.unmodifiableSet(hashSet);
-                } else {
-                    this.elementCounts.put(e, Integer.valueOf(num.intValue() - 1));
-                }
+                intValue = this.elementCounts.containsKey(obj) ? ((Integer) this.elementCounts.get(obj)).intValue() : 0;
             } catch (Throwable th) {
                 throw th;
             }
         }
+        return intValue;
     }
 
-    public Set<E> elementSet() {
-        Set<E> set;
+    public Set elementSet() {
+        Set set;
         synchronized (this.lock) {
             set = this.elementSet;
         }
@@ -67,23 +55,35 @@ public final class CopyOnWriteMultiset<E> implements Iterable<E> {
     }
 
     @Override // java.lang.Iterable
-    public Iterator<E> iterator() {
-        Iterator<E> it;
+    public Iterator iterator() {
+        Iterator it;
         synchronized (this.lock) {
             it = this.elements.iterator();
         }
         return it;
     }
 
-    public int count(E e) {
-        int intValue;
+    public void remove(Object obj) {
         synchronized (this.lock) {
             try {
-                intValue = this.elementCounts.containsKey(e) ? this.elementCounts.get(e).intValue() : 0;
+                Integer num = (Integer) this.elementCounts.get(obj);
+                if (num == null) {
+                    return;
+                }
+                ArrayList arrayList = new ArrayList(this.elements);
+                arrayList.remove(obj);
+                this.elements = Collections.unmodifiableList(arrayList);
+                if (num.intValue() == 1) {
+                    this.elementCounts.remove(obj);
+                    HashSet hashSet = new HashSet(this.elementSet);
+                    hashSet.remove(obj);
+                    this.elementSet = Collections.unmodifiableSet(hashSet);
+                } else {
+                    this.elementCounts.put(obj, Integer.valueOf(num.intValue() - 1));
+                }
             } catch (Throwable th) {
                 throw th;
             }
         }
-        return intValue;
     }
 }

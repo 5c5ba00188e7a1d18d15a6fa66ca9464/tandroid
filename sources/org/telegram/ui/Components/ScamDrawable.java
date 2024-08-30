@@ -22,15 +22,6 @@ public class ScamDrawable extends Drawable {
     private RectF rect = new RectF();
     private Paint paint = new Paint(1);
 
-    @Override // android.graphics.drawable.Drawable
-    public int getOpacity() {
-        return -2;
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setColorFilter(ColorFilter colorFilter) {
-    }
-
     public ScamDrawable(int i, int i2) {
         TextPaint textPaint = new TextPaint(1);
         this.textPaint = textPaint;
@@ -41,21 +32,12 @@ public class ScamDrawable extends Drawable {
         this.textPaint.setTypeface(AndroidUtilities.bold());
         this.paint.setStyle(Paint.Style.STROKE);
         this.paint.setStrokeWidth(AndroidUtilities.dp(1.0f));
-        if (i2 == 0) {
-            this.text = LocaleController.getString(R.string.ScamMessage);
-        } else {
-            this.text = LocaleController.getString(R.string.FakeMessage);
-        }
+        this.text = LocaleController.getString(i2 == 0 ? R.string.ScamMessage : R.string.FakeMessage);
         this.textWidth = (int) Math.ceil(this.textPaint.measureText(this.text));
     }
 
     public void checkText() {
-        String string;
-        if (this.currentType == 0) {
-            string = LocaleController.getString(R.string.ScamMessage);
-        } else {
-            string = LocaleController.getString(R.string.FakeMessage);
-        }
+        String string = LocaleController.getString(this.currentType == 0 ? R.string.ScamMessage : R.string.FakeMessage);
         if (string.equals(this.text)) {
             return;
         }
@@ -63,10 +45,26 @@ public class ScamDrawable extends Drawable {
         this.textWidth = (int) Math.ceil(this.textPaint.measureText(string));
     }
 
-    public void setColor(int i) {
-        this.textPaint.setColor(i);
-        this.paint.setColor(i);
-        this.colorAlpha = Color.alpha(i);
+    @Override // android.graphics.drawable.Drawable
+    public void draw(Canvas canvas) {
+        this.rect.set(getBounds());
+        canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), this.paint);
+        canvas.drawText(this.text, this.rect.left + AndroidUtilities.dp(5.0f), this.rect.top + AndroidUtilities.dp(12.0f), this.textPaint);
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public int getIntrinsicHeight() {
+        return AndroidUtilities.dp(16.0f);
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public int getIntrinsicWidth() {
+        return this.textWidth + AndroidUtilities.dp(10.0f);
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public int getOpacity() {
+        return -2;
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -78,20 +76,13 @@ public class ScamDrawable extends Drawable {
         }
     }
 
-    @Override // android.graphics.drawable.Drawable
-    public int getIntrinsicWidth() {
-        return this.textWidth + AndroidUtilities.dp(10.0f);
+    public void setColor(int i) {
+        this.textPaint.setColor(i);
+        this.paint.setColor(i);
+        this.colorAlpha = Color.alpha(i);
     }
 
     @Override // android.graphics.drawable.Drawable
-    public int getIntrinsicHeight() {
-        return AndroidUtilities.dp(16.0f);
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void draw(Canvas canvas) {
-        this.rect.set(getBounds());
-        canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), this.paint);
-        canvas.drawText(this.text, this.rect.left + AndroidUtilities.dp(5.0f), this.rect.top + AndroidUtilities.dp(12.0f), this.textPaint);
+    public void setColorFilter(ColorFilter colorFilter) {
     }
 }

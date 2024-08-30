@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -208,7 +207,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     private static final int[] allowedNotificationsDuringChatListAnimations = {NotificationCenter.chatInfoDidLoad, NotificationCenter.dialogsNeedReload, NotificationCenter.closeChats, NotificationCenter.messagesDidLoad, NotificationCenter.botKeyboardDidLoad};
     public static int lastStableId = 10;
     private long activityResumeTime;
-    private ArrayList<TLRPC$ChannelParticipant> admins;
+    private ArrayList admins;
     private Paint aspectPaint;
     private Path aspectPath;
     private AspectRatioFrameLayout aspectRatioFrameLayout;
@@ -261,33 +260,39 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     private SimpleTextView searchCountText;
     private ActionBarMenuItem searchItem;
     private boolean searchWas;
-    private LongSparseArray<TLRPC$User> selectedAdmins;
+    private LongSparseArray selectedAdmins;
     private MessageObject selectedObject;
     private TLRPC$ChannelParticipant selectedParticipant;
     public boolean showNoQuoteAlert;
     private UndoView undoView;
     private Runnable unselectRunnable;
-    private HashMap<Long, TLRPC$User> usersMap;
+    private HashMap usersMap;
     private TextureView videoTextureView;
     private boolean wasManualScroll;
-    private ArrayList<ChatMessageCell> chatMessageCellsCache = new ArrayList<>();
+    private ArrayList chatMessageCellsCache = new ArrayList();
     private int[] mid = {2};
     private int scrollToPositionOnRecreate = -1;
     private int scrollToOffsetOnRecreate = 0;
     private boolean paused = true;
     private boolean wasPaused = false;
-    private final LongSparseArray<MessageObject> messagesDict = new LongSparseArray<>();
-    private final LongSparseArray<MessageObject> realMessagesDict = new LongSparseArray<>();
-    private final HashMap<String, ArrayList<MessageObject>> messagesByDays = new HashMap<>();
-    protected ArrayList<MessageObject> messages = new ArrayList<>();
-    private final ArrayList<MessageObject> filteredMessages = new ArrayList<>();
-    private final HashSet<Long> expandedEvents = new HashSet<>();
+    private final LongSparseArray messagesDict = new LongSparseArray();
+    private final LongSparseArray realMessagesDict = new LongSparseArray();
+    private final HashMap messagesByDays = new HashMap();
+    protected ArrayList messages = new ArrayList();
+    private final ArrayList filteredMessages = new ArrayList();
+    private final HashSet expandedEvents = new HashSet();
     private TLRPC$TL_channelAdminLogEventsFilter currentFilter = null;
     private String searchQuery = "";
     private AnimationNotificationsLocker notificationsLocker = new AnimationNotificationsLocker(allowedNotificationsDuringChatListAnimations);
-    private HashMap<String, Object> invitesCache = new HashMap<>();
+    private HashMap invitesCache = new HashMap();
     private PhotoViewer.PhotoViewerProvider provider = new PhotoViewer.EmptyPhotoViewerProvider() { // from class: org.telegram.ui.ChannelAdminLogActivity.1
+        /* JADX WARN: Code restructure failed: missing block: B:19:0x0052, code lost:
+            if (r8.getId() == r17.getId()) goto L28;
+         */
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i, boolean z) {
             ChatActionCell chatActionCell;
             MessageObject messageObject2;
@@ -306,22 +311,15 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                         imageReceiver = chatMessageCell.getPhotoImage();
                     }
                 } else if ((childAt instanceof ChatActionCell) && (messageObject2 = (chatActionCell = (ChatActionCell) childAt).getMessageObject()) != null) {
-                    if (messageObject != null) {
-                        if (messageObject2.getId() == messageObject.getId()) {
-                            imageReceiver = chatActionCell.getPhotoImage();
-                        }
-                    } else if (tLRPC$FileLocation != null && messageObject2.photoThumbs != null) {
-                        int i3 = 0;
-                        while (true) {
-                            if (i3 >= messageObject2.photoThumbs.size()) {
-                                break;
+                    if (messageObject == null) {
+                        if (tLRPC$FileLocation != null && messageObject2.photoThumbs != null) {
+                            for (int i3 = 0; i3 < messageObject2.photoThumbs.size(); i3++) {
+                                TLRPC$FileLocation tLRPC$FileLocation2 = messageObject2.photoThumbs.get(i3).location;
+                                if (tLRPC$FileLocation2.volume_id == tLRPC$FileLocation.volume_id && tLRPC$FileLocation2.local_id == tLRPC$FileLocation.local_id) {
+                                    imageReceiver = chatActionCell.getPhotoImage();
+                                    break;
+                                }
                             }
-                            TLRPC$FileLocation tLRPC$FileLocation2 = messageObject2.photoThumbs.get(i3).location;
-                            if (tLRPC$FileLocation2.volume_id == tLRPC$FileLocation.volume_id && tLRPC$FileLocation2.local_id == tLRPC$FileLocation.local_id) {
-                                imageReceiver = chatActionCell.getPhotoImage();
-                                break;
-                            }
-                            i3++;
                         }
                     }
                 }
@@ -342,445 +340,1278 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
         }
     };
-    private final ArrayList<Integer> filteredMessagesUpdatedPosition = new ArrayList<>();
-    private final LongSparseArray<Integer> stableIdByEventExpand = new LongSparseArray<>();
+    private final ArrayList filteredMessagesUpdatedPosition = new ArrayList();
+    private final LongSparseArray stableIdByEventExpand = new LongSparseArray();
     public int highlightMessageId = ConnectionsManager.DEFAULT_DATACENTER_ID;
     public int highlightMessageQuoteOffset = -1;
     private int scrollToMessagePosition = -10000;
     private final ChatScrollCallback chatScrollHelperCallback = new ChatScrollCallback();
     private int savedScrollPosition = -1;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$actionMessagesDeletedBy$6(String str) {
-        return str != null;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes4.dex */
+    public static /* synthetic */ class 24 {
+        static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$AvatarPreviewer$MenuItem;
+
+        static {
+            int[] iArr = new int[AvatarPreviewer.MenuItem.values().length];
+            $SwitchMap$org$telegram$ui$AvatarPreviewer$MenuItem = iArr;
+            try {
+                iArr[AvatarPreviewer.MenuItem.SEND_MESSAGE.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$org$telegram$ui$AvatarPreviewer$MenuItem[AvatarPreviewer.MenuItem.OPEN_PROFILE.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+        }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$createView$7(View view, MotionEvent motionEvent) {
-        return true;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes4.dex */
+    public class 9 extends ChatListItemAnimator {
+        Runnable finishRunnable;
+        int scrollAnimationIndex;
+
+        9(ChatActivity chatActivity, RecyclerListView recyclerListView, Theme.ResourcesProvider resourcesProvider) {
+            super(chatActivity, recyclerListView, resourcesProvider);
+            this.scrollAnimationIndex = -1;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onAllAnimationsDone$0() {
+            if (this.scrollAnimationIndex != -1) {
+                ChannelAdminLogActivity.this.getNotificationCenter().onAnimationFinish(this.scrollAnimationIndex);
+                this.scrollAnimationIndex = -1;
+            }
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("admin logs chatItemAnimator enable notifications");
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // androidx.recyclerview.widget.ChatListItemAnimator, androidx.recyclerview.widget.DefaultItemAnimator
+        public void onAllAnimationsDone() {
+            super.onAllAnimationsDone();
+            Runnable runnable = this.finishRunnable;
+            if (runnable != null) {
+                AndroidUtilities.cancelRunOnUIThread(runnable);
+            }
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$9$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ChannelAdminLogActivity.9.this.lambda$onAllAnimationsDone$0();
+                }
+            };
+            this.finishRunnable = runnable2;
+            AndroidUtilities.runOnUIThread(runnable2);
+        }
+
+        @Override // androidx.recyclerview.widget.ChatListItemAnimator
+        public void onAnimationStart() {
+            if (this.scrollAnimationIndex == -1) {
+                this.scrollAnimationIndex = ChannelAdminLogActivity.this.getNotificationCenter().setAnimationInProgress(this.scrollAnimationIndex, ChannelAdminLogActivity.allowedNotificationsDuringChatListAnimations, false);
+            }
+            Runnable runnable = this.finishRunnable;
+            if (runnable != null) {
+                AndroidUtilities.cancelRunOnUIThread(runnable);
+                this.finishRunnable = null;
+            }
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("admin logs chatItemAnimator disable notifications");
+            }
+        }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void updateBottomOverlay() {
+    /* loaded from: classes4.dex */
+    public class ChatActivityAdapter extends RecyclerView.Adapter {
+        private int loadingUpRow;
+        private Context mContext;
+        private int messagesEndRow;
+        private int messagesStartRow;
+        private int rowCount;
+        private final ArrayList oldStableIds = new ArrayList();
+        private final ArrayList stableIds = new ArrayList();
+
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* loaded from: classes4.dex */
+        public class 1 implements ChatMessageCell.ChatMessageCellDelegate {
+            1() {
+            }
+
+            /* JADX INFO: Access modifiers changed from: private */
+            public /* synthetic */ void lambda$didLongPressUserAvatar$0(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User, AvatarPreviewer.MenuItem menuItem) {
+                int i = 24.$SwitchMap$org$telegram$ui$AvatarPreviewer$MenuItem[menuItem.ordinal()];
+                if (i == 1) {
+                    openDialog(chatMessageCell, tLRPC$User);
+                } else if (i != 2) {
+                } else {
+                    openProfile(tLRPC$User);
+                }
+            }
+
+            /* JADX INFO: Access modifiers changed from: private */
+            public /* synthetic */ void lambda$didPressUrl$1(String str, DialogInterface dialogInterface, int i) {
+                int i2;
+                if (i == 0) {
+                    Browser.openUrl((Context) ChannelAdminLogActivity.this.getParentActivity(), str, true);
+                } else if (i == 1) {
+                    if (!str.startsWith("mailto:")) {
+                        i2 = str.startsWith("tel:") ? 4 : 4;
+                        AndroidUtilities.addToClipboard(str);
+                    }
+                    i2 = 7;
+                    str = str.substring(i2);
+                    AndroidUtilities.addToClipboard(str);
+                }
+            }
+
+            private void openDialog(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User) {
+                if (tLRPC$User != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("user_id", tLRPC$User.id);
+                    if (ChannelAdminLogActivity.this.getMessagesController().checkCanOpenChat(bundle, ChannelAdminLogActivity.this)) {
+                        ChannelAdminLogActivity.this.presentFragment(new ChatActivity(bundle));
+                    }
+                }
+            }
+
+            private void openProfile(TLRPC$User tLRPC$User) {
+                Bundle bundle = new Bundle();
+                bundle.putLong("user_id", tLRPC$User.id);
+                ChannelAdminLogActivity.this.addCanBanUser(bundle, tLRPC$User.id);
+                ProfileActivity profileActivity = new ProfileActivity(bundle);
+                profileActivity.setPlayProfileAnimation(0);
+                ChannelAdminLogActivity.this.presentFragment(profileActivity);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public boolean canDrawOutboundsContent() {
+                return true;
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public boolean canPerformActions() {
+                return true;
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public void didLongPress(ChatMessageCell chatMessageCell, float f, float f2) {
+                ChannelAdminLogActivity.this.createMenu(chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didLongPressBotButton(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressBotButton(this, chatMessageCell, tLRPC$KeyboardButton);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ boolean didLongPressChannelAvatar(ChatMessageCell chatMessageCell, TLRPC$Chat tLRPC$Chat, int i, float f, float f2) {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressChannelAvatar(this, chatMessageCell, tLRPC$Chat, i, f, f2);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public boolean didLongPressUserAvatar(final ChatMessageCell chatMessageCell, final TLRPC$User tLRPC$User, float f, float f2) {
+                if (tLRPC$User != null && tLRPC$User.id != UserConfig.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getClientUserId()) {
+                    AvatarPreviewer.MenuItem[] menuItemArr = {AvatarPreviewer.MenuItem.OPEN_PROFILE, AvatarPreviewer.MenuItem.SEND_MESSAGE};
+                    TLRPC$UserFull userFull = ChannelAdminLogActivity.this.getMessagesController().getUserFull(tLRPC$User.id);
+                    AvatarPreviewer.Data of = userFull != null ? AvatarPreviewer.Data.of(tLRPC$User, userFull, menuItemArr) : AvatarPreviewer.Data.of(tLRPC$User, ((BaseFragment) ChannelAdminLogActivity.this).classGuid, menuItemArr);
+                    if (AvatarPreviewer.canPreview(of)) {
+                        AvatarPreviewer avatarPreviewer = AvatarPreviewer.getInstance();
+                        ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
+                        avatarPreviewer.show((ViewGroup) channelAdminLogActivity.fragmentView, channelAdminLogActivity.getResourceProvider(), of, new AvatarPreviewer.Callback() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$1$$ExternalSyntheticLambda0
+                            @Override // org.telegram.ui.AvatarPreviewer.Callback
+                            public final void onMenuClick(AvatarPreviewer.MenuItem menuItem) {
+                                ChannelAdminLogActivity.ChatActivityAdapter.1.this.lambda$didLongPressUserAvatar$0(chatMessageCell, tLRPC$User, menuItem);
+                            }
+                        });
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressAboutRevenueSharingAds() {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressAboutRevenueSharingAds(this);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ boolean didPressAnimatedEmoji(ChatMessageCell chatMessageCell, AnimatedEmojiSpan animatedEmojiSpan) {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressAnimatedEmoji(this, chatMessageCell, animatedEmojiSpan);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressBoostCounter(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBoostCounter(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public void didPressBotButton(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
+                MessageObject messageObject = chatMessageCell.getMessageObject();
+                if (ChannelAdminLogActivity.this.expandedEvents.contains(Long.valueOf(messageObject.eventId))) {
+                    ChannelAdminLogActivity.this.expandedEvents.remove(Long.valueOf(messageObject.eventId));
+                } else {
+                    ChannelAdminLogActivity.this.expandedEvents.add(Long.valueOf(messageObject.eventId));
+                }
+                ChannelAdminLogActivity.this.saveScrollPosition(true);
+                ChannelAdminLogActivity.this.filterDeletedMessages();
+                ChannelAdminLogActivity.this.chatAdapter.notifyDataSetChanged();
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public void didPressCancelSendButton(ChatMessageCell chatMessageCell) {
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public void didPressChannelAvatar(ChatMessageCell chatMessageCell, TLRPC$Chat tLRPC$Chat, int i, float f, float f2, boolean z) {
+                if (tLRPC$Chat == null || tLRPC$Chat == ChannelAdminLogActivity.this.currentChat) {
+                    return;
+                }
+                Bundle bundle = new Bundle();
+                bundle.putLong("chat_id", tLRPC$Chat.id);
+                if (i != 0) {
+                    bundle.putInt("message_id", i);
+                }
+                if (MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).checkCanOpenChat(bundle, ChannelAdminLogActivity.this)) {
+                    ChannelAdminLogActivity.this.presentFragment(new ChatActivity(bundle), true);
+                }
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressChannelRecommendation(ChatMessageCell chatMessageCell, TLRPC$Chat tLRPC$Chat, boolean z) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelRecommendation(this, chatMessageCell, tLRPC$Chat, z);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressChannelRecommendationsClose(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelRecommendationsClose(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressCodeCopy(ChatMessageCell chatMessageCell, MessageObject.TextLayoutBlock textLayoutBlock) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressCodeCopy(this, chatMessageCell, textLayoutBlock);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressCommentButton(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressCommentButton(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressDialogButton(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressDialogButton(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressEffect(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressEffect(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressExtendedMediaPreview(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressExtendedMediaPreview(this, chatMessageCell, tLRPC$KeyboardButton);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressFactCheck(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressFactCheck(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressFactCheckWhat(ChatMessageCell chatMessageCell, int i, int i2) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressFactCheckWhat(this, chatMessageCell, i, i2);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressGiveawayChatButton(ChatMessageCell chatMessageCell, int i) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressGiveawayChatButton(this, chatMessageCell, i);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressGroupImage(ChatMessageCell chatMessageCell, ImageReceiver imageReceiver, TLRPC$MessageExtendedMedia tLRPC$MessageExtendedMedia, float f, float f2) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressGroupImage(this, chatMessageCell, imageReceiver, tLRPC$MessageExtendedMedia, f, f2);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressHiddenForward(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressHiddenForward(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressHint(ChatMessageCell chatMessageCell, int i) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressHint(this, chatMessageCell, i);
+            }
+
+            /* JADX WARN: Code restructure failed: missing block: B:50:0x0111, code lost:
+                if (r11.exists() != false) goto L54;
+             */
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+            */
+            public void didPressImage(ChatMessageCell chatMessageCell, float f, float f2) {
+                int i;
+                File file;
+                Uri fromFile;
+                MessageObject messageObject = chatMessageCell.getMessageObject();
+                if (messageObject.getInputStickerSet() != null) {
+                    ChannelAdminLogActivity.this.showDialog(new StickersAlert(ChannelAdminLogActivity.this.getParentActivity(), ChannelAdminLogActivity.this, messageObject.getInputStickerSet(), (TLRPC$TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null));
+                } else if (messageObject.isVideo() || (i = messageObject.type) == 1 || ((i == 0 && !messageObject.isWebpageDocument()) || messageObject.isGif())) {
+                    PhotoViewer.getInstance().setParentActivity(ChannelAdminLogActivity.this);
+                    PhotoViewer.getInstance().openPhoto(messageObject, (ChatActivity) null, 0L, 0L, 0L, ChannelAdminLogActivity.this.provider);
+                } else {
+                    int i2 = messageObject.type;
+                    File file2 = null;
+                    try {
+                        if (i2 == 3) {
+                            String str = messageObject.messageOwner.attachPath;
+                            if (str != null && str.length() != 0) {
+                                file2 = new File(messageObject.messageOwner.attachPath);
+                            }
+                            if (file2 == null || !file2.exists()) {
+                                file2 = ChannelAdminLogActivity.this.getFileLoader().getPathToMessage(messageObject.messageOwner);
+                            }
+                            Intent intent = new Intent("android.intent.action.VIEW");
+                            if (Build.VERSION.SDK_INT >= 24) {
+                                intent.setFlags(1);
+                                fromFile = FileProvider.getUriForFile(ChannelAdminLogActivity.this.getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", file2);
+                            } else {
+                                fromFile = Uri.fromFile(file2);
+                            }
+                            intent.setDataAndType(fromFile, "video/mp4");
+                            ChannelAdminLogActivity.this.getParentActivity().startActivityForResult(intent, 500);
+                        } else if (i2 == 4) {
+                            if (AndroidUtilities.isMapsInstalled(ChannelAdminLogActivity.this)) {
+                                LocationActivity locationActivity = new LocationActivity(0);
+                                locationActivity.setMessageObject(messageObject);
+                                ChannelAdminLogActivity.this.presentFragment(locationActivity);
+                            }
+                        } else if (i2 == 9 || i2 == 0) {
+                            if (messageObject.getDocumentName().toLowerCase().endsWith("attheme")) {
+                                String str2 = messageObject.messageOwner.attachPath;
+                                if (str2 != null && str2.length() != 0) {
+                                    file = new File(messageObject.messageOwner.attachPath);
+                                }
+                                file = null;
+                                if (file == null) {
+                                    File pathToMessage = ChannelAdminLogActivity.this.getFileLoader().getPathToMessage(messageObject.messageOwner);
+                                    if (pathToMessage.exists()) {
+                                        file = pathToMessage;
+                                    }
+                                }
+                                if (ChannelAdminLogActivity.this.chatLayoutManager != null) {
+                                    if (ChannelAdminLogActivity.this.chatLayoutManager.findLastVisibleItemPosition() < ChannelAdminLogActivity.this.chatLayoutManager.getItemCount() - 1) {
+                                        ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
+                                        channelAdminLogActivity.scrollToPositionOnRecreate = channelAdminLogActivity.chatLayoutManager.findFirstVisibleItemPosition();
+                                        RecyclerListView.Holder holder = (RecyclerListView.Holder) ChannelAdminLogActivity.this.chatListView.findViewHolderForAdapterPosition(ChannelAdminLogActivity.this.scrollToPositionOnRecreate);
+                                        if (holder != null) {
+                                            ChannelAdminLogActivity.this.scrollToOffsetOnRecreate = holder.itemView.getTop();
+                                        }
+                                    }
+                                    ChannelAdminLogActivity.this.scrollToPositionOnRecreate = -1;
+                                }
+                                Theme.ThemeInfo applyThemeFile = Theme.applyThemeFile(file, messageObject.getDocumentName(), null, true);
+                                if (applyThemeFile != null) {
+                                    ChannelAdminLogActivity.this.presentFragment(new ThemePreviewActivity(applyThemeFile));
+                                    return;
+                                }
+                                ChannelAdminLogActivity.this.scrollToPositionOnRecreate = -1;
+                            }
+                            AndroidUtilities.openForView(messageObject, ChannelAdminLogActivity.this.getParentActivity(), null, false);
+                        }
+                    } catch (Exception unused) {
+                        ChannelAdminLogActivity.this.alertUserOpenError(messageObject);
+                    }
+                }
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public void didPressInstantButton(ChatMessageCell chatMessageCell, int i) {
+                TLRPC$WebPage tLRPC$WebPage;
+                MessageObject messageObject = chatMessageCell.getMessageObject();
+                TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent = messageObject.currentEvent;
+                if (tLRPC$TL_channelAdminLogEvent != null && (tLRPC$TL_channelAdminLogEvent.action instanceof TLRPC$TL_channelAdminLogEventActionEditMessage)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("chat_id", -messageObject.getDialogId());
+                    bundle.putInt("message_id", messageObject.getRealId());
+                    ChatActivity chatActivity = new ChatActivity(bundle);
+                    if (ChatObject.isForum(ChannelAdminLogActivity.this.currentChat)) {
+                        ForumUtilities.applyTopic(chatActivity, MessagesStorage.TopicKey.of(messageObject.getDialogId(), MessageObject.getTopicId(((BaseFragment) ChannelAdminLogActivity.this).currentAccount, messageObject.messageOwner, true)));
+                    }
+                    ChannelAdminLogActivity.this.presentFragment(chatActivity);
+                } else if (i == 0) {
+                    TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
+                    if (tLRPC$MessageMedia == null || (tLRPC$WebPage = tLRPC$MessageMedia.webpage) == null || tLRPC$WebPage.cached_page == null) {
+                        return;
+                    }
+                    LaunchActivity launchActivity = LaunchActivity.instance;
+                    if (launchActivity == null || launchActivity.getBottomSheetTabs() == null || LaunchActivity.instance.getBottomSheetTabs().tryReopenTab(messageObject) == null) {
+                        ChannelAdminLogActivity.this.createArticleViewer(false).open(messageObject);
+                    }
+                } else if (i == 5) {
+                    ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
+                    TLRPC$User user = channelAdminLogActivity.getMessagesController().getUser(Long.valueOf(messageObject.messageOwner.media.user_id));
+                    TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject.messageOwner.media;
+                    channelAdminLogActivity.openVCard(user, tLRPC$MessageMedia2.vcard, tLRPC$MessageMedia2.first_name, tLRPC$MessageMedia2.last_name);
+                } else {
+                    TLRPC$MessageMedia tLRPC$MessageMedia3 = messageObject.messageOwner.media;
+                    if (tLRPC$MessageMedia3 == null || tLRPC$MessageMedia3.webpage == null) {
+                        return;
+                    }
+                    Browser.openUrl(ChannelAdminLogActivity.this.getParentActivity(), messageObject.messageOwner.media.webpage.url);
+                }
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressMoreChannelRecommendations(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressMoreChannelRecommendations(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public void didPressOther(ChatMessageCell chatMessageCell, float f, float f2) {
+                ChannelAdminLogActivity.this.createMenu(chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressReaction(ChatMessageCell chatMessageCell, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z, float f, float f2) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReaction(this, chatMessageCell, tLRPC$ReactionCount, z, f, f2);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public void didPressReplyMessage(ChatMessageCell chatMessageCell, int i) {
+                MessageObject messageObject = chatMessageCell.getMessageObject().replyMessageObject;
+                if (messageObject.getDialogId() == (-ChannelAdminLogActivity.this.currentChat.id)) {
+                    for (int i2 = 0; i2 < ChannelAdminLogActivity.this.filteredMessages.size(); i2++) {
+                        MessageObject messageObject2 = (MessageObject) ChannelAdminLogActivity.this.filteredMessages.get(i2);
+                        if (messageObject2 != null && messageObject2.contentType != 1 && messageObject2.getRealId() == messageObject.getRealId()) {
+                            ChannelAdminLogActivity.this.scrollToMessage(messageObject2, true);
+                            return;
+                        }
+                    }
+                }
+                Bundle bundle = new Bundle();
+                bundle.putLong("chat_id", ChannelAdminLogActivity.this.currentChat.id);
+                bundle.putInt("message_id", messageObject.getRealId());
+                ChannelAdminLogActivity.this.presentFragment(new ChatActivity(bundle));
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressRevealSensitiveContent(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressRevealSensitiveContent(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public void didPressSideButton(ChatMessageCell chatMessageCell) {
+                if (ChannelAdminLogActivity.this.getParentActivity() == null) {
+                    return;
+                }
+                ChatActivityAdapter chatActivityAdapter = ChatActivityAdapter.this;
+                ChannelAdminLogActivity.this.showDialog(ShareAlert.createShareAlert(chatActivityAdapter.mContext, chatMessageCell.getMessageObject(), null, ChatObject.isChannel(ChannelAdminLogActivity.this.currentChat) && !ChannelAdminLogActivity.this.currentChat.megagroup, null, false));
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressSponsoredClose(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressSponsoredClose(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressSponsoredInfo(ChatMessageCell chatMessageCell, float f, float f2) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressSponsoredInfo(this, chatMessageCell, f, f2);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressTime(ChatMessageCell chatMessageCell) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressTime(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public void didPressTopicButton(ChatMessageCell chatMessageCell) {
+                MessageObject messageObject = chatMessageCell.getMessageObject();
+                if (messageObject != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("chat_id", -messageObject.getDialogId());
+                    ChatActivity chatActivity = new ChatActivity(bundle);
+                    ForumUtilities.applyTopic(chatActivity, MessagesStorage.TopicKey.of(messageObject.getDialogId(), MessageObject.getTopicId(((BaseFragment) ChannelAdminLogActivity.this).currentAccount, messageObject.messageOwner, true)));
+                    ChannelAdminLogActivity.this.presentFragment(chatActivity);
+                }
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public void didPressUrl(ChatMessageCell chatMessageCell, CharacterStyle characterStyle, boolean z) {
+                TLRPC$WebPage tLRPC$WebPage;
+                TLRPC$Chat chat;
+                MessagesController messagesController;
+                ChannelAdminLogActivity channelAdminLogActivity;
+                int i;
+                boolean z2;
+                TLRPC$User tLRPC$User;
+                if (characterStyle == null) {
+                    return;
+                }
+                MessageObject messageObject = chatMessageCell.getMessageObject();
+                if (characterStyle instanceof URLSpanMono) {
+                    ((URLSpanMono) characterStyle).copyToClipboard();
+                    if (AndroidUtilities.shouldShowClipboardToast()) {
+                        Toast.makeText(ChannelAdminLogActivity.this.getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), 0).show();
+                    }
+                } else if (characterStyle instanceof URLSpanUserMention) {
+                    Long parseLong = Utilities.parseLong(((URLSpanUserMention) characterStyle).getURL());
+                    long longValue = parseLong.longValue();
+                    if (longValue > 0) {
+                        tLRPC$User = MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getUser(parseLong);
+                        if (tLRPC$User == null) {
+                            return;
+                        }
+                        messagesController = MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount);
+                        channelAdminLogActivity = ChannelAdminLogActivity.this;
+                        i = 0;
+                        z2 = false;
+                        chat = null;
+                    } else {
+                        chat = MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getChat(Long.valueOf(-longValue));
+                        if (chat == null) {
+                            return;
+                        }
+                        messagesController = MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount);
+                        channelAdminLogActivity = ChannelAdminLogActivity.this;
+                        i = 0;
+                        z2 = false;
+                        tLRPC$User = null;
+                    }
+                    messagesController.openChatOrProfileWith(tLRPC$User, chat, channelAdminLogActivity, i, z2);
+                } else if (characterStyle instanceof URLSpanNoUnderline) {
+                    String url = ((URLSpanNoUnderline) characterStyle).getURL();
+                    if (url.startsWith("@")) {
+                        MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).openByUserName(url.substring(1), ChannelAdminLogActivity.this, 0);
+                    } else if (url.startsWith("#")) {
+                        DialogsActivity dialogsActivity = new DialogsActivity(null);
+                        dialogsActivity.setSearchString(url);
+                        ChannelAdminLogActivity.this.presentFragment(dialogsActivity);
+                    }
+                } else {
+                    final String url2 = ((URLSpan) characterStyle).getURL();
+                    if (z) {
+                        BottomSheet.Builder builder = new BottomSheet.Builder(ChannelAdminLogActivity.this.getParentActivity());
+                        builder.setTitle(url2);
+                        builder.setItems(new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$1$$ExternalSyntheticLambda1
+                            @Override // android.content.DialogInterface.OnClickListener
+                            public final void onClick(DialogInterface dialogInterface, int i2) {
+                                ChannelAdminLogActivity.ChatActivityAdapter.1.this.lambda$didPressUrl$1(url2, dialogInterface, i2);
+                            }
+                        });
+                        ChannelAdminLogActivity.this.showDialog(builder.create());
+                    } else if (characterStyle instanceof URLSpanReplacement) {
+                        ChannelAdminLogActivity.this.showOpenUrlAlert(((URLSpanReplacement) characterStyle).getURL(), true);
+                    } else {
+                        TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
+                        if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) && (tLRPC$WebPage = tLRPC$MessageMedia.webpage) != null && tLRPC$WebPage.cached_page != null) {
+                            String lowerCase = url2.toLowerCase();
+                            String lowerCase2 = messageObject.messageOwner.media.webpage.url.toLowerCase();
+                            if ((Browser.isTelegraphUrl(lowerCase, false) || lowerCase.contains("t.me/iv")) && (lowerCase.contains(lowerCase2) || lowerCase2.contains(lowerCase))) {
+                                LaunchActivity launchActivity = LaunchActivity.instance;
+                                if (launchActivity == null || launchActivity.getBottomSheetTabs() == null || LaunchActivity.instance.getBottomSheetTabs().tryReopenTab(messageObject) == null) {
+                                    ChannelAdminLogActivity.this.createArticleViewer(false).open(messageObject);
+                                    return;
+                                }
+                                return;
+                            }
+                        }
+                        Browser.openUrl((Context) ChannelAdminLogActivity.this.getParentActivity(), url2, true);
+                    }
+                }
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public void didPressUserAvatar(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User, float f, float f2, boolean z) {
+                if (tLRPC$User == null || tLRPC$User.id == UserConfig.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getClientUserId()) {
+                    return;
+                }
+                openProfile(tLRPC$User);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressUserStatus(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User, TLRPC$Document tLRPC$Document) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserStatus(this, chatMessageCell, tLRPC$User, tLRPC$Document);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public void didPressViaBot(ChatMessageCell chatMessageCell, String str) {
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressViaBotNotInline(ChatMessageCell chatMessageCell, long j) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressViaBotNotInline(this, chatMessageCell, j);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressVoteButtons(ChatMessageCell chatMessageCell, ArrayList arrayList, int i, int i2, int i3) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressVoteButtons(this, chatMessageCell, arrayList, i, i2, i3);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didPressWebPage(ChatMessageCell chatMessageCell, TLRPC$WebPage tLRPC$WebPage, String str, boolean z) {
+                Browser.openUrl(chatMessageCell.getContext(), str);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void didStartVideoStream(MessageObject messageObject) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didStartVideoStream(this, messageObject);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ boolean doNotShowLoadingReply(MessageObject messageObject) {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$doNotShowLoadingReply(this, messageObject);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void forceUpdate(ChatMessageCell chatMessageCell, boolean z) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$forceUpdate(this, chatMessageCell, z);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ String getAdminRank(long j) {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getAdminRank(this, j);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ PinchToZoomHelper getPinchToZoomHelper() {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getPinchToZoomHelper(this);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ String getProgressLoadingBotButtonUrl(ChatMessageCell chatMessageCell) {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getProgressLoadingBotButtonUrl(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ CharacterStyle getProgressLoadingLink(ChatMessageCell chatMessageCell) {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getProgressLoadingLink(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ TextSelectionHelper.ChatListTextSelectionHelper getTextSelectionHelper() {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getTextSelectionHelper(this);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ boolean hasSelectedMessages() {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$hasSelectedMessages(this);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void invalidateBlur() {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$invalidateBlur(this);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ boolean isLandscape() {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$isLandscape(this);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ boolean isProgressLoading(ChatMessageCell chatMessageCell, int i) {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$isProgressLoading(this, chatMessageCell, i);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ boolean isReplyOrSelf() {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$isReplyOrSelf(this);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ boolean keyboardIsOpened() {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$keyboardIsOpened(this);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public void needOpenWebView(MessageObject messageObject, String str, String str2, String str3, String str4, int i, int i2) {
+                ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
+                EmbedBottomSheet.show(channelAdminLogActivity, messageObject, channelAdminLogActivity.provider, str2, str3, str4, str, i, i2, false);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public boolean needPlayMessage(ChatMessageCell chatMessageCell, MessageObject messageObject, boolean z) {
+                if (messageObject.isVoice() || messageObject.isRoundVideo()) {
+                    boolean playMessage = MediaController.getInstance().playMessage(messageObject, z);
+                    MediaController.getInstance().setVoiceMessagesPlaylist(null, false);
+                    return playMessage;
+                } else if (messageObject.isMusic()) {
+                    return MediaController.getInstance().setPlaylist(ChannelAdminLogActivity.this.filteredMessages, messageObject, 0L);
+                } else {
+                    return false;
+                }
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void needReloadPolls() {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needReloadPolls(this);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void needShowPremiumBulletin(int i) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needShowPremiumBulletin(this, i);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ boolean onAccessibilityAction(int i, Bundle bundle) {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$onAccessibilityAction(this, i, bundle);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void onDiceFinished() {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$onDiceFinished(this);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void setShouldNotRepeatSticker(MessageObject messageObject) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$setShouldNotRepeatSticker(this, messageObject);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ boolean shouldDrawThreadProgress(ChatMessageCell chatMessageCell, boolean z) {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldDrawThreadProgress(this, chatMessageCell, z);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ boolean shouldRepeatSticker(MessageObject messageObject) {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldRepeatSticker(this, messageObject);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ boolean shouldShowDialogButton(ChatMessageCell chatMessageCell) {
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldShowDialogButton(this, chatMessageCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public boolean shouldShowTopicButton(ChatMessageCell chatMessageCell) {
+                TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent;
+                MessageObject messageObject = chatMessageCell.getMessageObject();
+                if (messageObject == null || (tLRPC$TL_channelAdminLogEvent = messageObject.currentEvent) == null) {
+                    return false;
+                }
+                TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction = tLRPC$TL_channelAdminLogEvent.action;
+                if ((tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionEditMessage) || (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage)) {
+                    return ChatObject.isForum(ChannelAdminLogActivity.this.currentChat);
+                }
+                return false;
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ void videoTimerReached() {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$videoTimerReached(this);
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* loaded from: classes4.dex */
+        public class 3 implements ChatActionCell.ChatActionCellDelegate {
+            3() {
+            }
+
+            /* JADX INFO: Access modifiers changed from: private */
+            public /* synthetic */ void lambda$needOpenInviteLink$0(boolean[] zArr, DialogInterface dialogInterface) {
+                ChannelAdminLogActivity.this.linviteLoading = false;
+                zArr[0] = true;
+            }
+
+            /* JADX INFO: Access modifiers changed from: private */
+            public /* synthetic */ void lambda$needOpenInviteLink$1(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLRPC$TL_messages_exportedChatInvite tLRPC$TL_messages_exportedChatInvite, boolean[] zArr, AlertDialog alertDialog) {
+                ChannelAdminLogActivity.this.linviteLoading = false;
+                ChannelAdminLogActivity.this.invitesCache.put(tLRPC$TL_chatInviteExported.link, tLRPC$TL_messages_exportedChatInvite == null ? 0 : tLRPC$TL_messages_exportedChatInvite);
+                if (zArr[0]) {
+                    return;
+                }
+                alertDialog.dismiss();
+                ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
+                if (tLRPC$TL_messages_exportedChatInvite != null) {
+                    channelAdminLogActivity.showInviteLinkBottomSheet(tLRPC$TL_messages_exportedChatInvite, channelAdminLogActivity.usersMap);
+                } else {
+                    BulletinFactory.of(channelAdminLogActivity).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString("LinkHashExpired", R.string.LinkHashExpired)).show();
+                }
+            }
+
+            /* JADX INFO: Access modifiers changed from: private */
+            public /* synthetic */ void lambda$needOpenInviteLink$2(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final boolean[] zArr, final AlertDialog alertDialog, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                TLRPC$TL_messages_exportedChatInvite tLRPC$TL_messages_exportedChatInvite;
+                if (tLRPC$TL_error == null) {
+                    tLRPC$TL_messages_exportedChatInvite = (TLRPC$TL_messages_exportedChatInvite) tLObject;
+                    for (int i = 0; i < tLRPC$TL_messages_exportedChatInvite.users.size(); i++) {
+                        TLRPC$User tLRPC$User = (TLRPC$User) tLRPC$TL_messages_exportedChatInvite.users.get(i);
+                        if (ChannelAdminLogActivity.this.usersMap == null) {
+                            ChannelAdminLogActivity.this.usersMap = new HashMap();
+                        }
+                        ChannelAdminLogActivity.this.usersMap.put(Long.valueOf(tLRPC$User.id), tLRPC$User);
+                    }
+                } else {
+                    tLRPC$TL_messages_exportedChatInvite = null;
+                }
+                final TLRPC$TL_messages_exportedChatInvite tLRPC$TL_messages_exportedChatInvite2 = tLRPC$TL_messages_exportedChatInvite;
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$3$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChannelAdminLogActivity.ChatActivityAdapter.3.this.lambda$needOpenInviteLink$1(tLRPC$TL_chatInviteExported, tLRPC$TL_messages_exportedChatInvite2, zArr, alertDialog);
+                    }
+                });
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public /* synthetic */ boolean canDrawOutboundsContent() {
+                return ChatActionCell.ChatActionCellDelegate.-CC.$default$canDrawOutboundsContent(this);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public /* synthetic */ void didClickButton(ChatActionCell chatActionCell) {
+                ChatActionCell.ChatActionCellDelegate.-CC.$default$didClickButton(this, chatActionCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public void didClickImage(ChatActionCell chatActionCell) {
+                MessageObject messageObject = chatActionCell.getMessageObject();
+                if (messageObject.type == 22) {
+                    ChannelAdminLogActivity.this.presentFragment(new ChannelColorActivity(getDialogId()).setOnApplied(ChannelAdminLogActivity.this));
+                    return;
+                }
+                PhotoViewer.getInstance().setParentActivity(ChannelAdminLogActivity.this);
+                TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 640);
+                if (closestPhotoSizeWithSize == null) {
+                    PhotoViewer.getInstance().openPhoto(messageObject, (ChatActivity) null, 0L, 0L, 0L, ChannelAdminLogActivity.this.provider);
+                    return;
+                }
+                PhotoViewer.getInstance().openPhoto(closestPhotoSizeWithSize.location, ImageLocation.getForPhoto(closestPhotoSizeWithSize, messageObject.messageOwner.action.photo), ChannelAdminLogActivity.this.provider);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public boolean didLongPress(ChatActionCell chatActionCell, float f, float f2) {
+                return ChannelAdminLogActivity.this.createMenu(chatActionCell);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public /* synthetic */ void didOpenPremiumGift(ChatActionCell chatActionCell, TLRPC$TL_premiumGiftOption tLRPC$TL_premiumGiftOption, String str, boolean z) {
+                ChatActionCell.ChatActionCellDelegate.-CC.$default$didOpenPremiumGift(this, chatActionCell, tLRPC$TL_premiumGiftOption, str, z);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public /* synthetic */ void didOpenPremiumGiftChannel(ChatActionCell chatActionCell, String str, boolean z) {
+                ChatActionCell.ChatActionCellDelegate.-CC.$default$didOpenPremiumGiftChannel(this, chatActionCell, str, z);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public void didPressReplyMessage(ChatActionCell chatActionCell, int i) {
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public BaseFragment getBaseFragment() {
+                return ChannelAdminLogActivity.this;
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public long getDialogId() {
+                return -ChannelAdminLogActivity.this.currentChat.id;
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public /* synthetic */ long getTopicId() {
+                return ChatActionCell.ChatActionCellDelegate.-CC.$default$getTopicId(this);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public void needOpenInviteLink(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
+                if (ChannelAdminLogActivity.this.linviteLoading) {
+                    return;
+                }
+                Object obj = ChannelAdminLogActivity.this.invitesCache.containsKey(tLRPC$TL_chatInviteExported.link) ? ChannelAdminLogActivity.this.invitesCache.get(tLRPC$TL_chatInviteExported.link) : null;
+                if (obj != null) {
+                    if (!(obj instanceof TLRPC$TL_messages_exportedChatInvite)) {
+                        BulletinFactory.of(ChannelAdminLogActivity.this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString("LinkHashExpired", R.string.LinkHashExpired)).show();
+                        return;
+                    }
+                    ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
+                    channelAdminLogActivity.showInviteLinkBottomSheet((TLRPC$TL_messages_exportedChatInvite) obj, channelAdminLogActivity.usersMap);
+                    return;
+                }
+                TLRPC$TL_messages_getExportedChatInvite tLRPC$TL_messages_getExportedChatInvite = new TLRPC$TL_messages_getExportedChatInvite();
+                tLRPC$TL_messages_getExportedChatInvite.peer = ChannelAdminLogActivity.this.getMessagesController().getInputPeer(-ChannelAdminLogActivity.this.currentChat.id);
+                tLRPC$TL_messages_getExportedChatInvite.link = tLRPC$TL_chatInviteExported.link;
+                ChannelAdminLogActivity.this.linviteLoading = true;
+                final boolean[] zArr = new boolean[1];
+                final AlertDialog alertDialog = new AlertDialog(ChannelAdminLogActivity.this.getParentActivity(), 3);
+                alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$3$$ExternalSyntheticLambda0
+                    @Override // android.content.DialogInterface.OnCancelListener
+                    public final void onCancel(DialogInterface dialogInterface) {
+                        ChannelAdminLogActivity.ChatActivityAdapter.3.this.lambda$needOpenInviteLink$0(zArr, dialogInterface);
+                    }
+                });
+                alertDialog.showDelayed(300L);
+                ChannelAdminLogActivity.this.getConnectionsManager().bindRequestToGuid(ChannelAdminLogActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_messages_getExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$3$$ExternalSyntheticLambda1
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        ChannelAdminLogActivity.ChatActivityAdapter.3.this.lambda$needOpenInviteLink$2(tLRPC$TL_chatInviteExported, zArr, alertDialog, tLObject, tLRPC$TL_error);
+                    }
+                }), ((BaseFragment) ChannelAdminLogActivity.this).classGuid);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public void needOpenUserProfile(long j) {
+                if (j < 0) {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("chat_id", -j);
+                    if (MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).checkCanOpenChat(bundle, ChannelAdminLogActivity.this)) {
+                        ChannelAdminLogActivity.this.presentFragment(new ChatActivity(bundle), true);
+                    }
+                } else if (j != UserConfig.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getClientUserId()) {
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putLong("user_id", j);
+                    ChannelAdminLogActivity.this.addCanBanUser(bundle2, j);
+                    ProfileActivity profileActivity = new ProfileActivity(bundle2);
+                    profileActivity.setPlayProfileAnimation(0);
+                    ChannelAdminLogActivity.this.presentFragment(profileActivity);
+                }
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public /* synthetic */ void needShowEffectOverlay(ChatActionCell chatActionCell, TLRPC$Document tLRPC$Document, TLRPC$VideoSize tLRPC$VideoSize) {
+                ChatActionCell.ChatActionCellDelegate.-CC.$default$needShowEffectOverlay(this, chatActionCell, tLRPC$Document, tLRPC$VideoSize);
+            }
+        }
+
+        public ChatActivityAdapter(Context context) {
+            this.mContext = context;
+            setHasStableIds(true);
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemCount() {
+            return this.rowCount;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public long getItemId(int i) {
+            return (i < this.messagesStartRow || i >= this.messagesEndRow) ? i == this.loadingUpRow ? 2L : 5L : ((MessageObject) ChannelAdminLogActivity.this.filteredMessages.get((ChannelAdminLogActivity.this.filteredMessages.size() - (i - this.messagesStartRow)) - 1)).stableId;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemViewType(int i) {
+            if (i < this.messagesStartRow || i >= this.messagesEndRow) {
+                return 4;
+            }
+            return ((MessageObject) ChannelAdminLogActivity.this.filteredMessages.get((ChannelAdminLogActivity.this.filteredMessages.size() - (i - this.messagesStartRow)) - 1)).contentType;
+        }
+
+        public MessageObject getMessageObject(int i) {
+            if (i < this.messagesStartRow || i >= this.messagesEndRow) {
+                return null;
+            }
+            return (MessageObject) ChannelAdminLogActivity.this.filteredMessages.get((ChannelAdminLogActivity.this.filteredMessages.size() - (i - this.messagesStartRow)) - 1);
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void notifyDataSetChanged() {
+            updateRows();
+            try {
+                super.notifyDataSetChanged();
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void notifyItemChanged(int i) {
+            updateRows(false);
+            try {
+                super.notifyItemChanged(i);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void notifyItemInserted(int i) {
+            updateRows(false);
+            try {
+                super.notifyItemInserted(i);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void notifyItemMoved(int i, int i2) {
+            updateRows(false);
+            try {
+                super.notifyItemMoved(i, i2);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void notifyItemRangeChanged(int i, int i2) {
+            updateRows(false);
+            try {
+                super.notifyItemRangeChanged(i, i2);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void notifyItemRangeInserted(int i, int i2) {
+            updateRows(false);
+            try {
+                super.notifyItemRangeInserted(i, i2);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void notifyItemRangeRemoved(int i, int i2) {
+            updateRows(false);
+            try {
+                super.notifyItemRangeRemoved(i, i2);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void notifyItemRemoved(int i) {
+            updateRows(false);
+            try {
+                super.notifyItemRemoved(i);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+
+        /* JADX WARN: Code restructure failed: missing block: B:33:0x00c8, code lost:
+            if (r9 != (r6 == null ? org.telegram.messenger.MessageObject.getTopicId(((org.telegram.ui.ActionBar.BaseFragment) r13.this$0).currentAccount, r3.messageOwner, true) : r6.id)) goto L61;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:57:0x0147, code lost:
+            if (r5 != (r3 == null ? org.telegram.messenger.MessageObject.getTopicId(((org.telegram.ui.ActionBar.BaseFragment) r13.this$0).currentAccount, r14.messageOwner, true) : r3.id)) goto L59;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:37:0x00d1  */
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+            boolean z;
+            boolean z2;
+            if (i == this.loadingUpRow) {
+                ((ChatLoadingCell) viewHolder.itemView).setProgressVisible(true);
+            } else if (i < this.messagesStartRow || i >= this.messagesEndRow) {
+            } else {
+                MessageObject messageObject = (MessageObject) ChannelAdminLogActivity.this.filteredMessages.get((ChannelAdminLogActivity.this.filteredMessages.size() - (i - this.messagesStartRow)) - 1);
+                View view = viewHolder.itemView;
+                if (!(view instanceof ChatMessageCell)) {
+                    if (view instanceof ChatActionCell) {
+                        ChatActionCell chatActionCell = (ChatActionCell) view;
+                        chatActionCell.setMessageObject(messageObject);
+                        chatActionCell.setAlpha(1.0f);
+                        return;
+                    }
+                    return;
+                }
+                ChatMessageCell chatMessageCell = (ChatMessageCell) view;
+                chatMessageCell.isChat = true;
+                int i2 = i + 1;
+                int itemViewType = getItemViewType(i2);
+                int itemViewType2 = getItemViewType(i - 1);
+                if (!(messageObject.messageOwner.reply_markup instanceof TLRPC$TL_replyInlineMarkup) && itemViewType == viewHolder.getItemViewType()) {
+                    MessageObject messageObject2 = (MessageObject) ChannelAdminLogActivity.this.filteredMessages.get((ChannelAdminLogActivity.this.filteredMessages.size() - (i2 - this.messagesStartRow)) - 1);
+                    z = messageObject2.isOutOwner() == messageObject.isOutOwner() && messageObject2.getFromChatId() == messageObject.getFromChatId() && Math.abs(messageObject2.messageOwner.date - messageObject.messageOwner.date) <= 300;
+                    if (z) {
+                        TLRPC$TL_forumTopic tLRPC$TL_forumTopic = messageObject.replyToForumTopic;
+                        long topicId = tLRPC$TL_forumTopic == null ? MessageObject.getTopicId(((BaseFragment) ChannelAdminLogActivity.this).currentAccount, messageObject.messageOwner, true) : tLRPC$TL_forumTopic.id;
+                        TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = messageObject2.replyToForumTopic;
+                    }
+                    if (itemViewType2 == viewHolder.getItemViewType()) {
+                        MessageObject messageObject3 = (MessageObject) ChannelAdminLogActivity.this.filteredMessages.get(ChannelAdminLogActivity.this.filteredMessages.size() - (i - this.messagesStartRow));
+                        z2 = !(messageObject3.messageOwner.reply_markup instanceof TLRPC$TL_replyInlineMarkup) && messageObject3.isOutOwner() == messageObject.isOutOwner() && messageObject3.getFromChatId() == messageObject.getFromChatId() && Math.abs(messageObject3.messageOwner.date - messageObject.messageOwner.date) <= 300;
+                        if (z2) {
+                            TLRPC$TL_forumTopic tLRPC$TL_forumTopic3 = messageObject.replyToForumTopic;
+                            long topicId2 = tLRPC$TL_forumTopic3 == null ? MessageObject.getTopicId(((BaseFragment) ChannelAdminLogActivity.this).currentAccount, messageObject.messageOwner, true) : tLRPC$TL_forumTopic3.id;
+                            TLRPC$TL_forumTopic tLRPC$TL_forumTopic4 = messageObject3.replyToForumTopic;
+                        }
+                        chatMessageCell.setMessageObject(messageObject, null, z, z2);
+                        chatMessageCell.setHighlighted(false);
+                        chatMessageCell.setHighlightedText(ChannelAdminLogActivity.this.searchQuery);
+                    }
+                    z2 = false;
+                    chatMessageCell.setMessageObject(messageObject, null, z, z2);
+                    chatMessageCell.setHighlighted(false);
+                    chatMessageCell.setHighlightedText(ChannelAdminLogActivity.this.searchQuery);
+                }
+                z = false;
+                if (itemViewType2 == viewHolder.getItemViewType()) {
+                }
+                z2 = false;
+                chatMessageCell.setMessageObject(messageObject, null, z, z2);
+                chatMessageCell.setHighlighted(false);
+                chatMessageCell.setHighlightedText(ChannelAdminLogActivity.this.searchQuery);
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            ChatActionCell chatActionCell;
+            View view;
+            if (i == 0) {
+                if (ChannelAdminLogActivity.this.chatMessageCellsCache.isEmpty()) {
+                    view = new ChatMessageCell(this.mContext, ((BaseFragment) ChannelAdminLogActivity.this).currentAccount);
+                } else {
+                    ChannelAdminLogActivity.this.chatMessageCellsCache.remove(0);
+                    view = (View) ChannelAdminLogActivity.this.chatMessageCellsCache.get(0);
+                }
+                ChatMessageCell chatMessageCell = (ChatMessageCell) view;
+                chatMessageCell.setDelegate(new 1());
+                chatMessageCell.setAllowAssistant(true);
+                chatActionCell = view;
+            } else if (i == 1) {
+                ChatActionCell chatActionCell2 = new ChatActionCell(this.mContext) { // from class: org.telegram.ui.ChannelAdminLogActivity.ChatActivityAdapter.2
+                    @Override // org.telegram.ui.Cells.ChatActionCell, android.view.View
+                    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+                        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+                        accessibilityNodeInfo.setVisibleToUser(true);
+                    }
+                };
+                chatActionCell2.setDelegate(new 3());
+                chatActionCell = chatActionCell2;
+            } else {
+                chatActionCell = i == 2 ? new ChatUnreadCell(this.mContext, null) : new ChatLoadingCell(this.mContext, ChannelAdminLogActivity.this.contentView, null);
+            }
+            chatActionCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(chatActionCell);
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void onViewAttachedToWindow(final RecyclerView.ViewHolder viewHolder) {
+            final View view = viewHolder.itemView;
+            if ((view instanceof ChatMessageCell) || (view instanceof ChatActionCell)) {
+                view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.ChannelAdminLogActivity.ChatActivityAdapter.4
+                    @Override // android.view.ViewTreeObserver.OnPreDrawListener
+                    public boolean onPreDraw() {
+                        view.getViewTreeObserver().removeOnPreDrawListener(this);
+                        int measuredHeight = ChannelAdminLogActivity.this.chatListView.getMeasuredHeight();
+                        int top = view.getTop();
+                        view.getBottom();
+                        int i = top >= 0 ? 0 : -top;
+                        int measuredHeight2 = view.getMeasuredHeight();
+                        if (measuredHeight2 > measuredHeight) {
+                            measuredHeight2 = i + measuredHeight;
+                        }
+                        View view2 = viewHolder.itemView;
+                        if (view2 instanceof ChatMessageCell) {
+                            ((ChatMessageCell) view).setVisiblePart(i, measuredHeight2 - i, (ChannelAdminLogActivity.this.contentView.getHeightWithKeyboard() - AndroidUtilities.dp(48.0f)) - ChannelAdminLogActivity.this.chatListView.getTop(), 0.0f, (view.getY() + ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getMeasuredHeight()) - ChannelAdminLogActivity.this.contentView.getBackgroundTranslationY(), ChannelAdminLogActivity.this.contentView.getMeasuredWidth(), ChannelAdminLogActivity.this.contentView.getBackgroundSizeY(), 0, 0);
+                            return true;
+                        } else if (!(view2 instanceof ChatActionCell) || ((BaseFragment) ChannelAdminLogActivity.this).actionBar == null || ChannelAdminLogActivity.this.contentView == null) {
+                            return true;
+                        } else {
+                            View view3 = view;
+                            ((ChatActionCell) view3).setVisiblePart((view3.getY() + ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getMeasuredHeight()) - ChannelAdminLogActivity.this.contentView.getBackgroundTranslationY(), ChannelAdminLogActivity.this.contentView.getBackgroundSizeY());
+                            return true;
+                        }
+                    }
+                });
+            }
+            View view2 = viewHolder.itemView;
+            if (view2 instanceof ChatMessageCell) {
+                ChatMessageCell chatMessageCell = (ChatMessageCell) view2;
+                chatMessageCell.getMessageObject();
+                chatMessageCell.setBackgroundDrawable(null);
+                chatMessageCell.setCheckPressed(true, false);
+                chatMessageCell.setHighlighted(false);
+            }
+        }
+
+        public void updateRows() {
+            updateRows(true);
+        }
+
+        public void updateRows(boolean z) {
+            this.rowCount = 0;
+            if (ChannelAdminLogActivity.this.filteredMessages.isEmpty()) {
+                this.loadingUpRow = -1;
+                this.messagesStartRow = -1;
+                this.messagesEndRow = -1;
+                return;
+            }
+            if (ChannelAdminLogActivity.this.endReached) {
+                this.loadingUpRow = -1;
+            } else {
+                int i = this.rowCount;
+                this.rowCount = i + 1;
+                this.loadingUpRow = i;
+            }
+            int i2 = this.rowCount;
+            this.messagesStartRow = i2;
+            int size = i2 + ChannelAdminLogActivity.this.filteredMessages.size();
+            this.rowCount = size;
+            this.messagesEndRow = size;
+        }
+    }
+
+    /* loaded from: classes4.dex */
+    public class ChatScrollCallback extends RecyclerAnimationScrollHelper.AnimationCallback {
+        private boolean lastBottom;
+        private int lastItemOffset;
+        private int lastPadding;
+        private MessageObject scrollTo;
+        private int position = 0;
+        private boolean bottom = true;
+        private int offset = 0;
+
+        public ChatScrollCallback() {
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onEndAnimation$0() {
+            ChannelAdminLogActivity.this.getNotificationCenter().onAnimationFinish(ChannelAdminLogActivity.this.scrollCallbackAnimationIndex);
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerAnimationScrollHelper.AnimationCallback
+        public void onEndAnimation() {
+            if (this.scrollTo != null) {
+                int indexOf = ChannelAdminLogActivity.this.chatAdapter.messagesStartRow + ChannelAdminLogActivity.this.filteredMessages.indexOf(this.scrollTo);
+                if (indexOf >= 0) {
+                    ChannelAdminLogActivity.this.chatLayoutManager.scrollToPositionWithOffset(indexOf, this.lastItemOffset + this.lastPadding, this.lastBottom);
+                }
+            } else {
+                ChannelAdminLogActivity.this.chatLayoutManager.scrollToPositionWithOffset(this.position, this.offset, this.bottom);
+            }
+            this.scrollTo = null;
+            ChannelAdminLogActivity.this.checkTextureViewPosition = true;
+            ChannelAdminLogActivity.this.updateVisibleRows();
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatScrollCallback$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ChannelAdminLogActivity.ChatScrollCallback.this.lambda$onEndAnimation$0();
+                }
+            });
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerAnimationScrollHelper.AnimationCallback
+        public void onStartAnimation() {
+            super.onStartAnimation();
+            ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
+            channelAdminLogActivity.scrollCallbackAnimationIndex = channelAdminLogActivity.getNotificationCenter().setAnimationInProgress(ChannelAdminLogActivity.this.scrollCallbackAnimationIndex, ChannelAdminLogActivity.allowedNotificationsDuringChatListAnimations);
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerAnimationScrollHelper.AnimationCallback
+        public void recycleView(View view) {
+            if (view instanceof ChatMessageCell) {
+                ChannelAdminLogActivity.this.chatMessageCellsCache.add((ChatMessageCell) view);
+            }
+        }
     }
 
     public ChannelAdminLogActivity(TLRPC$Chat tLRPC$Chat) {
         this.currentChat = tLRPC$Chat;
     }
 
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public boolean onFragmentCreate() {
-        super.onFragmentCreate();
-        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
-        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messagePlayingDidStart);
-        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
-        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messagePlayingDidReset);
-        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messagePlayingProgressDidChanged);
-        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didSetNewWallpapper);
-        loadMessages(true);
-        loadAdmins();
-        Bulletin.addDelegate(this, new Bulletin.Delegate() { // from class: org.telegram.ui.ChannelAdminLogActivity.2
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public /* synthetic */ boolean allowLayoutChanges() {
-                return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public /* synthetic */ boolean bottomOffsetAnimated() {
-                return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public /* synthetic */ boolean clipWithGradient(int i) {
-                return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i);
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public /* synthetic */ int getTopOffset(int i) {
-                return Bulletin.Delegate.-CC.$default$getTopOffset(this, i);
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public /* synthetic */ void onBottomOffsetChange(float f) {
-                Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public /* synthetic */ void onHide(Bulletin bulletin) {
-                Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public /* synthetic */ void onShow(Bulletin bulletin) {
-                Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public int getBottomOffset(int i) {
-                return AndroidUtilities.dp(51.0f);
-            }
-        });
-        return true;
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onFragmentDestroy() {
-        super.onFragmentDestroy();
-        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
-        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidStart);
-        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
-        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidReset);
-        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingProgressDidChanged);
-        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.didSetNewWallpapper);
-        this.notificationsLocker.unlock();
-    }
-
-    private void updateEmptyPlaceholder() {
-        if (this.emptyView == null) {
-            return;
-        }
-        if (!TextUtils.isEmpty(this.searchQuery)) {
-            this.emptyImageView.setVisibility(8);
-            this.emptyView.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(3.0f));
-            this.emptyView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.NoLogFound)));
-        } else if (this.selectedAdmins != null || this.currentFilter != null) {
-            this.emptyImageView.setVisibility(8);
-            this.emptyView.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(3.0f));
-            this.emptyView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.NoLogFoundFiltered)));
-        } else {
-            this.emptyImageView.setVisibility(0);
-            this.emptyView.setPadding(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));
-            if (this.currentChat.megagroup) {
-                this.emptyView.setText(smallerNewNewLine(AndroidUtilities.replaceTags(LocaleController.getString(R.string.EventLogEmpty2))));
-            } else {
-                this.emptyView.setText(smallerNewNewLine(AndroidUtilities.replaceTags(LocaleController.getString(R.string.EventLogEmptyChannel2))));
-            }
-        }
-    }
-
-    private CharSequence smallerNewNewLine(CharSequence charSequence) {
-        int charSequenceIndexOf = AndroidUtilities.charSequenceIndexOf(charSequence, "\n\n");
-        if (charSequenceIndexOf >= 0 && Build.VERSION.SDK_INT >= 29) {
-            if (!(charSequence instanceof Spannable)) {
-                charSequence = new SpannableStringBuilder(charSequence);
-            }
-            ((SpannableStringBuilder) charSequence).setSpan(new LineHeightSpan.Standard(AndroidUtilities.dp(8.0f)), charSequenceIndexOf + 1, charSequenceIndexOf + 2, 33);
-        }
-        return charSequence;
-    }
-
-    /* renamed from: reloadLastMessages */
-    public void lambda$processSelectedOption$20() {
-        if (this.reloadingLastMessages) {
-            return;
-        }
-        this.reloadingLastMessages = true;
-        TLRPC$TL_channels_getAdminLog tLRPC$TL_channels_getAdminLog = new TLRPC$TL_channels_getAdminLog();
-        tLRPC$TL_channels_getAdminLog.channel = MessagesController.getInputChannel(this.currentChat);
-        tLRPC$TL_channels_getAdminLog.q = this.searchQuery;
-        tLRPC$TL_channels_getAdminLog.limit = 10;
-        tLRPC$TL_channels_getAdminLog.max_id = 0L;
-        tLRPC$TL_channels_getAdminLog.min_id = 0L;
-        TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter = this.currentFilter;
-        if (tLRPC$TL_channelAdminLogEventsFilter != null) {
-            tLRPC$TL_channels_getAdminLog.flags = 1 | tLRPC$TL_channels_getAdminLog.flags;
-            tLRPC$TL_channels_getAdminLog.events_filter = tLRPC$TL_channelAdminLogEventsFilter;
-        }
-        if (this.selectedAdmins != null) {
-            tLRPC$TL_channels_getAdminLog.flags |= 2;
-            for (int i = 0; i < this.selectedAdmins.size(); i++) {
-                tLRPC$TL_channels_getAdminLog.admins.add(MessagesController.getInstance(this.currentAccount).getInputUser(this.selectedAdmins.valueAt(i)));
-            }
-        }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getAdminLog, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda11
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ChannelAdminLogActivity.this.lambda$reloadLastMessages$1(tLObject, tLRPC$TL_error);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$reloadLastMessages$1(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        if (tLObject != null) {
-            final TLRPC$TL_channels_adminLogResults tLRPC$TL_channels_adminLogResults = (TLRPC$TL_channels_adminLogResults) tLObject;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda21
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChannelAdminLogActivity.this.lambda$reloadLastMessages$0(tLRPC$TL_channels_adminLogResults);
-                }
-            });
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0060, code lost:
-        if ((r5.new_participant instanceof org.telegram.tgnet.TLRPC$TL_channelParticipantCreator) == false) goto L6;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public /* synthetic */ void lambda$reloadLastMessages$0(TLRPC$TL_channels_adminLogResults tLRPC$TL_channels_adminLogResults) {
-        TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent;
-        this.reloadingLastMessages = false;
-        this.chatListItemAnimator.setShouldAnimateEnterFromBottom(false);
-        saveScrollPosition(false);
-        MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$TL_channels_adminLogResults.users, false);
-        MessagesController.getInstance(this.currentAccount).putChats(tLRPC$TL_channels_adminLogResults.chats, false);
-        ArrayList arrayList = new ArrayList();
-        HashMap hashMap = new HashMap();
-        boolean z = false;
-        for (int i = 0; i < tLRPC$TL_channels_adminLogResults.events.size(); i++) {
-            TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent2 = tLRPC$TL_channels_adminLogResults.events.get(i);
-            if (this.messagesDict.indexOfKey(tLRPC$TL_channelAdminLogEvent2.id) < 0) {
-                TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction = tLRPC$TL_channelAdminLogEvent2.action;
-                if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin) {
-                    TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin tLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin = (TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin) tLRPC$ChannelAdminLogEventAction;
-                    if (tLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin.prev_participant instanceof TLRPC$TL_channelParticipantCreator) {
-                    }
-                }
-                this.minEventId = Math.min(this.minEventId, tLRPC$TL_channelAdminLogEvent2.id);
-                MessageObject messageObject = new MessageObject(this.currentAccount, tLRPC$TL_channelAdminLogEvent2, (ArrayList<MessageObject>) arrayList, (HashMap<String, ArrayList<MessageObject>>) hashMap, this.currentChat, this.mid, false);
-                if (messageObject.contentType >= 0 && (((tLRPC$TL_channelAdminLogEvent = messageObject.currentEvent) == null || !(tLRPC$TL_channelAdminLogEvent.action instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage)) && !this.messagesDict.containsKey(tLRPC$TL_channelAdminLogEvent2.id))) {
-                    this.messages.add(0, messageObject);
-                    this.messagesDict.put(tLRPC$TL_channelAdminLogEvent2.id, messageObject);
-                    z = true;
-                }
-            }
-        }
-        if (this.chatAdapter == null || !z) {
-            return;
-        }
-        filterDeletedMessages();
-        this.chatAdapter.notifyDataSetChanged();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void loadMessages(boolean z) {
-        ChatActivityAdapter chatActivityAdapter;
-        if (this.loading) {
-            return;
-        }
-        if (z) {
-            this.minEventId = Long.MAX_VALUE;
-            FrameLayout frameLayout = this.progressView;
-            if (frameLayout != null) {
-                AndroidUtilities.updateViewVisibilityAnimated(frameLayout, true, 0.3f, true);
-                this.emptyViewContainer.setVisibility(4);
-                this.chatListView.setEmptyView(null);
-            }
-            this.messagesDict.clear();
-            this.messages.clear();
-            this.messagesByDays.clear();
-            filterDeletedMessages();
-            this.loadsCount = 0;
-        }
-        this.loading = true;
-        TLRPC$TL_channels_getAdminLog tLRPC$TL_channels_getAdminLog = new TLRPC$TL_channels_getAdminLog();
-        tLRPC$TL_channels_getAdminLog.channel = MessagesController.getInputChannel(this.currentChat);
-        tLRPC$TL_channels_getAdminLog.q = this.searchQuery;
-        tLRPC$TL_channels_getAdminLog.limit = 50;
-        if (!z && !this.messages.isEmpty()) {
-            tLRPC$TL_channels_getAdminLog.max_id = this.minEventId;
-        } else {
-            tLRPC$TL_channels_getAdminLog.max_id = 0L;
-        }
-        tLRPC$TL_channels_getAdminLog.min_id = 0L;
-        TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter = this.currentFilter;
-        if (tLRPC$TL_channelAdminLogEventsFilter != null) {
-            tLRPC$TL_channels_getAdminLog.flags |= 1;
-            tLRPC$TL_channels_getAdminLog.events_filter = tLRPC$TL_channelAdminLogEventsFilter;
-        }
-        if (this.selectedAdmins != null) {
-            tLRPC$TL_channels_getAdminLog.flags |= 2;
-            for (int i = 0; i < this.selectedAdmins.size(); i++) {
-                tLRPC$TL_channels_getAdminLog.admins.add(MessagesController.getInstance(this.currentAccount).getInputUser(this.selectedAdmins.valueAt(i)));
-            }
-        }
-        this.loadsCount++;
-        updateEmptyPlaceholder();
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getAdminLog, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda5
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ChannelAdminLogActivity.this.lambda$loadMessages$4(tLObject, tLRPC$TL_error);
-            }
-        });
-        if (!z || (chatActivityAdapter = this.chatAdapter) == null) {
-            return;
-        }
-        chatActivityAdapter.notifyDataSetChanged();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadMessages$4(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        if (tLObject != null) {
-            final TLRPC$TL_channels_adminLogResults tLRPC$TL_channels_adminLogResults = (TLRPC$TL_channels_adminLogResults) tLObject;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda9
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChannelAdminLogActivity.this.lambda$loadMessages$3(tLRPC$TL_channels_adminLogResults);
-                }
-            });
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadMessages$3(TLRPC$TL_channels_adminLogResults tLRPC$TL_channels_adminLogResults) {
-        TLRPC$Message tLRPC$Message;
-        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader;
-        MessageObject messageObject;
-        this.loadsCount--;
-        int i = 0;
-        this.chatListItemAnimator.setShouldAnimateEnterFromBottom(false);
-        saveScrollPosition(false);
-        MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$TL_channels_adminLogResults.users, false);
-        MessagesController.getInstance(this.currentAccount).putChats(tLRPC$TL_channels_adminLogResults.chats, false);
-        boolean z = false;
-        for (int i2 = 0; i2 < tLRPC$TL_channels_adminLogResults.events.size(); i2++) {
-            TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent = tLRPC$TL_channels_adminLogResults.events.get(i2);
-            if (this.messagesDict.indexOfKey(tLRPC$TL_channelAdminLogEvent.id) < 0) {
-                TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction = tLRPC$TL_channelAdminLogEvent.action;
-                if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin) {
-                    TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin tLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin = (TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin) tLRPC$ChannelAdminLogEventAction;
-                    if ((tLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin.prev_participant instanceof TLRPC$TL_channelParticipantCreator) && !(tLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin.new_participant instanceof TLRPC$TL_channelParticipantCreator)) {
-                    }
-                }
-                this.minEventId = Math.min(this.minEventId, tLRPC$TL_channelAdminLogEvent.id);
-                MessageObject messageObject2 = new MessageObject(this.currentAccount, tLRPC$TL_channelAdminLogEvent, this.messages, this.messagesByDays, this.currentChat, this.mid, false);
-                if (messageObject2.contentType >= 0) {
-                    this.messagesDict.put(tLRPC$TL_channelAdminLogEvent.id, messageObject2);
-                }
-                z = true;
-            }
-        }
-        this.messages.size();
-        ArrayList<MessageObject> arrayList = new ArrayList<>();
-        for (int size = this.messages.size(); size < this.messages.size(); size++) {
-            MessageObject messageObject3 = this.messages.get(size);
-            if (messageObject3 != null && messageObject3.contentType != 0 && messageObject3.getRealId() >= 0) {
-                this.realMessagesDict.put(messageObject3.getRealId(), messageObject3);
-            }
-            if (messageObject3 != null && (tLRPC$Message = messageObject3.messageOwner) != null && (tLRPC$MessageReplyHeader = tLRPC$Message.reply_to) != null) {
-                if (tLRPC$MessageReplyHeader.reply_to_peer_id == null) {
-                    int i3 = 0;
-                    while (true) {
-                        if (i3 >= this.messages.size()) {
-                            messageObject = null;
-                            break;
-                        }
-                        if (size != i3) {
-                            messageObject = this.messages.get(i3);
-                            if (messageObject.contentType != 1 && messageObject.getRealId() == tLRPC$MessageReplyHeader.reply_to_msg_id) {
-                                break;
-                            }
-                        }
-                        i3++;
-                    }
-                    if (messageObject != null) {
-                        messageObject3.replyMessageObject = messageObject;
-                    }
-                }
-                arrayList.add(messageObject3);
-            }
-        }
-        if (!arrayList.isEmpty()) {
-            MediaDataController.getInstance(this.currentAccount).loadReplyMessagesForMessages(arrayList, -this.currentChat.id, 0, 0L, new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda23
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChannelAdminLogActivity.this.lambda$loadMessages$2();
-                }
-            }, getClassGuid(), null);
-        }
-        filterDeletedMessages();
-        this.loading = false;
-        if (!z) {
-            this.endReached = true;
-        }
-        AndroidUtilities.updateViewVisibilityAnimated(this.progressView, false, 0.3f, true);
-        this.chatListView.setEmptyView(this.emptyViewContainer);
-        ChatActivityAdapter chatActivityAdapter = this.chatAdapter;
-        if (chatActivityAdapter != null) {
-            chatActivityAdapter.notifyDataSetChanged();
-        }
-        ActionBarMenuItem actionBarMenuItem = this.searchItem;
-        if (actionBarMenuItem != null) {
-            if (this.filteredMessages.isEmpty() && TextUtils.isEmpty(this.searchQuery)) {
-                i = 8;
-            }
-            actionBarMenuItem.setVisibility(i);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadMessages$2() {
-        saveScrollPosition(false);
-        this.chatAdapter.notifyDataSetChanged();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void filterDeletedMessages() {
-        ArrayList arrayList = new ArrayList();
-        ArrayList<MessageObject> arrayList2 = new ArrayList<>();
-        this.filteredMessagesUpdatedPosition.clear();
-        int i = 0;
-        while (i < this.messages.size()) {
-            MessageObject messageObject = this.messages.get(i);
-            long messageDeletedBy = messageDeletedBy(messageObject);
-            if (messageObject.stableId <= 0) {
-                int i2 = lastStableId;
-                lastStableId = i2 + 1;
-                messageObject.stableId = i2;
-            }
-            int i3 = i + 1;
-            long messageDeletedBy2 = messageDeletedBy(i3 < this.messages.size() ? this.messages.get(i3) : null);
-            if (messageDeletedBy != 0) {
-                arrayList2.add(messageObject);
-            } else {
-                arrayList.add(messageObject);
-            }
-            if (messageDeletedBy != messageDeletedBy2 && !arrayList2.isEmpty()) {
-                TLRPC$ReplyMarkup tLRPC$ReplyMarkup = messageObject.messageOwner.reply_markup;
-                boolean z = (tLRPC$ReplyMarkup == null || tLRPC$ReplyMarkup.rows.isEmpty()) ? false : true;
-                int size = arrayList.size();
-                ArrayList<MessageObject> arrayList3 = new ArrayList<>();
-                for (int size2 = arrayList2.size() - 1; size2 >= 0 && arrayList2.get(size2).contentType == 1; size2--) {
-                    arrayList3.add(arrayList2.remove(size2));
-                }
-                if (!arrayList2.isEmpty()) {
-                    MessageObject messageObject2 = arrayList2.get(arrayList2.size() - 1);
-                    boolean z2 = TextUtils.isEmpty(this.searchQuery) && arrayList2.size() > 3;
-                    if (this.expandedEvents.contains(Long.valueOf(messageObject2.eventId)) || !z2) {
-                        for (int i4 = 0; i4 < arrayList2.size(); i4++) {
-                            setupExpandButton(arrayList2.get(i4), 0);
-                        }
-                        arrayList.addAll(arrayList2);
-                    } else {
-                        setupExpandButton(messageObject2, arrayList2.size() - 1);
-                        arrayList.add(messageObject2);
-                    }
-                    TLRPC$ReplyMarkup tLRPC$ReplyMarkup2 = messageObject2.messageOwner.reply_markup;
-                    if (z != ((tLRPC$ReplyMarkup2 == null || tLRPC$ReplyMarkup2.rows.isEmpty()) ? false : true)) {
-                        messageObject2.forceUpdate = true;
-                        this.chatAdapter.notifyItemChanged((z ? arrayList2.size() - 1 : 0) + size);
-                        this.chatAdapter.notifyItemChanged(size + (z ? arrayList2.size() - 1 : 0) + 1);
-                    }
-                    long j = messageObject.eventId;
-                    arrayList.add(actionMessagesDeletedBy(j, messageObject.currentEvent.user_id, arrayList2, this.expandedEvents.contains(Long.valueOf(j)), z2));
-                }
-                if (!arrayList3.isEmpty()) {
-                    MessageObject messageObject3 = arrayList3.get(arrayList3.size() - 1);
-                    arrayList.addAll(arrayList3);
-                    arrayList.add(actionMessagesDeletedBy(messageObject3.eventId, messageObject3.currentEvent.user_id, arrayList3, true, false));
-                }
-                arrayList2.clear();
-            }
-            i = i3;
-        }
-        this.filteredMessages.clear();
-        this.filteredMessages.addAll(arrayList);
-    }
-
-    private MessageObject actionMessagesDeletedBy(long j, long j2, ArrayList<MessageObject> arrayList, boolean z, boolean z2) {
+    private MessageObject actionMessagesDeletedBy(long j, long j2, ArrayList arrayList, boolean z, boolean z2) {
         MessageObject messageObject;
         int i = 0;
         while (true) {
@@ -788,7 +1619,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 messageObject = null;
                 break;
             }
-            messageObject = this.filteredMessages.get(i);
+            messageObject = (MessageObject) this.filteredMessages.get(i);
             if (messageObject != null && messageObject.contentType == 1 && messageObject.actionDeleteGroupEventId == j) {
                 break;
             }
@@ -799,7 +1630,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             tLRPC$TL_message.dialog_id = -this.currentChat.id;
             tLRPC$TL_message.id = -1;
             try {
-                tLRPC$TL_message.date = arrayList.get(0).messageOwner.date;
+                tLRPC$TL_message.date = ((MessageObject) arrayList.get(0)).messageOwner.date;
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -807,11 +1638,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
         TLRPC$User user = getMessagesController().getUser(Long.valueOf(j2));
         messageObject.contentType = 1;
-        if (z2 && arrayList.size() > 1) {
-            messageObject.actionDeleteGroupEventId = j;
-        } else {
-            messageObject.actionDeleteGroupEventId = -1L;
-        }
+        messageObject.actionDeleteGroupEventId = (!z2 || arrayList.size() <= 1) ? -1L : -1L;
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(MessageObject.replaceWithLink(LocaleController.formatPluralString(z2 ? "EventLogDeletedMultipleMessagesToExpand" : "EventLogDeletedMultipleMessages", arrayList.size(), TextUtils.join(", ", Collection$-EL.stream(arrayList).map(new Function() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda15
             @Override // j$.util.function.Function
             public /* synthetic */ Function andThen(Function function) {
@@ -883,892 +1710,66 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             spannableStringBuilder.setSpan(new ColoredImageSpan(findDrawable), spannableStringBuilder.length() - 1, spannableStringBuilder.length(), 33);
         }
         messageObject.messageText = spannableStringBuilder;
-        MessageObject messageObject2 = arrayList.size() > 0 ? arrayList.get(arrayList.size() - 1) : null;
+        MessageObject messageObject2 = arrayList.size() > 0 ? (MessageObject) arrayList.get(arrayList.size() - 1) : null;
         if (messageObject2 != null) {
             if (!this.stableIdByEventExpand.containsKey(messageObject2.eventId)) {
-                LongSparseArray<Integer> longSparseArray = this.stableIdByEventExpand;
+                LongSparseArray longSparseArray = this.stableIdByEventExpand;
                 long j3 = messageObject2.eventId;
                 int i2 = lastStableId;
                 lastStableId = 1 + i2;
                 longSparseArray.put(j3, Integer.valueOf(i2));
             }
-            messageObject.stableId = this.stableIdByEventExpand.get(messageObject2.eventId).intValue();
+            messageObject.stableId = ((Integer) this.stableIdByEventExpand.get(messageObject2.eventId)).intValue();
         }
         return messageObject;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ String lambda$actionMessagesDeletedBy$5(Long l) {
-        if (l.longValue() < 0) {
-            TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-l.longValue()));
-            if (chat == null) {
-                return null;
-            }
-            return chat.title;
-        }
-        return UserObject.getForcedFirstName(getMessagesController().getUser(l));
-    }
-
-    public static ProfileActivity.ShowDrawable findDrawable(CharSequence charSequence) {
-        ColoredImageSpan[] coloredImageSpanArr;
-        if (charSequence instanceof Spannable) {
-            for (ColoredImageSpan coloredImageSpan : (ColoredImageSpan[]) ((Spannable) charSequence).getSpans(0, charSequence.length(), ColoredImageSpan.class)) {
-                if (coloredImageSpan != null) {
-                    Drawable drawable = coloredImageSpan.drawable;
-                    if (drawable instanceof ProfileActivity.ShowDrawable) {
-                        return (ProfileActivity.ShowDrawable) drawable;
-                    }
+    public void addCanBanUser(Bundle bundle, long j) {
+        TLRPC$Chat tLRPC$Chat = this.currentChat;
+        if (tLRPC$Chat.megagroup && this.admins != null && ChatObject.canBlockUsers(tLRPC$Chat)) {
+            int i = 0;
+            while (true) {
+                if (i >= this.admins.size()) {
+                    break;
                 }
-            }
-            return null;
-        }
-        return null;
-    }
-
-    private void setupExpandButton(MessageObject messageObject, int i) {
-        if (messageObject == null) {
-            return;
-        }
-        if (i <= 0) {
-            TLRPC$ReplyMarkup tLRPC$ReplyMarkup = messageObject.messageOwner.reply_markup;
-            if (tLRPC$ReplyMarkup != null) {
-                tLRPC$ReplyMarkup.rows.clear();
-            }
-        } else {
-            TLRPC$TL_replyInlineMarkup tLRPC$TL_replyInlineMarkup = new TLRPC$TL_replyInlineMarkup();
-            messageObject.messageOwner.reply_markup = tLRPC$TL_replyInlineMarkup;
-            TLRPC$TL_keyboardButtonRow tLRPC$TL_keyboardButtonRow = new TLRPC$TL_keyboardButtonRow();
-            tLRPC$TL_replyInlineMarkup.rows.add(tLRPC$TL_keyboardButtonRow);
-            TLRPC$TL_keyboardButton tLRPC$TL_keyboardButton = new TLRPC$TL_keyboardButton();
-            tLRPC$TL_keyboardButton.text = LocaleController.formatPluralString("EventLogExpandMore", i, new Object[0]);
-            tLRPC$TL_keyboardButtonRow.buttons.add(tLRPC$TL_keyboardButton);
-        }
-        messageObject.measureInlineBotButtons();
-    }
-
-    private long messageDeletedBy(MessageObject messageObject) {
-        TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent;
-        if (messageObject == null || (tLRPC$TL_channelAdminLogEvent = messageObject.currentEvent) == null || !(tLRPC$TL_channelAdminLogEvent.action instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage)) {
-            return 0L;
-        }
-        return tLRPC$TL_channelAdminLogEvent.user_id;
-    }
-
-    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        ChatMessageCell chatMessageCell;
-        MessageObject messageObject;
-        ChatMessageCell chatMessageCell2;
-        MessageObject messageObject2;
-        ChatMessageCell chatMessageCell3;
-        MessageObject messageObject3;
-        if (i == NotificationCenter.emojiLoaded) {
-            RecyclerListView recyclerListView = this.chatListView;
-            if (recyclerListView != null) {
-                recyclerListView.invalidateViews();
-                return;
-            }
-            return;
-        }
-        if (i == NotificationCenter.messagePlayingDidStart) {
-            if (((MessageObject) objArr[0]).isRoundVideo()) {
-                MediaController.getInstance().setTextureView(createTextureView(true), this.aspectRatioFrameLayout, this.roundVideoContainer, true);
-                updateTextureViewPosition();
-            }
-            RecyclerListView recyclerListView2 = this.chatListView;
-            if (recyclerListView2 != null) {
-                int childCount = recyclerListView2.getChildCount();
-                for (int i3 = 0; i3 < childCount; i3++) {
-                    View childAt = this.chatListView.getChildAt(i3);
-                    if ((childAt instanceof ChatMessageCell) && (messageObject3 = (chatMessageCell3 = (ChatMessageCell) childAt).getMessageObject()) != null) {
-                        if (messageObject3.isVoice() || messageObject3.isMusic()) {
-                            chatMessageCell3.updateButtonState(false, true, false);
-                        } else if (messageObject3.isRoundVideo()) {
-                            chatMessageCell3.checkVideoPlayback(false, null);
-                            if (!MediaController.getInstance().isPlayingMessage(messageObject3) && messageObject3.audioProgress != 0.0f) {
-                                messageObject3.resetPlayingProgress();
-                                chatMessageCell3.invalidate();
-                            }
-                        }
-                    }
-                }
-            }
-        } else if (i == NotificationCenter.messagePlayingDidReset || i == NotificationCenter.messagePlayingPlayStateChanged) {
-            RecyclerListView recyclerListView3 = this.chatListView;
-            if (recyclerListView3 != null) {
-                int childCount2 = recyclerListView3.getChildCount();
-                for (int i4 = 0; i4 < childCount2; i4++) {
-                    View childAt2 = this.chatListView.getChildAt(i4);
-                    if ((childAt2 instanceof ChatMessageCell) && (messageObject = (chatMessageCell = (ChatMessageCell) childAt2).getMessageObject()) != null) {
-                        if (messageObject.isVoice() || messageObject.isMusic()) {
-                            chatMessageCell.updateButtonState(false, true, false);
-                        } else if (messageObject.isRoundVideo() && !MediaController.getInstance().isPlayingMessage(messageObject)) {
-                            chatMessageCell.checkVideoPlayback(true, null);
-                        }
-                    }
-                }
-            }
-        } else if (i == NotificationCenter.messagePlayingProgressDidChanged) {
-            Integer num = (Integer) objArr[0];
-            RecyclerListView recyclerListView4 = this.chatListView;
-            if (recyclerListView4 != null) {
-                int childCount3 = recyclerListView4.getChildCount();
-                for (int i5 = 0; i5 < childCount3; i5++) {
-                    View childAt3 = this.chatListView.getChildAt(i5);
-                    if ((childAt3 instanceof ChatMessageCell) && (messageObject2 = (chatMessageCell2 = (ChatMessageCell) childAt3).getMessageObject()) != null && messageObject2.getId() == num.intValue()) {
-                        MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
-                        if (playingMessageObject != null) {
-                            messageObject2.audioProgress = playingMessageObject.audioProgress;
-                            messageObject2.audioProgressSec = playingMessageObject.audioProgressSec;
-                            messageObject2.audioPlayerDuration = playingMessageObject.audioPlayerDuration;
-                            chatMessageCell2.updatePlayingMessageProgress();
-                            return;
-                        }
-                        return;
-                    }
-                }
-            }
-        } else if (i == NotificationCenter.didSetNewWallpapper && this.fragmentView != null) {
-            this.contentView.setBackgroundImage(Theme.getCachedWallpaper(), Theme.isWallpaperMotion());
-            this.progressView2.invalidate();
-            TextView textView = this.emptyView;
-            if (textView != null) {
-                textView.invalidate();
-            }
-            this.chatListView.invalidateViews();
-        }
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public View createView(Context context) {
-        if (this.chatMessageCellsCache.isEmpty()) {
-            for (int i = 0; i < 8; i++) {
-                this.chatMessageCellsCache.add(new ChatMessageCell(context, this.currentAccount));
-            }
-        }
-        this.searchWas = false;
-        this.hasOwnBackground = true;
-        Theme.createChatResources(context, false);
-        this.actionBar.setAddToContainer(false);
-        this.actionBar.setOccupyStatusBar(Build.VERSION.SDK_INT >= 21 && !AndroidUtilities.isTablet());
-        this.actionBar.setBackButtonDrawable(new BackDrawable(false));
-        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.ChannelAdminLogActivity.3
-            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i2) {
-                if (i2 == -1) {
-                    ChannelAdminLogActivity.this.finishFragment();
-                }
-            }
-        });
-        ChatAvatarContainer chatAvatarContainer = new ChatAvatarContainer(context, null, false);
-        this.avatarContainer = chatAvatarContainer;
-        chatAvatarContainer.setOccupyStatusBar(!AndroidUtilities.isTablet());
-        this.actionBar.addView(this.avatarContainer, 0, LayoutHelper.createFrame(-2, -1.0f, 51, 56.0f, 0.0f, 40.0f, 0.0f));
-        ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() { // from class: org.telegram.ui.ChannelAdminLogActivity.4
-            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-            public void onSearchCollapse() {
-                ChannelAdminLogActivity.this.searchQuery = "";
-                ChannelAdminLogActivity.this.avatarContainer.setVisibility(0);
-                if (ChannelAdminLogActivity.this.searchWas) {
-                    ChannelAdminLogActivity.this.searchWas = false;
-                    ChannelAdminLogActivity.this.loadMessages(true);
-                }
-                ChannelAdminLogActivity.this.updateBottomOverlay();
-            }
-
-            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-            public void onSearchExpand() {
-                ChannelAdminLogActivity.this.avatarContainer.setVisibility(8);
-                ChannelAdminLogActivity.this.updateBottomOverlay();
-            }
-
-            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-            public void onSearchPressed(EditText editText) {
-                ChannelAdminLogActivity.this.searchWas = true;
-                ChannelAdminLogActivity.this.searchQuery = editText.getText().toString();
-                ChannelAdminLogActivity.this.loadMessages(true);
-            }
-        });
-        this.searchItem = actionBarMenuItemSearchListener;
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", R.string.Search));
-        this.avatarContainer.setEnabled(false);
-        this.avatarContainer.setTitle(this.currentChat.title);
-        this.avatarContainer.setSubtitle(LocaleController.getString("EventLogAllEvents", R.string.EventLogAllEvents));
-        this.avatarContainer.setChatAvatar(this.currentChat);
-        SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.ChannelAdminLogActivity.5
-            final AdjustPanLayoutHelper adjustPanLayoutHelper = new AdjustPanLayoutHelper(this) { // from class: org.telegram.ui.ChannelAdminLogActivity.5.1
-                /* JADX INFO: Access modifiers changed from: protected */
-                @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-                public void onTransitionEnd() {
-                }
-
-                /* JADX INFO: Access modifiers changed from: protected */
-                @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-                public void onTransitionStart(boolean z, int i2) {
-                    ChannelAdminLogActivity.this.wasManualScroll = true;
-                }
-
-                /* JADX INFO: Access modifiers changed from: protected */
-                @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-                public void onPanTranslationUpdate(float f, float f2, boolean z) {
-                    if (ChannelAdminLogActivity.this.getParentLayout() == null || !ChannelAdminLogActivity.this.getParentLayout().isPreviewOpenAnimationInProgress()) {
-                        ChannelAdminLogActivity.this.contentPanTranslation = f;
-                        ChannelAdminLogActivity.this.contentPanTranslationT = f2;
-                        ((BaseFragment) ChannelAdminLogActivity.this).actionBar.setTranslationY(f);
-                        if (ChannelAdminLogActivity.this.emptyViewContainer != null) {
-                            ChannelAdminLogActivity.this.emptyViewContainer.setTranslationY(f / 2.0f);
-                        }
-                        ChannelAdminLogActivity.this.progressView.setTranslationY(f / 2.0f);
-                        int i2 = (int) f;
-                        ChannelAdminLogActivity.this.contentView.setBackgroundTranslation(i2);
-                        ChannelAdminLogActivity.this.setFragmentPanTranslationOffset(i2);
-                        ChannelAdminLogActivity.this.chatListView.invalidate();
-                        if (AndroidUtilities.isTablet() && (ChannelAdminLogActivity.this.getParentActivity() instanceof LaunchActivity)) {
-                            BaseFragment lastFragment = ((LaunchActivity) ChannelAdminLogActivity.this.getParentActivity()).getActionBarLayout().getLastFragment();
-                            if (lastFragment instanceof DialogsActivity) {
-                                ((DialogsActivity) lastFragment).setPanTranslationOffset(f);
-                            }
-                        }
-                    }
-                }
-
-                @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-                protected boolean heightAnimationEnabled() {
-                    INavigationLayout parentLayout = ChannelAdminLogActivity.this.getParentLayout();
-                    if (((BaseFragment) ChannelAdminLogActivity.this).inPreviewMode || ((BaseFragment) ChannelAdminLogActivity.this).inBubbleMode || AndroidUtilities.isInMultiwindow || parentLayout == null || System.currentTimeMillis() - ChannelAdminLogActivity.this.activityResumeTime < 250) {
-                        return false;
-                    }
-                    return ((ChannelAdminLogActivity.this == parentLayout.getLastFragment() && parentLayout.isTransitionAnimationInProgress()) || parentLayout.isPreviewOpenAnimationInProgress() || ((BaseFragment) ChannelAdminLogActivity.this).isPaused || !ChannelAdminLogActivity.this.openAnimationEnded) ? false : true;
-                }
-            };
-
-            /* JADX INFO: Access modifiers changed from: protected */
-            @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-            public void onAttachedToWindow() {
-                super.onAttachedToWindow();
-                MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
-                if (playingMessageObject == null || !playingMessageObject.isRoundVideo() || playingMessageObject.eventId == 0 || playingMessageObject.getDialogId() != (-ChannelAdminLogActivity.this.currentChat.id)) {
+                TLRPC$ChannelParticipant tLRPC$ChannelParticipant = (TLRPC$ChannelParticipant) this.admins.get(i);
+                if (MessageObject.getPeerId(tLRPC$ChannelParticipant.peer) != j) {
+                    i++;
+                } else if (!tLRPC$ChannelParticipant.can_edit) {
                     return;
                 }
-                MediaController.getInstance().setTextureView(ChannelAdminLogActivity.this.createTextureView(false), ChannelAdminLogActivity.this.aspectRatioFrameLayout, ChannelAdminLogActivity.this.roundVideoContainer, true);
             }
-
-            @Override // android.view.ViewGroup
-            protected boolean drawChild(Canvas canvas, View view, long j) {
-                boolean drawChild = super.drawChild(canvas, view, j);
-                if (view == ((BaseFragment) ChannelAdminLogActivity.this).actionBar && ((BaseFragment) ChannelAdminLogActivity.this).parentLayout != null) {
-                    ((BaseFragment) ChannelAdminLogActivity.this).parentLayout.drawHeaderShadow(canvas, ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getVisibility() == 0 ? ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getMeasuredHeight() : 0);
-                }
-                return drawChild;
-            }
-
-            @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
-            protected boolean isActionBarVisible() {
-                return ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getVisibility() == 0;
-            }
-
-            @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i2, int i3) {
-                int size = View.MeasureSpec.getSize(i2);
-                int size2 = View.MeasureSpec.getSize(i3);
-                setMeasuredDimension(size, size2);
-                int paddingTop = size2 - getPaddingTop();
-                measureChildWithMargins(((BaseFragment) ChannelAdminLogActivity.this).actionBar, i2, 0, i3, 0);
-                int measuredHeight = ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getMeasuredHeight();
-                if (((BaseFragment) ChannelAdminLogActivity.this).actionBar.getVisibility() == 0) {
-                    paddingTop -= measuredHeight;
-                }
-                int childCount = getChildCount();
-                for (int i4 = 0; i4 < childCount; i4++) {
-                    View childAt = getChildAt(i4);
-                    if (childAt != null && childAt.getVisibility() != 8 && childAt != ((BaseFragment) ChannelAdminLogActivity.this).actionBar) {
-                        if (childAt != ChannelAdminLogActivity.this.chatListView && childAt != ChannelAdminLogActivity.this.progressView) {
-                            if (childAt == ChannelAdminLogActivity.this.emptyViewContainer) {
-                                childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(paddingTop, 1073741824));
-                            } else {
-                                measureChildWithMargins(childAt, i2, 0, i3, 0);
-                            }
-                        } else {
-                            childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(Math.max(AndroidUtilities.dp(10.0f), paddingTop - AndroidUtilities.dp(50.0f)), 1073741824));
-                        }
-                    }
-                }
-            }
-
-            /* JADX INFO: Access modifiers changed from: protected */
-            /* JADX WARN: Removed duplicated region for block: B:20:0x004d  */
-            /* JADX WARN: Removed duplicated region for block: B:32:0x0087  */
-            /* JADX WARN: Removed duplicated region for block: B:35:0x009a  */
-            /* JADX WARN: Removed duplicated region for block: B:41:0x00bd  */
-            @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            /*
-                Code decompiled incorrectly, please refer to instructions dump.
-            */
-            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
-                int i6;
-                int i7;
-                int i8;
-                int i9;
-                int i10;
-                int i11;
-                int paddingTop;
-                int childCount = getChildCount();
-                for (int i12 = 0; i12 < childCount; i12++) {
-                    View childAt = getChildAt(i12);
-                    if (childAt.getVisibility() != 8) {
-                        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
-                        int measuredWidth = childAt.getMeasuredWidth();
-                        int measuredHeight = childAt.getMeasuredHeight();
-                        int i13 = layoutParams.gravity;
-                        if (i13 == -1) {
-                            i13 = 51;
-                        }
-                        int i14 = i13 & 112;
-                        int i15 = i13 & 7;
-                        if (i15 == 1) {
-                            i6 = (((i4 - i2) - measuredWidth) / 2) + layoutParams.leftMargin;
-                            i7 = layoutParams.rightMargin;
-                        } else if (i15 == 5) {
-                            i6 = i4 - measuredWidth;
-                            i7 = layoutParams.rightMargin;
-                        } else {
-                            i8 = layoutParams.leftMargin;
-                            if (i14 == 16) {
-                                if (i14 == 48) {
-                                    i11 = layoutParams.topMargin + getPaddingTop();
-                                    if (childAt != ((BaseFragment) ChannelAdminLogActivity.this).actionBar && ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getVisibility() == 0) {
-                                        i11 += ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getMeasuredHeight();
-                                    }
-                                } else if (i14 == 80) {
-                                    i9 = (i5 - i3) - measuredHeight;
-                                    i10 = layoutParams.bottomMargin;
-                                } else {
-                                    i11 = layoutParams.topMargin;
-                                }
-                                if (childAt == ChannelAdminLogActivity.this.emptyViewContainer) {
-                                    paddingTop = AndroidUtilities.dp(24.0f) - (((BaseFragment) ChannelAdminLogActivity.this).actionBar.getVisibility() == 0 ? ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getMeasuredHeight() / 2 : 0);
-                                } else if (childAt == ((BaseFragment) ChannelAdminLogActivity.this).actionBar) {
-                                    paddingTop = getPaddingTop();
-                                } else {
-                                    if (childAt == this.backgroundView) {
-                                        i11 = 0;
-                                    }
-                                    childAt.layout(i8, i11, measuredWidth + i8, measuredHeight + i11);
-                                }
-                                i11 -= paddingTop;
-                                childAt.layout(i8, i11, measuredWidth + i8, measuredHeight + i11);
-                            } else {
-                                i9 = (((i5 - i3) - measuredHeight) / 2) + layoutParams.topMargin;
-                                i10 = layoutParams.bottomMargin;
-                            }
-                            i11 = i9 - i10;
-                            if (childAt == ChannelAdminLogActivity.this.emptyViewContainer) {
-                            }
-                            i11 -= paddingTop;
-                            childAt.layout(i8, i11, measuredWidth + i8, measuredHeight + i11);
-                        }
-                        i8 = i6 - i7;
-                        if (i14 == 16) {
-                        }
-                        i11 = i9 - i10;
-                        if (childAt == ChannelAdminLogActivity.this.emptyViewContainer) {
-                        }
-                        i11 -= paddingTop;
-                        childAt.layout(i8, i11, measuredWidth + i8, measuredHeight + i11);
-                    }
-                }
-                ChannelAdminLogActivity.this.updateMessagesVisiblePart();
-                notifyHeightChanged();
-            }
-
-            @Override // android.view.ViewGroup, android.view.View
-            public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-                if (AvatarPreviewer.hasVisibleInstance()) {
-                    AvatarPreviewer.getInstance().onTouchEvent(motionEvent);
-                    return true;
-                }
-                return super.dispatchTouchEvent(motionEvent);
-            }
-        };
-        this.fragmentView = sizeNotifierFrameLayout;
-        this.contentView = sizeNotifierFrameLayout;
-        sizeNotifierFrameLayout.setOccupyStatusBar(!AndroidUtilities.isTablet());
-        this.contentView.setBackgroundImage(Theme.getCachedWallpaper(), Theme.isWallpaperMotion());
-        FrameLayout frameLayout = new FrameLayout(context);
-        this.emptyViewContainer = frameLayout;
-        frameLayout.setVisibility(4);
-        this.contentView.addView(this.emptyViewContainer, LayoutHelper.createFrame(-1, -2, 17));
-        this.emptyViewContainer.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnTouchListener
-            public final boolean onTouch(View view, MotionEvent motionEvent) {
-                boolean lambda$createView$7;
-                lambda$createView$7 = ChannelAdminLogActivity.lambda$createView$7(view, motionEvent);
-                return lambda$createView$7;
-            }
-        });
-        LinearLayout linearLayout = new LinearLayout(context);
-        this.emptyLayoutView = linearLayout;
-        linearLayout.setBackground(Theme.createServiceDrawable(AndroidUtilities.dp(12.0f), this.emptyView, this.contentView));
-        this.emptyLayoutView.setOrientation(1);
-        ImageView imageView = new ImageView(context);
-        this.emptyImageView = imageView;
-        ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER;
-        imageView.setScaleType(scaleType);
-        this.emptyImageView.setImageResource(R.drawable.large_log_actions);
-        this.emptyImageView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
-        this.emptyImageView.setVisibility(8);
-        this.emptyLayoutView.addView(this.emptyImageView, LayoutHelper.createLinear(54, 54, 17, 16, 20, 16, -4));
-        TextView textView = new TextView(context) { // from class: org.telegram.ui.ChannelAdminLogActivity.6
-            @Override // android.widget.TextView, android.view.View
-            protected void onMeasure(int i2, int i3) {
-                super.onMeasure(View.MeasureSpec.makeMeasureSpec(Math.min(View.MeasureSpec.getSize(i2), AndroidUtilities.dp(220.0f)), View.MeasureSpec.getMode(i2)), i3);
-            }
-        };
-        this.emptyView = textView;
-        textView.setTextSize(1, 14.0f);
-        this.emptyView.setGravity(17);
-        TextView textView2 = this.emptyView;
-        int i2 = Theme.key_chat_serviceText;
-        textView2.setTextColor(Theme.getColor(i2));
-        this.emptyView.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(5.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(5.0f));
-        this.emptyLayoutView.addView(this.emptyView, LayoutHelper.createLinear(-2, -2, 17, 0, 0, 0, 0));
-        this.emptyViewContainer.addView(this.emptyLayoutView, LayoutHelper.createFrame(-2, -2.0f, 17, 20.0f, 0.0f, 20.0f, 0.0f));
-        RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.ChannelAdminLogActivity.7
-            /* JADX INFO: Access modifiers changed from: protected */
-            @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z, int i3, int i4, int i5, int i6) {
-                ChannelAdminLogActivity.this.applyScrolledPosition();
-                super.onLayout(z, i3, i4, i5, i6);
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
-            public boolean drawChild(Canvas canvas, View view, long j) {
-                ChatMessageCell chatMessageCell;
-                ImageReceiver avatarImage;
-                int y;
-                int adapterPosition;
-                boolean drawChild = super.drawChild(canvas, view, j);
-                if ((view instanceof ChatMessageCell) && (avatarImage = (chatMessageCell = (ChatMessageCell) view).getAvatarImage()) != null) {
-                    boolean z = (chatMessageCell.getMessageObject().deleted || ChannelAdminLogActivity.this.chatListView.getChildAdapterPosition(chatMessageCell) == -1) ? false : true;
-                    if (chatMessageCell.getMessageObject().deleted) {
-                        avatarImage.setVisible(false, false);
-                        return drawChild;
-                    }
-                    int y2 = (int) view.getY();
-                    if (chatMessageCell.drawPinnedBottom() && (adapterPosition = ChannelAdminLogActivity.this.chatListView.getChildViewHolder(view).getAdapterPosition()) >= 0) {
-                        if (ChannelAdminLogActivity.this.chatListView.findViewHolderForAdapterPosition(adapterPosition + 1) != null) {
-                            avatarImage.setVisible(false, false);
-                            return drawChild;
-                        }
-                    }
-                    float slidingOffsetX = chatMessageCell.getSlidingOffsetX() + chatMessageCell.getCheckBoxTranslation();
-                    int y3 = ((int) view.getY()) + chatMessageCell.getLayoutHeight();
-                    int measuredHeight = ChannelAdminLogActivity.this.chatListView.getMeasuredHeight() - ChannelAdminLogActivity.this.chatListView.getPaddingBottom();
-                    if (y3 > measuredHeight) {
-                        y3 = measuredHeight;
-                    }
-                    if (chatMessageCell.drawPinnedTop() && (r12 = ChannelAdminLogActivity.this.chatListView.getChildViewHolder(view).getAdapterPosition()) >= 0) {
-                        int i3 = 0;
-                        while (i3 < 20) {
-                            i3++;
-                            int adapterPosition2 = adapterPosition2 - 1;
-                            RecyclerView.ViewHolder findViewHolderForAdapterPosition = ChannelAdminLogActivity.this.chatListView.findViewHolderForAdapterPosition(adapterPosition2);
-                            if (findViewHolderForAdapterPosition == null) {
-                                break;
-                            }
-                            y2 = findViewHolderForAdapterPosition.itemView.getTop();
-                            View view2 = findViewHolderForAdapterPosition.itemView;
-                            if (!(view2 instanceof ChatMessageCell)) {
-                                break;
-                            }
-                            chatMessageCell = (ChatMessageCell) view2;
-                            if (!chatMessageCell.drawPinnedTop()) {
-                                break;
-                            }
-                        }
-                    }
-                    if (y3 - AndroidUtilities.dp(48.0f) < y2) {
-                        y3 = y2 + AndroidUtilities.dp(48.0f);
-                    }
-                    if (!chatMessageCell.drawPinnedBottom() && y3 > (y = (int) (chatMessageCell.getY() + chatMessageCell.getMeasuredHeight()))) {
-                        y3 = y;
-                    }
-                    canvas.save();
-                    if (slidingOffsetX != 0.0f) {
-                        canvas.translate(slidingOffsetX, 0.0f);
-                    }
-                    if (chatMessageCell.getCurrentMessagesGroup() != null && chatMessageCell.getCurrentMessagesGroup().transitionParams.backgroundChangeBounds) {
-                        y3 = (int) (y3 - chatMessageCell.getTranslationY());
-                    }
-                    if (z) {
-                        avatarImage.setImageY(y3 - AndroidUtilities.dp(44.0f));
-                    }
-                    if (chatMessageCell.shouldDrawAlphaLayer()) {
-                        avatarImage.setAlpha(chatMessageCell.getAlpha());
-                        canvas.scale(chatMessageCell.getScaleX(), chatMessageCell.getScaleY(), chatMessageCell.getX() + chatMessageCell.getPivotX(), chatMessageCell.getY() + (chatMessageCell.getHeight() >> 1));
-                    } else {
-                        avatarImage.setAlpha(1.0f);
-                    }
-                    if (z) {
-                        avatarImage.setVisible(true, false);
-                    }
-                    avatarImage.draw(canvas);
-                    canvas.restore();
-                }
-                return drawChild;
-            }
-        };
-        this.chatListView = recyclerListView;
-        recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.ChannelAdminLogActivity.8
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ boolean hasDoubleTap(View view, int i3) {
-                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i3);
-            }
-
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ void onDoubleTap(View view, int i3, float f, float f2) {
-                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i3, f, f2);
-            }
-
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public void onItemClick(View view, int i3, float f, float f2) {
-                MessageObject messageObject;
-                if (!(view instanceof ChatActionCell) || (messageObject = ((ChatActionCell) view).getMessageObject()) == null || messageObject.actionDeleteGroupEventId == -1) {
-                    ChannelAdminLogActivity.this.createMenu(view, f, f2);
-                    return;
-                }
-                if (ChannelAdminLogActivity.this.expandedEvents.contains(Long.valueOf(messageObject.actionDeleteGroupEventId))) {
-                    ChannelAdminLogActivity.this.expandedEvents.remove(Long.valueOf(messageObject.actionDeleteGroupEventId));
-                } else {
-                    ChannelAdminLogActivity.this.expandedEvents.add(Long.valueOf(messageObject.actionDeleteGroupEventId));
-                }
-                ChannelAdminLogActivity.this.saveScrollPosition(true);
-                ChannelAdminLogActivity.this.filterDeletedMessages();
-                ChannelAdminLogActivity.this.chatAdapter.notifyDataSetChanged();
-            }
-        });
-        this.chatListView.setTag(1);
-        this.chatListView.setVerticalScrollBarEnabled(true);
-        RecyclerListView recyclerListView2 = this.chatListView;
-        ChatActivityAdapter chatActivityAdapter = new ChatActivityAdapter(context);
-        this.chatAdapter = chatActivityAdapter;
-        recyclerListView2.setAdapter(chatActivityAdapter);
-        this.chatListView.setClipToPadding(false);
-        this.chatListView.setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(3.0f));
-        RecyclerListView recyclerListView3 = this.chatListView;
-        9 r12 = new 9(null, this.chatListView, this.resourceProvider);
-        this.chatListItemAnimator = r12;
-        recyclerListView3.setItemAnimator(r12);
-        this.chatListItemAnimator.setReversePositions(true);
-        this.chatListView.setLayoutAnimation(null);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) { // from class: org.telegram.ui.ChannelAdminLogActivity.10
-            @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-            public boolean supportsPredictiveItemAnimations() {
-                return true;
-            }
-
-            @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-            public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int i3) {
-                ChannelAdminLogActivity.this.scrollByTouch = false;
-                LinearSmoothScrollerCustom linearSmoothScrollerCustom = new LinearSmoothScrollerCustom(recyclerView.getContext(), 0);
-                linearSmoothScrollerCustom.setTargetPosition(i3);
-                startSmoothScroll(linearSmoothScrollerCustom);
-            }
-
-            @Override // androidx.recyclerview.widget.LinearLayoutManager
-            public void scrollToPositionWithOffset(int i3, int i4) {
-                super.scrollToPositionWithOffset(i3, i4);
-            }
-        };
-        this.chatLayoutManager = linearLayoutManager;
-        linearLayoutManager.setOrientation(1);
-        this.chatLayoutManager.setStackFromEnd(true);
-        this.chatListView.setLayoutManager(this.chatLayoutManager);
-        RecyclerAnimationScrollHelper recyclerAnimationScrollHelper = new RecyclerAnimationScrollHelper(this.chatListView, this.chatLayoutManager);
-        this.chatScrollHelper = recyclerAnimationScrollHelper;
-        recyclerAnimationScrollHelper.setScrollListener(new RecyclerAnimationScrollHelper.ScrollListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda1
-            @Override // org.telegram.ui.Components.RecyclerAnimationScrollHelper.ScrollListener
-            public final void onScroll() {
-                ChannelAdminLogActivity.this.updateMessagesVisiblePart();
-            }
-        });
-        this.chatScrollHelper.setAnimationCallback(this.chatScrollHelperCallback);
-        this.contentView.addView(this.chatListView, LayoutHelper.createFrame(-1, -1.0f));
-        this.chatListView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ChannelAdminLogActivity.11
-            private float totalDy = 0.0f;
-            private final int scrollValue = AndroidUtilities.dp(100.0f);
-
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrollStateChanged(RecyclerView recyclerView, int i3) {
-                if (i3 == 1) {
-                    ChannelAdminLogActivity.this.scrollingFloatingDate = true;
-                    ChannelAdminLogActivity.this.checkTextureViewPosition = true;
-                } else if (i3 == 0) {
-                    ChannelAdminLogActivity.this.scrollingFloatingDate = false;
-                    ChannelAdminLogActivity.this.checkTextureViewPosition = false;
-                    ChannelAdminLogActivity.this.hideFloatingDateView(true);
-                }
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i3, int i4) {
-                ChannelAdminLogActivity.this.chatListView.invalidate();
-                if (i4 != 0 && ChannelAdminLogActivity.this.scrollingFloatingDate && !ChannelAdminLogActivity.this.currentFloatingTopIsNotMessage && ChannelAdminLogActivity.this.floatingDateView.getTag() == null) {
-                    if (ChannelAdminLogActivity.this.floatingDateAnimation != null) {
-                        ChannelAdminLogActivity.this.floatingDateAnimation.cancel();
-                    }
-                    ChannelAdminLogActivity.this.floatingDateView.setTag(1);
-                    ChannelAdminLogActivity.this.floatingDateAnimation = new AnimatorSet();
-                    ChannelAdminLogActivity.this.floatingDateAnimation.setDuration(150L);
-                    ChannelAdminLogActivity.this.floatingDateAnimation.playTogether(ObjectAnimator.ofFloat(ChannelAdminLogActivity.this.floatingDateView, "alpha", 1.0f));
-                    ChannelAdminLogActivity.this.floatingDateAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChannelAdminLogActivity.11.1
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            if (animator.equals(ChannelAdminLogActivity.this.floatingDateAnimation)) {
-                                ChannelAdminLogActivity.this.floatingDateAnimation = null;
-                            }
-                        }
-                    });
-                    ChannelAdminLogActivity.this.floatingDateAnimation.start();
-                }
-                ChannelAdminLogActivity.this.checkScrollForLoad(true);
-                ChannelAdminLogActivity.this.updateMessagesVisiblePart();
-            }
-        });
-        int i3 = this.scrollToPositionOnRecreate;
-        if (i3 != -1) {
-            this.chatLayoutManager.scrollToPositionWithOffset(i3, this.scrollToOffsetOnRecreate);
-            this.scrollToPositionOnRecreate = -1;
-        }
-        FrameLayout frameLayout2 = new FrameLayout(context);
-        this.progressView = frameLayout2;
-        frameLayout2.setVisibility(4);
-        this.contentView.addView(this.progressView, LayoutHelper.createFrame(-1, -1, 51));
-        View view = new View(context);
-        this.progressView2 = view;
-        view.setBackground(Theme.createServiceDrawable(AndroidUtilities.dp(18.0f), this.progressView2, this.contentView));
-        this.progressView.addView(this.progressView2, LayoutHelper.createFrame(36, 36, 17));
-        RadialProgressView radialProgressView = new RadialProgressView(context);
-        this.progressBar = radialProgressView;
-        radialProgressView.setSize(AndroidUtilities.dp(28.0f));
-        this.progressBar.setProgressColor(Theme.getColor(i2));
-        this.progressView.addView(this.progressBar, LayoutHelper.createFrame(32, 32, 17));
-        ChatActionCell chatActionCell = new ChatActionCell(context);
-        this.floatingDateView = chatActionCell;
-        chatActionCell.setAlpha(0.0f);
-        this.floatingDateView.setImportantForAccessibility(2);
-        this.contentView.addView(this.floatingDateView, LayoutHelper.createFrame(-2, -2.0f, 49, 0.0f, 4.0f, 0.0f, 0.0f));
-        this.contentView.addView(this.actionBar);
-        FrameLayout frameLayout3 = new FrameLayout(context) { // from class: org.telegram.ui.ChannelAdminLogActivity.12
-            @Override // android.view.View
-            public void onDraw(Canvas canvas) {
-                int intrinsicHeight = Theme.chat_composeShadowDrawable.getIntrinsicHeight();
-                Theme.chat_composeShadowDrawable.setBounds(0, 0, getMeasuredWidth(), intrinsicHeight);
-                Theme.chat_composeShadowDrawable.draw(canvas);
-                canvas.drawRect(0.0f, intrinsicHeight, getMeasuredWidth(), getMeasuredHeight(), Theme.chat_composeBackgroundPaint);
-            }
-        };
-        this.bottomOverlayChat = frameLayout3;
-        frameLayout3.setWillNotDraw(false);
-        this.bottomOverlayChat.setPadding(0, AndroidUtilities.dp(3.0f), 0, 0);
-        this.contentView.addView(this.bottomOverlayChat, LayoutHelper.createFrame(-1, 51, 80));
-        this.bottomOverlayChat.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda2
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view2) {
-                ChannelAdminLogActivity.this.lambda$createView$9(view2);
-            }
-        });
-        TextView textView3 = new TextView(context);
-        this.bottomOverlayChatText = textView3;
-        textView3.setTextSize(1, 15.0f);
-        this.bottomOverlayChatText.setTypeface(AndroidUtilities.bold());
-        TextView textView4 = this.bottomOverlayChatText;
-        int i4 = Theme.key_chat_fieldOverlayText;
-        textView4.setTextColor(Theme.getColor(i4));
-        this.bottomOverlayChatText.setText(LocaleController.getString("SETTINGS", R.string.SETTINGS).toUpperCase());
-        this.bottomOverlayChat.addView(this.bottomOverlayChatText, LayoutHelper.createFrame(-2, -2, 17));
-        ImageView imageView2 = new ImageView(context);
-        this.bottomOverlayImage = imageView2;
-        imageView2.setImageResource(R.drawable.msg_help);
-        ImageView imageView3 = this.bottomOverlayImage;
-        int color = Theme.getColor(i4);
-        PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
-        imageView3.setColorFilter(new PorterDuffColorFilter(color, mode));
-        this.bottomOverlayImage.setScaleType(scaleType);
-        this.bottomOverlayChat.addView(this.bottomOverlayImage, LayoutHelper.createFrame(48, 48.0f, 53, 3.0f, 0.0f, 0.0f, 0.0f));
-        this.bottomOverlayImage.setContentDescription(LocaleController.getString("BotHelp", R.string.BotHelp));
-        this.bottomOverlayImage.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda3
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view2) {
-                ChannelAdminLogActivity.this.lambda$createView$10(view2);
-            }
-        });
-        FrameLayout frameLayout4 = new FrameLayout(context) { // from class: org.telegram.ui.ChannelAdminLogActivity.13
-            @Override // android.view.View
-            public void onDraw(Canvas canvas) {
-                int intrinsicHeight = Theme.chat_composeShadowDrawable.getIntrinsicHeight();
-                Theme.chat_composeShadowDrawable.setBounds(0, 0, getMeasuredWidth(), intrinsicHeight);
-                Theme.chat_composeShadowDrawable.draw(canvas);
-                canvas.drawRect(0.0f, intrinsicHeight, getMeasuredWidth(), getMeasuredHeight(), Theme.chat_composeBackgroundPaint);
-            }
-        };
-        this.searchContainer = frameLayout4;
-        frameLayout4.setWillNotDraw(false);
-        this.searchContainer.setVisibility(4);
-        this.searchContainer.setFocusable(true);
-        this.searchContainer.setFocusableInTouchMode(true);
-        this.searchContainer.setClickable(true);
-        this.searchContainer.setPadding(0, AndroidUtilities.dp(3.0f), 0, 0);
-        this.contentView.addView(this.searchContainer, LayoutHelper.createFrame(-1, 51, 80));
-        ImageView imageView4 = new ImageView(context);
-        this.searchCalendarButton = imageView4;
-        imageView4.setScaleType(scaleType);
-        this.searchCalendarButton.setImageResource(R.drawable.msg_calendar);
-        this.searchCalendarButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_searchPanelIcons), mode));
-        this.searchContainer.addView(this.searchCalendarButton, LayoutHelper.createFrame(48, 48, 53));
-        this.searchCalendarButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda4
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view2) {
-                ChannelAdminLogActivity.this.lambda$createView$12(view2);
-            }
-        });
-        SimpleTextView simpleTextView = new SimpleTextView(context);
-        this.searchCountText = simpleTextView;
-        simpleTextView.setTextColor(Theme.getColor(Theme.key_chat_searchPanelText));
-        this.searchCountText.setTextSize(15);
-        this.searchCountText.setTypeface(AndroidUtilities.bold());
-        this.searchContainer.addView(this.searchCountText, LayoutHelper.createFrame(-1, -2.0f, 19, 108.0f, 0.0f, 0.0f, 0.0f));
-        this.chatAdapter.updateRows();
-        if (this.loading && this.messages.isEmpty()) {
-            AndroidUtilities.updateViewVisibilityAnimated(this.progressView, true, 0.3f, true);
-            this.chatListView.setEmptyView(null);
-        } else {
-            AndroidUtilities.updateViewVisibilityAnimated(this.progressView, false, 0.3f, true);
-            this.chatListView.setEmptyView(this.emptyViewContainer);
-        }
-        this.chatListView.setAnimateEmptyView(true, 1);
-        UndoView undoView = new UndoView(context);
-        this.undoView = undoView;
-        undoView.setAdditionalTranslationY(AndroidUtilities.dp(51.0f));
-        this.contentView.addView(this.undoView, LayoutHelper.createFrame(-1, -2.0f, 83, 8.0f, 0.0f, 8.0f, 8.0f));
-        updateEmptyPlaceholder();
-        return this.fragmentView;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 9 extends ChatListItemAnimator {
-        Runnable finishRunnable;
-        int scrollAnimationIndex;
-
-        9(ChatActivity chatActivity, RecyclerListView recyclerListView, Theme.ResourcesProvider resourcesProvider) {
-            super(chatActivity, recyclerListView, resourcesProvider);
-            this.scrollAnimationIndex = -1;
-        }
-
-        @Override // androidx.recyclerview.widget.ChatListItemAnimator
-        public void onAnimationStart() {
-            if (this.scrollAnimationIndex == -1) {
-                this.scrollAnimationIndex = ChannelAdminLogActivity.this.getNotificationCenter().setAnimationInProgress(this.scrollAnimationIndex, ChannelAdminLogActivity.allowedNotificationsDuringChatListAnimations, false);
-            }
-            Runnable runnable = this.finishRunnable;
-            if (runnable != null) {
-                AndroidUtilities.cancelRunOnUIThread(runnable);
-                this.finishRunnable = null;
-            }
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("admin logs chatItemAnimator disable notifications");
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: protected */
-        @Override // androidx.recyclerview.widget.ChatListItemAnimator, androidx.recyclerview.widget.DefaultItemAnimator
-        public void onAllAnimationsDone() {
-            super.onAllAnimationsDone();
-            Runnable runnable = this.finishRunnable;
-            if (runnable != null) {
-                AndroidUtilities.cancelRunOnUIThread(runnable);
-            }
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$9$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChannelAdminLogActivity.9.this.lambda$onAllAnimationsDone$0();
-                }
-            };
-            this.finishRunnable = runnable2;
-            AndroidUtilities.runOnUIThread(runnable2);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onAllAnimationsDone$0() {
-            if (this.scrollAnimationIndex != -1) {
-                ChannelAdminLogActivity.this.getNotificationCenter().onAnimationFinish(this.scrollAnimationIndex);
-                this.scrollAnimationIndex = -1;
-            }
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("admin logs chatItemAnimator enable notifications");
-            }
+            bundle.putLong("ban_chat_id", this.currentChat.id);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$9(View view) {
+    public void alertUserOpenError(MessageObject messageObject) {
         if (getParentActivity() == null) {
             return;
         }
-        AdminLogFilterAlert2 adminLogFilterAlert2 = new AdminLogFilterAlert2(this, this.currentFilter, this.selectedAdmins, this.currentChat.megagroup);
-        adminLogFilterAlert2.setCurrentAdmins(this.admins);
-        adminLogFilterAlert2.setAdminLogFilterAlertDelegate(new AdminLogFilterAlert2.AdminLogFilterAlertDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda14
-            @Override // org.telegram.ui.Components.AdminLogFilterAlert2.AdminLogFilterAlertDelegate
-            public final void didSelectRights(TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter, LongSparseArray longSparseArray) {
-                ChannelAdminLogActivity.this.lambda$createView$8(tLRPC$TL_channelAdminLogEventsFilter, longSparseArray);
-            }
-        });
-        showDialog(adminLogFilterAlert2);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$8(TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter, LongSparseArray longSparseArray) {
-        this.currentFilter = tLRPC$TL_channelAdminLogEventsFilter;
-        this.selectedAdmins = longSparseArray;
-        if (tLRPC$TL_channelAdminLogEventsFilter != null || longSparseArray != null) {
-            this.avatarContainer.setSubtitle(LocaleController.getString("EventLogSelectedEvents", R.string.EventLogSelectedEvents));
-        } else {
-            this.avatarContainer.setSubtitle(LocaleController.getString("EventLogAllEvents", R.string.EventLogAllEvents));
-        }
-        loadMessages(true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$10(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        if (this.currentChat.megagroup) {
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString("EventLogInfoDetail", R.string.EventLogInfoDetail)));
-        } else {
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString("EventLogInfoDetailChannel", R.string.EventLogInfoDetailChannel)));
-        }
+        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
         builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
-        builder.setTitle(LocaleController.getString("EventLogInfoTitle", R.string.EventLogInfoTitle));
+        builder.setMessage(messageObject.type == 3 ? LocaleController.getString("NoPlayerInstalled", R.string.NoPlayerInstalled) : LocaleController.formatString("NoHandleAppInstalled", R.string.NoHandleAppInstalled, messageObject.getDocument().mime_type));
         showDialog(builder.create());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$12(View view) {
-        if (getParentActivity() == null) {
+    public void checkScrollForLoad(boolean z) {
+        LinearLayoutManager linearLayoutManager = this.chatLayoutManager;
+        if (linearLayoutManager == null || this.paused) {
             return;
         }
-        AndroidUtilities.hideKeyboard(this.searchItem.getSearchField());
-        showDialog(AlertsCreator.createCalendarPickerDialog(getParentActivity(), 1375315200000L, new MessagesStorage.IntCallback() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda10
-            @Override // org.telegram.messenger.MessagesStorage.IntCallback
-            public final void run(int i) {
-                ChannelAdminLogActivity.this.lambda$createView$11(i);
+        int findFirstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
+        if ((findFirstVisibleItemPosition == -1 ? 0 : Math.abs(this.chatLayoutManager.findLastVisibleItemPosition() - findFirstVisibleItemPosition) + 1) > 0) {
+            this.chatAdapter.getItemCount();
+            if (findFirstVisibleItemPosition > (z ? 4 : 1) || this.loading || this.endReached) {
+                return;
             }
-        }, null).create());
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$11(int i) {
-        loadMessages(true);
+            loadMessages(false);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1793,6 +1794,13 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     public boolean createMenu(final View view, final float f, final float f2) {
         MessageObject messageObject;
         MessageObject messageObject2;
+        int i;
+        int valueOf;
+        int i2;
+        String str;
+        int i3;
+        String string;
+        int i4;
         TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent;
         TLRPC$Message tLRPC$Message;
         TLRPC$User user;
@@ -1896,113 +1904,114 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     ClearHistoryAlert clearHistoryAlert = new ClearHistoryAlert(getParentActivity(), null, this.currentChat, false, null);
                     clearHistoryAlert.setDelegate(new ClearHistoryAlert.ClearHistoryAlertDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity.15
                         @Override // org.telegram.ui.Components.ClearHistoryAlert.ClearHistoryAlertDelegate
-                        public /* synthetic */ void onClearHistory(boolean z) {
-                            ClearHistoryAlert.ClearHistoryAlertDelegate.-CC.$default$onClearHistory(this, z);
+                        public void onAutoDeleteHistory(int i5, int i6) {
+                            ChannelAdminLogActivity.this.getMessagesController().setDialogHistoryTTL(-ChannelAdminLogActivity.this.currentChat.id, i5);
+                            TLRPC$ChatFull chatFull3 = ChannelAdminLogActivity.this.getMessagesController().getChatFull(ChannelAdminLogActivity.this.currentChat.id);
+                            if (chatFull3 != null) {
+                                ChannelAdminLogActivity.this.undoView.showWithAction(-ChannelAdminLogActivity.this.currentChat.id, i6, (Object) null, Integer.valueOf(chatFull3.ttl_period), (Runnable) null, (Runnable) null);
+                            }
                         }
 
                         @Override // org.telegram.ui.Components.ClearHistoryAlert.ClearHistoryAlertDelegate
-                        public void onAutoDeleteHistory(int i, int i2) {
-                            ChannelAdminLogActivity.this.getMessagesController().setDialogHistoryTTL(-ChannelAdminLogActivity.this.currentChat.id, i);
-                            TLRPC$ChatFull chatFull3 = ChannelAdminLogActivity.this.getMessagesController().getChatFull(ChannelAdminLogActivity.this.currentChat.id);
-                            if (chatFull3 != null) {
-                                ChannelAdminLogActivity.this.undoView.showWithAction(-ChannelAdminLogActivity.this.currentChat.id, i2, (Object) null, Integer.valueOf(chatFull3.ttl_period), (Runnable) null, (Runnable) null);
-                            }
+                        public /* synthetic */ void onClearHistory(boolean z) {
+                            ClearHistoryAlert.ClearHistoryAlertDelegate.-CC.$default$onClearHistory(this, z);
                         }
                     });
                     showDialog(clearHistoryAlert);
                 }
-            } else if (messageType == 3) {
-                TLRPC$MessageMedia tLRPC$MessageMedia = this.selectedObject.messageOwner.media;
-                if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) && MessageObject.isNewGifDocument(tLRPC$MessageMedia.webpage.document)) {
-                    arrayList.add(LocaleController.getString("SaveToGIFs", R.string.SaveToGIFs));
-                    arrayList3.add(Integer.valueOf(R.drawable.msg_gif));
-                    arrayList2.add(11);
-                }
-            } else if (messageType == 4) {
-                if (this.selectedObject.isVideo()) {
-                    arrayList.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
-                    arrayList3.add(Integer.valueOf(R.drawable.msg_gallery));
-                    arrayList2.add(4);
-                    arrayList.add(LocaleController.getString("ShareFile", R.string.ShareFile));
-                    arrayList3.add(Integer.valueOf(R.drawable.msg_share));
-                    arrayList2.add(6);
-                } else if (this.selectedObject.isMusic()) {
-                    arrayList.add(LocaleController.getString("SaveToMusic", R.string.SaveToMusic));
-                    arrayList3.add(Integer.valueOf(R.drawable.msg_download));
-                    arrayList2.add(10);
-                    arrayList.add(LocaleController.getString("ShareFile", R.string.ShareFile));
-                    arrayList3.add(Integer.valueOf(R.drawable.msg_share));
-                    arrayList2.add(6);
-                } else if (this.selectedObject.getDocument() != null) {
-                    if (MessageObject.isNewGifDocument(this.selectedObject.getDocument())) {
+            } else {
+                int i5 = 11;
+                if (messageType == 3) {
+                    TLRPC$MessageMedia tLRPC$MessageMedia = this.selectedObject.messageOwner.media;
+                    if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) && MessageObject.isNewGifDocument(tLRPC$MessageMedia.webpage.document)) {
                         arrayList.add(LocaleController.getString("SaveToGIFs", R.string.SaveToGIFs));
                         arrayList3.add(Integer.valueOf(R.drawable.msg_gif));
-                        arrayList2.add(11);
+                        valueOf = 11;
+                        arrayList2.add(valueOf);
                     }
-                    arrayList.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
+                } else {
+                    if (messageType != 4) {
+                        i5 = 5;
+                        if (messageType == 5) {
+                            arrayList.add(LocaleController.getString("ApplyLocalizationFile", R.string.ApplyLocalizationFile));
+                            i3 = R.drawable.msg_language;
+                        } else if (messageType == 10) {
+                            arrayList.add(LocaleController.getString("ApplyThemeFile", R.string.ApplyThemeFile));
+                            i3 = R.drawable.msg_theme;
+                        } else {
+                            i5 = 7;
+                            if (messageType == 6) {
+                                arrayList.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
+                                i3 = R.drawable.msg_gallery;
+                            } else {
+                                if (messageType == 7) {
+                                    if (this.selectedObject.isMask()) {
+                                        i2 = R.string.AddToMasks;
+                                        str = "AddToMasks";
+                                    } else {
+                                        i2 = R.string.AddToStickers;
+                                        str = "AddToStickers";
+                                    }
+                                    arrayList.add(LocaleController.getString(str, i2));
+                                    arrayList3.add(Integer.valueOf(R.drawable.msg_sticker));
+                                    i = 9;
+                                } else if (messageType == 8) {
+                                    long j = this.selectedObject.messageOwner.media.user_id;
+                                    TLRPC$User user2 = j != 0 ? MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j)) : null;
+                                    if (user2 != null && user2.id != UserConfig.getInstance(this.currentAccount).getClientUserId() && ContactsController.getInstance(this.currentAccount).contactsDict.get(Long.valueOf(user2.id)) == null) {
+                                        arrayList.add(LocaleController.getString("AddContactTitle", R.string.AddContactTitle));
+                                        arrayList3.add(Integer.valueOf(R.drawable.msg_addcontact));
+                                        arrayList2.add(15);
+                                    }
+                                    if (!TextUtils.isEmpty(this.selectedObject.messageOwner.media.phone_number)) {
+                                        arrayList.add(LocaleController.getString("Copy", R.string.Copy));
+                                        arrayList3.add(Integer.valueOf(R.drawable.msg_copy));
+                                        arrayList2.add(16);
+                                        arrayList.add(LocaleController.getString("Call", R.string.Call));
+                                        arrayList3.add(Integer.valueOf(R.drawable.msg_calls));
+                                        i = 17;
+                                    }
+                                }
+                                valueOf = Integer.valueOf(i);
+                                arrayList2.add(valueOf);
+                            }
+                        }
+                        arrayList3.add(Integer.valueOf(i3));
+                        arrayList2.add(Integer.valueOf(i5));
+                        string = LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads);
+                    } else if (this.selectedObject.isVideo()) {
+                        arrayList.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
+                        arrayList3.add(Integer.valueOf(R.drawable.msg_gallery));
+                        i4 = 4;
+                        arrayList2.add(i4);
+                        arrayList.add(LocaleController.getString("ShareFile", R.string.ShareFile));
+                        arrayList3.add(Integer.valueOf(R.drawable.msg_share));
+                        valueOf = 6;
+                        arrayList2.add(valueOf);
+                    } else if (this.selectedObject.isMusic()) {
+                        string = LocaleController.getString("SaveToMusic", R.string.SaveToMusic);
+                    } else if (this.selectedObject.getDocument() != null) {
+                        if (MessageObject.isNewGifDocument(this.selectedObject.getDocument())) {
+                            arrayList.add(LocaleController.getString("SaveToGIFs", R.string.SaveToGIFs));
+                            i3 = R.drawable.msg_gif;
+                            arrayList3.add(Integer.valueOf(i3));
+                            arrayList2.add(Integer.valueOf(i5));
+                        }
+                        string = LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads);
+                    } else {
+                        arrayList.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
+                        arrayList3.add(Integer.valueOf(R.drawable.msg_gallery));
+                        valueOf = 4;
+                        arrayList2.add(valueOf);
+                    }
+                    arrayList.add(string);
                     arrayList3.add(Integer.valueOf(R.drawable.msg_download));
-                    arrayList2.add(10);
+                    i4 = 10;
+                    arrayList2.add(i4);
                     arrayList.add(LocaleController.getString("ShareFile", R.string.ShareFile));
                     arrayList3.add(Integer.valueOf(R.drawable.msg_share));
-                    arrayList2.add(6);
-                } else {
-                    arrayList.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
-                    arrayList3.add(Integer.valueOf(R.drawable.msg_gallery));
-                    arrayList2.add(4);
-                }
-            } else if (messageType == 5) {
-                arrayList.add(LocaleController.getString("ApplyLocalizationFile", R.string.ApplyLocalizationFile));
-                arrayList3.add(Integer.valueOf(R.drawable.msg_language));
-                arrayList2.add(5);
-                arrayList.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
-                arrayList3.add(Integer.valueOf(R.drawable.msg_download));
-                arrayList2.add(10);
-                arrayList.add(LocaleController.getString("ShareFile", R.string.ShareFile));
-                arrayList3.add(Integer.valueOf(R.drawable.msg_share));
-                arrayList2.add(6);
-            } else if (messageType == 10) {
-                arrayList.add(LocaleController.getString("ApplyThemeFile", R.string.ApplyThemeFile));
-                arrayList3.add(Integer.valueOf(R.drawable.msg_theme));
-                arrayList2.add(5);
-                arrayList.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
-                arrayList3.add(Integer.valueOf(R.drawable.msg_download));
-                arrayList2.add(10);
-                arrayList.add(LocaleController.getString("ShareFile", R.string.ShareFile));
-                arrayList3.add(Integer.valueOf(R.drawable.msg_share));
-                arrayList2.add(6);
-            } else if (messageType == 6) {
-                arrayList.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
-                arrayList3.add(Integer.valueOf(R.drawable.msg_gallery));
-                arrayList2.add(7);
-                arrayList.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
-                arrayList3.add(Integer.valueOf(R.drawable.msg_download));
-                arrayList2.add(10);
-                arrayList.add(LocaleController.getString("ShareFile", R.string.ShareFile));
-                arrayList3.add(Integer.valueOf(R.drawable.msg_share));
-                arrayList2.add(6);
-            } else if (messageType == 7) {
-                if (this.selectedObject.isMask()) {
-                    arrayList.add(LocaleController.getString("AddToMasks", R.string.AddToMasks));
-                } else {
-                    arrayList.add(LocaleController.getString("AddToStickers", R.string.AddToStickers));
-                }
-                arrayList3.add(Integer.valueOf(R.drawable.msg_sticker));
-                arrayList2.add(9);
-            } else if (messageType == 8) {
-                long j = this.selectedObject.messageOwner.media.user_id;
-                TLRPC$User user2 = j != 0 ? MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j)) : null;
-                if (user2 != null && user2.id != UserConfig.getInstance(this.currentAccount).getClientUserId() && ContactsController.getInstance(this.currentAccount).contactsDict.get(Long.valueOf(user2.id)) == null) {
-                    arrayList.add(LocaleController.getString("AddContactTitle", R.string.AddContactTitle));
-                    arrayList3.add(Integer.valueOf(R.drawable.msg_addcontact));
-                    arrayList2.add(15);
-                }
-                if (!TextUtils.isEmpty(this.selectedObject.messageOwner.media.phone_number)) {
-                    arrayList.add(LocaleController.getString("Copy", R.string.Copy));
-                    arrayList3.add(Integer.valueOf(R.drawable.msg_copy));
-                    arrayList2.add(16);
-                    arrayList.add(LocaleController.getString("Call", R.string.Call));
-                    arrayList3.add(Integer.valueOf(R.drawable.msg_calls));
-                    arrayList2.add(17);
+                    valueOf = 6;
+                    arrayList2.add(valueOf);
                 }
             }
             final Runnable runnable = new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda7
@@ -2031,6 +2040,332 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         messageObject = messageObject2;
         if (messageObject != null) {
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public TextureView createTextureView(boolean z) {
+        if (this.parentLayout == null) {
+            return null;
+        }
+        if (this.roundVideoContainer == null) {
+            if (Build.VERSION.SDK_INT >= 21) {
+                FrameLayout frameLayout = new FrameLayout(getParentActivity()) { // from class: org.telegram.ui.ChannelAdminLogActivity.18
+                    @Override // android.view.View
+                    public void setTranslationY(float f) {
+                        super.setTranslationY(f);
+                        ChannelAdminLogActivity.this.contentView.invalidate();
+                    }
+                };
+                this.roundVideoContainer = frameLayout;
+                frameLayout.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.ChannelAdminLogActivity.19
+                    @Override // android.view.ViewOutlineProvider
+                    public void getOutline(View view, Outline outline) {
+                        int i = AndroidUtilities.roundMessageSize;
+                        outline.setOval(0, 0, i, i);
+                    }
+                });
+                this.roundVideoContainer.setClipToOutline(true);
+            } else {
+                this.roundVideoContainer = new FrameLayout(getParentActivity()) { // from class: org.telegram.ui.ChannelAdminLogActivity.20
+                    @Override // android.view.ViewGroup, android.view.View
+                    protected void dispatchDraw(Canvas canvas) {
+                        super.dispatchDraw(canvas);
+                        canvas.drawPath(ChannelAdminLogActivity.this.aspectPath, ChannelAdminLogActivity.this.aspectPaint);
+                    }
+
+                    @Override // android.view.View
+                    protected void onSizeChanged(int i, int i2, int i3, int i4) {
+                        super.onSizeChanged(i, i2, i3, i4);
+                        ChannelAdminLogActivity.this.aspectPath.reset();
+                        float f = i / 2;
+                        ChannelAdminLogActivity.this.aspectPath.addCircle(f, i2 / 2, f, Path.Direction.CW);
+                        ChannelAdminLogActivity.this.aspectPath.toggleInverseFillType();
+                    }
+
+                    @Override // android.view.View
+                    public void setTranslationY(float f) {
+                        super.setTranslationY(f);
+                        ChannelAdminLogActivity.this.contentView.invalidate();
+                    }
+
+                    @Override // android.view.View
+                    public void setVisibility(int i) {
+                        super.setVisibility(i);
+                        if (i == 0) {
+                            setLayerType(2, null);
+                        }
+                    }
+                };
+                this.aspectPath = new Path();
+                Paint paint = new Paint(1);
+                this.aspectPaint = paint;
+                paint.setColor(-16777216);
+                this.aspectPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+            }
+            this.roundVideoContainer.setWillNotDraw(false);
+            this.roundVideoContainer.setVisibility(4);
+            AspectRatioFrameLayout aspectRatioFrameLayout = new AspectRatioFrameLayout(getParentActivity());
+            this.aspectRatioFrameLayout = aspectRatioFrameLayout;
+            aspectRatioFrameLayout.setBackgroundColor(0);
+            if (z) {
+                this.roundVideoContainer.addView(this.aspectRatioFrameLayout, LayoutHelper.createFrame(-1, -1.0f));
+            }
+            TextureView textureView = new TextureView(getParentActivity());
+            this.videoTextureView = textureView;
+            textureView.setOpaque(false);
+            this.aspectRatioFrameLayout.addView(this.videoTextureView, LayoutHelper.createFrame(-1, -1.0f));
+        }
+        if (this.roundVideoContainer.getParent() == null) {
+            SizeNotifierFrameLayout sizeNotifierFrameLayout = this.contentView;
+            FrameLayout frameLayout2 = this.roundVideoContainer;
+            int i = AndroidUtilities.roundMessageSize;
+            sizeNotifierFrameLayout.addView(frameLayout2, 1, new FrameLayout.LayoutParams(i, i));
+        }
+        this.roundVideoContainer.setVisibility(4);
+        this.aspectRatioFrameLayout.setDrawingReady(false);
+        return this.videoTextureView;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void filterDeletedMessages() {
+        ArrayList arrayList = new ArrayList();
+        ArrayList arrayList2 = new ArrayList();
+        this.filteredMessagesUpdatedPosition.clear();
+        int i = 0;
+        while (i < this.messages.size()) {
+            MessageObject messageObject = (MessageObject) this.messages.get(i);
+            long messageDeletedBy = messageDeletedBy(messageObject);
+            if (messageObject.stableId <= 0) {
+                int i2 = lastStableId;
+                lastStableId = i2 + 1;
+                messageObject.stableId = i2;
+            }
+            int i3 = i + 1;
+            long messageDeletedBy2 = messageDeletedBy(i3 < this.messages.size() ? (MessageObject) this.messages.get(i3) : null);
+            if (messageDeletedBy != 0) {
+                arrayList2.add(messageObject);
+            } else {
+                arrayList.add(messageObject);
+            }
+            if (messageDeletedBy != messageDeletedBy2 && !arrayList2.isEmpty()) {
+                TLRPC$ReplyMarkup tLRPC$ReplyMarkup = messageObject.messageOwner.reply_markup;
+                boolean z = (tLRPC$ReplyMarkup == null || tLRPC$ReplyMarkup.rows.isEmpty()) ? false : true;
+                int size = arrayList.size();
+                ArrayList arrayList3 = new ArrayList();
+                for (int size2 = arrayList2.size() - 1; size2 >= 0 && ((MessageObject) arrayList2.get(size2)).contentType == 1; size2--) {
+                    arrayList3.add((MessageObject) arrayList2.remove(size2));
+                }
+                if (!arrayList2.isEmpty()) {
+                    MessageObject messageObject2 = (MessageObject) arrayList2.get(arrayList2.size() - 1);
+                    boolean z2 = TextUtils.isEmpty(this.searchQuery) && arrayList2.size() > 3;
+                    if (this.expandedEvents.contains(Long.valueOf(messageObject2.eventId)) || !z2) {
+                        for (int i4 = 0; i4 < arrayList2.size(); i4++) {
+                            setupExpandButton((MessageObject) arrayList2.get(i4), 0);
+                        }
+                        arrayList.addAll(arrayList2);
+                    } else {
+                        setupExpandButton(messageObject2, arrayList2.size() - 1);
+                        arrayList.add(messageObject2);
+                    }
+                    TLRPC$ReplyMarkup tLRPC$ReplyMarkup2 = messageObject2.messageOwner.reply_markup;
+                    if (z != ((tLRPC$ReplyMarkup2 == null || tLRPC$ReplyMarkup2.rows.isEmpty()) ? false : true)) {
+                        messageObject2.forceUpdate = true;
+                        this.chatAdapter.notifyItemChanged((z ? arrayList2.size() - 1 : 0) + size);
+                        this.chatAdapter.notifyItemChanged(size + (z ? arrayList2.size() - 1 : 0) + 1);
+                    }
+                    long j = messageObject.eventId;
+                    arrayList.add(actionMessagesDeletedBy(j, messageObject.currentEvent.user_id, arrayList2, this.expandedEvents.contains(Long.valueOf(j)), z2));
+                }
+                if (!arrayList3.isEmpty()) {
+                    MessageObject messageObject3 = (MessageObject) arrayList3.get(arrayList3.size() - 1);
+                    arrayList.addAll(arrayList3);
+                    arrayList.add(actionMessagesDeletedBy(messageObject3.eventId, messageObject3.currentEvent.user_id, arrayList3, true, false));
+                }
+                arrayList2.clear();
+            }
+            i = i3;
+        }
+        this.filteredMessages.clear();
+        this.filteredMessages.addAll(arrayList);
+    }
+
+    public static ProfileActivity.ShowDrawable findDrawable(CharSequence charSequence) {
+        ColoredImageSpan[] coloredImageSpanArr;
+        if (charSequence instanceof Spannable) {
+            for (ColoredImageSpan coloredImageSpan : (ColoredImageSpan[]) ((Spannable) charSequence).getSpans(0, charSequence.length(), ColoredImageSpan.class)) {
+                if (coloredImageSpan != null) {
+                    Drawable drawable = coloredImageSpan.drawable;
+                    if (drawable instanceof ProfileActivity.ShowDrawable) {
+                        return (ProfileActivity.ShowDrawable) drawable;
+                    }
+                }
+            }
+            return null;
+        }
+        return null;
+    }
+
+    private int getHeightForMessage(MessageObject messageObject, boolean z) {
+        boolean z2 = false;
+        if (getParentActivity() == null) {
+            return 0;
+        }
+        if (this.dummyMessageCell == null) {
+            this.dummyMessageCell = new ChatMessageCell(getParentActivity(), this.currentAccount);
+        }
+        ChatMessageCell chatMessageCell = this.dummyMessageCell;
+        TLRPC$Chat tLRPC$Chat = this.currentChat;
+        chatMessageCell.isChat = tLRPC$Chat != null;
+        if (ChatObject.isChannel(tLRPC$Chat) && this.currentChat.megagroup) {
+            z2 = true;
+        }
+        chatMessageCell.isMegagroup = z2;
+        return this.dummyMessageCell.computeHeight(messageObject, null, z);
+    }
+
+    private CharSequence getMessageContent(MessageObject messageObject, int i, boolean z) {
+        TLRPC$Chat chat;
+        String str;
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+        if (z) {
+            long fromChatId = messageObject.getFromChatId();
+            if (i != fromChatId) {
+                if (fromChatId > 0) {
+                    TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(fromChatId));
+                    if (user != null) {
+                        str = ContactsController.formatName(user.first_name, user.last_name);
+                        spannableStringBuilder.append((CharSequence) str).append((CharSequence) ":\n");
+                    }
+                } else if (fromChatId < 0 && (chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-fromChatId))) != null) {
+                    str = chat.title;
+                    spannableStringBuilder.append((CharSequence) str).append((CharSequence) ":\n");
+                }
+            }
+        }
+        spannableStringBuilder.append(TextUtils.isEmpty(messageObject.messageText) ? messageObject.messageOwner.message : messageObject.messageText);
+        return spannableStringBuilder;
+    }
+
+    private int getMessageType(MessageObject messageObject) {
+        int i;
+        String str;
+        if (messageObject == null || (i = messageObject.type) == 6) {
+            return -1;
+        }
+        boolean z = true;
+        if (i == 10 || i == 11 || i == 16) {
+            return messageObject.getId() == 0 ? -1 : 1;
+        } else if (messageObject.isVoice()) {
+            return 2;
+        } else {
+            if (messageObject.isSticker() || messageObject.isAnimatedSticker()) {
+                TLRPC$InputStickerSet inputStickerSet = messageObject.getInputStickerSet();
+                if (inputStickerSet instanceof TLRPC$TL_inputStickerSetID) {
+                    if (!MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(inputStickerSet.id)) {
+                        return 7;
+                    }
+                } else if ((inputStickerSet instanceof TLRPC$TL_inputStickerSetShortName) && !MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(inputStickerSet.short_name)) {
+                    return 7;
+                }
+            } else if ((!messageObject.isRoundVideo() || (messageObject.isRoundVideo() && BuildVars.DEBUG_VERSION)) && ((messageObject.messageOwner.media instanceof TLRPC$TL_messageMediaPhoto) || messageObject.getDocument() != null || messageObject.isMusic() || messageObject.isVideo())) {
+                String str2 = messageObject.messageOwner.attachPath;
+                boolean z2 = (str2 == null || str2.length() == 0 || !new File(messageObject.messageOwner.attachPath).exists()) ? false : true;
+                if (z2 || !getFileLoader().getPathToMessage(messageObject.messageOwner).exists()) {
+                    z = z2;
+                }
+                if (z) {
+                    if (messageObject.getDocument() == null || (str = messageObject.getDocument().mime_type) == null) {
+                        return 4;
+                    }
+                    if (messageObject.getDocumentName().toLowerCase().endsWith("attheme")) {
+                        return 10;
+                    }
+                    if (str.endsWith("/xml")) {
+                        return 5;
+                    }
+                    return (str.endsWith("/png") || str.endsWith("/jpg") || str.endsWith("/jpeg")) ? 6 : 4;
+                }
+            } else if (messageObject.type == 12) {
+                return 8;
+            } else {
+                if (messageObject.isMediaEmpty()) {
+                    return 3;
+                }
+            }
+            return 2;
+        }
+    }
+
+    private int getScrollOffsetForMessage(int i) {
+        return Math.max(-AndroidUtilities.dp(2.0f), (this.chatListView.getMeasuredHeight() - i) / 2);
+    }
+
+    private int getScrollOffsetForMessage(MessageObject messageObject) {
+        return getScrollOffsetForMessage(getHeightForMessage(messageObject, !TextUtils.isEmpty(this.highlightMessageQuote))) - scrollOffsetForQuote(messageObject);
+    }
+
+    private int getScrollingOffsetForView(View view) {
+        return (this.chatListView.getMeasuredHeight() - view.getBottom()) - this.chatListView.getPaddingBottom();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void hideFloatingDateView(boolean z) {
+        if (this.floatingDateView.getTag() == null || this.currentFloatingDateOnScreen) {
+            return;
+        }
+        if (!this.scrollingFloatingDate || this.currentFloatingTopIsNotMessage) {
+            this.floatingDateView.setTag(null);
+            if (!z) {
+                AnimatorSet animatorSet = this.floatingDateAnimation;
+                if (animatorSet != null) {
+                    animatorSet.cancel();
+                    this.floatingDateAnimation = null;
+                }
+                this.floatingDateView.setAlpha(0.0f);
+                return;
+            }
+            AnimatorSet animatorSet2 = new AnimatorSet();
+            this.floatingDateAnimation = animatorSet2;
+            animatorSet2.setDuration(150L);
+            this.floatingDateAnimation.playTogether(ObjectAnimator.ofFloat(this.floatingDateView, "alpha", 0.0f));
+            this.floatingDateAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChannelAdminLogActivity.22
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    if (animator.equals(ChannelAdminLogActivity.this.floatingDateAnimation)) {
+                        ChannelAdminLogActivity.this.floatingDateAnimation = null;
+                    }
+                }
+            });
+            this.floatingDateAnimation.setStartDelay(500L);
+            this.floatingDateAnimation.start();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ String lambda$actionMessagesDeletedBy$5(Long l) {
+        int i = (l.longValue() > 0L ? 1 : (l.longValue() == 0L ? 0 : -1));
+        MessagesController messagesController = getMessagesController();
+        if (i < 0) {
+            TLRPC$Chat chat = messagesController.getChat(Long.valueOf(-l.longValue()));
+            if (chat == null) {
+                return null;
+            }
+            return chat.title;
+        }
+        return UserObject.getForcedFirstName(messagesController.getUser(l));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ boolean lambda$actionMessagesDeletedBy$6(String str) {
+        return str != null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createMenu$13(int i, ArrayList arrayList, Integer num, View view) {
+        if (this.selectedObject == null || i >= arrayList.size()) {
+            return;
+        }
+        processSelectedOption(num.intValue());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2156,24 +2491,6 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createMenu$13(int i, ArrayList arrayList, Integer num, View view) {
-        if (this.selectedObject == null || i >= arrayList.size()) {
-            return;
-        }
-        processSelectedOption(num.intValue());
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createMenu$16(final ArrayList arrayList, final ArrayList arrayList2, final ArrayList arrayList3, final Runnable runnable, final TLRPC$ChannelParticipant tLRPC$ChannelParticipant) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda20
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChannelAdminLogActivity.this.lambda$createMenu$15(tLRPC$ChannelParticipant, arrayList, arrayList2, arrayList3, runnable);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createMenu$15(TLRPC$ChannelParticipant tLRPC$ChannelParticipant, ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3, Runnable runnable) {
         this.selectedParticipant = tLRPC$ChannelParticipant;
         if (tLRPC$ChannelParticipant != null) {
@@ -2189,477 +2506,92 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         runnable.run();
     }
 
-    private CharSequence getMessageContent(MessageObject messageObject, int i, boolean z) {
-        TLRPC$Chat chat;
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-        if (z) {
-            long fromChatId = messageObject.getFromChatId();
-            if (i != fromChatId) {
-                if (fromChatId > 0) {
-                    TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(fromChatId));
-                    if (user != null) {
-                        spannableStringBuilder.append((CharSequence) ContactsController.formatName(user.first_name, user.last_name)).append((CharSequence) ":\n");
-                    }
-                } else if (fromChatId < 0 && (chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-fromChatId))) != null) {
-                    spannableStringBuilder.append((CharSequence) chat.title).append((CharSequence) ":\n");
-                }
-            }
-        }
-        if (TextUtils.isEmpty(messageObject.messageText)) {
-            spannableStringBuilder.append((CharSequence) messageObject.messageOwner.message);
-        } else {
-            spannableStringBuilder.append(messageObject.messageText);
-        }
-        return spannableStringBuilder;
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
-    public TextureView createTextureView(boolean z) {
-        if (this.parentLayout == null) {
-            return null;
-        }
-        if (this.roundVideoContainer == null) {
-            if (Build.VERSION.SDK_INT >= 21) {
-                FrameLayout frameLayout = new FrameLayout(getParentActivity()) { // from class: org.telegram.ui.ChannelAdminLogActivity.18
-                    @Override // android.view.View
-                    public void setTranslationY(float f) {
-                        super.setTranslationY(f);
-                        ChannelAdminLogActivity.this.contentView.invalidate();
-                    }
-                };
-                this.roundVideoContainer = frameLayout;
-                frameLayout.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.ChannelAdminLogActivity.19
-                    @Override // android.view.ViewOutlineProvider
-                    @TargetApi(21)
-                    public void getOutline(View view, Outline outline) {
-                        int i = AndroidUtilities.roundMessageSize;
-                        outline.setOval(0, 0, i, i);
-                    }
-                });
-                this.roundVideoContainer.setClipToOutline(true);
-            } else {
-                this.roundVideoContainer = new FrameLayout(getParentActivity()) { // from class: org.telegram.ui.ChannelAdminLogActivity.20
-                    @Override // android.view.View
-                    protected void onSizeChanged(int i, int i2, int i3, int i4) {
-                        super.onSizeChanged(i, i2, i3, i4);
-                        ChannelAdminLogActivity.this.aspectPath.reset();
-                        float f = i / 2;
-                        ChannelAdminLogActivity.this.aspectPath.addCircle(f, i2 / 2, f, Path.Direction.CW);
-                        ChannelAdminLogActivity.this.aspectPath.toggleInverseFillType();
-                    }
-
-                    @Override // android.view.View
-                    public void setTranslationY(float f) {
-                        super.setTranslationY(f);
-                        ChannelAdminLogActivity.this.contentView.invalidate();
-                    }
-
-                    @Override // android.view.View
-                    public void setVisibility(int i) {
-                        super.setVisibility(i);
-                        if (i == 0) {
-                            setLayerType(2, null);
-                        }
-                    }
-
-                    @Override // android.view.ViewGroup, android.view.View
-                    protected void dispatchDraw(Canvas canvas) {
-                        super.dispatchDraw(canvas);
-                        canvas.drawPath(ChannelAdminLogActivity.this.aspectPath, ChannelAdminLogActivity.this.aspectPaint);
-                    }
-                };
-                this.aspectPath = new Path();
-                Paint paint = new Paint(1);
-                this.aspectPaint = paint;
-                paint.setColor(-16777216);
-                this.aspectPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-            }
-            this.roundVideoContainer.setWillNotDraw(false);
-            this.roundVideoContainer.setVisibility(4);
-            AspectRatioFrameLayout aspectRatioFrameLayout = new AspectRatioFrameLayout(getParentActivity());
-            this.aspectRatioFrameLayout = aspectRatioFrameLayout;
-            aspectRatioFrameLayout.setBackgroundColor(0);
-            if (z) {
-                this.roundVideoContainer.addView(this.aspectRatioFrameLayout, LayoutHelper.createFrame(-1, -1.0f));
-            }
-            TextureView textureView = new TextureView(getParentActivity());
-            this.videoTextureView = textureView;
-            textureView.setOpaque(false);
-            this.aspectRatioFrameLayout.addView(this.videoTextureView, LayoutHelper.createFrame(-1, -1.0f));
-        }
-        if (this.roundVideoContainer.getParent() == null) {
-            SizeNotifierFrameLayout sizeNotifierFrameLayout = this.contentView;
-            FrameLayout frameLayout2 = this.roundVideoContainer;
-            int i = AndroidUtilities.roundMessageSize;
-            sizeNotifierFrameLayout.addView(frameLayout2, 1, new FrameLayout.LayoutParams(i, i));
-        }
-        this.roundVideoContainer.setVisibility(4);
-        this.aspectRatioFrameLayout.setDrawingReady(false);
-        return this.videoTextureView;
-    }
-
-    /* JADX WARN: Code restructure failed: missing block: B:120:0x0371, code lost:
-        if (r0.exists() != false) goto L125;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    private void processSelectedOption(int i) {
-        int checkSelfPermission;
-        File file;
-        int checkSelfPermission2;
-        int checkSelfPermission3;
-        TLRPC$User user;
-        closeMenu();
-        MessageObject messageObject = this.selectedObject;
-        if (messageObject == null) {
-            return;
-        }
-        if (i == 3) {
-            AndroidUtilities.addToClipboard(getMessageContent(messageObject, 0, true));
-            BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("MessageCopied", R.string.MessageCopied)).show();
-        } else if (i == 4) {
-            String str = messageObject.messageOwner.attachPath;
-            if (str != null && str.length() > 0 && !new File(str).exists()) {
-                str = null;
-            }
-            if (str == null || str.length() == 0) {
-                str = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
-            }
-            int i2 = this.selectedObject.type;
-            if (i2 == 3 || i2 == 1) {
-                int i3 = Build.VERSION.SDK_INT;
-                if (i3 >= 23 && (i3 <= 28 || BuildVars.NO_SCOPED_STORAGE)) {
-                    checkSelfPermission = getParentActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE");
-                    if (checkSelfPermission != 0) {
-                        getParentActivity().requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, 4);
-                        this.selectedObject = null;
-                        this.selectedParticipant = null;
-                        return;
-                    }
-                }
-                MediaController.saveFile(str, getParentActivity(), this.selectedObject.type == 3 ? 1 : 0, null, null);
-            }
-        } else if (i == 5) {
-            String str2 = messageObject.messageOwner.attachPath;
-            if (str2 != null && str2.length() != 0) {
-                file = new File(this.selectedObject.messageOwner.attachPath);
-            }
-            file = null;
-            if (file == null) {
-                File pathToMessage = getFileLoader().getPathToMessage(this.selectedObject.messageOwner);
-                if (pathToMessage.exists()) {
-                    file = pathToMessage;
-                }
-            }
-            if (file != null) {
-                if (file.getName().toLowerCase().endsWith("attheme")) {
-                    LinearLayoutManager linearLayoutManager = this.chatLayoutManager;
-                    if (linearLayoutManager != null) {
-                        if (linearLayoutManager.findLastVisibleItemPosition() < this.chatLayoutManager.getItemCount() - 1) {
-                            int findFirstVisibleItemPosition = this.chatLayoutManager.findFirstVisibleItemPosition();
-                            this.scrollToPositionOnRecreate = findFirstVisibleItemPosition;
-                            RecyclerListView.Holder holder = (RecyclerListView.Holder) this.chatListView.findViewHolderForAdapterPosition(findFirstVisibleItemPosition);
-                            if (holder != null) {
-                                this.scrollToOffsetOnRecreate = holder.itemView.getTop();
-                            } else {
-                                this.scrollToPositionOnRecreate = -1;
-                            }
-                        } else {
-                            this.scrollToPositionOnRecreate = -1;
-                        }
-                    }
-                    Theme.ThemeInfo applyThemeFile = Theme.applyThemeFile(file, this.selectedObject.getDocumentName(), null, true);
-                    if (applyThemeFile != null) {
-                        presentFragment(new ThemePreviewActivity(applyThemeFile));
-                    } else {
-                        this.scrollToPositionOnRecreate = -1;
-                        if (getParentActivity() == null) {
-                            this.selectedObject = null;
-                            this.selectedParticipant = null;
-                            return;
-                        }
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
-                        builder.setMessage(LocaleController.getString("IncorrectTheme", R.string.IncorrectTheme));
-                        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
-                        showDialog(builder.create());
-                    }
-                } else if (LocaleController.getInstance().applyLanguageFile(file, this.currentAccount)) {
-                    presentFragment(new LanguageSelectActivity());
-                } else if (getParentActivity() == null) {
-                    this.selectedObject = null;
-                    this.selectedParticipant = null;
-                    return;
-                } else {
-                    AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity());
-                    builder2.setTitle(LocaleController.getString("AppName", R.string.AppName));
-                    builder2.setMessage(LocaleController.getString("IncorrectLocalization", R.string.IncorrectLocalization));
-                    builder2.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
-                    showDialog(builder2.create());
-                }
-            }
-        } else if (i == 6) {
-            String str3 = messageObject.messageOwner.attachPath;
-            if (str3 != null && str3.length() > 0 && !new File(str3).exists()) {
-                str3 = null;
-            }
-            if (str3 == null || str3.length() == 0) {
-                str3 = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
-            }
-            Intent intent = new Intent("android.intent.action.SEND");
-            intent.setType(this.selectedObject.getDocument().mime_type);
-            if (Build.VERSION.SDK_INT >= 24) {
-                try {
-                    intent.putExtra("android.intent.extra.STREAM", FileProvider.getUriForFile(getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", new File(str3)));
-                    intent.setFlags(1);
-                } catch (Exception unused) {
-                    intent.putExtra("android.intent.extra.STREAM", Uri.fromFile(new File(str3)));
-                }
-            } else {
-                intent.putExtra("android.intent.extra.STREAM", Uri.fromFile(new File(str3)));
-            }
-            try {
-                getParentActivity().startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
-            } catch (Exception unused2) {
-            }
-        } else if (i == 7) {
-            String str4 = messageObject.messageOwner.attachPath;
-            if (str4 != null && str4.length() > 0 && !new File(str4).exists()) {
-                str4 = null;
-            }
-            if (str4 == null || str4.length() == 0) {
-                str4 = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
-            }
-            int i4 = Build.VERSION.SDK_INT;
-            if (i4 >= 23 && (i4 <= 28 || BuildVars.NO_SCOPED_STORAGE)) {
-                checkSelfPermission2 = getParentActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE");
-                if (checkSelfPermission2 != 0) {
-                    getParentActivity().requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, 4);
-                    this.selectedObject = null;
-                    this.selectedParticipant = null;
-                    return;
-                }
-            }
-            MediaController.saveFile(str4, getParentActivity(), 0, null, null);
-        } else {
-            switch (i) {
-                case 9:
-                    showDialog(new StickersAlert(getParentActivity(), this, this.selectedObject.getInputStickerSet(), (TLRPC$TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null));
-                    break;
-                case 10:
-                    int i5 = Build.VERSION.SDK_INT;
-                    if (i5 >= 23 && (i5 <= 28 || BuildVars.NO_SCOPED_STORAGE)) {
-                        checkSelfPermission3 = getParentActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE");
-                        if (checkSelfPermission3 != 0) {
-                            getParentActivity().requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, 4);
-                            this.selectedObject = null;
-                            this.selectedParticipant = null;
-                            return;
-                        }
-                    }
-                    String documentFileName = FileLoader.getDocumentFileName(this.selectedObject.getDocument());
-                    if (TextUtils.isEmpty(documentFileName)) {
-                        documentFileName = this.selectedObject.getFileName();
-                    }
-                    String str5 = this.selectedObject.messageOwner.attachPath;
-                    if (str5 != null && str5.length() > 0 && !new File(str5).exists()) {
-                        str5 = null;
-                    }
-                    if (str5 == null || str5.length() == 0) {
-                        str5 = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
-                    }
-                    MediaController.saveFile(str5, getParentActivity(), this.selectedObject.isMusic() ? 3 : 2, documentFileName, this.selectedObject.getDocument() != null ? this.selectedObject.getDocument().mime_type : "");
-                    break;
-                case 11:
-                    MessagesController.getInstance(this.currentAccount).saveGif(this.selectedObject, messageObject.getDocument());
-                    break;
-                default:
-                    switch (i) {
-                        case 15:
-                            Bundle bundle = new Bundle();
-                            bundle.putLong("user_id", this.selectedObject.messageOwner.media.user_id);
-                            bundle.putString("phone", this.selectedObject.messageOwner.media.phone_number);
-                            bundle.putBoolean("addContact", true);
-                            presentFragment(new ContactAddActivity(bundle));
-                            break;
-                        case 16:
-                            AndroidUtilities.addToClipboard(messageObject.messageOwner.media.phone_number);
-                            BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("PhoneCopied", R.string.PhoneCopied)).show();
-                            break;
-                        case 17:
-                            try {
-                                Intent intent2 = new Intent("android.intent.action.DIAL", Uri.parse("tel:" + this.selectedObject.messageOwner.media.phone_number));
-                                intent2.addFlags(268435456);
-                                getParentActivity().startActivityForResult(intent2, 500);
-                                break;
-                            } catch (Exception e) {
-                                FileLog.e(e);
-                                break;
-                            }
-                        default:
-                            switch (i) {
-                                case 33:
-                                    if (this.selectedParticipant != null) {
-                                        final TLRPC$User user2 = getMessagesController().getUser(Long.valueOf(DialogObject.getPeerDialogId(this.selectedParticipant.peer)));
-                                        TLRPC$ChannelParticipant tLRPC$ChannelParticipant = this.selectedParticipant;
-                                        if (tLRPC$ChannelParticipant.banned_rights == null) {
-                                            tLRPC$ChannelParticipant.banned_rights = new TLRPC$TL_chatBannedRights();
-                                        }
-                                        TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights = this.selectedParticipant.banned_rights;
-                                        tLRPC$TL_chatBannedRights.send_plain = true;
-                                        tLRPC$TL_chatBannedRights.send_messages = true;
-                                        tLRPC$TL_chatBannedRights.send_media = true;
-                                        tLRPC$TL_chatBannedRights.send_stickers = true;
-                                        tLRPC$TL_chatBannedRights.send_gifs = true;
-                                        tLRPC$TL_chatBannedRights.send_games = true;
-                                        tLRPC$TL_chatBannedRights.send_inline = true;
-                                        tLRPC$TL_chatBannedRights.send_polls = true;
-                                        tLRPC$TL_chatBannedRights.send_photos = true;
-                                        tLRPC$TL_chatBannedRights.send_videos = true;
-                                        tLRPC$TL_chatBannedRights.send_roundvideos = true;
-                                        tLRPC$TL_chatBannedRights.send_audios = true;
-                                        tLRPC$TL_chatBannedRights.send_voices = true;
-                                        tLRPC$TL_chatBannedRights.send_docs = true;
-                                        getMessagesController().setParticipantBannedRole(this.currentChat.id, user2, null, this.selectedParticipant.banned_rights, true, getFragmentForAlert(1), new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda26
-                                            @Override // java.lang.Runnable
-                                            public final void run() {
-                                                ChannelAdminLogActivity.this.lambda$processSelectedOption$19(user2);
-                                            }
-                                        });
-                                        break;
-                                    }
-                                    break;
-                                case 34:
-                                    TLRPC$TL_channels_reportAntiSpamFalsePositive tLRPC$TL_channels_reportAntiSpamFalsePositive = new TLRPC$TL_channels_reportAntiSpamFalsePositive();
-                                    tLRPC$TL_channels_reportAntiSpamFalsePositive.channel = getMessagesController().getInputChannel(this.currentChat.id);
-                                    tLRPC$TL_channels_reportAntiSpamFalsePositive.msg_id = this.selectedObject.getRealId();
-                                    getConnectionsManager().sendRequest(tLRPC$TL_channels_reportAntiSpamFalsePositive, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda25
-                                        @Override // org.telegram.tgnet.RequestDelegate
-                                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                            ChannelAdminLogActivity.this.lambda$processSelectedOption$18(tLObject, tLRPC$TL_error);
-                                        }
-                                    });
-                                    break;
-                                case 35:
-                                    getMessagesController().deleteParticipantFromChat(this.currentChat.id, getMessagesController().getInputPeer(this.selectedObject.messageOwner.from_id), false, false, new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda24
-                                        @Override // java.lang.Runnable
-                                        public final void run() {
-                                            ChannelAdminLogActivity.this.lambda$processSelectedOption$20();
-                                        }
-                                    });
-                                    if (this.currentChat != null && (this.selectedObject.messageOwner.from_id instanceof TLRPC$TL_peerUser) && BulletinFactory.canShowBulletin(this) && (user = getMessagesController().getUser(Long.valueOf(this.selectedObject.messageOwner.from_id.user_id))) != null) {
-                                        BulletinFactory.createRemoveFromChatBulletin(this, user, this.currentChat.title).show();
-                                        break;
-                                    }
-                                    break;
-                            }
-                    }
-            }
-        }
-        this.selectedObject = null;
-        this.selectedParticipant = null;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processSelectedOption$18(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda27
+    public /* synthetic */ void lambda$createMenu$16(final ArrayList arrayList, final ArrayList arrayList2, final ArrayList arrayList3, final Runnable runnable, final TLRPC$ChannelParticipant tLRPC$ChannelParticipant) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelAdminLogActivity.this.lambda$processSelectedOption$17(tLObject);
+                ChannelAdminLogActivity.this.lambda$createMenu$15(tLRPC$ChannelParticipant, arrayList, arrayList2, arrayList3, runnable);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processSelectedOption$17(TLObject tLObject) {
-        if (tLObject instanceof TLRPC$TL_boolTrue) {
-            BulletinFactory.of(this).createSimpleBulletin(R.raw.msg_antispam, LocaleController.getString("ChannelAntiSpamFalsePositiveReported", R.string.ChannelAntiSpamFalsePositiveReported)).show();
-        } else if (tLObject instanceof TLRPC$TL_boolFalse) {
-            BulletinFactory.of(this).createSimpleBulletin(R.raw.error, LocaleController.getString("UnknownError", R.string.UnknownError)).show();
-        } else {
-            BulletinFactory.of(this).createSimpleBulletin(R.raw.error, LocaleController.getString("UnknownError", R.string.UnknownError)).show();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processSelectedOption$19(TLRPC$User tLRPC$User) {
-        BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_ban, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.RestrictedParticipantSending, UserObject.getFirstName(tLRPC$User)))).show(false);
-        lambda$processSelectedOption$20();
-    }
-
-    private int getMessageType(MessageObject messageObject) {
+    public /* synthetic */ void lambda$createView$10(View view) {
         int i;
         String str;
-        if (messageObject == null || (i = messageObject.type) == 6) {
-            return -1;
-        }
-        boolean z = true;
-        if (i == 10 || i == 11 || i == 16) {
-            return messageObject.getId() == 0 ? -1 : 1;
-        } else if (messageObject.isVoice()) {
-            return 2;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+        if (this.currentChat.megagroup) {
+            i = R.string.EventLogInfoDetail;
+            str = "EventLogInfoDetail";
         } else {
-            if (messageObject.isSticker() || messageObject.isAnimatedSticker()) {
-                TLRPC$InputStickerSet inputStickerSet = messageObject.getInputStickerSet();
-                if (inputStickerSet instanceof TLRPC$TL_inputStickerSetID) {
-                    if (!MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(inputStickerSet.id)) {
-                        return 7;
-                    }
-                } else if ((inputStickerSet instanceof TLRPC$TL_inputStickerSetShortName) && !MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(inputStickerSet.short_name)) {
-                    return 7;
-                }
-            } else if ((!messageObject.isRoundVideo() || (messageObject.isRoundVideo() && BuildVars.DEBUG_VERSION)) && ((messageObject.messageOwner.media instanceof TLRPC$TL_messageMediaPhoto) || messageObject.getDocument() != null || messageObject.isMusic() || messageObject.isVideo())) {
-                String str2 = messageObject.messageOwner.attachPath;
-                boolean z2 = (str2 == null || str2.length() == 0 || !new File(messageObject.messageOwner.attachPath).exists()) ? false : true;
-                if (z2 || !getFileLoader().getPathToMessage(messageObject.messageOwner).exists()) {
-                    z = z2;
-                }
-                if (z) {
-                    if (messageObject.getDocument() == null || (str = messageObject.getDocument().mime_type) == null) {
-                        return 4;
-                    }
-                    if (messageObject.getDocumentName().toLowerCase().endsWith("attheme")) {
-                        return 10;
-                    }
-                    if (str.endsWith("/xml")) {
-                        return 5;
-                    }
-                    return (str.endsWith("/png") || str.endsWith("/jpg") || str.endsWith("/jpeg")) ? 6 : 4;
-                }
-            } else if (messageObject.type == 12) {
-                return 8;
-            } else {
-                if (messageObject.isMediaEmpty()) {
-                    return 3;
-                }
-            }
-            return 2;
+            i = R.string.EventLogInfoDetailChannel;
+            str = "EventLogInfoDetailChannel";
         }
-    }
-
-    private void loadAdmins() {
-        TLRPC$TL_channels_getParticipants tLRPC$TL_channels_getParticipants = new TLRPC$TL_channels_getParticipants();
-        tLRPC$TL_channels_getParticipants.channel = MessagesController.getInputChannel(this.currentChat);
-        tLRPC$TL_channels_getParticipants.filter = new TLRPC$TL_channelParticipantsAdmins();
-        tLRPC$TL_channels_getParticipants.offset = 0;
-        tLRPC$TL_channels_getParticipants.limit = NotificationCenter.storyQualityUpdate;
-        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda6
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ChannelAdminLogActivity.this.lambda$loadAdmins$22(tLObject, tLRPC$TL_error);
-            }
-        }), this.classGuid);
+        builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString(str, i)));
+        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+        builder.setTitle(LocaleController.getString("EventLogInfoTitle", R.string.EventLogInfoTitle));
+        showDialog(builder.create());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadAdmins$22(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda12
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChannelAdminLogActivity.this.lambda$loadAdmins$21(tLRPC$TL_error, tLObject);
+    public /* synthetic */ void lambda$createView$11(int i) {
+        loadMessages(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$12(View view) {
+        if (getParentActivity() == null) {
+            return;
+        }
+        AndroidUtilities.hideKeyboard(this.searchItem.getSearchField());
+        showDialog(AlertsCreator.createCalendarPickerDialog(getParentActivity(), 1375315200000L, new MessagesStorage.IntCallback() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda10
+            @Override // org.telegram.messenger.MessagesStorage.IntCallback
+            public final void run(int i) {
+                ChannelAdminLogActivity.this.lambda$createView$11(i);
+            }
+        }, null).create());
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ boolean lambda$createView$7(View view, MotionEvent motionEvent) {
+        return true;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$8(TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter, LongSparseArray longSparseArray) {
+        ChatAvatarContainer chatAvatarContainer;
+        int i;
+        String str;
+        this.currentFilter = tLRPC$TL_channelAdminLogEventsFilter;
+        this.selectedAdmins = longSparseArray;
+        if (tLRPC$TL_channelAdminLogEventsFilter == null && longSparseArray == null) {
+            chatAvatarContainer = this.avatarContainer;
+            i = R.string.EventLogAllEvents;
+            str = "EventLogAllEvents";
+        } else {
+            chatAvatarContainer = this.avatarContainer;
+            i = R.string.EventLogSelectedEvents;
+            str = "EventLogSelectedEvents";
+        }
+        chatAvatarContainer.setSubtitle(LocaleController.getString(str, i));
+        loadMessages(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$9(View view) {
+        if (getParentActivity() == null) {
+            return;
+        }
+        AdminLogFilterAlert2 adminLogFilterAlert2 = new AdminLogFilterAlert2(this, this.currentFilter, this.selectedAdmins, this.currentChat.megagroup);
+        adminLogFilterAlert2.setCurrentAdmins(this.admins);
+        adminLogFilterAlert2.setAdminLogFilterAlertDelegate(new AdminLogFilterAlert2.AdminLogFilterAlertDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda14
+            @Override // org.telegram.ui.Components.AdminLogFilterAlert2.AdminLogFilterAlertDelegate
+            public final void didSelectRights(TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter, LongSparseArray longSparseArray) {
+                ChannelAdminLogActivity.this.lambda$createView$8(tLRPC$TL_channelAdminLogEventsFilter, longSparseArray);
             }
         });
+        showDialog(adminLogFilterAlert2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2685,6 +2617,258 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$loadAdmins$22(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda12
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChannelAdminLogActivity.this.lambda$loadAdmins$21(tLRPC$TL_error, tLObject);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$loadAntispamUser$23(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        if (tLObject instanceof TLRPC$Vector) {
+            ArrayList arrayList = ((TLRPC$Vector) tLObject).objects;
+            ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();
+            for (int i = 0; i < arrayList.size(); i++) {
+                if (arrayList.get(i) instanceof TLRPC$User) {
+                    arrayList2.add((TLRPC$User) arrayList.get(i));
+                }
+            }
+            getMessagesController().putUsers(arrayList2, false);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$loadMessages$2() {
+        saveScrollPosition(false);
+        this.chatAdapter.notifyDataSetChanged();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$loadMessages$3(TLRPC$TL_channels_adminLogResults tLRPC$TL_channels_adminLogResults) {
+        TLRPC$Message tLRPC$Message;
+        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader;
+        MessageObject messageObject;
+        this.loadsCount--;
+        int i = 0;
+        this.chatListItemAnimator.setShouldAnimateEnterFromBottom(false);
+        saveScrollPosition(false);
+        MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$TL_channels_adminLogResults.users, false);
+        MessagesController.getInstance(this.currentAccount).putChats(tLRPC$TL_channels_adminLogResults.chats, false);
+        boolean z = false;
+        for (int i2 = 0; i2 < tLRPC$TL_channels_adminLogResults.events.size(); i2++) {
+            TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent = (TLRPC$TL_channelAdminLogEvent) tLRPC$TL_channels_adminLogResults.events.get(i2);
+            if (this.messagesDict.indexOfKey(tLRPC$TL_channelAdminLogEvent.id) < 0) {
+                TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction = tLRPC$TL_channelAdminLogEvent.action;
+                if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin) {
+                    TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin tLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin = (TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin) tLRPC$ChannelAdminLogEventAction;
+                    if ((tLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin.prev_participant instanceof TLRPC$TL_channelParticipantCreator) && !(tLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin.new_participant instanceof TLRPC$TL_channelParticipantCreator)) {
+                    }
+                }
+                this.minEventId = Math.min(this.minEventId, tLRPC$TL_channelAdminLogEvent.id);
+                MessageObject messageObject2 = new MessageObject(this.currentAccount, tLRPC$TL_channelAdminLogEvent, (ArrayList<MessageObject>) this.messages, (HashMap<String, ArrayList<MessageObject>>) this.messagesByDays, this.currentChat, this.mid, false);
+                if (messageObject2.contentType >= 0) {
+                    this.messagesDict.put(tLRPC$TL_channelAdminLogEvent.id, messageObject2);
+                }
+                z = true;
+            }
+        }
+        this.messages.size();
+        ArrayList<MessageObject> arrayList = new ArrayList<>();
+        for (int size = this.messages.size(); size < this.messages.size(); size++) {
+            MessageObject messageObject3 = (MessageObject) this.messages.get(size);
+            if (messageObject3 != null && messageObject3.contentType != 0 && messageObject3.getRealId() >= 0) {
+                this.realMessagesDict.put(messageObject3.getRealId(), messageObject3);
+            }
+            if (messageObject3 != null && (tLRPC$Message = messageObject3.messageOwner) != null && (tLRPC$MessageReplyHeader = tLRPC$Message.reply_to) != null) {
+                if (tLRPC$MessageReplyHeader.reply_to_peer_id == null) {
+                    int i3 = 0;
+                    while (true) {
+                        if (i3 >= this.messages.size()) {
+                            messageObject = null;
+                            break;
+                        }
+                        if (size != i3) {
+                            messageObject = (MessageObject) this.messages.get(i3);
+                            if (messageObject.contentType != 1 && messageObject.getRealId() == tLRPC$MessageReplyHeader.reply_to_msg_id) {
+                                break;
+                            }
+                        }
+                        i3++;
+                    }
+                    if (messageObject != null) {
+                        messageObject3.replyMessageObject = messageObject;
+                    }
+                }
+                arrayList.add(messageObject3);
+            }
+        }
+        if (!arrayList.isEmpty()) {
+            MediaDataController.getInstance(this.currentAccount).loadReplyMessagesForMessages(arrayList, -this.currentChat.id, 0, 0L, new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda23
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ChannelAdminLogActivity.this.lambda$loadMessages$2();
+                }
+            }, getClassGuid(), null);
+        }
+        filterDeletedMessages();
+        this.loading = false;
+        if (!z) {
+            this.endReached = true;
+        }
+        AndroidUtilities.updateViewVisibilityAnimated(this.progressView, false, 0.3f, true);
+        this.chatListView.setEmptyView(this.emptyViewContainer);
+        ChatActivityAdapter chatActivityAdapter = this.chatAdapter;
+        if (chatActivityAdapter != null) {
+            chatActivityAdapter.notifyDataSetChanged();
+        }
+        ActionBarMenuItem actionBarMenuItem = this.searchItem;
+        if (actionBarMenuItem != null) {
+            if (this.filteredMessages.isEmpty() && TextUtils.isEmpty(this.searchQuery)) {
+                i = 8;
+            }
+            actionBarMenuItem.setVisibility(i);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$loadMessages$4(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        if (tLObject != null) {
+            final TLRPC$TL_channels_adminLogResults tLRPC$TL_channels_adminLogResults = (TLRPC$TL_channels_adminLogResults) tLObject;
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda9
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ChannelAdminLogActivity.this.lambda$loadMessages$3(tLRPC$TL_channels_adminLogResults);
+                }
+            });
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$processSelectedOption$17(TLObject tLObject) {
+        BulletinFactory of;
+        int i;
+        int i2;
+        String str;
+        if (tLObject instanceof TLRPC$TL_boolTrue) {
+            of = BulletinFactory.of(this);
+            i = R.raw.msg_antispam;
+            i2 = R.string.ChannelAntiSpamFalsePositiveReported;
+            str = "ChannelAntiSpamFalsePositiveReported";
+        } else {
+            boolean z = tLObject instanceof TLRPC$TL_boolFalse;
+            of = BulletinFactory.of(this);
+            i = R.raw.error;
+            i2 = R.string.UnknownError;
+            str = "UnknownError";
+        }
+        of.createSimpleBulletin(i, LocaleController.getString(str, i2)).show();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$processSelectedOption$18(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda27
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChannelAdminLogActivity.this.lambda$processSelectedOption$17(tLObject);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$processSelectedOption$19(TLRPC$User tLRPC$User) {
+        BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_ban, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.RestrictedParticipantSending, UserObject.getFirstName(tLRPC$User)))).show(false);
+        lambda$processSelectedOption$20();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0060, code lost:
+        if ((r5.new_participant instanceof org.telegram.tgnet.TLRPC$TL_channelParticipantCreator) == false) goto L6;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public /* synthetic */ void lambda$reloadLastMessages$0(TLRPC$TL_channels_adminLogResults tLRPC$TL_channels_adminLogResults) {
+        TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent;
+        this.reloadingLastMessages = false;
+        this.chatListItemAnimator.setShouldAnimateEnterFromBottom(false);
+        saveScrollPosition(false);
+        MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$TL_channels_adminLogResults.users, false);
+        MessagesController.getInstance(this.currentAccount).putChats(tLRPC$TL_channels_adminLogResults.chats, false);
+        ArrayList arrayList = new ArrayList();
+        HashMap hashMap = new HashMap();
+        boolean z = false;
+        for (int i = 0; i < tLRPC$TL_channels_adminLogResults.events.size(); i++) {
+            TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent2 = (TLRPC$TL_channelAdminLogEvent) tLRPC$TL_channels_adminLogResults.events.get(i);
+            if (this.messagesDict.indexOfKey(tLRPC$TL_channelAdminLogEvent2.id) < 0) {
+                TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction = tLRPC$TL_channelAdminLogEvent2.action;
+                if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin) {
+                    TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin tLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin = (TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin) tLRPC$ChannelAdminLogEventAction;
+                    if (tLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin.prev_participant instanceof TLRPC$TL_channelParticipantCreator) {
+                    }
+                }
+                this.minEventId = Math.min(this.minEventId, tLRPC$TL_channelAdminLogEvent2.id);
+                MessageObject messageObject = new MessageObject(this.currentAccount, tLRPC$TL_channelAdminLogEvent2, (ArrayList<MessageObject>) arrayList, (HashMap<String, ArrayList<MessageObject>>) hashMap, this.currentChat, this.mid, false);
+                if (messageObject.contentType >= 0 && (((tLRPC$TL_channelAdminLogEvent = messageObject.currentEvent) == null || !(tLRPC$TL_channelAdminLogEvent.action instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage)) && !this.messagesDict.containsKey(tLRPC$TL_channelAdminLogEvent2.id))) {
+                    this.messages.add(0, messageObject);
+                    this.messagesDict.put(tLRPC$TL_channelAdminLogEvent2.id, messageObject);
+                    z = true;
+                }
+            }
+        }
+        if (this.chatAdapter == null || !z) {
+            return;
+        }
+        filterDeletedMessages();
+        this.chatAdapter.notifyDataSetChanged();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$reloadLastMessages$1(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        if (tLObject != null) {
+            final TLRPC$TL_channels_adminLogResults tLRPC$TL_channels_adminLogResults = (TLRPC$TL_channels_adminLogResults) tLObject;
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda21
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ChannelAdminLogActivity.this.lambda$reloadLastMessages$0(tLRPC$TL_channels_adminLogResults);
+                }
+            });
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$showOpenUrlAlert$24(String str, DialogInterface dialogInterface, int i) {
+        Browser.openUrl((Context) getParentActivity(), str, true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$startMessageUnselect$25() {
+        this.highlightMessageId = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        this.highlightMessageQuoteFirst = false;
+        this.highlightMessageQuote = null;
+        this.highlightMessageQuoteOffset = -1;
+        this.showNoQuoteAlert = false;
+        updateVisibleRows();
+        this.unselectRunnable = null;
+    }
+
+    private void loadAdmins() {
+        TLRPC$TL_channels_getParticipants tLRPC$TL_channels_getParticipants = new TLRPC$TL_channels_getParticipants();
+        tLRPC$TL_channels_getParticipants.channel = MessagesController.getInputChannel(this.currentChat);
+        tLRPC$TL_channels_getParticipants.filter = new TLRPC$TL_channelParticipantsAdmins();
+        tLRPC$TL_channels_getParticipants.offset = 0;
+        tLRPC$TL_channels_getParticipants.limit = NotificationCenter.storyQualityUpdate;
+        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda6
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                ChannelAdminLogActivity.this.lambda$loadAdmins$22(tLObject, tLRPC$TL_error);
+            }
+        }), this.classGuid);
+    }
+
     private void loadAntispamUser(long j) {
         if (getMessagesController().getUser(Long.valueOf(j)) != null) {
             return;
@@ -2702,72 +2886,67 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadAntispamUser$23(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        if (tLObject instanceof TLRPC$Vector) {
-            ArrayList<Object> arrayList = ((TLRPC$Vector) tLObject).objects;
-            ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();
-            for (int i = 0; i < arrayList.size(); i++) {
-                if (arrayList.get(i) instanceof TLRPC$User) {
-                    arrayList2.add((TLRPC$User) arrayList.get(i));
-                }
-            }
-            getMessagesController().putUsers(arrayList2, false);
-        }
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onRemoveFromParent() {
-        MediaController.getInstance().setTextureView(this.videoTextureView, null, null, false);
-        super.onRemoveFromParent();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void hideFloatingDateView(boolean z) {
-        if (this.floatingDateView.getTag() == null || this.currentFloatingDateOnScreen) {
+    public void loadMessages(boolean z) {
+        ChatActivityAdapter chatActivityAdapter;
+        if (this.loading) {
             return;
         }
-        if (!this.scrollingFloatingDate || this.currentFloatingTopIsNotMessage) {
-            this.floatingDateView.setTag(null);
-            if (z) {
-                AnimatorSet animatorSet = new AnimatorSet();
-                this.floatingDateAnimation = animatorSet;
-                animatorSet.setDuration(150L);
-                this.floatingDateAnimation.playTogether(ObjectAnimator.ofFloat(this.floatingDateView, "alpha", 0.0f));
-                this.floatingDateAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChannelAdminLogActivity.22
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        if (animator.equals(ChannelAdminLogActivity.this.floatingDateAnimation)) {
-                            ChannelAdminLogActivity.this.floatingDateAnimation = null;
-                        }
-                    }
-                });
-                this.floatingDateAnimation.setStartDelay(500L);
-                this.floatingDateAnimation.start();
-                return;
+        if (z) {
+            this.minEventId = Long.MAX_VALUE;
+            FrameLayout frameLayout = this.progressView;
+            if (frameLayout != null) {
+                AndroidUtilities.updateViewVisibilityAnimated(frameLayout, true, 0.3f, true);
+                this.emptyViewContainer.setVisibility(4);
+                this.chatListView.setEmptyView(null);
             }
-            AnimatorSet animatorSet2 = this.floatingDateAnimation;
-            if (animatorSet2 != null) {
-                animatorSet2.cancel();
-                this.floatingDateAnimation = null;
-            }
-            this.floatingDateView.setAlpha(0.0f);
+            this.messagesDict.clear();
+            this.messages.clear();
+            this.messagesByDays.clear();
+            filterDeletedMessages();
+            this.loadsCount = 0;
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void checkScrollForLoad(boolean z) {
-        LinearLayoutManager linearLayoutManager = this.chatLayoutManager;
-        if (linearLayoutManager == null || this.paused) {
+        this.loading = true;
+        TLRPC$TL_channels_getAdminLog tLRPC$TL_channels_getAdminLog = new TLRPC$TL_channels_getAdminLog();
+        tLRPC$TL_channels_getAdminLog.channel = MessagesController.getInputChannel(this.currentChat);
+        tLRPC$TL_channels_getAdminLog.q = this.searchQuery;
+        tLRPC$TL_channels_getAdminLog.limit = 50;
+        if (z || this.messages.isEmpty()) {
+            tLRPC$TL_channels_getAdminLog.max_id = 0L;
+        } else {
+            tLRPC$TL_channels_getAdminLog.max_id = this.minEventId;
+        }
+        tLRPC$TL_channels_getAdminLog.min_id = 0L;
+        TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter = this.currentFilter;
+        if (tLRPC$TL_channelAdminLogEventsFilter != null) {
+            tLRPC$TL_channels_getAdminLog.flags |= 1;
+            tLRPC$TL_channels_getAdminLog.events_filter = tLRPC$TL_channelAdminLogEventsFilter;
+        }
+        if (this.selectedAdmins != null) {
+            tLRPC$TL_channels_getAdminLog.flags |= 2;
+            for (int i = 0; i < this.selectedAdmins.size(); i++) {
+                tLRPC$TL_channels_getAdminLog.admins.add(MessagesController.getInstance(this.currentAccount).getInputUser((TLRPC$User) this.selectedAdmins.valueAt(i)));
+            }
+        }
+        this.loadsCount++;
+        updateEmptyPlaceholder();
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getAdminLog, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda5
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                ChannelAdminLogActivity.this.lambda$loadMessages$4(tLObject, tLRPC$TL_error);
+            }
+        });
+        if (!z || (chatActivityAdapter = this.chatAdapter) == null) {
             return;
         }
-        int findFirstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
-        if ((findFirstVisibleItemPosition == -1 ? 0 : Math.abs(this.chatLayoutManager.findLastVisibleItemPosition() - findFirstVisibleItemPosition) + 1) > 0) {
-            this.chatAdapter.getItemCount();
-            if (findFirstVisibleItemPosition > (z ? 4 : 1) || this.loading || this.endReached) {
-                return;
-            }
-            loadMessages(false);
+        chatActivityAdapter.notifyDataSetChanged();
+    }
+
+    private long messageDeletedBy(MessageObject messageObject) {
+        TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent;
+        if (messageObject == null || (tLRPC$TL_channelAdminLogEvent = messageObject.currentEvent) == null || !(tLRPC$TL_channelAdminLogEvent.action instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage)) {
+            return 0L;
         }
+        return tLRPC$TL_channelAdminLogEvent.user_id;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2778,53 +2957,543 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         this.chatLayoutManager.scrollToPositionWithOffset(this.filteredMessages.size() - 1, (-100000) - this.chatListView.getPaddingTop());
     }
 
-    private void updateTextureViewPosition() {
-        boolean z;
-        int childCount = this.chatListView.getChildCount();
-        int i = 0;
-        while (true) {
-            if (i >= childCount) {
-                z = false;
-                break;
-            }
-            View childAt = this.chatListView.getChildAt(i);
-            if (childAt instanceof ChatMessageCell) {
-                ChatMessageCell chatMessageCell = (ChatMessageCell) childAt;
-                MessageObject messageObject = chatMessageCell.getMessageObject();
-                if (this.roundVideoContainer != null && messageObject.isRoundVideo() && MediaController.getInstance().isPlayingMessage(messageObject)) {
-                    ImageReceiver photoImage = chatMessageCell.getPhotoImage();
-                    this.roundVideoContainer.setTranslationX(photoImage.getImageX());
-                    this.roundVideoContainer.setTranslationY(this.fragmentView.getPaddingTop() + chatMessageCell.getTop() + photoImage.getImageY());
-                    this.fragmentView.invalidate();
-                    this.roundVideoContainer.invalidate();
-                    z = true;
-                    break;
-                }
-            }
-            i++;
+    /* JADX WARN: Code restructure failed: missing block: B:124:0x0362, code lost:
+        if (r0.exists() != false) goto L129;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    private void processSelectedOption(int i) {
+        BulletinFactory of;
+        int i2;
+        String str;
+        Bulletin createCopyBulletin;
+        String str2;
+        Activity parentActivity;
+        int checkSelfPermission;
+        File file;
+        AlertDialog.Builder builder;
+        int i3;
+        String str3;
+        Dialog create;
+        BaseFragment themePreviewActivity;
+        File file2;
+        int checkSelfPermission2;
+        int checkSelfPermission3;
+        TLRPC$User user;
+        closeMenu();
+        MessageObject messageObject = this.selectedObject;
+        if (messageObject == null) {
+            return;
         }
-        if (this.roundVideoContainer != null) {
-            MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
-            if (!z) {
-                this.roundVideoContainer.setTranslationY((-AndroidUtilities.roundMessageSize) - 100);
-                this.fragmentView.invalidate();
-                if (playingMessageObject == null || !playingMessageObject.isRoundVideo()) {
+        int i4 = 0;
+        if (i != 3) {
+            if (i == 4) {
+                str2 = messageObject.messageOwner.attachPath;
+                if (str2 != null && str2.length() > 0 && !new File(str2).exists()) {
+                    str2 = null;
+                }
+                if (str2 == null || str2.length() == 0) {
+                    str2 = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
+                }
+                int i5 = this.selectedObject.type;
+                if (i5 == 3 || i5 == 1) {
+                    int i6 = Build.VERSION.SDK_INT;
+                    if (i6 >= 23 && (i6 <= 28 || BuildVars.NO_SCOPED_STORAGE)) {
+                        checkSelfPermission = getParentActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE");
+                        if (checkSelfPermission != 0) {
+                            getParentActivity().requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, 4);
+                        }
+                    }
+                    parentActivity = getParentActivity();
+                    if (this.selectedObject.type == 3) {
+                        i4 = 1;
+                    }
+                }
+                this.selectedObject = null;
+                this.selectedParticipant = null;
+            } else if (i == 5) {
+                String str4 = messageObject.messageOwner.attachPath;
+                if (str4 != null && str4.length() != 0) {
+                    file = new File(this.selectedObject.messageOwner.attachPath);
+                }
+                file = null;
+                if (file == null) {
+                    File pathToMessage = getFileLoader().getPathToMessage(this.selectedObject.messageOwner);
+                    if (pathToMessage.exists()) {
+                        file = pathToMessage;
+                    }
+                }
+                if (file != null) {
+                    if (file.getName().toLowerCase().endsWith("attheme")) {
+                        LinearLayoutManager linearLayoutManager = this.chatLayoutManager;
+                        if (linearLayoutManager != null) {
+                            if (linearLayoutManager.findLastVisibleItemPosition() < this.chatLayoutManager.getItemCount() - 1) {
+                                int findFirstVisibleItemPosition = this.chatLayoutManager.findFirstVisibleItemPosition();
+                                this.scrollToPositionOnRecreate = findFirstVisibleItemPosition;
+                                RecyclerListView.Holder holder = (RecyclerListView.Holder) this.chatListView.findViewHolderForAdapterPosition(findFirstVisibleItemPosition);
+                                if (holder != null) {
+                                    this.scrollToOffsetOnRecreate = holder.itemView.getTop();
+                                }
+                            }
+                            this.scrollToPositionOnRecreate = -1;
+                        }
+                        Theme.ThemeInfo applyThemeFile = Theme.applyThemeFile(file, this.selectedObject.getDocumentName(), null, true);
+                        if (applyThemeFile != null) {
+                            themePreviewActivity = new ThemePreviewActivity(applyThemeFile);
+                            presentFragment(themePreviewActivity);
+                        } else {
+                            this.scrollToPositionOnRecreate = -1;
+                            if (getParentActivity() != null) {
+                                builder = new AlertDialog.Builder(getParentActivity());
+                                builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                i3 = R.string.IncorrectTheme;
+                                str3 = "IncorrectTheme";
+                            }
+                        }
+                    } else if (LocaleController.getInstance().applyLanguageFile(file, this.currentAccount)) {
+                        presentFragment(new LanguageSelectActivity());
+                    } else if (getParentActivity() != null) {
+                        builder = new AlertDialog.Builder(getParentActivity());
+                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                        i3 = R.string.IncorrectLocalization;
+                        str3 = "IncorrectLocalization";
+                    }
+                    builder.setMessage(LocaleController.getString(str3, i3));
+                    builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                    create = builder.create();
+                    showDialog(create);
+                }
+                this.selectedObject = null;
+                this.selectedParticipant = null;
+            } else {
+                if (i == 6) {
+                    String str5 = messageObject.messageOwner.attachPath;
+                    if (str5 != null && str5.length() > 0 && !new File(str5).exists()) {
+                        str5 = null;
+                    }
+                    if (str5 == null || str5.length() == 0) {
+                        str5 = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
+                    }
+                    Intent intent = new Intent("android.intent.action.SEND");
+                    intent.setType(this.selectedObject.getDocument().mime_type);
+                    try {
+                        if (Build.VERSION.SDK_INT >= 24) {
+                            try {
+                                intent.putExtra("android.intent.extra.STREAM", FileProvider.getUriForFile(getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", new File(str5)));
+                                intent.setFlags(1);
+                            } catch (Exception unused) {
+                                file2 = new File(str5);
+                            }
+                            getParentActivity().startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
+                        } else {
+                            file2 = new File(str5);
+                        }
+                        getParentActivity().startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
+                    } catch (Exception unused2) {
+                    }
+                    intent.putExtra("android.intent.extra.STREAM", Uri.fromFile(file2));
+                } else if (i != 7) {
+                    switch (i) {
+                        case 9:
+                            create = new StickersAlert(getParentActivity(), this, this.selectedObject.getInputStickerSet(), (TLRPC$TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null);
+                            showDialog(create);
+                            break;
+                        case 10:
+                            int i7 = Build.VERSION.SDK_INT;
+                            if (i7 >= 23 && (i7 <= 28 || BuildVars.NO_SCOPED_STORAGE)) {
+                                checkSelfPermission3 = getParentActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE");
+                                if (checkSelfPermission3 != 0) {
+                                    getParentActivity().requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, 4);
+                                    break;
+                                }
+                            }
+                            String documentFileName = FileLoader.getDocumentFileName(this.selectedObject.getDocument());
+                            if (TextUtils.isEmpty(documentFileName)) {
+                                documentFileName = this.selectedObject.getFileName();
+                            }
+                            String str6 = this.selectedObject.messageOwner.attachPath;
+                            if (str6 != null && str6.length() > 0 && !new File(str6).exists()) {
+                                str6 = null;
+                            }
+                            if (str6 == null || str6.length() == 0) {
+                                str6 = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
+                            }
+                            MediaController.saveFile(str6, getParentActivity(), this.selectedObject.isMusic() ? 3 : 2, documentFileName, this.selectedObject.getDocument() != null ? this.selectedObject.getDocument().mime_type : "");
+                            break;
+                        case 11:
+                            MessagesController.getInstance(this.currentAccount).saveGif(this.selectedObject, messageObject.getDocument());
+                            break;
+                        default:
+                            switch (i) {
+                                case 15:
+                                    Bundle bundle = new Bundle();
+                                    bundle.putLong("user_id", this.selectedObject.messageOwner.media.user_id);
+                                    bundle.putString("phone", this.selectedObject.messageOwner.media.phone_number);
+                                    bundle.putBoolean("addContact", true);
+                                    themePreviewActivity = new ContactAddActivity(bundle);
+                                    presentFragment(themePreviewActivity);
+                                    break;
+                                case 16:
+                                    AndroidUtilities.addToClipboard(messageObject.messageOwner.media.phone_number);
+                                    of = BulletinFactory.of(this);
+                                    i2 = R.string.PhoneCopied;
+                                    str = "PhoneCopied";
+                                    break;
+                                case 17:
+                                    try {
+                                        Intent intent2 = new Intent("android.intent.action.DIAL", Uri.parse("tel:" + this.selectedObject.messageOwner.media.phone_number));
+                                        intent2.addFlags(268435456);
+                                        getParentActivity().startActivityForResult(intent2, 500);
+                                        break;
+                                    } catch (Exception e) {
+                                        FileLog.e(e);
+                                        break;
+                                    }
+                                default:
+                                    switch (i) {
+                                        case 33:
+                                            if (this.selectedParticipant != null) {
+                                                final TLRPC$User user2 = getMessagesController().getUser(Long.valueOf(DialogObject.getPeerDialogId(this.selectedParticipant.peer)));
+                                                TLRPC$ChannelParticipant tLRPC$ChannelParticipant = this.selectedParticipant;
+                                                if (tLRPC$ChannelParticipant.banned_rights == null) {
+                                                    tLRPC$ChannelParticipant.banned_rights = new TLRPC$TL_chatBannedRights();
+                                                }
+                                                TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights = this.selectedParticipant.banned_rights;
+                                                tLRPC$TL_chatBannedRights.send_plain = true;
+                                                tLRPC$TL_chatBannedRights.send_messages = true;
+                                                tLRPC$TL_chatBannedRights.send_media = true;
+                                                tLRPC$TL_chatBannedRights.send_stickers = true;
+                                                tLRPC$TL_chatBannedRights.send_gifs = true;
+                                                tLRPC$TL_chatBannedRights.send_games = true;
+                                                tLRPC$TL_chatBannedRights.send_inline = true;
+                                                tLRPC$TL_chatBannedRights.send_polls = true;
+                                                tLRPC$TL_chatBannedRights.send_photos = true;
+                                                tLRPC$TL_chatBannedRights.send_videos = true;
+                                                tLRPC$TL_chatBannedRights.send_roundvideos = true;
+                                                tLRPC$TL_chatBannedRights.send_audios = true;
+                                                tLRPC$TL_chatBannedRights.send_voices = true;
+                                                tLRPC$TL_chatBannedRights.send_docs = true;
+                                                getMessagesController().setParticipantBannedRole(this.currentChat.id, user2, null, this.selectedParticipant.banned_rights, true, getFragmentForAlert(1), new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda26
+                                                    @Override // java.lang.Runnable
+                                                    public final void run() {
+                                                        ChannelAdminLogActivity.this.lambda$processSelectedOption$19(user2);
+                                                    }
+                                                });
+                                                break;
+                                            }
+                                            break;
+                                        case 34:
+                                            TLRPC$TL_channels_reportAntiSpamFalsePositive tLRPC$TL_channels_reportAntiSpamFalsePositive = new TLRPC$TL_channels_reportAntiSpamFalsePositive();
+                                            tLRPC$TL_channels_reportAntiSpamFalsePositive.channel = getMessagesController().getInputChannel(this.currentChat.id);
+                                            tLRPC$TL_channels_reportAntiSpamFalsePositive.msg_id = this.selectedObject.getRealId();
+                                            getConnectionsManager().sendRequest(tLRPC$TL_channels_reportAntiSpamFalsePositive, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda25
+                                                @Override // org.telegram.tgnet.RequestDelegate
+                                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                                    ChannelAdminLogActivity.this.lambda$processSelectedOption$18(tLObject, tLRPC$TL_error);
+                                                }
+                                            });
+                                            break;
+                                        case 35:
+                                            getMessagesController().deleteParticipantFromChat(this.currentChat.id, getMessagesController().getInputPeer(this.selectedObject.messageOwner.from_id), false, false, new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda24
+                                                @Override // java.lang.Runnable
+                                                public final void run() {
+                                                    ChannelAdminLogActivity.this.lambda$processSelectedOption$20();
+                                                }
+                                            });
+                                            if (this.currentChat != null && (this.selectedObject.messageOwner.from_id instanceof TLRPC$TL_peerUser) && BulletinFactory.canShowBulletin(this) && (user = getMessagesController().getUser(Long.valueOf(this.selectedObject.messageOwner.from_id.user_id))) != null) {
+                                                createCopyBulletin = BulletinFactory.createRemoveFromChatBulletin(this, user, this.currentChat.title);
+                                                createCopyBulletin.show();
+                                                break;
+                                            }
+                                            break;
+                                    }
+                            }
+                    }
+                } else {
+                    str2 = messageObject.messageOwner.attachPath;
+                    if (str2 != null && str2.length() > 0 && !new File(str2).exists()) {
+                        str2 = null;
+                    }
+                    if (str2 == null || str2.length() == 0) {
+                        str2 = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
+                    }
+                    int i8 = Build.VERSION.SDK_INT;
+                    if (i8 >= 23 && (i8 <= 28 || BuildVars.NO_SCOPED_STORAGE)) {
+                        checkSelfPermission2 = getParentActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE");
+                        if (checkSelfPermission2 != 0) {
+                            getParentActivity().requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, 4);
+                        }
+                    }
+                    parentActivity = getParentActivity();
+                }
+                this.selectedObject = null;
+                this.selectedParticipant = null;
+            }
+            MediaController.saveFile(str2, parentActivity, i4, null, null);
+            this.selectedObject = null;
+            this.selectedParticipant = null;
+        }
+        AndroidUtilities.addToClipboard(getMessageContent(messageObject, 0, true));
+        of = BulletinFactory.of(this);
+        i2 = R.string.MessageCopied;
+        str = "MessageCopied";
+        createCopyBulletin = of.createCopyBulletin(LocaleController.getString(str, i2));
+        createCopyBulletin.show();
+        this.selectedObject = null;
+        this.selectedParticipant = null;
+    }
+
+    private void removeSelectedMessageHighlight() {
+        if (this.highlightMessageQuote != null) {
+            return;
+        }
+        Runnable runnable = this.unselectRunnable;
+        if (runnable != null) {
+            AndroidUtilities.cancelRunOnUIThread(runnable);
+            this.unselectRunnable = null;
+        }
+        this.highlightMessageId = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        this.highlightMessageQuoteFirst = false;
+        this.highlightMessageQuote = null;
+    }
+
+    private int scrollOffsetForQuote(MessageObject messageObject) {
+        ArrayList<MessageObject.TextLayoutBlock> arrayList;
+        CharSequence charSequence;
+        int i;
+        int findQuoteStart;
+        ChatMessageCell chatMessageCell;
+        MessageObject.TextLayoutBlocks textLayoutBlocks;
+        if (TextUtils.isEmpty(this.highlightMessageQuote) || messageObject == null) {
+            ChatMessageCell chatMessageCell2 = this.dummyMessageCell;
+            if (chatMessageCell2 != null) {
+                chatMessageCell2.computedGroupCaptionY = 0;
+                chatMessageCell2.computedCaptionLayout = null;
+            }
+            return 0;
+        }
+        if (TextUtils.isEmpty(messageObject.caption) || (chatMessageCell = this.dummyMessageCell) == null || (textLayoutBlocks = chatMessageCell.captionLayout) == null) {
+            CharSequence charSequence2 = messageObject.messageText;
+            arrayList = messageObject.textLayoutBlocks;
+            ChatMessageCell chatMessageCell3 = this.dummyMessageCell;
+            if (chatMessageCell3 == null || !chatMessageCell3.linkPreviewAbove) {
+                charSequence = charSequence2;
+                i = 0;
+            } else {
+                i = chatMessageCell3.linkPreviewHeight + AndroidUtilities.dp(10.0f);
+                charSequence = charSequence2;
+            }
+        } else {
+            i = (int) chatMessageCell.captionY;
+            charSequence = messageObject.caption;
+            arrayList = textLayoutBlocks.textLayoutBlocks;
+        }
+        ChatMessageCell chatMessageCell4 = this.dummyMessageCell;
+        if (chatMessageCell4 != null) {
+            chatMessageCell4.computedGroupCaptionY = 0;
+            chatMessageCell4.computedCaptionLayout = null;
+        }
+        if (arrayList == null || charSequence == null || (findQuoteStart = MessageObject.findQuoteStart(charSequence.toString(), this.highlightMessageQuote, this.highlightMessageQuoteOffset)) < 0) {
+            return 0;
+        }
+        for (int i2 = 0; i2 < arrayList.size(); i2++) {
+            MessageObject.TextLayoutBlock textLayoutBlock = arrayList.get(i2);
+            StaticLayout staticLayout = textLayoutBlock.textLayout;
+            String charSequence3 = staticLayout.getText().toString();
+            int i3 = textLayoutBlock.charactersOffset;
+            if (findQuoteStart > i3) {
+                float textYOffset = findQuoteStart - i3 > charSequence3.length() + (-1) ? i + ((int) (textLayoutBlock.textYOffset(arrayList) + textLayoutBlock.padTop + textLayoutBlock.height)) : staticLayout.getLineTop(staticLayout.getLineForOffset(findQuoteStart - textLayoutBlock.charactersOffset)) + i + textLayoutBlock.textYOffset(arrayList) + textLayoutBlock.padTop;
+                if (textYOffset > AndroidUtilities.displaySize.y * (isKeyboardVisible() ? 0.7f : 0.5f)) {
+                    return (int) (textYOffset - (AndroidUtilities.displaySize.y * (isKeyboardVisible() ? 0.7f : 0.5f)));
+                }
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+    private void setupExpandButton(MessageObject messageObject, int i) {
+        if (messageObject == null) {
+            return;
+        }
+        if (i <= 0) {
+            TLRPC$ReplyMarkup tLRPC$ReplyMarkup = messageObject.messageOwner.reply_markup;
+            if (tLRPC$ReplyMarkup != null) {
+                tLRPC$ReplyMarkup.rows.clear();
+            }
+        } else {
+            TLRPC$TL_replyInlineMarkup tLRPC$TL_replyInlineMarkup = new TLRPC$TL_replyInlineMarkup();
+            messageObject.messageOwner.reply_markup = tLRPC$TL_replyInlineMarkup;
+            TLRPC$TL_keyboardButtonRow tLRPC$TL_keyboardButtonRow = new TLRPC$TL_keyboardButtonRow();
+            tLRPC$TL_replyInlineMarkup.rows.add(tLRPC$TL_keyboardButtonRow);
+            TLRPC$TL_keyboardButton tLRPC$TL_keyboardButton = new TLRPC$TL_keyboardButton();
+            tLRPC$TL_keyboardButton.text = LocaleController.formatPluralString("EventLogExpandMore", i, new Object[0]);
+            tLRPC$TL_keyboardButtonRow.buttons.add(tLRPC$TL_keyboardButton);
+        }
+        messageObject.measureInlineBotButtons();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void showInviteLinkBottomSheet(TLRPC$TL_messages_exportedChatInvite tLRPC$TL_messages_exportedChatInvite, HashMap hashMap) {
+        TLRPC$ChatFull chatFull = getMessagesController().getChatFull(this.currentChat.id);
+        InviteLinkBottomSheet inviteLinkBottomSheet = new InviteLinkBottomSheet(this.contentView.getContext(), (TLRPC$TL_chatInviteExported) tLRPC$TL_messages_exportedChatInvite.invite, chatFull, hashMap, this, chatFull.id, false, ChatObject.isChannel(this.currentChat));
+        inviteLinkBottomSheet.setInviteDelegate(new InviteLinkBottomSheet.InviteDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity.23
+            @Override // org.telegram.ui.Components.InviteLinkBottomSheet.InviteDelegate
+            public void linkRevoked(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
+                TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent = new TLRPC$TL_channelAdminLogEvent();
+                int size = ChannelAdminLogActivity.this.filteredMessages.size();
+                tLRPC$TL_chatInviteExported.revoked = true;
+                TLRPC$TL_channelAdminLogEventActionExportedInviteRevoke tLRPC$TL_channelAdminLogEventActionExportedInviteRevoke = new TLRPC$TL_channelAdminLogEventActionExportedInviteRevoke();
+                tLRPC$TL_channelAdminLogEventActionExportedInviteRevoke.invite = tLRPC$TL_chatInviteExported;
+                tLRPC$TL_channelAdminLogEvent.action = tLRPC$TL_channelAdminLogEventActionExportedInviteRevoke;
+                tLRPC$TL_channelAdminLogEvent.date = (int) (System.currentTimeMillis() / 1000);
+                tLRPC$TL_channelAdminLogEvent.user_id = ChannelAdminLogActivity.this.getAccountInstance().getUserConfig().clientUserId;
+                int i = ((BaseFragment) ChannelAdminLogActivity.this).currentAccount;
+                ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
+                ArrayList arrayList = channelAdminLogActivity.messages;
+                HashMap hashMap2 = channelAdminLogActivity.messagesByDays;
+                ChannelAdminLogActivity channelAdminLogActivity2 = ChannelAdminLogActivity.this;
+                if (new MessageObject(i, tLRPC$TL_channelAdminLogEvent, (ArrayList<MessageObject>) arrayList, (HashMap<String, ArrayList<MessageObject>>) hashMap2, channelAdminLogActivity2.currentChat, channelAdminLogActivity2.mid, true).contentType < 0) {
                     return;
                 }
-                if (this.checkTextureViewPosition || PipRoundVideoView.getInstance() != null) {
-                    MediaController.getInstance().setCurrentVideoVisible(false);
+                ChannelAdminLogActivity.this.filterDeletedMessages();
+                int size2 = ChannelAdminLogActivity.this.filteredMessages.size() - size;
+                if (size2 > 0) {
+                    ChannelAdminLogActivity.this.chatListItemAnimator.setShouldAnimateEnterFromBottom(true);
+                    ChannelAdminLogActivity.this.chatAdapter.notifyItemRangeInserted(ChannelAdminLogActivity.this.chatAdapter.messagesEndRow, size2);
+                    ChannelAdminLogActivity.this.moveScrollToLastMessage();
+                }
+                ChannelAdminLogActivity.this.invitesCache.remove(tLRPC$TL_chatInviteExported.link);
+            }
+
+            @Override // org.telegram.ui.Components.InviteLinkBottomSheet.InviteDelegate
+            public void onLinkDeleted(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
+                int size = ChannelAdminLogActivity.this.filteredMessages.size();
+                int unused = ChannelAdminLogActivity.this.chatAdapter.messagesEndRow;
+                TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent = new TLRPC$TL_channelAdminLogEvent();
+                TLRPC$TL_channelAdminLogEventActionExportedInviteDelete tLRPC$TL_channelAdminLogEventActionExportedInviteDelete = new TLRPC$TL_channelAdminLogEventActionExportedInviteDelete();
+                tLRPC$TL_channelAdminLogEventActionExportedInviteDelete.invite = tLRPC$TL_chatInviteExported;
+                tLRPC$TL_channelAdminLogEvent.action = tLRPC$TL_channelAdminLogEventActionExportedInviteDelete;
+                tLRPC$TL_channelAdminLogEvent.date = (int) (System.currentTimeMillis() / 1000);
+                tLRPC$TL_channelAdminLogEvent.user_id = ChannelAdminLogActivity.this.getAccountInstance().getUserConfig().clientUserId;
+                int i = ((BaseFragment) ChannelAdminLogActivity.this).currentAccount;
+                ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
+                ArrayList arrayList = channelAdminLogActivity.messages;
+                HashMap hashMap2 = channelAdminLogActivity.messagesByDays;
+                ChannelAdminLogActivity channelAdminLogActivity2 = ChannelAdminLogActivity.this;
+                if (new MessageObject(i, tLRPC$TL_channelAdminLogEvent, (ArrayList<MessageObject>) arrayList, (HashMap<String, ArrayList<MessageObject>>) hashMap2, channelAdminLogActivity2.currentChat, channelAdminLogActivity2.mid, true).contentType < 0) {
                     return;
                 }
-                return;
+                ChannelAdminLogActivity.this.filterDeletedMessages();
+                int size2 = ChannelAdminLogActivity.this.filteredMessages.size() - size;
+                if (size2 > 0) {
+                    ChannelAdminLogActivity.this.chatListItemAnimator.setShouldAnimateEnterFromBottom(true);
+                    ChannelAdminLogActivity.this.chatAdapter.notifyItemRangeInserted(ChannelAdminLogActivity.this.chatAdapter.messagesEndRow, size2);
+                    ChannelAdminLogActivity.this.moveScrollToLastMessage();
+                }
+                ChannelAdminLogActivity.this.invitesCache.remove(tLRPC$TL_chatInviteExported.link);
             }
-            MediaController.getInstance().setCurrentVideoVisible(true);
+
+            @Override // org.telegram.ui.Components.InviteLinkBottomSheet.InviteDelegate
+            public void onLinkEdited(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
+                TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent = new TLRPC$TL_channelAdminLogEvent();
+                TLRPC$TL_channelAdminLogEventActionExportedInviteEdit tLRPC$TL_channelAdminLogEventActionExportedInviteEdit = new TLRPC$TL_channelAdminLogEventActionExportedInviteEdit();
+                tLRPC$TL_channelAdminLogEventActionExportedInviteEdit.new_invite = tLRPC$TL_chatInviteExported;
+                tLRPC$TL_channelAdminLogEventActionExportedInviteEdit.prev_invite = tLRPC$TL_chatInviteExported;
+                tLRPC$TL_channelAdminLogEvent.action = tLRPC$TL_channelAdminLogEventActionExportedInviteEdit;
+                tLRPC$TL_channelAdminLogEvent.date = (int) (System.currentTimeMillis() / 1000);
+                tLRPC$TL_channelAdminLogEvent.user_id = ChannelAdminLogActivity.this.getAccountInstance().getUserConfig().clientUserId;
+                int i = ((BaseFragment) ChannelAdminLogActivity.this).currentAccount;
+                ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
+                ArrayList arrayList = channelAdminLogActivity.messages;
+                HashMap hashMap2 = channelAdminLogActivity.messagesByDays;
+                ChannelAdminLogActivity channelAdminLogActivity2 = ChannelAdminLogActivity.this;
+                if (new MessageObject(i, tLRPC$TL_channelAdminLogEvent, (ArrayList<MessageObject>) arrayList, (HashMap<String, ArrayList<MessageObject>>) hashMap2, channelAdminLogActivity2.currentChat, channelAdminLogActivity2.mid, true).contentType < 0) {
+                    return;
+                }
+                ChannelAdminLogActivity.this.filterDeletedMessages();
+                ChannelAdminLogActivity.this.chatAdapter.notifyDataSetChanged();
+                ChannelAdminLogActivity.this.moveScrollToLastMessage();
+            }
+
+            @Override // org.telegram.ui.Components.InviteLinkBottomSheet.InviteDelegate
+            public void permanentLinkReplaced(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2) {
+            }
+        });
+        inviteLinkBottomSheet.show();
+    }
+
+    private CharSequence smallerNewNewLine(CharSequence charSequence) {
+        int charSequenceIndexOf = AndroidUtilities.charSequenceIndexOf(charSequence, "\n\n");
+        if (charSequenceIndexOf >= 0 && Build.VERSION.SDK_INT >= 29) {
+            if (!(charSequence instanceof Spannable)) {
+                charSequence = new SpannableStringBuilder(charSequence);
+            }
+            ((SpannableStringBuilder) charSequence).setSpan(new LineHeightSpan.Standard(AndroidUtilities.dp(8.0f)), charSequenceIndexOf + 1, charSequenceIndexOf + 2, 33);
         }
+        return charSequence;
+    }
+
+    private void startMessageUnselect() {
+        Runnable runnable = this.unselectRunnable;
+        if (runnable != null) {
+            AndroidUtilities.cancelRunOnUIThread(runnable);
+        }
+        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda13
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChannelAdminLogActivity.this.lambda$startMessageUnselect$25();
+            }
+        };
+        this.unselectRunnable = runnable2;
+        AndroidUtilities.runOnUIThread(runnable2, this.highlightMessageQuote != null ? 2500L : 1000L);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateBottomOverlay() {
+    }
+
+    private void updateEmptyPlaceholder() {
+        TextView textView;
+        int i;
+        int i2;
+        CharSequence smallerNewNewLine;
+        if (this.emptyView == null) {
+            return;
+        }
+        if (!TextUtils.isEmpty(this.searchQuery)) {
+            this.emptyImageView.setVisibility(8);
+            this.emptyView.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(3.0f));
+            textView = this.emptyView;
+            i = R.string.NoLogFound;
+        } else if (this.selectedAdmins == null && this.currentFilter == null) {
+            this.emptyImageView.setVisibility(0);
+            this.emptyView.setPadding(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));
+            if (this.currentChat.megagroup) {
+                textView = this.emptyView;
+                i2 = R.string.EventLogEmpty2;
+            } else {
+                textView = this.emptyView;
+                i2 = R.string.EventLogEmptyChannel2;
+            }
+            smallerNewNewLine = smallerNewNewLine(AndroidUtilities.replaceTags(LocaleController.getString(i2)));
+            textView.setText(smallerNewNewLine);
+        } else {
+            this.emptyImageView.setVisibility(8);
+            this.emptyView.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(3.0f));
+            textView = this.emptyView;
+            i = R.string.NoLogFoundFiltered;
+        }
+        smallerNewNewLine = AndroidUtilities.replaceTags(LocaleController.getString(i));
+        textView.setText(smallerNewNewLine);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateMessagesVisiblePart() {
         boolean z;
-        MessageObject messageObject;
+        MediaController mediaController;
+        boolean z2;
         RecyclerListView recyclerListView = this.chatListView;
         if (recyclerListView == null) {
             return;
@@ -2833,7 +3502,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         int measuredHeight = this.chatListView.getMeasuredHeight();
         int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
         int i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-        boolean z2 = false;
+        boolean z3 = false;
         View view = null;
         View view2 = null;
         ChatMessageCell chatMessageCell = null;
@@ -2849,14 +3518,14 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     measuredHeight2 = i4 + measuredHeight;
                 }
                 chatMessageCell2.setVisiblePart(i4, measuredHeight2 - i4, (this.contentView.getHeightWithKeyboard() - AndroidUtilities.dp(48.0f)) - this.chatListView.getTop(), 0.0f, (childAt.getY() + this.actionBar.getMeasuredHeight()) - this.contentView.getBackgroundTranslationY(), this.contentView.getMeasuredWidth(), this.contentView.getBackgroundSizeY(), 0, 0);
-                MessageObject messageObject2 = chatMessageCell2.getMessageObject();
-                if (this.roundVideoContainer != null && messageObject2.isRoundVideo() && MediaController.getInstance().isPlayingMessage(messageObject2)) {
+                MessageObject messageObject = chatMessageCell2.getMessageObject();
+                if (this.roundVideoContainer != null && messageObject.isRoundVideo() && MediaController.getInstance().isPlayingMessage(messageObject)) {
                     ImageReceiver photoImage = chatMessageCell2.getPhotoImage();
                     this.roundVideoContainer.setTranslationX(photoImage.getImageX());
                     this.roundVideoContainer.setTranslationY(this.fragmentView.getPaddingTop() + top + photoImage.getImageY());
                     this.fragmentView.invalidate();
                     this.roundVideoContainer.invalidate();
-                    z2 = true;
+                    z3 = true;
                 }
             } else if (childAt instanceof ChatActionCell) {
                 ChatActionCell chatActionCell = (ChatActionCell) childAt;
@@ -2888,25 +3557,23 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
         FrameLayout frameLayout = this.roundVideoContainer;
         if (frameLayout != null) {
-            if (!z2) {
+            if (z3) {
+                mediaController = MediaController.getInstance();
+                z2 = true;
+            } else {
                 frameLayout.setTranslationY((-AndroidUtilities.roundMessageSize) - 100);
                 this.fragmentView.invalidate();
                 MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
                 if (playingMessageObject != null && playingMessageObject.isRoundVideo() && this.checkTextureViewPosition) {
-                    MediaController.getInstance().setCurrentVideoVisible(false);
+                    mediaController = MediaController.getInstance();
+                    z2 = false;
                 }
-            } else {
-                MediaController.getInstance().setCurrentVideoVisible(true);
             }
+            mediaController.setCurrentVideoVisible(z2);
         }
         if (chatMessageCell != null) {
-            if (chatMessageCell instanceof ChatMessageCell) {
-                messageObject = chatMessageCell.getMessageObject();
-            } else {
-                messageObject = ((ChatActionCell) chatMessageCell).getMessageObject();
-            }
             z = false;
-            this.floatingDateView.setCustomDate(messageObject.messageOwner.date, false, true);
+            this.floatingDateView.setCustomDate((chatMessageCell instanceof ChatMessageCell ? chatMessageCell.getMessageObject() : ((ChatActionCell) chatMessageCell).getMessageObject()).messageOwner.date, false, true);
         } else {
             z = false;
         }
@@ -2941,1393 +3608,847 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 chatActionCell2.setTranslationY(((-chatActionCell2.getMeasuredHeight()) * 2) + bottom2);
                 return;
             }
-            this.floatingDateView.setTranslationY(0.0f);
-            return;
+        } else {
+            hideFloatingDateView(true);
         }
-        hideFloatingDateView(true);
         this.floatingDateView.setTranslationY(0.0f);
     }
 
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onTransitionAnimationStart(boolean z, boolean z2) {
-        if (z) {
-            this.notificationsLocker.lock();
-            this.openAnimationEnded = false;
-        }
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onTransitionAnimationEnd(boolean z, boolean z2) {
-        if (z) {
-            this.notificationsLocker.unlock();
-            this.openAnimationEnded = true;
-        }
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onResume() {
-        super.onResume();
-        this.activityResumeTime = System.currentTimeMillis();
-        SizeNotifierFrameLayout sizeNotifierFrameLayout = this.contentView;
-        if (sizeNotifierFrameLayout != null) {
-            sizeNotifierFrameLayout.onResume();
-        }
-        this.paused = false;
-        checkScrollForLoad(false);
-        if (this.wasPaused) {
-            this.wasPaused = false;
-            ChatActivityAdapter chatActivityAdapter = this.chatAdapter;
-            if (chatActivityAdapter != null) {
-                chatActivityAdapter.notifyDataSetChanged();
+    private void updateTextureViewPosition() {
+        boolean z;
+        int childCount = this.chatListView.getChildCount();
+        int i = 0;
+        while (true) {
+            if (i >= childCount) {
+                z = false;
+                break;
             }
-        }
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onPause() {
-        super.onPause();
-        SizeNotifierFrameLayout sizeNotifierFrameLayout = this.contentView;
-        if (sizeNotifierFrameLayout != null) {
-            sizeNotifierFrameLayout.onPause();
-        }
-        UndoView undoView = this.undoView;
-        if (undoView != null) {
-            undoView.hide(true, 0);
-        }
-        this.paused = true;
-        this.wasPaused = true;
-        if (AvatarPreviewer.hasVisibleInstance()) {
-            AvatarPreviewer.getInstance().close();
-        }
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onBecomeFullyHidden() {
-        UndoView undoView = this.undoView;
-        if (undoView != null) {
-            undoView.hide(true, 0);
-        }
-    }
-
-    public void openVCard(TLRPC$User tLRPC$User, String str, String str2, String str3) {
-        try {
-            File sharingDirectory = AndroidUtilities.getSharingDirectory();
-            sharingDirectory.mkdirs();
-            File file = new File(sharingDirectory, "vcard.vcf");
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
-            bufferedWriter.write(str);
-            bufferedWriter.close();
-            showDialog(new PhonebookShareAlert(this, null, tLRPC$User, null, file, str2, str3));
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onConfigurationChanged(Configuration configuration) {
-        Dialog dialog = this.visibleDialog;
-        if (dialog instanceof DatePickerDialog) {
-            dialog.dismiss();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void alertUserOpenError(MessageObject messageObject) {
-        if (getParentActivity() == null) {
-            return;
-        }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
-        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
-        if (messageObject.type == 3) {
-            builder.setMessage(LocaleController.getString("NoPlayerInstalled", R.string.NoPlayerInstalled));
-        } else {
-            builder.setMessage(LocaleController.formatString("NoHandleAppInstalled", R.string.NoHandleAppInstalled, messageObject.getDocument().mime_type));
-        }
-        showDialog(builder.create());
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void addCanBanUser(Bundle bundle, long j) {
-        TLRPC$Chat tLRPC$Chat = this.currentChat;
-        if (tLRPC$Chat.megagroup && this.admins != null && ChatObject.canBlockUsers(tLRPC$Chat)) {
-            int i = 0;
-            while (true) {
-                if (i >= this.admins.size()) {
+            View childAt = this.chatListView.getChildAt(i);
+            if (childAt instanceof ChatMessageCell) {
+                ChatMessageCell chatMessageCell = (ChatMessageCell) childAt;
+                MessageObject messageObject = chatMessageCell.getMessageObject();
+                if (this.roundVideoContainer != null && messageObject.isRoundVideo() && MediaController.getInstance().isPlayingMessage(messageObject)) {
+                    ImageReceiver photoImage = chatMessageCell.getPhotoImage();
+                    this.roundVideoContainer.setTranslationX(photoImage.getImageX());
+                    this.roundVideoContainer.setTranslationY(this.fragmentView.getPaddingTop() + chatMessageCell.getTop() + photoImage.getImageY());
+                    this.fragmentView.invalidate();
+                    this.roundVideoContainer.invalidate();
+                    z = true;
                     break;
                 }
-                TLRPC$ChannelParticipant tLRPC$ChannelParticipant = this.admins.get(i);
-                if (MessageObject.getPeerId(tLRPC$ChannelParticipant.peer) != j) {
-                    i++;
-                } else if (!tLRPC$ChannelParticipant.can_edit) {
-                    return;
-                }
             }
-            bundle.putLong("ban_chat_id", this.currentChat.id);
+            i++;
         }
-    }
-
-    public void showOpenUrlAlert(final String str, boolean z) {
-        if (Browser.isInternalUrl(str, null) || !z) {
-            Browser.openUrl((Context) getParentActivity(), str, true);
-            return;
-        }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("OpenUrlTitle", R.string.OpenUrlTitle));
-        builder.setMessage(LocaleController.formatString("OpenUrlAlert2", R.string.OpenUrlAlert2, str));
-        builder.setPositiveButton(LocaleController.getString("Open", R.string.Open), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda19
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                ChannelAdminLogActivity.this.lambda$showOpenUrlAlert$24(str, dialogInterface, i);
+        if (this.roundVideoContainer != null) {
+            MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
+            if (z) {
+                MediaController.getInstance().setCurrentVideoVisible(true);
+                return;
             }
-        });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        showDialog(builder.create());
+            this.roundVideoContainer.setTranslationY((-AndroidUtilities.roundMessageSize) - 100);
+            this.fragmentView.invalidate();
+            if (playingMessageObject == null || !playingMessageObject.isRoundVideo()) {
+                return;
+            }
+            if (this.checkTextureViewPosition || PipRoundVideoView.getInstance() != null) {
+                MediaController.getInstance().setCurrentVideoVisible(false);
+            }
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showOpenUrlAlert$24(String str, DialogInterface dialogInterface, int i) {
-        Browser.openUrl((Context) getParentActivity(), str, true);
+    public void updateVisibleRows() {
+        updateVisibleRows(false);
     }
 
-    /* loaded from: classes4.dex */
-    public class ChatActivityAdapter extends RecyclerView.Adapter {
-        private int loadingUpRow;
-        private Context mContext;
-        private int messagesEndRow;
-        private int messagesStartRow;
-        private int rowCount;
-        private final ArrayList<Long> oldStableIds = new ArrayList<>();
-        private final ArrayList<Long> stableIds = new ArrayList<>();
-
-        public ChatActivityAdapter(Context context) {
-            this.mContext = context;
-            setHasStableIds(true);
+    private void updateVisibleRows(boolean z) {
+        String str;
+        RecyclerListView recyclerListView = this.chatListView;
+        if (recyclerListView == null) {
+            return;
         }
-
-        public void updateRows() {
-            updateRows(true);
-        }
-
-        public void updateRows(boolean z) {
-            this.rowCount = 0;
-            if (!ChannelAdminLogActivity.this.filteredMessages.isEmpty()) {
-                if (!ChannelAdminLogActivity.this.endReached) {
-                    int i = this.rowCount;
-                    this.rowCount = i + 1;
-                    this.loadingUpRow = i;
-                } else {
-                    this.loadingUpRow = -1;
-                }
-                int i2 = this.rowCount;
-                this.messagesStartRow = i2;
-                int size = i2 + ChannelAdminLogActivity.this.filteredMessages.size();
-                this.rowCount = size;
-                this.messagesEndRow = size;
-                return;
-            }
-            this.loadingUpRow = -1;
-            this.messagesStartRow = -1;
-            this.messagesEndRow = -1;
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public int getItemCount() {
-            return this.rowCount;
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public long getItemId(int i) {
-            if (i < this.messagesStartRow || i >= this.messagesEndRow) {
-                return i == this.loadingUpRow ? 2L : 5L;
-            }
-            return ((MessageObject) ChannelAdminLogActivity.this.filteredMessages.get((ChannelAdminLogActivity.this.filteredMessages.size() - (i - this.messagesStartRow)) - 1)).stableId;
-        }
-
-        public MessageObject getMessageObject(int i) {
-            if (i < this.messagesStartRow || i >= this.messagesEndRow) {
-                return null;
-            }
-            return (MessageObject) ChannelAdminLogActivity.this.filteredMessages.get((ChannelAdminLogActivity.this.filteredMessages.size() - (i - this.messagesStartRow)) - 1);
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            ChatActionCell chatActionCell;
-            View view;
-            if (i == 0) {
-                if (!ChannelAdminLogActivity.this.chatMessageCellsCache.isEmpty()) {
-                    ChannelAdminLogActivity.this.chatMessageCellsCache.remove(0);
-                    view = (View) ChannelAdminLogActivity.this.chatMessageCellsCache.get(0);
-                } else {
-                    view = new ChatMessageCell(this.mContext, ((BaseFragment) ChannelAdminLogActivity.this).currentAccount);
-                }
-                ChatMessageCell chatMessageCell = (ChatMessageCell) view;
-                chatMessageCell.setDelegate(new 1());
-                chatMessageCell.setAllowAssistant(true);
-                chatActionCell = view;
-            } else if (i == 1) {
-                ChatActionCell chatActionCell2 = new ChatActionCell(this.mContext) { // from class: org.telegram.ui.ChannelAdminLogActivity.ChatActivityAdapter.2
-                    @Override // org.telegram.ui.Cells.ChatActionCell, android.view.View
-                    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-                        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-                        accessibilityNodeInfo.setVisibleToUser(true);
-                    }
-                };
-                chatActionCell2.setDelegate(new 3());
-                chatActionCell = chatActionCell2;
-            } else if (i == 2) {
-                chatActionCell = new ChatUnreadCell(this.mContext, null);
-            } else {
-                chatActionCell = new ChatLoadingCell(this.mContext, ChannelAdminLogActivity.this.contentView, null);
-            }
-            chatActionCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            return new RecyclerListView.Holder(chatActionCell);
-        }
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 implements ChatMessageCell.ChatMessageCellDelegate {
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public boolean canDrawOutboundsContent() {
-                return true;
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public boolean canPerformActions() {
-                return true;
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didLongPressBotButton(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressBotButton(this, chatMessageCell, tLRPC$KeyboardButton);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ boolean didLongPressChannelAvatar(ChatMessageCell chatMessageCell, TLRPC$Chat tLRPC$Chat, int i, float f, float f2) {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressChannelAvatar(this, chatMessageCell, tLRPC$Chat, i, f, f2);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressAboutRevenueSharingAds() {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressAboutRevenueSharingAds(this);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ boolean didPressAnimatedEmoji(ChatMessageCell chatMessageCell, AnimatedEmojiSpan animatedEmojiSpan) {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressAnimatedEmoji(this, chatMessageCell, animatedEmojiSpan);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressBoostCounter(ChatMessageCell chatMessageCell) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBoostCounter(this, chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public void didPressCancelSendButton(ChatMessageCell chatMessageCell) {
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressChannelRecommendation(ChatMessageCell chatMessageCell, TLRPC$Chat tLRPC$Chat, boolean z) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelRecommendation(this, chatMessageCell, tLRPC$Chat, z);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressChannelRecommendationsClose(ChatMessageCell chatMessageCell) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelRecommendationsClose(this, chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressCodeCopy(ChatMessageCell chatMessageCell, MessageObject.TextLayoutBlock textLayoutBlock) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressCodeCopy(this, chatMessageCell, textLayoutBlock);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressCommentButton(ChatMessageCell chatMessageCell) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressCommentButton(this, chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressDialogButton(ChatMessageCell chatMessageCell) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressDialogButton(this, chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressEffect(ChatMessageCell chatMessageCell) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressEffect(this, chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressExtendedMediaPreview(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressExtendedMediaPreview(this, chatMessageCell, tLRPC$KeyboardButton);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressFactCheck(ChatMessageCell chatMessageCell) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressFactCheck(this, chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressFactCheckWhat(ChatMessageCell chatMessageCell, int i, int i2) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressFactCheckWhat(this, chatMessageCell, i, i2);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressGiveawayChatButton(ChatMessageCell chatMessageCell, int i) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressGiveawayChatButton(this, chatMessageCell, i);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressGroupImage(ChatMessageCell chatMessageCell, ImageReceiver imageReceiver, TLRPC$MessageExtendedMedia tLRPC$MessageExtendedMedia, float f, float f2) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressGroupImage(this, chatMessageCell, imageReceiver, tLRPC$MessageExtendedMedia, f, f2);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressHiddenForward(ChatMessageCell chatMessageCell) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressHiddenForward(this, chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressHint(ChatMessageCell chatMessageCell, int i) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressHint(this, chatMessageCell, i);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressMoreChannelRecommendations(ChatMessageCell chatMessageCell) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressMoreChannelRecommendations(this, chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressReaction(ChatMessageCell chatMessageCell, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z, float f, float f2) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReaction(this, chatMessageCell, tLRPC$ReactionCount, z, f, f2);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressRevealSensitiveContent(ChatMessageCell chatMessageCell) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressRevealSensitiveContent(this, chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressSponsoredClose(ChatMessageCell chatMessageCell) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressSponsoredClose(this, chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressSponsoredInfo(ChatMessageCell chatMessageCell, float f, float f2) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressSponsoredInfo(this, chatMessageCell, f, f2);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressTime(ChatMessageCell chatMessageCell) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressTime(this, chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressUserStatus(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User, TLRPC$Document tLRPC$Document) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserStatus(this, chatMessageCell, tLRPC$User, tLRPC$Document);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public void didPressViaBot(ChatMessageCell chatMessageCell, String str) {
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressViaBotNotInline(ChatMessageCell chatMessageCell, long j) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressViaBotNotInline(this, chatMessageCell, j);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressVoteButtons(ChatMessageCell chatMessageCell, ArrayList arrayList, int i, int i2, int i3) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressVoteButtons(this, chatMessageCell, arrayList, i, i2, i3);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didPressWebPage(ChatMessageCell chatMessageCell, TLRPC$WebPage tLRPC$WebPage, String str, boolean z) {
-                Browser.openUrl(chatMessageCell.getContext(), str);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void didStartVideoStream(MessageObject messageObject) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didStartVideoStream(this, messageObject);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ boolean doNotShowLoadingReply(MessageObject messageObject) {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$doNotShowLoadingReply(this, messageObject);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void forceUpdate(ChatMessageCell chatMessageCell, boolean z) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$forceUpdate(this, chatMessageCell, z);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ String getAdminRank(long j) {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getAdminRank(this, j);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ PinchToZoomHelper getPinchToZoomHelper() {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getPinchToZoomHelper(this);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ String getProgressLoadingBotButtonUrl(ChatMessageCell chatMessageCell) {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getProgressLoadingBotButtonUrl(this, chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ CharacterStyle getProgressLoadingLink(ChatMessageCell chatMessageCell) {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getProgressLoadingLink(this, chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ TextSelectionHelper.ChatListTextSelectionHelper getTextSelectionHelper() {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getTextSelectionHelper(this);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ boolean hasSelectedMessages() {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$hasSelectedMessages(this);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void invalidateBlur() {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$invalidateBlur(this);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ boolean isLandscape() {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$isLandscape(this);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ boolean isProgressLoading(ChatMessageCell chatMessageCell, int i) {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$isProgressLoading(this, chatMessageCell, i);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ boolean isReplyOrSelf() {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$isReplyOrSelf(this);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ boolean keyboardIsOpened() {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$keyboardIsOpened(this);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void needReloadPolls() {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needReloadPolls(this);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void needShowPremiumBulletin(int i) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needShowPremiumBulletin(this, i);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ boolean onAccessibilityAction(int i, Bundle bundle) {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$onAccessibilityAction(this, i, bundle);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void onDiceFinished() {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$onDiceFinished(this);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void setShouldNotRepeatSticker(MessageObject messageObject) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$setShouldNotRepeatSticker(this, messageObject);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ boolean shouldDrawThreadProgress(ChatMessageCell chatMessageCell, boolean z) {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldDrawThreadProgress(this, chatMessageCell, z);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ boolean shouldRepeatSticker(MessageObject messageObject) {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldRepeatSticker(this, messageObject);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ boolean shouldShowDialogButton(ChatMessageCell chatMessageCell) {
-                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldShowDialogButton(this, chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void videoTimerReached() {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$videoTimerReached(this);
-            }
-
-            1() {
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public boolean shouldShowTopicButton(ChatMessageCell chatMessageCell) {
-                TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent;
-                MessageObject messageObject = chatMessageCell.getMessageObject();
-                if (messageObject == null || (tLRPC$TL_channelAdminLogEvent = messageObject.currentEvent) == null) {
-                    return false;
-                }
-                TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction = tLRPC$TL_channelAdminLogEvent.action;
-                if ((tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionEditMessage) || (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage)) {
-                    return ChatObject.isForum(ChannelAdminLogActivity.this.currentChat);
-                }
-                return false;
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public void didPressTopicButton(ChatMessageCell chatMessageCell) {
+        int childCount = recyclerListView.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View childAt = this.chatListView.getChildAt(i);
+            if (childAt instanceof ChatMessageCell) {
+                ChatMessageCell chatMessageCell = (ChatMessageCell) childAt;
                 MessageObject messageObject = chatMessageCell.getMessageObject();
                 if (messageObject != null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putLong("chat_id", -messageObject.getDialogId());
-                    ChatActivity chatActivity = new ChatActivity(bundle);
-                    ForumUtilities.applyTopic(chatActivity, MessagesStorage.TopicKey.of(messageObject.getDialogId(), MessageObject.getTopicId(((BaseFragment) ChannelAdminLogActivity.this).currentAccount, messageObject.messageOwner, true)));
-                    ChannelAdminLogActivity.this.presentFragment(chatActivity);
-                }
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public void didPressSideButton(ChatMessageCell chatMessageCell) {
-                if (ChannelAdminLogActivity.this.getParentActivity() == null) {
-                    return;
-                }
-                ChatActivityAdapter chatActivityAdapter = ChatActivityAdapter.this;
-                ChannelAdminLogActivity.this.showDialog(ShareAlert.createShareAlert(chatActivityAdapter.mContext, chatMessageCell.getMessageObject(), null, ChatObject.isChannel(ChannelAdminLogActivity.this.currentChat) && !ChannelAdminLogActivity.this.currentChat.megagroup, null, false));
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public boolean needPlayMessage(ChatMessageCell chatMessageCell, MessageObject messageObject, boolean z) {
-                if (messageObject.isVoice() || messageObject.isRoundVideo()) {
-                    boolean playMessage = MediaController.getInstance().playMessage(messageObject, z);
-                    MediaController.getInstance().setVoiceMessagesPlaylist(null, false);
-                    return playMessage;
-                } else if (messageObject.isMusic()) {
-                    return MediaController.getInstance().setPlaylist(ChannelAdminLogActivity.this.filteredMessages, messageObject, 0L);
-                } else {
-                    return false;
-                }
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public void didPressChannelAvatar(ChatMessageCell chatMessageCell, TLRPC$Chat tLRPC$Chat, int i, float f, float f2, boolean z) {
-                if (tLRPC$Chat == null || tLRPC$Chat == ChannelAdminLogActivity.this.currentChat) {
-                    return;
-                }
-                Bundle bundle = new Bundle();
-                bundle.putLong("chat_id", tLRPC$Chat.id);
-                if (i != 0) {
-                    bundle.putInt("message_id", i);
-                }
-                if (MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).checkCanOpenChat(bundle, ChannelAdminLogActivity.this)) {
-                    ChannelAdminLogActivity.this.presentFragment(new ChatActivity(bundle), true);
-                }
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public void didPressOther(ChatMessageCell chatMessageCell, float f, float f2) {
-                ChannelAdminLogActivity.this.createMenu(chatMessageCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public void didPressUserAvatar(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User, float f, float f2, boolean z) {
-                if (tLRPC$User == null || tLRPC$User.id == UserConfig.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getClientUserId()) {
-                    return;
-                }
-                openProfile(tLRPC$User);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public boolean didLongPressUserAvatar(final ChatMessageCell chatMessageCell, final TLRPC$User tLRPC$User, float f, float f2) {
-                AvatarPreviewer.Data of;
-                if (tLRPC$User != null && tLRPC$User.id != UserConfig.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getClientUserId()) {
-                    AvatarPreviewer.MenuItem[] menuItemArr = {AvatarPreviewer.MenuItem.OPEN_PROFILE, AvatarPreviewer.MenuItem.SEND_MESSAGE};
-                    TLRPC$UserFull userFull = ChannelAdminLogActivity.this.getMessagesController().getUserFull(tLRPC$User.id);
-                    if (userFull == null) {
-                        of = AvatarPreviewer.Data.of(tLRPC$User, ((BaseFragment) ChannelAdminLogActivity.this).classGuid, menuItemArr);
+                    if (this.actionBar.isActionModeShowed()) {
+                        this.highlightMessageQuoteFirst = false;
+                        this.highlightMessageQuote = null;
                     } else {
-                        of = AvatarPreviewer.Data.of(tLRPC$User, userFull, menuItemArr);
+                        chatMessageCell.setDrawSelectionBackground(false);
+                        chatMessageCell.setCheckBoxVisible(false, true);
+                        chatMessageCell.setChecked(false, false, true);
                     }
-                    if (AvatarPreviewer.canPreview(of)) {
-                        AvatarPreviewer avatarPreviewer = AvatarPreviewer.getInstance();
-                        ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
-                        avatarPreviewer.show((ViewGroup) channelAdminLogActivity.fragmentView, channelAdminLogActivity.getResourceProvider(), of, new AvatarPreviewer.Callback() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$1$$ExternalSyntheticLambda0
-                            @Override // org.telegram.ui.AvatarPreviewer.Callback
-                            public final void onMenuClick(AvatarPreviewer.MenuItem menuItem) {
-                                ChannelAdminLogActivity.ChatActivityAdapter.1.this.lambda$didLongPressUserAvatar$0(chatMessageCell, tLRPC$User, menuItem);
-                            }
-                        });
-                        return true;
+                    chatMessageCell.setHighlighted(this.highlightMessageId != Integer.MAX_VALUE && messageObject.getRealId() == this.highlightMessageId);
+                    if (this.highlightMessageId != Integer.MAX_VALUE) {
+                        startMessageUnselect();
                     }
+                    if (chatMessageCell.isHighlighted() && (str = this.highlightMessageQuote) != null) {
+                        if (!chatMessageCell.setHighlightedText(str, true, this.highlightMessageQuoteOffset, this.highlightMessageQuoteFirst) && this.showNoQuoteAlert) {
+                            showNoQuoteFound();
+                        }
+                        this.highlightMessageQuoteFirst = false;
+                        this.showNoQuoteAlert = false;
+                    } else if (TextUtils.isEmpty(this.searchQuery)) {
+                        chatMessageCell.setHighlightedText(null);
+                    } else {
+                        chatMessageCell.setHighlightedText(this.searchQuery);
+                    }
+                    chatMessageCell.setSpoilersSuppressed(this.chatListView.getScrollState() != 0);
                 }
-                return false;
+            } else if (childAt instanceof ChatActionCell) {
+                ChatActionCell chatActionCell = (ChatActionCell) childAt;
+                if (!z) {
+                    chatActionCell.setMessageObject(chatActionCell.getMessageObject());
+                }
+                chatActionCell.setSpoilersSuppressed(this.chatListView.getScrollState() != 0);
             }
+        }
+    }
 
-            /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$didLongPressUserAvatar$0(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User, AvatarPreviewer.MenuItem menuItem) {
-                int i = 24.$SwitchMap$org$telegram$ui$AvatarPreviewer$MenuItem[menuItem.ordinal()];
-                if (i == 1) {
-                    openDialog(chatMessageCell, tLRPC$User);
-                } else if (i != 2) {
+    public void applyScrolledPosition() {
+        int i;
+        if (this.chatListView == null || this.chatLayoutManager == null || (i = this.savedScrollPosition) < 0) {
+            return;
+        }
+        if (this.savedScrollEventId != 0) {
+            int i2 = 0;
+            while (true) {
+                if (i2 < this.chatAdapter.getItemCount()) {
+                    MessageObject messageObject = this.chatAdapter.getMessageObject(i2);
+                    if (messageObject != null && messageObject.eventId == this.savedScrollEventId) {
+                        i = i2;
+                        break;
+                    }
+                    i2++;
                 } else {
-                    openProfile(tLRPC$User);
+                    break;
                 }
             }
+        }
+        this.chatLayoutManager.scrollToPositionWithOffset(i, this.savedScrollOffset, true);
+        this.savedScrollPosition = -1;
+        this.savedScrollEventId = 0L;
+    }
 
-            private void openProfile(TLRPC$User tLRPC$User) {
-                Bundle bundle = new Bundle();
-                bundle.putLong("user_id", tLRPC$User.id);
-                ChannelAdminLogActivity.this.addCanBanUser(bundle, tLRPC$User.id);
-                ProfileActivity profileActivity = new ProfileActivity(bundle);
-                profileActivity.setPlayProfileAnimation(0);
-                ChannelAdminLogActivity.this.presentFragment(profileActivity);
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public View createView(Context context) {
+        RecyclerListView recyclerListView;
+        FrameLayout frameLayout;
+        if (this.chatMessageCellsCache.isEmpty()) {
+            for (int i = 0; i < 8; i++) {
+                this.chatMessageCellsCache.add(new ChatMessageCell(context, this.currentAccount));
+            }
+        }
+        this.searchWas = false;
+        this.hasOwnBackground = true;
+        Theme.createChatResources(context, false);
+        this.actionBar.setAddToContainer(false);
+        this.actionBar.setOccupyStatusBar(Build.VERSION.SDK_INT >= 21 && !AndroidUtilities.isTablet());
+        this.actionBar.setBackButtonDrawable(new BackDrawable(false));
+        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.ChannelAdminLogActivity.3
+            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+            public void onItemClick(int i2) {
+                if (i2 == -1) {
+                    ChannelAdminLogActivity.this.finishFragment();
+                }
+            }
+        });
+        ChatAvatarContainer chatAvatarContainer = new ChatAvatarContainer(context, null, false);
+        this.avatarContainer = chatAvatarContainer;
+        chatAvatarContainer.setOccupyStatusBar(!AndroidUtilities.isTablet());
+        this.actionBar.addView(this.avatarContainer, 0, LayoutHelper.createFrame(-2, -1.0f, 51, 56.0f, 0.0f, 40.0f, 0.0f));
+        ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() { // from class: org.telegram.ui.ChannelAdminLogActivity.4
+            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+            public void onSearchCollapse() {
+                ChannelAdminLogActivity.this.searchQuery = "";
+                ChannelAdminLogActivity.this.avatarContainer.setVisibility(0);
+                if (ChannelAdminLogActivity.this.searchWas) {
+                    ChannelAdminLogActivity.this.searchWas = false;
+                    ChannelAdminLogActivity.this.loadMessages(true);
+                }
+                ChannelAdminLogActivity.this.updateBottomOverlay();
             }
 
-            private void openDialog(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User) {
-                if (tLRPC$User != null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putLong("user_id", tLRPC$User.id);
-                    if (ChannelAdminLogActivity.this.getMessagesController().checkCanOpenChat(bundle, ChannelAdminLogActivity.this)) {
-                        ChannelAdminLogActivity.this.presentFragment(new ChatActivity(bundle));
+            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+            public void onSearchExpand() {
+                ChannelAdminLogActivity.this.avatarContainer.setVisibility(8);
+                ChannelAdminLogActivity.this.updateBottomOverlay();
+            }
+
+            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+            public void onSearchPressed(EditText editText) {
+                ChannelAdminLogActivity.this.searchWas = true;
+                ChannelAdminLogActivity.this.searchQuery = editText.getText().toString();
+                ChannelAdminLogActivity.this.loadMessages(true);
+            }
+        });
+        this.searchItem = actionBarMenuItemSearchListener;
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", R.string.Search));
+        this.avatarContainer.setEnabled(false);
+        this.avatarContainer.setTitle(this.currentChat.title);
+        this.avatarContainer.setSubtitle(LocaleController.getString("EventLogAllEvents", R.string.EventLogAllEvents));
+        this.avatarContainer.setChatAvatar(this.currentChat);
+        SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.ChannelAdminLogActivity.5
+            final AdjustPanLayoutHelper adjustPanLayoutHelper = new AdjustPanLayoutHelper(this) { // from class: org.telegram.ui.ChannelAdminLogActivity.5.1
+                @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
+                protected boolean heightAnimationEnabled() {
+                    INavigationLayout parentLayout = ChannelAdminLogActivity.this.getParentLayout();
+                    if (((BaseFragment) ChannelAdminLogActivity.this).inPreviewMode || ((BaseFragment) ChannelAdminLogActivity.this).inBubbleMode || AndroidUtilities.isInMultiwindow || parentLayout == null || System.currentTimeMillis() - ChannelAdminLogActivity.this.activityResumeTime < 250) {
+                        return false;
+                    }
+                    return ((ChannelAdminLogActivity.this == parentLayout.getLastFragment() && parentLayout.isTransitionAnimationInProgress()) || parentLayout.isPreviewOpenAnimationInProgress() || ((BaseFragment) ChannelAdminLogActivity.this).isPaused || !ChannelAdminLogActivity.this.openAnimationEnded) ? false : true;
+                }
+
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
+                public void onPanTranslationUpdate(float f, float f2, boolean z) {
+                    if (ChannelAdminLogActivity.this.getParentLayout() == null || !ChannelAdminLogActivity.this.getParentLayout().isPreviewOpenAnimationInProgress()) {
+                        ChannelAdminLogActivity.this.contentPanTranslation = f;
+                        ChannelAdminLogActivity.this.contentPanTranslationT = f2;
+                        ((BaseFragment) ChannelAdminLogActivity.this).actionBar.setTranslationY(f);
+                        if (ChannelAdminLogActivity.this.emptyViewContainer != null) {
+                            ChannelAdminLogActivity.this.emptyViewContainer.setTranslationY(f / 2.0f);
+                        }
+                        ChannelAdminLogActivity.this.progressView.setTranslationY(f / 2.0f);
+                        int i2 = (int) f;
+                        ChannelAdminLogActivity.this.contentView.setBackgroundTranslation(i2);
+                        ChannelAdminLogActivity.this.setFragmentPanTranslationOffset(i2);
+                        ChannelAdminLogActivity.this.chatListView.invalidate();
+                        if (AndroidUtilities.isTablet() && (ChannelAdminLogActivity.this.getParentActivity() instanceof LaunchActivity)) {
+                            BaseFragment lastFragment = ((LaunchActivity) ChannelAdminLogActivity.this.getParentActivity()).getActionBarLayout().getLastFragment();
+                            if (lastFragment instanceof DialogsActivity) {
+                                ((DialogsActivity) lastFragment).setPanTranslationOffset(f);
+                            }
+                        }
                     }
                 }
+
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
+                public void onTransitionEnd() {
+                }
+
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
+                public void onTransitionStart(boolean z, int i2) {
+                    ChannelAdminLogActivity.this.wasManualScroll = true;
+                }
+            };
+
+            @Override // android.view.ViewGroup, android.view.View
+            public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+                if (AvatarPreviewer.hasVisibleInstance()) {
+                    AvatarPreviewer.getInstance().onTouchEvent(motionEvent);
+                    return true;
+                }
+                return super.dispatchTouchEvent(motionEvent);
             }
 
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public void didLongPress(ChatMessageCell chatMessageCell, float f, float f2) {
-                ChannelAdminLogActivity.this.createMenu(chatMessageCell);
+            @Override // android.view.ViewGroup
+            protected boolean drawChild(Canvas canvas, View view, long j) {
+                boolean drawChild = super.drawChild(canvas, view, j);
+                if (view == ((BaseFragment) ChannelAdminLogActivity.this).actionBar && ((BaseFragment) ChannelAdminLogActivity.this).parentLayout != null) {
+                    ((BaseFragment) ChannelAdminLogActivity.this).parentLayout.drawHeaderShadow(canvas, ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getVisibility() == 0 ? ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getMeasuredHeight() : 0);
+                }
+                return drawChild;
             }
 
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public void didPressUrl(ChatMessageCell chatMessageCell, CharacterStyle characterStyle, boolean z) {
-                TLRPC$WebPage tLRPC$WebPage;
-                if (characterStyle == null) {
+            @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
+            protected boolean isActionBarVisible() {
+                return ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getVisibility() == 0;
+            }
+
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
+            public void onAttachedToWindow() {
+                super.onAttachedToWindow();
+                MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
+                if (playingMessageObject == null || !playingMessageObject.isRoundVideo() || playingMessageObject.eventId == 0 || playingMessageObject.getDialogId() != (-ChannelAdminLogActivity.this.currentChat.id)) {
                     return;
                 }
-                MessageObject messageObject = chatMessageCell.getMessageObject();
-                if (characterStyle instanceof URLSpanMono) {
-                    ((URLSpanMono) characterStyle).copyToClipboard();
-                    if (AndroidUtilities.shouldShowClipboardToast()) {
-                        Toast.makeText(ChannelAdminLogActivity.this.getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), 0).show();
-                    }
-                } else if (characterStyle instanceof URLSpanUserMention) {
-                    Long parseLong = Utilities.parseLong(((URLSpanUserMention) characterStyle).getURL());
-                    long longValue = parseLong.longValue();
-                    if (longValue > 0) {
-                        TLRPC$User user = MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getUser(parseLong);
-                        if (user != null) {
-                            MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).openChatOrProfileWith(user, null, ChannelAdminLogActivity.this, 0, false);
-                            return;
-                        }
-                        return;
-                    }
-                    TLRPC$Chat chat = MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getChat(Long.valueOf(-longValue));
-                    if (chat != null) {
-                        MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).openChatOrProfileWith(null, chat, ChannelAdminLogActivity.this, 0, false);
-                    }
-                } else if (characterStyle instanceof URLSpanNoUnderline) {
-                    String url = ((URLSpanNoUnderline) characterStyle).getURL();
-                    if (url.startsWith("@")) {
-                        MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).openByUserName(url.substring(1), ChannelAdminLogActivity.this, 0);
-                    } else if (url.startsWith("#")) {
-                        DialogsActivity dialogsActivity = new DialogsActivity(null);
-                        dialogsActivity.setSearchString(url);
-                        ChannelAdminLogActivity.this.presentFragment(dialogsActivity);
-                    }
-                } else {
-                    final String url2 = ((URLSpan) characterStyle).getURL();
-                    if (z) {
-                        BottomSheet.Builder builder = new BottomSheet.Builder(ChannelAdminLogActivity.this.getParentActivity());
-                        builder.setTitle(url2);
-                        builder.setItems(new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$1$$ExternalSyntheticLambda1
-                            @Override // android.content.DialogInterface.OnClickListener
-                            public final void onClick(DialogInterface dialogInterface, int i) {
-                                ChannelAdminLogActivity.ChatActivityAdapter.1.this.lambda$didPressUrl$1(url2, dialogInterface, i);
-                            }
-                        });
-                        ChannelAdminLogActivity.this.showDialog(builder.create());
-                    } else if (characterStyle instanceof URLSpanReplacement) {
-                        ChannelAdminLogActivity.this.showOpenUrlAlert(((URLSpanReplacement) characterStyle).getURL(), true);
-                    } else {
-                        TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
-                        if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) && (tLRPC$WebPage = tLRPC$MessageMedia.webpage) != null && tLRPC$WebPage.cached_page != null) {
-                            String lowerCase = url2.toLowerCase();
-                            String lowerCase2 = messageObject.messageOwner.media.webpage.url.toLowerCase();
-                            if ((Browser.isTelegraphUrl(lowerCase, false) || lowerCase.contains("t.me/iv")) && (lowerCase.contains(lowerCase2) || lowerCase2.contains(lowerCase))) {
-                                LaunchActivity launchActivity = LaunchActivity.instance;
-                                if (launchActivity == null || launchActivity.getBottomSheetTabs() == null || LaunchActivity.instance.getBottomSheetTabs().tryReopenTab(messageObject) == null) {
-                                    ChannelAdminLogActivity.this.createArticleViewer(false).open(messageObject);
-                                    return;
-                                }
-                                return;
-                            }
-                        }
-                        Browser.openUrl((Context) ChannelAdminLogActivity.this.getParentActivity(), url2, true);
-                    }
-                }
+                MediaController.getInstance().setTextureView(ChannelAdminLogActivity.this.createTextureView(false), ChannelAdminLogActivity.this.aspectRatioFrameLayout, ChannelAdminLogActivity.this.roundVideoContainer, true);
             }
 
-            /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$didPressUrl$1(String str, DialogInterface dialogInterface, int i) {
-                if (i == 0) {
-                    Browser.openUrl((Context) ChannelAdminLogActivity.this.getParentActivity(), str, true);
-                } else if (i == 1) {
-                    if (str.startsWith("mailto:")) {
-                        str = str.substring(7);
-                    } else if (str.startsWith("tel:")) {
-                        str = str.substring(4);
-                    }
-                    AndroidUtilities.addToClipboard(str);
-                }
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public void needOpenWebView(MessageObject messageObject, String str, String str2, String str3, String str4, int i, int i2) {
-                ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
-                EmbedBottomSheet.show(channelAdminLogActivity, messageObject, channelAdminLogActivity.provider, str2, str3, str4, str, i, i2, false);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public void didPressReplyMessage(ChatMessageCell chatMessageCell, int i) {
-                MessageObject messageObject = chatMessageCell.getMessageObject().replyMessageObject;
-                if (messageObject.getDialogId() == (-ChannelAdminLogActivity.this.currentChat.id)) {
-                    for (int i2 = 0; i2 < ChannelAdminLogActivity.this.filteredMessages.size(); i2++) {
-                        MessageObject messageObject2 = (MessageObject) ChannelAdminLogActivity.this.filteredMessages.get(i2);
-                        if (messageObject2 != null && messageObject2.contentType != 1 && messageObject2.getRealId() == messageObject.getRealId()) {
-                            ChannelAdminLogActivity.this.scrollToMessage(messageObject2, true);
-                            return;
-                        }
-                    }
-                }
-                Bundle bundle = new Bundle();
-                bundle.putLong("chat_id", ChannelAdminLogActivity.this.currentChat.id);
-                bundle.putInt("message_id", messageObject.getRealId());
-                ChannelAdminLogActivity.this.presentFragment(new ChatActivity(bundle));
-            }
-
-            /* JADX WARN: Code restructure failed: missing block: B:50:0x011c, code lost:
-                if (r11.exists() != false) goto L36;
-             */
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            /* JADX INFO: Access modifiers changed from: protected */
+            /* JADX WARN: Removed duplicated region for block: B:20:0x004b  */
+            /* JADX WARN: Removed duplicated region for block: B:32:0x0085  */
+            /* JADX WARN: Removed duplicated region for block: B:35:0x0096  */
+            /* JADX WARN: Removed duplicated region for block: B:41:0x00b9  */
+            @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void didPressImage(ChatMessageCell chatMessageCell, float f, float f2) {
-                int i;
-                File file;
-                MessageObject messageObject = chatMessageCell.getMessageObject();
-                if (messageObject.getInputStickerSet() != null) {
-                    ChannelAdminLogActivity.this.showDialog(new StickersAlert(ChannelAdminLogActivity.this.getParentActivity(), ChannelAdminLogActivity.this, messageObject.getInputStickerSet(), (TLRPC$TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null));
-                } else if (messageObject.isVideo() || (i = messageObject.type) == 1 || ((i == 0 && !messageObject.isWebpageDocument()) || messageObject.isGif())) {
-                    PhotoViewer.getInstance().setParentActivity(ChannelAdminLogActivity.this);
-                    PhotoViewer.getInstance().openPhoto(messageObject, (ChatActivity) null, 0L, 0L, 0L, ChannelAdminLogActivity.this.provider);
-                } else {
-                    int i2 = messageObject.type;
-                    File file2 = null;
-                    if (i2 == 3) {
-                        try {
-                            String str = messageObject.messageOwner.attachPath;
-                            if (str != null && str.length() != 0) {
-                                file2 = new File(messageObject.messageOwner.attachPath);
-                            }
-                            if (file2 == null || !file2.exists()) {
-                                file2 = ChannelAdminLogActivity.this.getFileLoader().getPathToMessage(messageObject.messageOwner);
-                            }
-                            Intent intent = new Intent("android.intent.action.VIEW");
-                            if (Build.VERSION.SDK_INT >= 24) {
-                                intent.setFlags(1);
-                                intent.setDataAndType(FileProvider.getUriForFile(ChannelAdminLogActivity.this.getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", file2), "video/mp4");
-                            } else {
-                                intent.setDataAndType(Uri.fromFile(file2), "video/mp4");
-                            }
-                            ChannelAdminLogActivity.this.getParentActivity().startActivityForResult(intent, 500);
-                        } catch (Exception unused) {
-                            ChannelAdminLogActivity.this.alertUserOpenError(messageObject);
+            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+                int i6;
+                int i7;
+                int i8;
+                int i9;
+                int paddingTop;
+                int childCount = getChildCount();
+                for (int i10 = 0; i10 < childCount; i10++) {
+                    View childAt = getChildAt(i10);
+                    if (childAt.getVisibility() != 8) {
+                        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
+                        int measuredWidth = childAt.getMeasuredWidth();
+                        int measuredHeight = childAt.getMeasuredHeight();
+                        int i11 = layoutParams.gravity;
+                        if (i11 == -1) {
+                            i11 = 51;
                         }
-                    } else if (i2 == 4) {
-                        if (AndroidUtilities.isMapsInstalled(ChannelAdminLogActivity.this)) {
-                            LocationActivity locationActivity = new LocationActivity(0);
-                            locationActivity.setMessageObject(messageObject);
-                            ChannelAdminLogActivity.this.presentFragment(locationActivity);
-                        }
-                    } else if (i2 == 9 || i2 == 0) {
-                        if (messageObject.getDocumentName().toLowerCase().endsWith("attheme")) {
-                            String str2 = messageObject.messageOwner.attachPath;
-                            if (str2 != null && str2.length() != 0) {
-                                file = new File(messageObject.messageOwner.attachPath);
-                            }
-                            file = null;
-                            if (file == null) {
-                                File pathToMessage = ChannelAdminLogActivity.this.getFileLoader().getPathToMessage(messageObject.messageOwner);
-                                if (pathToMessage.exists()) {
-                                    file = pathToMessage;
-                                }
-                            }
-                            if (ChannelAdminLogActivity.this.chatLayoutManager != null) {
-                                if (ChannelAdminLogActivity.this.chatLayoutManager.findLastVisibleItemPosition() >= ChannelAdminLogActivity.this.chatLayoutManager.getItemCount() - 1) {
-                                    ChannelAdminLogActivity.this.scrollToPositionOnRecreate = -1;
-                                } else {
-                                    ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
-                                    channelAdminLogActivity.scrollToPositionOnRecreate = channelAdminLogActivity.chatLayoutManager.findFirstVisibleItemPosition();
-                                    RecyclerListView.Holder holder = (RecyclerListView.Holder) ChannelAdminLogActivity.this.chatListView.findViewHolderForAdapterPosition(ChannelAdminLogActivity.this.scrollToPositionOnRecreate);
-                                    if (holder != null) {
-                                        ChannelAdminLogActivity.this.scrollToOffsetOnRecreate = holder.itemView.getTop();
-                                    } else {
-                                        ChannelAdminLogActivity.this.scrollToPositionOnRecreate = -1;
+                        int i12 = i11 & 112;
+                        int i13 = i11 & 7;
+                        if (i13 == 1) {
+                            i6 = (((i4 - i2) - measuredWidth) / 2) + layoutParams.leftMargin;
+                        } else if (i13 != 5) {
+                            i7 = layoutParams.leftMargin;
+                            if (i12 == 16) {
+                                if (i12 == 48) {
+                                    i9 = layoutParams.topMargin + getPaddingTop();
+                                    if (childAt != ((BaseFragment) ChannelAdminLogActivity.this).actionBar && ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getVisibility() == 0) {
+                                        i9 += ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getMeasuredHeight();
                                     }
+                                } else if (i12 != 80) {
+                                    i9 = layoutParams.topMargin;
+                                } else {
+                                    i8 = (i5 - i3) - measuredHeight;
                                 }
-                            }
-                            Theme.ThemeInfo applyThemeFile = Theme.applyThemeFile(file, messageObject.getDocumentName(), null, true);
-                            if (applyThemeFile == null) {
-                                ChannelAdminLogActivity.this.scrollToPositionOnRecreate = -1;
+                                if (childAt == ChannelAdminLogActivity.this.emptyViewContainer) {
+                                    paddingTop = AndroidUtilities.dp(24.0f) - (((BaseFragment) ChannelAdminLogActivity.this).actionBar.getVisibility() == 0 ? ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getMeasuredHeight() / 2 : 0);
+                                } else if (childAt == ((BaseFragment) ChannelAdminLogActivity.this).actionBar) {
+                                    paddingTop = getPaddingTop();
+                                } else {
+                                    if (childAt == this.backgroundView) {
+                                        i9 = 0;
+                                    }
+                                    childAt.layout(i7, i9, measuredWidth + i7, measuredHeight + i9);
+                                }
+                                i9 -= paddingTop;
+                                childAt.layout(i7, i9, measuredWidth + i7, measuredHeight + i9);
                             } else {
-                                ChannelAdminLogActivity.this.presentFragment(new ThemePreviewActivity(applyThemeFile));
-                                return;
+                                i8 = (((i5 - i3) - measuredHeight) / 2) + layoutParams.topMargin;
+                            }
+                            i9 = i8 - layoutParams.bottomMargin;
+                            if (childAt == ChannelAdminLogActivity.this.emptyViewContainer) {
+                            }
+                            i9 -= paddingTop;
+                            childAt.layout(i7, i9, measuredWidth + i7, measuredHeight + i9);
+                        } else {
+                            i6 = i4 - measuredWidth;
+                        }
+                        i7 = i6 - layoutParams.rightMargin;
+                        if (i12 == 16) {
+                        }
+                        i9 = i8 - layoutParams.bottomMargin;
+                        if (childAt == ChannelAdminLogActivity.this.emptyViewContainer) {
+                        }
+                        i9 -= paddingTop;
+                        childAt.layout(i7, i9, measuredWidth + i7, measuredHeight + i9);
+                    }
+                }
+                ChannelAdminLogActivity.this.updateMessagesVisiblePart();
+                notifyHeightChanged();
+            }
+
+            @Override // android.widget.FrameLayout, android.view.View
+            protected void onMeasure(int i2, int i3) {
+                int makeMeasureSpec;
+                int makeMeasureSpec2;
+                int size = View.MeasureSpec.getSize(i2);
+                int size2 = View.MeasureSpec.getSize(i3);
+                setMeasuredDimension(size, size2);
+                int paddingTop = size2 - getPaddingTop();
+                measureChildWithMargins(((BaseFragment) ChannelAdminLogActivity.this).actionBar, i2, 0, i3, 0);
+                int measuredHeight = ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getMeasuredHeight();
+                if (((BaseFragment) ChannelAdminLogActivity.this).actionBar.getVisibility() == 0) {
+                    paddingTop -= measuredHeight;
+                }
+                int childCount = getChildCount();
+                for (int i4 = 0; i4 < childCount; i4++) {
+                    View childAt = getChildAt(i4);
+                    if (childAt != null && childAt.getVisibility() != 8 && childAt != ((BaseFragment) ChannelAdminLogActivity.this).actionBar) {
+                        if (childAt == ChannelAdminLogActivity.this.chatListView || childAt == ChannelAdminLogActivity.this.progressView) {
+                            makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(size, 1073741824);
+                            makeMeasureSpec2 = View.MeasureSpec.makeMeasureSpec(Math.max(AndroidUtilities.dp(10.0f), paddingTop - AndroidUtilities.dp(50.0f)), 1073741824);
+                        } else if (childAt == ChannelAdminLogActivity.this.emptyViewContainer) {
+                            makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(size, 1073741824);
+                            makeMeasureSpec2 = View.MeasureSpec.makeMeasureSpec(paddingTop, 1073741824);
+                        } else {
+                            measureChildWithMargins(childAt, i2, 0, i3, 0);
+                        }
+                        childAt.measure(makeMeasureSpec, makeMeasureSpec2);
+                    }
+                }
+            }
+        };
+        this.fragmentView = sizeNotifierFrameLayout;
+        this.contentView = sizeNotifierFrameLayout;
+        sizeNotifierFrameLayout.setOccupyStatusBar(!AndroidUtilities.isTablet());
+        this.contentView.setBackgroundImage(Theme.getCachedWallpaper(), Theme.isWallpaperMotion());
+        FrameLayout frameLayout2 = new FrameLayout(context);
+        this.emptyViewContainer = frameLayout2;
+        frameLayout2.setVisibility(4);
+        this.contentView.addView(this.emptyViewContainer, LayoutHelper.createFrame(-1, -2, 17));
+        this.emptyViewContainer.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createView$7;
+                lambda$createView$7 = ChannelAdminLogActivity.lambda$createView$7(view, motionEvent);
+                return lambda$createView$7;
+            }
+        });
+        LinearLayout linearLayout = new LinearLayout(context);
+        this.emptyLayoutView = linearLayout;
+        linearLayout.setBackground(Theme.createServiceDrawable(AndroidUtilities.dp(12.0f), this.emptyView, this.contentView));
+        this.emptyLayoutView.setOrientation(1);
+        ImageView imageView = new ImageView(context);
+        this.emptyImageView = imageView;
+        ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER;
+        imageView.setScaleType(scaleType);
+        this.emptyImageView.setImageResource(R.drawable.large_log_actions);
+        this.emptyImageView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
+        this.emptyImageView.setVisibility(8);
+        this.emptyLayoutView.addView(this.emptyImageView, LayoutHelper.createLinear(54, 54, 17, 16, 20, 16, -4));
+        TextView textView = new TextView(context) { // from class: org.telegram.ui.ChannelAdminLogActivity.6
+            @Override // android.widget.TextView, android.view.View
+            protected void onMeasure(int i2, int i3) {
+                super.onMeasure(View.MeasureSpec.makeMeasureSpec(Math.min(View.MeasureSpec.getSize(i2), AndroidUtilities.dp(220.0f)), View.MeasureSpec.getMode(i2)), i3);
+            }
+        };
+        this.emptyView = textView;
+        textView.setTextSize(1, 14.0f);
+        this.emptyView.setGravity(17);
+        TextView textView2 = this.emptyView;
+        int i2 = Theme.key_chat_serviceText;
+        textView2.setTextColor(Theme.getColor(i2));
+        this.emptyView.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(5.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(5.0f));
+        this.emptyLayoutView.addView(this.emptyView, LayoutHelper.createLinear(-2, -2, 17, 0, 0, 0, 0));
+        this.emptyViewContainer.addView(this.emptyLayoutView, LayoutHelper.createFrame(-2, -2.0f, 17, 20.0f, 0.0f, 20.0f, 0.0f));
+        RecyclerListView recyclerListView2 = new RecyclerListView(context) { // from class: org.telegram.ui.ChannelAdminLogActivity.7
+            @Override // androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
+            public boolean drawChild(Canvas canvas, View view, long j) {
+                ChatMessageCell chatMessageCell;
+                ImageReceiver avatarImage;
+                int y;
+                int adapterPosition;
+                boolean drawChild = super.drawChild(canvas, view, j);
+                if ((view instanceof ChatMessageCell) && (avatarImage = (chatMessageCell = (ChatMessageCell) view).getAvatarImage()) != null) {
+                    boolean z = (chatMessageCell.getMessageObject().deleted || ChannelAdminLogActivity.this.chatListView.getChildAdapterPosition(chatMessageCell) == -1) ? false : true;
+                    if (chatMessageCell.getMessageObject().deleted) {
+                        avatarImage.setVisible(false, false);
+                        return drawChild;
+                    }
+                    int y2 = (int) view.getY();
+                    if (chatMessageCell.drawPinnedBottom() && (adapterPosition = ChannelAdminLogActivity.this.chatListView.getChildViewHolder(view).getAdapterPosition()) >= 0) {
+                        if (ChannelAdminLogActivity.this.chatListView.findViewHolderForAdapterPosition(adapterPosition + 1) != null) {
+                            avatarImage.setVisible(false, false);
+                            return drawChild;
+                        }
+                    }
+                    float slidingOffsetX = chatMessageCell.getSlidingOffsetX() + chatMessageCell.getCheckBoxTranslation();
+                    int y3 = ((int) view.getY()) + chatMessageCell.getLayoutHeight();
+                    int measuredHeight = ChannelAdminLogActivity.this.chatListView.getMeasuredHeight() - ChannelAdminLogActivity.this.chatListView.getPaddingBottom();
+                    if (y3 > measuredHeight) {
+                        y3 = measuredHeight;
+                    }
+                    if (chatMessageCell.drawPinnedTop() && (r12 = ChannelAdminLogActivity.this.chatListView.getChildViewHolder(view).getAdapterPosition()) >= 0) {
+                        int i3 = 0;
+                        while (i3 < 20) {
+                            i3++;
+                            int adapterPosition2 = adapterPosition2 - 1;
+                            RecyclerView.ViewHolder findViewHolderForAdapterPosition = ChannelAdminLogActivity.this.chatListView.findViewHolderForAdapterPosition(adapterPosition2);
+                            if (findViewHolderForAdapterPosition == null) {
+                                break;
+                            }
+                            y2 = findViewHolderForAdapterPosition.itemView.getTop();
+                            View view2 = findViewHolderForAdapterPosition.itemView;
+                            if (!(view2 instanceof ChatMessageCell)) {
+                                break;
+                            }
+                            chatMessageCell = (ChatMessageCell) view2;
+                            if (!chatMessageCell.drawPinnedTop()) {
+                                break;
                             }
                         }
-                        try {
-                            AndroidUtilities.openForView(messageObject, ChannelAdminLogActivity.this.getParentActivity(), null, false);
-                        } catch (Exception unused2) {
-                            ChannelAdminLogActivity.this.alertUserOpenError(messageObject);
-                        }
                     }
+                    if (y3 - AndroidUtilities.dp(48.0f) < y2) {
+                        y3 = y2 + AndroidUtilities.dp(48.0f);
+                    }
+                    if (!chatMessageCell.drawPinnedBottom() && y3 > (y = (int) (chatMessageCell.getY() + chatMessageCell.getMeasuredHeight()))) {
+                        y3 = y;
+                    }
+                    canvas.save();
+                    if (slidingOffsetX != 0.0f) {
+                        canvas.translate(slidingOffsetX, 0.0f);
+                    }
+                    if (chatMessageCell.getCurrentMessagesGroup() != null && chatMessageCell.getCurrentMessagesGroup().transitionParams.backgroundChangeBounds) {
+                        y3 = (int) (y3 - chatMessageCell.getTranslationY());
+                    }
+                    if (z) {
+                        avatarImage.setImageY(y3 - AndroidUtilities.dp(44.0f));
+                    }
+                    if (chatMessageCell.shouldDrawAlphaLayer()) {
+                        avatarImage.setAlpha(chatMessageCell.getAlpha());
+                        canvas.scale(chatMessageCell.getScaleX(), chatMessageCell.getScaleY(), chatMessageCell.getX() + chatMessageCell.getPivotX(), chatMessageCell.getY() + (chatMessageCell.getHeight() >> 1));
+                    } else {
+                        avatarImage.setAlpha(1.0f);
+                    }
+                    if (z) {
+                        avatarImage.setVisible(true, false);
+                    }
+                    avatarImage.draw(canvas);
+                    canvas.restore();
                 }
+                return drawChild;
             }
 
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public void didPressInstantButton(ChatMessageCell chatMessageCell, int i) {
-                TLRPC$WebPage tLRPC$WebPage;
-                MessageObject messageObject = chatMessageCell.getMessageObject();
-                TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent = messageObject.currentEvent;
-                if (tLRPC$TL_channelAdminLogEvent != null && (tLRPC$TL_channelAdminLogEvent.action instanceof TLRPC$TL_channelAdminLogEventActionEditMessage)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putLong("chat_id", -messageObject.getDialogId());
-                    bundle.putInt("message_id", messageObject.getRealId());
-                    ChatActivity chatActivity = new ChatActivity(bundle);
-                    if (ChatObject.isForum(ChannelAdminLogActivity.this.currentChat)) {
-                        ForumUtilities.applyTopic(chatActivity, MessagesStorage.TopicKey.of(messageObject.getDialogId(), MessageObject.getTopicId(((BaseFragment) ChannelAdminLogActivity.this).currentAccount, messageObject.messageOwner, true)));
-                    }
-                    ChannelAdminLogActivity.this.presentFragment(chatActivity);
-                } else if (i == 0) {
-                    TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
-                    if (tLRPC$MessageMedia == null || (tLRPC$WebPage = tLRPC$MessageMedia.webpage) == null || tLRPC$WebPage.cached_page == null) {
-                        return;
-                    }
-                    LaunchActivity launchActivity = LaunchActivity.instance;
-                    if (launchActivity == null || launchActivity.getBottomSheetTabs() == null || LaunchActivity.instance.getBottomSheetTabs().tryReopenTab(messageObject) == null) {
-                        ChannelAdminLogActivity.this.createArticleViewer(false).open(messageObject);
-                    }
-                } else if (i == 5) {
-                    ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
-                    TLRPC$User user = channelAdminLogActivity.getMessagesController().getUser(Long.valueOf(messageObject.messageOwner.media.user_id));
-                    TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject.messageOwner.media;
-                    channelAdminLogActivity.openVCard(user, tLRPC$MessageMedia2.vcard, tLRPC$MessageMedia2.first_name, tLRPC$MessageMedia2.last_name);
-                } else {
-                    TLRPC$MessageMedia tLRPC$MessageMedia3 = messageObject.messageOwner.media;
-                    if (tLRPC$MessageMedia3 == null || tLRPC$MessageMedia3.webpage == null) {
-                        return;
-                    }
-                    Browser.openUrl(ChannelAdminLogActivity.this.getParentActivity(), messageObject.messageOwner.media.webpage.url);
-                }
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
+            public void onLayout(boolean z, int i3, int i4, int i5, int i6) {
+                ChannelAdminLogActivity.this.applyScrolledPosition();
+                super.onLayout(z, i3, i4, i5, i6);
+            }
+        };
+        this.chatListView = recyclerListView2;
+        recyclerListView2.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.ChannelAdminLogActivity.8
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+            public /* synthetic */ boolean hasDoubleTap(View view, int i3) {
+                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i3);
             }
 
-            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public void didPressBotButton(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                MessageObject messageObject = chatMessageCell.getMessageObject();
-                if (ChannelAdminLogActivity.this.expandedEvents.contains(Long.valueOf(messageObject.eventId))) {
-                    ChannelAdminLogActivity.this.expandedEvents.remove(Long.valueOf(messageObject.eventId));
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+            public /* synthetic */ void onDoubleTap(View view, int i3, float f, float f2) {
+                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i3, f, f2);
+            }
+
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+            public void onItemClick(View view, int i3, float f, float f2) {
+                MessageObject messageObject;
+                if (!(view instanceof ChatActionCell) || (messageObject = ((ChatActionCell) view).getMessageObject()) == null || messageObject.actionDeleteGroupEventId == -1) {
+                    ChannelAdminLogActivity.this.createMenu(view, f, f2);
+                    return;
+                }
+                if (ChannelAdminLogActivity.this.expandedEvents.contains(Long.valueOf(messageObject.actionDeleteGroupEventId))) {
+                    ChannelAdminLogActivity.this.expandedEvents.remove(Long.valueOf(messageObject.actionDeleteGroupEventId));
                 } else {
-                    ChannelAdminLogActivity.this.expandedEvents.add(Long.valueOf(messageObject.eventId));
+                    ChannelAdminLogActivity.this.expandedEvents.add(Long.valueOf(messageObject.actionDeleteGroupEventId));
                 }
                 ChannelAdminLogActivity.this.saveScrollPosition(true);
                 ChannelAdminLogActivity.this.filterDeletedMessages();
                 ChannelAdminLogActivity.this.chatAdapter.notifyDataSetChanged();
             }
-        }
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 3 implements ChatActionCell.ChatActionCellDelegate {
-            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-            public /* synthetic */ boolean canDrawOutboundsContent() {
-                return ChatActionCell.ChatActionCellDelegate.-CC.$default$canDrawOutboundsContent(this);
+        });
+        this.chatListView.setTag(1);
+        this.chatListView.setVerticalScrollBarEnabled(true);
+        RecyclerListView recyclerListView3 = this.chatListView;
+        ChatActivityAdapter chatActivityAdapter = new ChatActivityAdapter(context);
+        this.chatAdapter = chatActivityAdapter;
+        recyclerListView3.setAdapter(chatActivityAdapter);
+        this.chatListView.setClipToPadding(false);
+        this.chatListView.setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(3.0f));
+        RecyclerListView recyclerListView4 = this.chatListView;
+        9 r12 = new 9(null, this.chatListView, this.resourceProvider);
+        this.chatListItemAnimator = r12;
+        recyclerListView4.setItemAnimator(r12);
+        this.chatListItemAnimator.setReversePositions(true);
+        this.chatListView.setLayoutAnimation(null);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) { // from class: org.telegram.ui.ChannelAdminLogActivity.10
+            @Override // androidx.recyclerview.widget.LinearLayoutManager
+            public void scrollToPositionWithOffset(int i3, int i4) {
+                super.scrollToPositionWithOffset(i3, i4);
             }
 
-            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-            public /* synthetic */ void didClickButton(ChatActionCell chatActionCell) {
-                ChatActionCell.ChatActionCellDelegate.-CC.$default$didClickButton(this, chatActionCell);
+            @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
+            public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int i3) {
+                ChannelAdminLogActivity.this.scrollByTouch = false;
+                LinearSmoothScrollerCustom linearSmoothScrollerCustom = new LinearSmoothScrollerCustom(recyclerView.getContext(), 0);
+                linearSmoothScrollerCustom.setTargetPosition(i3);
+                startSmoothScroll(linearSmoothScrollerCustom);
             }
 
-            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-            public /* synthetic */ void didOpenPremiumGift(ChatActionCell chatActionCell, TLRPC$TL_premiumGiftOption tLRPC$TL_premiumGiftOption, String str, boolean z) {
-                ChatActionCell.ChatActionCellDelegate.-CC.$default$didOpenPremiumGift(this, chatActionCell, tLRPC$TL_premiumGiftOption, str, z);
+            @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
+            public boolean supportsPredictiveItemAnimations() {
+                return true;
             }
-
-            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-            public /* synthetic */ void didOpenPremiumGiftChannel(ChatActionCell chatActionCell, String str, boolean z) {
-                ChatActionCell.ChatActionCellDelegate.-CC.$default$didOpenPremiumGiftChannel(this, chatActionCell, str, z);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-            public void didPressReplyMessage(ChatActionCell chatActionCell, int i) {
-            }
-
-            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-            public /* synthetic */ long getTopicId() {
-                return ChatActionCell.ChatActionCellDelegate.-CC.$default$getTopicId(this);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-            public /* synthetic */ void needShowEffectOverlay(ChatActionCell chatActionCell, TLRPC$Document tLRPC$Document, TLRPC$VideoSize tLRPC$VideoSize) {
-                ChatActionCell.ChatActionCellDelegate.-CC.$default$needShowEffectOverlay(this, chatActionCell, tLRPC$Document, tLRPC$VideoSize);
-            }
-
-            3() {
-            }
-
-            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-            public void didClickImage(ChatActionCell chatActionCell) {
-                MessageObject messageObject = chatActionCell.getMessageObject();
-                if (messageObject.type == 22) {
-                    ChannelAdminLogActivity.this.presentFragment(new ChannelColorActivity(getDialogId()).setOnApplied(ChannelAdminLogActivity.this));
-                    return;
-                }
-                PhotoViewer.getInstance().setParentActivity(ChannelAdminLogActivity.this);
-                TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 640);
-                if (closestPhotoSizeWithSize == null) {
-                    PhotoViewer.getInstance().openPhoto(messageObject, (ChatActivity) null, 0L, 0L, 0L, ChannelAdminLogActivity.this.provider);
-                    return;
-                }
-                PhotoViewer.getInstance().openPhoto(closestPhotoSizeWithSize.location, ImageLocation.getForPhoto(closestPhotoSizeWithSize, messageObject.messageOwner.action.photo), ChannelAdminLogActivity.this.provider);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-            public boolean didLongPress(ChatActionCell chatActionCell, float f, float f2) {
-                return ChannelAdminLogActivity.this.createMenu(chatActionCell);
-            }
-
-            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-            public void needOpenUserProfile(long j) {
-                if (j >= 0) {
-                    if (j != UserConfig.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getClientUserId()) {
-                        Bundle bundle = new Bundle();
-                        bundle.putLong("user_id", j);
-                        ChannelAdminLogActivity.this.addCanBanUser(bundle, j);
-                        ProfileActivity profileActivity = new ProfileActivity(bundle);
-                        profileActivity.setPlayProfileAnimation(0);
-                        ChannelAdminLogActivity.this.presentFragment(profileActivity);
-                        return;
-                    }
-                    return;
-                }
-                Bundle bundle2 = new Bundle();
-                bundle2.putLong("chat_id", -j);
-                if (MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).checkCanOpenChat(bundle2, ChannelAdminLogActivity.this)) {
-                    ChannelAdminLogActivity.this.presentFragment(new ChatActivity(bundle2), true);
-                }
-            }
-
-            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-            public void needOpenInviteLink(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
-                if (ChannelAdminLogActivity.this.linviteLoading) {
-                    return;
-                }
-                Object obj = ChannelAdminLogActivity.this.invitesCache.containsKey(tLRPC$TL_chatInviteExported.link) ? ChannelAdminLogActivity.this.invitesCache.get(tLRPC$TL_chatInviteExported.link) : null;
-                if (obj == null) {
-                    TLRPC$TL_messages_getExportedChatInvite tLRPC$TL_messages_getExportedChatInvite = new TLRPC$TL_messages_getExportedChatInvite();
-                    tLRPC$TL_messages_getExportedChatInvite.peer = ChannelAdminLogActivity.this.getMessagesController().getInputPeer(-ChannelAdminLogActivity.this.currentChat.id);
-                    tLRPC$TL_messages_getExportedChatInvite.link = tLRPC$TL_chatInviteExported.link;
-                    ChannelAdminLogActivity.this.linviteLoading = true;
-                    final boolean[] zArr = new boolean[1];
-                    final AlertDialog alertDialog = new AlertDialog(ChannelAdminLogActivity.this.getParentActivity(), 3);
-                    alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$3$$ExternalSyntheticLambda0
-                        @Override // android.content.DialogInterface.OnCancelListener
-                        public final void onCancel(DialogInterface dialogInterface) {
-                            ChannelAdminLogActivity.ChatActivityAdapter.3.this.lambda$needOpenInviteLink$0(zArr, dialogInterface);
-                        }
-                    });
-                    alertDialog.showDelayed(300L);
-                    ChannelAdminLogActivity.this.getConnectionsManager().bindRequestToGuid(ChannelAdminLogActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_messages_getExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$3$$ExternalSyntheticLambda1
-                        @Override // org.telegram.tgnet.RequestDelegate
-                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            ChannelAdminLogActivity.ChatActivityAdapter.3.this.lambda$needOpenInviteLink$2(tLRPC$TL_chatInviteExported, zArr, alertDialog, tLObject, tLRPC$TL_error);
-                        }
-                    }), ((BaseFragment) ChannelAdminLogActivity.this).classGuid);
-                } else if (obj instanceof TLRPC$TL_messages_exportedChatInvite) {
-                    ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
-                    channelAdminLogActivity.showInviteLinkBottomSheet((TLRPC$TL_messages_exportedChatInvite) obj, channelAdminLogActivity.usersMap);
-                } else {
-                    BulletinFactory.of(ChannelAdminLogActivity.this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString("LinkHashExpired", R.string.LinkHashExpired)).show();
-                }
-            }
-
-            /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$needOpenInviteLink$0(boolean[] zArr, DialogInterface dialogInterface) {
-                ChannelAdminLogActivity.this.linviteLoading = false;
-                zArr[0] = true;
-            }
-
-            /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$needOpenInviteLink$2(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final boolean[] zArr, final AlertDialog alertDialog, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                TLRPC$TL_messages_exportedChatInvite tLRPC$TL_messages_exportedChatInvite;
-                if (tLRPC$TL_error == null) {
-                    tLRPC$TL_messages_exportedChatInvite = (TLRPC$TL_messages_exportedChatInvite) tLObject;
-                    for (int i = 0; i < tLRPC$TL_messages_exportedChatInvite.users.size(); i++) {
-                        TLRPC$User tLRPC$User = tLRPC$TL_messages_exportedChatInvite.users.get(i);
-                        if (ChannelAdminLogActivity.this.usersMap == null) {
-                            ChannelAdminLogActivity.this.usersMap = new HashMap();
-                        }
-                        ChannelAdminLogActivity.this.usersMap.put(Long.valueOf(tLRPC$User.id), tLRPC$User);
-                    }
-                } else {
-                    tLRPC$TL_messages_exportedChatInvite = null;
-                }
-                final TLRPC$TL_messages_exportedChatInvite tLRPC$TL_messages_exportedChatInvite2 = tLRPC$TL_messages_exportedChatInvite;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$3$$ExternalSyntheticLambda2
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ChannelAdminLogActivity.ChatActivityAdapter.3.this.lambda$needOpenInviteLink$1(tLRPC$TL_chatInviteExported, tLRPC$TL_messages_exportedChatInvite2, zArr, alertDialog);
-                    }
-                });
-            }
-
-            /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$needOpenInviteLink$1(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLRPC$TL_messages_exportedChatInvite tLRPC$TL_messages_exportedChatInvite, boolean[] zArr, AlertDialog alertDialog) {
-                ChannelAdminLogActivity.this.linviteLoading = false;
-                ChannelAdminLogActivity.this.invitesCache.put(tLRPC$TL_chatInviteExported.link, tLRPC$TL_messages_exportedChatInvite == null ? 0 : tLRPC$TL_messages_exportedChatInvite);
-                if (zArr[0]) {
-                    return;
-                }
-                alertDialog.dismiss();
-                if (tLRPC$TL_messages_exportedChatInvite != null) {
-                    ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
-                    channelAdminLogActivity.showInviteLinkBottomSheet(tLRPC$TL_messages_exportedChatInvite, channelAdminLogActivity.usersMap);
-                    return;
-                }
-                BulletinFactory.of(ChannelAdminLogActivity.this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString("LinkHashExpired", R.string.LinkHashExpired)).show();
-            }
-
-            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-            public BaseFragment getBaseFragment() {
-                return ChannelAdminLogActivity.this;
-            }
-
-            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-            public long getDialogId() {
-                return -ChannelAdminLogActivity.this.currentChat.id;
-            }
-        }
-
-        /* JADX WARN: Code restructure failed: missing block: B:33:0x00c8, code lost:
-            if (r9 != (r6 == null ? org.telegram.messenger.MessageObject.getTopicId(((org.telegram.ui.ActionBar.BaseFragment) r13.this$0).currentAccount, r3.messageOwner, true) : r6.id)) goto L61;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:57:0x0147, code lost:
-            if (r5 != (r3 == null ? org.telegram.messenger.MessageObject.getTopicId(((org.telegram.ui.ActionBar.BaseFragment) r13.this$0).currentAccount, r14.messageOwner, true) : r3.id)) goto L59;
-         */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x00d1  */
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            boolean z;
-            boolean z2;
-            if (i == this.loadingUpRow) {
-                ((ChatLoadingCell) viewHolder.itemView).setProgressVisible(true);
-            } else if (i < this.messagesStartRow || i >= this.messagesEndRow) {
-            } else {
-                MessageObject messageObject = (MessageObject) ChannelAdminLogActivity.this.filteredMessages.get((ChannelAdminLogActivity.this.filteredMessages.size() - (i - this.messagesStartRow)) - 1);
-                View view = viewHolder.itemView;
-                if (view instanceof ChatMessageCell) {
-                    ChatMessageCell chatMessageCell = (ChatMessageCell) view;
-                    chatMessageCell.isChat = true;
-                    int i2 = i + 1;
-                    int itemViewType = getItemViewType(i2);
-                    int itemViewType2 = getItemViewType(i - 1);
-                    if (!(messageObject.messageOwner.reply_markup instanceof TLRPC$TL_replyInlineMarkup) && itemViewType == viewHolder.getItemViewType()) {
-                        MessageObject messageObject2 = (MessageObject) ChannelAdminLogActivity.this.filteredMessages.get((ChannelAdminLogActivity.this.filteredMessages.size() - (i2 - this.messagesStartRow)) - 1);
-                        z = messageObject2.isOutOwner() == messageObject.isOutOwner() && messageObject2.getFromChatId() == messageObject.getFromChatId() && Math.abs(messageObject2.messageOwner.date - messageObject.messageOwner.date) <= 300;
-                        if (z) {
-                            TLRPC$TL_forumTopic tLRPC$TL_forumTopic = messageObject.replyToForumTopic;
-                            long topicId = tLRPC$TL_forumTopic == null ? MessageObject.getTopicId(((BaseFragment) ChannelAdminLogActivity.this).currentAccount, messageObject.messageOwner, true) : tLRPC$TL_forumTopic.id;
-                            TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = messageObject2.replyToForumTopic;
-                        }
-                        if (itemViewType2 == viewHolder.getItemViewType()) {
-                            MessageObject messageObject3 = (MessageObject) ChannelAdminLogActivity.this.filteredMessages.get(ChannelAdminLogActivity.this.filteredMessages.size() - (i - this.messagesStartRow));
-                            z2 = !(messageObject3.messageOwner.reply_markup instanceof TLRPC$TL_replyInlineMarkup) && messageObject3.isOutOwner() == messageObject.isOutOwner() && messageObject3.getFromChatId() == messageObject.getFromChatId() && Math.abs(messageObject3.messageOwner.date - messageObject.messageOwner.date) <= 300;
-                            if (z2) {
-                                TLRPC$TL_forumTopic tLRPC$TL_forumTopic3 = messageObject.replyToForumTopic;
-                                long topicId2 = tLRPC$TL_forumTopic3 == null ? MessageObject.getTopicId(((BaseFragment) ChannelAdminLogActivity.this).currentAccount, messageObject.messageOwner, true) : tLRPC$TL_forumTopic3.id;
-                                TLRPC$TL_forumTopic tLRPC$TL_forumTopic4 = messageObject3.replyToForumTopic;
-                            }
-                            chatMessageCell.setMessageObject(messageObject, null, z, z2);
-                            chatMessageCell.setHighlighted(false);
-                            chatMessageCell.setHighlightedText(ChannelAdminLogActivity.this.searchQuery);
-                        }
-                        z2 = false;
-                        chatMessageCell.setMessageObject(messageObject, null, z, z2);
-                        chatMessageCell.setHighlighted(false);
-                        chatMessageCell.setHighlightedText(ChannelAdminLogActivity.this.searchQuery);
-                    }
-                    z = false;
-                    if (itemViewType2 == viewHolder.getItemViewType()) {
-                    }
-                    z2 = false;
-                    chatMessageCell.setMessageObject(messageObject, null, z, z2);
-                    chatMessageCell.setHighlighted(false);
-                    chatMessageCell.setHighlightedText(ChannelAdminLogActivity.this.searchQuery);
-                } else if (view instanceof ChatActionCell) {
-                    ChatActionCell chatActionCell = (ChatActionCell) view;
-                    chatActionCell.setMessageObject(messageObject);
-                    chatActionCell.setAlpha(1.0f);
-                }
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public int getItemViewType(int i) {
-            if (i < this.messagesStartRow || i >= this.messagesEndRow) {
-                return 4;
-            }
-            return ((MessageObject) ChannelAdminLogActivity.this.filteredMessages.get((ChannelAdminLogActivity.this.filteredMessages.size() - (i - this.messagesStartRow)) - 1)).contentType;
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void onViewAttachedToWindow(final RecyclerView.ViewHolder viewHolder) {
-            final View view = viewHolder.itemView;
-            if ((view instanceof ChatMessageCell) || (view instanceof ChatActionCell)) {
-                view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.ChannelAdminLogActivity.ChatActivityAdapter.4
-                    @Override // android.view.ViewTreeObserver.OnPreDrawListener
-                    public boolean onPreDraw() {
-                        view.getViewTreeObserver().removeOnPreDrawListener(this);
-                        int measuredHeight = ChannelAdminLogActivity.this.chatListView.getMeasuredHeight();
-                        int top = view.getTop();
-                        view.getBottom();
-                        int i = top >= 0 ? 0 : -top;
-                        int measuredHeight2 = view.getMeasuredHeight();
-                        if (measuredHeight2 > measuredHeight) {
-                            measuredHeight2 = i + measuredHeight;
-                        }
-                        View view2 = viewHolder.itemView;
-                        if (view2 instanceof ChatMessageCell) {
-                            ((ChatMessageCell) view).setVisiblePart(i, measuredHeight2 - i, (ChannelAdminLogActivity.this.contentView.getHeightWithKeyboard() - AndroidUtilities.dp(48.0f)) - ChannelAdminLogActivity.this.chatListView.getTop(), 0.0f, (view.getY() + ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getMeasuredHeight()) - ChannelAdminLogActivity.this.contentView.getBackgroundTranslationY(), ChannelAdminLogActivity.this.contentView.getMeasuredWidth(), ChannelAdminLogActivity.this.contentView.getBackgroundSizeY(), 0, 0);
-                            return true;
-                        } else if (!(view2 instanceof ChatActionCell) || ((BaseFragment) ChannelAdminLogActivity.this).actionBar == null || ChannelAdminLogActivity.this.contentView == null) {
-                            return true;
-                        } else {
-                            View view3 = view;
-                            ((ChatActionCell) view3).setVisiblePart((view3.getY() + ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getMeasuredHeight()) - ChannelAdminLogActivity.this.contentView.getBackgroundTranslationY(), ChannelAdminLogActivity.this.contentView.getBackgroundSizeY());
-                            return true;
-                        }
-                    }
-                });
-            }
-            View view2 = viewHolder.itemView;
-            if (view2 instanceof ChatMessageCell) {
-                ChatMessageCell chatMessageCell = (ChatMessageCell) view2;
-                chatMessageCell.getMessageObject();
-                chatMessageCell.setBackgroundDrawable(null);
-                chatMessageCell.setCheckPressed(true, false);
-                chatMessageCell.setHighlighted(false);
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyDataSetChanged() {
-            updateRows();
-            try {
-                super.notifyDataSetChanged();
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyItemChanged(int i) {
-            updateRows(false);
-            try {
-                super.notifyItemChanged(i);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyItemRangeChanged(int i, int i2) {
-            updateRows(false);
-            try {
-                super.notifyItemRangeChanged(i, i2);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyItemInserted(int i) {
-            updateRows(false);
-            try {
-                super.notifyItemInserted(i);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyItemMoved(int i, int i2) {
-            updateRows(false);
-            try {
-                super.notifyItemMoved(i, i2);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyItemRangeInserted(int i, int i2) {
-            updateRows(false);
-            try {
-                super.notifyItemRangeInserted(i, i2);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyItemRemoved(int i) {
-            updateRows(false);
-            try {
-                super.notifyItemRemoved(i);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyItemRangeRemoved(int i, int i2) {
-            updateRows(false);
-            try {
-                super.notifyItemRangeRemoved(i, i2);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public static /* synthetic */ class 24 {
-        static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$AvatarPreviewer$MenuItem;
-
-        static {
-            int[] iArr = new int[AvatarPreviewer.MenuItem.values().length];
-            $SwitchMap$org$telegram$ui$AvatarPreviewer$MenuItem = iArr;
-            try {
-                iArr[AvatarPreviewer.MenuItem.SEND_MESSAGE.ordinal()] = 1;
-            } catch (NoSuchFieldError unused) {
-            }
-            try {
-                $SwitchMap$org$telegram$ui$AvatarPreviewer$MenuItem[AvatarPreviewer.MenuItem.OPEN_PROFILE.ordinal()] = 2;
-            } catch (NoSuchFieldError unused2) {
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void showInviteLinkBottomSheet(TLRPC$TL_messages_exportedChatInvite tLRPC$TL_messages_exportedChatInvite, HashMap<Long, TLRPC$User> hashMap) {
-        TLRPC$ChatFull chatFull = getMessagesController().getChatFull(this.currentChat.id);
-        InviteLinkBottomSheet inviteLinkBottomSheet = new InviteLinkBottomSheet(this.contentView.getContext(), (TLRPC$TL_chatInviteExported) tLRPC$TL_messages_exportedChatInvite.invite, chatFull, hashMap, this, chatFull.id, false, ChatObject.isChannel(this.currentChat));
-        inviteLinkBottomSheet.setInviteDelegate(new InviteLinkBottomSheet.InviteDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity.23
-            @Override // org.telegram.ui.Components.InviteLinkBottomSheet.InviteDelegate
-            public void permanentLinkReplaced(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2) {
-            }
-
-            @Override // org.telegram.ui.Components.InviteLinkBottomSheet.InviteDelegate
-            public void linkRevoked(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
-                TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent = new TLRPC$TL_channelAdminLogEvent();
-                int size = ChannelAdminLogActivity.this.filteredMessages.size();
-                tLRPC$TL_chatInviteExported.revoked = true;
-                TLRPC$TL_channelAdminLogEventActionExportedInviteRevoke tLRPC$TL_channelAdminLogEventActionExportedInviteRevoke = new TLRPC$TL_channelAdminLogEventActionExportedInviteRevoke();
-                tLRPC$TL_channelAdminLogEventActionExportedInviteRevoke.invite = tLRPC$TL_chatInviteExported;
-                tLRPC$TL_channelAdminLogEvent.action = tLRPC$TL_channelAdminLogEventActionExportedInviteRevoke;
-                tLRPC$TL_channelAdminLogEvent.date = (int) (System.currentTimeMillis() / 1000);
-                tLRPC$TL_channelAdminLogEvent.user_id = ChannelAdminLogActivity.this.getAccountInstance().getUserConfig().clientUserId;
-                int i = ((BaseFragment) ChannelAdminLogActivity.this).currentAccount;
-                ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
-                ArrayList<MessageObject> arrayList = channelAdminLogActivity.messages;
-                HashMap hashMap2 = channelAdminLogActivity.messagesByDays;
-                ChannelAdminLogActivity channelAdminLogActivity2 = ChannelAdminLogActivity.this;
-                if (new MessageObject(i, tLRPC$TL_channelAdminLogEvent, arrayList, (HashMap<String, ArrayList<MessageObject>>) hashMap2, channelAdminLogActivity2.currentChat, channelAdminLogActivity2.mid, true).contentType < 0) {
-                    return;
-                }
-                ChannelAdminLogActivity.this.filterDeletedMessages();
-                int size2 = ChannelAdminLogActivity.this.filteredMessages.size() - size;
-                if (size2 > 0) {
-                    ChannelAdminLogActivity.this.chatListItemAnimator.setShouldAnimateEnterFromBottom(true);
-                    ChannelAdminLogActivity.this.chatAdapter.notifyItemRangeInserted(ChannelAdminLogActivity.this.chatAdapter.messagesEndRow, size2);
-                    ChannelAdminLogActivity.this.moveScrollToLastMessage();
-                }
-                ChannelAdminLogActivity.this.invitesCache.remove(tLRPC$TL_chatInviteExported.link);
-            }
-
-            @Override // org.telegram.ui.Components.InviteLinkBottomSheet.InviteDelegate
-            public void onLinkDeleted(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
-                int size = ChannelAdminLogActivity.this.filteredMessages.size();
-                int unused = ChannelAdminLogActivity.this.chatAdapter.messagesEndRow;
-                TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent = new TLRPC$TL_channelAdminLogEvent();
-                TLRPC$TL_channelAdminLogEventActionExportedInviteDelete tLRPC$TL_channelAdminLogEventActionExportedInviteDelete = new TLRPC$TL_channelAdminLogEventActionExportedInviteDelete();
-                tLRPC$TL_channelAdminLogEventActionExportedInviteDelete.invite = tLRPC$TL_chatInviteExported;
-                tLRPC$TL_channelAdminLogEvent.action = tLRPC$TL_channelAdminLogEventActionExportedInviteDelete;
-                tLRPC$TL_channelAdminLogEvent.date = (int) (System.currentTimeMillis() / 1000);
-                tLRPC$TL_channelAdminLogEvent.user_id = ChannelAdminLogActivity.this.getAccountInstance().getUserConfig().clientUserId;
-                int i = ((BaseFragment) ChannelAdminLogActivity.this).currentAccount;
-                ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
-                ArrayList<MessageObject> arrayList = channelAdminLogActivity.messages;
-                HashMap hashMap2 = channelAdminLogActivity.messagesByDays;
-                ChannelAdminLogActivity channelAdminLogActivity2 = ChannelAdminLogActivity.this;
-                if (new MessageObject(i, tLRPC$TL_channelAdminLogEvent, arrayList, (HashMap<String, ArrayList<MessageObject>>) hashMap2, channelAdminLogActivity2.currentChat, channelAdminLogActivity2.mid, true).contentType < 0) {
-                    return;
-                }
-                ChannelAdminLogActivity.this.filterDeletedMessages();
-                int size2 = ChannelAdminLogActivity.this.filteredMessages.size() - size;
-                if (size2 > 0) {
-                    ChannelAdminLogActivity.this.chatListItemAnimator.setShouldAnimateEnterFromBottom(true);
-                    ChannelAdminLogActivity.this.chatAdapter.notifyItemRangeInserted(ChannelAdminLogActivity.this.chatAdapter.messagesEndRow, size2);
-                    ChannelAdminLogActivity.this.moveScrollToLastMessage();
-                }
-                ChannelAdminLogActivity.this.invitesCache.remove(tLRPC$TL_chatInviteExported.link);
-            }
-
-            @Override // org.telegram.ui.Components.InviteLinkBottomSheet.InviteDelegate
-            public void onLinkEdited(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
-                TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent = new TLRPC$TL_channelAdminLogEvent();
-                TLRPC$TL_channelAdminLogEventActionExportedInviteEdit tLRPC$TL_channelAdminLogEventActionExportedInviteEdit = new TLRPC$TL_channelAdminLogEventActionExportedInviteEdit();
-                tLRPC$TL_channelAdminLogEventActionExportedInviteEdit.new_invite = tLRPC$TL_chatInviteExported;
-                tLRPC$TL_channelAdminLogEventActionExportedInviteEdit.prev_invite = tLRPC$TL_chatInviteExported;
-                tLRPC$TL_channelAdminLogEvent.action = tLRPC$TL_channelAdminLogEventActionExportedInviteEdit;
-                tLRPC$TL_channelAdminLogEvent.date = (int) (System.currentTimeMillis() / 1000);
-                tLRPC$TL_channelAdminLogEvent.user_id = ChannelAdminLogActivity.this.getAccountInstance().getUserConfig().clientUserId;
-                int i = ((BaseFragment) ChannelAdminLogActivity.this).currentAccount;
-                ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
-                ArrayList<MessageObject> arrayList = channelAdminLogActivity.messages;
-                HashMap hashMap2 = channelAdminLogActivity.messagesByDays;
-                ChannelAdminLogActivity channelAdminLogActivity2 = ChannelAdminLogActivity.this;
-                if (new MessageObject(i, tLRPC$TL_channelAdminLogEvent, arrayList, (HashMap<String, ArrayList<MessageObject>>) hashMap2, channelAdminLogActivity2.currentChat, channelAdminLogActivity2.mid, true).contentType < 0) {
-                    return;
-                }
-                ChannelAdminLogActivity.this.filterDeletedMessages();
-                ChannelAdminLogActivity.this.chatAdapter.notifyDataSetChanged();
-                ChannelAdminLogActivity.this.moveScrollToLastMessage();
+        };
+        this.chatLayoutManager = linearLayoutManager;
+        linearLayoutManager.setOrientation(1);
+        this.chatLayoutManager.setStackFromEnd(true);
+        this.chatListView.setLayoutManager(this.chatLayoutManager);
+        RecyclerAnimationScrollHelper recyclerAnimationScrollHelper = new RecyclerAnimationScrollHelper(this.chatListView, this.chatLayoutManager);
+        this.chatScrollHelper = recyclerAnimationScrollHelper;
+        recyclerAnimationScrollHelper.setScrollListener(new RecyclerAnimationScrollHelper.ScrollListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda1
+            @Override // org.telegram.ui.Components.RecyclerAnimationScrollHelper.ScrollListener
+            public final void onScroll() {
+                ChannelAdminLogActivity.this.updateMessagesVisiblePart();
             }
         });
-        inviteLinkBottomSheet.show();
+        this.chatScrollHelper.setAnimationCallback(this.chatScrollHelperCallback);
+        this.contentView.addView(this.chatListView, LayoutHelper.createFrame(-1, -1.0f));
+        this.chatListView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ChannelAdminLogActivity.11
+            private float totalDy = 0.0f;
+            private final int scrollValue = AndroidUtilities.dp(100.0f);
+
+            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+            public void onScrollStateChanged(RecyclerView recyclerView, int i3) {
+                if (i3 == 1) {
+                    ChannelAdminLogActivity.this.scrollingFloatingDate = true;
+                    ChannelAdminLogActivity.this.checkTextureViewPosition = true;
+                } else if (i3 == 0) {
+                    ChannelAdminLogActivity.this.scrollingFloatingDate = false;
+                    ChannelAdminLogActivity.this.checkTextureViewPosition = false;
+                    ChannelAdminLogActivity.this.hideFloatingDateView(true);
+                }
+            }
+
+            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+            public void onScrolled(RecyclerView recyclerView, int i3, int i4) {
+                ChannelAdminLogActivity.this.chatListView.invalidate();
+                if (i4 != 0 && ChannelAdminLogActivity.this.scrollingFloatingDate && !ChannelAdminLogActivity.this.currentFloatingTopIsNotMessage && ChannelAdminLogActivity.this.floatingDateView.getTag() == null) {
+                    if (ChannelAdminLogActivity.this.floatingDateAnimation != null) {
+                        ChannelAdminLogActivity.this.floatingDateAnimation.cancel();
+                    }
+                    ChannelAdminLogActivity.this.floatingDateView.setTag(1);
+                    ChannelAdminLogActivity.this.floatingDateAnimation = new AnimatorSet();
+                    ChannelAdminLogActivity.this.floatingDateAnimation.setDuration(150L);
+                    ChannelAdminLogActivity.this.floatingDateAnimation.playTogether(ObjectAnimator.ofFloat(ChannelAdminLogActivity.this.floatingDateView, "alpha", 1.0f));
+                    ChannelAdminLogActivity.this.floatingDateAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChannelAdminLogActivity.11.1
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            if (animator.equals(ChannelAdminLogActivity.this.floatingDateAnimation)) {
+                                ChannelAdminLogActivity.this.floatingDateAnimation = null;
+                            }
+                        }
+                    });
+                    ChannelAdminLogActivity.this.floatingDateAnimation.start();
+                }
+                ChannelAdminLogActivity.this.checkScrollForLoad(true);
+                ChannelAdminLogActivity.this.updateMessagesVisiblePart();
+            }
+        });
+        int i3 = this.scrollToPositionOnRecreate;
+        if (i3 != -1) {
+            this.chatLayoutManager.scrollToPositionWithOffset(i3, this.scrollToOffsetOnRecreate);
+            this.scrollToPositionOnRecreate = -1;
+        }
+        FrameLayout frameLayout3 = new FrameLayout(context);
+        this.progressView = frameLayout3;
+        frameLayout3.setVisibility(4);
+        this.contentView.addView(this.progressView, LayoutHelper.createFrame(-1, -1, 51));
+        View view = new View(context);
+        this.progressView2 = view;
+        view.setBackground(Theme.createServiceDrawable(AndroidUtilities.dp(18.0f), this.progressView2, this.contentView));
+        this.progressView.addView(this.progressView2, LayoutHelper.createFrame(36, 36, 17));
+        RadialProgressView radialProgressView = new RadialProgressView(context);
+        this.progressBar = radialProgressView;
+        radialProgressView.setSize(AndroidUtilities.dp(28.0f));
+        this.progressBar.setProgressColor(Theme.getColor(i2));
+        this.progressView.addView(this.progressBar, LayoutHelper.createFrame(32, 32, 17));
+        ChatActionCell chatActionCell = new ChatActionCell(context);
+        this.floatingDateView = chatActionCell;
+        chatActionCell.setAlpha(0.0f);
+        this.floatingDateView.setImportantForAccessibility(2);
+        this.contentView.addView(this.floatingDateView, LayoutHelper.createFrame(-2, -2.0f, 49, 0.0f, 4.0f, 0.0f, 0.0f));
+        this.contentView.addView(this.actionBar);
+        FrameLayout frameLayout4 = new FrameLayout(context) { // from class: org.telegram.ui.ChannelAdminLogActivity.12
+            @Override // android.view.View
+            public void onDraw(Canvas canvas) {
+                int intrinsicHeight = Theme.chat_composeShadowDrawable.getIntrinsicHeight();
+                Theme.chat_composeShadowDrawable.setBounds(0, 0, getMeasuredWidth(), intrinsicHeight);
+                Theme.chat_composeShadowDrawable.draw(canvas);
+                canvas.drawRect(0.0f, intrinsicHeight, getMeasuredWidth(), getMeasuredHeight(), Theme.chat_composeBackgroundPaint);
+            }
+        };
+        this.bottomOverlayChat = frameLayout4;
+        frameLayout4.setWillNotDraw(false);
+        this.bottomOverlayChat.setPadding(0, AndroidUtilities.dp(3.0f), 0, 0);
+        this.contentView.addView(this.bottomOverlayChat, LayoutHelper.createFrame(-1, 51, 80));
+        this.bottomOverlayChat.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda2
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view2) {
+                ChannelAdminLogActivity.this.lambda$createView$9(view2);
+            }
+        });
+        TextView textView3 = new TextView(context);
+        this.bottomOverlayChatText = textView3;
+        textView3.setTextSize(1, 15.0f);
+        this.bottomOverlayChatText.setTypeface(AndroidUtilities.bold());
+        TextView textView4 = this.bottomOverlayChatText;
+        int i4 = Theme.key_chat_fieldOverlayText;
+        textView4.setTextColor(Theme.getColor(i4));
+        this.bottomOverlayChatText.setText(LocaleController.getString("SETTINGS", R.string.SETTINGS).toUpperCase());
+        this.bottomOverlayChat.addView(this.bottomOverlayChatText, LayoutHelper.createFrame(-2, -2, 17));
+        ImageView imageView2 = new ImageView(context);
+        this.bottomOverlayImage = imageView2;
+        imageView2.setImageResource(R.drawable.msg_help);
+        ImageView imageView3 = this.bottomOverlayImage;
+        int color = Theme.getColor(i4);
+        PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+        imageView3.setColorFilter(new PorterDuffColorFilter(color, mode));
+        this.bottomOverlayImage.setScaleType(scaleType);
+        this.bottomOverlayChat.addView(this.bottomOverlayImage, LayoutHelper.createFrame(48, 48.0f, 53, 3.0f, 0.0f, 0.0f, 0.0f));
+        this.bottomOverlayImage.setContentDescription(LocaleController.getString("BotHelp", R.string.BotHelp));
+        this.bottomOverlayImage.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view2) {
+                ChannelAdminLogActivity.this.lambda$createView$10(view2);
+            }
+        });
+        FrameLayout frameLayout5 = new FrameLayout(context) { // from class: org.telegram.ui.ChannelAdminLogActivity.13
+            @Override // android.view.View
+            public void onDraw(Canvas canvas) {
+                int intrinsicHeight = Theme.chat_composeShadowDrawable.getIntrinsicHeight();
+                Theme.chat_composeShadowDrawable.setBounds(0, 0, getMeasuredWidth(), intrinsicHeight);
+                Theme.chat_composeShadowDrawable.draw(canvas);
+                canvas.drawRect(0.0f, intrinsicHeight, getMeasuredWidth(), getMeasuredHeight(), Theme.chat_composeBackgroundPaint);
+            }
+        };
+        this.searchContainer = frameLayout5;
+        frameLayout5.setWillNotDraw(false);
+        this.searchContainer.setVisibility(4);
+        this.searchContainer.setFocusable(true);
+        this.searchContainer.setFocusableInTouchMode(true);
+        this.searchContainer.setClickable(true);
+        this.searchContainer.setPadding(0, AndroidUtilities.dp(3.0f), 0, 0);
+        this.contentView.addView(this.searchContainer, LayoutHelper.createFrame(-1, 51, 80));
+        ImageView imageView4 = new ImageView(context);
+        this.searchCalendarButton = imageView4;
+        imageView4.setScaleType(scaleType);
+        this.searchCalendarButton.setImageResource(R.drawable.msg_calendar);
+        this.searchCalendarButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_searchPanelIcons), mode));
+        this.searchContainer.addView(this.searchCalendarButton, LayoutHelper.createFrame(48, 48, 53));
+        this.searchCalendarButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda4
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view2) {
+                ChannelAdminLogActivity.this.lambda$createView$12(view2);
+            }
+        });
+        SimpleTextView simpleTextView = new SimpleTextView(context);
+        this.searchCountText = simpleTextView;
+        simpleTextView.setTextColor(Theme.getColor(Theme.key_chat_searchPanelText));
+        this.searchCountText.setTextSize(15);
+        this.searchCountText.setTypeface(AndroidUtilities.bold());
+        this.searchContainer.addView(this.searchCountText, LayoutHelper.createFrame(-1, -2.0f, 19, 108.0f, 0.0f, 0.0f, 0.0f));
+        this.chatAdapter.updateRows();
+        if (this.loading && this.messages.isEmpty()) {
+            AndroidUtilities.updateViewVisibilityAnimated(this.progressView, true, 0.3f, true);
+            recyclerListView = this.chatListView;
+            frameLayout = null;
+        } else {
+            AndroidUtilities.updateViewVisibilityAnimated(this.progressView, false, 0.3f, true);
+            recyclerListView = this.chatListView;
+            frameLayout = this.emptyViewContainer;
+        }
+        recyclerListView.setEmptyView(frameLayout);
+        this.chatListView.setAnimateEmptyView(true, 1);
+        UndoView undoView = new UndoView(context);
+        this.undoView = undoView;
+        undoView.setAdditionalTranslationY(AndroidUtilities.dp(51.0f));
+        this.contentView.addView(this.undoView, LayoutHelper.createFrame(-1, -2.0f, 83, 8.0f, 0.0f, 8.0f, 8.0f));
+        updateEmptyPlaceholder();
+        return this.fragmentView;
+    }
+
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        ChatMessageCell chatMessageCell;
+        MessageObject messageObject;
+        RecyclerListView recyclerListView;
+        ChatMessageCell chatMessageCell2;
+        MessageObject messageObject2;
+        ChatMessageCell chatMessageCell3;
+        MessageObject messageObject3;
+        if (i == NotificationCenter.emojiLoaded) {
+            recyclerListView = this.chatListView;
+            if (recyclerListView == null) {
+                return;
+            }
+        } else {
+            if (i == NotificationCenter.messagePlayingDidStart) {
+                if (((MessageObject) objArr[0]).isRoundVideo()) {
+                    MediaController.getInstance().setTextureView(createTextureView(true), this.aspectRatioFrameLayout, this.roundVideoContainer, true);
+                    updateTextureViewPosition();
+                }
+                RecyclerListView recyclerListView2 = this.chatListView;
+                if (recyclerListView2 != null) {
+                    int childCount = recyclerListView2.getChildCount();
+                    for (int i3 = 0; i3 < childCount; i3++) {
+                        View childAt = this.chatListView.getChildAt(i3);
+                        if ((childAt instanceof ChatMessageCell) && (messageObject3 = (chatMessageCell3 = (ChatMessageCell) childAt).getMessageObject()) != null) {
+                            if (messageObject3.isVoice() || messageObject3.isMusic()) {
+                                chatMessageCell3.updateButtonState(false, true, false);
+                            } else if (messageObject3.isRoundVideo()) {
+                                chatMessageCell3.checkVideoPlayback(false, null);
+                                if (!MediaController.getInstance().isPlayingMessage(messageObject3) && messageObject3.audioProgress != 0.0f) {
+                                    messageObject3.resetPlayingProgress();
+                                    chatMessageCell3.invalidate();
+                                }
+                            }
+                        }
+                    }
+                    return;
+                }
+                return;
+            } else if (i == NotificationCenter.messagePlayingDidReset || i == NotificationCenter.messagePlayingPlayStateChanged) {
+                RecyclerListView recyclerListView3 = this.chatListView;
+                if (recyclerListView3 != null) {
+                    int childCount2 = recyclerListView3.getChildCount();
+                    for (int i4 = 0; i4 < childCount2; i4++) {
+                        View childAt2 = this.chatListView.getChildAt(i4);
+                        if ((childAt2 instanceof ChatMessageCell) && (messageObject = (chatMessageCell = (ChatMessageCell) childAt2).getMessageObject()) != null) {
+                            if (messageObject.isVoice() || messageObject.isMusic()) {
+                                chatMessageCell.updateButtonState(false, true, false);
+                            } else if (messageObject.isRoundVideo() && !MediaController.getInstance().isPlayingMessage(messageObject)) {
+                                chatMessageCell.checkVideoPlayback(true, null);
+                            }
+                        }
+                    }
+                    return;
+                }
+                return;
+            } else if (i == NotificationCenter.messagePlayingProgressDidChanged) {
+                Integer num = (Integer) objArr[0];
+                RecyclerListView recyclerListView4 = this.chatListView;
+                if (recyclerListView4 != null) {
+                    int childCount3 = recyclerListView4.getChildCount();
+                    for (int i5 = 0; i5 < childCount3; i5++) {
+                        View childAt3 = this.chatListView.getChildAt(i5);
+                        if ((childAt3 instanceof ChatMessageCell) && (messageObject2 = (chatMessageCell2 = (ChatMessageCell) childAt3).getMessageObject()) != null && messageObject2.getId() == num.intValue()) {
+                            MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
+                            if (playingMessageObject != null) {
+                                messageObject2.audioProgress = playingMessageObject.audioProgress;
+                                messageObject2.audioProgressSec = playingMessageObject.audioProgressSec;
+                                messageObject2.audioPlayerDuration = playingMessageObject.audioPlayerDuration;
+                                chatMessageCell2.updatePlayingMessageProgress();
+                                return;
+                            }
+                            return;
+                        }
+                    }
+                    return;
+                }
+                return;
+            } else if (i != NotificationCenter.didSetNewWallpapper || this.fragmentView == null) {
+                return;
+            } else {
+                this.contentView.setBackgroundImage(Theme.getCachedWallpaper(), Theme.isWallpaperMotion());
+                this.progressView2.invalidate();
+                TextView textView = this.emptyView;
+                if (textView != null) {
+                    textView.invalidate();
+                }
+                recyclerListView = this.chatListView;
+            }
+        }
+        recyclerListView.invalidateViews();
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ArrayList<ThemeDescription> arrayList = new ArrayList<>();
+    public ArrayList getThemeDescriptions() {
+        ArrayList arrayList = new ArrayList();
         arrayList.add(new ThemeDescription(this.fragmentView, 0, null, null, null, null, Theme.key_chat_wallpaper));
         ActionBar actionBar = this.actionBar;
         int i = ThemeDescription.FLAG_BACKGROUND;
@@ -4549,6 +4670,245 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         return arrayList;
     }
 
+    public boolean isKeyboardVisible() {
+        return this.contentView.getKeyboardHeight() > AndroidUtilities.dp(20.0f);
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onBecomeFullyHidden() {
+        UndoView undoView = this.undoView;
+        if (undoView != null) {
+            undoView.hide(true, 0);
+        }
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onConfigurationChanged(Configuration configuration) {
+        Dialog dialog = this.visibleDialog;
+        if (dialog instanceof DatePickerDialog) {
+            dialog.dismiss();
+        }
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public boolean onFragmentCreate() {
+        super.onFragmentCreate();
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messagePlayingDidStart);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messagePlayingDidReset);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messagePlayingProgressDidChanged);
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didSetNewWallpapper);
+        loadMessages(true);
+        loadAdmins();
+        Bulletin.addDelegate(this, new Bulletin.Delegate() { // from class: org.telegram.ui.ChannelAdminLogActivity.2
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean allowLayoutChanges() {
+                return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean bottomOffsetAnimated() {
+                return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean clipWithGradient(int i) {
+                return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public int getBottomOffset(int i) {
+                return AndroidUtilities.dp(51.0f);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ int getTopOffset(int i) {
+                return Bulletin.Delegate.-CC.$default$getTopOffset(this, i);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onBottomOffsetChange(float f) {
+                Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onHide(Bulletin bulletin) {
+                Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onShow(Bulletin bulletin) {
+                Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
+            }
+        });
+        return true;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onFragmentDestroy() {
+        super.onFragmentDestroy();
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidStart);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidReset);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingProgressDidChanged);
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.didSetNewWallpapper);
+        this.notificationsLocker.unlock();
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onPause() {
+        super.onPause();
+        SizeNotifierFrameLayout sizeNotifierFrameLayout = this.contentView;
+        if (sizeNotifierFrameLayout != null) {
+            sizeNotifierFrameLayout.onPause();
+        }
+        UndoView undoView = this.undoView;
+        if (undoView != null) {
+            undoView.hide(true, 0);
+        }
+        this.paused = true;
+        this.wasPaused = true;
+        if (AvatarPreviewer.hasVisibleInstance()) {
+            AvatarPreviewer.getInstance().close();
+        }
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onRemoveFromParent() {
+        MediaController.getInstance().setTextureView(this.videoTextureView, null, null, false);
+        super.onRemoveFromParent();
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onResume() {
+        super.onResume();
+        this.activityResumeTime = System.currentTimeMillis();
+        SizeNotifierFrameLayout sizeNotifierFrameLayout = this.contentView;
+        if (sizeNotifierFrameLayout != null) {
+            sizeNotifierFrameLayout.onResume();
+        }
+        this.paused = false;
+        checkScrollForLoad(false);
+        if (this.wasPaused) {
+            this.wasPaused = false;
+            ChatActivityAdapter chatActivityAdapter = this.chatAdapter;
+            if (chatActivityAdapter != null) {
+                chatActivityAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onTransitionAnimationEnd(boolean z, boolean z2) {
+        if (z) {
+            this.notificationsLocker.unlock();
+            this.openAnimationEnded = true;
+        }
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onTransitionAnimationStart(boolean z, boolean z2) {
+        if (z) {
+            this.notificationsLocker.lock();
+            this.openAnimationEnded = false;
+        }
+    }
+
+    public void openVCard(TLRPC$User tLRPC$User, String str, String str2, String str3) {
+        try {
+            File sharingDirectory = AndroidUtilities.getSharingDirectory();
+            sharingDirectory.mkdirs();
+            File file = new File(sharingDirectory, "vcard.vcf");
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+            bufferedWriter.write(str);
+            bufferedWriter.close();
+            showDialog(new PhonebookShareAlert(this, null, tLRPC$User, null, file, str2, str3));
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+    }
+
+    /* renamed from: reloadLastMessages */
+    public void lambda$processSelectedOption$20() {
+        if (this.reloadingLastMessages) {
+            return;
+        }
+        this.reloadingLastMessages = true;
+        TLRPC$TL_channels_getAdminLog tLRPC$TL_channels_getAdminLog = new TLRPC$TL_channels_getAdminLog();
+        tLRPC$TL_channels_getAdminLog.channel = MessagesController.getInputChannel(this.currentChat);
+        tLRPC$TL_channels_getAdminLog.q = this.searchQuery;
+        tLRPC$TL_channels_getAdminLog.limit = 10;
+        tLRPC$TL_channels_getAdminLog.max_id = 0L;
+        tLRPC$TL_channels_getAdminLog.min_id = 0L;
+        TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter = this.currentFilter;
+        if (tLRPC$TL_channelAdminLogEventsFilter != null) {
+            tLRPC$TL_channels_getAdminLog.flags = 1 | tLRPC$TL_channels_getAdminLog.flags;
+            tLRPC$TL_channels_getAdminLog.events_filter = tLRPC$TL_channelAdminLogEventsFilter;
+        }
+        if (this.selectedAdmins != null) {
+            tLRPC$TL_channels_getAdminLog.flags |= 2;
+            for (int i = 0; i < this.selectedAdmins.size(); i++) {
+                tLRPC$TL_channels_getAdminLog.admins.add(MessagesController.getInstance(this.currentAccount).getInputUser((TLRPC$User) this.selectedAdmins.valueAt(i)));
+            }
+        }
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getAdminLog, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda11
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                ChannelAdminLogActivity.this.lambda$reloadLastMessages$1(tLObject, tLRPC$TL_error);
+            }
+        });
+    }
+
+    public void saveScrollPosition(boolean z) {
+        long j;
+        MessageObject messageObject;
+        RecyclerListView recyclerListView = this.chatListView;
+        if (recyclerListView == null || this.chatLayoutManager == null || recyclerListView.getChildCount() <= 0) {
+            return;
+        }
+        int i = z ? ConnectionsManager.DEFAULT_DATACENTER_ID : Integer.MIN_VALUE;
+        ChatMessageCell chatMessageCell = null;
+        int i2 = -1;
+        for (int i3 = 0; i3 < this.chatListView.getChildCount(); i3++) {
+            View childAt = this.chatListView.getChildAt(i3);
+            int childAdapterPosition = this.chatListView.getChildAdapterPosition(childAt);
+            if (childAdapterPosition >= 0) {
+                int top = childAt.getTop();
+                if (z) {
+                    if (top >= i) {
+                    }
+                    i = childAt.getTop();
+                    chatMessageCell = childAt;
+                    i2 = childAdapterPosition;
+                } else {
+                    if (top <= i) {
+                    }
+                    i = childAt.getTop();
+                    chatMessageCell = childAt;
+                    i2 = childAdapterPosition;
+                }
+            }
+        }
+        if (chatMessageCell != null) {
+            if (chatMessageCell instanceof ChatMessageCell) {
+                messageObject = chatMessageCell.getMessageObject();
+            } else if (!(chatMessageCell instanceof ChatActionCell)) {
+                j = 0;
+                this.savedScrollEventId = j;
+                this.savedScrollPosition = i2;
+                this.savedScrollOffset = getScrollingOffsetForView(chatMessageCell);
+            } else {
+                messageObject = chatMessageCell.getMessageObject();
+            }
+            j = messageObject.eventId;
+            this.savedScrollEventId = j;
+            this.savedScrollPosition = i2;
+            this.savedScrollOffset = getScrollingOffsetForView(chatMessageCell);
+        }
+    }
+
     /* JADX WARN: Removed duplicated region for block: B:61:0x0123 A[LOOP:1: B:37:0x00a6->B:61:0x0123, LOOP_END] */
     /* JADX WARN: Removed duplicated region for block: B:73:0x00ed A[SYNTHETIC] */
     /*
@@ -4564,7 +4924,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             int findLastVisibleItemPosition = this.chatLayoutManager.findLastVisibleItemPosition();
             for (int findFirstVisibleItemPosition = this.chatLayoutManager.findFirstVisibleItemPosition(); findFirstVisibleItemPosition <= findLastVisibleItemPosition; findFirstVisibleItemPosition++) {
                 if (findFirstVisibleItemPosition >= this.chatAdapter.messagesStartRow && findFirstVisibleItemPosition < this.chatAdapter.messagesEndRow) {
-                    MessageObject messageObject3 = this.filteredMessages.get(findFirstVisibleItemPosition - this.chatAdapter.messagesStartRow);
+                    MessageObject messageObject3 = (MessageObject) this.filteredMessages.get(findFirstVisibleItemPosition - this.chatAdapter.messagesStartRow);
                     if (messageObject3.contentType != 1 && messageObject3.getRealId() != 0 && !messageObject3.isSponsored()) {
                         i2 = findFirstVisibleItemPosition - this.chatAdapter.messagesStartRow;
                         i = (messageObject3.getRealId() < messageObject.getRealId() ? 1 : 0) ^ 1;
@@ -4643,313 +5003,25 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
     }
 
-    private void startMessageUnselect() {
-        Runnable runnable = this.unselectRunnable;
-        if (runnable != null) {
-            AndroidUtilities.cancelRunOnUIThread(runnable);
-        }
-        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda13
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChannelAdminLogActivity.this.lambda$startMessageUnselect$25();
-            }
-        };
-        this.unselectRunnable = runnable2;
-        AndroidUtilities.runOnUIThread(runnable2, this.highlightMessageQuote != null ? 2500L : 1000L);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startMessageUnselect$25() {
-        this.highlightMessageId = ConnectionsManager.DEFAULT_DATACENTER_ID;
-        this.highlightMessageQuoteFirst = false;
-        this.highlightMessageQuote = null;
-        this.highlightMessageQuoteOffset = -1;
-        this.showNoQuoteAlert = false;
-        updateVisibleRows();
-        this.unselectRunnable = null;
-    }
-
-    private void removeSelectedMessageHighlight() {
-        if (this.highlightMessageQuote != null) {
-            return;
-        }
-        Runnable runnable = this.unselectRunnable;
-        if (runnable != null) {
-            AndroidUtilities.cancelRunOnUIThread(runnable);
-            this.unselectRunnable = null;
-        }
-        this.highlightMessageId = ConnectionsManager.DEFAULT_DATACENTER_ID;
-        this.highlightMessageQuoteFirst = false;
-        this.highlightMessageQuote = null;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void updateVisibleRows() {
-        updateVisibleRows(false);
-    }
-
-    private void updateVisibleRows(boolean z) {
-        String str;
-        RecyclerListView recyclerListView = this.chatListView;
-        if (recyclerListView == null) {
-            return;
-        }
-        int childCount = recyclerListView.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View childAt = this.chatListView.getChildAt(i);
-            if (childAt instanceof ChatMessageCell) {
-                ChatMessageCell chatMessageCell = (ChatMessageCell) childAt;
-                MessageObject messageObject = chatMessageCell.getMessageObject();
-                if (messageObject != null) {
-                    if (this.actionBar.isActionModeShowed()) {
-                        this.highlightMessageQuoteFirst = false;
-                        this.highlightMessageQuote = null;
-                    } else {
-                        chatMessageCell.setDrawSelectionBackground(false);
-                        chatMessageCell.setCheckBoxVisible(false, true);
-                        chatMessageCell.setChecked(false, false, true);
-                    }
-                    chatMessageCell.setHighlighted(this.highlightMessageId != Integer.MAX_VALUE && messageObject.getRealId() == this.highlightMessageId);
-                    if (this.highlightMessageId != Integer.MAX_VALUE) {
-                        startMessageUnselect();
-                    }
-                    if (chatMessageCell.isHighlighted() && (str = this.highlightMessageQuote) != null) {
-                        if (!chatMessageCell.setHighlightedText(str, true, this.highlightMessageQuoteOffset, this.highlightMessageQuoteFirst) && this.showNoQuoteAlert) {
-                            showNoQuoteFound();
-                        }
-                        this.highlightMessageQuoteFirst = false;
-                        this.showNoQuoteAlert = false;
-                    } else if (!TextUtils.isEmpty(this.searchQuery)) {
-                        chatMessageCell.setHighlightedText(this.searchQuery);
-                    } else {
-                        chatMessageCell.setHighlightedText(null);
-                    }
-                    chatMessageCell.setSpoilersSuppressed(this.chatListView.getScrollState() != 0);
-                }
-            } else if (childAt instanceof ChatActionCell) {
-                ChatActionCell chatActionCell = (ChatActionCell) childAt;
-                if (!z) {
-                    chatActionCell.setMessageObject(chatActionCell.getMessageObject());
-                }
-                chatActionCell.setSpoilersSuppressed(this.chatListView.getScrollState() != 0);
-            }
-        }
-    }
-
     public void showNoQuoteFound() {
         BulletinFactory.of(this).createSimpleBulletin(R.raw.error, LocaleController.getString(R.string.QuoteNotFound)).show(true);
     }
 
-    private int getScrollOffsetForMessage(MessageObject messageObject) {
-        return getScrollOffsetForMessage(getHeightForMessage(messageObject, !TextUtils.isEmpty(this.highlightMessageQuote))) - scrollOffsetForQuote(messageObject);
-    }
-
-    private int getScrollOffsetForMessage(int i) {
-        return Math.max(-AndroidUtilities.dp(2.0f), (this.chatListView.getMeasuredHeight() - i) / 2);
-    }
-
-    private int scrollOffsetForQuote(MessageObject messageObject) {
-        ArrayList<MessageObject.TextLayoutBlock> arrayList;
-        CharSequence charSequence;
-        int i;
-        int findQuoteStart;
-        StaticLayout staticLayout;
-        float lineTop;
-        ChatMessageCell chatMessageCell;
-        MessageObject.TextLayoutBlocks textLayoutBlocks;
-        if (TextUtils.isEmpty(this.highlightMessageQuote) || messageObject == null) {
-            ChatMessageCell chatMessageCell2 = this.dummyMessageCell;
-            if (chatMessageCell2 != null) {
-                chatMessageCell2.computedGroupCaptionY = 0;
-                chatMessageCell2.computedCaptionLayout = null;
-            }
-            return 0;
-        }
-        if (!TextUtils.isEmpty(messageObject.caption) && (chatMessageCell = this.dummyMessageCell) != null && (textLayoutBlocks = chatMessageCell.captionLayout) != null) {
-            i = (int) chatMessageCell.captionY;
-            charSequence = messageObject.caption;
-            arrayList = textLayoutBlocks.textLayoutBlocks;
-        } else {
-            CharSequence charSequence2 = messageObject.messageText;
-            arrayList = messageObject.textLayoutBlocks;
-            ChatMessageCell chatMessageCell3 = this.dummyMessageCell;
-            if (chatMessageCell3 == null || !chatMessageCell3.linkPreviewAbove) {
-                charSequence = charSequence2;
-                i = 0;
-            } else {
-                i = chatMessageCell3.linkPreviewHeight + AndroidUtilities.dp(10.0f);
-                charSequence = charSequence2;
-            }
-        }
-        ChatMessageCell chatMessageCell4 = this.dummyMessageCell;
-        if (chatMessageCell4 != null) {
-            chatMessageCell4.computedGroupCaptionY = 0;
-            chatMessageCell4.computedCaptionLayout = null;
-        }
-        if (arrayList == null || charSequence == null || (findQuoteStart = MessageObject.findQuoteStart(charSequence.toString(), this.highlightMessageQuote, this.highlightMessageQuoteOffset)) < 0) {
-            return 0;
-        }
-        for (int i2 = 0; i2 < arrayList.size(); i2++) {
-            MessageObject.TextLayoutBlock textLayoutBlock = arrayList.get(i2);
-            String charSequence3 = textLayoutBlock.textLayout.getText().toString();
-            int i3 = textLayoutBlock.charactersOffset;
-            if (findQuoteStart > i3) {
-                if (findQuoteStart - i3 > charSequence3.length() - 1) {
-                    lineTop = i + ((int) (textLayoutBlock.textYOffset(arrayList) + textLayoutBlock.padTop + textLayoutBlock.height));
-                } else {
-                    lineTop = staticLayout.getLineTop(staticLayout.getLineForOffset(findQuoteStart - textLayoutBlock.charactersOffset)) + i + textLayoutBlock.textYOffset(arrayList) + textLayoutBlock.padTop;
-                }
-                if (lineTop > AndroidUtilities.displaySize.y * (isKeyboardVisible() ? 0.7f : 0.5f)) {
-                    return (int) (lineTop - (AndroidUtilities.displaySize.y * (isKeyboardVisible() ? 0.7f : 0.5f)));
-                }
-                return 0;
-            }
-        }
-        return 0;
-    }
-
-    private int getHeightForMessage(MessageObject messageObject, boolean z) {
-        boolean z2 = false;
-        if (getParentActivity() == null) {
-            return 0;
-        }
-        if (this.dummyMessageCell == null) {
-            this.dummyMessageCell = new ChatMessageCell(getParentActivity(), this.currentAccount);
-        }
-        ChatMessageCell chatMessageCell = this.dummyMessageCell;
-        TLRPC$Chat tLRPC$Chat = this.currentChat;
-        chatMessageCell.isChat = tLRPC$Chat != null;
-        if (ChatObject.isChannel(tLRPC$Chat) && this.currentChat.megagroup) {
-            z2 = true;
-        }
-        chatMessageCell.isMegagroup = z2;
-        return this.dummyMessageCell.computeHeight(messageObject, null, z);
-    }
-
-    public boolean isKeyboardVisible() {
-        return this.contentView.getKeyboardHeight() > AndroidUtilities.dp(20.0f);
-    }
-
-    /* loaded from: classes4.dex */
-    public class ChatScrollCallback extends RecyclerAnimationScrollHelper.AnimationCallback {
-        private boolean lastBottom;
-        private int lastItemOffset;
-        private int lastPadding;
-        private MessageObject scrollTo;
-        private int position = 0;
-        private boolean bottom = true;
-        private int offset = 0;
-
-        public ChatScrollCallback() {
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerAnimationScrollHelper.AnimationCallback
-        public void onStartAnimation() {
-            super.onStartAnimation();
-            ChannelAdminLogActivity channelAdminLogActivity = ChannelAdminLogActivity.this;
-            channelAdminLogActivity.scrollCallbackAnimationIndex = channelAdminLogActivity.getNotificationCenter().setAnimationInProgress(ChannelAdminLogActivity.this.scrollCallbackAnimationIndex, ChannelAdminLogActivity.allowedNotificationsDuringChatListAnimations);
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerAnimationScrollHelper.AnimationCallback
-        public void onEndAnimation() {
-            if (this.scrollTo != null) {
-                int indexOf = ChannelAdminLogActivity.this.chatAdapter.messagesStartRow + ChannelAdminLogActivity.this.filteredMessages.indexOf(this.scrollTo);
-                if (indexOf >= 0) {
-                    ChannelAdminLogActivity.this.chatLayoutManager.scrollToPositionWithOffset(indexOf, this.lastItemOffset + this.lastPadding, this.lastBottom);
-                }
-            } else {
-                ChannelAdminLogActivity.this.chatLayoutManager.scrollToPositionWithOffset(this.position, this.offset, this.bottom);
-            }
-            this.scrollTo = null;
-            ChannelAdminLogActivity.this.checkTextureViewPosition = true;
-            ChannelAdminLogActivity.this.updateVisibleRows();
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatScrollCallback$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChannelAdminLogActivity.ChatScrollCallback.this.lambda$onEndAnimation$0();
-                }
-            });
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onEndAnimation$0() {
-            ChannelAdminLogActivity.this.getNotificationCenter().onAnimationFinish(ChannelAdminLogActivity.this.scrollCallbackAnimationIndex);
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerAnimationScrollHelper.AnimationCallback
-        public void recycleView(View view) {
-            if (view instanceof ChatMessageCell) {
-                ChannelAdminLogActivity.this.chatMessageCellsCache.add((ChatMessageCell) view);
-            }
-        }
-    }
-
-    public void saveScrollPosition(boolean z) {
-        long j;
-        RecyclerListView recyclerListView = this.chatListView;
-        if (recyclerListView == null || this.chatLayoutManager == null || recyclerListView.getChildCount() <= 0) {
+    public void showOpenUrlAlert(final String str, boolean z) {
+        if (Browser.isInternalUrl(str, null) || !z) {
+            Browser.openUrl((Context) getParentActivity(), str, true);
             return;
         }
-        int i = z ? ConnectionsManager.DEFAULT_DATACENTER_ID : Integer.MIN_VALUE;
-        ChatMessageCell chatMessageCell = null;
-        int i2 = -1;
-        for (int i3 = 0; i3 < this.chatListView.getChildCount(); i3++) {
-            View childAt = this.chatListView.getChildAt(i3);
-            int childAdapterPosition = this.chatListView.getChildAdapterPosition(childAt);
-            if (childAdapterPosition >= 0) {
-                if (z) {
-                    if (childAt.getTop() >= i) {
-                    }
-                    i = childAt.getTop();
-                    chatMessageCell = childAt;
-                    i2 = childAdapterPosition;
-                } else {
-                    if (childAt.getTop() <= i) {
-                    }
-                    i = childAt.getTop();
-                    chatMessageCell = childAt;
-                    i2 = childAdapterPosition;
-                }
+        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+        builder.setTitle(LocaleController.getString("OpenUrlTitle", R.string.OpenUrlTitle));
+        builder.setMessage(LocaleController.formatString("OpenUrlAlert2", R.string.OpenUrlAlert2, str));
+        builder.setPositiveButton(LocaleController.getString("Open", R.string.Open), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda19
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                ChannelAdminLogActivity.this.lambda$showOpenUrlAlert$24(str, dialogInterface, i);
             }
-        }
-        if (chatMessageCell != null) {
-            if (chatMessageCell instanceof ChatMessageCell) {
-                j = chatMessageCell.getMessageObject().eventId;
-            } else {
-                j = chatMessageCell instanceof ChatActionCell ? chatMessageCell.getMessageObject().eventId : 0L;
-            }
-            this.savedScrollEventId = j;
-            this.savedScrollPosition = i2;
-            this.savedScrollOffset = getScrollingOffsetForView(chatMessageCell);
-        }
-    }
-
-    private int getScrollingOffsetForView(View view) {
-        return (this.chatListView.getMeasuredHeight() - view.getBottom()) - this.chatListView.getPaddingBottom();
-    }
-
-    public void applyScrolledPosition() {
-        int i;
-        if (this.chatListView == null || this.chatLayoutManager == null || (i = this.savedScrollPosition) < 0) {
-            return;
-        }
-        if (this.savedScrollEventId != 0) {
-            int i2 = 0;
-            while (true) {
-                if (i2 < this.chatAdapter.getItemCount()) {
-                    MessageObject messageObject = this.chatAdapter.getMessageObject(i2);
-                    if (messageObject != null && messageObject.eventId == this.savedScrollEventId) {
-                        i = i2;
-                        break;
-                    }
-                    i2++;
-                } else {
-                    break;
-                }
-            }
-        }
-        this.chatLayoutManager.scrollToPositionWithOffset(i, this.savedScrollOffset, true);
-        this.savedScrollPosition = -1;
-        this.savedScrollEventId = 0L;
+        });
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        showDialog(builder.create());
     }
 }

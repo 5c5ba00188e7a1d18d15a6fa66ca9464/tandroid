@@ -1,6 +1,5 @@
 package com.google.android.gms.common;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -28,13 +27,8 @@ import com.google.android.gms.common.internal.zag;
 import com.google.android.gms.common.util.DeviceProperties;
 import com.google.android.gms.common.util.PlatformVersion;
 import com.google.android.gms.common.wrappers.InstantApps;
-import com.google.android.gms.internal.base.zad;
-import com.google.android.gms.internal.base.zae;
 import com.google.android.gms.internal.base.zao;
 import com.google.android.gms.internal.base.zap;
-import com.google.errorprone.annotations.RestrictedInheritance;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
-@RestrictedInheritance(allowedOnPath = ".*java.*/com/google/android/gms.*", allowlistAnnotations = {zad.class, zae.class}, explanation = "Sub classing of GMS Core's APIs are restricted to GMS Core client libs and testing fakes.", link = "go/gmscore-restrictedinheritance")
 /* loaded from: classes.dex */
 public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
     private String zac;
@@ -46,6 +40,10 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
         return zab;
     }
 
+    public Dialog getErrorDialog(Activity activity, int i, int i2, DialogInterface.OnCancelListener onCancelListener) {
+        return zaa(activity, i, zag.zab(activity, getErrorResolutionIntent(activity, i, "d"), i2), onCancelListener);
+    }
+
     @Override // com.google.android.gms.common.GoogleApiAvailabilityLight
     public Intent getErrorResolutionIntent(Context context, int i, String str) {
         return super.getErrorResolutionIntent(context, i, str);
@@ -54,6 +52,10 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
     @Override // com.google.android.gms.common.GoogleApiAvailabilityLight
     public PendingIntent getErrorResolutionPendingIntent(Context context, int i, int i2) {
         return super.getErrorResolutionPendingIntent(context, i, i2);
+    }
+
+    public PendingIntent getErrorResolutionPendingIntent(Context context, ConnectionResult connectionResult) {
+        return connectionResult.hasResolution() ? connectionResult.getResolution() : getErrorResolutionPendingIntent(context, connectionResult.getErrorCode(), 0);
     }
 
     @Override // com.google.android.gms.common.GoogleApiAvailabilityLight
@@ -67,8 +69,22 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
     }
 
     @Override // com.google.android.gms.common.GoogleApiAvailabilityLight
+    public int isGooglePlayServicesAvailable(Context context, int i) {
+        return super.isGooglePlayServicesAvailable(context, i);
+    }
+
+    @Override // com.google.android.gms.common.GoogleApiAvailabilityLight
     public final boolean isUserResolvableError(int i) {
         return super.isUserResolvableError(i);
+    }
+
+    public boolean showErrorDialogFragment(Activity activity, int i, int i2, DialogInterface.OnCancelListener onCancelListener) {
+        Dialog errorDialog = getErrorDialog(activity, i, i2, onCancelListener);
+        if (errorDialog == null) {
+            return false;
+        }
+        zad(activity, errorDialog, "GooglePlayServicesErrorDialog", onCancelListener);
+        return true;
     }
 
     public void showErrorNotification(Context context, int i) {
@@ -139,7 +155,6 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
         ErrorDialogFragment.newInstance(dialog, onCancelListener).show(activity.getFragmentManager(), str);
     }
 
-    @TargetApi(20)
     final void zae(Context context, int i, String str, PendingIntent pendingIntent) {
         int i2;
         String str2;
@@ -179,14 +194,14 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
                     notificationChannel = notificationManager.getNotificationChannel("com.google.android.gms.availability");
                     String zab2 = com.google.android.gms.common.internal.zac.zab(context);
                     if (notificationChannel == null) {
-                        notificationManager.createNotificationChannel(new NotificationChannel("com.google.android.gms.availability", zab2, 4));
+                        notificationChannel = new NotificationChannel("com.google.android.gms.availability", zab2, 4);
                     } else {
                         name = notificationChannel.getName();
                         if (!zab2.contentEquals(name)) {
                             notificationChannel.setName(zab2);
-                            notificationManager.createNotificationChannel(notificationChannel);
                         }
                     }
+                    notificationManager.createNotificationChannel(notificationChannel);
                 }
                 style.setChannelId(str2);
             }
@@ -220,31 +235,6 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
             return false;
         }
         zae(context, connectionResult.getErrorCode(), null, PendingIntent.getActivity(context, 0, GoogleApiActivity.zaa(context, errorResolutionPendingIntent, i, true), zap.zaa | 134217728));
-        return true;
-    }
-
-    public Dialog getErrorDialog(Activity activity, int i, int i2, DialogInterface.OnCancelListener onCancelListener) {
-        return zaa(activity, i, zag.zab(activity, getErrorResolutionIntent(activity, i, "d"), i2), onCancelListener);
-    }
-
-    public PendingIntent getErrorResolutionPendingIntent(Context context, ConnectionResult connectionResult) {
-        if (connectionResult.hasResolution()) {
-            return connectionResult.getResolution();
-        }
-        return getErrorResolutionPendingIntent(context, connectionResult.getErrorCode(), 0);
-    }
-
-    @Override // com.google.android.gms.common.GoogleApiAvailabilityLight
-    public int isGooglePlayServicesAvailable(Context context, int i) {
-        return super.isGooglePlayServicesAvailable(context, i);
-    }
-
-    public boolean showErrorDialogFragment(Activity activity, int i, int i2, DialogInterface.OnCancelListener onCancelListener) {
-        Dialog errorDialog = getErrorDialog(activity, i, i2, onCancelListener);
-        if (errorDialog == null) {
-            return false;
-        }
-        zad(activity, errorDialog, "GooglePlayServicesErrorDialog", onCancelListener);
         return true;
     }
 }

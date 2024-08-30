@@ -1,6 +1,5 @@
 package org.telegram.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -48,11 +47,110 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
     int rowCount;
     private SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialog;
 
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public boolean onFragmentCreate() {
-        getNotificationCenter().addObserver(this, NotificationCenter.reactionsDidLoad);
-        getNotificationCenter().addObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
-        return super.onFragmentCreate();
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes4.dex */
+    public class SetDefaultReactionCell extends FrameLayout {
+        private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable imageDrawable;
+        private TextView textView;
+
+        public SetDefaultReactionCell(Context context) {
+            super(context);
+            setBackgroundColor(ReactionsDoubleTapManageActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
+            TextView textView = new TextView(context);
+            this.textView = textView;
+            textView.setTextSize(1, 16.0f);
+            this.textView.setTextColor(ReactionsDoubleTapManageActivity.this.getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
+            this.textView.setText(LocaleController.getString(R.string.DoubleTapSetting));
+            addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, 23, 20.0f, 0.0f, 48.0f, 0.0f));
+            this.imageDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, AndroidUtilities.dp(24.0f));
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void dispatchDraw(Canvas canvas) {
+            super.dispatchDraw(canvas);
+            updateImageBounds();
+            this.imageDrawable.draw(canvas);
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onAttachedToWindow() {
+            super.onAttachedToWindow();
+            this.imageDrawable.attach();
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onDetachedFromWindow() {
+            super.onDetachedFromWindow();
+            this.imageDrawable.detach();
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50.0f), 1073741824));
+        }
+
+        public void update(boolean z) {
+            String doubleTapReaction = MediaDataController.getInstance(((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount).getDoubleTapReaction();
+            if (doubleTapReaction != null && doubleTapReaction.startsWith("animated_")) {
+                try {
+                    this.imageDrawable.set(Long.parseLong(doubleTapReaction.substring(9)), z);
+                    return;
+                } catch (Exception unused) {
+                }
+            }
+            TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount).getReactionsMap().get(doubleTapReaction);
+            if (tLRPC$TL_availableReaction != null) {
+                this.imageDrawable.set(tLRPC$TL_availableReaction.static_icon, z);
+            }
+        }
+
+        public void updateImageBounds() {
+            this.imageDrawable.setBounds((getWidth() - this.imageDrawable.getIntrinsicWidth()) - AndroidUtilities.dp(21.0f), (getHeight() - this.imageDrawable.getIntrinsicHeight()) / 2, getWidth() - AndroidUtilities.dp(21.0f), (getHeight() + this.imageDrawable.getIntrinsicHeight()) / 2);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public List getAvailableReactions() {
+        return getMediaDataController().getReactionsList();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$0(View view, int i) {
+        if (!(view instanceof AvailableReactionCell)) {
+            if (view instanceof SetDefaultReactionCell) {
+                showSelectStatusDialog((SetDefaultReactionCell) view);
+                return;
+            }
+            return;
+        }
+        AvailableReactionCell availableReactionCell = (AvailableReactionCell) view;
+        if (availableReactionCell.locked && !getUserConfig().isPremium()) {
+            showDialog(new PremiumFeatureBottomSheet(this, 4, true));
+            return;
+        }
+        MediaDataController.getInstance(this.currentAccount).setDoubleTapReaction(availableReactionCell.react.reaction);
+        this.listView.getAdapter().notifyItemRangeChanged(0, this.listView.getAdapter().getItemCount());
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateColors() {
+        this.contentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        this.listAdapter.notifyDataSetChanged();
+    }
+
+    private void updateRows() {
+        this.previewRow = 0;
+        this.rowCount = 2;
+        this.infoRow = 1;
+        if (!UserConfig.getInstance(this.currentAccount).isPremium()) {
+            this.premiumReactionRow = -1;
+            this.reactionsStartRow = this.rowCount;
+            return;
+        }
+        this.reactionsStartRow = -1;
+        int i = this.rowCount;
+        this.rowCount = i + 1;
+        this.premiumReactionRow = i;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -76,52 +174,6 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         this.listView.setLayoutManager(new LinearLayoutManager(context));
         RecyclerListView recyclerListView2 = this.listView;
         RecyclerListView.SelectionAdapter selectionAdapter = new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.2
-            @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
-            public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
-                return viewHolder.getItemViewType() == 3 || viewHolder.getItemViewType() == 2;
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                SetDefaultReactionCell setDefaultReactionCell;
-                if (i == 0) {
-                    ThemePreviewMessagesCell themePreviewMessagesCell = new ThemePreviewMessagesCell(context, ((BaseFragment) ReactionsDoubleTapManageActivity.this).parentLayout, 2);
-                    themePreviewMessagesCell.setImportantForAccessibility(4);
-                    themePreviewMessagesCell.fragment = ReactionsDoubleTapManageActivity.this;
-                    setDefaultReactionCell = themePreviewMessagesCell;
-                } else if (i == 2) {
-                    TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(context);
-                    textInfoPrivacyCell.setText(LocaleController.getString(R.string.DoubleTapPreviewRational));
-                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(context, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
-                    setDefaultReactionCell = textInfoPrivacyCell;
-                } else if (i == 3) {
-                    SetDefaultReactionCell setDefaultReactionCell2 = new SetDefaultReactionCell(context);
-                    setDefaultReactionCell2.update(false);
-                    setDefaultReactionCell = setDefaultReactionCell2;
-                } else if (i == 4) {
-                    View view = new View(context) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.2.1
-                        @Override // android.view.View
-                        protected void onMeasure(int i2, int i3) {
-                            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(16.0f), 1073741824));
-                        }
-                    };
-                    view.setBackground(Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                    setDefaultReactionCell = view;
-                } else {
-                    setDefaultReactionCell = new AvailableReactionCell(context, true, true);
-                }
-                return new RecyclerListView.Holder(setDefaultReactionCell);
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-                if (getItemViewType(i) != 1) {
-                    return;
-                }
-                TLRPC$TL_availableReaction tLRPC$TL_availableReaction = (TLRPC$TL_availableReaction) ReactionsDoubleTapManageActivity.this.getAvailableReactions().get(i - ReactionsDoubleTapManageActivity.this.reactionsStartRow);
-                ((AvailableReactionCell) viewHolder.itemView).bind(tLRPC$TL_availableReaction, tLRPC$TL_availableReaction.reaction.contains(MediaDataController.getInstance(((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount).getDoubleTapReaction()), ((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount);
-            }
-
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public int getItemCount() {
                 ReactionsDoubleTapManageActivity reactionsDoubleTapManageActivity = ReactionsDoubleTapManageActivity.this;
@@ -142,6 +194,61 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                 }
                 return i == getItemCount() - 1 ? 4 : 1;
             }
+
+            @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
+            public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
+                return viewHolder.getItemViewType() == 3 || viewHolder.getItemViewType() == 2;
+            }
+
+            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+                if (getItemViewType(i) != 1) {
+                    return;
+                }
+                TLRPC$TL_availableReaction tLRPC$TL_availableReaction = (TLRPC$TL_availableReaction) ReactionsDoubleTapManageActivity.this.getAvailableReactions().get(i - ReactionsDoubleTapManageActivity.this.reactionsStartRow);
+                ((AvailableReactionCell) viewHolder.itemView).bind(tLRPC$TL_availableReaction, tLRPC$TL_availableReaction.reaction.contains(MediaDataController.getInstance(((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount).getDoubleTapReaction()), ((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount);
+            }
+
+            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+                SetDefaultReactionCell setDefaultReactionCell;
+                Context context2;
+                int i2;
+                TextInfoPrivacyCell textInfoPrivacyCell;
+                if (i != 0) {
+                    if (i == 2) {
+                        TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
+                        textInfoPrivacyCell2.setText(LocaleController.getString(R.string.DoubleTapPreviewRational));
+                        context2 = context;
+                        i2 = R.drawable.greydivider;
+                        textInfoPrivacyCell = textInfoPrivacyCell2;
+                    } else if (i == 3) {
+                        SetDefaultReactionCell setDefaultReactionCell2 = new SetDefaultReactionCell(context);
+                        setDefaultReactionCell2.update(false);
+                        setDefaultReactionCell = setDefaultReactionCell2;
+                    } else if (i != 4) {
+                        setDefaultReactionCell = new AvailableReactionCell(context, true, true);
+                    } else {
+                        View view = new View(context) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.2.1
+                            @Override // android.view.View
+                            protected void onMeasure(int i3, int i4) {
+                                super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i3), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(16.0f), 1073741824));
+                            }
+                        };
+                        context2 = context;
+                        i2 = R.drawable.greydivider_bottom;
+                        textInfoPrivacyCell = view;
+                    }
+                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(context2, i2, Theme.key_windowBackgroundGrayShadow));
+                    setDefaultReactionCell = textInfoPrivacyCell;
+                } else {
+                    ThemePreviewMessagesCell themePreviewMessagesCell = new ThemePreviewMessagesCell(context, ((BaseFragment) ReactionsDoubleTapManageActivity.this).parentLayout, 2);
+                    themePreviewMessagesCell.setImportantForAccessibility(4);
+                    themePreviewMessagesCell.fragment = ReactionsDoubleTapManageActivity.this;
+                    setDefaultReactionCell = themePreviewMessagesCell;
+                }
+                return new RecyclerListView.Holder(setDefaultReactionCell);
+            }
         };
         this.listAdapter = selectionAdapter;
         recyclerListView2.setAdapter(selectionAdapter);
@@ -159,81 +266,47 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         return this.contentView;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$0(View view, int i) {
-        if (view instanceof AvailableReactionCell) {
-            AvailableReactionCell availableReactionCell = (AvailableReactionCell) view;
-            if (availableReactionCell.locked && !getUserConfig().isPremium()) {
-                showDialog(new PremiumFeatureBottomSheet(this, 4, true));
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        if (i2 != this.currentAccount) {
+            return;
+        }
+        if (i != NotificationCenter.reactionsDidLoad) {
+            if (i != NotificationCenter.currentUserPremiumStatusChanged) {
                 return;
             }
-            MediaDataController.getInstance(this.currentAccount).setDoubleTapReaction(availableReactionCell.react.reaction);
-            this.listView.getAdapter().notifyItemRangeChanged(0, this.listView.getAdapter().getItemCount());
-        } else if (view instanceof SetDefaultReactionCell) {
-            showSelectStatusDialog((SetDefaultReactionCell) view);
+            updateRows();
         }
+        this.listAdapter.notifyDataSetChanged();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SetDefaultReactionCell extends FrameLayout {
-        private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable imageDrawable;
-        private TextView textView;
-
-        public SetDefaultReactionCell(Context context) {
-            super(context);
-            setBackgroundColor(ReactionsDoubleTapManageActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
-            TextView textView = new TextView(context);
-            this.textView = textView;
-            textView.setTextSize(1, 16.0f);
-            this.textView.setTextColor(ReactionsDoubleTapManageActivity.this.getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
-            this.textView.setText(LocaleController.getString(R.string.DoubleTapSetting));
-            addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, 23, 20.0f, 0.0f, 48.0f, 0.0f));
-            this.imageDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, AndroidUtilities.dp(24.0f));
-        }
-
-        public void update(boolean z) {
-            String doubleTapReaction = MediaDataController.getInstance(((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount).getDoubleTapReaction();
-            if (doubleTapReaction != null && doubleTapReaction.startsWith("animated_")) {
-                try {
-                    this.imageDrawable.set(Long.parseLong(doubleTapReaction.substring(9)), z);
-                    return;
-                } catch (Exception unused) {
-                }
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public ArrayList getThemeDescriptions() {
+        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity$$ExternalSyntheticLambda1
+            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+            public final void didSetColor() {
+                ReactionsDoubleTapManageActivity.this.updateColors();
             }
-            TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount).getReactionsMap().get(doubleTapReaction);
-            if (tLRPC$TL_availableReaction != null) {
-                this.imageDrawable.set(tLRPC$TL_availableReaction.static_icon, z);
+
+            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+            public /* synthetic */ void onAnimationProgress(float f) {
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
-        }
+        }, Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhiteBlackText, Theme.key_windowBackgroundWhiteGrayText2, Theme.key_listSelector, Theme.key_windowBackgroundGray, Theme.key_windowBackgroundWhiteGrayText4, Theme.key_text_RedRegular, Theme.key_windowBackgroundChecked, Theme.key_windowBackgroundCheckText, Theme.key_switchTrackBlue, Theme.key_switchTrackBlueChecked, Theme.key_switchTrackBlueThumb, Theme.key_switchTrackBlueThumbChecked);
+    }
 
-        public void updateImageBounds() {
-            this.imageDrawable.setBounds((getWidth() - this.imageDrawable.getIntrinsicWidth()) - AndroidUtilities.dp(21.0f), (getHeight() - this.imageDrawable.getIntrinsicHeight()) / 2, getWidth() - AndroidUtilities.dp(21.0f), (getHeight() + this.imageDrawable.getIntrinsicHeight()) / 2);
-        }
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public boolean onFragmentCreate() {
+        getNotificationCenter().addObserver(this, NotificationCenter.reactionsDidLoad);
+        getNotificationCenter().addObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
+        return super.onFragmentCreate();
+    }
 
-        @Override // android.view.ViewGroup, android.view.View
-        protected void dispatchDraw(Canvas canvas) {
-            super.dispatchDraw(canvas);
-            updateImageBounds();
-            this.imageDrawable.draw(canvas);
-        }
-
-        @Override // android.widget.FrameLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50.0f), 1073741824));
-        }
-
-        @Override // android.view.ViewGroup, android.view.View
-        protected void onDetachedFromWindow() {
-            super.onDetachedFromWindow();
-            this.imageDrawable.detach();
-        }
-
-        @Override // android.view.ViewGroup, android.view.View
-        protected void onAttachedToWindow() {
-            super.onAttachedToWindow();
-            this.imageDrawable.attach();
-        }
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onFragmentDestroy() {
+        super.onFragmentDestroy();
+        getNotificationCenter().removeObserver(this, NotificationCenter.reactionsDidLoad);
+        getNotificationCenter().removeObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
     }
 
     /* JADX WARN: Removed duplicated region for block: B:22:0x00bd A[LOOP:0: B:20:0x00b7->B:22:0x00bd, LOOP_END] */
@@ -247,7 +320,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         int i2;
         SelectAnimatedEmojiDialog selectAnimatedEmojiDialog;
         String doubleTapReaction;
-        List<TLRPC$TL_availableReaction> availableReactions;
+        List availableReactions;
         int i3;
         if (this.selectAnimatedEmojiDialog != null) {
             return;
@@ -308,7 +381,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                 ArrayList arrayList = new ArrayList(20);
                 for (i3 = 0; i3 < availableReactions.size(); i3++) {
                     ReactionsLayoutInBubble.VisibleReaction visibleReaction = new ReactionsLayoutInBubble.VisibleReaction();
-                    visibleReaction.emojicon = availableReactions.get(i3).reaction;
+                    visibleReaction.emojicon = ((TLRPC$TL_availableReaction) availableReactions.get(i3)).reaction;
                     arrayList.add(visibleReaction);
                 }
                 selectAnimatedEmojiDialog.setRecentReactions(arrayList);
@@ -388,68 +461,5 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         selectAnimatedEmojiDialogWindowArr[0] = selectAnimatedEmojiDialogWindow2;
         selectAnimatedEmojiDialogWindow2.showAsDropDown(setDefaultReactionCell, 0, i42, 53);
         selectAnimatedEmojiDialogWindowArr[0].dimBehind();
-    }
-
-    private void updateRows() {
-        this.previewRow = 0;
-        this.rowCount = 2;
-        this.infoRow = 1;
-        if (UserConfig.getInstance(this.currentAccount).isPremium()) {
-            this.reactionsStartRow = -1;
-            int i = this.rowCount;
-            this.rowCount = i + 1;
-            this.premiumReactionRow = i;
-            return;
-        }
-        this.premiumReactionRow = -1;
-        this.reactionsStartRow = this.rowCount;
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onFragmentDestroy() {
-        super.onFragmentDestroy();
-        getNotificationCenter().removeObserver(this, NotificationCenter.reactionsDidLoad);
-        getNotificationCenter().removeObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public List<TLRPC$TL_availableReaction> getAvailableReactions() {
-        return getMediaDataController().getReactionsList();
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public ArrayList<ThemeDescription> getThemeDescriptions() {
-        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity$$ExternalSyntheticLambda1
-            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
-            public final void didSetColor() {
-                ReactionsDoubleTapManageActivity.this.updateColors();
-            }
-
-            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
-            public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
-            }
-        }, Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhiteBlackText, Theme.key_windowBackgroundWhiteGrayText2, Theme.key_listSelector, Theme.key_windowBackgroundGray, Theme.key_windowBackgroundWhiteGrayText4, Theme.key_text_RedRegular, Theme.key_windowBackgroundChecked, Theme.key_windowBackgroundCheckText, Theme.key_switchTrackBlue, Theme.key_switchTrackBlueChecked, Theme.key_switchTrackBlueThumb, Theme.key_switchTrackBlueThumbChecked);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    @SuppressLint({"NotifyDataSetChanged"})
-    public void updateColors() {
-        this.contentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
-        this.listAdapter.notifyDataSetChanged();
-    }
-
-    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    @SuppressLint({"NotifyDataSetChanged"})
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if (i2 != this.currentAccount) {
-            return;
-        }
-        if (i == NotificationCenter.reactionsDidLoad) {
-            this.listAdapter.notifyDataSetChanged();
-        } else if (i == NotificationCenter.currentUserPremiumStatusChanged) {
-            updateRows();
-            this.listAdapter.notifyDataSetChanged();
-        }
     }
 }

@@ -15,12 +15,8 @@ import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
-public class JoinCallByUrlAlert extends BottomSheet {
+public abstract class JoinCallByUrlAlert extends BottomSheet {
     private boolean joinAfterDismiss;
-
-    protected void onJoin() {
-        throw null;
-    }
 
     /* loaded from: classes3.dex */
     public static class BottomSheetCell extends FrameLayout {
@@ -56,8 +52,14 @@ public class JoinCallByUrlAlert extends BottomSheet {
         }
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:17:0x00e6  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00f0  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public JoinCallByUrlAlert(Context context, TLRPC$Chat tLRPC$Chat) {
         super(context, true);
+        String str;
         setApplyBottomPadding(false);
         setApplyTopPadding(false);
         LinearLayout linearLayout = new LinearLayout(context);
@@ -80,35 +82,37 @@ public class JoinCallByUrlAlert extends BottomSheet {
         linearLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 49, 30, 8, 30, 0));
         ChatObject.Call groupCall = AccountInstance.getInstance(this.currentAccount).getMessagesController().getGroupCall(tLRPC$Chat.id, false);
         if (groupCall != null) {
-            if (TextUtils.isEmpty(groupCall.call.title)) {
-                textView.setText(tLRPC$Chat.title);
-            } else {
-                textView.setText(groupCall.call.title);
-            }
+            textView.setText(TextUtils.isEmpty(groupCall.call.title) ? tLRPC$Chat.title : groupCall.call.title);
             int i = groupCall.call.participants_count;
-            if (i == 0) {
-                textView2.setText(LocaleController.getString(R.string.NoOneJoinedYet));
-            } else {
-                textView2.setText(LocaleController.formatPluralString("Participants", i, new Object[0]));
+            if (i != 0) {
+                str = LocaleController.formatPluralString("Participants", i, new Object[0]);
+                textView2.setText(str);
+                BottomSheetCell bottomSheetCell = new BottomSheetCell(context);
+                bottomSheetCell.setBackground(null);
+                bottomSheetCell.setText(LocaleController.getString(!ChatObject.isChannelOrGiga(tLRPC$Chat) ? R.string.VoipChannelJoinVoiceChatUrl : R.string.VoipGroupJoinVoiceChatUrl));
+                bottomSheetCell.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinCallByUrlAlert$$ExternalSyntheticLambda0
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        JoinCallByUrlAlert.this.lambda$new$0(view);
+                    }
+                });
+                linearLayout.addView(bottomSheetCell, LayoutHelper.createLinear(-1, 50, 51, 0, 30, 0, 0));
             }
         } else {
             textView.setText(tLRPC$Chat.title);
-            textView2.setText(LocaleController.getString(R.string.NoOneJoinedYet));
         }
-        BottomSheetCell bottomSheetCell = new BottomSheetCell(context);
-        bottomSheetCell.setBackground(null);
-        if (ChatObject.isChannelOrGiga(tLRPC$Chat)) {
-            bottomSheetCell.setText(LocaleController.getString(R.string.VoipChannelJoinVoiceChatUrl));
-        } else {
-            bottomSheetCell.setText(LocaleController.getString(R.string.VoipGroupJoinVoiceChatUrl));
-        }
-        bottomSheetCell.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinCallByUrlAlert$$ExternalSyntheticLambda0
+        str = LocaleController.getString(R.string.NoOneJoinedYet);
+        textView2.setText(str);
+        BottomSheetCell bottomSheetCell2 = new BottomSheetCell(context);
+        bottomSheetCell2.setBackground(null);
+        bottomSheetCell2.setText(LocaleController.getString(!ChatObject.isChannelOrGiga(tLRPC$Chat) ? R.string.VoipChannelJoinVoiceChatUrl : R.string.VoipGroupJoinVoiceChatUrl));
+        bottomSheetCell2.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinCallByUrlAlert$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 JoinCallByUrlAlert.this.lambda$new$0(view);
             }
         });
-        linearLayout.addView(bottomSheetCell, LayoutHelper.createLinear(-1, 50, 51, 0, 30, 0, 0));
+        linearLayout.addView(bottomSheetCell2, LayoutHelper.createLinear(-1, 50, 51, 0, 30, 0, 0));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -124,4 +128,6 @@ public class JoinCallByUrlAlert extends BottomSheet {
             onJoin();
         }
     }
+
+    protected abstract void onJoin();
 }

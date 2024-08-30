@@ -47,27 +47,6 @@ class TooltipPopup {
         layoutParams.flags = 24;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void show(View view, int i, int i2, boolean z, CharSequence charSequence) {
-        if (isShowing()) {
-            hide();
-        }
-        this.mMessageView.setText(charSequence);
-        computePosition(view, i, i2, z, this.mLayoutParams);
-        ((WindowManager) this.mContext.getSystemService("window")).addView(this.mContentView, this.mLayoutParams);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void hide() {
-        if (isShowing()) {
-            ((WindowManager) this.mContext.getSystemService("window")).removeView(this.mContentView);
-        }
-    }
-
-    boolean isShowing() {
-        return this.mContentView.getParent() != null;
-    }
-
     private void computePosition(View view, int i, int i2, boolean z, WindowManager.LayoutParams layoutParams) {
         int height;
         int i3;
@@ -115,16 +94,10 @@ class TooltipPopup {
         int i6 = this.mTmpAnchorPos[1];
         int i7 = ((i3 + i6) - dimensionPixelOffset3) - measuredHeight;
         int i8 = i6 + height + dimensionPixelOffset3;
-        if (z) {
-            if (i7 >= 0) {
-                layoutParams.y = i7;
-            } else {
-                layoutParams.y = i8;
-            }
-        } else if (measuredHeight + i8 <= this.mTmpDisplayFrame.height()) {
-            layoutParams.y = i8;
-        } else {
+        if (!z ? measuredHeight + i8 <= this.mTmpDisplayFrame.height() : i7 < 0) {
             layoutParams.y = i7;
+        } else {
+            layoutParams.y = i8;
         }
     }
 
@@ -140,5 +113,26 @@ class TooltipPopup {
             }
         }
         return rootView;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void hide() {
+        if (isShowing()) {
+            ((WindowManager) this.mContext.getSystemService("window")).removeView(this.mContentView);
+        }
+    }
+
+    boolean isShowing() {
+        return this.mContentView.getParent() != null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void show(View view, int i, int i2, boolean z, CharSequence charSequence) {
+        if (isShowing()) {
+            hide();
+        }
+        this.mMessageView.setText(charSequence);
+        computePosition(view, i, i2, z, this.mLayoutParams);
+        ((WindowManager) this.mContext.getSystemService("window")).addView(this.mContentView, this.mLayoutParams);
     }
 }

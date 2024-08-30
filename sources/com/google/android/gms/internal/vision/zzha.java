@@ -1,5 +1,4 @@
 package com.google.android.gms.internal.vision;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public enum zzha implements zzje {
     zza(0),
@@ -17,13 +16,12 @@ public enum zzha implements zzje {
     zzm(12),
     zzn(13);
     
-    private static final zzjh<zzha> zzo = new zzjh<zzha>() { // from class: com.google.android.gms.internal.vision.zzhd
+    private static final zzjh zzo = new zzjh() { // from class: com.google.android.gms.internal.vision.zzhd
     };
     private final int zzp;
 
-    @Override // com.google.android.gms.internal.vision.zzje
-    public final int zza() {
-        return this.zzp;
+    zzha(int i) {
+        this.zzp = i;
     }
 
     public static zzha zza(int i) {
@@ -70,7 +68,8 @@ public enum zzha implements zzje {
         return "<" + zzha.class.getName() + '@' + Integer.toHexString(System.identityHashCode(this)) + " number=" + this.zzp + " name=" + name() + '>';
     }
 
-    zzha(int i) {
-        this.zzp = i;
+    @Override // com.google.android.gms.internal.vision.zzje
+    public final int zza() {
+        return this.zzp;
     }
 }

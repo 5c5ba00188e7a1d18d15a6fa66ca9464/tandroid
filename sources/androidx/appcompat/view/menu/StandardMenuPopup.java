@@ -73,15 +73,6 @@ public final class StandardMenuPopup extends MenuPopup implements PopupWindow.On
     };
     private int mDropDownGravity = 0;
 
-    @Override // androidx.appcompat.view.menu.MenuPopup
-    public void addMenu(MenuBuilder menuBuilder) {
-    }
-
-    @Override // androidx.appcompat.view.menu.MenuPresenter
-    public boolean flagActionItems() {
-        return false;
-    }
-
     public StandardMenuPopup(Context context, MenuBuilder menuBuilder, View view, int i, int i2, boolean z) {
         this.mContext = context;
         this.mMenu = menuBuilder;
@@ -94,16 +85,6 @@ public final class StandardMenuPopup extends MenuPopup implements PopupWindow.On
         this.mAnchorView = view;
         this.mPopup = new MenuPopupWindow(context, null, i, i2);
         menuBuilder.addMenuPresenter(this, context);
-    }
-
-    @Override // androidx.appcompat.view.menu.MenuPopup
-    public void setForceShowIcon(boolean z) {
-        this.mAdapter.setForceShowIcon(z);
-    }
-
-    @Override // androidx.appcompat.view.menu.MenuPopup
-    public void setGravity(int i) {
-        this.mDropDownGravity = i;
     }
 
     private boolean tryShow() {
@@ -152,11 +133,8 @@ public final class StandardMenuPopup extends MenuPopup implements PopupWindow.On
         return true;
     }
 
-    @Override // androidx.appcompat.view.menu.ShowableListMenu
-    public void show() {
-        if (!tryShow()) {
-            throw new IllegalStateException("StandardMenuPopup cannot be used without an anchor");
-        }
+    @Override // androidx.appcompat.view.menu.MenuPopup
+    public void addMenu(MenuBuilder menuBuilder) {
     }
 
     @Override // androidx.appcompat.view.menu.ShowableListMenu
@@ -166,9 +144,31 @@ public final class StandardMenuPopup extends MenuPopup implements PopupWindow.On
         }
     }
 
+    @Override // androidx.appcompat.view.menu.MenuPresenter
+    public boolean flagActionItems() {
+        return false;
+    }
+
+    @Override // androidx.appcompat.view.menu.ShowableListMenu
+    public ListView getListView() {
+        return this.mPopup.getListView();
+    }
+
     @Override // androidx.appcompat.view.menu.ShowableListMenu
     public boolean isShowing() {
         return !this.mWasDismissed && this.mPopup.isShowing();
+    }
+
+    @Override // androidx.appcompat.view.menu.MenuPresenter
+    public void onCloseMenu(MenuBuilder menuBuilder, boolean z) {
+        if (menuBuilder != this.mMenu) {
+            return;
+        }
+        dismiss();
+        MenuPresenter.Callback callback = this.mPresenterCallback;
+        if (callback != null) {
+            callback.onCloseMenu(menuBuilder, z);
+        }
     }
 
     @Override // android.widget.PopupWindow.OnDismissListener
@@ -190,18 +190,13 @@ public final class StandardMenuPopup extends MenuPopup implements PopupWindow.On
         }
     }
 
-    @Override // androidx.appcompat.view.menu.MenuPresenter
-    public void updateMenuView(boolean z) {
-        this.mHasContentWidth = false;
-        MenuAdapter menuAdapter = this.mAdapter;
-        if (menuAdapter != null) {
-            menuAdapter.notifyDataSetChanged();
+    @Override // android.view.View.OnKeyListener
+    public boolean onKey(View view, int i, KeyEvent keyEvent) {
+        if (keyEvent.getAction() == 1 && i == 82) {
+            dismiss();
+            return true;
         }
-    }
-
-    @Override // androidx.appcompat.view.menu.MenuPresenter
-    public void setCallback(MenuPresenter.Callback callback) {
-        this.mPresenterCallback = callback;
+        return false;
     }
 
     @Override // androidx.appcompat.view.menu.MenuPresenter
@@ -230,40 +225,24 @@ public final class StandardMenuPopup extends MenuPopup implements PopupWindow.On
         return false;
     }
 
-    @Override // androidx.appcompat.view.menu.MenuPresenter
-    public void onCloseMenu(MenuBuilder menuBuilder, boolean z) {
-        if (menuBuilder != this.mMenu) {
-            return;
-        }
-        dismiss();
-        MenuPresenter.Callback callback = this.mPresenterCallback;
-        if (callback != null) {
-            callback.onCloseMenu(menuBuilder, z);
-        }
-    }
-
     @Override // androidx.appcompat.view.menu.MenuPopup
     public void setAnchorView(View view) {
         this.mAnchorView = view;
     }
 
-    @Override // android.view.View.OnKeyListener
-    public boolean onKey(View view, int i, KeyEvent keyEvent) {
-        if (keyEvent.getAction() == 1 && i == 82) {
-            dismiss();
-            return true;
-        }
-        return false;
+    @Override // androidx.appcompat.view.menu.MenuPresenter
+    public void setCallback(MenuPresenter.Callback callback) {
+        this.mPresenterCallback = callback;
     }
 
     @Override // androidx.appcompat.view.menu.MenuPopup
-    public void setOnDismissListener(PopupWindow.OnDismissListener onDismissListener) {
-        this.mOnDismissListener = onDismissListener;
+    public void setForceShowIcon(boolean z) {
+        this.mAdapter.setForceShowIcon(z);
     }
 
-    @Override // androidx.appcompat.view.menu.ShowableListMenu
-    public ListView getListView() {
-        return this.mPopup.getListView();
+    @Override // androidx.appcompat.view.menu.MenuPopup
+    public void setGravity(int i) {
+        this.mDropDownGravity = i;
     }
 
     @Override // androidx.appcompat.view.menu.MenuPopup
@@ -272,12 +251,33 @@ public final class StandardMenuPopup extends MenuPopup implements PopupWindow.On
     }
 
     @Override // androidx.appcompat.view.menu.MenuPopup
-    public void setVerticalOffset(int i) {
-        this.mPopup.setVerticalOffset(i);
+    public void setOnDismissListener(PopupWindow.OnDismissListener onDismissListener) {
+        this.mOnDismissListener = onDismissListener;
     }
 
     @Override // androidx.appcompat.view.menu.MenuPopup
     public void setShowTitle(boolean z) {
         this.mShowTitle = z;
+    }
+
+    @Override // androidx.appcompat.view.menu.MenuPopup
+    public void setVerticalOffset(int i) {
+        this.mPopup.setVerticalOffset(i);
+    }
+
+    @Override // androidx.appcompat.view.menu.ShowableListMenu
+    public void show() {
+        if (!tryShow()) {
+            throw new IllegalStateException("StandardMenuPopup cannot be used without an anchor");
+        }
+    }
+
+    @Override // androidx.appcompat.view.menu.MenuPresenter
+    public void updateMenuView(boolean z) {
+        this.mHasContentWidth = false;
+        MenuAdapter menuAdapter = this.mAdapter;
+        if (menuAdapter != null) {
+            menuAdapter.notifyDataSetChanged();
+        }
     }
 }

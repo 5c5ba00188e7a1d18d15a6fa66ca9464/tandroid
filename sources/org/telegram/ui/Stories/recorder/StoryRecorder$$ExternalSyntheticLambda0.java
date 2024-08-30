@@ -1,5 +1,4 @@
 package org.telegram.ui.Stories.recorder;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes4.dex */
 public final /* synthetic */ class StoryRecorder$$ExternalSyntheticLambda0 implements Runnable {
     public final /* synthetic */ StoryRecorder f$0;

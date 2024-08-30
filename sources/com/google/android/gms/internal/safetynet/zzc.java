@@ -3,19 +3,15 @@ package com.google.android.gms.internal.safetynet;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
-/* compiled from: com.google.android.gms:play-services-safetynet@@17.0.1 */
 /* loaded from: classes.dex */
-public final class zzc {
+public abstract class zzc {
     private static final ClassLoader zza = zzc.class.getClassLoader();
 
-    private zzc() {
-    }
-
-    public static <T extends Parcelable> T zza(Parcel parcel, Parcelable.Creator<T> creator) {
+    public static Parcelable zza(Parcel parcel, Parcelable.Creator creator) {
         if (parcel.readInt() == 0) {
             return null;
         }
-        return creator.createFromParcel(parcel);
+        return (Parcelable) creator.createFromParcel(parcel);
     }
 
     /* JADX WARN: Multi-variable type inference failed */

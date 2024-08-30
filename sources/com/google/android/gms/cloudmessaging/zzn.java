@@ -1,9 +1,8 @@
 package com.google.android.gms.cloudmessaging;
 
 import android.os.Bundle;
-/* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
 /* loaded from: classes.dex */
-final class zzn extends zzq<Void> {
+final class zzn extends zzq {
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzn(int i, int i2, Bundle bundle) {
         super(i, 2, bundle);
@@ -11,17 +10,17 @@ final class zzn extends zzq<Void> {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.cloudmessaging.zzq
-    public final boolean zza() {
-        return true;
+    public final void zza(Bundle bundle) {
+        if (bundle.getBoolean("ack", false)) {
+            zza((Object) null);
+        } else {
+            zza(new zzp(4, "Invalid response to one way request"));
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.cloudmessaging.zzq
-    public final void zza(Bundle bundle) {
-        if (bundle.getBoolean("ack", false)) {
-            zza((zzn) null);
-        } else {
-            zza(new zzp(4, "Invalid response to one way request"));
-        }
+    public final boolean zza() {
+        return true;
     }
 }

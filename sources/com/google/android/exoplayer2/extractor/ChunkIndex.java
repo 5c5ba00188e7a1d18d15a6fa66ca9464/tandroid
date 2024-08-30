@@ -12,11 +12,6 @@ public final class ChunkIndex implements SeekMap {
     public final int[] sizes;
     public final long[] timesUs;
 
-    @Override // com.google.android.exoplayer2.extractor.SeekMap
-    public boolean isSeekable() {
-        return true;
-    }
-
     public ChunkIndex(int[] iArr, long[] jArr, long[] jArr2, long[] jArr3) {
         this.sizes = iArr;
         this.offsets = jArr;
@@ -24,12 +19,12 @@ public final class ChunkIndex implements SeekMap {
         this.timesUs = jArr3;
         int length = iArr.length;
         this.length = length;
-        if (length > 0) {
-            int i = length - 1;
-            this.durationUs = jArr2[i] + jArr3[i];
+        if (length <= 0) {
+            this.durationUs = 0L;
             return;
         }
-        this.durationUs = 0L;
+        int i = length - 1;
+        this.durationUs = jArr2[i] + jArr3[i];
     }
 
     public int getChunkIndex(long j) {
@@ -50,6 +45,11 @@ public final class ChunkIndex implements SeekMap {
         }
         int i = chunkIndex + 1;
         return new SeekMap.SeekPoints(seekPoint, new SeekPoint(this.timesUs[i], this.offsets[i]));
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.SeekMap
+    public boolean isSeekable() {
+        return true;
     }
 
     public String toString() {

@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.play_billing;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-final class zzp {
+abstract class zzp {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static void zza(Object obj, Object obj2) {
         if (obj == null) {

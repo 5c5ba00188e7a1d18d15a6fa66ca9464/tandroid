@@ -4,13 +4,9 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Message;
 import android.os.Parcel;
-import android.os.RemoteException;
-/* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
 /* loaded from: classes.dex */
 interface IMessengerCompat extends IInterface {
-    void send(Message message) throws RemoteException;
 
-    /* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
     /* loaded from: classes.dex */
     public static class Proxy implements IMessengerCompat {
         private final IBinder zza;
@@ -20,8 +16,13 @@ interface IMessengerCompat extends IInterface {
             this.zza = iBinder;
         }
 
+        @Override // android.os.IInterface
+        public IBinder asBinder() {
+            return this.zza;
+        }
+
         @Override // com.google.android.gms.cloudmessaging.IMessengerCompat
-        public void send(Message message) throws RemoteException {
+        public void send(Message message) {
             Parcel obtain = Parcel.obtain();
             obtain.writeInterfaceToken("com.google.android.gms.iid.IMessengerCompat");
             obtain.writeInt(1);
@@ -32,10 +33,7 @@ interface IMessengerCompat extends IInterface {
                 obtain.recycle();
             }
         }
-
-        @Override // android.os.IInterface
-        public IBinder asBinder() {
-            return this.zza;
-        }
     }
+
+    void send(Message message);
 }

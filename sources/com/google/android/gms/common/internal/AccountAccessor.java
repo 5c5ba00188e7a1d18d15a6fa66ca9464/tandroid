@@ -5,9 +5,8 @@ import android.os.Binder;
 import android.os.RemoteException;
 import android.util.Log;
 import com.google.android.gms.common.internal.IAccountAccessor;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public class AccountAccessor extends IAccountAccessor.Stub {
+public abstract class AccountAccessor extends IAccountAccessor.Stub {
     public static Account getAccountBinderSafe(IAccountAccessor iAccountAccessor) {
         Account account = null;
         if (iAccountAccessor != null) {

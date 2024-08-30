@@ -1,17 +1,16 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
-import java.io.IOException;
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.Iterator;
 import java.util.Map;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzgc<T> implements zzgp<T> {
+final class zzgc implements zzgp {
     private final zzfz zza;
-    private final zzhh<?, ?> zzb;
+    private final zzhh zzb;
     private final boolean zzc;
-    private final zzee<?> zzd;
+    private final zzee zzd;
 
-    private zzgc(zzhh<?, ?> zzhhVar, zzee<?> zzeeVar, zzfz zzfzVar) {
+    private zzgc(zzhh zzhhVar, zzee zzeeVar, zzfz zzfzVar) {
         this.zzb = zzhhVar;
         this.zzc = zzeeVar.zza(zzfzVar);
         this.zzd = zzeeVar;
@@ -19,15 +18,32 @@ final class zzgc<T> implements zzgp<T> {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <T> zzgc<T> zza(zzhh<?, ?> zzhhVar, zzee<?> zzeeVar, zzfz zzfzVar) {
-        return new zzgc<>(zzhhVar, zzeeVar, zzfzVar);
+    public static zzgc zza(zzhh zzhhVar, zzee zzeeVar, zzfz zzfzVar) {
+        return new zzgc(zzhhVar, zzeeVar, zzfzVar);
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
-    public final boolean zza(T t, T t2) {
-        if (this.zzb.zza(t).equals(this.zzb.zza(t2))) {
+    public final int zza(Object obj) {
+        int hashCode = this.zzb.zza(obj).hashCode();
+        return this.zzc ? (hashCode * 53) + this.zzd.zza(obj).hashCode() : hashCode;
+    }
+
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
+    public final void zza(Object obj, zzib zzibVar) {
+        Iterator zzd = this.zzd.zza(obj).zzd();
+        if (zzd.hasNext()) {
+            ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(((Map.Entry) zzd.next()).getKey());
+            throw null;
+        }
+        zzhh zzhhVar = this.zzb;
+        zzhhVar.zzb(zzhhVar.zza(obj), zzibVar);
+    }
+
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
+    public final boolean zza(Object obj, Object obj2) {
+        if (this.zzb.zza(obj).equals(this.zzb.zza(obj2))) {
             if (this.zzc) {
-                return this.zzd.zza(t).equals(this.zzd.zza(t2));
+                return this.zzd.zza(obj).equals(this.zzd.zza(obj2));
             }
             return true;
         }
@@ -35,53 +51,28 @@ final class zzgc<T> implements zzgp<T> {
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
-    public final int zza(T t) {
-        int hashCode = this.zzb.zza(t).hashCode();
-        return this.zzc ? (hashCode * 53) + this.zzd.zza(t).hashCode() : hashCode;
+    public final void zzb(Object obj) {
+        this.zzb.zzb(obj);
+        this.zzd.zzc(obj);
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
-    public final void zzb(T t, T t2) {
-        zzgr.zza(this.zzb, t, t2);
+    public final void zzb(Object obj, Object obj2) {
+        zzgr.zza(this.zzb, obj, obj2);
         if (this.zzc) {
-            zzgr.zza(this.zzd, t, t2);
+            zzgr.zza(this.zzd, obj, obj2);
         }
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
-    public final void zza(T t, zzib zzibVar) throws IOException {
-        Iterator<Map.Entry<?, Object>> zzd = this.zzd.zza(t).zzd();
-        while (zzd.hasNext()) {
-            Map.Entry<?, Object> next = zzd.next();
-            zzel zzelVar = (zzel) next.getKey();
-            if (zzelVar.zzc() != zzhy.zzi || zzelVar.zzd() || zzelVar.zze()) {
-                throw new IllegalStateException("Found invalid MessageSet item.");
-            }
-            if (next instanceof zzfc) {
-                zzibVar.zza(zzelVar.zza(), (Object) ((zzfc) next).zza().zzc());
-            } else {
-                zzibVar.zza(zzelVar.zza(), next.getValue());
-            }
-        }
-        zzhh<?, ?> zzhhVar = this.zzb;
-        zzhhVar.zzb((zzhh<?, ?>) zzhhVar.zza(t), zzibVar);
+    public final boolean zzc(Object obj) {
+        return this.zzd.zza(obj).zzf();
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
-    public final void zzb(T t) {
-        this.zzb.zzb(t);
-        this.zzd.zzc(t);
-    }
-
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
-    public final boolean zzc(T t) {
-        return this.zzd.zza(t).zzf();
-    }
-
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
-    public final int zzd(T t) {
-        zzhh<?, ?> zzhhVar = this.zzb;
-        int zzc = zzhhVar.zzc(zzhhVar.zza(t));
-        return this.zzc ? zzc + this.zzd.zza(t).zzg() : zzc;
+    public final int zzd(Object obj) {
+        zzhh zzhhVar = this.zzb;
+        int zzc = zzhhVar.zzc(zzhhVar.zza(obj));
+        return this.zzc ? zzc + this.zzd.zza(obj).zzg() : zzc;
     }
 }

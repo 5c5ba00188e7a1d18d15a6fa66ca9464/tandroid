@@ -24,6 +24,42 @@ public class ProxyRotationController implements NotificationCenter.NotificationC
     };
     private boolean isCurrentlyChecking;
 
+    public static void init() {
+        INSTANCE.initInternal();
+    }
+
+    private void initInternal() {
+        for (int i = 0; i < 4; i++) {
+            NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.didUpdateConnectionState);
+        }
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.proxyCheckDone);
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.proxySettingsChanged);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$new$0(SharedConfig.ProxyInfo proxyInfo, long j) {
+        proxyInfo.availableCheckTime = SystemClock.elapsedRealtime();
+        proxyInfo.checking = false;
+        if (j == -1) {
+            proxyInfo.available = false;
+            proxyInfo.ping = 0L;
+        } else {
+            proxyInfo.ping = j;
+            proxyInfo.available = true;
+        }
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.proxyCheckDone, proxyInfo);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$new$1(final SharedConfig.ProxyInfo proxyInfo, final long j) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ProxyRotationController$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                ProxyRotationController.lambda$new$0(SharedConfig.ProxyInfo.this, j);
+            }
+        });
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2() {
         this.isCurrentlyChecking = true;
@@ -50,31 +86,8 @@ public class ProxyRotationController implements NotificationCenter.NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$new$1(final SharedConfig.ProxyInfo proxyInfo, final long j) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ProxyRotationController$$ExternalSyntheticLambda3
-            @Override // java.lang.Runnable
-            public final void run() {
-                ProxyRotationController.lambda$new$0(SharedConfig.ProxyInfo.this, j);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$new$0(SharedConfig.ProxyInfo proxyInfo, long j) {
-        proxyInfo.availableCheckTime = SystemClock.elapsedRealtime();
-        proxyInfo.checking = false;
-        if (j == -1) {
-            proxyInfo.available = false;
-            proxyInfo.ping = 0L;
-        } else {
-            proxyInfo.ping = j;
-            proxyInfo.available = true;
-        }
-        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.proxyCheckDone, proxyInfo);
-    }
-
-    public static void init() {
-        INSTANCE.initInternal();
+    public static /* synthetic */ int lambda$switchToAvailable$3(SharedConfig.ProxyInfo proxyInfo, SharedConfig.ProxyInfo proxyInfo2) {
+        return Long.compare(proxyInfo.ping, proxyInfo2.ping);
     }
 
     private void switchToAvailable() {
@@ -113,38 +126,30 @@ public class ProxyRotationController implements NotificationCenter.NotificationC
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$switchToAvailable$3(SharedConfig.ProxyInfo proxyInfo, SharedConfig.ProxyInfo proxyInfo2) {
-        return Long.compare(proxyInfo.ping, proxyInfo2.ping);
-    }
-
-    private void initInternal() {
-        for (int i = 0; i < 4; i++) {
-            NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.didUpdateConnectionState);
-        }
-        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.proxyCheckDone);
-        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.proxySettingsChanged);
-    }
-
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.proxyCheckDone) {
             if (SharedConfig.isProxyEnabled() && SharedConfig.proxyRotationEnabled && SharedConfig.proxyList.size() > 1 && this.isCurrentlyChecking) {
                 switchToAvailable();
+                return;
             }
-        } else if (i == NotificationCenter.proxySettingsChanged) {
-            AndroidUtilities.cancelRunOnUIThread(this.checkProxyAndSwitchRunnable);
-        } else if (i == NotificationCenter.didUpdateConnectionState && i2 == UserConfig.selectedAccount) {
-            if ((SharedConfig.isProxyEnabled() || SharedConfig.proxyRotationEnabled) && SharedConfig.proxyList.size() > 1) {
-                if (ConnectionsManager.getInstance(i2).getConnectionState() == 4) {
-                    if (this.isCurrentlyChecking) {
-                        return;
-                    }
-                    AndroidUtilities.runOnUIThread(this.checkProxyAndSwitchRunnable, ROTATION_TIMEOUTS.get(SharedConfig.proxyRotationTimeout).intValue() * 1000);
+            return;
+        }
+        if (i != NotificationCenter.proxySettingsChanged) {
+            if (i != NotificationCenter.didUpdateConnectionState || i2 != UserConfig.selectedAccount) {
+                return;
+            }
+            if ((!SharedConfig.isProxyEnabled() && !SharedConfig.proxyRotationEnabled) || SharedConfig.proxyList.size() <= 1) {
+                return;
+            }
+            if (ConnectionsManager.getInstance(i2).getConnectionState() == 4) {
+                if (this.isCurrentlyChecking) {
                     return;
                 }
-                AndroidUtilities.cancelRunOnUIThread(this.checkProxyAndSwitchRunnable);
+                AndroidUtilities.runOnUIThread(this.checkProxyAndSwitchRunnable, ROTATION_TIMEOUTS.get(SharedConfig.proxyRotationTimeout).intValue() * 1000);
+                return;
             }
         }
+        AndroidUtilities.cancelRunOnUIThread(this.checkProxyAndSwitchRunnable);
     }
 }

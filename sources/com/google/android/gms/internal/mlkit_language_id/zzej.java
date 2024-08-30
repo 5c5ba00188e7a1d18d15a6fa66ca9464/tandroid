@@ -1,15 +1,14 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
-import com.google.android.gms.internal.mlkit_language_id.zzel;
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzej<T extends zzel<T>> {
+final class zzej {
     private static final zzej zzd = new zzej(true);
-    final zzgq<T, Object> zza;
+    final zzgq zza;
     private boolean zzb;
     private boolean zzc;
 
@@ -17,99 +16,58 @@ final class zzej<T extends zzel<T>> {
         this.zza = zzgq.zza(16);
     }
 
+    private zzej(zzgq zzgqVar) {
+        this.zza = zzgqVar;
+        zzb();
+    }
+
     private zzej(boolean z) {
         this(zzgq.zza(0));
         zzb();
     }
 
-    private zzej(zzgq<T, Object> zzgqVar) {
-        this.zza = zzgqVar;
-        zzb();
+    public static int zza(zzel zzelVar, Object obj) {
+        zzhv zzb = zzelVar.zzb();
+        int zza = zzelVar.zza();
+        if (zzelVar.zzd()) {
+            int i = 0;
+            List<Object> list = (List) obj;
+            if (zzelVar.zze()) {
+                for (Object obj2 : list) {
+                    i += zzb(zzb, obj2);
+                }
+                return zzea.zze(zza) + i + zzea.zzl(i);
+            }
+            for (Object obj3 : list) {
+                i += zza(zzb, zza, obj3);
+            }
+            return i;
+        }
+        return zza(zzb, zza, obj);
     }
 
-    public static <T extends zzel<T>> zzej<T> zza() {
+    static int zza(zzhv zzhvVar, int i, Object obj) {
+        int zze = zzea.zze(i);
+        if (zzhvVar == zzhv.zzj) {
+            zzeq.zza((zzfz) obj);
+            zze <<= 1;
+        }
+        return zze + zzb(zzhvVar, obj);
+    }
+
+    public static zzej zza() {
         return zzd;
     }
 
-    public final void zzb() {
-        if (this.zzb) {
-            return;
-        }
-        this.zza.zza();
-        this.zzb = true;
-    }
-
-    public final boolean zzc() {
-        return this.zzb;
-    }
-
-    public final boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof zzej) {
-            return this.zza.equals(((zzej) obj).zza);
-        }
-        return false;
-    }
-
-    public final int hashCode() {
-        return this.zza.hashCode();
-    }
-
-    public final Iterator<Map.Entry<T, Object>> zzd() {
-        if (this.zzc) {
-            return new zzff(this.zza.entrySet().iterator());
-        }
-        return this.zza.entrySet().iterator();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Iterator<Map.Entry<T, Object>> zze() {
-        if (this.zzc) {
-            return new zzff(this.zza.zze().iterator());
-        }
-        return this.zza.zze().iterator();
-    }
-
-    private final Object zza(T t) {
-        Object obj = this.zza.get(t);
-        return obj instanceof zzfa ? zzfa.zza() : obj;
-    }
-
-    private final void zzb(T t, Object obj) {
-        if (t.zzd()) {
-            if (!(obj instanceof List)) {
-                throw new IllegalArgumentException("Wrong object type used with protocol message reflection.");
-            }
-            ArrayList arrayList = new ArrayList();
-            arrayList.addAll((List) obj);
-            int size = arrayList.size();
-            int i = 0;
-            while (i < size) {
-                Object obj2 = arrayList.get(i);
-                i++;
-                zza(t.zzb(), obj2);
-            }
-            obj = arrayList;
-        } else {
-            zza(t.zzb(), obj);
-        }
-        if (obj instanceof zzfa) {
-            this.zzc = true;
-        }
-        this.zza.zza((zzgq<T, Object>) t, (T) obj);
-    }
-
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0025, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x0021, code lost:
         if ((r3 instanceof com.google.android.gms.internal.mlkit_language_id.zzet) == false) goto L3;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x002e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x002a, code lost:
         if ((r3 instanceof byte[]) == false) goto L3;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:8:0x001c, code lost:
-        if ((r3 instanceof com.google.android.gms.internal.mlkit_language_id.zzfa) == false) goto L3;
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x0018, code lost:
+        if ((r3 instanceof com.google.android.gms.internal.mlkit_language_id.zzfz) == false) goto L3;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -147,9 +105,6 @@ final class zzej<T extends zzel<T>> {
                 }
                 break;
             case 9:
-                if (!(obj instanceof zzfz)) {
-                    break;
-                }
                 break;
             default:
                 z = false;
@@ -160,130 +115,9 @@ final class zzej<T extends zzel<T>> {
         }
     }
 
-    public final boolean zzf() {
-        for (int i = 0; i < this.zza.zzc(); i++) {
-            if (!zza((Map.Entry) this.zza.zzb(i))) {
-                return false;
-            }
-        }
-        for (Map.Entry<T, Object> entry : this.zza.zzd()) {
-            if (!zza((Map.Entry) entry)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static <T extends zzel<T>> boolean zza(Map.Entry<T, Object> entry) {
-        T key = entry.getKey();
-        if (key.zzc() == zzhy.zzi) {
-            if (key.zzd()) {
-                for (zzfz zzfzVar : (List) entry.getValue()) {
-                    if (!zzfzVar.zzi()) {
-                        return false;
-                    }
-                }
-            } else {
-                Object value = entry.getValue();
-                if (value instanceof zzfz) {
-                    if (!((zzfz) value).zzi()) {
-                        return false;
-                    }
-                } else if (value instanceof zzfa) {
-                    return true;
-                } else {
-                    throw new IllegalArgumentException("Wrong object type used with protocol message reflection.");
-                }
-            }
-        }
-        return true;
-    }
-
-    public final void zza(zzej<T> zzejVar) {
-        for (int i = 0; i < zzejVar.zza.zzc(); i++) {
-            zzb(zzejVar.zza.zzb(i));
-        }
-        for (Map.Entry<T, Object> entry : zzejVar.zza.zzd()) {
-            zzb(entry);
-        }
-    }
-
-    private static Object zza(Object obj) {
-        if (obj instanceof zzgf) {
-            return ((zzgf) obj).zza();
-        }
-        if (obj instanceof byte[]) {
-            byte[] bArr = (byte[]) obj;
-            byte[] bArr2 = new byte[bArr.length];
-            System.arraycopy(bArr, 0, bArr2, 0, bArr.length);
-            return bArr2;
-        }
-        return obj;
-    }
-
-    private final void zzb(Map.Entry<T, Object> entry) {
-        zzfz zzg;
-        T key = entry.getKey();
-        Object value = entry.getValue();
-        if (value instanceof zzfa) {
-            value = zzfa.zza();
-        }
-        if (key.zzd()) {
-            Object zza = zza((zzej<T>) key);
-            if (zza == null) {
-                zza = new ArrayList();
-            }
-            for (Object obj : (List) value) {
-                ((List) zza).add(zza(obj));
-            }
-            this.zza.zza((zzgq<T, Object>) key, (T) zza);
-        } else if (key.zzc() == zzhy.zzi) {
-            Object zza2 = zza((zzej<T>) key);
-            if (zza2 == null) {
-                this.zza.zza((zzgq<T, Object>) key, (T) zza(value));
-                return;
-            }
-            if (zza2 instanceof zzgf) {
-                zzg = key.zza((zzgf) zza2, (zzgf) value);
-            } else {
-                zzg = key.zza(((zzfz) zza2).zzm(), (zzfz) value).zzg();
-            }
-            this.zza.zza((zzgq<T, Object>) key, (T) zzg);
-        } else {
-            this.zza.zza((zzgq<T, Object>) key, (T) zza(value));
-        }
-    }
-
-    public final int zzg() {
-        int i = 0;
-        for (int i2 = 0; i2 < this.zza.zzc(); i2++) {
-            i += zzc(this.zza.zzb(i2));
-        }
-        for (Map.Entry<T, Object> entry : this.zza.zzd()) {
-            i += zzc(entry);
-        }
-        return i;
-    }
-
-    private static int zzc(Map.Entry<T, Object> entry) {
-        T key = entry.getKey();
-        Object value = entry.getValue();
-        if (key.zzc() == zzhy.zzi && !key.zzd() && !key.zze()) {
-            if (value instanceof zzfa) {
-                return zzea.zzb(entry.getKey().zza(), (zzfa) value);
-            }
-            return zzea.zzb(entry.getKey().zza(), (zzfz) value);
-        }
-        return zza((zzel<?>) key, value);
-    }
-
-    static int zza(zzhv zzhvVar, int i, Object obj) {
-        int zze = zzea.zze(i);
-        if (zzhvVar == zzhv.zzj) {
-            zzeq.zza((zzfz) obj);
-            zze <<= 1;
-        }
-        return zze + zzb(zzhvVar, obj);
+    private static boolean zza(Map.Entry entry) {
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(entry.getKey());
+        throw null;
     }
 
     private static int zzb(zzhv zzhvVar, Object obj) {
@@ -307,20 +141,11 @@ final class zzej<T extends zzel<T>> {
             case 9:
                 return zzea.zzc((zzfz) obj);
             case 10:
-                if (obj instanceof zzfa) {
-                    return zzea.zza((zzfa) obj);
-                }
                 return zzea.zzb((zzfz) obj);
             case 11:
-                if (obj instanceof zzdn) {
-                    return zzea.zzb((zzdn) obj);
-                }
-                return zzea.zzb((String) obj);
+                return obj instanceof zzdn ? zzea.zzb((zzdn) obj) : zzea.zzb((String) obj);
             case 12:
-                if (obj instanceof zzdn) {
-                    return zzea.zzb((zzdn) obj);
-                }
-                return zzea.zzb((byte[]) obj);
+                return obj instanceof zzdn ? zzea.zzb((zzdn) obj) : zzea.zzb((byte[]) obj);
             case 13:
                 return zzea.zzg(((Integer) obj).intValue());
             case 14:
@@ -332,44 +157,125 @@ final class zzej<T extends zzel<T>> {
             case 17:
                 return zzea.zzf(((Long) obj).longValue());
             case 18:
-                if (obj instanceof zzet) {
-                    return zzea.zzk(((zzet) obj).zza());
-                }
-                return zzea.zzk(((Integer) obj).intValue());
+                return obj instanceof zzet ? zzea.zzk(((zzet) obj).zza()) : zzea.zzk(((Integer) obj).intValue());
             default:
                 throw new RuntimeException("There is no way to get here, but the compiler thinks otherwise.");
         }
     }
 
-    public static int zza(zzel<?> zzelVar, Object obj) {
-        zzhv zzb = zzelVar.zzb();
-        int zza = zzelVar.zza();
-        if (zzelVar.zzd()) {
+    private final void zzb(zzel zzelVar, Object obj) {
+        if (!zzelVar.zzd()) {
+            zza(zzelVar.zzb(), obj);
+        } else if (!(obj instanceof List)) {
+            throw new IllegalArgumentException("Wrong object type used with protocol message reflection.");
+        } else {
+            ArrayList arrayList = new ArrayList();
+            arrayList.addAll((List) obj);
+            int size = arrayList.size();
             int i = 0;
-            if (zzelVar.zze()) {
-                for (Object obj2 : (List) obj) {
-                    i += zzb(zzb, obj2);
-                }
-                return zzea.zze(zza) + i + zzea.zzl(i);
+            while (i < size) {
+                Object obj2 = arrayList.get(i);
+                i++;
+                zza(zzelVar.zzb(), obj2);
             }
-            for (Object obj3 : (List) obj) {
-                i += zza(zzb, zza, obj3);
-            }
-            return i;
+            obj = arrayList;
         }
-        return zza(zzb, zza, obj);
+        this.zza.put(zzelVar, obj);
     }
 
-    public final /* synthetic */ Object clone() throws CloneNotSupportedException {
+    private final void zzb(Map.Entry entry) {
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(entry.getKey());
+        entry.getValue();
+        throw null;
+    }
+
+    private static int zzc(Map.Entry entry) {
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(entry.getKey());
+        entry.getValue();
+        throw null;
+    }
+
+    public final /* synthetic */ Object clone() {
         zzej zzejVar = new zzej();
         for (int i = 0; i < this.zza.zzc(); i++) {
-            Map.Entry<T, Object> zzb = this.zza.zzb(i);
-            zzejVar.zzb((zzej) zzb.getKey(), zzb.getValue());
+            Map.Entry zzb = this.zza.zzb(i);
+            ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(zzb.getKey());
+            zzejVar.zzb((zzel) null, zzb.getValue());
         }
-        for (Map.Entry<T, Object> entry : this.zza.zzd()) {
-            zzejVar.zzb((zzej) entry.getKey(), entry.getValue());
+        for (Map.Entry entry : this.zza.zzd()) {
+            ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(entry.getKey());
+            zzejVar.zzb((zzel) null, entry.getValue());
         }
         zzejVar.zzc = this.zzc;
         return zzejVar;
+    }
+
+    public final boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof zzej) {
+            return this.zza.equals(((zzej) obj).zza);
+        }
+        return false;
+    }
+
+    public final int hashCode() {
+        return this.zza.hashCode();
+    }
+
+    public final void zza(zzej zzejVar) {
+        for (int i = 0; i < zzejVar.zza.zzc(); i++) {
+            zzb(zzejVar.zza.zzb(i));
+        }
+        for (Map.Entry entry : zzejVar.zza.zzd()) {
+            zzb(entry);
+        }
+    }
+
+    public final void zzb() {
+        if (this.zzb) {
+            return;
+        }
+        this.zza.zza();
+        this.zzb = true;
+    }
+
+    public final boolean zzc() {
+        return this.zzb;
+    }
+
+    public final Iterator zzd() {
+        return this.zzc ? new zzff(this.zza.entrySet().iterator()) : this.zza.entrySet().iterator();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final Iterator zze() {
+        return this.zzc ? new zzff(this.zza.zze().iterator()) : this.zza.zze().iterator();
+    }
+
+    public final boolean zzf() {
+        for (int i = 0; i < this.zza.zzc(); i++) {
+            if (!zza(this.zza.zzb(i))) {
+                return false;
+            }
+        }
+        for (Map.Entry entry : this.zza.zzd()) {
+            if (!zza(entry)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public final int zzg() {
+        int i = 0;
+        for (int i2 = 0; i2 < this.zza.zzc(); i2++) {
+            i += zzc(this.zza.zzb(i2));
+        }
+        for (Map.Entry entry : this.zza.zzd()) {
+            i += zzc(entry);
+        }
+        return i;
     }
 }

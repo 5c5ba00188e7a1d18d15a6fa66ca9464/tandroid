@@ -28,157 +28,6 @@ public class LocationView extends EntityView {
     public final LocationMarker marker;
     public TL_stories$MediaArea mediaArea;
 
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected float getMaxScale() {
-        return 1.5f;
-    }
-
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected float getStickyPaddingLeft() {
-        return this.marker.padx;
-    }
-
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected float getStickyPaddingTop() {
-        return this.marker.pady;
-    }
-
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected float getStickyPaddingRight() {
-        return this.marker.padx;
-    }
-
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected float getStickyPaddingBottom() {
-        return this.marker.pady;
-    }
-
-    private static String deg(double d) {
-        double floor;
-        double abs = Math.abs(d);
-        double floor2 = Math.floor((abs - Math.floor(abs)) * 60.0d);
-        StringBuilder sb = new StringBuilder();
-        sb.append("" + ((int) floor) + "°");
-        sb.append(floor2 <= 0.0d ? "0" : "");
-        sb.append(floor2 < 10.0d ? "0" : "");
-        sb.append((int) floor2);
-        sb.append("'");
-        String sb2 = sb.toString();
-        double floor3 = Math.floor(Math.floor(floor2) * 60.0d);
-        StringBuilder sb3 = new StringBuilder();
-        sb3.append(sb2);
-        sb3.append(floor3 <= 0.0d ? "0" : "");
-        sb3.append(floor3 < 10.0d ? "0" : "");
-        sb3.append((int) floor3);
-        sb3.append("\"");
-        return sb3.toString();
-    }
-
-    public static String geo(double d, double d2) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(deg(d));
-        sb.append(d > 0.0d ? "N" : "S");
-        sb.append(" ");
-        sb.append(deg(d2));
-        sb.append(d2 > 0.0d ? "E" : "W");
-        return sb.toString();
-    }
-
-    public LocationView(Context context, Point point, int i, TLRPC$MessageMedia tLRPC$MessageMedia, TL_stories$MediaArea tL_stories$MediaArea, float f, int i2) {
-        super(context, point);
-        LocationMarker locationMarker = new LocationMarker(context, 0, f, 0);
-        this.marker = locationMarker;
-        locationMarker.setMaxWidth(i2);
-        setLocation(i, tLRPC$MessageMedia, tL_stories$MediaArea);
-        locationMarker.setType(0, this.currentColor);
-        addView(locationMarker, LayoutHelper.createFrame(-2, -2, 51));
-        setClipChildren(false);
-        setClipToPadding(false);
-        updatePosition();
-    }
-
-    public void setLocation(int i, TLRPC$MessageMedia tLRPC$MessageMedia, TL_stories$MediaArea tL_stories$MediaArea) {
-        String str;
-        this.location = tLRPC$MessageMedia;
-        this.mediaArea = tL_stories$MediaArea;
-        String str2 = null;
-        if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGeo) {
-            TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$MessageMedia.geo;
-            str = geo(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long);
-        } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaVenue) {
-            String upperCase = tLRPC$MessageMedia.title.toUpperCase();
-            str2 = ((TLRPC$TL_messageMediaVenue) tLRPC$MessageMedia).emoji;
-            str = upperCase;
-        } else {
-            str = "";
-        }
-        this.marker.setCodeEmoji(i, str2);
-        this.marker.setText(str);
-        updateSelectionView();
-    }
-
-    public void setMaxWidth(int i) {
-        this.marker.setMaxWidth(i);
-    }
-
-    @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        super.onLayout(z, i, i2, i3, i4);
-        updatePosition();
-    }
-
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(i, i2);
-        updatePosition();
-    }
-
-    public void setColor(int i) {
-        this.hasColor = true;
-        this.currentColor = i;
-    }
-
-    public boolean hasColor() {
-        return this.hasColor;
-    }
-
-    public void setType(int i) {
-        LocationMarker locationMarker = this.marker;
-        this.currentType = i;
-        locationMarker.setType(i, this.currentColor);
-    }
-
-    public int getTypesCount() {
-        return this.marker.getTypesCount() - (!this.hasColor ? 1 : 0);
-    }
-
-    public int getColor() {
-        return this.currentColor;
-    }
-
-    public int getType() {
-        return this.currentType;
-    }
-
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    public Rect getSelectionBounds() {
-        ViewGroup viewGroup = (ViewGroup) getParent();
-        if (viewGroup == null) {
-            return new Rect();
-        }
-        float scaleX = viewGroup.getScaleX();
-        float measuredWidth = (getMeasuredWidth() * getScale()) + (AndroidUtilities.dp(64.0f) / scaleX);
-        float measuredHeight = (getMeasuredHeight() * getScale()) + (AndroidUtilities.dp(64.0f) / scaleX);
-        float positionX = (getPositionX() - (measuredWidth / 2.0f)) * scaleX;
-        return new Rect(positionX, (getPositionY() - (measuredHeight / 2.0f)) * scaleX, ((measuredWidth * scaleX) + positionX) - positionX, measuredHeight * scaleX);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    public TextViewSelectionView createSelectionView() {
-        return new TextViewSelectionView(getContext());
-    }
-
     /* loaded from: classes3.dex */
     public class TextViewSelectionView extends EntityView.SelectionView {
         private final Paint clearPaint;
@@ -190,20 +39,6 @@ public class LocationView extends EntityView {
             this.clearPaint = paint;
             this.path = new Path();
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        }
-
-        @Override // org.telegram.ui.Components.Paint.Views.EntityView.SelectionView
-        protected int pointInsideHandle(float f, float f2) {
-            float dp = AndroidUtilities.dp(19.5f);
-            float dp2 = AndroidUtilities.dp(1.0f) + dp;
-            float f3 = dp2 * 2.0f;
-            float measuredWidth = getMeasuredWidth() - f3;
-            float measuredHeight = ((getMeasuredHeight() - f3) / 2.0f) + dp2;
-            if (f <= dp2 - dp || f2 <= measuredHeight - dp || f >= dp2 + dp || f2 >= measuredHeight + dp) {
-                float f4 = dp2 + measuredWidth;
-                return (f <= f4 - dp || f2 <= measuredHeight - dp || f >= f4 + dp || f2 >= measuredHeight + dp) ? 0 : 2;
-            }
-            return 1;
         }
 
         @Override // android.view.View
@@ -262,5 +97,170 @@ public class LocationView extends EntityView {
             canvas.drawCircle(dp, f11, (dpf2 + AndroidUtilities.dp(1.0f)) - 1.0f, this.clearPaint);
             canvas.restoreToCount(saveCount);
         }
+
+        @Override // org.telegram.ui.Components.Paint.Views.EntityView.SelectionView
+        protected int pointInsideHandle(float f, float f2) {
+            float dp = AndroidUtilities.dp(19.5f);
+            float dp2 = AndroidUtilities.dp(1.0f) + dp;
+            float f3 = dp2 * 2.0f;
+            float measuredWidth = getMeasuredWidth() - f3;
+            float measuredHeight = ((getMeasuredHeight() - f3) / 2.0f) + dp2;
+            if (f <= dp2 - dp || f2 <= measuredHeight - dp || f >= dp2 + dp || f2 >= measuredHeight + dp) {
+                float f4 = dp2 + measuredWidth;
+                return (f <= f4 - dp || f2 <= measuredHeight - dp || f >= f4 + dp || f2 >= measuredHeight + dp) ? 0 : 2;
+            }
+            return 1;
+        }
+    }
+
+    public LocationView(Context context, Point point, int i, TLRPC$MessageMedia tLRPC$MessageMedia, TL_stories$MediaArea tL_stories$MediaArea, float f, int i2) {
+        super(context, point);
+        LocationMarker locationMarker = new LocationMarker(context, 0, f, 0);
+        this.marker = locationMarker;
+        locationMarker.setMaxWidth(i2);
+        setLocation(i, tLRPC$MessageMedia, tL_stories$MediaArea);
+        locationMarker.setType(0, this.currentColor);
+        addView(locationMarker, LayoutHelper.createFrame(-2, -2, 51));
+        setClipChildren(false);
+        setClipToPadding(false);
+        updatePosition();
+    }
+
+    private static String deg(double d) {
+        double floor;
+        double abs = Math.abs(d);
+        double floor2 = Math.floor((abs - Math.floor(abs)) * 60.0d);
+        StringBuilder sb = new StringBuilder();
+        sb.append("" + ((int) floor) + "°");
+        sb.append(floor2 <= 0.0d ? "0" : "");
+        sb.append(floor2 < 10.0d ? "0" : "");
+        sb.append((int) floor2);
+        sb.append("'");
+        String sb2 = sb.toString();
+        double floor3 = Math.floor(Math.floor(floor2) * 60.0d);
+        StringBuilder sb3 = new StringBuilder();
+        sb3.append(sb2);
+        sb3.append(floor3 <= 0.0d ? "0" : "");
+        sb3.append(floor3 < 10.0d ? "0" : "");
+        sb3.append((int) floor3);
+        sb3.append("\"");
+        return sb3.toString();
+    }
+
+    public static String geo(double d, double d2) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(deg(d));
+        sb.append(d > 0.0d ? "N" : "S");
+        sb.append(" ");
+        sb.append(deg(d2));
+        sb.append(d2 > 0.0d ? "E" : "W");
+        return sb.toString();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    public TextViewSelectionView createSelectionView() {
+        return new TextViewSelectionView(getContext());
+    }
+
+    public int getColor() {
+        return this.currentColor;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getMaxScale() {
+        return 1.5f;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    public Rect getSelectionBounds() {
+        ViewGroup viewGroup = (ViewGroup) getParent();
+        if (viewGroup == null) {
+            return new Rect();
+        }
+        float scaleX = viewGroup.getScaleX();
+        float measuredWidth = (getMeasuredWidth() * getScale()) + (AndroidUtilities.dp(64.0f) / scaleX);
+        float measuredHeight = (getMeasuredHeight() * getScale()) + (AndroidUtilities.dp(64.0f) / scaleX);
+        float positionX = (getPositionX() - (measuredWidth / 2.0f)) * scaleX;
+        return new Rect(positionX, (getPositionY() - (measuredHeight / 2.0f)) * scaleX, ((measuredWidth * scaleX) + positionX) - positionX, measuredHeight * scaleX);
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getStickyPaddingBottom() {
+        return this.marker.pady;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getStickyPaddingLeft() {
+        return this.marker.padx;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getStickyPaddingRight() {
+        return this.marker.padx;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getStickyPaddingTop() {
+        return this.marker.pady;
+    }
+
+    public int getType() {
+        return this.currentType;
+    }
+
+    public int getTypesCount() {
+        return this.marker.getTypesCount() - (!this.hasColor ? 1 : 0);
+    }
+
+    public boolean hasColor() {
+        return this.hasColor;
+    }
+
+    @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        super.onLayout(z, i, i2, i3, i4);
+        updatePosition();
+    }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(i, i2);
+        updatePosition();
+    }
+
+    public void setColor(int i) {
+        this.hasColor = true;
+        this.currentColor = i;
+    }
+
+    public void setLocation(int i, TLRPC$MessageMedia tLRPC$MessageMedia, TL_stories$MediaArea tL_stories$MediaArea) {
+        String str;
+        this.location = tLRPC$MessageMedia;
+        this.mediaArea = tL_stories$MediaArea;
+        String str2 = null;
+        if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGeo) {
+            TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$MessageMedia.geo;
+            str = geo(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long);
+        } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaVenue) {
+            String upperCase = tLRPC$MessageMedia.title.toUpperCase();
+            str2 = ((TLRPC$TL_messageMediaVenue) tLRPC$MessageMedia).emoji;
+            str = upperCase;
+        } else {
+            str = "";
+        }
+        this.marker.setCodeEmoji(i, str2);
+        this.marker.setText(str);
+        updateSelectionView();
+    }
+
+    public void setMaxWidth(int i) {
+        this.marker.setMaxWidth(i);
+    }
+
+    public void setType(int i) {
+        LocationMarker locationMarker = this.marker;
+        this.currentType = i;
+        locationMarker.setType(i, this.currentColor);
     }
 }

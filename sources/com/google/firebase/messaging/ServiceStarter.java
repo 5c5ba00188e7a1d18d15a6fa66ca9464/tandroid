@@ -8,14 +8,13 @@ import android.content.pm.ServiceInfo;
 import android.util.Log;
 import java.util.ArrayDeque;
 import java.util.Queue;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class ServiceStarter {
     private static ServiceStarter instance;
     private String firebaseMessagingServiceClassName = null;
     private Boolean hasWakeLockPermission = null;
     private Boolean hasAccessNetworkStatePermission = null;
-    private final Queue<Intent> messagingEvents = new ArrayDeque();
+    private final Queue messagingEvents = new ArrayDeque();
 
     private ServiceStarter() {
     }
@@ -73,10 +72,11 @@ public class ServiceStarter {
     private synchronized String resolveServiceClassName(Context context, Intent intent) {
         ServiceInfo serviceInfo;
         String str;
+        String str2;
         try {
-            String str2 = this.firebaseMessagingServiceClassName;
-            if (str2 != null) {
-                return str2;
+            String str3 = this.firebaseMessagingServiceClassName;
+            if (str3 != null) {
+                return str3;
             }
             ResolveInfo resolveService = context.getPackageManager().resolveService(intent, 0);
             if (resolveService != null && (serviceInfo = resolveService.serviceInfo) != null) {
@@ -84,19 +84,20 @@ public class ServiceStarter {
                     if (str.startsWith(".")) {
                         String valueOf = String.valueOf(context.getPackageName());
                         String valueOf2 = String.valueOf(serviceInfo.name);
-                        this.firebaseMessagingServiceClassName = valueOf2.length() != 0 ? valueOf.concat(valueOf2) : new String(valueOf);
+                        str2 = valueOf2.length() != 0 ? valueOf.concat(valueOf2) : new String(valueOf);
                     } else {
-                        this.firebaseMessagingServiceClassName = serviceInfo.name;
+                        str2 = serviceInfo.name;
                     }
+                    this.firebaseMessagingServiceClassName = str2;
                     return this.firebaseMessagingServiceClassName;
                 }
-                String str3 = serviceInfo.packageName;
-                String str4 = serviceInfo.name;
-                StringBuilder sb = new StringBuilder(String.valueOf(str3).length() + 94 + String.valueOf(str4).length());
+                String str4 = serviceInfo.packageName;
+                String str5 = serviceInfo.name;
+                StringBuilder sb = new StringBuilder(String.valueOf(str4).length() + 94 + String.valueOf(str5).length());
                 sb.append("Error resolving target intent service, skipping classname enforcement. Resolved service was: ");
-                sb.append(str3);
-                sb.append("/");
                 sb.append(str4);
+                sb.append("/");
+                sb.append(str5);
                 Log.e("FirebaseMessaging", sb.toString());
                 return null;
             }
@@ -109,7 +110,7 @@ public class ServiceStarter {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public Intent getMessagingEvent() {
-        return this.messagingEvents.poll();
+        return (Intent) this.messagingEvents.poll();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

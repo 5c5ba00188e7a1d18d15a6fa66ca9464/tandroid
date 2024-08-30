@@ -3,7 +3,7 @@ package com.google.android.gms.flags.impl;
 import android.content.SharedPreferences;
 import android.util.Log;
 /* loaded from: classes.dex */
-public final class zzh extends zza<String> {
+public abstract class zzh extends zza {
     public static String zza(SharedPreferences sharedPreferences, String str, String str2) {
         try {
             return (String) com.google.android.gms.internal.flags.zze.zza(new zzi(sharedPreferences, str, str2));

@@ -25,6 +25,63 @@ public final class FlacStreamMetadata {
     public final SeekTable seekTable;
     public final long totalSamples;
 
+    /* loaded from: classes.dex */
+    public static class SeekTable {
+        public final long[] pointOffsets;
+        public final long[] pointSampleNumbers;
+
+        public SeekTable(long[] jArr, long[] jArr2) {
+            this.pointSampleNumbers = jArr;
+            this.pointOffsets = jArr2;
+        }
+    }
+
+    private FlacStreamMetadata(int i, int i2, int i3, int i4, int i5, int i6, int i7, long j, SeekTable seekTable, Metadata metadata) {
+        this.minBlockSizeSamples = i;
+        this.maxBlockSizeSamples = i2;
+        this.minFrameSize = i3;
+        this.maxFrameSize = i4;
+        this.sampleRate = i5;
+        this.sampleRateLookupKey = getSampleRateLookupKey(i5);
+        this.channels = i6;
+        this.bitsPerSample = i7;
+        this.bitsPerSampleLookupKey = getBitsPerSampleLookupKey(i7);
+        this.totalSamples = j;
+        this.seekTable = seekTable;
+        this.metadata = metadata;
+    }
+
+    public FlacStreamMetadata(int i, int i2, int i3, int i4, int i5, int i6, int i7, long j, ArrayList<String> arrayList, ArrayList<PictureFrame> arrayList2) {
+        this(i, i2, i3, i4, i5, i6, i7, j, (SeekTable) null, concatenateVorbisMetadata(arrayList, arrayList2));
+    }
+
+    public FlacStreamMetadata(byte[] bArr, int i) {
+        ParsableBitArray parsableBitArray = new ParsableBitArray(bArr);
+        parsableBitArray.setPosition(i * 8);
+        this.minBlockSizeSamples = parsableBitArray.readBits(16);
+        this.maxBlockSizeSamples = parsableBitArray.readBits(16);
+        this.minFrameSize = parsableBitArray.readBits(24);
+        this.maxFrameSize = parsableBitArray.readBits(24);
+        int readBits = parsableBitArray.readBits(20);
+        this.sampleRate = readBits;
+        this.sampleRateLookupKey = getSampleRateLookupKey(readBits);
+        this.channels = parsableBitArray.readBits(3) + 1;
+        int readBits2 = parsableBitArray.readBits(5) + 1;
+        this.bitsPerSample = readBits2;
+        this.bitsPerSampleLookupKey = getBitsPerSampleLookupKey(readBits2);
+        this.totalSamples = parsableBitArray.readBitsToLong(36);
+        this.seekTable = null;
+        this.metadata = null;
+    }
+
+    private static Metadata concatenateVorbisMetadata(List<String> list, List<PictureFrame> list2) {
+        Metadata parseVorbisComments = VorbisUtil.parseVorbisComments(list);
+        if (parseVorbisComments == null && list2.isEmpty()) {
+            return null;
+        }
+        return new Metadata(list2).copyWithAppendedEntriesFrom(parseVorbisComments);
+    }
+
     private static int getBitsPerSampleLookupKey(int i) {
         if (i != 8) {
             if (i != 12) {
@@ -70,73 +127,16 @@ public final class FlacStreamMetadata {
         }
     }
 
-    /* loaded from: classes.dex */
-    public static class SeekTable {
-        public final long[] pointOffsets;
-        public final long[] pointSampleNumbers;
-
-        public SeekTable(long[] jArr, long[] jArr2) {
-            this.pointSampleNumbers = jArr;
-            this.pointOffsets = jArr2;
-        }
+    public FlacStreamMetadata copyWithPictureFrames(List<PictureFrame> list) {
+        return new FlacStreamMetadata(this.minBlockSizeSamples, this.maxBlockSizeSamples, this.minFrameSize, this.maxFrameSize, this.sampleRate, this.channels, this.bitsPerSample, this.totalSamples, this.seekTable, getMetadataCopyWithAppendedEntriesFrom(new Metadata(list)));
     }
 
-    public FlacStreamMetadata(byte[] bArr, int i) {
-        ParsableBitArray parsableBitArray = new ParsableBitArray(bArr);
-        parsableBitArray.setPosition(i * 8);
-        this.minBlockSizeSamples = parsableBitArray.readBits(16);
-        this.maxBlockSizeSamples = parsableBitArray.readBits(16);
-        this.minFrameSize = parsableBitArray.readBits(24);
-        this.maxFrameSize = parsableBitArray.readBits(24);
-        int readBits = parsableBitArray.readBits(20);
-        this.sampleRate = readBits;
-        this.sampleRateLookupKey = getSampleRateLookupKey(readBits);
-        this.channels = parsableBitArray.readBits(3) + 1;
-        int readBits2 = parsableBitArray.readBits(5) + 1;
-        this.bitsPerSample = readBits2;
-        this.bitsPerSampleLookupKey = getBitsPerSampleLookupKey(readBits2);
-        this.totalSamples = parsableBitArray.readBitsToLong(36);
-        this.seekTable = null;
-        this.metadata = null;
+    public FlacStreamMetadata copyWithSeekTable(SeekTable seekTable) {
+        return new FlacStreamMetadata(this.minBlockSizeSamples, this.maxBlockSizeSamples, this.minFrameSize, this.maxFrameSize, this.sampleRate, this.channels, this.bitsPerSample, this.totalSamples, seekTable, this.metadata);
     }
 
-    public FlacStreamMetadata(int i, int i2, int i3, int i4, int i5, int i6, int i7, long j, ArrayList<String> arrayList, ArrayList<PictureFrame> arrayList2) {
-        this(i, i2, i3, i4, i5, i6, i7, j, (SeekTable) null, concatenateVorbisMetadata(arrayList, arrayList2));
-    }
-
-    private FlacStreamMetadata(int i, int i2, int i3, int i4, int i5, int i6, int i7, long j, SeekTable seekTable, Metadata metadata) {
-        this.minBlockSizeSamples = i;
-        this.maxBlockSizeSamples = i2;
-        this.minFrameSize = i3;
-        this.maxFrameSize = i4;
-        this.sampleRate = i5;
-        this.sampleRateLookupKey = getSampleRateLookupKey(i5);
-        this.channels = i6;
-        this.bitsPerSample = i7;
-        this.bitsPerSampleLookupKey = getBitsPerSampleLookupKey(i7);
-        this.totalSamples = j;
-        this.seekTable = seekTable;
-        this.metadata = metadata;
-    }
-
-    public int getMaxDecodedFrameSize() {
-        return this.maxBlockSizeSamples * this.channels * (this.bitsPerSample / 8);
-    }
-
-    public int getDecodedBitrate() {
-        return this.bitsPerSample * this.sampleRate * this.channels;
-    }
-
-    public long getDurationUs() {
-        long j = this.totalSamples;
-        if (j == 0) {
-            return -9223372036854775807L;
-        }
-        return (j * 1000000) / this.sampleRate;
-    }
-
-    public long getSampleNumber(long j) {
-        return Util.constrainValue((j * this.sampleRate) / 1000000, 0L, this.totalSamples - 1);
+    public FlacStreamMetadata copyWithVorbisComments(List<String> list) {
+        return new FlacStreamMetadata(this.minBlockSizeSamples, this.maxBlockSizeSamples, this.minFrameSize, this.maxFrameSize, this.sampleRate, this.channels, this.bitsPerSample, this.totalSamples, this.seekTable, getMetadataCopyWithAppendedEntriesFrom(VorbisUtil.parseVorbisComments(list)));
     }
 
     public long getApproxBytesPerFrame() {
@@ -154,6 +154,18 @@ public final class FlacStreamMetadata {
         return j + j2;
     }
 
+    public int getDecodedBitrate() {
+        return this.bitsPerSample * this.sampleRate * this.channels;
+    }
+
+    public long getDurationUs() {
+        long j = this.totalSamples;
+        if (j == 0) {
+            return -9223372036854775807L;
+        }
+        return (j * 1000000) / this.sampleRate;
+    }
+
     public Format getFormat(byte[] bArr, Metadata metadata) {
         bArr[4] = Byte.MIN_VALUE;
         int i = this.maxFrameSize;
@@ -163,28 +175,16 @@ public final class FlacStreamMetadata {
         return new Format.Builder().setSampleMimeType("audio/flac").setMaxInputSize(i).setChannelCount(this.channels).setSampleRate(this.sampleRate).setInitializationData(Collections.singletonList(bArr)).setMetadata(getMetadataCopyWithAppendedEntriesFrom(metadata)).build();
     }
 
+    public int getMaxDecodedFrameSize() {
+        return this.maxBlockSizeSamples * this.channels * (this.bitsPerSample / 8);
+    }
+
     public Metadata getMetadataCopyWithAppendedEntriesFrom(Metadata metadata) {
         Metadata metadata2 = this.metadata;
         return metadata2 == null ? metadata : metadata2.copyWithAppendedEntriesFrom(metadata);
     }
 
-    public FlacStreamMetadata copyWithSeekTable(SeekTable seekTable) {
-        return new FlacStreamMetadata(this.minBlockSizeSamples, this.maxBlockSizeSamples, this.minFrameSize, this.maxFrameSize, this.sampleRate, this.channels, this.bitsPerSample, this.totalSamples, seekTable, this.metadata);
-    }
-
-    public FlacStreamMetadata copyWithVorbisComments(List<String> list) {
-        return new FlacStreamMetadata(this.minBlockSizeSamples, this.maxBlockSizeSamples, this.minFrameSize, this.maxFrameSize, this.sampleRate, this.channels, this.bitsPerSample, this.totalSamples, this.seekTable, getMetadataCopyWithAppendedEntriesFrom(VorbisUtil.parseVorbisComments(list)));
-    }
-
-    public FlacStreamMetadata copyWithPictureFrames(List<PictureFrame> list) {
-        return new FlacStreamMetadata(this.minBlockSizeSamples, this.maxBlockSizeSamples, this.minFrameSize, this.maxFrameSize, this.sampleRate, this.channels, this.bitsPerSample, this.totalSamples, this.seekTable, getMetadataCopyWithAppendedEntriesFrom(new Metadata(list)));
-    }
-
-    private static Metadata concatenateVorbisMetadata(List<String> list, List<PictureFrame> list2) {
-        Metadata parseVorbisComments = VorbisUtil.parseVorbisComments(list);
-        if (parseVorbisComments == null && list2.isEmpty()) {
-            return null;
-        }
-        return new Metadata(list2).copyWithAppendedEntriesFrom(parseVorbisComments);
+    public long getSampleNumber(long j) {
+        return Util.constrainValue((j * this.sampleRate) / 1000000, 0L, this.totalSamples - 1);
     }
 }

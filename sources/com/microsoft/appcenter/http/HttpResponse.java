@@ -3,26 +3,14 @@ package com.microsoft.appcenter.http;
 import java.util.Map;
 /* loaded from: classes.dex */
 public class HttpResponse {
-    private final Map<String, String> headers;
+    private final Map headers;
     private final String payload;
     private final int statusCode;
 
-    public HttpResponse(int i, String str, Map<String, String> map) {
+    public HttpResponse(int i, String str, Map map) {
         this.payload = str;
         this.statusCode = i;
         this.headers = map;
-    }
-
-    public int getStatusCode() {
-        return this.statusCode;
-    }
-
-    public String getPayload() {
-        return this.payload;
-    }
-
-    public Map<String, String> getHeaders() {
-        return this.headers;
     }
 
     public boolean equals(Object obj) {
@@ -34,6 +22,18 @@ public class HttpResponse {
         }
         HttpResponse httpResponse = (HttpResponse) obj;
         return this.statusCode == httpResponse.statusCode && this.payload.equals(httpResponse.payload) && this.headers.equals(httpResponse.headers);
+    }
+
+    public Map getHeaders() {
+        return this.headers;
+    }
+
+    public String getPayload() {
+        return this.payload;
+    }
+
+    public int getStatusCode() {
+        return this.statusCode;
     }
 
     public int hashCode() {

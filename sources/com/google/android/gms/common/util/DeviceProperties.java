@@ -1,13 +1,11 @@
 package com.google.android.gms.common.util;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import com.google.android.gms.common.GooglePlayServicesUtilLight;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public final class DeviceProperties {
+public abstract class DeviceProperties {
     private static Boolean zzd;
     private static Boolean zze;
     private static Boolean zzg;
@@ -30,7 +28,6 @@ public final class DeviceProperties {
         return "user".equals(Build.TYPE);
     }
 
-    @TargetApi(20)
     public static boolean isWearable(Context context) {
         PackageManager packageManager = context.getPackageManager();
         if (zzd == null) {
@@ -43,7 +40,6 @@ public final class DeviceProperties {
         return zzd.booleanValue();
     }
 
-    @TargetApi(26)
     public static boolean isWearableWithoutPlayStore(Context context) {
         if (!isWearable(context) || PlatformVersion.isAtLeastN()) {
             if (zza(context)) {
@@ -54,7 +50,6 @@ public final class DeviceProperties {
         return true;
     }
 
-    @TargetApi(21)
     public static boolean zza(Context context) {
         if (zze == null) {
             boolean z = false;

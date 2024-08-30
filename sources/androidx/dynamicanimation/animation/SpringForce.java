@@ -31,37 +31,6 @@ public final class SpringForce {
         this.mFinalPosition = f;
     }
 
-    public SpringForce setStiffness(float f) {
-        if (f <= 0.0f) {
-            throw new IllegalArgumentException("Spring stiffness constant must be positive.");
-        }
-        this.mNaturalFreq = Math.sqrt(f);
-        this.mInitialized = false;
-        return this;
-    }
-
-    public SpringForce setDampingRatio(float f) {
-        if (f < 0.0f) {
-            throw new IllegalArgumentException("Damping ratio must be non-negative");
-        }
-        this.mDampingRatio = f;
-        this.mInitialized = false;
-        return this;
-    }
-
-    public SpringForce setFinalPosition(float f) {
-        this.mFinalPosition = f;
-        return this;
-    }
-
-    public float getFinalPosition() {
-        return (float) this.mFinalPosition;
-    }
-
-    public boolean isAtEquilibrium(float f, float f2) {
-        return ((double) Math.abs(f2)) < this.mVelocityThreshold && ((double) Math.abs(f - getFinalPosition())) < this.mValueThreshold;
-    }
-
     private void init() {
         if (this.mInitialized) {
             return;
@@ -80,6 +49,44 @@ public final class SpringForce {
             this.mDampedFreq = this.mNaturalFreq * Math.sqrt(1.0d - (d * d));
         }
         this.mInitialized = true;
+    }
+
+    public float getFinalPosition() {
+        return (float) this.mFinalPosition;
+    }
+
+    public boolean isAtEquilibrium(float f, float f2) {
+        return ((double) Math.abs(f2)) < this.mVelocityThreshold && ((double) Math.abs(f - getFinalPosition())) < this.mValueThreshold;
+    }
+
+    public SpringForce setDampingRatio(float f) {
+        if (f >= 0.0f) {
+            this.mDampingRatio = f;
+            this.mInitialized = false;
+            return this;
+        }
+        throw new IllegalArgumentException("Damping ratio must be non-negative");
+    }
+
+    public SpringForce setFinalPosition(float f) {
+        this.mFinalPosition = f;
+        return this;
+    }
+
+    public SpringForce setStiffness(float f) {
+        if (f > 0.0f) {
+            this.mNaturalFreq = Math.sqrt(f);
+            this.mInitialized = false;
+            return this;
+        }
+        throw new IllegalArgumentException("Spring stiffness constant must be positive.");
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setValueThreshold(double d) {
+        double abs = Math.abs(d);
+        this.mValueThreshold = abs;
+        this.mVelocityThreshold = abs * 62.5d;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -129,12 +136,5 @@ public final class SpringForce {
         massState.mValue = (float) (d3 + this.mFinalPosition);
         massState.mVelocity = (float) cos;
         return massState;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setValueThreshold(double d) {
-        double abs = Math.abs(d);
-        this.mValueThreshold = abs;
-        this.mVelocityThreshold = abs * 62.5d;
     }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.api.internal.TaskUtil;
 import com.google.android.gms.tasks.TaskCompletionSource;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 final class zzy extends zzx {
     private final TaskCompletionSource zza;

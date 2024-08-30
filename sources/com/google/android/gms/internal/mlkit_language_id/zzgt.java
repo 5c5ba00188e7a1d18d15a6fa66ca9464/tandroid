@@ -1,10 +1,9 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
-import java.util.Collections;
-import java.util.List;
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
+import java.util.Iterator;
 import java.util.Map;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzgt extends zzgq {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -15,16 +14,14 @@ public final class zzgt extends zzgq {
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgq
     public final void zza() {
         if (!zzb()) {
-            for (int i = 0; i < zzc(); i++) {
-                Map.Entry zzb = zzb(i);
-                if (((zzel) zzb.getKey()).zzd()) {
-                    zzb.setValue(Collections.unmodifiableList((List) zzb.getValue()));
-                }
+            if (zzc() > 0) {
+                ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(zzb(0).getKey());
+                throw null;
             }
-            for (Map.Entry entry : zzd()) {
-                if (((zzel) entry.getKey()).zzd()) {
-                    entry.setValue(Collections.unmodifiableList((List) entry.getValue()));
-                }
+            Iterator it = zzd().iterator();
+            if (it.hasNext()) {
+                ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(((Map.Entry) it.next()).getKey());
+                throw null;
             }
         }
         super.zza();

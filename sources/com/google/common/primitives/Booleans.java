@@ -1,6 +1,6 @@
 package com.google.common.primitives;
 /* loaded from: classes.dex */
-public final class Booleans {
+public abstract class Booleans {
     public static int compare(boolean z, boolean z2) {
         if (z == z2) {
             return 0;

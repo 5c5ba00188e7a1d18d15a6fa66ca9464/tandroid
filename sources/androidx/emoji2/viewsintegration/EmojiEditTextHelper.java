@@ -13,42 +13,16 @@ public final class EmojiEditTextHelper {
     private int mMaxEmojiCount = ConnectionsManager.DEFAULT_DATACENTER_ID;
     private int mEmojiReplaceStrategy = 0;
 
-    public EmojiEditTextHelper(EditText editText, boolean z) {
-        Preconditions.checkNotNull(editText, "editText cannot be null");
-        this.mHelper = new HelperInternal19(editText, z);
-    }
-
-    public KeyListener getKeyListener(KeyListener keyListener) {
-        return this.mHelper.getKeyListener(keyListener);
-    }
-
-    public InputConnection onCreateInputConnection(InputConnection inputConnection, EditorInfo editorInfo) {
-        if (inputConnection == null) {
-            return null;
-        }
-        return this.mHelper.onCreateInputConnection(inputConnection, editorInfo);
-    }
-
-    public void setEnabled(boolean z) {
-        this.mHelper.setEnabled(z);
-    }
-
     /* loaded from: classes.dex */
     static class HelperInternal {
-        KeyListener getKeyListener(KeyListener keyListener) {
-            throw null;
-        }
-
-        InputConnection onCreateInputConnection(InputConnection inputConnection, EditorInfo editorInfo) {
-            throw null;
-        }
-
-        void setEnabled(boolean z) {
-            throw null;
-        }
-
         HelperInternal() {
         }
+
+        abstract KeyListener getKeyListener(KeyListener keyListener);
+
+        abstract InputConnection onCreateInputConnection(InputConnection inputConnection, EditorInfo editorInfo);
+
+        abstract void setEnabled(boolean z);
     }
 
     /* loaded from: classes.dex */
@@ -84,5 +58,25 @@ public final class EmojiEditTextHelper {
         void setEnabled(boolean z) {
             this.mTextWatcher.setEnabled(z);
         }
+    }
+
+    public EmojiEditTextHelper(EditText editText, boolean z) {
+        Preconditions.checkNotNull(editText, "editText cannot be null");
+        this.mHelper = new HelperInternal19(editText, z);
+    }
+
+    public KeyListener getKeyListener(KeyListener keyListener) {
+        return this.mHelper.getKeyListener(keyListener);
+    }
+
+    public InputConnection onCreateInputConnection(InputConnection inputConnection, EditorInfo editorInfo) {
+        if (inputConnection == null) {
+            return null;
+        }
+        return this.mHelper.onCreateInputConnection(inputConnection, editorInfo);
+    }
+
+    public void setEnabled(boolean z) {
+        this.mHelper.setEnabled(z);
     }
 }

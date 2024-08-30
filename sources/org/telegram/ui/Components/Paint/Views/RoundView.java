@@ -39,9 +39,56 @@ public class RoundView extends EntityView {
     private FrameLayout.LayoutParams textureViewParams;
     public Bitmap thumbBitmap;
 
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    public boolean trashCenter() {
-        return true;
+    /* loaded from: classes3.dex */
+    public class RoundViewSelectionView extends EntityView.SelectionView {
+        private final RectF arcRect;
+
+        public RoundViewSelectionView(Context context) {
+            super(context);
+            this.arcRect = new RectF();
+        }
+
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            int saveCount = canvas.getSaveCount();
+            float showAlpha = getShowAlpha();
+            if (showAlpha <= 0.0f) {
+                return;
+            }
+            if (showAlpha < 1.0f) {
+                canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), (int) (showAlpha * 255.0f), 31);
+            }
+            float dpf2 = AndroidUtilities.dpf2(5.66f);
+            float dp = AndroidUtilities.dp(1.0f) + dpf2 + AndroidUtilities.dp(15.0f);
+            float measuredWidth = (getMeasuredWidth() / 2.0f) - dp;
+            float f = dp + (2.0f * measuredWidth);
+            this.arcRect.set(dp, dp, f, f);
+            canvas.drawArc(this.arcRect, 0.0f, 180.0f, false, this.paint);
+            canvas.drawArc(this.arcRect, 180.0f, 180.0f, false, this.paint);
+            float f2 = measuredWidth + dp;
+            canvas.drawCircle(dp, f2, dpf2, this.dotStrokePaint);
+            canvas.drawCircle(dp, f2, dpf2 - AndroidUtilities.dp(1.0f), this.dotPaint);
+            canvas.drawCircle(f, f2, dpf2, this.dotStrokePaint);
+            canvas.drawCircle(f, f2, dpf2 - AndroidUtilities.dp(1.0f), this.dotPaint);
+            canvas.restoreToCount(saveCount);
+        }
+
+        @Override // org.telegram.ui.Components.Paint.Views.EntityView.SelectionView
+        protected int pointInsideHandle(float f, float f2) {
+            float dp = AndroidUtilities.dp(19.5f);
+            float dp2 = AndroidUtilities.dp(1.0f) + dp;
+            float f3 = dp2 * 2.0f;
+            float measuredHeight = ((getMeasuredHeight() - f3) / 2.0f) + dp2;
+            if (f <= dp2 - dp || f2 <= measuredHeight - dp || f >= dp2 + dp || f2 >= measuredHeight + dp) {
+                if (f <= ((getMeasuredWidth() - f3) + dp2) - dp || f2 <= measuredHeight - dp || f >= dp2 + (getMeasuredWidth() - f3) + dp || f2 >= measuredHeight + dp) {
+                    float measuredWidth = getMeasuredWidth() / 2.0f;
+                    return Math.pow((double) (f - measuredWidth), 2.0d) + Math.pow((double) (f2 - measuredWidth), 2.0d) < Math.pow((double) measuredWidth, 2.0d) ? 3 : 0;
+                }
+                return 2;
+            }
+            return 1;
+        }
     }
 
     public RoundView(Context context, Point point, float f, float f2, Size size, String str) {
@@ -79,55 +126,9 @@ public class RoundView extends EntityView {
         setWillNotDraw(false);
     }
 
-    public void resizeTextureView(int i, int i2) {
-        float f = i / i2;
-        if (Math.abs(this.a - f) >= 1.0E-4f) {
-            this.a = f;
-            requestLayout();
-        }
-    }
-
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        Size size = this.baseSize;
-        int i3 = (int) size.width;
-        int i4 = (int) size.height;
-        TextureView textureView = this.textureView;
-        if (textureView != null) {
-            float f = this.a;
-            int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(f >= 1.0f ? (int) (f * i4) : i3, 1073741824);
-            float f2 = this.a;
-            textureView.measure(makeMeasureSpec, View.MeasureSpec.makeMeasureSpec(f2 >= 1.0f ? i4 : (int) (i3 / f2), 1073741824));
-        }
-        setMeasuredDimension(i3, i4);
-    }
-
-    @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        TextureView textureView = this.textureView;
-        if (textureView != null) {
-            int measuredHeight = ((i4 - i2) - textureView.getMeasuredHeight()) / 2;
-            int measuredWidth = ((i3 - i) - this.textureView.getMeasuredWidth()) / 2;
-            TextureView textureView2 = this.textureView;
-            textureView2.layout(measuredWidth, measuredHeight, textureView2.getMeasuredWidth() + measuredWidth, this.textureView.getMeasuredHeight() + measuredHeight);
-        }
-    }
-
-    public void setDraw(boolean z) {
-        if (this.draw != z) {
-            this.draw = z;
-            invalidate();
-        }
-    }
-
-    public void setShown(boolean z, boolean z2) {
-        if (this.shown != z) {
-            this.shown = z;
-            if (!z2) {
-                this.shownT.set(z, true);
-            }
-            invalidate();
-        }
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected EntityView.SelectionView createSelectionView() {
+        return new RoundViewSelectionView(getContext());
     }
 
     @Override // android.view.ViewGroup
@@ -176,26 +177,8 @@ public class RoundView extends EntityView {
         return this.anchor;
     }
 
-    public void mirror(boolean z) {
-        boolean z2 = !this.mirrored;
-        this.mirrored = z2;
-        if (!z) {
-            this.mirrorT.set(z2, true);
-        }
-        invalidate();
-    }
-
-    public boolean isMirrored() {
-        return this.mirrored;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    public void updatePosition() {
-        Size size = this.baseSize;
-        setX(getPositionX() - (size.width / 2.0f));
-        setY(getPositionY() - (size.height / 2.0f));
-        updateSelectionView();
+    public Size getBaseSize() {
+        return this.baseSize;
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
@@ -211,64 +194,81 @@ public class RoundView extends EntityView {
         return new org.telegram.ui.Components.Rect(positionX, (getPositionY() - (measuredHeight / 2.0f)) * scaleX, ((measuredWidth * scaleX) + positionX) - positionX, measuredHeight * scaleX);
     }
 
+    public boolean isMirrored() {
+        return this.mirrored;
+    }
+
+    public void mirror(boolean z) {
+        boolean z2 = !this.mirrored;
+        this.mirrored = z2;
+        if (!z) {
+            this.mirrorT.set(z2, true);
+        }
+        invalidate();
+    }
+
+    @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        TextureView textureView = this.textureView;
+        if (textureView != null) {
+            int measuredHeight = ((i4 - i2) - textureView.getMeasuredHeight()) / 2;
+            int measuredWidth = ((i3 - i) - this.textureView.getMeasuredWidth()) / 2;
+            TextureView textureView2 = this.textureView;
+            textureView2.layout(measuredWidth, measuredHeight, textureView2.getMeasuredWidth() + measuredWidth, this.textureView.getMeasuredHeight() + measuredHeight);
+        }
+    }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        Size size = this.baseSize;
+        int i3 = (int) size.width;
+        int i4 = (int) size.height;
+        TextureView textureView = this.textureView;
+        if (textureView != null) {
+            float f = this.a;
+            int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(f >= 1.0f ? (int) (f * i4) : i3, 1073741824);
+            float f2 = this.a;
+            textureView.measure(makeMeasureSpec, View.MeasureSpec.makeMeasureSpec(f2 >= 1.0f ? i4 : (int) (i3 / f2), 1073741824));
+        }
+        setMeasuredDimension(i3, i4);
+    }
+
+    public void resizeTextureView(int i, int i2) {
+        float f = i / i2;
+        if (Math.abs(this.a - f) >= 1.0E-4f) {
+            this.a = f;
+            requestLayout();
+        }
+    }
+
+    public void setDraw(boolean z) {
+        if (this.draw != z) {
+            this.draw = z;
+            invalidate();
+        }
+    }
+
+    public void setShown(boolean z, boolean z2) {
+        if (this.shown != z) {
+            this.shown = z;
+            if (!z2) {
+                this.shownT.set(z, true);
+            }
+            invalidate();
+        }
+    }
+
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected EntityView.SelectionView createSelectionView() {
-        return new RoundViewSelectionView(getContext());
+    public boolean trashCenter() {
+        return true;
     }
 
-    public Size getBaseSize() {
-        return this.baseSize;
-    }
-
-    /* loaded from: classes3.dex */
-    public class RoundViewSelectionView extends EntityView.SelectionView {
-        private final RectF arcRect;
-
-        public RoundViewSelectionView(Context context) {
-            super(context);
-            this.arcRect = new RectF();
-        }
-
-        @Override // org.telegram.ui.Components.Paint.Views.EntityView.SelectionView
-        protected int pointInsideHandle(float f, float f2) {
-            float dp = AndroidUtilities.dp(19.5f);
-            float dp2 = AndroidUtilities.dp(1.0f) + dp;
-            float f3 = dp2 * 2.0f;
-            float measuredHeight = ((getMeasuredHeight() - f3) / 2.0f) + dp2;
-            if (f <= dp2 - dp || f2 <= measuredHeight - dp || f >= dp2 + dp || f2 >= measuredHeight + dp) {
-                if (f <= ((getMeasuredWidth() - f3) + dp2) - dp || f2 <= measuredHeight - dp || f >= dp2 + (getMeasuredWidth() - f3) + dp || f2 >= measuredHeight + dp) {
-                    float measuredWidth = getMeasuredWidth() / 2.0f;
-                    return Math.pow((double) (f - measuredWidth), 2.0d) + Math.pow((double) (f2 - measuredWidth), 2.0d) < Math.pow((double) measuredWidth, 2.0d) ? 3 : 0;
-                }
-                return 2;
-            }
-            return 1;
-        }
-
-        @Override // android.view.View
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            int saveCount = canvas.getSaveCount();
-            float showAlpha = getShowAlpha();
-            if (showAlpha <= 0.0f) {
-                return;
-            }
-            if (showAlpha < 1.0f) {
-                canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), (int) (showAlpha * 255.0f), 31);
-            }
-            float dpf2 = AndroidUtilities.dpf2(5.66f);
-            float dp = AndroidUtilities.dp(1.0f) + dpf2 + AndroidUtilities.dp(15.0f);
-            float measuredWidth = (getMeasuredWidth() / 2.0f) - dp;
-            float f = dp + (2.0f * measuredWidth);
-            this.arcRect.set(dp, dp, f, f);
-            canvas.drawArc(this.arcRect, 0.0f, 180.0f, false, this.paint);
-            canvas.drawArc(this.arcRect, 180.0f, 180.0f, false, this.paint);
-            float f2 = measuredWidth + dp;
-            canvas.drawCircle(dp, f2, dpf2, this.dotStrokePaint);
-            canvas.drawCircle(dp, f2, dpf2 - AndroidUtilities.dp(1.0f), this.dotPaint);
-            canvas.drawCircle(f, f2, dpf2, this.dotStrokePaint);
-            canvas.drawCircle(f, f2, dpf2 - AndroidUtilities.dp(1.0f), this.dotPaint);
-            canvas.restoreToCount(saveCount);
-        }
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    public void updatePosition() {
+        Size size = this.baseSize;
+        setX(getPositionX() - (size.width / 2.0f));
+        setY(getPositionY() - (size.height / 2.0f));
+        updateSelectionView();
     }
 }

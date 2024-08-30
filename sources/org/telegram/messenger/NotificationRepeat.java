@@ -8,6 +8,11 @@ public class NotificationRepeat extends IntentService {
         super("NotificationRepeat");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$onHandleIntent$0(int i) {
+        NotificationsController.getInstance(i).repeatNotificationMaybe();
+    }
+
     @Override // android.app.IntentService
     protected void onHandleIntent(Intent intent) {
         if (intent == null) {
@@ -22,10 +27,5 @@ public class NotificationRepeat extends IntentService {
                 }
             });
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$onHandleIntent$0(int i) {
-        NotificationsController.getInstance(i).repeatNotificationMaybe();
     }
 }

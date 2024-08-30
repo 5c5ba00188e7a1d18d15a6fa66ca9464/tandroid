@@ -4,7 +4,6 @@ import android.os.Bundle;
 import androidx.lifecycle.Lifecycle;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
-/* compiled from: SavedStateRegistryController.kt */
 /* loaded from: classes.dex */
 public final class SavedStateRegistryController {
     public static final Companion Companion = new Companion(null);
@@ -12,17 +11,32 @@ public final class SavedStateRegistryController {
     private final SavedStateRegistryOwner owner;
     private final SavedStateRegistry savedStateRegistry;
 
+    /* loaded from: classes.dex */
+    public static final class Companion {
+        private Companion() {
+        }
+
+        public /* synthetic */ Companion(DefaultConstructorMarker defaultConstructorMarker) {
+            this();
+        }
+
+        public final SavedStateRegistryController create(SavedStateRegistryOwner owner) {
+            Intrinsics.checkNotNullParameter(owner, "owner");
+            return new SavedStateRegistryController(owner, null);
+        }
+    }
+
+    private SavedStateRegistryController(SavedStateRegistryOwner savedStateRegistryOwner) {
+        this.owner = savedStateRegistryOwner;
+        this.savedStateRegistry = new SavedStateRegistry();
+    }
+
     public /* synthetic */ SavedStateRegistryController(SavedStateRegistryOwner savedStateRegistryOwner, DefaultConstructorMarker defaultConstructorMarker) {
         this(savedStateRegistryOwner);
     }
 
     public static final SavedStateRegistryController create(SavedStateRegistryOwner savedStateRegistryOwner) {
         return Companion.create(savedStateRegistryOwner);
-    }
-
-    private SavedStateRegistryController(SavedStateRegistryOwner savedStateRegistryOwner) {
-        this.owner = savedStateRegistryOwner;
-        this.savedStateRegistry = new SavedStateRegistry();
     }
 
     public final SavedStateRegistry getSavedStateRegistry() {
@@ -46,30 +60,15 @@ public final class SavedStateRegistryController {
         }
         Lifecycle lifecycle = this.owner.getLifecycle();
         Intrinsics.checkNotNullExpressionValue(lifecycle, "owner.lifecycle");
-        if (!(!lifecycle.getCurrentState().isAtLeast(Lifecycle.State.STARTED))) {
-            throw new IllegalStateException(("performRestore cannot be called when owner is " + lifecycle.getCurrentState()).toString());
+        if (!lifecycle.getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+            this.savedStateRegistry.performRestore$savedstate_release(bundle);
+            return;
         }
-        this.savedStateRegistry.performRestore$savedstate_release(bundle);
+        throw new IllegalStateException(("performRestore cannot be called when owner is " + lifecycle.getCurrentState()).toString());
     }
 
     public final void performSave(Bundle outBundle) {
         Intrinsics.checkNotNullParameter(outBundle, "outBundle");
         this.savedStateRegistry.performSave(outBundle);
-    }
-
-    /* compiled from: SavedStateRegistryController.kt */
-    /* loaded from: classes.dex */
-    public static final class Companion {
-        public /* synthetic */ Companion(DefaultConstructorMarker defaultConstructorMarker) {
-            this();
-        }
-
-        private Companion() {
-        }
-
-        public final SavedStateRegistryController create(SavedStateRegistryOwner owner) {
-            Intrinsics.checkNotNullParameter(owner, "owner");
-            return new SavedStateRegistryController(owner, null);
-        }
     }
 }

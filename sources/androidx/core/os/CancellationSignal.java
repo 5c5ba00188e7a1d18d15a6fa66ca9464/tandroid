@@ -7,16 +7,28 @@ public final class CancellationSignal {
     private OnCancelListener mOnCancelListener;
 
     /* loaded from: classes.dex */
+    static class Api16Impl {
+        static void cancel(Object obj) {
+            ((android.os.CancellationSignal) obj).cancel();
+        }
+
+        static android.os.CancellationSignal createCancellationSignal() {
+            return new android.os.CancellationSignal();
+        }
+    }
+
+    /* loaded from: classes.dex */
     public interface OnCancelListener {
         void onCancel();
     }
 
-    public boolean isCanceled() {
-        boolean z;
-        synchronized (this) {
-            z = this.mIsCanceled;
+    private void waitForCancelFinishedLocked() {
+        while (this.mCancelInProgress) {
+            try {
+                wait();
+            } catch (InterruptedException unused) {
+            }
         }
-        return z;
     }
 
     public void cancel() {
@@ -52,22 +64,6 @@ public final class CancellationSignal {
         }
     }
 
-    public void setOnCancelListener(OnCancelListener onCancelListener) {
-        synchronized (this) {
-            try {
-                waitForCancelFinishedLocked();
-                if (this.mOnCancelListener == onCancelListener) {
-                    return;
-                }
-                this.mOnCancelListener = onCancelListener;
-                if (this.mIsCanceled && onCancelListener != null) {
-                    onCancelListener.onCancel();
-                }
-            } finally {
-            }
-        }
-    }
-
     public Object getCancellationSignalObject() {
         Object obj;
         synchronized (this) {
@@ -87,23 +83,27 @@ public final class CancellationSignal {
         return obj;
     }
 
-    private void waitForCancelFinishedLocked() {
-        while (this.mCancelInProgress) {
-            try {
-                wait();
-            } catch (InterruptedException unused) {
-            }
+    public boolean isCanceled() {
+        boolean z;
+        synchronized (this) {
+            z = this.mIsCanceled;
         }
+        return z;
     }
 
-    /* loaded from: classes.dex */
-    static class Api16Impl {
-        static void cancel(Object obj) {
-            ((android.os.CancellationSignal) obj).cancel();
-        }
-
-        static android.os.CancellationSignal createCancellationSignal() {
-            return new android.os.CancellationSignal();
+    public void setOnCancelListener(OnCancelListener onCancelListener) {
+        synchronized (this) {
+            try {
+                waitForCancelFinishedLocked();
+                if (this.mOnCancelListener == onCancelListener) {
+                    return;
+                }
+                this.mOnCancelListener = onCancelListener;
+                if (this.mIsCanceled && onCancelListener != null) {
+                    onCancelListener.onCancel();
+                }
+            } finally {
+            }
         }
     }
 }

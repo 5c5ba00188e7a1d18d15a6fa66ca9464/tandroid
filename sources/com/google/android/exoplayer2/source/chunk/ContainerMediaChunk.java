@@ -7,7 +7,6 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSourceUtil;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.StatsDataSource;
-import java.io.IOException;
 /* loaded from: classes.dex */
 public class ContainerMediaChunk extends BaseMediaChunk {
     private final int chunkCount;
@@ -17,10 +16,6 @@ public class ContainerMediaChunk extends BaseMediaChunk {
     private long nextLoadPosition;
     private final long sampleOffsetUs;
 
-    protected ChunkExtractor.TrackOutputProvider getTrackOutputProvider(BaseMediaChunkOutput baseMediaChunkOutput) {
-        return baseMediaChunkOutput;
-    }
-
     public ContainerMediaChunk(DataSource dataSource, DataSpec dataSpec, Format format, int i, Object obj, long j, long j2, long j3, long j4, long j5, int i2, long j6, ChunkExtractor chunkExtractor) {
         super(dataSource, dataSpec, format, i, obj, j, j2, j3, j4, j5);
         this.chunkCount = i2;
@@ -28,9 +23,18 @@ public class ContainerMediaChunk extends BaseMediaChunk {
         this.chunkExtractor = chunkExtractor;
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
+    public final void cancelLoad() {
+        this.loadCanceled = true;
+    }
+
     @Override // com.google.android.exoplayer2.source.chunk.MediaChunk
     public long getNextChunkIndex() {
         return this.chunkIndex + this.chunkCount;
+    }
+
+    protected ChunkExtractor.TrackOutputProvider getTrackOutputProvider(BaseMediaChunkOutput baseMediaChunkOutput) {
+        return baseMediaChunkOutput;
     }
 
     @Override // com.google.android.exoplayer2.source.chunk.MediaChunk
@@ -39,12 +43,7 @@ public class ContainerMediaChunk extends BaseMediaChunk {
     }
 
     @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
-    public final void cancelLoad() {
-        this.loadCanceled = true;
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
-    public final void load() throws IOException {
+    public final void load() {
         if (this.nextLoadPosition == 0) {
             BaseMediaChunkOutput output = getOutput();
             output.setSampleOffsetUs(this.sampleOffsetUs);

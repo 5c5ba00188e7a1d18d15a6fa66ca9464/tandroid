@@ -1,11 +1,9 @@
 package com.google.android.gms.internal.safetynet;
 
-import android.os.RemoteException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.safetynet.SafeBrowsingData;
-/* compiled from: com.google.android.gms:play-services-safetynet@@17.0.1 */
 /* loaded from: classes.dex */
-public class zzd extends zzf {
+public abstract class zzd extends zzf {
     @Override // com.google.android.gms.internal.safetynet.zzg
     public void zzb(Status status, boolean z) {
         throw new UnsupportedOperationException();
@@ -17,7 +15,7 @@ public class zzd extends zzf {
     }
 
     @Override // com.google.android.gms.internal.safetynet.zzg
-    public final void zze(String str) throws RemoteException {
+    public final void zze(String str) {
         throw new UnsupportedOperationException();
     }
 

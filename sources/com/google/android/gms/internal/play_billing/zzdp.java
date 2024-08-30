@@ -1,9 +1,6 @@
 package com.google.android.gms.internal.play_billing;
-
-import java.io.IOException;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-interface zzdp<T> {
+interface zzdp {
     int zza(Object obj);
 
     int zzb(Object obj);
@@ -14,9 +11,9 @@ interface zzdp<T> {
 
     void zzg(Object obj, Object obj2);
 
-    void zzh(Object obj, byte[] bArr, int i, int i2, zzan zzanVar) throws IOException;
+    void zzh(Object obj, byte[] bArr, int i, int i2, zzan zzanVar);
 
-    void zzi(Object obj, zzey zzeyVar) throws IOException;
+    void zzi(Object obj, zzey zzeyVar);
 
     boolean zzj(Object obj, Object obj2);
 

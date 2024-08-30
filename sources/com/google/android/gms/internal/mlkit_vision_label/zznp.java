@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zznp {
     private static zzbe zza;
@@ -87,10 +86,7 @@ public final class zznp {
     }
 
     private final String zzj() {
-        if (this.zzg.isSuccessful()) {
-            return (String) this.zzg.getResult();
-        }
-        return LibraryVersion.getInstance().getVersion(this.zzi);
+        return this.zzg.isSuccessful() ? (String) this.zzg.getResult() : LibraryVersion.getInstance().getVersion(this.zzi);
     }
 
     private final boolean zzk(zzkf zzkfVar, long j, long j2) {
@@ -98,13 +94,12 @@ public final class zznp {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ String zzb() throws Exception {
+    public final /* synthetic */ String zzb() {
         return LibraryVersion.getInstance().getVersion(this.zzi);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void zzc(zznf zznfVar, zzkf zzkfVar, String str) {
-        String mlSdkInstanceId;
         zznfVar.zzb(zzkfVar);
         String zzd = zznfVar.zzd();
         zzmh zzmhVar = new zzmh();
@@ -114,12 +109,7 @@ public final class zznp {
         zzmhVar.zzg(Boolean.TRUE);
         zzmhVar.zzl(zzd);
         zzmhVar.zzj(str);
-        if (this.zzh.isSuccessful()) {
-            mlSdkInstanceId = (String) this.zzh.getResult();
-        } else {
-            mlSdkInstanceId = this.zzf.getMlSdkInstanceId();
-        }
-        zzmhVar.zzi(mlSdkInstanceId);
+        zzmhVar.zzi(this.zzh.isSuccessful() ? (String) this.zzh.getResult() : this.zzf.getMlSdkInstanceId());
         zzmhVar.zzd(10);
         zzmhVar.zzk(Integer.valueOf(this.zzj));
         zznfVar.zzc(zzmhVar);

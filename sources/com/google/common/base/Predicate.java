@@ -1,5 +1,5 @@
 package com.google.common.base;
 /* loaded from: classes.dex */
-public interface Predicate<T> {
-    boolean apply(T t);
+public interface Predicate {
+    boolean apply(Object obj);
 }

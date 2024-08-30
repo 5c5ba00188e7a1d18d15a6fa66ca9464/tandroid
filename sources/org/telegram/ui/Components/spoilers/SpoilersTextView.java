@@ -33,8 +33,8 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
     private Layout lastLayout;
     private int lastTextLength;
     private Path path;
-    protected List<SpoilerEffect> spoilers;
-    private Stack<SpoilerEffect> spoilersPool;
+    protected List spoilers;
+    private Stack spoilersPool;
     private boolean useAlphaForEmoji;
     private Paint xRefPaint;
 
@@ -45,7 +45,7 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
     public SpoilersTextView(Context context, final boolean z) {
         super(context);
         this.spoilers = new ArrayList();
-        this.spoilersPool = new Stack<>();
+        this.spoilersPool = new Stack();
         this.path = new Path();
         this.allowClickSpoilers = true;
         this.cacheType = 0;
@@ -55,6 +55,39 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
             @Override // org.telegram.ui.Components.spoilers.SpoilersClickDetector.OnSpoilerClickedListener
             public final void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2) {
                 SpoilersTextView.this.lambda$new$2(z, spoilerEffect, f, f2);
+            }
+        });
+    }
+
+    private void invalidateSpoilers() {
+        List list = this.spoilers;
+        if (list == null) {
+            return;
+        }
+        this.spoilersPool.addAll(list);
+        this.spoilers.clear();
+        if (this.isSpoilersRevealed) {
+            invalidate();
+            return;
+        }
+        if (getLayout() != null && (getText() instanceof Spanned)) {
+            SpoilerEffect.addSpoilers(this, this.spoilersPool, this.spoilers);
+        }
+        invalidate();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0() {
+        this.isSpoilersRevealed = true;
+        invalidateSpoilers();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$1() {
+        post(new Runnable() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                SpoilersTextView.this.lambda$new$0();
             }
         });
     }
@@ -76,22 +109,6 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1() {
-        post(new Runnable() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda2
-            @Override // java.lang.Runnable
-            public final void run() {
-                SpoilersTextView.this.lambda$new$0();
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0() {
-        this.isSpoilersRevealed = true;
-        invalidateSpoilers();
-    }
-
     @Override // android.view.View
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
         if (this.allowClickSpoilers && this.clickDetector.onTouchEvent(motionEvent)) {
@@ -100,34 +117,15 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
         return super.dispatchTouchEvent(motionEvent);
     }
 
-    @Override // android.widget.TextView
-    public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-        this.isSpoilersRevealed = false;
-        super.setText(charSequence, bufferType);
+    @Override // org.telegram.ui.Cells.TextSelectionHelper.SimpleSelectabeleView
+    public Layout getStaticTextLayout() {
+        return getLayout();
     }
 
-    public void setUseAlphaForEmoji(boolean z) {
-        this.useAlphaForEmoji = z;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // android.widget.TextView
-    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        super.onTextChanged(charSequence, i, i2, i3);
-        invalidateSpoilers();
+    @Override // android.widget.TextView, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
         updateAnimatedEmoji(true);
-    }
-
-    @Override // android.view.View
-    protected void onSizeChanged(int i, int i2, int i3, int i4) {
-        super.onSizeChanged(i, i2, i3, i4);
-        invalidateSpoilers();
-    }
-
-    @Override // android.widget.TextView
-    public void setTextColor(int i) {
-        super.setTextColor(i);
-        this.animatedEmojiColorFilter = new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -150,7 +148,7 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
         canvas.clipPath(this.path);
         this.path.rewind();
         if (!this.spoilers.isEmpty()) {
-            this.spoilers.get(0).getRipplePath(this.path);
+            ((SpoilerEffect) this.spoilers.get(0)).getRipplePath(this.path);
         }
         canvas.clipPath(this.path);
         super.onDraw(canvas);
@@ -165,7 +163,7 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
         if (this.spoilers.isEmpty()) {
             return;
         }
-        boolean z = this.spoilers.get(0).getRippleProgress() != -1.0f;
+        boolean z = ((SpoilerEffect) this.spoilers.get(0)).getRippleProgress() != -1.0f;
         if (z) {
             canvas.saveLayer(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), null, 31);
         } else {
@@ -178,7 +176,7 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
         }
         if (z) {
             this.path.rewind();
-            this.spoilers.get(0).getRipplePath(this.path);
+            ((SpoilerEffect) this.spoilers.get(0)).getRipplePath(this.path);
             if (this.xRefPaint == null) {
                 Paint paint = new Paint(1);
                 this.xRefPaint = paint;
@@ -191,15 +189,39 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
     }
 
     @Override // android.widget.TextView, android.view.View
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        updateAnimatedEmoji(true);
-    }
-
-    @Override // android.widget.TextView, android.view.View
     protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
         invalidateSpoilers();
+    }
+
+    @Override // android.view.View
+    protected void onSizeChanged(int i, int i2, int i3, int i4) {
+        super.onSizeChanged(i, i2, i3, i4);
+        invalidateSpoilers();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.widget.TextView
+    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        super.onTextChanged(charSequence, i, i2, i3);
+        invalidateSpoilers();
+        updateAnimatedEmoji(true);
+    }
+
+    @Override // android.widget.TextView
+    public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+        this.isSpoilersRevealed = false;
+        super.setText(charSequence, bufferType);
+    }
+
+    @Override // android.widget.TextView
+    public void setTextColor(int i) {
+        super.setTextColor(i);
+        this.animatedEmojiColorFilter = new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN);
+    }
+
+    public void setUseAlphaForEmoji(boolean z) {
+        this.useAlphaForEmoji = z;
     }
 
     public void updateAnimatedEmoji(boolean z) {
@@ -210,27 +232,5 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
         this.animatedEmoji = AnimatedEmojiSpan.update(this.cacheType, this, this.animatedEmoji, getLayout());
         this.lastLayout = getLayout();
         this.lastTextLength = length;
-    }
-
-    private void invalidateSpoilers() {
-        List<SpoilerEffect> list = this.spoilers;
-        if (list == null) {
-            return;
-        }
-        this.spoilersPool.addAll(list);
-        this.spoilers.clear();
-        if (this.isSpoilersRevealed) {
-            invalidate();
-            return;
-        }
-        if (getLayout() != null && (getText() instanceof Spanned)) {
-            SpoilerEffect.addSpoilers(this, this.spoilersPool, this.spoilers);
-        }
-        invalidate();
-    }
-
-    @Override // org.telegram.ui.Cells.TextSelectionHelper.SimpleSelectabeleView
-    public Layout getStaticTextLayout() {
-        return getLayout();
     }
 }

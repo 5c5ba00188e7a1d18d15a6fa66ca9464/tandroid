@@ -6,9 +6,8 @@ import android.text.TextUtils;
 import com.google.android.gms.common.internal.GmsLogger;
 import com.google.android.gms.common.util.PlatformVersion;
 import java.util.Locale;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
-public class CommonUtils {
+public abstract class CommonUtils {
     private static final GmsLogger zza = new GmsLogger("CommonUtils", "");
 
     public static String getAppVersion(Context context) {

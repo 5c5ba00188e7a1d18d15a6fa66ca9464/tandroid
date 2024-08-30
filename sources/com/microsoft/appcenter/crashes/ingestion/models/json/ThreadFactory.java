@@ -5,7 +5,7 @@ import com.microsoft.appcenter.ingestion.models.json.ModelFactory;
 import java.util.ArrayList;
 import java.util.List;
 /* loaded from: classes.dex */
-public class ThreadFactory implements ModelFactory<Thread> {
+public class ThreadFactory implements ModelFactory {
     private static final ThreadFactory sInstance = new ThreadFactory();
 
     private ThreadFactory() {
@@ -21,7 +21,7 @@ public class ThreadFactory implements ModelFactory<Thread> {
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.json.ModelFactory
-    public List<Thread> createList(int i) {
+    public List createList(int i) {
         return new ArrayList(i);
     }
 }

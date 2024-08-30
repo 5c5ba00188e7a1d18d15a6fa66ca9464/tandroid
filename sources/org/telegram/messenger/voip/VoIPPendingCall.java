@@ -23,22 +23,6 @@ public final class VoIPPendingCall {
     private final long userId;
     private final boolean video;
 
-    public static VoIPPendingCall startOrSchedule(Activity activity, long j, boolean z, AccountInstance accountInstance) {
-        return new VoIPPendingCall(activity, j, z, 1000L, accountInstance);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(int i, int i2, Object[] objArr) {
-        if (i == NotificationCenter.didUpdateConnectionState) {
-            onConnectionStateUpdated(false);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1() {
-        onConnectionStateUpdated(true);
-    }
-
     private VoIPPendingCall(Activity activity, long j, boolean z, long j2, AccountInstance accountInstance) {
         NotificationCenter.NotificationCenterDelegate notificationCenterDelegate = new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.messenger.voip.VoIPPendingCall$$ExternalSyntheticLambda0
             @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -69,6 +53,26 @@ public final class VoIPPendingCall {
         handler.postDelayed(runnable, j2);
     }
 
+    private boolean isAirplaneMode() {
+        return Settings.System.getInt(this.activity.getContentResolver(), "airplane_mode_on", 0) != 0;
+    }
+
+    private boolean isConnected(AccountInstance accountInstance) {
+        return accountInstance.getConnectionsManager().getConnectionState() == 3;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0(int i, int i2, Object[] objArr) {
+        if (i == NotificationCenter.didUpdateConnectionState) {
+            onConnectionStateUpdated(false);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$1() {
+        onConnectionStateUpdated(true);
+    }
+
     private boolean onConnectionStateUpdated(boolean z) {
         if (this.released || !(z || isConnected(this.accountInstance) || isAirplaneMode())) {
             return false;
@@ -85,12 +89,8 @@ public final class VoIPPendingCall {
         return true;
     }
 
-    private boolean isConnected(AccountInstance accountInstance) {
-        return accountInstance.getConnectionsManager().getConnectionState() == 3;
-    }
-
-    private boolean isAirplaneMode() {
-        return Settings.System.getInt(this.activity.getContentResolver(), "airplane_mode_on", 0) != 0;
+    public static VoIPPendingCall startOrSchedule(Activity activity, long j, boolean z, AccountInstance accountInstance) {
+        return new VoIPPendingCall(activity, j, z, 1000L, accountInstance);
     }
 
     public void release() {

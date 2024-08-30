@@ -52,24 +52,6 @@ public class Input {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void setShapeHelper(Shape shape) {
-        if (shape != null) {
-            float currentWeight = this.renderView.getCurrentWeight();
-            shape.thickness = currentWeight;
-            double d = this.thicknessSum;
-            if (d > 0.0d) {
-                double d2 = currentWeight;
-                Double.isNaN(d2);
-                shape.thickness = (float) (d2 * (d / this.thicknessCount));
-            }
-            if (shape.getType() == 4) {
-                shape.arrowTriangleLength *= shape.thickness;
-            }
-        }
-        this.renderView.getPainting().setHelperShape(shape);
-    }
-
     public Input(RenderView renderView) {
         this.renderView = renderView;
         this.detector = new ShapeDetector(renderView.getContext(), new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda3
@@ -78,12 +60,6 @@ public class Input {
                 Input.this.setShapeHelper((Shape) obj);
             }
         });
-    }
-
-    public void setMatrix(Matrix matrix) {
-        Matrix matrix2 = new Matrix();
-        this.invertMatrix = matrix2;
-        matrix.invert(matrix2);
     }
 
     private void fill(Brush brush, final boolean z, final Runnable runnable) {
@@ -173,6 +149,220 @@ public class Input {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1() {
         fill(null, true, null);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$paintPath$4(Path path) {
+        this.lastRemainder = path.remainder;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$paintPath$5(final Path path) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                Input.this.lambda$paintPath$4(path);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$process$2(float f, Point point, float f2, float[] fArr, double d, boolean[] zArr, ValueAnimator valueAnimator) {
+        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        double d2 = f;
+        Double.isNaN(d2);
+        double cos = Math.cos(d2 - 2.5918139392115793d);
+        Double.isNaN(d2);
+        double sin = Math.sin(d2 - 2.748893571891069d);
+        double d3 = point.x;
+        double d4 = f2;
+        Double.isNaN(d4);
+        double d5 = cos * d4;
+        double d6 = fArr[0];
+        Double.isNaN(d6);
+        double d7 = point.y;
+        Double.isNaN(d4);
+        double d8 = sin * d4;
+        Double.isNaN(d6);
+        Point point2 = new Point(d3 + (d5 * d6), d7 + (d6 * d8), d);
+        double d9 = point.x;
+        double d10 = floatValue;
+        Double.isNaN(d10);
+        double d11 = d9 + (d5 * d10);
+        double d12 = point.y;
+        Double.isNaN(d10);
+        paintPath(new Path(new Point[]{point2, new Point(d11, d12 + (d8 * d10), d, true)}));
+        Double.isNaN(d2);
+        double cos2 = Math.cos(d2 + 2.5918139392115793d);
+        Double.isNaN(d2);
+        double sin2 = Math.sin(d2 + 2.748893571891069d);
+        double d13 = point.x;
+        Double.isNaN(d4);
+        double d14 = cos2 * d4;
+        double d15 = fArr[0];
+        Double.isNaN(d15);
+        double d16 = d13 + (d14 * d15);
+        double d17 = point.y;
+        Double.isNaN(d4);
+        double d18 = sin2 * d4;
+        Double.isNaN(d15);
+        Point point3 = new Point(d16, d17 + (d15 * d18), d);
+        double d19 = point.x;
+        Double.isNaN(d10);
+        double d20 = d19 + (d14 * d10);
+        double d21 = point.y;
+        Double.isNaN(d10);
+        paintPath(new Path(new Point[]{point3, new Point(d20, d21 + (d18 * d10), d, true)}));
+        if (!zArr[0] && floatValue > 0.4f) {
+            zArr[0] = true;
+            BotWebViewVibrationEffect.SELECTION_CHANGE.vibrate();
+        }
+        fArr[0] = floatValue;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$process$3() {
+        Brush brush = this.switchedBrushByStylusFrom;
+        if (brush != null) {
+            this.renderView.selectBrush(brush);
+            this.switchedBrushByStylusFrom = null;
+        }
+    }
+
+    private float lerpAngle(float f, float f2, float f3) {
+        double d = 1.0f - f3;
+        double d2 = f;
+        double sin = Math.sin(d2);
+        Double.isNaN(d);
+        double d3 = f3;
+        double d4 = f2;
+        double sin2 = Math.sin(d4);
+        Double.isNaN(d3);
+        double cos = Math.cos(d2);
+        Double.isNaN(d);
+        double cos2 = Math.cos(d4);
+        Double.isNaN(d3);
+        return (float) Math.atan2((sin * d) + (sin2 * d3), (d * cos) + (d3 * cos2));
+    }
+
+    private void paintPath(final Path path) {
+        path.setup(this.renderView.getCurrentColor(), this.renderView.getCurrentWeight(), this.renderView.getCurrentBrush());
+        if (this.clearBuffer) {
+            this.lastRemainder = 0.0d;
+        }
+        path.remainder = this.lastRemainder;
+        this.renderView.getPainting().paintStroke(path, this.clearBuffer, false, new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                Input.this.lambda$paintPath$5(path);
+            }
+        });
+        this.clearBuffer = false;
+    }
+
+    private void reset() {
+        this.pointsCount = 0;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void setShapeHelper(Shape shape) {
+        if (shape != null) {
+            float currentWeight = this.renderView.getCurrentWeight();
+            shape.thickness = currentWeight;
+            double d = this.thicknessSum;
+            if (d > 0.0d) {
+                double d2 = currentWeight;
+                Double.isNaN(d2);
+                shape.thickness = (float) (d2 * (d / this.thicknessCount));
+            }
+            if (shape.getType() == 4) {
+                shape.arrowTriangleLength *= shape.thickness;
+            }
+        }
+        this.renderView.getPainting().setHelperShape(shape);
+    }
+
+    private Point smoothPoint(Point point, Point point2, Point point3, float f, float f2) {
+        float f3 = 1.0f - f;
+        double d = f3;
+        double pow = Math.pow(d, 2.0d);
+        double d2 = 2.0f * f3 * f;
+        double d3 = f * f;
+        double d4 = point.x;
+        double d5 = f3 * f3;
+        Double.isNaN(d5);
+        double d6 = f;
+        Double.isNaN(d6);
+        Double.isNaN(d);
+        double d7 = (d4 * d5) + (point3.x * 2.0d * d6 * d);
+        double d8 = point2.x;
+        Double.isNaN(d3);
+        double d9 = d7 + (d8 * d3);
+        double d10 = point.y;
+        Double.isNaN(d5);
+        Double.isNaN(d6);
+        Double.isNaN(d);
+        double d11 = (d10 * d5) + (point3.y * 2.0d * d6 * d);
+        double d12 = point2.y;
+        Double.isNaN(d3);
+        double d13 = point3.z;
+        Double.isNaN(d2);
+        double d14 = point2.z;
+        Double.isNaN(d3);
+        double lerp = AndroidUtilities.lerp(f2, 1.0f, androidx.core.math.MathUtils.clamp(this.realPointsCount / 16.0f, 0.0f, 1.0f));
+        Double.isNaN(lerp);
+        return new Point(d9, d11 + (d12 * d3), (((((point.z * pow) + (d13 * d2)) + (d14 * d3)) - 1.0d) * lerp) + 1.0d);
+    }
+
+    private void smoothenAndPaintPoints(boolean z, float f) {
+        int i = this.pointsCount;
+        if (i <= 2) {
+            Point[] pointArr = new Point[i];
+            System.arraycopy(this.points, 0, pointArr, 0, i);
+            paintPath(new Path(pointArr));
+            return;
+        }
+        Vector vector = new Vector();
+        Point[] pointArr2 = this.points;
+        Point point = pointArr2[0];
+        Point point2 = pointArr2[1];
+        Point point3 = pointArr2[2];
+        if (point3 == null || point2 == null || point == null) {
+            return;
+        }
+        Point multiplySum = point2.multiplySum(point, 0.5d);
+        Point multiplySum2 = point3.multiplySum(point2, 0.5d);
+        int min = (int) Math.min(48.0d, Math.max(Math.floor(multiplySum.getDistanceTo(multiplySum2) / 1), 24.0d));
+        float f2 = 1.0f / min;
+        int i2 = 0;
+        float f3 = 0.0f;
+        while (i2 < min) {
+            int i3 = i2;
+            Point smoothPoint = smoothPoint(multiplySum, multiplySum2, point2, f3, f);
+            if (this.isFirst) {
+                smoothPoint.edge = true;
+                this.isFirst = false;
+            }
+            vector.add(smoothPoint);
+            this.thicknessSum += smoothPoint.z;
+            this.thicknessCount += 1.0d;
+            f3 += f2;
+            i2 = i3 + 1;
+        }
+        if (z) {
+            multiplySum2.edge = true;
+        }
+        vector.add(multiplySum2);
+        Point[] pointArr3 = new Point[vector.size()];
+        vector.toArray(pointArr3);
+        paintPath(new Path(pointArr3));
+        Point[] pointArr4 = this.points;
+        System.arraycopy(pointArr4, 1, pointArr4, 0, 2);
+        if (z) {
+            this.pointsCount = 0;
+        } else {
+            this.pointsCount = 2;
+        }
     }
 
     public void clear(Runnable runnable) {
@@ -350,8 +540,8 @@ public class Input {
                         if (z && (this.renderView.getCurrentBrush() instanceof Brush.Radial)) {
                             this.switchedBrushByStylusFrom = this.renderView.getCurrentBrush();
                             RenderView renderView = this.renderView;
-                            List<Brush> list = Brush.BRUSHES_LIST;
-                            renderView.selectBrush(list.get(list.size() - 1));
+                            List list = Brush.BRUSHES_LIST;
+                            renderView.selectBrush((Brush) list.get(list.size() - 1));
                         }
                     }
                     this.points[this.pointsCount] = point2;
@@ -374,14 +564,14 @@ public class Input {
                                 double d4 = point5.x;
                                 point = point2;
                                 float atan2 = (float) Math.atan2(d3, d4 - point6.x);
-                                if (!this.lastAngleSet) {
-                                    this.lastAngle = atan2;
-                                    this.lastAngleSet = true;
-                                } else {
+                                if (this.lastAngleSet) {
                                     float clamp = androidx.core.math.MathUtils.clamp(distanceTo / (AndroidUtilities.dp(16.0f) / f), 0.0f, 1.0f);
                                     if (clamp > 0.4f) {
                                         this.lastAngle = lerpAngle(this.lastAngle, atan2, clamp);
                                     }
+                                } else {
+                                    this.lastAngle = atan2;
+                                    this.lastAngleSet = true;
                                 }
                                 smoothenAndPaintPoints(false, this.renderView.getCurrentBrush().getSmoothThicknessRate());
                             } else {
@@ -421,200 +611,9 @@ public class Input {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$process$2(float f, Point point, float f2, float[] fArr, double d, boolean[] zArr, ValueAnimator valueAnimator) {
-        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        double d2 = f;
-        Double.isNaN(d2);
-        double cos = Math.cos(d2 - 2.5918139392115793d);
-        Double.isNaN(d2);
-        double sin = Math.sin(d2 - 2.748893571891069d);
-        double d3 = point.x;
-        double d4 = f2;
-        Double.isNaN(d4);
-        double d5 = cos * d4;
-        double d6 = fArr[0];
-        Double.isNaN(d6);
-        double d7 = point.y;
-        Double.isNaN(d4);
-        double d8 = sin * d4;
-        Double.isNaN(d6);
-        Point point2 = new Point(d3 + (d5 * d6), d7 + (d6 * d8), d);
-        double d9 = point.x;
-        double d10 = floatValue;
-        Double.isNaN(d10);
-        double d11 = d9 + (d5 * d10);
-        double d12 = point.y;
-        Double.isNaN(d10);
-        paintPath(new Path(new Point[]{point2, new Point(d11, d12 + (d8 * d10), d, true)}));
-        Double.isNaN(d2);
-        double cos2 = Math.cos(d2 + 2.5918139392115793d);
-        Double.isNaN(d2);
-        double sin2 = Math.sin(d2 + 2.748893571891069d);
-        double d13 = point.x;
-        Double.isNaN(d4);
-        double d14 = cos2 * d4;
-        double d15 = fArr[0];
-        Double.isNaN(d15);
-        double d16 = d13 + (d14 * d15);
-        double d17 = point.y;
-        Double.isNaN(d4);
-        double d18 = sin2 * d4;
-        Double.isNaN(d15);
-        Point point3 = new Point(d16, d17 + (d15 * d18), d);
-        double d19 = point.x;
-        Double.isNaN(d10);
-        double d20 = d19 + (d14 * d10);
-        double d21 = point.y;
-        Double.isNaN(d10);
-        paintPath(new Path(new Point[]{point3, new Point(d20, d21 + (d18 * d10), d, true)}));
-        if (!zArr[0] && floatValue > 0.4f) {
-            zArr[0] = true;
-            BotWebViewVibrationEffect.SELECTION_CHANGE.vibrate();
-        }
-        fArr[0] = floatValue;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$process$3() {
-        Brush brush = this.switchedBrushByStylusFrom;
-        if (brush != null) {
-            this.renderView.selectBrush(brush);
-            this.switchedBrushByStylusFrom = null;
-        }
-    }
-
-    private float lerpAngle(float f, float f2, float f3) {
-        double d = 1.0f - f3;
-        double d2 = f;
-        double sin = Math.sin(d2);
-        Double.isNaN(d);
-        double d3 = f3;
-        double d4 = f2;
-        double sin2 = Math.sin(d4);
-        Double.isNaN(d3);
-        double cos = Math.cos(d2);
-        Double.isNaN(d);
-        double cos2 = Math.cos(d4);
-        Double.isNaN(d3);
-        return (float) Math.atan2((sin * d) + (sin2 * d3), (d * cos) + (d3 * cos2));
-    }
-
-    private void reset() {
-        this.pointsCount = 0;
-    }
-
-    private void smoothenAndPaintPoints(boolean z, float f) {
-        int i = this.pointsCount;
-        if (i > 2) {
-            Vector vector = new Vector();
-            Point[] pointArr = this.points;
-            Point point = pointArr[0];
-            Point point2 = pointArr[1];
-            Point point3 = pointArr[2];
-            if (point3 == null || point2 == null || point == null) {
-                return;
-            }
-            Point multiplySum = point2.multiplySum(point, 0.5d);
-            Point multiplySum2 = point3.multiplySum(point2, 0.5d);
-            int min = (int) Math.min(48.0d, Math.max(Math.floor(multiplySum.getDistanceTo(multiplySum2) / 1), 24.0d));
-            float f2 = 1.0f / min;
-            int i2 = 0;
-            float f3 = 0.0f;
-            while (i2 < min) {
-                int i3 = i2;
-                Point smoothPoint = smoothPoint(multiplySum, multiplySum2, point2, f3, f);
-                if (this.isFirst) {
-                    smoothPoint.edge = true;
-                    this.isFirst = false;
-                }
-                vector.add(smoothPoint);
-                this.thicknessSum += smoothPoint.z;
-                this.thicknessCount += 1.0d;
-                f3 += f2;
-                i2 = i3 + 1;
-            }
-            if (z) {
-                multiplySum2.edge = true;
-            }
-            vector.add(multiplySum2);
-            Point[] pointArr2 = new Point[vector.size()];
-            vector.toArray(pointArr2);
-            paintPath(new Path(pointArr2));
-            Point[] pointArr3 = this.points;
-            System.arraycopy(pointArr3, 1, pointArr3, 0, 2);
-            if (z) {
-                this.pointsCount = 0;
-                return;
-            } else {
-                this.pointsCount = 2;
-                return;
-            }
-        }
-        Point[] pointArr4 = new Point[i];
-        System.arraycopy(this.points, 0, pointArr4, 0, i);
-        paintPath(new Path(pointArr4));
-    }
-
-    private Point smoothPoint(Point point, Point point2, Point point3, float f, float f2) {
-        float f3 = 1.0f - f;
-        double d = f3;
-        double pow = Math.pow(d, 2.0d);
-        double d2 = 2.0f * f3 * f;
-        double d3 = f * f;
-        double d4 = point.x;
-        double d5 = f3 * f3;
-        Double.isNaN(d5);
-        double d6 = f;
-        Double.isNaN(d6);
-        Double.isNaN(d);
-        double d7 = (d4 * d5) + (point3.x * 2.0d * d6 * d);
-        double d8 = point2.x;
-        Double.isNaN(d3);
-        double d9 = d7 + (d8 * d3);
-        double d10 = point.y;
-        Double.isNaN(d5);
-        Double.isNaN(d6);
-        Double.isNaN(d);
-        double d11 = (d10 * d5) + (point3.y * 2.0d * d6 * d);
-        double d12 = point2.y;
-        Double.isNaN(d3);
-        double d13 = point3.z;
-        Double.isNaN(d2);
-        double d14 = point2.z;
-        Double.isNaN(d3);
-        double lerp = AndroidUtilities.lerp(f2, 1.0f, androidx.core.math.MathUtils.clamp(this.realPointsCount / 16.0f, 0.0f, 1.0f));
-        Double.isNaN(lerp);
-        return new Point(d9, d11 + (d12 * d3), (((((point.z * pow) + (d13 * d2)) + (d14 * d3)) - 1.0d) * lerp) + 1.0d);
-    }
-
-    private void paintPath(final Path path) {
-        path.setup(this.renderView.getCurrentColor(), this.renderView.getCurrentWeight(), this.renderView.getCurrentBrush());
-        if (this.clearBuffer) {
-            this.lastRemainder = 0.0d;
-        }
-        path.remainder = this.lastRemainder;
-        this.renderView.getPainting().paintStroke(path, this.clearBuffer, false, new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda5
-            @Override // java.lang.Runnable
-            public final void run() {
-                Input.this.lambda$paintPath$5(path);
-            }
-        });
-        this.clearBuffer = false;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$paintPath$4(Path path) {
-        this.lastRemainder = path.remainder;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$paintPath$5(final Path path) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda6
-            @Override // java.lang.Runnable
-            public final void run() {
-                Input.this.lambda$paintPath$4(path);
-            }
-        });
+    public void setMatrix(Matrix matrix) {
+        Matrix matrix2 = new Matrix();
+        this.invertMatrix = matrix2;
+        matrix.invert(matrix2);
     }
 }

@@ -7,7 +7,6 @@ import com.google.firebase.components.Component;
 import com.google.firebase.components.ComponentDiscovery;
 import com.google.firebase.components.ComponentRuntime;
 import com.google.mlkit.common.internal.MlKitComponentDiscoveryService;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public class MlKitContext {
     private static final Object zza = new Object();
@@ -46,10 +45,10 @@ public class MlKitContext {
         return applicationContext != null ? applicationContext : context;
     }
 
-    public <T> T get(Class<T> cls) {
+    public Object get(Class cls) {
         Preconditions.checkState(zzb == this, "MlKitContext has been deleted");
         Preconditions.checkNotNull(this.zzc);
-        return (T) this.zzc.get(cls);
+        return this.zzc.get(cls);
     }
 
     public Context getApplicationContext() {

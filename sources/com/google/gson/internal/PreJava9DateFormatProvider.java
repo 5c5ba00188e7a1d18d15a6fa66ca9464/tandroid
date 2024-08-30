@@ -4,11 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 /* loaded from: classes.dex */
-public class PreJava9DateFormatProvider {
-    public static DateFormat getUsDateTimeFormat(int i, int i2) {
-        return new SimpleDateFormat(getDatePartOfDateTimePattern(i) + " " + getTimePartOfDateTimePattern(i2), Locale.US);
-    }
-
+public abstract class PreJava9DateFormatProvider {
     private static String getDatePartOfDateTimePattern(int i) {
         if (i != 0) {
             if (i != 1) {
@@ -36,5 +32,9 @@ public class PreJava9DateFormatProvider {
             throw new IllegalArgumentException("Unknown DateFormat style: " + i);
         }
         return "h:mm:ss a";
+    }
+
+    public static DateFormat getUsDateTimeFormat(int i, int i2) {
+        return new SimpleDateFormat(getDatePartOfDateTimePattern(i) + " " + getTimePartOfDateTimePattern(i2), Locale.US);
     }
 }

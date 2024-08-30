@@ -14,12 +14,8 @@ public class AnalyticsTransmissionTarget {
     Context mContext;
     final AnalyticsTransmissionTarget mParentTarget;
     private final String mTransmissionTargetToken;
-    private final Map<String, AnalyticsTransmissionTarget> mChildrenTargets = new HashMap();
+    private final Map mChildrenTargets = new HashMap();
     private final PropertyConfigurator mPropertyConfigurator = new PropertyConfigurator(this);
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static void addTicketToLog(Log log) {
-    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public AnalyticsTransmissionTarget(String str, AnalyticsTransmissionTarget analyticsTransmissionTarget) {
@@ -27,16 +23,17 @@ public class AnalyticsTransmissionTarget {
         this.mParentTarget = analyticsTransmissionTarget;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void initInBackground(Context context, Channel channel) {
-        this.mContext = context;
-        this.mChannel = channel;
-        channel.addListener(this.mPropertyConfigurator);
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void addTicketToLog(Log log) {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public String getTransmissionTargetToken() {
-        return this.mTransmissionTargetToken;
+    private boolean areAncestorsEnabled() {
+        for (AnalyticsTransmissionTarget analyticsTransmissionTarget = this.mParentTarget; analyticsTransmissionTarget != null; analyticsTransmissionTarget = analyticsTransmissionTarget.mParentTarget) {
+            if (!analyticsTransmissionTarget.isEnabledInStorage()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -57,21 +54,24 @@ public class AnalyticsTransmissionTarget {
         return SharedPreferencesManager.getBoolean(getEnabledPreferenceKey(), true);
     }
 
-    private boolean areAncestorsEnabled() {
-        for (AnalyticsTransmissionTarget analyticsTransmissionTarget = this.mParentTarget; analyticsTransmissionTarget != null; analyticsTransmissionTarget = analyticsTransmissionTarget.mParentTarget) {
-            if (!analyticsTransmissionTarget.isEnabledInStorage()) {
-                return false;
-            }
-        }
-        return true;
+    public PropertyConfigurator getPropertyConfigurator() {
+        return this.mPropertyConfigurator;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public String getTransmissionTargetToken() {
+        return this.mTransmissionTargetToken;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void initInBackground(Context context, Channel channel) {
+        this.mContext = context;
+        this.mChannel = channel;
+        channel.addListener(this.mPropertyConfigurator);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public boolean isEnabled() {
         return areAncestorsEnabled() && isEnabledInStorage();
-    }
-
-    public PropertyConfigurator getPropertyConfigurator() {
-        return this.mPropertyConfigurator;
     }
 }

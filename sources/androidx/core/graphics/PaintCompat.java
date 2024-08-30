@@ -5,8 +5,15 @@ import android.graphics.Rect;
 import android.os.Build;
 import androidx.core.util.Pair;
 /* loaded from: classes.dex */
-public final class PaintCompat {
-    private static final ThreadLocal<Pair<Rect, Rect>> sRectThreadLocal = new ThreadLocal<>();
+public abstract class PaintCompat {
+    private static final ThreadLocal sRectThreadLocal = new ThreadLocal();
+
+    /* loaded from: classes.dex */
+    static class Api23Impl {
+        static boolean hasGlyph(Paint paint, String str) {
+            return paint.hasGlyph(str);
+        }
+    }
 
     public static boolean hasGlyph(Paint paint, String str) {
         if (Build.VERSION.SDK_INT >= 23) {
@@ -40,29 +47,22 @@ public final class PaintCompat {
         if (measureText3 != measureText) {
             return true;
         }
-        Pair<Rect, Rect> obtainEmptyRects = obtainEmptyRects();
-        paint.getTextBounds("\udfffd", 0, 2, obtainEmptyRects.first);
-        paint.getTextBounds(str, 0, length, obtainEmptyRects.second);
-        return !obtainEmptyRects.first.equals(obtainEmptyRects.second);
+        Pair obtainEmptyRects = obtainEmptyRects();
+        paint.getTextBounds("\udfffd", 0, 2, (Rect) obtainEmptyRects.first);
+        paint.getTextBounds(str, 0, length, (Rect) obtainEmptyRects.second);
+        return !((Rect) obtainEmptyRects.first).equals(obtainEmptyRects.second);
     }
 
-    private static Pair<Rect, Rect> obtainEmptyRects() {
-        ThreadLocal<Pair<Rect, Rect>> threadLocal = sRectThreadLocal;
-        Pair<Rect, Rect> pair = threadLocal.get();
+    private static Pair obtainEmptyRects() {
+        ThreadLocal threadLocal = sRectThreadLocal;
+        Pair pair = (Pair) threadLocal.get();
         if (pair == null) {
-            Pair<Rect, Rect> pair2 = new Pair<>(new Rect(), new Rect());
+            Pair pair2 = new Pair(new Rect(), new Rect());
             threadLocal.set(pair2);
             return pair2;
         }
-        pair.first.setEmpty();
-        pair.second.setEmpty();
+        ((Rect) pair.first).setEmpty();
+        ((Rect) pair.second).setEmpty();
         return pair;
-    }
-
-    /* loaded from: classes.dex */
-    static class Api23Impl {
-        static boolean hasGlyph(Paint paint, String str) {
-            return paint.hasGlyph(str);
-        }
     }
 }

@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zzy extends zzbp {
     final transient Map zza;

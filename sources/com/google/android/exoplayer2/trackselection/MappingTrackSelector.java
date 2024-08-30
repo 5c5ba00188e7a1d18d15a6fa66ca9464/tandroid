@@ -1,7 +1,6 @@
 package com.google.android.exoplayer2.trackselection;
 
 import android.util.Pair;
-import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.RendererCapabilities;
 import com.google.android.exoplayer2.RendererConfiguration;
 import com.google.android.exoplayer2.Timeline;
@@ -13,8 +12,6 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public abstract class MappingTrackSelector extends TrackSelector {
     private MappedTrackInfo currentMappedTrackInfo;
-
-    protected abstract Pair<RendererConfiguration[], ExoTrackSelection[]> selectTracks(MappedTrackInfo mappedTrackInfo, int[][][] iArr, int[] iArr2, MediaSource.MediaPeriodId mediaPeriodId, Timeline timeline) throws ExoPlaybackException;
 
     /* loaded from: classes.dex */
     public static final class MappedTrackInfo {
@@ -34,26 +31,6 @@ public abstract class MappingTrackSelector extends TrackSelector {
             this.rendererMixedMimeTypeAdaptiveSupports = iArr2;
             this.unmappedTrackGroups = trackGroupArray;
             this.rendererCount = iArr.length;
-        }
-
-        public int getRendererCount() {
-            return this.rendererCount;
-        }
-
-        public int getRendererType(int i) {
-            return this.rendererTrackTypes[i];
-        }
-
-        public TrackGroupArray getTrackGroups(int i) {
-            return this.rendererTrackGroups[i];
-        }
-
-        public int getCapabilities(int i, int i2, int i3) {
-            return this.rendererFormatSupports[i][i2][i3];
-        }
-
-        public int getTrackSupport(int i, int i2, int i3) {
-            return RendererCapabilities.-CC.getFormatSupport(getCapabilities(i, i2, i3));
         }
 
         public int getAdaptiveSupport(int i, int i2, boolean z) {
@@ -91,58 +68,32 @@ public abstract class MappingTrackSelector extends TrackSelector {
             return z ? Math.min(i5, this.rendererMixedMimeTypeAdaptiveSupports[i]) : i5;
         }
 
+        public int getCapabilities(int i, int i2, int i3) {
+            return this.rendererFormatSupports[i][i2][i3];
+        }
+
+        public int getRendererCount() {
+            return this.rendererCount;
+        }
+
+        public int getRendererType(int i) {
+            return this.rendererTrackTypes[i];
+        }
+
+        public TrackGroupArray getTrackGroups(int i) {
+            return this.rendererTrackGroups[i];
+        }
+
+        public int getTrackSupport(int i, int i2, int i3) {
+            return RendererCapabilities.-CC.getFormatSupport(getCapabilities(i, i2, i3));
+        }
+
         public TrackGroupArray getUnmappedTrackGroups() {
             return this.unmappedTrackGroups;
         }
     }
 
-    @Override // com.google.android.exoplayer2.trackselection.TrackSelector
-    public final void onSelectionActivated(Object obj) {
-        this.currentMappedTrackInfo = (MappedTrackInfo) obj;
-    }
-
-    @Override // com.google.android.exoplayer2.trackselection.TrackSelector
-    public final TrackSelectorResult selectTracks(RendererCapabilities[] rendererCapabilitiesArr, TrackGroupArray trackGroupArray, MediaSource.MediaPeriodId mediaPeriodId, Timeline timeline) throws ExoPlaybackException {
-        int[] formatSupport;
-        int[] iArr = new int[rendererCapabilitiesArr.length + 1];
-        int length = rendererCapabilitiesArr.length + 1;
-        TrackGroup[][] trackGroupArr = new TrackGroup[length];
-        int[][][] iArr2 = new int[rendererCapabilitiesArr.length + 1][];
-        for (int i = 0; i < length; i++) {
-            int i2 = trackGroupArray.length;
-            trackGroupArr[i] = new TrackGroup[i2];
-            iArr2[i] = new int[i2];
-        }
-        int[] mixedMimeTypeAdaptationSupports = getMixedMimeTypeAdaptationSupports(rendererCapabilitiesArr);
-        for (int i3 = 0; i3 < trackGroupArray.length; i3++) {
-            TrackGroup trackGroup = trackGroupArray.get(i3);
-            int findRenderer = findRenderer(rendererCapabilitiesArr, trackGroup, iArr, trackGroup.type == 5);
-            if (findRenderer == rendererCapabilitiesArr.length) {
-                formatSupport = new int[trackGroup.length];
-            } else {
-                formatSupport = getFormatSupport(rendererCapabilitiesArr[findRenderer], trackGroup);
-            }
-            int i4 = iArr[findRenderer];
-            trackGroupArr[findRenderer][i4] = trackGroup;
-            iArr2[findRenderer][i4] = formatSupport;
-            iArr[findRenderer] = i4 + 1;
-        }
-        TrackGroupArray[] trackGroupArrayArr = new TrackGroupArray[rendererCapabilitiesArr.length];
-        String[] strArr = new String[rendererCapabilitiesArr.length];
-        int[] iArr3 = new int[rendererCapabilitiesArr.length];
-        for (int i5 = 0; i5 < rendererCapabilitiesArr.length; i5++) {
-            int i6 = iArr[i5];
-            trackGroupArrayArr[i5] = new TrackGroupArray((TrackGroup[]) Util.nullSafeArrayCopy(trackGroupArr[i5], i6));
-            iArr2[i5] = (int[][]) Util.nullSafeArrayCopy(iArr2[i5], i6);
-            strArr[i5] = rendererCapabilitiesArr[i5].getName();
-            iArr3[i5] = rendererCapabilitiesArr[i5].getTrackType();
-        }
-        MappedTrackInfo mappedTrackInfo = new MappedTrackInfo(strArr, iArr3, trackGroupArrayArr, mixedMimeTypeAdaptationSupports, iArr2, new TrackGroupArray((TrackGroup[]) Util.nullSafeArrayCopy(trackGroupArr[rendererCapabilitiesArr.length], iArr[rendererCapabilitiesArr.length])));
-        Pair<RendererConfiguration[], ExoTrackSelection[]> selectTracks = selectTracks(mappedTrackInfo, iArr2, mixedMimeTypeAdaptationSupports, mediaPeriodId, timeline);
-        return new TrackSelectorResult((RendererConfiguration[]) selectTracks.first, (ExoTrackSelection[]) selectTracks.second, TrackSelectionUtil.buildTracks(mappedTrackInfo, (TrackSelection[]) selectTracks.second), mappedTrackInfo);
-    }
-
-    private static int findRenderer(RendererCapabilities[] rendererCapabilitiesArr, TrackGroup trackGroup, int[] iArr, boolean z) throws ExoPlaybackException {
+    private static int findRenderer(RendererCapabilities[] rendererCapabilitiesArr, TrackGroup trackGroup, int[] iArr, boolean z) {
         int length = rendererCapabilitiesArr.length;
         int i = 0;
         boolean z2 = true;
@@ -162,7 +113,7 @@ public abstract class MappingTrackSelector extends TrackSelector {
         return length;
     }
 
-    private static int[] getFormatSupport(RendererCapabilities rendererCapabilities, TrackGroup trackGroup) throws ExoPlaybackException {
+    private static int[] getFormatSupport(RendererCapabilities rendererCapabilities, TrackGroup trackGroup) {
         int[] iArr = new int[trackGroup.length];
         for (int i = 0; i < trackGroup.length; i++) {
             iArr[i] = rendererCapabilities.supportsFormat(trackGroup.getFormat(i));
@@ -170,12 +121,55 @@ public abstract class MappingTrackSelector extends TrackSelector {
         return iArr;
     }
 
-    private static int[] getMixedMimeTypeAdaptationSupports(RendererCapabilities[] rendererCapabilitiesArr) throws ExoPlaybackException {
+    private static int[] getMixedMimeTypeAdaptationSupports(RendererCapabilities[] rendererCapabilitiesArr) {
         int length = rendererCapabilitiesArr.length;
         int[] iArr = new int[length];
         for (int i = 0; i < length; i++) {
             iArr[i] = rendererCapabilitiesArr[i].supportsMixedMimeTypeAdaptation();
         }
         return iArr;
+    }
+
+    @Override // com.google.android.exoplayer2.trackselection.TrackSelector
+    public final void onSelectionActivated(Object obj) {
+        this.currentMappedTrackInfo = (MappedTrackInfo) obj;
+    }
+
+    protected abstract Pair selectTracks(MappedTrackInfo mappedTrackInfo, int[][][] iArr, int[] iArr2, MediaSource.MediaPeriodId mediaPeriodId, Timeline timeline);
+
+    @Override // com.google.android.exoplayer2.trackselection.TrackSelector
+    public final TrackSelectorResult selectTracks(RendererCapabilities[] rendererCapabilitiesArr, TrackGroupArray trackGroupArray, MediaSource.MediaPeriodId mediaPeriodId, Timeline timeline) {
+        int[] iArr = new int[rendererCapabilitiesArr.length + 1];
+        int length = rendererCapabilitiesArr.length + 1;
+        TrackGroup[][] trackGroupArr = new TrackGroup[length];
+        int[][][] iArr2 = new int[rendererCapabilitiesArr.length + 1][];
+        for (int i = 0; i < length; i++) {
+            int i2 = trackGroupArray.length;
+            trackGroupArr[i] = new TrackGroup[i2];
+            iArr2[i] = new int[i2];
+        }
+        int[] mixedMimeTypeAdaptationSupports = getMixedMimeTypeAdaptationSupports(rendererCapabilitiesArr);
+        for (int i3 = 0; i3 < trackGroupArray.length; i3++) {
+            TrackGroup trackGroup = trackGroupArray.get(i3);
+            int findRenderer = findRenderer(rendererCapabilitiesArr, trackGroup, iArr, trackGroup.type == 5);
+            int[] formatSupport = findRenderer == rendererCapabilitiesArr.length ? new int[trackGroup.length] : getFormatSupport(rendererCapabilitiesArr[findRenderer], trackGroup);
+            int i4 = iArr[findRenderer];
+            trackGroupArr[findRenderer][i4] = trackGroup;
+            iArr2[findRenderer][i4] = formatSupport;
+            iArr[findRenderer] = i4 + 1;
+        }
+        TrackGroupArray[] trackGroupArrayArr = new TrackGroupArray[rendererCapabilitiesArr.length];
+        String[] strArr = new String[rendererCapabilitiesArr.length];
+        int[] iArr3 = new int[rendererCapabilitiesArr.length];
+        for (int i5 = 0; i5 < rendererCapabilitiesArr.length; i5++) {
+            int i6 = iArr[i5];
+            trackGroupArrayArr[i5] = new TrackGroupArray((TrackGroup[]) Util.nullSafeArrayCopy(trackGroupArr[i5], i6));
+            iArr2[i5] = (int[][]) Util.nullSafeArrayCopy(iArr2[i5], i6);
+            strArr[i5] = rendererCapabilitiesArr[i5].getName();
+            iArr3[i5] = rendererCapabilitiesArr[i5].getTrackType();
+        }
+        MappedTrackInfo mappedTrackInfo = new MappedTrackInfo(strArr, iArr3, trackGroupArrayArr, mixedMimeTypeAdaptationSupports, iArr2, new TrackGroupArray((TrackGroup[]) Util.nullSafeArrayCopy(trackGroupArr[rendererCapabilitiesArr.length], iArr[rendererCapabilitiesArr.length])));
+        Pair selectTracks = selectTracks(mappedTrackInfo, iArr2, mixedMimeTypeAdaptationSupports, mediaPeriodId, timeline);
+        return new TrackSelectorResult((RendererConfiguration[]) selectTracks.first, (ExoTrackSelection[]) selectTracks.second, TrackSelectionUtil.buildTracks(mappedTrackInfo, (TrackSelection[]) selectTracks.second), mappedTrackInfo);
     }
 }

@@ -19,17 +19,6 @@ public final class SectionReader implements TsPayloadReader {
     }
 
     @Override // com.google.android.exoplayer2.extractor.ts.TsPayloadReader
-    public void init(TimestampAdjuster timestampAdjuster, ExtractorOutput extractorOutput, TsPayloadReader.TrackIdGenerator trackIdGenerator) {
-        this.reader.init(timestampAdjuster, extractorOutput, trackIdGenerator);
-        this.waitingForPayloadStart = true;
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.ts.TsPayloadReader
-    public void seek() {
-        this.waitingForPayloadStart = true;
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.ts.TsPayloadReader
     public void consume(ParsableByteArray parsableByteArray, int i) {
         boolean z = (i & 1) != 0;
         int position = z ? parsableByteArray.getPosition() + parsableByteArray.readUnsignedByte() : -1;
@@ -79,14 +68,13 @@ public final class SectionReader implements TsPayloadReader {
                 if (i5 != i6) {
                     continue;
                 } else {
-                    if (this.sectionSyntaxIndicator) {
-                        if (Util.crc32(this.sectionData.getData(), 0, this.totalSectionLength, -1) != 0) {
-                            this.waitingForPayloadStart = true;
-                            return;
-                        }
-                        this.sectionData.setLimit(this.totalSectionLength - 4);
-                    } else {
+                    if (!this.sectionSyntaxIndicator) {
                         this.sectionData.setLimit(i6);
+                    } else if (Util.crc32(this.sectionData.getData(), 0, this.totalSectionLength, -1) != 0) {
+                        this.waitingForPayloadStart = true;
+                        return;
+                    } else {
+                        this.sectionData.setLimit(this.totalSectionLength - 4);
                     }
                     this.sectionData.setPosition(0);
                     this.reader.consume(this.sectionData);
@@ -94,5 +82,16 @@ public final class SectionReader implements TsPayloadReader {
                 }
             }
         }
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.ts.TsPayloadReader
+    public void init(TimestampAdjuster timestampAdjuster, ExtractorOutput extractorOutput, TsPayloadReader.TrackIdGenerator trackIdGenerator) {
+        this.reader.init(timestampAdjuster, extractorOutput, trackIdGenerator);
+        this.waitingForPayloadStart = true;
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.ts.TsPayloadReader
+    public void seek() {
+        this.waitingForPayloadStart = true;
     }
 }

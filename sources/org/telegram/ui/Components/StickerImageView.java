@@ -23,15 +23,13 @@ public class StickerImageView extends BackupImageView implements NotificationCen
         this.currentAccount = i;
     }
 
-    public void setStickerNum(int i) {
-        if (this.stickerNum != i) {
-            this.stickerNum = i;
-            setSticker();
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        if (i == NotificationCenter.diceStickersDidLoad) {
+            if (this.stickerPackName.equals((String) objArr[0])) {
+                setSticker();
+            }
         }
-    }
-
-    public void setStickerPackName(String str) {
-        this.stickerPackName = str;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -47,15 +45,6 @@ public class StickerImageView extends BackupImageView implements NotificationCen
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.diceStickersDidLoad);
-    }
-
-    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if (i == NotificationCenter.diceStickersDidLoad) {
-            if (this.stickerPackName.equals((String) objArr[0])) {
-                setSticker();
-            }
-        }
     }
 
     /* JADX WARN: Removed duplicated region for block: B:12:0x0034  */
@@ -77,7 +66,7 @@ public class StickerImageView extends BackupImageView implements NotificationCen
             int size = tLRPC$TL_messages_stickerSet.documents.size();
             int i = this.stickerNum;
             if (size > i) {
-                tLRPC$Document = tLRPC$TL_messages_stickerSet.documents.get(i);
+                tLRPC$Document = (TLRPC$Document) tLRPC$TL_messages_stickerSet.documents.get(i);
                 svgThumb = tLRPC$Document != null ? DocumentObject.getSvgThumb(tLRPC$Document.thumbs, Theme.key_emptyListPlaceholder, 0.2f) : null;
                 if (svgThumb != null) {
                     svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
@@ -97,5 +86,16 @@ public class StickerImageView extends BackupImageView implements NotificationCen
         }
         if (tLRPC$Document == null) {
         }
+    }
+
+    public void setStickerNum(int i) {
+        if (this.stickerNum != i) {
+            this.stickerNum = i;
+            setSticker();
+        }
+    }
+
+    public void setStickerPackName(String str) {
+        this.stickerPackName = str;
     }
 }

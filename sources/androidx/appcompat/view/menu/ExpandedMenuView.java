@@ -30,9 +30,18 @@ public final class ExpandedMenuView extends ListView implements MenuBuilder.Item
         obtainStyledAttributes.recycle();
     }
 
+    public int getWindowAnimations() {
+        return this.mAnimations;
+    }
+
     @Override // androidx.appcompat.view.menu.MenuView
     public void initialize(MenuBuilder menuBuilder) {
         this.mMenu = menuBuilder;
+    }
+
+    @Override // androidx.appcompat.view.menu.MenuBuilder.ItemInvoker
+    public boolean invokeItem(MenuItemImpl menuItemImpl) {
+        return this.mMenu.performItemAction(menuItemImpl, 0);
     }
 
     @Override // android.widget.ListView, android.widget.AbsListView, android.widget.AdapterView, android.view.ViewGroup, android.view.View
@@ -41,17 +50,8 @@ public final class ExpandedMenuView extends ListView implements MenuBuilder.Item
         setChildrenDrawingCacheEnabled(false);
     }
 
-    @Override // androidx.appcompat.view.menu.MenuBuilder.ItemInvoker
-    public boolean invokeItem(MenuItemImpl menuItemImpl) {
-        return this.mMenu.performItemAction(menuItemImpl, 0);
-    }
-
     @Override // android.widget.AdapterView.OnItemClickListener
     public void onItemClick(AdapterView adapterView, View view, int i, long j) {
         invokeItem((MenuItemImpl) getAdapter().getItem(i));
-    }
-
-    public int getWindowAnimations() {
-        return this.mAnimations;
     }
 }

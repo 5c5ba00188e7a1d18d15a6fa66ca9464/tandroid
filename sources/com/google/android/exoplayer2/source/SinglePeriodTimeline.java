@@ -22,24 +22,6 @@ public final class SinglePeriodTimeline extends Timeline {
     private static final Object UID = new Object();
     private static final MediaItem MEDIA_ITEM = new MediaItem.Builder().setMediaId("SinglePeriodTimeline").setUri(Uri.EMPTY).build();
 
-    @Override // com.google.android.exoplayer2.Timeline
-    public int getPeriodCount() {
-        return 1;
-    }
-
-    @Override // com.google.android.exoplayer2.Timeline
-    public int getWindowCount() {
-        return 1;
-    }
-
-    public SinglePeriodTimeline(long j, boolean z, boolean z2, boolean z3, Object obj, MediaItem mediaItem) {
-        this(j, j, 0L, 0L, z, z2, z3, obj, mediaItem);
-    }
-
-    public SinglePeriodTimeline(long j, long j2, long j3, long j4, boolean z, boolean z2, boolean z3, Object obj, MediaItem mediaItem) {
-        this(-9223372036854775807L, -9223372036854775807L, -9223372036854775807L, j, j2, j3, j4, z, z2, false, obj, mediaItem, z3 ? mediaItem.liveConfiguration : null);
-    }
-
     public SinglePeriodTimeline(long j, long j2, long j3, long j4, long j5, long j6, long j7, boolean z, boolean z2, boolean z3, Object obj, MediaItem mediaItem, MediaItem.LiveConfiguration liveConfiguration) {
         this.presentationStartTimeMs = j;
         this.windowStartTimeMs = j2;
@@ -54,6 +36,36 @@ public final class SinglePeriodTimeline extends Timeline {
         this.manifest = obj;
         this.mediaItem = (MediaItem) Assertions.checkNotNull(mediaItem);
         this.liveConfiguration = liveConfiguration;
+    }
+
+    public SinglePeriodTimeline(long j, long j2, long j3, long j4, boolean z, boolean z2, boolean z3, Object obj, MediaItem mediaItem) {
+        this(-9223372036854775807L, -9223372036854775807L, -9223372036854775807L, j, j2, j3, j4, z, z2, false, obj, mediaItem, z3 ? mediaItem.liveConfiguration : null);
+    }
+
+    public SinglePeriodTimeline(long j, boolean z, boolean z2, boolean z3, Object obj, MediaItem mediaItem) {
+        this(j, j, 0L, 0L, z, z2, z3, obj, mediaItem);
+    }
+
+    @Override // com.google.android.exoplayer2.Timeline
+    public int getIndexOfPeriod(Object obj) {
+        return UID.equals(obj) ? 0 : -1;
+    }
+
+    @Override // com.google.android.exoplayer2.Timeline
+    public Timeline.Period getPeriod(int i, Timeline.Period period, boolean z) {
+        Assertions.checkIndex(i, 0, 1);
+        return period.set(null, z ? UID : null, 0, this.periodDurationUs, -this.windowPositionInPeriodUs);
+    }
+
+    @Override // com.google.android.exoplayer2.Timeline
+    public int getPeriodCount() {
+        return 1;
+    }
+
+    @Override // com.google.android.exoplayer2.Timeline
+    public Object getUidOfPeriod(int i) {
+        Assertions.checkIndex(i, 0, 1);
+        return UID;
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:12:0x0029, code lost:
@@ -81,19 +93,7 @@ public final class SinglePeriodTimeline extends Timeline {
     }
 
     @Override // com.google.android.exoplayer2.Timeline
-    public Timeline.Period getPeriod(int i, Timeline.Period period, boolean z) {
-        Assertions.checkIndex(i, 0, 1);
-        return period.set(null, z ? UID : null, 0, this.periodDurationUs, -this.windowPositionInPeriodUs);
-    }
-
-    @Override // com.google.android.exoplayer2.Timeline
-    public int getIndexOfPeriod(Object obj) {
-        return UID.equals(obj) ? 0 : -1;
-    }
-
-    @Override // com.google.android.exoplayer2.Timeline
-    public Object getUidOfPeriod(int i) {
-        Assertions.checkIndex(i, 0, 1);
-        return UID;
+    public int getWindowCount() {
+        return 1;
     }
 }

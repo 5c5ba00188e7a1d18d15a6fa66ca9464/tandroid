@@ -34,33 +34,6 @@ public class TooltipCompatHandler implements View.OnLongClickListener, View.OnHo
         }
     };
 
-    @Override // android.view.View.OnAttachStateChangeListener
-    public void onViewAttachedToWindow(View view) {
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0() {
-        show(false);
-    }
-
-    public static void setTooltipText(View view, CharSequence charSequence) {
-        TooltipCompatHandler tooltipCompatHandler = sPendingHandler;
-        if (tooltipCompatHandler != null && tooltipCompatHandler.mAnchor == view) {
-            setPendingHandler(null);
-        }
-        if (TextUtils.isEmpty(charSequence)) {
-            TooltipCompatHandler tooltipCompatHandler2 = sActiveHandler;
-            if (tooltipCompatHandler2 != null && tooltipCompatHandler2.mAnchor == view) {
-                tooltipCompatHandler2.hide();
-            }
-            view.setOnLongClickListener(null);
-            view.setLongClickable(false);
-            view.setOnHoverListener(null);
-            return;
-        }
-        new TooltipCompatHandler(view, charSequence);
-    }
-
     private TooltipCompatHandler(View view, CharSequence charSequence) {
         this.mAnchor = view;
         this.mTooltipText = charSequence;
@@ -70,12 +43,82 @@ public class TooltipCompatHandler implements View.OnLongClickListener, View.OnHo
         view.setOnHoverListener(this);
     }
 
-    @Override // android.view.View.OnLongClickListener
-    public boolean onLongClick(View view) {
-        this.mAnchorX = view.getWidth() / 2;
-        this.mAnchorY = view.getHeight() / 2;
-        show(true);
-        return true;
+    private void cancelPendingShow() {
+        this.mAnchor.removeCallbacks(this.mShowRunnable);
+    }
+
+    private void forceNextChangeSignificant() {
+        this.mForceNextChangeSignificant = true;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0() {
+        show(false);
+    }
+
+    private void scheduleShow() {
+        this.mAnchor.postDelayed(this.mShowRunnable, ViewConfiguration.getLongPressTimeout());
+    }
+
+    private static void setPendingHandler(TooltipCompatHandler tooltipCompatHandler) {
+        TooltipCompatHandler tooltipCompatHandler2 = sPendingHandler;
+        if (tooltipCompatHandler2 != null) {
+            tooltipCompatHandler2.cancelPendingShow();
+        }
+        sPendingHandler = tooltipCompatHandler;
+        if (tooltipCompatHandler != null) {
+            tooltipCompatHandler.scheduleShow();
+        }
+    }
+
+    public static void setTooltipText(View view, CharSequence charSequence) {
+        TooltipCompatHandler tooltipCompatHandler = sPendingHandler;
+        if (tooltipCompatHandler != null && tooltipCompatHandler.mAnchor == view) {
+            setPendingHandler(null);
+        }
+        if (!TextUtils.isEmpty(charSequence)) {
+            new TooltipCompatHandler(view, charSequence);
+            return;
+        }
+        TooltipCompatHandler tooltipCompatHandler2 = sActiveHandler;
+        if (tooltipCompatHandler2 != null && tooltipCompatHandler2.mAnchor == view) {
+            tooltipCompatHandler2.hide();
+        }
+        view.setOnLongClickListener(null);
+        view.setLongClickable(false);
+        view.setOnHoverListener(null);
+    }
+
+    private boolean updateAnchorPos(MotionEvent motionEvent) {
+        int x = (int) motionEvent.getX();
+        int y = (int) motionEvent.getY();
+        if (this.mForceNextChangeSignificant || Math.abs(x - this.mAnchorX) > this.mHoverSlop || Math.abs(y - this.mAnchorY) > this.mHoverSlop) {
+            this.mAnchorX = x;
+            this.mAnchorY = y;
+            this.mForceNextChangeSignificant = false;
+            return true;
+        }
+        return false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void hide() {
+        if (sActiveHandler == this) {
+            sActiveHandler = null;
+            TooltipPopup tooltipPopup = this.mPopup;
+            if (tooltipPopup != null) {
+                tooltipPopup.hide();
+                this.mPopup = null;
+                forceNextChangeSignificant();
+                this.mAnchor.removeOnAttachStateChangeListener(this);
+            } else {
+                Log.e("TooltipCompatHandler", "sActiveHandler.mPopup == null");
+            }
+        }
+        if (sPendingHandler == this) {
+            setPendingHandler(null);
+        }
+        this.mAnchor.removeCallbacks(this.mHideRunnable);
     }
 
     @Override // android.view.View.OnHoverListener
@@ -97,6 +140,18 @@ public class TooltipCompatHandler implements View.OnLongClickListener, View.OnHo
             return false;
         }
         return false;
+    }
+
+    @Override // android.view.View.OnLongClickListener
+    public boolean onLongClick(View view) {
+        this.mAnchorX = view.getWidth() / 2;
+        this.mAnchorY = view.getHeight() / 2;
+        show(true);
+        return true;
+    }
+
+    @Override // android.view.View.OnAttachStateChangeListener
+    public void onViewAttachedToWindow(View view) {
     }
 
     @Override // android.view.View.OnAttachStateChangeListener
@@ -135,60 +190,5 @@ public class TooltipCompatHandler implements View.OnLongClickListener, View.OnHo
             this.mAnchor.removeCallbacks(this.mHideRunnable);
             this.mAnchor.postDelayed(this.mHideRunnable, j2);
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void hide() {
-        if (sActiveHandler == this) {
-            sActiveHandler = null;
-            TooltipPopup tooltipPopup = this.mPopup;
-            if (tooltipPopup != null) {
-                tooltipPopup.hide();
-                this.mPopup = null;
-                forceNextChangeSignificant();
-                this.mAnchor.removeOnAttachStateChangeListener(this);
-            } else {
-                Log.e("TooltipCompatHandler", "sActiveHandler.mPopup == null");
-            }
-        }
-        if (sPendingHandler == this) {
-            setPendingHandler(null);
-        }
-        this.mAnchor.removeCallbacks(this.mHideRunnable);
-    }
-
-    private static void setPendingHandler(TooltipCompatHandler tooltipCompatHandler) {
-        TooltipCompatHandler tooltipCompatHandler2 = sPendingHandler;
-        if (tooltipCompatHandler2 != null) {
-            tooltipCompatHandler2.cancelPendingShow();
-        }
-        sPendingHandler = tooltipCompatHandler;
-        if (tooltipCompatHandler != null) {
-            tooltipCompatHandler.scheduleShow();
-        }
-    }
-
-    private void scheduleShow() {
-        this.mAnchor.postDelayed(this.mShowRunnable, ViewConfiguration.getLongPressTimeout());
-    }
-
-    private void cancelPendingShow() {
-        this.mAnchor.removeCallbacks(this.mShowRunnable);
-    }
-
-    private boolean updateAnchorPos(MotionEvent motionEvent) {
-        int x = (int) motionEvent.getX();
-        int y = (int) motionEvent.getY();
-        if (this.mForceNextChangeSignificant || Math.abs(x - this.mAnchorX) > this.mHoverSlop || Math.abs(y - this.mAnchorY) > this.mHoverSlop) {
-            this.mAnchorX = x;
-            this.mAnchorY = y;
-            this.mForceNextChangeSignificant = false;
-            return true;
-        }
-        return false;
-    }
-
-    private void forceNextChangeSignificant() {
-        this.mForceNextChangeSignificant = true;
     }
 }

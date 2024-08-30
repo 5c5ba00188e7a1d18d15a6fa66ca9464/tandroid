@@ -4,22 +4,20 @@ import android.os.Looper;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.util.concurrent.HandlerExecutor;
 import java.util.concurrent.Executor;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class ListenerHolder<L> {
+public final class ListenerHolder {
     private final Executor zaa;
     private volatile Object zab;
     private volatile ListenerKey zac;
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
-    public static final class ListenerKey<L> {
+    public static final class ListenerKey {
         private final Object zaa;
         private final String zab;
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        public ListenerKey(L l, String str) {
-            this.zaa = l;
+        public ListenerKey(Object obj, String str) {
+            this.zaa = obj;
             this.zab = str;
         }
 
@@ -45,19 +43,18 @@ public final class ListenerHolder<L> {
         }
     }
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
-    public interface Notifier<L> {
-        void notifyListener(L l);
+    public interface Notifier {
+        void notifyListener(Object obj);
 
         void onNotifyListenerFailed();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public ListenerHolder(Looper looper, L l, String str) {
+    public ListenerHolder(Looper looper, Object obj, String str) {
         this.zaa = new HandlerExecutor(looper);
-        this.zab = Preconditions.checkNotNull(l, "Listener must not be null");
-        this.zac = new ListenerKey(l, Preconditions.checkNotEmpty(str));
+        this.zab = Preconditions.checkNotNull(obj, "Listener must not be null");
+        this.zac = new ListenerKey(obj, Preconditions.checkNotEmpty(str));
     }
 
     public void clear() {
@@ -65,11 +62,11 @@ public final class ListenerHolder<L> {
         this.zac = null;
     }
 
-    public ListenerKey<L> getListenerKey() {
+    public ListenerKey getListenerKey() {
         return this.zac;
     }
 
-    public void notifyListener(final Notifier<? super L> notifier) {
+    public void notifyListener(final Notifier notifier) {
         Preconditions.checkNotNull(notifier, "Notifier must not be null");
         this.zaa.execute(new Runnable() { // from class: com.google.android.gms.common.api.internal.zacb
             @Override // java.lang.Runnable
@@ -80,7 +77,6 @@ public final class ListenerHolder<L> {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Multi-variable type inference failed */
     public final void zaa(Notifier notifier) {
         Object obj = this.zab;
         if (obj == null) {
@@ -93,12 +89,5 @@ public final class ListenerHolder<L> {
             notifier.onNotifyListenerFailed();
             throw e;
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ListenerHolder(Executor executor, L l, String str) {
-        this.zaa = (Executor) Preconditions.checkNotNull(executor, "Executor must not be null");
-        this.zab = Preconditions.checkNotNull(l, "Listener must not be null");
-        this.zac = new ListenerKey(l, Preconditions.checkNotEmpty(str));
     }
 }

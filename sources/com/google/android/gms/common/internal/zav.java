@@ -7,7 +7,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.internal.IAccountAccessor;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zav extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zav> CREATOR = new zaw();

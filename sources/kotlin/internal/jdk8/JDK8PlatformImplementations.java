@@ -3,19 +3,14 @@ package kotlin.internal.jdk8;
 import kotlin.internal.jdk7.JDK7PlatformImplementations;
 import kotlin.random.Random;
 import kotlin.random.jdk8.PlatformThreadLocalRandom;
-/* compiled from: JDK8PlatformImplementations.kt */
 /* loaded from: classes.dex */
 public class JDK8PlatformImplementations extends JDK7PlatformImplementations {
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* compiled from: JDK8PlatformImplementations.kt */
     /* loaded from: classes.dex */
     public static final class ReflectSdkVersion {
         public static final ReflectSdkVersion INSTANCE = new ReflectSdkVersion();
         public static final Integer sdkVersion;
-
-        private ReflectSdkVersion() {
-        }
 
         static {
             Integer num;
@@ -37,6 +32,9 @@ public class JDK8PlatformImplementations extends JDK7PlatformImplementations {
                 num2 = num;
             }
             sdkVersion = num2;
+        }
+
+        private ReflectSdkVersion() {
         }
     }
 

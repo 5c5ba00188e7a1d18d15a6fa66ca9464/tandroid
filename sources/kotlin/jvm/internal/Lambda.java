@@ -1,9 +1,8 @@
 package kotlin.jvm.internal;
 
 import java.io.Serializable;
-/* compiled from: Lambda.kt */
 /* loaded from: classes.dex */
-public abstract class Lambda<R> implements FunctionBase<R>, Serializable {
+public abstract class Lambda implements FunctionBase, Serializable {
     private final int arity;
 
     public Lambda(int i) {

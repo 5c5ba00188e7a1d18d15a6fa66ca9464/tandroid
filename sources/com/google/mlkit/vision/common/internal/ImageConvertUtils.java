@@ -13,7 +13,6 @@ import com.google.mlkit.vision.common.InputImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-/* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public class ImageConvertUtils {
     private static final ImageConvertUtils zza = new ImageConvertUtils();
@@ -25,36 +24,31 @@ public class ImageConvertUtils {
         return zza;
     }
 
-    public static Bitmap yv12ToBitmap(ByteBuffer byteBuffer, int i, int i2, int i3) throws MlKitException {
+    public static Bitmap yv12ToBitmap(ByteBuffer byteBuffer, int i, int i2, int i3) {
         byte[] zzb = zzb(yv12ToNv21Buffer(byteBuffer, true).array(), i, i2);
         Bitmap decodeByteArray = BitmapFactory.decodeByteArray(zzb, 0, zzb.length);
         return zza(decodeByteArray, i3, decodeByteArray.getWidth(), decodeByteArray.getHeight());
     }
 
     public static ByteBuffer yv12ToNv21Buffer(ByteBuffer byteBuffer, boolean z) {
-        ByteBuffer allocateDirect;
         int i;
         byteBuffer.rewind();
         int limit = byteBuffer.limit();
         int i2 = limit / 6;
-        if (z) {
-            allocateDirect = ByteBuffer.allocate(limit);
-        } else {
-            allocateDirect = ByteBuffer.allocateDirect(limit);
-        }
+        ByteBuffer allocate = z ? ByteBuffer.allocate(limit) : ByteBuffer.allocateDirect(limit);
         int i3 = 0;
         while (true) {
             i = i2 * 4;
             if (i3 >= i) {
                 break;
             }
-            allocateDirect.put(i3, byteBuffer.get(i3));
+            allocate.put(i3, byteBuffer.get(i3));
             i3++;
         }
         for (int i4 = 0; i4 < i2 + i2; i4++) {
-            allocateDirect.put(i + i4, byteBuffer.get(((i4 % 2) * i2) + i + (i4 / 2)));
+            allocate.put(i + i4, byteBuffer.get(((i4 % 2) * i2) + i + (i4 / 2)));
         }
-        return allocateDirect;
+        return allocate;
     }
 
     public static Bitmap zza(Bitmap bitmap, int i, int i2, int i3) {
@@ -66,7 +60,7 @@ public class ImageConvertUtils {
         return Bitmap.createBitmap(bitmap, 0, 0, i2, i3, matrix, true);
     }
 
-    private static byte[] zzb(byte[] bArr, int i, int i2) throws MlKitException {
+    private static byte[] zzb(byte[] bArr, int i, int i2) {
         YuvImage yuvImage = new YuvImage(bArr, 17, i, i2, null);
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -101,17 +95,17 @@ public class ImageConvertUtils {
     }
 
     public byte[] byteBufferToByteArray(ByteBuffer byteBuffer) {
-        if (!byteBuffer.hasArray() || byteBuffer.arrayOffset() != 0) {
-            byteBuffer.rewind();
-            int limit = byteBuffer.limit();
-            byte[] bArr = new byte[limit];
-            byteBuffer.get(bArr, 0, limit);
-            return bArr;
+        if (byteBuffer.hasArray() && byteBuffer.arrayOffset() == 0) {
+            return byteBuffer.array();
         }
-        return byteBuffer.array();
+        byteBuffer.rewind();
+        int limit = byteBuffer.limit();
+        byte[] bArr = new byte[limit];
+        byteBuffer.get(bArr, 0, limit);
+        return bArr;
     }
 
-    public Bitmap convertToUpRightBitmap(InputImage inputImage) throws MlKitException {
+    public Bitmap convertToUpRightBitmap(InputImage inputImage) {
         int format = inputImage.getFormat();
         if (format != -1) {
             if (format != 17) {
@@ -128,7 +122,7 @@ public class ImageConvertUtils {
         return zza((Bitmap) Preconditions.checkNotNull(inputImage.getBitmapInternal()), inputImage.getRotationDegrees(), inputImage.getWidth(), inputImage.getHeight());
     }
 
-    public Bitmap nv21ToBitmap(ByteBuffer byteBuffer, int i, int i2, int i3) throws MlKitException {
+    public Bitmap nv21ToBitmap(ByteBuffer byteBuffer, int i, int i2, int i3) {
         byte[] zzb = zzb(byteBufferToByteArray(byteBuffer), i, i2);
         Bitmap decodeByteArray = BitmapFactory.decodeByteArray(zzb, 0, zzb.length);
         return zza(decodeByteArray, i3, decodeByteArray.getWidth(), decodeByteArray.getHeight());

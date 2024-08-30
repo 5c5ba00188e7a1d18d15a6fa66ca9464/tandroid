@@ -1,18 +1,16 @@
 package com.google.android.gms.internal.vision;
 
-import com.google.android.gms.internal.vision.zzjb;
-import java.io.IOException;
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.Iterator;
 import java.util.Map;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-final class zzkq<T> implements zzlc<T> {
+final class zzkq implements zzlc {
     private final zzkk zza;
-    private final zzlu<?, ?> zzb;
+    private final zzlu zzb;
     private final boolean zzc;
-    private final zziq<?> zzd;
+    private final zziq zzd;
 
-    private zzkq(zzlu<?, ?> zzluVar, zziq<?> zziqVar, zzkk zzkkVar) {
+    private zzkq(zzlu zzluVar, zziq zziqVar, zzkk zzkkVar) {
         this.zzb = zzluVar;
         this.zzc = zziqVar.zza(zzkkVar);
         this.zzd = zziqVar;
@@ -20,20 +18,47 @@ final class zzkq<T> implements zzlc<T> {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <T> zzkq<T> zza(zzlu<?, ?> zzluVar, zziq<?> zziqVar, zzkk zzkkVar) {
-        return new zzkq<>(zzluVar, zziqVar, zzkkVar);
+    public static zzkq zza(zzlu zzluVar, zziq zziqVar, zzkk zzkkVar) {
+        return new zzkq(zzluVar, zziqVar, zzkkVar);
     }
 
     @Override // com.google.android.gms.internal.vision.zzlc
-    public final T zza() {
-        return (T) this.zza.zzq().zze();
+    public final int zza(Object obj) {
+        int hashCode = this.zzb.zzb(obj).hashCode();
+        return this.zzc ? (hashCode * 53) + this.zzd.zza(obj).hashCode() : hashCode;
     }
 
     @Override // com.google.android.gms.internal.vision.zzlc
-    public final boolean zza(T t, T t2) {
-        if (this.zzb.zzb(t).equals(this.zzb.zzb(t2))) {
+    public final Object zza() {
+        return this.zza.zzq().zze();
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzlc
+    public final void zza(Object obj, zzmr zzmrVar) {
+        Iterator zzd = this.zzd.zza(obj).zzd();
+        if (zzd.hasNext()) {
+            ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(((Map.Entry) zzd.next()).getKey());
+            throw null;
+        }
+        zzlu zzluVar = this.zzb;
+        zzluVar.zzb(zzluVar.zzb(obj), zzmrVar);
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzlc
+    public final void zza(Object obj, byte[] bArr, int i, int i2, zzhn zzhnVar) {
+        zzjb zzjbVar = (zzjb) obj;
+        if (zzjbVar.zzb == zzlx.zza()) {
+            zzjbVar.zzb = zzlx.zzb();
+        }
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(obj);
+        throw null;
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzlc
+    public final boolean zza(Object obj, Object obj2) {
+        if (this.zzb.zzb(obj).equals(this.zzb.zzb(obj2))) {
             if (this.zzc) {
-                return this.zzd.zza(t).equals(this.zzd.zza(t2));
+                return this.zzd.zza(obj).equals(this.zzd.zza(obj2));
             }
             return true;
         }
@@ -41,122 +66,28 @@ final class zzkq<T> implements zzlc<T> {
     }
 
     @Override // com.google.android.gms.internal.vision.zzlc
-    public final int zza(T t) {
-        int hashCode = this.zzb.zzb(t).hashCode();
-        return this.zzc ? (hashCode * 53) + this.zzd.zza(t).hashCode() : hashCode;
+    public final int zzb(Object obj) {
+        zzlu zzluVar = this.zzb;
+        int zze = zzluVar.zze(zzluVar.zzb(obj));
+        return this.zzc ? zze + this.zzd.zza(obj).zzg() : zze;
     }
 
     @Override // com.google.android.gms.internal.vision.zzlc
-    public final void zzb(T t, T t2) {
-        zzle.zza(this.zzb, t, t2);
+    public final void zzb(Object obj, Object obj2) {
+        zzle.zza(this.zzb, obj, obj2);
         if (this.zzc) {
-            zzle.zza(this.zzd, t, t2);
+            zzle.zza(this.zzd, obj, obj2);
         }
     }
 
     @Override // com.google.android.gms.internal.vision.zzlc
-    public final void zza(T t, zzmr zzmrVar) throws IOException {
-        Iterator<Map.Entry<?, Object>> zzd = this.zzd.zza(t).zzd();
-        while (zzd.hasNext()) {
-            Map.Entry<?, Object> next = zzd.next();
-            zziw zziwVar = (zziw) next.getKey();
-            if (zziwVar.zzc() != zzmo.zzi || zziwVar.zzd() || zziwVar.zze()) {
-                throw new IllegalStateException("Found invalid MessageSet item.");
-            }
-            if (next instanceof zzjr) {
-                zzmrVar.zza(zziwVar.zza(), (Object) ((zzjr) next).zza().zzc());
-            } else {
-                zzmrVar.zza(zziwVar.zza(), next.getValue());
-            }
-        }
-        zzlu<?, ?> zzluVar = this.zzb;
-        zzluVar.zzb((zzlu<?, ?>) zzluVar.zzb(t), zzmrVar);
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00b9  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x00be A[EDGE_INSN: B:58:0x00be->B:33:0x00be ?: BREAK  , SYNTHETIC] */
-    @Override // com.google.android.gms.internal.vision.zzlc
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public final void zza(T t, byte[] bArr, int i, int i2, zzhn zzhnVar) throws IOException {
-        zzjb zzjbVar = (zzjb) t;
-        zzlx zzlxVar = zzjbVar.zzb;
-        if (zzlxVar == zzlx.zza()) {
-            zzlxVar = zzlx.zzb();
-            zzjbVar.zzb = zzlxVar;
-        }
-        zziu<zzjb.zzf> zza = ((zzjb.zzc) t).zza();
-        zzjb.zze zzeVar = null;
-        while (i < i2) {
-            int zza2 = zzhl.zza(bArr, i, zzhnVar);
-            int i3 = zzhnVar.zza;
-            if (i3 == 11) {
-                int i4 = 0;
-                zzht zzhtVar = null;
-                while (zza2 < i2) {
-                    zza2 = zzhl.zza(bArr, zza2, zzhnVar);
-                    int i5 = zzhnVar.zza;
-                    int i6 = i5 >>> 3;
-                    int i7 = i5 & 7;
-                    if (i6 != 2) {
-                        if (i6 == 3) {
-                            if (zzeVar != null) {
-                                zza2 = zzhl.zza(zzky.zza().zza((Class) zzeVar.zzc.getClass()), bArr, zza2, i2, zzhnVar);
-                                zza.zza((zziu<zzjb.zzf>) zzeVar.zzd, zzhnVar.zzc);
-                            } else if (i7 == 2) {
-                                zza2 = zzhl.zze(bArr, zza2, zzhnVar);
-                                zzhtVar = (zzht) zzhnVar.zzc;
-                            }
-                        }
-                        if (i5 != 12) {
-                            break;
-                        }
-                        zza2 = zzhl.zza(i5, bArr, zza2, i2, zzhnVar);
-                    } else if (i7 == 0) {
-                        zza2 = zzhl.zza(bArr, zza2, zzhnVar);
-                        i4 = zzhnVar.zza;
-                        zzeVar = (zzjb.zze) this.zzd.zza(zzhnVar.zzd, this.zza, i4);
-                    } else if (i5 != 12) {
-                    }
-                }
-                if (zzhtVar != null) {
-                    zzlxVar.zza((i4 << 3) | 2, zzhtVar);
-                }
-                i = zza2;
-            } else if ((i3 & 7) == 2) {
-                zzjb.zze zzeVar2 = (zzjb.zze) this.zzd.zza(zzhnVar.zzd, this.zza, i3 >>> 3);
-                if (zzeVar2 != null) {
-                    i = zzhl.zza(zzky.zza().zza((Class) zzeVar2.zzc.getClass()), bArr, zza2, i2, zzhnVar);
-                    zza.zza((zziu<zzjb.zzf>) zzeVar2.zzd, zzhnVar.zzc);
-                } else {
-                    i = zzhl.zza(i3, bArr, zza2, i2, zzlxVar, zzhnVar);
-                }
-                zzeVar = zzeVar2;
-            } else {
-                i = zzhl.zza(i3, bArr, zza2, i2, zzhnVar);
-            }
-        }
-        if (i != i2) {
-            throw zzjk.zzg();
-        }
+    public final void zzc(Object obj) {
+        this.zzb.zzd(obj);
+        this.zzd.zzc(obj);
     }
 
     @Override // com.google.android.gms.internal.vision.zzlc
-    public final void zzc(T t) {
-        this.zzb.zzd(t);
-        this.zzd.zzc(t);
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzlc
-    public final boolean zzd(T t) {
-        return this.zzd.zza(t).zzf();
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzlc
-    public final int zzb(T t) {
-        zzlu<?, ?> zzluVar = this.zzb;
-        int zze = zzluVar.zze(zzluVar.zzb(t));
-        return this.zzc ? zze + this.zzd.zza(t).zzg() : zze;
+    public final boolean zzd(Object obj) {
+        return this.zzd.zza(obj).zzf();
     }
 }

@@ -1,12 +1,9 @@
 package com.google.android.datatransport.cct.internal;
 
 import com.google.android.datatransport.cct.internal.AutoValue_ClientInfo;
-import com.google.auto.value.AutoValue;
-@AutoValue
 /* loaded from: classes.dex */
 public abstract class ClientInfo {
 
-    @AutoValue.Builder
     /* loaded from: classes.dex */
     public static abstract class Builder {
         public abstract ClientInfo build();
@@ -15,10 +12,6 @@ public abstract class ClientInfo {
 
         public abstract Builder setClientType(ClientType clientType);
     }
-
-    public abstract AndroidClientInfo getAndroidClientInfo();
-
-    public abstract ClientType getClientType();
 
     /* loaded from: classes.dex */
     public enum ClientType {
@@ -35,4 +28,8 @@ public abstract class ClientInfo {
     public static Builder builder() {
         return new AutoValue_ClientInfo.Builder();
     }
+
+    public abstract AndroidClientInfo getAndroidClientInfo();
+
+    public abstract ClientType getClientType();
 }

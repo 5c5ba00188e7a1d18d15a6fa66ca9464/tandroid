@@ -1,10 +1,9 @@
 package com.googlecode.mp4parser.h264.read;
 
 import com.googlecode.mp4parser.h264.CharCache;
-import java.io.IOException;
 import java.io.InputStream;
 /* loaded from: classes.dex */
-public class BitstreamReader {
+public abstract class BitstreamReader {
     protected static int bitsRead;
     private int curByte;
     protected CharCache debugBits = new CharCache(50);
@@ -12,17 +11,19 @@ public class BitstreamReader {
     int nBit;
     private int nextByte;
 
-    public BitstreamReader(InputStream inputStream) throws IOException {
+    public BitstreamReader(InputStream inputStream) {
         this.is = inputStream;
         this.curByte = inputStream.read();
         this.nextByte = inputStream.read();
     }
 
-    public boolean readBool() throws IOException {
-        return read1Bit() == 1;
+    private void advance() {
+        this.curByte = this.nextByte;
+        this.nextByte = this.is.read();
+        this.nBit = 0;
     }
 
-    public int read1Bit() throws IOException {
+    public int read1Bit() {
         if (this.nBit == 8) {
             advance();
             if (this.curByte == -1) {
@@ -38,7 +39,20 @@ public class BitstreamReader {
         return i3;
     }
 
-    public long readNBit(int i) throws IOException {
+    public boolean readBool() {
+        return read1Bit() == 1;
+    }
+
+    public int readByte() {
+        if (this.nBit > 0) {
+            advance();
+        }
+        int i = this.curByte;
+        advance();
+        return i;
+    }
+
+    public long readNBit(int i) {
         if (i <= 64) {
             long j = 0;
             for (int i2 = 0; i2 < i; i2++) {
@@ -47,20 +61,5 @@ public class BitstreamReader {
             return j;
         }
         throw new IllegalArgumentException("Can not readByte more then 64 bit");
-    }
-
-    private void advance() throws IOException {
-        this.curByte = this.nextByte;
-        this.nextByte = this.is.read();
-        this.nBit = 0;
-    }
-
-    public int readByte() throws IOException {
-        if (this.nBit > 0) {
-            advance();
-        }
-        int i = this.curByte;
-        advance();
-        return i;
     }
 }

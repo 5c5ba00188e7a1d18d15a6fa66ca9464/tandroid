@@ -1,7 +1,6 @@
 package org.telegram.messenger;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes3.dex */
-public final /* synthetic */ class MessagesController$PeerColors$$ExternalSyntheticBackport0 {
+public abstract /* synthetic */ class MessagesController$PeerColors$$ExternalSyntheticBackport0 {
     public static /* synthetic */ int m(String str, int i) {
         if (str.length() > 1 && str.charAt(0) == '+') {
             str = str.substring(1);

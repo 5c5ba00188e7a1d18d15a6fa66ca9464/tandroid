@@ -1,11 +1,10 @@
 package com.microsoft.appcenter.crashes;
 
-import com.microsoft.appcenter.crashes.ingestion.models.ErrorAttachmentLog;
 import com.microsoft.appcenter.crashes.model.ErrorReport;
 /* loaded from: classes.dex */
 public abstract class AbstractCrashesListener implements CrashesListener {
     @Override // com.microsoft.appcenter.crashes.CrashesListener
-    public Iterable<ErrorAttachmentLog> getErrorAttachments(ErrorReport errorReport) {
+    public Iterable getErrorAttachments(ErrorReport errorReport) {
         return null;
     }
 

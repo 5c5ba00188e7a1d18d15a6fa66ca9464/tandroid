@@ -27,6 +27,22 @@ public class TransportRuntime implements TransportInternal {
         workInitializer.ensureContextsScheduled();
     }
 
+    private EventInternal convert(SendRequest sendRequest) {
+        return EventInternal.builder().setEventMillis(this.eventClock.getTime()).setUptimeMillis(this.uptimeClock.getTime()).setTransportName(sendRequest.getTransportName()).setEncodedPayload(new EncodedPayload(sendRequest.getEncoding(), sendRequest.getPayload())).setCode(sendRequest.getEvent().getCode()).build();
+    }
+
+    public static TransportRuntime getInstance() {
+        TransportRuntimeComponent transportRuntimeComponent = instance;
+        if (transportRuntimeComponent != null) {
+            return transportRuntimeComponent.getTransportRuntime();
+        }
+        throw new IllegalStateException("Not initialized!");
+    }
+
+    private static Set getSupportedEncodings(Destination destination) {
+        return destination instanceof EncodedDestination ? Collections.unmodifiableSet(((EncodedDestination) destination).getSupportedEncodings()) : Collections.singleton(Encoding.of("proto"));
+    }
+
     public static void initialize(Context context) {
         if (instance == null) {
             synchronized (TransportRuntime.class) {
@@ -40,35 +56,16 @@ public class TransportRuntime implements TransportInternal {
         }
     }
 
-    public static TransportRuntime getInstance() {
-        TransportRuntimeComponent transportRuntimeComponent = instance;
-        if (transportRuntimeComponent == null) {
-            throw new IllegalStateException("Not initialized!");
-        }
-        return transportRuntimeComponent.getTransportRuntime();
+    public Uploader getUploader() {
+        return this.uploader;
     }
 
     public TransportFactory newFactory(Destination destination) {
         return new TransportFactoryImpl(getSupportedEncodings(destination), TransportContext.builder().setBackendName(destination.getName()).setExtras(destination.getExtras()).build(), this);
     }
 
-    private static Set<Encoding> getSupportedEncodings(Destination destination) {
-        if (destination instanceof EncodedDestination) {
-            return Collections.unmodifiableSet(((EncodedDestination) destination).getSupportedEncodings());
-        }
-        return Collections.singleton(Encoding.of("proto"));
-    }
-
-    public Uploader getUploader() {
-        return this.uploader;
-    }
-
     @Override // com.google.android.datatransport.runtime.TransportInternal
     public void send(SendRequest sendRequest, TransportScheduleCallback transportScheduleCallback) {
         this.scheduler.schedule(sendRequest.getTransportContext().withPriority(sendRequest.getEvent().getPriority()), convert(sendRequest), transportScheduleCallback);
-    }
-
-    private EventInternal convert(SendRequest sendRequest) {
-        return EventInternal.builder().setEventMillis(this.eventClock.getTime()).setUptimeMillis(this.uptimeClock.getTime()).setTransportName(sendRequest.getTransportName()).setEncodedPayload(new EncodedPayload(sendRequest.getEncoding(), sendRequest.getPayload())).setCode(sendRequest.getEvent().getCode()).build();
     }
 }

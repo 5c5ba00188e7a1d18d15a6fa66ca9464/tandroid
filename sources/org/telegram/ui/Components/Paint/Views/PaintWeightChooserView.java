@@ -1,6 +1,5 @@
 package org.telegram.ui.Components.Paint.Views;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -107,88 +106,32 @@ public class PaintWeightChooserView extends View {
         this.backgroundPaint.setShadowLayer(AndroidUtilities.dp(3.0f), 0.0f, AndroidUtilities.dp(1.0f), 637534208);
     }
 
-    public void setShowPreview(boolean z) {
-        this.showPreview = z;
-        invalidate();
-    }
-
-    public void setValueOverride(ValueOverride valueOverride) {
-        this.valueOverride = valueOverride;
-        invalidate();
-    }
-
-    public void stopPanTransition() {
-        this.isPanTransitionInProgress = false;
-        invalidate();
-    }
-
-    public void setRenderView(RenderView renderView) {
-        this.renderView = renderView;
-    }
-
-    public void setColorSwatch(Swatch swatch) {
-        this.colorSwatch = swatch;
-        invalidate();
-    }
-
-    public void setBrushWeight(float f) {
-        this.colorSwatch.brushWeight = f;
-        invalidate();
-    }
-
-    public void setDrawCenter(boolean z) {
-        this.drawCenter = z;
-        invalidate();
-    }
-
-    public void setMinMax(float f, float f2) {
-        this.min = f;
-        this.max = f2;
-        invalidate();
-    }
-
-    public void setOnUpdate(Runnable runnable) {
-        this.onUpdate = runnable;
-    }
-
-    @Override // android.view.View
-    @SuppressLint({"ClickableViewAccessibility"})
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        boolean onTouchEvent = this.gestureDetector.onTouchEvent(motionEvent);
-        if (motionEvent.getActionMasked() == 1 || motionEvent.getActionMasked() == 3) {
-            this.isTouchInProgress = false;
-            invalidate();
+    private void drawCircleWithShadow(Canvas canvas, float f, float f2, float f3, boolean z) {
+        if (z) {
+            RectF rectF = AndroidUtilities.rectTmp;
+            rectF.set((f - f3) - AndroidUtilities.dp(6.0f), (f2 - f3) - AndroidUtilities.dp(6.0f), f + f3 + AndroidUtilities.dp(6.0f), f2 + f3 + AndroidUtilities.dp(6.0f));
+            canvas.saveLayerAlpha(rectF, (int) (this.showProgress * 255.0f), 31);
         }
-        return onTouchEvent;
-    }
-
-    @Override // android.view.View
-    protected void onSizeChanged(int i, int i2, int i3, int i4) {
-        super.onSizeChanged(i, i2, i3, i4);
-        if (this.isPanTransitionInProgress) {
-            return;
+        canvas.drawCircle(f, f2, f3, this.colorPaint);
+        if (z) {
+            canvas.restore();
         }
-        int height = (int) (getHeight() * 0.3f);
-        this.touchRect.set(0.0f, (getHeight() - height) / 2.0f, AndroidUtilities.dp(32.0f), (getHeight() + height) / 2.0f);
     }
 
-    public void setViewHidden(boolean z) {
-        this.isViewHidden = z;
-        invalidate();
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0071  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0086  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x013e  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x01d9  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0223  */
-    /* JADX WARN: Removed duplicated region for block: B:40:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x006d  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0082  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0136  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x01d1  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x021b  */
+    /* JADX WARN: Removed duplicated region for block: B:42:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void onDraw(Canvas canvas) {
+        float max;
         boolean z;
+        float max2;
         super.onDraw(canvas);
         long min = Math.min(16L, System.currentTimeMillis() - this.lastUpdate);
         this.lastUpdate = System.currentTimeMillis();
@@ -201,13 +144,15 @@ public class PaintWeightChooserView extends View {
         if (z2) {
             float f4 = this.hideProgress;
             if (f4 != 1.0f) {
-                this.hideProgress = Math.min(1.0f, f4 + (((float) min) / 200.0f));
+                max = Math.min(1.0f, f4 + (((float) min) / 200.0f));
+                this.hideProgress = max;
                 invalidate();
                 z = this.isTouchInProgress;
                 if (z) {
                     float f5 = this.showProgress;
                     if (f5 != 1.0f) {
-                        this.showProgress = Math.min(1.0f, f5 + (((float) min) / 200.0f));
+                        max2 = Math.min(1.0f, f5 + (((float) min) / 200.0f));
+                        this.showProgress = max2;
                         invalidate();
                         float height = this.touchRect.height();
                         int dp = AndroidUtilities.dp(16.0f);
@@ -257,7 +202,8 @@ public class PaintWeightChooserView extends View {
                 if (!z) {
                     float f9 = this.showProgress;
                     if (f9 != 0.0f) {
-                        this.showProgress = Math.max(0.0f, f9 - (((float) min) / 200.0f));
+                        max2 = Math.max(0.0f, f9 - (((float) min) / 200.0f));
+                        this.showProgress = max2;
                         invalidate();
                     }
                 }
@@ -304,7 +250,8 @@ public class PaintWeightChooserView extends View {
         if (!z2) {
             float f10 = this.hideProgress;
             if (f10 != 0.0f) {
-                this.hideProgress = Math.max(0.0f, f10 - (((float) min) / 200.0f));
+                max = Math.max(0.0f, f10 - (((float) min) / 200.0f));
+                this.hideProgress = max;
                 invalidate();
             }
         }
@@ -352,15 +299,72 @@ public class PaintWeightChooserView extends View {
         }
     }
 
-    private void drawCircleWithShadow(Canvas canvas, float f, float f2, float f3, boolean z) {
-        if (z) {
-            RectF rectF = AndroidUtilities.rectTmp;
-            rectF.set((f - f3) - AndroidUtilities.dp(6.0f), (f2 - f3) - AndroidUtilities.dp(6.0f), f + f3 + AndroidUtilities.dp(6.0f), f2 + f3 + AndroidUtilities.dp(6.0f));
-            canvas.saveLayerAlpha(rectF, (int) (this.showProgress * 255.0f), 31);
+    @Override // android.view.View
+    protected void onSizeChanged(int i, int i2, int i3, int i4) {
+        super.onSizeChanged(i, i2, i3, i4);
+        if (this.isPanTransitionInProgress) {
+            return;
         }
-        canvas.drawCircle(f, f2, f3, this.colorPaint);
-        if (z) {
-            canvas.restore();
+        int height = (int) (getHeight() * 0.3f);
+        this.touchRect.set(0.0f, (getHeight() - height) / 2.0f, AndroidUtilities.dp(32.0f), (getHeight() + height) / 2.0f);
+    }
+
+    @Override // android.view.View
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        boolean onTouchEvent = this.gestureDetector.onTouchEvent(motionEvent);
+        if (motionEvent.getActionMasked() == 1 || motionEvent.getActionMasked() == 3) {
+            this.isTouchInProgress = false;
+            invalidate();
         }
+        return onTouchEvent;
+    }
+
+    public void setBrushWeight(float f) {
+        this.colorSwatch.brushWeight = f;
+        invalidate();
+    }
+
+    public void setColorSwatch(Swatch swatch) {
+        this.colorSwatch = swatch;
+        invalidate();
+    }
+
+    public void setDrawCenter(boolean z) {
+        this.drawCenter = z;
+        invalidate();
+    }
+
+    public void setMinMax(float f, float f2) {
+        this.min = f;
+        this.max = f2;
+        invalidate();
+    }
+
+    public void setOnUpdate(Runnable runnable) {
+        this.onUpdate = runnable;
+    }
+
+    public void setRenderView(RenderView renderView) {
+        this.renderView = renderView;
+    }
+
+    public void setShowPreview(boolean z) {
+        this.showPreview = z;
+        invalidate();
+    }
+
+    public void setValueOverride(ValueOverride valueOverride) {
+        this.valueOverride = valueOverride;
+        invalidate();
+    }
+
+    public void setViewHidden(boolean z) {
+        this.isViewHidden = z;
+        invalidate();
+    }
+
+    public void stopPanTransition() {
+        this.isPanTransitionInProgress = false;
+        invalidate();
     }
 }

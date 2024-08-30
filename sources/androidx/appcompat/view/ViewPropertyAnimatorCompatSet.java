@@ -17,6 +17,19 @@ public class ViewPropertyAnimatorCompatSet {
         private boolean mProxyStarted = false;
         private int mProxyEndCount = 0;
 
+        @Override // androidx.core.view.ViewPropertyAnimatorListener
+        public void onAnimationEnd(View view) {
+            int i = this.mProxyEndCount + 1;
+            this.mProxyEndCount = i;
+            if (i == ViewPropertyAnimatorCompatSet.this.mAnimators.size()) {
+                ViewPropertyAnimatorListener viewPropertyAnimatorListener = ViewPropertyAnimatorCompatSet.this.mListener;
+                if (viewPropertyAnimatorListener != null) {
+                    viewPropertyAnimatorListener.onAnimationEnd(null);
+                }
+                onEnd();
+            }
+        }
+
         @Override // androidx.core.view.ViewPropertyAnimatorListenerAdapter, androidx.core.view.ViewPropertyAnimatorListener
         public void onAnimationStart(View view) {
             if (this.mProxyStarted) {
@@ -34,21 +47,22 @@ public class ViewPropertyAnimatorCompatSet {
             this.mProxyStarted = false;
             ViewPropertyAnimatorCompatSet.this.onAnimationsEnded();
         }
-
-        @Override // androidx.core.view.ViewPropertyAnimatorListener
-        public void onAnimationEnd(View view) {
-            int i = this.mProxyEndCount + 1;
-            this.mProxyEndCount = i;
-            if (i == ViewPropertyAnimatorCompatSet.this.mAnimators.size()) {
-                ViewPropertyAnimatorListener viewPropertyAnimatorListener = ViewPropertyAnimatorCompatSet.this.mListener;
-                if (viewPropertyAnimatorListener != null) {
-                    viewPropertyAnimatorListener.onAnimationEnd(null);
-                }
-                onEnd();
-            }
-        }
     };
-    final ArrayList<ViewPropertyAnimatorCompat> mAnimators = new ArrayList<>();
+    final ArrayList mAnimators = new ArrayList();
+
+    public void cancel() {
+        if (this.mIsStarted) {
+            Iterator it = this.mAnimators.iterator();
+            while (it.hasNext()) {
+                ((ViewPropertyAnimatorCompat) it.next()).cancel();
+            }
+            this.mIsStarted = false;
+        }
+    }
+
+    void onAnimationsEnded() {
+        this.mIsStarted = false;
+    }
 
     public ViewPropertyAnimatorCompatSet play(ViewPropertyAnimatorCompat viewPropertyAnimatorCompat) {
         if (!this.mIsStarted) {
@@ -62,43 +76,6 @@ public class ViewPropertyAnimatorCompatSet {
         viewPropertyAnimatorCompat2.setStartDelay(viewPropertyAnimatorCompat.getDuration());
         this.mAnimators.add(viewPropertyAnimatorCompat2);
         return this;
-    }
-
-    public void start() {
-        if (this.mIsStarted) {
-            return;
-        }
-        Iterator<ViewPropertyAnimatorCompat> it = this.mAnimators.iterator();
-        while (it.hasNext()) {
-            ViewPropertyAnimatorCompat next = it.next();
-            long j = this.mDuration;
-            if (j >= 0) {
-                next.setDuration(j);
-            }
-            Interpolator interpolator = this.mInterpolator;
-            if (interpolator != null) {
-                next.setInterpolator(interpolator);
-            }
-            if (this.mListener != null) {
-                next.setListener(this.mProxyListener);
-            }
-            next.start();
-        }
-        this.mIsStarted = true;
-    }
-
-    void onAnimationsEnded() {
-        this.mIsStarted = false;
-    }
-
-    public void cancel() {
-        if (this.mIsStarted) {
-            Iterator<ViewPropertyAnimatorCompat> it = this.mAnimators.iterator();
-            while (it.hasNext()) {
-                it.next().cancel();
-            }
-            this.mIsStarted = false;
-        }
     }
 
     public ViewPropertyAnimatorCompatSet setDuration(long j) {
@@ -120,5 +97,28 @@ public class ViewPropertyAnimatorCompatSet {
             this.mListener = viewPropertyAnimatorListener;
         }
         return this;
+    }
+
+    public void start() {
+        if (this.mIsStarted) {
+            return;
+        }
+        Iterator it = this.mAnimators.iterator();
+        while (it.hasNext()) {
+            ViewPropertyAnimatorCompat viewPropertyAnimatorCompat = (ViewPropertyAnimatorCompat) it.next();
+            long j = this.mDuration;
+            if (j >= 0) {
+                viewPropertyAnimatorCompat.setDuration(j);
+            }
+            Interpolator interpolator = this.mInterpolator;
+            if (interpolator != null) {
+                viewPropertyAnimatorCompat.setInterpolator(interpolator);
+            }
+            if (this.mListener != null) {
+                viewPropertyAnimatorCompat.setListener(this.mProxyListener);
+            }
+            viewPropertyAnimatorCompat.start();
+        }
+        this.mIsStarted = true;
     }
 }

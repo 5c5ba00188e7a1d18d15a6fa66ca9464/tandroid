@@ -13,7 +13,7 @@ public final class BinaryBitmap {
         this.binarizer = binarizer;
     }
 
-    public BitMatrix getBlackMatrix() throws NotFoundException {
+    public BitMatrix getBlackMatrix() {
         if (this.matrix == null) {
             this.matrix = this.binarizer.getBlackMatrix();
         }

@@ -1,6 +1,5 @@
 package com.google.android.gms.internal.clearcut;
 
-import java.io.IOException;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -69,7 +68,7 @@ public final class zzfs {
         throw new IllegalArgumentException(sb2.toString());
     }
 
-    private final void zzao(int i) throws IOException {
+    private final void zzao(int i) {
         byte b = (byte) i;
         if (!this.zzgd.hasRemaining()) {
             throw new zzft(this.zzgd.position(), this.zzgd.limit());
@@ -77,18 +76,12 @@ public final class zzfs {
         this.zzgd.put(b);
     }
 
-    private final void zzap(int i) throws IOException {
+    private final void zzap(int i) {
         while ((i & (-128)) != 0) {
             zzao((i & NotificationCenter.dialogTranslate) | 128);
             i >>>= 7;
         }
         zzao(i);
-    }
-
-    public static int zzb(int i, zzfz zzfzVar) {
-        int zzr = zzr(i);
-        int zzas = zzfzVar.zzas();
-        return zzr + zzz(zzas) + zzas;
     }
 
     public static int zzb(int i, String str) {
@@ -228,10 +221,6 @@ public final class zzfs {
         }
     }
 
-    public static zzfs zzg(byte[] bArr) {
-        return zzh(bArr, 0, bArr.length);
-    }
-
     public static int zzh(String str) {
         int zza = zza(str);
         return zzz(zza) + zza;
@@ -301,16 +290,7 @@ public final class zzfs {
         return (i & (-268435456)) == 0 ? 4 : 5;
     }
 
-    public final void zza(int i, zzfz zzfzVar) throws IOException {
-        zzb(i, 2);
-        if (zzfzVar.zzrs < 0) {
-            zzfzVar.zzas();
-        }
-        zzap(zzfzVar.zzrs);
-        zzfzVar.zza(this);
-    }
-
-    public final void zza(int i, String str) throws IOException {
+    public final void zza(int i, String str) {
         zzb(i, 2);
         try {
             int zzz = zzz(str.length());
@@ -336,7 +316,7 @@ public final class zzfs {
         }
     }
 
-    public final void zza(int i, byte[] bArr) throws IOException {
+    public final void zza(int i, byte[] bArr) {
         zzb(i, 2);
         zzap(bArr.length);
         int length = bArr.length;
@@ -346,11 +326,11 @@ public final class zzfs {
         this.zzgd.put(bArr, 0, length);
     }
 
-    public final void zzb(int i, int i2) throws IOException {
+    public final void zzb(int i, int i2) {
         zzap((i << 3) | i2);
     }
 
-    public final void zzb(int i, boolean z) throws IOException {
+    public final void zzb(int i, boolean z) {
         zzb(25, 0);
         byte b = z ? (byte) 1 : (byte) 0;
         if (!this.zzgd.hasRemaining()) {
@@ -359,7 +339,7 @@ public final class zzfs {
         this.zzgd.put(b);
     }
 
-    public final void zzc(int i, int i2) throws IOException {
+    public final void zzc(int i, int i2) {
         zzb(i, 0);
         if (i2 >= 0) {
             zzap(i2);
@@ -368,7 +348,7 @@ public final class zzfs {
         }
     }
 
-    public final void zze(int i, zzdo zzdoVar) throws IOException {
+    public final void zze(int i, zzdo zzdoVar) {
         if (this.zzrh != null) {
             if (this.zzri != this.zzgd.position()) {
                 this.zzrh.write(this.zzgd.array(), this.zzri, this.zzgd.position() - this.zzri);
@@ -392,12 +372,12 @@ public final class zzfs {
         }
     }
 
-    public final void zzi(int i, long j) throws IOException {
+    public final void zzi(int i, long j) {
         zzb(i, 0);
         zzn(j);
     }
 
-    public final void zzn(long j) throws IOException {
+    public final void zzn(long j) {
         while (((-128) & j) != 0) {
             zzao((((int) j) & NotificationCenter.dialogTranslate) | 128);
             j >>>= 7;

@@ -15,7 +15,7 @@ public final class CCTDestination implements EncodedDestination {
     public static final CCTDestination INSTANCE;
     static final String LEGACY_END_POINT;
     public static final CCTDestination LEGACY_INSTANCE;
-    private static final Set<Encoding> SUPPORTED_ENCODINGS;
+    private static final Set SUPPORTED_ENCODINGS;
     private final String apiKey;
     private final String endPoint;
 
@@ -36,27 +36,24 @@ public final class CCTDestination implements EncodedDestination {
         this.apiKey = str2;
     }
 
-    @Override // com.google.android.datatransport.runtime.Destination
-    public String getName() {
-        return "cct";
-    }
-
-    @Override // com.google.android.datatransport.runtime.Destination
-    public byte[] getExtras() {
-        return asByteArray();
-    }
-
-    @Override // com.google.android.datatransport.runtime.EncodedDestination
-    public Set<Encoding> getSupportedEncodings() {
-        return SUPPORTED_ENCODINGS;
-    }
-
-    public String getAPIKey() {
-        return this.apiKey;
-    }
-
-    public String getEndPoint() {
-        return this.endPoint;
+    public static CCTDestination fromByteArray(byte[] bArr) {
+        String str = new String(bArr, Charset.forName("UTF-8"));
+        if (str.startsWith("1$")) {
+            String[] split = str.substring(2).split(Pattern.quote("\\"), 2);
+            if (split.length == 2) {
+                String str2 = split[0];
+                if (str2.isEmpty()) {
+                    throw new IllegalArgumentException("Missing endpoint in CCTDestination extras");
+                }
+                String str3 = split[1];
+                if (str3.isEmpty()) {
+                    str3 = null;
+                }
+                return new CCTDestination(str2, str3);
+            }
+            throw new IllegalArgumentException("Extra is not a valid encoded LegacyFlgDestination");
+        }
+        throw new IllegalArgumentException("Version marker missing from extras");
     }
 
     public byte[] asByteArray() {
@@ -71,23 +68,26 @@ public final class CCTDestination implements EncodedDestination {
         return String.format("%s%s%s%s", "1$", str2, "\\", str).getBytes(Charset.forName("UTF-8"));
     }
 
-    public static CCTDestination fromByteArray(byte[] bArr) {
-        String str = new String(bArr, Charset.forName("UTF-8"));
-        if (!str.startsWith("1$")) {
-            throw new IllegalArgumentException("Version marker missing from extras");
-        }
-        String[] split = str.substring(2).split(Pattern.quote("\\"), 2);
-        if (split.length != 2) {
-            throw new IllegalArgumentException("Extra is not a valid encoded LegacyFlgDestination");
-        }
-        String str2 = split[0];
-        if (str2.isEmpty()) {
-            throw new IllegalArgumentException("Missing endpoint in CCTDestination extras");
-        }
-        String str3 = split[1];
-        if (str3.isEmpty()) {
-            str3 = null;
-        }
-        return new CCTDestination(str2, str3);
+    public String getAPIKey() {
+        return this.apiKey;
+    }
+
+    public String getEndPoint() {
+        return this.endPoint;
+    }
+
+    @Override // com.google.android.datatransport.runtime.Destination
+    public byte[] getExtras() {
+        return asByteArray();
+    }
+
+    @Override // com.google.android.datatransport.runtime.Destination
+    public String getName() {
+        return "cct";
+    }
+
+    @Override // com.google.android.datatransport.runtime.EncodedDestination
+    public Set getSupportedEncodings() {
+        return SUPPORTED_ENCODINGS;
     }
 }

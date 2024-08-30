@@ -9,7 +9,6 @@ jadx.core.utils.exceptions.JadxRuntimeException: Init of enum zzb uses external 
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzfb {
     public static final zzfb zza;
@@ -23,23 +22,9 @@ public final class zzfb {
     public static final zzfb zzi;
     public static final zzfb zzj;
     private static final /* synthetic */ zzfb[] zzn;
-    private final Class<?> zzk;
-    private final Class<?> zzl;
+    private final Class zzk;
+    private final Class zzl;
     private final Object zzm;
-
-    public static zzfb[] values() {
-        return (zzfb[]) zzn.clone();
-    }
-
-    private zzfb(String str, int i, Class cls, Class cls2, Object obj) {
-        this.zzk = cls;
-        this.zzl = cls2;
-        this.zzm = obj;
-    }
-
-    public final Class<?> zza() {
-        return this.zzl;
-    }
 
     static {
         zzfb zzfbVar = new zzfb("VOID", 0, Void.class, Void.class, null);
@@ -64,5 +49,19 @@ public final class zzfb {
         zzfb zzfbVar10 = new zzfb("MESSAGE", 9, Object.class, Object.class, null);
         zzj = zzfbVar10;
         zzn = new zzfb[]{zzfbVar, zzfbVar2, zzfbVar3, zzfbVar4, zzfbVar5, zzfbVar6, zzfbVar7, zzfbVar8, zzfbVar9, zzfbVar10};
+    }
+
+    private zzfb(String str, int i, Class cls, Class cls2, Object obj) {
+        this.zzk = cls;
+        this.zzl = cls2;
+        this.zzm = obj;
+    }
+
+    public static zzfb[] values() {
+        return (zzfb[]) zzn.clone();
+    }
+
+    public final Class zza() {
+        return this.zzl;
     }
 }

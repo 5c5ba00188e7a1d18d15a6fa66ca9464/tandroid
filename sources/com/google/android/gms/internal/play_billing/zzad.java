@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.util.Iterator;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 final class zzad extends zzy {
     private final transient zzx zza;
@@ -18,7 +17,7 @@ final class zzad extends zzy {
         return this.zza.get(obj) != null;
     }
 
-    @Override // com.google.android.gms.internal.play_billing.zzr, java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
+    @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
     public final /* synthetic */ Iterator iterator() {
         return this.zzb.listIterator(0);
     }
@@ -37,10 +36,5 @@ final class zzad extends zzy {
     @Override // com.google.android.gms.internal.play_billing.zzy, com.google.android.gms.internal.play_billing.zzr
     public final zzu zzd() {
         return this.zzb;
-    }
-
-    @Override // com.google.android.gms.internal.play_billing.zzr
-    public final zzah zze() {
-        return this.zzb.listIterator(0);
     }
 }

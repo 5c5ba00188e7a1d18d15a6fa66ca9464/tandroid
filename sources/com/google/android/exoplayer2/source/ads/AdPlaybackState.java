@@ -23,7 +23,7 @@ public final class AdPlaybackState implements Bundleable {
     private static final String FIELD_AD_RESUME_POSITION_US = Util.intToStringMaxRadix(2);
     private static final String FIELD_CONTENT_DURATION_US = Util.intToStringMaxRadix(3);
     private static final String FIELD_REMOVED_AD_GROUP_COUNT = Util.intToStringMaxRadix(4);
-    public static final Bundleable.Creator<AdPlaybackState> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.source.ads.AdPlaybackState$$ExternalSyntheticLambda0
+    public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.source.ads.AdPlaybackState$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.Bundleable.Creator
         public final Bundleable fromBundle(Bundle bundle) {
             AdPlaybackState fromBundle;
@@ -50,7 +50,7 @@ public final class AdPlaybackState implements Bundleable {
         private static final String FIELD_CONTENT_RESUME_OFFSET_US = Util.intToStringMaxRadix(5);
         private static final String FIELD_IS_SERVER_SIDE_INSERTED = Util.intToStringMaxRadix(6);
         private static final String FIELD_ORIGINAL_COUNT = Util.intToStringMaxRadix(7);
-        public static final Bundleable.Creator<AdGroup> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.source.ads.AdPlaybackState$AdGroup$$ExternalSyntheticLambda0
+        public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.source.ads.AdPlaybackState$AdGroup$$ExternalSyntheticLambda0
             @Override // com.google.android.exoplayer2.Bundleable.Creator
             public final Bundleable fromBundle(Bundle bundle) {
                 AdPlaybackState.AdGroup fromBundle;
@@ -75,71 +75,6 @@ public final class AdPlaybackState implements Bundleable {
             this.isServerSideInserted = z;
         }
 
-        public int getFirstAdIndexToPlay() {
-            return getNextAdIndexToPlay(-1);
-        }
-
-        public int getNextAdIndexToPlay(int i) {
-            int i2;
-            int i3 = i + 1;
-            while (true) {
-                int[] iArr = this.states;
-                if (i3 >= iArr.length || this.isServerSideInserted || (i2 = iArr[i3]) == 0 || i2 == 1) {
-                    break;
-                }
-                i3++;
-            }
-            return i3;
-        }
-
-        public boolean shouldPlayAdGroup() {
-            return this.count == -1 || getFirstAdIndexToPlay() < this.count;
-        }
-
-        public boolean hasUnplayedAds() {
-            if (this.count == -1) {
-                return true;
-            }
-            for (int i = 0; i < this.count; i++) {
-                int i2 = this.states[i];
-                if (i2 == 0 || i2 == 1) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null || AdGroup.class != obj.getClass()) {
-                return false;
-            }
-            AdGroup adGroup = (AdGroup) obj;
-            return this.timeUs == adGroup.timeUs && this.count == adGroup.count && this.originalCount == adGroup.originalCount && Arrays.equals(this.uris, adGroup.uris) && Arrays.equals(this.states, adGroup.states) && Arrays.equals(this.durationsUs, adGroup.durationsUs) && this.contentResumeOffsetUs == adGroup.contentResumeOffsetUs && this.isServerSideInserted == adGroup.isServerSideInserted;
-        }
-
-        public int hashCode() {
-            long j = this.timeUs;
-            long j2 = this.contentResumeOffsetUs;
-            return (((((((((((((this.count * 31) + this.originalCount) * 31) + ((int) (j ^ (j >>> 32)))) * 31) + Arrays.hashCode(this.uris)) * 31) + Arrays.hashCode(this.states)) * 31) + Arrays.hashCode(this.durationsUs)) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31) + (this.isServerSideInserted ? 1 : 0);
-        }
-
-        public AdGroup withAdCount(int i) {
-            int[] copyStatesWithSpaceForAdCount = copyStatesWithSpaceForAdCount(this.states, i);
-            long[] copyDurationsUsWithSpaceForAdCount = copyDurationsUsWithSpaceForAdCount(this.durationsUs, i);
-            return new AdGroup(this.timeUs, i, this.originalCount, copyStatesWithSpaceForAdCount, (Uri[]) Arrays.copyOf(this.uris, i), copyDurationsUsWithSpaceForAdCount, this.contentResumeOffsetUs, this.isServerSideInserted);
-        }
-
-        private static int[] copyStatesWithSpaceForAdCount(int[] iArr, int i) {
-            int length = iArr.length;
-            int max = Math.max(i, length);
-            int[] copyOf = Arrays.copyOf(iArr, max);
-            Arrays.fill(copyOf, length, max, 0);
-            return copyOf;
-        }
-
         private static long[] copyDurationsUsWithSpaceForAdCount(long[] jArr, int i) {
             int length = jArr.length;
             int max = Math.max(i, length);
@@ -148,18 +83,12 @@ public final class AdPlaybackState implements Bundleable {
             return copyOf;
         }
 
-        @Override // com.google.android.exoplayer2.Bundleable
-        public Bundle toBundle() {
-            Bundle bundle = new Bundle();
-            bundle.putLong(FIELD_TIME_US, this.timeUs);
-            bundle.putInt(FIELD_COUNT, this.count);
-            bundle.putInt(FIELD_ORIGINAL_COUNT, this.originalCount);
-            bundle.putParcelableArrayList(FIELD_URIS, new ArrayList<>(Arrays.asList(this.uris)));
-            bundle.putIntArray(FIELD_STATES, this.states);
-            bundle.putLongArray(FIELD_DURATIONS_US, this.durationsUs);
-            bundle.putLong(FIELD_CONTENT_RESUME_OFFSET_US, this.contentResumeOffsetUs);
-            bundle.putBoolean(FIELD_IS_SERVER_SIDE_INSERTED, this.isServerSideInserted);
-            return bundle;
+        private static int[] copyStatesWithSpaceForAdCount(int[] iArr, int i) {
+            int length = iArr.length;
+            int max = Math.max(i, length);
+            int[] copyOf = Arrays.copyOf(iArr, max);
+            Arrays.fill(copyOf, length, max, 0);
+            return copyOf;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -177,6 +106,77 @@ public final class AdPlaybackState implements Bundleable {
             }
             return new AdGroup(j, i, i2, intArray, parcelableArrayList == null ? new Uri[0] : (Uri[]) parcelableArrayList.toArray(new Uri[0]), longArray == null ? new long[0] : longArray, j2, z);
         }
+
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || AdGroup.class != obj.getClass()) {
+                return false;
+            }
+            AdGroup adGroup = (AdGroup) obj;
+            return this.timeUs == adGroup.timeUs && this.count == adGroup.count && this.originalCount == adGroup.originalCount && Arrays.equals(this.uris, adGroup.uris) && Arrays.equals(this.states, adGroup.states) && Arrays.equals(this.durationsUs, adGroup.durationsUs) && this.contentResumeOffsetUs == adGroup.contentResumeOffsetUs && this.isServerSideInserted == adGroup.isServerSideInserted;
+        }
+
+        public int getFirstAdIndexToPlay() {
+            return getNextAdIndexToPlay(-1);
+        }
+
+        public int getNextAdIndexToPlay(int i) {
+            int i2;
+            int i3 = i + 1;
+            while (true) {
+                int[] iArr = this.states;
+                if (i3 >= iArr.length || this.isServerSideInserted || (i2 = iArr[i3]) == 0 || i2 == 1) {
+                    break;
+                }
+                i3++;
+            }
+            return i3;
+        }
+
+        public boolean hasUnplayedAds() {
+            if (this.count == -1) {
+                return true;
+            }
+            for (int i = 0; i < this.count; i++) {
+                int i2 = this.states[i];
+                if (i2 == 0 || i2 == 1) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            long j = this.timeUs;
+            long j2 = this.contentResumeOffsetUs;
+            return (((((((((((((this.count * 31) + this.originalCount) * 31) + ((int) (j ^ (j >>> 32)))) * 31) + Arrays.hashCode(this.uris)) * 31) + Arrays.hashCode(this.states)) * 31) + Arrays.hashCode(this.durationsUs)) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31) + (this.isServerSideInserted ? 1 : 0);
+        }
+
+        public boolean shouldPlayAdGroup() {
+            return this.count == -1 || getFirstAdIndexToPlay() < this.count;
+        }
+
+        @Override // com.google.android.exoplayer2.Bundleable
+        public Bundle toBundle() {
+            Bundle bundle = new Bundle();
+            bundle.putLong(FIELD_TIME_US, this.timeUs);
+            bundle.putInt(FIELD_COUNT, this.count);
+            bundle.putInt(FIELD_ORIGINAL_COUNT, this.originalCount);
+            bundle.putParcelableArrayList(FIELD_URIS, new ArrayList<>(Arrays.asList(this.uris)));
+            bundle.putIntArray(FIELD_STATES, this.states);
+            bundle.putLongArray(FIELD_DURATIONS_US, this.durationsUs);
+            bundle.putLong(FIELD_CONTENT_RESUME_OFFSET_US, this.contentResumeOffsetUs);
+            bundle.putBoolean(FIELD_IS_SERVER_SIDE_INSERTED, this.isServerSideInserted);
+            return bundle;
+        }
+
+        public AdGroup withAdCount(int i) {
+            int[] copyStatesWithSpaceForAdCount = copyStatesWithSpaceForAdCount(this.states, i);
+            long[] copyDurationsUsWithSpaceForAdCount = copyDurationsUsWithSpaceForAdCount(this.durationsUs, i);
+            return new AdGroup(this.timeUs, i, this.originalCount, copyStatesWithSpaceForAdCount, (Uri[]) Arrays.copyOf(this.uris, i), copyDurationsUsWithSpaceForAdCount, this.contentResumeOffsetUs, this.isServerSideInserted);
+        }
     }
 
     private AdPlaybackState(Object obj, AdGroup[] adGroupArr, long j, long j2, int i) {
@@ -188,23 +188,46 @@ public final class AdPlaybackState implements Bundleable {
         this.removedAdGroupCount = i;
     }
 
-    public AdGroup getAdGroup(int i) {
-        int i2 = this.removedAdGroupCount;
-        if (i < i2) {
-            return REMOVED_AD_GROUP;
+    /* JADX INFO: Access modifiers changed from: private */
+    public static AdPlaybackState fromBundle(Bundle bundle) {
+        AdGroup[] adGroupArr;
+        ArrayList parcelableArrayList = bundle.getParcelableArrayList(FIELD_AD_GROUPS);
+        if (parcelableArrayList == null) {
+            adGroupArr = new AdGroup[0];
+        } else {
+            AdGroup[] adGroupArr2 = new AdGroup[parcelableArrayList.size()];
+            for (int i = 0; i < parcelableArrayList.size(); i++) {
+                adGroupArr2[i] = (AdGroup) AdGroup.CREATOR.fromBundle((Bundle) parcelableArrayList.get(i));
+            }
+            adGroupArr = adGroupArr2;
         }
-        return this.adGroups[i - i2];
+        String str = FIELD_AD_RESUME_POSITION_US;
+        AdPlaybackState adPlaybackState = NONE;
+        return new AdPlaybackState(null, adGroupArr, bundle.getLong(str, adPlaybackState.adResumePositionUs), bundle.getLong(FIELD_CONTENT_DURATION_US, adPlaybackState.contentDurationUs), bundle.getInt(FIELD_REMOVED_AD_GROUP_COUNT, adPlaybackState.removedAdGroupCount));
     }
 
-    public int getAdGroupIndexForPositionUs(long j, long j2) {
-        int i = this.adGroupCount - 1;
-        while (i >= 0 && isPositionBeforeAdGroup(j, j2, i)) {
-            i--;
+    private boolean isPositionBeforeAdGroup(long j, long j2, int i) {
+        if (j == Long.MIN_VALUE) {
+            return false;
         }
-        if (i < 0 || !getAdGroup(i).hasUnplayedAds()) {
-            return -1;
+        long j3 = getAdGroup(i).timeUs;
+        return j3 == Long.MIN_VALUE ? j2 == -9223372036854775807L || j < j2 : j < j3;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
         }
-        return i;
+        if (obj == null || AdPlaybackState.class != obj.getClass()) {
+            return false;
+        }
+        AdPlaybackState adPlaybackState = (AdPlaybackState) obj;
+        return Util.areEqual(this.adsId, adPlaybackState.adsId) && this.adGroupCount == adPlaybackState.adGroupCount && this.adResumePositionUs == adPlaybackState.adResumePositionUs && this.contentDurationUs == adPlaybackState.contentDurationUs && this.removedAdGroupCount == adPlaybackState.removedAdGroupCount && Arrays.equals(this.adGroups, adPlaybackState.adGroups);
+    }
+
+    public AdGroup getAdGroup(int i) {
+        int i2 = this.removedAdGroupCount;
+        return i < i2 ? REMOVED_AD_GROUP : this.adGroups[i - i2];
     }
 
     public int getAdGroupIndexAfterPositionUs(long j, long j2) {
@@ -224,72 +247,21 @@ public final class AdPlaybackState implements Bundleable {
         return -1;
     }
 
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    public int getAdGroupIndexForPositionUs(long j, long j2) {
+        int i = this.adGroupCount - 1;
+        while (i >= 0 && isPositionBeforeAdGroup(j, j2, i)) {
+            i--;
         }
-        if (obj == null || AdPlaybackState.class != obj.getClass()) {
-            return false;
+        if (i < 0 || !getAdGroup(i).hasUnplayedAds()) {
+            return -1;
         }
-        AdPlaybackState adPlaybackState = (AdPlaybackState) obj;
-        return Util.areEqual(this.adsId, adPlaybackState.adsId) && this.adGroupCount == adPlaybackState.adGroupCount && this.adResumePositionUs == adPlaybackState.adResumePositionUs && this.contentDurationUs == adPlaybackState.contentDurationUs && this.removedAdGroupCount == adPlaybackState.removedAdGroupCount && Arrays.equals(this.adGroups, adPlaybackState.adGroups);
+        return i;
     }
 
     public int hashCode() {
         int i = this.adGroupCount * 31;
         Object obj = this.adsId;
         return ((((((((i + (obj == null ? 0 : obj.hashCode())) * 31) + ((int) this.adResumePositionUs)) * 31) + ((int) this.contentDurationUs)) * 31) + this.removedAdGroupCount) * 31) + Arrays.hashCode(this.adGroups);
-    }
-
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("AdPlaybackState(adsId=");
-        sb.append(this.adsId);
-        sb.append(", adResumePositionUs=");
-        sb.append(this.adResumePositionUs);
-        sb.append(", adGroups=[");
-        for (int i = 0; i < this.adGroups.length; i++) {
-            sb.append("adGroup(timeUs=");
-            sb.append(this.adGroups[i].timeUs);
-            sb.append(", ads=[");
-            for (int i2 = 0; i2 < this.adGroups[i].states.length; i2++) {
-                sb.append("ad(state=");
-                int i3 = this.adGroups[i].states[i2];
-                if (i3 == 0) {
-                    sb.append('_');
-                } else if (i3 == 1) {
-                    sb.append('R');
-                } else if (i3 == 2) {
-                    sb.append('S');
-                } else if (i3 == 3) {
-                    sb.append('P');
-                } else if (i3 == 4) {
-                    sb.append('!');
-                } else {
-                    sb.append('?');
-                }
-                sb.append(", durationUs=");
-                sb.append(this.adGroups[i].durationsUs[i2]);
-                sb.append(')');
-                if (i2 < this.adGroups[i].states.length - 1) {
-                    sb.append(", ");
-                }
-            }
-            sb.append("])");
-            if (i < this.adGroups.length - 1) {
-                sb.append(", ");
-            }
-        }
-        sb.append("])");
-        return sb.toString();
-    }
-
-    private boolean isPositionBeforeAdGroup(long j, long j2, int i) {
-        if (j == Long.MIN_VALUE) {
-            return false;
-        }
-        long j3 = getAdGroup(i).timeUs;
-        return j3 == Long.MIN_VALUE ? j2 == -9223372036854775807L || j < j2 : j < j3;
     }
 
     @Override // com.google.android.exoplayer2.Bundleable
@@ -318,21 +290,34 @@ public final class AdPlaybackState implements Bundleable {
         return bundle;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static AdPlaybackState fromBundle(Bundle bundle) {
-        AdGroup[] adGroupArr;
-        ArrayList parcelableArrayList = bundle.getParcelableArrayList(FIELD_AD_GROUPS);
-        if (parcelableArrayList == null) {
-            adGroupArr = new AdGroup[0];
-        } else {
-            AdGroup[] adGroupArr2 = new AdGroup[parcelableArrayList.size()];
-            for (int i = 0; i < parcelableArrayList.size(); i++) {
-                adGroupArr2[i] = AdGroup.CREATOR.fromBundle((Bundle) parcelableArrayList.get(i));
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("AdPlaybackState(adsId=");
+        sb.append(this.adsId);
+        sb.append(", adResumePositionUs=");
+        sb.append(this.adResumePositionUs);
+        sb.append(", adGroups=[");
+        for (int i = 0; i < this.adGroups.length; i++) {
+            sb.append("adGroup(timeUs=");
+            sb.append(this.adGroups[i].timeUs);
+            sb.append(", ads=[");
+            for (int i2 = 0; i2 < this.adGroups[i].states.length; i2++) {
+                sb.append("ad(state=");
+                int i3 = this.adGroups[i].states[i2];
+                sb.append(i3 != 0 ? i3 != 1 ? i3 != 2 ? i3 != 3 ? i3 != 4 ? '?' : '!' : 'P' : 'S' : 'R' : '_');
+                sb.append(", durationUs=");
+                sb.append(this.adGroups[i].durationsUs[i2]);
+                sb.append(')');
+                if (i2 < this.adGroups[i].states.length - 1) {
+                    sb.append(", ");
+                }
             }
-            adGroupArr = adGroupArr2;
+            sb.append("])");
+            if (i < this.adGroups.length - 1) {
+                sb.append(", ");
+            }
         }
-        String str = FIELD_AD_RESUME_POSITION_US;
-        AdPlaybackState adPlaybackState = NONE;
-        return new AdPlaybackState(null, adGroupArr, bundle.getLong(str, adPlaybackState.adResumePositionUs), bundle.getLong(FIELD_CONTENT_DURATION_US, adPlaybackState.contentDurationUs), bundle.getInt(FIELD_REMOVED_AD_GROUP_COUNT, adPlaybackState.removedAdGroupCount));
+        sb.append("])");
+        return sb.toString();
     }
 }

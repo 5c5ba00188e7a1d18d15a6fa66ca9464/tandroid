@@ -1,12 +1,6 @@
 package kotlin.internal;
-/* compiled from: progressionUtil.kt */
 /* loaded from: classes.dex */
-public final class ProgressionUtilKt {
-    private static final int mod(int i, int i2) {
-        int i3 = i % i2;
-        return i3 >= 0 ? i3 : i3 + i2;
-    }
-
+public abstract class ProgressionUtilKt {
     private static final int differenceModulo(int i, int i2, int i3) {
         return mod(mod(i, i3) - mod(i2, i3), i3);
     }
@@ -19,5 +13,10 @@ public final class ProgressionUtilKt {
         } else {
             throw new IllegalArgumentException("Step is zero.");
         }
+    }
+
+    private static final int mod(int i, int i2) {
+        int i3 = i % i2;
+        return i3 >= 0 ? i3 : i3 + i2;
     }
 }

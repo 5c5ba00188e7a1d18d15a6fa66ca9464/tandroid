@@ -12,29 +12,6 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.LaunchActivity;
 /* loaded from: classes3.dex */
 public class FeedWidgetProvider extends AppWidgetProvider {
-    @Override // android.appwidget.AppWidgetProvider, android.content.BroadcastReceiver
-    public void onReceive(Context context, Intent intent) {
-        super.onReceive(context, intent);
-    }
-
-    @Override // android.appwidget.AppWidgetProvider
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] iArr) {
-        super.onUpdate(context, appWidgetManager, iArr);
-        for (int i : iArr) {
-            updateWidget(context, appWidgetManager, i);
-        }
-    }
-
-    @Override // android.appwidget.AppWidgetProvider
-    public void onDeleted(Context context, int[] iArr) {
-        super.onDeleted(context, iArr);
-        for (int i = 0; i < iArr.length; i++) {
-            SharedPreferences.Editor edit = context.getSharedPreferences("shortcut_widget", 0).edit();
-            SharedPreferences.Editor remove = edit.remove("account" + iArr[i]);
-            remove.remove("dialogId" + iArr[i]).commit();
-        }
-    }
-
     public static void updateWidget(Context context, AppWidgetManager appWidgetManager, int i) {
         Intent intent = new Intent(context, FeedWidgetService.class);
         intent.putExtra("appWidgetId", i);
@@ -49,5 +26,28 @@ public class FeedWidgetProvider extends AppWidgetProvider {
         intent2.addCategory("android.intent.category.LAUNCHER");
         remoteViews.setPendingIntentTemplate(i2, PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 167772160));
         appWidgetManager.updateAppWidget(i, remoteViews);
+    }
+
+    @Override // android.appwidget.AppWidgetProvider
+    public void onDeleted(Context context, int[] iArr) {
+        super.onDeleted(context, iArr);
+        for (int i = 0; i < iArr.length; i++) {
+            SharedPreferences.Editor edit = context.getSharedPreferences("shortcut_widget", 0).edit();
+            SharedPreferences.Editor remove = edit.remove("account" + iArr[i]);
+            remove.remove("dialogId" + iArr[i]).commit();
+        }
+    }
+
+    @Override // android.appwidget.AppWidgetProvider, android.content.BroadcastReceiver
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+    }
+
+    @Override // android.appwidget.AppWidgetProvider
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] iArr) {
+        super.onUpdate(context, appWidgetManager, iArr);
+        for (int i : iArr) {
+            updateWidget(context, appWidgetManager, i);
+        }
     }
 }

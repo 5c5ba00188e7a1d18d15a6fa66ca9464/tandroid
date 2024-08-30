@@ -2,14 +2,12 @@ package com.google.android.gms.internal.wallet;
 
 import android.os.Bundle;
 import android.os.Parcel;
-import android.os.RemoteException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.google.android.gms.wallet.PaymentCardRecognitionIntentResponse;
 import com.google.android.gms.wallet.PaymentData;
 import com.google.android.gms.wallet.zzau;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public abstract class zzt extends zzb implements zzu {
     public zzt() {
@@ -17,7 +15,7 @@ public abstract class zzt extends zzb implements zzu {
     }
 
     @Override // com.google.android.gms.internal.wallet.zzb
-    protected final boolean zza(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
+    protected final boolean zza(int i, Parcel parcel, Parcel parcel2, int i2) {
         switch (i) {
             case 1:
                 zzd(parcel.readInt(), (MaskedWallet) zzc.zza(parcel, MaskedWallet.CREATOR), (Bundle) zzc.zza(parcel, Bundle.CREATOR));
@@ -37,63 +35,50 @@ public abstract class zzt extends zzb implements zzu {
             case 6:
                 parcel.readInt();
                 zzc.zzd(parcel);
-                Bundle bundle = (Bundle) zzc.zza(parcel, Bundle.CREATOR);
-                return true;
+                break;
             case 7:
                 Status status = (Status) zzc.zza(parcel, Status.CREATOR);
                 zzi zziVar = (zzi) zzc.zza(parcel, zzi.CREATOR);
-                Bundle bundle2 = (Bundle) zzc.zza(parcel, Bundle.CREATOR);
-                return true;
+                break;
             case 8:
+            case 11:
+            case 13:
                 Status status2 = (Status) zzc.zza(parcel, Status.CREATOR);
-                Bundle bundle3 = (Bundle) zzc.zza(parcel, Bundle.CREATOR);
-                return true;
+                break;
             case 9:
                 zzc((Status) zzc.zza(parcel, Status.CREATOR), zzc.zzd(parcel), (Bundle) zzc.zza(parcel, Bundle.CREATOR));
                 return true;
             case 10:
                 Status status3 = (Status) zzc.zza(parcel, Status.CREATOR);
                 zzk zzkVar = (zzk) zzc.zza(parcel, zzk.CREATOR);
-                Bundle bundle4 = (Bundle) zzc.zza(parcel, Bundle.CREATOR);
-                return true;
-            case 11:
-                Status status4 = (Status) zzc.zza(parcel, Status.CREATOR);
-                Bundle bundle5 = (Bundle) zzc.zza(parcel, Bundle.CREATOR);
-                return true;
+                break;
             case 12:
-                Status status5 = (Status) zzc.zza(parcel, Status.CREATOR);
+                Status status4 = (Status) zzc.zza(parcel, Status.CREATOR);
                 zzau zzauVar = (zzau) zzc.zza(parcel, zzau.CREATOR);
-                Bundle bundle6 = (Bundle) zzc.zza(parcel, Bundle.CREATOR);
-                return true;
-            case 13:
-                Status status6 = (Status) zzc.zza(parcel, Status.CREATOR);
-                Bundle bundle7 = (Bundle) zzc.zza(parcel, Bundle.CREATOR);
-                return true;
+                break;
             case 14:
                 zzf((Status) zzc.zza(parcel, Status.CREATOR), (PaymentData) zzc.zza(parcel, PaymentData.CREATOR), (Bundle) zzc.zza(parcel, Bundle.CREATOR));
                 return true;
             case 15:
-                Status status7 = (Status) zzc.zza(parcel, Status.CREATOR);
+                Status status5 = (Status) zzc.zza(parcel, Status.CREATOR);
                 zzq zzqVar = (zzq) zzc.zza(parcel, zzq.CREATOR);
-                Bundle bundle8 = (Bundle) zzc.zza(parcel, Bundle.CREATOR);
-                return true;
+                break;
             case 16:
-                Status status8 = (Status) zzc.zza(parcel, Status.CREATOR);
+                Status status6 = (Status) zzc.zza(parcel, Status.CREATOR);
                 zzm zzmVar = (zzm) zzc.zza(parcel, zzm.CREATOR);
-                Bundle bundle9 = (Bundle) zzc.zza(parcel, Bundle.CREATOR);
-                return true;
+                break;
             case 17:
-                Status status9 = (Status) zzc.zza(parcel, Status.CREATOR);
+                Status status7 = (Status) zzc.zza(parcel, Status.CREATOR);
                 zzo zzoVar = (zzo) zzc.zza(parcel, zzo.CREATOR);
-                Bundle bundle10 = (Bundle) zzc.zza(parcel, Bundle.CREATOR);
-                return true;
+                break;
             case 18:
                 parcel.readInt();
-                Bundle bundle11 = (Bundle) zzc.zza(parcel, Bundle.CREATOR);
-                return true;
+                break;
             case 19:
                 zze((Status) zzc.zza(parcel, Status.CREATOR), (PaymentCardRecognitionIntentResponse) zzc.zza(parcel, PaymentCardRecognitionIntentResponse.CREATOR), (Bundle) zzc.zza(parcel, Bundle.CREATOR));
                 return true;
         }
+        Bundle bundle = (Bundle) zzc.zza(parcel, Bundle.CREATOR);
+        return true;
     }
 }

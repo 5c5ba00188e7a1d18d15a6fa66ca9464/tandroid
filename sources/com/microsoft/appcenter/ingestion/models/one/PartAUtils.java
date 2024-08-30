@@ -6,23 +6,8 @@ import com.microsoft.appcenter.utils.context.UserIdContext;
 import java.util.Locale;
 import java.util.regex.Pattern;
 /* loaded from: classes.dex */
-public class PartAUtils {
+public abstract class PartAUtils {
     private static final Pattern NAME_REGEX = Pattern.compile("^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){3,99}$");
-
-    public static String getTargetKey(String str) {
-        return str.split("-")[0];
-    }
-
-    public static void setName(CommonSchemaLog commonSchemaLog, String str) throws IllegalArgumentException {
-        if (str == null) {
-            throw new IllegalArgumentException("Name cannot be null.");
-        }
-        Pattern pattern = NAME_REGEX;
-        if (!pattern.matcher(str).matches()) {
-            throw new IllegalArgumentException("Name must match '" + pattern + "' but was '" + str + "'.");
-        }
-        commonSchemaLog.setName(str);
-    }
 
     public static void addPartAFromLog(Log log, CommonSchemaLog commonSchemaLog, String str) {
         Device device = log.getDevice();
@@ -55,5 +40,21 @@ public class PartAUtils {
         commonSchemaLog.getExt().setLoc(new LocExtension());
         commonSchemaLog.getExt().getLoc().setTz(String.format(Locale.US, "%s%02d:%02d", device.getTimeZoneOffset().intValue() >= 0 ? "+" : "-", Integer.valueOf(Math.abs(device.getTimeZoneOffset().intValue() / 60)), Integer.valueOf(Math.abs(device.getTimeZoneOffset().intValue() % 60))));
         commonSchemaLog.getExt().setDevice(new DeviceExtension());
+    }
+
+    public static String getTargetKey(String str) {
+        return str.split("-")[0];
+    }
+
+    public static void setName(CommonSchemaLog commonSchemaLog, String str) {
+        if (str == null) {
+            throw new IllegalArgumentException("Name cannot be null.");
+        }
+        Pattern pattern = NAME_REGEX;
+        if (pattern.matcher(str).matches()) {
+            commonSchemaLog.setName(str);
+            return;
+        }
+        throw new IllegalArgumentException("Name must match '" + pattern + "' but was '" + str + "'.");
     }
 }

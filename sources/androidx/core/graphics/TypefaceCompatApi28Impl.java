@@ -18,7 +18,7 @@ public class TypefaceCompatApi28Impl extends TypefaceCompatApi26Impl {
     }
 
     @Override // androidx.core.graphics.TypefaceCompatApi26Impl
-    protected Method obtainCreateFromFamiliesWithDefaultMethod(Class<?> cls) throws NoSuchMethodException {
+    protected Method obtainCreateFromFamiliesWithDefaultMethod(Class cls) {
         Class cls2 = Integer.TYPE;
         Method declaredMethod = Typeface.class.getDeclaredMethod("createFromFamiliesWithDefault", Array.newInstance(cls, 1).getClass(), String.class, cls2, cls2);
         declaredMethod.setAccessible(true);

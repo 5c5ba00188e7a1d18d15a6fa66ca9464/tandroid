@@ -1,16 +1,14 @@
 package com.google.android.gms.internal.clearcut;
 
-import com.google.android.gms.internal.clearcut.zzcg;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzdr {
+public abstract class zzdr {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static String zza(zzdo zzdoVar, String str) {
         StringBuilder sb = new StringBuilder();
@@ -115,18 +113,6 @@ public final class zzdr {
                         zza(sb, i, zzj(concat3), zza);
                     }
                 }
-            }
-        }
-        if (zzdoVar instanceof zzcg.zzd) {
-            Iterator<Map.Entry<zzcg.zze, Object>> it = ((zzcg.zzd) zzdoVar).zzjv.iterator();
-            while (it.hasNext()) {
-                Map.Entry<zzcg.zze, Object> next = it.next();
-                int i2 = next.getKey().number;
-                StringBuilder sb2 = new StringBuilder(13);
-                sb2.append("[");
-                sb2.append(i2);
-                sb2.append("]");
-                zza(sb, i, sb2.toString(), next.getValue());
             }
         }
         zzey zzeyVar = ((zzcg) zzdoVar).zzjp;

@@ -1,9 +1,8 @@
 package com.google.android.gms.wallet;
 
 import com.google.android.gms.common.Feature;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
-public final class zzk {
+public abstract class zzk {
     public static final Feature zza;
     public static final Feature zzb;
     public static final Feature zzc;

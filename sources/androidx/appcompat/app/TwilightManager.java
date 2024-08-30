@@ -1,6 +1,5 @@
 package androidx.appcompat.app;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
@@ -14,6 +13,21 @@ class TwilightManager {
     private final LocationManager mLocationManager;
     private final TwilightState mTwilightState = new TwilightState();
 
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class TwilightState {
+        boolean isNight;
+        long nextUpdate;
+
+        TwilightState() {
+        }
+    }
+
+    TwilightManager(Context context, LocationManager locationManager) {
+        this.mContext = context;
+        this.mLocationManager = locationManager;
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public static TwilightManager getInstance(Context context) {
         if (sInstance == null) {
@@ -23,28 +37,6 @@ class TwilightManager {
         return sInstance;
     }
 
-    TwilightManager(Context context, LocationManager locationManager) {
-        this.mContext = context;
-        this.mLocationManager = locationManager;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isNight() {
-        TwilightState twilightState = this.mTwilightState;
-        if (isStateValid()) {
-            return twilightState.isNight;
-        }
-        Location lastKnownLocation = getLastKnownLocation();
-        if (lastKnownLocation != null) {
-            updateState(lastKnownLocation);
-            return twilightState.isNight;
-        }
-        Log.i("TwilightManager", "Could not get last known location. This is probably because the app does not have any location permissions. Falling back to hardcoded sunrise/sunset values.");
-        int i = Calendar.getInstance().get(11);
-        return i < 6 || i >= 22;
-    }
-
-    @SuppressLint({"MissingPermission"})
     private Location getLastKnownLocation() {
         Location lastKnownLocationForProvider = PermissionChecker.checkSelfPermission(this.mContext, "android.permission.ACCESS_COARSE_LOCATION") == 0 ? getLastKnownLocationForProvider("network") : null;
         Location lastKnownLocationForProvider2 = PermissionChecker.checkSelfPermission(this.mContext, "android.permission.ACCESS_FINE_LOCATION") == 0 ? getLastKnownLocationForProvider("gps") : null;
@@ -91,13 +83,19 @@ class TwilightManager {
         twilightState.nextUpdate = j;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class TwilightState {
-        boolean isNight;
-        long nextUpdate;
-
-        TwilightState() {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public boolean isNight() {
+        TwilightState twilightState = this.mTwilightState;
+        if (isStateValid()) {
+            return twilightState.isNight;
         }
+        Location lastKnownLocation = getLastKnownLocation();
+        if (lastKnownLocation != null) {
+            updateState(lastKnownLocation);
+            return twilightState.isNight;
+        }
+        Log.i("TwilightManager", "Could not get last known location. This is probably because the app does not have any location permissions. Falling back to hardcoded sunrise/sunset values.");
+        int i = Calendar.getInstance().get(11);
+        return i < 6 || i >= 22;
     }
 }

@@ -1,9 +1,9 @@
 package org.telegram.tgnet;
 /* loaded from: classes3.dex */
-public interface ResultCallback<T> {
+public interface ResultCallback {
 
     /* loaded from: classes3.dex */
-    public final /* synthetic */ class -CC {
+    public abstract /* synthetic */ class -CC {
         public static void $default$onError(ResultCallback resultCallback, Throwable th) {
         }
 
@@ -11,7 +11,9 @@ public interface ResultCallback<T> {
         }
     }
 
-    void onComplete(T t);
+    void onComplete(Object obj);
+
+    void onError(Throwable th);
 
     void onError(TLRPC$TL_error tLRPC$TL_error);
 }

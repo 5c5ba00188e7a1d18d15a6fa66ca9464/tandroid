@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class SpliceInsertCommand extends SpliceCommand {
-    public static final Parcelable.Creator<SpliceInsertCommand> CREATOR = new Parcelable.Creator<SpliceInsertCommand>() { // from class: com.google.android.exoplayer2.metadata.scte35.SpliceInsertCommand.1
+    public static final Parcelable.Creator<SpliceInsertCommand> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.scte35.SpliceInsertCommand.1
         @Override // android.os.Parcelable.Creator
         public SpliceInsertCommand createFromParcel(Parcel parcel) {
             return new SpliceInsertCommand(parcel);
@@ -24,7 +24,7 @@ public final class SpliceInsertCommand extends SpliceCommand {
     public final int availNum;
     public final int availsExpected;
     public final long breakDurationUs;
-    public final List<ComponentSplice> componentSpliceList;
+    public final List componentSpliceList;
     public final boolean outOfNetworkIndicator;
     public final boolean programSpliceFlag;
     public final long programSplicePlaybackPositionUs;
@@ -34,7 +34,30 @@ public final class SpliceInsertCommand extends SpliceCommand {
     public final boolean spliceImmediateFlag;
     public final int uniqueProgramId;
 
-    private SpliceInsertCommand(long j, boolean z, boolean z2, boolean z3, boolean z4, long j2, long j3, List<ComponentSplice> list, boolean z5, long j4, int i, int i2, int i3) {
+    /* loaded from: classes.dex */
+    public static final class ComponentSplice {
+        public final long componentSplicePlaybackPositionUs;
+        public final long componentSplicePts;
+        public final int componentTag;
+
+        private ComponentSplice(int i, long j, long j2) {
+            this.componentTag = i;
+            this.componentSplicePts = j;
+            this.componentSplicePlaybackPositionUs = j2;
+        }
+
+        public static ComponentSplice createFromParcel(Parcel parcel) {
+            return new ComponentSplice(parcel.readInt(), parcel.readLong(), parcel.readLong());
+        }
+
+        public void writeToParcel(Parcel parcel) {
+            parcel.writeInt(this.componentTag);
+            parcel.writeLong(this.componentSplicePts);
+            parcel.writeLong(this.componentSplicePlaybackPositionUs);
+        }
+    }
+
+    private SpliceInsertCommand(long j, boolean z, boolean z2, boolean z3, boolean z4, long j2, long j3, List list, boolean z5, long j4, int i, int i2, int i3) {
         this.spliceEventId = j;
         this.spliceEventCancelIndicator = z;
         this.outOfNetworkIndicator = z2;
@@ -140,29 +163,6 @@ public final class SpliceInsertCommand extends SpliceCommand {
         return new SpliceInsertCommand(readUnsignedInt, z6, z, z4, z2, j2, timestampAdjuster.adjustTsTimestamp(j2), list, z3, j3, i, i2, i3);
     }
 
-    /* loaded from: classes.dex */
-    public static final class ComponentSplice {
-        public final long componentSplicePlaybackPositionUs;
-        public final long componentSplicePts;
-        public final int componentTag;
-
-        private ComponentSplice(int i, long j, long j2) {
-            this.componentTag = i;
-            this.componentSplicePts = j;
-            this.componentSplicePlaybackPositionUs = j2;
-        }
-
-        public void writeToParcel(Parcel parcel) {
-            parcel.writeInt(this.componentTag);
-            parcel.writeLong(this.componentSplicePts);
-            parcel.writeLong(this.componentSplicePlaybackPositionUs);
-        }
-
-        public static ComponentSplice createFromParcel(Parcel parcel) {
-            return new ComponentSplice(parcel.readInt(), parcel.readLong(), parcel.readLong());
-        }
-    }
-
     @Override // android.os.Parcelable
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeLong(this.spliceEventId);
@@ -175,7 +175,7 @@ public final class SpliceInsertCommand extends SpliceCommand {
         int size = this.componentSpliceList.size();
         parcel.writeInt(size);
         for (int i2 = 0; i2 < size; i2++) {
-            this.componentSpliceList.get(i2).writeToParcel(parcel);
+            ((ComponentSplice) this.componentSpliceList.get(i2)).writeToParcel(parcel);
         }
         parcel.writeByte(this.autoReturn ? (byte) 1 : (byte) 0);
         parcel.writeLong(this.breakDurationUs);

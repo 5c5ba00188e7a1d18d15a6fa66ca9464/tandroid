@@ -4,17 +4,17 @@ import com.stripe.android.time.Clock;
 import java.util.Calendar;
 import java.util.Locale;
 /* loaded from: classes.dex */
-public class DateUtils {
-    public static boolean hasYearPassed(int i) {
-        return normalizeYear(i) < Clock.getCalendarInstance().get(1);
-    }
-
+public abstract class DateUtils {
     public static boolean hasMonthPassed(int i, int i2) {
         if (hasYearPassed(i)) {
             return true;
         }
         Calendar calendarInstance = Clock.getCalendarInstance();
         return normalizeYear(i) == calendarInstance.get(1) && i2 < calendarInstance.get(2) + 1;
+    }
+
+    public static boolean hasYearPassed(int i) {
+        return normalizeYear(i) < Clock.getCalendarInstance().get(1);
     }
 
     private static int normalizeYear(int i) {

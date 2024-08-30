@@ -12,9 +12,6 @@ import com.google.android.datatransport.runtime.time.Clock;
 public abstract class SchedulingModule {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static WorkScheduler workScheduler(Context context, EventStore eventStore, SchedulerConfig schedulerConfig, Clock clock) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            return new JobInfoScheduler(context, eventStore, schedulerConfig);
-        }
-        return new AlarmManagerScheduler(context, eventStore, clock, schedulerConfig);
+        return Build.VERSION.SDK_INT >= 21 ? new JobInfoScheduler(context, eventStore, schedulerConfig) : new AlarmManagerScheduler(context, eventStore, clock, schedulerConfig);
     }
 }

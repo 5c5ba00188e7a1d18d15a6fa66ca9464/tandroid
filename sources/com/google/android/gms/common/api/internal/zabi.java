@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zabi implements zaca, zau {
     final Map zaa;
@@ -163,13 +162,6 @@ public final class zabi implements zaca, zau {
         for (Api api : this.zad.keySet()) {
             printWriter.append((CharSequence) str).append((CharSequence) api.zad()).println(":");
             ((Api.Client) Preconditions.checkNotNull((Api.Client) this.zaa.get(api.zab()))).dump(concat, fileDescriptor, printWriter, strArr);
-        }
-    }
-
-    @Override // com.google.android.gms.common.api.internal.zaca
-    public final void zat() {
-        if (this.zan instanceof zaaj) {
-            ((zaaj) this.zan).zaf();
         }
     }
 

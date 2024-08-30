@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.os.ResultReceiver;
-/* compiled from: com.google.android.play:core-common@@2.0.3 */
 /* loaded from: classes.dex */
 public class PlayCoreDialogWrapperActivity extends Activity {
     private ResultReceiver zza;
@@ -21,13 +20,18 @@ public class PlayCoreDialogWrapperActivity extends Activity {
     @Override // android.app.Activity
     protected final void onActivityResult(int i, int i2, Intent intent) {
         ResultReceiver resultReceiver;
+        Bundle bundle;
+        int i3;
         super.onActivityResult(i, i2, intent);
         if (i == 0 && (resultReceiver = this.zza) != null) {
             if (i2 == -1) {
-                resultReceiver.send(1, new Bundle());
+                bundle = new Bundle();
+                i3 = 1;
             } else if (i2 == 0) {
-                resultReceiver.send(2, new Bundle());
+                bundle = new Bundle();
+                i3 = 2;
             }
+            resultReceiver.send(i3, bundle);
         }
         finish();
     }
@@ -45,24 +49,23 @@ public class PlayCoreDialogWrapperActivity extends Activity {
         }
         Intent intent2 = intent;
         super.onCreate(bundle);
-        if (bundle == null) {
-            this.zza = (ResultReceiver) getIntent().getParcelableExtra("result_receiver");
-            Bundle extras = getIntent().getExtras();
-            if (extras == null) {
-                zza();
-                finish();
-                return;
-            }
-            try {
-                startIntentSenderForResult(((PendingIntent) extras.get("confirmation_intent")).getIntentSender(), 0, intent2, 0, 0, 0);
-                return;
-            } catch (IntentSender.SendIntentException unused) {
-                zza();
-                finish();
-                return;
-            }
+        if (bundle != null) {
+            this.zza = (ResultReceiver) bundle.getParcelable("result_receiver");
+            return;
         }
-        this.zza = (ResultReceiver) bundle.getParcelable("result_receiver");
+        this.zza = (ResultReceiver) getIntent().getParcelableExtra("result_receiver");
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            zza();
+            finish();
+            return;
+        }
+        try {
+            startIntentSenderForResult(((PendingIntent) extras.get("confirmation_intent")).getIntentSender(), 0, intent2, 0, 0, 0);
+        } catch (IntentSender.SendIntentException unused) {
+            zza();
+            finish();
+        }
     }
 
     @Override // android.app.Activity

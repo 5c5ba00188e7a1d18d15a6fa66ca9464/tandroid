@@ -5,74 +5,42 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 /* loaded from: classes.dex */
-class MetadataListReader {
+abstract class MetadataListReader {
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public interface OpenTypeReader {
-        long getPosition();
+    private static class ByteBufferReader implements OpenTypeReader {
+        private final ByteBuffer mByteBuffer;
 
-        int readTag() throws IOException;
-
-        long readUnsignedInt() throws IOException;
-
-        int readUnsignedShort() throws IOException;
-
-        void skip(int i) throws IOException;
-    }
-
-    static long toUnsignedInt(int i) {
-        return i & 4294967295L;
-    }
-
-    static int toUnsignedShort(short s) {
-        return s & 65535;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static MetadataList read(ByteBuffer byteBuffer) throws IOException {
-        ByteBuffer duplicate = byteBuffer.duplicate();
-        duplicate.position((int) findOffsetInfo(new ByteBufferReader(duplicate)).getStartOffset());
-        return MetadataList.getRootAsMetadataList(duplicate);
-    }
-
-    private static OffsetInfo findOffsetInfo(OpenTypeReader openTypeReader) throws IOException {
-        long j;
-        openTypeReader.skip(4);
-        int readUnsignedShort = openTypeReader.readUnsignedShort();
-        if (readUnsignedShort > 100) {
-            throw new IOException("Cannot read metadata.");
+        ByteBufferReader(ByteBuffer byteBuffer) {
+            this.mByteBuffer = byteBuffer;
+            byteBuffer.order(ByteOrder.BIG_ENDIAN);
         }
-        openTypeReader.skip(6);
-        int i = 0;
-        while (true) {
-            if (i >= readUnsignedShort) {
-                j = -1;
-                break;
-            }
-            int readTag = openTypeReader.readTag();
-            openTypeReader.skip(4);
-            j = openTypeReader.readUnsignedInt();
-            openTypeReader.skip(4);
-            if (1835365473 == readTag) {
-                break;
-            }
-            i++;
+
+        @Override // androidx.emoji2.text.MetadataListReader.OpenTypeReader
+        public long getPosition() {
+            return this.mByteBuffer.position();
         }
-        if (j != -1) {
-            openTypeReader.skip((int) (j - openTypeReader.getPosition()));
-            openTypeReader.skip(12);
-            long readUnsignedInt = openTypeReader.readUnsignedInt();
-            for (int i2 = 0; i2 < readUnsignedInt; i2++) {
-                int readTag2 = openTypeReader.readTag();
-                long readUnsignedInt2 = openTypeReader.readUnsignedInt();
-                long readUnsignedInt3 = openTypeReader.readUnsignedInt();
-                if (1164798569 == readTag2 || 1701669481 == readTag2) {
-                    return new OffsetInfo(readUnsignedInt2 + j, readUnsignedInt3);
-                }
-            }
+
+        @Override // androidx.emoji2.text.MetadataListReader.OpenTypeReader
+        public int readTag() {
+            return this.mByteBuffer.getInt();
         }
-        throw new IOException("Cannot read metadata.");
+
+        @Override // androidx.emoji2.text.MetadataListReader.OpenTypeReader
+        public long readUnsignedInt() {
+            return MetadataListReader.toUnsignedInt(this.mByteBuffer.getInt());
+        }
+
+        @Override // androidx.emoji2.text.MetadataListReader.OpenTypeReader
+        public int readUnsignedShort() {
+            return MetadataListReader.toUnsignedShort(this.mByteBuffer.getShort());
+        }
+
+        @Override // androidx.emoji2.text.MetadataListReader.OpenTypeReader
+        public void skip(int i) {
+            ByteBuffer byteBuffer = this.mByteBuffer;
+            byteBuffer.position(byteBuffer.position() + i);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -91,39 +59,71 @@ class MetadataListReader {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    private static class ByteBufferReader implements OpenTypeReader {
-        private final ByteBuffer mByteBuffer;
+    public interface OpenTypeReader {
+        long getPosition();
 
-        ByteBufferReader(ByteBuffer byteBuffer) {
-            this.mByteBuffer = byteBuffer;
-            byteBuffer.order(ByteOrder.BIG_ENDIAN);
-        }
+        int readTag();
 
-        @Override // androidx.emoji2.text.MetadataListReader.OpenTypeReader
-        public int readUnsignedShort() throws IOException {
-            return MetadataListReader.toUnsignedShort(this.mByteBuffer.getShort());
-        }
+        long readUnsignedInt();
 
-        @Override // androidx.emoji2.text.MetadataListReader.OpenTypeReader
-        public long readUnsignedInt() throws IOException {
-            return MetadataListReader.toUnsignedInt(this.mByteBuffer.getInt());
-        }
+        int readUnsignedShort();
 
-        @Override // androidx.emoji2.text.MetadataListReader.OpenTypeReader
-        public int readTag() throws IOException {
-            return this.mByteBuffer.getInt();
-        }
+        void skip(int i);
+    }
 
-        @Override // androidx.emoji2.text.MetadataListReader.OpenTypeReader
-        public void skip(int i) throws IOException {
-            ByteBuffer byteBuffer = this.mByteBuffer;
-            byteBuffer.position(byteBuffer.position() + i);
+    private static OffsetInfo findOffsetInfo(OpenTypeReader openTypeReader) {
+        long j;
+        openTypeReader.skip(4);
+        int readUnsignedShort = openTypeReader.readUnsignedShort();
+        if (readUnsignedShort <= 100) {
+            openTypeReader.skip(6);
+            int i = 0;
+            while (true) {
+                if (i >= readUnsignedShort) {
+                    j = -1;
+                    break;
+                }
+                int readTag = openTypeReader.readTag();
+                openTypeReader.skip(4);
+                j = openTypeReader.readUnsignedInt();
+                openTypeReader.skip(4);
+                if (1835365473 == readTag) {
+                    break;
+                }
+                i++;
+            }
+            if (j != -1) {
+                openTypeReader.skip((int) (j - openTypeReader.getPosition()));
+                openTypeReader.skip(12);
+                long readUnsignedInt = openTypeReader.readUnsignedInt();
+                for (int i2 = 0; i2 < readUnsignedInt; i2++) {
+                    int readTag2 = openTypeReader.readTag();
+                    long readUnsignedInt2 = openTypeReader.readUnsignedInt();
+                    long readUnsignedInt3 = openTypeReader.readUnsignedInt();
+                    if (1164798569 == readTag2 || 1701669481 == readTag2) {
+                        return new OffsetInfo(readUnsignedInt2 + j, readUnsignedInt3);
+                    }
+                }
+            }
+            throw new IOException("Cannot read metadata.");
         }
+        throw new IOException("Cannot read metadata.");
+    }
 
-        @Override // androidx.emoji2.text.MetadataListReader.OpenTypeReader
-        public long getPosition() {
-            return this.mByteBuffer.position();
-        }
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static MetadataList read(ByteBuffer byteBuffer) {
+        ByteBuffer duplicate = byteBuffer.duplicate();
+        duplicate.position((int) findOffsetInfo(new ByteBufferReader(duplicate)).getStartOffset());
+        return MetadataList.getRootAsMetadataList(duplicate);
+    }
+
+    static long toUnsignedInt(int i) {
+        return i & 4294967295L;
+    }
+
+    static int toUnsignedShort(short s) {
+        return s & 65535;
     }
 }

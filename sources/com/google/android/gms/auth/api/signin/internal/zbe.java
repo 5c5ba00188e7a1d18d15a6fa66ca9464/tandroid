@@ -12,19 +12,13 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
 import com.google.android.gms.internal.auth-api.zbbb;
-/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 public final class zbe extends GmsClient {
     private final GoogleSignInOptions zba;
 
     public zbe(Context context, Looper looper, ClientSettings clientSettings, GoogleSignInOptions googleSignInOptions, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
         super(context, looper, 91, clientSettings, connectionCallbacks, onConnectionFailedListener);
-        GoogleSignInOptions.Builder builder;
-        if (googleSignInOptions != null) {
-            builder = new GoogleSignInOptions.Builder(googleSignInOptions);
-        } else {
-            builder = new GoogleSignInOptions.Builder();
-        }
+        GoogleSignInOptions.Builder builder = googleSignInOptions != null ? new GoogleSignInOptions.Builder(googleSignInOptions) : new GoogleSignInOptions.Builder();
         builder.setLogSessionId(zbbb.zba());
         if (!clientSettings.getAllRequestedScopes().isEmpty()) {
             for (Scope scope : clientSettings.getAllRequestedScopes()) {

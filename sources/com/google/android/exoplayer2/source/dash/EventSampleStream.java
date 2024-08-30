@@ -7,7 +7,6 @@ import com.google.android.exoplayer2.metadata.emsg.EventMessageEncoder;
 import com.google.android.exoplayer2.source.SampleStream;
 import com.google.android.exoplayer2.source.dash.manifest.EventStream;
 import com.google.android.exoplayer2.util.Util;
-import java.io.IOException;
 /* loaded from: classes.dex */
 final class EventSampleStream implements SampleStream {
     private int currentIndex;
@@ -18,15 +17,6 @@ final class EventSampleStream implements SampleStream {
     private final Format upstreamFormat;
     private final EventMessageEncoder eventMessageEncoder = new EventMessageEncoder();
     private long pendingSeekPositionUs = -9223372036854775807L;
-
-    @Override // com.google.android.exoplayer2.source.SampleStream
-    public boolean isReady() {
-        return true;
-    }
-
-    @Override // com.google.android.exoplayer2.source.SampleStream
-    public void maybeThrowError() throws IOException {
-    }
 
     public EventSampleStream(EventStream eventStream, Format format, boolean z) {
         this.upstreamFormat = format;
@@ -39,25 +29,13 @@ final class EventSampleStream implements SampleStream {
         return this.eventStream.id();
     }
 
-    public void updateEventStream(EventStream eventStream, boolean z) {
-        int i = this.currentIndex;
-        long j = i == 0 ? -9223372036854775807L : this.eventTimesUs[i - 1];
-        this.eventStreamAppendable = z;
-        this.eventStream = eventStream;
-        long[] jArr = eventStream.presentationTimesUs;
-        this.eventTimesUs = jArr;
-        long j2 = this.pendingSeekPositionUs;
-        if (j2 != -9223372036854775807L) {
-            seekToUs(j2);
-        } else if (j != -9223372036854775807L) {
-            this.currentIndex = Util.binarySearchCeil(jArr, j, false, false);
-        }
+    @Override // com.google.android.exoplayer2.source.SampleStream
+    public boolean isReady() {
+        return true;
     }
 
-    public void seekToUs(long j) {
-        int binarySearchCeil = Util.binarySearchCeil(this.eventTimesUs, j, true, false);
-        this.currentIndex = binarySearchCeil;
-        this.pendingSeekPositionUs = (this.eventStreamAppendable && binarySearchCeil == this.eventTimesUs.length) ? -9223372036854775807L : -9223372036854775807L;
+    @Override // com.google.android.exoplayer2.source.SampleStream
+    public void maybeThrowError() {
     }
 
     @Override // com.google.android.exoplayer2.source.SampleStream
@@ -88,11 +66,32 @@ final class EventSampleStream implements SampleStream {
         }
     }
 
+    public void seekToUs(long j) {
+        int binarySearchCeil = Util.binarySearchCeil(this.eventTimesUs, j, true, false);
+        this.currentIndex = binarySearchCeil;
+        this.pendingSeekPositionUs = (this.eventStreamAppendable && binarySearchCeil == this.eventTimesUs.length) ? -9223372036854775807L : -9223372036854775807L;
+    }
+
     @Override // com.google.android.exoplayer2.source.SampleStream
     public int skipData(long j) {
         int max = Math.max(this.currentIndex, Util.binarySearchCeil(this.eventTimesUs, j, true, false));
         int i = max - this.currentIndex;
         this.currentIndex = max;
         return i;
+    }
+
+    public void updateEventStream(EventStream eventStream, boolean z) {
+        int i = this.currentIndex;
+        long j = i == 0 ? -9223372036854775807L : this.eventTimesUs[i - 1];
+        this.eventStreamAppendable = z;
+        this.eventStream = eventStream;
+        long[] jArr = eventStream.presentationTimesUs;
+        this.eventTimesUs = jArr;
+        long j2 = this.pendingSeekPositionUs;
+        if (j2 != -9223372036854775807L) {
+            seekToUs(j2);
+        } else if (j != -9223372036854775807L) {
+            this.currentIndex = Util.binarySearchCeil(jArr, j, false, false);
+        }
     }
 }

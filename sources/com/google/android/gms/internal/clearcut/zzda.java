@@ -5,13 +5,13 @@ import java.util.Collections;
 import java.util.List;
 /* loaded from: classes.dex */
 final class zzda extends zzcy {
-    private static final Class<?> zzlv = Collections.unmodifiableList(Collections.emptyList()).getClass();
+    private static final Class zzlv = Collections.unmodifiableList(Collections.emptyList()).getClass();
 
     private zzda() {
         super();
     }
 
-    private static <E> List<E> zzb(Object obj, long j) {
+    private static List zzb(Object obj, long j) {
         return (List) zzfd.zzo(obj, j);
     }
 
@@ -33,7 +33,7 @@ final class zzda extends zzcy {
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
     @Override // com.google.android.gms.internal.clearcut.zzcy
-    public final <E> void zza(Object obj, Object obj2, long j) {
+    public final void zza(Object obj, Object obj2, long j) {
         zzcw zzcwVar;
         List zzb = zzb(obj2, j);
         int size = zzb.size();

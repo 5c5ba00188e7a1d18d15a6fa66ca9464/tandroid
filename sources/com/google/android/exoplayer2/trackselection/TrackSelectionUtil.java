@@ -10,34 +10,22 @@ import com.google.common.collect.ImmutableList;
 import java.util.Arrays;
 import java.util.List;
 /* loaded from: classes.dex */
-public final class TrackSelectionUtil {
-    public static LoadErrorHandlingPolicy.FallbackOptions createFallbackOptions(ExoTrackSelection exoTrackSelection) {
-        long elapsedRealtime = SystemClock.elapsedRealtime();
-        int length = exoTrackSelection.length();
-        int i = 0;
-        for (int i2 = 0; i2 < length; i2++) {
-            if (exoTrackSelection.isBlacklisted(i2, elapsedRealtime)) {
-                i++;
-            }
-        }
-        return new LoadErrorHandlingPolicy.FallbackOptions(1, 0, length, i);
-    }
-
+public abstract class TrackSelectionUtil {
     public static Tracks buildTracks(MappingTrackSelector.MappedTrackInfo mappedTrackInfo, TrackSelection[] trackSelectionArr) {
         List[] listArr = new List[trackSelectionArr.length];
         for (int i = 0; i < trackSelectionArr.length; i++) {
             TrackSelection trackSelection = trackSelectionArr[i];
-            listArr[i] = trackSelection != null ? ImmutableList.of(trackSelection) : ImmutableList.of();
+            listArr[i] = trackSelection != null ? ImmutableList.of((Object) trackSelection) : ImmutableList.of();
         }
         return buildTracks(mappedTrackInfo, listArr);
     }
 
-    public static Tracks buildTracks(MappingTrackSelector.MappedTrackInfo mappedTrackInfo, List<? extends TrackSelection>[] listArr) {
+    public static Tracks buildTracks(MappingTrackSelector.MappedTrackInfo mappedTrackInfo, List[] listArr) {
         boolean z;
         ImmutableList.Builder builder = new ImmutableList.Builder();
         for (int i = 0; i < mappedTrackInfo.getRendererCount(); i++) {
             TrackGroupArray trackGroups = mappedTrackInfo.getTrackGroups(i);
-            List<? extends TrackSelection> list = listArr[i];
+            List list = listArr[i];
             for (int i2 = 0; i2 < trackGroups.length; i2++) {
                 TrackGroup trackGroup = trackGroups.get(i2);
                 boolean z2 = mappedTrackInfo.getAdaptiveSupport(i, i2, false) != 0;
@@ -52,7 +40,7 @@ public final class TrackSelectionUtil {
                             z = false;
                             break;
                         }
-                        TrackSelection trackSelection = list.get(i5);
+                        TrackSelection trackSelection = (TrackSelection) list.get(i5);
                         if (trackSelection.getTrackGroup().equals(trackGroup) && trackSelection.indexOf(i4) != -1) {
                             z = true;
                             break;
@@ -61,7 +49,7 @@ public final class TrackSelectionUtil {
                     }
                     zArr[i4] = z;
                 }
-                builder.add((ImmutableList.Builder) new Tracks.Group(trackGroup, z2, iArr, zArr));
+                builder.add((Object) new Tracks.Group(trackGroup, z2, iArr, zArr));
             }
         }
         TrackGroupArray unmappedTrackGroups = mappedTrackInfo.getUnmappedTrackGroups();
@@ -69,8 +57,20 @@ public final class TrackSelectionUtil {
             TrackGroup trackGroup2 = unmappedTrackGroups.get(i6);
             int[] iArr2 = new int[trackGroup2.length];
             Arrays.fill(iArr2, 0);
-            builder.add((ImmutableList.Builder) new Tracks.Group(trackGroup2, false, iArr2, new boolean[trackGroup2.length]));
+            builder.add((Object) new Tracks.Group(trackGroup2, false, iArr2, new boolean[trackGroup2.length]));
         }
         return new Tracks(builder.build());
+    }
+
+    public static LoadErrorHandlingPolicy.FallbackOptions createFallbackOptions(ExoTrackSelection exoTrackSelection) {
+        long elapsedRealtime = SystemClock.elapsedRealtime();
+        int length = exoTrackSelection.length();
+        int i = 0;
+        for (int i2 = 0; i2 < length; i2++) {
+            if (exoTrackSelection.isBlacklisted(i2, elapsedRealtime)) {
+                i++;
+            }
+        }
+        return new LoadErrorHandlingPolicy.FallbackOptions(1, 0, length, i);
     }
 }

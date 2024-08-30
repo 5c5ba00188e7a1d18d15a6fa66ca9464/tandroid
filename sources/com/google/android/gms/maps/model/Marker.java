@@ -4,7 +4,6 @@ import android.os.RemoteException;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.dynamic.ObjectWrapper;
 import com.google.android.gms.internal.maps.zzaa;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class Marker {
     private final zzaa zza;
@@ -48,6 +47,14 @@ public final class Marker {
         }
     }
 
+    public void remove() {
+        try {
+            this.zza.zzn();
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
+    }
+
     public void setIcon(BitmapDescriptor bitmapDescriptor) {
         try {
             if (bitmapDescriptor == null) {
@@ -60,9 +67,12 @@ public final class Marker {
         }
     }
 
-    public void remove() {
+    public void setPosition(LatLng latLng) {
+        if (latLng == null) {
+            throw new IllegalArgumentException("latlng cannot be null - a position is required.");
+        }
         try {
-            this.zza.zzn();
+            this.zza.zzu(latLng);
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }
@@ -79,17 +89,6 @@ public final class Marker {
     public void setTag(Object obj) {
         try {
             this.zza.zzx(ObjectWrapper.wrap(obj));
-        } catch (RemoteException e) {
-            throw new RuntimeRemoteException(e);
-        }
-    }
-
-    public void setPosition(LatLng latLng) {
-        if (latLng == null) {
-            throw new IllegalArgumentException("latlng cannot be null - a position is required.");
-        }
-        try {
-            this.zza.zzu(latLng);
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }

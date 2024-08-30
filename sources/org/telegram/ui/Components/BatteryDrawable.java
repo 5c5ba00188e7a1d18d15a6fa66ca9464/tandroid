@@ -21,11 +21,6 @@ public class BatteryDrawable extends Drawable {
     private Paint strokePaint;
     private float translateY;
 
-    @Override // android.graphics.drawable.Drawable
-    public int getOpacity() {
-        return -2;
-    }
-
     public BatteryDrawable() {
         this.strokePaint = new Paint(1);
         this.connectorPaint = new Paint(1);
@@ -42,53 +37,6 @@ public class BatteryDrawable extends Drawable {
         setFillValue(f, false);
         setColor(i, i2);
         setScale(f2);
-    }
-
-    public void setScale(float f) {
-        this.scale = f;
-        invalidateSelf();
-    }
-
-    public void setColor(int i) {
-        setColor(i, i);
-    }
-
-    public void setColor(int i, int i2) {
-        this.strokePaint.setColor(i);
-        this.connectorPaint.setColor(i);
-        this.fillPaint.setColor(i2);
-    }
-
-    public void setFillValue(float f, boolean z) {
-        final float max = Math.max(Math.min(f, 1.0f), 0.0f);
-        ValueAnimator valueAnimator = this.fillValueAnimator;
-        if (valueAnimator != null) {
-            valueAnimator.cancel();
-            this.fillValueAnimator = null;
-        }
-        if (!z) {
-            this.fillValue = max;
-            invalidateSelf();
-            return;
-        }
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.fillValue, max);
-        this.fillValueAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.BatteryDrawable$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                BatteryDrawable.this.lambda$setFillValue$0(valueAnimator2);
-            }
-        });
-        this.fillValueAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.BatteryDrawable.1
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                BatteryDrawable.this.fillValue = max;
-                BatteryDrawable.this.invalidateSelf();
-            }
-        });
-        this.fillValueAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-        this.fillValueAnimator.setDuration(200L);
-        this.fillValueAnimator.start();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -138,8 +86,19 @@ public class BatteryDrawable extends Drawable {
         }
     }
 
-    public void setTranslationY(float f) {
-        this.translateY = f;
+    @Override // android.graphics.drawable.Drawable
+    public int getIntrinsicHeight() {
+        return AndroidUtilities.dp(this.scale * 24.0f);
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public int getIntrinsicWidth() {
+        return AndroidUtilities.dp(this.scale * 24.0f);
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public int getOpacity() {
+        return -2;
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -149,6 +108,16 @@ public class BatteryDrawable extends Drawable {
         this.fillPaint.setAlpha(i);
     }
 
+    public void setColor(int i) {
+        setColor(i, i);
+    }
+
+    public void setColor(int i, int i2) {
+        this.strokePaint.setColor(i);
+        this.connectorPaint.setColor(i);
+        this.fillPaint.setColor(i2);
+    }
+
     @Override // android.graphics.drawable.Drawable
     public void setColorFilter(ColorFilter colorFilter) {
         this.strokePaint.setColorFilter(colorFilter);
@@ -156,13 +125,44 @@ public class BatteryDrawable extends Drawable {
         this.fillPaint.setColorFilter(colorFilter);
     }
 
-    @Override // android.graphics.drawable.Drawable
-    public int getIntrinsicWidth() {
-        return AndroidUtilities.dp(this.scale * 24.0f);
+    public void setFillValue(float f, boolean z) {
+        final float max = Math.max(Math.min(f, 1.0f), 0.0f);
+        ValueAnimator valueAnimator = this.fillValueAnimator;
+        if (valueAnimator != null) {
+            valueAnimator.cancel();
+            this.fillValueAnimator = null;
+        }
+        if (!z) {
+            this.fillValue = max;
+            invalidateSelf();
+            return;
+        }
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.fillValue, max);
+        this.fillValueAnimator = ofFloat;
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.BatteryDrawable$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                BatteryDrawable.this.lambda$setFillValue$0(valueAnimator2);
+            }
+        });
+        this.fillValueAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.BatteryDrawable.1
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                BatteryDrawable.this.fillValue = max;
+                BatteryDrawable.this.invalidateSelf();
+            }
+        });
+        this.fillValueAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+        this.fillValueAnimator.setDuration(200L);
+        this.fillValueAnimator.start();
     }
 
-    @Override // android.graphics.drawable.Drawable
-    public int getIntrinsicHeight() {
-        return AndroidUtilities.dp(this.scale * 24.0f);
+    public void setScale(float f) {
+        this.scale = f;
+        invalidateSelf();
+    }
+
+    public void setTranslationY(float f) {
+        this.translateY = f;
     }
 }

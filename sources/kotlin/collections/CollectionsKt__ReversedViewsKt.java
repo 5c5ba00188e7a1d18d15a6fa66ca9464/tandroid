@@ -1,5 +1,4 @@
 package kotlin.collections;
-/* compiled from: ReversedViews.kt */
 /* loaded from: classes.dex */
-class CollectionsKt__ReversedViewsKt extends CollectionsKt__MutableCollectionsKt {
+abstract class CollectionsKt__ReversedViewsKt extends CollectionsKt__MutableCollectionsKt {
 }

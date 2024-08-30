@@ -19,26 +19,21 @@ class CancellationSignalProvider {
     };
 
     /* loaded from: classes.dex */
+    private static class Api16Impl {
+        static void cancel(CancellationSignal cancellationSignal) {
+            cancellationSignal.cancel();
+        }
+
+        static CancellationSignal create() {
+            return new CancellationSignal();
+        }
+    }
+
+    /* loaded from: classes.dex */
     interface Injector {
         CancellationSignal getBiometricCancellationSignal();
 
         androidx.core.os.CancellationSignal getFingerprintCancellationSignal();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CancellationSignal getBiometricCancellationSignal() {
-        if (this.mBiometricCancellationSignal == null) {
-            this.mBiometricCancellationSignal = this.mInjector.getBiometricCancellationSignal();
-        }
-        return this.mBiometricCancellationSignal;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public androidx.core.os.CancellationSignal getFingerprintCancellationSignal() {
-        if (this.mFingerprintCancellationSignal == null) {
-            this.mFingerprintCancellationSignal = this.mInjector.getFingerprintCancellationSignal();
-        }
-        return this.mFingerprintCancellationSignal;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -63,14 +58,19 @@ class CancellationSignalProvider {
         }
     }
 
-    /* loaded from: classes.dex */
-    private static class Api16Impl {
-        static CancellationSignal create() {
-            return new CancellationSignal();
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public CancellationSignal getBiometricCancellationSignal() {
+        if (this.mBiometricCancellationSignal == null) {
+            this.mBiometricCancellationSignal = this.mInjector.getBiometricCancellationSignal();
         }
+        return this.mBiometricCancellationSignal;
+    }
 
-        static void cancel(CancellationSignal cancellationSignal) {
-            cancellationSignal.cancel();
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public androidx.core.os.CancellationSignal getFingerprintCancellationSignal() {
+        if (this.mFingerprintCancellationSignal == null) {
+            this.mFingerprintCancellationSignal = this.mInjector.getFingerprintCancellationSignal();
         }
+        return this.mFingerprintCancellationSignal;
     }
 }

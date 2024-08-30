@@ -6,7 +6,6 @@ import com.google.gson.internal.bind.DefaultDateTypeAdapter;
 import com.google.gson.internal.bind.TreeTypeAdapter;
 import com.google.gson.internal.bind.TypeAdapters;
 import com.google.gson.internal.sql.SqlTypesSupport;
-import java.lang.reflect.Type;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,9 +18,9 @@ public final class GsonBuilder {
     private Excluder excluder = Excluder.DEFAULT;
     private LongSerializationPolicy longSerializationPolicy = LongSerializationPolicy.DEFAULT;
     private FieldNamingStrategy fieldNamingPolicy = FieldNamingPolicy.IDENTITY;
-    private final Map<Type, InstanceCreator<?>> instanceCreators = new HashMap();
-    private final List<TypeAdapterFactory> factories = new ArrayList();
-    private final List<TypeAdapterFactory> hierarchyFactories = new ArrayList();
+    private final Map instanceCreators = new HashMap();
+    private final List factories = new ArrayList();
+    private final List hierarchyFactories = new ArrayList();
     private boolean serializeNulls = false;
     private String datePattern = Gson.DEFAULT_DATE_PATTERN;
     private int dateStyle = 2;
@@ -35,48 +34,9 @@ public final class GsonBuilder {
     private boolean useJdkUnsafe = true;
     private ToNumberStrategy objectToNumberStrategy = Gson.DEFAULT_OBJECT_TO_NUMBER_STRATEGY;
     private ToNumberStrategy numberToNumberStrategy = Gson.DEFAULT_NUMBER_TO_NUMBER_STRATEGY;
-    private final ArrayDeque<ReflectionAccessFilter> reflectionFilters = new ArrayDeque<>();
+    private final ArrayDeque reflectionFilters = new ArrayDeque();
 
-    public GsonBuilder addSerializationExclusionStrategy(ExclusionStrategy exclusionStrategy) {
-        Objects.requireNonNull(exclusionStrategy);
-        this.excluder = this.excluder.withExclusionStrategy(exclusionStrategy, true, false);
-        return this;
-    }
-
-    public GsonBuilder registerTypeAdapterFactory(TypeAdapterFactory typeAdapterFactory) {
-        Objects.requireNonNull(typeAdapterFactory);
-        this.factories.add(typeAdapterFactory);
-        return this;
-    }
-
-    public GsonBuilder registerTypeHierarchyAdapter(Class<?> cls, Object obj) {
-        Objects.requireNonNull(cls);
-        boolean z = obj instanceof JsonSerializer;
-        $Gson$Preconditions.checkArgument(z || (obj instanceof JsonDeserializer) || (obj instanceof TypeAdapter));
-        if (JsonElement.class.isAssignableFrom(cls)) {
-            throw new IllegalArgumentException("Cannot override built-in adapter for " + cls);
-        }
-        if ((obj instanceof JsonDeserializer) || z) {
-            this.hierarchyFactories.add(TreeTypeAdapter.newTypeHierarchyFactory(cls, obj));
-        }
-        if (obj instanceof TypeAdapter) {
-            this.factories.add(TypeAdapters.newTypeHierarchyFactory(cls, (TypeAdapter) obj));
-        }
-        return this;
-    }
-
-    public Gson create() {
-        ArrayList arrayList = new ArrayList(this.factories.size() + this.hierarchyFactories.size() + 3);
-        arrayList.addAll(this.factories);
-        Collections.reverse(arrayList);
-        ArrayList arrayList2 = new ArrayList(this.hierarchyFactories);
-        Collections.reverse(arrayList2);
-        arrayList.addAll(arrayList2);
-        addTypeAdaptersForDate(this.datePattern, this.dateStyle, this.timeStyle, arrayList);
-        return new Gson(this.excluder, this.fieldNamingPolicy, new HashMap(this.instanceCreators), this.serializeNulls, this.complexMapKeySerialization, this.generateNonExecutableJson, this.escapeHtmlChars, this.formattingStyle, this.strictness, this.serializeSpecialFloatingPointValues, this.useJdkUnsafe, this.longSerializationPolicy, this.datePattern, this.dateStyle, this.timeStyle, new ArrayList(this.factories), new ArrayList(this.hierarchyFactories), arrayList, this.objectToNumberStrategy, this.numberToNumberStrategy, new ArrayList(this.reflectionFilters));
-    }
-
-    private static void addTypeAdaptersForDate(String str, int i, int i2, List<TypeAdapterFactory> list) {
+    private static void addTypeAdaptersForDate(String str, int i, int i2, List list) {
         TypeAdapterFactory typeAdapterFactory;
         TypeAdapterFactory typeAdapterFactory2;
         boolean z = SqlTypesSupport.SUPPORTS_SQL_TYPES;
@@ -107,5 +67,44 @@ public final class GsonBuilder {
             list.add(typeAdapterFactory3);
             list.add(typeAdapterFactory2);
         }
+    }
+
+    public GsonBuilder addSerializationExclusionStrategy(ExclusionStrategy exclusionStrategy) {
+        Objects.requireNonNull(exclusionStrategy);
+        this.excluder = this.excluder.withExclusionStrategy(exclusionStrategy, true, false);
+        return this;
+    }
+
+    public Gson create() {
+        ArrayList arrayList = new ArrayList(this.factories.size() + this.hierarchyFactories.size() + 3);
+        arrayList.addAll(this.factories);
+        Collections.reverse(arrayList);
+        ArrayList arrayList2 = new ArrayList(this.hierarchyFactories);
+        Collections.reverse(arrayList2);
+        arrayList.addAll(arrayList2);
+        addTypeAdaptersForDate(this.datePattern, this.dateStyle, this.timeStyle, arrayList);
+        return new Gson(this.excluder, this.fieldNamingPolicy, new HashMap(this.instanceCreators), this.serializeNulls, this.complexMapKeySerialization, this.generateNonExecutableJson, this.escapeHtmlChars, this.formattingStyle, this.strictness, this.serializeSpecialFloatingPointValues, this.useJdkUnsafe, this.longSerializationPolicy, this.datePattern, this.dateStyle, this.timeStyle, new ArrayList(this.factories), new ArrayList(this.hierarchyFactories), arrayList, this.objectToNumberStrategy, this.numberToNumberStrategy, new ArrayList(this.reflectionFilters));
+    }
+
+    public GsonBuilder registerTypeAdapterFactory(TypeAdapterFactory typeAdapterFactory) {
+        Objects.requireNonNull(typeAdapterFactory);
+        this.factories.add(typeAdapterFactory);
+        return this;
+    }
+
+    public GsonBuilder registerTypeHierarchyAdapter(Class cls, Object obj) {
+        Objects.requireNonNull(cls);
+        boolean z = obj instanceof JsonSerializer;
+        $Gson$Preconditions.checkArgument(z || (obj instanceof TypeAdapter));
+        if (JsonElement.class.isAssignableFrom(cls)) {
+            throw new IllegalArgumentException("Cannot override built-in adapter for " + cls);
+        }
+        if (z) {
+            this.hierarchyFactories.add(TreeTypeAdapter.newTypeHierarchyFactory(cls, obj));
+        }
+        if (obj instanceof TypeAdapter) {
+            this.factories.add(TypeAdapters.newTypeHierarchyFactory(cls, (TypeAdapter) obj));
+        }
+        return this;
     }
 }

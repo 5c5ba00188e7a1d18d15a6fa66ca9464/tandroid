@@ -7,12 +7,11 @@ import com.google.android.gms.common.api.OptionalModuleApi;
 import com.google.android.gms.tasks.Task;
 import com.google.mlkit.vision.common.InputImage;
 import java.io.Closeable;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public interface SubjectSegmenter extends Closeable, LifecycleObserver, OptionalModuleApi {
     @Override // java.io.Closeable, java.lang.AutoCloseable
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     void close();
 
-    Task<SubjectSegmentationResult> process(InputImage inputImage);
+    Task process(InputImage inputImage);
 }

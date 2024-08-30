@@ -6,7 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 /* loaded from: classes.dex */
-final class ClearKeyUtil {
+abstract class ClearKeyUtil {
     public static byte[] adjustRequestData(byte[] bArr) {
         return Util.SDK_INT >= 27 ? bArr : Util.getUtf8Bytes(base64ToBase64Url(Util.fromUtf8Bytes(bArr)));
     }

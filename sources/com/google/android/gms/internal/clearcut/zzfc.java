@@ -2,9 +2,9 @@ package com.google.android.gms.internal.clearcut;
 
 import java.util.Iterator;
 /* loaded from: classes.dex */
-final class zzfc implements Iterator<String> {
+final class zzfc implements Iterator {
     private final /* synthetic */ zzfa zzpe;
-    private Iterator<String> zzpf;
+    private Iterator zzpf;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzfc(zzfa zzfaVar) {
@@ -20,8 +20,8 @@ final class zzfc implements Iterator<String> {
     }
 
     @Override // java.util.Iterator
-    public final /* synthetic */ String next() {
-        return this.zzpf.next();
+    public final /* synthetic */ Object next() {
+        return (String) this.zzpf.next();
     }
 
     @Override // java.util.Iterator

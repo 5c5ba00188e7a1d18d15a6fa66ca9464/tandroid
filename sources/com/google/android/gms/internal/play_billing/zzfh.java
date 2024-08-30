@@ -1,8 +1,8 @@
 package com.google.android.gms.internal.play_billing;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzfh extends zzbx implements zzdg {
-    private zzfh() {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public /* synthetic */ zzfh(zzfg zzfgVar) {
         super(zzfj.zzw());
     }
 
@@ -22,10 +22,5 @@ public final class zzfh extends zzbx implements zzdg {
         zzg();
         zzfj.zzz((zzfj) this.zza, i);
         return this;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzfh(zzfg zzfgVar) {
-        super(zzfj.zzw());
     }
 }

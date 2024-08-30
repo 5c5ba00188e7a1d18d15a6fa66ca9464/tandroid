@@ -1,6 +1,5 @@
 package com.google.firebase.messaging;
 
-import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -12,8 +11,6 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.messaging.WithinAppServiceBinder;
 import java.util.concurrent.ExecutorService;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
-@SuppressLint({"UnwrappedWakefulBroadcastReceiver"})
 /* loaded from: classes.dex */
 public abstract class EnhancedIntentService extends Service {
     private Binder binder;
@@ -40,7 +37,7 @@ public abstract class EnhancedIntentService extends Service {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public Task<Void> processIntent(final Intent intent) {
+    public Task processIntent(final Intent intent) {
         if (handleIntentOnMainThread(intent)) {
             return Tasks.forResult(null);
         }
@@ -65,9 +62,7 @@ public abstract class EnhancedIntentService extends Service {
         return taskCompletionSource.getTask();
     }
 
-    protected Intent getStartCommandIntent(Intent intent) {
-        return intent;
-    }
+    protected abstract Intent getStartCommandIntent(Intent intent);
 
     public abstract void handleIntent(Intent intent);
 
@@ -98,7 +93,7 @@ public abstract class EnhancedIntentService extends Service {
             if (this.binder == null) {
                 this.binder = new WithinAppServiceBinder(new WithinAppServiceBinder.IntentHandler() { // from class: com.google.firebase.messaging.EnhancedIntentService.1
                     @Override // com.google.firebase.messaging.WithinAppServiceBinder.IntentHandler
-                    public Task<Void> handle(Intent intent2) {
+                    public Task handle(Intent intent2) {
                         return EnhancedIntentService.this.processIntent(intent2);
                     }
                 });
@@ -126,7 +121,7 @@ public abstract class EnhancedIntentService extends Service {
             finishTask(intent);
             return 2;
         }
-        Task<Void> processIntent = processIntent(startCommandIntent);
+        Task processIntent = processIntent(startCommandIntent);
         if (processIntent.isComplete()) {
             finishTask(intent);
             return 2;

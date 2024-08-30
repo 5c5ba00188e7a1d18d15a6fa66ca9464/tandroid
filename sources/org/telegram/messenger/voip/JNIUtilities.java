@@ -1,6 +1,5 @@
 package org.telegram.messenger.voip;
 
-import android.annotation.TargetApi;
 import android.net.ConnectivityManager;
 import android.net.LinkProperties;
 import android.net.Network;
@@ -20,14 +19,32 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 /* loaded from: classes3.dex */
 public class JNIUtilities {
-    public static int getMaxVideoResolution() {
-        return 320;
+    public static String[] getCarrierInfo() {
+        String str;
+        String str2;
+        int defaultDataSubscriptionId;
+        TelephonyManager telephonyManager = (TelephonyManager) ApplicationLoader.applicationContext.getSystemService("phone");
+        if (Build.VERSION.SDK_INT >= 24) {
+            defaultDataSubscriptionId = SubscriptionManager.getDefaultDataSubscriptionId();
+            telephonyManager = telephonyManager.createForSubscriptionId(defaultDataSubscriptionId);
+        }
+        if (TextUtils.isEmpty(telephonyManager.getNetworkOperatorName())) {
+            return null;
+        }
+        String networkOperator = telephonyManager.getNetworkOperator();
+        if (networkOperator == null || networkOperator.length() <= 3) {
+            str = "";
+            str2 = "";
+        } else {
+            str = networkOperator.substring(0, 3);
+            str2 = networkOperator.substring(3);
+        }
+        return new String[]{telephonyManager.getNetworkOperatorName(), telephonyManager.getNetworkCountryIso().toUpperCase(), str, str2};
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:5:0x0012, code lost:
         r0 = r0.getLinkProperties(r1);
      */
-    @TargetApi(23)
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -109,27 +126,12 @@ public class JNIUtilities {
         }
     }
 
-    public static String[] getCarrierInfo() {
-        String str;
-        String str2;
-        int defaultDataSubscriptionId;
-        TelephonyManager telephonyManager = (TelephonyManager) ApplicationLoader.applicationContext.getSystemService("phone");
-        if (Build.VERSION.SDK_INT >= 24) {
-            defaultDataSubscriptionId = SubscriptionManager.getDefaultDataSubscriptionId();
-            telephonyManager = telephonyManager.createForSubscriptionId(defaultDataSubscriptionId);
-        }
-        if (TextUtils.isEmpty(telephonyManager.getNetworkOperatorName())) {
-            return null;
-        }
-        String networkOperator = telephonyManager.getNetworkOperator();
-        if (networkOperator != null && networkOperator.length() > 3) {
-            str = networkOperator.substring(0, 3);
-            str2 = networkOperator.substring(3);
-        } else {
-            str = "";
-            str2 = "";
-        }
-        return new String[]{telephonyManager.getNetworkOperatorName(), telephonyManager.getNetworkCountryIso().toUpperCase(), str, str2};
+    public static int getMaxVideoResolution() {
+        return 320;
+    }
+
+    public static String getSupportedVideoCodecs() {
+        return "";
     }
 
     public static int[] getWifiInfo() {
@@ -139,9 +141,5 @@ public class JNIUtilities {
         } catch (Exception unused) {
             return null;
         }
-    }
-
-    public static String getSupportedVideoCodecs() {
-        return "";
     }
 }

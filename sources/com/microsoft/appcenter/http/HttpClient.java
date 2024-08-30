@@ -3,18 +3,17 @@ package com.microsoft.appcenter.http;
 import java.io.Closeable;
 import java.net.URL;
 import java.util.Map;
-import org.json.JSONException;
 /* loaded from: classes.dex */
 public interface HttpClient extends Closeable {
 
     /* loaded from: classes.dex */
     public interface CallTemplate {
-        String buildRequestBody() throws JSONException;
+        String buildRequestBody();
 
-        void onBeforeCalling(URL url, Map<String, String> map);
+        void onBeforeCalling(URL url, Map map);
     }
 
-    ServiceCall callAsync(String str, String str2, Map<String, String> map, CallTemplate callTemplate, ServiceCallback serviceCallback);
+    ServiceCall callAsync(String str, String str2, Map map, CallTemplate callTemplate, ServiceCallback serviceCallback);
 
     void reopen();
 }

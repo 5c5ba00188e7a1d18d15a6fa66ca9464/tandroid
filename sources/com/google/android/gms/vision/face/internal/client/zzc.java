@@ -4,16 +4,10 @@ import android.graphics.PointF;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-vision@@20.1.3 */
 /* loaded from: classes.dex */
-public final class zzc implements Parcelable.Creator<zza> {
+public final class zzc implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ zza[] newArray(int i) {
-        return new zza[i];
-    }
-
-    @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ zza createFromParcel(Parcel parcel) {
+    public final /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         PointF[] pointFArr = null;
         int i = 0;
@@ -22,13 +16,18 @@ public final class zzc implements Parcelable.Creator<zza> {
             int fieldId = SafeParcelReader.getFieldId(readHeader);
             if (fieldId == 2) {
                 pointFArr = (PointF[]) SafeParcelReader.createTypedArray(parcel, readHeader, PointF.CREATOR);
-            } else if (fieldId == 3) {
-                i = SafeParcelReader.readInt(parcel, readHeader);
-            } else {
+            } else if (fieldId != 3) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                i = SafeParcelReader.readInt(parcel, readHeader);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
         return new zza(pointFArr, i);
+    }
+
+    @Override // android.os.Parcelable.Creator
+    public final /* synthetic */ Object[] newArray(int i) {
+        return new zza[i];
     }
 }

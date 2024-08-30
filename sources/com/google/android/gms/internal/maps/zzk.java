@@ -2,7 +2,6 @@ package com.google.android.gms.internal.maps;
 
 import android.os.IBinder;
 import android.os.IInterface;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class zzk extends zzb implements zzl {
     public static zzl zzb(IBinder iBinder) {

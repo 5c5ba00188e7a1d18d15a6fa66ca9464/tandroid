@@ -3,7 +3,6 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 final class zzai extends AbstractSet {
     final /* synthetic */ zzal zza;
@@ -27,10 +26,7 @@ final class zzai extends AbstractSet {
     public final Iterator iterator() {
         zzal zzalVar = this.zza;
         Map zzj = zzalVar.zzj();
-        if (zzj != null) {
-            return zzj.keySet().iterator();
-        }
-        return new zzac(zzalVar);
+        return zzj != null ? zzj.keySet().iterator() : new zzac(zzalVar);
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set

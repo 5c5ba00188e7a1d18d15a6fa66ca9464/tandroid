@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzcz extends LinkedHashMap {
     private static final zzcz zza;
@@ -19,6 +18,11 @@ public final class zzcz extends LinkedHashMap {
     }
 
     private zzcz() {
+        this.zzb = true;
+    }
+
+    private zzcz(Map map) {
+        super(map);
         this.zzb = true;
     }
 
@@ -76,11 +80,11 @@ public final class zzcz extends LinkedHashMap {
                 }
                 Object value = entry.getValue();
                 Object obj2 = map.get(entry.getKey());
-                if (!(value instanceof byte[]) || !(obj2 instanceof byte[])) {
-                    equals = value.equals(obj2);
+                if ((value instanceof byte[]) && (obj2 instanceof byte[])) {
+                    equals = Arrays.equals((byte[]) value, (byte[]) obj2);
                     continue;
                 } else {
-                    equals = Arrays.equals((byte[]) value, (byte[]) obj2);
+                    equals = value.equals(obj2);
                     continue;
                 }
                 if (!equals) {
@@ -147,10 +151,5 @@ public final class zzcz extends LinkedHashMap {
 
     public final boolean zze() {
         return this.zzb;
-    }
-
-    private zzcz(Map map) {
-        super(map);
-        this.zzb = true;
     }
 }

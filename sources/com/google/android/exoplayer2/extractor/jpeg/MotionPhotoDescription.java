@@ -4,7 +4,7 @@ import com.google.android.exoplayer2.metadata.mp4.MotionPhotoMetadata;
 import java.util.List;
 /* loaded from: classes.dex */
 final class MotionPhotoDescription {
-    public final List<ContainerItem> items;
+    public final List items;
     public final long photoPresentationTimestampUs;
 
     /* loaded from: classes.dex */
@@ -22,7 +22,7 @@ final class MotionPhotoDescription {
         }
     }
 
-    public MotionPhotoDescription(long j, List<ContainerItem> list) {
+    public MotionPhotoDescription(long j, List list) {
         this.photoPresentationTimestampUs = j;
         this.items = list;
     }
@@ -39,7 +39,7 @@ final class MotionPhotoDescription {
         long j7 = -1;
         boolean z = false;
         for (int size = this.items.size() - 1; size >= 0; size--) {
-            ContainerItem containerItem = this.items.get(size);
+            ContainerItem containerItem = (ContainerItem) this.items.get(size);
             boolean equals = "video/mp4".equals(containerItem.mime) | z;
             if (size == 0) {
                 j3 -= containerItem.padding;

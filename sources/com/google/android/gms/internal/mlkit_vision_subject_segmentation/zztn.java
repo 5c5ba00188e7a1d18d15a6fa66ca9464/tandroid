@@ -11,7 +11,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public final class zztn {
     private final TelemetryLoggingClient zza;

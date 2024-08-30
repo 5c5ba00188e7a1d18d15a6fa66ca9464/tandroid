@@ -13,6 +13,10 @@ class EmojiTransformationMethod implements TransformationMethod {
         this.mTransformationMethod = transformationMethod;
     }
 
+    public TransformationMethod getOriginalTransformationMethod() {
+        return this.mTransformationMethod;
+    }
+
     @Override // android.text.method.TransformationMethod
     public CharSequence getTransformation(CharSequence charSequence, View view) {
         if (view.isInEditMode()) {
@@ -31,9 +35,5 @@ class EmojiTransformationMethod implements TransformationMethod {
         if (transformationMethod != null) {
             transformationMethod.onFocusChanged(view, charSequence, z, i, rect);
         }
-    }
-
-    public TransformationMethod getOriginalTransformationMethod() {
-        return this.mTransformationMethod;
     }
 }

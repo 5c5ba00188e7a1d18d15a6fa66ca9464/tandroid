@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailabilityLight;
 import com.google.android.gms.common.api.Api;
@@ -11,7 +12,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.IAccountAccessor;
 import com.google.android.gms.common.internal.Preconditions;
-import com.google.android.gms.common.internal.zab;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.locks.Lock;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zaaw implements zabf {
     private final zabi zaa;
@@ -122,12 +121,10 @@ public final class zaaw implements zabf {
             this.zag = 1;
             this.zah = this.zaa.zaa.size();
             for (Api.AnyClientKey anyClientKey : this.zaa.zaa.keySet()) {
-                if (this.zaa.zab.containsKey(anyClientKey)) {
-                    if (zaH()) {
-                        zaC();
-                    }
-                } else {
+                if (!this.zaa.zab.containsKey(anyClientKey)) {
                     arrayList.add((Api.Client) this.zaa.zaa.get(anyClientKey));
+                } else if (zaH()) {
+                    zaC();
                 }
             }
             if (arrayList.isEmpty()) {
@@ -154,6 +151,7 @@ public final class zaaw implements zabf {
 
     /* JADX INFO: Access modifiers changed from: private */
     public final boolean zaH() {
+        ConnectionResult connectionResult;
         int i = this.zah - 1;
         this.zah = i;
         if (i > 0) {
@@ -162,16 +160,16 @@ public final class zaaw implements zabf {
         if (i < 0) {
             Log.w("GACConnecting", this.zaa.zag.zaf());
             Log.wtf("GACConnecting", "GoogleApiClient received too many callbacks for the given step. Clients may be in an unexpected state; GoogleApiClient will now disconnect.", new Exception());
-            zaD(new ConnectionResult(8, null));
-            return false;
-        }
-        ConnectionResult connectionResult = this.zae;
-        if (connectionResult != null) {
+            connectionResult = new ConnectionResult(8, null);
+        } else {
+            connectionResult = this.zae;
+            if (connectionResult == null) {
+                return true;
+            }
             this.zaa.zaf = this.zaf;
-            zaD(connectionResult);
-            return false;
         }
-        return true;
+        zaD(connectionResult);
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -193,7 +191,8 @@ public final class zaaw implements zabf {
         Map zad = zaawVar.zar.zad();
         for (Api api : zad.keySet()) {
             if (!zaawVar.zaa.zab.containsKey(api.zab())) {
-                hashSet.addAll(((zab) zad.get(api)).zaa);
+                ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(zad.get(api));
+                throw null;
             }
         }
         return hashSet;
@@ -203,26 +202,28 @@ public final class zaaw implements zabf {
     public static /* bridge */ /* synthetic */ void zar(zaaw zaawVar, com.google.android.gms.signin.internal.zak zakVar) {
         if (zaawVar.zaG(0)) {
             ConnectionResult zaa = zakVar.zaa();
-            if (zaa.isSuccess()) {
-                com.google.android.gms.common.internal.zav zavVar = (com.google.android.gms.common.internal.zav) Preconditions.checkNotNull(zakVar.zab());
-                ConnectionResult zaa2 = zavVar.zaa();
-                if (!zaa2.isSuccess()) {
-                    String valueOf = String.valueOf(zaa2);
-                    Log.wtf("GACConnecting", "Sign-in succeeded with resolve account failure: ".concat(valueOf), new Exception());
-                    zaawVar.zaD(zaa2);
+            if (!zaa.isSuccess()) {
+                if (!zaawVar.zaI(zaa)) {
+                    zaawVar.zaD(zaa);
                     return;
                 }
-                zaawVar.zan = true;
-                zaawVar.zao = (IAccountAccessor) Preconditions.checkNotNull(zavVar.zab());
-                zaawVar.zap = zavVar.zac();
-                zaawVar.zaq = zavVar.zad();
-                zaawVar.zaF();
-            } else if (zaawVar.zaI(zaa)) {
                 zaawVar.zaA();
                 zaawVar.zaF();
-            } else {
-                zaawVar.zaD(zaa);
+                return;
             }
+            com.google.android.gms.common.internal.zav zavVar = (com.google.android.gms.common.internal.zav) Preconditions.checkNotNull(zakVar.zab());
+            ConnectionResult zaa2 = zavVar.zaa();
+            if (!zaa2.isSuccess()) {
+                String valueOf = String.valueOf(zaa2);
+                Log.wtf("GACConnecting", "Sign-in succeeded with resolve account failure: ".concat(valueOf), new Exception());
+                zaawVar.zaD(zaa2);
+                return;
+            }
+            zaawVar.zan = true;
+            zaawVar.zao = (IAccountAccessor) Preconditions.checkNotNull(zavVar.zab());
+            zaawVar.zap = zavVar.zac();
+            zaawVar.zaq = zavVar.zad();
+            zaawVar.zaF();
         }
     }
 
@@ -284,7 +285,7 @@ public final class zaaw implements zabf {
             Context context = this.zac;
             Looper looper = this.zaa.zag.getLooper();
             ClientSettings clientSettings = this.zar;
-            this.zak = abstractClientBuilder.buildClient(context, looper, clientSettings, (ClientSettings) clientSettings.zaa(), (GoogleApiClient.ConnectionCallbacks) zaatVar, (GoogleApiClient.OnConnectionFailedListener) zaatVar);
+            this.zak = abstractClientBuilder.buildClient(context, looper, clientSettings, (Object) clientSettings.zaa(), (GoogleApiClient.ConnectionCallbacks) zaatVar, (GoogleApiClient.OnConnectionFailedListener) zaatVar);
         }
         this.zah = this.zaa.zaa.size();
         this.zau.add(zabj.zaa().submit(new zaao(this, hashMap)));

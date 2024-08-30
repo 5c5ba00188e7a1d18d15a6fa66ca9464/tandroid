@@ -6,9 +6,8 @@ import com.google.android.gms.common.internal.Preconditions;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public class ProcessUtils {
+public abstract class ProcessUtils {
     private static String zza;
     private static int zzb;
 

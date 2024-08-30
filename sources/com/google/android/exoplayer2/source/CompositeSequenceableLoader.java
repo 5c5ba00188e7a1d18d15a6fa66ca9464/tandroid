@@ -8,6 +8,29 @@ public class CompositeSequenceableLoader implements SequenceableLoader {
     }
 
     @Override // com.google.android.exoplayer2.source.SequenceableLoader
+    public boolean continueLoading(long j) {
+        SequenceableLoader[] sequenceableLoaderArr;
+        boolean z;
+        boolean z2 = false;
+        do {
+            long nextLoadPositionUs = getNextLoadPositionUs();
+            if (nextLoadPositionUs == Long.MIN_VALUE) {
+                break;
+            }
+            z = false;
+            for (SequenceableLoader sequenceableLoader : this.loaders) {
+                long nextLoadPositionUs2 = sequenceableLoader.getNextLoadPositionUs();
+                boolean z3 = nextLoadPositionUs2 != Long.MIN_VALUE && nextLoadPositionUs2 <= j;
+                if (nextLoadPositionUs2 == nextLoadPositionUs || z3) {
+                    z |= sequenceableLoader.continueLoading(j);
+                }
+            }
+            z2 |= z;
+        } while (z);
+        return z2;
+    }
+
+    @Override // com.google.android.exoplayer2.source.SequenceableLoader
     public final long getBufferedPositionUs() {
         long j = Long.MAX_VALUE;
         for (SequenceableLoader sequenceableLoader : this.loaders) {
@@ -38,36 +61,6 @@ public class CompositeSequenceableLoader implements SequenceableLoader {
     }
 
     @Override // com.google.android.exoplayer2.source.SequenceableLoader
-    public final void reevaluateBuffer(long j) {
-        for (SequenceableLoader sequenceableLoader : this.loaders) {
-            sequenceableLoader.reevaluateBuffer(j);
-        }
-    }
-
-    @Override // com.google.android.exoplayer2.source.SequenceableLoader
-    public boolean continueLoading(long j) {
-        SequenceableLoader[] sequenceableLoaderArr;
-        boolean z;
-        boolean z2 = false;
-        do {
-            long nextLoadPositionUs = getNextLoadPositionUs();
-            if (nextLoadPositionUs == Long.MIN_VALUE) {
-                break;
-            }
-            z = false;
-            for (SequenceableLoader sequenceableLoader : this.loaders) {
-                long nextLoadPositionUs2 = sequenceableLoader.getNextLoadPositionUs();
-                boolean z3 = nextLoadPositionUs2 != Long.MIN_VALUE && nextLoadPositionUs2 <= j;
-                if (nextLoadPositionUs2 == nextLoadPositionUs || z3) {
-                    z |= sequenceableLoader.continueLoading(j);
-                }
-            }
-            z2 |= z;
-        } while (z);
-        return z2;
-    }
-
-    @Override // com.google.android.exoplayer2.source.SequenceableLoader
     public boolean isLoading() {
         for (SequenceableLoader sequenceableLoader : this.loaders) {
             if (sequenceableLoader.isLoading()) {
@@ -75,5 +68,12 @@ public class CompositeSequenceableLoader implements SequenceableLoader {
             }
         }
         return false;
+    }
+
+    @Override // com.google.android.exoplayer2.source.SequenceableLoader
+    public final void reevaluateBuffer(long j) {
+        for (SequenceableLoader sequenceableLoader : this.loaders) {
+            sequenceableLoader.reevaluateBuffer(j);
+        }
     }
 }

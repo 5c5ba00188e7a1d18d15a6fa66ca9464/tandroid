@@ -8,30 +8,6 @@ import org.json.JSONStringer;
 public abstract class TypedProperty implements Model {
     private String name;
 
-    public abstract String getType();
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String str) {
-        this.name = str;
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.Model
-    public void read(JSONObject jSONObject) throws JSONException {
-        if (!jSONObject.getString("type").equals(getType())) {
-            throw new JSONException("Invalid type");
-        }
-        setName(jSONObject.getString("name"));
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.Model
-    public void write(JSONStringer jSONStringer) throws JSONException {
-        jSONStringer.key("type").value(getType());
-        jSONStringer.key("name").value(getName());
-    }
-
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -44,11 +20,35 @@ public abstract class TypedProperty implements Model {
         return str != null ? str.equals(str2) : str2 == null;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public abstract String getType();
+
     public int hashCode() {
         String str = this.name;
         if (str != null) {
             return str.hashCode();
         }
         return 0;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Model
+    public void read(JSONObject jSONObject) {
+        if (!jSONObject.getString("type").equals(getType())) {
+            throw new JSONException("Invalid type");
+        }
+        setName(jSONObject.getString("name"));
+    }
+
+    public void setName(String str) {
+        this.name = str;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Model
+    public void write(JSONStringer jSONStringer) {
+        jSONStringer.key("type").value(getType());
+        jSONStringer.key("name").value(getName());
     }
 }

@@ -3,9 +3,8 @@ package com.google.android.gms.common.internal;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zzt {
+public abstract class zzt {
     private static final Uri zza;
     private static final Uri zzb;
 

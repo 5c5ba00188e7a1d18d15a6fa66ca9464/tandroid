@@ -6,11 +6,11 @@ import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.common.api.internal.OnConnectionFailedListener;
 import com.google.android.gms.common.internal.ClientSettings;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
-final class zzd extends Api.AbstractClientBuilder<zzae, Api.ApiOptions.NoOptions> {
+final class zzd extends Api.AbstractClientBuilder {
     @Override // com.google.android.gms.common.api.Api.AbstractClientBuilder
-    public final /* bridge */ /* synthetic */ zzae buildClient(Context context, Looper looper, ClientSettings clientSettings, Api.ApiOptions.NoOptions noOptions, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
+    public final /* bridge */ /* synthetic */ Api.Client buildClient(Context context, Looper looper, ClientSettings clientSettings, Object obj, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
+        Api.ApiOptions.NoOptions noOptions = (Api.ApiOptions.NoOptions) obj;
         return new zzae(context, looper, clientSettings, connectionCallbacks, onConnectionFailedListener);
     }
 }

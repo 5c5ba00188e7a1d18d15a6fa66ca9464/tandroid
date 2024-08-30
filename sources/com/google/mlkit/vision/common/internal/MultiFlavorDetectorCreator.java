@@ -7,35 +7,30 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-/* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public class MultiFlavorDetectorCreator {
     private final Map zza = new HashMap();
 
-    /* compiled from: com.google.mlkit:vision-common@@17.3.0 */
     /* loaded from: classes.dex */
-    public interface DetectorCreator<DetectorT extends MultiFlavorDetector, OptionsT extends DetectorOptions<DetectorT>> {
-        DetectorT create(OptionsT optionst);
+    public interface DetectorCreator {
+        MultiFlavorDetector create(DetectorOptions detectorOptions);
     }
 
-    /* compiled from: com.google.mlkit:vision-common@@17.3.0 */
     /* loaded from: classes.dex */
-    public interface DetectorOptions<DetectorT> {
+    public interface DetectorOptions {
     }
 
-    /* compiled from: com.google.mlkit:vision-common@@17.3.0 */
     /* loaded from: classes.dex */
     public interface MultiFlavorDetector {
     }
 
-    /* compiled from: com.google.mlkit:vision-common@@17.3.0 */
     /* loaded from: classes.dex */
     public static class Registration {
         private final Class zza;
         private final Provider zzb;
         private final int zzc;
 
-        public <DetectorT extends MultiFlavorDetector, OptionsT extends DetectorOptions<DetectorT>> Registration(Class<? extends OptionsT> cls, Provider<? extends DetectorCreator<DetectorT, OptionsT>> provider, int i) {
+        public Registration(Class cls, Provider provider, int i) {
             this.zza = cls;
             this.zzb = provider;
             this.zzc = i;
@@ -76,7 +71,7 @@ public class MultiFlavorDetectorCreator {
         return multiFlavorDetectorCreator;
     }
 
-    public <DetectorT extends MultiFlavorDetector, OptionsT extends DetectorOptions<DetectorT>> DetectorT create(OptionsT optionst) {
-        return (DetectorT) ((DetectorCreator) ((Provider) Preconditions.checkNotNull((Provider) this.zza.get(optionst.getClass()))).get()).create(optionst);
+    public MultiFlavorDetector create(DetectorOptions detectorOptions) {
+        return ((DetectorCreator) ((Provider) Preconditions.checkNotNull((Provider) this.zza.get(detectorOptions.getClass()))).get()).create(detectorOptions);
     }
 }

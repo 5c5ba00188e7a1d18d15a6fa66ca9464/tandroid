@@ -16,10 +16,10 @@ import java.util.Collection;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class Tracks implements Bundleable {
-    private final ImmutableList<Group> groups;
+    private final ImmutableList groups;
     public static final Tracks EMPTY = new Tracks(ImmutableList.of());
     private static final String FIELD_TRACK_GROUPS = Util.intToStringMaxRadix(0);
-    public static final Bundleable.Creator<Tracks> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.Tracks$$ExternalSyntheticLambda0
+    public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.Tracks$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.Bundleable.Creator
         public final Bundleable fromBundle(Bundle bundle) {
             Tracks lambda$static$0;
@@ -39,7 +39,7 @@ public final class Tracks implements Bundleable {
         private static final String FIELD_TRACK_SUPPORT = Util.intToStringMaxRadix(1);
         private static final String FIELD_TRACK_SELECTED = Util.intToStringMaxRadix(3);
         private static final String FIELD_ADAPTIVE_SUPPORTED = Util.intToStringMaxRadix(4);
-        public static final Bundleable.Creator<Group> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.Tracks$Group$$ExternalSyntheticLambda0
+        public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.Tracks$Group$$ExternalSyntheticLambda0
             @Override // com.google.android.exoplayer2.Bundleable.Creator
             public final Bundleable fromBundle(Bundle bundle) {
                 Tracks.Group lambda$static$0;
@@ -62,20 +62,10 @@ public final class Tracks implements Bundleable {
             this.trackSelected = (boolean[]) zArr.clone();
         }
 
-        public Format getTrackFormat(int i) {
-            return this.mediaTrackGroup.getFormat(i);
-        }
-
-        public boolean isSelected() {
-            return Booleans.contains(this.trackSelected, true);
-        }
-
-        public boolean isTrackSelected(int i) {
-            return this.trackSelected[i];
-        }
-
-        public int getType() {
-            return this.mediaTrackGroup.type;
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ Group lambda$static$0(Bundle bundle) {
+            TrackGroup trackGroup = (TrackGroup) TrackGroup.CREATOR.fromBundle((Bundle) Assertions.checkNotNull(bundle.getBundle(FIELD_TRACK_GROUP)));
+            return new Group(trackGroup, bundle.getBoolean(FIELD_ADAPTIVE_SUPPORTED, false), (int[]) MoreObjects.firstNonNull(bundle.getIntArray(FIELD_TRACK_SUPPORT), new int[trackGroup.length]), (boolean[]) MoreObjects.firstNonNull(bundle.getBooleanArray(FIELD_TRACK_SELECTED), new boolean[trackGroup.length]));
         }
 
         public boolean equals(Object obj) {
@@ -89,8 +79,24 @@ public final class Tracks implements Bundleable {
             return this.adaptiveSupported == group.adaptiveSupported && this.mediaTrackGroup.equals(group.mediaTrackGroup) && Arrays.equals(this.trackSupport, group.trackSupport) && Arrays.equals(this.trackSelected, group.trackSelected);
         }
 
+        public Format getTrackFormat(int i) {
+            return this.mediaTrackGroup.getFormat(i);
+        }
+
+        public int getType() {
+            return this.mediaTrackGroup.type;
+        }
+
         public int hashCode() {
             return (((((this.mediaTrackGroup.hashCode() * 31) + (this.adaptiveSupported ? 1 : 0)) * 31) + Arrays.hashCode(this.trackSupport)) * 31) + Arrays.hashCode(this.trackSelected);
+        }
+
+        public boolean isSelected() {
+            return Booleans.contains(this.trackSelected, true);
+        }
+
+        public boolean isTrackSelected(int i) {
+            return this.trackSelected[i];
         }
 
         @Override // com.google.android.exoplayer2.Bundleable
@@ -102,30 +108,16 @@ public final class Tracks implements Bundleable {
             bundle.putBoolean(FIELD_ADAPTIVE_SUPPORTED, this.adaptiveSupported);
             return bundle;
         }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ Group lambda$static$0(Bundle bundle) {
-            TrackGroup fromBundle = TrackGroup.CREATOR.fromBundle((Bundle) Assertions.checkNotNull(bundle.getBundle(FIELD_TRACK_GROUP)));
-            return new Group(fromBundle, bundle.getBoolean(FIELD_ADAPTIVE_SUPPORTED, false), (int[]) MoreObjects.firstNonNull(bundle.getIntArray(FIELD_TRACK_SUPPORT), new int[fromBundle.length]), (boolean[]) MoreObjects.firstNonNull(bundle.getBooleanArray(FIELD_TRACK_SELECTED), new boolean[fromBundle.length]));
-        }
     }
 
-    public Tracks(List<Group> list) {
+    public Tracks(List list) {
         this.groups = ImmutableList.copyOf((Collection) list);
     }
 
-    public ImmutableList<Group> getGroups() {
-        return this.groups;
-    }
-
-    public boolean isTypeSelected(int i) {
-        for (int i2 = 0; i2 < this.groups.size(); i2++) {
-            Group group = this.groups.get(i2);
-            if (group.isSelected() && group.getType() == i) {
-                return true;
-            }
-        }
-        return false;
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Tracks lambda$static$0(Bundle bundle) {
+        ArrayList parcelableArrayList = bundle.getParcelableArrayList(FIELD_TRACK_GROUPS);
+        return new Tracks(parcelableArrayList == null ? ImmutableList.of() : BundleableUtil.fromBundleList(Group.CREATOR, parcelableArrayList));
     }
 
     public boolean equals(Object obj) {
@@ -138,8 +130,22 @@ public final class Tracks implements Bundleable {
         return this.groups.equals(((Tracks) obj).groups);
     }
 
+    public ImmutableList getGroups() {
+        return this.groups;
+    }
+
     public int hashCode() {
         return this.groups.hashCode();
+    }
+
+    public boolean isTypeSelected(int i) {
+        for (int i2 = 0; i2 < this.groups.size(); i2++) {
+            Group group = (Group) this.groups.get(i2);
+            if (group.isSelected() && group.getType() == i) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override // com.google.android.exoplayer2.Bundleable
@@ -147,17 +153,5 @@ public final class Tracks implements Bundleable {
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(FIELD_TRACK_GROUPS, BundleableUtil.toBundleArrayList(this.groups));
         return bundle;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ Tracks lambda$static$0(Bundle bundle) {
-        ImmutableList fromBundleList;
-        ArrayList parcelableArrayList = bundle.getParcelableArrayList(FIELD_TRACK_GROUPS);
-        if (parcelableArrayList == null) {
-            fromBundleList = ImmutableList.of();
-        } else {
-            fromBundleList = BundleableUtil.fromBundleList(Group.CREATOR, parcelableArrayList);
-        }
-        return new Tracks(fromBundleList);
     }
 }

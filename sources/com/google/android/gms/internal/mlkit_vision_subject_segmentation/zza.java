@@ -3,10 +3,8 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
-import android.os.RemoteException;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
-public class zza implements IInterface {
+public abstract class zza implements IInterface {
     private final IBinder zza;
     private final String zzb;
 
@@ -29,7 +27,7 @@ public class zza implements IInterface {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final Parcel zzb(int i, Parcel parcel) throws RemoteException {
+    public final Parcel zzb(int i, Parcel parcel) {
         Parcel obtain = Parcel.obtain();
         try {
             try {
@@ -46,7 +44,7 @@ public class zza implements IInterface {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final void zzc(int i, Parcel parcel) throws RemoteException {
+    public final void zzc(int i, Parcel parcel) {
         Parcel obtain = Parcel.obtain();
         try {
             this.zza.transact(i, parcel, obtain, 0);

@@ -1,6 +1,5 @@
 package com.google.android.gms.auth.api.signin;
 
-import android.accounts.Account;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -22,7 +21,6 @@ import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public class GoogleSignInAccount extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<GoogleSignInAccount> CREATOR = new zab();
@@ -61,7 +59,7 @@ public class GoogleSignInAccount extends AbstractSafeParcelable implements Refle
         return new GoogleSignInAccount(3, str, str2, str3, str4, uri, null, l.longValue(), Preconditions.checkNotEmpty(str7), new ArrayList((Collection) Preconditions.checkNotNull(set)), str5, str6);
     }
 
-    public static GoogleSignInAccount zab(String str) throws JSONException {
+    public static GoogleSignInAccount zab(String str) {
         if (TextUtils.isEmpty(str)) {
             return null;
         }
@@ -94,14 +92,6 @@ public class GoogleSignInAccount extends AbstractSafeParcelable implements Refle
         return false;
     }
 
-    public Account getAccount() {
-        String str = this.zaf;
-        if (str == null) {
-            return null;
-        }
-        return new Account(str, "com.google");
-    }
-
     public String getDisplayName() {
         return this.zag;
     }
@@ -130,7 +120,7 @@ public class GoogleSignInAccount extends AbstractSafeParcelable implements Refle
         return this.zah;
     }
 
-    public Set<Scope> getRequestedScopes() {
+    public Set getRequestedScopes() {
         HashSet hashSet = new HashSet(this.zac);
         hashSet.addAll(this.zan);
         return hashSet;

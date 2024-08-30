@@ -4,6 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 /* loaded from: classes.dex */
 public class SoftwareVideoDecoderFactory implements VideoDecoderFactory {
+    static VideoCodecInfo[] supportedCodecs() {
+        ArrayList arrayList = new ArrayList();
+        arrayList.add(new VideoCodecInfo("VP8", new HashMap()));
+        if (LibvpxVp9Decoder.nativeIsSupported()) {
+            arrayList.add(new VideoCodecInfo("VP9", new HashMap()));
+        }
+        arrayList.add(new VideoCodecInfo("H264", new HashMap()));
+        return (VideoCodecInfo[]) arrayList.toArray(new VideoCodecInfo[arrayList.size()]);
+    }
+
     @Override // org.webrtc.VideoDecoderFactory
     @Deprecated
     public VideoDecoder createDecoder(String str) {
@@ -27,15 +37,5 @@ public class SoftwareVideoDecoderFactory implements VideoDecoderFactory {
     @Override // org.webrtc.VideoDecoderFactory
     public VideoCodecInfo[] getSupportedCodecs() {
         return supportedCodecs();
-    }
-
-    static VideoCodecInfo[] supportedCodecs() {
-        ArrayList arrayList = new ArrayList();
-        arrayList.add(new VideoCodecInfo("VP8", new HashMap()));
-        if (LibvpxVp9Decoder.nativeIsSupported()) {
-            arrayList.add(new VideoCodecInfo("VP9", new HashMap()));
-        }
-        arrayList.add(new VideoCodecInfo("H264", new HashMap()));
-        return (VideoCodecInfo[]) arrayList.toArray(new VideoCodecInfo[arrayList.size()]);
     }
 }

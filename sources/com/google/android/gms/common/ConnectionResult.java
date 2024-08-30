@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class ConnectionResult extends AbstractSafeParcelable {
     final int zza;
@@ -26,6 +25,14 @@ public final class ConnectionResult extends AbstractSafeParcelable {
         this.zzb = i2;
         this.zzc = pendingIntent;
         this.zzd = str;
+    }
+
+    public ConnectionResult(int i, PendingIntent pendingIntent) {
+        this(i, pendingIntent, null);
+    }
+
+    public ConnectionResult(int i, PendingIntent pendingIntent, String str) {
+        this(1, i, pendingIntent, str);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -146,13 +153,5 @@ public final class ConnectionResult extends AbstractSafeParcelable {
         SafeParcelWriter.writeParcelable(parcel, 3, getResolution(), i, false);
         SafeParcelWriter.writeString(parcel, 4, getErrorMessage(), false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    public ConnectionResult(int i, PendingIntent pendingIntent) {
-        this(i, pendingIntent, null);
-    }
-
-    public ConnectionResult(int i, PendingIntent pendingIntent, String str) {
-        this(1, i, pendingIntent, str);
     }
 }

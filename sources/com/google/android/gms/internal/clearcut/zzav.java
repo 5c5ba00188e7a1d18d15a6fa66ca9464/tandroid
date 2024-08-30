@@ -5,23 +5,23 @@ import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
 /* loaded from: classes.dex */
-abstract class zzav<E> extends AbstractList<E> implements zzcn<E> {
+abstract class zzav extends AbstractList implements zzcn {
     private boolean zzfa = true;
 
     @Override // java.util.AbstractList, java.util.AbstractCollection, java.util.Collection, java.util.List
-    public boolean add(E e) {
+    public boolean add(Object obj) {
         zzw();
-        return super.add(e);
+        return super.add(obj);
     }
 
     @Override // java.util.AbstractList, java.util.List
-    public boolean addAll(int i, Collection<? extends E> collection) {
+    public boolean addAll(int i, Collection collection) {
         zzw();
         return super.addAll(i, collection);
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.List
-    public boolean addAll(Collection<? extends E> collection) {
+    public boolean addAll(Collection collection) {
         zzw();
         return super.addAll(collection);
     }
@@ -73,13 +73,13 @@ abstract class zzav<E> extends AbstractList<E> implements zzcn<E> {
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.List
-    public boolean removeAll(Collection<?> collection) {
+    public boolean removeAll(Collection collection) {
         zzw();
         return super.removeAll(collection);
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.List
-    public boolean retainAll(Collection<?> collection) {
+    public boolean retainAll(Collection collection) {
         zzw();
         return super.retainAll(collection);
     }

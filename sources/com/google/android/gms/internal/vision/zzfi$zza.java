@@ -1,23 +1,22 @@
 package com.google.android.gms.internal.vision;
 
 import com.google.android.gms.internal.vision.zzjb;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public final class zzfi$zza extends zzjb<zzfi$zza, zza> implements zzkm {
+public final class zzfi$zza extends zzjb implements zzkm {
     private static final zzfi$zza zzf;
-    private static volatile zzkx<zzfi$zza> zzg;
+    private static volatile zzkx zzg;
     private int zzc;
     private String zzd = "";
     private String zze = "";
 
-    private zzfi$zza() {
-    }
-
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
-    public static final class zza extends zzjb.zzb<zzfi$zza, zza> implements zzkm {
+    public static final class zza extends zzjb.zzb implements zzkm {
         private zza() {
             super(zzfi$zza.zzf);
+        }
+
+        /* synthetic */ zza(zzfk zzfkVar) {
+            this();
         }
 
         public final zza zza(String str) {
@@ -37,10 +36,19 @@ public final class zzfi$zza extends zzjb<zzfi$zza, zza> implements zzkm {
             ((zzfi$zza) this.zza).zzb(str);
             return this;
         }
+    }
 
-        /* synthetic */ zza(zzfk zzfkVar) {
-            this();
-        }
+    static {
+        zzfi$zza zzfi_zza = new zzfi$zza();
+        zzf = zzfi_zza;
+        zzjb.zza(zzfi$zza.class, zzfi_zza);
+    }
+
+    private zzfi$zza() {
+    }
+
+    public static zza zza() {
+        return (zza) zzf.zzj();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -57,12 +65,8 @@ public final class zzfi$zza extends zzjb<zzfi$zza, zza> implements zzkm {
         this.zze = str;
     }
 
-    public static zza zza() {
-        return zzf.zzj();
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.vision.zzkx<com.google.android.gms.internal.vision.zzfi$zza>, com.google.android.gms.internal.vision.zzjb$zza] */
+    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.vision.zzkx, com.google.android.gms.internal.vision.zzjb$zza] */
     @Override // com.google.android.gms.internal.vision.zzjb
     public final Object zza(int i, Object obj, Object obj2) {
         switch (zzfk.zza[i - 1]) {
@@ -75,13 +79,13 @@ public final class zzfi$zza extends zzjb<zzfi$zza, zza> implements zzkm {
             case 4:
                 return zzf;
             case 5:
-                zzkx<zzfi$zza> zzkxVar = zzg;
-                zzkx<zzfi$zza> zzkxVar2 = zzkxVar;
+                zzkx zzkxVar = zzg;
+                zzkx zzkxVar2 = zzkxVar;
                 if (zzkxVar == null) {
                     synchronized (zzfi$zza.class) {
                         try {
-                            zzkx<zzfi$zza> zzkxVar3 = zzg;
-                            zzkx<zzfi$zza> zzkxVar4 = zzkxVar3;
+                            zzkx zzkxVar3 = zzg;
+                            zzkx zzkxVar4 = zzkxVar3;
                             if (zzkxVar3 == null) {
                                 ?? zzaVar = new zzjb.zza(zzf);
                                 zzg = zzaVar;
@@ -99,11 +103,5 @@ public final class zzfi$zza extends zzjb<zzfi$zza, zza> implements zzkm {
             default:
                 throw new UnsupportedOperationException();
         }
-    }
-
-    static {
-        zzfi$zza zzfi_zza = new zzfi$zza();
-        zzf = zzfi_zza;
-        zzjb.zza(zzfi$zza.class, zzfi_zza);
     }
 }

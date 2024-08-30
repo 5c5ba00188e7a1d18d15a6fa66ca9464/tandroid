@@ -8,38 +8,94 @@ import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArraySet;
 /* loaded from: classes.dex */
-public final class ListenerSet<T> {
+public final class ListenerSet {
     private final Clock clock;
-    private final ArrayDeque<Runnable> flushingEvents;
+    private final ArrayDeque flushingEvents;
     private final HandlerWrapper handler;
-    private final IterationFinishedEvent<T> iterationFinishedEvent;
-    private final CopyOnWriteArraySet<ListenerHolder<T>> listeners;
-    private final ArrayDeque<Runnable> queuedEvents;
+    private final IterationFinishedEvent iterationFinishedEvent;
+    private final CopyOnWriteArraySet listeners;
+    private final ArrayDeque queuedEvents;
     private boolean released;
     private final Object releasedLock;
     private boolean throwsWhenUsingWrongThread;
 
     /* loaded from: classes.dex */
-    public interface Event<T> {
-        void invoke(T t);
+    public interface Event {
+        void invoke(Object obj);
     }
 
     /* loaded from: classes.dex */
-    public interface IterationFinishedEvent<T> {
-        void invoke(T t, FlagSet flagSet);
+    public interface IterationFinishedEvent {
+        void invoke(Object obj, FlagSet flagSet);
     }
 
-    public ListenerSet(Looper looper, Clock clock, IterationFinishedEvent<T> iterationFinishedEvent) {
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static final class ListenerHolder {
+        private FlagSet.Builder flagsBuilder = new FlagSet.Builder();
+        public final Object listener;
+        private boolean needsIterationFinishedEvent;
+        private boolean released;
+
+        public ListenerHolder(Object obj) {
+            this.listener = obj;
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || ListenerHolder.class != obj.getClass()) {
+                return false;
+            }
+            return this.listener.equals(((ListenerHolder) obj).listener);
+        }
+
+        public int hashCode() {
+            return this.listener.hashCode();
+        }
+
+        public void invoke(int i, Event event) {
+            if (this.released) {
+                return;
+            }
+            if (i != -1) {
+                this.flagsBuilder.add(i);
+            }
+            this.needsIterationFinishedEvent = true;
+            event.invoke(this.listener);
+        }
+
+        public void iterationFinished(IterationFinishedEvent iterationFinishedEvent) {
+            if (this.released || !this.needsIterationFinishedEvent) {
+                return;
+            }
+            FlagSet build = this.flagsBuilder.build();
+            this.flagsBuilder = new FlagSet.Builder();
+            this.needsIterationFinishedEvent = false;
+            iterationFinishedEvent.invoke(this.listener, build);
+        }
+
+        public void release(IterationFinishedEvent iterationFinishedEvent) {
+            this.released = true;
+            if (this.needsIterationFinishedEvent) {
+                this.needsIterationFinishedEvent = false;
+                iterationFinishedEvent.invoke(this.listener, this.flagsBuilder.build());
+            }
+        }
+    }
+
+    public ListenerSet(Looper looper, Clock clock, IterationFinishedEvent iterationFinishedEvent) {
         this(new CopyOnWriteArraySet(), looper, clock, iterationFinishedEvent);
     }
 
-    private ListenerSet(CopyOnWriteArraySet<ListenerHolder<T>> copyOnWriteArraySet, Looper looper, Clock clock, IterationFinishedEvent<T> iterationFinishedEvent) {
+    private ListenerSet(CopyOnWriteArraySet copyOnWriteArraySet, Looper looper, Clock clock, IterationFinishedEvent iterationFinishedEvent) {
         this.clock = clock;
         this.listeners = copyOnWriteArraySet;
         this.iterationFinishedEvent = iterationFinishedEvent;
         this.releasedLock = new Object();
-        this.flushingEvents = new ArrayDeque<>();
-        this.queuedEvents = new ArrayDeque<>();
+        this.flushingEvents = new ArrayDeque();
+        this.queuedEvents = new ArrayDeque();
         this.handler = clock.createHandler(looper, new Handler.Callback() { // from class: com.google.android.exoplayer2.util.ListenerSet$$ExternalSyntheticLambda1
             @Override // android.os.Handler.Callback
             public final boolean handleMessage(Message message) {
@@ -51,37 +107,16 @@ public final class ListenerSet<T> {
         this.throwsWhenUsingWrongThread = true;
     }
 
-    public ListenerSet<T> copy(Looper looper, IterationFinishedEvent<T> iterationFinishedEvent) {
-        return copy(looper, this.clock, iterationFinishedEvent);
-    }
-
-    public ListenerSet<T> copy(Looper looper, Clock clock, IterationFinishedEvent<T> iterationFinishedEvent) {
-        return new ListenerSet<>(this.listeners, looper, clock, iterationFinishedEvent);
-    }
-
-    public void add(T t) {
-        Assertions.checkNotNull(t);
-        synchronized (this.releasedLock) {
-            try {
-                if (this.released) {
-                    return;
-                }
-                this.listeners.add(new ListenerHolder<>(t));
-            } catch (Throwable th) {
-                throw th;
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean handleMessage(Message message) {
+        Iterator it = this.listeners.iterator();
+        while (it.hasNext()) {
+            ((ListenerHolder) it.next()).iterationFinished(this.iterationFinishedEvent);
+            if (this.handler.hasMessages(0)) {
+                return true;
             }
         }
-    }
-
-    public void queueEvent(final int i, final Event<T> event) {
-        verifyCurrentThread();
-        final CopyOnWriteArraySet copyOnWriteArraySet = new CopyOnWriteArraySet(this.listeners);
-        this.queuedEvents.add(new Runnable() { // from class: com.google.android.exoplayer2.util.ListenerSet$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                ListenerSet.lambda$queueEvent$0(copyOnWriteArraySet, i, event);
-            }
-        });
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -90,6 +125,34 @@ public final class ListenerSet<T> {
         while (it.hasNext()) {
             ((ListenerHolder) it.next()).invoke(i, event);
         }
+    }
+
+    private void verifyCurrentThread() {
+        if (this.throwsWhenUsingWrongThread) {
+            Assertions.checkState(Thread.currentThread() == this.handler.getLooper().getThread());
+        }
+    }
+
+    public void add(Object obj) {
+        Assertions.checkNotNull(obj);
+        synchronized (this.releasedLock) {
+            try {
+                if (this.released) {
+                    return;
+                }
+                this.listeners.add(new ListenerHolder(obj));
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+    }
+
+    public ListenerSet copy(Looper looper, Clock clock, IterationFinishedEvent iterationFinishedEvent) {
+        return new ListenerSet(this.listeners, looper, clock, iterationFinishedEvent);
+    }
+
+    public ListenerSet copy(Looper looper, IterationFinishedEvent iterationFinishedEvent) {
+        return copy(looper, this.clock, iterationFinishedEvent);
     }
 
     public void flushEvents() {
@@ -108,14 +171,20 @@ public final class ListenerSet<T> {
             return;
         }
         while (!this.flushingEvents.isEmpty()) {
-            this.flushingEvents.peekFirst().run();
+            ((Runnable) this.flushingEvents.peekFirst()).run();
             this.flushingEvents.removeFirst();
         }
     }
 
-    public void sendEvent(int i, Event<T> event) {
-        queueEvent(i, event);
-        flushEvents();
+    public void queueEvent(final int i, final Event event) {
+        verifyCurrentThread();
+        final CopyOnWriteArraySet copyOnWriteArraySet = new CopyOnWriteArraySet(this.listeners);
+        this.queuedEvents.add(new Runnable() { // from class: com.google.android.exoplayer2.util.ListenerSet$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                ListenerSet.lambda$queueEvent$0(copyOnWriteArraySet, i, event);
+            }
+        });
     }
 
     public void release() {
@@ -123,84 +192,15 @@ public final class ListenerSet<T> {
         synchronized (this.releasedLock) {
             this.released = true;
         }
-        Iterator<ListenerHolder<T>> it = this.listeners.iterator();
+        Iterator it = this.listeners.iterator();
         while (it.hasNext()) {
-            it.next().release(this.iterationFinishedEvent);
+            ((ListenerHolder) it.next()).release(this.iterationFinishedEvent);
         }
         this.listeners.clear();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public boolean handleMessage(Message message) {
-        Iterator<ListenerHolder<T>> it = this.listeners.iterator();
-        while (it.hasNext()) {
-            it.next().iterationFinished(this.iterationFinishedEvent);
-            if (this.handler.hasMessages(0)) {
-                return true;
-            }
-        }
-        return true;
-    }
-
-    private void verifyCurrentThread() {
-        if (this.throwsWhenUsingWrongThread) {
-            Assertions.checkState(Thread.currentThread() == this.handler.getLooper().getThread());
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ListenerHolder<T> {
-        private FlagSet.Builder flagsBuilder = new FlagSet.Builder();
-        public final T listener;
-        private boolean needsIterationFinishedEvent;
-        private boolean released;
-
-        public ListenerHolder(T t) {
-            this.listener = t;
-        }
-
-        public void release(IterationFinishedEvent<T> iterationFinishedEvent) {
-            this.released = true;
-            if (this.needsIterationFinishedEvent) {
-                this.needsIterationFinishedEvent = false;
-                iterationFinishedEvent.invoke(this.listener, this.flagsBuilder.build());
-            }
-        }
-
-        public void invoke(int i, Event<T> event) {
-            if (this.released) {
-                return;
-            }
-            if (i != -1) {
-                this.flagsBuilder.add(i);
-            }
-            this.needsIterationFinishedEvent = true;
-            event.invoke(this.listener);
-        }
-
-        public void iterationFinished(IterationFinishedEvent<T> iterationFinishedEvent) {
-            if (this.released || !this.needsIterationFinishedEvent) {
-                return;
-            }
-            FlagSet build = this.flagsBuilder.build();
-            this.flagsBuilder = new FlagSet.Builder();
-            this.needsIterationFinishedEvent = false;
-            iterationFinishedEvent.invoke(this.listener, build);
-        }
-
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null || ListenerHolder.class != obj.getClass()) {
-                return false;
-            }
-            return this.listener.equals(((ListenerHolder) obj).listener);
-        }
-
-        public int hashCode() {
-            return this.listener.hashCode();
-        }
+    public void sendEvent(int i, Event event) {
+        queueEvent(i, event);
+        flushEvents();
     }
 }

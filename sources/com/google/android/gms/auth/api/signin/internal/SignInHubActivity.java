@@ -9,10 +9,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.SignInAccount;
-import com.google.android.gms.common.annotation.KeepName;
 import com.google.android.gms.common.api.Status;
-/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
-@KeepName
 /* loaded from: classes.dex */
 public class SignInHubActivity extends FragmentActivity {
     private static boolean zba = false;
@@ -38,11 +35,7 @@ public class SignInHubActivity extends FragmentActivity {
 
     private final void zbe(String str) {
         Intent intent = new Intent(str);
-        if (str.equals("com.google.android.gms.auth.GOOGLE_SIGN_IN")) {
-            intent.setPackage("com.google.android.gms");
-        } else {
-            intent.setPackage(getPackageName());
-        }
+        intent.setPackage(str.equals("com.google.android.gms.auth.GOOGLE_SIGN_IN") ? "com.google.android.gms" : getPackageName());
         intent.putExtra("config", this.zbc);
         try {
             startActivityForResult(intent, 40962);
@@ -69,16 +62,7 @@ public class SignInHubActivity extends FragmentActivity {
         }
         if (intent != null) {
             SignInAccount signInAccount = (SignInAccount) intent.getParcelableExtra("signInAccount");
-            if (signInAccount == null || signInAccount.zba() == null) {
-                if (intent.hasExtra("errorCode")) {
-                    int intExtra = intent.getIntExtra("errorCode", 8);
-                    if (intExtra == 13) {
-                        intExtra = 12501;
-                    }
-                    zbd(intExtra);
-                    return;
-                }
-            } else {
+            if (signInAccount != null && signInAccount.zba() != null) {
                 GoogleSignInAccount zba2 = signInAccount.zba();
                 zbn zbc = zbn.zbc(this);
                 GoogleSignInOptions zba3 = this.zbc.zba();
@@ -90,6 +74,13 @@ public class SignInHubActivity extends FragmentActivity {
                 this.zbe = i2;
                 this.zbf = intent;
                 zbc();
+                return;
+            } else if (intent.hasExtra("errorCode")) {
+                int intExtra = intent.getIntExtra("errorCode", 8);
+                if (intExtra == 13) {
+                    intExtra = 12501;
+                }
+                zbd(intExtra);
                 return;
             }
         }
@@ -104,7 +95,10 @@ public class SignInHubActivity extends FragmentActivity {
         action.getClass();
         if ("com.google.android.gms.auth.NO_IMPL".equals(action)) {
             zbd(12500);
-        } else if (action.equals("com.google.android.gms.auth.GOOGLE_SIGN_IN") || action.equals("com.google.android.gms.auth.APPAUTH_SIGN_IN")) {
+        } else if (!action.equals("com.google.android.gms.auth.GOOGLE_SIGN_IN") && !action.equals("com.google.android.gms.auth.APPAUTH_SIGN_IN")) {
+            Log.e("AuthSignInClient", "Unknown action: ".concat(String.valueOf(intent.getAction())));
+            finish();
+        } else {
             Bundle bundleExtra = intent.getBundleExtra("config");
             bundleExtra.getClass();
             SignInConfiguration signInConfiguration = (SignInConfiguration) bundleExtra.getParcelable("config");
@@ -134,9 +128,6 @@ public class SignInHubActivity extends FragmentActivity {
                 this.zbf = intent2;
                 zbc();
             }
-        } else {
-            Log.e("AuthSignInClient", "Unknown action: ".concat(String.valueOf(intent.getAction())));
-            finish();
         }
     }
 

@@ -2,7 +2,7 @@ package com.google.common.collect;
 
 import com.google.common.base.Preconditions;
 /* loaded from: classes.dex */
-final class CollectPreconditions {
+abstract class CollectPreconditions {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static void checkEntryNotNull(Object obj, Object obj2) {
         if (obj == null) {

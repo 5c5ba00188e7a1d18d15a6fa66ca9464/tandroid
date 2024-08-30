@@ -36,6 +36,54 @@ public class StoriesVolumeControl extends View {
         this.paint.setColor(-1);
     }
 
+    private void adjustVolume(boolean z) {
+        AudioManager audioManager = (AudioManager) getContext().getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
+        int streamMaxVolume = audioManager.getStreamMaxVolume(3);
+        int streamVolume = audioManager.getStreamVolume(3);
+        float f = streamMaxVolume;
+        int max = (int) Math.max(1.0f, f / 15.0f);
+        if (z) {
+            int i = streamVolume + max;
+            if (i <= streamMaxVolume) {
+                streamMaxVolume = i;
+            }
+        } else {
+            streamMaxVolume = streamVolume - max;
+            if (streamMaxVolume < 0) {
+                streamMaxVolume = 0;
+            }
+        }
+        audioManager.setStreamVolume(3, streamMaxVolume, 0);
+        float f2 = streamMaxVolume / f;
+        this.currentProgress = f2;
+        if (!this.isVisible) {
+            this.volumeProgress.set(f2, true);
+        }
+        invalidate();
+        this.isVisible = true;
+        AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
+        AndroidUtilities.runOnUIThread(this.hideRunnable, 2000L);
+    }
+
+    public void hide() {
+        AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
+        this.hideRunnable.run();
+    }
+
+    @Override // android.view.View
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        this.volumeProgress.set(this.currentProgress);
+        this.progressToVisible.set(this.isVisible ? 1.0f : 0.0f);
+        if (this.progressToVisible.get() != 0.0f) {
+            float measuredHeight = getMeasuredHeight() / 2.0f;
+            this.paint.setAlpha((int) (this.progressToVisible.get() * 255.0f));
+            RectF rectF = AndroidUtilities.rectTmp;
+            rectF.set(0.0f, 0.0f, getMeasuredWidth() * this.volumeProgress.get(), getMeasuredHeight());
+            canvas.drawRoundRect(rectF, measuredHeight, measuredHeight, this.paint);
+        }
+    }
+
     @Override // android.view.View, android.view.KeyEvent.Callback
     public boolean onKeyDown(int i, KeyEvent keyEvent) {
         if (keyEvent.getAction() == 0 && i == 24) {
@@ -66,53 +114,5 @@ public class StoriesVolumeControl extends View {
             AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
             AndroidUtilities.runOnUIThread(this.hideRunnable, 2000L);
         }
-    }
-
-    private void adjustVolume(boolean z) {
-        AudioManager audioManager = (AudioManager) getContext().getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
-        int streamMaxVolume = audioManager.getStreamMaxVolume(3);
-        int streamVolume = audioManager.getStreamVolume(3);
-        float f = streamMaxVolume;
-        int max = (int) Math.max(1.0f, f / 15.0f);
-        if (z) {
-            int i = streamVolume + max;
-            if (i <= streamMaxVolume) {
-                streamMaxVolume = i;
-            }
-        } else {
-            streamMaxVolume = streamVolume - max;
-            if (streamMaxVolume < 0) {
-                streamMaxVolume = 0;
-            }
-        }
-        audioManager.setStreamVolume(3, streamMaxVolume, 0);
-        float f2 = streamMaxVolume / f;
-        this.currentProgress = f2;
-        if (!this.isVisible) {
-            this.volumeProgress.set(f2, true);
-        }
-        invalidate();
-        this.isVisible = true;
-        AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
-        AndroidUtilities.runOnUIThread(this.hideRunnable, 2000L);
-    }
-
-    @Override // android.view.View
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        this.volumeProgress.set(this.currentProgress);
-        this.progressToVisible.set(this.isVisible ? 1.0f : 0.0f);
-        if (this.progressToVisible.get() != 0.0f) {
-            float measuredHeight = getMeasuredHeight() / 2.0f;
-            this.paint.setAlpha((int) (this.progressToVisible.get() * 255.0f));
-            RectF rectF = AndroidUtilities.rectTmp;
-            rectF.set(0.0f, 0.0f, getMeasuredWidth() * this.volumeProgress.get(), getMeasuredHeight());
-            canvas.drawRoundRect(rectF, measuredHeight, measuredHeight, this.paint);
-        }
-    }
-
-    public void hide() {
-        AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
-        this.hideRunnable.run();
     }
 }

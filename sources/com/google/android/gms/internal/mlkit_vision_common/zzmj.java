@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
-/* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public final class zzmj {
     private static zzp zza;
@@ -78,13 +77,12 @@ public final class zzmj {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ String zza() throws Exception {
+    public final /* synthetic */ String zza() {
         return LibraryVersion.getInstance().getVersion(this.zzi);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void zzb(zzmb zzmbVar, zziv zzivVar, String str) {
-        String mlSdkInstanceId;
         zzmbVar.zza(zzivVar);
         String zzc = zzmbVar.zzc();
         zzky zzkyVar = new zzky();
@@ -94,12 +92,7 @@ public final class zzmj {
         zzkyVar.zzg(Boolean.TRUE);
         zzkyVar.zzl(zzc);
         zzkyVar.zzj(str);
-        if (this.zzh.isSuccessful()) {
-            mlSdkInstanceId = (String) this.zzh.getResult();
-        } else {
-            mlSdkInstanceId = this.zzf.getMlSdkInstanceId();
-        }
-        zzkyVar.zzi(mlSdkInstanceId);
+        zzkyVar.zzi(this.zzh.isSuccessful() ? (String) this.zzh.getResult() : this.zzf.getMlSdkInstanceId());
         zzkyVar.zzd(10);
         zzkyVar.zzk(Integer.valueOf(this.zzj));
         zzmbVar.zzb(zzkyVar);
@@ -107,9 +100,6 @@ public final class zzmj {
     }
 
     public final void zzc(zzmt zzmtVar, final zziv zzivVar) {
-        zzii zziiVar;
-        zzio zzioVar;
-        final String version;
         long elapsedRealtime = SystemClock.elapsedRealtime();
         if (this.zzk.get(zzivVar) != null && elapsedRealtime - ((Long) this.zzk.get(zzivVar)).longValue() <= TimeUnit.SECONDS.toMillis(30L)) {
             return;
@@ -123,32 +113,8 @@ public final class zzmj {
         long j = zzmtVar.zzf;
         int i6 = zzmtVar.zzg;
         zzin zzinVar = new zzin();
-        if (i == -1) {
-            zziiVar = zzii.zzg;
-        } else if (i == 35) {
-            zziiVar = zzii.zze;
-        } else if (i == 842094169) {
-            zziiVar = zzii.zzd;
-        } else if (i == 16) {
-            zziiVar = zzii.zzb;
-        } else if (i == 17) {
-            zziiVar = zzii.zzc;
-        } else {
-            zziiVar = zzii.zza;
-        }
-        zzinVar.zzd(zziiVar);
-        if (i2 == 1) {
-            zzioVar = zzio.zzb;
-        } else if (i2 == 2) {
-            zzioVar = zzio.zzc;
-        } else if (i2 == 3) {
-            zzioVar = zzio.zzd;
-        } else if (i2 != 4) {
-            zzioVar = zzio.zzf;
-        } else {
-            zzioVar = zzio.zze;
-        }
-        zzinVar.zzf(zzioVar);
+        zzinVar.zzd(i != -1 ? i != 35 ? i != 842094169 ? i != 16 ? i != 17 ? zzii.zza : zzii.zzc : zzii.zzb : zzii.zzd : zzii.zze : zzii.zzg);
+        zzinVar.zzf(i2 != 1 ? i2 != 2 ? i2 != 3 ? i2 != 4 ? zzio.zzf : zzio.zze : zzio.zzd : zzio.zzc : zzio.zzb);
         zzinVar.zzc(Integer.valueOf(i3));
         zzinVar.zze(Integer.valueOf(i4));
         zzinVar.zzg(Integer.valueOf(i5));
@@ -158,11 +124,7 @@ public final class zzmj {
         zziw zziwVar = new zziw();
         zziwVar.zzd(zzj);
         final zzmb zze = zzmk.zze(zziwVar);
-        if (this.zzg.isSuccessful()) {
-            version = (String) this.zzg.getResult();
-        } else {
-            version = LibraryVersion.getInstance().getVersion(this.zzi);
-        }
+        final String version = this.zzg.isSuccessful() ? (String) this.zzg.getResult() : LibraryVersion.getInstance().getVersion(this.zzi);
         MLTaskExecutor.workerThreadExecutor().execute(new Runnable() { // from class: com.google.android.gms.internal.mlkit_vision_common.zzmi
             @Override // java.lang.Runnable
             public final void run() {

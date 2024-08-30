@@ -6,26 +6,12 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
 /* loaded from: classes3.dex */
 public class FabBackgroundDrawable extends Drawable {
     private Paint bgPaint = new Paint(1);
     private Bitmap shadowBitmap;
     private Paint shadowPaint;
-
-    @Override // android.graphics.drawable.Drawable
-    public int getOpacity() {
-        return -2;
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setAlpha(int i) {
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setColorFilter(ColorFilter colorFilter) {
-    }
 
     public FabBackgroundDrawable() {
         Paint paint = new Paint();
@@ -49,6 +35,18 @@ public class FabBackgroundDrawable extends Drawable {
     }
 
     @Override // android.graphics.drawable.Drawable
+    public int getOpacity() {
+        return -2;
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public boolean getPadding(Rect rect) {
+        int dp = AndroidUtilities.dp(4.0f);
+        rect.set(dp, dp, dp, dp);
+        return true;
+    }
+
+    @Override // android.graphics.drawable.Drawable
     protected void onBoundsChange(Rect rect) {
         int i;
         int min = Math.min(rect.width(), rect.height());
@@ -61,16 +59,16 @@ public class FabBackgroundDrawable extends Drawable {
         new Canvas(this.shadowBitmap).drawCircle(f, f, i - AndroidUtilities.dp(4.0f), new Paint(1));
     }
 
-    @Keep
+    @Override // android.graphics.drawable.Drawable
+    public void setAlpha(int i) {
+    }
+
     public void setColor(int i) {
         this.bgPaint.setColor(i);
         invalidateSelf();
     }
 
     @Override // android.graphics.drawable.Drawable
-    public boolean getPadding(Rect rect) {
-        int dp = AndroidUtilities.dp(4.0f);
-        rect.set(dp, dp, dp, dp);
-        return true;
+    public void setColorFilter(ColorFilter colorFilter) {
     }
 }

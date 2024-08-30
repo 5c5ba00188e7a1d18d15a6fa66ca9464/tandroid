@@ -7,7 +7,6 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zag extends AbstractSafeParcelable implements Result {
     public static final Parcelable.Creator<zag> CREATOR = new zah();

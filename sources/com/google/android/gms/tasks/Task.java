@@ -2,26 +2,33 @@ package com.google.android.gms.tasks;
 
 import android.app.Activity;
 import java.util.concurrent.Executor;
-/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
-public abstract class Task<TResult> {
-    public Task<TResult> addOnCompleteListener(Activity activity, OnCompleteListener<TResult> onCompleteListener) {
-        throw new UnsupportedOperationException("addOnCompleteListener is not implemented");
-    }
+public abstract class Task {
+    public abstract Task addOnCanceledListener(Executor executor, OnCanceledListener onCanceledListener);
 
-    public abstract Task<TResult> addOnFailureListener(OnFailureListener onFailureListener);
+    public abstract Task addOnCompleteListener(Activity activity, OnCompleteListener onCompleteListener);
 
-    public abstract Task<TResult> addOnFailureListener(Executor executor, OnFailureListener onFailureListener);
+    public abstract Task addOnCompleteListener(OnCompleteListener onCompleteListener);
 
-    public abstract Task<TResult> addOnSuccessListener(OnSuccessListener<? super TResult> onSuccessListener);
+    public abstract Task addOnCompleteListener(Executor executor, OnCompleteListener onCompleteListener);
 
-    public abstract Task<TResult> addOnSuccessListener(Executor executor, OnSuccessListener<? super TResult> onSuccessListener);
+    public abstract Task addOnFailureListener(OnFailureListener onFailureListener);
+
+    public abstract Task addOnFailureListener(Executor executor, OnFailureListener onFailureListener);
+
+    public abstract Task addOnSuccessListener(OnSuccessListener onSuccessListener);
+
+    public abstract Task addOnSuccessListener(Executor executor, OnSuccessListener onSuccessListener);
+
+    public abstract Task continueWith(Executor executor, Continuation continuation);
+
+    public abstract Task continueWithTask(Executor executor, Continuation continuation);
 
     public abstract Exception getException();
 
-    public abstract TResult getResult();
+    public abstract Object getResult();
 
-    public abstract <X extends Throwable> TResult getResult(Class<X> cls) throws Throwable;
+    public abstract Object getResult(Class cls);
 
     public abstract boolean isCanceled();
 
@@ -29,31 +36,7 @@ public abstract class Task<TResult> {
 
     public abstract boolean isSuccessful();
 
-    public <TContinuationResult> Task<TContinuationResult> onSuccessTask(SuccessContinuation<TResult, TContinuationResult> successContinuation) {
-        throw new UnsupportedOperationException("onSuccessTask is not implemented");
-    }
+    public abstract Task onSuccessTask(SuccessContinuation successContinuation);
 
-    public Task<TResult> addOnCompleteListener(OnCompleteListener<TResult> onCompleteListener) {
-        throw new UnsupportedOperationException("addOnCompleteListener is not implemented");
-    }
-
-    public <TContinuationResult> Task<TContinuationResult> continueWith(Executor executor, Continuation<TResult, TContinuationResult> continuation) {
-        throw new UnsupportedOperationException("continueWith is not implemented");
-    }
-
-    public <TContinuationResult> Task<TContinuationResult> continueWithTask(Executor executor, Continuation<TResult, Task<TContinuationResult>> continuation) {
-        throw new UnsupportedOperationException("continueWithTask is not implemented");
-    }
-
-    public <TContinuationResult> Task<TContinuationResult> onSuccessTask(Executor executor, SuccessContinuation<TResult, TContinuationResult> successContinuation) {
-        throw new UnsupportedOperationException("onSuccessTask is not implemented");
-    }
-
-    public Task<TResult> addOnCanceledListener(Executor executor, OnCanceledListener onCanceledListener) {
-        throw new UnsupportedOperationException("addOnCanceledListener is not implemented");
-    }
-
-    public Task<TResult> addOnCompleteListener(Executor executor, OnCompleteListener<TResult> onCompleteListener) {
-        throw new UnsupportedOperationException("addOnCompleteListener is not implemented");
-    }
+    public abstract Task onSuccessTask(Executor executor, SuccessContinuation successContinuation);
 }

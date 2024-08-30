@@ -1,17 +1,16 @@
 package com.google.android.gms.flags;
 
 import android.os.IInterface;
-import android.os.RemoteException;
 import com.google.android.gms.dynamic.IObjectWrapper;
 /* loaded from: classes.dex */
 public interface zzc extends IInterface {
-    boolean getBooleanFlagValue(String str, boolean z, int i) throws RemoteException;
+    boolean getBooleanFlagValue(String str, boolean z, int i);
 
-    int getIntFlagValue(String str, int i, int i2) throws RemoteException;
+    int getIntFlagValue(String str, int i, int i2);
 
-    long getLongFlagValue(String str, long j, int i) throws RemoteException;
+    long getLongFlagValue(String str, long j, int i);
 
-    String getStringFlagValue(String str, String str2, int i) throws RemoteException;
+    String getStringFlagValue(String str, String str2, int i);
 
-    void init(IObjectWrapper iObjectWrapper) throws RemoteException;
+    void init(IObjectWrapper iObjectWrapper);
 }

@@ -2,12 +2,11 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Iterator;
 import java.util.Map;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzff<K> implements Iterator<Map.Entry<K, Object>> {
-    private Iterator<Map.Entry<K, Object>> zza;
+final class zzff implements Iterator {
+    private Iterator zza;
 
-    public zzff(Iterator<Map.Entry<K, Object>> it) {
+    public zzff(Iterator it) {
         this.zza = it;
     }
 
@@ -17,13 +16,14 @@ final class zzff<K> implements Iterator<Map.Entry<K, Object>> {
     }
 
     @Override // java.util.Iterator
-    public final void remove() {
-        this.zza.remove();
+    public final /* synthetic */ Object next() {
+        Map.Entry entry = (Map.Entry) this.zza.next();
+        entry.getValue();
+        return entry;
     }
 
     @Override // java.util.Iterator
-    public final /* synthetic */ Object next() {
-        Map.Entry<K, Object> next = this.zza.next();
-        return next.getValue() instanceof zzfa ? new zzfc(next) : next;
+    public final void remove() {
+        this.zza.remove();
     }
 }

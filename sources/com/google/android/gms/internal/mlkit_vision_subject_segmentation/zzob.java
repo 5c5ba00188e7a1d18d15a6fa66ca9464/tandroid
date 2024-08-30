@@ -2,7 +2,6 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public enum zzob implements zzcb {
     zza(0),

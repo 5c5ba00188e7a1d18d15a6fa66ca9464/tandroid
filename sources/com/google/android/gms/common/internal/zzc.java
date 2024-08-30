@@ -2,7 +2,6 @@ package com.google.android.gms.common.internal;
 
 import android.util.Log;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class zzc {
     private Object zza;

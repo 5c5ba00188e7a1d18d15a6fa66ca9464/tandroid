@@ -4,12 +4,22 @@ public class SegmentTree {
     private long[] array;
     private Node[] heap;
 
-    private boolean contains(int i, int i2, int i3, int i4) {
-        return i3 >= i && i4 <= i2;
-    }
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public static class Node {
+        int from;
+        long max;
+        long min;
+        Integer pendingVal = null;
+        long sum;
+        int to;
 
-    private boolean intersects(int i, int i2, int i3, int i4) {
-        return (i <= i3 && i2 >= i3) || (i >= i3 && i <= i4);
+        Node() {
+        }
+
+        int size() {
+            return (this.to - this.from) + 1;
+        }
     }
 
     public SegmentTree(long[] jArr) {
@@ -49,6 +59,67 @@ public class SegmentTree {
         nodeArr2[i].min = Math.min(nodeArr2[i4].min, nodeArr2[i6].min);
     }
 
+    private void change(Node node, int i) {
+        node.pendingVal = Integer.valueOf(i);
+        node.sum = node.size() * i;
+        long j = i;
+        node.max = j;
+        node.min = j;
+        this.array[node.from] = j;
+    }
+
+    private boolean contains(int i, int i2, int i3, int i4) {
+        return i3 >= i && i4 <= i2;
+    }
+
+    private boolean intersects(int i, int i2, int i3, int i4) {
+        return (i <= i3 && i2 >= i3) || (i >= i3 && i <= i4);
+    }
+
+    private void propagate(int i) {
+        Node[] nodeArr = this.heap;
+        Node node = nodeArr[i];
+        Integer num = node.pendingVal;
+        if (num != null) {
+            int i2 = i * 2;
+            change(nodeArr[i2], num.intValue());
+            change(this.heap[i2 + 1], node.pendingVal.intValue());
+            node.pendingVal = null;
+        }
+    }
+
+    private long rMaxQ(int i, int i2, int i3) {
+        Node node = this.heap[i];
+        if (node.pendingVal == null || !contains(node.from, node.to, i2, i3)) {
+            if (contains(i2, i3, node.from, node.to)) {
+                return this.heap[i].max;
+            }
+            if (intersects(i2, i3, node.from, node.to)) {
+                propagate(i);
+                int i4 = i * 2;
+                return Math.max(rMaxQ(i4, i2, i3), rMaxQ(i4 + 1, i2, i3));
+            }
+            return 0L;
+        }
+        return node.pendingVal.intValue();
+    }
+
+    private long rMinQ(int i, int i2, int i3) {
+        Node node = this.heap[i];
+        if (node.pendingVal == null || !contains(node.from, node.to, i2, i3)) {
+            if (contains(i2, i3, node.from, node.to)) {
+                return this.heap[i].min;
+            }
+            if (intersects(i2, i3, node.from, node.to)) {
+                propagate(i);
+                int i4 = i * 2;
+                return Math.min(rMinQ(i4, i2, i3), rMinQ(i4 + 1, i2, i3));
+            }
+            return 2147483647L;
+        }
+        return node.pendingVal.intValue();
+    }
+
     public long rMaxQ(int i, int i2) {
         long[] jArr = this.array;
         if (jArr.length < 30) {
@@ -71,22 +142,6 @@ public class SegmentTree {
         return rMaxQ(1, i, i2);
     }
 
-    private long rMaxQ(int i, int i2, int i3) {
-        Node node = this.heap[i];
-        if (node.pendingVal != null && contains(node.from, node.to, i2, i3)) {
-            return node.pendingVal.intValue();
-        }
-        if (contains(i2, i3, node.from, node.to)) {
-            return this.heap[i].max;
-        }
-        if (intersects(i2, i3, node.from, node.to)) {
-            propagate(i);
-            int i4 = i * 2;
-            return Math.max(rMaxQ(i4, i2, i3), rMaxQ(i4 + 1, i2, i3));
-        }
-        return 0L;
-    }
-
     public long rMinQ(int i, int i2) {
         long[] jArr = this.array;
         if (jArr.length < 30) {
@@ -107,60 +162,5 @@ public class SegmentTree {
             return j;
         }
         return rMinQ(1, i, i2);
-    }
-
-    private long rMinQ(int i, int i2, int i3) {
-        Node node = this.heap[i];
-        if (node.pendingVal != null && contains(node.from, node.to, i2, i3)) {
-            return node.pendingVal.intValue();
-        }
-        if (contains(i2, i3, node.from, node.to)) {
-            return this.heap[i].min;
-        }
-        if (intersects(i2, i3, node.from, node.to)) {
-            propagate(i);
-            int i4 = i * 2;
-            return Math.min(rMinQ(i4, i2, i3), rMinQ(i4 + 1, i2, i3));
-        }
-        return 2147483647L;
-    }
-
-    private void propagate(int i) {
-        Node[] nodeArr = this.heap;
-        Node node = nodeArr[i];
-        Integer num = node.pendingVal;
-        if (num != null) {
-            int i2 = i * 2;
-            change(nodeArr[i2], num.intValue());
-            change(this.heap[i2 + 1], node.pendingVal.intValue());
-            node.pendingVal = null;
-        }
-    }
-
-    private void change(Node node, int i) {
-        node.pendingVal = Integer.valueOf(i);
-        node.sum = node.size() * i;
-        long j = i;
-        node.max = j;
-        node.min = j;
-        this.array[node.from] = j;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static class Node {
-        int from;
-        long max;
-        long min;
-        Integer pendingVal = null;
-        long sum;
-        int to;
-
-        Node() {
-        }
-
-        int size() {
-            return (this.to - this.from) + 1;
-        }
     }
 }

@@ -25,12 +25,11 @@ import org.telegram.tgnet.TLRPC$TL_businessWeeklyOpen;
 import org.telegram.tgnet.TLRPC$TL_businessWorkHours;
 import org.telegram.tgnet.TLRPC$TL_timezone;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.Business.OpeningHoursActivity;
 import org.telegram.ui.Components.ClickableAnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes4.dex */
-public class ProfileHoursCell extends LinearLayout {
+public abstract class ProfileHoursCell extends LinearLayout {
     private ImageView arrowView;
     private boolean expanded;
     private boolean firstAfterAttach;
@@ -47,10 +46,6 @@ public class ProfileHoursCell extends LinearLayout {
     private FrameLayout todayTimeContainer;
     private FrameLayout todayTimeTextContainer;
     private LinearLayout todayTimeTextContainer2;
-
-    protected int processColor(int i) {
-        return i;
-    }
 
     public ProfileHoursCell(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
@@ -163,229 +158,9 @@ public class ProfileHoursCell extends LinearLayout {
         setWillNotDraw(false);
     }
 
-    public void updateColors() {
-        ClickableAnimatedTextView clickableAnimatedTextView = this.switchText;
-        int dp = AndroidUtilities.dp(8.0f);
-        int i = Theme.key_windowBackgroundWhiteBlueText2;
-        clickableAnimatedTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(dp, Theme.multAlpha(processColor(Theme.getColor(i, this.resourcesProvider)), 0.1f), Theme.multAlpha(processColor(Theme.getColor(i, this.resourcesProvider)), 0.22f)));
-        this.switchText.setTextColor(processColor(Theme.getColor(i, this.resourcesProvider)));
-    }
-
-    public void setOnTimezoneSwitchClick(View.OnClickListener onClickListener) {
-        ClickableAnimatedTextView clickableAnimatedTextView = this.switchText;
-        if (clickableAnimatedTextView != null) {
-            clickableAnimatedTextView.setOnClickListener(onClickListener);
-        }
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:84:0x015d  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x0163  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public void set(TLRPC$TL_businessWorkHours tLRPC$TL_businessWorkHours, boolean z, boolean z2, boolean z3) {
-        boolean z4;
-        ArrayList<OpeningHoursActivity.Period>[] arrayListArr;
-        boolean z5;
-        int i;
-        int i2;
-        int i3;
-        float f;
-        boolean z6 = z;
-        this.expanded = z6;
-        this.needDivider = z3;
-        if (tLRPC$TL_businessWorkHours == null) {
-            return;
-        }
-        boolean is24x7 = OpeningHoursActivity.is24x7(tLRPC$TL_businessWorkHours);
-        if (is24x7) {
-            this.expanded = false;
-            z6 = false;
-        }
-        int i4 = 8;
-        this.arrowView.setVisibility(is24x7 ? 8 : 0);
-        this.todayTimeTextContainer2.setTranslationX(is24x7 ? AndroidUtilities.dp(11.0f) : 0.0f);
-        TLRPC$TL_timezone findTimezone = TimezonesController.getInstance(UserConfig.selectedAccount).findTimezone(tLRPC$TL_businessWorkHours.timezone_id);
-        Calendar calendar = Calendar.getInstance();
-        int offset = ((calendar.getTimeZone().getOffset(System.currentTimeMillis()) / 1000) - (findTimezone == null ? 0 : findTimezone.utc_offset)) / 60;
-        ClickableAnimatedTextView clickableAnimatedTextView = this.switchText;
-        if (offset != 0 && !is24x7) {
-            i4 = 0;
-        }
-        clickableAnimatedTextView.setVisibility(i4);
-        boolean z7 = offset == 0 ? false : z2;
-        invalidate();
-        int i5 = 1;
-        if (this.firstAfterAttach) {
-            this.labelTimeText[0].setAlpha((z6 || z7) ? 0.0f : 1.0f);
-            this.labelTimeText[1].setAlpha((z6 || !z7) ? 0.0f : 1.0f);
-            this.arrowView.setRotation(z6 ? 180.0f : 0.0f);
-        } else {
-            ViewPropertyAnimator duration = this.labelTimeText[0].animate().alpha((z6 || z7) ? 0.0f : 1.0f).setDuration(320L);
-            CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
-            duration.setInterpolator(cubicBezierInterpolator).start();
-            this.labelTimeText[1].animate().alpha((z6 || !z7) ? 0.0f : 1.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
-            this.timeText[0][0].animate().alpha(z6 ? 1.0f : 0.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
-            this.timeText[0][1].animate().alpha(z6 ? 1.0f : 0.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
-            this.arrowView.animate().rotation(z6 ? 180.0f : 0.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
-        }
-        int i6 = 0;
-        while (i6 < this.timeText.length) {
-            int i7 = 0;
-            while (true) {
-                TextView[] textViewArr = this.timeText[i6];
-                if (i7 < textViewArr.length) {
-                    if (i6 != 0 || z6) {
-                        if ((i7 == i5) == z7) {
-                            f = 1.0f;
-                            if (!this.firstAfterAttach) {
-                                textViewArr[i7].setAlpha(f);
-                            } else {
-                                textViewArr[i7].animate().alpha(f).setDuration(320L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
-                            }
-                            i7++;
-                            i5 = 1;
-                        }
-                    }
-                    f = 0.0f;
-                    if (!this.firstAfterAttach) {
-                    }
-                    i7++;
-                    i5 = 1;
-                }
-            }
-            i6++;
-            i5 = 1;
-        }
-        ClickableAnimatedTextView clickableAnimatedTextView2 = this.switchText;
-        if (clickableAnimatedTextView2 != null) {
-            clickableAnimatedTextView2.setText(LocaleController.getString(z7 ? R.string.BusinessHoursProfileSwitchMy : R.string.BusinessHoursProfileSwitchLocal), (LocaleController.isRTL || this.firstAfterAttach) ? false : true);
-        }
-        this.firstAfterAttach = false;
-        ArrayList<OpeningHoursActivity.Period>[] daysHours = OpeningHoursActivity.getDaysHours(new ArrayList(tLRPC$TL_businessWorkHours.weekly_open));
-        int i8 = 7;
-        int i9 = (calendar.get(7) + 5) % 7;
-        int i10 = calendar.get(11);
-        int i11 = calendar.get(12);
-        ArrayList<TLRPC$TL_businessWeeklyOpen> adaptWeeklyOpen = OpeningHoursActivity.adaptWeeklyOpen(tLRPC$TL_businessWorkHours.weekly_open, offset);
-        int i12 = i11 + (i10 * 60) + (i9 * 1440);
-        for (int i13 = 0; i13 < adaptWeeklyOpen.size(); i13++) {
-            TLRPC$TL_businessWeeklyOpen tLRPC$TL_businessWeeklyOpen = adaptWeeklyOpen.get(i13);
-            int i14 = tLRPC$TL_businessWeeklyOpen.start_minute;
-            if ((i12 >= i14 && i12 <= tLRPC$TL_businessWeeklyOpen.end_minute) || (((i2 = i12 + 10080) >= i14 && i2 <= tLRPC$TL_businessWeeklyOpen.end_minute) || (i12 - 10080 >= i14 && i3 <= tLRPC$TL_businessWeeklyOpen.end_minute))) {
-                z4 = true;
-                break;
-            }
-        }
-        z4 = false;
-        ArrayList<OpeningHoursActivity.Period>[] daysHours2 = OpeningHoursActivity.getDaysHours(adaptWeeklyOpen);
-        this.textView.setText(LocaleController.getString(z4 ? R.string.BusinessHoursProfileNowOpen : R.string.BusinessHoursProfileNowClosed));
-        this.textView.setTextColor(Theme.getColor(z4 ? Theme.key_avatar_nameInMessageGreen : Theme.key_text_RedRegular, this.resourcesProvider));
-        int i15 = this.todayLinesHeight;
-        int i16 = this.todayLinesCount;
-        this.todayLinesCount = 1;
-        this.todayLinesHeight = 0;
-        int i17 = 0;
-        while (i17 < 2) {
-            ArrayList<OpeningHoursActivity.Period>[] arrayListArr2 = i17 == 0 ? daysHours : daysHours2;
-            int i18 = 0;
-            while (i18 < i8) {
-                int i19 = (i9 + i18) % 7;
-                if (i18 == 0) {
-                    this.labelText[i18].setText(LocaleController.getString(R.string.BusinessHoursProfile));
-                    arrayListArr = daysHours;
-                } else {
-                    String displayName = DayOfWeek.values()[i19].getDisplayName(TextStyle.FULL, LocaleController.getInstance().getCurrentLocale());
-                    StringBuilder sb = new StringBuilder();
-                    arrayListArr = daysHours;
-                    sb.append(displayName.substring(0, 1).toUpperCase());
-                    sb.append(displayName.substring(1));
-                    this.labelText[i18].setText(sb.toString());
-                    this.timeText[i18][0].setVisibility(z6 ? 0 : 4);
-                    this.timeText[i18][1].setVisibility(z6 ? 0 : 4);
-                    this.labelText[i18].setVisibility(z6 ? 0 : 4);
-                }
-                int i20 = 0;
-                while (true) {
-                    if (i20 < (i18 == 0 ? 2 : 1)) {
-                        TextView textView = i20 == 0 ? this.timeText[i18][i17] : this.labelTimeText[i17];
-                        if (i18 == 0 && !z4 && i20 == 1) {
-                            int i21 = 0;
-                            while (true) {
-                                z5 = z6;
-                                if (i21 >= adaptWeeklyOpen.size()) {
-                                    i = -1;
-                                    break;
-                                }
-                                i = adaptWeeklyOpen.get(i21).start_minute;
-                                if (i12 < i) {
-                                    break;
-                                }
-                                i21++;
-                                z6 = z5;
-                            }
-                            if (i == -1 && !adaptWeeklyOpen.isEmpty()) {
-                                i = adaptWeeklyOpen.get(0).start_minute;
-                            }
-                            if (i == -1) {
-                                textView.setText(LocaleController.getString(R.string.BusinessHoursProfileClose));
-                            } else {
-                                int i22 = i < i12 ? i + (10080 - i12) : i - i12;
-                                if (i22 < 60) {
-                                    textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInMinutes", i22, new Object[0]));
-                                } else if (i22 < 1440) {
-                                    textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInHours", (int) Math.ceil(i22 / 60.0f), new Object[0]));
-                                } else {
-                                    textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInDays", (int) Math.ceil((i22 / 60.0f) / 24.0f), new Object[0]));
-                                }
-                            }
-                        } else {
-                            z5 = z6;
-                            if (is24x7) {
-                                textView.setText(LocaleController.getString(R.string.BusinessHoursProfileFullOpen));
-                            } else if (arrayListArr2[i19].isEmpty()) {
-                                textView.setText(LocaleController.getString(R.string.BusinessHoursProfileClose));
-                            } else if (OpeningHoursActivity.isFull(arrayListArr2[i19])) {
-                                textView.setText(LocaleController.getString(R.string.BusinessHoursProfileOpen));
-                            } else {
-                                StringBuilder sb2 = new StringBuilder();
-                                for (int i23 = 0; i23 < arrayListArr2[i19].size(); i23++) {
-                                    if (i23 > 0) {
-                                        sb2.append("\n");
-                                    }
-                                    sb2.append(arrayListArr2[i19].get(i23));
-                                }
-                                int size = arrayListArr2[i19].size();
-                                textView.setText(sb2);
-                                if (i18 == 0) {
-                                    this.todayLinesCount = Math.max(this.todayLinesCount, size);
-                                    this.todayLinesHeight = Math.max(this.todayLinesHeight, textView.getLineHeight() * size);
-                                }
-                            }
-                        }
-                        i20++;
-                        z6 = z5;
-                    }
-                }
-                i18++;
-                daysHours = arrayListArr;
-                i8 = 7;
-            }
-            i17++;
-            i8 = 7;
-        }
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.todayTimeContainer.getLayoutParams();
-        float f2 = 6.0f;
-        layoutParams.topMargin = AndroidUtilities.dp((this.todayLinesCount > 2 || this.switchText.getVisibility() == 0) ? 6.0f : 12.0f);
-        if (this.todayLinesCount <= 2 && this.switchText.getVisibility() != 0) {
-            f2 = 12.0f;
-        }
-        layoutParams.bottomMargin = AndroidUtilities.dp(f2);
-        layoutParams.gravity = ((this.todayLinesCount > 2 || this.switchText.getVisibility() == 0) ? 16 : 80) | (LocaleController.isRTL ? 3 : 5);
-        if (i16 == this.todayLinesCount && i15 == this.todayLinesHeight) {
-            return;
-        }
-        requestLayout();
+    @Override // android.view.ViewGroup, android.view.View
+    public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+        return super.dispatchTouchEvent(motionEvent);
     }
 
     @Override // android.widget.LinearLayout, android.view.View
@@ -419,14 +194,242 @@ public class ProfileHoursCell extends LinearLayout {
     @Override // android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
         ClickableAnimatedTextView clickableAnimatedTextView = this.switchText;
-        if (clickableAnimatedTextView != null && clickableAnimatedTextView.getVisibility() == 0) {
-            return this.switchText.getClickBounds().contains((int) ((((motionEvent.getX() - this.lines[0].getX()) - this.todayTimeContainer.getX()) - this.todayTimeTextContainer.getX()) - this.switchText.getX()), (int) ((((motionEvent.getY() - this.lines[0].getY()) - this.todayTimeContainer.getY()) - this.todayTimeTextContainer.getY()) - this.switchText.getY()));
+        if (clickableAnimatedTextView == null || clickableAnimatedTextView.getVisibility() != 0) {
+            return super.onTouchEvent(motionEvent);
         }
-        return super.onTouchEvent(motionEvent);
+        return this.switchText.getClickBounds().contains((int) ((((motionEvent.getX() - this.lines[0].getX()) - this.todayTimeContainer.getX()) - this.todayTimeTextContainer.getX()) - this.switchText.getX()), (int) ((((motionEvent.getY() - this.lines[0].getY()) - this.todayTimeContainer.getY()) - this.todayTimeTextContainer.getY()) - this.switchText.getY()));
     }
 
-    @Override // android.view.ViewGroup, android.view.View
-    public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-        return super.dispatchTouchEvent(motionEvent);
+    protected abstract int processColor(int i);
+
+    /* JADX WARN: Removed duplicated region for block: B:84:0x015d  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0163  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void set(TLRPC$TL_businessWorkHours tLRPC$TL_businessWorkHours, boolean z, boolean z2, boolean z3) {
+        boolean z4;
+        ArrayList[] arrayListArr;
+        boolean z5;
+        int i;
+        String string;
+        int i2;
+        int i3;
+        int i4;
+        float f;
+        boolean z6 = z;
+        this.expanded = z6;
+        this.needDivider = z3;
+        if (tLRPC$TL_businessWorkHours == null) {
+            return;
+        }
+        boolean is24x7 = OpeningHoursActivity.is24x7(tLRPC$TL_businessWorkHours);
+        if (is24x7) {
+            this.expanded = false;
+            z6 = false;
+        }
+        int i5 = 8;
+        this.arrowView.setVisibility(is24x7 ? 8 : 0);
+        this.todayTimeTextContainer2.setTranslationX(is24x7 ? AndroidUtilities.dp(11.0f) : 0.0f);
+        TLRPC$TL_timezone findTimezone = TimezonesController.getInstance(UserConfig.selectedAccount).findTimezone(tLRPC$TL_businessWorkHours.timezone_id);
+        Calendar calendar = Calendar.getInstance();
+        int offset = ((calendar.getTimeZone().getOffset(System.currentTimeMillis()) / 1000) - (findTimezone == null ? 0 : findTimezone.utc_offset)) / 60;
+        ClickableAnimatedTextView clickableAnimatedTextView = this.switchText;
+        if (offset != 0 && !is24x7) {
+            i5 = 0;
+        }
+        clickableAnimatedTextView.setVisibility(i5);
+        boolean z7 = offset == 0 ? false : z2;
+        invalidate();
+        int i6 = 1;
+        if (this.firstAfterAttach) {
+            this.labelTimeText[0].setAlpha((z6 || z7) ? 0.0f : 1.0f);
+            this.labelTimeText[1].setAlpha((z6 || !z7) ? 0.0f : 1.0f);
+            this.arrowView.setRotation(z6 ? 180.0f : 0.0f);
+        } else {
+            ViewPropertyAnimator duration = this.labelTimeText[0].animate().alpha((z6 || z7) ? 0.0f : 1.0f).setDuration(320L);
+            CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
+            duration.setInterpolator(cubicBezierInterpolator).start();
+            this.labelTimeText[1].animate().alpha((z6 || !z7) ? 0.0f : 1.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
+            this.timeText[0][0].animate().alpha(z6 ? 1.0f : 0.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
+            this.timeText[0][1].animate().alpha(z6 ? 1.0f : 0.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
+            this.arrowView.animate().rotation(z6 ? 180.0f : 0.0f).setDuration(320L).setInterpolator(cubicBezierInterpolator).start();
+        }
+        int i7 = 0;
+        while (i7 < this.timeText.length) {
+            int i8 = 0;
+            while (true) {
+                TextView[] textViewArr = this.timeText[i7];
+                if (i8 < textViewArr.length) {
+                    if (i7 != 0 || z6) {
+                        if ((i8 == i6) == z7) {
+                            f = 1.0f;
+                            if (this.firstAfterAttach) {
+                                textViewArr[i8].animate().alpha(f).setDuration(320L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
+                            } else {
+                                textViewArr[i8].setAlpha(f);
+                            }
+                            i8++;
+                            i6 = 1;
+                        }
+                    }
+                    f = 0.0f;
+                    if (this.firstAfterAttach) {
+                    }
+                    i8++;
+                    i6 = 1;
+                }
+            }
+            i7++;
+            i6 = 1;
+        }
+        ClickableAnimatedTextView clickableAnimatedTextView2 = this.switchText;
+        if (clickableAnimatedTextView2 != null) {
+            clickableAnimatedTextView2.setText(LocaleController.getString(z7 ? R.string.BusinessHoursProfileSwitchMy : R.string.BusinessHoursProfileSwitchLocal), (LocaleController.isRTL || this.firstAfterAttach) ? false : true);
+        }
+        this.firstAfterAttach = false;
+        ArrayList[] daysHours = OpeningHoursActivity.getDaysHours(new ArrayList(tLRPC$TL_businessWorkHours.weekly_open));
+        int i9 = 7;
+        int i10 = (calendar.get(7) + 5) % 7;
+        int i11 = calendar.get(11);
+        int i12 = calendar.get(12);
+        ArrayList adaptWeeklyOpen = OpeningHoursActivity.adaptWeeklyOpen(tLRPC$TL_businessWorkHours.weekly_open, offset);
+        int i13 = i12 + (i11 * 60) + (i10 * 1440);
+        for (int i14 = 0; i14 < adaptWeeklyOpen.size(); i14++) {
+            TLRPC$TL_businessWeeklyOpen tLRPC$TL_businessWeeklyOpen = (TLRPC$TL_businessWeeklyOpen) adaptWeeklyOpen.get(i14);
+            int i15 = tLRPC$TL_businessWeeklyOpen.start_minute;
+            if ((i13 >= i15 && i13 <= tLRPC$TL_businessWeeklyOpen.end_minute) || (((i3 = i13 + 10080) >= i15 && i3 <= tLRPC$TL_businessWeeklyOpen.end_minute) || (i13 - 10080 >= i15 && i4 <= tLRPC$TL_businessWeeklyOpen.end_minute))) {
+                z4 = true;
+                break;
+            }
+        }
+        z4 = false;
+        ArrayList[] daysHours2 = OpeningHoursActivity.getDaysHours(adaptWeeklyOpen);
+        this.textView.setText(LocaleController.getString(z4 ? R.string.BusinessHoursProfileNowOpen : R.string.BusinessHoursProfileNowClosed));
+        this.textView.setTextColor(Theme.getColor(z4 ? Theme.key_avatar_nameInMessageGreen : Theme.key_text_RedRegular, this.resourcesProvider));
+        int i16 = this.todayLinesHeight;
+        int i17 = this.todayLinesCount;
+        this.todayLinesCount = 1;
+        this.todayLinesHeight = 0;
+        int i18 = 0;
+        while (i18 < 2) {
+            ArrayList[] arrayListArr2 = i18 == 0 ? daysHours : daysHours2;
+            int i19 = 0;
+            while (i19 < i9) {
+                int i20 = (i10 + i19) % 7;
+                if (i19 == 0) {
+                    this.labelText[i19].setText(LocaleController.getString(R.string.BusinessHoursProfile));
+                    arrayListArr = daysHours;
+                } else {
+                    String displayName = DayOfWeek.values()[i20].getDisplayName(TextStyle.FULL, LocaleController.getInstance().getCurrentLocale());
+                    StringBuilder sb = new StringBuilder();
+                    arrayListArr = daysHours;
+                    sb.append(displayName.substring(0, 1).toUpperCase());
+                    sb.append(displayName.substring(1));
+                    this.labelText[i19].setText(sb.toString());
+                    this.timeText[i19][0].setVisibility(z6 ? 0 : 4);
+                    this.timeText[i19][1].setVisibility(z6 ? 0 : 4);
+                    this.labelText[i19].setVisibility(z6 ? 0 : 4);
+                }
+                int i21 = 0;
+                while (true) {
+                    if (i21 < (i19 == 0 ? 2 : 1)) {
+                        TextView textView = i21 == 0 ? this.timeText[i19][i18] : this.labelTimeText[i18];
+                        if (i19 == 0 && !z4 && i21 == 1) {
+                            int i22 = 0;
+                            while (true) {
+                                z5 = z6;
+                                if (i22 >= adaptWeeklyOpen.size()) {
+                                    i2 = -1;
+                                    break;
+                                }
+                                i2 = ((TLRPC$TL_businessWeeklyOpen) adaptWeeklyOpen.get(i22)).start_minute;
+                                if (i13 < i2) {
+                                    break;
+                                }
+                                i22++;
+                                z6 = z5;
+                            }
+                            if (i2 == -1 && !adaptWeeklyOpen.isEmpty()) {
+                                i2 = ((TLRPC$TL_businessWeeklyOpen) adaptWeeklyOpen.get(0)).start_minute;
+                            }
+                            if (i2 != -1) {
+                                int i23 = i2 < i13 ? i2 + (10080 - i13) : i2 - i13;
+                                string = i23 < 60 ? LocaleController.formatPluralString("BusinessHoursProfileOpensInMinutes", i23, new Object[0]) : i23 < 1440 ? LocaleController.formatPluralString("BusinessHoursProfileOpensInHours", (int) Math.ceil(i23 / 60.0f), new Object[0]) : LocaleController.formatPluralString("BusinessHoursProfileOpensInDays", (int) Math.ceil((i23 / 60.0f) / 24.0f), new Object[0]);
+                                textView.setText(string);
+                                i21++;
+                                z6 = z5;
+                            }
+                        } else {
+                            z5 = z6;
+                            if (is24x7) {
+                                i = R.string.BusinessHoursProfileFullOpen;
+                            } else if (!arrayListArr2[i20].isEmpty()) {
+                                if (OpeningHoursActivity.isFull(arrayListArr2[i20])) {
+                                    i = R.string.BusinessHoursProfileOpen;
+                                } else {
+                                    StringBuilder sb2 = new StringBuilder();
+                                    for (int i24 = 0; i24 < arrayListArr2[i20].size(); i24++) {
+                                        if (i24 > 0) {
+                                            sb2.append("\n");
+                                        }
+                                        sb2.append(arrayListArr2[i20].get(i24));
+                                    }
+                                    int size = arrayListArr2[i20].size();
+                                    textView.setText(sb2);
+                                    if (i19 == 0) {
+                                        this.todayLinesCount = Math.max(this.todayLinesCount, size);
+                                        this.todayLinesHeight = Math.max(this.todayLinesHeight, textView.getLineHeight() * size);
+                                    }
+                                    i21++;
+                                    z6 = z5;
+                                }
+                            }
+                            string = LocaleController.getString(i);
+                            textView.setText(string);
+                            i21++;
+                            z6 = z5;
+                        }
+                        i = R.string.BusinessHoursProfileClose;
+                        string = LocaleController.getString(i);
+                        textView.setText(string);
+                        i21++;
+                        z6 = z5;
+                    }
+                }
+                i19++;
+                daysHours = arrayListArr;
+                i9 = 7;
+            }
+            i18++;
+            i9 = 7;
+        }
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.todayTimeContainer.getLayoutParams();
+        float f2 = 6.0f;
+        layoutParams.topMargin = AndroidUtilities.dp((this.todayLinesCount > 2 || this.switchText.getVisibility() == 0) ? 6.0f : 12.0f);
+        if (this.todayLinesCount <= 2 && this.switchText.getVisibility() != 0) {
+            f2 = 12.0f;
+        }
+        layoutParams.bottomMargin = AndroidUtilities.dp(f2);
+        layoutParams.gravity = ((this.todayLinesCount > 2 || this.switchText.getVisibility() == 0) ? 16 : 80) | (LocaleController.isRTL ? 3 : 5);
+        if (i17 == this.todayLinesCount && i16 == this.todayLinesHeight) {
+            return;
+        }
+        requestLayout();
+    }
+
+    public void setOnTimezoneSwitchClick(View.OnClickListener onClickListener) {
+        ClickableAnimatedTextView clickableAnimatedTextView = this.switchText;
+        if (clickableAnimatedTextView != null) {
+            clickableAnimatedTextView.setOnClickListener(onClickListener);
+        }
+    }
+
+    public void updateColors() {
+        ClickableAnimatedTextView clickableAnimatedTextView = this.switchText;
+        int dp = AndroidUtilities.dp(8.0f);
+        int i = Theme.key_windowBackgroundWhiteBlueText2;
+        clickableAnimatedTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(dp, Theme.multAlpha(processColor(Theme.getColor(i, this.resourcesProvider)), 0.1f), Theme.multAlpha(processColor(Theme.getColor(i, this.resourcesProvider)), 0.22f)));
+        this.switchText.setTextColor(processColor(Theme.getColor(i, this.resourcesProvider)));
     }
 }

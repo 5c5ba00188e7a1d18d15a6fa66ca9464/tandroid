@@ -19,6 +19,15 @@ public class ProfilePremiumCell extends TextCell {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Cells.TextCell, android.view.ViewGroup, android.view.View
+    public void dispatchDraw(Canvas canvas) {
+        this.particles.process();
+        this.particles.draw(canvas, Theme.getColor(this.colorKey));
+        invalidate();
+        super.dispatchDraw(canvas);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Cells.TextCell, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
@@ -27,14 +36,5 @@ public class ProfilePremiumCell extends TextCell {
         RectF rectF = AndroidUtilities.rectTmp;
         rectF.set(x - AndroidUtilities.dp(16.0f), paddingTop - AndroidUtilities.dp(16.0f), x + AndroidUtilities.dp(16.0f), paddingTop + AndroidUtilities.dp(16.0f));
         this.particles.setBounds(rectF);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Cells.TextCell, android.view.ViewGroup, android.view.View
-    public void dispatchDraw(Canvas canvas) {
-        this.particles.process();
-        this.particles.draw(canvas, Theme.getColor(this.colorKey));
-        invalidate();
-        super.dispatchDraw(canvas);
     }
 }

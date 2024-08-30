@@ -1,12 +1,10 @@
 package com.google.android.gms.internal.play_billing;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Locale;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public abstract class zzba implements Iterable, Serializable {
     private static final Comparator zza;
@@ -18,6 +16,21 @@ public abstract class zzba implements Iterable, Serializable {
         int i = zzam.$r8$clinit;
         zzd = new zzaz(null);
         zza = new zzas();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static int zzj(int i, int i2, int i3) {
+        int i4 = i2 - i;
+        if ((i | i2 | i4 | (i3 - i2)) < 0) {
+            if (i < 0) {
+                throw new IndexOutOfBoundsException("Beginning index: " + i + " < 0");
+            } else if (i2 < i) {
+                throw new IndexOutOfBoundsException("Beginning index larger than ending index: " + i + ", " + i2);
+            } else {
+                throw new IndexOutOfBoundsException("End index: " + i2 + " >= " + i3);
+            }
+        }
+        return i4;
     }
 
     public static zzba zzl(byte[] bArr, int i, int i2) {
@@ -65,7 +78,7 @@ public abstract class zzba implements Iterable, Serializable {
     protected abstract String zzg(Charset charset);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zzh(zzaq zzaqVar) throws IOException;
+    public abstract void zzh(zzaq zzaqVar);
 
     public abstract boolean zzi();
 
@@ -76,20 +89,5 @@ public abstract class zzba implements Iterable, Serializable {
 
     public final String zzm(Charset charset) {
         return zzd() == 0 ? "" : zzg(charset);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzj(int i, int i2, int i3) {
-        int i4 = i2 - i;
-        if ((i | i2 | i4 | (i3 - i2)) < 0) {
-            if (i < 0) {
-                throw new IndexOutOfBoundsException("Beginning index: " + i + " < 0");
-            } else if (i2 < i) {
-                throw new IndexOutOfBoundsException("Beginning index larger than ending index: " + i + ", " + i2);
-            } else {
-                throw new IndexOutOfBoundsException("End index: " + i2 + " >= " + i3);
-            }
-        }
-        return i4;
     }
 }

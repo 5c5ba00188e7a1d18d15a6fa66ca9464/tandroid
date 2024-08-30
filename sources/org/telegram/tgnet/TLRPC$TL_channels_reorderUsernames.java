@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_channels_reorderUsernames extends TLObject {
     public TLRPC$InputChannel channel;
-    public ArrayList<String> order = new ArrayList<>();
+    public ArrayList order = new ArrayList();
 
     @Override // org.telegram.tgnet.TLObject
     public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
@@ -19,7 +19,7 @@ public class TLRPC$TL_channels_reorderUsernames extends TLObject {
         int size = this.order.size();
         abstractSerializedData.writeInt32(size);
         for (int i = 0; i < size; i++) {
-            abstractSerializedData.writeString(this.order.get(i));
+            abstractSerializedData.writeString((String) this.order.get(i));
         }
     }
 }

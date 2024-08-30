@@ -11,6 +11,10 @@ import java.util.UUID;
 public final class ErrorStateDrmSession implements DrmSession {
     private final DrmSession.DrmSessionException error;
 
+    public ErrorStateDrmSession(DrmSession.DrmSessionException drmSessionException) {
+        this.error = (DrmSession.DrmSessionException) Assertions.checkNotNull(drmSessionException);
+    }
+
     @Override // com.google.android.exoplayer2.drm.DrmSession
     public void acquire(DrmSessionEventListener.EventDispatcher eventDispatcher) {
     }
@@ -18,6 +22,16 @@ public final class ErrorStateDrmSession implements DrmSession {
     @Override // com.google.android.exoplayer2.drm.DrmSession
     public CryptoConfig getCryptoConfig() {
         return null;
+    }
+
+    @Override // com.google.android.exoplayer2.drm.DrmSession
+    public DrmSession.DrmSessionException getError() {
+        return this.error;
+    }
+
+    @Override // com.google.android.exoplayer2.drm.DrmSession
+    public final UUID getSchemeUuid() {
+        return C.UUID_NIL;
     }
 
     @Override // com.google.android.exoplayer2.drm.DrmSession
@@ -31,7 +45,7 @@ public final class ErrorStateDrmSession implements DrmSession {
     }
 
     @Override // com.google.android.exoplayer2.drm.DrmSession
-    public Map<String, String> queryKeyStatus() {
+    public Map queryKeyStatus() {
         return null;
     }
 
@@ -42,19 +56,5 @@ public final class ErrorStateDrmSession implements DrmSession {
     @Override // com.google.android.exoplayer2.drm.DrmSession
     public boolean requiresSecureDecoder(String str) {
         return false;
-    }
-
-    public ErrorStateDrmSession(DrmSession.DrmSessionException drmSessionException) {
-        this.error = (DrmSession.DrmSessionException) Assertions.checkNotNull(drmSessionException);
-    }
-
-    @Override // com.google.android.exoplayer2.drm.DrmSession
-    public DrmSession.DrmSessionException getError() {
-        return this.error;
-    }
-
-    @Override // com.google.android.exoplayer2.drm.DrmSession
-    public final UUID getSchemeUuid() {
-        return C.UUID_NIL;
     }
 }

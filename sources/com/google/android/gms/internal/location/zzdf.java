@@ -9,8 +9,6 @@ import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.location.zzt;
 import com.google.android.gms.location.zzu;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
-@Deprecated
 /* loaded from: classes.dex */
 public final class zzdf extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zzdf> CREATOR = new zzdg();

@@ -5,15 +5,8 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
-@Deprecated
 /* loaded from: classes.dex */
-public final class IOUtils {
-    @Deprecated
-    public static byte[] readInputStreamFully(InputStream inputStream) throws IOException {
-        return readInputStreamFully(inputStream, true);
-    }
-
+public abstract class IOUtils {
     public static void closeQuietly(Closeable closeable) {
         if (closeable != null) {
             try {
@@ -23,8 +16,7 @@ public final class IOUtils {
         }
     }
 
-    @Deprecated
-    public static long copyStream(InputStream inputStream, OutputStream outputStream, boolean z, int i) throws IOException {
+    public static long copyStream(InputStream inputStream, OutputStream outputStream, boolean z, int i) {
         byte[] bArr = new byte[i];
         long j = 0;
         while (true) {
@@ -50,8 +42,11 @@ public final class IOUtils {
         return j;
     }
 
-    @Deprecated
-    public static byte[] readInputStreamFully(InputStream inputStream, boolean z) throws IOException {
+    public static byte[] readInputStreamFully(InputStream inputStream) {
+        return readInputStreamFully(inputStream, true);
+    }
+
+    public static byte[] readInputStreamFully(InputStream inputStream, boolean z) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         copyStream(inputStream, byteArrayOutputStream, z, 1024);
         return byteArrayOutputStream.toByteArray();

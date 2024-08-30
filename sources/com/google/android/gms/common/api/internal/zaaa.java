@@ -21,7 +21,6 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.locks.Lock;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zaaa implements zaca {
     private final Context zaa;
@@ -57,6 +56,19 @@ public final class zaaa implements zaca {
         this.zaf = Collections.unmodifiableMap(arrayMap);
     }
 
+    private final void zaA(ConnectionResult connectionResult) {
+        int i = this.zan;
+        if (i != 1) {
+            if (i != 2) {
+                Log.wtf("CompositeGAC", "Attempted to call failure callbacks in CONNECTION_MODE_NONE. Callbacks should be disabled via GmsClientSupervisor", new Exception());
+                this.zan = 0;
+            }
+            this.zab.zaa(connectionResult);
+        }
+        zaB();
+        this.zan = 0;
+    }
+
     private final void zaB() {
         for (SignInConnectionListener signInConnectionListener : this.zag) {
             signInConnectionListener.onComplete();
@@ -88,10 +100,12 @@ public final class zaaa implements zaca {
             if (true == client2.providesSignIn()) {
                 client = client2;
             }
-            if (client2.requiresSignIn()) {
-                arrayMap.put((Api.AnyClientKey) entry.getKey(), client2);
+            boolean requiresSignIn = client2.requiresSignIn();
+            Api.AnyClientKey anyClientKey = (Api.AnyClientKey) entry.getKey();
+            if (requiresSignIn) {
+                arrayMap.put(anyClientKey, client2);
             } else {
-                arrayMap2.put((Api.AnyClientKey) entry.getKey(), client2);
+                arrayMap2.put(anyClientKey, client2);
             }
         }
         Preconditions.checkState(!arrayMap.isEmpty(), "CompositeGoogleApiClient should not be used without any APIs that require sign-in.");
@@ -101,10 +115,10 @@ public final class zaaa implements zaca {
             Api.AnyClientKey zab = api.zab();
             if (arrayMap.containsKey(zab)) {
                 arrayMap3.put(api, (Boolean) map2.get(api));
-            } else if (arrayMap2.containsKey(zab)) {
-                arrayMap4.put(api, (Boolean) map2.get(api));
-            } else {
+            } else if (!arrayMap2.containsKey(zab)) {
                 throw new IllegalStateException("Each API in the isOptionalMap must have a corresponding client in the clients map.");
+            } else {
+                arrayMap4.put(api, (Boolean) map2.get(api));
             }
         }
         ArrayList arrayList2 = new ArrayList();
@@ -114,10 +128,10 @@ public final class zaaa implements zaca {
             zat zatVar = (zat) arrayList.get(i);
             if (arrayMap3.containsKey(zatVar.zaa)) {
                 arrayList2.add(zatVar);
-            } else if (arrayMap4.containsKey(zatVar.zaa)) {
-                arrayList3.add(zatVar);
-            } else {
+            } else if (!arrayMap4.containsKey(zatVar.zaa)) {
                 throw new IllegalStateException("Each ClientCallbacks must have a corresponding API in the isOptionalMap");
+            } else {
+                arrayList3.add(zatVar);
             }
         }
         return new zaaa(context, zabeVar, lock, looper, googleApiAvailabilityLight, arrayMap, arrayMap2, clientSettings, abstractClientBuilder, client, arrayList2, arrayList3, arrayMap3, arrayMap4);
@@ -143,43 +157,41 @@ public final class zaaa implements zaca {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static /* bridge */ /* synthetic */ void zap(zaaa zaaaVar) {
         ConnectionResult connectionResult;
-        if (zaE(zaaaVar.zaj)) {
-            if (zaE(zaaaVar.zak) || zaaaVar.zaC()) {
-                int i = zaaaVar.zan;
-                if (i != 1) {
-                    if (i == 2) {
-                        ((zabe) Preconditions.checkNotNull(zaaaVar.zab)).zab(zaaaVar.zai);
-                    } else {
-                        Log.wtf("CompositeGAC", "Attempted to call success callbacks in CONNECTION_MODE_NONE. Callbacks should be disabled via GmsClientSupervisor", new AssertionError());
-                        zaaaVar.zan = 0;
-                        return;
-                    }
-                }
-                zaaaVar.zaB();
-                zaaaVar.zan = 0;
+        if (!zaE(zaaaVar.zaj)) {
+            if (zaaaVar.zaj != null && zaE(zaaaVar.zak)) {
+                zaaaVar.zae.zar();
+                zaaaVar.zaA((ConnectionResult) Preconditions.checkNotNull(zaaaVar.zaj));
                 return;
             }
-            ConnectionResult connectionResult2 = zaaaVar.zak;
-            if (connectionResult2 != null) {
+            ConnectionResult connectionResult2 = zaaaVar.zaj;
+            if (connectionResult2 == null || (connectionResult = zaaaVar.zak) == null) {
+                return;
+            }
+            if (zaaaVar.zae.zaf < zaaaVar.zad.zaf) {
+                connectionResult2 = connectionResult;
+            }
+            zaaaVar.zaA(connectionResult2);
+        } else if (!zaE(zaaaVar.zak) && !zaaaVar.zaC()) {
+            ConnectionResult connectionResult3 = zaaaVar.zak;
+            if (connectionResult3 != null) {
                 if (zaaaVar.zan == 1) {
                     zaaaVar.zaB();
                     return;
                 }
-                zaaaVar.zaA(connectionResult2);
+                zaaaVar.zaA(connectionResult3);
                 zaaaVar.zad.zar();
             }
-        } else if (zaaaVar.zaj == null || !zaE(zaaaVar.zak)) {
-            ConnectionResult connectionResult3 = zaaaVar.zaj;
-            if (connectionResult3 == null || (connectionResult = zaaaVar.zak) == null) {
-                return;
-            }
-            if (zaaaVar.zae.zaf < zaaaVar.zad.zaf) {
-                connectionResult3 = connectionResult;
-            }
-            zaaaVar.zaA(connectionResult3);
         } else {
-            zaaaVar.zae.zar();
-            zaaaVar.zaA((ConnectionResult) Preconditions.checkNotNull(zaaaVar.zaj));
+            int i = zaaaVar.zan;
+            if (i != 1) {
+                if (i != 2) {
+                    Log.wtf("CompositeGAC", "Attempted to call success callbacks in CONNECTION_MODE_NONE. Callbacks should be disabled via GmsClientSupervisor", new AssertionError());
+                    zaaaVar.zan = 0;
+                }
+                ((zabe) Preconditions.checkNotNull(zaaaVar.zab)).zab(zaaaVar.zai);
+            }
+            zaaaVar.zaB();
+            zaaaVar.zan = 0;
         }
     }
 
@@ -192,16 +204,16 @@ public final class zaaa implements zaca {
 
     @Override // com.google.android.gms.common.api.internal.zaca
     public final BaseImplementation$ApiMethodImpl zae(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
-        if (zaD(baseImplementation$ApiMethodImpl)) {
-            if (zaC()) {
-                baseImplementation$ApiMethodImpl.setFailedResult(new Status(4, (String) null, zaz()));
-                return baseImplementation$ApiMethodImpl;
-            }
+        if (!zaD(baseImplementation$ApiMethodImpl)) {
+            this.zad.zae(baseImplementation$ApiMethodImpl);
+            return baseImplementation$ApiMethodImpl;
+        } else if (zaC()) {
+            baseImplementation$ApiMethodImpl.setFailedResult(new Status(4, (String) null, zaz()));
+            return baseImplementation$ApiMethodImpl;
+        } else {
             this.zae.zae(baseImplementation$ApiMethodImpl);
             return baseImplementation$ApiMethodImpl;
         }
-        this.zad.zae(baseImplementation$ApiMethodImpl);
-        return baseImplementation$ApiMethodImpl;
     }
 
     @Override // com.google.android.gms.common.api.internal.zaca
@@ -242,12 +254,6 @@ public final class zaaa implements zaca {
         this.zae.zas(String.valueOf(str).concat("  "), fileDescriptor, printWriter, strArr);
         printWriter.append((CharSequence) str).append("anonClient").println(":");
         this.zad.zas(String.valueOf(str).concat("  "), fileDescriptor, printWriter, strArr);
-    }
-
-    @Override // com.google.android.gms.common.api.internal.zaca
-    public final void zat() {
-        this.zad.zat();
-        this.zae.zat();
     }
 
     @Override // com.google.android.gms.common.api.internal.zaca
@@ -326,19 +332,5 @@ public final class zaaa implements zaca {
             this.zam.unlock();
             throw th;
         }
-    }
-
-    private final void zaA(ConnectionResult connectionResult) {
-        int i = this.zan;
-        if (i != 1) {
-            if (i == 2) {
-                this.zab.zaa(connectionResult);
-            } else {
-                Log.wtf("CompositeGAC", "Attempted to call failure callbacks in CONNECTION_MODE_NONE. Callbacks should be disabled via GmsClientSupervisor", new Exception());
-                this.zan = 0;
-            }
-        }
-        zaB();
-        this.zan = 0;
     }
 }

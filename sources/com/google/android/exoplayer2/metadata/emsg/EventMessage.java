@@ -17,7 +17,7 @@ public final class EventMessage implements Metadata.Entry {
     public final String value;
     private static final Format ID3_FORMAT = new Format.Builder().setSampleMimeType("application/id3").build();
     private static final Format SCTE35_FORMAT = new Format.Builder().setSampleMimeType("application/x-scte35").build();
-    public static final Parcelable.Creator<EventMessage> CREATOR = new Parcelable.Creator<EventMessage>() { // from class: com.google.android.exoplayer2.metadata.emsg.EventMessage.1
+    public static final Parcelable.Creator<EventMessage> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.emsg.EventMessage.1
         @Override // android.os.Parcelable.Creator
         public EventMessage createFromParcel(Parcel parcel) {
             return new EventMessage(parcel);
@@ -29,14 +29,12 @@ public final class EventMessage implements Metadata.Entry {
         }
     };
 
-    @Override // android.os.Parcelable
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
-    public /* synthetic */ void populateMediaMetadata(MediaMetadata.Builder builder) {
-        Metadata.Entry.-CC.$default$populateMediaMetadata(this, builder);
+    EventMessage(Parcel parcel) {
+        this.schemeIdUri = (String) Util.castNonNull(parcel.readString());
+        this.value = (String) Util.castNonNull(parcel.readString());
+        this.durationMs = parcel.readLong();
+        this.id = parcel.readLong();
+        this.messageData = (byte[]) Util.castNonNull(parcel.createByteArray());
     }
 
     public EventMessage(String str, String str2, long j, long j2, byte[] bArr) {
@@ -47,12 +45,28 @@ public final class EventMessage implements Metadata.Entry {
         this.messageData = bArr;
     }
 
-    EventMessage(Parcel parcel) {
-        this.schemeIdUri = (String) Util.castNonNull(parcel.readString());
-        this.value = (String) Util.castNonNull(parcel.readString());
-        this.durationMs = parcel.readLong();
-        this.id = parcel.readLong();
-        this.messageData = (byte[]) Util.castNonNull(parcel.createByteArray());
+    @Override // android.os.Parcelable
+    public int describeContents() {
+        return 0;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || EventMessage.class != obj.getClass()) {
+            return false;
+        }
+        EventMessage eventMessage = (EventMessage) obj;
+        return this.durationMs == eventMessage.durationMs && this.id == eventMessage.id && Util.areEqual(this.schemeIdUri, eventMessage.schemeIdUri) && Util.areEqual(this.value, eventMessage.value) && Arrays.equals(this.messageData, eventMessage.messageData);
+    }
+
+    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
+    public byte[] getWrappedMetadataBytes() {
+        if (getWrappedMetadataFormat() != null) {
+            return this.messageData;
+        }
+        return null;
     }
 
     @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
@@ -91,14 +105,6 @@ public final class EventMessage implements Metadata.Entry {
         }
     }
 
-    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
-    public byte[] getWrappedMetadataBytes() {
-        if (getWrappedMetadataFormat() != null) {
-            return this.messageData;
-        }
-        return null;
-    }
-
     public int hashCode() {
         if (this.hashCode == 0) {
             String str = this.schemeIdUri;
@@ -112,15 +118,9 @@ public final class EventMessage implements Metadata.Entry {
         return this.hashCode;
     }
 
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || EventMessage.class != obj.getClass()) {
-            return false;
-        }
-        EventMessage eventMessage = (EventMessage) obj;
-        return this.durationMs == eventMessage.durationMs && this.id == eventMessage.id && Util.areEqual(this.schemeIdUri, eventMessage.schemeIdUri) && Util.areEqual(this.value, eventMessage.value) && Arrays.equals(this.messageData, eventMessage.messageData);
+    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
+    public /* synthetic */ void populateMediaMetadata(MediaMetadata.Builder builder) {
+        Metadata.Entry.-CC.$default$populateMediaMetadata(this, builder);
     }
 
     public String toString() {

@@ -8,7 +8,6 @@ import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelableSerializer;
 import com.google.android.gms.identity.intents.model.UserAddress;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class PaymentData extends AbstractSafeParcelable implements AutoResolvableResult {
     public static final Parcelable.Creator<PaymentData> CREATOR = new zzaa();
@@ -21,7 +20,16 @@ public final class PaymentData extends AbstractSafeParcelable implements AutoRes
     String zzg;
     Bundle zzh;
 
-    private PaymentData() {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public PaymentData(String str, CardInfo cardInfo, UserAddress userAddress, PaymentMethodToken paymentMethodToken, String str2, Bundle bundle, String str3, Bundle bundle2) {
+        this.zza = str;
+        this.zzb = cardInfo;
+        this.zzc = userAddress;
+        this.zzd = paymentMethodToken;
+        this.zze = str2;
+        this.zzf = bundle;
+        this.zzg = str3;
+        this.zzh = bundle2;
     }
 
     public static PaymentData getFromIntent(Intent intent) {
@@ -49,17 +57,5 @@ public final class PaymentData extends AbstractSafeParcelable implements AutoRes
         SafeParcelWriter.writeString(parcel, 7, this.zzg, false);
         SafeParcelWriter.writeBundle(parcel, 8, this.zzh, false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PaymentData(String str, CardInfo cardInfo, UserAddress userAddress, PaymentMethodToken paymentMethodToken, String str2, Bundle bundle, String str3, Bundle bundle2) {
-        this.zza = str;
-        this.zzb = cardInfo;
-        this.zzc = userAddress;
-        this.zzd = paymentMethodToken;
-        this.zze = str2;
-        this.zzf = bundle;
-        this.zzg = str3;
-        this.zzh = bundle2;
     }
 }

@@ -33,6 +33,21 @@ public class AppCompatEditText extends EditText implements TintableBackgroundVie
     private final AppCompatTextClassifierHelper mTextClassifierHelper;
     private final AppCompatTextHelper mTextHelper;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public class SuperCaller {
+        SuperCaller() {
+        }
+
+        public TextClassifier getTextClassifier() {
+            return AppCompatEditText.super.getTextClassifier();
+        }
+
+        public void setTextClassifier(TextClassifier textClassifier) {
+            AppCompatEditText.super.setTextClassifier(textClassifier);
+        }
+    }
+
     public AppCompatEditText(Context context, AttributeSet attributeSet) {
         this(context, attributeSet, R$attr.editTextStyle);
     }
@@ -55,6 +70,68 @@ public class AppCompatEditText extends EditText implements TintableBackgroundVie
         initEmojiKeyListener(appCompatEmojiEditTextHelper);
     }
 
+    private SuperCaller getSuperCaller() {
+        if (this.mSuperCaller == null) {
+            this.mSuperCaller = new SuperCaller();
+        }
+        return this.mSuperCaller;
+    }
+
+    @Override // android.widget.TextView, android.view.View
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            appCompatBackgroundHelper.applySupportBackgroundTint();
+        }
+        AppCompatTextHelper appCompatTextHelper = this.mTextHelper;
+        if (appCompatTextHelper != null) {
+            appCompatTextHelper.applyCompoundDrawablesTints();
+        }
+    }
+
+    @Override // android.widget.TextView
+    public ActionMode.Callback getCustomSelectionActionModeCallback() {
+        return TextViewCompat.unwrapCustomSelectionActionModeCallback(super.getCustomSelectionActionModeCallback());
+    }
+
+    @Override // androidx.core.view.TintableBackgroundView
+    public ColorStateList getSupportBackgroundTintList() {
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            return appCompatBackgroundHelper.getSupportBackgroundTintList();
+        }
+        return null;
+    }
+
+    @Override // androidx.core.view.TintableBackgroundView
+    public PorterDuff.Mode getSupportBackgroundTintMode() {
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            return appCompatBackgroundHelper.getSupportBackgroundTintMode();
+        }
+        return null;
+    }
+
+    public ColorStateList getSupportCompoundDrawablesTintList() {
+        return this.mTextHelper.getCompoundDrawableTintList();
+    }
+
+    public PorterDuff.Mode getSupportCompoundDrawablesTintMode() {
+        return this.mTextHelper.getCompoundDrawableTintMode();
+    }
+
+    @Override // android.widget.EditText, android.widget.TextView
+    public Editable getText() {
+        return Build.VERSION.SDK_INT >= 28 ? super.getText() : super.getEditableText();
+    }
+
+    @Override // android.widget.TextView
+    public TextClassifier getTextClassifier() {
+        AppCompatTextClassifierHelper appCompatTextClassifierHelper;
+        return (Build.VERSION.SDK_INT >= 28 || (appCompatTextClassifierHelper = this.mTextClassifierHelper) == null) ? getSuperCaller().getTextClassifier() : appCompatTextClassifierHelper.getTextClassifier();
+    }
+
     void initEmojiKeyListener(AppCompatEmojiEditTextHelper appCompatEmojiEditTextHelper) {
         KeyListener keyListener = getKeyListener();
         if (appCompatEmojiEditTextHelper.isEmojiCapableKeyListener(keyListener)) {
@@ -74,88 +151,6 @@ public class AppCompatEditText extends EditText implements TintableBackgroundVie
         }
     }
 
-    @Override // android.widget.EditText, android.widget.TextView
-    public Editable getText() {
-        if (Build.VERSION.SDK_INT >= 28) {
-            return super.getText();
-        }
-        return super.getEditableText();
-    }
-
-    @Override // android.view.View
-    public void setBackgroundResource(int i) {
-        super.setBackgroundResource(i);
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            appCompatBackgroundHelper.onSetBackgroundResource(i);
-        }
-    }
-
-    @Override // android.view.View
-    public void setBackgroundDrawable(Drawable drawable) {
-        super.setBackgroundDrawable(drawable);
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            appCompatBackgroundHelper.onSetBackgroundDrawable(drawable);
-        }
-    }
-
-    @Override // androidx.core.view.TintableBackgroundView
-    public void setSupportBackgroundTintList(ColorStateList colorStateList) {
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            appCompatBackgroundHelper.setSupportBackgroundTintList(colorStateList);
-        }
-    }
-
-    @Override // androidx.core.view.TintableBackgroundView
-    public ColorStateList getSupportBackgroundTintList() {
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            return appCompatBackgroundHelper.getSupportBackgroundTintList();
-        }
-        return null;
-    }
-
-    @Override // androidx.core.view.TintableBackgroundView
-    public void setSupportBackgroundTintMode(PorterDuff.Mode mode) {
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            appCompatBackgroundHelper.setSupportBackgroundTintMode(mode);
-        }
-    }
-
-    @Override // androidx.core.view.TintableBackgroundView
-    public PorterDuff.Mode getSupportBackgroundTintMode() {
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            return appCompatBackgroundHelper.getSupportBackgroundTintMode();
-        }
-        return null;
-    }
-
-    @Override // android.widget.TextView, android.view.View
-    protected void drawableStateChanged() {
-        super.drawableStateChanged();
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            appCompatBackgroundHelper.applySupportBackgroundTint();
-        }
-        AppCompatTextHelper appCompatTextHelper = this.mTextHelper;
-        if (appCompatTextHelper != null) {
-            appCompatTextHelper.applyCompoundDrawablesTints();
-        }
-    }
-
-    @Override // android.widget.TextView
-    public void setTextAppearance(Context context, int i) {
-        super.setTextAppearance(context, i);
-        AppCompatTextHelper appCompatTextHelper = this.mTextHelper;
-        if (appCompatTextHelper != null) {
-            appCompatTextHelper.onSetTextAppearance(context, i);
-        }
-    }
-
     @Override // android.widget.TextView, android.view.View
     public InputConnection onCreateInputConnection(EditorInfo editorInfo) {
         String[] onReceiveContentMimeTypes;
@@ -169,48 +164,17 @@ public class AppCompatEditText extends EditText implements TintableBackgroundVie
         return this.mAppCompatEmojiEditTextHelper.onCreateInputConnection(onCreateInputConnection2, editorInfo);
     }
 
-    @Override // android.widget.TextView
-    public void setCustomSelectionActionModeCallback(ActionMode.Callback callback) {
-        super.setCustomSelectionActionModeCallback(TextViewCompat.wrapCustomSelectionActionModeCallback(this, callback));
-    }
-
-    @Override // android.widget.TextView
-    public ActionMode.Callback getCustomSelectionActionModeCallback() {
-        return TextViewCompat.unwrapCustomSelectionActionModeCallback(super.getCustomSelectionActionModeCallback());
-    }
-
-    private SuperCaller getSuperCaller() {
-        if (this.mSuperCaller == null) {
-            this.mSuperCaller = new SuperCaller();
-        }
-        return this.mSuperCaller;
-    }
-
-    @Override // android.widget.TextView
-    public void setTextClassifier(TextClassifier textClassifier) {
-        AppCompatTextClassifierHelper appCompatTextClassifierHelper;
-        if (Build.VERSION.SDK_INT >= 28 || (appCompatTextClassifierHelper = this.mTextClassifierHelper) == null) {
-            getSuperCaller().setTextClassifier(textClassifier);
-        } else {
-            appCompatTextClassifierHelper.setTextClassifier(textClassifier);
-        }
-    }
-
-    @Override // android.widget.TextView
-    public TextClassifier getTextClassifier() {
-        AppCompatTextClassifierHelper appCompatTextClassifierHelper;
-        if (Build.VERSION.SDK_INT >= 28 || (appCompatTextClassifierHelper = this.mTextClassifierHelper) == null) {
-            return getSuperCaller().getTextClassifier();
-        }
-        return appCompatTextClassifierHelper.getTextClassifier();
-    }
-
     @Override // android.widget.TextView, android.view.View
     public boolean onDragEvent(DragEvent dragEvent) {
         if (AppCompatReceiveContentHelper.maybeHandleDragEventViaPerformReceiveContent(this, dragEvent)) {
             return true;
         }
         return super.onDragEvent(dragEvent);
+    }
+
+    @Override // androidx.core.view.OnReceiveContentViewBehavior
+    public ContentInfoCompat onReceiveContent(ContentInfoCompat contentInfoCompat) {
+        return this.mDefaultOnReceiveContentListener.onReceiveContent(this, contentInfoCompat);
     }
 
     @Override // android.widget.TextView
@@ -221,18 +185,22 @@ public class AppCompatEditText extends EditText implements TintableBackgroundVie
         return super.onTextContextMenuItem(i);
     }
 
-    @Override // androidx.core.view.OnReceiveContentViewBehavior
-    public ContentInfoCompat onReceiveContent(ContentInfoCompat contentInfoCompat) {
-        return this.mDefaultOnReceiveContentListener.onReceiveContent(this, contentInfoCompat);
+    @Override // android.view.View
+    public void setBackgroundDrawable(Drawable drawable) {
+        super.setBackgroundDrawable(drawable);
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            appCompatBackgroundHelper.onSetBackgroundDrawable(drawable);
+        }
     }
 
-    @Override // android.widget.TextView
-    public void setKeyListener(KeyListener keyListener) {
-        super.setKeyListener(this.mAppCompatEmojiEditTextHelper.getKeyListener(keyListener));
-    }
-
-    public void setEmojiCompatEnabled(boolean z) {
-        this.mAppCompatEmojiEditTextHelper.setEnabled(z);
+    @Override // android.view.View
+    public void setBackgroundResource(int i) {
+        super.setBackgroundResource(i);
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            appCompatBackgroundHelper.onSetBackgroundResource(i);
+        }
     }
 
     @Override // android.widget.TextView
@@ -253,8 +221,34 @@ public class AppCompatEditText extends EditText implements TintableBackgroundVie
         }
     }
 
-    public ColorStateList getSupportCompoundDrawablesTintList() {
-        return this.mTextHelper.getCompoundDrawableTintList();
+    @Override // android.widget.TextView
+    public void setCustomSelectionActionModeCallback(ActionMode.Callback callback) {
+        super.setCustomSelectionActionModeCallback(TextViewCompat.wrapCustomSelectionActionModeCallback(this, callback));
+    }
+
+    public void setEmojiCompatEnabled(boolean z) {
+        this.mAppCompatEmojiEditTextHelper.setEnabled(z);
+    }
+
+    @Override // android.widget.TextView
+    public void setKeyListener(KeyListener keyListener) {
+        super.setKeyListener(this.mAppCompatEmojiEditTextHelper.getKeyListener(keyListener));
+    }
+
+    @Override // androidx.core.view.TintableBackgroundView
+    public void setSupportBackgroundTintList(ColorStateList colorStateList) {
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            appCompatBackgroundHelper.setSupportBackgroundTintList(colorStateList);
+        }
+    }
+
+    @Override // androidx.core.view.TintableBackgroundView
+    public void setSupportBackgroundTintMode(PorterDuff.Mode mode) {
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            appCompatBackgroundHelper.setSupportBackgroundTintMode(mode);
+        }
     }
 
     @Override // androidx.core.widget.TintableCompoundDrawablesView
@@ -263,28 +257,28 @@ public class AppCompatEditText extends EditText implements TintableBackgroundVie
         this.mTextHelper.applyCompoundDrawablesTints();
     }
 
-    public PorterDuff.Mode getSupportCompoundDrawablesTintMode() {
-        return this.mTextHelper.getCompoundDrawableTintMode();
-    }
-
     @Override // androidx.core.widget.TintableCompoundDrawablesView
     public void setSupportCompoundDrawablesTintMode(PorterDuff.Mode mode) {
         this.mTextHelper.setCompoundDrawableTintMode(mode);
         this.mTextHelper.applyCompoundDrawablesTints();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class SuperCaller {
-        SuperCaller() {
+    @Override // android.widget.TextView
+    public void setTextAppearance(Context context, int i) {
+        super.setTextAppearance(context, i);
+        AppCompatTextHelper appCompatTextHelper = this.mTextHelper;
+        if (appCompatTextHelper != null) {
+            appCompatTextHelper.onSetTextAppearance(context, i);
         }
+    }
 
-        public TextClassifier getTextClassifier() {
-            return AppCompatEditText.super.getTextClassifier();
-        }
-
-        public void setTextClassifier(TextClassifier textClassifier) {
-            AppCompatEditText.super.setTextClassifier(textClassifier);
+    @Override // android.widget.TextView
+    public void setTextClassifier(TextClassifier textClassifier) {
+        AppCompatTextClassifierHelper appCompatTextClassifierHelper;
+        if (Build.VERSION.SDK_INT >= 28 || (appCompatTextClassifierHelper = this.mTextClassifierHelper) == null) {
+            getSuperCaller().setTextClassifier(textClassifier);
+        } else {
+            appCompatTextClassifierHelper.setTextClassifier(textClassifier);
         }
     }
 }

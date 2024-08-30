@@ -1,7 +1,4 @@
 package com.google.android.gms.internal.mlkit_language_id;
-
-import com.google.android.gms.internal.mlkit_language_id.zzy$zzao;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzbo implements zzes<zzy$zzao.zzb> {
+final class zzbo implements zzes {
 }

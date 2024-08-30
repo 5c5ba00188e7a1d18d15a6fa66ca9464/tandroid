@@ -2,9 +2,8 @@ package kotlin.text;
 
 import kotlin.jvm.internal.Intrinsics;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: StringNumberConversions.kt */
 /* loaded from: classes.dex */
-public class StringsKt__StringNumberConversionsKt extends StringsKt__StringNumberConversionsJVMKt {
+public abstract class StringsKt__StringNumberConversionsKt extends StringsKt__StringNumberConversionsJVMKt {
     public static Long toLongOrNull(String str) {
         Intrinsics.checkNotNullParameter(str, "<this>");
         return toLongOrNull(str, 10);

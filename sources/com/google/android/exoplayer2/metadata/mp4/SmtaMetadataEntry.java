@@ -8,7 +8,7 @@ import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.common.primitives.Floats;
 /* loaded from: classes.dex */
 public final class SmtaMetadataEntry implements Metadata.Entry {
-    public static final Parcelable.Creator<SmtaMetadataEntry> CREATOR = new Parcelable.Creator<SmtaMetadataEntry>() { // from class: com.google.android.exoplayer2.metadata.mp4.SmtaMetadataEntry.1
+    public static final Parcelable.Creator<SmtaMetadataEntry> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.mp4.SmtaMetadataEntry.1
         @Override // android.os.Parcelable.Creator
         public SmtaMetadataEntry createFromParcel(Parcel parcel) {
             return new SmtaMetadataEntry(parcel);
@@ -22,26 +22,6 @@ public final class SmtaMetadataEntry implements Metadata.Entry {
     public final float captureFrameRate;
     public final int svcTemporalLayerCount;
 
-    @Override // android.os.Parcelable
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
-    public /* synthetic */ byte[] getWrappedMetadataBytes() {
-        return Metadata.Entry.-CC.$default$getWrappedMetadataBytes(this);
-    }
-
-    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
-    public /* synthetic */ Format getWrappedMetadataFormat() {
-        return Metadata.Entry.-CC.$default$getWrappedMetadataFormat(this);
-    }
-
-    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
-    public /* synthetic */ void populateMediaMetadata(MediaMetadata.Builder builder) {
-        Metadata.Entry.-CC.$default$populateMediaMetadata(this, builder);
-    }
-
     public SmtaMetadataEntry(float f, int i) {
         this.captureFrameRate = f;
         this.svcTemporalLayerCount = i;
@@ -50,6 +30,11 @@ public final class SmtaMetadataEntry implements Metadata.Entry {
     private SmtaMetadataEntry(Parcel parcel) {
         this.captureFrameRate = parcel.readFloat();
         this.svcTemporalLayerCount = parcel.readInt();
+    }
+
+    @Override // android.os.Parcelable
+    public int describeContents() {
+        return 0;
     }
 
     public boolean equals(Object obj) {
@@ -63,8 +48,23 @@ public final class SmtaMetadataEntry implements Metadata.Entry {
         return this.captureFrameRate == smtaMetadataEntry.captureFrameRate && this.svcTemporalLayerCount == smtaMetadataEntry.svcTemporalLayerCount;
     }
 
+    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
+    public /* synthetic */ byte[] getWrappedMetadataBytes() {
+        return Metadata.Entry.-CC.$default$getWrappedMetadataBytes(this);
+    }
+
+    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
+    public /* synthetic */ Format getWrappedMetadataFormat() {
+        return Metadata.Entry.-CC.$default$getWrappedMetadataFormat(this);
+    }
+
     public int hashCode() {
         return ((Floats.hashCode(this.captureFrameRate) + 527) * 31) + this.svcTemporalLayerCount;
+    }
+
+    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
+    public /* synthetic */ void populateMediaMetadata(MediaMetadata.Builder builder) {
+        Metadata.Entry.-CC.$default$populateMediaMetadata(this, builder);
     }
 
     public String toString() {

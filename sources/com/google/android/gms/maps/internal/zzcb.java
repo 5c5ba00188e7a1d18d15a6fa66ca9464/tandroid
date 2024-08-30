@@ -1,6 +1,5 @@
 package com.google.android.gms.maps.internal;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.IBinder;
 import android.os.IInterface;
@@ -13,15 +12,13 @@ import com.google.android.gms.dynamic.ObjectWrapper;
 import com.google.android.gms.dynamite.DynamiteModule;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zzcb {
+public abstract class zzcb {
     private static final String zza = "zzcb";
-    @SuppressLint({"StaticFieldLeak"})
     private static Context zzb;
     private static zzf zzc;
 
-    public static zzf zza(Context context, MapsInitializer.Renderer renderer) throws GooglePlayServicesNotAvailableException {
+    public static zzf zza(Context context, MapsInitializer.Renderer renderer) {
         zzf zzeVar;
         Preconditions.checkNotNull(context);
         String str = zza;

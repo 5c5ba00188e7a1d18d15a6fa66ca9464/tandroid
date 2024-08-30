@@ -14,6 +14,29 @@ public class Logging {
     private static Severity loggableSeverity;
     private static volatile boolean loggingEnabled;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static /* synthetic */ class 1 {
+        static final /* synthetic */ int[] $SwitchMap$org$webrtc$Logging$Severity;
+
+        static {
+            int[] iArr = new int[Severity.values().length];
+            $SwitchMap$org$webrtc$Logging$Severity = iArr;
+            try {
+                iArr[Severity.LS_ERROR.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$org$webrtc$Logging$Severity[Severity.LS_WARNING.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$org$webrtc$Logging$Severity[Severity.LS_INFO.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+        }
+    }
+
     /* loaded from: classes.dex */
     public enum Severity {
         LS_VERBOSE,
@@ -21,37 +44,6 @@ public class Logging {
         LS_WARNING,
         LS_ERROR,
         LS_NONE
-    }
-
-    @Deprecated
-    public static void enableTracing(String str, EnumSet<TraceLevel> enumSet) {
-    }
-
-    private static native void nativeEnableLogThreads();
-
-    private static native void nativeEnableLogTimeStamps();
-
-    private static native void nativeEnableLogToDebugOutput(int i);
-
-    private static native void nativeLog(int i, String str, String str2);
-
-    private static Logger createFallbackLogger() {
-        Logger logger = Logger.getLogger("org.webrtc.Logging");
-        logger.setLevel(Level.ALL);
-        return logger;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void injectLoggable(Loggable loggable2, Severity severity) {
-        if (loggable2 != null) {
-            loggable = loggable2;
-            loggableSeverity = severity;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void deleteInjectedLoggable() {
-        loggable = null;
     }
 
     @Deprecated
@@ -80,6 +72,32 @@ public class Logging {
         }
     }
 
+    private static Logger createFallbackLogger() {
+        Logger logger = Logger.getLogger("org.webrtc.Logging");
+        logger.setLevel(Level.ALL);
+        return logger;
+    }
+
+    public static void d(String str, String str2) {
+        log(Severity.LS_INFO, str, str2);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void deleteInjectedLoggable() {
+        loggable = null;
+    }
+
+    public static void e(String str, String str2) {
+        log(Severity.LS_ERROR, str, str2);
+    }
+
+    public static void e(String str, String str2, Throwable th) {
+        Severity severity = Severity.LS_ERROR;
+        log(severity, str, str2);
+        log(severity, str, th.toString());
+        log(severity, str, getStackTraceString(th));
+    }
+
     public static void enableLogThreads() {
         nativeEnableLogThreads();
     }
@@ -98,8 +116,28 @@ public class Logging {
         }
     }
 
+    @Deprecated
+    public static void enableTracing(String str, EnumSet<TraceLevel> enumSet) {
+    }
+
+    private static String getStackTraceString(Throwable th) {
+        if (th == null) {
+            return "";
+        }
+        StringWriter stringWriter = new StringWriter();
+        th.printStackTrace(new PrintWriter(stringWriter));
+        return stringWriter.toString();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void injectLoggable(Loggable loggable2, Severity severity) {
+        if (loggable2 != null) {
+            loggable = loggable2;
+            loggableSeverity = severity;
+        }
+    }
+
     public static void log(Severity severity, String str, String str2) {
-        Level level;
         if (str == null || str2 == null) {
             throw new IllegalArgumentException("Logging tag or message may not be null.");
         }
@@ -112,60 +150,26 @@ public class Logging {
             nativeLog(severity.ordinal(), str, str2);
         } else {
             int i = 1.$SwitchMap$org$webrtc$Logging$Severity[severity.ordinal()];
-            if (i == 1) {
-                level = Level.SEVERE;
-            } else if (i == 2) {
-                level = Level.WARNING;
-            } else if (i == 3) {
-                level = Level.INFO;
-            } else {
-                level = Level.FINE;
-            }
+            Level level = i != 1 ? i != 2 ? i != 3 ? Level.FINE : Level.INFO : Level.WARNING : Level.SEVERE;
             Logger logger = fallbackLogger;
             logger.log(level, str + ": " + str2);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static /* synthetic */ class 1 {
-        static final /* synthetic */ int[] $SwitchMap$org$webrtc$Logging$Severity;
+    private static native void nativeEnableLogThreads();
 
-        static {
-            int[] iArr = new int[Severity.values().length];
-            $SwitchMap$org$webrtc$Logging$Severity = iArr;
-            try {
-                iArr[Severity.LS_ERROR.ordinal()] = 1;
-            } catch (NoSuchFieldError unused) {
-            }
-            try {
-                $SwitchMap$org$webrtc$Logging$Severity[Severity.LS_WARNING.ordinal()] = 2;
-            } catch (NoSuchFieldError unused2) {
-            }
-            try {
-                $SwitchMap$org$webrtc$Logging$Severity[Severity.LS_INFO.ordinal()] = 3;
-            } catch (NoSuchFieldError unused3) {
-            }
-        }
-    }
+    private static native void nativeEnableLogTimeStamps();
 
-    public static void d(String str, String str2) {
-        log(Severity.LS_INFO, str, str2);
-    }
+    private static native void nativeEnableLogToDebugOutput(int i);
 
-    public static void e(String str, String str2) {
-        log(Severity.LS_ERROR, str, str2);
+    private static native void nativeLog(int i, String str, String str2);
+
+    public static void v(String str, String str2) {
+        log(Severity.LS_VERBOSE, str, str2);
     }
 
     public static void w(String str, String str2) {
         log(Severity.LS_WARNING, str, str2);
-    }
-
-    public static void e(String str, String str2, Throwable th) {
-        Severity severity = Severity.LS_ERROR;
-        log(severity, str, str2);
-        log(severity, str, th.toString());
-        log(severity, str, getStackTraceString(th));
     }
 
     public static void w(String str, String str2, Throwable th) {
@@ -173,18 +177,5 @@ public class Logging {
         log(severity, str, str2);
         log(severity, str, th.toString());
         log(severity, str, getStackTraceString(th));
-    }
-
-    public static void v(String str, String str2) {
-        log(Severity.LS_VERBOSE, str, str2);
-    }
-
-    private static String getStackTraceString(Throwable th) {
-        if (th == null) {
-            return "";
-        }
-        StringWriter stringWriter = new StringWriter();
-        th.printStackTrace(new PrintWriter(stringWriter));
-        return stringWriter.toString();
     }
 }

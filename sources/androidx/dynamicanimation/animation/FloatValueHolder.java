@@ -7,11 +7,11 @@ public final class FloatValueHolder {
         setValue(f);
     }
 
-    public void setValue(float f) {
-        this.mValue = f;
-    }
-
     public float getValue() {
         return this.mValue;
+    }
+
+    public void setValue(float f) {
+        this.mValue = f;
     }
 }

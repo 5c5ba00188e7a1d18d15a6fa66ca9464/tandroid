@@ -6,39 +6,30 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 /* loaded from: classes.dex */
-public final class Collections2 {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean safeContains(Collection<?> collection, Object obj) {
-        Preconditions.checkNotNull(collection);
-        try {
-            return collection.contains(obj);
-        } catch (ClassCastException | NullPointerException unused) {
-            return false;
-        }
-    }
+public abstract class Collections2 {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class FilteredCollection<E> extends AbstractCollection<E> {
-        final Predicate<? super E> predicate;
-        final Collection<E> unfiltered;
+    public static class FilteredCollection extends AbstractCollection {
+        final Predicate predicate;
+        final Collection unfiltered;
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        public FilteredCollection(Collection<E> collection, Predicate<? super E> predicate) {
+        public FilteredCollection(Collection collection, Predicate predicate) {
             this.unfiltered = collection;
             this.predicate = predicate;
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection
-        public boolean add(E e) {
-            Preconditions.checkArgument(this.predicate.apply(e));
-            return this.unfiltered.add(e);
+        public boolean add(Object obj) {
+            Preconditions.checkArgument(this.predicate.apply(obj));
+            return this.unfiltered.add(obj);
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection
-        public boolean addAll(Collection<? extends E> collection) {
-            for (E e : collection) {
-                Preconditions.checkArgument(this.predicate.apply(e));
+        public boolean addAll(Collection collection) {
+            for (Object obj : collection) {
+                Preconditions.checkArgument(this.predicate.apply(obj));
             }
             return this.unfiltered.addAll(collection);
         }
@@ -57,7 +48,7 @@ public final class Collections2 {
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection
-        public boolean containsAll(Collection<?> collection) {
+        public boolean containsAll(Collection collection) {
             return Collections2.containsAllImpl(this, collection);
         }
 
@@ -67,7 +58,7 @@ public final class Collections2 {
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
-        public Iterator<E> iterator() {
+        public Iterator iterator() {
             return Iterators.filter(this.unfiltered.iterator(), this.predicate);
         }
 
@@ -77,11 +68,11 @@ public final class Collections2 {
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection
-        public boolean removeAll(Collection<?> collection) {
-            Iterator<E> it = this.unfiltered.iterator();
+        public boolean removeAll(Collection collection) {
+            Iterator it = this.unfiltered.iterator();
             boolean z = false;
             while (it.hasNext()) {
-                E next = it.next();
+                Object next = it.next();
                 if (this.predicate.apply(next) && collection.contains(next)) {
                     it.remove();
                     z = true;
@@ -91,11 +82,11 @@ public final class Collections2 {
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection
-        public boolean retainAll(Collection<?> collection) {
-            Iterator<E> it = this.unfiltered.iterator();
+        public boolean retainAll(Collection collection) {
+            Iterator it = this.unfiltered.iterator();
             boolean z = false;
             while (it.hasNext()) {
-                E next = it.next();
+                Object next = it.next();
                 if (this.predicate.apply(next) && !collection.contains(next)) {
                     it.remove();
                     z = true;
@@ -107,8 +98,8 @@ public final class Collections2 {
         @Override // java.util.AbstractCollection, java.util.Collection
         public int size() {
             int i = 0;
-            for (E e : this.unfiltered) {
-                if (this.predicate.apply(e)) {
+            for (Object obj : this.unfiltered) {
+                if (this.predicate.apply(obj)) {
                     i++;
                 }
             }
@@ -121,15 +112,14 @@ public final class Collections2 {
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection
-        public <T> T[] toArray(T[] tArr) {
-            return (T[]) Lists.newArrayList(iterator()).toArray(tArr);
+        public Object[] toArray(Object[] objArr) {
+            return Lists.newArrayList(iterator()).toArray(objArr);
         }
     }
 
-    static boolean containsAllImpl(Collection<?> collection, Collection<?> collection2) {
-        Iterator<?> it = collection2.iterator();
-        while (it.hasNext()) {
-            if (!collection.contains(it.next())) {
+    static boolean containsAllImpl(Collection collection, Collection collection2) {
+        for (Object obj : collection2) {
+            if (!collection.contains(obj)) {
                 return false;
             }
         }
@@ -140,5 +130,15 @@ public final class Collections2 {
     public static StringBuilder newStringBuilderForCollection(int i) {
         CollectPreconditions.checkNonnegative(i, "size");
         return new StringBuilder((int) Math.min(i * 8, 1073741824L));
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static boolean safeContains(Collection collection, Object obj) {
+        Preconditions.checkNotNull(collection);
+        try {
+            return collection.contains(obj);
+        } catch (ClassCastException | NullPointerException unused) {
+            return false;
+        }
     }
 }

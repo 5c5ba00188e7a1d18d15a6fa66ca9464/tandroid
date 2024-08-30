@@ -24,10 +24,6 @@ public final class Ac4Reader implements ElementaryStreamReader {
     private int state;
     private long timeUs;
 
-    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
-    public void packetFinished() {
-    }
-
     public Ac4Reader() {
         this(null);
     }
@@ -44,27 +40,45 @@ public final class Ac4Reader implements ElementaryStreamReader {
         this.language = str;
     }
 
-    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
-    public void seek() {
-        this.state = 0;
-        this.bytesRead = 0;
-        this.lastByteWasAC = false;
-        this.hasCRC = false;
-        this.timeUs = -9223372036854775807L;
+    private boolean continueRead(ParsableByteArray parsableByteArray, byte[] bArr, int i) {
+        int min = Math.min(parsableByteArray.bytesLeft(), i - this.bytesRead);
+        parsableByteArray.readBytes(bArr, this.bytesRead, min);
+        int i2 = this.bytesRead + min;
+        this.bytesRead = i2;
+        return i2 == i;
     }
 
-    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
-    public void createTracks(ExtractorOutput extractorOutput, TsPayloadReader.TrackIdGenerator trackIdGenerator) {
-        trackIdGenerator.generateNewId();
-        this.formatId = trackIdGenerator.getFormatId();
-        this.output = extractorOutput.track(trackIdGenerator.getTrackId(), 1);
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
-    public void packetStarted(long j, int i) {
-        if (j != -9223372036854775807L) {
-            this.timeUs = j;
+    private void parseHeader() {
+        this.headerScratchBits.setPosition(0);
+        Ac4Util.SyncFrameInfo parseAc4SyncframeInfo = Ac4Util.parseAc4SyncframeInfo(this.headerScratchBits);
+        Format format = this.format;
+        if (format == null || parseAc4SyncframeInfo.channelCount != format.channelCount || parseAc4SyncframeInfo.sampleRate != format.sampleRate || !"audio/ac4".equals(format.sampleMimeType)) {
+            Format build = new Format.Builder().setId(this.formatId).setSampleMimeType("audio/ac4").setChannelCount(parseAc4SyncframeInfo.channelCount).setSampleRate(parseAc4SyncframeInfo.sampleRate).setLanguage(this.language).build();
+            this.format = build;
+            this.output.format(build);
         }
+        this.sampleSize = parseAc4SyncframeInfo.frameSize;
+        this.sampleDurationUs = (parseAc4SyncframeInfo.sampleCount * 1000000) / this.format.sampleRate;
+    }
+
+    private boolean skipToNextSync(ParsableByteArray parsableByteArray) {
+        int readUnsignedByte;
+        while (true) {
+            if (parsableByteArray.bytesLeft() <= 0) {
+                return false;
+            }
+            if (this.lastByteWasAC) {
+                readUnsignedByte = parsableByteArray.readUnsignedByte();
+                this.lastByteWasAC = readUnsignedByte == 172;
+                if (readUnsignedByte == 64 || readUnsignedByte == 65) {
+                    break;
+                }
+            } else {
+                this.lastByteWasAC = parsableByteArray.readUnsignedByte() == 172;
+            }
+        }
+        this.hasCRC = readUnsignedByte == 65;
+        return true;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
@@ -104,44 +118,30 @@ public final class Ac4Reader implements ElementaryStreamReader {
         }
     }
 
-    private boolean continueRead(ParsableByteArray parsableByteArray, byte[] bArr, int i) {
-        int min = Math.min(parsableByteArray.bytesLeft(), i - this.bytesRead);
-        parsableByteArray.readBytes(bArr, this.bytesRead, min);
-        int i2 = this.bytesRead + min;
-        this.bytesRead = i2;
-        return i2 == i;
+    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
+    public void createTracks(ExtractorOutput extractorOutput, TsPayloadReader.TrackIdGenerator trackIdGenerator) {
+        trackIdGenerator.generateNewId();
+        this.formatId = trackIdGenerator.getFormatId();
+        this.output = extractorOutput.track(trackIdGenerator.getTrackId(), 1);
     }
 
-    private boolean skipToNextSync(ParsableByteArray parsableByteArray) {
-        int readUnsignedByte;
-        while (true) {
-            if (parsableByteArray.bytesLeft() <= 0) {
-                return false;
-            }
-            if (!this.lastByteWasAC) {
-                this.lastByteWasAC = parsableByteArray.readUnsignedByte() == 172;
-            } else {
-                readUnsignedByte = parsableByteArray.readUnsignedByte();
-                this.lastByteWasAC = readUnsignedByte == 172;
-                if (readUnsignedByte == 64 || readUnsignedByte == 65) {
-                    break;
-                }
-            }
-        }
-        this.hasCRC = readUnsignedByte == 65;
-        return true;
+    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
+    public void packetFinished() {
     }
 
-    private void parseHeader() {
-        this.headerScratchBits.setPosition(0);
-        Ac4Util.SyncFrameInfo parseAc4SyncframeInfo = Ac4Util.parseAc4SyncframeInfo(this.headerScratchBits);
-        Format format = this.format;
-        if (format == null || parseAc4SyncframeInfo.channelCount != format.channelCount || parseAc4SyncframeInfo.sampleRate != format.sampleRate || !"audio/ac4".equals(format.sampleMimeType)) {
-            Format build = new Format.Builder().setId(this.formatId).setSampleMimeType("audio/ac4").setChannelCount(parseAc4SyncframeInfo.channelCount).setSampleRate(parseAc4SyncframeInfo.sampleRate).setLanguage(this.language).build();
-            this.format = build;
-            this.output.format(build);
+    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
+    public void packetStarted(long j, int i) {
+        if (j != -9223372036854775807L) {
+            this.timeUs = j;
         }
-        this.sampleSize = parseAc4SyncframeInfo.frameSize;
-        this.sampleDurationUs = (parseAc4SyncframeInfo.sampleCount * 1000000) / this.format.sampleRate;
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
+    public void seek() {
+        this.state = 0;
+        this.bytesRead = 0;
+        this.lastByteWasAC = false;
+        this.hasCRC = false;
+        this.timeUs = -9223372036854775807L;
     }
 }

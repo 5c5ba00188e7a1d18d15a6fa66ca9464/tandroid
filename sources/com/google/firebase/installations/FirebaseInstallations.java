@@ -1,22 +1,20 @@
 package com.google.firebase.installations;
 
 import android.text.TextUtils;
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.heartbeatinfo.HeartBeatInfo;
 import com.google.firebase.inject.Provider;
 import com.google.firebase.installations.FirebaseInstallationsException;
-import com.google.firebase.installations.internal.FidListener;
 import com.google.firebase.installations.local.IidStore;
 import com.google.firebase.installations.local.PersistedInstallation;
 import com.google.firebase.installations.local.PersistedInstallationEntry;
 import com.google.firebase.installations.remote.FirebaseInstallationServiceClient;
 import com.google.firebase.installations.remote.InstallationResponse;
 import com.google.firebase.installations.remote.TokenResult;
-import com.google.firebase.platforminfo.UserAgentPublisher;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,10 +32,10 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
     private final ExecutorService backgroundExecutor;
     private String cachedFid;
     private final RandomFidGenerator fidGenerator;
-    private Set<FidListener> fidListeners;
+    private Set fidListeners;
     private final FirebaseApp firebaseApp;
     private final IidStore iidStore;
-    private final List<StateListener> listeners;
+    private final List listeners;
     private final Object lock;
     private final ExecutorService networkExecutor;
     private final PersistedInstallation persistedInstallation;
@@ -52,279 +50,6 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
             return new Thread(runnable, String.format("firebase-installations-executor-%d", Integer.valueOf(this.mCount.getAndIncrement())));
         }
     };
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FirebaseInstallations(FirebaseApp firebaseApp, Provider<UserAgentPublisher> provider, Provider<HeartBeatInfo> provider2) {
-        this(new ThreadPoolExecutor(0, 1, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue(), THREAD_FACTORY), firebaseApp, new FirebaseInstallationServiceClient(firebaseApp.getApplicationContext(), provider, provider2), new PersistedInstallation(firebaseApp), Utils.getInstance(), new IidStore(firebaseApp), new RandomFidGenerator());
-    }
-
-    FirebaseInstallations(ExecutorService executorService, FirebaseApp firebaseApp, FirebaseInstallationServiceClient firebaseInstallationServiceClient, PersistedInstallation persistedInstallation, Utils utils, IidStore iidStore, RandomFidGenerator randomFidGenerator) {
-        this.lock = new Object();
-        this.fidListeners = new HashSet();
-        this.listeners = new ArrayList();
-        this.firebaseApp = firebaseApp;
-        this.serviceClient = firebaseInstallationServiceClient;
-        this.persistedInstallation = persistedInstallation;
-        this.utils = utils;
-        this.iidStore = iidStore;
-        this.fidGenerator = randomFidGenerator;
-        this.backgroundExecutor = executorService;
-        this.networkExecutor = new ThreadPoolExecutor(0, 1, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue(), THREAD_FACTORY);
-    }
-
-    private void preConditionChecks() {
-        Preconditions.checkNotEmpty(getApplicationId(), "Please set your Application ID. A valid Firebase App ID is required to communicate with Firebase server APIs: It identifies your application with Firebase.Please refer to https://firebase.google.com/support/privacy/init-options.");
-        Preconditions.checkNotEmpty(getProjectIdentifier(), "Please set your Project ID. A valid Firebase Project ID is required to communicate with Firebase server APIs: It identifies your application with Firebase.Please refer to https://firebase.google.com/support/privacy/init-options.");
-        Preconditions.checkNotEmpty(getApiKey(), "Please set a valid API key. A Firebase API key is required to communicate with Firebase server APIs: It authenticates your project with Google.Please refer to https://firebase.google.com/support/privacy/init-options.");
-        Preconditions.checkArgument(Utils.isValidAppIdFormat(getApplicationId()), "Please set your Application ID. A valid Firebase App ID is required to communicate with Firebase server APIs: It identifies your application with Firebase.Please refer to https://firebase.google.com/support/privacy/init-options.");
-        Preconditions.checkArgument(Utils.isValidApiKeyFormat(getApiKey()), "Please set a valid API key. A Firebase API key is required to communicate with Firebase server APIs: It authenticates your project with Google.Please refer to https://firebase.google.com/support/privacy/init-options.");
-    }
-
-    String getProjectIdentifier() {
-        return this.firebaseApp.getOptions().getProjectId();
-    }
-
-    public static FirebaseInstallations getInstance(FirebaseApp firebaseApp) {
-        Preconditions.checkArgument(firebaseApp != null, "Null is not a valid value of FirebaseApp.");
-        return (FirebaseInstallations) firebaseApp.get(FirebaseInstallationsApi.class);
-    }
-
-    String getApplicationId() {
-        return this.firebaseApp.getOptions().getApplicationId();
-    }
-
-    String getApiKey() {
-        return this.firebaseApp.getOptions().getApiKey();
-    }
-
-    @Override // com.google.firebase.installations.FirebaseInstallationsApi
-    public Task<String> getId() {
-        preConditionChecks();
-        String cacheFid = getCacheFid();
-        if (cacheFid != null) {
-            return Tasks.forResult(cacheFid);
-        }
-        Task<String> addGetIdListener = addGetIdListener();
-        this.backgroundExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                FirebaseInstallations.this.lambda$getId$0();
-            }
-        });
-        return addGetIdListener;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getId$0() {
-        lambda$getToken$1(false);
-    }
-
-    @Override // com.google.firebase.installations.FirebaseInstallationsApi
-    public Task<InstallationTokenResult> getToken(final boolean z) {
-        preConditionChecks();
-        Task<InstallationTokenResult> addGetAuthTokenListener = addGetAuthTokenListener();
-        this.backgroundExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                FirebaseInstallations.this.lambda$getToken$1(z);
-            }
-        });
-        return addGetAuthTokenListener;
-    }
-
-    private Task<String> addGetIdListener() {
-        TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
-        addStateListeners(new GetIdListener(taskCompletionSource));
-        return taskCompletionSource.getTask();
-    }
-
-    private Task<InstallationTokenResult> addGetAuthTokenListener() {
-        TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
-        addStateListeners(new GetAuthTokenListener(this.utils, taskCompletionSource));
-        return taskCompletionSource.getTask();
-    }
-
-    private void addStateListeners(StateListener stateListener) {
-        synchronized (this.lock) {
-            this.listeners.add(stateListener);
-        }
-    }
-
-    private void triggerOnStateReached(PersistedInstallationEntry persistedInstallationEntry) {
-        synchronized (this.lock) {
-            try {
-                Iterator<StateListener> it = this.listeners.iterator();
-                while (it.hasNext()) {
-                    if (it.next().onStateReached(persistedInstallationEntry)) {
-                        it.remove();
-                    }
-                }
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-    }
-
-    private void triggerOnException(Exception exc) {
-        synchronized (this.lock) {
-            try {
-                Iterator<StateListener> it = this.listeners.iterator();
-                while (it.hasNext()) {
-                    if (it.next().onException(exc)) {
-                        it.remove();
-                    }
-                }
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-    }
-
-    private synchronized void updateCacheFid(String str) {
-        this.cachedFid = str;
-    }
-
-    private synchronized String getCacheFid() {
-        return this.cachedFid;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: doRegistrationOrRefresh */
-    public final void lambda$getToken$1(final boolean z) {
-        PersistedInstallationEntry prefsWithGeneratedIdMultiProcessSafe = getPrefsWithGeneratedIdMultiProcessSafe();
-        if (z) {
-            prefsWithGeneratedIdMultiProcessSafe = prefsWithGeneratedIdMultiProcessSafe.withClearedAuthToken();
-        }
-        triggerOnStateReached(prefsWithGeneratedIdMultiProcessSafe);
-        this.networkExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda2
-            @Override // java.lang.Runnable
-            public final void run() {
-                FirebaseInstallations.this.lambda$doRegistrationOrRefresh$2(z);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0034  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0041  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x004c  */
-    /* renamed from: doNetworkCallIfNecessary */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public void lambda$doRegistrationOrRefresh$2(boolean z) {
-        PersistedInstallationEntry registerFidWithServer;
-        PersistedInstallationEntry multiProcessSafePrefs = getMultiProcessSafePrefs();
-        try {
-            if (!multiProcessSafePrefs.isErrored() && !multiProcessSafePrefs.isUnregistered()) {
-                if (!z && !this.utils.isAuthTokenExpired(multiProcessSafePrefs)) {
-                    return;
-                }
-                registerFidWithServer = fetchAuthTokenFromServer(multiProcessSafePrefs);
-                insertOrUpdatePrefs(registerFidWithServer);
-                updateFidListener(multiProcessSafePrefs, registerFidWithServer);
-                if (registerFidWithServer.isRegistered()) {
-                    updateCacheFid(registerFidWithServer.getFirebaseInstallationId());
-                }
-                if (!registerFidWithServer.isErrored()) {
-                    triggerOnException(new FirebaseInstallationsException(FirebaseInstallationsException.Status.BAD_CONFIG));
-                    return;
-                } else if (registerFidWithServer.isNotGenerated()) {
-                    triggerOnException(new IOException("Installation ID could not be validated with the Firebase servers (maybe it was deleted). Firebase Installations will need to create a new Installation ID and auth token. Please retry your last request."));
-                    return;
-                } else {
-                    triggerOnStateReached(registerFidWithServer);
-                    return;
-                }
-            }
-            registerFidWithServer = registerFidWithServer(multiProcessSafePrefs);
-            insertOrUpdatePrefs(registerFidWithServer);
-            updateFidListener(multiProcessSafePrefs, registerFidWithServer);
-            if (registerFidWithServer.isRegistered()) {
-            }
-            if (!registerFidWithServer.isErrored()) {
-            }
-        } catch (FirebaseInstallationsException e) {
-            triggerOnException(e);
-        }
-    }
-
-    private synchronized void updateFidListener(PersistedInstallationEntry persistedInstallationEntry, PersistedInstallationEntry persistedInstallationEntry2) {
-        if (this.fidListeners.size() != 0 && !persistedInstallationEntry.getFirebaseInstallationId().equals(persistedInstallationEntry2.getFirebaseInstallationId())) {
-            for (FidListener fidListener : this.fidListeners) {
-                fidListener.onFidChanged(persistedInstallationEntry2.getFirebaseInstallationId());
-            }
-        }
-    }
-
-    private void insertOrUpdatePrefs(PersistedInstallationEntry persistedInstallationEntry) {
-        synchronized (lockGenerateFid) {
-            try {
-                CrossProcessLock acquire = CrossProcessLock.acquire(this.firebaseApp.getApplicationContext(), "generatefid.lock");
-                this.persistedInstallation.insertOrUpdatePersistedInstallationEntry(persistedInstallationEntry);
-                if (acquire != null) {
-                    acquire.releaseAndClose();
-                }
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-    }
-
-    private PersistedInstallationEntry getPrefsWithGeneratedIdMultiProcessSafe() {
-        PersistedInstallationEntry readPersistedInstallationEntryValue;
-        synchronized (lockGenerateFid) {
-            try {
-                CrossProcessLock acquire = CrossProcessLock.acquire(this.firebaseApp.getApplicationContext(), "generatefid.lock");
-                readPersistedInstallationEntryValue = this.persistedInstallation.readPersistedInstallationEntryValue();
-                if (readPersistedInstallationEntryValue.isNotGenerated()) {
-                    readPersistedInstallationEntryValue = this.persistedInstallation.insertOrUpdatePersistedInstallationEntry(readPersistedInstallationEntryValue.withUnregisteredFid(readExistingIidOrCreateFid(readPersistedInstallationEntryValue)));
-                }
-                if (acquire != null) {
-                    acquire.releaseAndClose();
-                }
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-        return readPersistedInstallationEntryValue;
-    }
-
-    private String readExistingIidOrCreateFid(PersistedInstallationEntry persistedInstallationEntry) {
-        if ((!this.firebaseApp.getName().equals("CHIME_ANDROID_SDK") && !this.firebaseApp.isDefaultApp()) || !persistedInstallationEntry.shouldAttemptMigration()) {
-            return this.fidGenerator.createRandomFid();
-        }
-        String readIid = this.iidStore.readIid();
-        return TextUtils.isEmpty(readIid) ? this.fidGenerator.createRandomFid() : readIid;
-    }
-
-    private PersistedInstallationEntry registerFidWithServer(PersistedInstallationEntry persistedInstallationEntry) throws FirebaseInstallationsException {
-        InstallationResponse createFirebaseInstallation = this.serviceClient.createFirebaseInstallation(getApiKey(), persistedInstallationEntry.getFirebaseInstallationId(), getProjectIdentifier(), getApplicationId(), (persistedInstallationEntry.getFirebaseInstallationId() == null || persistedInstallationEntry.getFirebaseInstallationId().length() != 11) ? null : this.iidStore.readToken());
-        int i = 3.$SwitchMap$com$google$firebase$installations$remote$InstallationResponse$ResponseCode[createFirebaseInstallation.getResponseCode().ordinal()];
-        if (i != 1) {
-            if (i == 2) {
-                return persistedInstallationEntry.withFisError("BAD CONFIG");
-            }
-            throw new FirebaseInstallationsException("Firebase Installations Service is unavailable. Please try again later.", FirebaseInstallationsException.Status.UNAVAILABLE);
-        }
-        return persistedInstallationEntry.withRegisteredFid(createFirebaseInstallation.getFid(), createFirebaseInstallation.getRefreshToken(), this.utils.currentTimeInSecs(), createFirebaseInstallation.getAuthToken().getToken(), createFirebaseInstallation.getAuthToken().getTokenExpirationTimestamp());
-    }
-
-    private PersistedInstallationEntry fetchAuthTokenFromServer(PersistedInstallationEntry persistedInstallationEntry) throws FirebaseInstallationsException {
-        TokenResult generateAuthToken = this.serviceClient.generateAuthToken(getApiKey(), persistedInstallationEntry.getFirebaseInstallationId(), getProjectIdentifier(), persistedInstallationEntry.getRefreshToken());
-        int i = 3.$SwitchMap$com$google$firebase$installations$remote$TokenResult$ResponseCode[generateAuthToken.getResponseCode().ordinal()];
-        if (i != 1) {
-            if (i != 2) {
-                if (i == 3) {
-                    updateCacheFid(null);
-                    return persistedInstallationEntry.withNoGeneratedFid();
-                }
-                throw new FirebaseInstallationsException("Firebase Installations Service is unavailable. Please try again later.", FirebaseInstallationsException.Status.UNAVAILABLE);
-            }
-            return persistedInstallationEntry.withFisError("BAD CONFIG");
-        }
-        return persistedInstallationEntry.withAuthToken(generateAuthToken.getToken(), generateAuthToken.getTokenExpirationTimestamp(), this.utils.currentTimeInSecs());
-    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
@@ -360,6 +85,130 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public FirebaseInstallations(FirebaseApp firebaseApp, Provider provider, Provider provider2) {
+        this(new ThreadPoolExecutor(0, 1, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue(), THREAD_FACTORY), firebaseApp, new FirebaseInstallationServiceClient(firebaseApp.getApplicationContext(), provider, provider2), new PersistedInstallation(firebaseApp), Utils.getInstance(), new IidStore(firebaseApp), new RandomFidGenerator());
+    }
+
+    FirebaseInstallations(ExecutorService executorService, FirebaseApp firebaseApp, FirebaseInstallationServiceClient firebaseInstallationServiceClient, PersistedInstallation persistedInstallation, Utils utils, IidStore iidStore, RandomFidGenerator randomFidGenerator) {
+        this.lock = new Object();
+        this.fidListeners = new HashSet();
+        this.listeners = new ArrayList();
+        this.firebaseApp = firebaseApp;
+        this.serviceClient = firebaseInstallationServiceClient;
+        this.persistedInstallation = persistedInstallation;
+        this.utils = utils;
+        this.iidStore = iidStore;
+        this.fidGenerator = randomFidGenerator;
+        this.backgroundExecutor = executorService;
+        this.networkExecutor = new ThreadPoolExecutor(0, 1, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue(), THREAD_FACTORY);
+    }
+
+    private Task addGetAuthTokenListener() {
+        TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
+        addStateListeners(new GetAuthTokenListener(this.utils, taskCompletionSource));
+        return taskCompletionSource.getTask();
+    }
+
+    private Task addGetIdListener() {
+        TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
+        addStateListeners(new GetIdListener(taskCompletionSource));
+        return taskCompletionSource.getTask();
+    }
+
+    private void addStateListeners(StateListener stateListener) {
+        synchronized (this.lock) {
+            this.listeners.add(stateListener);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0034  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0041  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x004c  */
+    /* renamed from: doNetworkCallIfNecessary */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void lambda$doRegistrationOrRefresh$2(boolean z) {
+        PersistedInstallationEntry registerFidWithServer;
+        Exception iOException;
+        PersistedInstallationEntry multiProcessSafePrefs = getMultiProcessSafePrefs();
+        try {
+            if (!multiProcessSafePrefs.isErrored() && !multiProcessSafePrefs.isUnregistered()) {
+                if (!z && !this.utils.isAuthTokenExpired(multiProcessSafePrefs)) {
+                    return;
+                }
+                registerFidWithServer = fetchAuthTokenFromServer(multiProcessSafePrefs);
+                insertOrUpdatePrefs(registerFidWithServer);
+                updateFidListener(multiProcessSafePrefs, registerFidWithServer);
+                if (registerFidWithServer.isRegistered()) {
+                    updateCacheFid(registerFidWithServer.getFirebaseInstallationId());
+                }
+                if (!registerFidWithServer.isErrored()) {
+                    iOException = new FirebaseInstallationsException(FirebaseInstallationsException.Status.BAD_CONFIG);
+                } else if (!registerFidWithServer.isNotGenerated()) {
+                    triggerOnStateReached(registerFidWithServer);
+                    return;
+                } else {
+                    iOException = new IOException("Installation ID could not be validated with the Firebase servers (maybe it was deleted). Firebase Installations will need to create a new Installation ID and auth token. Please retry your last request.");
+                }
+                triggerOnException(iOException);
+            }
+            registerFidWithServer = registerFidWithServer(multiProcessSafePrefs);
+            insertOrUpdatePrefs(registerFidWithServer);
+            updateFidListener(multiProcessSafePrefs, registerFidWithServer);
+            if (registerFidWithServer.isRegistered()) {
+            }
+            if (!registerFidWithServer.isErrored()) {
+            }
+            triggerOnException(iOException);
+        } catch (FirebaseInstallationsException e) {
+            triggerOnException(e);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* renamed from: doRegistrationOrRefresh */
+    public final void lambda$getToken$1(final boolean z) {
+        PersistedInstallationEntry prefsWithGeneratedIdMultiProcessSafe = getPrefsWithGeneratedIdMultiProcessSafe();
+        if (z) {
+            prefsWithGeneratedIdMultiProcessSafe = prefsWithGeneratedIdMultiProcessSafe.withClearedAuthToken();
+        }
+        triggerOnStateReached(prefsWithGeneratedIdMultiProcessSafe);
+        this.networkExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                FirebaseInstallations.this.lambda$doRegistrationOrRefresh$2(z);
+            }
+        });
+    }
+
+    private PersistedInstallationEntry fetchAuthTokenFromServer(PersistedInstallationEntry persistedInstallationEntry) {
+        TokenResult generateAuthToken = this.serviceClient.generateAuthToken(getApiKey(), persistedInstallationEntry.getFirebaseInstallationId(), getProjectIdentifier(), persistedInstallationEntry.getRefreshToken());
+        int i = 3.$SwitchMap$com$google$firebase$installations$remote$TokenResult$ResponseCode[generateAuthToken.getResponseCode().ordinal()];
+        if (i != 1) {
+            if (i != 2) {
+                if (i == 3) {
+                    updateCacheFid(null);
+                    return persistedInstallationEntry.withNoGeneratedFid();
+                }
+                throw new FirebaseInstallationsException("Firebase Installations Service is unavailable. Please try again later.", FirebaseInstallationsException.Status.UNAVAILABLE);
+            }
+            return persistedInstallationEntry.withFisError("BAD CONFIG");
+        }
+        return persistedInstallationEntry.withAuthToken(generateAuthToken.getToken(), generateAuthToken.getTokenExpirationTimestamp(), this.utils.currentTimeInSecs());
+    }
+
+    private synchronized String getCacheFid() {
+        return this.cachedFid;
+    }
+
+    public static FirebaseInstallations getInstance(FirebaseApp firebaseApp) {
+        Preconditions.checkArgument(firebaseApp != null, "Null is not a valid value of FirebaseApp.");
+        return (FirebaseInstallations) firebaseApp.get(FirebaseInstallationsApi.class);
+    }
+
     private PersistedInstallationEntry getMultiProcessSafePrefs() {
         PersistedInstallationEntry readPersistedInstallationEntryValue;
         synchronized (lockGenerateFid) {
@@ -374,5 +223,158 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
             }
         }
         return readPersistedInstallationEntryValue;
+    }
+
+    private PersistedInstallationEntry getPrefsWithGeneratedIdMultiProcessSafe() {
+        PersistedInstallationEntry readPersistedInstallationEntryValue;
+        synchronized (lockGenerateFid) {
+            try {
+                CrossProcessLock acquire = CrossProcessLock.acquire(this.firebaseApp.getApplicationContext(), "generatefid.lock");
+                readPersistedInstallationEntryValue = this.persistedInstallation.readPersistedInstallationEntryValue();
+                if (readPersistedInstallationEntryValue.isNotGenerated()) {
+                    readPersistedInstallationEntryValue = this.persistedInstallation.insertOrUpdatePersistedInstallationEntry(readPersistedInstallationEntryValue.withUnregisteredFid(readExistingIidOrCreateFid(readPersistedInstallationEntryValue)));
+                }
+                if (acquire != null) {
+                    acquire.releaseAndClose();
+                }
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+        return readPersistedInstallationEntryValue;
+    }
+
+    private void insertOrUpdatePrefs(PersistedInstallationEntry persistedInstallationEntry) {
+        synchronized (lockGenerateFid) {
+            try {
+                CrossProcessLock acquire = CrossProcessLock.acquire(this.firebaseApp.getApplicationContext(), "generatefid.lock");
+                this.persistedInstallation.insertOrUpdatePersistedInstallationEntry(persistedInstallationEntry);
+                if (acquire != null) {
+                    acquire.releaseAndClose();
+                }
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$getId$0() {
+        lambda$getToken$1(false);
+    }
+
+    private void preConditionChecks() {
+        Preconditions.checkNotEmpty(getApplicationId(), "Please set your Application ID. A valid Firebase App ID is required to communicate with Firebase server APIs: It identifies your application with Firebase.Please refer to https://firebase.google.com/support/privacy/init-options.");
+        Preconditions.checkNotEmpty(getProjectIdentifier(), "Please set your Project ID. A valid Firebase Project ID is required to communicate with Firebase server APIs: It identifies your application with Firebase.Please refer to https://firebase.google.com/support/privacy/init-options.");
+        Preconditions.checkNotEmpty(getApiKey(), "Please set a valid API key. A Firebase API key is required to communicate with Firebase server APIs: It authenticates your project with Google.Please refer to https://firebase.google.com/support/privacy/init-options.");
+        Preconditions.checkArgument(Utils.isValidAppIdFormat(getApplicationId()), "Please set your Application ID. A valid Firebase App ID is required to communicate with Firebase server APIs: It identifies your application with Firebase.Please refer to https://firebase.google.com/support/privacy/init-options.");
+        Preconditions.checkArgument(Utils.isValidApiKeyFormat(getApiKey()), "Please set a valid API key. A Firebase API key is required to communicate with Firebase server APIs: It authenticates your project with Google.Please refer to https://firebase.google.com/support/privacy/init-options.");
+    }
+
+    private String readExistingIidOrCreateFid(PersistedInstallationEntry persistedInstallationEntry) {
+        if ((this.firebaseApp.getName().equals("CHIME_ANDROID_SDK") || this.firebaseApp.isDefaultApp()) && persistedInstallationEntry.shouldAttemptMigration()) {
+            String readIid = this.iidStore.readIid();
+            return TextUtils.isEmpty(readIid) ? this.fidGenerator.createRandomFid() : readIid;
+        }
+        return this.fidGenerator.createRandomFid();
+    }
+
+    private PersistedInstallationEntry registerFidWithServer(PersistedInstallationEntry persistedInstallationEntry) {
+        InstallationResponse createFirebaseInstallation = this.serviceClient.createFirebaseInstallation(getApiKey(), persistedInstallationEntry.getFirebaseInstallationId(), getProjectIdentifier(), getApplicationId(), (persistedInstallationEntry.getFirebaseInstallationId() == null || persistedInstallationEntry.getFirebaseInstallationId().length() != 11) ? null : this.iidStore.readToken());
+        int i = 3.$SwitchMap$com$google$firebase$installations$remote$InstallationResponse$ResponseCode[createFirebaseInstallation.getResponseCode().ordinal()];
+        if (i != 1) {
+            if (i == 2) {
+                return persistedInstallationEntry.withFisError("BAD CONFIG");
+            }
+            throw new FirebaseInstallationsException("Firebase Installations Service is unavailable. Please try again later.", FirebaseInstallationsException.Status.UNAVAILABLE);
+        }
+        return persistedInstallationEntry.withRegisteredFid(createFirebaseInstallation.getFid(), createFirebaseInstallation.getRefreshToken(), this.utils.currentTimeInSecs(), createFirebaseInstallation.getAuthToken().getToken(), createFirebaseInstallation.getAuthToken().getTokenExpirationTimestamp());
+    }
+
+    private void triggerOnException(Exception exc) {
+        synchronized (this.lock) {
+            try {
+                Iterator it = this.listeners.iterator();
+                while (it.hasNext()) {
+                    if (((StateListener) it.next()).onException(exc)) {
+                        it.remove();
+                    }
+                }
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+    }
+
+    private void triggerOnStateReached(PersistedInstallationEntry persistedInstallationEntry) {
+        synchronized (this.lock) {
+            try {
+                Iterator it = this.listeners.iterator();
+                while (it.hasNext()) {
+                    if (((StateListener) it.next()).onStateReached(persistedInstallationEntry)) {
+                        it.remove();
+                    }
+                }
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+    }
+
+    private synchronized void updateCacheFid(String str) {
+        this.cachedFid = str;
+    }
+
+    private synchronized void updateFidListener(PersistedInstallationEntry persistedInstallationEntry, PersistedInstallationEntry persistedInstallationEntry2) {
+        if (this.fidListeners.size() != 0 && !persistedInstallationEntry.getFirebaseInstallationId().equals(persistedInstallationEntry2.getFirebaseInstallationId())) {
+            Iterator it = this.fidListeners.iterator();
+            if (it.hasNext()) {
+                ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
+                persistedInstallationEntry2.getFirebaseInstallationId();
+                throw null;
+            }
+        }
+    }
+
+    String getApiKey() {
+        return this.firebaseApp.getOptions().getApiKey();
+    }
+
+    String getApplicationId() {
+        return this.firebaseApp.getOptions().getApplicationId();
+    }
+
+    @Override // com.google.firebase.installations.FirebaseInstallationsApi
+    public Task getId() {
+        preConditionChecks();
+        String cacheFid = getCacheFid();
+        if (cacheFid != null) {
+            return Tasks.forResult(cacheFid);
+        }
+        Task addGetIdListener = addGetIdListener();
+        this.backgroundExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                FirebaseInstallations.this.lambda$getId$0();
+            }
+        });
+        return addGetIdListener;
+    }
+
+    String getProjectIdentifier() {
+        return this.firebaseApp.getOptions().getProjectId();
+    }
+
+    @Override // com.google.firebase.installations.FirebaseInstallationsApi
+    public Task getToken(final boolean z) {
+        preConditionChecks();
+        Task addGetAuthTokenListener = addGetAuthTokenListener();
+        this.backgroundExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                FirebaseInstallations.this.lambda$getToken$1(z);
+            }
+        });
+        return addGetAuthTokenListener;
     }
 }

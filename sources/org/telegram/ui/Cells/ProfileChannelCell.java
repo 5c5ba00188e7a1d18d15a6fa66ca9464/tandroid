@@ -33,6 +33,7 @@ import org.telegram.tgnet.TLRPC$TL_messageEmpty;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserFull;
 import org.telegram.tgnet.TLRPC$messages_Messages;
+import org.telegram.tgnet.tl.TL_stories$PeerStories;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.DialogCell;
@@ -46,7 +47,7 @@ import org.telegram.ui.Components.LoadingDrawable;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
 /* loaded from: classes4.dex */
-public class ProfileChannelCell extends FrameLayout {
+public abstract class ProfileChannelCell extends FrameLayout {
     public final DialogCell dialogCell;
     private final TextView headerView;
     private boolean loading;
@@ -56,165 +57,9 @@ public class ProfileChannelCell extends FrameLayout {
     private boolean set;
     private final AnimatedTextView subscribersView;
 
-    public int processColor(int i) {
-        return i;
-    }
-
-    public ProfileChannelCell(final BaseFragment baseFragment) {
-        super(baseFragment.getContext());
-        CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
-        this.loadingAlpha = new AnimatedFloat(320L, cubicBezierInterpolator);
-        this.set = false;
-        final Context context = baseFragment.getContext();
-        Theme.ResourcesProvider resourceProvider = baseFragment.getResourceProvider();
-        this.resourcesProvider = resourceProvider;
-        LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setOrientation(0);
-        addView(linearLayout, LayoutHelper.createFrame(-1, -2.0f, 55, 22.0f, 16.6f, 22.0f, 0.0f));
-        TextView textView = new TextView(context);
-        this.headerView = textView;
-        textView.setTypeface(AndroidUtilities.bold());
-        textView.setTextSize(1, 15.0f);
-        textView.setText(LocaleController.getString(R.string.ProfileChannel));
-        linearLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 51));
-        ClickableAnimatedTextView clickableAnimatedTextView = new ClickableAnimatedTextView(context);
-        this.subscribersView = clickableAnimatedTextView;
-        clickableAnimatedTextView.getDrawable().setHacks(true, true, true);
-        clickableAnimatedTextView.setAnimationProperties(0.3f, 0L, 165L, cubicBezierInterpolator);
-        clickableAnimatedTextView.setTypeface(AndroidUtilities.bold());
-        clickableAnimatedTextView.setTextSize(AndroidUtilities.dp(11.0f));
-        clickableAnimatedTextView.setPadding(AndroidUtilities.dp(4.33f), 0, AndroidUtilities.dp(4.33f), 0);
-        clickableAnimatedTextView.setGravity(3);
-        linearLayout.addView(clickableAnimatedTextView, LayoutHelper.createLinear(-1, 17, 51, 4, 2, 4, 0));
-        DialogCell dialogCell = new DialogCell(null, context, false, true, UserConfig.selectedAccount, resourceProvider);
-        this.dialogCell = dialogCell;
-        dialogCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-        dialogCell.setDialogCellDelegate(new DialogCell.DialogCellDelegate() { // from class: org.telegram.ui.Cells.ProfileChannelCell.1
-            @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
-            public boolean canClickButtonInside() {
-                return true;
-            }
-
-            @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
-            public void onButtonClicked(DialogCell dialogCell2) {
-            }
-
-            @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
-            public void onButtonLongPress(DialogCell dialogCell2) {
-            }
-
-            @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
-            public void showChatPreview(DialogCell dialogCell2) {
-            }
-
-            @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
-            public void openStory(DialogCell dialogCell2, Runnable runnable) {
-                if (baseFragment.getMessagesController().getStoriesController().hasStories(dialogCell2.getDialogId())) {
-                    baseFragment.getOrCreateStoryViewer().doOnAnimationReady(runnable);
-                    baseFragment.getOrCreateStoryViewer().open(baseFragment.getContext(), dialogCell2.getDialogId(), StoriesListPlaceProvider.of(ProfileChannelCell.this));
-                }
-            }
-
-            @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
-            public void openHiddenStories() {
-                StoriesController storiesController = baseFragment.getMessagesController().getStoriesController();
-                if (storiesController.getHiddenList().isEmpty()) {
-                    return;
-                }
-                boolean z = storiesController.getUnreadState(DialogObject.getPeerDialogId(storiesController.getHiddenList().get(0).peer)) != 0;
-                ArrayList<Long> arrayList = new ArrayList<>();
-                for (int i = 0; i < storiesController.getHiddenList().size(); i++) {
-                    long peerDialogId = DialogObject.getPeerDialogId(storiesController.getHiddenList().get(i).peer);
-                    if (!z || storiesController.getUnreadState(peerDialogId) != 0) {
-                        arrayList.add(Long.valueOf(peerDialogId));
-                    }
-                }
-                baseFragment.getOrCreateStoryViewer().open(context, null, arrayList, 0, null, null, StoriesListPlaceProvider.of(ProfileChannelCell.this), false);
-            }
-        });
-        dialogCell.avatarStart = 15;
-        dialogCell.messagePaddingStart = 83;
-        addView(dialogCell, LayoutHelper.createFrame(-1, -2, 87));
-        updateColors();
-        setWillNotDraw(false);
-        LoadingDrawable loadingDrawable = new LoadingDrawable();
-        this.loadingDrawable = loadingDrawable;
-        int i = Theme.key_listSelector;
-        loadingDrawable.setColors(Theme.multAlpha(Theme.getColor(i, resourceProvider), 1.25f), Theme.multAlpha(Theme.getColor(i, resourceProvider), 0.8f));
-        loadingDrawable.setRadiiDp(8.0f);
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void dispatchDraw(Canvas canvas) {
-        super.dispatchDraw(canvas);
-        float f = this.loadingAlpha.set(this.loading);
-        if (f > 0.0f) {
-            this.loadingDrawable.setAlpha((int) (f * 255.0f));
-            RectF rectF = AndroidUtilities.rectTmp;
-            rectF.set(this.dialogCell.getX() + AndroidUtilities.dp(this.dialogCell.messagePaddingStart + 6), this.dialogCell.getY() + AndroidUtilities.dp(38.0f), this.dialogCell.getX() + AndroidUtilities.dp(this.dialogCell.messagePaddingStart + 6) + (getWidth() * 0.5f), this.dialogCell.getY() + AndroidUtilities.dp(46.33f));
-            this.loadingDrawable.setBounds(rectF);
-            this.loadingDrawable.draw(canvas);
-            rectF.set(this.dialogCell.getX() + AndroidUtilities.dp(this.dialogCell.messagePaddingStart + 6), this.dialogCell.getY() + AndroidUtilities.dp(56.0f), this.dialogCell.getX() + AndroidUtilities.dp(this.dialogCell.messagePaddingStart + 6) + (getWidth() * 0.36f), this.dialogCell.getY() + AndroidUtilities.dp(64.33f));
-            this.loadingDrawable.setBounds(rectF);
-            this.loadingDrawable.draw(canvas);
-            rectF.set(((this.dialogCell.getX() + this.dialogCell.getWidth()) - AndroidUtilities.dp(16.0f)) - AndroidUtilities.dp(43.0f), this.dialogCell.getY() + AndroidUtilities.dp(12.0f), (this.dialogCell.getX() + this.dialogCell.getWidth()) - AndroidUtilities.dp(16.0f), this.dialogCell.getY() + AndroidUtilities.dp(20.33f));
-            this.loadingDrawable.setBounds(rectF);
-            this.loadingDrawable.draw(canvas);
-            invalidate();
-        }
-    }
-
-    @Override // android.view.View
-    protected boolean verifyDrawable(Drawable drawable) {
-        return this.loadingDrawable == drawable || super.verifyDrawable(drawable);
-    }
-
-    public void set(TLRPC$Chat tLRPC$Chat, MessageObject messageObject) {
-        String formatShortNumber;
-        boolean z = this.set;
-        boolean z2 = tLRPC$Chat == null || tLRPC$Chat.participants_count > 0;
-        this.subscribersView.cancelAnimation();
-        this.subscribersView.setPivotX(0.0f);
-        if (z) {
-            this.subscribersView.animate().alpha(z2 ? 1.0f : 0.0f).scaleX(z2 ? 1.0f : 0.8f).scaleY(z2 ? 1.0f : 0.8f).setDuration(420L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
-        } else {
-            this.subscribersView.setAlpha(z2 ? 1.0f : 0.0f);
-            this.subscribersView.setScaleX(z2 ? 1.0f : 0.0f);
-            this.subscribersView.setScaleY(z2 ? 1.0f : 0.0f);
-        }
-        if (tLRPC$Chat != null) {
-            int[] iArr = new int[1];
-            if (AndroidUtilities.isAccessibilityScreenReaderEnabled()) {
-                int i = tLRPC$Chat.participants_count;
-                iArr[0] = i;
-                formatShortNumber = String.valueOf(i);
-            } else {
-                formatShortNumber = LocaleController.formatShortNumber(tLRPC$Chat.participants_count, iArr);
-            }
-            this.subscribersView.setText(LocaleController.formatPluralString("Subscribers", iArr[0], new Object[0]).replace(String.format("%d", Integer.valueOf(iArr[0])), formatShortNumber), true);
-            boolean z3 = messageObject == null;
-            this.loading = z3;
-            if (z3) {
-                this.dialogCell.setDialog(-tLRPC$Chat.id, null, 0, false, z);
-            } else {
-                this.dialogCell.setDialog(-tLRPC$Chat.id, messageObject, messageObject.messageOwner.date, false, z);
-            }
-        }
-        if (!z) {
-            this.loadingAlpha.set(this.loading, true);
-        }
-        invalidate();
-        this.set = true;
-    }
-
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(115.66f), 1073741824));
-    }
-
     /* loaded from: classes4.dex */
     public static class ChannelMessageFetcher {
-        private ArrayList<Runnable> callbacks = new ArrayList<>();
+        private ArrayList callbacks = new ArrayList();
         public long channel_id;
         public final int currentAccount;
         public boolean error;
@@ -228,36 +73,84 @@ public class ProfileChannelCell extends FrameLayout {
             this.currentAccount = i;
         }
 
-        public void fetch(TLRPC$UserFull tLRPC$UserFull) {
-            if (tLRPC$UserFull == null || (tLRPC$UserFull.flags2 & 64) == 0) {
-                this.searchId++;
-                this.loaded = true;
-                this.messageObject = null;
+        private void done(boolean z) {
+            this.loading = false;
+            this.loaded = true;
+            this.error = z;
+            Iterator it = this.callbacks.iterator();
+            while (it.hasNext()) {
+                ((Runnable) it.next()).run();
+            }
+            this.callbacks.clear();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$fetch$0(TLObject tLObject, MessagesStorage messagesStorage, long j, int i, int i2) {
+            TLRPC$Message tLRPC$Message;
+            if (!(tLObject instanceof TLRPC$messages_Messages)) {
+                if (i != this.searchId) {
+                    return;
+                }
+                done(true);
+                return;
+            }
+            TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
+            MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$messages_Messages.users, false);
+            MessagesController.getInstance(this.currentAccount).putChats(tLRPC$messages_Messages.chats, false);
+            messagesStorage.putUsersAndChats(tLRPC$messages_Messages.users, tLRPC$messages_Messages.chats, true, true);
+            messagesStorage.putMessages(tLRPC$messages_Messages, -j, -1, 0, false, 0, 0L);
+            if (i != this.searchId) {
+                return;
+            }
+            Iterator it = tLRPC$messages_Messages.messages.iterator();
+            while (true) {
+                if (!it.hasNext()) {
+                    tLRPC$Message = null;
+                    break;
+                }
+                tLRPC$Message = (TLRPC$Message) it.next();
+                if (tLRPC$Message.id == i2) {
+                    break;
+                }
+            }
+            if (tLRPC$Message != null) {
+                if (tLRPC$Message instanceof TLRPC$TL_messageEmpty) {
+                    this.messageObject = null;
+                } else {
+                    this.messageObject = new MessageObject(this.currentAccount, tLRPC$Message, true, true);
+                }
+                done(false);
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$fetch$1(final MessagesStorage messagesStorage, final long j, final int i, final int i2, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$0(tLObject, messagesStorage, j, i, i2);
+                }
+            });
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$fetch$2(final int i, TLRPC$Message tLRPC$Message, final long j, final int i2, final MessagesStorage messagesStorage) {
+            if (i != this.searchId) {
+                return;
+            }
+            MessageObject messageObject = tLRPC$Message != null ? new MessageObject(this.currentAccount, tLRPC$Message, true, true) : null;
+            if (messageObject != null) {
+                this.messageObject = messageObject;
                 done(false);
                 return;
             }
-            fetch(tLRPC$UserFull.personal_channel_id, tLRPC$UserFull.personal_channel_message);
-        }
-
-        public void fetch(final long j, final int i) {
-            if (this.loaded || this.loading) {
-                if (this.channel_id == j && this.message_id == i) {
-                    return;
-                }
-                this.loaded = false;
-                this.messageObject = null;
-            }
-            final int i2 = this.searchId + 1;
-            this.searchId = i2;
-            this.loading = true;
-            this.channel_id = j;
-            this.message_id = i;
-            final long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
-            final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$3(i, messagesStorage, j, clientUserId, i2);
+            TLRPC$TL_channels_getMessages tLRPC$TL_channels_getMessages = new TLRPC$TL_channels_getMessages();
+            tLRPC$TL_channels_getMessages.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(j);
+            tLRPC$TL_channels_getMessages.id.add(Integer.valueOf(i2));
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda2
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$1(messagesStorage, j, i, i2, tLObject, tLRPC$TL_error);
                 }
             });
         }
@@ -280,11 +173,7 @@ public class ProfileChannelCell extends FrameLayout {
             SQLiteCursor sQLiteCursor2 = null;
             try {
                 try {
-                    if (i <= 0) {
-                        sQLiteCursor = messagesStorage.getDatabase().queryFinalized("SELECT data, mid FROM messages_v2 WHERE uid = ? ORDER BY mid DESC LIMIT 1", Long.valueOf(-j));
-                    } else {
-                        sQLiteCursor = messagesStorage.getDatabase().queryFinalized("SELECT data, mid FROM messages_v2 WHERE uid = ? AND mid = ? LIMIT 1", Long.valueOf(-j), Integer.valueOf(i));
-                    }
+                    sQLiteCursor = i <= 0 ? messagesStorage.getDatabase().queryFinalized("SELECT data, mid FROM messages_v2 WHERE uid = ? ORDER BY mid DESC LIMIT 1", Long.valueOf(-j)) : messagesStorage.getDatabase().queryFinalized("SELECT data, mid FROM messages_v2 WHERE uid = ? AND mid = ? LIMIT 1", Long.valueOf(-j), Integer.valueOf(i));
                     try {
                         try {
                             ArrayList<Long> arrayList3 = new ArrayList<>();
@@ -302,10 +191,8 @@ public class ProfileChannelCell extends FrameLayout {
                                     e = e;
                                     sQLiteCursor2 = sQLiteCursor;
                                     FileLog.e(e);
-                                    if (sQLiteCursor2 != null) {
-                                        sQLiteCursor = sQLiteCursor2;
+                                    if (sQLiteCursor2 == null) {
                                         tLRPC$Message2 = tLRPC$Message;
-                                        sQLiteCursor.dispose();
                                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda1
                                             @Override // java.lang.Runnable
                                             public final void run() {
@@ -313,7 +200,9 @@ public class ProfileChannelCell extends FrameLayout {
                                             }
                                         });
                                     }
+                                    sQLiteCursor = sQLiteCursor2;
                                     tLRPC$Message2 = tLRPC$Message;
+                                    sQLiteCursor.dispose();
                                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda1
                                         @Override // java.lang.Runnable
                                         public final void run() {
@@ -362,73 +251,38 @@ public class ProfileChannelCell extends FrameLayout {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$fetch$2(final int i, TLRPC$Message tLRPC$Message, final long j, final int i2, final MessagesStorage messagesStorage) {
-            if (i != this.searchId) {
-                return;
-            }
-            MessageObject messageObject = tLRPC$Message != null ? new MessageObject(this.currentAccount, tLRPC$Message, true, true) : null;
-            if (messageObject != null) {
-                this.messageObject = messageObject;
-                done(false);
-                return;
-            }
-            TLRPC$TL_channels_getMessages tLRPC$TL_channels_getMessages = new TLRPC$TL_channels_getMessages();
-            tLRPC$TL_channels_getMessages.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(j);
-            tLRPC$TL_channels_getMessages.id.add(Integer.valueOf(i2));
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda2
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$1(messagesStorage, j, i, i2, tLObject, tLRPC$TL_error);
-                }
-            });
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$fetch$1(final MessagesStorage messagesStorage, final long j, final int i, final int i2, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda3
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$0(tLObject, messagesStorage, j, i, i2);
-                }
-            });
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$fetch$0(TLObject tLObject, MessagesStorage messagesStorage, long j, int i, int i2) {
-            TLRPC$Message tLRPC$Message;
-            if (tLObject instanceof TLRPC$messages_Messages) {
-                TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
-                MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$messages_Messages.users, false);
-                MessagesController.getInstance(this.currentAccount).putChats(tLRPC$messages_Messages.chats, false);
-                messagesStorage.putUsersAndChats(tLRPC$messages_Messages.users, tLRPC$messages_Messages.chats, true, true);
-                messagesStorage.putMessages(tLRPC$messages_Messages, -j, -1, 0, false, 0, 0L);
-                if (i != this.searchId) {
+        public void fetch(final long j, final int i) {
+            if (this.loaded || this.loading) {
+                if (this.channel_id == j && this.message_id == i) {
                     return;
                 }
-                Iterator<TLRPC$Message> it = tLRPC$messages_Messages.messages.iterator();
-                while (true) {
-                    if (!it.hasNext()) {
-                        tLRPC$Message = null;
-                        break;
-                    }
-                    tLRPC$Message = it.next();
-                    if (tLRPC$Message.id == i2) {
-                        break;
-                    }
-                }
-                if (tLRPC$Message != null) {
-                    if (tLRPC$Message instanceof TLRPC$TL_messageEmpty) {
-                        this.messageObject = null;
-                    } else {
-                        this.messageObject = new MessageObject(this.currentAccount, tLRPC$Message, true, true);
-                    }
-                    done(false);
-                }
-            } else if (i != this.searchId) {
-            } else {
-                done(true);
+                this.loaded = false;
+                this.messageObject = null;
             }
+            final int i2 = this.searchId + 1;
+            this.searchId = i2;
+            this.loading = true;
+            this.channel_id = j;
+            this.message_id = i;
+            final long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
+            final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
+            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$3(i, messagesStorage, j, clientUserId, i2);
+                }
+            });
+        }
+
+        public void fetch(TLRPC$UserFull tLRPC$UserFull) {
+            if (tLRPC$UserFull != null && (tLRPC$UserFull.flags2 & 64) != 0) {
+                fetch(tLRPC$UserFull.personal_channel_id, tLRPC$UserFull.personal_channel_message);
+                return;
+            }
+            this.searchId++;
+            this.loaded = true;
+            this.messageObject = null;
+            done(false);
         }
 
         public void subscribe(Runnable runnable) {
@@ -438,17 +292,170 @@ public class ProfileChannelCell extends FrameLayout {
                 this.callbacks.add(runnable);
             }
         }
+    }
 
-        private void done(boolean z) {
-            this.loading = false;
-            this.loaded = true;
-            this.error = z;
-            Iterator<Runnable> it = this.callbacks.iterator();
-            while (it.hasNext()) {
-                it.next().run();
+    public ProfileChannelCell(final BaseFragment baseFragment) {
+        super(baseFragment.getContext());
+        CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
+        this.loadingAlpha = new AnimatedFloat(320L, cubicBezierInterpolator);
+        this.set = false;
+        final Context context = baseFragment.getContext();
+        Theme.ResourcesProvider resourceProvider = baseFragment.getResourceProvider();
+        this.resourcesProvider = resourceProvider;
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(0);
+        addView(linearLayout, LayoutHelper.createFrame(-1, -2.0f, 55, 22.0f, 16.6f, 22.0f, 0.0f));
+        TextView textView = new TextView(context);
+        this.headerView = textView;
+        textView.setTypeface(AndroidUtilities.bold());
+        textView.setTextSize(1, 15.0f);
+        textView.setText(LocaleController.getString(R.string.ProfileChannel));
+        linearLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 51));
+        ClickableAnimatedTextView clickableAnimatedTextView = new ClickableAnimatedTextView(context);
+        this.subscribersView = clickableAnimatedTextView;
+        clickableAnimatedTextView.getDrawable().setHacks(true, true, true);
+        clickableAnimatedTextView.setAnimationProperties(0.3f, 0L, 165L, cubicBezierInterpolator);
+        clickableAnimatedTextView.setTypeface(AndroidUtilities.bold());
+        clickableAnimatedTextView.setTextSize(AndroidUtilities.dp(11.0f));
+        clickableAnimatedTextView.setPadding(AndroidUtilities.dp(4.33f), 0, AndroidUtilities.dp(4.33f), 0);
+        clickableAnimatedTextView.setGravity(3);
+        linearLayout.addView(clickableAnimatedTextView, LayoutHelper.createLinear(-1, 17, 51, 4, 2, 4, 0));
+        DialogCell dialogCell = new DialogCell(null, context, false, true, UserConfig.selectedAccount, resourceProvider);
+        this.dialogCell = dialogCell;
+        dialogCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+        dialogCell.setDialogCellDelegate(new DialogCell.DialogCellDelegate() { // from class: org.telegram.ui.Cells.ProfileChannelCell.1
+            @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
+            public boolean canClickButtonInside() {
+                return true;
             }
-            this.callbacks.clear();
+
+            @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
+            public void onButtonClicked(DialogCell dialogCell2) {
+            }
+
+            @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
+            public void onButtonLongPress(DialogCell dialogCell2) {
+            }
+
+            @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
+            public void openHiddenStories() {
+                StoriesController storiesController = baseFragment.getMessagesController().getStoriesController();
+                if (storiesController.getHiddenList().isEmpty()) {
+                    return;
+                }
+                boolean z = storiesController.getUnreadState(DialogObject.getPeerDialogId(((TL_stories$PeerStories) storiesController.getHiddenList().get(0)).peer)) != 0;
+                ArrayList arrayList = new ArrayList();
+                for (int i = 0; i < storiesController.getHiddenList().size(); i++) {
+                    long peerDialogId = DialogObject.getPeerDialogId(((TL_stories$PeerStories) storiesController.getHiddenList().get(i)).peer);
+                    if (!z || storiesController.getUnreadState(peerDialogId) != 0) {
+                        arrayList.add(Long.valueOf(peerDialogId));
+                    }
+                }
+                baseFragment.getOrCreateStoryViewer().open(context, null, arrayList, 0, null, null, StoriesListPlaceProvider.of(ProfileChannelCell.this), false);
+            }
+
+            @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
+            public void openStory(DialogCell dialogCell2, Runnable runnable) {
+                if (baseFragment.getMessagesController().getStoriesController().hasStories(dialogCell2.getDialogId())) {
+                    baseFragment.getOrCreateStoryViewer().doOnAnimationReady(runnable);
+                    baseFragment.getOrCreateStoryViewer().open(baseFragment.getContext(), dialogCell2.getDialogId(), StoriesListPlaceProvider.of(ProfileChannelCell.this));
+                }
+            }
+
+            @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
+            public void showChatPreview(DialogCell dialogCell2) {
+            }
+        });
+        dialogCell.avatarStart = 15;
+        dialogCell.messagePaddingStart = 83;
+        addView(dialogCell, LayoutHelper.createFrame(-1, -2, 87));
+        updateColors();
+        setWillNotDraw(false);
+        LoadingDrawable loadingDrawable = new LoadingDrawable();
+        this.loadingDrawable = loadingDrawable;
+        int i = Theme.key_listSelector;
+        loadingDrawable.setColors(Theme.multAlpha(Theme.getColor(i, resourceProvider), 1.25f), Theme.multAlpha(Theme.getColor(i, resourceProvider), 0.8f));
+        loadingDrawable.setRadiiDp(8.0f);
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+        float f = this.loadingAlpha.set(this.loading);
+        if (f > 0.0f) {
+            this.loadingDrawable.setAlpha((int) (f * 255.0f));
+            RectF rectF = AndroidUtilities.rectTmp;
+            rectF.set(this.dialogCell.getX() + AndroidUtilities.dp(this.dialogCell.messagePaddingStart + 6), this.dialogCell.getY() + AndroidUtilities.dp(38.0f), this.dialogCell.getX() + AndroidUtilities.dp(this.dialogCell.messagePaddingStart + 6) + (getWidth() * 0.5f), this.dialogCell.getY() + AndroidUtilities.dp(46.33f));
+            this.loadingDrawable.setBounds(rectF);
+            this.loadingDrawable.draw(canvas);
+            rectF.set(this.dialogCell.getX() + AndroidUtilities.dp(this.dialogCell.messagePaddingStart + 6), this.dialogCell.getY() + AndroidUtilities.dp(56.0f), this.dialogCell.getX() + AndroidUtilities.dp(this.dialogCell.messagePaddingStart + 6) + (getWidth() * 0.36f), this.dialogCell.getY() + AndroidUtilities.dp(64.33f));
+            this.loadingDrawable.setBounds(rectF);
+            this.loadingDrawable.draw(canvas);
+            rectF.set(((this.dialogCell.getX() + this.dialogCell.getWidth()) - AndroidUtilities.dp(16.0f)) - AndroidUtilities.dp(43.0f), this.dialogCell.getY() + AndroidUtilities.dp(12.0f), (this.dialogCell.getX() + this.dialogCell.getWidth()) - AndroidUtilities.dp(16.0f), this.dialogCell.getY() + AndroidUtilities.dp(20.33f));
+            this.loadingDrawable.setBounds(rectF);
+            this.loadingDrawable.draw(canvas);
+            invalidate();
         }
+    }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(115.66f), 1073741824));
+    }
+
+    public abstract int processColor(int i);
+
+    public void set(TLRPC$Chat tLRPC$Chat, MessageObject messageObject) {
+        String formatShortNumber;
+        DialogCell dialogCell;
+        long j;
+        int i;
+        boolean z;
+        MessageObject messageObject2;
+        boolean z2 = this.set;
+        boolean z3 = tLRPC$Chat == null || tLRPC$Chat.participants_count > 0;
+        this.subscribersView.cancelAnimation();
+        this.subscribersView.setPivotX(0.0f);
+        AnimatedTextView animatedTextView = this.subscribersView;
+        if (z2) {
+            animatedTextView.animate().alpha(z3 ? 1.0f : 0.0f).scaleX(z3 ? 1.0f : 0.8f).scaleY(z3 ? 1.0f : 0.8f).setDuration(420L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
+        } else {
+            animatedTextView.setAlpha(z3 ? 1.0f : 0.0f);
+            this.subscribersView.setScaleX(z3 ? 1.0f : 0.0f);
+            this.subscribersView.setScaleY(z3 ? 1.0f : 0.0f);
+        }
+        if (tLRPC$Chat != null) {
+            int[] iArr = new int[1];
+            if (AndroidUtilities.isAccessibilityScreenReaderEnabled()) {
+                int i2 = tLRPC$Chat.participants_count;
+                iArr[0] = i2;
+                formatShortNumber = String.valueOf(i2);
+            } else {
+                formatShortNumber = LocaleController.formatShortNumber(tLRPC$Chat.participants_count, iArr);
+            }
+            this.subscribersView.setText(LocaleController.formatPluralString("Subscribers", iArr[0], new Object[0]).replace(String.format("%d", Integer.valueOf(iArr[0])), formatShortNumber), true);
+            boolean z4 = messageObject == null;
+            this.loading = z4;
+            if (z4) {
+                dialogCell = this.dialogCell;
+                j = -tLRPC$Chat.id;
+                i = 0;
+                z = false;
+                messageObject2 = null;
+            } else {
+                dialogCell = this.dialogCell;
+                j = -tLRPC$Chat.id;
+                i = messageObject.messageOwner.date;
+                z = false;
+                messageObject2 = messageObject;
+            }
+            dialogCell.setDialog(j, messageObject2, i, z, z2);
+        }
+        if (!z2) {
+            this.loadingAlpha.set(this.loading, true);
+        }
+        invalidate();
+        this.set = true;
     }
 
     public void updateColors() {
@@ -456,5 +463,10 @@ public class ProfileChannelCell extends FrameLayout {
         this.subscribersView.setTextColor(processColor);
         this.subscribersView.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(4.5f), AndroidUtilities.dp(4.5f), Theme.multAlpha(processColor, 0.1f)));
         this.headerView.setTextColor(processColor);
+    }
+
+    @Override // android.view.View
+    protected boolean verifyDrawable(Drawable drawable) {
+        return this.loadingDrawable == drawable || super.verifyDrawable(drawable);
     }
 }

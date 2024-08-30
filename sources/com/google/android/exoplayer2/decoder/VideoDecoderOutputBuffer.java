@@ -16,39 +16,43 @@ public class VideoDecoderOutputBuffer extends DecoderOutputBuffer {
     public Format format;
     public int height;
     public int mode;
-    private final DecoderOutputBuffer.Owner<VideoDecoderOutputBuffer> owner;
+    private final DecoderOutputBuffer.Owner owner;
     public ByteBuffer supplementalData;
     public int width;
     public ByteBuffer[] yuvPlanes;
     public int[] yuvStrides;
 
-    public VideoDecoderOutputBuffer(DecoderOutputBuffer.Owner<VideoDecoderOutputBuffer> owner) {
+    public VideoDecoderOutputBuffer(DecoderOutputBuffer.Owner owner) {
         this.owner = owner;
     }
 
-    @Override // com.google.android.exoplayer2.decoder.DecoderOutputBuffer
-    public void release() {
-        this.owner.releaseOutputBuffer(this);
+    private static boolean isSafeToMultiply(int i, int i2) {
+        return i >= 0 && i2 >= 0 && (i2 <= 0 || i < ConnectionsManager.DEFAULT_DATACENTER_ID / i2);
     }
 
     public void init(long j, int i, ByteBuffer byteBuffer) {
         this.timeUs = j;
         this.mode = i;
-        if (byteBuffer != null && byteBuffer.hasRemaining()) {
-            addFlag(268435456);
-            int limit = byteBuffer.limit();
-            ByteBuffer byteBuffer2 = this.supplementalData;
-            if (byteBuffer2 == null || byteBuffer2.capacity() < limit) {
-                this.supplementalData = ByteBuffer.allocate(limit);
-            } else {
-                this.supplementalData.clear();
-            }
-            this.supplementalData.put(byteBuffer);
-            this.supplementalData.flip();
-            byteBuffer.position(0);
+        if (byteBuffer == null || !byteBuffer.hasRemaining()) {
+            this.supplementalData = null;
             return;
         }
-        this.supplementalData = null;
+        addFlag(268435456);
+        int limit = byteBuffer.limit();
+        ByteBuffer byteBuffer2 = this.supplementalData;
+        if (byteBuffer2 == null || byteBuffer2.capacity() < limit) {
+            this.supplementalData = ByteBuffer.allocate(limit);
+        } else {
+            this.supplementalData.clear();
+        }
+        this.supplementalData.put(byteBuffer);
+        this.supplementalData.flip();
+        byteBuffer.position(0);
+    }
+
+    public void initForPrivateFrame(int i, int i2) {
+        this.width = i;
+        this.height = i2;
     }
 
     public boolean initForYuvFrame(int i, int i2, int i3, int i4, int i5) {
@@ -97,12 +101,8 @@ public class VideoDecoderOutputBuffer extends DecoderOutputBuffer {
         return false;
     }
 
-    public void initForPrivateFrame(int i, int i2) {
-        this.width = i;
-        this.height = i2;
-    }
-
-    private static boolean isSafeToMultiply(int i, int i2) {
-        return i >= 0 && i2 >= 0 && (i2 <= 0 || i < ConnectionsManager.DEFAULT_DATACENTER_ID / i2);
+    @Override // com.google.android.exoplayer2.decoder.DecoderOutputBuffer
+    public void release() {
+        this.owner.releaseOutputBuffer(this);
     }
 }

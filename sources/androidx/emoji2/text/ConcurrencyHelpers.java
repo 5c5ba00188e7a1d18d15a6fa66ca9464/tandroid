@@ -8,7 +8,17 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 /* loaded from: classes.dex */
-class ConcurrencyHelpers {
+abstract class ConcurrencyHelpers {
+
+    /* loaded from: classes.dex */
+    static class Handler28Impl {
+        public static Handler createAsync(Looper looper) {
+            Handler createAsync;
+            createAsync = Handler.createAsync(looper);
+            return createAsync;
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public static ThreadPoolExecutor createBackgroundPriorityExecutor(final String str) {
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(0, 1, 15L, TimeUnit.SECONDS, new LinkedBlockingDeque(), new ThreadFactory() { // from class: androidx.emoji2.text.ConcurrencyHelpers$$ExternalSyntheticLambda0
@@ -32,18 +42,6 @@ class ConcurrencyHelpers {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static Handler mainHandlerAsync() {
-        if (Build.VERSION.SDK_INT >= 28) {
-            return Handler28Impl.createAsync(Looper.getMainLooper());
-        }
-        return new Handler(Looper.getMainLooper());
-    }
-
-    /* loaded from: classes.dex */
-    static class Handler28Impl {
-        public static Handler createAsync(Looper looper) {
-            Handler createAsync;
-            createAsync = Handler.createAsync(looper);
-            return createAsync;
-        }
+        return Build.VERSION.SDK_INT >= 28 ? Handler28Impl.createAsync(Looper.getMainLooper()) : new Handler(Looper.getMainLooper());
     }
 }

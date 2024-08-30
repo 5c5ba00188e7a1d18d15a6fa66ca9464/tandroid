@@ -1,5 +1,4 @@
 package com.google.android.gms.internal.mlkit_vision_label;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zzjx {
     private final Long zza;
@@ -27,27 +26,22 @@ public final class zzjx {
         this.zze = bool3;
     }
 
-    @zzcm(zza = 2)
     public final zzke zza() {
         return this.zzb;
     }
 
-    @zzcm(zza = 4)
     public final Boolean zzb() {
         return this.zzd;
     }
 
-    @zzcm(zza = 5)
     public final Boolean zzc() {
         return this.zze;
     }
 
-    @zzcm(zza = 3)
     public final Boolean zzd() {
         return this.zzc;
     }
 
-    @zzcm(zza = 1)
     public final Long zze() {
         return this.zza;
     }

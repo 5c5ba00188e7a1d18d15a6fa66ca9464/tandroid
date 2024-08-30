@@ -1,7 +1,7 @@
 package com.microsoft.appcenter.utils.async;
 /* loaded from: classes.dex */
-public interface AppCenterFuture<T> {
-    T get();
+public interface AppCenterFuture {
+    Object get();
 
-    void thenAccept(AppCenterConsumer<T> appCenterConsumer);
+    void thenAccept(AppCenterConsumer appCenterConsumer);
 }

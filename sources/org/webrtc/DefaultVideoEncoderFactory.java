@@ -9,18 +9,6 @@ public class DefaultVideoEncoderFactory implements VideoEncoderFactory {
     private final VideoEncoderFactory hardwareVideoEncoderFactory;
     private final VideoEncoderFactory softwareVideoEncoderFactory = new SoftwareVideoEncoderFactory();
 
-    @Override // org.webrtc.VideoEncoderFactory
-    public /* synthetic */ VideoEncoderFactory.VideoEncoderSelector getEncoderSelector() {
-        return VideoEncoderFactory.-CC.$default$getEncoderSelector(this);
-    }
-
-    @Override // org.webrtc.VideoEncoderFactory
-    public /* synthetic */ VideoCodecInfo[] getImplementations() {
-        VideoCodecInfo[] supportedCodecs;
-        supportedCodecs = getSupportedCodecs();
-        return supportedCodecs;
-    }
-
     public DefaultVideoEncoderFactory(EglBase.Context context, boolean z, boolean z2) {
         this.hardwareVideoEncoderFactory = new HardwareVideoEncoderFactory(context, z, z2);
     }
@@ -33,10 +21,19 @@ public class DefaultVideoEncoderFactory implements VideoEncoderFactory {
     public VideoEncoder createEncoder(VideoCodecInfo videoCodecInfo) {
         VideoEncoder createEncoder = this.softwareVideoEncoderFactory.createEncoder(videoCodecInfo);
         VideoEncoder createEncoder2 = this.hardwareVideoEncoderFactory.createEncoder(videoCodecInfo);
-        if (createEncoder2 == null || createEncoder == null) {
-            return createEncoder2 != null ? createEncoder2 : createEncoder;
-        }
-        return new VideoEncoderFallback(createEncoder, createEncoder2);
+        return (createEncoder2 == null || createEncoder == null) ? createEncoder2 != null ? createEncoder2 : createEncoder : new VideoEncoderFallback(createEncoder, createEncoder2);
+    }
+
+    @Override // org.webrtc.VideoEncoderFactory
+    public /* synthetic */ VideoEncoderFactory.VideoEncoderSelector getEncoderSelector() {
+        return VideoEncoderFactory.-CC.$default$getEncoderSelector(this);
+    }
+
+    @Override // org.webrtc.VideoEncoderFactory
+    public /* synthetic */ VideoCodecInfo[] getImplementations() {
+        VideoCodecInfo[] supportedCodecs;
+        supportedCodecs = getSupportedCodecs();
+        return supportedCodecs;
     }
 
     @Override // org.webrtc.VideoEncoderFactory

@@ -18,22 +18,20 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 class WithinAppServiceConnection implements ServiceConnection {
     private WithinAppServiceBinder binder;
     private boolean connectionInProgress;
     private final Intent connectionIntent;
     private final Context context;
-    private final Queue<BindRequest> intentQueue;
+    private final Queue intentQueue;
     private final ScheduledExecutorService scheduledExecutorService;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
     /* loaded from: classes.dex */
     public static class BindRequest {
         final Intent intent;
-        private final TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
+        private final TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
 
         BindRequest(Intent intent) {
             this.intent = intent;
@@ -73,7 +71,7 @@ class WithinAppServiceConnection implements ServiceConnection {
             this.taskCompletionSource.trySetResult(null);
         }
 
-        Task<Void> getTask() {
+        Task getTask() {
             return this.taskCompletionSource.getTask();
         }
 
@@ -94,9 +92,18 @@ class WithinAppServiceConnection implements ServiceConnection {
         this(context, "com.google.firebase.MESSAGING_EVENT", new ScheduledThreadPoolExecutor(0, new NamedThreadFactory("Firebase-FirebaseInstanceIdServiceConnection")));
     }
 
+    WithinAppServiceConnection(Context context, String str, ScheduledExecutorService scheduledExecutorService) {
+        this.intentQueue = new ArrayDeque();
+        this.connectionInProgress = false;
+        Context applicationContext = context.getApplicationContext();
+        this.context = applicationContext;
+        this.connectionIntent = new Intent("com.google.firebase.MESSAGING_EVENT").setPackage(applicationContext.getPackageName());
+        this.scheduledExecutorService = scheduledExecutorService;
+    }
+
     private void finishAllInQueue() {
         while (!this.intentQueue.isEmpty()) {
-            this.intentQueue.poll().finish();
+            ((BindRequest) this.intentQueue.poll()).finish();
         }
     }
 
@@ -110,15 +117,14 @@ class WithinAppServiceConnection implements ServiceConnection {
                     Log.d("FirebaseMessaging", "found intent to be delivered");
                 }
                 WithinAppServiceBinder withinAppServiceBinder = this.binder;
-                if (withinAppServiceBinder != null && withinAppServiceBinder.isBinderAlive()) {
-                    if (Log.isLoggable("FirebaseMessaging", 3)) {
-                        Log.d("FirebaseMessaging", "binder is alive, sending the intent.");
-                    }
-                    this.binder.send(this.intentQueue.poll());
-                } else {
+                if (withinAppServiceBinder == null || !withinAppServiceBinder.isBinderAlive()) {
                     startConnectionIfNeeded();
                     return;
                 }
+                if (Log.isLoggable("FirebaseMessaging", 3)) {
+                    Log.d("FirebaseMessaging", "binder is alive, sending the intent.");
+                }
+                this.binder.send((BindRequest) this.intentQueue.poll());
             }
         } catch (Throwable th) {
             throw th;
@@ -160,17 +166,17 @@ class WithinAppServiceConnection implements ServiceConnection {
                 Log.d("FirebaseMessaging", sb.toString());
             }
             this.connectionInProgress = false;
-            if (!(iBinder instanceof WithinAppServiceBinder)) {
-                String valueOf2 = String.valueOf(iBinder);
-                StringBuilder sb2 = new StringBuilder(valueOf2.length() + 28);
-                sb2.append("Invalid service connection: ");
-                sb2.append(valueOf2);
-                Log.e("FirebaseMessaging", sb2.toString());
-                finishAllInQueue();
+            if (iBinder instanceof WithinAppServiceBinder) {
+                this.binder = (WithinAppServiceBinder) iBinder;
+                flushQueue();
                 return;
             }
-            this.binder = (WithinAppServiceBinder) iBinder;
-            flushQueue();
+            String valueOf2 = String.valueOf(iBinder);
+            StringBuilder sb2 = new StringBuilder(valueOf2.length() + 28);
+            sb2.append("Invalid service connection: ");
+            sb2.append(valueOf2);
+            Log.e("FirebaseMessaging", sb2.toString());
+            finishAllInQueue();
         } catch (Throwable th) {
             throw th;
         }
@@ -189,7 +195,7 @@ class WithinAppServiceConnection implements ServiceConnection {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized Task<Void> sendIntent(Intent intent) {
+    public synchronized Task sendIntent(Intent intent) {
         BindRequest bindRequest;
         try {
             if (Log.isLoggable("FirebaseMessaging", 3)) {
@@ -203,14 +209,5 @@ class WithinAppServiceConnection implements ServiceConnection {
             throw th;
         }
         return bindRequest.getTask();
-    }
-
-    WithinAppServiceConnection(Context context, String str, ScheduledExecutorService scheduledExecutorService) {
-        this.intentQueue = new ArrayDeque();
-        this.connectionInProgress = false;
-        Context applicationContext = context.getApplicationContext();
-        this.context = applicationContext;
-        this.connectionIntent = new Intent("com.google.firebase.MESSAGING_EVENT").setPackage(applicationContext.getPackageName());
-        this.scheduledExecutorService = scheduledExecutorService;
     }
 }

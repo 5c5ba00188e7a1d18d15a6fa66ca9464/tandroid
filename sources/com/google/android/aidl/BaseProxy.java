@@ -3,16 +3,15 @@ package com.google.android.aidl;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
-import android.os.RemoteException;
 /* loaded from: classes.dex */
 public abstract class BaseProxy implements IInterface {
     private final String mDescriptor;
     private final IBinder mRemote;
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public BaseProxy(IBinder remote, String descriptor) {
-        this.mRemote = remote;
-        this.mDescriptor = descriptor;
+    public BaseProxy(IBinder iBinder, String str) {
+        this.mRemote = iBinder;
+        this.mDescriptor = str;
     }
 
     @Override // android.os.IInterface
@@ -28,11 +27,11 @@ public abstract class BaseProxy implements IInterface {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public Parcel transactAndReadException(int code, Parcel in) throws RemoteException {
+    public Parcel transactAndReadException(int i, Parcel parcel) {
         Parcel obtain = Parcel.obtain();
         try {
             try {
-                this.mRemote.transact(code, in, obtain, 0);
+                this.mRemote.transact(i, parcel, obtain, 0);
                 obtain.readException();
                 return obtain;
             } catch (RuntimeException e) {
@@ -40,7 +39,7 @@ public abstract class BaseProxy implements IInterface {
                 throw e;
             }
         } finally {
-            in.recycle();
+            parcel.recycle();
         }
     }
 }

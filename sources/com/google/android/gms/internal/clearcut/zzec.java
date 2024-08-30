@@ -16,23 +16,17 @@ public final class zzec implements zzdm {
     }
 
     public final int getFieldCount() {
-        int i;
-        i = this.zzng.zznj;
-        return i;
+        return zzed.zzd(this.zzng);
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzdm
     public final int zzcf() {
-        int i;
-        i = this.zzng.flags;
-        return (i & 1) == 1 ? zzcg.zzg.zzkl : zzcg.zzg.zzkm;
+        return (zzed.zza(this.zzng) & 1) == 1 ? zzcg.zzg.zzkl : zzcg.zzg.zzkm;
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzdm
     public final boolean zzcg() {
-        int i;
-        i = this.zzng.flags;
-        return (i & 2) == 2;
+        return (zzed.zza(this.zzng) & 2) == 2;
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzdm
@@ -46,45 +40,31 @@ public final class zzec implements zzdm {
     }
 
     public final int zzcp() {
-        int i;
-        i = this.zzng.zzmk;
-        return i;
+        return zzed.zzb(this.zzng);
     }
 
     public final int zzcq() {
-        int i;
-        i = this.zzng.zzml;
-        return i;
+        return zzed.zzc(this.zzng);
     }
 
     public final int zzcr() {
-        int i;
-        i = this.zzng.zznm;
-        return i;
+        return zzed.zze(this.zzng);
     }
 
     public final int zzcs() {
-        int i;
-        i = this.zzng.zzno;
-        return i;
+        return zzed.zzf(this.zzng);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final int[] zzct() {
-        int[] iArr;
-        iArr = this.zzng.zzms;
-        return iArr;
+        return zzed.zzg(this.zzng);
     }
 
     public final int zzcu() {
-        int i;
-        i = this.zzng.zznn;
-        return i;
+        return zzed.zzh(this.zzng);
     }
 
     public final int zzcv() {
-        int i;
-        i = this.zzng.zzmm;
-        return i;
+        return zzed.zzi(this.zzng);
     }
 }

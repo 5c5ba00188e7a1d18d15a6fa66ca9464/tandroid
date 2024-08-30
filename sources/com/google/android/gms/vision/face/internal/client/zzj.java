@@ -2,10 +2,8 @@ package com.google.android.gms.vision.face.internal.client;
 
 import android.os.IBinder;
 import android.os.Parcel;
-import android.os.RemoteException;
 import com.google.android.gms.dynamic.IObjectWrapper;
 import com.google.android.gms.internal.vision.zzs;
-/* compiled from: com.google.android.gms:play-services-vision@@20.1.3 */
 /* loaded from: classes.dex */
 public final class zzj extends com.google.android.gms.internal.vision.zzb implements zzh {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -14,18 +12,12 @@ public final class zzj extends com.google.android.gms.internal.vision.zzb implem
     }
 
     @Override // com.google.android.gms.vision.face.internal.client.zzh
-    public final FaceParcel[] zza(IObjectWrapper iObjectWrapper, zzs zzsVar) throws RemoteException {
-        Parcel a_ = a_();
-        com.google.android.gms.internal.vision.zzd.zza(a_, iObjectWrapper);
-        com.google.android.gms.internal.vision.zzd.zza(a_, zzsVar);
-        Parcel zza = zza(1, a_);
-        FaceParcel[] faceParcelArr = (FaceParcel[]) zza.createTypedArray(FaceParcel.CREATOR);
-        zza.recycle();
-        return faceParcelArr;
+    public final void zza() {
+        zzb(3, a_());
     }
 
     @Override // com.google.android.gms.vision.face.internal.client.zzh
-    public final FaceParcel[] zza(IObjectWrapper iObjectWrapper, IObjectWrapper iObjectWrapper2, IObjectWrapper iObjectWrapper3, int i, int i2, int i3, int i4, int i5, int i6, zzs zzsVar) throws RemoteException {
+    public final FaceParcel[] zza(IObjectWrapper iObjectWrapper, IObjectWrapper iObjectWrapper2, IObjectWrapper iObjectWrapper3, int i, int i2, int i3, int i4, int i5, int i6, zzs zzsVar) {
         Parcel a_ = a_();
         com.google.android.gms.internal.vision.zzd.zza(a_, iObjectWrapper);
         com.google.android.gms.internal.vision.zzd.zza(a_, iObjectWrapper2);
@@ -44,7 +36,13 @@ public final class zzj extends com.google.android.gms.internal.vision.zzb implem
     }
 
     @Override // com.google.android.gms.vision.face.internal.client.zzh
-    public final void zza() throws RemoteException {
-        zzb(3, a_());
+    public final FaceParcel[] zza(IObjectWrapper iObjectWrapper, zzs zzsVar) {
+        Parcel a_ = a_();
+        com.google.android.gms.internal.vision.zzd.zza(a_, iObjectWrapper);
+        com.google.android.gms.internal.vision.zzd.zza(a_, zzsVar);
+        Parcel zza = zza(1, a_);
+        FaceParcel[] faceParcelArr = (FaceParcel[]) zza.createTypedArray(FaceParcel.CREATOR);
+        zza.recycle();
+        return faceParcelArr;
     }
 }

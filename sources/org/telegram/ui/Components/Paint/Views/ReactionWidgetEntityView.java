@@ -36,24 +36,56 @@ public class ReactionWidgetEntityView extends EntityView {
     ReactionImageHolder reactionHolder;
     StoryReactionWidgetBackground storyReactionWidgetBackground;
 
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected boolean allowHaptic() {
-        return false;
-    }
+    /* loaded from: classes3.dex */
+    public class StickerViewSelectionView extends EntityView.SelectionView {
+        private RectF arcRect;
 
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    public boolean allowLongPressOnSelected() {
-        return true;
-    }
+        public StickerViewSelectionView(Context context) {
+            super(context);
+            this.arcRect = new RectF();
+        }
 
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected float getMaxScale() {
-        return 1.8f;
-    }
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            int saveCount = canvas.getSaveCount();
+            float showAlpha = getShowAlpha();
+            if (showAlpha <= 0.0f) {
+                return;
+            }
+            if (showAlpha < 1.0f) {
+                canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), (int) (showAlpha * 255.0f), 31);
+            }
+            float dpf2 = AndroidUtilities.dpf2(5.66f);
+            float dp = AndroidUtilities.dp(1.0f) + dpf2 + AndroidUtilities.dp(15.0f);
+            float measuredWidth = (getMeasuredWidth() / 2) - dp;
+            float f = dp + (2.0f * measuredWidth);
+            this.arcRect.set(dp, dp, f, f);
+            canvas.drawArc(this.arcRect, 0.0f, 180.0f, false, this.paint);
+            canvas.drawArc(this.arcRect, 180.0f, 180.0f, false, this.paint);
+            float f2 = measuredWidth + dp;
+            canvas.drawCircle(dp, f2, dpf2, this.dotStrokePaint);
+            canvas.drawCircle(dp, f2, dpf2 - AndroidUtilities.dp(1.0f), this.dotPaint);
+            canvas.drawCircle(f, f2, dpf2, this.dotStrokePaint);
+            canvas.drawCircle(f, f2, dpf2 - AndroidUtilities.dp(1.0f), this.dotPaint);
+            canvas.restoreToCount(saveCount);
+        }
 
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected float getMinScale() {
-        return 0.5f;
+        @Override // org.telegram.ui.Components.Paint.Views.EntityView.SelectionView
+        protected int pointInsideHandle(float f, float f2) {
+            float dp = AndroidUtilities.dp(19.5f);
+            float dp2 = AndroidUtilities.dp(1.0f) + dp;
+            float f3 = dp2 * 2.0f;
+            float measuredHeight = ((getMeasuredHeight() - f3) / 2.0f) + dp2;
+            if (f <= dp2 - dp || f2 <= measuredHeight - dp || f >= dp2 + dp || f2 >= measuredHeight + dp) {
+                if (f <= ((getMeasuredWidth() - f3) + dp2) - dp || f2 <= measuredHeight - dp || f >= dp2 + (getMeasuredWidth() - f3) + dp || f2 >= measuredHeight + dp) {
+                    float measuredWidth = getMeasuredWidth() / 2.0f;
+                    return Math.pow((double) (f - measuredWidth), 2.0d) + Math.pow((double) (f2 - measuredWidth), 2.0d) < Math.pow((double) measuredWidth, 2.0d) ? 3 : 0;
+                }
+                return 2;
+            }
+            return 1;
+        }
     }
 
     public ReactionWidgetEntityView(Context context, Point point, Size size) {
@@ -77,27 +109,71 @@ public class ReactionWidgetEntityView extends EntityView {
         updatePosition();
     }
 
-    private String findHeartReaction(List<TLRPC$TL_availableReaction> list) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).title.equals("Red Heart")) {
-                return list.get(i).reaction;
+    private String findHeartReaction(List list) {
+        Object obj;
+        int i = 0;
+        while (true) {
+            if (i >= list.size()) {
+                obj = list.get(0);
+                break;
+            } else if (((TLRPC$TL_availableReaction) list.get(i)).title.equals("Red Heart")) {
+                obj = list.get(i);
+                break;
+            } else {
+                i++;
             }
         }
-        return list.get(0).reaction;
+        return ((TLRPC$TL_availableReaction) obj).reaction;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$mirror$0(boolean[] zArr, ValueAnimator valueAnimator) {
+        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        if (floatValue < 0.5f) {
+            float f = floatValue / 0.5f;
+            setRotationY(90.0f * f);
+            this.drawScale = ((1.0f - f) * 0.3f) + 0.7f;
+        } else {
+            if (!zArr[0]) {
+                zArr[0] = true;
+                this.storyReactionWidgetBackground.setMirror(this.mirror, false);
+            }
+            float f2 = (floatValue - 0.5f) / 0.5f;
+            setRotationY((1.0f - f2) * (-90.0f));
+            this.drawScale = (f2 * 0.3f) + 0.7f;
+        }
+        invalidate();
+    }
+
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    public void updatePosition() {
-        Size size = this.baseSize;
-        setX(getPositionX() - (size.width / 2.0f));
-        setY(getPositionY() - (size.height / 2.0f));
-        updateSelectionView();
+    protected boolean allowHaptic() {
+        return false;
     }
 
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) this.baseSize.width, 1073741824), View.MeasureSpec.makeMeasureSpec((int) this.baseSize.height, 1073741824));
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    public boolean allowLongPressOnSelected() {
+        return true;
+    }
+
+    public void changeStyle(boolean z) {
+        if (z) {
+            this.outBackground = this.storyReactionWidgetBackground;
+            this.storyReactionWidgetBackground = new StoryReactionWidgetBackground(this);
+            if (!this.outBackground.isDarkStyle()) {
+                this.storyReactionWidgetBackground.nextStyle();
+            }
+            this.storyReactionWidgetBackground.setMirror(this.mirror, false);
+            this.storyReactionWidgetBackground.updateShadowLayer(getScaleX());
+            this.crossfadeBackgrounds.set(0.0f, true);
+        } else {
+            this.storyReactionWidgetBackground.nextStyle();
+        }
+        invalidate();
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected EntityView.SelectionView createSelectionView() {
+        return new StickerViewSelectionView(getContext());
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView, android.view.ViewGroup, android.view.View
@@ -148,6 +224,20 @@ public class ReactionWidgetEntityView extends EntityView {
         canvas.restore();
     }
 
+    public ReactionsLayoutInBubble.VisibleReaction getCurrentReaction() {
+        return this.currentReaction;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getMaxScale() {
+        return 1.8f;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getMinScale() {
+        return 0.5f;
+    }
+
     public int getPadding() {
         return (int) ((this.baseSize.height - AndroidUtilities.dp(84.0f)) / 2.0f);
     }
@@ -165,46 +255,12 @@ public class ReactionWidgetEntityView extends EntityView {
         return new org.telegram.ui.Components.Rect((getPositionX() - f) * scaleX, (getPositionY() - f) * scaleX, f2, f2);
     }
 
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected EntityView.SelectionView createSelectionView() {
-        return new StickerViewSelectionView(getContext());
+    public boolean isDark() {
+        return this.storyReactionWidgetBackground.isDarkStyle();
     }
 
-    public void setCurrentReaction(ReactionsLayoutInBubble.VisibleReaction visibleReaction, boolean z) {
-        if (Objects.equals(this.currentReaction, visibleReaction)) {
-            return;
-        }
-        if (!z) {
-            this.currentReaction = visibleReaction;
-            this.reactionHolder.setVisibleReaction(visibleReaction);
-            invalidate();
-            return;
-        }
-        this.currentReaction = visibleReaction;
-        this.nextReactionHolder.setVisibleReaction(visibleReaction);
-        ReactionImageHolder reactionImageHolder = this.reactionHolder;
-        this.reactionHolder = this.nextReactionHolder;
-        this.nextReactionHolder = reactionImageHolder;
-        this.progressToNext.set(0.0f, true);
-        invalidate();
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        this.reactionHolder.onAttachedToWindow(true);
-        this.nextReactionHolder.onAttachedToWindow(true);
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        this.reactionHolder.onAttachedToWindow(false);
-        this.nextReactionHolder.onAttachedToWindow(false);
-    }
-
-    public ReactionsLayoutInBubble.VisibleReaction getCurrentReaction() {
-        return this.currentReaction;
+    public boolean isMirrored() {
+        return this.mirror;
     }
 
     public void mirror(boolean z) {
@@ -240,100 +296,40 @@ public class ReactionWidgetEntityView extends EntityView {
         ofFloat.start();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$mirror$0(boolean[] zArr, ValueAnimator valueAnimator) {
-        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        if (floatValue < 0.5f) {
-            float f = floatValue / 0.5f;
-            setRotationY(90.0f * f);
-            this.drawScale = ((1.0f - f) * 0.3f) + 0.7f;
-            invalidate();
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        this.reactionHolder.onAttachedToWindow(true);
+        this.nextReactionHolder.onAttachedToWindow(true);
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        this.reactionHolder.onAttachedToWindow(false);
+        this.nextReactionHolder.onAttachedToWindow(false);
+    }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) this.baseSize.width, 1073741824), View.MeasureSpec.makeMeasureSpec((int) this.baseSize.height, 1073741824));
+    }
+
+    public void setCurrentReaction(ReactionsLayoutInBubble.VisibleReaction visibleReaction, boolean z) {
+        if (Objects.equals(this.currentReaction, visibleReaction)) {
             return;
         }
-        if (!zArr[0]) {
-            zArr[0] = true;
-            this.storyReactionWidgetBackground.setMirror(this.mirror, false);
-        }
-        float f2 = (floatValue - 0.5f) / 0.5f;
-        setRotationY((1.0f - f2) * (-90.0f));
-        this.drawScale = (f2 * 0.3f) + 0.7f;
-        invalidate();
-    }
-
-    public void changeStyle(boolean z) {
-        if (!z) {
-            this.storyReactionWidgetBackground.nextStyle();
+        this.currentReaction = visibleReaction;
+        if (z) {
+            this.nextReactionHolder.setVisibleReaction(visibleReaction);
+            ReactionImageHolder reactionImageHolder = this.reactionHolder;
+            this.reactionHolder = this.nextReactionHolder;
+            this.nextReactionHolder = reactionImageHolder;
+            this.progressToNext.set(0.0f, true);
         } else {
-            this.outBackground = this.storyReactionWidgetBackground;
-            this.storyReactionWidgetBackground = new StoryReactionWidgetBackground(this);
-            if (!this.outBackground.isDarkStyle()) {
-                this.storyReactionWidgetBackground.nextStyle();
-            }
-            this.storyReactionWidgetBackground.setMirror(this.mirror, false);
-            this.storyReactionWidgetBackground.updateShadowLayer(getScaleX());
-            this.crossfadeBackgrounds.set(0.0f, true);
+            this.reactionHolder.setVisibleReaction(visibleReaction);
         }
         invalidate();
-    }
-
-    public boolean isMirrored() {
-        return this.mirror;
-    }
-
-    public boolean isDark() {
-        return this.storyReactionWidgetBackground.isDarkStyle();
-    }
-
-    /* loaded from: classes3.dex */
-    public class StickerViewSelectionView extends EntityView.SelectionView {
-        private RectF arcRect;
-
-        public StickerViewSelectionView(Context context) {
-            super(context);
-            this.arcRect = new RectF();
-        }
-
-        @Override // org.telegram.ui.Components.Paint.Views.EntityView.SelectionView
-        protected int pointInsideHandle(float f, float f2) {
-            float dp = AndroidUtilities.dp(19.5f);
-            float dp2 = AndroidUtilities.dp(1.0f) + dp;
-            float f3 = dp2 * 2.0f;
-            float measuredHeight = ((getMeasuredHeight() - f3) / 2.0f) + dp2;
-            if (f <= dp2 - dp || f2 <= measuredHeight - dp || f >= dp2 + dp || f2 >= measuredHeight + dp) {
-                if (f <= ((getMeasuredWidth() - f3) + dp2) - dp || f2 <= measuredHeight - dp || f >= dp2 + (getMeasuredWidth() - f3) + dp || f2 >= measuredHeight + dp) {
-                    float measuredWidth = getMeasuredWidth() / 2.0f;
-                    return Math.pow((double) (f - measuredWidth), 2.0d) + Math.pow((double) (f2 - measuredWidth), 2.0d) < Math.pow((double) measuredWidth, 2.0d) ? 3 : 0;
-                }
-                return 2;
-            }
-            return 1;
-        }
-
-        @Override // android.view.View
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            int saveCount = canvas.getSaveCount();
-            float showAlpha = getShowAlpha();
-            if (showAlpha <= 0.0f) {
-                return;
-            }
-            if (showAlpha < 1.0f) {
-                canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), (int) (showAlpha * 255.0f), 31);
-            }
-            float dpf2 = AndroidUtilities.dpf2(5.66f);
-            float dp = AndroidUtilities.dp(1.0f) + dpf2 + AndroidUtilities.dp(15.0f);
-            float measuredWidth = (getMeasuredWidth() / 2) - dp;
-            float f = dp + (2.0f * measuredWidth);
-            this.arcRect.set(dp, dp, f, f);
-            canvas.drawArc(this.arcRect, 0.0f, 180.0f, false, this.paint);
-            canvas.drawArc(this.arcRect, 180.0f, 180.0f, false, this.paint);
-            float f2 = measuredWidth + dp;
-            canvas.drawCircle(dp, f2, dpf2, this.dotStrokePaint);
-            canvas.drawCircle(dp, f2, dpf2 - AndroidUtilities.dp(1.0f), this.dotPaint);
-            canvas.drawCircle(f, f2, dpf2, this.dotStrokePaint);
-            canvas.drawCircle(f, f2, dpf2 - AndroidUtilities.dp(1.0f), this.dotPaint);
-            canvas.restoreToCount(saveCount);
-        }
     }
 
     @Override // android.view.View
@@ -343,5 +339,14 @@ public class ReactionWidgetEntityView extends EntityView {
             this.storyReactionWidgetBackground.updateShadowLayer(f);
             invalidate();
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    public void updatePosition() {
+        Size size = this.baseSize;
+        setX(getPositionX() - (size.width / 2.0f));
+        setY(getPositionY() - (size.height / 2.0f));
+        updateSelectionView();
     }
 }

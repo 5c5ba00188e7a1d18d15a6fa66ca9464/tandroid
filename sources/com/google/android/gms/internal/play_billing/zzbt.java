@@ -9,7 +9,6 @@ jadx.core.utils.exceptions.JadxRuntimeException: Init of enum zza uses external 
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzbt {
     public static final zzbt zzA;
@@ -193,13 +192,7 @@ public final class zzbt {
         this.zzac = i2;
         this.zzab = zzcjVar;
         int i4 = i3 - 1;
-        if (i4 == 1) {
-            this.zzad = zzcjVar.zza();
-        } else if (i4 != 3) {
-            this.zzad = null;
-        } else {
-            this.zzad = zzcjVar.zza();
-        }
+        this.zzad = (i4 == 1 || i4 == 3) ? zzcjVar.zza() : null;
         if (i3 == 1) {
             zzcj zzcjVar2 = zzcj.zza;
             zzcjVar.ordinal();

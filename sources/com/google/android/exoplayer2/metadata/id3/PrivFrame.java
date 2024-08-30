@@ -6,7 +6,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class PrivFrame extends Id3Frame {
-    public static final Parcelable.Creator<PrivFrame> CREATOR = new Parcelable.Creator<PrivFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.PrivFrame.1
+    public static final Parcelable.Creator<PrivFrame> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.id3.PrivFrame.1
         @Override // android.os.Parcelable.Creator
         public PrivFrame createFromParcel(Parcel parcel) {
             return new PrivFrame(parcel);
@@ -20,16 +20,16 @@ public final class PrivFrame extends Id3Frame {
     public final String owner;
     public final byte[] privateData;
 
-    public PrivFrame(String str, byte[] bArr) {
-        super("PRIV");
-        this.owner = str;
-        this.privateData = bArr;
-    }
-
     PrivFrame(Parcel parcel) {
         super("PRIV");
         this.owner = (String) Util.castNonNull(parcel.readString());
         this.privateData = (byte[]) Util.castNonNull(parcel.createByteArray());
+    }
+
+    public PrivFrame(String str, byte[] bArr) {
+        super("PRIV");
+        this.owner = str;
+        this.privateData = bArr;
     }
 
     public boolean equals(Object obj) {

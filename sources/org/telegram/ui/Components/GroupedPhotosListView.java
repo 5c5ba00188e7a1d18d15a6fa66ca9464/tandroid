@@ -32,8 +32,8 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
     private long currentGroupId;
     private int currentImage;
     private float currentItemProgress;
-    private ArrayList<Object> currentObjects;
-    public ArrayList<ImageLocation> currentPhotos;
+    private ArrayList currentObjects;
+    public ArrayList currentPhotos;
     private GroupedPhotosListViewDelegate delegate;
     private float drawAlpha;
     private int drawDx;
@@ -41,7 +41,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
     private boolean hasPhotos;
     private ValueAnimator hideAnimator;
     private boolean ignoreChanges;
-    private ArrayList<ImageReceiver> imagesToDraw;
+    private ArrayList imagesToDraw;
     private int itemHeight;
     private int itemSpacing;
     private int itemWidth;
@@ -56,7 +56,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
     private boolean scrolling;
     private ValueAnimator showAnimator;
     private boolean stopedScrolling;
-    private ArrayList<ImageReceiver> unusedReceivers;
+    private ArrayList unusedReceivers;
 
     /* loaded from: classes3.dex */
     public interface GroupedPhotosListViewDelegate {
@@ -68,11 +68,11 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
 
         int getCurrentIndex();
 
-        ArrayList<MessageObject> getImagesArr();
+        ArrayList getImagesArr();
 
-        ArrayList<ImageLocation> getImagesArrLocations();
+        ArrayList getImagesArrLocations();
 
-        List<TLRPC$PageBlock> getPageBlockArr();
+        List getPageBlockArr();
 
         Object getParentObject();
 
@@ -85,21 +85,13 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
         void setCurrentIndex(int i);
     }
 
-    @Override // android.view.GestureDetector.OnGestureListener
-    public void onLongPress(MotionEvent motionEvent) {
-    }
-
-    @Override // android.view.GestureDetector.OnGestureListener
-    public void onShowPress(MotionEvent motionEvent) {
-    }
-
     public GroupedPhotosListView(Context context, int i) {
         super(context);
         this.backgroundPaint = new Paint();
-        this.unusedReceivers = new ArrayList<>();
-        this.imagesToDraw = new ArrayList<>();
-        this.currentPhotos = new ArrayList<>();
-        this.currentObjects = new ArrayList<>();
+        this.unusedReceivers = new ArrayList();
+        this.imagesToDraw = new ArrayList();
+        this.currentPhotos = new ArrayList();
+        this.currentObjects = new ArrayList();
         this.currentItemProgress = 1.0f;
         this.nextItemProgress = 0.0f;
         this.animateToItem = -1;
@@ -113,6 +105,207 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
         this.itemSpacing = AndroidUtilities.dp(1.0f);
         this.itemY = i;
         this.backgroundPaint.setColor(2130706432);
+    }
+
+    private void fillImages(boolean z, int i) {
+        int i2;
+        int i3;
+        Object obj;
+        Object obj2;
+        if (!z && !this.imagesToDraw.isEmpty()) {
+            this.unusedReceivers.addAll(this.imagesToDraw);
+            this.imagesToDraw.clear();
+            this.moving = false;
+            this.moveLineProgress = 1.0f;
+            this.currentItemProgress = 1.0f;
+            this.nextItemProgress = 0.0f;
+        }
+        invalidate();
+        if (getMeasuredWidth() == 0 || this.currentPhotos.isEmpty()) {
+            return;
+        }
+        int measuredWidth = getMeasuredWidth();
+        int measuredWidth2 = (getMeasuredWidth() / 2) - (this.itemWidth / 2);
+        if (z) {
+            int size = this.imagesToDraw.size();
+            int i4 = 0;
+            i2 = Integer.MIN_VALUE;
+            i3 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+            while (i4 < size) {
+                ImageReceiver imageReceiver = (ImageReceiver) this.imagesToDraw.get(i4);
+                int param = imageReceiver.getParam();
+                int i5 = this.itemWidth;
+                int i6 = ((param - this.currentImage) * (this.itemSpacing + i5)) + measuredWidth2 + i;
+                if (i6 > measuredWidth || i6 + i5 < 0) {
+                    this.unusedReceivers.add(imageReceiver);
+                    this.imagesToDraw.remove(i4);
+                    size--;
+                    i4--;
+                }
+                i3 = Math.min(i3, param - 1);
+                i2 = Math.max(i2, param + 1);
+                i4++;
+            }
+        } else {
+            i2 = this.currentImage;
+            i3 = i2 - 1;
+        }
+        if (i2 != Integer.MIN_VALUE) {
+            int size2 = this.currentPhotos.size();
+            while (i2 < size2) {
+                int i7 = ((i2 - this.currentImage) * (this.itemWidth + this.itemSpacing)) + measuredWidth2 + i;
+                if (i7 >= measuredWidth) {
+                    break;
+                }
+                ImageLocation imageLocation = (ImageLocation) this.currentPhotos.get(i2);
+                ImageReceiver freeReceiver = getFreeReceiver();
+                freeReceiver.setImageCoords(i7, this.itemY, this.itemWidth, this.itemHeight);
+                if (this.currentObjects.get(0) instanceof MessageObject) {
+                    obj2 = this.currentObjects.get(i2);
+                } else if (this.currentObjects.get(0) instanceof TLRPC$PageBlock) {
+                    obj2 = this.delegate.getParentObject();
+                } else {
+                    obj2 = "avatar_" + this.delegate.getAvatarsDialogId();
+                }
+                freeReceiver.setImage(null, null, imageLocation, "80_80", 0L, null, obj2, 1);
+                freeReceiver.setParam(i2);
+                i2++;
+            }
+        }
+        if (i3 != Integer.MAX_VALUE) {
+            while (i3 >= 0) {
+                int i8 = this.itemWidth;
+                int i9 = ((i3 - this.currentImage) * (this.itemSpacing + i8)) + measuredWidth2 + i + i8;
+                if (i9 <= 0) {
+                    break;
+                }
+                ImageLocation imageLocation2 = (ImageLocation) this.currentPhotos.get(i3);
+                ImageReceiver freeReceiver2 = getFreeReceiver();
+                freeReceiver2.setImageCoords(i9, this.itemY, this.itemWidth, this.itemHeight);
+                if (this.currentObjects.get(0) instanceof MessageObject) {
+                    obj = this.currentObjects.get(i3);
+                } else if (this.currentObjects.get(0) instanceof TLRPC$PageBlock) {
+                    obj = this.delegate.getParentObject();
+                } else {
+                    obj = "avatar_" + this.delegate.getAvatarsDialogId();
+                }
+                freeReceiver2.setImage(null, null, imageLocation2, "80_80", 0L, null, obj, 1);
+                freeReceiver2.setParam(i3);
+                i3--;
+            }
+        }
+        ValueAnimator valueAnimator = this.showAnimator;
+        if (valueAnimator == null || valueAnimator.isStarted()) {
+            return;
+        }
+        this.showAnimator.start();
+    }
+
+    private ImageReceiver getFreeReceiver() {
+        ImageReceiver imageReceiver;
+        if (this.unusedReceivers.isEmpty()) {
+            imageReceiver = new ImageReceiver(this);
+            imageReceiver.setAllowLoadingOnAttachedOnly(false);
+        } else {
+            imageReceiver = (ImageReceiver) this.unusedReceivers.get(0);
+            this.unusedReceivers.remove(0);
+        }
+        this.imagesToDraw.add(imageReceiver);
+        imageReceiver.setCurrentAccount(this.delegate.getCurrentAccount());
+        return imageReceiver;
+    }
+
+    private int getMaxScrollX() {
+        return this.currentImage * (this.itemWidth + (this.itemSpacing * 2));
+    }
+
+    private int getMinScrollX() {
+        return (-((this.currentPhotos.size() - this.currentImage) - 1)) * (this.itemWidth + (this.itemSpacing * 2));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$fillList$0(ValueAnimator valueAnimator) {
+        this.drawAlpha = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        invalidate();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$fillList$1(ValueAnimator valueAnimator) {
+        this.drawAlpha = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        invalidate();
+    }
+
+    private void stopScrolling() {
+        this.scrolling = false;
+        if (!this.scroll.isFinished()) {
+            this.scroll.abortAnimation();
+        }
+        int i = this.nextPhotoScrolling;
+        if (i >= 0 && i < this.currentObjects.size()) {
+            this.stopedScrolling = true;
+            this.animateToItemFast = false;
+            int i2 = this.nextPhotoScrolling;
+            this.animateToItem = i2;
+            this.nextImage = i2;
+            this.animateToDX = (this.currentImage - i2) * (this.itemWidth + this.itemSpacing);
+            this.animateToDXStart = this.drawDx;
+            this.moveLineProgress = 1.0f;
+            this.nextPhotoScrolling = -1;
+            GroupedPhotosListViewDelegate groupedPhotosListViewDelegate = this.delegate;
+            if (groupedPhotosListViewDelegate != null) {
+                groupedPhotosListViewDelegate.onStopScrolling();
+            }
+        }
+        invalidate();
+    }
+
+    private void updateAfterScroll() {
+        int i;
+        int i2;
+        int i3;
+        int i4 = this.drawDx;
+        int abs = Math.abs(i4);
+        int i5 = this.itemWidth;
+        int i6 = this.itemSpacing;
+        int i7 = (i5 / 2) + i6;
+        int i8 = -1;
+        if (abs > i7) {
+            if (i4 > 0) {
+                i2 = i4 - i7;
+                i3 = 1;
+            } else {
+                i2 = i4 + i7;
+                i3 = -1;
+            }
+            i = i3 + (i2 / (i5 + (i6 * 2)));
+        } else {
+            i = 0;
+        }
+        this.nextPhotoScrolling = this.currentImage - i;
+        int currentIndex = this.delegate.getCurrentIndex();
+        ArrayList imagesArrLocations = this.delegate.getImagesArrLocations();
+        ArrayList imagesArr = this.delegate.getImagesArr();
+        List pageBlockArr = this.delegate.getPageBlockArr();
+        int i9 = this.nextPhotoScrolling;
+        if (currentIndex != i9 && i9 >= 0 && i9 < this.currentPhotos.size()) {
+            Object obj = this.currentObjects.get(this.nextPhotoScrolling);
+            if (imagesArr != null && !imagesArr.isEmpty()) {
+                i8 = imagesArr.indexOf((MessageObject) obj);
+            } else if (pageBlockArr != null && !pageBlockArr.isEmpty()) {
+                i8 = pageBlockArr.indexOf((TLRPC$PageBlock) obj);
+            } else if (imagesArrLocations != null && !imagesArrLocations.isEmpty()) {
+                i8 = imagesArrLocations.indexOf((ImageLocation) obj);
+            }
+            if (i8 >= 0) {
+                this.ignoreChanges = true;
+                this.delegate.setCurrentIndex(i8);
+            }
+        }
+        if (!this.scrolling) {
+            this.scrolling = true;
+            this.stopedScrolling = false;
+        }
+        fillImages(true, this.drawDx);
     }
 
     public void clear() {
@@ -131,7 +324,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void fillList() {
-        ArrayList<ImageLocation> arrayList;
+        ArrayList arrayList;
         boolean z;
         ImageLocation imageLocation;
         TLRPC$PageBlock tLRPC$PageBlock;
@@ -144,9 +337,9 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
             return;
         }
         int currentIndex = this.delegate.getCurrentIndex();
-        ArrayList<ImageLocation> imagesArrLocations = this.delegate.getImagesArrLocations();
-        ArrayList<MessageObject> imagesArr = this.delegate.getImagesArr();
-        List<TLRPC$PageBlock> pageBlockArr = this.delegate.getPageBlockArr();
+        ArrayList imagesArrLocations = this.delegate.getImagesArrLocations();
+        ArrayList imagesArr = this.delegate.getImagesArr();
+        List pageBlockArr = this.delegate.getPageBlockArr();
         int slideshowMessageId = this.delegate.getSlideshowMessageId();
         this.delegate.getCurrentAccount();
         this.hasPhotos = false;
@@ -159,12 +352,55 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
             arrayList = imagesArrLocations;
             i2 = size;
             z = false;
-            imageLocation = imagesArrLocations.get(currentIndex);
-        } else if (imagesArr != null && !imagesArr.isEmpty()) {
+            imageLocation = (ImageLocation) imagesArrLocations.get(currentIndex);
+        } else if (imagesArr == null || imagesArr.isEmpty()) {
+            arrayList = imagesArrLocations;
+            if (pageBlockArr == null || pageBlockArr.isEmpty()) {
+                z = false;
+                i2 = 0;
+                imageLocation = null;
+            } else {
+                TLRPC$PageBlock tLRPC$PageBlock2 = (TLRPC$PageBlock) pageBlockArr.get(currentIndex);
+                long j = tLRPC$PageBlock2.groupId;
+                if (j != this.currentGroupId) {
+                    this.currentGroupId = j;
+                    z = true;
+                } else {
+                    z = false;
+                }
+                if (this.currentGroupId != 0) {
+                    this.hasPhotos = true;
+                    int size2 = pageBlockArr.size();
+                    int i3 = currentIndex;
+                    i2 = 0;
+                    TLRPC$PageBlock tLRPC$PageBlock3 = tLRPC$PageBlock2;
+                    while (true) {
+                        if (i3 >= size2) {
+                            tLRPC$PageBlock = tLRPC$PageBlock3;
+                            break;
+                        }
+                        tLRPC$PageBlock = tLRPC$PageBlock3;
+                        if (((TLRPC$PageBlock) pageBlockArr.get(i3)).groupId != this.currentGroupId) {
+                            break;
+                        }
+                        i2++;
+                        i3++;
+                        tLRPC$PageBlock3 = tLRPC$PageBlock;
+                    }
+                    for (int i4 = currentIndex - 1; i4 >= 0 && ((TLRPC$PageBlock) pageBlockArr.get(i4)).groupId == this.currentGroupId; i4--) {
+                        i2++;
+                    }
+                    imageLocation = tLRPC$PageBlock;
+                } else {
+                    i2 = 0;
+                    imageLocation = tLRPC$PageBlock2;
+                }
+            }
+        } else {
             if (currentIndex >= imagesArr.size()) {
                 currentIndex = imagesArr.size() - 1;
             }
-            MessageObject messageObject = imagesArr.get(currentIndex);
+            MessageObject messageObject = (MessageObject) imagesArr.get(currentIndex);
             long groupIdForUse = messageObject.getGroupIdForUse();
             if (groupIdForUse != this.currentGroupId) {
                 this.currentGroupId = groupIdForUse;
@@ -176,23 +412,23 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
             if (this.currentGroupId != 0 || z3) {
                 this.hasPhotos = true;
                 int min = Math.min(currentIndex + 10, imagesArr.size());
-                int i3 = 0;
-                for (int i4 = currentIndex; i4 < min; i4++) {
-                    MessageObject messageObject2 = imagesArr.get(i4);
+                int i5 = 0;
+                for (int i6 = currentIndex; i6 < min; i6++) {
+                    MessageObject messageObject2 = (MessageObject) imagesArr.get(i6);
                     if (slideshowMessageId == 0 && !z3 && messageObject2.getGroupIdForUse() != this.currentGroupId) {
                         break;
                     }
-                    i3++;
+                    i5++;
                 }
                 int max = Math.max(currentIndex - 10, 0);
-                int i5 = currentIndex - 1;
-                int i6 = i3;
+                int i7 = currentIndex - 1;
+                int i8 = i5;
                 while (true) {
-                    if (i5 < max) {
+                    if (i7 < max) {
                         arrayList = imagesArrLocations;
                         break;
                     }
-                    MessageObject messageObject3 = imagesArr.get(i5);
+                    MessageObject messageObject3 = (MessageObject) imagesArr.get(i7);
                     if (slideshowMessageId == 0 && !z3) {
                         arrayList = imagesArrLocations;
                         if (messageObject3.getGroupIdForUse() != this.currentGroupId) {
@@ -201,75 +437,65 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                     } else {
                         arrayList = imagesArrLocations;
                     }
-                    i6++;
-                    i5--;
+                    i8++;
+                    i7--;
                     imagesArrLocations = arrayList;
                 }
-                i2 = i6;
+                i2 = i8;
                 imageLocation = messageObject;
             } else {
                 arrayList = imagesArrLocations;
                 imageLocation = messageObject;
-            }
-        } else {
-            arrayList = imagesArrLocations;
-            if (pageBlockArr == null || pageBlockArr.isEmpty()) {
-                z = false;
-                i2 = 0;
-                imageLocation = null;
-            } else {
-                TLRPC$PageBlock tLRPC$PageBlock2 = pageBlockArr.get(currentIndex);
-                long j = tLRPC$PageBlock2.groupId;
-                if (j != this.currentGroupId) {
-                    this.currentGroupId = j;
-                    z = true;
-                } else {
-                    z = false;
-                }
-                if (this.currentGroupId != 0) {
-                    this.hasPhotos = true;
-                    int size2 = pageBlockArr.size();
-                    int i7 = currentIndex;
-                    i2 = 0;
-                    TLRPC$PageBlock tLRPC$PageBlock3 = tLRPC$PageBlock2;
-                    while (true) {
-                        if (i7 >= size2) {
-                            tLRPC$PageBlock = tLRPC$PageBlock3;
-                            break;
-                        }
-                        tLRPC$PageBlock = tLRPC$PageBlock3;
-                        if (pageBlockArr.get(i7).groupId != this.currentGroupId) {
-                            break;
-                        }
-                        i2++;
-                        i7++;
-                        tLRPC$PageBlock3 = tLRPC$PageBlock;
-                    }
-                    for (int i8 = currentIndex - 1; i8 >= 0 && pageBlockArr.get(i8).groupId == this.currentGroupId; i8--) {
-                        i2++;
-                    }
-                    imageLocation = tLRPC$PageBlock;
-                } else {
-                    i2 = 0;
-                    imageLocation = tLRPC$PageBlock2;
-                }
             }
         }
         if (imageLocation == null) {
             return;
         }
         if (this.animationsEnabled) {
-            if (!this.hasPhotos) {
-                ValueAnimator valueAnimator = this.showAnimator;
+            if (this.hasPhotos) {
+                ValueAnimator valueAnimator = this.hideAnimator;
                 if (valueAnimator != null) {
+                    this.hideAnimator = null;
                     valueAnimator.cancel();
+                }
+                float f = this.drawAlpha;
+                if (f < 1.0f && this.showAnimator == null) {
+                    ValueAnimator ofFloat = ValueAnimator.ofFloat(f, 1.0f);
+                    this.showAnimator = ofFloat;
+                    ofFloat.setDuration((1.0f - this.drawAlpha) * 200.0f);
+                    this.showAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.GroupedPhotosListView.2
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            if (GroupedPhotosListView.this.showAnimator == animator) {
+                                GroupedPhotosListView.this.showAnimator = null;
+                            }
+                        }
+
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationStart(Animator animator) {
+                            if (GroupedPhotosListView.this.delegate != null) {
+                                GroupedPhotosListView.this.delegate.onShowAnimationStart();
+                            }
+                        }
+                    });
+                    this.showAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.GroupedPhotosListView$$ExternalSyntheticLambda1
+                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                        public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                            GroupedPhotosListView.this.lambda$fillList$1(valueAnimator2);
+                        }
+                    });
+                }
+            } else {
+                ValueAnimator valueAnimator2 = this.showAnimator;
+                if (valueAnimator2 != null) {
+                    valueAnimator2.cancel();
                     this.showAnimator = null;
                 }
                 if (this.drawAlpha > 0.0f && this.currentPhotos.size() > 1) {
                     if (this.hideAnimator == null) {
-                        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.drawAlpha, 0.0f);
-                        this.hideAnimator = ofFloat;
-                        ofFloat.setDuration(this.drawAlpha * 200.0f);
+                        ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.drawAlpha, 0.0f);
+                        this.hideAnimator = ofFloat2;
+                        ofFloat2.setDuration(this.drawAlpha * 200.0f);
                         this.hideAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.GroupedPhotosListView.1
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationEnd(Animator animator) {
@@ -281,47 +507,14 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                         });
                         this.hideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.GroupedPhotosListView$$ExternalSyntheticLambda0
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                                GroupedPhotosListView.this.lambda$fillList$0(valueAnimator2);
+                            public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
+                                GroupedPhotosListView.this.lambda$fillList$0(valueAnimator3);
                             }
                         });
                         this.hideAnimator.start();
                         return;
                     }
                     return;
-                }
-            } else {
-                ValueAnimator valueAnimator2 = this.hideAnimator;
-                if (valueAnimator2 != null) {
-                    this.hideAnimator = null;
-                    valueAnimator2.cancel();
-                }
-                float f = this.drawAlpha;
-                if (f < 1.0f && this.showAnimator == null) {
-                    ValueAnimator ofFloat2 = ValueAnimator.ofFloat(f, 1.0f);
-                    this.showAnimator = ofFloat2;
-                    ofFloat2.setDuration((1.0f - this.drawAlpha) * 200.0f);
-                    this.showAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.GroupedPhotosListView.2
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationStart(Animator animator) {
-                            if (GroupedPhotosListView.this.delegate != null) {
-                                GroupedPhotosListView.this.delegate.onShowAnimationStart();
-                            }
-                        }
-
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            if (GroupedPhotosListView.this.showAnimator == animator) {
-                                GroupedPhotosListView.this.showAnimator = null;
-                            }
-                        }
-                    });
-                    this.showAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.GroupedPhotosListView$$ExternalSyntheticLambda1
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
-                            GroupedPhotosListView.this.lambda$fillList$1(valueAnimator3);
-                        }
-                    });
                 }
             }
         }
@@ -364,24 +557,49 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
             this.currentPhotos.clear();
             this.currentObjects.clear();
             if (arrayList != null && !arrayList.isEmpty()) {
-                ArrayList<ImageLocation> arrayList2 = arrayList;
+                ArrayList arrayList2 = arrayList;
                 this.currentObjects.addAll(arrayList2);
                 this.currentPhotos.addAll(arrayList2);
                 this.currentImage = currentIndex;
                 this.animateToItem = -1;
                 this.animateToItemFast = false;
-            } else if (imagesArr != null && !imagesArr.isEmpty()) {
+            } else if (imagesArr == null || imagesArr.isEmpty()) {
+                int i10 = currentIndex;
+                if (pageBlockArr != null && !pageBlockArr.isEmpty() && this.currentGroupId != 0) {
+                    int size4 = pageBlockArr.size();
+                    for (int i11 = i10; i11 < size4; i11++) {
+                        TLRPC$PageBlock tLRPC$PageBlock4 = (TLRPC$PageBlock) pageBlockArr.get(i11);
+                        if (tLRPC$PageBlock4.groupId != this.currentGroupId) {
+                            break;
+                        }
+                        this.currentObjects.add(tLRPC$PageBlock4);
+                        this.currentPhotos.add(ImageLocation.getForObject(tLRPC$PageBlock4.thumb, tLRPC$PageBlock4.thumbObject));
+                    }
+                    this.currentImage = 0;
+                    this.animateToItem = -1;
+                    this.animateToItemFast = false;
+                    for (int i12 = i10 - 1; i12 >= 0; i12--) {
+                        TLRPC$PageBlock tLRPC$PageBlock5 = (TLRPC$PageBlock) pageBlockArr.get(i12);
+                        if (tLRPC$PageBlock5.groupId != this.currentGroupId) {
+                            break;
+                        }
+                        this.currentObjects.add(0, tLRPC$PageBlock5);
+                        this.currentPhotos.add(0, ImageLocation.getForObject(tLRPC$PageBlock5.thumb, tLRPC$PageBlock5.thumbObject));
+                        this.currentImage++;
+                    }
+                }
+            } else {
                 boolean z5 = this.delegate.forceAll() && imagesArr.size() > 1;
                 if (this.currentGroupId != 0 || z5 || slideshowMessageId != 0) {
                     int min2 = Math.min(currentIndex + 10, imagesArr.size());
-                    int i10 = currentIndex;
+                    int i13 = currentIndex;
                     while (true) {
-                        if (i10 >= min2) {
+                        if (i13 >= min2) {
                             i = currentIndex;
                             r3 = 0;
                             break;
                         }
-                        MessageObject messageObject4 = imagesArr.get(i10);
+                        MessageObject messageObject4 = (MessageObject) imagesArr.get(i13);
                         if (slideshowMessageId == 0 && !z5) {
                             i = currentIndex;
                             if (messageObject4.getGroupIdForUse() != this.currentGroupId) {
@@ -393,45 +611,20 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                         }
                         this.currentObjects.add(messageObject4);
                         this.currentPhotos.add(ImageLocation.getForObject(FileLoader.getClosestPhotoSizeWithSize(messageObject4.photoThumbs, 56, true), messageObject4.photoThumbsObject));
-                        i10++;
+                        i13++;
                         currentIndex = i;
                     }
                     this.currentImage = r3;
                     this.animateToItem = -1;
                     this.animateToItemFast = r3;
                     int max2 = Math.max(i - 10, (int) r3);
-                    for (int i11 = i - 1; i11 >= max2; i11--) {
-                        MessageObject messageObject5 = imagesArr.get(i11);
+                    for (int i14 = i - 1; i14 >= max2; i14--) {
+                        MessageObject messageObject5 = (MessageObject) imagesArr.get(i14);
                         if (slideshowMessageId == 0 && !z5 && messageObject5.getGroupIdForUse() != this.currentGroupId) {
                             break;
                         }
                         this.currentObjects.add(0, messageObject5);
                         this.currentPhotos.add(0, ImageLocation.getForObject(FileLoader.getClosestPhotoSizeWithSize(messageObject5.photoThumbs, 56, true), messageObject5.photoThumbsObject));
-                        this.currentImage++;
-                    }
-                }
-            } else {
-                int i12 = currentIndex;
-                if (pageBlockArr != null && !pageBlockArr.isEmpty() && this.currentGroupId != 0) {
-                    int size4 = pageBlockArr.size();
-                    for (int i13 = i12; i13 < size4; i13++) {
-                        TLRPC$PageBlock tLRPC$PageBlock4 = pageBlockArr.get(i13);
-                        if (tLRPC$PageBlock4.groupId != this.currentGroupId) {
-                            break;
-                        }
-                        this.currentObjects.add(tLRPC$PageBlock4);
-                        this.currentPhotos.add(ImageLocation.getForObject(tLRPC$PageBlock4.thumb, tLRPC$PageBlock4.thumbObject));
-                    }
-                    this.currentImage = 0;
-                    this.animateToItem = -1;
-                    this.animateToItemFast = false;
-                    for (int i14 = i12 - 1; i14 >= 0; i14--) {
-                        TLRPC$PageBlock tLRPC$PageBlock5 = pageBlockArr.get(i14);
-                        if (tLRPC$PageBlock5.groupId != this.currentGroupId) {
-                            break;
-                        }
-                        this.currentObjects.add(0, tLRPC$PageBlock5);
-                        this.currentPhotos.add(0, ImageLocation.getForObject(tLRPC$PageBlock5.thumb, tLRPC$PageBlock5.thumbObject));
                         this.currentImage++;
                     }
                 }
@@ -451,18 +644,6 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$fillList$0(ValueAnimator valueAnimator) {
-        this.drawAlpha = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        invalidate();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$fillList$1(ValueAnimator valueAnimator) {
-        this.drawAlpha = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        invalidate();
-    }
-
     public int getCount() {
         return this.currentPhotos.size();
     }
@@ -471,142 +652,9 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
         return this.currentImage;
     }
 
-    public void setMoveProgress(float f) {
-        if (this.scrolling || this.animateToItem >= 0) {
-            return;
-        }
-        if (f > 0.0f) {
-            this.nextImage = this.currentImage - 1;
-        } else {
-            this.nextImage = this.currentImage + 1;
-        }
-        int i = this.nextImage;
-        if (i >= 0 && i < this.currentPhotos.size()) {
-            this.currentItemProgress = 1.0f - Math.abs(f);
-        } else {
-            this.currentItemProgress = 1.0f;
-        }
-        this.nextItemProgress = 1.0f - this.currentItemProgress;
-        this.moving = f != 0.0f;
-        invalidate();
-        if (this.currentPhotos.isEmpty()) {
-            return;
-        }
-        if (f >= 0.0f || this.currentImage != this.currentPhotos.size() - 1) {
-            if (f <= 0.0f || this.currentImage != 0) {
-                int i2 = (int) (f * (this.itemWidth + this.itemSpacing));
-                this.drawDx = i2;
-                fillImages(true, i2);
-            }
-        }
-    }
-
-    private ImageReceiver getFreeReceiver() {
-        ImageReceiver imageReceiver;
-        if (this.unusedReceivers.isEmpty()) {
-            imageReceiver = new ImageReceiver(this);
-            imageReceiver.setAllowLoadingOnAttachedOnly(false);
-        } else {
-            imageReceiver = this.unusedReceivers.get(0);
-            this.unusedReceivers.remove(0);
-        }
-        this.imagesToDraw.add(imageReceiver);
-        imageReceiver.setCurrentAccount(this.delegate.getCurrentAccount());
-        return imageReceiver;
-    }
-
-    private void fillImages(boolean z, int i) {
-        int i2;
-        int i3;
-        Object obj;
-        Object obj2;
-        if (!z && !this.imagesToDraw.isEmpty()) {
-            this.unusedReceivers.addAll(this.imagesToDraw);
-            this.imagesToDraw.clear();
-            this.moving = false;
-            this.moveLineProgress = 1.0f;
-            this.currentItemProgress = 1.0f;
-            this.nextItemProgress = 0.0f;
-        }
-        invalidate();
-        if (getMeasuredWidth() == 0 || this.currentPhotos.isEmpty()) {
-            return;
-        }
-        int measuredWidth = getMeasuredWidth();
-        int measuredWidth2 = (getMeasuredWidth() / 2) - (this.itemWidth / 2);
-        if (z) {
-            int size = this.imagesToDraw.size();
-            int i4 = 0;
-            i2 = Integer.MIN_VALUE;
-            i3 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-            while (i4 < size) {
-                ImageReceiver imageReceiver = this.imagesToDraw.get(i4);
-                int param = imageReceiver.getParam();
-                int i5 = this.itemWidth;
-                int i6 = ((param - this.currentImage) * (this.itemSpacing + i5)) + measuredWidth2 + i;
-                if (i6 > measuredWidth || i6 + i5 < 0) {
-                    this.unusedReceivers.add(imageReceiver);
-                    this.imagesToDraw.remove(i4);
-                    size--;
-                    i4--;
-                }
-                i3 = Math.min(i3, param - 1);
-                i2 = Math.max(i2, param + 1);
-                i4++;
-            }
-        } else {
-            i2 = this.currentImage;
-            i3 = i2 - 1;
-        }
-        if (i2 != Integer.MIN_VALUE) {
-            int size2 = this.currentPhotos.size();
-            while (i2 < size2) {
-                int i7 = ((i2 - this.currentImage) * (this.itemWidth + this.itemSpacing)) + measuredWidth2 + i;
-                if (i7 >= measuredWidth) {
-                    break;
-                }
-                ImageLocation imageLocation = this.currentPhotos.get(i2);
-                ImageReceiver freeReceiver = getFreeReceiver();
-                freeReceiver.setImageCoords(i7, this.itemY, this.itemWidth, this.itemHeight);
-                if (this.currentObjects.get(0) instanceof MessageObject) {
-                    obj2 = this.currentObjects.get(i2);
-                } else if (this.currentObjects.get(0) instanceof TLRPC$PageBlock) {
-                    obj2 = this.delegate.getParentObject();
-                } else {
-                    obj2 = "avatar_" + this.delegate.getAvatarsDialogId();
-                }
-                freeReceiver.setImage(null, null, imageLocation, "80_80", 0L, null, obj2, 1);
-                freeReceiver.setParam(i2);
-                i2++;
-            }
-        }
-        if (i3 != Integer.MAX_VALUE) {
-            while (i3 >= 0) {
-                int i8 = this.itemWidth;
-                int i9 = ((i3 - this.currentImage) * (this.itemSpacing + i8)) + measuredWidth2 + i + i8;
-                if (i9 <= 0) {
-                    break;
-                }
-                ImageLocation imageLocation2 = this.currentPhotos.get(i3);
-                ImageReceiver freeReceiver2 = getFreeReceiver();
-                freeReceiver2.setImageCoords(i9, this.itemY, this.itemWidth, this.itemHeight);
-                if (this.currentObjects.get(0) instanceof MessageObject) {
-                    obj = this.currentObjects.get(i3);
-                } else if (this.currentObjects.get(0) instanceof TLRPC$PageBlock) {
-                    obj = this.delegate.getParentObject();
-                } else {
-                    obj = "avatar_" + this.delegate.getAvatarsDialogId();
-                }
-                freeReceiver2.setImage(null, null, imageLocation2, "80_80", 0L, null, obj, 1);
-                freeReceiver2.setParam(i3);
-                i3--;
-            }
-        }
-        ValueAnimator valueAnimator = this.showAnimator;
-        if (valueAnimator == null || valueAnimator.isStarted()) {
-            return;
-        }
-        this.showAnimator.start();
+    public boolean hasPhotos() {
+        ValueAnimator valueAnimator;
+        return this.hasPhotos && this.hideAnimator == null && (this.drawAlpha > 0.0f || !this.animateBackground || ((valueAnimator = this.showAnimator) != null && valueAnimator.isStarted()));
     }
 
     @Override // android.view.GestureDetector.OnGestureListener
@@ -619,190 +667,21 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
         return true;
     }
 
-    @Override // android.view.GestureDetector.OnGestureListener
-    public boolean onSingleTapUp(MotionEvent motionEvent) {
-        int currentIndex = this.delegate.getCurrentIndex();
-        ArrayList<ImageLocation> imagesArrLocations = this.delegate.getImagesArrLocations();
-        ArrayList<MessageObject> imagesArr = this.delegate.getImagesArr();
-        List<TLRPC$PageBlock> pageBlockArr = this.delegate.getPageBlockArr();
-        stopScrolling();
-        int size = this.imagesToDraw.size();
-        int i = 0;
-        while (true) {
-            if (i >= size) {
-                break;
-            }
-            ImageReceiver imageReceiver = this.imagesToDraw.get(i);
-            if (imageReceiver.isInsideImage(motionEvent.getX(), motionEvent.getY())) {
-                int param = imageReceiver.getParam();
-                if (param < 0 || param >= this.currentObjects.size()) {
-                    return true;
-                }
-                if (imagesArr != null && !imagesArr.isEmpty()) {
-                    int indexOf = imagesArr.indexOf((MessageObject) this.currentObjects.get(param));
-                    if (currentIndex == indexOf) {
-                        return true;
-                    }
-                    this.moveLineProgress = 1.0f;
-                    this.animateAllLine = true;
-                    this.delegate.setCurrentIndex(indexOf);
-                } else if (pageBlockArr != null && !pageBlockArr.isEmpty()) {
-                    int indexOf2 = pageBlockArr.indexOf((TLRPC$PageBlock) this.currentObjects.get(param));
-                    if (currentIndex == indexOf2) {
-                        return true;
-                    }
-                    this.moveLineProgress = 1.0f;
-                    this.animateAllLine = true;
-                    this.delegate.setCurrentIndex(indexOf2);
-                } else if (imagesArrLocations != null && !imagesArrLocations.isEmpty()) {
-                    int indexOf3 = imagesArrLocations.indexOf((ImageLocation) this.currentObjects.get(param));
-                    if (currentIndex == indexOf3) {
-                        return true;
-                    }
-                    this.moveLineProgress = 1.0f;
-                    this.animateAllLine = true;
-                    this.delegate.setCurrentIndex(indexOf3);
-                }
-            } else {
-                i++;
-            }
-        }
-        return false;
-    }
-
-    private void updateAfterScroll() {
-        int i;
-        int i2;
-        int i3;
-        int i4 = this.drawDx;
-        int abs = Math.abs(i4);
-        int i5 = this.itemWidth;
-        int i6 = this.itemSpacing;
-        int i7 = (i5 / 2) + i6;
-        int i8 = -1;
-        if (abs > i7) {
-            if (i4 > 0) {
-                i2 = i4 - i7;
-                i3 = 1;
-            } else {
-                i2 = i4 + i7;
-                i3 = -1;
-            }
-            i = i3 + (i2 / (i5 + (i6 * 2)));
-        } else {
-            i = 0;
-        }
-        this.nextPhotoScrolling = this.currentImage - i;
-        int currentIndex = this.delegate.getCurrentIndex();
-        ArrayList<ImageLocation> imagesArrLocations = this.delegate.getImagesArrLocations();
-        ArrayList<MessageObject> imagesArr = this.delegate.getImagesArr();
-        List<TLRPC$PageBlock> pageBlockArr = this.delegate.getPageBlockArr();
-        int i9 = this.nextPhotoScrolling;
-        if (currentIndex != i9 && i9 >= 0 && i9 < this.currentPhotos.size()) {
-            Object obj = this.currentObjects.get(this.nextPhotoScrolling);
-            if (imagesArr != null && !imagesArr.isEmpty()) {
-                i8 = imagesArr.indexOf((MessageObject) obj);
-            } else if (pageBlockArr != null && !pageBlockArr.isEmpty()) {
-                i8 = pageBlockArr.indexOf((TLRPC$PageBlock) obj);
-            } else if (imagesArrLocations != null && !imagesArrLocations.isEmpty()) {
-                i8 = imagesArrLocations.indexOf((ImageLocation) obj);
-            }
-            if (i8 >= 0) {
-                this.ignoreChanges = true;
-                this.delegate.setCurrentIndex(i8);
-            }
-        }
-        if (!this.scrolling) {
-            this.scrolling = true;
-            this.stopedScrolling = false;
-        }
-        fillImages(true, this.drawDx);
-    }
-
-    @Override // android.view.GestureDetector.OnGestureListener
-    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
-        this.drawDx = (int) (this.drawDx - f);
-        int minScrollX = getMinScrollX();
-        int maxScrollX = getMaxScrollX();
-        int i = this.drawDx;
-        if (i < minScrollX) {
-            this.drawDx = minScrollX;
-        } else if (i > maxScrollX) {
-            this.drawDx = maxScrollX;
-        }
-        updateAfterScroll();
-        return false;
-    }
-
-    @Override // android.view.GestureDetector.OnGestureListener
-    public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
-        this.scroll.abortAnimation();
-        if (this.currentPhotos.size() >= 10) {
-            this.scroll.fling(this.drawDx, 0, Math.round(f), 0, getMinScrollX(), getMaxScrollX(), 0, 0);
-            return false;
-        }
-        return false;
-    }
-
-    private void stopScrolling() {
-        this.scrolling = false;
-        if (!this.scroll.isFinished()) {
-            this.scroll.abortAnimation();
-        }
-        int i = this.nextPhotoScrolling;
-        if (i >= 0 && i < this.currentObjects.size()) {
-            this.stopedScrolling = true;
-            this.animateToItemFast = false;
-            int i2 = this.nextPhotoScrolling;
-            this.animateToItem = i2;
-            this.nextImage = i2;
-            this.animateToDX = (this.currentImage - i2) * (this.itemWidth + this.itemSpacing);
-            this.animateToDXStart = this.drawDx;
-            this.moveLineProgress = 1.0f;
-            this.nextPhotoScrolling = -1;
-            GroupedPhotosListViewDelegate groupedPhotosListViewDelegate = this.delegate;
-            if (groupedPhotosListViewDelegate != null) {
-                groupedPhotosListViewDelegate.onStopScrolling();
-            }
-        }
-        invalidate();
-    }
-
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0184  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0197  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x024a  */
     @Override // android.view.View
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        boolean z = false;
-        if (!this.currentPhotos.isEmpty() && getAlpha() == 1.0f) {
-            z = (this.gestureDetector.onTouchEvent(motionEvent) || super.onTouchEvent(motionEvent)) ? true : true;
-            if (this.scrolling && motionEvent.getAction() == 1 && this.scroll.isFinished()) {
-                stopScrolling();
-            }
-        }
-        return z;
-    }
-
-    private int getMinScrollX() {
-        return (-((this.currentPhotos.size() - this.currentImage) - 1)) * (this.itemWidth + (this.itemSpacing * 2));
-    }
-
-    private int getMaxScrollX() {
-        return this.currentImage * (this.itemWidth + (this.itemSpacing * 2));
-    }
-
-    @Override // android.view.View
-    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        super.onLayout(z, i, i2, i3, i4);
-        fillImages(false, 0);
-    }
-
-    @Override // android.view.View
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     protected void onDraw(Canvas canvas) {
         int i;
         int i2;
         int i3;
-        int i4;
         float interpolation;
-        int i5;
-        int i6;
+        int ceil;
+        int i4;
+        int param;
         TLRPC$PhotoSize tLRPC$PhotoSize;
         TLRPC$PhotoSize tLRPC$PhotoSize2;
         if (this.hasPhotos || !this.imagesToDraw.isEmpty()) {
@@ -816,76 +695,89 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                 return;
             }
             int size = this.imagesToDraw.size();
-            int i7 = this.drawDx;
-            int i8 = (int) (this.itemWidth * 2.0f);
+            int i5 = this.drawDx;
+            int i6 = (int) (this.itemWidth * 2.0f);
             int dp = AndroidUtilities.dp(8.0f);
-            ImageLocation imageLocation = this.currentPhotos.get(this.currentImage);
-            if (imageLocation != null && (tLRPC$PhotoSize2 = imageLocation.photoSize) != null) {
-                i = Math.max(this.itemWidth, (int) (tLRPC$PhotoSize2.w * (this.itemHeight / tLRPC$PhotoSize2.h)));
-            } else {
-                i = this.itemHeight;
-            }
-            int min = Math.min(i8, i);
+            ImageLocation imageLocation = (ImageLocation) this.currentPhotos.get(this.currentImage);
+            int min = Math.min(i6, (imageLocation == null || (tLRPC$PhotoSize2 = imageLocation.photoSize) == null) ? this.itemHeight : Math.max(this.itemWidth, (int) (tLRPC$PhotoSize2.w * (this.itemHeight / tLRPC$PhotoSize2.h))));
             float f2 = dp * 2;
             float f3 = this.currentItemProgress;
-            int i9 = (int) (f2 * f3);
-            int i10 = this.itemWidth + ((int) ((min - i2) * f3)) + i9;
-            int i11 = this.nextImage;
-            if (i11 >= 0 && i11 < this.currentPhotos.size()) {
-                ImageLocation imageLocation2 = this.currentPhotos.get(this.nextImage);
-                if (imageLocation2 != null && (tLRPC$PhotoSize = imageLocation2.photoSize) != null) {
-                    i3 = Math.max(this.itemWidth, (int) (tLRPC$PhotoSize.w * (this.itemHeight / tLRPC$PhotoSize.h)));
-                } else {
-                    i3 = this.itemHeight;
-                }
+            int i7 = (int) (f2 * f3);
+            int i8 = this.itemWidth + ((int) ((min - i) * f3)) + i7;
+            int i9 = this.nextImage;
+            if (i9 < 0 || i9 >= this.currentPhotos.size()) {
+                i2 = this.itemWidth;
             } else {
-                i3 = this.itemWidth;
+                ImageLocation imageLocation2 = (ImageLocation) this.currentPhotos.get(this.nextImage);
+                i2 = (imageLocation2 == null || (tLRPC$PhotoSize = imageLocation2.photoSize) == null) ? this.itemHeight : Math.max(this.itemWidth, (int) (tLRPC$PhotoSize.w * (this.itemHeight / tLRPC$PhotoSize.h)));
             }
-            int min2 = Math.min(i8, i3);
+            int min2 = Math.min(i6, i2);
             float f4 = this.nextItemProgress;
-            int i12 = (int) (f2 * f4);
-            float f5 = i7;
-            int i13 = (int) (f5 + ((((min2 + i12) - i4) / 2) * f4 * (this.nextImage > this.currentImage ? -1 : 1)));
-            int i14 = this.itemWidth + ((int) ((min2 - i4) * f4)) + i12;
-            int measuredWidth = (getMeasuredWidth() - i10) / 2;
-            for (int i15 = 0; i15 < size; i15++) {
-                ImageReceiver imageReceiver = this.imagesToDraw.get(i15);
-                int param = imageReceiver.getParam();
-                int i16 = this.currentImage;
-                if (param == i16) {
-                    imageReceiver.setImageX(measuredWidth + i13 + (i9 / 2));
-                    imageReceiver.setImageWidth(i10 - i9);
+            int i10 = (int) (f2 * f4);
+            float f5 = i5;
+            int i11 = 1;
+            int i12 = (int) (f5 + ((((min2 + i10) - i3) / 2) * f4 * (this.nextImage > this.currentImage ? -1 : 1)));
+            int i13 = this.itemWidth + ((int) ((min2 - i3) * f4)) + i10;
+            int measuredWidth = (getMeasuredWidth() - i8) / 2;
+            int i14 = 0;
+            while (i14 < size) {
+                ImageReceiver imageReceiver = (ImageReceiver) this.imagesToDraw.get(i14);
+                int param2 = imageReceiver.getParam();
+                int i15 = this.currentImage;
+                if (param2 == i15) {
+                    imageReceiver.setImageX(measuredWidth + i12 + (i7 / 2));
+                    imageReceiver.setImageWidth(i8 - i7);
                 } else {
-                    int i17 = this.nextImage;
-                    if (i17 < i16) {
-                        if (param >= i16) {
-                            imageReceiver.setImageX(measuredWidth + i10 + this.itemSpacing + (((imageReceiver.getParam() - this.currentImage) - 1) * (this.itemWidth + this.itemSpacing)) + i13);
-                        } else if (param <= i17) {
-                            int i18 = this.itemWidth;
-                            int i19 = this.itemSpacing;
-                            imageReceiver.setImageX((((((imageReceiver.getParam() - this.currentImage) + 1) * (i18 + i19)) + measuredWidth) - (i19 + i14)) + i13);
-                        } else {
-                            imageReceiver.setImageX(((imageReceiver.getParam() - this.currentImage) * (this.itemWidth + this.itemSpacing)) + measuredWidth + i13);
+                    int i16 = this.nextImage;
+                    if (i16 < i15) {
+                        if (param2 < i15) {
+                            if (param2 <= i16) {
+                                int i17 = this.itemWidth;
+                                int i18 = this.itemSpacing;
+                                param = ((((imageReceiver.getParam() - this.currentImage) + i11) * (i17 + i18)) + measuredWidth) - (i18 + i13);
+                                imageReceiver.setImageX(param + i12);
+                                if (param2 != this.nextImage) {
+                                    imageReceiver.setImageWidth(i13 - i10);
+                                    imageReceiver.setImageX((int) (imageReceiver.getImageX() + (i10 / 2)));
+                                } else {
+                                    imageReceiver.setImageWidth(this.itemWidth);
+                                }
+                            }
+                            param = ((imageReceiver.getParam() - this.currentImage) * (this.itemWidth + this.itemSpacing)) + measuredWidth;
+                            imageReceiver.setImageX(param + i12);
+                            if (param2 != this.nextImage) {
+                            }
                         }
-                    } else if (param < i16) {
-                        imageReceiver.setImageX(((imageReceiver.getParam() - this.currentImage) * (this.itemWidth + this.itemSpacing)) + measuredWidth + i13);
-                    } else if (param <= i17) {
-                        imageReceiver.setImageX(measuredWidth + i10 + this.itemSpacing + (((imageReceiver.getParam() - this.currentImage) - 1) * (this.itemWidth + this.itemSpacing)) + i13);
+                        param = measuredWidth + i8 + this.itemSpacing + (((imageReceiver.getParam() - this.currentImage) - i11) * (this.itemWidth + this.itemSpacing));
+                        imageReceiver.setImageX(param + i12);
+                        if (param2 != this.nextImage) {
+                        }
                     } else {
-                        int i20 = this.itemWidth;
-                        int i21 = this.itemSpacing;
-                        imageReceiver.setImageX(measuredWidth + i10 + this.itemSpacing + (((imageReceiver.getParam() - this.currentImage) - 2) * (i20 + i21)) + i21 + i14 + i13);
-                    }
-                    if (param == this.nextImage) {
-                        imageReceiver.setImageWidth(i14 - i12);
-                        imageReceiver.setImageX((int) (imageReceiver.getImageX() + (i12 / 2)));
-                    } else {
-                        imageReceiver.setImageWidth(this.itemWidth);
+                        if (param2 >= i15) {
+                            if (param2 > i16) {
+                                int i19 = this.itemWidth;
+                                int i20 = this.itemSpacing;
+                                param = measuredWidth + i8 + this.itemSpacing + (((imageReceiver.getParam() - this.currentImage) - 2) * (i19 + i20)) + i20 + i13;
+                                imageReceiver.setImageX(param + i12);
+                                if (param2 != this.nextImage) {
+                                }
+                            }
+                            param = measuredWidth + i8 + this.itemSpacing + (((imageReceiver.getParam() - this.currentImage) - i11) * (this.itemWidth + this.itemSpacing));
+                            imageReceiver.setImageX(param + i12);
+                            if (param2 != this.nextImage) {
+                            }
+                        }
+                        param = ((imageReceiver.getParam() - this.currentImage) * (this.itemWidth + this.itemSpacing)) + measuredWidth;
+                        imageReceiver.setImageX(param + i12);
+                        if (param2 != this.nextImage) {
+                        }
                     }
                 }
                 imageReceiver.setAlpha(this.drawAlpha);
                 imageReceiver.setRoundRadius(AndroidUtilities.dp(2.0f));
                 imageReceiver.draw(canvas);
+                i14++;
+                i11 = 1;
             }
             long currentTimeMillis = System.currentTimeMillis();
             long j = currentTimeMillis - this.lastUpdateTime;
@@ -893,14 +785,14 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                 j = 17;
             }
             this.lastUpdateTime = currentTimeMillis;
-            int i22 = this.animateToItem;
-            if (i22 >= 0) {
+            int i21 = this.animateToItem;
+            if (i21 >= 0) {
                 float f6 = this.moveLineProgress;
                 if (f6 > 0.0f) {
                     float f7 = (float) j;
                     float f8 = f6 - (f7 / (this.animateToItemFast ? 100.0f : 200.0f));
                     this.moveLineProgress = f8;
-                    if (i22 == this.currentImage) {
+                    if (i21 == this.currentImage) {
                         float f9 = this.currentItemProgress;
                         if (f9 < 1.0f) {
                             float f10 = f9 + (f7 / 200.0f);
@@ -909,10 +801,12 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                                 this.currentItemProgress = 1.0f;
                             }
                         }
-                        this.drawDx = this.animateToDXStart + ((int) Math.ceil(this.currentItemProgress * (this.animateToDX - i6)));
+                        i4 = this.animateToDXStart;
+                        interpolation = this.currentItemProgress;
                     } else {
                         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT;
-                        this.nextItemProgress = cubicBezierInterpolator.getInterpolation(1.0f - f8);
+                        interpolation = cubicBezierInterpolator.getInterpolation(1.0f - f8);
+                        this.nextItemProgress = interpolation;
                         if (this.stopedScrolling) {
                             float f11 = this.currentItemProgress;
                             if (f11 > 0.0f) {
@@ -922,22 +816,27 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                                     this.currentItemProgress = 0.0f;
                                 }
                             }
-                            this.drawDx = this.animateToDXStart + ((int) Math.ceil(interpolation * (this.animateToDX - i5)));
+                            i4 = this.animateToDXStart;
                         } else {
                             this.currentItemProgress = cubicBezierInterpolator.getInterpolation(this.moveLineProgress);
-                            this.drawDx = (int) Math.ceil(this.nextItemProgress * this.animateToDX);
+                            ceil = (int) Math.ceil(this.nextItemProgress * this.animateToDX);
+                            this.drawDx = ceil;
+                            if (this.moveLineProgress <= 0.0f) {
+                                this.currentImage = this.animateToItem;
+                                this.moveLineProgress = 1.0f;
+                                this.currentItemProgress = 1.0f;
+                                this.nextItemProgress = 0.0f;
+                                this.moving = false;
+                                this.stopedScrolling = false;
+                                this.drawDx = 0;
+                                this.animateToItem = -1;
+                                this.animateToItemFast = false;
+                            }
                         }
                     }
+                    ceil = i4 + ((int) Math.ceil(interpolation * (this.animateToDX - i4)));
+                    this.drawDx = ceil;
                     if (this.moveLineProgress <= 0.0f) {
-                        this.currentImage = this.animateToItem;
-                        this.moveLineProgress = 1.0f;
-                        this.currentItemProgress = 1.0f;
-                        this.nextItemProgress = 0.0f;
-                        this.moving = false;
-                        this.stopedScrolling = false;
-                        this.drawDx = 0;
-                        this.animateToItem = -1;
-                        this.animateToItemFast = false;
                     }
                 }
                 fillImages(true, this.drawDx);
@@ -968,13 +867,112 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
         }
     }
 
-    public void setDelegate(GroupedPhotosListViewDelegate groupedPhotosListViewDelegate) {
-        this.delegate = groupedPhotosListViewDelegate;
+    @Override // android.view.GestureDetector.OnGestureListener
+    public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
+        this.scroll.abortAnimation();
+        if (this.currentPhotos.size() >= 10) {
+            this.scroll.fling(this.drawDx, 0, Math.round(f), 0, getMinScrollX(), getMaxScrollX(), 0, 0);
+            return false;
+        }
+        return false;
     }
 
-    public boolean hasPhotos() {
-        ValueAnimator valueAnimator;
-        return this.hasPhotos && this.hideAnimator == null && (this.drawAlpha > 0.0f || !this.animateBackground || ((valueAnimator = this.showAnimator) != null && valueAnimator.isStarted()));
+    @Override // android.view.View
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        super.onLayout(z, i, i2, i3, i4);
+        fillImages(false, 0);
+    }
+
+    @Override // android.view.GestureDetector.OnGestureListener
+    public void onLongPress(MotionEvent motionEvent) {
+    }
+
+    @Override // android.view.GestureDetector.OnGestureListener
+    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
+        this.drawDx = (int) (this.drawDx - f);
+        int minScrollX = getMinScrollX();
+        int maxScrollX = getMaxScrollX();
+        int i = this.drawDx;
+        if (i < minScrollX) {
+            this.drawDx = minScrollX;
+        } else if (i > maxScrollX) {
+            this.drawDx = maxScrollX;
+        }
+        updateAfterScroll();
+        return false;
+    }
+
+    @Override // android.view.GestureDetector.OnGestureListener
+    public void onShowPress(MotionEvent motionEvent) {
+    }
+
+    @Override // android.view.GestureDetector.OnGestureListener
+    public boolean onSingleTapUp(MotionEvent motionEvent) {
+        int indexOf;
+        int currentIndex = this.delegate.getCurrentIndex();
+        ArrayList imagesArrLocations = this.delegate.getImagesArrLocations();
+        ArrayList imagesArr = this.delegate.getImagesArr();
+        List pageBlockArr = this.delegate.getPageBlockArr();
+        stopScrolling();
+        int size = this.imagesToDraw.size();
+        int i = 0;
+        while (true) {
+            if (i >= size) {
+                break;
+            }
+            ImageReceiver imageReceiver = (ImageReceiver) this.imagesToDraw.get(i);
+            if (imageReceiver.isInsideImage(motionEvent.getX(), motionEvent.getY())) {
+                int param = imageReceiver.getParam();
+                if (param < 0 || param >= this.currentObjects.size()) {
+                    return true;
+                }
+                if (imagesArr != null && !imagesArr.isEmpty()) {
+                    indexOf = imagesArr.indexOf((MessageObject) this.currentObjects.get(param));
+                    if (currentIndex == indexOf) {
+                        return true;
+                    }
+                } else if (pageBlockArr != null && !pageBlockArr.isEmpty()) {
+                    indexOf = pageBlockArr.indexOf((TLRPC$PageBlock) this.currentObjects.get(param));
+                    if (currentIndex == indexOf) {
+                        return true;
+                    }
+                } else if (imagesArrLocations != null && !imagesArrLocations.isEmpty()) {
+                    indexOf = imagesArrLocations.indexOf((ImageLocation) this.currentObjects.get(param));
+                    if (currentIndex == indexOf) {
+                        return true;
+                    }
+                }
+                this.moveLineProgress = 1.0f;
+                this.animateAllLine = true;
+                this.delegate.setCurrentIndex(indexOf);
+            } else {
+                i++;
+            }
+        }
+        return false;
+    }
+
+    @Override // android.view.View
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        boolean z = false;
+        if (!this.currentPhotos.isEmpty() && getAlpha() == 1.0f) {
+            z = (this.gestureDetector.onTouchEvent(motionEvent) || super.onTouchEvent(motionEvent)) ? true : true;
+            if (this.scrolling && motionEvent.getAction() == 1 && this.scroll.isFinished()) {
+                stopScrolling();
+            }
+        }
+        return z;
+    }
+
+    public void reset() {
+        this.hasPhotos = false;
+        if (this.animationsEnabled) {
+            this.drawAlpha = 0.0f;
+        }
+    }
+
+    public void setAnimateBackground(boolean z) {
+        this.animateBackground = z;
     }
 
     public void setAnimationsEnabled(boolean z) {
@@ -998,14 +996,33 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
         }
     }
 
-    public void setAnimateBackground(boolean z) {
-        this.animateBackground = z;
+    public void setDelegate(GroupedPhotosListViewDelegate groupedPhotosListViewDelegate) {
+        this.delegate = groupedPhotosListViewDelegate;
     }
 
-    public void reset() {
-        this.hasPhotos = false;
-        if (this.animationsEnabled) {
-            this.drawAlpha = 0.0f;
+    public void setMoveProgress(float f) {
+        if (this.scrolling || this.animateToItem >= 0) {
+            return;
+        }
+        this.nextImage = f > 0.0f ? this.currentImage - 1 : this.currentImage + 1;
+        int i = this.nextImage;
+        if (i < 0 || i >= this.currentPhotos.size()) {
+            this.currentItemProgress = 1.0f;
+        } else {
+            this.currentItemProgress = 1.0f - Math.abs(f);
+        }
+        this.nextItemProgress = 1.0f - this.currentItemProgress;
+        this.moving = f != 0.0f;
+        invalidate();
+        if (this.currentPhotos.isEmpty()) {
+            return;
+        }
+        if (f >= 0.0f || this.currentImage != this.currentPhotos.size() - 1) {
+            if (f <= 0.0f || this.currentImage != 0) {
+                int i2 = (int) (f * (this.itemWidth + this.itemSpacing));
+                this.drawDx = i2;
+                fillImages(true, i2);
+            }
         }
     }
 }

@@ -7,7 +7,6 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 public final class SignInConfiguration extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<SignInConfiguration> CREATOR = new zbu();

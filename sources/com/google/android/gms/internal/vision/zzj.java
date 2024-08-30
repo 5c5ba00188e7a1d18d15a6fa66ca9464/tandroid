@@ -3,16 +3,10 @@ package com.google.android.gms.internal.vision;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-vision@@20.1.3 */
 /* loaded from: classes.dex */
-public final class zzj implements Parcelable.Creator<zzk> {
+public final class zzj implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ zzk[] newArray(int i) {
-        return new zzk[i];
-    }
-
-    @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ zzk createFromParcel(Parcel parcel) {
+    public final /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         int i = 0;
         boolean z = false;
@@ -21,13 +15,18 @@ public final class zzj implements Parcelable.Creator<zzk> {
             int fieldId = SafeParcelReader.getFieldId(readHeader);
             if (fieldId == 2) {
                 i = SafeParcelReader.readInt(parcel, readHeader);
-            } else if (fieldId == 3) {
-                z = SafeParcelReader.readBoolean(parcel, readHeader);
-            } else {
+            } else if (fieldId != 3) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                z = SafeParcelReader.readBoolean(parcel, readHeader);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
         return new zzk(i, z);
+    }
+
+    @Override // android.os.Parcelable.Creator
+    public final /* synthetic */ Object[] newArray(int i) {
+        return new zzk[i];
     }
 }

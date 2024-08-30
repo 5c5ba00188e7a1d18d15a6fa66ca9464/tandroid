@@ -1,6 +1,6 @@
 package androidx.appcompat;
 /* loaded from: classes.dex */
-public final class R$id {
+public abstract class R$id {
     public static final int action_bar = 2131296300;
     public static final int action_bar_activity_content = 2131296301;
     public static final int action_bar_container = 2131296302;

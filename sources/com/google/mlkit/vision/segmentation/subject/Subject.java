@@ -2,7 +2,6 @@ package com.google.mlkit.vision.segmentation.subject;
 
 import android.graphics.Bitmap;
 import java.nio.FloatBuffer;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public class Subject {
     private final FloatBuffer zza;

@@ -1,7 +1,4 @@
 package com.google.android.gms.internal.play_billing;
-
-import java.io.IOException;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 abstract class zzeg {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -29,5 +26,5 @@ abstract class zzeg {
     public abstract void zzh(Object obj, Object obj2);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zzi(Object obj, zzey zzeyVar) throws IOException;
+    public abstract void zzi(Object obj, zzey zzeyVar);
 }

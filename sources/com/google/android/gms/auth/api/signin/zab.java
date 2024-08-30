@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zab implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator

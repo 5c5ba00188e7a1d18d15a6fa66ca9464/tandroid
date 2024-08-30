@@ -37,9 +37,52 @@ public class AlertDialogDecor extends AlertDialog {
     private View rootView;
     private final Runnable showRunnable;
 
-    @Override // org.telegram.ui.ActionBar.AlertDialog
-    protected boolean supportsNativeBlur() {
-        return false;
+    /* loaded from: classes4.dex */
+    public static class Builder extends AlertDialog.Builder {
+        public Builder(Context context, Theme.ResourcesProvider resourcesProvider) {
+            super(context, 0, resourcesProvider);
+        }
+
+        @Override // org.telegram.ui.ActionBar.AlertDialog.Builder
+        protected AlertDialog createAlertDialog(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
+            return new AlertDialogDecor(context, i, resourcesProvider);
+        }
+    }
+
+    public AlertDialogDecor(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
+        super(context, i, resourcesProvider);
+        this.isDismissed = false;
+        this.openDelay = 0L;
+        this.showRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialogDecor$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                AlertDialogDecor.this.lambda$new$0();
+            }
+        };
+    }
+
+    private void extractAnimations() {
+        TypedValue typedValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(16842926, typedValue, true);
+        TypedArray obtainStyledAttributes = getContext().obtainStyledAttributes(typedValue.resourceId, ATTRS);
+        this.resEnterAnimation = obtainStyledAttributes.getResourceId(0, -1);
+        this.resExitAnimation = obtainStyledAttributes.getResourceId(1, -1);
+        obtainStyledAttributes.recycle();
+    }
+
+    private Activity getActivity(Context context) {
+        if (context instanceof Activity) {
+            return (Activity) context;
+        }
+        if (context instanceof ContextThemeWrapper) {
+            return getActivity(((ContextThemeWrapper) context).getBaseContext());
+        }
+        return null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public ViewGroup getDecorView() {
+        return (ViewGroup) getActivity(getContext()).getWindow().getDecorView();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -57,30 +100,77 @@ public class AlertDialogDecor extends AlertDialog {
         }).start();
     }
 
-    public AlertDialogDecor(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
-        super(context, i, resourcesProvider);
-        this.isDismissed = false;
-        this.openDelay = 0L;
-        this.showRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialogDecor$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                AlertDialogDecor.this.lambda$new$0();
-            }
-        };
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$show$1(View view) {
+        dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public ViewGroup getDecorView() {
-        return (ViewGroup) getActivity(getContext()).getWindow().getDecorView();
+    public static /* synthetic */ WindowInsetsCompat lambda$show$2(FrameLayout frameLayout, View view, WindowInsetsCompat windowInsetsCompat) {
+        Rect rect = new Rect();
+        if (Build.VERSION.SDK_INT >= 30) {
+            Insets insets = windowInsetsCompat.getInsets(WindowInsetsCompat.Type.ime() | WindowInsetsCompat.Type.systemBars());
+            rect.set(insets.left, insets.top, insets.right, insets.bottom);
+        } else {
+            rect.set(windowInsetsCompat.getStableInsetLeft(), windowInsetsCompat.getStableInsetTop(), windowInsetsCompat.getStableInsetRight(), windowInsetsCompat.getStableInsetBottom());
+        }
+        frameLayout.setPadding(rect.left, rect.top, rect.right, rect.bottom + AndroidUtilities.navigationBarHeight);
+        frameLayout.requestLayout();
+        return windowInsetsCompat;
     }
 
-    private void extractAnimations() {
-        TypedValue typedValue = new TypedValue();
-        getContext().getTheme().resolveAttribute(16842926, typedValue, true);
-        TypedArray obtainStyledAttributes = getContext().obtainStyledAttributes(typedValue.resourceId, ATTRS);
-        this.resEnterAnimation = obtainStyledAttributes.getResourceId(0, -1);
-        this.resExitAnimation = obtainStyledAttributes.getResourceId(1, -1);
-        obtainStyledAttributes.recycle();
+    @Override // org.telegram.ui.ActionBar.AlertDialog, android.app.Dialog, android.content.DialogInterface
+    public void dismiss() {
+        if (isShowing() && !this.isDismissed) {
+            this.isDismissed = true;
+            AndroidUtilities.cancelRunOnUIThread(this.showRunnable);
+            if (this.rootView.getVisibility() != 0) {
+                getDecorView().removeView(this.rootView);
+                return;
+            }
+            Animation loadAnimation = AnimationUtils.loadAnimation(getContext(), this.resExitAnimation);
+            loadAnimation.setAnimationListener(new Animation.AnimationListener() { // from class: org.telegram.ui.ActionBar.AlertDialogDecor.2
+                @Override // android.view.animation.Animation.AnimationListener
+                public void onAnimationEnd(Animation animation) {
+                    AlertDialogDecor.this.contentView.setAlpha(0.0f);
+                }
+
+                @Override // android.view.animation.Animation.AnimationListener
+                public void onAnimationRepeat(Animation animation) {
+                }
+
+                @Override // android.view.animation.Animation.AnimationListener
+                public void onAnimationStart(Animation animation) {
+                }
+            });
+            this.contentView.clearAnimation();
+            this.contentView.startAnimation(loadAnimation);
+            this.dimView.animate().setListener(null).cancel();
+            this.dimView.animate().setDuration(300L).alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.AlertDialogDecor.3
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    AlertDialogDecor.this.getDecorView().removeView(AlertDialogDecor.this.rootView);
+                    if (AlertDialogDecor.this.onDismissListener != null) {
+                        AlertDialogDecor.this.onDismissListener.onDismiss(AlertDialogDecor.this);
+                    }
+                }
+            }).start();
+        }
+    }
+
+    @Override // android.app.Dialog
+    public boolean isShowing() {
+        return (getDecorView().indexOfChild(this.rootView) == -1 || this.isDismissed) ? false : true;
+    }
+
+    @Override // android.app.Dialog
+    public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
+    }
+
+    @Override // android.app.Dialog
+    public void setOnShowListener(DialogInterface.OnShowListener onShowListener) {
+        this.onShowListener = onShowListener;
     }
 
     @Override // org.telegram.ui.ActionBar.AlertDialog, android.app.Dialog
@@ -126,25 +216,6 @@ public class AlertDialogDecor extends AlertDialog {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$show$1(View view) {
-        dismiss();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ WindowInsetsCompat lambda$show$2(FrameLayout frameLayout, View view, WindowInsetsCompat windowInsetsCompat) {
-        Rect rect = new Rect();
-        if (Build.VERSION.SDK_INT >= 30) {
-            Insets insets = windowInsetsCompat.getInsets(WindowInsetsCompat.Type.ime() | WindowInsetsCompat.Type.systemBars());
-            rect.set(insets.left, insets.top, insets.right, insets.bottom);
-        } else {
-            rect.set(windowInsetsCompat.getStableInsetLeft(), windowInsetsCompat.getStableInsetTop(), windowInsetsCompat.getStableInsetRight(), windowInsetsCompat.getStableInsetBottom());
-        }
-        frameLayout.setPadding(rect.left, rect.top, rect.right, rect.bottom + AndroidUtilities.navigationBarHeight);
-        frameLayout.requestLayout();
-        return windowInsetsCompat;
-    }
-
     @Override // org.telegram.ui.ActionBar.AlertDialog
     public void showDelayed(long j) {
         if (isShowing()) {
@@ -154,79 +225,8 @@ public class AlertDialogDecor extends AlertDialog {
         show();
     }
 
-    @Override // android.app.Dialog
-    public boolean isShowing() {
-        return (getDecorView().indexOfChild(this.rootView) == -1 || this.isDismissed) ? false : true;
-    }
-
-    @Override // android.app.Dialog
-    public void setOnShowListener(DialogInterface.OnShowListener onShowListener) {
-        this.onShowListener = onShowListener;
-    }
-
-    @Override // android.app.Dialog
-    public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
-        this.onDismissListener = onDismissListener;
-    }
-
-    @Override // org.telegram.ui.ActionBar.AlertDialog, android.app.Dialog, android.content.DialogInterface
-    public void dismiss() {
-        if (isShowing() && !this.isDismissed) {
-            this.isDismissed = true;
-            AndroidUtilities.cancelRunOnUIThread(this.showRunnable);
-            if (this.rootView.getVisibility() != 0) {
-                getDecorView().removeView(this.rootView);
-                return;
-            }
-            Animation loadAnimation = AnimationUtils.loadAnimation(getContext(), this.resExitAnimation);
-            loadAnimation.setAnimationListener(new Animation.AnimationListener() { // from class: org.telegram.ui.ActionBar.AlertDialogDecor.2
-                @Override // android.view.animation.Animation.AnimationListener
-                public void onAnimationRepeat(Animation animation) {
-                }
-
-                @Override // android.view.animation.Animation.AnimationListener
-                public void onAnimationStart(Animation animation) {
-                }
-
-                @Override // android.view.animation.Animation.AnimationListener
-                public void onAnimationEnd(Animation animation) {
-                    AlertDialogDecor.this.contentView.setAlpha(0.0f);
-                }
-            });
-            this.contentView.clearAnimation();
-            this.contentView.startAnimation(loadAnimation);
-            this.dimView.animate().setListener(null).cancel();
-            this.dimView.animate().setDuration(300L).alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.AlertDialogDecor.3
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    AlertDialogDecor.this.getDecorView().removeView(AlertDialogDecor.this.rootView);
-                    if (AlertDialogDecor.this.onDismissListener != null) {
-                        AlertDialogDecor.this.onDismissListener.onDismiss(AlertDialogDecor.this);
-                    }
-                }
-            }).start();
-        }
-    }
-
-    private Activity getActivity(Context context) {
-        if (context instanceof Activity) {
-            return (Activity) context;
-        }
-        if (context instanceof ContextThemeWrapper) {
-            return getActivity(((ContextThemeWrapper) context).getBaseContext());
-        }
-        return null;
-    }
-
-    /* loaded from: classes4.dex */
-    public static class Builder extends AlertDialog.Builder {
-        public Builder(Context context, Theme.ResourcesProvider resourcesProvider) {
-            super(context, 0, resourcesProvider);
-        }
-
-        @Override // org.telegram.ui.ActionBar.AlertDialog.Builder
-        protected AlertDialog createAlertDialog(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
-            return new AlertDialogDecor(context, i, resourcesProvider);
-        }
+    @Override // org.telegram.ui.ActionBar.AlertDialog
+    protected boolean supportsNativeBlur() {
+        return false;
     }
 }

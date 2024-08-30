@@ -4,9 +4,8 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
-class zzt extends AbstractCollection {
+abstract class zzt extends AbstractCollection {
     final Object zza;
     Collection zzb;
     final zzt zzc;
@@ -132,6 +131,20 @@ class zzt extends AbstractCollection {
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection
+    public final boolean retainAll(Collection collection) {
+        collection.getClass();
+        int size = size();
+        boolean retainAll = this.zzb.retainAll(collection);
+        if (retainAll) {
+            int size2 = this.zzb.size();
+            zzw zzwVar = this.zze;
+            zzw.zzj(zzwVar, zzw.zzd(zzwVar) + (size2 - size));
+            zzc();
+        }
+        return retainAll;
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection
     public final int size() {
         zzb();
         return this.zzb.size();
@@ -181,19 +194,5 @@ class zzt extends AbstractCollection {
             zzw zzwVar = this.zze;
             zzw.zzg(zzwVar).remove(this.zza);
         }
-    }
-
-    @Override // java.util.AbstractCollection, java.util.Collection
-    public final boolean retainAll(Collection collection) {
-        collection.getClass();
-        int size = size();
-        boolean retainAll = this.zzb.retainAll(collection);
-        if (retainAll) {
-            int size2 = this.zzb.size();
-            zzw zzwVar = this.zze;
-            zzw.zzj(zzwVar, zzw.zzd(zzwVar) + (size2 - size));
-            zzc();
-        }
-        return retainAll;
     }
 }

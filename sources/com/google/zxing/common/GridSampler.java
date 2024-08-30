@@ -5,12 +5,6 @@ import com.google.zxing.NotFoundException;
 public abstract class GridSampler {
     private static GridSampler gridSampler = new DefaultGridSampler();
 
-    public abstract BitMatrix sampleGrid(BitMatrix bitMatrix, int i, int i2, PerspectiveTransform perspectiveTransform) throws NotFoundException;
-
-    public static GridSampler getInstance() {
-        return gridSampler;
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:18:0x0035  */
     /* JADX WARN: Removed duplicated region for block: B:20:0x0039  */
@@ -19,7 +13,7 @@ public abstract class GridSampler {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static void checkAndNudgePoints(BitMatrix bitMatrix, float[] fArr) throws NotFoundException {
+    public static void checkAndNudgePoints(BitMatrix bitMatrix, float[] fArr) {
         int width = bitMatrix.getWidth();
         int height = bitMatrix.getHeight();
         int length = fArr.length - 1;
@@ -76,4 +70,10 @@ public abstract class GridSampler {
             z2 = true;
         }
     }
+
+    public static GridSampler getInstance() {
+        return gridSampler;
+    }
+
+    public abstract BitMatrix sampleGrid(BitMatrix bitMatrix, int i, int i2, PerspectiveTransform perspectiveTransform);
 }

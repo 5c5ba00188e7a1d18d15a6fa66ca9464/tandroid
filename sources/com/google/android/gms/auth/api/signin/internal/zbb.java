@@ -9,7 +9,6 @@ import com.google.android.gms.common.logging.Logger;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 public final class zbb implements Runnable {
     private static final Logger zba = new Logger("RevokeAccessOperation", new String[0]);

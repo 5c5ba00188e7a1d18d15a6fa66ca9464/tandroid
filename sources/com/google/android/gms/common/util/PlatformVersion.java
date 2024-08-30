@@ -1,9 +1,8 @@
 package com.google.android.gms.common.util;
 
 import android.os.Build;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public final class PlatformVersion {
+public abstract class PlatformVersion {
     public static boolean isAtLeastIceCreamSandwich() {
         return true;
     }

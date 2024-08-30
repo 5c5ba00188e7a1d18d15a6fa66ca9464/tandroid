@@ -6,9 +6,8 @@ import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.google.android.gms.wallet.PaymentCardRecognitionIntentResponse;
 import com.google.android.gms.wallet.PaymentData;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
-public class zzx extends zzt {
+public abstract class zzx extends zzt {
     @Override // com.google.android.gms.internal.wallet.zzu
     public void zzb(int i, FullWallet fullWallet, Bundle bundle) {
     }

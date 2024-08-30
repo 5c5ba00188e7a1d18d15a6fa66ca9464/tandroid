@@ -3,10 +3,10 @@ package com.google.android.gms.flags.impl;
 import android.content.Context;
 import android.content.SharedPreferences;
 /* loaded from: classes.dex */
-public final class zzj {
+public abstract class zzj {
     private static SharedPreferences zzw;
 
-    public static SharedPreferences zza(Context context) throws Exception {
+    public static SharedPreferences zza(Context context) {
         SharedPreferences sharedPreferences;
         synchronized (SharedPreferences.class) {
             try {

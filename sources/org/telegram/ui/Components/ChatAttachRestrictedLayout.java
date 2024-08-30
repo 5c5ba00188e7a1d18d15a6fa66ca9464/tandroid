@@ -10,7 +10,6 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ChatAttachAlert;
@@ -33,16 +32,7 @@ public class ChatAttachRestrictedLayout extends ChatAttachAlert.AttachAlertLayou
         emptyTextProgressView.setTextSize(16);
         addView(emptyTextProgressView, LayoutHelper.createFrame(-1, -2.0f));
         emptyTextProgressView.setLottie(R.raw.media_forbidden, 150, 150);
-        TLRPC$Chat chat = this.parentAlert.getChat();
-        if (i == 1) {
-            emptyTextProgressView.setText(ChatObject.getRestrictedErrorText(chat, 7));
-        } else if (i == 3) {
-            emptyTextProgressView.setText(ChatObject.getRestrictedErrorText(chat, 18));
-        } else if (i == 4) {
-            emptyTextProgressView.setText(ChatObject.getRestrictedErrorText(chat, 19));
-        } else {
-            emptyTextProgressView.setText(ChatObject.getRestrictedErrorText(chat, 22));
-        }
+        emptyTextProgressView.setText(ChatObject.getRestrictedErrorText(this.parentAlert.getChat(), i == 1 ? 7 : i == 3 ? 18 : i == 4 ? 19 : 22));
         emptyTextProgressView.showTextView();
         RecyclerListView recyclerListView = new RecyclerListView(context, resourcesProvider);
         this.listView = recyclerListView;
@@ -102,12 +92,6 @@ public class ChatAttachRestrictedLayout extends ChatAttachAlert.AttachAlertLayou
         return top + AndroidUtilities.dp(12.0f);
     }
 
-    @Override // android.view.View
-    public void setTranslationY(float f) {
-        super.setTranslationY(f);
-        this.parentAlert.getSheetContainer().invalidate();
-    }
-
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public int getFirstOffset() {
         return getListTopPadding() + AndroidUtilities.dp(4.0f);
@@ -153,5 +137,11 @@ public class ChatAttachRestrictedLayout extends ChatAttachAlert.AttachAlertLayou
         }
         if (this.listView.getPaddingTop() == i4) {
         }
+    }
+
+    @Override // android.view.View
+    public void setTranslationY(float f) {
+        super.setTranslationY(f);
+        this.parentAlert.getSheetContainer().invalidate();
     }
 }

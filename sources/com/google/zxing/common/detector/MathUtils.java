@@ -1,10 +1,6 @@
 package com.google.zxing.common.detector;
 /* loaded from: classes.dex */
-public final class MathUtils {
-    public static int round(float f) {
-        return (int) (f + (f < 0.0f ? -0.5f : 0.5f));
-    }
-
+public abstract class MathUtils {
     public static float distance(float f, float f2, float f3, float f4) {
         double d = f - f3;
         double d2 = f2 - f4;
@@ -23,5 +19,9 @@ public final class MathUtils {
         Double.isNaN(d2);
         Double.isNaN(d2);
         return (float) Math.sqrt((d * d) + (d2 * d2));
+    }
+
+    public static int round(float f) {
+        return (int) (f + (f < 0.0f ? -0.5f : 0.5f));
     }
 }

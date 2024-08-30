@@ -4,9 +4,7 @@ import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Looper;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.Feature;
-import com.google.android.gms.common.api.Api.ApiOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.common.api.internal.OnConnectionFailedListener;
@@ -20,68 +18,50 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import org.telegram.tgnet.ConnectionsManager;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class Api<O extends ApiOptions> {
+public final class Api {
     private final AbstractClientBuilder zaa;
     private final ClientKey zab;
     private final String zac;
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
-    public static abstract class AbstractClientBuilder<T extends Client, O> extends BaseClientBuilder<T, O> {
-        @Deprecated
-        public T buildClient(Context context, Looper looper, ClientSettings clientSettings, O o, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
-            return buildClient(context, looper, clientSettings, (ClientSettings) o, (ConnectionCallbacks) connectionCallbacks, (OnConnectionFailedListener) onConnectionFailedListener);
+    public static abstract class AbstractClientBuilder extends BaseClientBuilder {
+        public Client buildClient(Context context, Looper looper, ClientSettings clientSettings, Object obj, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
+            return buildClient(context, looper, clientSettings, obj, (ConnectionCallbacks) connectionCallbacks, (OnConnectionFailedListener) onConnectionFailedListener);
         }
 
-        public T buildClient(Context context, Looper looper, ClientSettings clientSettings, O o, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
+        public Client buildClient(Context context, Looper looper, ClientSettings clientSettings, Object obj, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
             throw new UnsupportedOperationException("buildClient must be implemented");
         }
     }
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
     public interface AnyClient {
     }
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
-    public static class AnyClientKey<C extends AnyClient> {
+    public static class AnyClientKey {
     }
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
     public interface ApiOptions {
         public static final NoOptions NO_OPTIONS = new NoOptions(null);
 
-        /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
         /* loaded from: classes.dex */
         public interface HasAccountOptions extends ApiOptions {
             Account getAccount();
         }
 
-        /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
-        /* loaded from: classes.dex */
-        public interface HasGoogleSignInAccountOptions extends ApiOptions {
-            GoogleSignInAccount getGoogleSignInAccount();
-        }
-
-        /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
         /* loaded from: classes.dex */
         public static final class NoOptions implements ApiOptions {
-            private NoOptions() {
-            }
-
             /* synthetic */ NoOptions(zaa zaaVar) {
             }
         }
     }
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
-    public static abstract class BaseClientBuilder<T extends AnyClient, O> {
-        public List<Scope> getImpliedScopes(O o) {
+    public static abstract class BaseClientBuilder {
+        public List getImpliedScopes(Object obj) {
             return Collections.emptyList();
         }
 
@@ -90,7 +70,6 @@ public final class Api<O extends ApiOptions> {
         }
     }
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
     public interface Client extends AnyClient {
         void connect(BaseGmsClient.ConnectionProgressReportCallbacks connectionProgressReportCallbacks);
@@ -109,9 +88,9 @@ public final class Api<O extends ApiOptions> {
 
         int getMinApkVersion();
 
-        void getRemoteService(IAccountAccessor iAccountAccessor, Set<Scope> set);
+        void getRemoteService(IAccountAccessor iAccountAccessor, Set set);
 
-        Set<Scope> getScopesForConnectionlessNonSignIn();
+        Set getScopesForConnectionlessNonSignIn();
 
         Intent getSignInIntent();
 
@@ -128,12 +107,11 @@ public final class Api<O extends ApiOptions> {
         boolean requiresSignIn();
     }
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
-    public static final class ClientKey<C extends Client> extends AnyClientKey<C> {
+    public static final class ClientKey extends AnyClientKey {
     }
 
-    public <C extends Client> Api(String str, AbstractClientBuilder<C, O> abstractClientBuilder, ClientKey<C> clientKey) {
+    public Api(String str, AbstractClientBuilder abstractClientBuilder, ClientKey clientKey) {
         Preconditions.checkNotNull(abstractClientBuilder, "Cannot construct an Api with a null ClientBuilder");
         Preconditions.checkNotNull(clientKey, "Cannot construct an Api with a null ClientKey");
         this.zac = str;

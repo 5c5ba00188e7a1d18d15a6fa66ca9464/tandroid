@@ -1,16 +1,12 @@
 package com.google.mlkit.nl.languageid;
 
-import com.google.android.apps.common.proguard.UsedByNative;
 import com.google.android.gms.internal.mlkit_language_id.zzh;
 import java.util.Arrays;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
-@UsedByNative("language_id_jni.cc")
 /* loaded from: classes.dex */
 public final class IdentifiedLanguage {
     private final String zza;
     private final float zzb;
 
-    @UsedByNative("language_id_jni.cc")
     IdentifiedLanguage(String str, float f) {
         this.zza = str;
         this.zzb = f;

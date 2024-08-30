@@ -7,7 +7,6 @@ import com.google.android.gms.common.internal.BaseGmsClient;
 import com.google.android.gms.common.internal.Preconditions;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.locks.Lock;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 final class zaal implements BaseGmsClient.ConnectionProgressReportCallbacks {
     private final WeakReference zaa;
@@ -47,10 +46,8 @@ final class zaal implements BaseGmsClient.ConnectionProgressReportCallbacks {
                 if (zaH) {
                     zaawVar.zaF();
                 }
-                lock3 = zaawVar.zab;
-            } else {
-                lock3 = zaawVar.zab;
             }
+            lock3 = zaawVar.zab;
             lock3.unlock();
         } catch (Throwable th) {
             lock2 = zaawVar.zab;

@@ -1,5 +1,4 @@
 package org.webrtc.voiceengine;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes.dex */
-public final /* synthetic */ class WebRtcAudioRecord$$ExternalSyntheticApiModelOutline0 {
+public abstract /* synthetic */ class WebRtcAudioRecord$$ExternalSyntheticApiModelOutline0 {
 }

@@ -5,7 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public final class zzui implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -14,7 +13,7 @@ public final class zzui implements Parcelable.Creator {
         ArrayList arrayList = null;
         float[] fArr = null;
         Bitmap bitmap = null;
-        ArrayList<Float> arrayList2 = null;
+        ArrayList arrayList2 = null;
         while (parcel.dataPosition() < validateObjectHeader) {
             int readHeader = SafeParcelReader.readHeader(parcel);
             int fieldId = SafeParcelReader.getFieldId(readHeader);
@@ -24,10 +23,10 @@ public final class zzui implements Parcelable.Creator {
                 fArr = SafeParcelReader.createFloatArray(parcel, readHeader);
             } else if (fieldId == 3) {
                 bitmap = (Bitmap) SafeParcelReader.createParcelable(parcel, readHeader, Bitmap.CREATOR);
-            } else if (fieldId == 4) {
-                arrayList2 = SafeParcelReader.createFloatList(parcel, readHeader);
-            } else {
+            } else if (fieldId != 4) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                arrayList2 = SafeParcelReader.createFloatList(parcel, readHeader);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);

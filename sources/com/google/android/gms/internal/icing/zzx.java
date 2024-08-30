@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.Locale;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
 public final class zzx extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zzx> CREATOR = new zzy();

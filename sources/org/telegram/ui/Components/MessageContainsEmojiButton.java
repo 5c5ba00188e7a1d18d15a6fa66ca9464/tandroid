@@ -71,21 +71,13 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x010c, code lost:
-        r4 = null;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public MessageContainsEmojiButton(int i, Context context, Theme.ResourcesProvider resourcesProvider, ArrayList<TLRPC$InputStickerSet> arrayList, int i2) {
+    public MessageContainsEmojiButton(int i, Context context, Theme.ResourcesProvider resourcesProvider, ArrayList arrayList, int i2) {
         super(context);
-        String string;
         String str;
         TLRPC$Document tLRPC$Document;
         TLRPC$TL_messages_stickerSet stickerSet;
         TLRPC$StickerSet tLRPC$StickerSet;
-        ArrayList<TLRPC$Document> arrayList2;
-        String formatPluralString;
+        ArrayList arrayList2;
         this.emojiDrawableBounds = new android.graphics.Rect();
         this.loadingDrawableBoundsSet = false;
         this.lastWidth = -1;
@@ -99,12 +91,9 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         textPaint.setTextSize(AndroidUtilities.dp(13.0f));
         this.textPaint.setColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem, resourcesProvider));
         if (arrayList.size() > 1) {
-            if (i2 == 0) {
-                formatPluralString = LocaleController.formatPluralString("MessageContainsEmojiPacks", arrayList.size(), new Object[0]);
-            } else {
-                formatPluralString = LocaleController.formatPluralString("MessageContainsReactionsPacks", arrayList.size(), new Object[0]);
-            }
-            SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(formatPluralString);
+            int size = arrayList.size();
+            Object[] objArr = new Object[0];
+            SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(i2 == 0 ? LocaleController.formatPluralString("MessageContainsEmojiPacks", size, objArr) : LocaleController.formatPluralString("MessageContainsReactionsPacks", size, objArr));
             this.mainText = replaceTags;
             TypefaceSpan[] typefaceSpanArr = (TypefaceSpan[]) replaceTags.getSpans(0, replaceTags.length(), TypefaceSpan.class);
             for (int i3 = 0; typefaceSpanArr != null && i3 < typefaceSpanArr.length; i3++) {
@@ -118,19 +107,13 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                 this.mainText = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StickersCheckStickersBotForMoreOptions), Theme.key_chat_messageLinkIn, 2, null, resourcesProvider);
             }
         } else {
-            if (i2 == 0) {
-                string = LocaleController.getString(R.string.MessageContainsEmojiPack);
-            } else if (i2 == 3) {
-                string = LocaleController.getString(R.string.MessageContainsReactionPack);
-            } else {
-                string = LocaleController.getString(R.string.MessageContainsReactionsPack);
-            }
+            String string = LocaleController.getString(i2 == 0 ? R.string.MessageContainsEmojiPack : i2 == 3 ? R.string.MessageContainsReactionPack : R.string.MessageContainsReactionsPack);
             String[] split = string.split("%s");
             if (split.length <= 1) {
                 this.mainText = string;
                 return;
             }
-            TLRPC$InputStickerSet tLRPC$InputStickerSet = arrayList.get(0);
+            TLRPC$InputStickerSet tLRPC$InputStickerSet = (TLRPC$InputStickerSet) arrayList.get(0);
             this.inputStickerSet = tLRPC$InputStickerSet;
             if (tLRPC$InputStickerSet == null || (stickerSet = MediaDataController.getInstance(i).getStickerSet(this.inputStickerSet, false)) == null || (tLRPC$StickerSet = stickerSet.set) == null) {
                 str = null;
@@ -139,48 +122,58 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                 str = tLRPC$StickerSet.title;
                 int i4 = 0;
                 while (true) {
-                    ArrayList<TLRPC$Document> arrayList3 = stickerSet.documents;
+                    ArrayList arrayList3 = stickerSet.documents;
                     if (arrayList3 == null || i4 >= arrayList3.size()) {
                         break;
-                    } else if (stickerSet.documents.get(i4).id == stickerSet.set.thumb_document_id) {
-                        tLRPC$Document = stickerSet.documents.get(i4);
+                    } else if (((TLRPC$Document) stickerSet.documents.get(i4)).id == stickerSet.set.thumb_document_id) {
+                        tLRPC$Document = (TLRPC$Document) stickerSet.documents.get(i4);
                         break;
                     } else {
                         i4++;
                     }
                 }
+                tLRPC$Document = null;
                 if (tLRPC$Document == null && (arrayList2 = stickerSet.documents) != null && arrayList2.size() > 0) {
-                    tLRPC$Document = stickerSet.documents.get(0);
+                    tLRPC$Document = (TLRPC$Document) stickerSet.documents.get(0);
                 }
             }
-            if (str != null && tLRPC$Document != null) {
-                SpannableString spannableString = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(tLRPC$Document));
-                spannableString.setSpan(new AnimatedEmojiSpan(tLRPC$Document, this.textPaint.getFontMetricsInt()) { // from class: org.telegram.ui.Components.MessageContainsEmojiButton.1
-                    @Override // org.telegram.ui.Components.AnimatedEmojiSpan, android.text.style.ReplacementSpan
-                    public void draw(Canvas canvas, CharSequence charSequence, int i5, int i6, float f, int i7, int i8, int i9, Paint paint) {
-                        int i10 = i9 + i7;
-                        int i11 = this.measuredSize;
-                        MessageContainsEmojiButton.this.emojiDrawableBounds.set((int) f, (i10 - i11) / 2, (int) (f + i11), (i10 + i11) / 2);
-                    }
-                }, 0, spannableString.length(), 33);
-                AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(i, 0, tLRPC$Document);
-                this.emojiDrawable = make;
-                make.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, resourcesProvider), PorterDuff.Mode.SRC_IN));
-                this.emojiDrawable.addView(this);
-                SpannableString spannableString2 = new SpannableString(str);
-                spannableString2.setSpan(new BoldAndAccent(), 0, spannableString2.length(), 33);
-                this.mainText = new SpannableStringBuilder().append((CharSequence) split[0]).append((CharSequence) spannableString).append(' ').append((CharSequence) spannableString2).append((CharSequence) split[1]);
-                this.loadT = 1.0f;
-                this.inputStickerSet = null;
+            if (str == null || tLRPC$Document == null) {
+                this.mainText = split[0];
+                this.endText = split[1];
+                LoadingDrawable loadingDrawable = new LoadingDrawable(resourcesProvider);
+                this.loadingDrawable = loadingDrawable;
+                loadingDrawable.colorKey1 = Theme.key_actionBarDefaultSubmenuBackground;
+                loadingDrawable.colorKey2 = Theme.key_listSelector;
+                loadingDrawable.setRadiiDp(4.0f);
                 return;
             }
-            this.mainText = split[0];
-            this.endText = split[1];
-            LoadingDrawable loadingDrawable = new LoadingDrawable(resourcesProvider);
-            this.loadingDrawable = loadingDrawable;
-            loadingDrawable.colorKey1 = Theme.key_actionBarDefaultSubmenuBackground;
-            loadingDrawable.colorKey2 = Theme.key_listSelector;
-            loadingDrawable.setRadiiDp(4.0f);
+            SpannableString spannableString = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(tLRPC$Document));
+            spannableString.setSpan(new AnimatedEmojiSpan(tLRPC$Document, this.textPaint.getFontMetricsInt()) { // from class: org.telegram.ui.Components.MessageContainsEmojiButton.1
+                @Override // org.telegram.ui.Components.AnimatedEmojiSpan, android.text.style.ReplacementSpan
+                public void draw(Canvas canvas, CharSequence charSequence, int i5, int i6, float f, int i7, int i8, int i9, Paint paint) {
+                    int i10 = i9 + i7;
+                    int i11 = this.measuredSize;
+                    MessageContainsEmojiButton.this.emojiDrawableBounds.set((int) f, (i10 - i11) / 2, (int) (f + i11), (i10 + i11) / 2);
+                }
+            }, 0, spannableString.length(), 33);
+            AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(i, 0, tLRPC$Document);
+            this.emojiDrawable = make;
+            make.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, resourcesProvider), PorterDuff.Mode.SRC_IN));
+            this.emojiDrawable.addView(this);
+            SpannableString spannableString2 = new SpannableString(str);
+            spannableString2.setSpan(new BoldAndAccent(), 0, spannableString2.length(), 33);
+            this.mainText = new SpannableStringBuilder().append((CharSequence) split[0]).append((CharSequence) spannableString).append(' ').append((CharSequence) spannableString2).append((CharSequence) split[1]);
+            this.loadT = 1.0f;
+            this.inputStickerSet = null;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$didReceivedNotification$0(boolean z, ValueAnimator valueAnimator) {
+        this.loadT = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        invalidate();
+        if (z) {
+            requestLayout();
         }
     }
 
@@ -239,61 +232,6 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         return height + ((int) f);
     }
 
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        int i3;
-        setPadding(AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f));
-        int size = View.MeasureSpec.getSize(i);
-        if (this.checkWidth && (i3 = this.lastWidth) > 0) {
-            size = Math.min(size, i3);
-        }
-        this.lastWidth = size;
-        int paddingLeft = (size - getPaddingLeft()) - getPaddingRight();
-        if (paddingLeft < 0) {
-            paddingLeft = 0;
-        }
-        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(updateLayout(paddingLeft, false) + getPaddingTop() + getPaddingBottom(), 1073741824));
-    }
-
-    @Override // android.view.View
-    protected void onDraw(Canvas canvas) {
-        android.graphics.Rect rect;
-        super.onDraw(canvas);
-        if (this.mainTextLayout != null) {
-            canvas.save();
-            canvas.translate(getPaddingLeft(), getPaddingTop());
-            this.textPaint.setAlpha(NotificationCenter.voipServiceCreated);
-            this.mainTextLayout.draw(canvas);
-            LoadingDrawable loadingDrawable = this.loadingDrawable;
-            if (loadingDrawable != null && this.loadingDrawableBoundsSet) {
-                loadingDrawable.setAlpha((int) ((1.0f - this.loadT) * 255.0f));
-                android.graphics.Rect rect2 = this.loadingBoundsFrom;
-                if (rect2 != null && (rect = this.loadingBoundsTo) != null) {
-                    float f = this.loadT;
-                    android.graphics.Rect rect3 = AndroidUtilities.rectTmp2;
-                    AndroidUtilities.lerp(rect2, rect, f, rect3);
-                    this.loadingDrawable.setBounds(rect3);
-                }
-                this.loadingDrawable.draw(canvas);
-                invalidate();
-            }
-            if (this.secondPartTextLayout != null) {
-                canvas.save();
-                canvas.translate(0.0f, this.lastLineTop);
-                this.textPaint.setAlpha((int) (this.loadT * 255.0f));
-                this.secondPartTextLayout.draw(canvas);
-                canvas.restore();
-            }
-            AnimatedEmojiDrawable animatedEmojiDrawable = this.emojiDrawable;
-            if (animatedEmojiDrawable != null) {
-                animatedEmojiDrawable.setAlpha((int) (this.loadT * 255.0f));
-                this.emojiDrawable.setBounds(this.emojiDrawableBounds);
-                this.emojiDrawable.draw(canvas);
-            }
-            canvas.restore();
-        }
-    }
-
     /* JADX WARN: Code restructure failed: missing block: B:20:0x0048, code lost:
         r2 = null;
      */
@@ -305,7 +243,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         TLRPC$TL_messages_stickerSet stickerSet;
         String str;
         TLRPC$Document tLRPC$Document;
-        ArrayList<TLRPC$Document> arrayList;
+        ArrayList arrayList;
         if (i != NotificationCenter.groupStickersDidLoad || this.inputStickerSet == null || (stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet(this.inputStickerSet, false)) == null) {
             return;
         }
@@ -314,18 +252,18 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
             str = tLRPC$StickerSet.title;
             int i3 = 0;
             while (true) {
-                ArrayList<TLRPC$Document> arrayList2 = stickerSet.documents;
+                ArrayList arrayList2 = stickerSet.documents;
                 if (arrayList2 == null || i3 >= arrayList2.size()) {
                     break;
-                } else if (stickerSet.documents.get(i3).id == stickerSet.set.thumb_document_id) {
-                    tLRPC$Document = stickerSet.documents.get(i3);
+                } else if (((TLRPC$Document) stickerSet.documents.get(i3)).id == stickerSet.set.thumb_document_id) {
+                    tLRPC$Document = (TLRPC$Document) stickerSet.documents.get(i3);
                     break;
                 } else {
                     i3++;
                 }
             }
             if (tLRPC$Document == null && (arrayList = stickerSet.documents) != null && arrayList.size() > 0) {
-                tLRPC$Document = stickerSet.documents.get(0);
+                tLRPC$Document = (TLRPC$Document) stickerSet.documents.get(0);
             }
         } else {
             str = null;
@@ -394,13 +332,14 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         this.loadAnimator.start();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didReceivedNotification$0(boolean z, ValueAnimator valueAnimator) {
-        this.loadT = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        invalidate();
-        if (z) {
-            requestLayout();
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        AnimatedEmojiDrawable animatedEmojiDrawable = this.emojiDrawable;
+        if (animatedEmojiDrawable != null) {
+            animatedEmojiDrawable.addView(this);
         }
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupStickersDidLoad);
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -413,13 +352,58 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.groupStickersDidLoad);
     }
 
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        AnimatedEmojiDrawable animatedEmojiDrawable = this.emojiDrawable;
-        if (animatedEmojiDrawable != null) {
-            animatedEmojiDrawable.addView(this);
+    @Override // android.view.View
+    protected void onDraw(Canvas canvas) {
+        android.graphics.Rect rect;
+        super.onDraw(canvas);
+        if (this.mainTextLayout != null) {
+            canvas.save();
+            canvas.translate(getPaddingLeft(), getPaddingTop());
+            this.textPaint.setAlpha(NotificationCenter.voipServiceCreated);
+            this.mainTextLayout.draw(canvas);
+            LoadingDrawable loadingDrawable = this.loadingDrawable;
+            if (loadingDrawable != null && this.loadingDrawableBoundsSet) {
+                loadingDrawable.setAlpha((int) ((1.0f - this.loadT) * 255.0f));
+                android.graphics.Rect rect2 = this.loadingBoundsFrom;
+                if (rect2 != null && (rect = this.loadingBoundsTo) != null) {
+                    float f = this.loadT;
+                    android.graphics.Rect rect3 = AndroidUtilities.rectTmp2;
+                    AndroidUtilities.lerp(rect2, rect, f, rect3);
+                    this.loadingDrawable.setBounds(rect3);
+                }
+                this.loadingDrawable.draw(canvas);
+                invalidate();
+            }
+            if (this.secondPartTextLayout != null) {
+                canvas.save();
+                canvas.translate(0.0f, this.lastLineTop);
+                this.textPaint.setAlpha((int) (this.loadT * 255.0f));
+                this.secondPartTextLayout.draw(canvas);
+                canvas.restore();
+            }
+            AnimatedEmojiDrawable animatedEmojiDrawable = this.emojiDrawable;
+            if (animatedEmojiDrawable != null) {
+                animatedEmojiDrawable.setAlpha((int) (this.loadT * 255.0f));
+                this.emojiDrawable.setBounds(this.emojiDrawableBounds);
+                this.emojiDrawable.draw(canvas);
+            }
+            canvas.restore();
         }
-        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupStickersDidLoad);
+    }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        int i3;
+        setPadding(AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f));
+        int size = View.MeasureSpec.getSize(i);
+        if (this.checkWidth && (i3 = this.lastWidth) > 0) {
+            size = Math.min(size, i3);
+        }
+        this.lastWidth = size;
+        int paddingLeft = (size - getPaddingLeft()) - getPaddingRight();
+        if (paddingLeft < 0) {
+            paddingLeft = 0;
+        }
+        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(updateLayout(paddingLeft, false) + getPaddingTop() + getPaddingBottom(), 1073741824));
     }
 }

@@ -2,7 +2,6 @@ package com.google.android.gms.common.api;
 
 import android.app.Activity;
 import android.app.PendingIntent;
-import android.content.IntentSender;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.ConnectionResult;
@@ -11,7 +10,6 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class Status extends AbstractSafeParcelable implements Result, ReflectedParcelable {
     final int zzb;
@@ -40,6 +38,22 @@ public final class Status extends AbstractSafeParcelable implements Result, Refl
         this.zzd = str;
         this.zze = pendingIntent;
         this.zzf = connectionResult;
+    }
+
+    public Status(int i, String str) {
+        this(1, i, str, null, null);
+    }
+
+    public Status(int i, String str, PendingIntent pendingIntent) {
+        this(1, i, str, pendingIntent, null);
+    }
+
+    public Status(ConnectionResult connectionResult, String str) {
+        this(connectionResult, str, 17);
+    }
+
+    public Status(ConnectionResult connectionResult, String str, int i) {
+        this(1, i, str, connectionResult.getResolution(), connectionResult);
     }
 
     public boolean equals(Object obj) {
@@ -79,7 +93,7 @@ public final class Status extends AbstractSafeParcelable implements Result, Refl
         return this.zzc <= 0;
     }
 
-    public void startResolutionForResult(Activity activity, int i) throws IntentSender.SendIntentException {
+    public void startResolutionForResult(Activity activity, int i) {
         if (hasResolution()) {
             PendingIntent pendingIntent = this.zze;
             Preconditions.checkNotNull(pendingIntent);
@@ -108,22 +122,5 @@ public final class Status extends AbstractSafeParcelable implements Result, Refl
     public final String zza() {
         String str = this.zzd;
         return str != null ? str : CommonStatusCodes.getStatusCodeString(this.zzc);
-    }
-
-    public Status(int i, String str) {
-        this(1, i, str, null, null);
-    }
-
-    public Status(int i, String str, PendingIntent pendingIntent) {
-        this(1, i, str, pendingIntent, null);
-    }
-
-    public Status(ConnectionResult connectionResult, String str) {
-        this(connectionResult, str, 17);
-    }
-
-    @Deprecated
-    public Status(ConnectionResult connectionResult, String str, int i) {
-        this(1, i, str, connectionResult.getResolution(), connectionResult);
     }
 }

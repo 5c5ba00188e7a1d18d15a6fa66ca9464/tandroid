@@ -5,7 +5,6 @@ import android.content.ServiceConnection;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.IInterface;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zze implements ServiceConnection {
     final /* synthetic */ BaseGmsClient zza;
@@ -19,7 +18,6 @@ public final class zze implements ServiceConnection {
     @Override // android.content.ServiceConnection
     public final void onServiceConnected(ComponentName componentName, IBinder iBinder) {
         Object obj;
-        IGmsServiceBroker zzacVar;
         BaseGmsClient baseGmsClient = this.zza;
         if (iBinder == null) {
             BaseGmsClient.zzk(baseGmsClient, 16);
@@ -30,12 +28,7 @@ public final class zze implements ServiceConnection {
             try {
                 BaseGmsClient baseGmsClient2 = this.zza;
                 IInterface queryLocalInterface = iBinder.queryLocalInterface("com.google.android.gms.common.internal.IGmsServiceBroker");
-                if (queryLocalInterface != null && (queryLocalInterface instanceof IGmsServiceBroker)) {
-                    zzacVar = (IGmsServiceBroker) queryLocalInterface;
-                } else {
-                    zzacVar = new zzac(iBinder);
-                }
-                baseGmsClient2.zzr = zzacVar;
+                baseGmsClient2.zzr = (queryLocalInterface == null || !(queryLocalInterface instanceof IGmsServiceBroker)) ? new zzac(iBinder) : (IGmsServiceBroker) queryLocalInterface;
             } catch (Throwable th) {
                 throw th;
             }

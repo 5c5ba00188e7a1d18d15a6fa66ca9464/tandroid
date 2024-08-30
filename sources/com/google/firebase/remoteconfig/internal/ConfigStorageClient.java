@@ -4,14 +4,13 @@ import android.content.Context;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 /* loaded from: classes.dex */
 public class ConfigStorageClient {
-    private static final Map<String, ConfigStorageClient> clientInstances = new HashMap();
+    private static final Map clientInstances = new HashMap();
     private final Context context;
     private final String fileName;
 
@@ -20,14 +19,33 @@ public class ConfigStorageClient {
         this.fileName = str;
     }
 
-    public synchronized Void write(ConfigContainer configContainer) throws IOException {
-        FileOutputStream openFileOutput = this.context.openFileOutput(this.fileName, 0);
-        openFileOutput.write(configContainer.toString().getBytes("UTF-8"));
-        openFileOutput.close();
+    public static synchronized ConfigStorageClient getInstance(Context context, String str) {
+        ConfigStorageClient configStorageClient;
+        synchronized (ConfigStorageClient.class) {
+            try {
+                Map map = clientInstances;
+                if (!map.containsKey(str)) {
+                    map.put(str, new ConfigStorageClient(context, str));
+                }
+                configStorageClient = (ConfigStorageClient) map.get(str);
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+        return configStorageClient;
+    }
+
+    public synchronized Void clear() {
+        this.context.deleteFile(this.fileName);
         return null;
     }
 
-    public synchronized ConfigContainer read() throws IOException {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public String getFileName() {
+        return this.fileName;
+    }
+
+    public synchronized ConfigContainer read() {
         FileInputStream fileInputStream;
         Throwable th;
         try {
@@ -59,29 +77,10 @@ public class ConfigStorageClient {
         }
     }
 
-    public synchronized Void clear() {
-        this.context.deleteFile(this.fileName);
+    public synchronized Void write(ConfigContainer configContainer) {
+        FileOutputStream openFileOutput = this.context.openFileOutput(this.fileName, 0);
+        openFileOutput.write(configContainer.toString().getBytes("UTF-8"));
+        openFileOutput.close();
         return null;
-    }
-
-    public static synchronized ConfigStorageClient getInstance(Context context, String str) {
-        ConfigStorageClient configStorageClient;
-        synchronized (ConfigStorageClient.class) {
-            try {
-                Map<String, ConfigStorageClient> map = clientInstances;
-                if (!map.containsKey(str)) {
-                    map.put(str, new ConfigStorageClient(context, str));
-                }
-                configStorageClient = map.get(str);
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-        return configStorageClient;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public String getFileName() {
-        return this.fileName;
     }
 }

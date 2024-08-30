@@ -15,7 +15,7 @@ public interface Log extends Model {
 
     Date getTimestamp();
 
-    Set<String> getTransmissionTargetTokens();
+    Set getTransmissionTargetTokens();
 
     String getType();
 

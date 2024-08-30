@@ -1,16 +1,16 @@
 package com.google.android.gms.internal.clearcut;
 /* loaded from: classes.dex */
-final class zzaw {
-    private static final Class<?> zzfb = zze("libcore.io.Memory");
+abstract class zzaw {
+    private static final Class zzfb = zze("libcore.io.Memory");
     private static final boolean zzfc;
 
     static {
         zzfc = zze("org.robolectric.Robolectric") != null;
     }
 
-    private static <T> Class<T> zze(String str) {
+    private static Class zze(String str) {
         try {
-            return (Class<T>) Class.forName(str);
+            return Class.forName(str);
         } catch (Throwable unused) {
             return null;
         }
@@ -22,7 +22,7 @@ final class zzaw {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static Class<?> zzy() {
+    public static Class zzy() {
         return zzfb;
     }
 }

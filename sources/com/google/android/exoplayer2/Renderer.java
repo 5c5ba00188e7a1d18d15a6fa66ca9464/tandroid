@@ -4,13 +4,12 @@ import com.google.android.exoplayer2.PlayerMessage;
 import com.google.android.exoplayer2.analytics.PlayerId;
 import com.google.android.exoplayer2.source.SampleStream;
 import com.google.android.exoplayer2.util.MediaClock;
-import java.io.IOException;
 /* loaded from: classes.dex */
 public interface Renderer extends PlayerMessage.Target {
 
     /* loaded from: classes.dex */
-    public final /* synthetic */ class -CC {
-        public static void $default$setPlaybackSpeed(Renderer renderer, float f, float f2) throws ExoPlaybackException {
+    public abstract /* synthetic */ class -CC {
+        public static void $default$setPlaybackSpeed(Renderer renderer, float f, float f2) {
         }
     }
 
@@ -23,7 +22,7 @@ public interface Renderer extends PlayerMessage.Target {
 
     void disable();
 
-    void enable(RendererConfiguration rendererConfiguration, Format[] formatArr, SampleStream sampleStream, long j, boolean z, boolean z2, long j2, long j3) throws ExoPlaybackException;
+    void enable(RendererConfiguration rendererConfiguration, Format[] formatArr, SampleStream sampleStream, long j, boolean z, boolean z2, long j2, long j3);
 
     RendererCapabilities getCapabilities();
 
@@ -49,21 +48,21 @@ public interface Renderer extends PlayerMessage.Target {
 
     boolean isReady();
 
-    void maybeThrowStreamError() throws IOException;
+    void maybeThrowStreamError();
 
-    void render(long j, long j2) throws ExoPlaybackException;
+    void render(long j, long j2);
 
-    void replaceStream(Format[] formatArr, SampleStream sampleStream, long j, long j2) throws ExoPlaybackException;
+    void replaceStream(Format[] formatArr, SampleStream sampleStream, long j, long j2);
 
     void reset();
 
-    void resetPosition(long j) throws ExoPlaybackException;
+    void resetPosition(long j);
 
     void setCurrentStreamFinal();
 
-    void setPlaybackSpeed(float f, float f2) throws ExoPlaybackException;
+    void setPlaybackSpeed(float f, float f2);
 
-    void start() throws ExoPlaybackException;
+    void start();
 
     void stop();
 }

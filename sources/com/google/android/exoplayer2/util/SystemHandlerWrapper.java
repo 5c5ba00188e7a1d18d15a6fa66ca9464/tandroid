@@ -9,11 +9,72 @@ import java.util.List;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class SystemHandlerWrapper implements HandlerWrapper {
-    private static final List<SystemMessage> messagePool = new ArrayList(50);
+    private static final List messagePool = new ArrayList(50);
     private final Handler handler;
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static final class SystemMessage implements HandlerWrapper.Message {
+        private SystemHandlerWrapper handler;
+        private Message message;
+
+        private SystemMessage() {
+        }
+
+        private void recycle() {
+            this.message = null;
+            this.handler = null;
+            SystemHandlerWrapper.recycleMessage(this);
+        }
+
+        public boolean sendAtFrontOfQueue(Handler handler) {
+            boolean sendMessageAtFrontOfQueue = handler.sendMessageAtFrontOfQueue((Message) Assertions.checkNotNull(this.message));
+            recycle();
+            return sendMessageAtFrontOfQueue;
+        }
+
+        @Override // com.google.android.exoplayer2.util.HandlerWrapper.Message
+        public void sendToTarget() {
+            ((Message) Assertions.checkNotNull(this.message)).sendToTarget();
+            recycle();
+        }
+
+        public SystemMessage setMessage(Message message, SystemHandlerWrapper systemHandlerWrapper) {
+            this.message = message;
+            this.handler = systemHandlerWrapper;
+            return this;
+        }
+    }
 
     public SystemHandlerWrapper(Handler handler) {
         this.handler = handler;
+    }
+
+    private static SystemMessage obtainSystemMessage() {
+        SystemMessage systemMessage;
+        List list = messagePool;
+        synchronized (list) {
+            try {
+                systemMessage = list.isEmpty() ? new SystemMessage() : (SystemMessage) list.remove(list.size() - 1);
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+        return systemMessage;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void recycleMessage(SystemMessage systemMessage) {
+        List list = messagePool;
+        synchronized (list) {
+            try {
+                if (list.size() < 50) {
+                    list.add(systemMessage);
+                }
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
     }
 
     @Override // com.google.android.exoplayer2.util.HandlerWrapper
@@ -32,11 +93,6 @@ public final class SystemHandlerWrapper implements HandlerWrapper {
     }
 
     @Override // com.google.android.exoplayer2.util.HandlerWrapper
-    public HandlerWrapper.Message obtainMessage(int i, Object obj) {
-        return obtainSystemMessage().setMessage(this.handler.obtainMessage(i, obj), this);
-    }
-
-    @Override // com.google.android.exoplayer2.util.HandlerWrapper
     public HandlerWrapper.Message obtainMessage(int i, int i2, int i3) {
         return obtainSystemMessage().setMessage(this.handler.obtainMessage(i, i2, i3), this);
     }
@@ -47,8 +103,23 @@ public final class SystemHandlerWrapper implements HandlerWrapper {
     }
 
     @Override // com.google.android.exoplayer2.util.HandlerWrapper
-    public boolean sendMessageAtFrontOfQueue(HandlerWrapper.Message message) {
-        return ((SystemMessage) message).sendAtFrontOfQueue(this.handler);
+    public HandlerWrapper.Message obtainMessage(int i, Object obj) {
+        return obtainSystemMessage().setMessage(this.handler.obtainMessage(i, obj), this);
+    }
+
+    @Override // com.google.android.exoplayer2.util.HandlerWrapper
+    public boolean post(Runnable runnable) {
+        return this.handler.post(runnable);
+    }
+
+    @Override // com.google.android.exoplayer2.util.HandlerWrapper
+    public void removeCallbacksAndMessages(Object obj) {
+        this.handler.removeCallbacksAndMessages(obj);
+    }
+
+    @Override // com.google.android.exoplayer2.util.HandlerWrapper
+    public void removeMessages(int i) {
+        this.handler.removeMessages(i);
     }
 
     @Override // com.google.android.exoplayer2.util.HandlerWrapper
@@ -62,82 +133,7 @@ public final class SystemHandlerWrapper implements HandlerWrapper {
     }
 
     @Override // com.google.android.exoplayer2.util.HandlerWrapper
-    public void removeMessages(int i) {
-        this.handler.removeMessages(i);
-    }
-
-    @Override // com.google.android.exoplayer2.util.HandlerWrapper
-    public void removeCallbacksAndMessages(Object obj) {
-        this.handler.removeCallbacksAndMessages(obj);
-    }
-
-    @Override // com.google.android.exoplayer2.util.HandlerWrapper
-    public boolean post(Runnable runnable) {
-        return this.handler.post(runnable);
-    }
-
-    private static SystemMessage obtainSystemMessage() {
-        SystemMessage remove;
-        List<SystemMessage> list = messagePool;
-        synchronized (list) {
-            try {
-                if (list.isEmpty()) {
-                    remove = new SystemMessage();
-                } else {
-                    remove = list.remove(list.size() - 1);
-                }
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-        return remove;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static void recycleMessage(SystemMessage systemMessage) {
-        List<SystemMessage> list = messagePool;
-        synchronized (list) {
-            try {
-                if (list.size() < 50) {
-                    list.add(systemMessage);
-                }
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class SystemMessage implements HandlerWrapper.Message {
-        private SystemHandlerWrapper handler;
-        private Message message;
-
-        private SystemMessage() {
-        }
-
-        public SystemMessage setMessage(Message message, SystemHandlerWrapper systemHandlerWrapper) {
-            this.message = message;
-            this.handler = systemHandlerWrapper;
-            return this;
-        }
-
-        public boolean sendAtFrontOfQueue(Handler handler) {
-            boolean sendMessageAtFrontOfQueue = handler.sendMessageAtFrontOfQueue((Message) Assertions.checkNotNull(this.message));
-            recycle();
-            return sendMessageAtFrontOfQueue;
-        }
-
-        @Override // com.google.android.exoplayer2.util.HandlerWrapper.Message
-        public void sendToTarget() {
-            ((Message) Assertions.checkNotNull(this.message)).sendToTarget();
-            recycle();
-        }
-
-        private void recycle() {
-            this.message = null;
-            this.handler = null;
-            SystemHandlerWrapper.recycleMessage(this);
-        }
+    public boolean sendMessageAtFrontOfQueue(HandlerWrapper.Message message) {
+        return ((SystemMessage) message).sendAtFrontOfQueue(this.handler);
     }
 }

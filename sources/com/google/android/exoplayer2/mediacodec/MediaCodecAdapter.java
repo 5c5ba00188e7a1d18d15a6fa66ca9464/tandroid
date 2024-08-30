@@ -8,14 +8,40 @@ import android.os.Handler;
 import android.view.Surface;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.decoder.CryptoInfo;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 /* loaded from: classes.dex */
 public interface MediaCodecAdapter {
 
     /* loaded from: classes.dex */
+    public static final class Configuration {
+        public final MediaCodecInfo codecInfo;
+        public final MediaCrypto crypto;
+        public final int flags;
+        public final Format format;
+        public final MediaFormat mediaFormat;
+        public final Surface surface;
+
+        private Configuration(MediaCodecInfo mediaCodecInfo, MediaFormat mediaFormat, Format format, Surface surface, MediaCrypto mediaCrypto, int i) {
+            this.codecInfo = mediaCodecInfo;
+            this.mediaFormat = mediaFormat;
+            this.format = format;
+            this.surface = surface;
+            this.crypto = mediaCrypto;
+            this.flags = i;
+        }
+
+        public static Configuration createForAudioDecoding(MediaCodecInfo mediaCodecInfo, MediaFormat mediaFormat, Format format, MediaCrypto mediaCrypto) {
+            return new Configuration(mediaCodecInfo, mediaFormat, format, null, mediaCrypto, 0);
+        }
+
+        public static Configuration createForVideoDecoding(MediaCodecInfo mediaCodecInfo, MediaFormat mediaFormat, Format format, Surface surface, MediaCrypto mediaCrypto) {
+            return new Configuration(mediaCodecInfo, mediaFormat, format, surface, mediaCrypto, 0);
+        }
+    }
+
+    /* loaded from: classes.dex */
     public interface Factory {
-        MediaCodecAdapter createAdapter(Configuration configuration) throws IOException;
+        MediaCodecAdapter createAdapter(Configuration configuration);
     }
 
     /* loaded from: classes.dex */
@@ -54,31 +80,4 @@ public interface MediaCodecAdapter {
     void setParameters(Bundle bundle);
 
     void setVideoScalingMode(int i);
-
-    /* loaded from: classes.dex */
-    public static final class Configuration {
-        public final MediaCodecInfo codecInfo;
-        public final MediaCrypto crypto;
-        public final int flags;
-        public final Format format;
-        public final MediaFormat mediaFormat;
-        public final Surface surface;
-
-        public static Configuration createForAudioDecoding(MediaCodecInfo mediaCodecInfo, MediaFormat mediaFormat, Format format, MediaCrypto mediaCrypto) {
-            return new Configuration(mediaCodecInfo, mediaFormat, format, null, mediaCrypto, 0);
-        }
-
-        public static Configuration createForVideoDecoding(MediaCodecInfo mediaCodecInfo, MediaFormat mediaFormat, Format format, Surface surface, MediaCrypto mediaCrypto) {
-            return new Configuration(mediaCodecInfo, mediaFormat, format, surface, mediaCrypto, 0);
-        }
-
-        private Configuration(MediaCodecInfo mediaCodecInfo, MediaFormat mediaFormat, Format format, Surface surface, MediaCrypto mediaCrypto, int i) {
-            this.codecInfo = mediaCodecInfo;
-            this.mediaFormat = mediaFormat;
-            this.format = format;
-            this.surface = surface;
-            this.crypto = mediaCrypto;
-            this.flags = i;
-        }
-    }
 }

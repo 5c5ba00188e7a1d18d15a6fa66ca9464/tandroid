@@ -27,8 +27,8 @@ public class DataCollectionConfigStorage {
         return Build.VERSION.SDK_INT < 24 ? context : ContextCompat.createDeviceProtectedStorageContext(context);
     }
 
-    public synchronized boolean isEnabled() {
-        return this.dataCollectionDefaultEnabled;
+    private boolean readAutoDataCollectionEnabled() {
+        return this.sharedPreferences.contains("firebase_data_collection_default_enabled") ? this.sharedPreferences.getBoolean("firebase_data_collection_default_enabled", true) : readManifestDataCollectionEnabled();
     }
 
     private boolean readManifestDataCollectionEnabled() {
@@ -45,10 +45,7 @@ public class DataCollectionConfigStorage {
         }
     }
 
-    private boolean readAutoDataCollectionEnabled() {
-        if (this.sharedPreferences.contains("firebase_data_collection_default_enabled")) {
-            return this.sharedPreferences.getBoolean("firebase_data_collection_default_enabled", true);
-        }
-        return readManifestDataCollectionEnabled();
+    public synchronized boolean isEnabled() {
+        return this.dataCollectionDefaultEnabled;
     }
 }

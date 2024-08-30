@@ -2,14 +2,28 @@ package com.google.android.gms.internal.vision;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public final class zzjf {
+public abstract class zzjf {
     public static final byte[] zzb;
     private static final ByteBuffer zzd;
     private static final zzif zze;
     static final Charset zza = Charset.forName("UTF-8");
     private static final Charset zzc = Charset.forName("ISO-8859-1");
+
+    static {
+        byte[] bArr = new byte[0];
+        zzb = bArr;
+        zzd = ByteBuffer.wrap(bArr);
+        zze = zzif.zza(bArr, 0, bArr.length, false);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static int zza(int i, byte[] bArr, int i2, int i3) {
+        for (int i4 = i2; i4 < i2 + i3; i4++) {
+            i = (i * 31) + bArr[i4];
+        }
+        return i;
+    }
 
     public static int zza(long j) {
         return (int) (j ^ (j >>> 32));
@@ -20,17 +34,27 @@ public final class zzjf {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <T> T zza(T t) {
-        t.getClass();
-        return t;
+    public static Object zza(Object obj) {
+        obj.getClass();
+        return obj;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <T> T zza(T t, String str) {
-        if (t != null) {
-            return t;
+    public static Object zza(Object obj, Object obj2) {
+        return ((zzkk) obj).zzp().zza((zzkk) obj2).zze();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static Object zza(Object obj, String str) {
+        if (obj != null) {
+            return obj;
         }
         throw new NullPointerException(str);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static boolean zza(zzkk zzkkVar) {
+        return false;
     }
 
     public static boolean zza(byte[] bArr) {
@@ -48,31 +72,5 @@ public final class zzjf {
             return 1;
         }
         return zza2;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, byte[] bArr, int i2, int i3) {
-        for (int i4 = i2; i4 < i2 + i3; i4++) {
-            i = (i * 31) + bArr[i4];
-        }
-        return i;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zza(zzkk zzkkVar) {
-        boolean z = zzkkVar instanceof zzhh;
-        return false;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zza(Object obj, Object obj2) {
-        return ((zzkk) obj).zzp().zza((zzkk) obj2).zze();
-    }
-
-    static {
-        byte[] bArr = new byte[0];
-        zzb = bArr;
-        zzd = ByteBuffer.wrap(bArr);
-        zze = zzif.zza(bArr, 0, bArr.length, false);
     }
 }

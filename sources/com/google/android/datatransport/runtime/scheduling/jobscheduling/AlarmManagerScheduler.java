@@ -21,16 +21,16 @@ public class AlarmManagerScheduler implements WorkScheduler {
     private final Context context;
     private final EventStore eventStore;
 
-    public AlarmManagerScheduler(Context context, EventStore eventStore, Clock clock, SchedulerConfig schedulerConfig) {
-        this(context, eventStore, (AlarmManager) context.getSystemService("alarm"), clock, schedulerConfig);
-    }
-
     AlarmManagerScheduler(Context context, EventStore eventStore, AlarmManager alarmManager, Clock clock, SchedulerConfig schedulerConfig) {
         this.context = context;
         this.eventStore = eventStore;
         this.alarmManager = alarmManager;
         this.clock = clock;
         this.config = schedulerConfig;
+    }
+
+    public AlarmManagerScheduler(Context context, EventStore eventStore, Clock clock, SchedulerConfig schedulerConfig) {
+        this(context, eventStore, (AlarmManager) context.getSystemService("alarm"), clock, schedulerConfig);
     }
 
     boolean isJobServiceOn(Intent intent) {

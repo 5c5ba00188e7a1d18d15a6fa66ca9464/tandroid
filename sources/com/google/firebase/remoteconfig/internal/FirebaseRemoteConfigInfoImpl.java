@@ -8,17 +8,6 @@ public class FirebaseRemoteConfigInfoImpl implements FirebaseRemoteConfigInfo {
     private final int lastFetchStatus;
     private final long lastSuccessfulFetchTimeInMillis;
 
-    private FirebaseRemoteConfigInfoImpl(long j, int i, FirebaseRemoteConfigSettings firebaseRemoteConfigSettings) {
-        this.lastSuccessfulFetchTimeInMillis = j;
-        this.lastFetchStatus = i;
-        this.configSettings = firebaseRemoteConfigSettings;
-    }
-
-    @Override // com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo
-    public long getFetchTimeMillis() {
-        return this.lastSuccessfulFetchTimeInMillis;
-    }
-
     /* loaded from: classes.dex */
     public static class Builder {
         private FirebaseRemoteConfigSettings builderConfigSettings;
@@ -28,8 +17,13 @@ public class FirebaseRemoteConfigInfoImpl implements FirebaseRemoteConfigInfo {
         private Builder() {
         }
 
-        public Builder withLastSuccessfulFetchTimeInMillis(long j) {
-            this.builderLastSuccessfulFetchTimeInMillis = j;
+        public FirebaseRemoteConfigInfoImpl build() {
+            return new FirebaseRemoteConfigInfoImpl(this.builderLastSuccessfulFetchTimeInMillis, this.builderLastFetchStatus, this.builderConfigSettings);
+        }
+
+        /* JADX INFO: Access modifiers changed from: package-private */
+        public Builder withConfigSettings(FirebaseRemoteConfigSettings firebaseRemoteConfigSettings) {
+            this.builderConfigSettings = firebaseRemoteConfigSettings;
             return this;
         }
 
@@ -39,19 +33,25 @@ public class FirebaseRemoteConfigInfoImpl implements FirebaseRemoteConfigInfo {
             return this;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public Builder withConfigSettings(FirebaseRemoteConfigSettings firebaseRemoteConfigSettings) {
-            this.builderConfigSettings = firebaseRemoteConfigSettings;
+        public Builder withLastSuccessfulFetchTimeInMillis(long j) {
+            this.builderLastSuccessfulFetchTimeInMillis = j;
             return this;
         }
+    }
 
-        public FirebaseRemoteConfigInfoImpl build() {
-            return new FirebaseRemoteConfigInfoImpl(this.builderLastSuccessfulFetchTimeInMillis, this.builderLastFetchStatus, this.builderConfigSettings);
-        }
+    private FirebaseRemoteConfigInfoImpl(long j, int i, FirebaseRemoteConfigSettings firebaseRemoteConfigSettings) {
+        this.lastSuccessfulFetchTimeInMillis = j;
+        this.lastFetchStatus = i;
+        this.configSettings = firebaseRemoteConfigSettings;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+    @Override // com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo
+    public long getFetchTimeMillis() {
+        return this.lastSuccessfulFetchTimeInMillis;
     }
 }

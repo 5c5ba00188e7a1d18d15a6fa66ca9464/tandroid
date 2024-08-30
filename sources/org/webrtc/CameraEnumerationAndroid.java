@@ -29,10 +29,6 @@ public class CameraEnumerationAndroid {
                 this.max = i2;
             }
 
-            public String toString() {
-                return "[" + (this.min / 1000.0f) + ":" + (this.max / 1000.0f) + "]";
-            }
-
             public boolean equals(Object obj) {
                 if (obj instanceof FramerateRange) {
                     FramerateRange framerateRange = (FramerateRange) obj;
@@ -43,6 +39,10 @@ public class CameraEnumerationAndroid {
 
             public int hashCode() {
                 return (this.min * 65537) + 1 + this.max;
+            }
+
+            public String toString() {
+                return "[" + (this.min / 1000.0f) + ":" + (this.max / 1000.0f) + "]";
             }
         }
 
@@ -58,19 +58,11 @@ public class CameraEnumerationAndroid {
             this.framerate = framerateRange;
         }
 
-        public int frameSize() {
-            return frameSize(this.width, this.height, 17);
-        }
-
         public static int frameSize(int i, int i2, int i3) {
-            if (i3 != 17) {
-                throw new UnsupportedOperationException("Don't know how to calculate the frame size of non-NV21 image formats.");
+            if (i3 == 17) {
+                return ((i * i2) * ImageFormat.getBitsPerPixel(i3)) / 8;
             }
-            return ((i * i2) * ImageFormat.getBitsPerPixel(i3)) / 8;
-        }
-
-        public String toString() {
-            return this.width + "x" + this.height + "@" + this.framerate;
+            throw new UnsupportedOperationException("Don't know how to calculate the frame size of non-NV21 image formats.");
         }
 
         public boolean equals(Object obj) {
@@ -81,15 +73,21 @@ public class CameraEnumerationAndroid {
             return false;
         }
 
+        public int frameSize() {
+            return frameSize(this.width, this.height, 17);
+        }
+
         public int hashCode() {
             return (((this.width * 65497) + this.height) * NotificationCenter.closeSearchByActiveAction) + 1 + this.framerate.hashCode();
+        }
+
+        public String toString() {
+            return this.width + "x" + this.height + "@" + this.framerate;
         }
     }
 
     /* loaded from: classes.dex */
     private static abstract class ClosestComparator<T> implements Comparator<T> {
-        abstract int diff(T t);
-
         private ClosestComparator() {
         }
 
@@ -97,6 +95,8 @@ public class CameraEnumerationAndroid {
         public int compare(T t, T t2) {
             return diff(t) - diff(t2);
         }
+
+        abstract int diff(T t);
     }
 
     public static CaptureFormat.FramerateRange getClosestSupportedFramerateRange(List<CaptureFormat.FramerateRange> list, final int i) {
@@ -108,16 +108,16 @@ public class CameraEnumerationAndroid {
             private static final int MIN_FPS_LOW_VALUE_WEIGHT = 1;
             private static final int MIN_FPS_THRESHOLD = 8000;
 
+            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+            {
+                super();
+            }
+
             private int progressivePenalty(int i2, int i3, int i4, int i5) {
                 if (i2 < i3) {
                     return i2 * i4;
                 }
                 return ((i2 - i3) * i5) + (i4 * i3);
-            }
-
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-            {
-                super();
             }
 
             /* JADX INFO: Access modifiers changed from: package-private */

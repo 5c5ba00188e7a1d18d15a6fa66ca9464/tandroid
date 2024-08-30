@@ -4,17 +4,23 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class WalletObjectMessage extends AbstractSafeParcelable {
     public static final Parcelable.Creator<WalletObjectMessage> CREATOR = new zzo();
     String zza;
     String zzb;
     TimeInterval zzc;
-    @Deprecated
     UriData zzd;
-    @Deprecated
     UriData zze;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public WalletObjectMessage(String str, String str2, TimeInterval timeInterval, UriData uriData, UriData uriData2) {
+        this.zza = str;
+        this.zzb = str2;
+        this.zzc = timeInterval;
+        this.zzd = uriData;
+        this.zze = uriData2;
+    }
 
     @Override // android.os.Parcelable
     public void writeToParcel(Parcel parcel, int i) {
@@ -25,14 +31,5 @@ public final class WalletObjectMessage extends AbstractSafeParcelable {
         SafeParcelWriter.writeParcelable(parcel, 5, this.zzd, i, false);
         SafeParcelWriter.writeParcelable(parcel, 6, this.zze, i, false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public WalletObjectMessage(String str, String str2, TimeInterval timeInterval, UriData uriData, UriData uriData2) {
-        this.zza = str;
-        this.zzb = str2;
-        this.zzc = timeInterval;
-        this.zzd = uriData;
-        this.zze = uriData2;
     }
 }

@@ -1,8 +1,9 @@
 package androidx.appcompat.widget;
-/* compiled from: R8$$SyntheticClass */
+
+import android.widget.ThemedSpinnerAdapter;
 /* loaded from: classes.dex */
-public final /* synthetic */ class AppCompatSpinner$DropDownAdapter$$ExternalSyntheticApiModelOutline1 {
-    public static /* bridge */ /* synthetic */ android.widget.ThemedSpinnerAdapter m(Object obj) {
-        return (android.widget.ThemedSpinnerAdapter) obj;
+public abstract /* synthetic */ class AppCompatSpinner$DropDownAdapter$$ExternalSyntheticApiModelOutline1 {
+    public static /* bridge */ /* synthetic */ ThemedSpinnerAdapter m(Object obj) {
+        return (ThemedSpinnerAdapter) obj;
     }
 }

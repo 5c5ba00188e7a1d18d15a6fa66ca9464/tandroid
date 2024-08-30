@@ -3,7 +3,7 @@ package com.microsoft.appcenter.distribute.download.http;
 import android.os.AsyncTask;
 import java.io.File;
 /* loaded from: classes.dex */
-class HttpConnectionCheckTask extends AsyncTask<Void, Void, Void> {
+class HttpConnectionCheckTask extends AsyncTask {
     private final HttpConnectionReleaseDownloader mDownloader;
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -22,14 +22,12 @@ class HttpConnectionCheckTask extends AsyncTask<Void, Void, Void> {
         String downloadedReleaseFilePath = this.mDownloader.getDownloadedReleaseFilePath();
         if (downloadedReleaseFilePath != null) {
             File file = new File(downloadedReleaseFilePath);
-            if (downloadedReleaseFilePath.equals(targetFile.getAbsolutePath())) {
-                if (file.exists()) {
-                    this.mDownloader.onDownloadComplete(targetFile);
-                    return null;
-                }
-            } else {
+            if (!downloadedReleaseFilePath.equals(targetFile.getAbsolutePath())) {
                 file.delete();
                 this.mDownloader.setDownloadedReleaseFilePath(null);
+            } else if (file.exists()) {
+                this.mDownloader.onDownloadComplete(targetFile);
+                return null;
             }
         }
         if (isCancelled()) {

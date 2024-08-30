@@ -1,20 +1,20 @@
 package com.google.firebase.components;
 /* loaded from: classes.dex */
-public final class Preconditions {
+public abstract class Preconditions {
     public static void checkArgument(boolean z, String str) {
         if (!z) {
             throw new IllegalArgumentException(str);
         }
     }
 
-    public static <T> T checkNotNull(T t) {
-        t.getClass();
-        return t;
+    public static Object checkNotNull(Object obj) {
+        obj.getClass();
+        return obj;
     }
 
-    public static <T> T checkNotNull(T t, String str) {
-        if (t != null) {
-            return t;
+    public static Object checkNotNull(Object obj, String str) {
+        if (obj != null) {
+            return obj;
         }
         throw new NullPointerException(str);
     }

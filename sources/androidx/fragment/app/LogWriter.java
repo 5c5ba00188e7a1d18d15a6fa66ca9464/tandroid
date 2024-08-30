@@ -12,6 +12,14 @@ final class LogWriter extends Writer {
         this.mTag = str;
     }
 
+    private void flushBuilder() {
+        if (this.mBuilder.length() > 0) {
+            Log.d(this.mTag, this.mBuilder.toString());
+            StringBuilder sb = this.mBuilder;
+            sb.delete(0, sb.length());
+        }
+    }
+
     @Override // java.io.Writer, java.io.Closeable, java.lang.AutoCloseable
     public void close() {
         flushBuilder();
@@ -31,14 +39,6 @@ final class LogWriter extends Writer {
             } else {
                 this.mBuilder.append(c);
             }
-        }
-    }
-
-    private void flushBuilder() {
-        if (this.mBuilder.length() > 0) {
-            Log.d(this.mTag, this.mBuilder.toString());
-            StringBuilder sb = this.mBuilder;
-            sb.delete(0, sb.length());
         }
     }
 }

@@ -1,11 +1,64 @@
 package com.google.android.gms.internal.vision;
-
-import java.io.IOException;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-final class zzlw extends zzlu<zzlx, zzlx> {
+final class zzlw extends zzlu {
     private static void zza(Object obj, zzlx zzlxVar) {
         ((zzjb) obj).zzb = zzlxVar;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // com.google.android.gms.internal.vision.zzlu
+    public final /* synthetic */ Object zza() {
+        return zzlx.zzb();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // com.google.android.gms.internal.vision.zzlu
+    public final /* synthetic */ void zza(Object obj, int i, long j) {
+        ((zzlx) obj).zza(i << 3, Long.valueOf(j));
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // com.google.android.gms.internal.vision.zzlu
+    public final /* synthetic */ void zza(Object obj, int i, zzht zzhtVar) {
+        ((zzlx) obj).zza((i << 3) | 2, zzhtVar);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // com.google.android.gms.internal.vision.zzlu
+    public final /* synthetic */ void zza(Object obj, zzmr zzmrVar) {
+        ((zzlx) obj).zzb(zzmrVar);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // com.google.android.gms.internal.vision.zzlu
+    public final /* bridge */ /* synthetic */ void zza(Object obj, Object obj2) {
+        zza(obj, (zzlx) obj2);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // com.google.android.gms.internal.vision.zzlu
+    public final /* synthetic */ Object zzb(Object obj) {
+        return ((zzjb) obj).zzb;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // com.google.android.gms.internal.vision.zzlu
+    public final /* synthetic */ void zzb(Object obj, zzmr zzmrVar) {
+        ((zzlx) obj).zza(zzmrVar);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // com.google.android.gms.internal.vision.zzlu
+    public final /* synthetic */ void zzb(Object obj, Object obj2) {
+        zza(obj, (zzlx) obj2);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // com.google.android.gms.internal.vision.zzlu
+    public final /* synthetic */ Object zzc(Object obj, Object obj2) {
+        zzlx zzlxVar = (zzlx) obj;
+        zzlx zzlxVar2 = (zzlx) obj2;
+        return zzlxVar2.equals(zzlx.zza()) ? zzlxVar : zzlx.zza(zzlxVar, zzlxVar2);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -16,69 +69,13 @@ final class zzlw extends zzlu<zzlx, zzlx> {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzlu
-    public final /* synthetic */ int zzf(zzlx zzlxVar) {
-        return zzlxVar.zze();
+    public final /* synthetic */ int zze(Object obj) {
+        return ((zzlx) obj).zzd();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzlu
-    public final /* synthetic */ int zze(zzlx zzlxVar) {
-        return zzlxVar.zzd();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.android.gms.internal.vision.zzlu
-    public final /* synthetic */ zzlx zzc(zzlx zzlxVar, zzlx zzlxVar2) {
-        zzlx zzlxVar3 = zzlxVar;
-        zzlx zzlxVar4 = zzlxVar2;
-        return zzlxVar4.equals(zzlx.zza()) ? zzlxVar3 : zzlx.zza(zzlxVar3, zzlxVar4);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.android.gms.internal.vision.zzlu
-    public final /* synthetic */ void zzb(zzlx zzlxVar, zzmr zzmrVar) throws IOException {
-        zzlxVar.zza(zzmrVar);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.android.gms.internal.vision.zzlu
-    public final /* synthetic */ void zza(zzlx zzlxVar, zzmr zzmrVar) throws IOException {
-        zzlxVar.zzb(zzmrVar);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.android.gms.internal.vision.zzlu
-    public final /* synthetic */ void zzb(Object obj, zzlx zzlxVar) {
-        zza(obj, zzlxVar);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.android.gms.internal.vision.zzlu
-    public final /* synthetic */ zzlx zzb(Object obj) {
-        return ((zzjb) obj).zzb;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.android.gms.internal.vision.zzlu
-    public final /* bridge */ /* synthetic */ void zza(Object obj, zzlx zzlxVar) {
-        zza(obj, zzlxVar);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.android.gms.internal.vision.zzlu
-    public final /* synthetic */ zzlx zza() {
-        return zzlx.zzb();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.android.gms.internal.vision.zzlu
-    public final /* synthetic */ void zza(zzlx zzlxVar, int i, zzht zzhtVar) {
-        zzlxVar.zza((i << 3) | 2, zzhtVar);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.android.gms.internal.vision.zzlu
-    public final /* synthetic */ void zza(zzlx zzlxVar, int i, long j) {
-        zzlxVar.zza(i << 3, Long.valueOf(j));
+    public final /* synthetic */ int zzf(Object obj) {
+        return ((zzlx) obj).zze();
     }
 }

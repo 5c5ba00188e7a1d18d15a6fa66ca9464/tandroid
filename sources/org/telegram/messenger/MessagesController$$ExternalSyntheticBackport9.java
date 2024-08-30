@@ -1,7 +1,6 @@
 package org.telegram.messenger;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes3.dex */
-public final /* synthetic */ class MessagesController$$ExternalSyntheticBackport9 {
+public abstract /* synthetic */ class MessagesController$$ExternalSyntheticBackport9 {
     public static /* synthetic */ long m(CharSequence charSequence, int i, int i2, int i3) {
         int i4 = i2 - i;
         if (i4 != 0) {

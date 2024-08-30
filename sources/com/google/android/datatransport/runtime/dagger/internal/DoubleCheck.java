@@ -2,33 +2,18 @@ package com.google.android.datatransport.runtime.dagger.internal;
 
 import javax.inject.Provider;
 /* loaded from: classes.dex */
-public final class DoubleCheck<T> implements Provider<T> {
+public final class DoubleCheck implements Provider {
     private static final Object UNINITIALIZED = new Object();
     private volatile Object instance = UNINITIALIZED;
-    private volatile Provider<T> provider;
+    private volatile Provider provider;
 
-    private DoubleCheck(Provider<T> provider) {
+    private DoubleCheck(Provider provider) {
         this.provider = provider;
     }
 
-    @Override // javax.inject.Provider
-    public T get() {
-        T t = (T) this.instance;
-        Object obj = UNINITIALIZED;
-        if (t == obj) {
-            synchronized (this) {
-                try {
-                    t = this.instance;
-                    if (t == obj) {
-                        t = this.provider.get();
-                        this.instance = reentrantCheck(this.instance, t);
-                        this.provider = null;
-                    }
-                } finally {
-                }
-            }
-        }
-        return t;
+    public static Provider provider(Provider provider) {
+        Preconditions.checkNotNull(provider);
+        return provider instanceof DoubleCheck ? provider : new DoubleCheck(provider);
     }
 
     public static Object reentrantCheck(Object obj, Object obj2) {
@@ -38,8 +23,23 @@ public final class DoubleCheck<T> implements Provider<T> {
         throw new IllegalStateException("Scoped provider was invoked recursively returning different results: " + obj + " & " + obj2 + ". This is likely due to a circular dependency.");
     }
 
-    public static <P extends Provider<T>, T> Provider<T> provider(P p) {
-        Preconditions.checkNotNull(p);
-        return p instanceof DoubleCheck ? p : new DoubleCheck(p);
+    @Override // javax.inject.Provider
+    public Object get() {
+        Object obj = this.instance;
+        Object obj2 = UNINITIALIZED;
+        if (obj == obj2) {
+            synchronized (this) {
+                try {
+                    obj = this.instance;
+                    if (obj == obj2) {
+                        obj = this.provider.get();
+                        this.instance = reentrantCheck(this.instance, obj);
+                        this.provider = null;
+                    }
+                } finally {
+                }
+            }
+        }
+        return obj;
     }
 }

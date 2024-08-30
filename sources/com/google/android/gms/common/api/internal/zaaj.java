@@ -2,12 +2,13 @@ package com.google.android.gms.common.api.internal;
 
 import android.os.Bundle;
 import android.os.DeadObjectException;
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.internal.Preconditions;
+import java.util.Iterator;
 import java.util.Set;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zaaj implements zabf {
     private final zabi zaa;
@@ -53,15 +54,6 @@ public final class zaaj implements zabf {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zaf() {
-        if (this.zab) {
-            this.zab = false;
-            this.zaa.zag.zai.zab();
-            zaj();
-        }
-    }
-
     @Override // com.google.android.gms.common.api.internal.zabf
     public final void zag(Bundle bundle) {
     }
@@ -81,14 +73,16 @@ public final class zaaj implements zabf {
         if (this.zab) {
             return false;
         }
-        Set<zada> set = this.zaa.zag.zah;
+        Set set = this.zaa.zag.zah;
         if (set == null || set.isEmpty()) {
             this.zaa.zak(null);
             return true;
         }
         this.zab = true;
-        for (zada zadaVar : set) {
-            zadaVar.zah();
+        Iterator it = set.iterator();
+        if (it.hasNext()) {
+            ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
+            throw null;
         }
         return false;
     }

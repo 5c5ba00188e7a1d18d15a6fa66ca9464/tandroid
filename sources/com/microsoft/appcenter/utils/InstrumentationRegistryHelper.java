@@ -2,10 +2,10 @@ package com.microsoft.appcenter.utils;
 
 import android.os.Bundle;
 /* loaded from: classes.dex */
-public class InstrumentationRegistryHelper {
+public abstract class InstrumentationRegistryHelper {
     private static final String[] LOCATIONS = {"androidx.test.platform.app.InstrumentationRegistry", "androidx.test.InstrumentationRegistry", "androidx.test.InstrumentationRegistry"};
 
-    public static Bundle getArguments() throws IllegalStateException {
+    public static Bundle getArguments() {
         Exception e = null;
         for (String str : LOCATIONS) {
             try {
@@ -17,7 +17,7 @@ public class InstrumentationRegistryHelper {
         throw new IllegalStateException(e);
     }
 
-    private static Class<?> getClass(String str) throws ClassNotFoundException {
+    private static Class getClass(String str) {
         return Class.forName(str);
     }
 }

@@ -7,13 +7,10 @@ import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 final class ResamplingAudioProcessor extends BaseAudioProcessor {
     @Override // com.google.android.exoplayer2.audio.BaseAudioProcessor
-    public AudioProcessor.AudioFormat onConfigure(AudioProcessor.AudioFormat audioFormat) throws AudioProcessor.UnhandledAudioFormatException {
+    public AudioProcessor.AudioFormat onConfigure(AudioProcessor.AudioFormat audioFormat) {
         int i = audioFormat.encoding;
         if (i == 3 || i == 2 || i == 268435456 || i == 536870912 || i == 805306368 || i == 4) {
-            if (i != 2) {
-                return new AudioProcessor.AudioFormat(audioFormat.sampleRate, audioFormat.channelCount, 2);
-            }
-            return AudioProcessor.AudioFormat.NOT_SET;
+            return i != 2 ? new AudioProcessor.AudioFormat(audioFormat.sampleRate, audioFormat.channelCount, 2) : AudioProcessor.AudioFormat.NOT_SET;
         }
         throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
     }

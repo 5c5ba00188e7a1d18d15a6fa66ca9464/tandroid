@@ -8,10 +8,9 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.WeakHashMap;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class FcmLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
-    private final Set<Intent> seenIntents = Collections.newSetFromMap(new WeakHashMap());
+    private final Set seenIntents = Collections.newSetFromMap(new WeakHashMap());
 
     @Override // android.app.Application.ActivityLifecycleCallbacks
     public void onActivityCreated(Activity activity, Bundle bundle) {

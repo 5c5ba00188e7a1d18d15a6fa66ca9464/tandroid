@@ -1,6 +1,5 @@
 package com.google.android.exoplayer2.source.dash;
 
-import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.analytics.PlayerId;
 import com.google.android.exoplayer2.source.chunk.ChunkSource;
 import com.google.android.exoplayer2.source.dash.PlayerEmsgHandler;
@@ -14,7 +13,7 @@ public interface DashChunkSource extends ChunkSource {
 
     /* loaded from: classes.dex */
     public interface Factory {
-        DashChunkSource createDashChunkSource(LoaderErrorThrower loaderErrorThrower, DashManifest dashManifest, BaseUrlExclusionList baseUrlExclusionList, int i, int[] iArr, ExoTrackSelection exoTrackSelection, int i2, long j, boolean z, List<Format> list, PlayerEmsgHandler.PlayerTrackEmsgHandler playerTrackEmsgHandler, TransferListener transferListener, PlayerId playerId);
+        DashChunkSource createDashChunkSource(LoaderErrorThrower loaderErrorThrower, DashManifest dashManifest, BaseUrlExclusionList baseUrlExclusionList, int i, int[] iArr, ExoTrackSelection exoTrackSelection, int i2, long j, boolean z, List list, PlayerEmsgHandler.PlayerTrackEmsgHandler playerTrackEmsgHandler, TransferListener transferListener, PlayerId playerId);
     }
 
     void updateManifest(DashManifest dashManifest, int i);

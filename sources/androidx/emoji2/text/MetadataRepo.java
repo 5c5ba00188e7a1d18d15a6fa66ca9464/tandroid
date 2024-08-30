@@ -5,7 +5,6 @@ import android.util.SparseArray;
 import androidx.core.os.TraceCompat;
 import androidx.core.util.Preconditions;
 import androidx.emoji2.text.flatbuffer.MetadataList;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 /* loaded from: classes.dex */
 public final class MetadataRepo {
@@ -14,64 +13,10 @@ public final class MetadataRepo {
     private final Node mRootNode = new Node(1024);
     private final Typeface mTypeface;
 
-    private MetadataRepo(Typeface typeface, MetadataList metadataList) {
-        this.mTypeface = typeface;
-        this.mMetadataList = metadataList;
-        this.mEmojiCharArray = new char[metadataList.listLength() * 2];
-        constructIndex(metadataList);
-    }
-
-    public static MetadataRepo create(Typeface typeface, ByteBuffer byteBuffer) throws IOException {
-        try {
-            TraceCompat.beginSection("EmojiCompat.MetadataRepo.create");
-            return new MetadataRepo(typeface, MetadataListReader.read(byteBuffer));
-        } finally {
-            TraceCompat.endSection();
-        }
-    }
-
-    private void constructIndex(MetadataList metadataList) {
-        int listLength = metadataList.listLength();
-        for (int i = 0; i < listLength; i++) {
-            EmojiMetadata emojiMetadata = new EmojiMetadata(this, i);
-            Character.toChars(emojiMetadata.getId(), this.mEmojiCharArray, i * 2);
-            put(emojiMetadata);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Typeface getTypeface() {
-        return this.mTypeface;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getMetadataVersion() {
-        return this.mMetadataList.version();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Node getRootNode() {
-        return this.mRootNode;
-    }
-
-    public char[] getEmojiCharArray() {
-        return this.mEmojiCharArray;
-    }
-
-    public MetadataList getMetadataList() {
-        return this.mMetadataList;
-    }
-
-    void put(EmojiMetadata emojiMetadata) {
-        Preconditions.checkNotNull(emojiMetadata, "emoji metadata cannot be null");
-        Preconditions.checkArgument(emojiMetadata.getCodepointsLength() > 0, "invalid metadata codepoint length");
-        this.mRootNode.put(emojiMetadata, 0, emojiMetadata.getCodepointsLength() - 1);
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class Node {
-        private final SparseArray<Node> mChildren;
+        private final SparseArray mChildren;
         private EmojiMetadata mData;
 
         private Node() {
@@ -79,16 +24,16 @@ public final class MetadataRepo {
         }
 
         Node(int i) {
-            this.mChildren = new SparseArray<>(i);
+            this.mChildren = new SparseArray(i);
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
         public Node get(int i) {
-            SparseArray<Node> sparseArray = this.mChildren;
+            SparseArray sparseArray = this.mChildren;
             if (sparseArray == null) {
                 return null;
             }
-            return sparseArray.get(i);
+            return (Node) sparseArray.get(i);
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
@@ -108,5 +53,59 @@ public final class MetadataRepo {
                 node.mData = emojiMetadata;
             }
         }
+    }
+
+    private MetadataRepo(Typeface typeface, MetadataList metadataList) {
+        this.mTypeface = typeface;
+        this.mMetadataList = metadataList;
+        this.mEmojiCharArray = new char[metadataList.listLength() * 2];
+        constructIndex(metadataList);
+    }
+
+    private void constructIndex(MetadataList metadataList) {
+        int listLength = metadataList.listLength();
+        for (int i = 0; i < listLength; i++) {
+            EmojiMetadata emojiMetadata = new EmojiMetadata(this, i);
+            Character.toChars(emojiMetadata.getId(), this.mEmojiCharArray, i * 2);
+            put(emojiMetadata);
+        }
+    }
+
+    public static MetadataRepo create(Typeface typeface, ByteBuffer byteBuffer) {
+        try {
+            TraceCompat.beginSection("EmojiCompat.MetadataRepo.create");
+            return new MetadataRepo(typeface, MetadataListReader.read(byteBuffer));
+        } finally {
+            TraceCompat.endSection();
+        }
+    }
+
+    public char[] getEmojiCharArray() {
+        return this.mEmojiCharArray;
+    }
+
+    public MetadataList getMetadataList() {
+        return this.mMetadataList;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public int getMetadataVersion() {
+        return this.mMetadataList.version();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public Node getRootNode() {
+        return this.mRootNode;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public Typeface getTypeface() {
+        return this.mTypeface;
+    }
+
+    void put(EmojiMetadata emojiMetadata) {
+        Preconditions.checkNotNull(emojiMetadata, "emoji metadata cannot be null");
+        Preconditions.checkArgument(emojiMetadata.getCodepointsLength() > 0, "invalid metadata codepoint length");
+        this.mRootNode.put(emojiMetadata, 0, emojiMetadata.getCodepointsLength() - 1);
     }
 }

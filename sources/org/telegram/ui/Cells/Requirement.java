@@ -1,5 +1,4 @@
 package org.telegram.ui.Cells;
-/* compiled from: RequestPeerRequirementsCell.java */
 /* loaded from: classes4.dex */
 class Requirement {
     public int padding;
@@ -10,11 +9,11 @@ class Requirement {
         this.padding = i;
     }
 
-    public static Requirement make(CharSequence charSequence) {
-        return new Requirement(charSequence, 0);
-    }
-
     public static Requirement make(int i, CharSequence charSequence) {
         return new Requirement(charSequence, i);
+    }
+
+    public static Requirement make(CharSequence charSequence) {
+        return new Requirement(charSequence, 0);
     }
 }

@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
-public final class SntpClient {
+public abstract class SntpClient {
     private static long elapsedRealtimeOffsetMs = 0;
     private static boolean isInitialized = false;
     private static String ntpHost = "time.android.com";
@@ -23,24 +23,82 @@ public final class SntpClient {
         void onInitialized();
     }
 
-    static /* synthetic */ long access$400() throws IOException {
+    /* loaded from: classes.dex */
+    private static final class NtpTimeCallback implements Loader.Callback {
+        private final InitializationCallback callback;
+
+        public NtpTimeCallback(InitializationCallback initializationCallback) {
+            this.callback = initializationCallback;
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
+        public void onLoadCanceled(Loader.Loadable loadable, long j, long j2, boolean z) {
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
+        public void onLoadCompleted(Loader.Loadable loadable, long j, long j2) {
+            if (this.callback != null) {
+                if (SntpClient.isInitialized()) {
+                    this.callback.onInitialized();
+                } else {
+                    this.callback.onInitializationFailed(new IOException(new ConcurrentModificationException()));
+                }
+            }
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
+        public Loader.LoadErrorAction onLoadError(Loader.Loadable loadable, long j, long j2, IOException iOException, int i) {
+            InitializationCallback initializationCallback = this.callback;
+            if (initializationCallback != null) {
+                initializationCallback.onInitializationFailed(iOException);
+            }
+            return Loader.DONT_RETRY;
+        }
+    }
+
+    /* loaded from: classes.dex */
+    private static final class NtpTimeLoadable implements Loader.Loadable {
+        private NtpTimeLoadable() {
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
+        public void cancelLoad() {
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
+        public void load() {
+            synchronized (SntpClient.loaderLock) {
+                synchronized (SntpClient.valueLock) {
+                    if (SntpClient.isInitialized) {
+                        return;
+                    }
+                    long access$400 = SntpClient.access$400();
+                    synchronized (SntpClient.valueLock) {
+                        long unused = SntpClient.elapsedRealtimeOffsetMs = access$400;
+                        boolean unused2 = SntpClient.isInitialized = true;
+                    }
+                }
+            }
+        }
+    }
+
+    static /* synthetic */ long access$400() {
         return loadNtpTimeOffsetMs();
     }
 
-    public static String getNtpHost() {
-        String str;
-        synchronized (valueLock) {
-            str = ntpHost;
+    private static void checkValidServerReply(byte b, byte b2, int i, long j) {
+        if (b == 3) {
+            throw new IOException("SNTP: Unsynchronized server");
         }
-        return str;
-    }
-
-    public static boolean isInitialized() {
-        boolean z;
-        synchronized (valueLock) {
-            z = isInitialized;
+        if (b2 != 4 && b2 != 5) {
+            throw new IOException("SNTP: Untrusted mode: " + ((int) b2));
+        } else if (i != 0 && i <= 15) {
+            if (j == 0) {
+                throw new IOException("SNTP: Zero transmitTime");
+            }
+        } else {
+            throw new IOException("SNTP: Untrusted stratum: " + i);
         }
-        return z;
     }
 
     public static long getElapsedRealtimeOffsetMs() {
@@ -53,6 +111,14 @@ public final class SntpClient {
             }
         }
         return j;
+    }
+
+    public static String getNtpHost() {
+        String str;
+        synchronized (valueLock) {
+            str = ntpHost;
+        }
+        return str;
     }
 
     public static void initialize(Loader loader, InitializationCallback initializationCallback) {
@@ -69,7 +135,15 @@ public final class SntpClient {
         loader.startLoading(new NtpTimeLoadable(), new NtpTimeCallback(initializationCallback), 1);
     }
 
-    private static long loadNtpTimeOffsetMs() throws IOException {
+    public static boolean isInitialized() {
+        boolean z;
+        synchronized (valueLock) {
+            z = isInitialized;
+        }
+        return z;
+    }
+
+    private static long loadNtpTimeOffsetMs() {
         InetAddress byName = InetAddress.getByName(getNtpHost());
         DatagramSocket datagramSocket = new DatagramSocket();
         try {
@@ -102,6 +176,26 @@ public final class SntpClient {
         }
     }
 
+    private static long read32(byte[] bArr, int i) {
+        int i2 = bArr[i];
+        int i3 = bArr[i + 1];
+        int i4 = bArr[i + 2];
+        int i5 = bArr[i + 3];
+        if ((i2 & 128) == 128) {
+            i2 = (i2 & NotificationCenter.dialogTranslate) + 128;
+        }
+        if ((i3 & 128) == 128) {
+            i3 = (i3 & NotificationCenter.dialogTranslate) + 128;
+        }
+        if ((i4 & 128) == 128) {
+            i4 = (i4 & NotificationCenter.dialogTranslate) + 128;
+        }
+        if ((i5 & 128) == 128) {
+            i5 = (i5 & NotificationCenter.dialogTranslate) + 128;
+        }
+        return (i2 << 24) + (i3 << 16) + (i4 << 8) + i5;
+    }
+
     private static long readTimestamp(byte[] bArr, int i) {
         long read32 = read32(bArr, i);
         long read322 = read32(bArr, i + 4);
@@ -128,99 +222,5 @@ public final class SntpClient {
         bArr[i + 5] = (byte) (j5 >> 16);
         bArr[i + 6] = (byte) (j5 >> 8);
         bArr[i + 7] = (byte) (Math.random() * 255.0d);
-    }
-
-    private static long read32(byte[] bArr, int i) {
-        int i2 = bArr[i];
-        int i3 = bArr[i + 1];
-        int i4 = bArr[i + 2];
-        int i5 = bArr[i + 3];
-        if ((i2 & 128) == 128) {
-            i2 = (i2 & NotificationCenter.dialogTranslate) + 128;
-        }
-        if ((i3 & 128) == 128) {
-            i3 = (i3 & NotificationCenter.dialogTranslate) + 128;
-        }
-        if ((i4 & 128) == 128) {
-            i4 = (i4 & NotificationCenter.dialogTranslate) + 128;
-        }
-        if ((i5 & 128) == 128) {
-            i5 = (i5 & NotificationCenter.dialogTranslate) + 128;
-        }
-        return (i2 << 24) + (i3 << 16) + (i4 << 8) + i5;
-    }
-
-    private static void checkValidServerReply(byte b, byte b2, int i, long j) throws IOException {
-        if (b == 3) {
-            throw new IOException("SNTP: Unsynchronized server");
-        }
-        if (b2 != 4 && b2 != 5) {
-            throw new IOException("SNTP: Untrusted mode: " + ((int) b2));
-        } else if (i != 0 && i <= 15) {
-            if (j == 0) {
-                throw new IOException("SNTP: Zero transmitTime");
-            }
-        } else {
-            throw new IOException("SNTP: Untrusted stratum: " + i);
-        }
-    }
-
-    /* loaded from: classes.dex */
-    private static final class NtpTimeLoadable implements Loader.Loadable {
-        @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
-        public void cancelLoad() {
-        }
-
-        private NtpTimeLoadable() {
-        }
-
-        @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
-        public void load() throws IOException {
-            synchronized (SntpClient.loaderLock) {
-                synchronized (SntpClient.valueLock) {
-                    if (SntpClient.isInitialized) {
-                        return;
-                    }
-                    long access$400 = SntpClient.access$400();
-                    synchronized (SntpClient.valueLock) {
-                        long unused = SntpClient.elapsedRealtimeOffsetMs = access$400;
-                        boolean unused2 = SntpClient.isInitialized = true;
-                    }
-                }
-            }
-        }
-    }
-
-    /* loaded from: classes.dex */
-    private static final class NtpTimeCallback implements Loader.Callback<Loader.Loadable> {
-        private final InitializationCallback callback;
-
-        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
-        public void onLoadCanceled(Loader.Loadable loadable, long j, long j2, boolean z) {
-        }
-
-        public NtpTimeCallback(InitializationCallback initializationCallback) {
-            this.callback = initializationCallback;
-        }
-
-        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
-        public void onLoadCompleted(Loader.Loadable loadable, long j, long j2) {
-            if (this.callback != null) {
-                if (!SntpClient.isInitialized()) {
-                    this.callback.onInitializationFailed(new IOException(new ConcurrentModificationException()));
-                } else {
-                    this.callback.onInitialized();
-                }
-            }
-        }
-
-        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
-        public Loader.LoadErrorAction onLoadError(Loader.Loadable loadable, long j, long j2, IOException iOException, int i) {
-            InitializationCallback initializationCallback = this.callback;
-            if (initializationCallback != null) {
-                initializationCallback.onInitializationFailed(iOException);
-            }
-            return Loader.DONT_RETRY;
-        }
     }
 }

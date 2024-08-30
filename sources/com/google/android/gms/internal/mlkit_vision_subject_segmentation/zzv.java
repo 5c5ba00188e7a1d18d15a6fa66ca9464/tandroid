@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public class zzv extends zzt implements List {
     final /* synthetic */ zzw zzf;
@@ -77,6 +76,12 @@ public class zzv extends zzt implements List {
     }
 
     @Override // java.util.List
+    public final ListIterator listIterator(int i) {
+        zzb();
+        return new zzu(this, i);
+    }
+
+    @Override // java.util.List
     public final Object remove(int i) {
         int i2;
         zzb();
@@ -103,11 +108,5 @@ public class zzv extends zzt implements List {
             zztVar = this;
         }
         return this.zzf.zzf(this.zza, subList, zztVar);
-    }
-
-    @Override // java.util.List
-    public final ListIterator listIterator(int i) {
-        zzb();
-        return new zzu(this, i);
     }
 }

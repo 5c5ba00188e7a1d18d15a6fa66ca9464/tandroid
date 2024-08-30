@@ -1,10 +1,8 @@
 package com.google.android.gms.internal.location;
 
-import android.os.RemoteException;
 import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationResult;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 final class zzcw extends com.google.android.gms.location.zzq {
     private final zzcs zza;
@@ -15,12 +13,12 @@ final class zzcw extends com.google.android.gms.location.zzq {
     }
 
     @Override // com.google.android.gms.location.zzr
-    public final void zzd(LocationAvailability locationAvailability) throws RemoteException {
+    public final void zzd(LocationAvailability locationAvailability) {
         this.zza.zza().notifyListener(new zzcu(this, locationAvailability));
     }
 
     @Override // com.google.android.gms.location.zzr
-    public final void zze(LocationResult locationResult) throws RemoteException {
+    public final void zze(LocationResult locationResult) {
         this.zza.zza().notifyListener(new zzct(this, locationResult));
     }
 

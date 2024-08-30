@@ -4,7 +4,6 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.Status;
 import java.util.Map;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zaab implements PendingResult.StatusListener {
     final /* synthetic */ BasePendingResult zaa;

@@ -79,6 +79,21 @@ public class VideoSource extends MediaSource {
         this.nativeAndroidVideoTrackSource = new NativeAndroidVideoTrackSource(j);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$setVideoProcessor$0(VideoFrame videoFrame) {
+        this.nativeAndroidVideoTrackSource.onFrameCaptured(videoFrame);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$setVideoProcessor$1(final VideoFrame videoFrame) {
+        runWithReference(new Runnable() { // from class: org.webrtc.VideoSource$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                VideoSource.this.lambda$setVideoProcessor$0(videoFrame);
+            }
+        });
+    }
+
     public void adaptOutputFormat(int i, int i2, int i3) {
         int max = Math.max(i, i2);
         int min = Math.min(i, i2);
@@ -91,6 +106,21 @@ public class VideoSource extends MediaSource {
 
     public void adaptOutputFormat(AspectRatio aspectRatio, Integer num, AspectRatio aspectRatio2, Integer num2, Integer num3) {
         this.nativeAndroidVideoTrackSource.adaptOutputFormat(aspectRatio, num, aspectRatio2, num2, num3);
+    }
+
+    @Override // org.webrtc.MediaSource
+    public void dispose() {
+        setVideoProcessor(null);
+        super.dispose();
+    }
+
+    public CapturerObserver getCapturerObserver() {
+        return this.capturerObserver;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public long getNativeVideoTrackSource() {
+        return getNativeMediaSource();
     }
 
     public void setIsScreencast(boolean z) {
@@ -128,35 +158,5 @@ public class VideoSource extends MediaSource {
                 throw th;
             }
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setVideoProcessor$0(VideoFrame videoFrame) {
-        this.nativeAndroidVideoTrackSource.onFrameCaptured(videoFrame);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setVideoProcessor$1(final VideoFrame videoFrame) {
-        runWithReference(new Runnable() { // from class: org.webrtc.VideoSource$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                VideoSource.this.lambda$setVideoProcessor$0(videoFrame);
-            }
-        });
-    }
-
-    public CapturerObserver getCapturerObserver() {
-        return this.capturerObserver;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public long getNativeVideoTrackSource() {
-        return getNativeMediaSource();
-    }
-
-    @Override // org.webrtc.MediaSource
-    public void dispose() {
-        setVideoProcessor(null);
-        super.dispose();
     }
 }

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import com.google.android.gms.tasks.Task;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class zzd extends Fragment {
     boolean zza;
@@ -37,13 +36,15 @@ public final class zzd extends Fragment {
 
     @Override // android.app.Fragment
     public final void onCreate(Bundle bundle) {
+        zzc zzcVar;
         super.onCreate(bundle);
         this.zzb = getArguments().getInt("requestCode");
         if (AutoResolveHelper.zza != getArguments().getLong("initializationElapsedRealtime")) {
-            this.zzc = null;
+            zzcVar = null;
         } else {
-            this.zzc = (zzc) zzc.zzb.get(getArguments().getInt("resolveCallId"));
+            zzcVar = (zzc) zzc.zzb.get(getArguments().getInt("resolveCallId"));
         }
+        this.zzc = zzcVar;
         boolean z = false;
         if (bundle != null && bundle.getBoolean("delivered")) {
             z = true;

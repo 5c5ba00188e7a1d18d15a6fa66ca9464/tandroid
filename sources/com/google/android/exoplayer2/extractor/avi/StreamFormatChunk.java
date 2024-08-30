@@ -10,84 +10,8 @@ import org.telegram.messenger.MediaController;
 final class StreamFormatChunk implements AviChunk {
     public final Format format;
 
-    @Override // com.google.android.exoplayer2.extractor.avi.AviChunk
-    public int getType() {
-        return 1718776947;
-    }
-
-    public static AviChunk parseFrom(int i, ParsableByteArray parsableByteArray) {
-        if (i == 2) {
-            return parseBitmapInfoHeader(parsableByteArray);
-        }
-        if (i == 1) {
-            return parseWaveFormatEx(parsableByteArray);
-        }
-        Log.w("StreamFormatChunk", "Ignoring strf box for unsupported track type: " + Util.getTrackTypeString(i));
-        return null;
-    }
-
     public StreamFormatChunk(Format format) {
         this.format = format;
-    }
-
-    private static AviChunk parseBitmapInfoHeader(ParsableByteArray parsableByteArray) {
-        parsableByteArray.skipBytes(4);
-        int readLittleEndianInt = parsableByteArray.readLittleEndianInt();
-        int readLittleEndianInt2 = parsableByteArray.readLittleEndianInt();
-        parsableByteArray.skipBytes(4);
-        int readLittleEndianInt3 = parsableByteArray.readLittleEndianInt();
-        String mimeTypeFromCompression = getMimeTypeFromCompression(readLittleEndianInt3);
-        if (mimeTypeFromCompression == null) {
-            Log.w("StreamFormatChunk", "Ignoring track with unsupported compression " + readLittleEndianInt3);
-            return null;
-        }
-        Format.Builder builder = new Format.Builder();
-        builder.setWidth(readLittleEndianInt).setHeight(readLittleEndianInt2).setSampleMimeType(mimeTypeFromCompression);
-        return new StreamFormatChunk(builder.build());
-    }
-
-    private static AviChunk parseWaveFormatEx(ParsableByteArray parsableByteArray) {
-        int readLittleEndianUnsignedShort = parsableByteArray.readLittleEndianUnsignedShort();
-        String mimeTypeFromTag = getMimeTypeFromTag(readLittleEndianUnsignedShort);
-        if (mimeTypeFromTag == null) {
-            Log.w("StreamFormatChunk", "Ignoring track with unsupported format tag " + readLittleEndianUnsignedShort);
-            return null;
-        }
-        int readLittleEndianUnsignedShort2 = parsableByteArray.readLittleEndianUnsignedShort();
-        int readLittleEndianInt = parsableByteArray.readLittleEndianInt();
-        parsableByteArray.skipBytes(6);
-        int pcmEncoding = Util.getPcmEncoding(parsableByteArray.readUnsignedShort());
-        int readLittleEndianUnsignedShort3 = parsableByteArray.readLittleEndianUnsignedShort();
-        byte[] bArr = new byte[readLittleEndianUnsignedShort3];
-        parsableByteArray.readBytes(bArr, 0, readLittleEndianUnsignedShort3);
-        Format.Builder builder = new Format.Builder();
-        builder.setSampleMimeType(mimeTypeFromTag).setChannelCount(readLittleEndianUnsignedShort2).setSampleRate(readLittleEndianInt);
-        if ("audio/raw".equals(mimeTypeFromTag) && pcmEncoding != 0) {
-            builder.setPcmEncoding(pcmEncoding);
-        }
-        if (MediaController.AUDIO_MIME_TYPE.equals(mimeTypeFromTag) && readLittleEndianUnsignedShort3 > 0) {
-            builder.setInitializationData(ImmutableList.of(bArr));
-        }
-        return new StreamFormatChunk(builder.build());
-    }
-
-    private static String getMimeTypeFromTag(int i) {
-        if (i != 1) {
-            if (i != 85) {
-                if (i != 255) {
-                    if (i != 8192) {
-                        if (i != 8193) {
-                            return null;
-                        }
-                        return "audio/vnd.dts";
-                    }
-                    return "audio/ac3";
-                }
-                return MediaController.AUDIO_MIME_TYPE;
-            }
-            return "audio/mpeg";
-        }
-        return "audio/raw";
     }
 
     private static String getMimeTypeFromCompression(int i) {
@@ -114,5 +38,81 @@ final class StreamFormatChunk implements AviChunk {
             default:
                 return null;
         }
+    }
+
+    private static String getMimeTypeFromTag(int i) {
+        if (i != 1) {
+            if (i != 85) {
+                if (i != 255) {
+                    if (i != 8192) {
+                        if (i != 8193) {
+                            return null;
+                        }
+                        return "audio/vnd.dts";
+                    }
+                    return "audio/ac3";
+                }
+                return MediaController.AUDIO_MIME_TYPE;
+            }
+            return "audio/mpeg";
+        }
+        return "audio/raw";
+    }
+
+    private static AviChunk parseBitmapInfoHeader(ParsableByteArray parsableByteArray) {
+        parsableByteArray.skipBytes(4);
+        int readLittleEndianInt = parsableByteArray.readLittleEndianInt();
+        int readLittleEndianInt2 = parsableByteArray.readLittleEndianInt();
+        parsableByteArray.skipBytes(4);
+        int readLittleEndianInt3 = parsableByteArray.readLittleEndianInt();
+        String mimeTypeFromCompression = getMimeTypeFromCompression(readLittleEndianInt3);
+        if (mimeTypeFromCompression != null) {
+            Format.Builder builder = new Format.Builder();
+            builder.setWidth(readLittleEndianInt).setHeight(readLittleEndianInt2).setSampleMimeType(mimeTypeFromCompression);
+            return new StreamFormatChunk(builder.build());
+        }
+        Log.w("StreamFormatChunk", "Ignoring track with unsupported compression " + readLittleEndianInt3);
+        return null;
+    }
+
+    public static AviChunk parseFrom(int i, ParsableByteArray parsableByteArray) {
+        if (i == 2) {
+            return parseBitmapInfoHeader(parsableByteArray);
+        }
+        if (i == 1) {
+            return parseWaveFormatEx(parsableByteArray);
+        }
+        Log.w("StreamFormatChunk", "Ignoring strf box for unsupported track type: " + Util.getTrackTypeString(i));
+        return null;
+    }
+
+    private static AviChunk parseWaveFormatEx(ParsableByteArray parsableByteArray) {
+        int readLittleEndianUnsignedShort = parsableByteArray.readLittleEndianUnsignedShort();
+        String mimeTypeFromTag = getMimeTypeFromTag(readLittleEndianUnsignedShort);
+        if (mimeTypeFromTag == null) {
+            Log.w("StreamFormatChunk", "Ignoring track with unsupported format tag " + readLittleEndianUnsignedShort);
+            return null;
+        }
+        int readLittleEndianUnsignedShort2 = parsableByteArray.readLittleEndianUnsignedShort();
+        int readLittleEndianInt = parsableByteArray.readLittleEndianInt();
+        parsableByteArray.skipBytes(6);
+        int pcmEncoding = Util.getPcmEncoding(parsableByteArray.readUnsignedShort());
+        int readLittleEndianUnsignedShort3 = parsableByteArray.readLittleEndianUnsignedShort();
+        byte[] bArr = new byte[readLittleEndianUnsignedShort3];
+        parsableByteArray.readBytes(bArr, 0, readLittleEndianUnsignedShort3);
+        Format.Builder builder = new Format.Builder();
+        builder.setSampleMimeType(mimeTypeFromTag).setChannelCount(readLittleEndianUnsignedShort2).setSampleRate(readLittleEndianInt);
+        if ("audio/raw".equals(mimeTypeFromTag) && pcmEncoding != 0) {
+            builder.setPcmEncoding(pcmEncoding);
+        }
+        if (MediaController.AUDIO_MIME_TYPE.equals(mimeTypeFromTag) && readLittleEndianUnsignedShort3 > 0) {
+            builder.setInitializationData(ImmutableList.of((Object) bArr));
+        }
+        return new StreamFormatChunk(builder.build());
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.avi.AviChunk
+    public int getType() {
+        return 1718776947;
     }
 }

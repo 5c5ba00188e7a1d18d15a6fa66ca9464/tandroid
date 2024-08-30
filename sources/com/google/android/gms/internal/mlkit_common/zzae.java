@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_common;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
-public final class zzae {
+public abstract class zzae {
     public static int zza(int i, int i2, String str) {
         String zza;
         if (i < 0 || i >= i2) {
@@ -25,16 +24,8 @@ public final class zzae {
     }
 
     public static void zzd(int i, int i2, int i3) {
-        String zzf;
         if (i < 0 || i2 < i || i2 > i3) {
-            if (i < 0 || i > i3) {
-                zzf = zzf(i, i3, "start index");
-            } else if (i2 < 0 || i2 > i3) {
-                zzf = zzf(i2, i3, "end index");
-            } else {
-                zzf = zzaf.zza("end index (%s) must not be less than start index (%s)", Integer.valueOf(i2), Integer.valueOf(i));
-            }
-            throw new IndexOutOfBoundsException(zzf);
+            throw new IndexOutOfBoundsException((i < 0 || i > i3) ? zzf(i, i3, "start index") : (i2 < 0 || i2 > i3) ? zzf(i2, i3, "end index") : zzaf.zza("end index (%s) must not be less than start index (%s)", Integer.valueOf(i2), Integer.valueOf(i)));
         }
     }
 

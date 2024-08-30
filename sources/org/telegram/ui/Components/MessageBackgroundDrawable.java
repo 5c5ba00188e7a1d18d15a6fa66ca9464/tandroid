@@ -23,41 +23,15 @@ public class MessageBackgroundDrawable extends Drawable {
     private float touchOverrideX = -1.0f;
     private float touchOverrideY = -1.0f;
 
-    @Override // android.graphics.drawable.Drawable
-    public int getOpacity() {
-        return -2;
-    }
-
     public MessageBackgroundDrawable(View view) {
         this.parentView = view;
     }
 
-    public void setColor(int i) {
-        this.paint.setColor(i);
-    }
-
-    public void setCustomPaint(Paint paint) {
-        this.customPaint = paint;
-    }
-
-    public void setSelected(boolean z, boolean z2) {
-        if (this.isSelected == z) {
-            if (this.animationInProgress == z2 || z2) {
-                return;
-            }
-            this.currentAnimationProgress = z ? 1.0f : 0.0f;
-            this.animationInProgress = false;
-            return;
-        }
-        this.isSelected = z;
-        this.animationInProgress = z2;
-        if (z2) {
-            this.lastAnimationTime = SystemClock.elapsedRealtime();
-        } else {
-            this.currentAnimationProgress = z ? 1.0f : 0.0f;
-        }
-        calcRadius();
-        invalidate();
+    private void calcRadius() {
+        android.graphics.Rect bounds = getBounds();
+        float centerX = bounds.left - bounds.centerX();
+        float centerY = bounds.top - bounds.centerY();
+        this.finalRadius = (float) Math.ceil(Math.sqrt((centerX * centerX) + (centerY * centerY)));
     }
 
     private void invalidate() {
@@ -68,62 +42,6 @@ public class MessageBackgroundDrawable extends Drawable {
                 ((ViewGroup) this.parentView.getParent()).invalidate();
             }
         }
-    }
-
-    private void calcRadius() {
-        android.graphics.Rect bounds = getBounds();
-        float centerX = bounds.left - bounds.centerX();
-        float centerY = bounds.top - bounds.centerY();
-        this.finalRadius = (float) Math.ceil(Math.sqrt((centerX * centerX) + (centerY * centerY)));
-    }
-
-    public void setTouchCoords(float f, float f2) {
-        this.touchX = f;
-        this.touchY = f2;
-        this.lastTouchTime = SystemClock.elapsedRealtime();
-    }
-
-    public void setTouchCoordsOverride(float f, float f2) {
-        this.touchOverrideX = f;
-        this.touchOverrideY = f2;
-    }
-
-    public float getTouchX() {
-        return this.touchX;
-    }
-
-    public float getTouchY() {
-        return this.touchY;
-    }
-
-    public long getLastTouchTime() {
-        return this.lastTouchTime;
-    }
-
-    public boolean isAnimationInProgress() {
-        return this.animationInProgress;
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setBounds(int i, int i2, int i3, int i4) {
-        super.setBounds(i, i2, i3, i4);
-        calcRadius();
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setBounds(android.graphics.Rect rect) {
-        super.setBounds(rect);
-        calcRadius();
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setColorFilter(ColorFilter colorFilter) {
-        this.paint.setColorFilter(colorFilter);
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setAlpha(int i) {
-        this.paint.setAlpha(i);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:18:0x0049, code lost:
@@ -137,7 +55,6 @@ public class MessageBackgroundDrawable extends Drawable {
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void draw(Canvas canvas) {
-        float interpolation;
         float f;
         float f2 = this.currentAnimationProgress;
         if (f2 == 1.0f) {
@@ -148,11 +65,7 @@ public class MessageBackgroundDrawable extends Drawable {
             }
             canvas.drawRect(bounds, paint);
         } else if (f2 != 0.0f) {
-            if (this.isSelected) {
-                interpolation = CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(f2);
-            } else {
-                interpolation = 1.0f - CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(1.0f - f2);
-            }
+            float interpolation = this.isSelected ? CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(f2) : 1.0f - CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(1.0f - f2);
             android.graphics.Rect bounds2 = getBounds();
             float centerX = bounds2.centerX();
             float centerY = bounds2.centerY();
@@ -208,5 +121,87 @@ public class MessageBackgroundDrawable extends Drawable {
             }
             invalidate();
         }
+    }
+
+    public long getLastTouchTime() {
+        return this.lastTouchTime;
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public int getOpacity() {
+        return -2;
+    }
+
+    public float getTouchX() {
+        return this.touchX;
+    }
+
+    public float getTouchY() {
+        return this.touchY;
+    }
+
+    public boolean isAnimationInProgress() {
+        return this.animationInProgress;
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setAlpha(int i) {
+        this.paint.setAlpha(i);
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setBounds(int i, int i2, int i3, int i4) {
+        super.setBounds(i, i2, i3, i4);
+        calcRadius();
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setBounds(android.graphics.Rect rect) {
+        super.setBounds(rect);
+        calcRadius();
+    }
+
+    public void setColor(int i) {
+        this.paint.setColor(i);
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setColorFilter(ColorFilter colorFilter) {
+        this.paint.setColorFilter(colorFilter);
+    }
+
+    public void setCustomPaint(Paint paint) {
+        this.customPaint = paint;
+    }
+
+    public void setSelected(boolean z, boolean z2) {
+        if (this.isSelected == z) {
+            if (this.animationInProgress == z2 || z2) {
+                return;
+            }
+            this.currentAnimationProgress = z ? 1.0f : 0.0f;
+            this.animationInProgress = false;
+            return;
+        }
+        this.isSelected = z;
+        this.animationInProgress = z2;
+        if (z2) {
+            this.lastAnimationTime = SystemClock.elapsedRealtime();
+        } else {
+            this.currentAnimationProgress = z ? 1.0f : 0.0f;
+        }
+        calcRadius();
+        invalidate();
+    }
+
+    public void setTouchCoords(float f, float f2) {
+        this.touchX = f;
+        this.touchY = f2;
+        this.lastTouchTime = SystemClock.elapsedRealtime();
+    }
+
+    public void setTouchCoordsOverride(float f, float f2) {
+        this.touchOverrideX = f;
+        this.touchOverrideY = f2;
     }
 }

@@ -6,18 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.RandomAccess;
 import java.util.Set;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public abstract class zzag extends zzai implements Serializable {
     private transient Map zza;
     private transient int zzb;
 
     public zzag(Map map) {
-        if (map.isEmpty()) {
-            this.zza = map;
-            return;
+        if (!map.isEmpty()) {
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
+        this.zza = map;
     }
 
     public static /* synthetic */ int zzd(zzag zzagVar) {
@@ -78,10 +76,7 @@ public abstract class zzag extends zzai implements Serializable {
     }
 
     public final List zzi(Object obj, List list, zzad zzadVar) {
-        if (list instanceof RandomAccess) {
-            return new zzab(this, obj, list, zzadVar);
-        }
-        return new zzaf(this, obj, list, zzadVar);
+        return list instanceof RandomAccess ? new zzab(this, obj, list, zzadVar) : new zzaf(this, obj, list, zzadVar);
     }
 
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzai
@@ -105,19 +100,19 @@ public abstract class zzag extends zzai implements Serializable {
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzbr
     public final boolean zzo(Object obj, Object obj2) {
         Collection collection = (Collection) this.zza.get(obj);
-        if (collection == null) {
-            Collection zza = zza();
-            if (zza.add(obj2)) {
+        if (collection != null) {
+            if (collection.add(obj2)) {
                 this.zzb++;
-                this.zza.put(obj, zza);
                 return true;
             }
-            throw new AssertionError("New Collection violated the Collection spec");
-        } else if (collection.add(obj2)) {
-            this.zzb++;
-            return true;
-        } else {
             return false;
         }
+        Collection zza = zza();
+        if (zza.add(obj2)) {
+            this.zzb++;
+            this.zza.put(obj, zza);
+            return true;
+        }
+        throw new AssertionError("New Collection violated the Collection spec");
     }
 }

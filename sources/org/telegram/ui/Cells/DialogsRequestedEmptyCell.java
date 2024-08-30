@@ -27,15 +27,12 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes4.dex */
-public class DialogsRequestedEmptyCell extends LinearLayout implements NotificationCenter.NotificationCenterDelegate {
+public abstract class DialogsRequestedEmptyCell extends LinearLayout implements NotificationCenter.NotificationCenterDelegate {
     TextView buttonView;
     int currentAccount;
     BackupImageView stickerView;
     TextView subtitleView;
     TextView titleView;
-
-    protected void onButtonClick() {
-    }
 
     public DialogsRequestedEmptyCell(Context context) {
         super(context);
@@ -123,34 +120,24 @@ public class DialogsRequestedEmptyCell extends LinearLayout implements Notificat
         onButtonClick();
     }
 
-    public void set(TLRPC$RequestPeerType tLRPC$RequestPeerType) {
-        if (tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeBroadcast) {
-            this.titleView.setText(LocaleController.getString(R.string.NoSuchChannels));
-            this.subtitleView.setText(LocaleController.getString(R.string.NoSuchChannelsInfo));
-            this.buttonView.setVisibility(0);
-            this.buttonView.setText(LocaleController.getString(R.string.CreateChannelForThis));
-        } else if (tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeChat) {
-            this.titleView.setText(LocaleController.getString(R.string.NoSuchGroups));
-            this.subtitleView.setText(LocaleController.getString(R.string.NoSuchGroupsInfo));
-            this.buttonView.setVisibility(0);
-            this.buttonView.setText(LocaleController.getString(R.string.CreateGroupForThis));
-        } else {
-            this.titleView.setText(LocaleController.getString(R.string.NoSuchUsers));
-            this.subtitleView.setText(LocaleController.getString(R.string.NoSuchUsersInfo));
-            this.buttonView.setVisibility(8);
+    private void updateSticker() {
+        TLRPC$TL_messages_stickerSet stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME);
+        if (stickerSetByName == null) {
+            stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME);
         }
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.diceStickersDidLoad);
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.diceStickersDidLoad);
+        TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = stickerSetByName;
+        TLRPC$Document tLRPC$Document = (tLRPC$TL_messages_stickerSet == null || 1 >= tLRPC$TL_messages_stickerSet.documents.size()) ? null : (TLRPC$Document) tLRPC$TL_messages_stickerSet.documents.get(1);
+        if (tLRPC$Document == null) {
+            MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, tLRPC$TL_messages_stickerSet == null);
+            this.stickerView.getImageReceiver().clearImage();
+            return;
+        }
+        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, Theme.key_windowBackgroundGray, 0.2f);
+        if (svgThumb != null) {
+            svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
+        }
+        this.stickerView.setImage(ImageLocation.getForDocument(tLRPC$Document), "130_130", "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
+        this.stickerView.getImageReceiver().setAutoRepeat(2);
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -160,23 +147,41 @@ public class DialogsRequestedEmptyCell extends LinearLayout implements Notificat
         }
     }
 
-    private void updateSticker() {
-        TLRPC$TL_messages_stickerSet stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME);
-        if (stickerSetByName == null) {
-            stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME);
-        }
-        TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = stickerSetByName;
-        TLRPC$Document tLRPC$Document = (tLRPC$TL_messages_stickerSet == null || 1 >= tLRPC$TL_messages_stickerSet.documents.size()) ? null : tLRPC$TL_messages_stickerSet.documents.get(1);
-        if (tLRPC$Document != null) {
-            SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, Theme.key_windowBackgroundGray, 0.2f);
-            if (svgThumb != null) {
-                svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
-            }
-            this.stickerView.setImage(ImageLocation.getForDocument(tLRPC$Document), "130_130", "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
-            this.stickerView.getImageReceiver().setAutoRepeat(2);
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.diceStickersDidLoad);
+    }
+
+    protected abstract void onButtonClick();
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.diceStickersDidLoad);
+    }
+
+    public void set(TLRPC$RequestPeerType tLRPC$RequestPeerType) {
+        TextView textView;
+        int i;
+        if (tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeBroadcast) {
+            this.titleView.setText(LocaleController.getString(R.string.NoSuchChannels));
+            this.subtitleView.setText(LocaleController.getString(R.string.NoSuchChannelsInfo));
+            this.buttonView.setVisibility(0);
+            textView = this.buttonView;
+            i = R.string.CreateChannelForThis;
+        } else if (!(tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeChat)) {
+            this.titleView.setText(LocaleController.getString(R.string.NoSuchUsers));
+            this.subtitleView.setText(LocaleController.getString(R.string.NoSuchUsersInfo));
+            this.buttonView.setVisibility(8);
             return;
+        } else {
+            this.titleView.setText(LocaleController.getString(R.string.NoSuchGroups));
+            this.subtitleView.setText(LocaleController.getString(R.string.NoSuchGroupsInfo));
+            this.buttonView.setVisibility(0);
+            textView = this.buttonView;
+            i = R.string.CreateGroupForThis;
         }
-        MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, tLRPC$TL_messages_stickerSet == null);
-        this.stickerView.getImageReceiver().clearImage();
+        textView.setText(LocaleController.getString(i));
     }
 }

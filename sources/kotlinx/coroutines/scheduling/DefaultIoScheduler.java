@@ -8,14 +8,10 @@ import kotlinx.coroutines.CoroutineDispatcher;
 import kotlinx.coroutines.ExecutorCoroutineDispatcher;
 import kotlinx.coroutines.internal.SystemPropsKt;
 import kotlinx.coroutines.internal.SystemPropsKt__SystemProps_commonKt;
-/* compiled from: Dispatcher.kt */
 /* loaded from: classes.dex */
 public final class DefaultIoScheduler extends ExecutorCoroutineDispatcher implements Executor {
     public static final DefaultIoScheduler INSTANCE = new DefaultIoScheduler();
     private static final CoroutineDispatcher default;
-
-    private DefaultIoScheduler() {
-    }
 
     static {
         int coerceAtLeast;
@@ -26,9 +22,12 @@ public final class DefaultIoScheduler extends ExecutorCoroutineDispatcher implem
         default = unlimitedIoScheduler.limitedParallelism(systemProp$default);
     }
 
-    @Override // java.util.concurrent.Executor
-    public void execute(Runnable runnable) {
-        dispatch(EmptyCoroutineContext.INSTANCE, runnable);
+    private DefaultIoScheduler() {
+    }
+
+    @Override // java.io.Closeable, java.lang.AutoCloseable
+    public void close() {
+        throw new IllegalStateException("Cannot be invoked on Dispatchers.IO".toString());
     }
 
     @Override // kotlinx.coroutines.CoroutineDispatcher
@@ -36,9 +35,9 @@ public final class DefaultIoScheduler extends ExecutorCoroutineDispatcher implem
         default.dispatch(coroutineContext, runnable);
     }
 
-    @Override // java.io.Closeable, java.lang.AutoCloseable
-    public void close() {
-        throw new IllegalStateException("Cannot be invoked on Dispatchers.IO".toString());
+    @Override // java.util.concurrent.Executor
+    public void execute(Runnable runnable) {
+        dispatch(EmptyCoroutineContext.INSTANCE, runnable);
     }
 
     @Override // kotlinx.coroutines.CoroutineDispatcher

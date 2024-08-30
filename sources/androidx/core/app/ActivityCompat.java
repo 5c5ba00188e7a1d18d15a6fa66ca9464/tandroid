@@ -15,7 +15,39 @@ import androidx.core.os.BuildCompat;
 import java.util.Arrays;
 import java.util.HashSet;
 /* loaded from: classes.dex */
-public class ActivityCompat extends ContextCompat {
+public abstract class ActivityCompat extends ContextCompat {
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api16Impl {
+        static void finishAffinity(Activity activity) {
+            activity.finishAffinity();
+        }
+
+        static void startActivityForResult(Activity activity, Intent intent, int i, Bundle bundle) {
+            activity.startActivityForResult(intent, i, bundle);
+        }
+
+        static void startIntentSenderForResult(Activity activity, IntentSender intentSender, int i, Intent intent, int i2, int i3, int i4, Bundle bundle) {
+            activity.startIntentSenderForResult(intentSender, i, intent, i2, i3, i4, bundle);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api23Impl {
+        static void onSharedElementsReady(Object obj) {
+            ((SharedElementCallback.OnSharedElementsReadyListener) obj).onSharedElementsReady();
+        }
+
+        static void requestPermissions(Activity activity, String[] strArr, int i) {
+            activity.requestPermissions(strArr, i);
+        }
+
+        static boolean shouldShowRequestPermissionRationale(Activity activity, String str) {
+            return activity.shouldShowRequestPermissionRationale(str);
+        }
+    }
 
     /* loaded from: classes.dex */
     public interface OnRequestPermissionsResultCallback {
@@ -27,16 +59,25 @@ public class ActivityCompat extends ContextCompat {
         void validateRequestPermissionsRequestCode(int i);
     }
 
-    public static void startActivityForResult(Activity activity, Intent intent, int i, Bundle bundle) {
-        Api16Impl.startActivityForResult(activity, intent, i, bundle);
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$recreate$0(Activity activity) {
+        if (activity.isFinishing() || ActivityRecreator.recreate(activity)) {
+            return;
+        }
+        activity.recreate();
     }
 
-    public static void startIntentSenderForResult(Activity activity, IntentSender intentSender, int i, Intent intent, int i2, int i3, int i4, Bundle bundle) throws IntentSender.SendIntentException {
-        Api16Impl.startIntentSenderForResult(activity, intentSender, i, intent, i2, i3, i4, bundle);
-    }
-
-    public static void finishAffinity(Activity activity) {
-        Api16Impl.finishAffinity(activity);
+    public static void recreate(final Activity activity) {
+        if (Build.VERSION.SDK_INT >= 28) {
+            activity.recreate();
+        } else {
+            new Handler(activity.getMainLooper()).post(new Runnable() { // from class: androidx.core.app.ActivityCompat$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ActivityCompat.lambda$recreate$0(activity);
+                }
+            });
+        }
     }
 
     public static void requestPermissions(final Activity activity, String[] strArr, final int i) {
@@ -85,56 +126,11 @@ public class ActivityCompat extends ContextCompat {
         }
     }
 
-    public static void recreate(final Activity activity) {
-        if (Build.VERSION.SDK_INT >= 28) {
-            activity.recreate();
-        } else {
-            new Handler(activity.getMainLooper()).post(new Runnable() { // from class: androidx.core.app.ActivityCompat$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ActivityCompat.lambda$recreate$0(activity);
-                }
-            });
-        }
+    public static void startActivityForResult(Activity activity, Intent intent, int i, Bundle bundle) {
+        Api16Impl.startActivityForResult(activity, intent, i, bundle);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$recreate$0(Activity activity) {
-        if (activity.isFinishing() || ActivityRecreator.recreate(activity)) {
-            return;
-        }
-        activity.recreate();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api16Impl {
-        static void startActivityForResult(Activity activity, Intent intent, int i, Bundle bundle) {
-            activity.startActivityForResult(intent, i, bundle);
-        }
-
-        static void startIntentSenderForResult(Activity activity, IntentSender intentSender, int i, Intent intent, int i2, int i3, int i4, Bundle bundle) throws IntentSender.SendIntentException {
-            activity.startIntentSenderForResult(intentSender, i, intent, i2, i3, i4, bundle);
-        }
-
-        static void finishAffinity(Activity activity) {
-            activity.finishAffinity();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api23Impl {
-        static void requestPermissions(Activity activity, String[] strArr, int i) {
-            activity.requestPermissions(strArr, i);
-        }
-
-        static boolean shouldShowRequestPermissionRationale(Activity activity, String str) {
-            return activity.shouldShowRequestPermissionRationale(str);
-        }
-
-        static void onSharedElementsReady(Object obj) {
-            ((SharedElementCallback.OnSharedElementsReadyListener) obj).onSharedElementsReady();
-        }
+    public static void startIntentSenderForResult(Activity activity, IntentSender intentSender, int i, Intent intent, int i2, int i3, int i4, Bundle bundle) {
+        Api16Impl.startIntentSenderForResult(activity, intentSender, i, intent, i2, i3, i4, bundle);
     }
 }

@@ -6,9 +6,7 @@ import android.graphics.fonts.SystemFonts;
 import android.os.Build;
 import android.text.TextUtils;
 import java.io.File;
-import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +20,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 /* loaded from: classes3.dex */
 public class PaintTypeface {
-    public static final List<PaintTypeface> BUILT_IN_FONTS;
+    public static final List BUILT_IN_FONTS;
     public static final PaintTypeface COURIER_NEW_BOLD;
     public static final PaintTypeface MW_BOLD;
     public static final PaintTypeface ROBOTO_CONDENSED;
@@ -31,14 +29,118 @@ public class PaintTypeface {
     public static final PaintTypeface ROBOTO_MONO;
     public static final PaintTypeface ROBOTO_SERIF;
     public static boolean loadingTypefaces;
-    private static final List<String> preferable;
-    private static List<PaintTypeface> typefaces;
+    private static final List preferable;
+    private static List typefaces;
     private final Font font;
     private final String key;
     private final LazyTypeface lazyTypeface;
     private final String name;
     private final String nameKey;
     private final Typeface typeface;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public static class Family {
+        String family;
+        ArrayList fonts = new ArrayList();
+
+        Family() {
+        }
+
+        public FontData getBold() {
+            for (int i = 0; i < this.fonts.size(); i++) {
+                if ("Bold".equalsIgnoreCase(((FontData) this.fonts.get(i)).subfamily)) {
+                    return (FontData) this.fonts.get(i);
+                }
+            }
+            return null;
+        }
+
+        public FontData getRegular() {
+            FontData fontData;
+            int i = 0;
+            while (true) {
+                if (i >= this.fonts.size()) {
+                    fontData = null;
+                    break;
+                } else if ("Regular".equalsIgnoreCase(((FontData) this.fonts.get(i)).subfamily)) {
+                    fontData = (FontData) this.fonts.get(i);
+                    break;
+                } else {
+                    i++;
+                }
+            }
+            return (fontData != null || this.fonts.isEmpty()) ? fontData : (FontData) this.fonts.get(0);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public static class FontData {
+        String family;
+        Font font;
+        String subfamily;
+
+        FontData() {
+        }
+
+        public String getName() {
+            if ("Regular".equals(this.subfamily) || TextUtils.isEmpty(this.subfamily)) {
+                return this.family;
+            }
+            return this.family + " " + this.subfamily;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public static class LazyTypeface {
+        private final LazyTypefaceLoader loader;
+        private Typeface typeface;
+
+        /* loaded from: classes3.dex */
+        public interface LazyTypefaceLoader {
+            Typeface load();
+        }
+
+        public LazyTypeface(LazyTypefaceLoader lazyTypefaceLoader) {
+            this.loader = lazyTypefaceLoader;
+        }
+
+        public Typeface get() {
+            if (this.typeface == null) {
+                this.typeface = this.loader.load();
+            }
+            return this.typeface;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public static class NameRecord {
+        final int encodingID;
+        final int languageID;
+        final int nameID;
+        final int nameLength;
+        final int platformID;
+        final int stringOffset;
+
+        public NameRecord(RandomAccessFile randomAccessFile) {
+            this.platformID = randomAccessFile.readUnsignedShort();
+            this.encodingID = randomAccessFile.readUnsignedShort();
+            this.languageID = randomAccessFile.readUnsignedShort();
+            this.nameID = randomAccessFile.readUnsignedShort();
+            this.nameLength = randomAccessFile.readUnsignedShort();
+            this.stringOffset = randomAccessFile.readUnsignedShort();
+        }
+
+        public String read(RandomAccessFile randomAccessFile, int i) {
+            randomAccessFile.seek(i + this.stringOffset);
+            byte[] bArr = new byte[this.nameLength];
+            randomAccessFile.read(bArr);
+            return new String(bArr, this.encodingID == 1 ? StandardCharsets.UTF_16BE : StandardCharsets.UTF_8);
+        }
+    }
 
     static {
         PaintTypeface paintTypeface = new PaintTypeface("roboto", "PhotoEditorTypefaceRoboto", new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda3
@@ -108,73 +210,6 @@ public class PaintTypeface {
         preferable = Arrays.asList("Google Sans", "Dancing Script", "Carrois Gothic SC", "Cutive Mono", "Droid Sans Mono", "Coming Soon");
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ Typeface lambda$static$0() {
-        return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ Typeface lambda$static$1() {
-        return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM_ITALIC);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ Typeface lambda$static$2() {
-        return Typeface.create("serif", 1);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ Typeface lambda$static$3() {
-        return AndroidUtilities.getTypeface("fonts/rcondensedbold.ttf");
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ Typeface lambda$static$4() {
-        return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MONO);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ Typeface lambda$static$5() {
-        return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_MERRIWEATHER_BOLD);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ Typeface lambda$static$6() {
-        return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_COURIER_NEW_BOLD);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class LazyTypeface {
-        private final LazyTypefaceLoader loader;
-        private Typeface typeface;
-
-        /* loaded from: classes3.dex */
-        public interface LazyTypefaceLoader {
-            Typeface load();
-        }
-
-        public LazyTypeface(LazyTypefaceLoader lazyTypefaceLoader) {
-            this.loader = lazyTypefaceLoader;
-        }
-
-        public Typeface get() {
-            if (this.typeface == null) {
-                this.typeface = this.loader.load();
-            }
-            return this.typeface;
-        }
-    }
-
-    PaintTypeface(String str, String str2, LazyTypeface lazyTypeface) {
-        this.key = str;
-        this.nameKey = str2;
-        this.name = null;
-        this.typeface = null;
-        this.lazyTypeface = lazyTypeface;
-        this.font = null;
-    }
-
     PaintTypeface(final Font font, String str) {
         this.key = str;
         this.name = str;
@@ -191,41 +226,42 @@ public class PaintTypeface {
         this.font = font;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ Typeface lambda$new$7(Font font) {
-        File file;
-        file = font.getFile();
-        return Typeface.createFromFile(file);
+    PaintTypeface(String str, String str2, LazyTypeface lazyTypeface) {
+        this.key = str;
+        this.nameKey = str2;
+        this.name = null;
+        this.typeface = null;
+        this.lazyTypeface = lazyTypeface;
+        this.font = null;
     }
 
-    public String getKey() {
-        return this.key;
-    }
-
-    public Typeface getTypeface() {
-        LazyTypeface lazyTypeface = this.lazyTypeface;
-        if (lazyTypeface != null) {
-            return lazyTypeface.get();
-        }
-        return this.typeface;
-    }
-
-    public String getName() {
-        String str = this.name;
-        return str != null ? str : LocaleController.getString(this.nameKey);
-    }
-
-    private static void load() {
-        if (typefaces != null || loadingTypefaces) {
-            return;
-        }
-        loadingTypefaces = true;
-        Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda10
-            @Override // java.lang.Runnable
-            public final void run() {
-                PaintTypeface.lambda$load$9();
+    public static PaintTypeface find(String str) {
+        if (str != null && !TextUtils.isEmpty(str)) {
+            List list = get();
+            for (int i = 0; i < list.size(); i++) {
+                PaintTypeface paintTypeface = (PaintTypeface) list.get(i);
+                if (paintTypeface != null && TextUtils.equals(str, paintTypeface.key)) {
+                    return paintTypeface;
+                }
             }
-        });
+        }
+        return null;
+    }
+
+    public static List get() {
+        List list = typefaces;
+        if (list == null) {
+            load();
+            return BUILT_IN_FONTS;
+        }
+        return list;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$load$8(ArrayList arrayList) {
+        typefaces = arrayList;
+        loadingTypefaces = false;
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.customTypefacesLoaded, new Object[0]);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -273,126 +309,58 @@ public class PaintTypeface {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$load$8(ArrayList arrayList) {
-        typefaces = arrayList;
-        loadingTypefaces = false;
-        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.customTypefacesLoaded, new Object[0]);
-    }
-
-    public static List<PaintTypeface> get() {
-        List<PaintTypeface> list = typefaces;
-        if (list == null) {
-            load();
-            return BUILT_IN_FONTS;
-        }
-        return list;
-    }
-
-    public static PaintTypeface find(String str) {
-        if (str != null && !TextUtils.isEmpty(str)) {
-            List<PaintTypeface> list = get();
-            for (int i = 0; i < list.size(); i++) {
-                PaintTypeface paintTypeface = list.get(i);
-                if (paintTypeface != null && TextUtils.equals(str, paintTypeface.key)) {
-                    return paintTypeface;
-                }
-            }
-        }
-        return null;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static class Family {
-        String family;
-        ArrayList<FontData> fonts = new ArrayList<>();
-
-        Family() {
-        }
-
-        public FontData getRegular() {
-            FontData fontData;
-            int i = 0;
-            while (true) {
-                if (i >= this.fonts.size()) {
-                    fontData = null;
-                    break;
-                } else if ("Regular".equalsIgnoreCase(this.fonts.get(i).subfamily)) {
-                    fontData = this.fonts.get(i);
-                    break;
-                } else {
-                    i++;
-                }
-            }
-            return (fontData != null || this.fonts.isEmpty()) ? fontData : this.fonts.get(0);
-        }
-
-        public FontData getBold() {
-            for (int i = 0; i < this.fonts.size(); i++) {
-                if ("Bold".equalsIgnoreCase(this.fonts.get(i).subfamily)) {
-                    return this.fonts.get(i);
-                }
-            }
-            return null;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static class FontData {
-        String family;
-        Font font;
-        String subfamily;
-
-        FontData() {
-        }
-
-        public String getName() {
-            if ("Regular".equals(this.subfamily) || TextUtils.isEmpty(this.subfamily)) {
-                return this.family;
-            }
-            return this.family + " " + this.subfamily;
-        }
+    public static /* synthetic */ Typeface lambda$new$7(Font font) {
+        File file;
+        file = font.getFile();
+        return Typeface.createFromFile(file);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class NameRecord {
-        final int encodingID;
-        final int languageID;
-        final int nameID;
-        final int nameLength;
-        final int platformID;
-        final int stringOffset;
-
-        public NameRecord(RandomAccessFile randomAccessFile) throws IOException {
-            this.platformID = randomAccessFile.readUnsignedShort();
-            this.encodingID = randomAccessFile.readUnsignedShort();
-            this.languageID = randomAccessFile.readUnsignedShort();
-            this.nameID = randomAccessFile.readUnsignedShort();
-            this.nameLength = randomAccessFile.readUnsignedShort();
-            this.stringOffset = randomAccessFile.readUnsignedShort();
-        }
-
-        public String read(RandomAccessFile randomAccessFile, int i) throws IOException {
-            Charset charset;
-            randomAccessFile.seek(i + this.stringOffset);
-            byte[] bArr = new byte[this.nameLength];
-            randomAccessFile.read(bArr);
-            if (this.encodingID == 1) {
-                charset = StandardCharsets.UTF_16BE;
-            } else {
-                charset = StandardCharsets.UTF_8;
-            }
-            return new String(bArr, charset);
-        }
+    public static /* synthetic */ Typeface lambda$static$0() {
+        return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM);
     }
 
-    private static String parseString(RandomAccessFile randomAccessFile, int i, NameRecord nameRecord) throws IOException {
-        if (nameRecord == null) {
-            return null;
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Typeface lambda$static$1() {
+        return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM_ITALIC);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Typeface lambda$static$2() {
+        return Typeface.create("serif", 1);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Typeface lambda$static$3() {
+        return AndroidUtilities.getTypeface("fonts/rcondensedbold.ttf");
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Typeface lambda$static$4() {
+        return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MONO);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Typeface lambda$static$5() {
+        return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_MERRIWEATHER_BOLD);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Typeface lambda$static$6() {
+        return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_COURIER_NEW_BOLD);
+    }
+
+    private static void load() {
+        if (typefaces != null || loadingTypefaces) {
+            return;
         }
-        return nameRecord.read(randomAccessFile, i);
+        loadingTypefaces = true;
+        Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda10
+            @Override // java.lang.Runnable
+            public final void run() {
+                PaintTypeface.lambda$load$9();
+            }
+        });
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:38:0x00a9, code lost:
@@ -449,46 +417,66 @@ public class PaintTypeface {
             }
             throw th;
         }
-        if (readInt == 65536 || readInt == 1330926671) {
-            int readUnsignedShort = randomAccessFile.readUnsignedShort();
-            randomAccessFile.skipBytes(6);
-            for (int i = 0; i < readUnsignedShort; i++) {
-                int readInt2 = randomAccessFile.readInt();
-                randomAccessFile.skipBytes(4);
-                int readInt3 = randomAccessFile.readInt();
-                randomAccessFile.readInt();
-                if (readInt2 == 1851878757) {
-                    randomAccessFile.seek(readInt3 + 2);
-                    int readUnsignedShort2 = randomAccessFile.readUnsignedShort();
-                    int readUnsignedShort3 = randomAccessFile.readUnsignedShort();
-                    HashMap hashMap = new HashMap();
-                    for (int i2 = 0; i2 < readUnsignedShort2; i2++) {
-                        NameRecord nameRecord = new NameRecord(randomAccessFile);
-                        hashMap.put(Integer.valueOf(nameRecord.nameID), nameRecord);
-                    }
-                    FontData fontData = new FontData();
-                    fontData.font = font;
-                    int i3 = readInt3 + readUnsignedShort3;
-                    fontData.family = parseString(randomAccessFile, i3, (NameRecord) hashMap.get(1));
-                    fontData.subfamily = parseString(randomAccessFile, i3, (NameRecord) hashMap.get(2));
-                    try {
-                        randomAccessFile.close();
-                    } catch (Exception unused2) {
-                    }
-                    return fontData;
-                }
-            }
+        if (readInt != 65536 && readInt != 1330926671) {
             try {
                 randomAccessFile.close();
-            } catch (Exception unused3) {
-                return null;
-            }
-        } else {
-            try {
-                randomAccessFile.close();
-            } catch (Exception unused4) {
+            } catch (Exception unused2) {
             }
             return null;
         }
+        int readUnsignedShort = randomAccessFile.readUnsignedShort();
+        randomAccessFile.skipBytes(6);
+        for (int i = 0; i < readUnsignedShort; i++) {
+            int readInt2 = randomAccessFile.readInt();
+            randomAccessFile.skipBytes(4);
+            int readInt3 = randomAccessFile.readInt();
+            randomAccessFile.readInt();
+            if (readInt2 == 1851878757) {
+                randomAccessFile.seek(readInt3 + 2);
+                int readUnsignedShort2 = randomAccessFile.readUnsignedShort();
+                int readUnsignedShort3 = randomAccessFile.readUnsignedShort();
+                HashMap hashMap = new HashMap();
+                for (int i2 = 0; i2 < readUnsignedShort2; i2++) {
+                    NameRecord nameRecord = new NameRecord(randomAccessFile);
+                    hashMap.put(Integer.valueOf(nameRecord.nameID), nameRecord);
+                }
+                FontData fontData = new FontData();
+                fontData.font = font;
+                int i3 = readInt3 + readUnsignedShort3;
+                fontData.family = parseString(randomAccessFile, i3, (NameRecord) hashMap.get(1));
+                fontData.subfamily = parseString(randomAccessFile, i3, (NameRecord) hashMap.get(2));
+                try {
+                    randomAccessFile.close();
+                } catch (Exception unused3) {
+                }
+                return fontData;
+            }
+        }
+        try {
+            randomAccessFile.close();
+        } catch (Exception unused4) {
+            return null;
+        }
+    }
+
+    private static String parseString(RandomAccessFile randomAccessFile, int i, NameRecord nameRecord) {
+        if (nameRecord == null) {
+            return null;
+        }
+        return nameRecord.read(randomAccessFile, i);
+    }
+
+    public String getKey() {
+        return this.key;
+    }
+
+    public String getName() {
+        String str = this.name;
+        return str != null ? str : LocaleController.getString(this.nameKey);
+    }
+
+    public Typeface getTypeface() {
+        LazyTypeface lazyTypeface = this.lazyTypeface;
+        return lazyTypeface != null ? lazyTypeface.get() : this.typeface;
     }
 }

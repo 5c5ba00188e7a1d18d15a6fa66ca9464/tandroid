@@ -8,9 +8,11 @@ final class AviMainHeaderChunk implements AviChunk {
     public final int streams;
     public final int totalFrames;
 
-    @Override // com.google.android.exoplayer2.extractor.avi.AviChunk
-    public int getType() {
-        return 1751742049;
+    private AviMainHeaderChunk(int i, int i2, int i3, int i4) {
+        this.frameDurationUs = i;
+        this.flags = i2;
+        this.totalFrames = i3;
+        this.streams = i4;
     }
 
     public static AviMainHeaderChunk parseFrom(ParsableByteArray parsableByteArray) {
@@ -24,11 +26,9 @@ final class AviMainHeaderChunk implements AviChunk {
         return new AviMainHeaderChunk(readLittleEndianInt, readLittleEndianInt2, readLittleEndianInt3, readLittleEndianInt4);
     }
 
-    private AviMainHeaderChunk(int i, int i2, int i3, int i4) {
-        this.frameDurationUs = i;
-        this.flags = i2;
-        this.totalFrames = i3;
-        this.streams = i4;
+    @Override // com.google.android.exoplayer2.extractor.avi.AviChunk
+    public int getType() {
+        return 1751742049;
     }
 
     public boolean hasIndex() {

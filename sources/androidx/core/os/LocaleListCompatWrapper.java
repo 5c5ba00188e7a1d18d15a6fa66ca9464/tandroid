@@ -12,30 +12,45 @@ final class LocaleListCompatWrapper implements LocaleListInterface {
     private static final Locale LOCALE_AR_XB = new Locale("ar", "XB");
     private static final Locale EN_LATN = LocaleListCompat.forLanguageTagCompat("en-Latn");
 
-    @Override // androidx.core.os.LocaleListInterface
-    public Object getLocaleList() {
-        return null;
-    }
-
-    @Override // androidx.core.os.LocaleListInterface
-    public Locale get(int i) {
-        if (i >= 0) {
-            Locale[] localeArr = this.mList;
-            if (i < localeArr.length) {
-                return localeArr[i];
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public LocaleListCompatWrapper(Locale... localeArr) {
+        String sb;
+        if (localeArr.length == 0) {
+            this.mList = sEmptyList;
+            sb = "";
+        } else {
+            ArrayList arrayList = new ArrayList();
+            HashSet hashSet = new HashSet();
+            StringBuilder sb2 = new StringBuilder();
+            for (int i = 0; i < localeArr.length; i++) {
+                Locale locale = localeArr[i];
+                if (locale == null) {
+                    throw new NullPointerException("list[" + i + "] is null");
+                }
+                if (!hashSet.contains(locale)) {
+                    Locale locale2 = (Locale) locale.clone();
+                    arrayList.add(locale2);
+                    toLanguageTag(sb2, locale2);
+                    if (i < localeArr.length - 1) {
+                        sb2.append(',');
+                    }
+                    hashSet.add(locale2);
+                }
             }
+            this.mList = (Locale[]) arrayList.toArray(new Locale[0]);
+            sb = sb2.toString();
         }
-        return null;
+        this.mStringRepresentation = sb;
     }
 
-    @Override // androidx.core.os.LocaleListInterface
-    public boolean isEmpty() {
-        return this.mList.length == 0;
-    }
-
-    @Override // androidx.core.os.LocaleListInterface
-    public int size() {
-        return this.mList.length;
+    static void toLanguageTag(StringBuilder sb, Locale locale) {
+        sb.append(locale.getLanguage());
+        String country = locale.getCountry();
+        if (country == null || country.isEmpty()) {
+            return;
+        }
+        sb.append('-');
+        sb.append(locale.getCountry());
     }
 
     public boolean equals(Object obj) {
@@ -62,6 +77,22 @@ final class LocaleListCompatWrapper implements LocaleListInterface {
         }
     }
 
+    @Override // androidx.core.os.LocaleListInterface
+    public Locale get(int i) {
+        if (i >= 0) {
+            Locale[] localeArr = this.mList;
+            if (i < localeArr.length) {
+                return localeArr[i];
+            }
+        }
+        return null;
+    }
+
+    @Override // androidx.core.os.LocaleListInterface
+    public Object getLocaleList() {
+        return null;
+    }
+
     public int hashCode() {
         int i = 1;
         for (Locale locale : this.mList) {
@@ -70,23 +101,14 @@ final class LocaleListCompatWrapper implements LocaleListInterface {
         return i;
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        int i = 0;
-        while (true) {
-            Locale[] localeArr = this.mList;
-            if (i < localeArr.length) {
-                sb.append(localeArr[i]);
-                if (i < this.mList.length - 1) {
-                    sb.append(',');
-                }
-                i++;
-            } else {
-                sb.append("]");
-                return sb.toString();
-            }
-        }
+    @Override // androidx.core.os.LocaleListInterface
+    public boolean isEmpty() {
+        return this.mList.length == 0;
+    }
+
+    @Override // androidx.core.os.LocaleListInterface
+    public int size() {
+        return this.mList.length;
     }
 
     @Override // androidx.core.os.LocaleListInterface
@@ -94,42 +116,21 @@ final class LocaleListCompatWrapper implements LocaleListInterface {
         return this.mStringRepresentation;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LocaleListCompatWrapper(Locale... localeArr) {
-        if (localeArr.length == 0) {
-            this.mList = sEmptyList;
-            this.mStringRepresentation = "";
-            return;
-        }
-        ArrayList arrayList = new ArrayList();
-        HashSet hashSet = new HashSet();
+    public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < localeArr.length; i++) {
-            Locale locale = localeArr[i];
-            if (locale == null) {
-                throw new NullPointerException("list[" + i + "] is null");
+        sb.append("[");
+        int i = 0;
+        while (true) {
+            Locale[] localeArr = this.mList;
+            if (i >= localeArr.length) {
+                sb.append("]");
+                return sb.toString();
             }
-            if (!hashSet.contains(locale)) {
-                Locale locale2 = (Locale) locale.clone();
-                arrayList.add(locale2);
-                toLanguageTag(sb, locale2);
-                if (i < localeArr.length - 1) {
-                    sb.append(',');
-                }
-                hashSet.add(locale2);
+            sb.append(localeArr[i]);
+            if (i < this.mList.length - 1) {
+                sb.append(',');
             }
+            i++;
         }
-        this.mList = (Locale[]) arrayList.toArray(new Locale[0]);
-        this.mStringRepresentation = sb.toString();
-    }
-
-    static void toLanguageTag(StringBuilder sb, Locale locale) {
-        sb.append(locale.getLanguage());
-        String country = locale.getCountry();
-        if (country == null || country.isEmpty()) {
-            return;
-        }
-        sb.append('-');
-        sb.append(locale.getCountry());
     }
 }

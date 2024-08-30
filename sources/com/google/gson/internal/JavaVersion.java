@@ -1,31 +1,10 @@
 package com.google.gson.internal;
 /* loaded from: classes.dex */
-public final class JavaVersion {
+public abstract class JavaVersion {
     private static final int majorJavaVersion = determineMajorJavaVersion();
 
     private static int determineMajorJavaVersion() {
         return parseMajorJavaVersion(System.getProperty("java.version"));
-    }
-
-    static int parseMajorJavaVersion(String str) {
-        int parseDotted = parseDotted(str);
-        if (parseDotted == -1) {
-            parseDotted = extractBeginningInt(str);
-        }
-        if (parseDotted == -1) {
-            return 6;
-        }
-        return parseDotted;
-    }
-
-    private static int parseDotted(String str) {
-        try {
-            String[] split = str.split("[._]", 3);
-            int parseInt = Integer.parseInt(split[0]);
-            return (parseInt != 1 || split.length <= 1) ? parseInt : Integer.parseInt(split[1]);
-        } catch (NumberFormatException unused) {
-            return -1;
-        }
     }
 
     private static int extractBeginningInt(String str) {
@@ -46,5 +25,26 @@ public final class JavaVersion {
 
     public static boolean isJava9OrLater() {
         return majorJavaVersion >= 9;
+    }
+
+    private static int parseDotted(String str) {
+        try {
+            String[] split = str.split("[._]", 3);
+            int parseInt = Integer.parseInt(split[0]);
+            return (parseInt != 1 || split.length <= 1) ? parseInt : Integer.parseInt(split[1]);
+        } catch (NumberFormatException unused) {
+            return -1;
+        }
+    }
+
+    static int parseMajorJavaVersion(String str) {
+        int parseDotted = parseDotted(str);
+        if (parseDotted == -1) {
+            parseDotted = extractBeginningInt(str);
+        }
+        if (parseDotted == -1) {
+            return 6;
+        }
+        return parseDotted;
     }
 }

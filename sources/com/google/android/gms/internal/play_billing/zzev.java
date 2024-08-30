@@ -2,9 +2,8 @@ package com.google.android.gms.internal.play_billing;
 
 import org.telegram.messenger.NotificationCenter;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-public final class zzev {
+public abstract class zzev {
     public static final /* synthetic */ int $r8$clinit = 0;
     private static final zzes zzb;
 
@@ -25,14 +24,14 @@ public final class zzev {
                 if (b <= -12 && b2 <= -65) {
                     return b ^ (b2 << 8);
                 }
-            } else if (i3 == 2) {
+            } else if (i3 != 2) {
+                throw new AssertionError();
+            } else {
                 byte b3 = bArr[i];
                 byte b4 = bArr[i + 1];
                 if (b <= -12 && b3 <= -65 && b4 <= -65) {
                     return ((b3 << 8) ^ b) ^ (b4 << 16);
                 }
-            } else {
-                throw new AssertionError();
             }
         } else if (b <= -12) {
             return b;
@@ -74,29 +73,29 @@ public final class zzev {
                 i7 += 2;
                 bArr[i8] = (byte) ((charAt2 & '?') | 128);
             } else if ((charAt2 >= 55296 && charAt2 <= 57343) || i7 > i3 - 3) {
-                if (i7 <= i3 - 4) {
-                    int i9 = i6 + 1;
-                    if (i9 != charSequence.length()) {
-                        char charAt3 = charSequence.charAt(i9);
-                        if (Character.isSurrogatePair(charAt2, charAt3)) {
-                            int codePoint = Character.toCodePoint(charAt2, charAt3);
-                            bArr[i7] = (byte) ((codePoint >>> 18) | NotificationCenter.reloadInterface);
-                            bArr[i7 + 1] = (byte) (((codePoint >>> 12) & 63) | 128);
-                            int i10 = i7 + 3;
-                            bArr[i7 + 2] = (byte) (((codePoint >>> 6) & 63) | 128);
-                            i7 += 4;
-                            bArr[i10] = (byte) ((codePoint & 63) | 128);
-                            i6 = i9;
-                        } else {
-                            i6 = i9;
-                        }
+                if (i7 > i3 - 4) {
+                    if (charAt2 < 55296 || charAt2 > 57343 || ((i4 = i6 + 1) != charSequence.length() && Character.isSurrogatePair(charAt2, charSequence.charAt(i4)))) {
+                        throw new ArrayIndexOutOfBoundsException("Failed writing " + charAt2 + " at index " + i7);
                     }
-                    throw new zzeu(i6 - 1, length);
-                } else if (charAt2 < 55296 || charAt2 > 57343 || ((i4 = i6 + 1) != charSequence.length() && Character.isSurrogatePair(charAt2, charSequence.charAt(i4)))) {
-                    throw new ArrayIndexOutOfBoundsException("Failed writing " + charAt2 + " at index " + i7);
-                } else {
                     throw new zzeu(i6, length);
                 }
+                int i9 = i6 + 1;
+                if (i9 != charSequence.length()) {
+                    char charAt3 = charSequence.charAt(i9);
+                    if (Character.isSurrogatePair(charAt2, charAt3)) {
+                        int codePoint = Character.toCodePoint(charAt2, charAt3);
+                        bArr[i7] = (byte) ((codePoint >>> 18) | NotificationCenter.reloadInterface);
+                        bArr[i7 + 1] = (byte) (((codePoint >>> 12) & 63) | 128);
+                        int i10 = i7 + 3;
+                        bArr[i7 + 2] = (byte) (((codePoint >>> 6) & 63) | 128);
+                        i7 += 4;
+                        bArr[i10] = (byte) ((codePoint & 63) | 128);
+                        i6 = i9;
+                    } else {
+                        i6 = i9;
+                    }
+                }
+                throw new zzeu(i6 - 1, length);
             } else {
                 bArr[i7] = (byte) ((charAt2 >>> '\f') | 480);
                 int i11 = i7 + 2;

@@ -1,16 +1,6 @@
 package com.google.common.collect;
 /* loaded from: classes.dex */
-final class Hashing {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int smear(int i) {
-        return (int) (Integer.rotateLeft((int) (i * (-862048943)), 15) * 461845907);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int smearedHash(Object obj) {
-        return smear(obj == null ? 0 : obj.hashCode());
-    }
-
+abstract class Hashing {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int closedTableSize(int i, double d) {
         int max = Math.max(i, 2);
@@ -25,5 +15,15 @@ final class Hashing {
             return 1073741824;
         }
         return highestOneBit;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static int smear(int i) {
+        return (int) (Integer.rotateLeft((int) (i * (-862048943)), 15) * 461845907);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static int smearedHash(Object obj) {
+        return smear(obj == null ? 0 : obj.hashCode());
     }
 }

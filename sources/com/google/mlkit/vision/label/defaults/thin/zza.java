@@ -21,7 +21,6 @@ import com.google.mlkit.vision.label.ImageLabel;
 import com.google.mlkit.vision.label.defaults.ImageLabelerOptions;
 import java.util.ArrayList;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 final class zza implements zzb {
     private final Context zza;
@@ -37,7 +36,7 @@ final class zza implements zzb {
     }
 
     @Override // com.google.mlkit.vision.label.defaults.thin.zzb
-    public final List zza(InputImage inputImage) throws MlKitException {
+    public final List zza(InputImage inputImage) {
         if (this.zze == null) {
             zzb();
         }
@@ -63,7 +62,7 @@ final class zza implements zzb {
     }
 
     @Override // com.google.mlkit.vision.label.defaults.thin.zzb
-    public final void zzb() throws MlKitException {
+    public final void zzb() {
         if (this.zze != null) {
             return;
         }

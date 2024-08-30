@@ -31,6 +31,14 @@ class AppCompatPopupWindow extends PopupWindow {
         obtainStyledAttributes.recycle();
     }
 
+    private void setSupportOverlapAnchor(boolean z) {
+        if (COMPAT_OVERLAP_ANCHOR) {
+            this.mOverlapAnchor = z;
+        } else {
+            PopupWindowCompat.setOverlapAnchor(this, z);
+        }
+    }
+
     @Override // android.widget.PopupWindow
     public void showAsDropDown(View view, int i, int i2) {
         if (COMPAT_OVERLAP_ANCHOR && this.mOverlapAnchor) {
@@ -53,13 +61,5 @@ class AppCompatPopupWindow extends PopupWindow {
             i2 -= view.getHeight();
         }
         super.update(view, i, i2, i3, i4);
-    }
-
-    private void setSupportOverlapAnchor(boolean z) {
-        if (COMPAT_OVERLAP_ANCHOR) {
-            this.mOverlapAnchor = z;
-        } else {
-            PopupWindowCompat.setOverlapAnchor(this, z);
-        }
     }
 }

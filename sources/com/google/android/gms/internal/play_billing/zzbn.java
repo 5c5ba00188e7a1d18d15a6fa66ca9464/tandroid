@@ -1,25 +1,15 @@
 package com.google.android.gms.internal.play_billing;
 
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzbn {
     static final zzbn zza = new zzbn(true);
     private static volatile zzbn zzd;
-    private final Map zze;
-
-    zzbn() {
-        this.zze = new HashMap();
-    }
-
-    public final zzbz zzb(zzdf zzdfVar, int i) {
-        return (zzbz) this.zze.get(new zzbm(zzdfVar, i));
-    }
+    private final Map zze = Collections.emptyMap();
 
     zzbn(boolean z) {
-        this.zze = Collections.emptyMap();
     }
 
     public static zzbn zza() {
@@ -40,5 +30,10 @@ public final class zzbn {
                 throw th;
             }
         }
+    }
+
+    public final zzbz zzb(zzdf zzdfVar, int i) {
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(this.zze.get(new zzbm(zzdfVar, i)));
+        return null;
     }
 }

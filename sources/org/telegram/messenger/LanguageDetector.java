@@ -18,10 +18,6 @@ public class LanguageDetector {
         void run(String str);
     }
 
-    public static boolean hasSupport() {
-        return true;
-    }
-
     public static void detectLanguage(String str, StringCallback stringCallback, ExceptionCallback exceptionCallback) {
         detectLanguage(str, stringCallback, exceptionCallback, false);
     }
@@ -65,6 +61,10 @@ public class LanguageDetector {
                 LanguageDetector.lambda$detectLanguage$1(LanguageDetector.ExceptionCallback.this, exc);
             }
         });
+    }
+
+    public static boolean hasSupport() {
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

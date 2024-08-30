@@ -6,7 +6,6 @@ import android.os.WorkSource;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.internal.location.zzd;
 import org.telegram.tgnet.ConnectionsManager;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class zzx implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator

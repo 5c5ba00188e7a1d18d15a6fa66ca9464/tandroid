@@ -25,59 +25,6 @@ public class ChartPickerDelegate {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
-    public interface Listener {
-        void invalidate();
-
-        void onPickerDataChanged();
-
-        void onPickerJumpTo(float f, float f2, boolean z);
-    }
-
-    public ChartPickerDelegate(Listener listener) {
-        this.view = listener;
-    }
-
-    public CapturesData getMiddleCaptured() {
-        CapturesData[] capturesDataArr = this.capturedStates;
-        CapturesData capturesData = capturesDataArr[0];
-        if (capturesData == null || capturesData.state != 4) {
-            CapturesData capturesData2 = capturesDataArr[1];
-            if (capturesData2 == null || capturesData2.state != 4) {
-                return null;
-            }
-            return capturesData2;
-        }
-        return capturesData;
-    }
-
-    public CapturesData getLeftCaptured() {
-        CapturesData[] capturesDataArr = this.capturedStates;
-        CapturesData capturesData = capturesDataArr[0];
-        if (capturesData == null || capturesData.state != 1) {
-            CapturesData capturesData2 = capturesDataArr[1];
-            if (capturesData2 == null || capturesData2.state != 1) {
-                return null;
-            }
-            return capturesData2;
-        }
-        return capturesData;
-    }
-
-    public CapturesData getRightCaptured() {
-        CapturesData[] capturesDataArr = this.capturedStates;
-        CapturesData capturesData = capturesDataArr[0];
-        if (capturesData == null || capturesData.state != 2) {
-            CapturesData capturesData2 = capturesDataArr[1];
-            if (capturesData2 == null || capturesData2.state != 2) {
-                return null;
-            }
-            return capturesData2;
-        }
-        return capturesData;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
     public class CapturesData {
         ValueAnimator a;
         public float aValue = 0.0f;
@@ -90,6 +37,12 @@ public class ChartPickerDelegate {
 
         public CapturesData(int i) {
             this.state = i;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$captured$0(ValueAnimator valueAnimator) {
+            this.aValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+            ChartPickerDelegate.this.view.invalidate();
         }
 
         public void captured() {
@@ -106,12 +59,6 @@ public class ChartPickerDelegate {
             this.a.start();
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$captured$0(ValueAnimator valueAnimator) {
-            this.aValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-            ChartPickerDelegate.this.view.invalidate();
-        }
-
         public void uncapture() {
             ValueAnimator valueAnimator = this.a;
             if (valueAnimator != null) {
@@ -122,6 +69,28 @@ public class ChartPickerDelegate {
                 valueAnimator2.cancel();
             }
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes4.dex */
+    public interface Listener {
+        void invalidate();
+
+        void onPickerDataChanged();
+
+        void onPickerJumpTo(float f, float f2, boolean z);
+    }
+
+    public ChartPickerDelegate(Listener listener) {
+        this.view = listener;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$uncapture$0(float f, float f2, float f3, float f4, ValueAnimator valueAnimator) {
+        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        this.pickerStart = f + ((f2 - f) * floatValue);
+        this.pickerEnd = f3 + ((f4 - f3) * floatValue);
+        this.view.onPickerJumpTo(f2, f4, false);
     }
 
     public boolean capture(int i, int i2, int i3) {
@@ -238,6 +207,45 @@ public class ChartPickerDelegate {
         return this.capturedStates[0] != null || this.tryMoveTo;
     }
 
+    public CapturesData getLeftCaptured() {
+        CapturesData[] capturesDataArr = this.capturedStates;
+        CapturesData capturesData = capturesDataArr[0];
+        if (capturesData == null || capturesData.state != 1) {
+            CapturesData capturesData2 = capturesDataArr[1];
+            if (capturesData2 == null || capturesData2.state != 1) {
+                return null;
+            }
+            return capturesData2;
+        }
+        return capturesData;
+    }
+
+    public CapturesData getMiddleCaptured() {
+        CapturesData[] capturesDataArr = this.capturedStates;
+        CapturesData capturesData = capturesDataArr[0];
+        if (capturesData == null || capturesData.state != 4) {
+            CapturesData capturesData2 = capturesDataArr[1];
+            if (capturesData2 == null || capturesData2.state != 4) {
+                return null;
+            }
+            return capturesData2;
+        }
+        return capturesData;
+    }
+
+    public CapturesData getRightCaptured() {
+        CapturesData[] capturesDataArr = this.capturedStates;
+        CapturesData capturesData = capturesDataArr[0];
+        if (capturesData == null || capturesData.state != 2) {
+            CapturesData capturesData2 = capturesDataArr[1];
+            if (capturesData2 == null || capturesData2.state != 2) {
+                return null;
+            }
+            return capturesData2;
+        }
+        return capturesData;
+    }
+
     public boolean move(int i, int i2, int i3) {
         CapturesData capturesData;
         boolean z = false;
@@ -303,74 +311,6 @@ public class ChartPickerDelegate {
         this.view.onPickerDataChanged();
     }
 
-    public boolean uncapture(MotionEvent motionEvent, int i) {
-        final float f;
-        final float f2;
-        if (i == 0) {
-            if (this.tryMoveTo) {
-                this.tryMoveTo = false;
-                float x = this.moveToX - motionEvent.getX();
-                float y = this.moveToY - motionEvent.getY();
-                if (motionEvent.getAction() == 1 && System.currentTimeMillis() - this.startTapTime < 300 && Math.sqrt((x * x) + (y * y)) < AndroidUtilities.dp(10.0f)) {
-                    float f3 = (this.moveToX - BaseChartView.HORIZONTAL_PADDING) / this.pickerWidth;
-                    final float f4 = this.pickerEnd;
-                    final float f5 = this.pickerStart;
-                    float f6 = f4 - f5;
-                    float f7 = f6 / 2.0f;
-                    float f8 = f3 - f7;
-                    float f9 = f3 + f7;
-                    if (f8 < 0.0f) {
-                        f = f6;
-                        f2 = 0.0f;
-                    } else if (f9 > 1.0f) {
-                        f2 = 1.0f - f6;
-                        f = 1.0f;
-                    } else {
-                        f = f9;
-                        f2 = f8;
-                    }
-                    this.moveToAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
-                    this.view.onPickerJumpTo(f2, f, true);
-                    this.moveToAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.ChartPickerDelegate$$ExternalSyntheticLambda0
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            ChartPickerDelegate.this.lambda$uncapture$0(f5, f2, f4, f, valueAnimator);
-                        }
-                    });
-                    this.moveToAnimator.setInterpolator(BaseChartView.INTERPOLATOR);
-                    this.moveToAnimator.start();
-                }
-                return true;
-            }
-            CapturesData capturesData = this.capturedStates[0];
-            if (capturesData != null) {
-                capturesData.uncapture();
-            }
-            CapturesData[] capturesDataArr = this.capturedStates;
-            capturesDataArr[0] = null;
-            CapturesData capturesData2 = capturesDataArr[1];
-            if (capturesData2 != null) {
-                capturesDataArr[0] = capturesData2;
-                capturesDataArr[1] = null;
-            }
-        } else {
-            CapturesData capturesData3 = this.capturedStates[1];
-            if (capturesData3 != null) {
-                capturesData3.uncapture();
-            }
-            this.capturedStates[1] = null;
-        }
-        return false;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$uncapture$0(float f, float f2, float f3, float f4, ValueAnimator valueAnimator) {
-        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        this.pickerStart = f + ((f2 - f) * floatValue);
-        this.pickerEnd = f3 + ((f4 - f3) * floatValue);
-        this.view.onPickerJumpTo(f2, f4, false);
-    }
-
     public void uncapture() {
         CapturesData capturesData = this.capturedStates[0];
         if (capturesData != null) {
@@ -383,5 +323,64 @@ public class ChartPickerDelegate {
         CapturesData[] capturesDataArr = this.capturedStates;
         capturesDataArr[0] = null;
         capturesDataArr[1] = null;
+    }
+
+    public boolean uncapture(MotionEvent motionEvent, int i) {
+        final float f;
+        final float f2;
+        if (i != 0) {
+            CapturesData capturesData = this.capturedStates[1];
+            if (capturesData != null) {
+                capturesData.uncapture();
+            }
+            this.capturedStates[1] = null;
+        } else if (this.tryMoveTo) {
+            this.tryMoveTo = false;
+            float x = this.moveToX - motionEvent.getX();
+            float y = this.moveToY - motionEvent.getY();
+            if (motionEvent.getAction() == 1 && System.currentTimeMillis() - this.startTapTime < 300 && Math.sqrt((x * x) + (y * y)) < AndroidUtilities.dp(10.0f)) {
+                float f3 = (this.moveToX - BaseChartView.HORIZONTAL_PADDING) / this.pickerWidth;
+                final float f4 = this.pickerEnd;
+                final float f5 = this.pickerStart;
+                float f6 = f4 - f5;
+                float f7 = f6 / 2.0f;
+                float f8 = f3 - f7;
+                float f9 = f3 + f7;
+                if (f8 < 0.0f) {
+                    f = f6;
+                    f2 = 0.0f;
+                } else if (f9 > 1.0f) {
+                    f2 = 1.0f - f6;
+                    f = 1.0f;
+                } else {
+                    f = f9;
+                    f2 = f8;
+                }
+                this.moveToAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
+                this.view.onPickerJumpTo(f2, f, true);
+                this.moveToAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.ChartPickerDelegate$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        ChartPickerDelegate.this.lambda$uncapture$0(f5, f2, f4, f, valueAnimator);
+                    }
+                });
+                this.moveToAnimator.setInterpolator(BaseChartView.INTERPOLATOR);
+                this.moveToAnimator.start();
+            }
+            return true;
+        } else {
+            CapturesData capturesData2 = this.capturedStates[0];
+            if (capturesData2 != null) {
+                capturesData2.uncapture();
+            }
+            CapturesData[] capturesDataArr = this.capturedStates;
+            capturesDataArr[0] = null;
+            CapturesData capturesData3 = capturesDataArr[1];
+            if (capturesData3 != null) {
+                capturesDataArr[0] = capturesData3;
+                capturesDataArr[1] = null;
+            }
+        }
+        return false;
     }
 }

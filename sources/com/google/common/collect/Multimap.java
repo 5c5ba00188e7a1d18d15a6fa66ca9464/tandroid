@@ -2,26 +2,23 @@ package com.google.common.collect;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 /* loaded from: classes.dex */
-public interface Multimap<K, V> {
-    Map<K, Collection<V>> asMap();
+public interface Multimap {
+    Map asMap();
 
     void clear();
 
     boolean containsEntry(Object obj, Object obj2);
 
-    Collection<Map.Entry<K, V>> entries();
+    Collection entries();
 
-    Collection<V> get(K k);
+    Collection get(Object obj);
 
-    Set<K> keySet();
-
-    boolean put(K k, V v);
+    boolean put(Object obj, Object obj2);
 
     boolean remove(Object obj, Object obj2);
 
     int size();
 
-    Collection<V> values();
+    Collection values();
 }

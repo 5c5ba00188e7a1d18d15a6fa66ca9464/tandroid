@@ -2,21 +2,20 @@ package com.google.mlkit.common.sdkinternal;
 
 import java.util.HashMap;
 import java.util.Map;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
-public abstract class LazyInstanceMap<K, V> {
+public abstract class LazyInstanceMap {
     private final Map zza = new HashMap();
 
-    protected abstract V create(K k);
+    protected abstract Object create(Object obj);
 
-    public V get(K k) {
+    public Object get(Object obj) {
         synchronized (this.zza) {
             try {
-                if (this.zza.containsKey(k)) {
-                    return (V) this.zza.get(k);
+                if (this.zza.containsKey(obj)) {
+                    return this.zza.get(obj);
                 }
-                V create = create(k);
-                this.zza.put(k, create);
+                Object create = create(obj);
+                this.zza.put(obj, create);
                 return create;
             } catch (Throwable th) {
                 throw th;

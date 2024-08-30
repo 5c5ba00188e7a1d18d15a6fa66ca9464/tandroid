@@ -2,12 +2,10 @@ package com.googlecode.mp4parser.boxes.mp4.objectdescriptors;
 
 import com.coremedia.iso.IsoTypeReader;
 import com.coremedia.iso.IsoTypeWriter;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-@Descriptor(tags = {3})
 /* loaded from: classes.dex */
 public class ESDescriptor extends BaseDescriptor {
     private static Logger log = Logger.getLogger(ESDescriptor.class.getName());
@@ -23,10 +21,50 @@ public class ESDescriptor extends BaseDescriptor {
     int streamDependenceFlag;
     int streamPriority;
     int URLLength = 0;
-    List<BaseDescriptor> otherDescriptors = new ArrayList();
+    List otherDescriptors = new ArrayList();
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        ESDescriptor eSDescriptor = (ESDescriptor) obj;
+        if (this.URLFlag == eSDescriptor.URLFlag && this.URLLength == eSDescriptor.URLLength && this.dependsOnEsId == eSDescriptor.dependsOnEsId && this.esId == eSDescriptor.esId && this.oCREsId == eSDescriptor.oCREsId && this.oCRstreamFlag == eSDescriptor.oCRstreamFlag && this.remoteODFlag == eSDescriptor.remoteODFlag && this.streamDependenceFlag == eSDescriptor.streamDependenceFlag && this.streamPriority == eSDescriptor.streamPriority) {
+            String str = this.URLString;
+            if (str == null ? eSDescriptor.URLString == null : str.equals(eSDescriptor.URLString)) {
+                DecoderConfigDescriptor decoderConfigDescriptor = this.decoderConfigDescriptor;
+                if (decoderConfigDescriptor == null ? eSDescriptor.decoderConfigDescriptor == null : decoderConfigDescriptor.equals(eSDescriptor.decoderConfigDescriptor)) {
+                    List list = this.otherDescriptors;
+                    if (list == null ? eSDescriptor.otherDescriptors == null : list.equals(eSDescriptor.otherDescriptors)) {
+                        SLConfigDescriptor sLConfigDescriptor = this.slConfigDescriptor;
+                        SLConfigDescriptor sLConfigDescriptor2 = eSDescriptor.slConfigDescriptor;
+                        return sLConfigDescriptor == null ? sLConfigDescriptor2 == null : sLConfigDescriptor.equals(sLConfigDescriptor2);
+                    }
+                    return false;
+                }
+                return false;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        int i = ((((((((((this.esId * 31) + this.streamDependenceFlag) * 31) + this.URLFlag) * 31) + this.oCRstreamFlag) * 31) + this.streamPriority) * 31) + this.URLLength) * 31;
+        String str = this.URLString;
+        int hashCode = (((((((i + (str != null ? str.hashCode() : 0)) * 31) + this.remoteODFlag) * 31) + this.dependsOnEsId) * 31) + this.oCREsId) * 31;
+        DecoderConfigDescriptor decoderConfigDescriptor = this.decoderConfigDescriptor;
+        int hashCode2 = (hashCode + (decoderConfigDescriptor != null ? decoderConfigDescriptor.hashCode() : 0)) * 31;
+        SLConfigDescriptor sLConfigDescriptor = this.slConfigDescriptor;
+        int hashCode3 = (hashCode2 + (sLConfigDescriptor != null ? sLConfigDescriptor.hashCode() : 0)) * 31;
+        List list = this.otherDescriptors;
+        return hashCode3 + (list != null ? list.hashCode() : 0);
+    }
 
     @Override // com.googlecode.mp4parser.boxes.mp4.objectdescriptors.BaseDescriptor
-    public void parseDetail(ByteBuffer byteBuffer) throws IOException {
+    public void parseDetail(ByteBuffer byteBuffer) {
         this.esId = IsoTypeReader.readUInt16(byteBuffer);
         int readUInt8 = IsoTypeReader.readUInt8(byteBuffer);
         int i = readUInt8 >>> 7;
@@ -117,17 +155,6 @@ public class ESDescriptor extends BaseDescriptor {
         }
     }
 
-    public int serializedSize() {
-        int i = this.streamDependenceFlag > 0 ? 7 : 5;
-        if (this.URLFlag > 0) {
-            i += this.URLLength + 1;
-        }
-        if (this.oCRstreamFlag > 0) {
-            i += 2;
-        }
-        return i + this.decoderConfigDescriptor.serializedSize() + this.slConfigDescriptor.serializedSize();
-    }
-
     public ByteBuffer serialize() {
         ByteBuffer allocate = ByteBuffer.allocate(serializedSize());
         IsoTypeWriter.writeUInt8(allocate, 3);
@@ -151,60 +178,30 @@ public class ESDescriptor extends BaseDescriptor {
         return allocate;
     }
 
-    public void setDecoderConfigDescriptor(DecoderConfigDescriptor decoderConfigDescriptor) {
-        this.decoderConfigDescriptor = decoderConfigDescriptor;
+    public int serializedSize() {
+        int i = this.streamDependenceFlag > 0 ? 7 : 5;
+        if (this.URLFlag > 0) {
+            i += this.URLLength + 1;
+        }
+        if (this.oCRstreamFlag > 0) {
+            i += 2;
+        }
+        return i + this.decoderConfigDescriptor.serializedSize() + this.slConfigDescriptor.serializedSize();
     }
 
-    public void setSlConfigDescriptor(SLConfigDescriptor sLConfigDescriptor) {
-        this.slConfigDescriptor = sLConfigDescriptor;
+    public void setDecoderConfigDescriptor(DecoderConfigDescriptor decoderConfigDescriptor) {
+        this.decoderConfigDescriptor = decoderConfigDescriptor;
     }
 
     public void setEsId(int i) {
         this.esId = i;
     }
 
-    @Override // com.googlecode.mp4parser.boxes.mp4.objectdescriptors.BaseDescriptor
+    public void setSlConfigDescriptor(SLConfigDescriptor sLConfigDescriptor) {
+        this.slConfigDescriptor = sLConfigDescriptor;
+    }
+
     public String toString() {
         return "ESDescriptor{esId=" + this.esId + ", streamDependenceFlag=" + this.streamDependenceFlag + ", URLFlag=" + this.URLFlag + ", oCRstreamFlag=" + this.oCRstreamFlag + ", streamPriority=" + this.streamPriority + ", URLLength=" + this.URLLength + ", URLString='" + this.URLString + "', remoteODFlag=" + this.remoteODFlag + ", dependsOnEsId=" + this.dependsOnEsId + ", oCREsId=" + this.oCREsId + ", decoderConfigDescriptor=" + this.decoderConfigDescriptor + ", slConfigDescriptor=" + this.slConfigDescriptor + '}';
-    }
-
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        ESDescriptor eSDescriptor = (ESDescriptor) obj;
-        if (this.URLFlag == eSDescriptor.URLFlag && this.URLLength == eSDescriptor.URLLength && this.dependsOnEsId == eSDescriptor.dependsOnEsId && this.esId == eSDescriptor.esId && this.oCREsId == eSDescriptor.oCREsId && this.oCRstreamFlag == eSDescriptor.oCRstreamFlag && this.remoteODFlag == eSDescriptor.remoteODFlag && this.streamDependenceFlag == eSDescriptor.streamDependenceFlag && this.streamPriority == eSDescriptor.streamPriority) {
-            String str = this.URLString;
-            if (str == null ? eSDescriptor.URLString == null : str.equals(eSDescriptor.URLString)) {
-                DecoderConfigDescriptor decoderConfigDescriptor = this.decoderConfigDescriptor;
-                if (decoderConfigDescriptor == null ? eSDescriptor.decoderConfigDescriptor == null : decoderConfigDescriptor.equals(eSDescriptor.decoderConfigDescriptor)) {
-                    List<BaseDescriptor> list = this.otherDescriptors;
-                    if (list == null ? eSDescriptor.otherDescriptors == null : list.equals(eSDescriptor.otherDescriptors)) {
-                        SLConfigDescriptor sLConfigDescriptor = this.slConfigDescriptor;
-                        SLConfigDescriptor sLConfigDescriptor2 = eSDescriptor.slConfigDescriptor;
-                        return sLConfigDescriptor == null ? sLConfigDescriptor2 == null : sLConfigDescriptor.equals(sLConfigDescriptor2);
-                    }
-                    return false;
-                }
-                return false;
-            }
-            return false;
-        }
-        return false;
-    }
-
-    public int hashCode() {
-        int i = ((((((((((this.esId * 31) + this.streamDependenceFlag) * 31) + this.URLFlag) * 31) + this.oCRstreamFlag) * 31) + this.streamPriority) * 31) + this.URLLength) * 31;
-        String str = this.URLString;
-        int hashCode = (((((((i + (str != null ? str.hashCode() : 0)) * 31) + this.remoteODFlag) * 31) + this.dependsOnEsId) * 31) + this.oCREsId) * 31;
-        DecoderConfigDescriptor decoderConfigDescriptor = this.decoderConfigDescriptor;
-        int hashCode2 = (hashCode + (decoderConfigDescriptor != null ? decoderConfigDescriptor.hashCode() : 0)) * 31;
-        SLConfigDescriptor sLConfigDescriptor = this.slConfigDescriptor;
-        int hashCode3 = (hashCode2 + (sLConfigDescriptor != null ? sLConfigDescriptor.hashCode() : 0)) * 31;
-        List<BaseDescriptor> list = this.otherDescriptors;
-        return hashCode3 + (list != null ? list.hashCode() : 0);
     }
 }

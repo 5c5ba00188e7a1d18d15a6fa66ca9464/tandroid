@@ -1,5 +1,4 @@
 package androidx.core.content.pm;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes.dex */
-public final /* synthetic */ class ShortcutInfoCompat$Builder$$ExternalSyntheticApiModelOutline17 {
+public abstract /* synthetic */ class ShortcutInfoCompat$Builder$$ExternalSyntheticApiModelOutline17 {
 }

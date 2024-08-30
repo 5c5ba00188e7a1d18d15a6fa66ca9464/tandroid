@@ -10,8 +10,8 @@ import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 /* loaded from: classes.dex */
-public class zzy {
-    private static HashMap<String, String> zzcu;
+public abstract class zzy {
+    private static HashMap zzcu;
     private static Object zzcz;
     private static boolean zzda;
     private static final Uri CONTENT_URI = Uri.parse("content://com.google.android.gsf.gservices");
@@ -19,16 +19,16 @@ public class zzy {
     public static final Pattern zzcr = Pattern.compile("^(1|true|t|on|yes|y)$", 2);
     public static final Pattern zzcs = Pattern.compile("^(0|false|f|off|no|n)$", 2);
     private static final AtomicBoolean zzct = new AtomicBoolean();
-    private static final HashMap<String, Boolean> zzcv = new HashMap<>();
-    private static final HashMap<String, Integer> zzcw = new HashMap<>();
-    private static final HashMap<String, Long> zzcx = new HashMap<>();
-    private static final HashMap<String, Float> zzcy = new HashMap<>();
+    private static final HashMap zzcv = new HashMap();
+    private static final HashMap zzcw = new HashMap();
+    private static final HashMap zzcx = new HashMap();
+    private static final HashMap zzcy = new HashMap();
     private static String[] zzdb = new String[0];
 
     public static long getLong(ContentResolver contentResolver, String str, long j) {
         Object zzb = zzb(contentResolver);
         long j2 = 0;
-        Long l = (Long) zza((HashMap<String, long>) zzcx, str, 0L);
+        Long l = (Long) zza(zzcx, str, (Object) 0L);
         if (l != null) {
             return l.longValue();
         }
@@ -45,15 +45,15 @@ public class zzy {
         return j2;
     }
 
-    private static <T> T zza(HashMap<String, T> hashMap, String str, T t) {
+    private static Object zza(HashMap hashMap, String str, Object obj) {
         synchronized (zzy.class) {
             try {
                 if (hashMap.containsKey(str)) {
-                    T t2 = hashMap.get(str);
-                    if (t2 != null) {
-                        t = t2;
+                    Object obj2 = hashMap.get(str);
+                    if (obj2 != null) {
+                        obj = obj2;
                     }
-                    return t;
+                    return obj;
                 }
                 return null;
             } catch (Throwable th) {
@@ -68,7 +68,7 @@ public class zzy {
                 zza(contentResolver);
                 Object obj = zzcz;
                 if (zzcu.containsKey(str)) {
-                    String str3 = zzcu.get(str);
+                    String str3 = (String) zzcu.get(str);
                     return str3 != null ? str3 : null;
                 }
                 for (String str4 : zzdb) {
@@ -77,7 +77,7 @@ public class zzy {
                             zzcu.putAll(zza(contentResolver, zzdb));
                             zzda = true;
                             if (zzcu.containsKey(str)) {
-                                String str5 = zzcu.get(str);
+                                String str5 = (String) zzcu.get(str);
                                 return str5 != null ? str5 : null;
                             }
                         }
@@ -113,7 +113,7 @@ public class zzy {
         }
     }
 
-    private static Map<String, String> zza(ContentResolver contentResolver, String... strArr) {
+    private static Map zza(ContentResolver contentResolver, String... strArr) {
         Cursor query = contentResolver.query(zzcq, null, null, strArr, null);
         TreeMap treeMap = new TreeMap();
         if (query == null) {
@@ -132,7 +132,7 @@ public class zzy {
     private static void zza(ContentResolver contentResolver) {
         if (zzcu == null) {
             zzct.set(false);
-            zzcu = new HashMap<>();
+            zzcu = new HashMap();
             zzcz = new Object();
             zzda = false;
             contentResolver.registerContentObserver(CONTENT_URI, true, new zzz(null));
@@ -159,11 +159,11 @@ public class zzy {
         }
     }
 
-    private static <T> void zza(Object obj, HashMap<String, T> hashMap, String str, T t) {
+    private static void zza(Object obj, HashMap hashMap, String str, Object obj2) {
         synchronized (zzy.class) {
             try {
                 if (obj == zzcz) {
-                    hashMap.put(str, t);
+                    hashMap.put(str, obj2);
                     zzcu.remove(str);
                 }
             } catch (Throwable th) {
@@ -174,7 +174,7 @@ public class zzy {
 
     public static boolean zza(ContentResolver contentResolver, String str, boolean z) {
         Object zzb = zzb(contentResolver);
-        HashMap<String, Boolean> hashMap = zzcv;
+        HashMap hashMap = zzcv;
         Boolean bool = (Boolean) zza(hashMap, str, Boolean.valueOf(z));
         if (bool != null) {
             return bool.booleanValue();

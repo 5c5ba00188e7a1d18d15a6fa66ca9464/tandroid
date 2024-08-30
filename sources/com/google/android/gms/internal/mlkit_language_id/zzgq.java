@@ -1,6 +1,5 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
-import java.lang.Comparable;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,21 +10,15 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public class zzgq<K extends Comparable<K>, V> extends AbstractMap<K, V> {
+public abstract class zzgq extends AbstractMap {
     private final int zza;
-    private List<zzgz> zzb;
-    private Map<K, V> zzc;
+    private List zzb;
+    private Map zzc;
     private boolean zzd;
     private volatile zzhb zze;
-    private Map<K, V> zzf;
+    private Map zzf;
     private volatile zzgv zzg;
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static <FieldDescriptorType extends zzel<FieldDescriptorType>> zzgq<FieldDescriptorType, Object> zza(int i) {
-        return new zzgt(i);
-    }
 
     private zzgq(int i) {
         this.zza = i;
@@ -34,91 +27,72 @@ public class zzgq<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         this.zzf = Collections.emptyMap();
     }
 
-    public void zza() {
-        Map<K, V> unmodifiableMap;
-        Map<K, V> unmodifiableMap2;
-        if (this.zzd) {
-            return;
-        }
-        if (this.zzc.isEmpty()) {
-            unmodifiableMap = Collections.emptyMap();
-        } else {
-            unmodifiableMap = Collections.unmodifiableMap(this.zzc);
-        }
-        this.zzc = unmodifiableMap;
-        if (this.zzf.isEmpty()) {
-            unmodifiableMap2 = Collections.emptyMap();
-        } else {
-            unmodifiableMap2 = Collections.unmodifiableMap(this.zzf);
-        }
-        this.zzf = unmodifiableMap2;
-        this.zzd = true;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public /* synthetic */ zzgq(int i, zzgt zzgtVar) {
+        this(i);
     }
 
-    public final boolean zzb() {
-        return this.zzd;
-    }
-
-    public final int zzc() {
-        return this.zzb.size();
-    }
-
-    public final Map.Entry<K, V> zzb(int i) {
-        return this.zzb.get(i);
-    }
-
-    public final Iterable<Map.Entry<K, V>> zzd() {
-        if (this.zzc.isEmpty()) {
-            return zzgu.zza();
-        }
-        return this.zzc.entrySet();
-    }
-
-    @Override // java.util.AbstractMap, java.util.Map
-    public int size() {
-        return this.zzb.size() + this.zzc.size();
-    }
-
-    /* JADX WARN: Multi-variable type inference failed */
-    @Override // java.util.AbstractMap, java.util.Map
-    public boolean containsKey(Object obj) {
-        Comparable comparable = (Comparable) obj;
-        return zza((zzgq<K, V>) comparable) >= 0 || this.zzc.containsKey(comparable);
-    }
-
-    /* JADX WARN: Multi-variable type inference failed */
-    @Override // java.util.AbstractMap, java.util.Map
-    public V get(Object obj) {
-        Comparable comparable = (Comparable) obj;
-        int zza = zza((zzgq<K, V>) comparable);
-        if (zza >= 0) {
-            return (V) this.zzb.get(zza).getValue();
-        }
-        return this.zzc.get(comparable);
-    }
-
-    public final V zza(K k, V v) {
-        zzf();
-        int zza = zza((zzgq<K, V>) k);
-        if (zza >= 0) {
-            return (V) this.zzb.get(zza).setValue(v);
-        }
-        zzf();
-        if (this.zzb.isEmpty() && !(this.zzb instanceof ArrayList)) {
-            this.zzb = new ArrayList(this.zza);
-        }
-        int i = -(zza + 1);
-        if (i >= this.zza) {
-            return zzg().put(k, v);
-        }
+    private final int zza(Comparable comparable) {
+        int i;
         int size = this.zzb.size();
-        int i2 = this.zza;
-        if (size == i2) {
-            zzgz remove = this.zzb.remove(i2 - 1);
-            zzg().put((K) remove.getKey(), (V) remove.getValue());
+        int i2 = size - 1;
+        if (i2 >= 0) {
+            int compareTo = comparable.compareTo((Comparable) ((zzgz) this.zzb.get(i2)).getKey());
+            if (compareTo > 0) {
+                i = size + 1;
+                return -i;
+            } else if (compareTo == 0) {
+                return i2;
+            }
         }
-        this.zzb.add(i, new zzgz(this, k, v));
-        return null;
+        int i3 = 0;
+        while (i3 <= i2) {
+            int i4 = (i3 + i2) / 2;
+            int compareTo2 = comparable.compareTo((Comparable) ((zzgz) this.zzb.get(i4)).getKey());
+            if (compareTo2 < 0) {
+                i2 = i4 - 1;
+            } else if (compareTo2 <= 0) {
+                return i4;
+            } else {
+                i3 = i4 + 1;
+            }
+        }
+        i = i3 + 1;
+        return -i;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static zzgq zza(int i) {
+        return new zzgt(i);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public final Object zzc(int i) {
+        zzf();
+        Object value = ((zzgz) this.zzb.remove(i)).getValue();
+        if (!this.zzc.isEmpty()) {
+            Iterator it = zzg().entrySet().iterator();
+            this.zzb.add(new zzgz(this, (Map.Entry) it.next()));
+            it.remove();
+        }
+        return value;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public final void zzf() {
+        if (this.zzd) {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    private final SortedMap zzg() {
+        zzf();
+        if (this.zzc.isEmpty() && !(this.zzc instanceof TreeMap)) {
+            TreeMap treeMap = new TreeMap();
+            this.zzc = treeMap;
+            this.zzf = treeMap.descendingMap();
+        }
+        return (SortedMap) this.zzc;
     }
 
     @Override // java.util.AbstractMap, java.util.Map
@@ -133,93 +107,18 @@ public class zzgq<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         this.zzc.clear();
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
     @Override // java.util.AbstractMap, java.util.Map
-    public V remove(Object obj) {
-        zzf();
+    public boolean containsKey(Object obj) {
         Comparable comparable = (Comparable) obj;
-        int zza = zza((zzgq<K, V>) comparable);
-        if (zza >= 0) {
-            return (V) zzc(zza);
-        }
-        if (this.zzc.isEmpty()) {
-            return null;
-        }
-        return this.zzc.remove(comparable);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public final V zzc(int i) {
-        zzf();
-        V v = (V) this.zzb.remove(i).getValue();
-        if (!this.zzc.isEmpty()) {
-            Iterator<Map.Entry<K, V>> it = zzg().entrySet().iterator();
-            this.zzb.add(new zzgz(this, it.next()));
-            it.remove();
-        }
-        return v;
-    }
-
-    private final int zza(K k) {
-        int i;
-        int size = this.zzb.size();
-        int i2 = size - 1;
-        if (i2 >= 0) {
-            int compareTo = k.compareTo((Comparable) this.zzb.get(i2).getKey());
-            if (compareTo > 0) {
-                i = size + 1;
-                return -i;
-            } else if (compareTo == 0) {
-                return i2;
-            }
-        }
-        int i3 = 0;
-        while (i3 <= i2) {
-            int i4 = (i3 + i2) / 2;
-            int compareTo2 = k.compareTo((Comparable) this.zzb.get(i4).getKey());
-            if (compareTo2 < 0) {
-                i2 = i4 - 1;
-            } else if (compareTo2 <= 0) {
-                return i4;
-            } else {
-                i3 = i4 + 1;
-            }
-        }
-        i = i3 + 1;
-        return -i;
+        return zza(comparable) >= 0 || this.zzc.containsKey(comparable);
     }
 
     @Override // java.util.AbstractMap, java.util.Map
-    public Set<Map.Entry<K, V>> entrySet() {
+    public Set entrySet() {
         if (this.zze == null) {
             this.zze = new zzhb(this, null);
         }
         return this.zze;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Set<Map.Entry<K, V>> zze() {
-        if (this.zzg == null) {
-            this.zzg = new zzgv(this, null);
-        }
-        return this.zzg;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public final void zzf() {
-        if (this.zzd) {
-            throw new UnsupportedOperationException();
-        }
-    }
-
-    private final SortedMap<K, V> zzg() {
-        zzf();
-        if (this.zzc.isEmpty() && !(this.zzc instanceof TreeMap)) {
-            TreeMap treeMap = new TreeMap();
-            this.zzc = treeMap;
-            this.zzf = treeMap.descendingMap();
-        }
-        return (SortedMap) this.zzc;
     }
 
     @Override // java.util.AbstractMap, java.util.Map
@@ -227,27 +126,34 @@ public class zzgq<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof zzgq)) {
-            return super.equals(obj);
-        }
-        zzgq zzgqVar = (zzgq) obj;
-        int size = size();
-        if (size != zzgqVar.size()) {
-            return false;
-        }
-        int zzc = zzc();
-        if (zzc != zzgqVar.zzc()) {
-            return entrySet().equals(zzgqVar.entrySet());
-        }
-        for (int i = 0; i < zzc; i++) {
-            if (!zzb(i).equals(zzgqVar.zzb(i))) {
+        if (obj instanceof zzgq) {
+            zzgq zzgqVar = (zzgq) obj;
+            int size = size();
+            if (size != zzgqVar.size()) {
                 return false;
             }
+            int zzc = zzc();
+            if (zzc != zzgqVar.zzc()) {
+                return entrySet().equals(zzgqVar.entrySet());
+            }
+            for (int i = 0; i < zzc; i++) {
+                if (!zzb(i).equals(zzgqVar.zzb(i))) {
+                    return false;
+                }
+            }
+            if (zzc != size) {
+                return this.zzc.equals(zzgqVar.zzc);
+            }
+            return true;
         }
-        if (zzc != size) {
-            return this.zzc.equals(zzgqVar.zzc);
-        }
-        return true;
+        return super.equals(obj);
+    }
+
+    @Override // java.util.AbstractMap, java.util.Map
+    public Object get(Object obj) {
+        Comparable comparable = (Comparable) obj;
+        int zza = zza(comparable);
+        return zza >= 0 ? ((zzgz) this.zzb.get(zza)).getValue() : this.zzc.get(comparable);
     }
 
     @Override // java.util.AbstractMap, java.util.Map
@@ -255,19 +161,86 @@ public class zzgq<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         int zzc = zzc();
         int i = 0;
         for (int i2 = 0; i2 < zzc; i2++) {
-            i += this.zzb.get(i2).hashCode();
+            i += ((zzgz) this.zzb.get(i2)).hashCode();
         }
         return this.zzc.size() > 0 ? i + this.zzc.hashCode() : i;
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
     @Override // java.util.AbstractMap, java.util.Map
-    public /* synthetic */ Object put(Object obj, Object obj2) {
-        return zza((zzgq<K, V>) ((Comparable) obj), (Comparable) obj2);
+    public Object remove(Object obj) {
+        zzf();
+        Comparable comparable = (Comparable) obj;
+        int zza = zza(comparable);
+        if (zza >= 0) {
+            return zzc(zza);
+        }
+        if (this.zzc.isEmpty()) {
+            return null;
+        }
+        return this.zzc.remove(comparable);
+    }
+
+    @Override // java.util.AbstractMap, java.util.Map
+    public int size() {
+        return this.zzb.size() + this.zzc.size();
+    }
+
+    @Override // java.util.AbstractMap, java.util.Map
+    /* renamed from: zza */
+    public final Object put(Comparable comparable, Object obj) {
+        zzf();
+        int zza = zza(comparable);
+        if (zza >= 0) {
+            return ((zzgz) this.zzb.get(zza)).setValue(obj);
+        }
+        zzf();
+        if (this.zzb.isEmpty() && !(this.zzb instanceof ArrayList)) {
+            this.zzb = new ArrayList(this.zza);
+        }
+        int i = -(zza + 1);
+        if (i >= this.zza) {
+            return zzg().put(comparable, obj);
+        }
+        int size = this.zzb.size();
+        int i2 = this.zza;
+        if (size == i2) {
+            zzgz zzgzVar = (zzgz) this.zzb.remove(i2 - 1);
+            zzg().put((Comparable) zzgzVar.getKey(), zzgzVar.getValue());
+        }
+        this.zzb.add(i, new zzgz(this, comparable, obj));
+        return null;
+    }
+
+    public void zza() {
+        if (this.zzd) {
+            return;
+        }
+        this.zzc = this.zzc.isEmpty() ? Collections.emptyMap() : Collections.unmodifiableMap(this.zzc);
+        this.zzf = this.zzf.isEmpty() ? Collections.emptyMap() : Collections.unmodifiableMap(this.zzf);
+        this.zzd = true;
+    }
+
+    public final Map.Entry zzb(int i) {
+        return (Map.Entry) this.zzb.get(i);
+    }
+
+    public final boolean zzb() {
+        return this.zzd;
+    }
+
+    public final int zzc() {
+        return this.zzb.size();
+    }
+
+    public final Iterable zzd() {
+        return this.zzc.isEmpty() ? zzgu.zza() : this.zzc.entrySet();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzgq(int i, zzgt zzgtVar) {
-        this(i);
+    public final Set zze() {
+        if (this.zzg == null) {
+            this.zzg = new zzgv(this, null);
+        }
+        return this.zzg;
     }
 }

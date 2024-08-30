@@ -8,7 +8,6 @@ import com.google.android.gms.common.api.internal.SignInConnectionListener;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 public final class zbc extends AsyncTaskLoader implements SignInConnectionListener {
     private final Semaphore zba;

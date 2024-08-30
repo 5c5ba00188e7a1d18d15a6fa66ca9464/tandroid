@@ -1,9 +1,8 @@
 package com.google.android.gms.tasks;
 
 import java.util.concurrent.Executor;
-/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
-final class zzf<TResult, TContinuationResult> implements OnSuccessListener<TContinuationResult>, OnFailureListener, OnCanceledListener, zzq {
+final class zzf implements OnSuccessListener, OnFailureListener, OnCanceledListener, zzq {
     private final Executor zza;
     private final Continuation zzb;
     private final zzw zzc;
@@ -25,8 +24,8 @@ final class zzf<TResult, TContinuationResult> implements OnSuccessListener<TCont
     }
 
     @Override // com.google.android.gms.tasks.OnSuccessListener
-    public final void onSuccess(TContinuationResult tcontinuationresult) {
-        this.zzc.zzb(tcontinuationresult);
+    public final void onSuccess(Object obj) {
+        this.zzc.zzb(obj);
     }
 
     @Override // com.google.android.gms.tasks.zzq

@@ -5,8 +5,9 @@ import java.util.Arrays;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class zzed {
+public final class zzed {
     private final int flags;
     private final Object[] zzmj;
     private final int zzmk;
@@ -14,7 +15,7 @@ final class zzed {
     private final int zzmm;
     private final int[] zzms;
     private final zzee zznh;
-    private Class<?> zzni;
+    private Class zzni;
     private final int zznj;
     private final int zznk;
     private final int zznl;
@@ -41,7 +42,7 @@ final class zzed {
     private Object zzog;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public zzed(Class<?> cls, String str, Object[] objArr) {
+    public zzed(Class cls, String str, Object[] objArr) {
         this.zzni = cls;
         zzee zzeeVar = new zzee(str);
         this.zznh = zzeeVar;
@@ -76,7 +77,12 @@ final class zzed {
         this.zznp = (next2 << 1) + next3;
     }
 
-    private static Field zza(Class<?> cls, String str) {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static /* synthetic */ int zza(zzed zzedVar) {
+        return zzedVar.flags;
+    }
+
+    private static Field zza(Class cls, String str) {
         try {
             return cls.getDeclaredField(str);
         } catch (NoSuchFieldException unused) {
@@ -99,6 +105,16 @@ final class zzed {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static /* synthetic */ int zzb(zzed zzedVar) {
+        return zzedVar.zzmk;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static /* synthetic */ int zzc(zzed zzedVar) {
+        return zzedVar.zzml;
+    }
+
     private final Object zzcw() {
         Object[] objArr = this.zzmj;
         int i = this.zznp;
@@ -108,6 +124,36 @@ final class zzed {
 
     private final boolean zzcz() {
         return (this.flags & 1) == 1;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static /* synthetic */ int zzd(zzed zzedVar) {
+        return zzedVar.zznj;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static /* synthetic */ int zze(zzed zzedVar) {
+        return zzedVar.zznm;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static /* synthetic */ int zzf(zzed zzedVar) {
+        return zzedVar.zzno;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static /* synthetic */ int[] zzg(zzed zzedVar) {
+        return zzedVar.zzms;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static /* synthetic */ int zzh(zzed zzedVar) {
+        return zzedVar.zznn;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static /* synthetic */ int zzi(zzed zzedVar) {
+        return zzedVar.zzmm;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

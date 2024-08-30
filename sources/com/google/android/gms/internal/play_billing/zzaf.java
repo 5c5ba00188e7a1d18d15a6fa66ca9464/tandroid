@@ -2,7 +2,6 @@ package com.google.android.gms.internal.play_billing;
 
 import java.util.Arrays;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzaf extends zzx {
     static final zzx zza = new zzaf(null, new Object[0], 0);
@@ -83,24 +82,23 @@ public final class zzaf extends zzx {
                     while (true) {
                         int i9 = zza2 & i4;
                         int i10 = bArr2[i9] & 255;
-                        if (i10 != 255) {
-                            if (obj6.equals(objArr3[i10])) {
-                                int i11 = i10 ^ 1;
-                                Object obj8 = objArr3[i11];
-                                obj8.getClass();
-                                zzv zzvVar = new zzv(obj6, obj7, obj8);
-                                objArr3[i11] = obj7;
-                                obj = zzvVar;
-                                break;
-                            }
-                            zza2 = i9 + 1;
-                        } else {
+                        if (i10 == 255) {
                             bArr2[i9] = (byte) i7;
                             if (i5 < i6) {
                                 objArr3[i7] = obj6;
                                 objArr3[i7 ^ 1] = obj7;
                             }
                             i5++;
+                        } else if (obj6.equals(objArr3[i10])) {
+                            int i11 = i10 ^ 1;
+                            Object obj8 = objArr3[i11];
+                            obj8.getClass();
+                            zzv zzvVar = new zzv(obj6, obj7, obj8);
+                            objArr3[i11] = obj7;
+                            obj = zzvVar;
+                            break;
+                        } else {
+                            zza2 = i9 + 1;
                         }
                     }
                 }
@@ -127,24 +125,23 @@ public final class zzaf extends zzx {
                     while (true) {
                         int i16 = zza3 & i4;
                         char c3 = (char) sArr[i16];
-                        if (c3 != 65535) {
-                            if (obj9.equals(objArr3[c3])) {
-                                int i17 = c3 ^ 1;
-                                Object obj11 = objArr3[i17];
-                                obj11.getClass();
-                                zzv zzvVar2 = new zzv(obj9, obj10, obj11);
-                                objArr3[i17] = obj10;
-                                obj = zzvVar2;
-                                break;
-                            }
-                            zza3 = i16 + 1;
-                        } else {
+                        if (c3 == 65535) {
                             sArr[i16] = (short) i14;
                             if (i12 < i13) {
                                 objArr3[i14] = obj9;
                                 objArr3[i14 ^ 1] = obj10;
                             }
                             i12++;
+                        } else if (obj9.equals(objArr3[c3])) {
+                            int i17 = c3 ^ 1;
+                            Object obj11 = objArr3[i17];
+                            obj11.getClass();
+                            zzv zzvVar2 = new zzv(obj9, obj10, obj11);
+                            objArr3[i17] = obj10;
+                            obj = zzvVar2;
+                            break;
+                        } else {
+                            zza3 = i16 + 1;
                         }
                     }
                 }
@@ -170,25 +167,24 @@ public final class zzaf extends zzx {
                     while (true) {
                         int i22 = zza4 & i4;
                         ?? r15 = sArr[i22];
-                        if (r15 != c2) {
-                            if (obj12.equals(objArr3[r15])) {
-                                int i23 = r15 ^ 1;
-                                Object obj14 = objArr3[i23];
-                                obj14.getClass();
-                                zzv zzvVar3 = new zzv(obj12, obj13, obj14);
-                                objArr3[i23] = obj13;
-                                obj = zzvVar3;
-                                break;
-                            }
-                            zza4 = i22 + 1;
-                            c2 = 65535;
-                        } else {
+                        if (r15 == c2) {
                             sArr[i22] = i20;
                             if (i19 < i18) {
                                 objArr3[i20] = obj12;
                                 objArr3[i20 ^ 1] = obj13;
                             }
                             i19++;
+                        } else if (obj12.equals(objArr3[r15])) {
+                            int i23 = r15 ^ 1;
+                            Object obj14 = objArr3[i23];
+                            obj14.getClass();
+                            zzv zzvVar3 = new zzv(obj12, obj13, obj14);
+                            objArr3[i23] = obj13;
+                            obj = zzvVar3;
+                            break;
+                        } else {
+                            zza4 = i22 + 1;
+                            c2 = 65535;
                         }
                     }
                     i18++;

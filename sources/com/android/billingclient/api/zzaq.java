@@ -6,9 +6,8 @@ import com.google.android.gms.internal.play_billing.zzfe;
 import com.google.android.gms.internal.play_billing.zzff;
 import com.google.android.gms.internal.play_billing.zzfh;
 import com.google.android.gms.internal.play_billing.zzfj;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-public final /* synthetic */ class zzaq {
+public abstract /* synthetic */ class zzaq {
     public static zzfb zza(int i, int i2, BillingResult billingResult) {
         zzfa zzv = zzfb.zzv();
         zzfh zzv2 = zzfj.zzv();

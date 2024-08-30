@@ -22,10 +22,10 @@ public class AvcDecoderConfigurationRecord {
     public int lengthSizeMinusOne;
     public int lengthSizeMinusOnePaddingBits;
     public int numberOfSequenceParameterSetsPaddingBits;
-    public List<byte[]> pictureParameterSets;
+    public List pictureParameterSets;
     public int profileCompatibility;
-    public List<byte[]> sequenceParameterSetExts;
-    public List<byte[]> sequenceParameterSets;
+    public List sequenceParameterSetExts;
+    public List sequenceParameterSets;
 
     public AvcDecoderConfigurationRecord() {
         this.sequenceParameterSets = new ArrayList();
@@ -79,25 +79,25 @@ public class AvcDecoderConfigurationRecord {
         if (byteBuffer.remaining() < 4) {
             this.hasExts = false;
         }
-        if (this.hasExts && ((i = this.avcProfileIndication) == 100 || i == 110 || i == 122 || i == 144)) {
-            BitReaderBuffer bitReaderBuffer2 = new BitReaderBuffer(byteBuffer);
-            this.chromaFormatPaddingBits = bitReaderBuffer2.readBits(6);
-            this.chromaFormat = bitReaderBuffer2.readBits(2);
-            this.bitDepthLumaMinus8PaddingBits = bitReaderBuffer2.readBits(5);
-            this.bitDepthLumaMinus8 = bitReaderBuffer2.readBits(3);
-            this.bitDepthChromaMinus8PaddingBits = bitReaderBuffer2.readBits(5);
-            this.bitDepthChromaMinus8 = bitReaderBuffer2.readBits(3);
-            long readUInt82 = IsoTypeReader.readUInt8(byteBuffer);
-            for (int i4 = 0; i4 < readUInt82; i4++) {
-                byte[] bArr3 = new byte[IsoTypeReader.readUInt16(byteBuffer)];
-                byteBuffer.get(bArr3);
-                this.sequenceParameterSetExts.add(bArr3);
-            }
+        if (!this.hasExts || ((i = this.avcProfileIndication) != 100 && i != 110 && i != 122 && i != 144)) {
+            this.chromaFormat = -1;
+            this.bitDepthLumaMinus8 = -1;
+            this.bitDepthChromaMinus8 = -1;
             return;
         }
-        this.chromaFormat = -1;
-        this.bitDepthLumaMinus8 = -1;
-        this.bitDepthChromaMinus8 = -1;
+        BitReaderBuffer bitReaderBuffer2 = new BitReaderBuffer(byteBuffer);
+        this.chromaFormatPaddingBits = bitReaderBuffer2.readBits(6);
+        this.chromaFormat = bitReaderBuffer2.readBits(2);
+        this.bitDepthLumaMinus8PaddingBits = bitReaderBuffer2.readBits(5);
+        this.bitDepthLumaMinus8 = bitReaderBuffer2.readBits(3);
+        this.bitDepthChromaMinus8PaddingBits = bitReaderBuffer2.readBits(5);
+        this.bitDepthChromaMinus8 = bitReaderBuffer2.readBits(3);
+        long readUInt82 = IsoTypeReader.readUInt8(byteBuffer);
+        for (int i4 = 0; i4 < readUInt82; i4++) {
+            byte[] bArr3 = new byte[IsoTypeReader.readUInt16(byteBuffer)];
+            byteBuffer.get(bArr3);
+            this.sequenceParameterSetExts.add(bArr3);
+        }
     }
 
     public void getContent(ByteBuffer byteBuffer) {

@@ -8,9 +8,8 @@ import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.common.api.internal.OnConnectionFailedListener;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
-public final class zzae extends GmsClient<zzaa> {
+public final class zzae extends GmsClient {
     public zzae(Context context, Looper looper, ClientSettings clientSettings, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
         super(context, looper, 19, clientSettings, connectionCallbacks, onConnectionFailedListener);
     }
@@ -22,10 +21,7 @@ public final class zzae extends GmsClient<zzaa> {
             return null;
         }
         IInterface queryLocalInterface = iBinder.queryLocalInterface("com.google.android.gms.appdatasearch.internal.ILightweightAppDataSearch");
-        if (queryLocalInterface instanceof zzaa) {
-            return (zzaa) queryLocalInterface;
-        }
-        return new zzaa(iBinder);
+        return queryLocalInterface instanceof zzaa ? (zzaa) queryLocalInterface : new zzaa(iBinder);
     }
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient, com.google.android.gms.common.api.Api.Client

@@ -9,7 +9,6 @@ jadx.core.utils.exceptions.JadxRuntimeException: Init of enum zzb uses external 
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzcj {
     public static final zzcj zza;

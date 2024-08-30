@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import com.google.android.gms.common.api.internal.LifecycleFragment;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class zag implements DialogInterface.OnClickListener {
     public static zag zab(Activity activity, Intent intent, int i) {

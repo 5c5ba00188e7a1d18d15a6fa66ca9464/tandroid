@@ -1,9 +1,7 @@
 package com.google.android.gms.common.internal;
 
 import android.os.Parcel;
-import android.os.RemoteException;
 import com.google.android.gms.dynamic.IObjectWrapper;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class zzy extends com.google.android.gms.internal.common.zzb implements zzz {
     public zzy() {
@@ -11,7 +9,7 @@ public abstract class zzy extends com.google.android.gms.internal.common.zzb imp
     }
 
     @Override // com.google.android.gms.internal.common.zzb
-    protected final boolean zza(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
+    protected final boolean zza(int i, Parcel parcel, Parcel parcel2, int i2) {
         if (i == 1) {
             IObjectWrapper zzd = zzd();
             parcel2.writeNoException();

@@ -1,7 +1,6 @@
 package com.google.android.play.core.integrity;
 
 import android.content.Context;
-/* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
 public final class al implements com.google.android.play.integrity.internal.ak {
     private final com.google.android.play.integrity.internal.an a;

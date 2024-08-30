@@ -7,14 +7,14 @@ import com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkIni
 import com.google.android.datatransport.runtime.time.Clock;
 import javax.inject.Provider;
 /* loaded from: classes.dex */
-public final class TransportRuntime_Factory implements Factory<TransportRuntime> {
-    private final Provider<Clock> eventClockProvider;
-    private final Provider<WorkInitializer> initializerProvider;
-    private final Provider<Scheduler> schedulerProvider;
-    private final Provider<Uploader> uploaderProvider;
-    private final Provider<Clock> uptimeClockProvider;
+public final class TransportRuntime_Factory implements Factory {
+    private final Provider eventClockProvider;
+    private final Provider initializerProvider;
+    private final Provider schedulerProvider;
+    private final Provider uploaderProvider;
+    private final Provider uptimeClockProvider;
 
-    public TransportRuntime_Factory(Provider<Clock> provider, Provider<Clock> provider2, Provider<Scheduler> provider3, Provider<Uploader> provider4, Provider<WorkInitializer> provider5) {
+    public TransportRuntime_Factory(Provider provider, Provider provider2, Provider provider3, Provider provider4, Provider provider5) {
         this.eventClockProvider = provider;
         this.uptimeClockProvider = provider2;
         this.schedulerProvider = provider3;
@@ -22,16 +22,16 @@ public final class TransportRuntime_Factory implements Factory<TransportRuntime>
         this.initializerProvider = provider5;
     }
 
-    @Override // javax.inject.Provider
-    public TransportRuntime get() {
-        return newInstance(this.eventClockProvider.get(), this.uptimeClockProvider.get(), this.schedulerProvider.get(), this.uploaderProvider.get(), this.initializerProvider.get());
-    }
-
-    public static TransportRuntime_Factory create(Provider<Clock> provider, Provider<Clock> provider2, Provider<Scheduler> provider3, Provider<Uploader> provider4, Provider<WorkInitializer> provider5) {
+    public static TransportRuntime_Factory create(Provider provider, Provider provider2, Provider provider3, Provider provider4, Provider provider5) {
         return new TransportRuntime_Factory(provider, provider2, provider3, provider4, provider5);
     }
 
     public static TransportRuntime newInstance(Clock clock, Clock clock2, Scheduler scheduler, Uploader uploader, WorkInitializer workInitializer) {
         return new TransportRuntime(clock, clock2, scheduler, uploader, workInitializer);
+    }
+
+    @Override // javax.inject.Provider
+    public TransportRuntime get() {
+        return newInstance((Clock) this.eventClockProvider.get(), (Clock) this.uptimeClockProvider.get(), (Scheduler) this.schedulerProvider.get(), (Uploader) this.uploaderProvider.get(), (WorkInitializer) this.initializerProvider.get());
     }
 }

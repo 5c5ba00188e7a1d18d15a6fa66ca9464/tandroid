@@ -10,9 +10,27 @@ import org.telegram.messenger.BuildVars;
 /* loaded from: classes.dex */
 public class ThreadUtils {
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public class 1CaughtException {
+        Exception e;
+
+        1CaughtException() {
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public class 1Result {
+        public V value;
+
+        1Result() {
+        }
+    }
+
     /* loaded from: classes.dex */
     public interface BlockingOperation {
-        void run() throws InterruptedException;
+        void run();
     }
 
     /* loaded from: classes.dex */
@@ -33,59 +51,10 @@ public class ThreadUtils {
         }
     }
 
-    public static void checkIsOnMainThread() {
-        if (BuildVars.DEBUG_PRIVATE_VERSION && Thread.currentThread() != Looper.getMainLooper().getThread()) {
-            throw new IllegalStateException("Not on main thread!");
-        }
-    }
-
-    public static void executeUninterruptibly(BlockingOperation blockingOperation) {
-        boolean z = false;
-        while (true) {
-            try {
-                blockingOperation.run();
-                break;
-            } catch (InterruptedException unused) {
-                z = true;
-            }
-        }
-        if (z) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
-    public static boolean joinUninterruptibly(Thread thread, long j) {
-        long elapsedRealtime = SystemClock.elapsedRealtime();
-        boolean z = false;
-        long j2 = j;
-        while (j2 > 0) {
-            try {
-                thread.join(j2);
-                break;
-            } catch (InterruptedException unused) {
-                j2 = j - (SystemClock.elapsedRealtime() - elapsedRealtime);
-                z = true;
-            }
-        }
-        if (z) {
-            Thread.currentThread().interrupt();
-        }
-        return !thread.isAlive();
-    }
-
-    public static void joinUninterruptibly(final Thread thread) {
-        executeUninterruptibly(new BlockingOperation() { // from class: org.webrtc.ThreadUtils.1
-            @Override // org.webrtc.ThreadUtils.BlockingOperation
-            public void run() throws InterruptedException {
-                thread.join();
-            }
-        });
-    }
-
     public static void awaitUninterruptibly(final CountDownLatch countDownLatch) {
         executeUninterruptibly(new BlockingOperation() { // from class: org.webrtc.ThreadUtils.2
             @Override // org.webrtc.ThreadUtils.BlockingOperation
-            public void run() throws InterruptedException {
+            public void run() {
                 countDownLatch.await();
             }
         });
@@ -113,6 +82,34 @@ public class ThreadUtils {
         return z;
     }
 
+    public static void checkIsOnMainThread() {
+        if (BuildVars.DEBUG_PRIVATE_VERSION && Thread.currentThread() != Looper.getMainLooper().getThread()) {
+            throw new IllegalStateException("Not on main thread!");
+        }
+    }
+
+    static StackTraceElement[] concatStackTraces(StackTraceElement[] stackTraceElementArr, StackTraceElement[] stackTraceElementArr2) {
+        StackTraceElement[] stackTraceElementArr3 = new StackTraceElement[stackTraceElementArr.length + stackTraceElementArr2.length];
+        System.arraycopy(stackTraceElementArr, 0, stackTraceElementArr3, 0, stackTraceElementArr.length);
+        System.arraycopy(stackTraceElementArr2, 0, stackTraceElementArr3, stackTraceElementArr.length, stackTraceElementArr2.length);
+        return stackTraceElementArr3;
+    }
+
+    public static void executeUninterruptibly(BlockingOperation blockingOperation) {
+        boolean z = false;
+        while (true) {
+            try {
+                blockingOperation.run();
+                break;
+            } catch (InterruptedException unused) {
+                z = true;
+            }
+        }
+        if (z) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     public static <V> V invokeAtFrontUninterruptibly(Handler handler, final Callable<V> callable) {
         if (handler.getLooper().getThread() == Thread.currentThread()) {
             try {
@@ -137,30 +134,12 @@ public class ThreadUtils {
             }
         });
         awaitUninterruptibly(countDownLatch);
-        if (r1.e != null) {
-            RuntimeException runtimeException = new RuntimeException(r1.e);
-            runtimeException.setStackTrace(concatStackTraces(r1.e.getStackTrace(), runtimeException.getStackTrace()));
-            throw runtimeException;
+        if (r1.e == null) {
+            return r0.value;
         }
-        return r0.value;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class 1CaughtException {
-        Exception e;
-
-        1CaughtException() {
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class 1Result {
-        public V value;
-
-        1Result() {
-        }
+        RuntimeException runtimeException = new RuntimeException(r1.e);
+        runtimeException.setStackTrace(concatStackTraces(r1.e.getStackTrace(), runtimeException.getStackTrace()));
+        throw runtimeException;
     }
 
     public static void invokeAtFrontUninterruptibly(Handler handler, final Runnable runnable) {
@@ -173,10 +152,31 @@ public class ThreadUtils {
         });
     }
 
-    static StackTraceElement[] concatStackTraces(StackTraceElement[] stackTraceElementArr, StackTraceElement[] stackTraceElementArr2) {
-        StackTraceElement[] stackTraceElementArr3 = new StackTraceElement[stackTraceElementArr.length + stackTraceElementArr2.length];
-        System.arraycopy(stackTraceElementArr, 0, stackTraceElementArr3, 0, stackTraceElementArr.length);
-        System.arraycopy(stackTraceElementArr2, 0, stackTraceElementArr3, stackTraceElementArr.length, stackTraceElementArr2.length);
-        return stackTraceElementArr3;
+    public static void joinUninterruptibly(final Thread thread) {
+        executeUninterruptibly(new BlockingOperation() { // from class: org.webrtc.ThreadUtils.1
+            @Override // org.webrtc.ThreadUtils.BlockingOperation
+            public void run() {
+                thread.join();
+            }
+        });
+    }
+
+    public static boolean joinUninterruptibly(Thread thread, long j) {
+        long elapsedRealtime = SystemClock.elapsedRealtime();
+        boolean z = false;
+        long j2 = j;
+        while (j2 > 0) {
+            try {
+                thread.join(j2);
+                break;
+            } catch (InterruptedException unused) {
+                j2 = j - (SystemClock.elapsedRealtime() - elapsedRealtime);
+                z = true;
+            }
+        }
+        if (z) {
+            Thread.currentThread().interrupt();
+        }
+        return !thread.isAlive();
     }
 }

@@ -2,7 +2,6 @@ package org.telegram.messenger.audioinfo.m4a;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.logging.Level;
@@ -18,11 +17,11 @@ public class M4AInfo extends AudioInfo {
     private short tempo;
     private BigDecimal volume;
 
-    public M4AInfo(InputStream inputStream) throws IOException {
+    public M4AInfo(InputStream inputStream) {
         this(inputStream, Level.FINEST);
     }
 
-    public M4AInfo(InputStream inputStream, Level level) throws IOException {
+    public M4AInfo(InputStream inputStream, Level level) {
         this.debugLevel = level;
         MP4Input mP4Input = new MP4Input(inputStream);
         Logger logger = LOGGER;
@@ -33,184 +32,16 @@ public class M4AInfo extends AudioInfo {
         moov(mP4Input.nextChildUpTo("moov"));
     }
 
-    void ftyp(MP4Atom mP4Atom) throws IOException {
-        Logger logger = LOGGER;
-        if (logger.isLoggable(this.debugLevel)) {
-            logger.log(this.debugLevel, mP4Atom.toString());
-        }
-        String trim = mP4Atom.readString(4, "ISO8859_1").trim();
-        this.brand = trim;
-        if (trim.matches("M4V|MP4|mp42|isom")) {
-            logger.warning(mP4Atom.getPath() + ": brand=" + this.brand + " (experimental)");
-        } else if (!this.brand.matches("M4A|M4P")) {
-            logger.warning(mP4Atom.getPath() + ": brand=" + this.brand + " (expected M4A or M4P)");
-        }
-        this.version = String.valueOf(mP4Atom.readInt());
-    }
-
-    void moov(MP4Atom mP4Atom) throws IOException {
-        Logger logger = LOGGER;
-        if (logger.isLoggable(this.debugLevel)) {
-            logger.log(this.debugLevel, mP4Atom.toString());
-        }
-        while (mP4Atom.hasMoreChildren()) {
-            MP4Atom nextChild = mP4Atom.nextChild();
-            String type = nextChild.getType();
-            type.hashCode();
-            char c = 65535;
-            switch (type.hashCode()) {
-                case 3363941:
-                    if (type.equals("mvhd")) {
-                        c = 0;
-                        break;
-                    }
-                    break;
-                case 3568424:
-                    if (type.equals("trak")) {
-                        c = 1;
-                        break;
-                    }
-                    break;
-                case 3585340:
-                    if (type.equals("udta")) {
-                        c = 2;
-                        break;
-                    }
-                    break;
-            }
-            switch (c) {
-                case 0:
-                    mvhd(nextChild);
-                    break;
-                case 1:
-                    trak(nextChild);
-                    break;
-                case 2:
-                    udta(nextChild);
-                    break;
-            }
-        }
-    }
-
-    void mvhd(MP4Atom mP4Atom) throws IOException {
-        Logger logger = LOGGER;
-        if (logger.isLoggable(this.debugLevel)) {
-            logger.log(this.debugLevel, mP4Atom.toString());
-        }
-        byte readByte = mP4Atom.readByte();
-        mP4Atom.skip(3);
-        mP4Atom.skip(readByte == 1 ? 16 : 8);
-        int readInt = mP4Atom.readInt();
-        long readLong = readByte == 1 ? mP4Atom.readLong() : mP4Atom.readInt();
-        if (this.duration == 0) {
-            this.duration = (readLong * 1000) / readInt;
-        } else if (logger.isLoggable(this.debugLevel)) {
-            long j = (readLong * 1000) / readInt;
-            if (Math.abs(this.duration - j) > 2) {
-                Level level = this.debugLevel;
-                logger.log(level, "mvhd: duration " + this.duration + " -> " + j);
-            }
-        }
-        this.speed = mP4Atom.readIntegerFixedPoint();
-        this.volume = mP4Atom.readShortFixedPoint();
-    }
-
-    void trak(MP4Atom mP4Atom) throws IOException {
-        Logger logger = LOGGER;
-        if (logger.isLoggable(this.debugLevel)) {
-            logger.log(this.debugLevel, mP4Atom.toString());
-        }
-        mdia(mP4Atom.nextChildUpTo("mdia"));
-    }
-
-    void mdia(MP4Atom mP4Atom) throws IOException {
-        Logger logger = LOGGER;
-        if (logger.isLoggable(this.debugLevel)) {
-            logger.log(this.debugLevel, mP4Atom.toString());
-        }
-        mdhd(mP4Atom.nextChild("mdhd"));
-    }
-
-    void mdhd(MP4Atom mP4Atom) throws IOException {
-        Logger logger = LOGGER;
-        if (logger.isLoggable(this.debugLevel)) {
-            logger.log(this.debugLevel, mP4Atom.toString());
-        }
-        byte readByte = mP4Atom.readByte();
-        mP4Atom.skip(3);
-        mP4Atom.skip(readByte == 1 ? 16 : 8);
-        int readInt = mP4Atom.readInt();
-        long readLong = readByte == 1 ? mP4Atom.readLong() : mP4Atom.readInt();
-        if (this.duration == 0) {
-            this.duration = (readLong * 1000) / readInt;
-        } else if (logger.isLoggable(this.debugLevel)) {
-            long j = (readLong * 1000) / readInt;
-            if (Math.abs(this.duration - j) > 2) {
-                Level level = this.debugLevel;
-                logger.log(level, "mdhd: duration " + this.duration + " -> " + j);
-            }
-        }
-    }
-
-    void udta(MP4Atom mP4Atom) throws IOException {
-        Logger logger = LOGGER;
-        if (logger.isLoggable(this.debugLevel)) {
-            logger.log(this.debugLevel, mP4Atom.toString());
-        }
-        while (mP4Atom.hasMoreChildren()) {
-            MP4Atom nextChild = mP4Atom.nextChild();
-            if ("meta".equals(nextChild.getType())) {
-                meta(nextChild);
-                return;
-            }
-        }
-    }
-
-    void meta(MP4Atom mP4Atom) throws IOException {
-        Logger logger = LOGGER;
-        if (logger.isLoggable(this.debugLevel)) {
-            logger.log(this.debugLevel, mP4Atom.toString());
-        }
-        mP4Atom.skip(4);
-        while (mP4Atom.hasMoreChildren()) {
-            MP4Atom nextChild = mP4Atom.nextChild();
-            if ("ilst".equals(nextChild.getType())) {
-                ilst(nextChild);
-                return;
-            }
-        }
-    }
-
-    void ilst(MP4Atom mP4Atom) throws IOException {
-        Logger logger = LOGGER;
-        if (logger.isLoggable(this.debugLevel)) {
-            logger.log(this.debugLevel, mP4Atom.toString());
-        }
-        while (mP4Atom.hasMoreChildren()) {
-            MP4Atom nextChild = mP4Atom.nextChild();
-            Logger logger2 = LOGGER;
-            if (logger2.isLoggable(this.debugLevel)) {
-                logger2.log(this.debugLevel, nextChild.toString());
-            }
-            if (nextChild.getRemaining() == 0) {
-                if (logger2.isLoggable(this.debugLevel)) {
-                    Level level = this.debugLevel;
-                    logger2.log(level, nextChild.getPath() + ": contains no value");
-                }
-            } else {
-                data(nextChild.nextChildUpTo("data"));
-            }
-        }
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:143:0x027c A[Catch: Exception -> 0x025e, TryCatch #0 {Exception -> 0x025e, blocks: (B:131:0x0242, B:133:0x0259, B:141:0x0271, B:143:0x027c, B:145:0x0293, B:147:0x02b0, B:149:0x02b4, B:146:0x02ac, B:138:0x0260, B:140:0x0268), top: B:155:0x0242 }] */
-    /* JADX WARN: Removed duplicated region for block: B:182:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x0273 A[Catch: Exception -> 0x0255, TryCatch #1 {Exception -> 0x0255, blocks: (B:132:0x0239, B:134:0x0250, B:142:0x0268, B:144:0x0273, B:146:0x028a, B:148:0x02a3, B:150:0x02a7, B:147:0x02a1, B:139:0x0257, B:141:0x025f), top: B:158:0x0239 }] */
+    /* JADX WARN: Removed duplicated region for block: B:181:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    void data(MP4Atom mP4Atom) throws IOException {
+    void data(MP4Atom mP4Atom) {
+        int i;
         Bitmap decodeByteArray;
         Bitmap bitmap;
+        String description;
         Logger logger = LOGGER;
         if (logger.isLoggable(this.debugLevel)) {
             logger.log(this.debugLevel, mP4Atom.toString());
@@ -353,8 +184,7 @@ public class M4AInfo extends AudioInfo {
                     options.inJustDecodeBounds = true;
                     options.inSampleSize = 1;
                     BitmapFactory.decodeByteArray(readBytes, 0, readBytes.length, options);
-                    int i = options.outWidth;
-                    if (i <= 800) {
+                    if (options.outWidth <= 800) {
                         if (options.outHeight > 800) {
                         }
                         options.inJustDecodeBounds = false;
@@ -362,12 +192,9 @@ public class M4AInfo extends AudioInfo {
                         this.cover = decodeByteArray;
                         if (decodeByteArray == null) {
                             float max = Math.max(decodeByteArray.getWidth(), this.cover.getHeight()) / 120.0f;
-                            if (max > 0.0f) {
-                                this.smallCover = Bitmap.createScaledBitmap(this.cover, (int) (bitmap.getWidth() / max), (int) (this.cover.getHeight() / max), true);
-                            } else {
-                                this.smallCover = this.cover;
-                            }
-                            if (this.smallCover == null) {
+                            Bitmap createScaledBitmap = max > 0.0f ? Bitmap.createScaledBitmap(this.cover, (int) (bitmap.getWidth() / max), (int) (this.cover.getHeight() / max), true) : this.cover;
+                            this.smallCover = createScaledBitmap;
+                            if (createScaledBitmap == null) {
                                 this.smallCover = this.cover;
                                 return;
                             }
@@ -409,15 +236,17 @@ public class M4AInfo extends AudioInfo {
                     if (mP4Atom.getRemaining() == 2) {
                         ID3v1Genre genre = ID3v1Genre.getGenre(mP4Atom.readShort() - 1);
                         if (genre != null) {
-                            this.genre = genre.getDescription();
+                            description = genre.getDescription();
+                            break;
+                        } else {
                             return;
                         }
-                        return;
                     }
-                    this.genre = mP4Atom.readString("UTF-8");
+                    description = mP4Atom.readString("UTF-8");
+                    break;
+                } else {
                     return;
                 }
-                return;
             case 6:
                 this.rating = mP4Atom.readByte();
                 return;
@@ -459,11 +288,11 @@ public class M4AInfo extends AudioInfo {
                 return;
             case 15:
                 String str4 = this.genre;
-                if (str4 == null || str4.trim().length() == 0) {
-                    this.genre = mP4Atom.readString("UTF-8");
+                if (str4 != null && str4.trim().length() != 0) {
                     return;
                 }
-                return;
+                description = mP4Atom.readString("UTF-8");
+                break;
             case 16:
                 this.grouping = mP4Atom.readString("UTF-8");
                 return;
@@ -475,6 +304,189 @@ public class M4AInfo extends AudioInfo {
                 return;
             default:
                 return;
+        }
+        this.genre = description;
+    }
+
+    void ftyp(MP4Atom mP4Atom) {
+        StringBuilder sb;
+        String str;
+        Logger logger = LOGGER;
+        if (logger.isLoggable(this.debugLevel)) {
+            logger.log(this.debugLevel, mP4Atom.toString());
+        }
+        String trim = mP4Atom.readString(4, "ISO8859_1").trim();
+        this.brand = trim;
+        if (!trim.matches("M4V|MP4|mp42|isom")) {
+            if (!this.brand.matches("M4A|M4P")) {
+                sb = new StringBuilder();
+                sb.append(mP4Atom.getPath());
+                sb.append(": brand=");
+                sb.append(this.brand);
+                str = " (expected M4A or M4P)";
+            }
+            this.version = String.valueOf(mP4Atom.readInt());
+        }
+        sb = new StringBuilder();
+        sb.append(mP4Atom.getPath());
+        sb.append(": brand=");
+        sb.append(this.brand);
+        str = " (experimental)";
+        sb.append(str);
+        logger.warning(sb.toString());
+        this.version = String.valueOf(mP4Atom.readInt());
+    }
+
+    void ilst(MP4Atom mP4Atom) {
+        Logger logger = LOGGER;
+        if (logger.isLoggable(this.debugLevel)) {
+            logger.log(this.debugLevel, mP4Atom.toString());
+        }
+        while (mP4Atom.hasMoreChildren()) {
+            MP4Atom nextChild = mP4Atom.nextChild();
+            Logger logger2 = LOGGER;
+            if (logger2.isLoggable(this.debugLevel)) {
+                logger2.log(this.debugLevel, nextChild.toString());
+            }
+            if (nextChild.getRemaining() != 0) {
+                data(nextChild.nextChildUpTo("data"));
+            } else if (logger2.isLoggable(this.debugLevel)) {
+                Level level = this.debugLevel;
+                logger2.log(level, nextChild.getPath() + ": contains no value");
+            }
+        }
+    }
+
+    void mdhd(MP4Atom mP4Atom) {
+        Logger logger = LOGGER;
+        if (logger.isLoggable(this.debugLevel)) {
+            logger.log(this.debugLevel, mP4Atom.toString());
+        }
+        byte readByte = mP4Atom.readByte();
+        mP4Atom.skip(3);
+        mP4Atom.skip(readByte == 1 ? 16 : 8);
+        int readInt = mP4Atom.readInt();
+        long readLong = readByte == 1 ? mP4Atom.readLong() : mP4Atom.readInt();
+        if (this.duration == 0) {
+            this.duration = (readLong * 1000) / readInt;
+        } else if (logger.isLoggable(this.debugLevel)) {
+            long j = (readLong * 1000) / readInt;
+            if (Math.abs(this.duration - j) > 2) {
+                Level level = this.debugLevel;
+                logger.log(level, "mdhd: duration " + this.duration + " -> " + j);
+            }
+        }
+    }
+
+    void mdia(MP4Atom mP4Atom) {
+        Logger logger = LOGGER;
+        if (logger.isLoggable(this.debugLevel)) {
+            logger.log(this.debugLevel, mP4Atom.toString());
+        }
+        mdhd(mP4Atom.nextChild("mdhd"));
+    }
+
+    void meta(MP4Atom mP4Atom) {
+        Logger logger = LOGGER;
+        if (logger.isLoggable(this.debugLevel)) {
+            logger.log(this.debugLevel, mP4Atom.toString());
+        }
+        mP4Atom.skip(4);
+        while (mP4Atom.hasMoreChildren()) {
+            MP4Atom nextChild = mP4Atom.nextChild();
+            if ("ilst".equals(nextChild.getType())) {
+                ilst(nextChild);
+                return;
+            }
+        }
+    }
+
+    void moov(MP4Atom mP4Atom) {
+        Logger logger = LOGGER;
+        if (logger.isLoggable(this.debugLevel)) {
+            logger.log(this.debugLevel, mP4Atom.toString());
+        }
+        while (mP4Atom.hasMoreChildren()) {
+            MP4Atom nextChild = mP4Atom.nextChild();
+            String type = nextChild.getType();
+            type.hashCode();
+            char c = 65535;
+            switch (type.hashCode()) {
+                case 3363941:
+                    if (type.equals("mvhd")) {
+                        c = 0;
+                        break;
+                    }
+                    break;
+                case 3568424:
+                    if (type.equals("trak")) {
+                        c = 1;
+                        break;
+                    }
+                    break;
+                case 3585340:
+                    if (type.equals("udta")) {
+                        c = 2;
+                        break;
+                    }
+                    break;
+            }
+            switch (c) {
+                case 0:
+                    mvhd(nextChild);
+                    break;
+                case 1:
+                    trak(nextChild);
+                    break;
+                case 2:
+                    udta(nextChild);
+                    break;
+            }
+        }
+    }
+
+    void mvhd(MP4Atom mP4Atom) {
+        Logger logger = LOGGER;
+        if (logger.isLoggable(this.debugLevel)) {
+            logger.log(this.debugLevel, mP4Atom.toString());
+        }
+        byte readByte = mP4Atom.readByte();
+        mP4Atom.skip(3);
+        mP4Atom.skip(readByte == 1 ? 16 : 8);
+        int readInt = mP4Atom.readInt();
+        long readLong = readByte == 1 ? mP4Atom.readLong() : mP4Atom.readInt();
+        if (this.duration == 0) {
+            this.duration = (readLong * 1000) / readInt;
+        } else if (logger.isLoggable(this.debugLevel)) {
+            long j = (readLong * 1000) / readInt;
+            if (Math.abs(this.duration - j) > 2) {
+                Level level = this.debugLevel;
+                logger.log(level, "mvhd: duration " + this.duration + " -> " + j);
+            }
+        }
+        this.speed = mP4Atom.readIntegerFixedPoint();
+        this.volume = mP4Atom.readShortFixedPoint();
+    }
+
+    void trak(MP4Atom mP4Atom) {
+        Logger logger = LOGGER;
+        if (logger.isLoggable(this.debugLevel)) {
+            logger.log(this.debugLevel, mP4Atom.toString());
+        }
+        mdia(mP4Atom.nextChildUpTo("mdia"));
+    }
+
+    void udta(MP4Atom mP4Atom) {
+        Logger logger = LOGGER;
+        if (logger.isLoggable(this.debugLevel)) {
+            logger.log(this.debugLevel, mP4Atom.toString());
+        }
+        while (mP4Atom.hasMoreChildren()) {
+            MP4Atom nextChild = mP4Atom.nextChild();
+            if ("meta".equals(nextChild.getType())) {
+                meta(nextChild);
+                return;
+            }
         }
     }
 }

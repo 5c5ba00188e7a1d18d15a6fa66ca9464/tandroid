@@ -1,23 +1,18 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.internal.mlkit_language_id.zzeo;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public final class zzy$zzax extends zzeo<zzy$zzax, zza> implements zzgb {
+public final class zzy$zzax extends zzeo implements zzgb {
     private static final zzy$zzax zzh;
-    private static volatile zzgj<zzy$zzax> zzi;
+    private static volatile zzgj zzi;
     private int zzc;
     private zzy$zzaf zzd;
     private zzy$zzae zze;
     private zzy$zzaw zzf;
-    private zzew<zzy$zzan> zzg = zzeo.zzl();
+    private zzew zzg = zzeo.zzl();
 
-    private zzy$zzax() {
-    }
-
-    /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
-    public static final class zza extends zzeo.zzb<zzy$zzax, zza> implements zzgb {
+    public static final class zza extends zzeo.zzb implements zzgb {
         private zza() {
             super(zzy$zzax.zzh);
         }
@@ -27,8 +22,17 @@ public final class zzy$zzax extends zzeo<zzy$zzax, zza> implements zzgb {
         }
     }
 
+    static {
+        zzy$zzax zzy_zzax = new zzy$zzax();
+        zzh = zzy_zzax;
+        zzeo.zza(zzy$zzax.class, zzy_zzax);
+    }
+
+    private zzy$zzax() {
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzy$zzax>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
+    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {
         switch (zzx.zza[i - 1]) {
@@ -41,13 +45,13 @@ public final class zzy$zzax extends zzeo<zzy$zzax, zza> implements zzgb {
             case 4:
                 return zzh;
             case 5:
-                zzgj<zzy$zzax> zzgjVar = zzi;
-                zzgj<zzy$zzax> zzgjVar2 = zzgjVar;
+                zzgj zzgjVar = zzi;
+                zzgj zzgjVar2 = zzgjVar;
                 if (zzgjVar == null) {
                     synchronized (zzy$zzax.class) {
                         try {
-                            zzgj<zzy$zzax> zzgjVar3 = zzi;
-                            zzgj<zzy$zzax> zzgjVar4 = zzgjVar3;
+                            zzgj zzgjVar3 = zzi;
+                            zzgj zzgjVar4 = zzgjVar3;
                             if (zzgjVar3 == null) {
                                 ?? zzaVar = new zzeo.zza(zzh);
                                 zzi = zzaVar;
@@ -65,11 +69,5 @@ public final class zzy$zzax extends zzeo<zzy$zzax, zza> implements zzgb {
             default:
                 throw new UnsupportedOperationException();
         }
-    }
-
-    static {
-        zzy$zzax zzy_zzax = new zzy$zzax();
-        zzh = zzy_zzax;
-        zzeo.zza(zzy$zzax.class, zzy_zzax);
     }
 }

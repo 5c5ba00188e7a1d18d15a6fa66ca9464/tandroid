@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public class zzaf extends zzad implements List {
     final /* synthetic */ zzag zzf;
@@ -70,6 +69,12 @@ public class zzaf extends zzad implements List {
     }
 
     @Override // java.util.List
+    public final ListIterator listIterator(int i) {
+        zzb();
+        return new zzae(this, i);
+    }
+
+    @Override // java.util.List
     public final Object remove(int i) {
         zzb();
         Object remove = ((List) this.zzb).remove(i);
@@ -95,11 +100,5 @@ public class zzaf extends zzad implements List {
             zzadVar = this;
         }
         return zzagVar.zzi(obj, subList, zzadVar);
-    }
-
-    @Override // java.util.List
-    public final ListIterator listIterator(int i) {
-        zzb();
-        return new zzae(this, i);
     }
 }

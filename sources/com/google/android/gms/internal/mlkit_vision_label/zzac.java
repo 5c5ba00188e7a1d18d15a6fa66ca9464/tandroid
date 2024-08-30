@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 class zzac implements Iterator {
     final Iterator zza;
@@ -13,16 +12,10 @@ class zzac implements Iterator {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzac(zzad zzadVar) {
-        Iterator it;
         this.zzc = zzadVar;
         Collection collection = zzadVar.zzb;
         this.zzb = collection;
-        if (collection instanceof List) {
-            it = ((List) collection).listIterator();
-        } else {
-            it = collection.iterator();
-        }
-        this.zza = it;
+        this.zza = collection instanceof List ? ((List) collection).listIterator() : collection.iterator();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

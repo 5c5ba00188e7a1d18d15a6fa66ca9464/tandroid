@@ -6,7 +6,6 @@ import com.google.android.gms.internal.mlkit_vision_label.zzoa;
 import com.google.mlkit.common.sdkinternal.LazyInstanceMap;
 import com.google.mlkit.common.sdkinternal.MlKitContext;
 import com.google.mlkit.vision.label.defaults.ImageLabelerOptions;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zze extends LazyInstanceMap {
     private final MlKitContext zza;
@@ -18,14 +17,8 @@ public final class zze extends LazyInstanceMap {
 
     @Override // com.google.mlkit.common.sdkinternal.LazyInstanceMap
     protected final /* bridge */ /* synthetic */ Object create(Object obj) {
-        zzb zzcVar;
         ImageLabelerOptions imageLabelerOptions = (ImageLabelerOptions) obj;
         Context applicationContext = this.zza.getApplicationContext();
-        if (GoogleApiAvailabilityLight.getInstance().getApkVersion(applicationContext) >= 204700000) {
-            zzcVar = new zza(applicationContext, imageLabelerOptions);
-        } else {
-            zzcVar = new zzc(applicationContext, imageLabelerOptions);
-        }
-        return new zzh(imageLabelerOptions, zzcVar, zzoa.zzb("play-services-mlkit-image-labeling"));
+        return new zzh(imageLabelerOptions, GoogleApiAvailabilityLight.getInstance().getApkVersion(applicationContext) >= 204700000 ? new zza(applicationContext, imageLabelerOptions) : new zzc(applicationContext, imageLabelerOptions), zzoa.zzb("play-services-mlkit-image-labeling"));
     }
 }

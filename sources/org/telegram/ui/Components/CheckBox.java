@@ -14,7 +14,6 @@ import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
-import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
 /* loaded from: classes3.dex */
 public class CheckBox extends View {
@@ -73,87 +72,6 @@ public class CheckBox extends View {
         this.checkDrawable = context.getResources().getDrawable(i).mutate();
     }
 
-    @Override // android.view.View
-    public void setVisibility(int i) {
-        super.setVisibility(i);
-        if (i == 0 && this.drawBitmap == null) {
-            try {
-                int dp = AndroidUtilities.dp(this.size);
-                int dp2 = AndroidUtilities.dp(this.size);
-                Bitmap.Config config = Bitmap.Config.ARGB_4444;
-                this.drawBitmap = Bitmap.createBitmap(dp, dp2, config);
-                this.bitmapCanvas = new Canvas(this.drawBitmap);
-                this.checkBitmap = Bitmap.createBitmap(AndroidUtilities.dp(this.size), AndroidUtilities.dp(this.size), config);
-                this.checkCanvas = new Canvas(this.checkBitmap);
-            } catch (Throwable unused) {
-            }
-        }
-    }
-
-    @Keep
-    public void setProgress(float f) {
-        if (this.progress == f) {
-            return;
-        }
-        this.progress = f;
-        invalidate();
-    }
-
-    public void setDrawBackground(boolean z) {
-        this.drawBackground = z;
-    }
-
-    public void setHasBorder(boolean z) {
-        this.hasBorder = z;
-    }
-
-    public void setCheckOffset(int i) {
-        this.checkOffset = i;
-    }
-
-    public void setSize(int i) {
-        this.size = i;
-        if (i == 40) {
-            this.textPaint.setTextSize(AndroidUtilities.dp(24.0f));
-        }
-    }
-
-    public void setStrokeWidth(int i) {
-        backgroundPaint.setStrokeWidth(i);
-    }
-
-    @Keep
-    public float getProgress() {
-        return this.progress;
-    }
-
-    public void setColor(int i, int i2) {
-        this.color = i;
-        this.checkDrawable.setColorFilter(new PorterDuffColorFilter(i2, PorterDuff.Mode.MULTIPLY));
-        this.textPaint.setColor(i2);
-        invalidate();
-    }
-
-    @Override // android.view.View
-    public void setBackgroundColor(int i) {
-        this.color = i;
-        invalidate();
-    }
-
-    public void setCheckColor(int i) {
-        this.checkDrawable.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY));
-        this.textPaint.setColor(i);
-        invalidate();
-    }
-
-    private void cancelCheckAnimator() {
-        ObjectAnimator objectAnimator = this.checkAnimator;
-        if (objectAnimator != null) {
-            objectAnimator.cancel();
-            this.checkAnimator = null;
-        }
-    }
-
     private void animateToCheckedState(boolean z) {
         this.isCheckAnimation = z;
         ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "progress", z ? 1.0f : 0.0f);
@@ -174,6 +92,22 @@ public class CheckBox extends View {
         this.checkAnimator.start();
     }
 
+    private void cancelCheckAnimator() {
+        ObjectAnimator objectAnimator = this.checkAnimator;
+        if (objectAnimator != null) {
+            objectAnimator.cancel();
+            this.checkAnimator = null;
+        }
+    }
+
+    public float getProgress() {
+        return this.progress;
+    }
+
+    public boolean isChecked() {
+        return this.isChecked;
+    }
+
     @Override // android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -184,45 +118,6 @@ public class CheckBox extends View {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.attachedToWindow = false;
-    }
-
-    @Override // android.view.View
-    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        super.onLayout(z, i, i2, i3, i4);
-    }
-
-    public void setChecked(boolean z, boolean z2) {
-        setChecked(-1, z, z2);
-    }
-
-    public void setNum(int i) {
-        if (i >= 0) {
-            this.checkedText = "" + (i + 1);
-        } else if (this.checkAnimator == null) {
-            this.checkedText = null;
-        }
-        invalidate();
-    }
-
-    public void setChecked(int i, boolean z, boolean z2) {
-        if (i >= 0) {
-            this.checkedText = "" + (i + 1);
-            invalidate();
-        }
-        if (z == this.isChecked) {
-            return;
-        }
-        this.isChecked = z;
-        if (this.attachedToWindow && z2) {
-            animateToCheckedState(z);
-            return;
-        }
-        cancelCheckAnimator();
-        setProgress(z ? 1.0f : 0.0f);
-    }
-
-    public boolean isChecked() {
-        return this.isChecked;
     }
 
     /* JADX WARN: Removed duplicated region for block: B:34:0x0084  */
@@ -249,9 +144,7 @@ public class CheckBox extends View {
             if (!this.isCheckAnimation) {
                 f = 1.0f - f;
             }
-            if (f < 0.2f) {
-                dp = (AndroidUtilities.dp(2.0f) * f) / 0.2f;
-            } else {
+            if (f >= 0.2f) {
                 if (f < 0.4f) {
                     dp = AndroidUtilities.dp(2.0f) - ((AndroidUtilities.dp(2.0f) * (f - 0.2f)) / 0.2f);
                 }
@@ -283,6 +176,7 @@ public class CheckBox extends View {
                 this.checkCanvas.drawCircle((getMeasuredWidth() / 2) - AndroidUtilities.dp(2.5f), (getMeasuredHeight() / 2) + AndroidUtilities.dp(4.0f), ((getMeasuredWidth() + AndroidUtilities.dp(6.0f)) / 2) * (1.0f - f3), eraser2);
                 canvas.drawBitmap(this.checkBitmap, 0.0f, 0.0f, (Paint) null);
             }
+            dp = (AndroidUtilities.dp(2.0f) * f) / 0.2f;
             measuredWidth -= dp;
             if (this.drawBackground) {
             }
@@ -306,5 +200,109 @@ public class CheckBox extends View {
         accessibilityNodeInfo.setClassName("android.widget.CheckBox");
         accessibilityNodeInfo.setCheckable(true);
         accessibilityNodeInfo.setChecked(this.isChecked);
+    }
+
+    @Override // android.view.View
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        super.onLayout(z, i, i2, i3, i4);
+    }
+
+    @Override // android.view.View
+    public void setBackgroundColor(int i) {
+        this.color = i;
+        invalidate();
+    }
+
+    public void setCheckColor(int i) {
+        this.checkDrawable.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY));
+        this.textPaint.setColor(i);
+        invalidate();
+    }
+
+    public void setCheckOffset(int i) {
+        this.checkOffset = i;
+    }
+
+    public void setChecked(int i, boolean z, boolean z2) {
+        if (i >= 0) {
+            this.checkedText = "" + (i + 1);
+            invalidate();
+        }
+        if (z == this.isChecked) {
+            return;
+        }
+        this.isChecked = z;
+        if (this.attachedToWindow && z2) {
+            animateToCheckedState(z);
+            return;
+        }
+        cancelCheckAnimator();
+        setProgress(z ? 1.0f : 0.0f);
+    }
+
+    public void setChecked(boolean z, boolean z2) {
+        setChecked(-1, z, z2);
+    }
+
+    public void setColor(int i, int i2) {
+        this.color = i;
+        this.checkDrawable.setColorFilter(new PorterDuffColorFilter(i2, PorterDuff.Mode.MULTIPLY));
+        this.textPaint.setColor(i2);
+        invalidate();
+    }
+
+    public void setDrawBackground(boolean z) {
+        this.drawBackground = z;
+    }
+
+    public void setHasBorder(boolean z) {
+        this.hasBorder = z;
+    }
+
+    public void setNum(int i) {
+        String str;
+        if (i < 0) {
+            str = this.checkAnimator == null ? null : null;
+            invalidate();
+        }
+        str = "" + (i + 1);
+        this.checkedText = str;
+        invalidate();
+    }
+
+    public void setProgress(float f) {
+        if (this.progress == f) {
+            return;
+        }
+        this.progress = f;
+        invalidate();
+    }
+
+    public void setSize(int i) {
+        this.size = i;
+        if (i == 40) {
+            this.textPaint.setTextSize(AndroidUtilities.dp(24.0f));
+        }
+    }
+
+    public void setStrokeWidth(int i) {
+        backgroundPaint.setStrokeWidth(i);
+    }
+
+    @Override // android.view.View
+    public void setVisibility(int i) {
+        super.setVisibility(i);
+        if (i == 0 && this.drawBitmap == null) {
+            try {
+                int dp = AndroidUtilities.dp(this.size);
+                int dp2 = AndroidUtilities.dp(this.size);
+                Bitmap.Config config = Bitmap.Config.ARGB_4444;
+                this.drawBitmap = Bitmap.createBitmap(dp, dp2, config);
+                this.bitmapCanvas = new Canvas(this.drawBitmap);
+                this.checkBitmap = Bitmap.createBitmap(AndroidUtilities.dp(this.size), AndroidUtilities.dp(this.size), config);
+                this.checkCanvas = new Canvas(this.checkBitmap);
+            } catch (Throwable unused) {
+            }
+        }
     }
 }

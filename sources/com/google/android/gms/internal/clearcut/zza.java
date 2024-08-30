@@ -3,9 +3,8 @@ package com.google.android.gms.internal.clearcut;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
-import android.os.RemoteException;
 /* loaded from: classes.dex */
-public class zza implements IInterface {
+public abstract class zza implements IInterface {
     private final IBinder zza;
     private final String zzb;
 
@@ -28,7 +27,7 @@ public class zza implements IInterface {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final void transactOneway(int i, Parcel parcel) throws RemoteException {
+    public final void transactOneway(int i, Parcel parcel) {
         try {
             this.zza.transact(1, parcel, null, 1);
         } finally {

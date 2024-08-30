@@ -2,9 +2,8 @@ package com.google.android.gms.internal.common;
 
 import android.os.Build;
 import org.telegram.tgnet.ConnectionsManager;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zzd {
+public abstract class zzd {
     public static final int zza;
 
     static {

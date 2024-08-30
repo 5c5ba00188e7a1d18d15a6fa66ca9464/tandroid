@@ -20,25 +20,6 @@ public interface NetworkChangeDetector {
     }
 
     /* loaded from: classes.dex */
-    public interface Observer {
-        void onConnectionTypeChanged(ConnectionType connectionType);
-
-        void onNetworkConnect(NetworkInformation networkInformation);
-
-        void onNetworkDisconnect(long j);
-
-        void onNetworkPreference(List<ConnectionType> list, int i);
-    }
-
-    void destroy();
-
-    List<NetworkInformation> getActiveNetworkList();
-
-    ConnectionType getCurrentConnectionType();
-
-    boolean supportNetworkCallback();
-
-    /* loaded from: classes.dex */
     public static class IPAddress {
         public final byte[] address;
 
@@ -46,7 +27,6 @@ public interface NetworkChangeDetector {
             this.address = bArr;
         }
 
-        @CalledByNative("IPAddress")
         private byte[] getAddress() {
             return this.address;
         }
@@ -68,29 +48,43 @@ public interface NetworkChangeDetector {
             this.ipAddresses = iPAddressArr;
         }
 
-        @CalledByNative("NetworkInformation")
-        private IPAddress[] getIpAddresses() {
-            return this.ipAddresses;
-        }
-
-        @CalledByNative("NetworkInformation")
         private ConnectionType getConnectionType() {
             return this.type;
         }
 
-        @CalledByNative("NetworkInformation")
-        private ConnectionType getUnderlyingConnectionTypeForVpn() {
-            return this.underlyingTypeForVpn;
-        }
-
-        @CalledByNative("NetworkInformation")
         private long getHandle() {
             return this.handle;
         }
 
-        @CalledByNative("NetworkInformation")
+        private IPAddress[] getIpAddresses() {
+            return this.ipAddresses;
+        }
+
         private String getName() {
             return this.name;
         }
+
+        private ConnectionType getUnderlyingConnectionTypeForVpn() {
+            return this.underlyingTypeForVpn;
+        }
     }
+
+    /* loaded from: classes.dex */
+    public interface Observer {
+        void onConnectionTypeChanged(ConnectionType connectionType);
+
+        void onNetworkConnect(NetworkInformation networkInformation);
+
+        void onNetworkDisconnect(long j);
+
+        void onNetworkPreference(List<ConnectionType> list, int i);
+    }
+
+    void destroy();
+
+    List<NetworkInformation> getActiveNetworkList();
+
+    ConnectionType getCurrentConnectionType();
+
+    boolean supportNetworkCallback();
 }

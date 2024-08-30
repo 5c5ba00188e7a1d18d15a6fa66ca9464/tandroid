@@ -16,16 +16,16 @@ public final class DecoderCounters {
     public long totalVideoFrameProcessingOffsetUs;
     public int videoFrameProcessingOffsetCount;
 
-    public synchronized void ensureUpdated() {
+    private void addVideoFrameProcessingOffsets(long j, int i) {
+        this.totalVideoFrameProcessingOffsetUs += j;
+        this.videoFrameProcessingOffsetCount += i;
     }
 
     public void addVideoFrameProcessingOffset(long j) {
         addVideoFrameProcessingOffsets(j, 1);
     }
 
-    private void addVideoFrameProcessingOffsets(long j, int i) {
-        this.totalVideoFrameProcessingOffsetUs += j;
-        this.videoFrameProcessingOffsetCount += i;
+    public synchronized void ensureUpdated() {
     }
 
     public String toString() {

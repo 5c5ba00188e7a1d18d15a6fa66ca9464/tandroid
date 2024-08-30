@@ -64,9 +64,6 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
     private final TextView valueTextView;
     private Long waitingForStickerSetId;
 
-    protected void onPremiumButtonClick() {
-    }
-
     public FeaturedStickerSetCell2(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.currentAccount = UserConfig.selectedAccount;
@@ -138,13 +135,66 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
         updateColors();
     }
 
+    public static void createThemeDescriptions(List list, RecyclerListView recyclerListView, ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate) {
+        list.add(new ThemeDescription(recyclerListView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{FeaturedStickerSetCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteBlackText));
+        list.add(new ThemeDescription(recyclerListView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{FeaturedStickerSetCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteGrayText2));
+        list.add(new ThemeDescription(recyclerListView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{FeaturedStickerSetCell.class}, new String[]{"addButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_featuredStickers_buttonText));
+        list.add(new ThemeDescription(recyclerListView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{FeaturedStickerSetCell.class}, new String[]{"delButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_featuredStickers_removeButtonText));
+        list.add(new ThemeDescription(recyclerListView, 0, new Class[]{FeaturedStickerSetCell.class}, Theme.dividerPaint, null, null, Theme.key_divider));
+        list.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_featuredStickers_buttonProgress));
+        list.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_featuredStickers_addButtonPressed));
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         onPremiumButtonClick();
     }
 
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        if (i == NotificationCenter.groupStickersDidLoad) {
+            long longValue = ((Long) objArr[0]).longValue();
+            Long l = this.waitingForStickerSetId;
+            if (l == null || l.longValue() != longValue) {
+                return;
+            }
+            this.waitingForStickerSetId = null;
+            TLRPC$TL_stickerSetNoCovered tLRPC$TL_stickerSetNoCovered = new TLRPC$TL_stickerSetNoCovered();
+            tLRPC$TL_stickerSetNoCovered.set = ((TLRPC$TL_messages_stickerSet) objArr[1]).set;
+            setStickersSet(tLRPC$TL_stickerSetNoCovered, this.needDivider, this.unread, this.forceInstalled, true);
+        }
+    }
+
+    public BackupImageView getImageView() {
+        return this.imageView;
+    }
+
+    public TLRPC$StickerSetCovered getStickerSet() {
+        return this.stickersSet;
+    }
+
     public TextView getTextView() {
         return this.textView;
+    }
+
+    public boolean isInstalled() {
+        return this.isInstalled;
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (this.bindedObserver) {
+            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.groupStickersDidLoad);
+            this.bindedObserver = false;
+        }
+    }
+
+    @Override // android.view.View
+    protected void onDraw(Canvas canvas) {
+        if (this.needDivider) {
+            canvas.drawLine(LocaleController.isRTL ? 0.0f : AndroidUtilities.dp(71.0f), getHeight() - 1, getWidth() - (LocaleController.isRTL ? AndroidUtilities.dp(71.0f) : 0), getHeight() - 1, Theme.dividerPaint);
+        }
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -161,10 +211,47 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
         measureChildWithMargins(this.textView, i, measuredWidth, i2, 0);
     }
 
+    protected void onPremiumButtonClick() {
+    }
+
+    public void setAddOnClickListener(View.OnClickListener onClickListener) {
+        this.addButton.setOnClickListener(onClickListener);
+        this.delButton.setOnClickListener(onClickListener);
+    }
+
+    public void setDrawProgress(boolean z, boolean z2) {
+        this.addButton.setDrawProgress(z, z2);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:102:0x0200  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x0222  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x022f  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x02d7  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x02d9  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x02e9  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x02eb  */
+    /* JADX WARN: Removed duplicated region for block: B:164:0x02fb  */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x02fd  */
+    /* JADX WARN: Removed duplicated region for block: B:167:0x0340  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x014d  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x01ef  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void setStickersSet(TLRPC$StickerSetCovered tLRPC$StickerSetCovered, boolean z, boolean z2, boolean z3, boolean z4) {
-        ImageLocation forSticker;
+        ArrayList arrayList;
+        int i;
+        BackupImageView backupImageView;
+        String str;
+        SvgHelper.SvgDrawable svgDrawable;
+        ImageLocation imageLocation;
+        String str2;
+        float f;
+        View view;
+        View view2;
+        Object obj;
         TLRPC$StickerSet tLRPC$StickerSet;
-        ArrayList<TLRPC$Document> arrayList;
+        ArrayList arrayList2;
         AnimatorSet animatorSet = this.currentAnimation;
         TLRPC$Document tLRPC$Document = null;
         if (animatorSet != null) {
@@ -181,22 +268,14 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
                 Paint paint = new Paint(1);
 
                 @Override // android.graphics.drawable.Drawable
-                public int getOpacity() {
-                    return -2;
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public void setAlpha(int i) {
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public void setColorFilter(ColorFilter colorFilter) {
-                }
-
-                @Override // android.graphics.drawable.Drawable
                 public void draw(Canvas canvas) {
                     this.paint.setColor(-12277526);
                     canvas.drawCircle(AndroidUtilities.dp(4.0f), AndroidUtilities.dp(5.0f), AndroidUtilities.dp(3.0f), this.paint);
+                }
+
+                @Override // android.graphics.drawable.Drawable
+                public int getIntrinsicHeight() {
+                    return AndroidUtilities.dp(8.0f);
                 }
 
                 @Override // android.graphics.drawable.Drawable
@@ -205,8 +284,16 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
                 }
 
                 @Override // android.graphics.drawable.Drawable
-                public int getIntrinsicHeight() {
-                    return AndroidUtilities.dp(8.0f);
+                public int getOpacity() {
+                    return -2;
+                }
+
+                @Override // android.graphics.drawable.Drawable
+                public void setAlpha(int i2) {
+                }
+
+                @Override // android.graphics.drawable.Drawable
+                public void setColorFilter(ColorFilter colorFilter) {
                 }
             };
             TextView textView = this.textView;
@@ -222,255 +309,270 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
         TextView textView2 = this.valueTextView;
         TLRPC$StickerSet tLRPC$StickerSet2 = tLRPC$StickerSetCovered.set;
         textView2.setText(LocaleController.formatPluralString(tLRPC$StickerSet2.emojis ? "EmojiCount" : "Stickers", tLRPC$StickerSet2.count, new Object[0]));
-        if ((tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetNoCovered) && (tLRPC$StickerSet = tLRPC$StickerSetCovered.set) != null) {
-            this.waitingForStickerSetId = Long.valueOf(tLRPC$StickerSet.id);
-            if (!this.bindedObserver) {
-                NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupStickersDidLoad);
-                this.bindedObserver = true;
-            }
-            TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet(MediaDataController.getInputStickerSet(tLRPC$StickerSetCovered.set), Integer.valueOf(tLRPC$StickerSetCovered.set.hash), false);
-            if (stickerSet != null && (arrayList = stickerSet.documents) != null && !arrayList.isEmpty()) {
-                tLRPC$Document = stickerSet.documents.get(0);
-                int i = 0;
-                while (true) {
-                    if (i >= stickerSet.documents.size()) {
-                        break;
-                    } else if (stickerSet.documents.get(i).id == tLRPC$StickerSetCovered.set.thumb_document_id) {
-                        tLRPC$Document = stickerSet.documents.get(i);
-                        break;
-                    } else {
-                        i++;
-                    }
-                }
-            }
-        } else {
+        if (!(tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetNoCovered) || (tLRPC$StickerSet = tLRPC$StickerSetCovered.set) == null) {
             TLRPC$Document tLRPC$Document2 = tLRPC$StickerSetCovered.cover;
             if (tLRPC$Document2 != null) {
                 tLRPC$Document = tLRPC$Document2;
             } else if (!tLRPC$StickerSetCovered.covers.isEmpty()) {
-                tLRPC$Document = tLRPC$StickerSetCovered.covers.get(0);
+                tLRPC$Document = (TLRPC$Document) tLRPC$StickerSetCovered.covers.get(0);
                 if (tLRPC$StickerSetCovered.set != null) {
-                    int i2 = 0;
-                    while (true) {
-                        if (i2 >= tLRPC$StickerSetCovered.covers.size()) {
-                            break;
-                        } else if (tLRPC$StickerSetCovered.covers.get(i2).id == tLRPC$StickerSetCovered.set.thumb_document_id) {
-                            tLRPC$Document = tLRPC$StickerSetCovered.covers.get(i2);
-                            break;
-                        } else {
-                            i2++;
+                    for (int i2 = 0; i2 < tLRPC$StickerSetCovered.covers.size(); i2++) {
+                        if (((TLRPC$Document) tLRPC$StickerSetCovered.covers.get(i2)).id == tLRPC$StickerSetCovered.set.thumb_document_id) {
+                            obj = tLRPC$StickerSetCovered.covers.get(i2);
                         }
                     }
                 }
             } else if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetFullCovered) {
                 TLRPC$TL_stickerSetFullCovered tLRPC$TL_stickerSetFullCovered = (TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered;
                 if (!tLRPC$TL_stickerSetFullCovered.documents.isEmpty()) {
-                    ArrayList<TLRPC$Document> arrayList2 = tLRPC$TL_stickerSetFullCovered.documents;
-                    tLRPC$Document = arrayList2.get(0);
-                    int i3 = 0;
-                    while (true) {
-                        if (i3 >= arrayList2.size()) {
-                            break;
-                        } else if (arrayList2.get(i3).id == tLRPC$StickerSetCovered.set.thumb_document_id) {
-                            tLRPC$Document = arrayList2.get(i3);
-                            break;
+                    arrayList = tLRPC$TL_stickerSetFullCovered.documents;
+                    tLRPC$Document = (TLRPC$Document) arrayList.get(0);
+                    i = 0;
+                    while (i < arrayList.size()) {
+                        if (((TLRPC$Document) arrayList.get(i)).id == tLRPC$StickerSetCovered.set.thumb_document_id) {
+                            obj = arrayList.get(i);
                         } else {
-                            i3++;
+                            i++;
                         }
                     }
                 }
             }
-        }
-        if (tLRPC$Document != null) {
-            if (MessageObject.canAutoplayAnimatedSticker(tLRPC$Document)) {
+            if (tLRPC$Document == null) {
+                backupImageView = this.imageView;
+                str = "webp";
+                svgDrawable = null;
+                imageLocation = null;
+                str2 = null;
+            } else if (MessageObject.canAutoplayAnimatedSticker(tLRPC$Document)) {
                 TLObject closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$StickerSetCovered.set.thumbs, 90);
                 if (closestPhotoSizeWithSize == null) {
                     closestPhotoSizeWithSize = tLRPC$Document;
                 }
-                SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$StickerSetCovered.set.thumbs, Theme.key_windowBackgroundGray, 1.0f);
+                svgDrawable = DocumentObject.getSvgThumb(tLRPC$StickerSetCovered.set.thumbs, Theme.key_windowBackgroundGray, 1.0f);
                 boolean z6 = closestPhotoSizeWithSize instanceof TLRPC$Document;
-                if (z6) {
-                    forSticker = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document);
-                } else {
-                    forSticker = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$StickerSetCovered.set.thumb_version);
-                }
-                ImageLocation imageLocation = forSticker;
+                ImageLocation forDocument = z6 ? ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document) : ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$StickerSetCovered.set.thumb_version);
                 if (z6 && (MessageObject.isAnimatedStickerDocument(tLRPC$Document, true) || MessageObject.isVideoSticker(tLRPC$Document))) {
-                    if (svgThumb != null) {
-                        this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", svgThumb, 0, tLRPC$StickerSetCovered);
+                    BackupImageView backupImageView2 = this.imageView;
+                    ImageLocation forDocument2 = ImageLocation.getForDocument(tLRPC$Document);
+                    if (svgDrawable != null) {
+                        backupImageView2.setImage(forDocument2, "50_50", svgDrawable, 0, tLRPC$StickerSetCovered);
                     } else {
-                        this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", imageLocation, (String) null, 0, tLRPC$StickerSetCovered);
+                        backupImageView2.setImage(forDocument2, "50_50", forDocument, (String) null, 0, tLRPC$StickerSetCovered);
                     }
-                } else if (imageLocation != null && imageLocation.imageType == 1) {
-                    this.imageView.setImage(imageLocation, "50_50", "tgs", svgThumb, tLRPC$StickerSetCovered);
-                } else {
-                    this.imageView.setImage(imageLocation, "50_50", "webp", svgThumb, tLRPC$StickerSetCovered);
+                    this.addButton.setVisibility(0);
+                    this.forceInstalled = z3;
+                    this.isInstalled = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
+                    boolean z7 = UserConfig.getInstance(this.currentAccount).isPremium() && MessageObject.isPremiumEmojiPack(tLRPC$StickerSetCovered);
+                    this.isLocked = z7;
+                    if (z4) {
+                        if (z7) {
+                            this.unlockButton.setVisibility(0);
+                            this.unlockButton.setAlpha(1.0f);
+                            this.unlockButton.setScaleX(1.0f);
+                            this.unlockButton.setScaleY(1.0f);
+                            this.addButton.setVisibility(4);
+                            this.addButton.setAlpha(0.0f);
+                            this.addButton.setScaleX(0.0f);
+                            this.addButton.setScaleY(0.0f);
+                            this.delButton.setVisibility(4);
+                            this.delButton.setAlpha(0.0f);
+                            this.delButton.setScaleX(0.0f);
+                            this.delButton.setScaleY(0.0f);
+                            return;
+                        }
+                        this.unlockButton.setVisibility(8);
+                        this.unlockButton.setAlpha(0.0f);
+                        this.unlockButton.setScaleX(0.0f);
+                        this.unlockButton.setScaleY(0.0f);
+                        if (this.isInstalled) {
+                            this.delButton.setVisibility(0);
+                            this.delButton.setAlpha(1.0f);
+                            this.delButton.setScaleX(1.0f);
+                            this.delButton.setScaleY(1.0f);
+                            this.addButton.setVisibility(4);
+                            f = 0.0f;
+                            this.addButton.setAlpha(0.0f);
+                            this.addButton.setScaleX(0.0f);
+                            view = this.addButton;
+                        } else {
+                            this.addButton.setVisibility(0);
+                            this.addButton.setAlpha(1.0f);
+                            this.addButton.setScaleX(1.0f);
+                            this.addButton.setScaleY(1.0f);
+                            this.delButton.setVisibility(4);
+                            f = 0.0f;
+                            this.delButton.setAlpha(0.0f);
+                            this.delButton.setScaleX(0.0f);
+                            view = this.delButton;
+                        }
+                        view.setScaleY(f);
+                        return;
+                    }
+                    if (z7) {
+                        this.unlockButton.setVisibility(0);
+                        this.delButton.setVisibility(0);
+                    } else {
+                        this.unlockButton.setVisibility(0);
+                        if (this.isInstalled) {
+                            view2 = this.delButton;
+                            view2.setVisibility(0);
+                            AnimatorSet animatorSet2 = new AnimatorSet();
+                            this.currentAnimation = animatorSet2;
+                            animatorSet2.setDuration(250L);
+                            AnimatorSet animatorSet3 = this.currentAnimation;
+                            TextView textView3 = this.delButton;
+                            Property property = View.ALPHA;
+                            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(textView3, property, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f);
+                            TextView textView4 = this.delButton;
+                            Property property2 = View.SCALE_X;
+                            ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(textView4, property2, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f);
+                            TextView textView5 = this.delButton;
+                            Property property3 = View.SCALE_Y;
+                            animatorSet3.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(textView5, property3, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.addButton, property, (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.addButton, property2, (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, property3, this.isLocked ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, property2, this.isLocked ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, property3, this.isLocked ? 0.0f : 1.0f));
+                            this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.FeaturedStickerSetCell2.2
+                                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                                public void onAnimationEnd(Animator animator) {
+                                    PremiumButtonView premiumButtonView;
+                                    int i3;
+                                    if (FeaturedStickerSetCell2.this.isLocked) {
+                                        FeaturedStickerSetCell2.this.addButton.setVisibility(4);
+                                        FeaturedStickerSetCell2.this.delButton.setVisibility(4);
+                                        premiumButtonView = FeaturedStickerSetCell2.this.unlockButton;
+                                        i3 = 0;
+                                    } else {
+                                        (FeaturedStickerSetCell2.this.isInstalled ? FeaturedStickerSetCell2.this.addButton : FeaturedStickerSetCell2.this.delButton).setVisibility(4);
+                                        premiumButtonView = FeaturedStickerSetCell2.this.unlockButton;
+                                        i3 = 8;
+                                    }
+                                    premiumButtonView.setVisibility(i3);
+                                }
+                            });
+                            this.currentAnimation.setInterpolator(new OvershootInterpolator(1.02f));
+                            this.currentAnimation.start();
+                            return;
+                        }
+                    }
+                    view2 = this.addButton;
+                    view2.setVisibility(0);
+                    AnimatorSet animatorSet22 = new AnimatorSet();
+                    this.currentAnimation = animatorSet22;
+                    animatorSet22.setDuration(250L);
+                    AnimatorSet animatorSet32 = this.currentAnimation;
+                    TextView textView32 = this.delButton;
+                    Property property4 = View.ALPHA;
+                    ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(textView32, property4, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f);
+                    TextView textView42 = this.delButton;
+                    Property property22 = View.SCALE_X;
+                    ObjectAnimator ofFloat22 = ObjectAnimator.ofFloat(textView42, property22, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f);
+                    TextView textView52 = this.delButton;
+                    Property property32 = View.SCALE_Y;
+                    animatorSet32.playTogether(ofFloat3, ofFloat22, ObjectAnimator.ofFloat(textView52, property32, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.addButton, property4, (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.addButton, property22, (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, property32, this.isLocked ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, property22, this.isLocked ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, property32, this.isLocked ? 0.0f : 1.0f));
+                    this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.FeaturedStickerSetCell2.2
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            PremiumButtonView premiumButtonView;
+                            int i3;
+                            if (FeaturedStickerSetCell2.this.isLocked) {
+                                FeaturedStickerSetCell2.this.addButton.setVisibility(4);
+                                FeaturedStickerSetCell2.this.delButton.setVisibility(4);
+                                premiumButtonView = FeaturedStickerSetCell2.this.unlockButton;
+                                i3 = 0;
+                            } else {
+                                (FeaturedStickerSetCell2.this.isInstalled ? FeaturedStickerSetCell2.this.addButton : FeaturedStickerSetCell2.this.delButton).setVisibility(4);
+                                premiumButtonView = FeaturedStickerSetCell2.this.unlockButton;
+                                i3 = 8;
+                            }
+                            premiumButtonView.setVisibility(i3);
+                        }
+                    });
+                    this.currentAnimation.setInterpolator(new OvershootInterpolator(1.02f));
+                    this.currentAnimation.start();
+                    return;
                 }
+                if (forDocument == null || forDocument.imageType != 1) {
+                    backupImageView = this.imageView;
+                    str2 = "50_50";
+                    str = "webp";
+                } else {
+                    backupImageView = this.imageView;
+                    str2 = "50_50";
+                    str = "tgs";
+                }
+                imageLocation = forDocument;
             } else {
                 TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
                 if (closestPhotoSizeWithSize2 != null) {
-                    this.imageView.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$Document), "50_50", "webp", (Drawable) null, tLRPC$StickerSetCovered);
+                    BackupImageView backupImageView3 = this.imageView;
+                    ImageLocation forDocument3 = ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$Document);
+                    str = "webp";
+                    svgDrawable = null;
+                    backupImageView = backupImageView3;
+                    imageLocation = forDocument3;
+                    str2 = "50_50";
                 } else {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", "webp", (Drawable) null, tLRPC$StickerSetCovered);
+                    backupImageView = this.imageView;
+                    imageLocation = ImageLocation.getForDocument(tLRPC$Document);
+                    str = "webp";
+                    svgDrawable = null;
+                    str2 = "50_50";
                 }
             }
+            backupImageView.setImage(imageLocation, str2, str, svgDrawable, tLRPC$StickerSetCovered);
+            this.addButton.setVisibility(0);
+            this.forceInstalled = z3;
+            this.isInstalled = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
+            if (UserConfig.getInstance(this.currentAccount).isPremium()) {
+            }
+            this.isLocked = z7;
+            if (z4) {
+            }
         } else {
-            this.imageView.setImage((ImageLocation) null, (String) null, "webp", (Drawable) null, tLRPC$StickerSetCovered);
+            this.waitingForStickerSetId = Long.valueOf(tLRPC$StickerSet.id);
+            if (!this.bindedObserver) {
+                NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupStickersDidLoad);
+                this.bindedObserver = true;
+            }
+            TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet(MediaDataController.getInputStickerSet(tLRPC$StickerSetCovered.set), Integer.valueOf(tLRPC$StickerSetCovered.set.hash), false);
+            if (stickerSet != null && (arrayList2 = stickerSet.documents) != null && !arrayList2.isEmpty()) {
+                tLRPC$Document = (TLRPC$Document) stickerSet.documents.get(0);
+                i = 0;
+                while (i < stickerSet.documents.size()) {
+                    if (((TLRPC$Document) stickerSet.documents.get(i)).id == tLRPC$StickerSetCovered.set.thumb_document_id) {
+                        arrayList = stickerSet.documents;
+                        obj = arrayList.get(i);
+                    } else {
+                        i++;
+                    }
+                }
+            }
+            if (tLRPC$Document == null) {
+            }
+            backupImageView.setImage(imageLocation, str2, str, svgDrawable, tLRPC$StickerSetCovered);
+            this.addButton.setVisibility(0);
+            this.forceInstalled = z3;
+            this.isInstalled = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
+            if (UserConfig.getInstance(this.currentAccount).isPremium()) {
+            }
+            this.isLocked = z7;
+            if (z4) {
+            }
         }
+        tLRPC$Document = (TLRPC$Document) obj;
+        if (tLRPC$Document == null) {
+        }
+        backupImageView.setImage(imageLocation, str2, str, svgDrawable, tLRPC$StickerSetCovered);
         this.addButton.setVisibility(0);
         this.forceInstalled = z3;
-        this.isInstalled = z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
-        boolean z7 = !UserConfig.getInstance(this.currentAccount).isPremium() && MessageObject.isPremiumEmojiPack(tLRPC$StickerSetCovered);
+        this.isInstalled = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
+        if (UserConfig.getInstance(this.currentAccount).isPremium()) {
+        }
         this.isLocked = z7;
         if (z4) {
-            if (z7) {
-                this.unlockButton.setVisibility(0);
-                this.delButton.setVisibility(0);
-                this.addButton.setVisibility(0);
-            } else {
-                this.unlockButton.setVisibility(0);
-                if (this.isInstalled) {
-                    this.delButton.setVisibility(0);
-                } else {
-                    this.addButton.setVisibility(0);
-                }
-            }
-            AnimatorSet animatorSet2 = new AnimatorSet();
-            this.currentAnimation = animatorSet2;
-            animatorSet2.setDuration(250L);
-            AnimatorSet animatorSet3 = this.currentAnimation;
-            TextView textView3 = this.delButton;
-            Property property = View.ALPHA;
-            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(textView3, property, (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f);
-            TextView textView4 = this.delButton;
-            Property property2 = View.SCALE_X;
-            ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(textView4, property2, (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f);
-            TextView textView5 = this.delButton;
-            Property property3 = View.SCALE_Y;
-            animatorSet3.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(textView5, property3, (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.addButton, property, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.addButton, property2, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, property3, !this.isLocked ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, property2, !this.isLocked ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, property3, !this.isLocked ? 0.0f : 1.0f));
-            this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.FeaturedStickerSetCell2.2
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    if (FeaturedStickerSetCell2.this.isLocked) {
-                        FeaturedStickerSetCell2.this.addButton.setVisibility(4);
-                        FeaturedStickerSetCell2.this.delButton.setVisibility(4);
-                        FeaturedStickerSetCell2.this.unlockButton.setVisibility(0);
-                        return;
-                    }
-                    if (FeaturedStickerSetCell2.this.isInstalled) {
-                        FeaturedStickerSetCell2.this.addButton.setVisibility(4);
-                    } else {
-                        FeaturedStickerSetCell2.this.delButton.setVisibility(4);
-                    }
-                    FeaturedStickerSetCell2.this.unlockButton.setVisibility(8);
-                }
-            });
-            this.currentAnimation.setInterpolator(new OvershootInterpolator(1.02f));
-            this.currentAnimation.start();
-        } else if (z7) {
-            this.unlockButton.setVisibility(0);
-            this.unlockButton.setAlpha(1.0f);
-            this.unlockButton.setScaleX(1.0f);
-            this.unlockButton.setScaleY(1.0f);
-            this.addButton.setVisibility(4);
-            this.addButton.setAlpha(0.0f);
-            this.addButton.setScaleX(0.0f);
-            this.addButton.setScaleY(0.0f);
-            this.delButton.setVisibility(4);
-            this.delButton.setAlpha(0.0f);
-            this.delButton.setScaleX(0.0f);
-            this.delButton.setScaleY(0.0f);
-        } else {
-            this.unlockButton.setVisibility(8);
-            this.unlockButton.setAlpha(0.0f);
-            this.unlockButton.setScaleX(0.0f);
-            this.unlockButton.setScaleY(0.0f);
-            if (this.isInstalled) {
-                this.delButton.setVisibility(0);
-                this.delButton.setAlpha(1.0f);
-                this.delButton.setScaleX(1.0f);
-                this.delButton.setScaleY(1.0f);
-                this.addButton.setVisibility(4);
-                this.addButton.setAlpha(0.0f);
-                this.addButton.setScaleX(0.0f);
-                this.addButton.setScaleY(0.0f);
-                return;
-            }
-            this.addButton.setVisibility(0);
-            this.addButton.setAlpha(1.0f);
-            this.addButton.setScaleX(1.0f);
-            this.addButton.setScaleY(1.0f);
-            this.delButton.setVisibility(4);
-            this.delButton.setAlpha(0.0f);
-            this.delButton.setScaleX(0.0f);
-            this.delButton.setScaleY(0.0f);
         }
-    }
-
-    public TLRPC$StickerSetCovered getStickerSet() {
-        return this.stickersSet;
-    }
-
-    public void setAddOnClickListener(View.OnClickListener onClickListener) {
-        this.addButton.setOnClickListener(onClickListener);
-        this.delButton.setOnClickListener(onClickListener);
-    }
-
-    public void setDrawProgress(boolean z, boolean z2) {
-        this.addButton.setDrawProgress(z, z2);
-    }
-
-    public boolean isInstalled() {
-        return this.isInstalled;
-    }
-
-    @Override // android.view.View
-    protected void onDraw(Canvas canvas) {
-        if (this.needDivider) {
-            canvas.drawLine(LocaleController.isRTL ? 0.0f : AndroidUtilities.dp(71.0f), getHeight() - 1, getWidth() - (LocaleController.isRTL ? AndroidUtilities.dp(71.0f) : 0), getHeight() - 1, Theme.dividerPaint);
-        }
-    }
-
-    public BackupImageView getImageView() {
-        return this.imageView;
     }
 
     public void updateColors() {
         this.addButton.setProgressColor(Theme.getColor(Theme.key_featuredStickers_buttonProgress));
         this.addButton.setBackgroundRoundRect(Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed));
-    }
-
-    public static void createThemeDescriptions(List<ThemeDescription> list, RecyclerListView recyclerListView, ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate) {
-        list.add(new ThemeDescription(recyclerListView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{FeaturedStickerSetCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteBlackText));
-        list.add(new ThemeDescription(recyclerListView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{FeaturedStickerSetCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteGrayText2));
-        list.add(new ThemeDescription(recyclerListView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{FeaturedStickerSetCell.class}, new String[]{"addButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_featuredStickers_buttonText));
-        list.add(new ThemeDescription(recyclerListView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{FeaturedStickerSetCell.class}, new String[]{"delButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_featuredStickers_removeButtonText));
-        list.add(new ThemeDescription(recyclerListView, 0, new Class[]{FeaturedStickerSetCell.class}, Theme.dividerPaint, null, null, Theme.key_divider));
-        list.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_featuredStickers_buttonProgress));
-        list.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_featuredStickers_addButtonPressed));
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        if (this.bindedObserver) {
-            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.groupStickersDidLoad);
-            this.bindedObserver = false;
-        }
-    }
-
-    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if (i == NotificationCenter.groupStickersDidLoad) {
-            long longValue = ((Long) objArr[0]).longValue();
-            Long l = this.waitingForStickerSetId;
-            if (l == null || l.longValue() != longValue) {
-                return;
-            }
-            this.waitingForStickerSetId = null;
-            TLRPC$TL_stickerSetNoCovered tLRPC$TL_stickerSetNoCovered = new TLRPC$TL_stickerSetNoCovered();
-            tLRPC$TL_stickerSetNoCovered.set = ((TLRPC$TL_messages_stickerSet) objArr[1]).set;
-            setStickersSet(tLRPC$TL_stickerSetNoCovered, this.needDivider, this.unread, this.forceInstalled, true);
-        }
     }
 }

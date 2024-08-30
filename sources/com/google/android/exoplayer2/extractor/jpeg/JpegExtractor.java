@@ -11,7 +11,6 @@ import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.metadata.mp4.MotionPhotoMetadata;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
-import java.io.IOException;
 /* loaded from: classes.dex */
 public final class JpegExtractor implements Extractor {
     private ExtractorOutput extractorOutput;
@@ -25,24 +24,102 @@ public final class JpegExtractor implements Extractor {
     private final ParsableByteArray scratch = new ParsableByteArray(6);
     private long mp4StartPosition = -1;
 
-    @Override // com.google.android.exoplayer2.extractor.Extractor
-    public boolean sniff(ExtractorInput extractorInput) throws IOException {
-        if (peekMarker(extractorInput) != 65496) {
-            return false;
+    private void advancePeekPositionToNextSegment(ExtractorInput extractorInput) {
+        this.scratch.reset(2);
+        extractorInput.peekFully(this.scratch.getData(), 0, 2);
+        extractorInput.advancePeekPosition(this.scratch.readUnsignedShort() - 2);
+    }
+
+    private void endReadingWithImageTrack() {
+        outputImageTrack(new Metadata.Entry[0]);
+        ((ExtractorOutput) Assertions.checkNotNull(this.extractorOutput)).endTracks();
+        this.extractorOutput.seekMap(new SeekMap.Unseekable(-9223372036854775807L));
+        this.state = 6;
+    }
+
+    private static MotionPhotoMetadata getMotionPhotoMetadata(String str, long j) {
+        MotionPhotoDescription parse;
+        if (j == -1 || (parse = XmpMotionPhotoDescriptionParser.parse(str)) == null) {
+            return null;
         }
-        int peekMarker = peekMarker(extractorInput);
-        this.marker = peekMarker;
-        if (peekMarker == 65504) {
-            advancePeekPositionToNextSegment(extractorInput);
-            this.marker = peekMarker(extractorInput);
+        return parse.getMotionPhotoMetadata(j);
+    }
+
+    private void outputImageTrack(Metadata.Entry... entryArr) {
+        ((ExtractorOutput) Assertions.checkNotNull(this.extractorOutput)).track(1024, 4).format(new Format.Builder().setContainerMimeType("image/jpeg").setMetadata(new Metadata(entryArr)).build());
+    }
+
+    private int peekMarker(ExtractorInput extractorInput) {
+        this.scratch.reset(2);
+        extractorInput.peekFully(this.scratch.getData(), 0, 2);
+        return this.scratch.readUnsignedShort();
+    }
+
+    private void readMarker(ExtractorInput extractorInput) {
+        int i;
+        this.scratch.reset(2);
+        extractorInput.readFully(this.scratch.getData(), 0, 2);
+        int readUnsignedShort = this.scratch.readUnsignedShort();
+        this.marker = readUnsignedShort;
+        if (readUnsignedShort == 65498) {
+            if (this.mp4StartPosition == -1) {
+                endReadingWithImageTrack();
+                return;
+            }
+            i = 4;
+        } else if ((readUnsignedShort >= 65488 && readUnsignedShort <= 65497) || readUnsignedShort == 65281) {
+            return;
+        } else {
+            i = 1;
         }
-        if (this.marker != 65505) {
-            return false;
+        this.state = i;
+    }
+
+    private void readSegment(ExtractorInput extractorInput) {
+        String readNullTerminatedString;
+        if (this.marker == 65505) {
+            ParsableByteArray parsableByteArray = new ParsableByteArray(this.segmentLength);
+            extractorInput.readFully(parsableByteArray.getData(), 0, this.segmentLength);
+            if (this.motionPhotoMetadata == null && "http://ns.adobe.com/xap/1.0/".equals(parsableByteArray.readNullTerminatedString()) && (readNullTerminatedString = parsableByteArray.readNullTerminatedString()) != null) {
+                MotionPhotoMetadata motionPhotoMetadata = getMotionPhotoMetadata(readNullTerminatedString, extractorInput.getLength());
+                this.motionPhotoMetadata = motionPhotoMetadata;
+                if (motionPhotoMetadata != null) {
+                    this.mp4StartPosition = motionPhotoMetadata.videoStartPosition;
+                }
+            }
+        } else {
+            extractorInput.skipFully(this.segmentLength);
         }
-        extractorInput.advancePeekPosition(2);
-        this.scratch.reset(6);
-        extractorInput.peekFully(this.scratch.getData(), 0, 6);
-        return this.scratch.readUnsignedInt() == 1165519206 && this.scratch.readUnsignedShort() == 0;
+        this.state = 0;
+    }
+
+    private void readSegmentLength(ExtractorInput extractorInput) {
+        this.scratch.reset(2);
+        extractorInput.readFully(this.scratch.getData(), 0, 2);
+        this.segmentLength = this.scratch.readUnsignedShort() - 2;
+        this.state = 2;
+    }
+
+    private void sniffMotionPhotoVideo(ExtractorInput extractorInput) {
+        if (extractorInput.peekFully(this.scratch.getData(), 0, 1, true)) {
+            extractorInput.resetPeekPosition();
+            if (this.mp4Extractor == null) {
+                this.mp4Extractor = new Mp4Extractor();
+            }
+            StartOffsetExtractorInput startOffsetExtractorInput = new StartOffsetExtractorInput(extractorInput, this.mp4StartPosition);
+            this.mp4ExtractorStartOffsetExtractorInput = startOffsetExtractorInput;
+            if (this.mp4Extractor.sniff(startOffsetExtractorInput)) {
+                this.mp4Extractor.init(new StartOffsetExtractorOutput(this.mp4StartPosition, (ExtractorOutput) Assertions.checkNotNull(this.extractorOutput)));
+                startReadingMotionPhoto();
+                return;
+            }
+        }
+        endReadingWithImageTrack();
+    }
+
+    private void startReadingMotionPhoto() {
+        outputImageTrack((Metadata.Entry) Assertions.checkNotNull(this.motionPhotoMetadata));
+        this.state = 5;
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
@@ -51,7 +128,7 @@ public final class JpegExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
+    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) {
         int i = this.state;
         if (i == 0) {
             readMarker(extractorInput);
@@ -90,6 +167,14 @@ public final class JpegExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
+    public void release() {
+        Mp4Extractor mp4Extractor = this.mp4Extractor;
+        if (mp4Extractor != null) {
+            mp4Extractor.release();
+        }
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.Extractor
     public void seek(long j, long j2) {
         if (j == 0) {
             this.state = 0;
@@ -100,106 +185,22 @@ public final class JpegExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public void release() {
-        Mp4Extractor mp4Extractor = this.mp4Extractor;
-        if (mp4Extractor != null) {
-            mp4Extractor.release();
+    public boolean sniff(ExtractorInput extractorInput) {
+        if (peekMarker(extractorInput) != 65496) {
+            return false;
         }
-    }
-
-    private int peekMarker(ExtractorInput extractorInput) throws IOException {
-        this.scratch.reset(2);
-        extractorInput.peekFully(this.scratch.getData(), 0, 2);
-        return this.scratch.readUnsignedShort();
-    }
-
-    private void advancePeekPositionToNextSegment(ExtractorInput extractorInput) throws IOException {
-        this.scratch.reset(2);
-        extractorInput.peekFully(this.scratch.getData(), 0, 2);
-        extractorInput.advancePeekPosition(this.scratch.readUnsignedShort() - 2);
-    }
-
-    private void readMarker(ExtractorInput extractorInput) throws IOException {
-        this.scratch.reset(2);
-        extractorInput.readFully(this.scratch.getData(), 0, 2);
-        int readUnsignedShort = this.scratch.readUnsignedShort();
-        this.marker = readUnsignedShort;
-        if (readUnsignedShort == 65498) {
-            if (this.mp4StartPosition != -1) {
-                this.state = 4;
-            } else {
-                endReadingWithImageTrack();
-            }
-        } else if ((readUnsignedShort < 65488 || readUnsignedShort > 65497) && readUnsignedShort != 65281) {
-            this.state = 1;
+        int peekMarker = peekMarker(extractorInput);
+        this.marker = peekMarker;
+        if (peekMarker == 65504) {
+            advancePeekPositionToNextSegment(extractorInput);
+            this.marker = peekMarker(extractorInput);
         }
-    }
-
-    private void readSegmentLength(ExtractorInput extractorInput) throws IOException {
-        this.scratch.reset(2);
-        extractorInput.readFully(this.scratch.getData(), 0, 2);
-        this.segmentLength = this.scratch.readUnsignedShort() - 2;
-        this.state = 2;
-    }
-
-    private void readSegment(ExtractorInput extractorInput) throws IOException {
-        String readNullTerminatedString;
-        if (this.marker == 65505) {
-            ParsableByteArray parsableByteArray = new ParsableByteArray(this.segmentLength);
-            extractorInput.readFully(parsableByteArray.getData(), 0, this.segmentLength);
-            if (this.motionPhotoMetadata == null && "http://ns.adobe.com/xap/1.0/".equals(parsableByteArray.readNullTerminatedString()) && (readNullTerminatedString = parsableByteArray.readNullTerminatedString()) != null) {
-                MotionPhotoMetadata motionPhotoMetadata = getMotionPhotoMetadata(readNullTerminatedString, extractorInput.getLength());
-                this.motionPhotoMetadata = motionPhotoMetadata;
-                if (motionPhotoMetadata != null) {
-                    this.mp4StartPosition = motionPhotoMetadata.videoStartPosition;
-                }
-            }
-        } else {
-            extractorInput.skipFully(this.segmentLength);
+        if (this.marker != 65505) {
+            return false;
         }
-        this.state = 0;
-    }
-
-    private void sniffMotionPhotoVideo(ExtractorInput extractorInput) throws IOException {
-        if (!extractorInput.peekFully(this.scratch.getData(), 0, 1, true)) {
-            endReadingWithImageTrack();
-            return;
-        }
-        extractorInput.resetPeekPosition();
-        if (this.mp4Extractor == null) {
-            this.mp4Extractor = new Mp4Extractor();
-        }
-        StartOffsetExtractorInput startOffsetExtractorInput = new StartOffsetExtractorInput(extractorInput, this.mp4StartPosition);
-        this.mp4ExtractorStartOffsetExtractorInput = startOffsetExtractorInput;
-        if (this.mp4Extractor.sniff(startOffsetExtractorInput)) {
-            this.mp4Extractor.init(new StartOffsetExtractorOutput(this.mp4StartPosition, (ExtractorOutput) Assertions.checkNotNull(this.extractorOutput)));
-            startReadingMotionPhoto();
-            return;
-        }
-        endReadingWithImageTrack();
-    }
-
-    private void startReadingMotionPhoto() {
-        outputImageTrack((Metadata.Entry) Assertions.checkNotNull(this.motionPhotoMetadata));
-        this.state = 5;
-    }
-
-    private void endReadingWithImageTrack() {
-        outputImageTrack(new Metadata.Entry[0]);
-        ((ExtractorOutput) Assertions.checkNotNull(this.extractorOutput)).endTracks();
-        this.extractorOutput.seekMap(new SeekMap.Unseekable(-9223372036854775807L));
-        this.state = 6;
-    }
-
-    private void outputImageTrack(Metadata.Entry... entryArr) {
-        ((ExtractorOutput) Assertions.checkNotNull(this.extractorOutput)).track(1024, 4).format(new Format.Builder().setContainerMimeType("image/jpeg").setMetadata(new Metadata(entryArr)).build());
-    }
-
-    private static MotionPhotoMetadata getMotionPhotoMetadata(String str, long j) throws IOException {
-        MotionPhotoDescription parse;
-        if (j == -1 || (parse = XmpMotionPhotoDescriptionParser.parse(str)) == null) {
-            return null;
-        }
-        return parse.getMotionPhotoMetadata(j);
+        extractorInput.advancePeekPosition(2);
+        this.scratch.reset(6);
+        extractorInput.peekFully(this.scratch.getData(), 0, 6);
+        return this.scratch.readUnsignedInt() == 1165519206 && this.scratch.readUnsignedShort() == 0;
     }
 }

@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class InternalFrame extends Id3Frame {
-    public static final Parcelable.Creator<InternalFrame> CREATOR = new Parcelable.Creator<InternalFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.InternalFrame.1
+    public static final Parcelable.Creator<InternalFrame> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.id3.InternalFrame.1
         @Override // android.os.Parcelable.Creator
         public InternalFrame createFromParcel(Parcel parcel) {
             return new InternalFrame(parcel);
@@ -20,18 +20,18 @@ public final class InternalFrame extends Id3Frame {
     public final String domain;
     public final String text;
 
-    public InternalFrame(String str, String str2, String str3) {
-        super("----");
-        this.domain = str;
-        this.description = str2;
-        this.text = str3;
-    }
-
     InternalFrame(Parcel parcel) {
         super("----");
         this.domain = (String) Util.castNonNull(parcel.readString());
         this.description = (String) Util.castNonNull(parcel.readString());
         this.text = (String) Util.castNonNull(parcel.readString());
+    }
+
+    public InternalFrame(String str, String str2, String str3) {
+        super("----");
+        this.domain = str;
+        this.description = str2;
+        this.text = str3;
     }
 
     public boolean equals(Object obj) {

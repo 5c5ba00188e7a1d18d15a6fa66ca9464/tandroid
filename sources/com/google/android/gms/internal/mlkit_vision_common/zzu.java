@@ -1,6 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_common;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public final class zzu extends zzp {
     static final zzp zza = new zzu(new Object[0], 0);

@@ -4,25 +4,14 @@ import com.google.android.exoplayer2.decoder.SimpleDecoder;
 import com.google.android.exoplayer2.util.Assertions;
 import java.nio.ByteBuffer;
 /* loaded from: classes.dex */
-public abstract class SimpleSubtitleDecoder extends SimpleDecoder<SubtitleInputBuffer, SubtitleOutputBuffer, SubtitleDecoderException> implements SubtitleDecoder {
+public abstract class SimpleSubtitleDecoder extends SimpleDecoder implements SubtitleDecoder {
     private final String name;
-
-    protected abstract Subtitle decode(byte[] bArr, int i, boolean z) throws SubtitleDecoderException;
-
-    @Override // com.google.android.exoplayer2.text.SubtitleDecoder
-    public void setPositionUs(long j) {
-    }
 
     /* JADX INFO: Access modifiers changed from: protected */
     public SimpleSubtitleDecoder(String str) {
         super(new SubtitleInputBuffer[2], new SubtitleOutputBuffer[2]);
         this.name = str;
         setInitialInputBufferSize(1024);
-    }
-
-    @Override // com.google.android.exoplayer2.decoder.Decoder
-    public final String getName() {
-        return this.name;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -48,6 +37,8 @@ public abstract class SimpleSubtitleDecoder extends SimpleDecoder<SubtitleInputB
         return new SubtitleDecoderException("Unexpected decode error", th);
     }
 
+    protected abstract Subtitle decode(byte[] bArr, int i, boolean z);
+
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
     public final SubtitleDecoderException decode(SubtitleInputBuffer subtitleInputBuffer, SubtitleOutputBuffer subtitleOutputBuffer, boolean z) {
@@ -59,5 +50,14 @@ public abstract class SimpleSubtitleDecoder extends SimpleDecoder<SubtitleInputB
         } catch (SubtitleDecoderException e) {
             return e;
         }
+    }
+
+    @Override // com.google.android.exoplayer2.decoder.Decoder
+    public final String getName() {
+        return this.name;
+    }
+
+    @Override // com.google.android.exoplayer2.text.SubtitleDecoder
+    public void setPositionUs(long j) {
     }
 }

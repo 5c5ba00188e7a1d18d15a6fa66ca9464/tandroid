@@ -5,7 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zau implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -24,10 +23,10 @@ public final class zau implements Parcelable.Creator {
                 account = (Account) SafeParcelReader.createParcelable(parcel, readHeader, Account.CREATOR);
             } else if (fieldId == 3) {
                 i2 = SafeParcelReader.readInt(parcel, readHeader);
-            } else if (fieldId == 4) {
-                googleSignInAccount = (GoogleSignInAccount) SafeParcelReader.createParcelable(parcel, readHeader, GoogleSignInAccount.CREATOR);
-            } else {
+            } else if (fieldId != 4) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                googleSignInAccount = (GoogleSignInAccount) SafeParcelReader.createParcelable(parcel, readHeader, GoogleSignInAccount.CREATOR);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);

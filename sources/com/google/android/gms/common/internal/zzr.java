@@ -9,7 +9,6 @@ import com.google.android.gms.internal.common.zzi;
 import java.util.HashMap;
 import java.util.concurrent.Executor;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzr extends GmsClientSupervisor {
     private final HashMap zzb = new HashMap();

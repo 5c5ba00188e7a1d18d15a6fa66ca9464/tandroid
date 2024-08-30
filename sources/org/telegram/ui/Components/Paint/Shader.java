@@ -9,8 +9,20 @@ import org.telegram.messenger.FileLog;
 /* loaded from: classes3.dex */
 public class Shader {
     private int vertexShader;
-    protected Map<String, Integer> uniformsMap = new HashMap();
+    protected Map uniformsMap = new HashMap();
     protected int program = GLES20.glCreateProgram();
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public static class CompilationResult {
+        int shader;
+        int status;
+
+        CompilationResult(int i, int i2) {
+            this.shader = i;
+            this.status = i2;
+        }
+    }
 
     public Shader(String str, String str2, String[] strArr, String[] strArr2) {
         CompilationResult compileShader = compileShader(35633, str);
@@ -51,27 +63,8 @@ public class Shader {
         }
     }
 
-    public void cleanResources() {
-        if (this.program != 0) {
-            GLES20.glDeleteProgram(this.vertexShader);
-            this.program = 0;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class CompilationResult {
-        int shader;
-        int status;
-
-        CompilationResult(int i, int i2) {
-            this.shader = i;
-            this.status = i2;
-        }
-    }
-
-    public int getUniform(String str) {
-        return this.uniformsMap.get(str).intValue();
+    public static void SetColorUniform(int i, int i2) {
+        GLES20.glUniform4f(i, Color.red(i2) / 255.0f, Color.green(i2) / 255.0f, Color.blue(i2) / 255.0f, Color.alpha(i2) / 255.0f);
     }
 
     private CompilationResult compileShader(int i, String str) {
@@ -86,16 +79,6 @@ public class Shader {
         return new CompilationResult(glCreateShader, iArr[0]);
     }
 
-    private int linkProgram(int i) {
-        GLES20.glLinkProgram(i);
-        int[] iArr = new int[1];
-        GLES20.glGetProgramiv(i, 35714, iArr, 0);
-        if (iArr[0] == 0 && BuildVars.LOGS_ENABLED) {
-            FileLog.e(GLES20.glGetProgramInfoLog(i));
-        }
-        return iArr[0];
-    }
-
     private void destroyShader(int i, int i2, int i3) {
         if (i != 0) {
             GLES20.glDeleteShader(i);
@@ -108,7 +91,24 @@ public class Shader {
         }
     }
 
-    public static void SetColorUniform(int i, int i2) {
-        GLES20.glUniform4f(i, Color.red(i2) / 255.0f, Color.green(i2) / 255.0f, Color.blue(i2) / 255.0f, Color.alpha(i2) / 255.0f);
+    private int linkProgram(int i) {
+        GLES20.glLinkProgram(i);
+        int[] iArr = new int[1];
+        GLES20.glGetProgramiv(i, 35714, iArr, 0);
+        if (iArr[0] == 0 && BuildVars.LOGS_ENABLED) {
+            FileLog.e(GLES20.glGetProgramInfoLog(i));
+        }
+        return iArr[0];
+    }
+
+    public void cleanResources() {
+        if (this.program != 0) {
+            GLES20.glDeleteProgram(this.vertexShader);
+            this.program = 0;
+        }
+    }
+
+    public int getUniform(String str) {
+        return ((Integer) this.uniformsMap.get(str)).intValue();
     }
 }

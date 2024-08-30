@@ -1,10 +1,8 @@
 package com.google.android.gms.common.api.internal;
 
-import android.os.RemoteException;
 import com.google.android.gms.common.Feature;
 import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.tasks.TaskCompletionSource;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zaf extends zad {
     public final zaci zab;
@@ -25,7 +23,7 @@ public final class zaf extends zad {
     }
 
     @Override // com.google.android.gms.common.api.internal.zad
-    public final void zac(zabq zabqVar) throws RemoteException {
+    public final void zac(zabq zabqVar) {
         this.zab.zaa.registerListener(zabqVar.zaf(), this.zaa);
         ListenerHolder.ListenerKey listenerKey = this.zab.zaa.getListenerKey();
         if (listenerKey != null) {

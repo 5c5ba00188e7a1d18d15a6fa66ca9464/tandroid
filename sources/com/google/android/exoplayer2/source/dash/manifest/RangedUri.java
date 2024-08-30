@@ -15,14 +15,6 @@ public final class RangedUri {
         this.length = j2;
     }
 
-    public Uri resolveUri(String str) {
-        return UriUtil.resolveToUri(str, this.referenceUri);
-    }
-
-    public String resolveUriString(String str) {
-        return UriUtil.resolve(str, this.referenceUri);
-    }
-
     public RangedUri attemptMerge(RangedUri rangedUri, String str) {
         String resolveUriString = resolveUriString(str);
         if (rangedUri != null && resolveUriString.equals(rangedUri.resolveUriString(str))) {
@@ -45,13 +37,6 @@ public final class RangedUri {
         return null;
     }
 
-    public int hashCode() {
-        if (this.hashCode == 0) {
-            this.hashCode = ((((((int) this.start) + 527) * 31) + ((int) this.length)) * 31) + this.referenceUri.hashCode();
-        }
-        return this.hashCode;
-    }
-
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -61,6 +46,21 @@ public final class RangedUri {
         }
         RangedUri rangedUri = (RangedUri) obj;
         return this.start == rangedUri.start && this.length == rangedUri.length && this.referenceUri.equals(rangedUri.referenceUri);
+    }
+
+    public int hashCode() {
+        if (this.hashCode == 0) {
+            this.hashCode = ((((((int) this.start) + 527) * 31) + ((int) this.length)) * 31) + this.referenceUri.hashCode();
+        }
+        return this.hashCode;
+    }
+
+    public Uri resolveUri(String str) {
+        return UriUtil.resolveToUri(str, this.referenceUri);
+    }
+
+    public String resolveUriString(String str) {
+        return UriUtil.resolve(str, this.referenceUri);
     }
 
     public String toString() {

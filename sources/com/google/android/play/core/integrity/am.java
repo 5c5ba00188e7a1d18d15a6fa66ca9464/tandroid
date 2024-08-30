@@ -1,7 +1,6 @@
 package com.google.android.play.core.integrity;
 
 import com.google.android.play.core.integrity.IntegrityTokenRequest;
-/* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
 final class am extends IntegrityTokenRequest.Builder {
     private String a;

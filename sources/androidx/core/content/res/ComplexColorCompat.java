@@ -7,7 +7,6 @@ import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Xml;
-import java.io.IOException;
 import org.xmlpull.v1.XmlPullParserException;
 /* loaded from: classes.dex */
 public final class ComplexColorCompat {
@@ -21,12 +20,28 @@ public final class ComplexColorCompat {
         this.mColor = i;
     }
 
-    static ComplexColorCompat from(Shader shader) {
-        return new ComplexColorCompat(shader, null, 0);
-    }
-
-    static ComplexColorCompat from(ColorStateList colorStateList) {
-        return new ComplexColorCompat(null, colorStateList, colorStateList.getDefaultColor());
+    private static ComplexColorCompat createFromXml(Resources resources, int i, Resources.Theme theme) {
+        int next;
+        XmlResourceParser xml = resources.getXml(i);
+        AttributeSet asAttributeSet = Xml.asAttributeSet(xml);
+        do {
+            next = xml.next();
+            if (next == 2) {
+                break;
+            }
+        } while (next != 1);
+        if (next == 2) {
+            String name = xml.getName();
+            name.hashCode();
+            if (name.equals("gradient")) {
+                return from(GradientColorInflaterCompat.createFromXmlInner(resources, xml, asAttributeSet, theme));
+            }
+            if (name.equals("selector")) {
+                return from(ColorStateListInflaterCompat.createFromXmlInner(resources, xml, asAttributeSet, theme));
+            }
+            throw new XmlPullParserException(xml.getPositionDescription() + ": unsupported complex color tag " + name);
+        }
+        throw new XmlPullParserException("No start tag found");
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -34,16 +49,29 @@ public final class ComplexColorCompat {
         return new ComplexColorCompat(null, null, i);
     }
 
-    public Shader getShader() {
-        return this.mShader;
+    static ComplexColorCompat from(ColorStateList colorStateList) {
+        return new ComplexColorCompat(null, colorStateList, colorStateList.getDefaultColor());
+    }
+
+    static ComplexColorCompat from(Shader shader) {
+        return new ComplexColorCompat(shader, null, 0);
+    }
+
+    public static ComplexColorCompat inflate(Resources resources, int i, Resources.Theme theme) {
+        try {
+            return createFromXml(resources, i, theme);
+        } catch (Exception e) {
+            Log.e("ComplexColorCompat", "Failed to inflate ComplexColor.", e);
+            return null;
+        }
     }
 
     public int getColor() {
         return this.mColor;
     }
 
-    public void setColor(int i) {
-        this.mColor = i;
+    public Shader getShader() {
+        return this.mShader;
     }
 
     public boolean isGradient() {
@@ -67,40 +95,11 @@ public final class ComplexColorCompat {
         return false;
     }
 
+    public void setColor(int i) {
+        this.mColor = i;
+    }
+
     public boolean willDraw() {
         return isGradient() || this.mColor != 0;
-    }
-
-    public static ComplexColorCompat inflate(Resources resources, int i, Resources.Theme theme) {
-        try {
-            return createFromXml(resources, i, theme);
-        } catch (Exception e) {
-            Log.e("ComplexColorCompat", "Failed to inflate ComplexColor.", e);
-            return null;
-        }
-    }
-
-    private static ComplexColorCompat createFromXml(Resources resources, int i, Resources.Theme theme) throws IOException, XmlPullParserException {
-        int next;
-        XmlResourceParser xml = resources.getXml(i);
-        AttributeSet asAttributeSet = Xml.asAttributeSet(xml);
-        do {
-            next = xml.next();
-            if (next == 2) {
-                break;
-            }
-        } while (next != 1);
-        if (next != 2) {
-            throw new XmlPullParserException("No start tag found");
-        }
-        String name = xml.getName();
-        name.hashCode();
-        if (name.equals("gradient")) {
-            return from(GradientColorInflaterCompat.createFromXmlInner(resources, xml, asAttributeSet, theme));
-        }
-        if (name.equals("selector")) {
-            return from(ColorStateListInflaterCompat.createFromXmlInner(resources, xml, asAttributeSet, theme));
-        }
-        throw new XmlPullParserException(xml.getPositionDescription() + ": unsupported complex color tag " + name);
     }
 }

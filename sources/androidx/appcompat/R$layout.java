@@ -1,6 +1,6 @@
 package androidx.appcompat;
 /* loaded from: classes.dex */
-public final class R$layout {
+public abstract class R$layout {
     public static final int abc_action_bar_title_item = 2131492864;
     public static final int abc_action_menu_item_layout = 2131492866;
     public static final int abc_action_menu_layout = 2131492867;

@@ -1,18 +1,13 @@
 package com.google.android.gms.internal.mlkit_language_id;
-
-import com.google.android.gms.internal.mlkit_language_id.zzde;
-import com.google.android.gms.internal.mlkit_language_id.zzdh;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public abstract class zzdh<MessageType extends zzde<MessageType, BuilderType>, BuilderType extends zzdh<MessageType, BuilderType>> implements zzfy {
-    protected abstract BuilderType zza(MessageType messagetype);
+public abstract class zzdh implements zzfy {
+    protected abstract zzdh zza(zzde zzdeVar);
 
-    /* JADX WARN: Multi-variable type inference failed */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzfy
     public final /* synthetic */ zzfy zza(zzfz zzfzVar) {
-        if (!zzn().getClass().isInstance(zzfzVar)) {
-            throw new IllegalArgumentException("mergeFrom(MessageLite) can only merge messages of the same type.");
+        if (zzn().getClass().isInstance(zzfzVar)) {
+            return zza((zzde) zzfzVar);
         }
-        return zza((zzdh<MessageType, BuilderType>) ((zzde) zzfzVar));
+        throw new IllegalArgumentException("mergeFrom(MessageLite) can only merge messages of the same type.");
     }
 }

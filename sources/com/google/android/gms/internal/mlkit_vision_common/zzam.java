@@ -6,7 +6,6 @@ import com.google.firebase.encoders.ObjectEncoderContext;
 import com.google.firebase.encoders.config.EncoderConfig;
 import java.util.HashMap;
 import java.util.Map;
-/* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public final class zzam implements EncoderConfig {
     public static final /* synthetic */ int $r8$clinit = 0;

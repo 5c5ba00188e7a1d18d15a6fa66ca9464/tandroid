@@ -13,11 +13,6 @@ public class FitWindowsFrameLayout extends FrameLayout implements FitWindowsView
         super(context, attributeSet);
     }
 
-    @Override // androidx.appcompat.widget.FitWindowsViewGroup
-    public void setOnFitSystemWindowsListener(FitWindowsViewGroup.OnFitSystemWindowsListener onFitSystemWindowsListener) {
-        this.mListener = onFitSystemWindowsListener;
-    }
-
     @Override // android.view.View
     protected boolean fitSystemWindows(Rect rect) {
         FitWindowsViewGroup.OnFitSystemWindowsListener onFitSystemWindowsListener = this.mListener;
@@ -25,5 +20,10 @@ public class FitWindowsFrameLayout extends FrameLayout implements FitWindowsView
             onFitSystemWindowsListener.onFitSystemWindows(rect);
         }
         return super.fitSystemWindows(rect);
+    }
+
+    @Override // androidx.appcompat.widget.FitWindowsViewGroup
+    public void setOnFitSystemWindowsListener(FitWindowsViewGroup.OnFitSystemWindowsListener onFitSystemWindowsListener) {
+        this.mListener = onFitSystemWindowsListener;
     }
 }

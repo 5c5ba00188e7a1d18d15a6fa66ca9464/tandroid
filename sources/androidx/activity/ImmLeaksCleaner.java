@@ -1,6 +1,5 @@
 package androidx.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -19,6 +18,23 @@ final class ImmLeaksCleaner implements LifecycleEventObserver {
     /* JADX INFO: Access modifiers changed from: package-private */
     public ImmLeaksCleaner(Activity activity) {
         this.mActivity = activity;
+    }
+
+    private static void initializeReflectiveFields() {
+        try {
+            sReflectedFieldsInitialized = 2;
+            Field declaredField = InputMethodManager.class.getDeclaredField("mServedView");
+            sServedViewField = declaredField;
+            declaredField.setAccessible(true);
+            Field declaredField2 = InputMethodManager.class.getDeclaredField("mNextServedView");
+            sNextServedViewField = declaredField2;
+            declaredField2.setAccessible(true);
+            Field declaredField3 = InputMethodManager.class.getDeclaredField("mH");
+            sHField = declaredField3;
+            declaredField3.setAccessible(true);
+            sReflectedFieldsInitialized = 1;
+        } catch (NoSuchFieldException unused) {
+        }
     }
 
     @Override // androidx.lifecycle.LifecycleEventObserver
@@ -62,24 +78,6 @@ final class ImmLeaksCleaner implements LifecycleEventObserver {
                 }
             } catch (IllegalAccessException unused4) {
             }
-        }
-    }
-
-    @SuppressLint({"SoonBlockedPrivateApi"})
-    private static void initializeReflectiveFields() {
-        try {
-            sReflectedFieldsInitialized = 2;
-            Field declaredField = InputMethodManager.class.getDeclaredField("mServedView");
-            sServedViewField = declaredField;
-            declaredField.setAccessible(true);
-            Field declaredField2 = InputMethodManager.class.getDeclaredField("mNextServedView");
-            sNextServedViewField = declaredField2;
-            declaredField2.setAccessible(true);
-            Field declaredField3 = InputMethodManager.class.getDeclaredField("mH");
-            sHField = declaredField3;
-            declaredField3.setAccessible(true);
-            sReflectedFieldsInitialized = 1;
-        } catch (NoSuchFieldException unused) {
         }
     }
 }

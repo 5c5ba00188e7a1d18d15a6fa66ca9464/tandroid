@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
 public final class ad implements ServiceConnection {
     final /* synthetic */ ae a;

@@ -23,9 +23,29 @@ public class DefaultTaskExecutor extends TaskExecutor {
         }
     });
 
+    private static Handler createAsync(Looper looper) {
+        Handler createAsync;
+        if (Build.VERSION.SDK_INT >= 28) {
+            createAsync = Handler.createAsync(looper);
+            return createAsync;
+        }
+        try {
+            return (Handler) Handler.class.getDeclaredConstructor(Looper.class, Handler.Callback.class, Boolean.TYPE).newInstance(looper, null, Boolean.TRUE);
+        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException unused) {
+            return new Handler(looper);
+        } catch (InvocationTargetException unused2) {
+            return new Handler(looper);
+        }
+    }
+
     @Override // androidx.arch.core.executor.TaskExecutor
     public void executeOnDiskIO(Runnable runnable) {
         this.mDiskIO.execute(runnable);
+    }
+
+    @Override // androidx.arch.core.executor.TaskExecutor
+    public boolean isMainThread() {
+        return Looper.getMainLooper().getThread() == Thread.currentThread();
     }
 
     @Override // androidx.arch.core.executor.TaskExecutor
@@ -41,25 +61,5 @@ public class DefaultTaskExecutor extends TaskExecutor {
             }
         }
         this.mMainHandler.post(runnable);
-    }
-
-    @Override // androidx.arch.core.executor.TaskExecutor
-    public boolean isMainThread() {
-        return Looper.getMainLooper().getThread() == Thread.currentThread();
-    }
-
-    private static Handler createAsync(Looper looper) {
-        Handler createAsync;
-        if (Build.VERSION.SDK_INT >= 28) {
-            createAsync = Handler.createAsync(looper);
-            return createAsync;
-        }
-        try {
-            return (Handler) Handler.class.getDeclaredConstructor(Looper.class, Handler.Callback.class, Boolean.TYPE).newInstance(looper, null, Boolean.TRUE);
-        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException unused) {
-            return new Handler(looper);
-        } catch (InvocationTargetException unused2) {
-            return new Handler(looper);
-        }
     }
 }

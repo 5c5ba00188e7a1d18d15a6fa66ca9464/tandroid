@@ -5,7 +5,7 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
-public final class AacUtil {
+public abstract class AacUtil {
     private static final int[] AUDIO_SPECIFIC_CONFIG_SAMPLING_RATE_TABLE = {96000, 88200, 64000, 48000, 44100, 32000, 24000, 22050, 16000, 12000, 11025, 8000, 7350};
     private static final int[] AUDIO_SPECIFIC_CONFIG_CHANNEL_COUNT_TABLE = {0, 1, 2, 3, 4, 5, 6, 8, -1, -1, -1, 7, 8, -1, 8, -1};
 
@@ -20,56 +20,6 @@ public final class AacUtil {
             this.channelCount = i2;
             this.codecs = str;
         }
-    }
-
-    public static Config parseAudioSpecificConfig(byte[] bArr) throws ParserException {
-        return parseAudioSpecificConfig(new ParsableBitArray(bArr), false);
-    }
-
-    public static Config parseAudioSpecificConfig(ParsableBitArray parsableBitArray, boolean z) throws ParserException {
-        int audioObjectType = getAudioObjectType(parsableBitArray);
-        int samplingFrequency = getSamplingFrequency(parsableBitArray);
-        int readBits = parsableBitArray.readBits(4);
-        String str = "mp4a.40." + audioObjectType;
-        if (audioObjectType == 5 || audioObjectType == 29) {
-            samplingFrequency = getSamplingFrequency(parsableBitArray);
-            audioObjectType = getAudioObjectType(parsableBitArray);
-            if (audioObjectType == 22) {
-                readBits = parsableBitArray.readBits(4);
-            }
-        }
-        if (z) {
-            if (audioObjectType != 6 && audioObjectType != 7 && audioObjectType != 17 && audioObjectType != 1 && audioObjectType != 2 && audioObjectType != 3 && audioObjectType != 4) {
-                switch (audioObjectType) {
-                    case 19:
-                    case 20:
-                    case 21:
-                    case 22:
-                    case 23:
-                        break;
-                    default:
-                        throw ParserException.createForUnsupportedContainerFeature("Unsupported audio object type: " + audioObjectType);
-                }
-            }
-            parseGaSpecificConfig(parsableBitArray, audioObjectType, readBits);
-            switch (audioObjectType) {
-                case 17:
-                case 19:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                    int readBits2 = parsableBitArray.readBits(2);
-                    if (readBits2 == 2 || readBits2 == 3) {
-                        throw ParserException.createForUnsupportedContainerFeature("Unsupported epConfig: " + readBits2);
-                    }
-            }
-        }
-        int i = AUDIO_SPECIFIC_CONFIG_CHANNEL_COUNT_TABLE[readBits];
-        if (i == -1) {
-            throw ParserException.createForMalformedContainer(null, null);
-        }
-        return new Config(samplingFrequency, i, str);
     }
 
     public static byte[] buildAacLcAudioSpecificConfig(int i, int i2) {
@@ -112,18 +62,68 @@ public final class AacUtil {
         return readBits == 31 ? parsableBitArray.readBits(6) + 32 : readBits;
     }
 
-    private static int getSamplingFrequency(ParsableBitArray parsableBitArray) throws ParserException {
+    private static int getSamplingFrequency(ParsableBitArray parsableBitArray) {
         int readBits = parsableBitArray.readBits(4);
         if (readBits == 15) {
-            if (parsableBitArray.bitsLeft() < 24) {
-                throw ParserException.createForMalformedContainer("AAC header insufficient data", null);
+            if (parsableBitArray.bitsLeft() >= 24) {
+                return parsableBitArray.readBits(24);
             }
-            return parsableBitArray.readBits(24);
+            throw ParserException.createForMalformedContainer("AAC header insufficient data", null);
         } else if (readBits < 13) {
             return AUDIO_SPECIFIC_CONFIG_SAMPLING_RATE_TABLE[readBits];
         } else {
             throw ParserException.createForMalformedContainer("AAC header wrong Sampling Frequency Index", null);
         }
+    }
+
+    public static Config parseAudioSpecificConfig(ParsableBitArray parsableBitArray, boolean z) {
+        int audioObjectType = getAudioObjectType(parsableBitArray);
+        int samplingFrequency = getSamplingFrequency(parsableBitArray);
+        int readBits = parsableBitArray.readBits(4);
+        String str = "mp4a.40." + audioObjectType;
+        if (audioObjectType == 5 || audioObjectType == 29) {
+            samplingFrequency = getSamplingFrequency(parsableBitArray);
+            audioObjectType = getAudioObjectType(parsableBitArray);
+            if (audioObjectType == 22) {
+                readBits = parsableBitArray.readBits(4);
+            }
+        }
+        if (z) {
+            if (audioObjectType != 6 && audioObjectType != 7 && audioObjectType != 17 && audioObjectType != 1 && audioObjectType != 2 && audioObjectType != 3 && audioObjectType != 4) {
+                switch (audioObjectType) {
+                    case 19:
+                    case 20:
+                    case 21:
+                    case 22:
+                    case 23:
+                        break;
+                    default:
+                        throw ParserException.createForUnsupportedContainerFeature("Unsupported audio object type: " + audioObjectType);
+                }
+            }
+            parseGaSpecificConfig(parsableBitArray, audioObjectType, readBits);
+            switch (audioObjectType) {
+                case 17:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                    int readBits2 = parsableBitArray.readBits(2);
+                    if (readBits2 == 2 || readBits2 == 3) {
+                        throw ParserException.createForUnsupportedContainerFeature("Unsupported epConfig: " + readBits2);
+                    }
+            }
+        }
+        int i = AUDIO_SPECIFIC_CONFIG_CHANNEL_COUNT_TABLE[readBits];
+        if (i != -1) {
+            return new Config(samplingFrequency, i, str);
+        }
+        throw ParserException.createForMalformedContainer(null, null);
+    }
+
+    public static Config parseAudioSpecificConfig(byte[] bArr) {
+        return parseAudioSpecificConfig(new ParsableBitArray(bArr), false);
     }
 
     private static void parseGaSpecificConfig(ParsableBitArray parsableBitArray, int i, int i2) {

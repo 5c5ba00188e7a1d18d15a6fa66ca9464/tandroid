@@ -5,8 +5,8 @@ import android.os.Bundle;
 public interface Bundleable {
 
     /* loaded from: classes.dex */
-    public interface Creator<T extends Bundleable> {
-        T fromBundle(Bundle bundle);
+    public interface Creator {
+        Bundleable fromBundle(Bundle bundle);
     }
 
     Bundle toBundle();

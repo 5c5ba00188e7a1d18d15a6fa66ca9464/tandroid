@@ -28,16 +28,9 @@ public final class Utils {
         return singleton;
     }
 
-    public boolean isAuthTokenExpired(PersistedInstallationEntry persistedInstallationEntry) {
-        return TextUtils.isEmpty(persistedInstallationEntry.getAuthToken()) || persistedInstallationEntry.getTokenCreationEpochInSecs() + persistedInstallationEntry.getExpiresInSecs() < currentTimeInSecs() + AUTH_TOKEN_EXPIRATION_BUFFER_IN_SECS;
-    }
-
-    public long currentTimeInSecs() {
-        return TimeUnit.MILLISECONDS.toSeconds(currentTimeInMillis());
-    }
-
-    public long currentTimeInMillis() {
-        return this.clock.currentTimeMillis();
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static boolean isValidApiKeyFormat(String str) {
+        return API_KEY_FORMAT.matcher(str).matches();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -45,12 +38,19 @@ public final class Utils {
         return str.contains(":");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean isValidApiKeyFormat(String str) {
-        return API_KEY_FORMAT.matcher(str).matches();
+    public long currentTimeInMillis() {
+        return this.clock.currentTimeMillis();
+    }
+
+    public long currentTimeInSecs() {
+        return TimeUnit.MILLISECONDS.toSeconds(currentTimeInMillis());
     }
 
     public long getRandomDelayForSyncPrevention() {
         return (long) (Math.random() * 1000.0d);
+    }
+
+    public boolean isAuthTokenExpired(PersistedInstallationEntry persistedInstallationEntry) {
+        return TextUtils.isEmpty(persistedInstallationEntry.getAuthToken()) || persistedInstallationEntry.getTokenCreationEpochInSecs() + persistedInstallationEntry.getExpiresInSecs() < currentTimeInSecs() + AUTH_TOKEN_EXPIRATION_BUFFER_IN_SECS;
     }
 }

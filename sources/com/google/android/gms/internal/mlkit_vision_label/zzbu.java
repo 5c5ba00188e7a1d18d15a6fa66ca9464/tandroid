@@ -1,6 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zzbu extends zzbe {
     static final zzbe zza = new zzbu(new Object[0], 0);

@@ -14,8 +14,8 @@ final class StartOffsetExtractorInput extends ForwardingExtractorInput {
     }
 
     @Override // com.google.android.exoplayer2.extractor.ForwardingExtractorInput, com.google.android.exoplayer2.extractor.ExtractorInput
-    public long getPosition() {
-        return super.getPosition() - this.startOffset;
+    public long getLength() {
+        return super.getLength() - this.startOffset;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ForwardingExtractorInput, com.google.android.exoplayer2.extractor.ExtractorInput
@@ -24,12 +24,12 @@ final class StartOffsetExtractorInput extends ForwardingExtractorInput {
     }
 
     @Override // com.google.android.exoplayer2.extractor.ForwardingExtractorInput, com.google.android.exoplayer2.extractor.ExtractorInput
-    public long getLength() {
-        return super.getLength() - this.startOffset;
+    public long getPosition() {
+        return super.getPosition() - this.startOffset;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ForwardingExtractorInput, com.google.android.exoplayer2.extractor.ExtractorInput
-    public <E extends Throwable> void setRetryPosition(long j, E e) throws Throwable {
-        super.setRetryPosition(j + this.startOffset, e);
+    public void setRetryPosition(long j, Throwable th) {
+        super.setRetryPosition(j + this.startOffset, th);
     }
 }

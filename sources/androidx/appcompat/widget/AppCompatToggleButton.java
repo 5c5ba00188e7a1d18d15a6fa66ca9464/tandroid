@@ -31,56 +31,11 @@ public class AppCompatToggleButton extends ToggleButton implements TintableBackg
         getEmojiTextViewHelper().loadFromAttributes(attributeSet, i);
     }
 
-    @Override // android.view.View
-    public void setBackgroundResource(int i) {
-        super.setBackgroundResource(i);
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            appCompatBackgroundHelper.onSetBackgroundResource(i);
+    private AppCompatEmojiTextHelper getEmojiTextViewHelper() {
+        if (this.mAppCompatEmojiTextHelper == null) {
+            this.mAppCompatEmojiTextHelper = new AppCompatEmojiTextHelper(this);
         }
-    }
-
-    @Override // android.widget.ToggleButton, android.view.View
-    public void setBackgroundDrawable(Drawable drawable) {
-        super.setBackgroundDrawable(drawable);
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            appCompatBackgroundHelper.onSetBackgroundDrawable(drawable);
-        }
-    }
-
-    @Override // androidx.core.view.TintableBackgroundView
-    public void setSupportBackgroundTintList(ColorStateList colorStateList) {
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            appCompatBackgroundHelper.setSupportBackgroundTintList(colorStateList);
-        }
-    }
-
-    @Override // androidx.core.view.TintableBackgroundView
-    public ColorStateList getSupportBackgroundTintList() {
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            return appCompatBackgroundHelper.getSupportBackgroundTintList();
-        }
-        return null;
-    }
-
-    @Override // androidx.core.view.TintableBackgroundView
-    public void setSupportBackgroundTintMode(PorterDuff.Mode mode) {
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            appCompatBackgroundHelper.setSupportBackgroundTintMode(mode);
-        }
-    }
-
-    @Override // androidx.core.view.TintableBackgroundView
-    public PorterDuff.Mode getSupportBackgroundTintMode() {
-        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
-        if (appCompatBackgroundHelper != null) {
-            return appCompatBackgroundHelper.getSupportBackgroundTintMode();
-        }
-        return null;
+        return this.mAppCompatEmojiTextHelper;
     }
 
     @Override // android.widget.ToggleButton, android.widget.CompoundButton, android.widget.TextView, android.view.View
@@ -96,16 +51,30 @@ public class AppCompatToggleButton extends ToggleButton implements TintableBackg
         }
     }
 
-    @Override // android.widget.TextView
-    public void setFilters(InputFilter[] inputFilterArr) {
-        super.setFilters(getEmojiTextViewHelper().getFilters(inputFilterArr));
+    @Override // androidx.core.view.TintableBackgroundView
+    public ColorStateList getSupportBackgroundTintList() {
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            return appCompatBackgroundHelper.getSupportBackgroundTintList();
+        }
+        return null;
     }
 
-    private AppCompatEmojiTextHelper getEmojiTextViewHelper() {
-        if (this.mAppCompatEmojiTextHelper == null) {
-            this.mAppCompatEmojiTextHelper = new AppCompatEmojiTextHelper(this);
+    @Override // androidx.core.view.TintableBackgroundView
+    public PorterDuff.Mode getSupportBackgroundTintMode() {
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            return appCompatBackgroundHelper.getSupportBackgroundTintMode();
         }
-        return this.mAppCompatEmojiTextHelper;
+        return null;
+    }
+
+    public ColorStateList getSupportCompoundDrawablesTintList() {
+        return this.mTextHelper.getCompoundDrawableTintList();
+    }
+
+    public PorterDuff.Mode getSupportCompoundDrawablesTintMode() {
+        return this.mTextHelper.getCompoundDrawableTintMode();
     }
 
     @Override // android.widget.TextView
@@ -114,8 +83,22 @@ public class AppCompatToggleButton extends ToggleButton implements TintableBackg
         getEmojiTextViewHelper().setAllCaps(z);
     }
 
-    public void setEmojiCompatEnabled(boolean z) {
-        getEmojiTextViewHelper().setEnabled(z);
+    @Override // android.widget.ToggleButton, android.view.View
+    public void setBackgroundDrawable(Drawable drawable) {
+        super.setBackgroundDrawable(drawable);
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            appCompatBackgroundHelper.onSetBackgroundDrawable(drawable);
+        }
+    }
+
+    @Override // android.view.View
+    public void setBackgroundResource(int i) {
+        super.setBackgroundResource(i);
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            appCompatBackgroundHelper.onSetBackgroundResource(i);
+        }
     }
 
     @Override // android.widget.TextView
@@ -136,18 +119,35 @@ public class AppCompatToggleButton extends ToggleButton implements TintableBackg
         }
     }
 
-    public ColorStateList getSupportCompoundDrawablesTintList() {
-        return this.mTextHelper.getCompoundDrawableTintList();
+    public void setEmojiCompatEnabled(boolean z) {
+        getEmojiTextViewHelper().setEnabled(z);
+    }
+
+    @Override // android.widget.TextView
+    public void setFilters(InputFilter[] inputFilterArr) {
+        super.setFilters(getEmojiTextViewHelper().getFilters(inputFilterArr));
+    }
+
+    @Override // androidx.core.view.TintableBackgroundView
+    public void setSupportBackgroundTintList(ColorStateList colorStateList) {
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            appCompatBackgroundHelper.setSupportBackgroundTintList(colorStateList);
+        }
+    }
+
+    @Override // androidx.core.view.TintableBackgroundView
+    public void setSupportBackgroundTintMode(PorterDuff.Mode mode) {
+        AppCompatBackgroundHelper appCompatBackgroundHelper = this.mBackgroundTintHelper;
+        if (appCompatBackgroundHelper != null) {
+            appCompatBackgroundHelper.setSupportBackgroundTintMode(mode);
+        }
     }
 
     @Override // androidx.core.widget.TintableCompoundDrawablesView
     public void setSupportCompoundDrawablesTintList(ColorStateList colorStateList) {
         this.mTextHelper.setCompoundDrawableTintList(colorStateList);
         this.mTextHelper.applyCompoundDrawablesTints();
-    }
-
-    public PorterDuff.Mode getSupportCompoundDrawablesTintMode() {
-        return this.mTextHelper.getCompoundDrawableTintMode();
     }
 
     @Override // androidx.core.widget.TintableCompoundDrawablesView

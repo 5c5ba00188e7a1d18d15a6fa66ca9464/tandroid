@@ -7,14 +7,21 @@ import java.nio.ByteBuffer;
 final class FloatResamplingAudioProcessor extends BaseAudioProcessor {
     private static final int FLOAT_NAN_AS_INT = Float.floatToIntBits(Float.NaN);
 
+    private static void writePcm32BitFloat(int i, ByteBuffer byteBuffer) {
+        double d = i;
+        Double.isNaN(d);
+        int floatToIntBits = Float.floatToIntBits((float) (d * 4.656612875245797E-10d));
+        if (floatToIntBits == FLOAT_NAN_AS_INT) {
+            floatToIntBits = Float.floatToIntBits(0.0f);
+        }
+        byteBuffer.putInt(floatToIntBits);
+    }
+
     @Override // com.google.android.exoplayer2.audio.BaseAudioProcessor
-    public AudioProcessor.AudioFormat onConfigure(AudioProcessor.AudioFormat audioFormat) throws AudioProcessor.UnhandledAudioFormatException {
+    public AudioProcessor.AudioFormat onConfigure(AudioProcessor.AudioFormat audioFormat) {
         int i = audioFormat.encoding;
         if (Util.isEncodingHighResolutionPcm(i)) {
-            if (i != 4) {
-                return new AudioProcessor.AudioFormat(audioFormat.sampleRate, audioFormat.channelCount, 4);
-            }
-            return AudioProcessor.AudioFormat.NOT_SET;
+            return i != 4 ? new AudioProcessor.AudioFormat(audioFormat.sampleRate, audioFormat.channelCount, 4) : AudioProcessor.AudioFormat.NOT_SET;
         }
         throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
     }
@@ -32,26 +39,16 @@ final class FloatResamplingAudioProcessor extends BaseAudioProcessor {
                 writePcm32BitFloat(((byteBuffer.get(position) & 255) << 8) | ((byteBuffer.get(position + 1) & 255) << 16) | ((byteBuffer.get(position + 2) & 255) << 24), replaceOutputBuffer);
                 position += 3;
             }
-        } else if (i2 == 805306368) {
+        } else if (i2 != 805306368) {
+            throw new IllegalStateException();
+        } else {
             replaceOutputBuffer = replaceOutputBuffer(i);
             while (position < limit) {
                 writePcm32BitFloat((byteBuffer.get(position) & 255) | ((byteBuffer.get(position + 1) & 255) << 8) | ((byteBuffer.get(position + 2) & 255) << 16) | ((byteBuffer.get(position + 3) & 255) << 24), replaceOutputBuffer);
                 position += 4;
             }
-        } else {
-            throw new IllegalStateException();
         }
         byteBuffer.position(byteBuffer.limit());
         replaceOutputBuffer.flip();
-    }
-
-    private static void writePcm32BitFloat(int i, ByteBuffer byteBuffer) {
-        double d = i;
-        Double.isNaN(d);
-        int floatToIntBits = Float.floatToIntBits((float) (d * 4.656612875245797E-10d));
-        if (floatToIntBits == FLOAT_NAN_AS_INT) {
-            floatToIntBits = Float.floatToIntBits(0.0f);
-        }
-        byteBuffer.putInt(floatToIntBits);
     }
 }

@@ -5,11 +5,11 @@ import com.microsoft.appcenter.utils.crypto.CryptoUtils;
 import java.security.KeyStore;
 /* loaded from: classes.dex */
 interface CryptoHandler {
-    byte[] decrypt(CryptoUtils.ICryptoFactory iCryptoFactory, int i, KeyStore.Entry entry, byte[] bArr) throws Exception;
+    byte[] decrypt(CryptoUtils.ICryptoFactory iCryptoFactory, int i, KeyStore.Entry entry, byte[] bArr);
 
-    byte[] encrypt(CryptoUtils.ICryptoFactory iCryptoFactory, int i, KeyStore.Entry entry, byte[] bArr) throws Exception;
+    byte[] encrypt(CryptoUtils.ICryptoFactory iCryptoFactory, int i, KeyStore.Entry entry, byte[] bArr);
 
-    void generateKey(CryptoUtils.ICryptoFactory iCryptoFactory, String str, Context context) throws Exception;
+    void generateKey(CryptoUtils.ICryptoFactory iCryptoFactory, String str, Context context);
 
     String getAlgorithm();
 }

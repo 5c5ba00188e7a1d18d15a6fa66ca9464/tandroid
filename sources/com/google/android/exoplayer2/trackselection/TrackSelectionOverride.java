@@ -13,10 +13,10 @@ import java.util.List;
 /* loaded from: classes.dex */
 public final class TrackSelectionOverride implements Bundleable {
     public final TrackGroup mediaTrackGroup;
-    public final ImmutableList<Integer> trackIndices;
+    public final ImmutableList trackIndices;
     private static final String FIELD_TRACK_GROUP = Util.intToStringMaxRadix(0);
     private static final String FIELD_TRACKS = Util.intToStringMaxRadix(1);
-    public static final Bundleable.Creator<TrackSelectionOverride> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.trackselection.TrackSelectionOverride$$ExternalSyntheticLambda0
+    public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.trackselection.TrackSelectionOverride$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.Bundleable.Creator
         public final Bundleable fromBundle(Bundle bundle) {
             TrackSelectionOverride lambda$static$0;
@@ -25,7 +25,7 @@ public final class TrackSelectionOverride implements Bundleable {
         }
     };
 
-    public TrackSelectionOverride(TrackGroup trackGroup, List<Integer> list) {
+    public TrackSelectionOverride(TrackGroup trackGroup, List list) {
         if (!list.isEmpty() && (((Integer) Collections.min(list)).intValue() < 0 || ((Integer) Collections.max(list)).intValue() >= trackGroup.length)) {
             throw new IndexOutOfBoundsException();
         }
@@ -33,8 +33,9 @@ public final class TrackSelectionOverride implements Bundleable {
         this.trackIndices = ImmutableList.copyOf((Collection) list);
     }
 
-    public int getType() {
-        return this.mediaTrackGroup.type;
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ TrackSelectionOverride lambda$static$0(Bundle bundle) {
+        return new TrackSelectionOverride((TrackGroup) TrackGroup.CREATOR.fromBundle((Bundle) Assertions.checkNotNull(bundle.getBundle(FIELD_TRACK_GROUP))), Ints.asList((int[]) Assertions.checkNotNull(bundle.getIntArray(FIELD_TRACKS))));
     }
 
     public boolean equals(Object obj) {
@@ -48,6 +49,10 @@ public final class TrackSelectionOverride implements Bundleable {
         return this.mediaTrackGroup.equals(trackSelectionOverride.mediaTrackGroup) && this.trackIndices.equals(trackSelectionOverride.trackIndices);
     }
 
+    public int getType() {
+        return this.mediaTrackGroup.type;
+    }
+
     public int hashCode() {
         return this.mediaTrackGroup.hashCode() + (this.trackIndices.hashCode() * 31);
     }
@@ -58,10 +63,5 @@ public final class TrackSelectionOverride implements Bundleable {
         bundle.putBundle(FIELD_TRACK_GROUP, this.mediaTrackGroup.toBundle());
         bundle.putIntArray(FIELD_TRACKS, Ints.toArray(this.trackIndices));
         return bundle;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ TrackSelectionOverride lambda$static$0(Bundle bundle) {
-        return new TrackSelectionOverride(TrackGroup.CREATOR.fromBundle((Bundle) Assertions.checkNotNull(bundle.getBundle(FIELD_TRACK_GROUP))), Ints.asList((int[]) Assertions.checkNotNull(bundle.getIntArray(FIELD_TRACKS))));
     }
 }

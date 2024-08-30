@@ -8,33 +8,37 @@ final class ChannelMappingAudioProcessor extends BaseAudioProcessor {
     private int[] outputChannels;
     private int[] pendingOutputChannels;
 
-    public void setChannelMap(int[] iArr) {
-        this.pendingOutputChannels = iArr;
-    }
-
     @Override // com.google.android.exoplayer2.audio.BaseAudioProcessor
-    public AudioProcessor.AudioFormat onConfigure(AudioProcessor.AudioFormat audioFormat) throws AudioProcessor.UnhandledAudioFormatException {
+    public AudioProcessor.AudioFormat onConfigure(AudioProcessor.AudioFormat audioFormat) {
         int[] iArr = this.pendingOutputChannels;
         if (iArr == null) {
             return AudioProcessor.AudioFormat.NOT_SET;
         }
-        if (audioFormat.encoding != 2) {
-            throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
-        }
-        boolean z = audioFormat.channelCount != iArr.length;
-        int i = 0;
-        while (i < iArr.length) {
-            int i2 = iArr[i];
-            if (i2 >= audioFormat.channelCount) {
-                throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
+        if (audioFormat.encoding == 2) {
+            boolean z = audioFormat.channelCount != iArr.length;
+            int i = 0;
+            while (i < iArr.length) {
+                int i2 = iArr[i];
+                if (i2 >= audioFormat.channelCount) {
+                    throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
+                }
+                z |= i2 != i;
+                i++;
             }
-            z |= i2 != i;
-            i++;
+            return z ? new AudioProcessor.AudioFormat(audioFormat.sampleRate, iArr.length, 2) : AudioProcessor.AudioFormat.NOT_SET;
         }
-        if (z) {
-            return new AudioProcessor.AudioFormat(audioFormat.sampleRate, iArr.length, 2);
-        }
-        return AudioProcessor.AudioFormat.NOT_SET;
+        throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
+    }
+
+    @Override // com.google.android.exoplayer2.audio.BaseAudioProcessor
+    protected void onFlush() {
+        this.outputChannels = this.pendingOutputChannels;
+    }
+
+    @Override // com.google.android.exoplayer2.audio.BaseAudioProcessor
+    protected void onReset() {
+        this.outputChannels = null;
+        this.pendingOutputChannels = null;
     }
 
     @Override // com.google.android.exoplayer2.audio.AudioProcessor
@@ -53,14 +57,7 @@ final class ChannelMappingAudioProcessor extends BaseAudioProcessor {
         replaceOutputBuffer.flip();
     }
 
-    @Override // com.google.android.exoplayer2.audio.BaseAudioProcessor
-    protected void onFlush() {
-        this.outputChannels = this.pendingOutputChannels;
-    }
-
-    @Override // com.google.android.exoplayer2.audio.BaseAudioProcessor
-    protected void onReset() {
-        this.outputChannels = null;
-        this.pendingOutputChannels = null;
+    public void setChannelMap(int[] iArr) {
+        this.pendingOutputChannels = iArr;
     }
 }

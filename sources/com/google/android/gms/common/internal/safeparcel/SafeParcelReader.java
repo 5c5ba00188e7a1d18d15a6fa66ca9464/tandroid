@@ -5,11 +5,9 @@ import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public class SafeParcelReader {
+public abstract class SafeParcelReader {
 
-    /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
     /* loaded from: classes.dex */
     public static class ParseException extends RuntimeException {
         /* JADX WARN: Illegal instructions before constructor call */
@@ -71,13 +69,13 @@ public class SafeParcelReader {
         return createFloatArray;
     }
 
-    public static ArrayList<Float> createFloatList(Parcel parcel, int i) {
+    public static ArrayList createFloatList(Parcel parcel, int i) {
         int readSize = readSize(parcel, i);
         int dataPosition = parcel.dataPosition();
         if (readSize == 0) {
             return null;
         }
-        ArrayList<Float> arrayList = new ArrayList<>();
+        ArrayList arrayList = new ArrayList();
         int readInt = parcel.readInt();
         for (int i2 = 0; i2 < readInt; i2++) {
             arrayList.add(Float.valueOf(parcel.readFloat()));
@@ -97,13 +95,13 @@ public class SafeParcelReader {
         return createIntArray;
     }
 
-    public static ArrayList<Integer> createIntegerList(Parcel parcel, int i) {
+    public static ArrayList createIntegerList(Parcel parcel, int i) {
         int readSize = readSize(parcel, i);
         int dataPosition = parcel.dataPosition();
         if (readSize == 0) {
             return null;
         }
-        ArrayList<Integer> arrayList = new ArrayList<>();
+        ArrayList arrayList = new ArrayList();
         int readInt = parcel.readInt();
         for (int i2 = 0; i2 < readInt; i2++) {
             arrayList.add(Integer.valueOf(parcel.readInt()));
@@ -112,15 +110,15 @@ public class SafeParcelReader {
         return arrayList;
     }
 
-    public static <T extends Parcelable> T createParcelable(Parcel parcel, int i, Parcelable.Creator<T> creator) {
+    public static Parcelable createParcelable(Parcel parcel, int i, Parcelable.Creator creator) {
         int readSize = readSize(parcel, i);
         int dataPosition = parcel.dataPosition();
         if (readSize == 0) {
             return null;
         }
-        T createFromParcel = creator.createFromParcel(parcel);
+        Parcelable parcelable = (Parcelable) creator.createFromParcel(parcel);
         parcel.setDataPosition(dataPosition + readSize);
-        return createFromParcel;
+        return parcelable;
     }
 
     public static String createString(Parcel parcel, int i) {
@@ -145,7 +143,7 @@ public class SafeParcelReader {
         return createStringArray;
     }
 
-    public static ArrayList<String> createStringList(Parcel parcel, int i) {
+    public static ArrayList createStringList(Parcel parcel, int i) {
         int readSize = readSize(parcel, i);
         int dataPosition = parcel.dataPosition();
         if (readSize == 0) {
@@ -156,24 +154,24 @@ public class SafeParcelReader {
         return createStringArrayList;
     }
 
-    public static <T> T[] createTypedArray(Parcel parcel, int i, Parcelable.Creator<T> creator) {
+    public static Object[] createTypedArray(Parcel parcel, int i, Parcelable.Creator creator) {
         int readSize = readSize(parcel, i);
         int dataPosition = parcel.dataPosition();
         if (readSize == 0) {
             return null;
         }
-        T[] tArr = (T[]) parcel.createTypedArray(creator);
+        Object[] createTypedArray = parcel.createTypedArray(creator);
         parcel.setDataPosition(dataPosition + readSize);
-        return tArr;
+        return createTypedArray;
     }
 
-    public static <T> ArrayList<T> createTypedList(Parcel parcel, int i, Parcelable.Creator<T> creator) {
+    public static ArrayList createTypedList(Parcel parcel, int i, Parcelable.Creator creator) {
         int readSize = readSize(parcel, i);
         int dataPosition = parcel.dataPosition();
         if (readSize == 0) {
             return null;
         }
-        ArrayList<T> createTypedArrayList = parcel.createTypedArrayList(creator);
+        ArrayList createTypedArrayList = parcel.createTypedArrayList(creator);
         parcel.setDataPosition(dataPosition + readSize);
         return createTypedArrayList;
     }
@@ -252,15 +250,6 @@ public class SafeParcelReader {
         return parcel.readLong();
     }
 
-    public static Long readLongObject(Parcel parcel, int i) {
-        int readSize = readSize(parcel, i);
-        if (readSize == 0) {
-            return null;
-        }
-        zza(parcel, i, readSize, 8);
-        return Long.valueOf(parcel.readLong());
-    }
-
     public static int readSize(Parcel parcel, int i) {
         return (i & (-65536)) != -65536 ? (char) (i >> 16) : parcel.readInt();
     }
@@ -273,14 +262,14 @@ public class SafeParcelReader {
         int readHeader = readHeader(parcel);
         int readSize = readSize(parcel, readHeader);
         int dataPosition = parcel.dataPosition();
-        if (getFieldId(readHeader) != 20293) {
-            throw new ParseException("Expected object header. Got 0x".concat(String.valueOf(Integer.toHexString(readHeader))), parcel);
+        if (getFieldId(readHeader) == 20293) {
+            int i = readSize + dataPosition;
+            if (i < dataPosition || i > parcel.dataSize()) {
+                throw new ParseException("Size read is invalid start=" + dataPosition + " end=" + i, parcel);
+            }
+            return i;
         }
-        int i = readSize + dataPosition;
-        if (i < dataPosition || i > parcel.dataSize()) {
-            throw new ParseException("Size read is invalid start=" + dataPosition + " end=" + i, parcel);
-        }
-        return i;
+        throw new ParseException("Expected object header. Got 0x".concat(String.valueOf(Integer.toHexString(readHeader))), parcel);
     }
 
     private static void zza(Parcel parcel, int i, int i2, int i3) {

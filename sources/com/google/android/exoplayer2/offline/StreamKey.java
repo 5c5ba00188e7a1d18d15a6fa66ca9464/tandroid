@@ -3,8 +3,8 @@ package com.google.android.exoplayer2.offline;
 import android.os.Parcel;
 import android.os.Parcelable;
 /* loaded from: classes.dex */
-public final class StreamKey implements Comparable<StreamKey>, Parcelable {
-    public static final Parcelable.Creator<StreamKey> CREATOR = new Parcelable.Creator<StreamKey>() { // from class: com.google.android.exoplayer2.offline.StreamKey.1
+public final class StreamKey implements Comparable, Parcelable {
+    public static final Parcelable.Creator<StreamKey> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.offline.StreamKey.1
         @Override // android.os.Parcelable.Creator
         public StreamKey createFromParcel(Parcel parcel) {
             return new StreamKey(parcel);
@@ -18,13 +18,7 @@ public final class StreamKey implements Comparable<StreamKey>, Parcelable {
     public final int groupIndex;
     public final int periodIndex;
     public final int streamIndex;
-    @Deprecated
     public final int trackIndex;
-
-    @Override // android.os.Parcelable
-    public int describeContents() {
-        return 0;
-    }
 
     public StreamKey(int i, int i2, int i3) {
         this.periodIndex = i;
@@ -41,8 +35,19 @@ public final class StreamKey implements Comparable<StreamKey>, Parcelable {
         this.trackIndex = readInt;
     }
 
-    public String toString() {
-        return this.periodIndex + "." + this.groupIndex + "." + this.streamIndex;
+    @Override // java.lang.Comparable
+    public int compareTo(StreamKey streamKey) {
+        int i = this.periodIndex - streamKey.periodIndex;
+        if (i == 0) {
+            int i2 = this.groupIndex - streamKey.groupIndex;
+            return i2 == 0 ? this.streamIndex - streamKey.streamIndex : i2;
+        }
+        return i;
+    }
+
+    @Override // android.os.Parcelable
+    public int describeContents() {
+        return 0;
     }
 
     public boolean equals(Object obj) {
@@ -60,14 +65,8 @@ public final class StreamKey implements Comparable<StreamKey>, Parcelable {
         return (((this.periodIndex * 31) + this.groupIndex) * 31) + this.streamIndex;
     }
 
-    @Override // java.lang.Comparable
-    public int compareTo(StreamKey streamKey) {
-        int i = this.periodIndex - streamKey.periodIndex;
-        if (i == 0) {
-            int i2 = this.groupIndex - streamKey.groupIndex;
-            return i2 == 0 ? this.streamIndex - streamKey.streamIndex : i2;
-        }
-        return i;
+    public String toString() {
+        return this.periodIndex + "." + this.groupIndex + "." + this.streamIndex;
     }
 
     @Override // android.os.Parcelable

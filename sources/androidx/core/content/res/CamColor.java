@@ -14,32 +14,6 @@ public class CamColor {
     private final float mQ;
     private final float mS;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public float getHue() {
-        return this.mHue;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public float getChroma() {
-        return this.mChroma;
-    }
-
-    float getJ() {
-        return this.mJ;
-    }
-
-    float getJStar() {
-        return this.mJstar;
-    }
-
-    float getAStar() {
-        return this.mAstar;
-    }
-
-    float getBStar() {
-        return this.mBstar;
-    }
-
     CamColor(float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9) {
         this.mHue = f;
         this.mChroma = f2;
@@ -52,9 +26,35 @@ public class CamColor {
         this.mBstar = f9;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int toColor(float f, float f2, float f3) {
-        return toColor(f, f2, f3, ViewingConditions.DEFAULT);
+    private static CamColor findCamByJ(float f, float f2, float f3) {
+        float f4 = 100.0f;
+        float f5 = 1000.0f;
+        CamColor camColor = null;
+        float f6 = 1000.0f;
+        float f7 = 0.0f;
+        while (Math.abs(f7 - f4) > 0.01f) {
+            float f8 = ((f4 - f7) / 2.0f) + f7;
+            int viewedInSrgb = fromJch(f8, f2, f).viewedInSrgb();
+            float lStarFromInt = CamUtils.lStarFromInt(viewedInSrgb);
+            float abs = Math.abs(f3 - lStarFromInt);
+            if (abs < 0.2f) {
+                CamColor fromColor = fromColor(viewedInSrgb);
+                float distance = fromColor.distance(fromJch(fromColor.getJ(), fromColor.getChroma(), f));
+                if (distance <= 1.0f) {
+                    camColor = fromColor;
+                    f5 = abs;
+                    f6 = distance;
+                }
+            }
+            if (f5 == 0.0f && f6 == 0.0f) {
+                break;
+            } else if (lStarFromInt < f3) {
+                f7 = f8;
+            } else {
+                f4 = f8;
+            }
+        }
+        return camColor;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -146,6 +146,40 @@ public class CamColor {
         return new CamColor(f3, f2, f, c, flRoot, sqrt, f4, log * ((float) Math.cos(d4)), log * ((float) Math.sin(d4)));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static int toColor(float f, float f2, float f3) {
+        return toColor(f, f2, f3, ViewingConditions.DEFAULT);
+    }
+
+    static int toColor(float f, float f2, float f3, ViewingConditions viewingConditions) {
+        if (f2 < 1.0d || Math.round(f3) <= 0.0d || Math.round(f3) >= 100.0d) {
+            return CamUtils.intFromLStar(f3);
+        }
+        float min = f < 0.0f ? 0.0f : Math.min(360.0f, f);
+        float f4 = f2;
+        CamColor camColor = null;
+        float f5 = 0.0f;
+        boolean z = true;
+        while (Math.abs(f5 - f2) >= 0.4f) {
+            CamColor findCamByJ = findCamByJ(min, f4, f3);
+            if (!z) {
+                if (findCamByJ == null) {
+                    f2 = f4;
+                } else {
+                    f5 = f4;
+                    camColor = findCamByJ;
+                }
+                f4 = ((f2 - f5) / 2.0f) + f5;
+            } else if (findCamByJ != null) {
+                return findCamByJ.viewed(viewingConditions);
+            } else {
+                f4 = ((f2 - f5) / 2.0f) + f5;
+                z = false;
+            }
+        }
+        return camColor == null ? CamUtils.intFromLStar(f3) : camColor.viewed(viewingConditions);
+    }
+
     float distance(CamColor camColor) {
         float jStar = getJStar() - camColor.getJStar();
         float aStar = getAStar() - camColor.getAStar();
@@ -153,8 +187,30 @@ public class CamColor {
         return (float) (Math.pow(Math.sqrt((jStar * jStar) + (aStar * aStar) + (bStar * bStar)), 0.63d) * 1.41d);
     }
 
-    int viewedInSrgb() {
-        return viewed(ViewingConditions.DEFAULT);
+    float getAStar() {
+        return this.mAstar;
+    }
+
+    float getBStar() {
+        return this.mBstar;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public float getChroma() {
+        return this.mChroma;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public float getHue() {
+        return this.mHue;
+    }
+
+    float getJ() {
+        return this.mJ;
+    }
+
+    float getJStar() {
+        return this.mJstar;
     }
 
     int viewed(ViewingConditions viewingConditions) {
@@ -219,66 +275,7 @@ public class CamColor {
         return ColorUtils.XYZToColor(f12, (fArr3[0] * f9) + (fArr3[1] * f10) + (fArr3[2] * f11), (f9 * fArr4[0]) + (f10 * fArr4[1]) + (f11 * fArr4[2]));
     }
 
-    static int toColor(float f, float f2, float f3, ViewingConditions viewingConditions) {
-        if (f2 < 1.0d || Math.round(f3) <= 0.0d || Math.round(f3) >= 100.0d) {
-            return CamUtils.intFromLStar(f3);
-        }
-        float min = f < 0.0f ? 0.0f : Math.min(360.0f, f);
-        float f4 = f2;
-        CamColor camColor = null;
-        float f5 = 0.0f;
-        boolean z = true;
-        while (Math.abs(f5 - f2) >= 0.4f) {
-            CamColor findCamByJ = findCamByJ(min, f4, f3);
-            if (!z) {
-                if (findCamByJ == null) {
-                    f2 = f4;
-                } else {
-                    f5 = f4;
-                    camColor = findCamByJ;
-                }
-                f4 = ((f2 - f5) / 2.0f) + f5;
-            } else if (findCamByJ != null) {
-                return findCamByJ.viewed(viewingConditions);
-            } else {
-                f4 = ((f2 - f5) / 2.0f) + f5;
-                z = false;
-            }
-        }
-        if (camColor == null) {
-            return CamUtils.intFromLStar(f3);
-        }
-        return camColor.viewed(viewingConditions);
-    }
-
-    private static CamColor findCamByJ(float f, float f2, float f3) {
-        float f4 = 100.0f;
-        float f5 = 1000.0f;
-        CamColor camColor = null;
-        float f6 = 1000.0f;
-        float f7 = 0.0f;
-        while (Math.abs(f7 - f4) > 0.01f) {
-            float f8 = ((f4 - f7) / 2.0f) + f7;
-            int viewedInSrgb = fromJch(f8, f2, f).viewedInSrgb();
-            float lStarFromInt = CamUtils.lStarFromInt(viewedInSrgb);
-            float abs = Math.abs(f3 - lStarFromInt);
-            if (abs < 0.2f) {
-                CamColor fromColor = fromColor(viewedInSrgb);
-                float distance = fromColor.distance(fromJch(fromColor.getJ(), fromColor.getChroma(), f));
-                if (distance <= 1.0f) {
-                    camColor = fromColor;
-                    f5 = abs;
-                    f6 = distance;
-                }
-            }
-            if (f5 == 0.0f && f6 == 0.0f) {
-                break;
-            } else if (lStarFromInt < f3) {
-                f7 = f8;
-            } else {
-                f4 = f8;
-            }
-        }
-        return camColor;
+    int viewedInSrgb() {
+        return viewed(ViewingConditions.DEFAULT);
     }
 }

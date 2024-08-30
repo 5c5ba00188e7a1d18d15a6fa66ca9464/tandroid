@@ -4,11 +4,11 @@ import com.google.firebase.inject.Provider;
 import java.util.Set;
 /* loaded from: classes.dex */
 public interface ComponentContainer {
-    <T> T get(Class<T> cls);
+    Object get(Class cls);
 
-    <T> Provider<T> getProvider(Class<T> cls);
+    Provider getProvider(Class cls);
 
-    <T> Set<T> setOf(Class<T> cls);
+    Set setOf(Class cls);
 
-    <T> Provider<Set<T>> setOfProvider(Class<T> cls);
+    Provider setOfProvider(Class cls);
 }

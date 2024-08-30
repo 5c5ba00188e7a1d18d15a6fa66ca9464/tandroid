@@ -10,7 +10,6 @@ import com.google.android.datatransport.cct.CCTDestination;
 import com.google.android.datatransport.runtime.TransportRuntime;
 import com.google.firebase.components.Lazy;
 import com.google.firebase.inject.Provider;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zznx implements zzno {
     private Provider zza;
@@ -50,21 +49,22 @@ public final class zznx implements zzno {
 
     static Event zzb(zznh zznhVar, zznf zznfVar) {
         int zza = zznhVar.zza();
-        if (zznfVar.zza() == 0) {
-            return Event.ofTelemetry(zznfVar.zze(zza, false));
-        }
-        return Event.ofData(zznfVar.zze(zza, false));
+        int zza2 = zznfVar.zza();
+        byte[] zze = zznfVar.zze(zza, false);
+        return zza2 != 0 ? Event.ofData(zze) : Event.ofTelemetry(zze);
     }
 
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzno
     public final void zza(zznf zznfVar) {
-        if (this.zzc.zza() != 0) {
-            ((Transport) this.zzb.get()).send(zzb(this.zzc, zznfVar));
-            return;
+        Provider provider;
+        if (this.zzc.zza() == 0) {
+            provider = this.zza;
+            if (provider == null) {
+                return;
+            }
+        } else {
+            provider = this.zzb;
         }
-        Provider provider = this.zza;
-        if (provider != null) {
-            ((Transport) provider.get()).send(zzb(this.zzc, zznfVar));
-        }
+        ((Transport) provider.get()).send(zzb(this.zzc, zznfVar));
     }
 }

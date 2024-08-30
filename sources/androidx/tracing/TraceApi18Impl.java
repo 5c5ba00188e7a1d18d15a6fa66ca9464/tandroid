@@ -1,6 +1,6 @@
 package androidx.tracing;
 /* loaded from: classes.dex */
-final class TraceApi18Impl {
+abstract class TraceApi18Impl {
     public static void beginSection(String str) {
         android.os.Trace.beginSection(str);
     }

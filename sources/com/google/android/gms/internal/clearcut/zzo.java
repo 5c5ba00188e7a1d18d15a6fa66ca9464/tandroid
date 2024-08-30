@@ -2,7 +2,6 @@ package com.google.android.gms.internal.clearcut;
 
 import android.os.IBinder;
 import android.os.Parcel;
-import android.os.RemoteException;
 /* loaded from: classes.dex */
 public final class zzo extends zza implements zzn {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -11,7 +10,7 @@ public final class zzo extends zza implements zzn {
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzn
-    public final void zza(zzl zzlVar, com.google.android.gms.clearcut.zze zzeVar) throws RemoteException {
+    public final void zza(zzl zzlVar, com.google.android.gms.clearcut.zze zzeVar) {
         Parcel obtainAndWriteInterfaceToken = obtainAndWriteInterfaceToken();
         zzc.zza(obtainAndWriteInterfaceToken, zzlVar);
         zzc.zza(obtainAndWriteInterfaceToken, zzeVar);

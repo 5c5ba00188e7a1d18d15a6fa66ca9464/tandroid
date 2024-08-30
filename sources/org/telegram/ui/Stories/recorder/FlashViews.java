@@ -43,24 +43,29 @@ public class FlashViews {
     private final WindowManager windowManager;
     private final View windowView;
     private final WindowManager.LayoutParams windowViewParams;
-    private final ArrayList<Invertable> invertableViews = new ArrayList<>();
+    private final ArrayList invertableViews = new ArrayList();
     private float invert = 0.0f;
     public float warmth = 0.75f;
     public float intensity = 1.0f;
     private final Matrix gradientMatrix = new Matrix();
 
     /* loaded from: classes4.dex */
+    public static class ImageViewInvertable extends ImageView implements Invertable {
+        public ImageViewInvertable(Context context) {
+            super(context);
+        }
+
+        @Override // org.telegram.ui.Stories.recorder.FlashViews.Invertable
+        public void setInvert(float f) {
+            setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(-1, -16777216, f), PorterDuff.Mode.MULTIPLY));
+        }
+    }
+
+    /* loaded from: classes4.dex */
     public interface Invertable {
         void invalidate();
 
         void setInvert(float f);
-    }
-
-    public static int getColor(float f) {
-        if (f < 0.5f) {
-            return ColorUtils.blendARGB(-7544833, -1, Utilities.clamp(f / 0.5f, 1.0f, 0.0f));
-        }
-        return ColorUtils.blendARGB(-1, -70004, Utilities.clamp((f - 0.5f) / 0.5f, 1.0f, 0.0f));
     }
 
     public FlashViews(Context context, WindowManager windowManager, View view, WindowManager.LayoutParams layoutParams) {
@@ -72,15 +77,15 @@ public class FlashViews {
         this.windowViewParams = layoutParams;
         this.backgroundView = new View(context) { // from class: org.telegram.ui.Stories.recorder.FlashViews.1
             @Override // android.view.View
-            protected void onMeasure(int i, int i2) {
-                super.onMeasure(i, i2);
-                FlashViews.this.invalidateGradient();
-            }
-
-            @Override // android.view.View
             protected void dispatchDraw(Canvas canvas) {
                 FlashViews.this.gradientMatrix.reset();
                 FlashViews.this.drawGradient(canvas, true);
+            }
+
+            @Override // android.view.View
+            protected void onMeasure(int i, int i2) {
+                super.onMeasure(i, i2);
+                FlashViews.this.invalidateGradient();
             }
         };
         this.foregroundView = new View(context) { // from class: org.telegram.ui.Stories.recorder.FlashViews.2
@@ -93,94 +98,6 @@ public class FlashViews {
             }
         };
         paint.setAlpha(0);
-    }
-
-    public void flash(final Utilities.Callback<Utilities.Callback<Runnable>> callback) {
-        setScreenBrightness(intensityValue());
-        flashTo(1.0f, 320L, new Runnable() { // from class: org.telegram.ui.Stories.recorder.FlashViews$$ExternalSyntheticLambda5
-            @Override // java.lang.Runnable
-            public final void run() {
-                FlashViews.this.lambda$flash$3(callback);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$flash$3(final Utilities.Callback callback) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.FlashViews$$ExternalSyntheticLambda6
-            @Override // java.lang.Runnable
-            public final void run() {
-                FlashViews.this.lambda$flash$2(callback);
-            }
-        }, 320L);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$flash$2(Utilities.Callback callback) {
-        callback.run(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.FlashViews$$ExternalSyntheticLambda7
-            @Override // org.telegram.messenger.Utilities.Callback
-            public final void run(Object obj) {
-                FlashViews.this.lambda$flash$1((Runnable) obj);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$flash$1(final Runnable runnable) {
-        setScreenBrightness(-1.0f);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.FlashViews$$ExternalSyntheticLambda8
-            @Override // java.lang.Runnable
-            public final void run() {
-                FlashViews.this.lambda$flash$0(runnable);
-            }
-        }, 80L);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$flash$0(Runnable runnable) {
-        flashTo(0.0f, 240L, runnable);
-    }
-
-    private void setScreenBrightness(float f) {
-        Window window;
-        WindowManager.LayoutParams layoutParams = this.windowViewParams;
-        if (layoutParams != null) {
-            layoutParams.screenBrightness = f;
-            WindowManager windowManager = this.windowManager;
-            if (windowManager != null) {
-                windowManager.updateViewLayout(this.windowView, layoutParams);
-                return;
-            }
-            return;
-        }
-        Activity findActivity = AndroidUtilities.findActivity(this.context);
-        if (findActivity == null) {
-            findActivity = LaunchActivity.instance;
-        }
-        if (findActivity == null || findActivity.isFinishing() || (window = findActivity.getWindow()) == null) {
-            return;
-        }
-        WindowManager.LayoutParams attributes = window.getAttributes();
-        attributes.screenBrightness = f;
-        window.setAttributes(attributes);
-    }
-
-    public void previewStart() {
-        flashTo(0.85f, 240L, null);
-    }
-
-    public void previewEnd() {
-        flashTo(0.0f, 240L, null);
-    }
-
-    public void flashIn(Runnable runnable) {
-        setScreenBrightness(intensityValue());
-        flashTo(1.0f, 320L, runnable);
-    }
-
-    public void flashOut() {
-        setScreenBrightness(-1.0f);
-        flashTo(0.0f, 240L, null);
     }
 
     private void flashTo(final float f, long j, final Runnable runnable) {
@@ -200,7 +117,7 @@ public class FlashViews {
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.invert, f);
         this.animator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.FlashViews$$ExternalSyntheticLambda4
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.FlashViews$$ExternalSyntheticLambda5
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 FlashViews.this.lambda$flashTo$4(valueAnimator2);
@@ -222,45 +139,22 @@ public class FlashViews {
         this.animator.start();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$flashTo$4(ValueAnimator valueAnimator) {
-        this.invert = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        update();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void update() {
-        for (int i = 0; i < this.invertableViews.size(); i++) {
-            this.invertableViews.get(i).setInvert(this.invert);
-            this.invertableViews.get(i).invalidate();
-        }
-        this.paint.setAlpha((int) (intensityValue() * 255.0f * this.invert));
-        this.backgroundView.invalidate();
-        this.foregroundView.invalidate();
+    public static int getColor(float f) {
+        return f < 0.5f ? ColorUtils.blendARGB(-7544833, -1, Utilities.clamp(f / 0.5f, 1.0f, 0.0f)) : ColorUtils.blendARGB(-1, -70004, Utilities.clamp((f - 0.5f) / 0.5f, 1.0f, 0.0f));
     }
 
     private float intensityValue() {
         return this.intensity;
     }
 
-    public void add(Invertable invertable) {
-        invertable.setInvert(this.invert);
-        this.invertableViews.add(invertable);
-    }
-
-    public void setIntensity(float f) {
-        this.intensity = f;
-        update();
-    }
-
-    public void setWarmth(float f) {
-        this.warmth = f;
-        this.color = getColor(f);
-        invalidateGradient();
+    private void invalidate() {
+        this.backgroundView.invalidate();
+        this.foregroundView.invalidate();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public void invalidateGradient() {
+        RadialGradient radialGradient;
         ColorSpace.Named named;
         ColorSpace colorSpace;
         Color valueOf;
@@ -290,19 +184,97 @@ public class FlashViews {
             colorSpace2 = ColorSpace.get(named);
             valueOf2 = Color.valueOf(Color.red(this.color) / 255.0f, Color.green(this.color) / 255.0f, Color.blue(this.color) / 255.0f, 1.0f, colorSpace2);
             pack2 = valueOf2.pack();
-            this.gradient = new RadialGradient(i * 0.5f, i2 * 0.4f, min, new long[]{pack, pack2}, new float[]{AndroidUtilities.lerp(0.9f, 0.22f, this.invert), 1.0f}, Shader.TileMode.CLAMP);
+            radialGradient = new RadialGradient(i * 0.5f, i2 * 0.4f, min, new long[]{pack, pack2}, new float[]{AndroidUtilities.lerp(0.9f, 0.22f, this.invert), 1.0f}, Shader.TileMode.CLAMP);
         } else {
             int i3 = this.lastWidth;
             int i4 = this.lastHeight;
-            this.gradient = new RadialGradient(i3 * 0.5f, i4 * 0.4f, (Math.min(i3, i4) / 2.0f) * 1.35f * (2.0f - this.invert), new int[]{ColorUtils.setAlphaComponent(this.color, 0), this.color}, new float[]{AndroidUtilities.lerp(0.9f, 0.22f, this.invert), 1.0f}, Shader.TileMode.CLAMP);
+            radialGradient = new RadialGradient(i3 * 0.5f, i4 * 0.4f, (Math.min(i3, i4) / 2.0f) * 1.35f * (2.0f - this.invert), new int[]{ColorUtils.setAlphaComponent(this.color, 0), this.color}, new float[]{AndroidUtilities.lerp(0.9f, 0.22f, this.invert), 1.0f}, Shader.TileMode.CLAMP);
         }
+        this.gradient = radialGradient;
         this.paint.setShader(this.gradient);
         invalidate();
     }
 
-    private void invalidate() {
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$flash$0(Runnable runnable) {
+        flashTo(0.0f, 240L, runnable);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$flash$1(final Runnable runnable) {
+        setScreenBrightness(-1.0f);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.FlashViews$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                FlashViews.this.lambda$flash$0(runnable);
+            }
+        }, 80L);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$flash$2(Utilities.Callback callback) {
+        callback.run(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.FlashViews$$ExternalSyntheticLambda8
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                FlashViews.this.lambda$flash$1((Runnable) obj);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$flash$3(final Utilities.Callback callback) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.FlashViews$$ExternalSyntheticLambda7
+            @Override // java.lang.Runnable
+            public final void run() {
+                FlashViews.this.lambda$flash$2(callback);
+            }
+        }, 320L);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$flashTo$4(ValueAnimator valueAnimator) {
+        this.invert = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        update();
+    }
+
+    private void setScreenBrightness(float f) {
+        Window window;
+        WindowManager.LayoutParams layoutParams = this.windowViewParams;
+        if (layoutParams != null) {
+            layoutParams.screenBrightness = f;
+            WindowManager windowManager = this.windowManager;
+            if (windowManager != null) {
+                windowManager.updateViewLayout(this.windowView, layoutParams);
+                return;
+            }
+            return;
+        }
+        Activity findActivity = AndroidUtilities.findActivity(this.context);
+        if (findActivity == null) {
+            findActivity = LaunchActivity.instance;
+        }
+        if (findActivity == null || findActivity.isFinishing() || (window = findActivity.getWindow()) == null) {
+            return;
+        }
+        WindowManager.LayoutParams attributes = window.getAttributes();
+        attributes.screenBrightness = f;
+        window.setAttributes(attributes);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void update() {
+        for (int i = 0; i < this.invertableViews.size(); i++) {
+            ((Invertable) this.invertableViews.get(i)).setInvert(this.invert);
+            ((Invertable) this.invertableViews.get(i)).invalidate();
+        }
+        this.paint.setAlpha((int) (intensityValue() * 255.0f * this.invert));
         this.backgroundView.invalidate();
         this.foregroundView.invalidate();
+    }
+
+    public void add(Invertable invertable) {
+        invertable.setInvert(this.invert);
+        this.invertableViews.add(invertable);
     }
 
     public void drawGradient(Canvas canvas, boolean z) {
@@ -319,15 +291,42 @@ public class FlashViews {
         }
     }
 
-    /* loaded from: classes4.dex */
-    public static class ImageViewInvertable extends ImageView implements Invertable {
-        public ImageViewInvertable(Context context) {
-            super(context);
-        }
+    public void flash(final Utilities.Callback callback) {
+        setScreenBrightness(intensityValue());
+        flashTo(1.0f, 320L, new Runnable() { // from class: org.telegram.ui.Stories.recorder.FlashViews$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                FlashViews.this.lambda$flash$3(callback);
+            }
+        });
+    }
 
-        @Override // org.telegram.ui.Stories.recorder.FlashViews.Invertable
-        public void setInvert(float f) {
-            setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(-1, -16777216, f), PorterDuff.Mode.MULTIPLY));
-        }
+    public void flashIn(Runnable runnable) {
+        setScreenBrightness(intensityValue());
+        flashTo(1.0f, 320L, runnable);
+    }
+
+    public void flashOut() {
+        setScreenBrightness(-1.0f);
+        flashTo(0.0f, 240L, null);
+    }
+
+    public void previewEnd() {
+        flashTo(0.0f, 240L, null);
+    }
+
+    public void previewStart() {
+        flashTo(0.85f, 240L, null);
+    }
+
+    public void setIntensity(float f) {
+        this.intensity = f;
+        update();
+    }
+
+    public void setWarmth(float f) {
+        this.warmth = f;
+        this.color = getColor(f);
+        invalidateGradient();
     }
 }

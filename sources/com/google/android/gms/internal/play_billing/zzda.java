@@ -1,13 +1,13 @@
 package com.google.android.gms.internal.play_billing;
 
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.Iterator;
 import java.util.Map;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 final class zzda {
     public static final int zza(int i, Object obj, Object obj2) {
         zzcz zzczVar = (zzcz) obj;
-        zzcy zzcyVar = (zzcy) obj2;
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(obj2);
         if (zzczVar.isEmpty()) {
             return 0;
         }

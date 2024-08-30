@@ -3,13 +3,9 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
-public final class zzc {
+public abstract class zzc {
     private static final ClassLoader zza = zzc.class.getClassLoader();
-
-    private zzc() {
-    }
 
     public static void zza(Parcel parcel, Parcelable parcelable) {
         parcel.writeInt(1);
@@ -17,10 +13,6 @@ public final class zzc {
     }
 
     public static void zzb(Parcel parcel, IInterface iInterface) {
-        if (iInterface == null) {
-            parcel.writeStrongBinder(null);
-        } else {
-            parcel.writeStrongBinder(iInterface.asBinder());
-        }
+        parcel.writeStrongBinder(iInterface == null ? null : iInterface.asBinder());
     }
 }

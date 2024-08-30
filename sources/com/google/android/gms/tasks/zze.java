@@ -1,7 +1,6 @@
 package com.google.android.gms.tasks;
 
 import java.util.concurrent.Executor;
-/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
 final class zze implements Runnable {
     final /* synthetic */ Task zza;
@@ -31,13 +30,13 @@ final class zze implements Runnable {
             task.addOnFailureListener(executor, this.zzb);
             task.addOnCanceledListener(executor, this.zzb);
         } catch (RuntimeExecutionException e) {
-            if (!(e.getCause() instanceof Exception)) {
-                zzwVar2 = this.zzb.zzc;
-                zzwVar2.zza(e);
+            if (e.getCause() instanceof Exception) {
+                zzwVar3 = this.zzb.zzc;
+                zzwVar3.zza((Exception) e.getCause());
                 return;
             }
-            zzwVar3 = this.zzb.zzc;
-            zzwVar3.zza((Exception) e.getCause());
+            zzwVar2 = this.zzb.zzc;
+            zzwVar2.zza(e);
         } catch (Exception e2) {
             zzwVar = this.zzb.zzc;
             zzwVar.zza(e2);

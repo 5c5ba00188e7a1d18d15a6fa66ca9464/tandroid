@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.InflateException;
 import android.view.View;
 import androidx.appcompat.R$styleable;
 import androidx.appcompat.view.ContextThemeWrapper;
@@ -33,13 +32,223 @@ import java.lang.reflect.Method;
 /* loaded from: classes.dex */
 public class AppCompatViewInflater {
     private final Object[] mConstructorArgs = new Object[2];
-    private static final Class<?>[] sConstructorSignature = {Context.class, AttributeSet.class};
+    private static final Class[] sConstructorSignature = {Context.class, AttributeSet.class};
     private static final int[] sOnClickAttrs = {16843375};
     private static final int[] sAccessibilityHeading = {16844160};
     private static final int[] sAccessibilityPaneTitle = {16844156};
     private static final int[] sScreenReaderFocusable = {16844148};
     private static final String[] sClassPrefixList = {"android.widget.", "android.view.", "android.webkit."};
-    private static final SimpleArrayMap<String, Constructor<? extends View>> sConstructorMap = new SimpleArrayMap<>();
+    private static final SimpleArrayMap sConstructorMap = new SimpleArrayMap();
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class DeclaredOnClickListener implements View.OnClickListener {
+        private final View mHostView;
+        private final String mMethodName;
+        private Context mResolvedContext;
+        private Method mResolvedMethod;
+
+        public DeclaredOnClickListener(View view, String str) {
+            this.mHostView = view;
+            this.mMethodName = str;
+        }
+
+        private void resolveMethod(Context context) {
+            int id;
+            String str;
+            Method method;
+            while (context != null) {
+                try {
+                    if (!context.isRestricted() && (method = context.getClass().getMethod(this.mMethodName, View.class)) != null) {
+                        this.mResolvedMethod = method;
+                        this.mResolvedContext = context;
+                        return;
+                    }
+                } catch (NoSuchMethodException unused) {
+                }
+                context = context instanceof ContextWrapper ? ((ContextWrapper) context).getBaseContext() : null;
+            }
+            if (this.mHostView.getId() == -1) {
+                str = "";
+            } else {
+                str = " with id '" + this.mHostView.getContext().getResources().getResourceEntryName(id) + "'";
+            }
+            throw new IllegalStateException("Could not find method " + this.mMethodName + "(View) in a parent or ancestor Context for android:onClick attribute defined on view " + this.mHostView.getClass() + str);
+        }
+
+        @Override // android.view.View.OnClickListener
+        public void onClick(View view) {
+            if (this.mResolvedMethod == null) {
+                resolveMethod(this.mHostView.getContext());
+            }
+            try {
+                this.mResolvedMethod.invoke(this.mResolvedContext, view);
+            } catch (IllegalAccessException e) {
+                throw new IllegalStateException("Could not execute non-public method for android:onClick", e);
+            } catch (InvocationTargetException e2) {
+                throw new IllegalStateException("Could not execute method for android:onClick", e2);
+            }
+        }
+    }
+
+    private void backportAccessibilityAttributes(Context context, View view, AttributeSet attributeSet) {
+        if (Build.VERSION.SDK_INT > 28) {
+            return;
+        }
+        TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attributeSet, sAccessibilityHeading);
+        if (obtainStyledAttributes.hasValue(0)) {
+            ViewCompat.setAccessibilityHeading(view, obtainStyledAttributes.getBoolean(0, false));
+        }
+        obtainStyledAttributes.recycle();
+        TypedArray obtainStyledAttributes2 = context.obtainStyledAttributes(attributeSet, sAccessibilityPaneTitle);
+        if (obtainStyledAttributes2.hasValue(0)) {
+            ViewCompat.setAccessibilityPaneTitle(view, obtainStyledAttributes2.getString(0));
+        }
+        obtainStyledAttributes2.recycle();
+        TypedArray obtainStyledAttributes3 = context.obtainStyledAttributes(attributeSet, sScreenReaderFocusable);
+        if (obtainStyledAttributes3.hasValue(0)) {
+            ViewCompat.setScreenReaderFocusable(view, obtainStyledAttributes3.getBoolean(0, false));
+        }
+        obtainStyledAttributes3.recycle();
+    }
+
+    private void checkOnClickListener(View view, AttributeSet attributeSet) {
+        Context context = view.getContext();
+        if ((context instanceof ContextWrapper) && ViewCompat.hasOnClickListeners(view)) {
+            TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attributeSet, sOnClickAttrs);
+            String string = obtainStyledAttributes.getString(0);
+            if (string != null) {
+                view.setOnClickListener(new DeclaredOnClickListener(view, string));
+            }
+            obtainStyledAttributes.recycle();
+        }
+    }
+
+    private View createViewByPrefix(Context context, String str, String str2) {
+        String str3;
+        SimpleArrayMap simpleArrayMap = sConstructorMap;
+        Constructor constructor = (Constructor) simpleArrayMap.get(str);
+        if (constructor == null) {
+            if (str2 != null) {
+                try {
+                    str3 = str2 + str;
+                } catch (Exception unused) {
+                    return null;
+                }
+            } else {
+                str3 = str;
+            }
+            constructor = Class.forName(str3, false, context.getClassLoader()).asSubclass(View.class).getConstructor(sConstructorSignature);
+            simpleArrayMap.put(str, constructor);
+        }
+        constructor.setAccessible(true);
+        return (View) constructor.newInstance(this.mConstructorArgs);
+    }
+
+    private View createViewFromTag(Context context, String str, AttributeSet attributeSet) {
+        if (str.equals("view")) {
+            str = attributeSet.getAttributeValue(null, "class");
+        }
+        try {
+            Object[] objArr = this.mConstructorArgs;
+            objArr[0] = context;
+            objArr[1] = attributeSet;
+            if (-1 != str.indexOf(46)) {
+                return createViewByPrefix(context, str, null);
+            }
+            int i = 0;
+            while (true) {
+                String[] strArr = sClassPrefixList;
+                if (i >= strArr.length) {
+                    return null;
+                }
+                View createViewByPrefix = createViewByPrefix(context, str, strArr[i]);
+                if (createViewByPrefix != null) {
+                    return createViewByPrefix;
+                }
+                i++;
+            }
+        } catch (Exception unused) {
+            return null;
+        } finally {
+            Object[] objArr2 = this.mConstructorArgs;
+            objArr2[0] = null;
+            objArr2[1] = null;
+        }
+    }
+
+    private static Context themifyContext(Context context, AttributeSet attributeSet, boolean z, boolean z2) {
+        TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attributeSet, R$styleable.View, 0, 0);
+        int resourceId = z ? obtainStyledAttributes.getResourceId(R$styleable.View_android_theme, 0) : 0;
+        if (z2 && resourceId == 0 && (resourceId = obtainStyledAttributes.getResourceId(R$styleable.View_theme, 0)) != 0) {
+            Log.i("AppCompatViewInflater", "app:theme is now deprecated. Please move to using android:theme instead.");
+        }
+        obtainStyledAttributes.recycle();
+        return resourceId != 0 ? ((context instanceof ContextThemeWrapper) && ((ContextThemeWrapper) context).getThemeResId() == resourceId) ? context : new ContextThemeWrapper(context, resourceId) : context;
+    }
+
+    private void verifyNotNull(View view, String str) {
+        if (view != null) {
+            return;
+        }
+        throw new IllegalStateException(getClass().getName() + " asked to inflate view for <" + str + ">, but returned null");
+    }
+
+    protected AppCompatAutoCompleteTextView createAutoCompleteTextView(Context context, AttributeSet attributeSet) {
+        return new AppCompatAutoCompleteTextView(context, attributeSet);
+    }
+
+    protected AppCompatButton createButton(Context context, AttributeSet attributeSet) {
+        return new AppCompatButton(context, attributeSet);
+    }
+
+    protected AppCompatCheckBox createCheckBox(Context context, AttributeSet attributeSet) {
+        return new AppCompatCheckBox(context, attributeSet);
+    }
+
+    protected AppCompatCheckedTextView createCheckedTextView(Context context, AttributeSet attributeSet) {
+        return new AppCompatCheckedTextView(context, attributeSet);
+    }
+
+    protected AppCompatEditText createEditText(Context context, AttributeSet attributeSet) {
+        return new AppCompatEditText(context, attributeSet);
+    }
+
+    protected AppCompatImageButton createImageButton(Context context, AttributeSet attributeSet) {
+        return new AppCompatImageButton(context, attributeSet);
+    }
+
+    protected AppCompatImageView createImageView(Context context, AttributeSet attributeSet) {
+        return new AppCompatImageView(context, attributeSet);
+    }
+
+    protected AppCompatMultiAutoCompleteTextView createMultiAutoCompleteTextView(Context context, AttributeSet attributeSet) {
+        return new AppCompatMultiAutoCompleteTextView(context, attributeSet);
+    }
+
+    protected AppCompatRadioButton createRadioButton(Context context, AttributeSet attributeSet) {
+        return new AppCompatRadioButton(context, attributeSet);
+    }
+
+    protected AppCompatRatingBar createRatingBar(Context context, AttributeSet attributeSet) {
+        return new AppCompatRatingBar(context, attributeSet);
+    }
+
+    protected AppCompatSeekBar createSeekBar(Context context, AttributeSet attributeSet) {
+        return new AppCompatSeekBar(context, attributeSet);
+    }
+
+    protected AppCompatSpinner createSpinner(Context context, AttributeSet attributeSet) {
+        return new AppCompatSpinner(context, attributeSet);
+    }
+
+    protected AppCompatTextView createTextView(Context context, AttributeSet attributeSet) {
+        return new AppCompatTextView(context, attributeSet);
+    }
+
+    protected AppCompatToggleButton createToggleButton(Context context, AttributeSet attributeSet) {
+        return new AppCompatToggleButton(context, attributeSet);
+    }
 
     protected View createView(Context context, String str, AttributeSet attributeSet) {
         return null;
@@ -211,215 +420,5 @@ public class AppCompatViewInflater {
             backportAccessibilityAttributes(context2, createRatingBar, attributeSet);
         }
         return createRatingBar;
-    }
-
-    protected AppCompatTextView createTextView(Context context, AttributeSet attributeSet) {
-        return new AppCompatTextView(context, attributeSet);
-    }
-
-    protected AppCompatImageView createImageView(Context context, AttributeSet attributeSet) {
-        return new AppCompatImageView(context, attributeSet);
-    }
-
-    protected AppCompatButton createButton(Context context, AttributeSet attributeSet) {
-        return new AppCompatButton(context, attributeSet);
-    }
-
-    protected AppCompatEditText createEditText(Context context, AttributeSet attributeSet) {
-        return new AppCompatEditText(context, attributeSet);
-    }
-
-    protected AppCompatSpinner createSpinner(Context context, AttributeSet attributeSet) {
-        return new AppCompatSpinner(context, attributeSet);
-    }
-
-    protected AppCompatImageButton createImageButton(Context context, AttributeSet attributeSet) {
-        return new AppCompatImageButton(context, attributeSet);
-    }
-
-    protected AppCompatCheckBox createCheckBox(Context context, AttributeSet attributeSet) {
-        return new AppCompatCheckBox(context, attributeSet);
-    }
-
-    protected AppCompatRadioButton createRadioButton(Context context, AttributeSet attributeSet) {
-        return new AppCompatRadioButton(context, attributeSet);
-    }
-
-    protected AppCompatCheckedTextView createCheckedTextView(Context context, AttributeSet attributeSet) {
-        return new AppCompatCheckedTextView(context, attributeSet);
-    }
-
-    protected AppCompatAutoCompleteTextView createAutoCompleteTextView(Context context, AttributeSet attributeSet) {
-        return new AppCompatAutoCompleteTextView(context, attributeSet);
-    }
-
-    protected AppCompatMultiAutoCompleteTextView createMultiAutoCompleteTextView(Context context, AttributeSet attributeSet) {
-        return new AppCompatMultiAutoCompleteTextView(context, attributeSet);
-    }
-
-    protected AppCompatRatingBar createRatingBar(Context context, AttributeSet attributeSet) {
-        return new AppCompatRatingBar(context, attributeSet);
-    }
-
-    protected AppCompatSeekBar createSeekBar(Context context, AttributeSet attributeSet) {
-        return new AppCompatSeekBar(context, attributeSet);
-    }
-
-    protected AppCompatToggleButton createToggleButton(Context context, AttributeSet attributeSet) {
-        return new AppCompatToggleButton(context, attributeSet);
-    }
-
-    private void verifyNotNull(View view, String str) {
-        if (view != null) {
-            return;
-        }
-        throw new IllegalStateException(getClass().getName() + " asked to inflate view for <" + str + ">, but returned null");
-    }
-
-    private View createViewFromTag(Context context, String str, AttributeSet attributeSet) {
-        if (str.equals("view")) {
-            str = attributeSet.getAttributeValue(null, "class");
-        }
-        try {
-            Object[] objArr = this.mConstructorArgs;
-            objArr[0] = context;
-            objArr[1] = attributeSet;
-            if (-1 != str.indexOf(46)) {
-                return createViewByPrefix(context, str, null);
-            }
-            int i = 0;
-            while (true) {
-                String[] strArr = sClassPrefixList;
-                if (i >= strArr.length) {
-                    return null;
-                }
-                View createViewByPrefix = createViewByPrefix(context, str, strArr[i]);
-                if (createViewByPrefix != null) {
-                    return createViewByPrefix;
-                }
-                i++;
-            }
-        } catch (Exception unused) {
-            return null;
-        } finally {
-            Object[] objArr2 = this.mConstructorArgs;
-            objArr2[0] = null;
-            objArr2[1] = null;
-        }
-    }
-
-    private void checkOnClickListener(View view, AttributeSet attributeSet) {
-        Context context = view.getContext();
-        if ((context instanceof ContextWrapper) && ViewCompat.hasOnClickListeners(view)) {
-            TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attributeSet, sOnClickAttrs);
-            String string = obtainStyledAttributes.getString(0);
-            if (string != null) {
-                view.setOnClickListener(new DeclaredOnClickListener(view, string));
-            }
-            obtainStyledAttributes.recycle();
-        }
-    }
-
-    private View createViewByPrefix(Context context, String str, String str2) throws ClassNotFoundException, InflateException {
-        String str3;
-        SimpleArrayMap<String, Constructor<? extends View>> simpleArrayMap = sConstructorMap;
-        Constructor<? extends View> constructor = simpleArrayMap.get(str);
-        if (constructor == null) {
-            if (str2 != null) {
-                try {
-                    str3 = str2 + str;
-                } catch (Exception unused) {
-                    return null;
-                }
-            } else {
-                str3 = str;
-            }
-            constructor = Class.forName(str3, false, context.getClassLoader()).asSubclass(View.class).getConstructor(sConstructorSignature);
-            simpleArrayMap.put(str, constructor);
-        }
-        constructor.setAccessible(true);
-        return constructor.newInstance(this.mConstructorArgs);
-    }
-
-    private static Context themifyContext(Context context, AttributeSet attributeSet, boolean z, boolean z2) {
-        TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attributeSet, R$styleable.View, 0, 0);
-        int resourceId = z ? obtainStyledAttributes.getResourceId(R$styleable.View_android_theme, 0) : 0;
-        if (z2 && resourceId == 0 && (resourceId = obtainStyledAttributes.getResourceId(R$styleable.View_theme, 0)) != 0) {
-            Log.i("AppCompatViewInflater", "app:theme is now deprecated. Please move to using android:theme instead.");
-        }
-        obtainStyledAttributes.recycle();
-        return resourceId != 0 ? ((context instanceof ContextThemeWrapper) && ((ContextThemeWrapper) context).getThemeResId() == resourceId) ? context : new ContextThemeWrapper(context, resourceId) : context;
-    }
-
-    private void backportAccessibilityAttributes(Context context, View view, AttributeSet attributeSet) {
-        if (Build.VERSION.SDK_INT > 28) {
-            return;
-        }
-        TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attributeSet, sAccessibilityHeading);
-        if (obtainStyledAttributes.hasValue(0)) {
-            ViewCompat.setAccessibilityHeading(view, obtainStyledAttributes.getBoolean(0, false));
-        }
-        obtainStyledAttributes.recycle();
-        TypedArray obtainStyledAttributes2 = context.obtainStyledAttributes(attributeSet, sAccessibilityPaneTitle);
-        if (obtainStyledAttributes2.hasValue(0)) {
-            ViewCompat.setAccessibilityPaneTitle(view, obtainStyledAttributes2.getString(0));
-        }
-        obtainStyledAttributes2.recycle();
-        TypedArray obtainStyledAttributes3 = context.obtainStyledAttributes(attributeSet, sScreenReaderFocusable);
-        if (obtainStyledAttributes3.hasValue(0)) {
-            ViewCompat.setScreenReaderFocusable(view, obtainStyledAttributes3.getBoolean(0, false));
-        }
-        obtainStyledAttributes3.recycle();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class DeclaredOnClickListener implements View.OnClickListener {
-        private final View mHostView;
-        private final String mMethodName;
-        private Context mResolvedContext;
-        private Method mResolvedMethod;
-
-        public DeclaredOnClickListener(View view, String str) {
-            this.mHostView = view;
-            this.mMethodName = str;
-        }
-
-        @Override // android.view.View.OnClickListener
-        public void onClick(View view) {
-            if (this.mResolvedMethod == null) {
-                resolveMethod(this.mHostView.getContext());
-            }
-            try {
-                this.mResolvedMethod.invoke(this.mResolvedContext, view);
-            } catch (IllegalAccessException e) {
-                throw new IllegalStateException("Could not execute non-public method for android:onClick", e);
-            } catch (InvocationTargetException e2) {
-                throw new IllegalStateException("Could not execute method for android:onClick", e2);
-            }
-        }
-
-        private void resolveMethod(Context context) {
-            int id;
-            String str;
-            Method method;
-            while (context != null) {
-                try {
-                    if (!context.isRestricted() && (method = context.getClass().getMethod(this.mMethodName, View.class)) != null) {
-                        this.mResolvedMethod = method;
-                        this.mResolvedContext = context;
-                        return;
-                    }
-                } catch (NoSuchMethodException unused) {
-                }
-                context = context instanceof ContextWrapper ? ((ContextWrapper) context).getBaseContext() : null;
-            }
-            if (this.mHostView.getId() == -1) {
-                str = "";
-            } else {
-                str = " with id '" + this.mHostView.getContext().getResources().getResourceEntryName(id) + "'";
-            }
-            throw new IllegalStateException("Could not find method " + this.mMethodName + "(View) in a parent or ancestor Context for android:onClick attribute defined on view " + this.mHostView.getClass() + str);
-        }
     }
 }

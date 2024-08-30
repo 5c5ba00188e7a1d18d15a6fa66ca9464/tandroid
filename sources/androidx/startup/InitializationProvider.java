@@ -8,20 +8,7 @@ import android.net.Uri;
 /* loaded from: classes.dex */
 public class InitializationProvider extends ContentProvider {
     @Override // android.content.ContentProvider
-    public final boolean onCreate() {
-        Context context = getContext();
-        if (context != null) {
-            if (context.getApplicationContext() != null) {
-                AppInitializer.getInstance(context).discoverAndInitialize();
-                return true;
-            }
-            return true;
-        }
-        throw new StartupException("Context cannot be null");
-    }
-
-    @Override // android.content.ContentProvider
-    public final Cursor query(Uri uri, String[] strArr, String str, String[] strArr2, String str2) {
+    public final int delete(Uri uri, String str, String[] strArr) {
         throw new IllegalStateException("Not allowed.");
     }
 
@@ -36,7 +23,20 @@ public class InitializationProvider extends ContentProvider {
     }
 
     @Override // android.content.ContentProvider
-    public final int delete(Uri uri, String str, String[] strArr) {
+    public final boolean onCreate() {
+        Context context = getContext();
+        if (context != null) {
+            if (context.getApplicationContext() != null) {
+                AppInitializer.getInstance(context).discoverAndInitialize();
+                return true;
+            }
+            return true;
+        }
+        throw new StartupException("Context cannot be null");
+    }
+
+    @Override // android.content.ContentProvider
+    public final Cursor query(Uri uri, String[] strArr, String str, String[] strArr2, String str2) {
         throw new IllegalStateException("Not allowed.");
     }
 

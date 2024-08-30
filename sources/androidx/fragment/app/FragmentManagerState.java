@@ -1,16 +1,14 @@
 package androidx.fragment.app;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.fragment.app.FragmentManager;
 import java.util.ArrayList;
 /* JADX INFO: Access modifiers changed from: package-private */
-@SuppressLint({"BanParcelableUsage"})
 /* loaded from: classes.dex */
 public final class FragmentManagerState implements Parcelable {
-    public static final Parcelable.Creator<FragmentManagerState> CREATOR = new Parcelable.Creator<FragmentManagerState>() { // from class: androidx.fragment.app.FragmentManagerState.1
+    public static final Parcelable.Creator<FragmentManagerState> CREATOR = new Parcelable.Creator() { // from class: androidx.fragment.app.FragmentManagerState.1
         @Override // android.os.Parcelable.Creator
         public FragmentManagerState createFromParcel(Parcel parcel) {
             return new FragmentManagerState(parcel);
@@ -21,30 +19,25 @@ public final class FragmentManagerState implements Parcelable {
             return new FragmentManagerState[i];
         }
     };
-    ArrayList<FragmentState> mActive;
-    ArrayList<String> mAdded;
+    ArrayList mActive;
+    ArrayList mAdded;
     BackStackState[] mBackStack;
     int mBackStackIndex;
-    ArrayList<FragmentManager.LaunchedFragmentInfo> mLaunchedFragments;
+    ArrayList mLaunchedFragments;
     String mPrimaryNavActiveWho;
-    ArrayList<String> mResultKeys;
-    ArrayList<Bundle> mResults;
-
-    @Override // android.os.Parcelable
-    public int describeContents() {
-        return 0;
-    }
+    ArrayList mResultKeys;
+    ArrayList mResults;
 
     public FragmentManagerState() {
         this.mPrimaryNavActiveWho = null;
-        this.mResultKeys = new ArrayList<>();
-        this.mResults = new ArrayList<>();
+        this.mResultKeys = new ArrayList();
+        this.mResults = new ArrayList();
     }
 
     public FragmentManagerState(Parcel parcel) {
         this.mPrimaryNavActiveWho = null;
-        this.mResultKeys = new ArrayList<>();
-        this.mResults = new ArrayList<>();
+        this.mResultKeys = new ArrayList();
+        this.mResults = new ArrayList();
         this.mActive = parcel.createTypedArrayList(FragmentState.CREATOR);
         this.mAdded = parcel.createStringArrayList();
         this.mBackStack = (BackStackState[]) parcel.createTypedArray(BackStackState.CREATOR);
@@ -53,6 +46,11 @@ public final class FragmentManagerState implements Parcelable {
         this.mResultKeys = parcel.createStringArrayList();
         this.mResults = parcel.createTypedArrayList(Bundle.CREATOR);
         this.mLaunchedFragments = parcel.createTypedArrayList(FragmentManager.LaunchedFragmentInfo.CREATOR);
+    }
+
+    @Override // android.os.Parcelable
+    public int describeContents() {
+        return 0;
     }
 
     @Override // android.os.Parcelable

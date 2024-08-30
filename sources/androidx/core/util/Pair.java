@@ -1,12 +1,16 @@
 package androidx.core.util;
 /* loaded from: classes.dex */
-public class Pair<F, S> {
-    public final F first;
-    public final S second;
+public class Pair {
+    public final Object first;
+    public final Object second;
 
-    public Pair(F f, S s) {
-        this.first = f;
-        this.second = s;
+    public Pair(Object obj, Object obj2) {
+        this.first = obj;
+        this.second = obj2;
+    }
+
+    public static Pair create(Object obj, Object obj2) {
+        return new Pair(obj, obj2);
     }
 
     public boolean equals(Object obj) {
@@ -18,17 +22,13 @@ public class Pair<F, S> {
     }
 
     public int hashCode() {
-        F f = this.first;
-        int hashCode = f == null ? 0 : f.hashCode();
-        S s = this.second;
-        return hashCode ^ (s != null ? s.hashCode() : 0);
+        Object obj = this.first;
+        int hashCode = obj == null ? 0 : obj.hashCode();
+        Object obj2 = this.second;
+        return hashCode ^ (obj2 != null ? obj2.hashCode() : 0);
     }
 
     public String toString() {
         return "Pair{" + this.first + " " + this.second + "}";
-    }
-
-    public static <A, B> Pair<A, B> create(A a, B b) {
-        return new Pair<>(a, b);
     }
 }

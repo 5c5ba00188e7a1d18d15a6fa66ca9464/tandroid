@@ -6,10 +6,9 @@ import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.util.Util;
-@Deprecated
 /* loaded from: classes.dex */
 public class VorbisComment implements Metadata.Entry {
-    public static final Parcelable.Creator<VorbisComment> CREATOR = new Parcelable.Creator<VorbisComment>() { // from class: com.google.android.exoplayer2.metadata.flac.VorbisComment.1
+    public static final Parcelable.Creator<VorbisComment> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.flac.VorbisComment.1
         @Override // android.os.Parcelable.Creator
         public VorbisComment createFromParcel(Parcel parcel) {
             return new VorbisComment(parcel);
@@ -23,9 +22,31 @@ public class VorbisComment implements Metadata.Entry {
     public final String key;
     public final String value;
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    public VorbisComment(Parcel parcel) {
+        this.key = (String) Util.castNonNull(parcel.readString());
+        this.value = (String) Util.castNonNull(parcel.readString());
+    }
+
+    public VorbisComment(String str, String str2) {
+        this.key = str;
+        this.value = str2;
+    }
+
     @Override // android.os.Parcelable
     public int describeContents() {
         return 0;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        VorbisComment vorbisComment = (VorbisComment) obj;
+        return this.key.equals(vorbisComment.key) && this.value.equals(vorbisComment.value);
     }
 
     @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
@@ -38,15 +59,8 @@ public class VorbisComment implements Metadata.Entry {
         return Metadata.Entry.-CC.$default$getWrappedMetadataFormat(this);
     }
 
-    public VorbisComment(String str, String str2) {
-        this.key = str;
-        this.value = str2;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public VorbisComment(Parcel parcel) {
-        this.key = (String) Util.castNonNull(parcel.readString());
-        this.value = (String) Util.castNonNull(parcel.readString());
+    public int hashCode() {
+        return ((this.key.hashCode() + 527) * 31) + this.value.hashCode();
     }
 
     @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
@@ -109,21 +123,6 @@ public class VorbisComment implements Metadata.Entry {
 
     public String toString() {
         return "VC: " + this.key + "=" + this.value;
-    }
-
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        VorbisComment vorbisComment = (VorbisComment) obj;
-        return this.key.equals(vorbisComment.key) && this.value.equals(vorbisComment.value);
-    }
-
-    public int hashCode() {
-        return ((this.key.hashCode() + 527) * 31) + this.value.hashCode();
     }
 
     @Override // android.os.Parcelable

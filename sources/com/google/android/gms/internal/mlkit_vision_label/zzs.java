@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_vision_label;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
-public final class zzs {
+public abstract class zzs {
     public static int zza(int i, int i2, String str) {
         String zza;
         if (i < 0 || i >= i2) {
@@ -25,16 +24,8 @@ public final class zzs {
     }
 
     public static void zzc(int i, int i2, int i3) {
-        String zze;
         if (i < 0 || i2 < i || i2 > i3) {
-            if (i < 0 || i > i3) {
-                zze = zze(i, i3, "start index");
-            } else if (i2 < 0 || i2 > i3) {
-                zze = zze(i2, i3, "end index");
-            } else {
-                zze = zzt.zza("end index (%s) must not be less than start index (%s)", Integer.valueOf(i2), Integer.valueOf(i));
-            }
-            throw new IndexOutOfBoundsException(zze);
+            throw new IndexOutOfBoundsException((i < 0 || i > i3) ? zze(i, i3, "start index") : (i2 < 0 || i2 > i3) ? zze(i2, i3, "end index") : zzt.zza("end index (%s) must not be less than start index (%s)", Integer.valueOf(i2), Integer.valueOf(i)));
         }
     }
 

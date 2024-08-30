@@ -10,18 +10,18 @@ import java.util.List;
 import java.util.Set;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class NotificationCompatJellybean {
+public abstract class NotificationCompatJellybean {
     private static final Object sExtrasLock = new Object();
     private static final Object sActionsLock = new Object();
 
-    public static SparseArray<Bundle> buildActionExtrasMap(List<Bundle> list) {
+    public static SparseArray buildActionExtrasMap(List list) {
         int size = list.size();
-        SparseArray<Bundle> sparseArray = null;
+        SparseArray sparseArray = null;
         for (int i = 0; i < size; i++) {
-            Bundle bundle = list.get(i);
+            Bundle bundle = (Bundle) list.get(i);
             if (bundle != null) {
                 if (sparseArray == null) {
-                    sparseArray = new SparseArray<>();
+                    sparseArray = new SparseArray();
                 }
                 sparseArray.put(i, bundle);
             }
@@ -29,39 +29,20 @@ public class NotificationCompatJellybean {
         return sparseArray;
     }
 
-    public static Bundle writeActionAndGetExtras(Notification.Builder builder, NotificationCompat.Action action) {
-        IconCompat iconCompat = action.getIconCompat();
-        builder.addAction(iconCompat != null ? iconCompat.getResId() : 0, action.getTitle(), action.getActionIntent());
-        Bundle bundle = new Bundle(action.getExtras());
-        if (action.getRemoteInputs() != null) {
-            bundle.putParcelableArray("android.support.remoteInputs", toBundleArray(action.getRemoteInputs()));
-        }
-        if (action.getDataOnlyRemoteInputs() != null) {
-            bundle.putParcelableArray("android.support.dataRemoteInputs", toBundleArray(action.getDataOnlyRemoteInputs()));
-        }
-        bundle.putBoolean("android.support.allowGeneratedReplies", action.getAllowGeneratedReplies());
-        return bundle;
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
     public static Bundle getBundleForAction(NotificationCompat.Action action) {
-        Bundle bundle;
-        Bundle bundle2 = new Bundle();
+        Bundle bundle = new Bundle();
         IconCompat iconCompat = action.getIconCompat();
-        bundle2.putInt("icon", iconCompat != null ? iconCompat.getResId() : 0);
-        bundle2.putCharSequence("title", action.getTitle());
-        bundle2.putParcelable("actionIntent", action.getActionIntent());
-        if (action.getExtras() != null) {
-            bundle = new Bundle(action.getExtras());
-        } else {
-            bundle = new Bundle();
-        }
-        bundle.putBoolean("android.support.allowGeneratedReplies", action.getAllowGeneratedReplies());
-        bundle2.putBundle("extras", bundle);
-        bundle2.putParcelableArray("remoteInputs", toBundleArray(action.getRemoteInputs()));
-        bundle2.putBoolean("showsUserInterface", action.getShowsUserInterface());
-        bundle2.putInt("semanticAction", action.getSemanticAction());
-        return bundle2;
+        bundle.putInt("icon", iconCompat != null ? iconCompat.getResId() : 0);
+        bundle.putCharSequence("title", action.getTitle());
+        bundle.putParcelable("actionIntent", action.getActionIntent());
+        Bundle bundle2 = action.getExtras() != null ? new Bundle(action.getExtras()) : new Bundle();
+        bundle2.putBoolean("android.support.allowGeneratedReplies", action.getAllowGeneratedReplies());
+        bundle.putBundle("extras", bundle2);
+        bundle.putParcelableArray("remoteInputs", toBundleArray(action.getRemoteInputs()));
+        bundle.putBoolean("showsUserInterface", action.getShowsUserInterface());
+        bundle.putInt("semanticAction", action.getSemanticAction());
+        return bundle;
     }
 
     private static Bundle toBundle(RemoteInput remoteInput) {
@@ -91,5 +72,19 @@ public class NotificationCompatJellybean {
             bundleArr[i] = toBundle(remoteInputArr[i]);
         }
         return bundleArr;
+    }
+
+    public static Bundle writeActionAndGetExtras(Notification.Builder builder, NotificationCompat.Action action) {
+        IconCompat iconCompat = action.getIconCompat();
+        builder.addAction(iconCompat != null ? iconCompat.getResId() : 0, action.getTitle(), action.getActionIntent());
+        Bundle bundle = new Bundle(action.getExtras());
+        if (action.getRemoteInputs() != null) {
+            bundle.putParcelableArray("android.support.remoteInputs", toBundleArray(action.getRemoteInputs()));
+        }
+        if (action.getDataOnlyRemoteInputs() != null) {
+            bundle.putParcelableArray("android.support.dataRemoteInputs", toBundleArray(action.getDataOnlyRemoteInputs()));
+        }
+        bundle.putBoolean("android.support.allowGeneratedReplies", action.getAllowGeneratedReplies());
+        return bundle;
     }
 }

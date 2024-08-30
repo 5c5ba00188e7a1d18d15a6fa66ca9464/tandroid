@@ -1,5 +1,6 @@
 package com.google.android.gms.internal.play_billing;
 
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,38 +9,37 @@ import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 abstract class zzbv {
     private static final Logger zza = Logger.getLogger(zzbi.class.getName());
     private static final String zzb = "com.google.protobuf.BlazeGeneratedExtensionRegistryLiteLoader";
 
-    zzbv() {
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
     public static zzbn zzb(Class cls) {
-        String format;
+        String str;
         ClassLoader classLoader = zzbv.class.getClassLoader();
         if (cls.equals(zzbn.class)) {
-            format = zzb;
+            str = zzb;
         } else if (!cls.getPackage().equals(zzbv.class.getPackage())) {
             throw new IllegalArgumentException(cls.getName());
         } else {
-            format = String.format("%s.BlazeGenerated%sLoader", cls.getPackage().getName(), cls.getSimpleName());
+            str = String.format("%s.BlazeGenerated%sLoader", cls.getPackage().getName(), cls.getSimpleName());
         }
         try {
             try {
                 try {
-                    return (zzbn) cls.cast(((zzbv) Class.forName(format, true, classLoader).getConstructor(null).newInstance(null)).zza());
-                } catch (IllegalAccessException e) {
-                    throw new IllegalStateException(e);
-                } catch (InvocationTargetException e2) {
+                    try {
+                        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(Class.forName(str, true, classLoader).getConstructor(null).newInstance(null));
+                        throw null;
+                    } catch (InstantiationException e) {
+                        throw new IllegalStateException(e);
+                    }
+                } catch (IllegalAccessException e2) {
                     throw new IllegalStateException(e2);
                 }
-            } catch (InstantiationException e3) {
+            } catch (NoSuchMethodException e3) {
                 throw new IllegalStateException(e3);
-            } catch (NoSuchMethodException e4) {
+            } catch (InvocationTargetException e4) {
                 throw new IllegalStateException(e4);
             }
         } catch (ClassNotFoundException unused) {
@@ -47,7 +47,8 @@ abstract class zzbv {
             ArrayList arrayList = new ArrayList();
             while (it.hasNext()) {
                 try {
-                    arrayList.add((zzbn) cls.cast(((zzbv) it.next()).zza()));
+                    ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
+                    throw null;
                 } catch (ServiceConfigurationError e5) {
                     zza.logp(Level.SEVERE, "com.google.protobuf.GeneratedExtensionRegistryLoader", "load", "Unable to load ".concat(cls.getSimpleName()), (Throwable) e5);
                 }
@@ -69,6 +70,4 @@ abstract class zzbv {
             }
         }
     }
-
-    protected abstract zzbn zza();
 }

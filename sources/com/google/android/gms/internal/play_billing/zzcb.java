@@ -1,16 +1,13 @@
 package com.google.android.gms.internal.play_billing;
 
-import com.google.android.gms.internal.play_billing.zzbx;
-import com.google.android.gms.internal.play_billing.zzcb;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import org.telegram.tgnet.ConnectionsManager;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-public abstract class zzcb<MessageType extends zzcb<MessageType, BuilderType>, BuilderType extends zzbx<MessageType, BuilderType>> extends zzak<MessageType, BuilderType> {
+public abstract class zzcb extends zzak {
     private static final Map zzb = new ConcurrentHashMap();
     private int zzd = -1;
     protected zzeh zzc = zzeh.zzc();
@@ -38,7 +35,7 @@ public abstract class zzcb<MessageType extends zzcb<MessageType, BuilderType>, B
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public static zzcb zzj(zzcb zzcbVar, byte[] bArr, zzbn zzbnVar) throws zzci {
+    public static zzcb zzj(zzcb zzcbVar, byte[] bArr, zzbn zzbnVar) {
         zzcb zzw = zzw(zzcbVar, bArr, 0, bArr.length, zzbnVar);
         if (zzw == null || zzw.zzs()) {
             return zzw;
@@ -81,7 +78,7 @@ public abstract class zzcb<MessageType extends zzcb<MessageType, BuilderType>, B
         return zzdn.zza().zzb(getClass()).zza(this);
     }
 
-    private static zzcb zzw(zzcb zzcbVar, byte[] bArr, int i, int i2, zzbn zzbnVar) throws zzci {
+    private static zzcb zzw(zzcb zzcbVar, byte[] bArr, int i, int i2, zzbn zzbnVar) {
         zzcb zzi = zzcbVar.zzi();
         try {
             zzdp zzb2 = zzdn.zza().zzb(zzi.getClass());
@@ -162,6 +159,27 @@ public abstract class zzcb<MessageType extends zzcb<MessageType, BuilderType>, B
         return zzdn.zza().zzb(getClass()).zzb(this);
     }
 
+    @Override // com.google.android.gms.internal.play_billing.zzdf
+    public final int zze() {
+        int i;
+        if (zzt()) {
+            i = zzv(null);
+            if (i < 0) {
+                throw new IllegalStateException("serialized size must be non-negative, was " + i);
+            }
+        } else {
+            i = this.zzd & ConnectionsManager.DEFAULT_DATACENTER_ID;
+            if (i == Integer.MAX_VALUE) {
+                i = zzv(null);
+                if (i < 0) {
+                    throw new IllegalStateException("serialized size must be non-negative, was " + i);
+                }
+                this.zzd = (this.zzd & Integer.MIN_VALUE) | i;
+            }
+        }
+        return i;
+    }
+
     @Override // com.google.android.gms.internal.play_billing.zzdg
     public final /* synthetic */ zzdf zzf() {
         return (zzcb) zzu(6, null, null);
@@ -199,17 +217,9 @@ public abstract class zzcb<MessageType extends zzcb<MessageType, BuilderType>, B
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzdf
-    public final void zzr(zzbi zzbiVar) throws IOException {
+    public final void zzr(zzbi zzbiVar) {
         zzdn.zza().zzb(getClass()).zzi(this, zzbj.zza(zzbiVar));
     }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean zzt() {
-        return (this.zzd & Integer.MIN_VALUE) != 0;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract Object zzu(int i, Object obj, Object obj2);
 
     public final boolean zzs() {
         byte byteValue = ((Byte) zzu(1, null, null)).byteValue();
@@ -224,25 +234,11 @@ public abstract class zzcb<MessageType extends zzcb<MessageType, BuilderType>, B
         return zzk;
     }
 
-    @Override // com.google.android.gms.internal.play_billing.zzdf
-    public final int zze() {
-        int i;
-        if (zzt()) {
-            i = zzv(null);
-            if (i < 0) {
-                throw new IllegalStateException("serialized size must be non-negative, was " + i);
-            }
-        } else {
-            i = this.zzd & ConnectionsManager.DEFAULT_DATACENTER_ID;
-            if (i == Integer.MAX_VALUE) {
-                i = zzv(null);
-                if (i >= 0) {
-                    this.zzd = (this.zzd & Integer.MIN_VALUE) | i;
-                } else {
-                    throw new IllegalStateException("serialized size must be non-negative, was " + i);
-                }
-            }
-        }
-        return i;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final boolean zzt() {
+        return (this.zzd & Integer.MIN_VALUE) != 0;
     }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public abstract Object zzu(int i, Object obj, Object obj2);
 }

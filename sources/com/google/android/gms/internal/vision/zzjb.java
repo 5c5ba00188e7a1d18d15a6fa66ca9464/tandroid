@@ -1,37 +1,117 @@
 package com.google.android.gms.internal.vision;
 
-import com.google.android.gms.internal.vision.zzjb;
-import com.google.android.gms.internal.vision.zzjb.zzb;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, BuilderType extends zzb<MessageType, BuilderType>> extends zzhf<MessageType, BuilderType> {
-    private static Map<Object, zzjb<?, ?>> zzd = new ConcurrentHashMap();
+public abstract class zzjb extends zzhf {
+    private static Map<Object, zzjb> zzd = new ConcurrentHashMap();
     protected zzlx zzb = zzlx.zza();
     private int zzc = -1;
 
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
-    protected static class zza<T extends zzjb<T, ?>> extends zzhg<T> {
-        private final T zza;
+    protected static class zza extends zzhg {
+        private final zzjb zza;
 
-        public zza(T t) {
-            this.zza = t;
+        public zza(zzjb zzjbVar) {
+            this.zza = zzjbVar;
         }
     }
 
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
-    public static class zze<ContainingType extends zzkk, Type> extends zzim<ContainingType, Type> {
-        final zzkk zzc;
-        final zzf zzd;
+    public static abstract class zzb extends zzhe {
+        protected zzjb zza;
+        protected boolean zzb = false;
+        private final zzjb zzc;
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public zzb(zzjb zzjbVar) {
+            this.zzc = zzjbVar;
+            this.zza = (zzjb) zzjbVar.zza(zzg.zzd, (Object) null, (Object) null);
+        }
+
+        private static void zza(zzjb zzjbVar, zzjb zzjbVar2) {
+            zzky.zza().zza(zzjbVar).zzb(zzjbVar, zzjbVar2);
+        }
+
+        private final zzb zzb(byte[] bArr, int i, int i2, zzio zzioVar) {
+            if (this.zzb) {
+                zzb();
+                this.zzb = false;
+            }
+            try {
+                zzky.zza().zza(this.zza).zza(this.zza, bArr, 0, i2, new zzhn(zzioVar));
+                return this;
+            } catch (zzjk e) {
+                throw e;
+            } catch (IOException e2) {
+                throw new RuntimeException("Reading from byte array should not throw IOException.", e2);
+            } catch (IndexOutOfBoundsException unused) {
+                throw zzjk.zza();
+            }
+        }
+
+        public /* synthetic */ Object clone() {
+            zzb zzbVar = (zzb) this.zzc.zza(zzg.zze, (Object) null, (Object) null);
+            zzbVar.zza((zzjb) zze());
+            return zzbVar;
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzhe
+        public final /* synthetic */ zzhe zza(byte[] bArr, int i, int i2, zzio zzioVar) {
+            return zzb(bArr, 0, i2, zzioVar);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzhe
+        public final zzb zza(zzjb zzjbVar) {
+            if (this.zzb) {
+                zzb();
+                this.zzb = false;
+            }
+            zza(this.zza, zzjbVar);
+            return this;
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public void zzb() {
+            zzjb zzjbVar = (zzjb) this.zza.zza(zzg.zzd, (Object) null, (Object) null);
+            zza(zzjbVar, this.zza);
+            this.zza = zzjbVar;
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzkn
+        /* renamed from: zzc */
+        public zzjb zze() {
+            if (this.zzb) {
+                return this.zza;
+            }
+            zzjb zzjbVar = this.zza;
+            zzky.zza().zza(zzjbVar).zzc(zzjbVar);
+            this.zzb = true;
+            return this.zza;
+        }
+
+        /* renamed from: zzd */
+        public final zzjb zzf() {
+            zzjb zzjbVar = (zzjb) zze();
+            if (zzjbVar.zzk()) {
+                return zzjbVar;
+            }
+            throw new zzlv(zzjbVar);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzkm
+        public final /* synthetic */ zzkk zzr() {
+            return this.zzc;
+        }
     }
 
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
+    /* loaded from: classes.dex */
+    public static class zze extends zzim {
+    }
+
     /* loaded from: classes.dex */
     public enum zzg {
         public static final int zza = 1;
@@ -48,228 +128,9 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract Object zza(int i, Object obj, Object obj2);
-
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
-    /* loaded from: classes.dex */
-    public static abstract class zzc<MessageType extends zzc<MessageType, BuilderType>, BuilderType> extends zzjb<MessageType, BuilderType> implements zzkm {
-        protected zziu<zzf> zzc = zziu.zza();
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public final zziu<zzf> zza() {
-            if (this.zzc.zzc()) {
-                this.zzc = (zziu) this.zzc.clone();
-            }
-            return this.zzc;
-        }
-    }
-
-    public String toString() {
-        return zzkp.zza(this, super.toString());
-    }
-
-    public int hashCode() {
-        int i = this.zza;
-        if (i != 0) {
-            return i;
-        }
-        int zza2 = zzky.zza().zza((zzky) this).zza(this);
-        this.zza = zza2;
-        return zza2;
-    }
-
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
-    /* loaded from: classes.dex */
-    public static abstract class zzb<MessageType extends zzjb<MessageType, BuilderType>, BuilderType extends zzb<MessageType, BuilderType>> extends zzhe<MessageType, BuilderType> {
-        protected MessageType zza;
-        protected boolean zzb = false;
-        private final MessageType zzc;
-
-        /* JADX INFO: Access modifiers changed from: protected */
-        public zzb(MessageType messagetype) {
-            this.zzc = messagetype;
-            this.zza = (MessageType) messagetype.zza(zzg.zzd, null, null);
-        }
-
-        /* JADX INFO: Access modifiers changed from: protected */
-        public void zzb() {
-            MessageType messagetype = (MessageType) this.zza.zza(zzg.zzd, null, null);
-            zza(messagetype, this.zza);
-            this.zza = messagetype;
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzkn
-        /* renamed from: zzc */
-        public MessageType zze() {
-            if (this.zzb) {
-                return this.zza;
-            }
-            MessageType messagetype = this.zza;
-            zzky.zza().zza((zzky) messagetype).zzc(messagetype);
-            this.zzb = true;
-            return this.zza;
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzkn
-        /* renamed from: zzd */
-        public final MessageType zzf() {
-            MessageType messagetype = (MessageType) zze();
-            if (messagetype.zzk()) {
-                return messagetype;
-            }
-            throw new zzlv(messagetype);
-        }
-
-        public final BuilderType zza(MessageType messagetype) {
-            if (this.zzb) {
-                zzb();
-                this.zzb = false;
-            }
-            zza(this.zza, messagetype);
-            return this;
-        }
-
-        private static void zza(MessageType messagetype, MessageType messagetype2) {
-            zzky.zza().zza((zzky) messagetype).zzb(messagetype, messagetype2);
-        }
-
-        private final BuilderType zzb(byte[] bArr, int i, int i2, zzio zzioVar) throws zzjk {
-            if (this.zzb) {
-                zzb();
-                this.zzb = false;
-            }
-            try {
-                zzky.zza().zza((zzky) this.zza).zza(this.zza, bArr, 0, i2, new zzhn(zzioVar));
-                return this;
-            } catch (zzjk e) {
-                throw e;
-            } catch (IOException e2) {
-                throw new RuntimeException("Reading from byte array should not throw IOException.", e2);
-            } catch (IndexOutOfBoundsException unused) {
-                throw zzjk.zza();
-            }
-        }
-
-        /* JADX WARN: Multi-variable type inference failed */
-        @Override // com.google.android.gms.internal.vision.zzhe
-        protected final /* synthetic */ zzhe zza(zzhf zzhfVar) {
-            return zza((zzb<MessageType, BuilderType>) ((zzjb) zzhfVar));
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzhe
-        public final /* synthetic */ zzhe zza(byte[] bArr, int i, int i2, zzio zzioVar) throws zzjk {
-            return zzb(bArr, 0, i2, zzioVar);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzkm
-        public final /* synthetic */ zzkk zzr() {
-            return this.zzc;
-        }
-
-        /* JADX WARN: Multi-variable type inference failed */
-        public /* synthetic */ Object clone() throws CloneNotSupportedException {
-            zzb zzbVar = (zzb) this.zzc.zza(zzg.zze, null, null);
-            zzbVar.zza((zzb) ((zzjb) zze()));
-            return zzbVar;
-        }
-    }
-
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
-    /* loaded from: classes.dex */
-    static final class zzf implements zziw<zzf> {
-        final int zzb;
-        final zzml zzc;
-        final boolean zzd;
-
-        @Override // com.google.android.gms.internal.vision.zziw
-        public final boolean zze() {
-            return false;
-        }
-
-        @Override // com.google.android.gms.internal.vision.zziw
-        public final int zza() {
-            return this.zzb;
-        }
-
-        @Override // com.google.android.gms.internal.vision.zziw
-        public final zzml zzb() {
-            return this.zzc;
-        }
-
-        @Override // com.google.android.gms.internal.vision.zziw
-        public final zzmo zzc() {
-            return this.zzc.zza();
-        }
-
-        @Override // com.google.android.gms.internal.vision.zziw
-        public final boolean zzd() {
-            return this.zzd;
-        }
-
-        /* JADX WARN: Multi-variable type inference failed */
-        @Override // com.google.android.gms.internal.vision.zziw
-        public final zzkn zza(zzkn zzknVar, zzkk zzkkVar) {
-            return ((zzb) zzknVar).zza((zzb) ((zzjb) zzkkVar));
-        }
-
-        @Override // com.google.android.gms.internal.vision.zziw
-        public final zzkt zza(zzkt zzktVar, zzkt zzktVar2) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override // java.lang.Comparable
-        public final /* synthetic */ int compareTo(Object obj) {
-            return this.zzb - ((zzf) obj).zzb;
-        }
-    }
-
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj != null && getClass() == obj.getClass()) {
-            return zzky.zza().zza((zzky) this).zza(this, (zzjb) obj);
-        }
-        return false;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final <MessageType extends zzjb<MessageType, BuilderType>, BuilderType extends zzb<MessageType, BuilderType>> BuilderType zzj() {
-        return (BuilderType) zza(zzg.zze, (Object) null, (Object) null);
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzkm
-    public final boolean zzk() {
-        return zza(this, true);
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzhf
-    final int zzi() {
-        return this.zzc;
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzhf
-    final void zzb(int i) {
-        this.zzc = i;
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzkk
-    public final void zza(zzii zziiVar) throws IOException {
-        zzky.zza().zza((zzky) this).zza((zzlc) this, (zzmr) zzil.zza(zziiVar));
-    }
-
-    @Override // com.google.android.gms.internal.vision.zzkk
-    public final int zzm() {
-        if (this.zzc == -1) {
-            this.zzc = zzky.zza().zza((zzky) this).zzb(this);
-        }
-        return this.zzc;
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <T extends zzjb<?, ?>> T zza(Class<T> cls) {
-        zzjb<?, ?> zzjbVar = zzd.get(cls);
+    public static zzjb zza(Class cls) {
+        zzjb zzjbVar = zzd.get(cls);
         if (zzjbVar == null) {
             try {
                 Class.forName(cls.getName(), true, cls.getClassLoader());
@@ -279,18 +140,19 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
             }
         }
         if (zzjbVar == null) {
-            zzjbVar = (T) ((zzjb) zzma.zza(cls)).zza(zzg.zzf, (Object) null, (Object) null);
+            zzjbVar = (zzjb) ((zzjb) zzma.zza(cls)).zza(zzg.zzf, (Object) null, (Object) null);
             if (zzjbVar == null) {
                 throw new IllegalStateException();
             }
             zzd.put(cls, zzjbVar);
         }
-        return (T) zzjbVar;
+        return zzjbVar;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public static <T extends zzjb<?, ?>> void zza(Class<T> cls, T t) {
-        zzd.put(cls, t);
+    public static zzjl zza(zzjl zzjlVar) {
+        int size = zzjlVar.size();
+        return zzjlVar.zza(size == 0 ? 10 : size << 1);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -316,17 +178,22 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
         }
     }
 
-    protected static final <T extends zzjb<T, ?>> boolean zza(T t, boolean z) {
-        byte byteValue = ((Byte) t.zza(zzg.zza, null, null)).byteValue();
+    /* JADX INFO: Access modifiers changed from: protected */
+    public static void zza(Class cls, zzjb zzjbVar) {
+        zzd.put(cls, zzjbVar);
+    }
+
+    protected static final boolean zza(zzjb zzjbVar, boolean z) {
+        byte byteValue = ((Byte) zzjbVar.zza(zzg.zza, (Object) null, (Object) null)).byteValue();
         if (byteValue == 1) {
             return true;
         }
         if (byteValue == 0) {
             return false;
         }
-        boolean zzd2 = zzky.zza().zza((zzky) t).zzd(t);
+        boolean zzd2 = zzky.zza().zza(zzjbVar).zzd(zzjbVar);
         if (z) {
-            t.zza(zzg.zzb, zzd2 ? t : null, null);
+            zzjbVar.zza(zzg.zzb, zzd2 ? zzjbVar : null, (Object) null);
         }
         return zzd2;
     }
@@ -338,20 +205,73 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public static <E> zzjl<E> zzo() {
+    public static zzjl zzo() {
         return zzlb.zzd();
     }
 
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj != null && getClass() == obj.getClass()) {
+            return zzky.zza().zza(this).zza(this, (zzjb) obj);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        int i = this.zza;
+        if (i != 0) {
+            return i;
+        }
+        int zza2 = zzky.zza().zza(this).zza(this);
+        this.zza = zza2;
+        return zza2;
+    }
+
+    public String toString() {
+        return zzkp.zza(this, super.toString());
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
-    public static <E> zzjl<E> zza(zzjl<E> zzjlVar) {
-        int size = zzjlVar.size();
-        return zzjlVar.zza(size == 0 ? 10 : size << 1);
+    public abstract Object zza(int i, Object obj, Object obj2);
+
+    @Override // com.google.android.gms.internal.vision.zzkk
+    public final void zza(zzii zziiVar) {
+        zzky.zza().zza(this).zza((Object) this, (zzmr) zzil.zza(zziiVar));
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzhf
+    final void zzb(int i) {
+        this.zzc = i;
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzhf
+    final int zzi() {
+        return this.zzc;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final zzb zzj() {
+        return (zzb) zza(zzg.zze, (Object) null, (Object) null);
+    }
+
+    public final boolean zzk() {
+        return zza(this, true);
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzkk
+    public final int zzm() {
+        if (this.zzc == -1) {
+            this.zzc = zzky.zza().zza(this).zzb(this);
+        }
+        return this.zzc;
     }
 
     @Override // com.google.android.gms.internal.vision.zzkk
     public final /* synthetic */ zzkn zzp() {
         zzb zzbVar = (zzb) zza(zzg.zze, (Object) null, (Object) null);
-        zzbVar.zza((zzb) this);
+        zzbVar.zza(this);
         return zzbVar;
     }
 

@@ -15,44 +15,39 @@ import com.google.common.collect.ImmutableList;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.TranslateController;
 /* loaded from: classes.dex */
-final class MetadataUtil {
+abstract class MetadataUtil {
     static final String[] STANDARD_GENRES = {"Blues", "Classic Rock", "Country", "Dance", "Disco", "Funk", "Grunge", "Hip-Hop", "Jazz", "Metal", "New Age", "Oldies", "Other", "Pop", "R&B", "Rap", "Reggae", "Rock", "Techno", "Industrial", "Alternative", "Ska", "Death Metal", "Pranks", "Soundtrack", "Euro-Techno", "Ambient", "Trip-Hop", "Vocal", "Jazz+Funk", "Fusion", "Trance", "Classical", "Instrumental", "Acid", "House", "Game", "Sound Clip", "Gospel", "Noise", "AlternRock", "Bass", "Soul", "Punk", "Space", "Meditative", "Instrumental Pop", "Instrumental Rock", "Ethnic", "Gothic", "Darkwave", "Techno-Industrial", "Electronic", "Pop-Folk", "Eurodance", "Dream", "Southern Rock", "Comedy", "Cult", "Gangsta", "Top 40", "Christian Rap", "Pop/Funk", "Jungle", "Native American", "Cabaret", "New Wave", "Psychadelic", "Rave", "Showtunes", "Trailer", "Lo-Fi", "Tribal", "Acid Punk", "Acid Jazz", "Polka", "Retro", "Musical", "Rock & Roll", "Hard Rock", "Folk", "Folk-Rock", "National Folk", "Swing", "Fast Fusion", "Bebob", "Latin", "Revival", "Celtic", "Bluegrass", "Avantgarde", "Gothic Rock", "Progressive Rock", "Psychedelic Rock", "Symphonic Rock", "Slow Rock", "Big Band", "Chorus", "Easy Listening", "Acoustic", "Humour", "Speech", "Chanson", "Opera", "Chamber Music", "Sonata", "Symphony", "Booty Bass", "Primus", "Porn Groove", "Satire", "Slow Jam", "Club", "Tango", "Samba", "Folklore", "Ballad", "Power Ballad", "Rhythmic Soul", "Freestyle", "Duet", "Punk Rock", "Drum Solo", "A capella", "Euro-House", "Dance Hall", "Goa", "Drum & Bass", "Club-House", "Hardcore", "Terror", "Indie", "BritPop", "Afro-Punk", "Polsk Punk", "Beat", "Christian Gangsta Rap", "Heavy Metal", "Black Metal", "Crossover", "Contemporary Christian", "Christian Rock", "Merengue", "Salsa", "Thrash Metal", "Anime", "Jpop", "Synthpop", "Abstract", "Art Rock", "Baroque", "Bhangra", "Big beat", "Breakbeat", "Chillout", "Downtempo", "Dub", "EBM", "Eclectic", "Electro", "Electroclash", "Emo", "Experimental", "Garage", "Global", "IDM", "Illbient", "Industro-Goth", "Jam Band", "Krautrock", "Leftfield", "Lounge", "Math Rock", "New Romantic", "Nu-Breakz", "Post-Punk", "Post-Rock", "Psytrance", "Shoegaze", "Space Rock", "Trop Rock", "World Music", "Neoclassical", "Audiobook", "Audio theatre", "Neue Deutsche Welle", "Podcast", "Indie-Rock", "G-Funk", "Dubstep", "Garage Rock", "Psybient"};
 
-    /* JADX WARN: Code restructure failed: missing block: B:4:0x000b, code lost:
-        if (r6 != null) goto L5;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public static void setFormatMetadata(int i, Metadata metadata, Metadata metadata2, Format.Builder builder, Metadata... metadataArr) {
-        Metadata metadata3 = new Metadata(new Metadata.Entry[0]);
-        if (i != 1) {
-            if (i == 2 && metadata2 != null) {
-                for (int i2 = 0; i2 < metadata2.length(); i2++) {
-                    Metadata.Entry entry = metadata2.get(i2);
-                    if (entry instanceof MdtaMetadataEntry) {
-                        MdtaMetadataEntry mdtaMetadataEntry = (MdtaMetadataEntry) entry;
-                        if ("com.android.capture.fps".equals(mdtaMetadataEntry.key)) {
-                            metadata = new Metadata(mdtaMetadataEntry);
-                            break;
-                        }
-                    }
-                }
-            }
-            metadata = metadata3;
+    private static CommentFrame parseCommentAttribute(int i, ParsableByteArray parsableByteArray) {
+        int readInt = parsableByteArray.readInt();
+        if (parsableByteArray.readInt() == 1684108385) {
+            parsableByteArray.skipBytes(8);
+            String readNullTerminatedString = parsableByteArray.readNullTerminatedString(readInt - 16);
+            return new CommentFrame(TranslateController.UNKNOWN_LANGUAGE, readNullTerminatedString, readNullTerminatedString);
         }
-        for (Metadata metadata4 : metadataArr) {
-            metadata = metadata.copyWithAppendedEntriesFrom(metadata4);
-        }
-        if (metadata.length() > 0) {
-            builder.setMetadata(metadata);
-        }
+        Log.w("MetadataUtil", "Failed to parse comment attribute: " + Atom.getAtomTypeString(i));
+        return null;
     }
 
-    public static void setFormatGaplessInfo(int i, GaplessInfoHolder gaplessInfoHolder, Format.Builder builder) {
-        if (i == 1 && gaplessInfoHolder.hasGaplessInfo()) {
-            builder.setEncoderDelay(gaplessInfoHolder.encoderDelay).setEncoderPadding(gaplessInfoHolder.encoderPadding);
+    private static ApicFrame parseCoverArt(ParsableByteArray parsableByteArray) {
+        String str;
+        int readInt = parsableByteArray.readInt();
+        if (parsableByteArray.readInt() == 1684108385) {
+            int parseFullAtomFlags = Atom.parseFullAtomFlags(parsableByteArray.readInt());
+            String str2 = parseFullAtomFlags == 13 ? "image/jpeg" : parseFullAtomFlags == 14 ? "image/png" : null;
+            if (str2 != null) {
+                parsableByteArray.skipBytes(4);
+                int i = readInt - 16;
+                byte[] bArr = new byte[i];
+                parsableByteArray.readBytes(bArr, 0, i);
+                return new ApicFrame(str2, null, 3, bArr);
+            }
+            str = "Unrecognized cover art flags: " + parseFullAtomFlags;
+        } else {
+            str = "Failed to parse cover art attribute";
         }
+        Log.w("MetadataUtil", str);
+        return null;
     }
 
     public static Metadata.Entry parseIlstElement(ParsableByteArray parsableByteArray) {
@@ -152,61 +147,6 @@ final class MetadataUtil {
         }
     }
 
-    public static MdtaMetadataEntry parseMdtaMetadataEntryFromIlst(ParsableByteArray parsableByteArray, int i, String str) {
-        while (true) {
-            int position = parsableByteArray.getPosition();
-            if (position >= i) {
-                return null;
-            }
-            int readInt = parsableByteArray.readInt();
-            if (parsableByteArray.readInt() == 1684108385) {
-                int readInt2 = parsableByteArray.readInt();
-                int readInt3 = parsableByteArray.readInt();
-                int i2 = readInt - 16;
-                byte[] bArr = new byte[i2];
-                parsableByteArray.readBytes(bArr, 0, i2);
-                return new MdtaMetadataEntry(str, bArr, readInt3, readInt2);
-            }
-            parsableByteArray.setPosition(position + readInt);
-        }
-    }
-
-    private static TextInformationFrame parseTextAttribute(int i, String str, ParsableByteArray parsableByteArray) {
-        int readInt = parsableByteArray.readInt();
-        if (parsableByteArray.readInt() == 1684108385) {
-            parsableByteArray.skipBytes(8);
-            return new TextInformationFrame(str, null, ImmutableList.of(parsableByteArray.readNullTerminatedString(readInt - 16)));
-        }
-        Log.w("MetadataUtil", "Failed to parse text attribute: " + Atom.getAtomTypeString(i));
-        return null;
-    }
-
-    private static CommentFrame parseCommentAttribute(int i, ParsableByteArray parsableByteArray) {
-        int readInt = parsableByteArray.readInt();
-        if (parsableByteArray.readInt() == 1684108385) {
-            parsableByteArray.skipBytes(8);
-            String readNullTerminatedString = parsableByteArray.readNullTerminatedString(readInt - 16);
-            return new CommentFrame(TranslateController.UNKNOWN_LANGUAGE, readNullTerminatedString, readNullTerminatedString);
-        }
-        Log.w("MetadataUtil", "Failed to parse comment attribute: " + Atom.getAtomTypeString(i));
-        return null;
-    }
-
-    private static Id3Frame parseUint8Attribute(int i, String str, ParsableByteArray parsableByteArray, boolean z, boolean z2) {
-        int parseUint8AttributeValue = parseUint8AttributeValue(parsableByteArray);
-        if (z2) {
-            parseUint8AttributeValue = Math.min(1, parseUint8AttributeValue);
-        }
-        if (parseUint8AttributeValue >= 0) {
-            if (z) {
-                return new TextInformationFrame(str, null, ImmutableList.of(Integer.toString(parseUint8AttributeValue)));
-            }
-            return new CommentFrame(TranslateController.UNKNOWN_LANGUAGE, str, Integer.toString(parseUint8AttributeValue));
-        }
-        Log.w("MetadataUtil", "Failed to parse uint8 attribute: " + Atom.getAtomTypeString(i));
-        return null;
-    }
-
     private static TextInformationFrame parseIndexAndCountAttribute(int i, String str, ParsableByteArray parsableByteArray) {
         int readInt = parsableByteArray.readInt();
         if (parsableByteArray.readInt() == 1684108385 && readInt >= 22) {
@@ -218,58 +158,10 @@ final class MetadataUtil {
                 if (readUnsignedShort2 > 0) {
                     str2 = str2 + "/" + readUnsignedShort2;
                 }
-                return new TextInformationFrame(str, null, ImmutableList.of(str2));
+                return new TextInformationFrame(str, null, ImmutableList.of((Object) str2));
             }
         }
         Log.w("MetadataUtil", "Failed to parse index/count attribute: " + Atom.getAtomTypeString(i));
-        return null;
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0020  */
-    /* JADX WARN: Removed duplicated region for block: B:9:0x0014  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    private static TextInformationFrame parseStandardGenreAttribute(ParsableByteArray parsableByteArray) {
-        String str;
-        int parseUint8AttributeValue = parseUint8AttributeValue(parsableByteArray);
-        if (parseUint8AttributeValue > 0) {
-            String[] strArr = STANDARD_GENRES;
-            if (parseUint8AttributeValue <= strArr.length) {
-                str = strArr[parseUint8AttributeValue - 1];
-                if (str == null) {
-                    return new TextInformationFrame("TCON", null, ImmutableList.of(str));
-                }
-                Log.w("MetadataUtil", "Failed to parse standard genre code");
-                return null;
-            }
-        }
-        str = null;
-        if (str == null) {
-        }
-    }
-
-    private static ApicFrame parseCoverArt(ParsableByteArray parsableByteArray) {
-        String str;
-        int readInt = parsableByteArray.readInt();
-        if (parsableByteArray.readInt() == 1684108385) {
-            int parseFullAtomFlags = Atom.parseFullAtomFlags(parsableByteArray.readInt());
-            if (parseFullAtomFlags == 13) {
-                str = "image/jpeg";
-            } else {
-                str = parseFullAtomFlags == 14 ? "image/png" : null;
-            }
-            if (str == null) {
-                Log.w("MetadataUtil", "Unrecognized cover art flags: " + parseFullAtomFlags);
-                return null;
-            }
-            parsableByteArray.skipBytes(4);
-            int i = readInt - 16;
-            byte[] bArr = new byte[i];
-            parsableByteArray.readBytes(bArr, 0, i);
-            return new ApicFrame(str, null, 3, bArr);
-        }
-        Log.w("MetadataUtil", "Failed to parse cover art attribute");
         return null;
     }
 
@@ -303,6 +195,71 @@ final class MetadataUtil {
         return new InternalFrame(str, str2, parsableByteArray.readNullTerminatedString(i3 - 16));
     }
 
+    public static MdtaMetadataEntry parseMdtaMetadataEntryFromIlst(ParsableByteArray parsableByteArray, int i, String str) {
+        while (true) {
+            int position = parsableByteArray.getPosition();
+            if (position >= i) {
+                return null;
+            }
+            int readInt = parsableByteArray.readInt();
+            if (parsableByteArray.readInt() == 1684108385) {
+                int readInt2 = parsableByteArray.readInt();
+                int readInt3 = parsableByteArray.readInt();
+                int i2 = readInt - 16;
+                byte[] bArr = new byte[i2];
+                parsableByteArray.readBytes(bArr, 0, i2);
+                return new MdtaMetadataEntry(str, bArr, readInt3, readInt2);
+            }
+            parsableByteArray.setPosition(position + readInt);
+        }
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0020  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0014  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    private static TextInformationFrame parseStandardGenreAttribute(ParsableByteArray parsableByteArray) {
+        String str;
+        int parseUint8AttributeValue = parseUint8AttributeValue(parsableByteArray);
+        if (parseUint8AttributeValue > 0) {
+            String[] strArr = STANDARD_GENRES;
+            if (parseUint8AttributeValue <= strArr.length) {
+                str = strArr[parseUint8AttributeValue - 1];
+                if (str == null) {
+                    return new TextInformationFrame("TCON", null, ImmutableList.of((Object) str));
+                }
+                Log.w("MetadataUtil", "Failed to parse standard genre code");
+                return null;
+            }
+        }
+        str = null;
+        if (str == null) {
+        }
+    }
+
+    private static TextInformationFrame parseTextAttribute(int i, String str, ParsableByteArray parsableByteArray) {
+        int readInt = parsableByteArray.readInt();
+        if (parsableByteArray.readInt() == 1684108385) {
+            parsableByteArray.skipBytes(8);
+            return new TextInformationFrame(str, null, ImmutableList.of((Object) parsableByteArray.readNullTerminatedString(readInt - 16)));
+        }
+        Log.w("MetadataUtil", "Failed to parse text attribute: " + Atom.getAtomTypeString(i));
+        return null;
+    }
+
+    private static Id3Frame parseUint8Attribute(int i, String str, ParsableByteArray parsableByteArray, boolean z, boolean z2) {
+        int parseUint8AttributeValue = parseUint8AttributeValue(parsableByteArray);
+        if (z2) {
+            parseUint8AttributeValue = Math.min(1, parseUint8AttributeValue);
+        }
+        if (parseUint8AttributeValue >= 0) {
+            return z ? new TextInformationFrame(str, null, ImmutableList.of((Object) Integer.toString(parseUint8AttributeValue))) : new CommentFrame(TranslateController.UNKNOWN_LANGUAGE, str, Integer.toString(parseUint8AttributeValue));
+        }
+        Log.w("MetadataUtil", "Failed to parse uint8 attribute: " + Atom.getAtomTypeString(i));
+        return null;
+    }
+
     private static int parseUint8AttributeValue(ParsableByteArray parsableByteArray) {
         parsableByteArray.skipBytes(4);
         if (parsableByteArray.readInt() == 1684108385) {
@@ -311,5 +268,42 @@ final class MetadataUtil {
         }
         Log.w("MetadataUtil", "Failed to parse uint8 attribute value");
         return -1;
+    }
+
+    public static void setFormatGaplessInfo(int i, GaplessInfoHolder gaplessInfoHolder, Format.Builder builder) {
+        if (i == 1 && gaplessInfoHolder.hasGaplessInfo()) {
+            builder.setEncoderDelay(gaplessInfoHolder.encoderDelay).setEncoderPadding(gaplessInfoHolder.encoderPadding);
+        }
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:4:0x000b, code lost:
+        if (r6 != null) goto L5;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static void setFormatMetadata(int i, Metadata metadata, Metadata metadata2, Format.Builder builder, Metadata... metadataArr) {
+        Metadata metadata3 = new Metadata(new Metadata.Entry[0]);
+        if (i != 1) {
+            if (i == 2 && metadata2 != null) {
+                for (int i2 = 0; i2 < metadata2.length(); i2++) {
+                    Metadata.Entry entry = metadata2.get(i2);
+                    if (entry instanceof MdtaMetadataEntry) {
+                        MdtaMetadataEntry mdtaMetadataEntry = (MdtaMetadataEntry) entry;
+                        if ("com.android.capture.fps".equals(mdtaMetadataEntry.key)) {
+                            metadata = new Metadata(mdtaMetadataEntry);
+                            break;
+                        }
+                    }
+                }
+            }
+            metadata = metadata3;
+        }
+        for (Metadata metadata4 : metadataArr) {
+            metadata = metadata.copyWithAppendedEntriesFrom(metadata4);
+        }
+        if (metadata.length() > 0) {
+            builder.setMetadata(metadata);
+        }
     }
 }

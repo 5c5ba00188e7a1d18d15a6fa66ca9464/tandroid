@@ -28,6 +28,23 @@ public class BatchingListUpdateCallback implements ListUpdateCallback {
     }
 
     @Override // androidx.recyclerview.widget.ListUpdateCallback
+    public void onChanged(int i, int i2, Object obj) {
+        int i3;
+        int i4;
+        int i5;
+        if (this.mLastEventType == 3 && i <= (i4 = this.mLastEventCount + (i3 = this.mLastEventPosition)) && (i5 = i + i2) >= i3 && this.mLastEventPayload == obj) {
+            this.mLastEventPosition = Math.min(i, i3);
+            this.mLastEventCount = Math.max(i4, i5) - this.mLastEventPosition;
+            return;
+        }
+        dispatchLastEvent();
+        this.mLastEventPosition = i;
+        this.mLastEventCount = i2;
+        this.mLastEventPayload = obj;
+        this.mLastEventType = 3;
+    }
+
+    @Override // androidx.recyclerview.widget.ListUpdateCallback
     public void onInserted(int i, int i2) {
         int i3;
         if (this.mLastEventType == 1 && i >= (i3 = this.mLastEventPosition)) {
@@ -45,6 +62,12 @@ public class BatchingListUpdateCallback implements ListUpdateCallback {
     }
 
     @Override // androidx.recyclerview.widget.ListUpdateCallback
+    public void onMoved(int i, int i2) {
+        dispatchLastEvent();
+        this.mWrapped.onMoved(i, i2);
+    }
+
+    @Override // androidx.recyclerview.widget.ListUpdateCallback
     public void onRemoved(int i, int i2) {
         int i3;
         if (this.mLastEventType == 2 && (i3 = this.mLastEventPosition) >= i && i3 <= i + i2) {
@@ -56,28 +79,5 @@ public class BatchingListUpdateCallback implements ListUpdateCallback {
         this.mLastEventPosition = i;
         this.mLastEventCount = i2;
         this.mLastEventType = 2;
-    }
-
-    @Override // androidx.recyclerview.widget.ListUpdateCallback
-    public void onMoved(int i, int i2) {
-        dispatchLastEvent();
-        this.mWrapped.onMoved(i, i2);
-    }
-
-    @Override // androidx.recyclerview.widget.ListUpdateCallback
-    public void onChanged(int i, int i2, Object obj) {
-        int i3;
-        int i4;
-        int i5;
-        if (this.mLastEventType == 3 && i <= (i4 = this.mLastEventCount + (i3 = this.mLastEventPosition)) && (i5 = i + i2) >= i3 && this.mLastEventPayload == obj) {
-            this.mLastEventPosition = Math.min(i, i3);
-            this.mLastEventCount = Math.max(i4, i5) - this.mLastEventPosition;
-            return;
-        }
-        dispatchLastEvent();
-        this.mLastEventPosition = i;
-        this.mLastEventCount = i2;
-        this.mLastEventPayload = obj;
-        this.mLastEventType = 3;
     }
 }

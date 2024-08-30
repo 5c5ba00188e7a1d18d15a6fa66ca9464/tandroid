@@ -45,146 +45,8 @@ import org.telegram.ui.Components.RecyclerListView;
 public class FeaturesPageView extends BaseListPageView {
     RecyclerListView.SelectionAdapter adapter;
     Bitmap bitmap;
-    ArrayList<Item> items;
+    ArrayList items;
     public final int type;
-
-    /* JADX WARN: Removed duplicated region for block: B:9:0x01c3  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public FeaturesPageView(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
-        super(context, resourcesProvider);
-        final SparseIntArray sparseIntArray;
-        this.items = new ArrayList<>();
-        this.type = i;
-        ArrayList arrayList = new ArrayList();
-        MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
-        if (i == 0) {
-            arrayList.add(new Item(1, R.drawable.msg_stories_order, LocaleController.getString(R.string.PremiumStoriesPriority), LocaleController.getString(R.string.PremiumStoriesPriorityDescription), 20));
-            arrayList.add(new Item(1, R.drawable.msg_stories_stealth, LocaleController.getString(R.string.PremiumStoriesStealth), LocaleController.getString(R.string.PremiumStoriesStealthDescription), 15));
-            arrayList.add(new Item(1, R.drawable.menu_quality_hd, LocaleController.getString(R.string.PremiumStoriesQuality), LocaleController.getString(R.string.PremiumStoriesQualityDescription), 25));
-            arrayList.add(new Item(1, R.drawable.msg_stories_views, LocaleController.getString(R.string.PremiumStoriesViews), LocaleController.getString(R.string.PremiumStoriesViewsDescription), 16));
-            arrayList.add(new Item(1, R.drawable.msg_stories_timer, LocaleController.getString(R.string.PremiumStoriesExpiration), LocaleController.getString(R.string.PremiumStoriesExpirationDescription), 17));
-            arrayList.add(new Item(1, R.drawable.msg_stories_save, LocaleController.getString(R.string.PremiumStoriesSaveToGallery), LocaleController.getString(R.string.PremiumStoriesSaveToGalleryDescription), 18));
-            arrayList.add(new Item(1, R.drawable.msg_stories_caption, LocaleController.getString(R.string.PremiumStoriesCaption), LocaleController.getString(R.string.PremiumStoriesCaptionDescription), 21));
-            arrayList.add(new Item(1, R.drawable.msg_stories_link, LocaleController.getString(R.string.PremiumStoriesFormatting), LocaleController.getString(R.string.PremiumStoriesFormattingDescription), 19));
-        } else if (i == 1) {
-            sparseIntArray = messagesController.businessFeaturesTypesToPosition;
-            arrayList.add(new Item(1, R.drawable.menu_premium_location, LocaleController.getString(R.string.PremiumBusinessLocation), LocaleController.getString(R.string.PremiumBusinessLocationDescription), 29));
-            arrayList.add(new Item(1, R.drawable.menu_premium_clock, LocaleController.getString(R.string.PremiumBusinessOpeningHours), LocaleController.getString(R.string.PremiumBusinessOpeningHoursDescription), 30));
-            arrayList.add(new Item(1, R.drawable.menu_quickreply, LocaleController.getString(R.string.PremiumBusinessQuickReplies), LocaleController.getString(R.string.PremiumBusinessQuickRepliesDescription), 31));
-            arrayList.add(new Item(1, R.drawable.menu_feature_status, LocaleController.getString(R.string.PremiumBusinessGreetingMessages), LocaleController.getString(R.string.PremiumBusinessGreetingMessagesDescription), 32));
-            arrayList.add(new Item(1, R.drawable.menu_premium_away, LocaleController.getString(R.string.PremiumBusinessAwayMessages), LocaleController.getString(R.string.PremiumBusinessAwayMessagesDescription), 33));
-            arrayList.add(new Item(1, R.drawable.menu_premium_chatbot, LocaleController.getString(R.string.PremiumBusinessChatbots2), LocaleController.getString(R.string.PremiumBusinessChatbotsDescription), 34));
-            arrayList.add(new Item(1, R.drawable.menu_feature_intro, LocaleController.getString(R.string.PremiumBusinessIntro), LocaleController.getString(R.string.PremiumBusinessIntroDescription), 36));
-            arrayList.add(new Item(1, R.drawable.menu_premium_chatlink, LocaleController.getString(R.string.PremiumBusinessChatLinks), LocaleController.getString(R.string.PremiumBusinessChatLinksDescription), 37));
-            if (sparseIntArray != null) {
-                Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Components.Premium.FeaturesPageView$$ExternalSyntheticLambda0
-                    @Override // java.util.Comparator
-                    public final int compare(Object obj, Object obj2) {
-                        int lambda$new$0;
-                        lambda$new$0 = FeaturesPageView.lambda$new$0(sparseIntArray, (FeaturesPageView.Item) obj, (FeaturesPageView.Item) obj2);
-                        return lambda$new$0;
-                    }
-                });
-            }
-            this.items.add(new Item(0));
-            this.items.addAll(arrayList);
-            this.items.add(new Item(2));
-            this.bitmap = Bitmap.createBitmap(this.items.size(), 1, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(this.bitmap);
-            Paint paint = new Paint();
-            paint.setShader(new LinearGradient(0.0f, 0.0f, this.bitmap.getWidth(), 0.0f, new int[]{Theme.getColor(Theme.key_premiumGradient1), Theme.getColor(Theme.key_premiumGradient2), Theme.getColor(Theme.key_premiumGradient3), Theme.getColor(Theme.key_premiumGradient4)}, (float[]) null, Shader.TileMode.CLAMP));
-            canvas.drawRect(0.0f, 0.0f, this.bitmap.getWidth(), this.bitmap.getHeight(), paint);
-        }
-        sparseIntArray = null;
-        if (sparseIntArray != null) {
-        }
-        this.items.add(new Item(0));
-        this.items.addAll(arrayList);
-        this.items.add(new Item(2));
-        this.bitmap = Bitmap.createBitmap(this.items.size(), 1, Bitmap.Config.ARGB_8888);
-        Canvas canvas2 = new Canvas(this.bitmap);
-        Paint paint2 = new Paint();
-        paint2.setShader(new LinearGradient(0.0f, 0.0f, this.bitmap.getWidth(), 0.0f, new int[]{Theme.getColor(Theme.key_premiumGradient1), Theme.getColor(Theme.key_premiumGradient2), Theme.getColor(Theme.key_premiumGradient3), Theme.getColor(Theme.key_premiumGradient4)}, (float[]) null, Shader.TileMode.CLAMP));
-        canvas2.drawRect(0.0f, 0.0f, this.bitmap.getWidth(), this.bitmap.getHeight(), paint2);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$new$0(SparseIntArray sparseIntArray, Item item, Item item2) {
-        return sparseIntArray.get(item.order, ConnectionsManager.DEFAULT_DATACENTER_ID) - sparseIntArray.get(item2.order, ConnectionsManager.DEFAULT_DATACENTER_ID);
-    }
-
-    @Override // org.telegram.ui.Components.Premium.BaseListPageView
-    public RecyclerView.Adapter createAdapter() {
-        RecyclerListView.SelectionAdapter selectionAdapter = new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.Components.Premium.FeaturesPageView.1
-            @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
-            public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
-                return false;
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                View itemCell;
-                if (i == 0) {
-                    FeaturesPageView featuresPageView = FeaturesPageView.this;
-                    itemCell = new HeaderView(featuresPageView.getContext());
-                } else if (i == 2) {
-                    itemCell = new FixedHeightEmptyCell(FeaturesPageView.this.getContext(), 16);
-                } else {
-                    FeaturesPageView featuresPageView2 = FeaturesPageView.this;
-                    itemCell = new ItemCell(featuresPageView2.getContext());
-                }
-                itemCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-                return new RecyclerListView.Holder(itemCell);
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-                if (FeaturesPageView.this.items.get(i).viewType == 1) {
-                    ItemCell itemCell = (ItemCell) viewHolder.itemView;
-                    itemCell.imageView.setColorFilter(new PorterDuffColorFilter(FeaturesPageView.this.bitmap.getPixel(i, 0), PorterDuff.Mode.MULTIPLY));
-                    itemCell.imageView.setImageDrawable(ContextCompat.getDrawable(FeaturesPageView.this.getContext(), FeaturesPageView.this.items.get(i).iconRes));
-                    itemCell.textView.setText(FeaturesPageView.this.items.get(i).text);
-                    itemCell.description.setText(FeaturesPageView.this.items.get(i).description);
-                }
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public int getItemViewType(int i) {
-                return FeaturesPageView.this.items.get(i).viewType;
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public int getItemCount() {
-                return FeaturesPageView.this.items.size();
-            }
-        };
-        this.adapter = selectionAdapter;
-        return selectionAdapter;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Item {
-        String description;
-        int iconRes;
-        int order;
-        String text;
-        final int viewType;
-
-        private Item(int i) {
-            this.viewType = i;
-        }
-
-        public Item(int i, int i2, String str, String str2, int i3) {
-            this.viewType = i;
-            this.iconRes = i2;
-            this.text = str;
-            this.description = str2;
-            this.order = i3;
-        }
-    }
 
     /* loaded from: classes3.dex */
     private class HeaderView extends FrameLayout {
@@ -224,13 +86,6 @@ public class FeaturesPageView extends BaseListPageView {
             } else if (i == 1) {
                 StarParticlesView starParticlesView = new StarParticlesView(context) { // from class: org.telegram.ui.Components.Premium.FeaturesPageView.HeaderView.1
                     /* JADX INFO: Access modifiers changed from: protected */
-                    @Override // org.telegram.ui.Components.Premium.StarParticlesView, android.view.View
-                    public void onMeasure(int i2, int i3) {
-                        super.onMeasure(i2, i3);
-                        this.drawable.rect2.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight() - AndroidUtilities.dp(52.0f));
-                    }
-
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.Premium.StarParticlesView
                     public void configure() {
                         StarParticlesView.Drawable drawable = this.drawable;
@@ -247,6 +102,13 @@ public class FeaturesPageView extends BaseListPageView {
                         drawable2.type = 28;
                         drawable2.colorKey = Theme.key_premiumGradient2;
                         drawable2.init();
+                    }
+
+                    /* JADX INFO: Access modifiers changed from: protected */
+                    @Override // org.telegram.ui.Components.Premium.StarParticlesView, android.view.View
+                    public void onMeasure(int i2, int i3) {
+                        super.onMeasure(i2, i3);
+                        this.drawable.rect2.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight() - AndroidUtilities.dp(52.0f));
                     }
                 };
                 this.starParticlesView = starParticlesView;
@@ -329,6 +191,28 @@ public class FeaturesPageView extends BaseListPageView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public class Item {
+        String description;
+        int iconRes;
+        int order;
+        String text;
+        final int viewType;
+
+        private Item(int i) {
+            this.viewType = i;
+        }
+
+        public Item(int i, int i2, String str, String str2, int i3) {
+            this.viewType = i;
+            this.iconRes = i2;
+            this.text = str;
+            this.description = str2;
+            this.order = i3;
+        }
+    }
+
     /* loaded from: classes3.dex */
     private class ItemCell extends FrameLayout {
         TextView description;
@@ -353,5 +237,121 @@ public class FeaturesPageView extends BaseListPageView {
             this.description.setTextSize(1, 14.0f);
             addView(this.description, LayoutHelper.createFrame(-1, -2.0f, 0, 68.0f, 28.0f, 16.0f, 8.0f));
         }
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:9:0x01c3  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public FeaturesPageView(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
+        super(context, resourcesProvider);
+        final SparseIntArray sparseIntArray;
+        this.items = new ArrayList();
+        this.type = i;
+        ArrayList arrayList = new ArrayList();
+        MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
+        if (i == 0) {
+            arrayList.add(new Item(1, R.drawable.msg_stories_order, LocaleController.getString(R.string.PremiumStoriesPriority), LocaleController.getString(R.string.PremiumStoriesPriorityDescription), 20));
+            arrayList.add(new Item(1, R.drawable.msg_stories_stealth, LocaleController.getString(R.string.PremiumStoriesStealth), LocaleController.getString(R.string.PremiumStoriesStealthDescription), 15));
+            arrayList.add(new Item(1, R.drawable.menu_quality_hd, LocaleController.getString(R.string.PremiumStoriesQuality), LocaleController.getString(R.string.PremiumStoriesQualityDescription), 25));
+            arrayList.add(new Item(1, R.drawable.msg_stories_views, LocaleController.getString(R.string.PremiumStoriesViews), LocaleController.getString(R.string.PremiumStoriesViewsDescription), 16));
+            arrayList.add(new Item(1, R.drawable.msg_stories_timer, LocaleController.getString(R.string.PremiumStoriesExpiration), LocaleController.getString(R.string.PremiumStoriesExpirationDescription), 17));
+            arrayList.add(new Item(1, R.drawable.msg_stories_save, LocaleController.getString(R.string.PremiumStoriesSaveToGallery), LocaleController.getString(R.string.PremiumStoriesSaveToGalleryDescription), 18));
+            arrayList.add(new Item(1, R.drawable.msg_stories_caption, LocaleController.getString(R.string.PremiumStoriesCaption), LocaleController.getString(R.string.PremiumStoriesCaptionDescription), 21));
+            arrayList.add(new Item(1, R.drawable.msg_stories_link, LocaleController.getString(R.string.PremiumStoriesFormatting), LocaleController.getString(R.string.PremiumStoriesFormattingDescription), 19));
+        } else if (i == 1) {
+            sparseIntArray = messagesController.businessFeaturesTypesToPosition;
+            arrayList.add(new Item(1, R.drawable.menu_premium_location, LocaleController.getString(R.string.PremiumBusinessLocation), LocaleController.getString(R.string.PremiumBusinessLocationDescription), 29));
+            arrayList.add(new Item(1, R.drawable.menu_premium_clock, LocaleController.getString(R.string.PremiumBusinessOpeningHours), LocaleController.getString(R.string.PremiumBusinessOpeningHoursDescription), 30));
+            arrayList.add(new Item(1, R.drawable.menu_quickreply, LocaleController.getString(R.string.PremiumBusinessQuickReplies), LocaleController.getString(R.string.PremiumBusinessQuickRepliesDescription), 31));
+            arrayList.add(new Item(1, R.drawable.menu_feature_status, LocaleController.getString(R.string.PremiumBusinessGreetingMessages), LocaleController.getString(R.string.PremiumBusinessGreetingMessagesDescription), 32));
+            arrayList.add(new Item(1, R.drawable.menu_premium_away, LocaleController.getString(R.string.PremiumBusinessAwayMessages), LocaleController.getString(R.string.PremiumBusinessAwayMessagesDescription), 33));
+            arrayList.add(new Item(1, R.drawable.menu_premium_chatbot, LocaleController.getString(R.string.PremiumBusinessChatbots2), LocaleController.getString(R.string.PremiumBusinessChatbotsDescription), 34));
+            arrayList.add(new Item(1, R.drawable.menu_feature_intro, LocaleController.getString(R.string.PremiumBusinessIntro), LocaleController.getString(R.string.PremiumBusinessIntroDescription), 36));
+            arrayList.add(new Item(1, R.drawable.menu_premium_chatlink, LocaleController.getString(R.string.PremiumBusinessChatLinks), LocaleController.getString(R.string.PremiumBusinessChatLinksDescription), 37));
+            if (sparseIntArray != null) {
+                Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Components.Premium.FeaturesPageView$$ExternalSyntheticLambda0
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj, Object obj2) {
+                        int lambda$new$0;
+                        lambda$new$0 = FeaturesPageView.lambda$new$0(sparseIntArray, (FeaturesPageView.Item) obj, (FeaturesPageView.Item) obj2);
+                        return lambda$new$0;
+                    }
+                });
+            }
+            this.items.add(new Item(0));
+            this.items.addAll(arrayList);
+            this.items.add(new Item(2));
+            this.bitmap = Bitmap.createBitmap(this.items.size(), 1, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(this.bitmap);
+            Paint paint = new Paint();
+            paint.setShader(new LinearGradient(0.0f, 0.0f, this.bitmap.getWidth(), 0.0f, new int[]{Theme.getColor(Theme.key_premiumGradient1), Theme.getColor(Theme.key_premiumGradient2), Theme.getColor(Theme.key_premiumGradient3), Theme.getColor(Theme.key_premiumGradient4)}, (float[]) null, Shader.TileMode.CLAMP));
+            canvas.drawRect(0.0f, 0.0f, this.bitmap.getWidth(), this.bitmap.getHeight(), paint);
+        }
+        sparseIntArray = null;
+        if (sparseIntArray != null) {
+        }
+        this.items.add(new Item(0));
+        this.items.addAll(arrayList);
+        this.items.add(new Item(2));
+        this.bitmap = Bitmap.createBitmap(this.items.size(), 1, Bitmap.Config.ARGB_8888);
+        Canvas canvas2 = new Canvas(this.bitmap);
+        Paint paint2 = new Paint();
+        paint2.setShader(new LinearGradient(0.0f, 0.0f, this.bitmap.getWidth(), 0.0f, new int[]{Theme.getColor(Theme.key_premiumGradient1), Theme.getColor(Theme.key_premiumGradient2), Theme.getColor(Theme.key_premiumGradient3), Theme.getColor(Theme.key_premiumGradient4)}, (float[]) null, Shader.TileMode.CLAMP));
+        canvas2.drawRect(0.0f, 0.0f, this.bitmap.getWidth(), this.bitmap.getHeight(), paint2);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ int lambda$new$0(SparseIntArray sparseIntArray, Item item, Item item2) {
+        return sparseIntArray.get(item.order, ConnectionsManager.DEFAULT_DATACENTER_ID) - sparseIntArray.get(item2.order, ConnectionsManager.DEFAULT_DATACENTER_ID);
+    }
+
+    @Override // org.telegram.ui.Components.Premium.BaseListPageView
+    public RecyclerView.Adapter createAdapter() {
+        RecyclerListView.SelectionAdapter selectionAdapter = new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.Components.Premium.FeaturesPageView.1
+            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+            public int getItemCount() {
+                return FeaturesPageView.this.items.size();
+            }
+
+            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+            public int getItemViewType(int i) {
+                return ((Item) FeaturesPageView.this.items.get(i)).viewType;
+            }
+
+            @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
+            public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
+                return false;
+            }
+
+            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+                if (((Item) FeaturesPageView.this.items.get(i)).viewType == 1) {
+                    ItemCell itemCell = (ItemCell) viewHolder.itemView;
+                    itemCell.imageView.setColorFilter(new PorterDuffColorFilter(FeaturesPageView.this.bitmap.getPixel(i, 0), PorterDuff.Mode.MULTIPLY));
+                    itemCell.imageView.setImageDrawable(ContextCompat.getDrawable(FeaturesPageView.this.getContext(), ((Item) FeaturesPageView.this.items.get(i)).iconRes));
+                    itemCell.textView.setText(((Item) FeaturesPageView.this.items.get(i)).text);
+                    itemCell.description.setText(((Item) FeaturesPageView.this.items.get(i)).description);
+                }
+            }
+
+            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+                View itemCell;
+                if (i == 0) {
+                    FeaturesPageView featuresPageView = FeaturesPageView.this;
+                    itemCell = new HeaderView(featuresPageView.getContext());
+                } else if (i == 2) {
+                    itemCell = new FixedHeightEmptyCell(FeaturesPageView.this.getContext(), 16);
+                } else {
+                    FeaturesPageView featuresPageView2 = FeaturesPageView.this;
+                    itemCell = new ItemCell(featuresPageView2.getContext());
+                }
+                itemCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                return new RecyclerListView.Holder(itemCell);
+            }
+        };
+        this.adapter = selectionAdapter;
+        return selectionAdapter;
     }
 }

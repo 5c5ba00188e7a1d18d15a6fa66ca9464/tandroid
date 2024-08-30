@@ -7,7 +7,6 @@ import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zaa extends AbstractSafeParcelable implements Result {
     public static final Parcelable.Creator<zaa> CREATOR = new zab();
@@ -15,8 +14,11 @@ public final class zaa extends AbstractSafeParcelable implements Result {
     private int zab;
     private Intent zac;
 
-    public zaa() {
-        this(2, 0, null);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public zaa(int i, int i2, Intent intent) {
+        this.zaa = i;
+        this.zab = i2;
+        this.zac = intent;
     }
 
     @Override // com.google.android.gms.common.api.Result
@@ -31,12 +33,5 @@ public final class zaa extends AbstractSafeParcelable implements Result {
         SafeParcelWriter.writeInt(parcel, 2, this.zab);
         SafeParcelWriter.writeParcelable(parcel, 3, this.zac, i, false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zaa(int i, int i2, Intent intent) {
-        this.zaa = i;
-        this.zab = i2;
-        this.zac = intent;
     }
 }

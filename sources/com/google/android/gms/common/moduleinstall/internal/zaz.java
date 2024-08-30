@@ -9,7 +9,7 @@ import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.common.api.internal.OnConnectionFailedListener;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
+import com.google.android.gms.internal.base.zav;
 /* loaded from: classes.dex */
 public final class zaz extends GmsClient {
     /* JADX INFO: Access modifiers changed from: protected */
@@ -29,7 +29,7 @@ public final class zaz extends GmsClient {
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient
     public final Feature[] getApiFeatures() {
-        return com.google.android.gms.internal.base.zav.zab;
+        return zav.zab;
     }
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient, com.google.android.gms.common.api.Api.Client

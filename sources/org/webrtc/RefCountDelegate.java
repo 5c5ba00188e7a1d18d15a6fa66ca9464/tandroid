@@ -11,13 +11,6 @@ class RefCountDelegate implements RefCounted {
     }
 
     @Override // org.webrtc.RefCounted
-    public void retain() {
-        if (this.refCount.incrementAndGet() < 2) {
-            throw new IllegalStateException("retain() called on an object with refcount < 1");
-        }
-    }
-
-    @Override // org.webrtc.RefCounted
     public void release() {
         Runnable runnable;
         int decrementAndGet = this.refCount.decrementAndGet();
@@ -30,15 +23,22 @@ class RefCountDelegate implements RefCounted {
         runnable.run();
     }
 
+    @Override // org.webrtc.RefCounted
+    public void retain() {
+        if (this.refCount.incrementAndGet() < 2) {
+            throw new IllegalStateException("retain() called on an object with refcount < 1");
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public boolean safeRetain() {
-        int i = this.refCount.get();
-        while (i != 0) {
-            if (this.refCount.weakCompareAndSet(i, i + 1)) {
-                return true;
-            }
+        int i;
+        do {
             i = this.refCount.get();
-        }
-        return false;
+            if (i == 0) {
+                return false;
+            }
+        } while (!this.refCount.weakCompareAndSet(i, i + 1));
+        return true;
     }
 }

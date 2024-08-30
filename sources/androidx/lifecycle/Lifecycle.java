@@ -3,69 +3,7 @@ package androidx.lifecycle;
 import java.util.concurrent.atomic.AtomicReference;
 /* loaded from: classes.dex */
 public abstract class Lifecycle {
-    AtomicReference<Object> mInternalScopeRef = new AtomicReference<>();
-
-    public abstract void addObserver(LifecycleObserver lifecycleObserver);
-
-    public abstract State getCurrentState();
-
-    public abstract void removeObserver(LifecycleObserver lifecycleObserver);
-
-    /* loaded from: classes.dex */
-    public enum Event {
-        ON_CREATE,
-        ON_START,
-        ON_RESUME,
-        ON_PAUSE,
-        ON_STOP,
-        ON_DESTROY,
-        ON_ANY;
-
-        public static Event downFrom(State state) {
-            int i = 1.$SwitchMap$androidx$lifecycle$Lifecycle$State[state.ordinal()];
-            if (i != 1) {
-                if (i != 2) {
-                    if (i != 3) {
-                        return null;
-                    }
-                    return ON_PAUSE;
-                }
-                return ON_STOP;
-            }
-            return ON_DESTROY;
-        }
-
-        public static Event upFrom(State state) {
-            int i = 1.$SwitchMap$androidx$lifecycle$Lifecycle$State[state.ordinal()];
-            if (i != 1) {
-                if (i != 2) {
-                    if (i != 5) {
-                        return null;
-                    }
-                    return ON_CREATE;
-                }
-                return ON_RESUME;
-            }
-            return ON_START;
-        }
-
-        public State getTargetState() {
-            switch (1.$SwitchMap$androidx$lifecycle$Lifecycle$Event[ordinal()]) {
-                case 1:
-                case 2:
-                    return State.CREATED;
-                case 3:
-                case 4:
-                    return State.STARTED;
-                case 5:
-                    return State.RESUMED;
-                case 6:
-                    return State.DESTROYED;
-                default:
-                    throw new IllegalArgumentException(this + " has no target state");
-            }
-        }
-    }
+    AtomicReference mInternalScopeRef = new AtomicReference();
 
     /* loaded from: classes.dex */
     static /* synthetic */ class 1 {
@@ -129,6 +67,62 @@ public abstract class Lifecycle {
     }
 
     /* loaded from: classes.dex */
+    public enum Event {
+        ON_CREATE,
+        ON_START,
+        ON_RESUME,
+        ON_PAUSE,
+        ON_STOP,
+        ON_DESTROY,
+        ON_ANY;
+
+        public static Event downFrom(State state) {
+            int i = 1.$SwitchMap$androidx$lifecycle$Lifecycle$State[state.ordinal()];
+            if (i != 1) {
+                if (i != 2) {
+                    if (i != 3) {
+                        return null;
+                    }
+                    return ON_PAUSE;
+                }
+                return ON_STOP;
+            }
+            return ON_DESTROY;
+        }
+
+        public static Event upFrom(State state) {
+            int i = 1.$SwitchMap$androidx$lifecycle$Lifecycle$State[state.ordinal()];
+            if (i != 1) {
+                if (i != 2) {
+                    if (i != 5) {
+                        return null;
+                    }
+                    return ON_CREATE;
+                }
+                return ON_RESUME;
+            }
+            return ON_START;
+        }
+
+        public State getTargetState() {
+            switch (1.$SwitchMap$androidx$lifecycle$Lifecycle$Event[ordinal()]) {
+                case 1:
+                case 2:
+                    return State.CREATED;
+                case 3:
+                case 4:
+                    return State.STARTED;
+                case 5:
+                    return State.RESUMED;
+                case 6:
+                    return State.DESTROYED;
+                default:
+                    throw new IllegalArgumentException(this + " has no target state");
+            }
+        }
+    }
+
+    /* loaded from: classes.dex */
     public enum State {
         DESTROYED,
         INITIALIZED,
@@ -140,4 +134,10 @@ public abstract class Lifecycle {
             return compareTo(state) >= 0;
         }
     }
+
+    public abstract void addObserver(LifecycleObserver lifecycleObserver);
+
+    public abstract State getCurrentState();
+
+    public abstract void removeObserver(LifecycleObserver lifecycleObserver);
 }

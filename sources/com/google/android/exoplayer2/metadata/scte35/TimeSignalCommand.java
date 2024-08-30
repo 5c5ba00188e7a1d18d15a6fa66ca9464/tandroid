@@ -6,7 +6,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 /* loaded from: classes.dex */
 public final class TimeSignalCommand extends SpliceCommand {
-    public static final Parcelable.Creator<TimeSignalCommand> CREATOR = new Parcelable.Creator<TimeSignalCommand>() { // from class: com.google.android.exoplayer2.metadata.scte35.TimeSignalCommand.1
+    public static final Parcelable.Creator<TimeSignalCommand> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.scte35.TimeSignalCommand.1
         @Override // android.os.Parcelable.Creator
         public TimeSignalCommand createFromParcel(Parcel parcel) {
             return new TimeSignalCommand(parcel.readLong(), parcel.readLong());

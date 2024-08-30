@@ -1,6 +1,6 @@
 package androidx.appcompat;
 /* loaded from: classes.dex */
-public final class R$drawable {
+public abstract class R$drawable {
     public static final int abc_ab_share_pack_mtrl_alpha = 2131230741;
     public static final int abc_btn_borderless_material = 2131230743;
     public static final int abc_btn_check_material = 2131230744;

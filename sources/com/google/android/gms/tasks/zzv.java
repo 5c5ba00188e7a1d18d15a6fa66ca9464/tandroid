@@ -6,7 +6,6 @@ import com.google.android.gms.common.api.internal.LifecycleFragment;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
 final class zzv extends LifecycleCallback {
     private final List zza;

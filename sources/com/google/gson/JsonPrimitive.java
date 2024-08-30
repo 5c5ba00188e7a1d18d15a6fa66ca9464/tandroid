@@ -24,98 +24,13 @@ public final class JsonPrimitive extends JsonElement {
         this.value = str;
     }
 
-    public boolean isBoolean() {
-        return this.value instanceof Boolean;
-    }
-
-    public boolean getAsBoolean() {
-        if (isBoolean()) {
-            return ((Boolean) this.value).booleanValue();
-        }
-        return Boolean.parseBoolean(getAsString());
-    }
-
-    public boolean isNumber() {
-        return this.value instanceof Number;
-    }
-
-    public Number getAsNumber() {
-        Object obj = this.value;
+    private static boolean isIntegral(JsonPrimitive jsonPrimitive) {
+        Object obj = jsonPrimitive.value;
         if (obj instanceof Number) {
-            return (Number) obj;
+            Number number = (Number) obj;
+            return (number instanceof BigInteger) || (number instanceof Long) || (number instanceof Integer) || (number instanceof Short) || (number instanceof Byte);
         }
-        if (obj instanceof String) {
-            return new LazilyParsedNumber((String) obj);
-        }
-        throw new UnsupportedOperationException("Primitive is neither a number nor a string");
-    }
-
-    public boolean isString() {
-        return this.value instanceof String;
-    }
-
-    @Override // com.google.gson.JsonElement
-    public String getAsString() {
-        Object obj = this.value;
-        if (obj instanceof String) {
-            return (String) obj;
-        }
-        if (isNumber()) {
-            return getAsNumber().toString();
-        }
-        if (isBoolean()) {
-            return ((Boolean) this.value).toString();
-        }
-        throw new AssertionError("Unexpected value type: " + this.value.getClass());
-    }
-
-    public double getAsDouble() {
-        return isNumber() ? getAsNumber().doubleValue() : Double.parseDouble(getAsString());
-    }
-
-    public BigDecimal getAsBigDecimal() {
-        Object obj = this.value;
-        if (obj instanceof BigDecimal) {
-            return (BigDecimal) obj;
-        }
-        return NumberLimits.parseBigDecimal(getAsString());
-    }
-
-    public BigInteger getAsBigInteger() {
-        Object obj = this.value;
-        if (obj instanceof BigInteger) {
-            return (BigInteger) obj;
-        }
-        if (isIntegral(this)) {
-            return BigInteger.valueOf(getAsNumber().longValue());
-        }
-        return NumberLimits.parseBigInteger(getAsString());
-    }
-
-    public long getAsLong() {
-        return isNumber() ? getAsNumber().longValue() : Long.parseLong(getAsString());
-    }
-
-    public int getAsInt() {
-        return isNumber() ? getAsNumber().intValue() : Integer.parseInt(getAsString());
-    }
-
-    public int hashCode() {
-        long doubleToLongBits;
-        if (this.value == null) {
-            return 31;
-        }
-        if (isIntegral(this)) {
-            doubleToLongBits = getAsNumber().longValue();
-        } else {
-            Object obj = this.value;
-            if (obj instanceof Number) {
-                doubleToLongBits = Double.doubleToLongBits(getAsNumber().doubleValue());
-            } else {
-                return obj.hashCode();
-            }
-        }
-        return (int) ((doubleToLongBits >>> 32) ^ doubleToLongBits);
+        return false;
     }
 
     public boolean equals(Object obj) {
@@ -129,10 +44,7 @@ public final class JsonPrimitive extends JsonElement {
         if (this.value == null) {
             return jsonPrimitive.value == null;
         } else if (isIntegral(this) && isIntegral(jsonPrimitive)) {
-            if ((this.value instanceof BigInteger) || (jsonPrimitive.value instanceof BigInteger)) {
-                return getAsBigInteger().equals(jsonPrimitive.getAsBigInteger());
-            }
-            return getAsNumber().longValue() == jsonPrimitive.getAsNumber().longValue();
+            return ((this.value instanceof BigInteger) || (jsonPrimitive.value instanceof BigInteger)) ? getAsBigInteger().equals(jsonPrimitive.getAsBigInteger()) : getAsNumber().longValue() == jsonPrimitive.getAsNumber().longValue();
         } else {
             Object obj2 = this.value;
             if (obj2 instanceof Number) {
@@ -153,12 +65,84 @@ public final class JsonPrimitive extends JsonElement {
         }
     }
 
-    private static boolean isIntegral(JsonPrimitive jsonPrimitive) {
-        Object obj = jsonPrimitive.value;
+    public BigDecimal getAsBigDecimal() {
+        Object obj = this.value;
+        return obj instanceof BigDecimal ? (BigDecimal) obj : NumberLimits.parseBigDecimal(getAsString());
+    }
+
+    public BigInteger getAsBigInteger() {
+        Object obj = this.value;
+        return obj instanceof BigInteger ? (BigInteger) obj : isIntegral(this) ? BigInteger.valueOf(getAsNumber().longValue()) : NumberLimits.parseBigInteger(getAsString());
+    }
+
+    public boolean getAsBoolean() {
+        return isBoolean() ? ((Boolean) this.value).booleanValue() : Boolean.parseBoolean(getAsString());
+    }
+
+    public double getAsDouble() {
+        return isNumber() ? getAsNumber().doubleValue() : Double.parseDouble(getAsString());
+    }
+
+    public int getAsInt() {
+        return isNumber() ? getAsNumber().intValue() : Integer.parseInt(getAsString());
+    }
+
+    public long getAsLong() {
+        return isNumber() ? getAsNumber().longValue() : Long.parseLong(getAsString());
+    }
+
+    public Number getAsNumber() {
+        Object obj = this.value;
         if (obj instanceof Number) {
-            Number number = (Number) obj;
-            return (number instanceof BigInteger) || (number instanceof Long) || (number instanceof Integer) || (number instanceof Short) || (number instanceof Byte);
+            return (Number) obj;
         }
-        return false;
+        if (obj instanceof String) {
+            return new LazilyParsedNumber((String) obj);
+        }
+        throw new UnsupportedOperationException("Primitive is neither a number nor a string");
+    }
+
+    @Override // com.google.gson.JsonElement
+    public String getAsString() {
+        Object obj = this.value;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        if (isNumber()) {
+            return getAsNumber().toString();
+        }
+        if (isBoolean()) {
+            return ((Boolean) this.value).toString();
+        }
+        throw new AssertionError("Unexpected value type: " + this.value.getClass());
+    }
+
+    public int hashCode() {
+        long doubleToLongBits;
+        if (this.value == null) {
+            return 31;
+        }
+        if (isIntegral(this)) {
+            doubleToLongBits = getAsNumber().longValue();
+        } else {
+            Object obj = this.value;
+            if (!(obj instanceof Number)) {
+                return obj.hashCode();
+            }
+            doubleToLongBits = Double.doubleToLongBits(getAsNumber().doubleValue());
+        }
+        return (int) ((doubleToLongBits >>> 32) ^ doubleToLongBits);
+    }
+
+    public boolean isBoolean() {
+        return this.value instanceof Boolean;
+    }
+
+    public boolean isNumber() {
+        return this.value instanceof Number;
+    }
+
+    public boolean isString() {
+        return this.value instanceof String;
     }
 }

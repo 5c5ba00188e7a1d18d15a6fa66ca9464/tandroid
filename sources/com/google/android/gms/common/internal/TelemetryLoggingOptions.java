@@ -2,13 +2,11 @@ package com.google.android.gms.common.internal;
 
 import android.os.Bundle;
 import com.google.android.gms.common.api.Api;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public class TelemetryLoggingOptions implements Api.ApiOptions {
     public static final TelemetryLoggingOptions zaa = builder().build();
     private final String zab;
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
     public static class Builder {
         private String zaa;

@@ -1,11 +1,10 @@
 package com.google.android.gms.internal.clearcut;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 /* loaded from: classes.dex */
-public abstract class zzbb implements Serializable, Iterable<Byte> {
+public abstract class zzbb implements Serializable, Iterable {
     public static final zzbb zzfi = new zzbi(zzci.zzkt);
     private static final zzbf zzfj;
     private int zzfk = 0;
@@ -72,7 +71,7 @@ public abstract class zzbb implements Serializable, Iterable<Byte> {
     }
 
     @Override // java.lang.Iterable
-    public /* synthetic */ Iterator<Byte> iterator() {
+    public /* synthetic */ Iterator iterator() {
         return new zzbc(this);
     }
 
@@ -89,7 +88,7 @@ public abstract class zzbb implements Serializable, Iterable<Byte> {
     protected abstract String zza(Charset charset);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(zzba zzbaVar) throws IOException;
+    public abstract void zza(zzba zzbaVar);
 
     public abstract boolean zzaa();
 

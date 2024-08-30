@@ -2,7 +2,6 @@ package com.google.android.gms.internal.mlkit_common;
 
 import java.util.Arrays;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public final class zzbb extends zzat {
     static final zzat zza = new zzbb(null, new Object[0], 0);
@@ -93,24 +92,23 @@ public final class zzbb extends zzat {
                     while (true) {
                         int i10 = zza2 & i5;
                         int i11 = bArr[i10] & 255;
-                        if (i11 != 255) {
-                            if (obj7.equals(objArr3[i11])) {
-                                int i12 = i11 ^ 1;
-                                Object obj9 = objArr3[i12];
-                                obj9.getClass();
-                                zzar zzarVar = new zzar(obj7, obj8, obj9);
-                                objArr3[i12] = obj8;
-                                obj2 = zzarVar;
-                                break;
-                            }
-                            zza2 = i10 + 1;
-                        } else {
+                        if (i11 == 255) {
                             bArr[i10] = (byte) i8;
                             if (i7 < i6) {
                                 objArr3[i8] = obj7;
                                 objArr3[i8 ^ 1] = obj8;
                             }
                             i7++;
+                        } else if (obj7.equals(objArr3[i11])) {
+                            int i12 = i11 ^ 1;
+                            Object obj9 = objArr3[i12];
+                            obj9.getClass();
+                            zzar zzarVar = new zzar(obj7, obj8, obj9);
+                            objArr3[i12] = obj8;
+                            obj2 = zzarVar;
+                            break;
+                        } else {
+                            zza2 = i10 + 1;
                         }
                     }
                     i6++;
@@ -137,24 +135,23 @@ public final class zzbb extends zzat {
                     while (true) {
                         int i17 = zza3 & i5;
                         char c4 = (char) sArr[i17];
-                        if (c4 != 65535) {
-                            if (obj10.equals(objArr3[c4])) {
-                                int i18 = c4 ^ 1;
-                                Object obj12 = objArr3[i18];
-                                obj12.getClass();
-                                zzar zzarVar2 = new zzar(obj10, obj11, obj12);
-                                objArr3[i18] = obj11;
-                                obj2 = zzarVar2;
-                                break;
-                            }
-                            zza3 = i17 + 1;
-                        } else {
+                        if (c4 == 65535) {
                             sArr[i17] = (short) i15;
                             if (i13 < i14) {
                                 objArr3[i15] = obj10;
                                 objArr3[i15 ^ 1] = obj11;
                             }
                             i13++;
+                        } else if (obj10.equals(objArr3[c4])) {
+                            int i18 = c4 ^ 1;
+                            Object obj12 = objArr3[i18];
+                            obj12.getClass();
+                            zzar zzarVar2 = new zzar(obj10, obj11, obj12);
+                            objArr3[i18] = obj11;
+                            obj2 = zzarVar2;
+                            break;
+                        } else {
+                            zza3 = i17 + 1;
                         }
                     }
                 }
@@ -168,16 +165,15 @@ public final class zzbb extends zzat {
                     if (z) {
                         Object[] objArr4 = (Object[]) obj;
                         zzar zzarVar3 = (zzar) objArr4[c2];
-                        if (zzasVar != null) {
-                            zzasVar.zzc = zzarVar3;
-                            Object obj14 = objArr4[0];
-                            int intValue = ((Integer) objArr4[c]).intValue();
-                            objArr3 = Arrays.copyOf(objArr3, intValue + intValue);
-                            obj13 = obj14;
-                            i3 = intValue;
-                        } else {
+                        if (zzasVar == null) {
                             throw zzarVar3.zza();
                         }
+                        zzasVar.zzc = zzarVar3;
+                        Object obj14 = objArr4[0];
+                        int intValue = ((Integer) objArr4[c]).intValue();
+                        objArr3 = Arrays.copyOf(objArr3, intValue + intValue);
+                        obj13 = obj14;
+                        i3 = intValue;
                     }
                     return new zzbb(obj13, objArr3, i3);
                 }
@@ -199,25 +195,24 @@ public final class zzbb extends zzat {
                     while (true) {
                         int i24 = zza4 & i5;
                         ?? r15 = sArr[i24];
-                        if (r15 != c3) {
-                            if (obj15.equals(objArr3[r15])) {
-                                int i25 = r15 ^ 1;
-                                Object obj17 = objArr3[i25];
-                                obj17.getClass();
-                                zzar zzarVar4 = new zzar(obj15, obj16, obj17);
-                                objArr3[i25] = obj16;
-                                obj2 = zzarVar4;
-                                break;
-                            }
-                            zza4 = i24 + 1;
-                            c3 = 65535;
-                        } else {
+                        if (r15 == c3) {
                             sArr[i24] = i22;
                             if (i21 < i20) {
                                 objArr3[i22] = obj15;
                                 objArr3[i22 ^ 1] = obj16;
                             }
                             i21++;
+                        } else if (obj15.equals(objArr3[r15])) {
+                            int i25 = r15 ^ 1;
+                            Object obj17 = objArr3[i25];
+                            obj17.getClass();
+                            zzar zzarVar4 = new zzar(obj15, obj16, obj17);
+                            objArr3[i25] = obj16;
+                            obj2 = zzarVar4;
+                            break;
+                        } else {
+                            zza4 = i24 + 1;
+                            c3 = 65535;
                         }
                     }
                     i20++;

@@ -11,7 +11,7 @@ import java.util.Map;
 /* loaded from: classes3.dex */
 public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDelegate {
     private static final CharSequence SEEK_BAR_CLASS_NAME = android.widget.SeekBar.class.getName();
-    private final Map<View, Runnable> accessibilityEventRunnables = new HashMap(4);
+    private final Map accessibilityEventRunnables = new HashMap(4);
     private final View.OnAttachStateChangeListener onAttachStateChangeListener = new View.OnAttachStateChangeListener() { // from class: org.telegram.ui.Components.SeekBarAccessibilityDelegate.1
         @Override // android.view.View.OnAttachStateChangeListener
         public void onViewAttachedToWindow(View view) {
@@ -24,44 +24,16 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
         }
     };
 
-    protected abstract boolean canScrollBackward(View view);
-
-    protected abstract boolean canScrollForward(View view);
-
-    protected abstract void doScroll(View view, boolean z);
-
-    protected CharSequence getContentDescription(View view) {
-        return null;
-    }
-
-    @Override // android.view.View.AccessibilityDelegate
-    public boolean performAccessibilityAction(View view, int i, Bundle bundle) {
-        if (super.performAccessibilityAction(view, i, bundle)) {
-            return true;
-        }
-        return performAccessibilityActionInternal(view, i, bundle);
-    }
-
-    public boolean performAccessibilityActionInternal(View view, int i, Bundle bundle) {
-        if (i == 4096 || i == 8192) {
-            doScroll(view, i == 8192);
-            if (view != null) {
-                postAccessibilityEventRunnable(view);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    public final boolean performAccessibilityActionInternal(int i, Bundle bundle) {
-        return performAccessibilityActionInternal(null, i, bundle);
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$postAccessibilityEventRunnable$0(View view) {
+        sendAccessibilityEvent(view, 4);
     }
 
     private void postAccessibilityEventRunnable(final View view) {
         if (ViewCompat.isAttachedToWindow(view)) {
-            Runnable runnable = this.accessibilityEventRunnables.get(view);
+            Runnable runnable = (Runnable) this.accessibilityEventRunnables.get(view);
             if (runnable == null) {
-                Map<View, Runnable> map = this.accessibilityEventRunnables;
+                Map map = this.accessibilityEventRunnables;
                 Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.SeekBarAccessibilityDelegate$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
@@ -78,9 +50,14 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$postAccessibilityEventRunnable$0(View view) {
-        sendAccessibilityEvent(view, 4);
+    protected abstract boolean canScrollBackward(View view);
+
+    protected abstract boolean canScrollForward(View view);
+
+    protected abstract void doScroll(View view, boolean z);
+
+    protected CharSequence getContentDescription(View view) {
+        return null;
     }
 
     @Override // android.view.View.AccessibilityDelegate
@@ -111,5 +88,28 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
 
     public final void onInitializeAccessibilityNodeInfoInternal(AccessibilityNodeInfo accessibilityNodeInfo) {
         onInitializeAccessibilityNodeInfoInternal(null, accessibilityNodeInfo);
+    }
+
+    @Override // android.view.View.AccessibilityDelegate
+    public boolean performAccessibilityAction(View view, int i, Bundle bundle) {
+        if (super.performAccessibilityAction(view, i, bundle)) {
+            return true;
+        }
+        return performAccessibilityActionInternal(view, i, bundle);
+    }
+
+    public final boolean performAccessibilityActionInternal(int i, Bundle bundle) {
+        return performAccessibilityActionInternal(null, i, bundle);
+    }
+
+    public boolean performAccessibilityActionInternal(View view, int i, Bundle bundle) {
+        if (i == 4096 || i == 8192) {
+            doScroll(view, i == 8192);
+            if (view != null) {
+                postAccessibilityEventRunnable(view);
+            }
+            return true;
+        }
+        return false;
     }
 }

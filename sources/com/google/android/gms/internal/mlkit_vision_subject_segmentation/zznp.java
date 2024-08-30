@@ -1,5 +1,4 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public final class zznp {
     private final Long zza;
@@ -19,17 +18,14 @@ public final class zznp {
         this.zzc = bool;
     }
 
-    @zzcd(zza = 2)
     public final zzoa zza() {
         return this.zzb;
     }
 
-    @zzcd(zza = 3)
     public final Boolean zzb() {
         return this.zzc;
     }
 
-    @zzcd(zza = 1)
     public final Long zzc() {
         return this.zza;
     }

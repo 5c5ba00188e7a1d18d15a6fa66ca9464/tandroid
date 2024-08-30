@@ -10,40 +10,15 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 /* loaded from: classes.dex */
-public final class ObjectTypeAdapter extends TypeAdapter<Object> {
+public final class ObjectTypeAdapter extends TypeAdapter {
     private static final TypeAdapterFactory DOUBLE_FACTORY = newFactory(ToNumberPolicy.DOUBLE);
     private final Gson gson;
     private final ToNumberStrategy toNumberStrategy;
-
-    private ObjectTypeAdapter(Gson gson, ToNumberStrategy toNumberStrategy) {
-        this.gson = gson;
-        this.toNumberStrategy = toNumberStrategy;
-    }
-
-    private static TypeAdapterFactory newFactory(final ToNumberStrategy toNumberStrategy) {
-        return new TypeAdapterFactory() { // from class: com.google.gson.internal.bind.ObjectTypeAdapter.1
-            @Override // com.google.gson.TypeAdapterFactory
-            public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
-                if (typeToken.getRawType() == Object.class) {
-                    return new ObjectTypeAdapter(gson, ToNumberStrategy.this);
-                }
-                return null;
-            }
-        };
-    }
-
-    public static TypeAdapterFactory getFactory(ToNumberStrategy toNumberStrategy) {
-        if (toNumberStrategy == ToNumberPolicy.DOUBLE) {
-            return DOUBLE_FACTORY;
-        }
-        return newFactory(toNumberStrategy);
-    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
@@ -80,20 +55,28 @@ public final class ObjectTypeAdapter extends TypeAdapter<Object> {
         }
     }
 
-    private Object tryBeginNesting(JsonReader jsonReader, JsonToken jsonToken) throws IOException {
-        int i = 2.$SwitchMap$com$google$gson$stream$JsonToken[jsonToken.ordinal()];
-        if (i == 1) {
-            jsonReader.beginArray();
-            return new ArrayList();
-        } else if (i != 2) {
-            return null;
-        } else {
-            jsonReader.beginObject();
-            return new LinkedTreeMap();
-        }
+    private ObjectTypeAdapter(Gson gson, ToNumberStrategy toNumberStrategy) {
+        this.gson = gson;
+        this.toNumberStrategy = toNumberStrategy;
     }
 
-    private Object readTerminal(JsonReader jsonReader, JsonToken jsonToken) throws IOException {
+    public static TypeAdapterFactory getFactory(ToNumberStrategy toNumberStrategy) {
+        return toNumberStrategy == ToNumberPolicy.DOUBLE ? DOUBLE_FACTORY : newFactory(toNumberStrategy);
+    }
+
+    private static TypeAdapterFactory newFactory(final ToNumberStrategy toNumberStrategy) {
+        return new TypeAdapterFactory() { // from class: com.google.gson.internal.bind.ObjectTypeAdapter.1
+            @Override // com.google.gson.TypeAdapterFactory
+            public TypeAdapter create(Gson gson, TypeToken typeToken) {
+                if (typeToken.getRawType() == Object.class) {
+                    return new ObjectTypeAdapter(gson, ToNumberStrategy.this);
+                }
+                return null;
+            }
+        };
+    }
+
+    private Object readTerminal(JsonReader jsonReader, JsonToken jsonToken) {
         int i = 2.$SwitchMap$com$google$gson$stream$JsonToken[jsonToken.ordinal()];
         if (i != 3) {
             if (i != 4) {
@@ -111,8 +94,21 @@ public final class ObjectTypeAdapter extends TypeAdapter<Object> {
         return jsonReader.nextString();
     }
 
+    private Object tryBeginNesting(JsonReader jsonReader, JsonToken jsonToken) {
+        int i = 2.$SwitchMap$com$google$gson$stream$JsonToken[jsonToken.ordinal()];
+        if (i == 1) {
+            jsonReader.beginArray();
+            return new ArrayList();
+        } else if (i != 2) {
+            return null;
+        } else {
+            jsonReader.beginObject();
+            return new LinkedTreeMap();
+        }
+    }
+
     @Override // com.google.gson.TypeAdapter
-    public Object read(JsonReader jsonReader) throws IOException {
+    public Object read(JsonReader jsonReader) {
         JsonToken peek = jsonReader.peek();
         Object tryBeginNesting = tryBeginNesting(jsonReader, peek);
         if (tryBeginNesting == null) {
@@ -152,17 +148,17 @@ public final class ObjectTypeAdapter extends TypeAdapter<Object> {
     }
 
     @Override // com.google.gson.TypeAdapter
-    public void write(JsonWriter jsonWriter, Object obj) throws IOException {
+    public void write(JsonWriter jsonWriter, Object obj) {
         if (obj == null) {
             jsonWriter.nullValue();
             return;
         }
         TypeAdapter adapter = this.gson.getAdapter(obj.getClass());
-        if (adapter instanceof ObjectTypeAdapter) {
-            jsonWriter.beginObject();
-            jsonWriter.endObject();
+        if (!(adapter instanceof ObjectTypeAdapter)) {
+            adapter.write(jsonWriter, obj);
             return;
         }
-        adapter.write(jsonWriter, obj);
+        jsonWriter.beginObject();
+        jsonWriter.endObject();
     }
 }

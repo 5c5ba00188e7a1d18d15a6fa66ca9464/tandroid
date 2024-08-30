@@ -7,18 +7,10 @@ public final class Result {
     private final BarcodeFormat format;
     private final int numBits;
     private final byte[] rawBytes;
-    private Map<ResultMetadataType, Object> resultMetadata;
+    private Map resultMetadata;
     private ResultPoint[] resultPoints;
     private final String text;
     private final long timestamp;
-
-    public Result(String str, byte[] bArr, ResultPoint[] resultPointArr, BarcodeFormat barcodeFormat) {
-        this(str, bArr, resultPointArr, barcodeFormat, System.currentTimeMillis());
-    }
-
-    public Result(String str, byte[] bArr, ResultPoint[] resultPointArr, BarcodeFormat barcodeFormat, long j) {
-        this(str, bArr, bArr == null ? 0 : bArr.length * 8, resultPointArr, barcodeFormat, j);
-    }
 
     public Result(String str, byte[] bArr, int i, ResultPoint[] resultPointArr, BarcodeFormat barcodeFormat, long j) {
         this.text = str;
@@ -30,12 +22,20 @@ public final class Result {
         this.timestamp = j;
     }
 
-    public String getText() {
-        return this.text;
+    public Result(String str, byte[] bArr, ResultPoint[] resultPointArr, BarcodeFormat barcodeFormat) {
+        this(str, bArr, resultPointArr, barcodeFormat, System.currentTimeMillis());
+    }
+
+    public Result(String str, byte[] bArr, ResultPoint[] resultPointArr, BarcodeFormat barcodeFormat, long j) {
+        this(str, bArr, bArr == null ? 0 : bArr.length * 8, resultPointArr, barcodeFormat, j);
     }
 
     public ResultPoint[] getResultPoints() {
         return this.resultPoints;
+    }
+
+    public String getText() {
+        return this.text;
     }
 
     public void putMetadata(ResultMetadataType resultMetadataType, Object obj) {

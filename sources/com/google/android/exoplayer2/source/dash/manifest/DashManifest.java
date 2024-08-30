@@ -9,14 +9,14 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 /* loaded from: classes.dex */
-public class DashManifest implements FilterableManifest<DashManifest> {
+public class DashManifest implements FilterableManifest {
     public final long availabilityStartTimeMs;
     public final long durationMs;
     public final boolean dynamic;
     public final Uri location;
     public final long minBufferTimeMs;
     public final long minUpdatePeriodMs;
-    private final List<Period> periods;
+    private final List periods;
     public final ProgramInformation programInformation;
     public final long publishTimeMs;
     public final ServiceDescriptionElement serviceDescription;
@@ -24,12 +24,7 @@ public class DashManifest implements FilterableManifest<DashManifest> {
     public final long timeShiftBufferDepthMs;
     public final UtcTimingElement utcTiming;
 
-    @Override // com.google.android.exoplayer2.offline.FilterableManifest
-    public /* bridge */ /* synthetic */ DashManifest copy(List list) {
-        return copy((List<StreamKey>) list);
-    }
-
-    public DashManifest(long j, long j2, long j3, boolean z, long j4, long j5, long j6, long j7, ProgramInformation programInformation, UtcTimingElement utcTimingElement, ServiceDescriptionElement serviceDescriptionElement, Uri uri, List<Period> list) {
+    public DashManifest(long j, long j2, long j3, boolean z, long j4, long j5, long j6, long j7, ProgramInformation programInformation, UtcTimingElement utcTimingElement, ServiceDescriptionElement serviceDescriptionElement, Uri uri, List list) {
         this.availabilityStartTimeMs = j;
         this.durationMs = j2;
         this.minBufferTimeMs = j3;
@@ -45,36 +40,30 @@ public class DashManifest implements FilterableManifest<DashManifest> {
         this.periods = list == null ? Collections.emptyList() : list;
     }
 
-    public final int getPeriodCount() {
-        return this.periods.size();
-    }
-
-    public final Period getPeriod(int i) {
-        return this.periods.get(i);
-    }
-
-    public final long getPeriodDurationMs(int i) {
-        long j;
-        long j2;
-        if (i == this.periods.size() - 1) {
-            j = this.durationMs;
-            if (j == -9223372036854775807L) {
-                return -9223372036854775807L;
-            }
-            j2 = this.periods.get(i).startMs;
-        } else {
-            j = this.periods.get(i + 1).startMs;
-            j2 = this.periods.get(i).startMs;
-        }
-        return j - j2;
-    }
-
-    public final long getPeriodDurationUs(int i) {
-        return Util.msToUs(getPeriodDurationMs(i));
+    private static ArrayList copyAdaptationSets(List list, LinkedList linkedList) {
+        StreamKey streamKey = (StreamKey) linkedList.poll();
+        int i = streamKey.periodIndex;
+        ArrayList arrayList = new ArrayList();
+        do {
+            int i2 = streamKey.groupIndex;
+            AdaptationSet adaptationSet = (AdaptationSet) list.get(i2);
+            List list2 = adaptationSet.representations;
+            ArrayList arrayList2 = new ArrayList();
+            do {
+                arrayList2.add((Representation) list2.get(streamKey.streamIndex));
+                streamKey = (StreamKey) linkedList.poll();
+                if (streamKey.periodIndex != i) {
+                    break;
+                }
+            } while (streamKey.groupIndex == i2);
+            arrayList.add(new AdaptationSet(adaptationSet.id, adaptationSet.type, arrayList2, adaptationSet.accessibilityDescriptors, adaptationSet.essentialProperties, adaptationSet.supplementalProperties));
+        } while (streamKey.periodIndex == i);
+        linkedList.addFirst(streamKey);
+        return arrayList;
     }
 
     @Override // com.google.android.exoplayer2.offline.FilterableManifest
-    public final DashManifest copy(List<StreamKey> list) {
+    public final DashManifest copy(List list) {
         LinkedList linkedList = new LinkedList(list);
         Collections.sort(linkedList);
         linkedList.add(new StreamKey(-1, -1, -1));
@@ -100,25 +89,28 @@ public class DashManifest implements FilterableManifest<DashManifest> {
         return new DashManifest(this.availabilityStartTimeMs, j2 != -9223372036854775807L ? j2 - j : -9223372036854775807L, this.minBufferTimeMs, this.dynamic, this.minUpdatePeriodMs, this.timeShiftBufferDepthMs, this.suggestedPresentationDelayMs, this.publishTimeMs, this.programInformation, this.utcTiming, this.serviceDescription, this.location, arrayList);
     }
 
-    private static ArrayList<AdaptationSet> copyAdaptationSets(List<AdaptationSet> list, LinkedList<StreamKey> linkedList) {
-        StreamKey poll = linkedList.poll();
-        int i = poll.periodIndex;
-        ArrayList<AdaptationSet> arrayList = new ArrayList<>();
-        do {
-            int i2 = poll.groupIndex;
-            AdaptationSet adaptationSet = list.get(i2);
-            List<Representation> list2 = adaptationSet.representations;
-            ArrayList arrayList2 = new ArrayList();
-            do {
-                arrayList2.add(list2.get(poll.streamIndex));
-                poll = linkedList.poll();
-                if (poll.periodIndex != i) {
-                    break;
-                }
-            } while (poll.groupIndex == i2);
-            arrayList.add(new AdaptationSet(adaptationSet.id, adaptationSet.type, arrayList2, adaptationSet.accessibilityDescriptors, adaptationSet.essentialProperties, adaptationSet.supplementalProperties));
-        } while (poll.periodIndex == i);
-        linkedList.addFirst(poll);
-        return arrayList;
+    public final Period getPeriod(int i) {
+        return (Period) this.periods.get(i);
+    }
+
+    public final int getPeriodCount() {
+        return this.periods.size();
+    }
+
+    public final long getPeriodDurationMs(int i) {
+        long j;
+        if (i == this.periods.size() - 1) {
+            j = this.durationMs;
+            if (j == -9223372036854775807L) {
+                return -9223372036854775807L;
+            }
+        } else {
+            j = ((Period) this.periods.get(i + 1)).startMs;
+        }
+        return j - ((Period) this.periods.get(i)).startMs;
+    }
+
+    public final long getPeriodDurationUs(int i) {
+        return Util.msToUs(getPeriodDurationMs(i));
     }
 }

@@ -1,13 +1,17 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.io.IOException;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public class zzci extends IOException {
     private zzdf zza;
 
     public zzci(IOException iOException) {
         super(iOException.getMessage(), iOException);
+        this.zza = null;
+    }
+
+    public zzci(String str) {
+        super(str);
         this.zza = null;
     }
 
@@ -44,10 +48,5 @@ public class zzci extends IOException {
     public final zzci zzf(zzdf zzdfVar) {
         this.zza = zzdfVar;
         return this;
-    }
-
-    public zzci(String str) {
-        super(str);
-        this.zza = null;
     }
 }

@@ -1,6 +1,6 @@
 package androidx.appcompat.resources;
 /* loaded from: classes.dex */
-public final class R$styleable {
+public abstract class R$styleable {
     public static final int AnimatedStateListDrawableCompat_android_constantSize = 3;
     public static final int AnimatedStateListDrawableCompat_android_dither = 0;
     public static final int AnimatedStateListDrawableCompat_android_enterFadeDuration = 4;

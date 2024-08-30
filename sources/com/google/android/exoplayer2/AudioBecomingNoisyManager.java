@@ -13,27 +13,6 @@ final class AudioBecomingNoisyManager {
     private boolean receiverRegistered;
 
     /* loaded from: classes.dex */
-    public interface EventListener {
-        void onAudioBecomingNoisy();
-    }
-
-    public AudioBecomingNoisyManager(Context context, Handler handler, EventListener eventListener) {
-        this.context = context.getApplicationContext();
-        this.receiver = new AudioBecomingNoisyReceiver(handler, eventListener);
-    }
-
-    public void setEnabled(boolean z) {
-        if (z && !this.receiverRegistered) {
-            Util.registerReceiverNotExported(this.context, this.receiver, new IntentFilter("android.media.AUDIO_BECOMING_NOISY"));
-            this.receiverRegistered = true;
-        } else if (z || !this.receiverRegistered) {
-        } else {
-            this.context.unregisterReceiver(this.receiver);
-            this.receiverRegistered = false;
-        }
-    }
-
-    /* loaded from: classes.dex */
     private final class AudioBecomingNoisyReceiver extends BroadcastReceiver implements Runnable {
         private final Handler eventHandler;
         private final EventListener listener;
@@ -56,5 +35,29 @@ final class AudioBecomingNoisyManager {
                 this.listener.onAudioBecomingNoisy();
             }
         }
+    }
+
+    /* loaded from: classes.dex */
+    public interface EventListener {
+        void onAudioBecomingNoisy();
+    }
+
+    public AudioBecomingNoisyManager(Context context, Handler handler, EventListener eventListener) {
+        this.context = context.getApplicationContext();
+        this.receiver = new AudioBecomingNoisyReceiver(handler, eventListener);
+    }
+
+    public void setEnabled(boolean z) {
+        boolean z2;
+        if (z && !this.receiverRegistered) {
+            Util.registerReceiverNotExported(this.context, this.receiver, new IntentFilter("android.media.AUDIO_BECOMING_NOISY"));
+            z2 = true;
+        } else if (z || !this.receiverRegistered) {
+            return;
+        } else {
+            this.context.unregisterReceiver(this.receiver);
+            z2 = false;
+        }
+        this.receiverRegistered = z2;
     }
 }

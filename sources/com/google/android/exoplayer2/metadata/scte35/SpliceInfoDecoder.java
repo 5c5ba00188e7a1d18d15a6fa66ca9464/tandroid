@@ -15,7 +15,6 @@ public final class SpliceInfoDecoder extends SimpleMetadataDecoder {
 
     @Override // com.google.android.exoplayer2.metadata.SimpleMetadataDecoder
     protected Metadata decode(MetadataInputBuffer metadataInputBuffer, ByteBuffer byteBuffer) {
-        Metadata.Entry spliceNullCommand;
         TimestampAdjuster timestampAdjuster = this.timestampAdjuster;
         if (timestampAdjuster == null || metadataInputBuffer.subsampleOffsetUs != timestampAdjuster.getTimestampOffsetUs()) {
             TimestampAdjuster timestampAdjuster2 = new TimestampAdjuster(metadataInputBuffer.timeUs);
@@ -32,17 +31,7 @@ public final class SpliceInfoDecoder extends SimpleMetadataDecoder {
         int readBits2 = this.sectionHeader.readBits(12);
         int readBits3 = this.sectionHeader.readBits(8);
         this.sectionData.skipBytes(14);
-        if (readBits3 == 0) {
-            spliceNullCommand = new SpliceNullCommand();
-        } else if (readBits3 == 255) {
-            spliceNullCommand = PrivateCommand.parseFromSection(this.sectionData, readBits2, readBits);
-        } else if (readBits3 == 4) {
-            spliceNullCommand = SpliceScheduleCommand.parseFromSection(this.sectionData);
-        } else if (readBits3 == 5) {
-            spliceNullCommand = SpliceInsertCommand.parseFromSection(this.sectionData, readBits, this.timestampAdjuster);
-        } else {
-            spliceNullCommand = readBits3 != 6 ? null : TimeSignalCommand.parseFromSection(this.sectionData, readBits, this.timestampAdjuster);
-        }
-        return spliceNullCommand == null ? new Metadata(new Metadata.Entry[0]) : new Metadata(spliceNullCommand);
+        Metadata.Entry parseFromSection = readBits3 != 0 ? readBits3 != 255 ? readBits3 != 4 ? readBits3 != 5 ? readBits3 != 6 ? null : TimeSignalCommand.parseFromSection(this.sectionData, readBits, this.timestampAdjuster) : SpliceInsertCommand.parseFromSection(this.sectionData, readBits, this.timestampAdjuster) : SpliceScheduleCommand.parseFromSection(this.sectionData) : PrivateCommand.parseFromSection(this.sectionData, readBits2, readBits) : new SpliceNullCommand();
+        return parseFromSection == null ? new Metadata(new Metadata.Entry[0]) : new Metadata(parseFromSection);
     }
 }

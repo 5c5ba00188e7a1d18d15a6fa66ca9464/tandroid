@@ -1,6 +1,6 @@
 package androidx.core;
 /* loaded from: classes.dex */
-public final class R$id {
+public abstract class R$id {
     public static final int accessibility_action_clickable_span = 2131296267;
     public static final int accessibility_custom_action_0 = 2131296268;
     public static final int accessibility_custom_action_1 = 2131296269;

@@ -1,24 +1,21 @@
 package com.google.android.gms.internal.vision;
-
-import java.io.IOException;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-interface zzlc<T> {
-    int zza(T t);
+interface zzlc {
+    int zza(Object obj);
 
-    T zza();
+    Object zza();
 
-    void zza(T t, zzmr zzmrVar) throws IOException;
+    void zza(Object obj, zzmr zzmrVar);
 
-    void zza(T t, byte[] bArr, int i, int i2, zzhn zzhnVar) throws IOException;
+    void zza(Object obj, byte[] bArr, int i, int i2, zzhn zzhnVar);
 
-    boolean zza(T t, T t2);
+    boolean zza(Object obj, Object obj2);
 
-    int zzb(T t);
+    int zzb(Object obj);
 
-    void zzb(T t, T t2);
+    void zzb(Object obj, Object obj2);
 
-    void zzc(T t);
+    void zzc(Object obj);
 
-    boolean zzd(T t);
+    boolean zzd(Object obj);
 }

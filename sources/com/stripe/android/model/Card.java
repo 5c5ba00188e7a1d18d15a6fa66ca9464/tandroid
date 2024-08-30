@@ -28,6 +28,10 @@ public class Card {
     public static final String[] PREFIXES_VISA = {"4"};
     public static final String[] PREFIXES_MASTERCARD = {"2221", "2222", "2223", "2224", "2225", "2226", "2227", "2228", "2229", "223", "224", "225", "226", "227", "228", "229", "23", "24", "25", "26", "270", "271", "2720", "50", "51", "52", "53", "54", "55"};
 
+    public Card(String str, Integer num, Integer num2, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, String str10) {
+        this(str, num, num2, str2, str3, str4, str5, str6, str7, str8, str9, null, null, null, null, null, str10);
+    }
+
     public Card(String str, Integer num, Integer num2, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, String str10, String str11, String str12, String str13, String str14, String str15) {
         this.number = StripeTextUtils.nullIfBlank(normalizeCardNumber(str));
         this.expMonth = num;
@@ -46,133 +50,6 @@ public class Card {
         this.funding = StripeTextUtils.asFundingType(str13);
         this.country = StripeTextUtils.nullIfBlank(str14);
         this.currency = StripeTextUtils.nullIfBlank(str15);
-    }
-
-    public Card(String str, Integer num, Integer num2, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, String str10) {
-        this(str, num, num2, str2, str3, str4, str5, str6, str7, str8, str9, null, null, null, null, null, str10);
-    }
-
-    public boolean validateNumber() {
-        if (StripeTextUtils.isBlank(this.number)) {
-            return false;
-        }
-        String replaceAll = this.number.trim().replaceAll("\\s+|-", "");
-        if (!StripeTextUtils.isBlank(replaceAll) && StripeTextUtils.isWholePositiveNumber(replaceAll) && isValidLuhnNumber(replaceAll)) {
-            String brand = getBrand();
-            return "American Express".equals(brand) ? replaceAll.length() == 15 : "Diners Club".equals(brand) ? replaceAll.length() == 14 : replaceAll.length() == 16;
-        }
-        return false;
-    }
-
-    public boolean validateExpiryDate() {
-        if (validateExpMonth() && validateExpYear()) {
-            return !DateUtils.hasMonthPassed(this.expYear.intValue(), this.expMonth.intValue());
-        }
-        return false;
-    }
-
-    public boolean validateCVC() {
-        if (StripeTextUtils.isBlank(this.cvc)) {
-            return false;
-        }
-        String trim = this.cvc.trim();
-        String brand = getBrand();
-        return StripeTextUtils.isWholePositiveNumber(trim) && ((brand == null && trim.length() >= 3 && trim.length() <= 4) || (("American Express".equals(brand) && trim.length() == 4) || trim.length() == 3));
-    }
-
-    public boolean validateExpMonth() {
-        Integer num = this.expMonth;
-        return num != null && num.intValue() >= 1 && this.expMonth.intValue() <= 12;
-    }
-
-    public boolean validateExpYear() {
-        Integer num = this.expYear;
-        return (num == null || DateUtils.hasYearPassed(num.intValue())) ? false : true;
-    }
-
-    public String getNumber() {
-        return this.number;
-    }
-
-    public String getCVC() {
-        return this.cvc;
-    }
-
-    public Integer getExpMonth() {
-        return this.expMonth;
-    }
-
-    public Integer getExpYear() {
-        return this.expYear;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getAddressLine1() {
-        return this.addressLine1;
-    }
-
-    public String getAddressLine2() {
-        return this.addressLine2;
-    }
-
-    public String getAddressCity() {
-        return this.addressCity;
-    }
-
-    public String getAddressZip() {
-        return this.addressZip;
-    }
-
-    public String getAddressState() {
-        return this.addressState;
-    }
-
-    public String getAddressCountry() {
-        return this.addressCountry;
-    }
-
-    public String getCurrency() {
-        return this.currency;
-    }
-
-    public String getLast4() {
-        if (!StripeTextUtils.isBlank(this.last4)) {
-            return this.last4;
-        }
-        String str = this.number;
-        if (str == null || str.length() <= 4) {
-            return null;
-        }
-        String str2 = this.number;
-        String substring = str2.substring(str2.length() - 4, this.number.length());
-        this.last4 = substring;
-        return substring;
-    }
-
-    public String getBrand() {
-        String str;
-        if (StripeTextUtils.isBlank(this.brand) && !StripeTextUtils.isBlank(this.number)) {
-            if (StripeTextUtils.hasAnyPrefix(this.number, PREFIXES_AMERICAN_EXPRESS)) {
-                str = "American Express";
-            } else if (StripeTextUtils.hasAnyPrefix(this.number, PREFIXES_DISCOVER)) {
-                str = "Discover";
-            } else if (StripeTextUtils.hasAnyPrefix(this.number, PREFIXES_JCB)) {
-                str = "JCB";
-            } else if (StripeTextUtils.hasAnyPrefix(this.number, PREFIXES_DINERS_CLUB)) {
-                str = "Diners Club";
-            } else if (StripeTextUtils.hasAnyPrefix(this.number, PREFIXES_VISA)) {
-                str = "Visa";
-            } else if (StripeTextUtils.hasAnyPrefix(this.number, PREFIXES_MASTERCARD)) {
-                str = "MasterCard";
-            } else {
-                str = "Unknown";
-            }
-            this.brand = str;
-        }
-        return this.brand;
     }
 
     private boolean isValidLuhnNumber(String str) {
@@ -201,5 +78,117 @@ public class Card {
             return null;
         }
         return str.trim().replaceAll("\\s+|-", "");
+    }
+
+    public String getAddressCity() {
+        return this.addressCity;
+    }
+
+    public String getAddressCountry() {
+        return this.addressCountry;
+    }
+
+    public String getAddressLine1() {
+        return this.addressLine1;
+    }
+
+    public String getAddressLine2() {
+        return this.addressLine2;
+    }
+
+    public String getAddressState() {
+        return this.addressState;
+    }
+
+    public String getAddressZip() {
+        return this.addressZip;
+    }
+
+    public String getBrand() {
+        if (StripeTextUtils.isBlank(this.brand) && !StripeTextUtils.isBlank(this.number)) {
+            this.brand = StripeTextUtils.hasAnyPrefix(this.number, PREFIXES_AMERICAN_EXPRESS) ? "American Express" : StripeTextUtils.hasAnyPrefix(this.number, PREFIXES_DISCOVER) ? "Discover" : StripeTextUtils.hasAnyPrefix(this.number, PREFIXES_JCB) ? "JCB" : StripeTextUtils.hasAnyPrefix(this.number, PREFIXES_DINERS_CLUB) ? "Diners Club" : StripeTextUtils.hasAnyPrefix(this.number, PREFIXES_VISA) ? "Visa" : StripeTextUtils.hasAnyPrefix(this.number, PREFIXES_MASTERCARD) ? "MasterCard" : "Unknown";
+        }
+        return this.brand;
+    }
+
+    public String getCVC() {
+        return this.cvc;
+    }
+
+    public String getCurrency() {
+        return this.currency;
+    }
+
+    public Integer getExpMonth() {
+        return this.expMonth;
+    }
+
+    public Integer getExpYear() {
+        return this.expYear;
+    }
+
+    public String getLast4() {
+        if (StripeTextUtils.isBlank(this.last4)) {
+            String str = this.number;
+            if (str == null || str.length() <= 4) {
+                return null;
+            }
+            String str2 = this.number;
+            String substring = str2.substring(str2.length() - 4, this.number.length());
+            this.last4 = substring;
+            return substring;
+        }
+        return this.last4;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getNumber() {
+        return this.number;
+    }
+
+    public boolean validateCVC() {
+        if (StripeTextUtils.isBlank(this.cvc)) {
+            return false;
+        }
+        String trim = this.cvc.trim();
+        String brand = getBrand();
+        return StripeTextUtils.isWholePositiveNumber(trim) && ((brand == null && trim.length() >= 3 && trim.length() <= 4) || (("American Express".equals(brand) && trim.length() == 4) || trim.length() == 3));
+    }
+
+    public boolean validateExpMonth() {
+        Integer num = this.expMonth;
+        return num != null && num.intValue() >= 1 && this.expMonth.intValue() <= 12;
+    }
+
+    public boolean validateExpYear() {
+        Integer num = this.expYear;
+        return (num == null || DateUtils.hasYearPassed(num.intValue())) ? false : true;
+    }
+
+    public boolean validateExpiryDate() {
+        if (validateExpMonth() && validateExpYear()) {
+            return !DateUtils.hasMonthPassed(this.expYear.intValue(), this.expMonth.intValue());
+        }
+        return false;
+    }
+
+    public boolean validateNumber() {
+        if (StripeTextUtils.isBlank(this.number)) {
+            return false;
+        }
+        String replaceAll = this.number.trim().replaceAll("\\s+|-", "");
+        if (!StripeTextUtils.isBlank(replaceAll) && StripeTextUtils.isWholePositiveNumber(replaceAll) && isValidLuhnNumber(replaceAll)) {
+            String brand = getBrand();
+            if ("American Express".equals(brand)) {
+                return replaceAll.length() == 15;
+            }
+            boolean equals = "Diners Club".equals(brand);
+            int length = replaceAll.length();
+            return equals ? length == 14 : length == 16;
+        }
+        return false;
     }
 }

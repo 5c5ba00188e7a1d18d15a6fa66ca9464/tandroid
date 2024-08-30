@@ -26,35 +26,26 @@ public class OverlayActionBarLayoutDialog extends Dialog implements INavigationL
     private PasscodeView passcodeView;
     private Theme.ResourcesProvider resourcesProvider;
 
-    @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
-    public boolean needAddFragmentToStack(BaseFragment baseFragment, INavigationLayout iNavigationLayout) {
-        return true;
-    }
+    /* loaded from: classes3.dex */
+    private final class EmptyFragment extends BaseFragment {
+        private EmptyFragment() {
+        }
 
-    @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
-    public boolean needPresentFragment(BaseFragment baseFragment, boolean z, boolean z2, INavigationLayout iNavigationLayout) {
-        return true;
-    }
+        @Override // org.telegram.ui.ActionBar.BaseFragment
+        public View createView(Context context) {
+            this.hasOwnBackground = true;
+            this.actionBar.setAddToContainer(false);
+            View view = new View(context);
+            view.setBackgroundColor(0);
+            return view;
+        }
 
-    @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
-    public /* synthetic */ boolean needPresentFragment(INavigationLayout iNavigationLayout, INavigationLayout.NavigationParams navigationParams) {
-        boolean needPresentFragment;
-        needPresentFragment = needPresentFragment(navigationParams.fragment, navigationParams.removeLast, navigationParams.noAnimation, iNavigationLayout);
-        return needPresentFragment;
-    }
-
-    @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
-    public boolean onPreIme() {
-        return false;
-    }
-
-    @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
-    public void onRebuildAllFragments(INavigationLayout iNavigationLayout, boolean z) {
-    }
-
-    @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
-    public /* synthetic */ void onThemeProgress(float f) {
-        INavigationLayout.INavigationLayoutDelegate.-CC.$default$onThemeProgress(this, f);
+        @Override // org.telegram.ui.ActionBar.BaseFragment
+        public void onTransitionAnimationEnd(boolean z, boolean z2) {
+            if (z && z2) {
+                OverlayActionBarLayoutDialog.this.dismiss();
+            }
+        }
     }
 
     public OverlayActionBarLayoutDialog(Context context, Theme.ResourcesProvider resourcesProvider) {
@@ -91,6 +82,146 @@ public class OverlayActionBarLayoutDialog extends Dialog implements INavigationL
         onBackPressed();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ WindowInsets lambda$onCreate$1(View view, WindowInsets windowInsets) {
+        int systemWindowInsetBottom;
+        systemWindowInsetBottom = windowInsets.getSystemWindowInsetBottom();
+        view.setPadding(0, 0, 0, systemWindowInsetBottom);
+        return windowInsets;
+    }
+
+    public void addFragment(BaseFragment baseFragment) {
+        this.actionBarLayout.presentFragment(baseFragment, (!AndroidUtilities.isTablet() || AndroidUtilities.isInMultiwindow || AndroidUtilities.isSmallTablet()) ? false : true);
+    }
+
+    @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
+    public boolean needAddFragmentToStack(BaseFragment baseFragment, INavigationLayout iNavigationLayout) {
+        return true;
+    }
+
+    @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
+    public boolean needCloseLastFragment(INavigationLayout iNavigationLayout) {
+        if (iNavigationLayout.getFragmentStack().size() <= 1) {
+            dismiss();
+        }
+        return true;
+    }
+
+    @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
+    public boolean needPresentFragment(BaseFragment baseFragment, boolean z, boolean z2, INavigationLayout iNavigationLayout) {
+        return true;
+    }
+
+    @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
+    public /* synthetic */ boolean needPresentFragment(INavigationLayout iNavigationLayout, INavigationLayout.NavigationParams navigationParams) {
+        boolean needPresentFragment;
+        needPresentFragment = needPresentFragment(navigationParams.fragment, navigationParams.removeLast, navigationParams.noAnimation, iNavigationLayout);
+        return needPresentFragment;
+    }
+
+    @Override // android.app.Dialog
+    public void onBackPressed() {
+        if (this.passcodeView.getVisibility() == 0) {
+            if (getOwnerActivity() != null) {
+                getOwnerActivity().finish();
+                return;
+            }
+            return;
+        }
+        this.actionBarLayout.onBackPressed();
+        if (this.actionBarLayout.getFragmentStack().size() <= 1) {
+            dismiss();
+        }
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0040  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0057  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:25:? A[RETURN, SYNTHETIC] */
+    @Override // android.app.Dialog
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    protected void onCreate(Bundle bundle) {
+        int i;
+        super.onCreate(bundle);
+        Window window = getWindow();
+        int i2 = Build.VERSION.SDK_INT;
+        if (i2 < 30) {
+            i = i2 >= 21 ? -2147417856 : -2147417856;
+            window.setWindowAnimations(R.style.DialogNoAnimation);
+            WindowManager.LayoutParams attributes = window.getAttributes();
+            attributes.width = -1;
+            attributes.gravity = 51;
+            attributes.dimAmount = 0.0f;
+            attributes.flags &= -3;
+            attributes.softInputMode = 16;
+            attributes.height = -1;
+            if (i2 >= 28) {
+                attributes.layoutInDisplayCutoutMode = 1;
+            }
+            window.setAttributes(attributes);
+            if (i2 >= 23) {
+                window.setStatusBarColor(0);
+            }
+            this.frameLayout.setSystemUiVisibility(1280);
+            if (i2 >= 21) {
+                this.frameLayout.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.Components.OverlayActionBarLayoutDialog$$ExternalSyntheticLambda1
+                    @Override // android.view.View.OnApplyWindowInsetsListener
+                    public final WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                        WindowInsets lambda$onCreate$1;
+                        lambda$onCreate$1 = OverlayActionBarLayoutDialog.lambda$onCreate$1(view, windowInsets);
+                        return lambda$onCreate$1;
+                    }
+                });
+            }
+            if (i2 < 26) {
+                AndroidUtilities.setLightNavigationBar(window, ColorUtils.calculateLuminance(Theme.getColor(Theme.key_windowBackgroundWhite, null, true)) >= 0.9d);
+                return;
+            }
+            return;
+        }
+        i = -2147483392;
+        window.addFlags(i);
+        window.setWindowAnimations(R.style.DialogNoAnimation);
+        WindowManager.LayoutParams attributes2 = window.getAttributes();
+        attributes2.width = -1;
+        attributes2.gravity = 51;
+        attributes2.dimAmount = 0.0f;
+        attributes2.flags &= -3;
+        attributes2.softInputMode = 16;
+        attributes2.height = -1;
+        if (i2 >= 28) {
+        }
+        window.setAttributes(attributes2);
+        if (i2 >= 23) {
+        }
+        this.frameLayout.setSystemUiVisibility(1280);
+        if (i2 >= 21) {
+        }
+        if (i2 < 26) {
+        }
+    }
+
+    @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
+    public void onMeasureOverride(int[] iArr) {
+        if (!AndroidUtilities.isTablet() || AndroidUtilities.isInMultiwindow || AndroidUtilities.isSmallTablet()) {
+            return;
+        }
+        iArr[0] = View.MeasureSpec.makeMeasureSpec(Math.min(AndroidUtilities.dp(530.0f), View.MeasureSpec.getSize(iArr[0])), 1073741824);
+        iArr[1] = View.MeasureSpec.makeMeasureSpec(Math.min(AndroidUtilities.dp(528.0f), View.MeasureSpec.getSize(iArr[1])), 1073741824);
+    }
+
+    @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
+    public boolean onPreIme() {
+        return false;
+    }
+
+    @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
+    public void onRebuildAllFragments(INavigationLayout iNavigationLayout, boolean z) {
+    }
+
     @Override // android.app.Dialog
     protected void onStart() {
         super.onStart();
@@ -116,109 +247,7 @@ public class OverlayActionBarLayoutDialog extends Dialog implements INavigationL
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
-    public void onMeasureOverride(int[] iArr) {
-        if (!AndroidUtilities.isTablet() || AndroidUtilities.isInMultiwindow || AndroidUtilities.isSmallTablet()) {
-            return;
-        }
-        iArr[0] = View.MeasureSpec.makeMeasureSpec(Math.min(AndroidUtilities.dp(530.0f), View.MeasureSpec.getSize(iArr[0])), 1073741824);
-        iArr[1] = View.MeasureSpec.makeMeasureSpec(Math.min(AndroidUtilities.dp(528.0f), View.MeasureSpec.getSize(iArr[1])), 1073741824);
-    }
-
-    @Override // android.app.Dialog
-    protected void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-        Window window = getWindow();
-        int i = Build.VERSION.SDK_INT;
-        if (i >= 30) {
-            window.addFlags(-2147483392);
-        } else if (i >= 21) {
-            window.addFlags(-2147417856);
-        }
-        window.setWindowAnimations(R.style.DialogNoAnimation);
-        WindowManager.LayoutParams attributes = window.getAttributes();
-        attributes.width = -1;
-        attributes.gravity = 51;
-        attributes.dimAmount = 0.0f;
-        attributes.flags &= -3;
-        attributes.softInputMode = 16;
-        attributes.height = -1;
-        if (i >= 28) {
-            attributes.layoutInDisplayCutoutMode = 1;
-        }
-        window.setAttributes(attributes);
-        if (i >= 23) {
-            window.setStatusBarColor(0);
-        }
-        this.frameLayout.setSystemUiVisibility(1280);
-        if (i >= 21) {
-            this.frameLayout.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.Components.OverlayActionBarLayoutDialog$$ExternalSyntheticLambda1
-                @Override // android.view.View.OnApplyWindowInsetsListener
-                public final WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                    WindowInsets lambda$onCreate$1;
-                    lambda$onCreate$1 = OverlayActionBarLayoutDialog.lambda$onCreate$1(view, windowInsets);
-                    return lambda$onCreate$1;
-                }
-            });
-        }
-        if (i >= 26) {
-            AndroidUtilities.setLightNavigationBar(window, ColorUtils.calculateLuminance(Theme.getColor(Theme.key_windowBackgroundWhite, null, true)) >= 0.9d);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ WindowInsets lambda$onCreate$1(View view, WindowInsets windowInsets) {
-        int systemWindowInsetBottom;
-        systemWindowInsetBottom = windowInsets.getSystemWindowInsetBottom();
-        view.setPadding(0, 0, 0, systemWindowInsetBottom);
-        return windowInsets;
-    }
-
-    public void addFragment(BaseFragment baseFragment) {
-        this.actionBarLayout.presentFragment(baseFragment, (!AndroidUtilities.isTablet() || AndroidUtilities.isInMultiwindow || AndroidUtilities.isSmallTablet()) ? false : true);
-    }
-
-    @Override // android.app.Dialog
-    public void onBackPressed() {
-        if (this.passcodeView.getVisibility() == 0) {
-            if (getOwnerActivity() != null) {
-                getOwnerActivity().finish();
-                return;
-            }
-            return;
-        }
-        this.actionBarLayout.onBackPressed();
-        if (this.actionBarLayout.getFragmentStack().size() <= 1) {
-            dismiss();
-        }
-    }
-
-    @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
-    public boolean needCloseLastFragment(INavigationLayout iNavigationLayout) {
-        if (iNavigationLayout.getFragmentStack().size() <= 1) {
-            dismiss();
-        }
-        return true;
-    }
-
-    /* loaded from: classes3.dex */
-    private final class EmptyFragment extends BaseFragment {
-        private EmptyFragment() {
-        }
-
-        @Override // org.telegram.ui.ActionBar.BaseFragment
-        public View createView(Context context) {
-            this.hasOwnBackground = true;
-            this.actionBar.setAddToContainer(false);
-            View view = new View(context);
-            view.setBackgroundColor(0);
-            return view;
-        }
-
-        @Override // org.telegram.ui.ActionBar.BaseFragment
-        public void onTransitionAnimationEnd(boolean z, boolean z2) {
-            if (z && z2) {
-                OverlayActionBarLayoutDialog.this.dismiss();
-            }
-        }
+    public /* synthetic */ void onThemeProgress(float f) {
+        INavigationLayout.INavigationLayoutDelegate.-CC.$default$onThemeProgress(this, f);
     }
 }

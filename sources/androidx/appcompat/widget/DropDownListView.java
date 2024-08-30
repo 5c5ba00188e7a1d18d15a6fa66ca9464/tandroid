@@ -1,6 +1,5 @@
 package androidx.appcompat.widget;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -40,6 +39,184 @@ public class DropDownListView extends ListView {
     private final Rect mSelectorRect;
 
     /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api21Impl {
+        static void drawableHotspotChanged(View view, float f, float f2) {
+            view.drawableHotspotChanged(f, f2);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class Api30Impl {
+        private static boolean sHasMethods;
+        private static Method sPositionSelector;
+        private static Method sSetNextSelectedPositionInt;
+        private static Method sSetSelectedPositionInt;
+
+        static {
+            try {
+                Class cls = Integer.TYPE;
+                Class cls2 = Float.TYPE;
+                Method declaredMethod = AbsListView.class.getDeclaredMethod("positionSelector", cls, View.class, Boolean.TYPE, cls2, cls2);
+                sPositionSelector = declaredMethod;
+                declaredMethod.setAccessible(true);
+                Method declaredMethod2 = AdapterView.class.getDeclaredMethod("setSelectedPositionInt", cls);
+                sSetSelectedPositionInt = declaredMethod2;
+                declaredMethod2.setAccessible(true);
+                Method declaredMethod3 = AdapterView.class.getDeclaredMethod("setNextSelectedPositionInt", cls);
+                sSetNextSelectedPositionInt = declaredMethod3;
+                declaredMethod3.setAccessible(true);
+                sHasMethods = true;
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        }
+
+        static boolean canPositionSelectorForHoveredItem() {
+            return sHasMethods;
+        }
+
+        static void positionSelectorForHoveredItem(DropDownListView dropDownListView, int i, View view) {
+            try {
+                sPositionSelector.invoke(dropDownListView, Integer.valueOf(i), view, Boolean.FALSE, -1, -1);
+                sSetSelectedPositionInt.invoke(dropDownListView, Integer.valueOf(i));
+                sSetNextSelectedPositionInt.invoke(dropDownListView, Integer.valueOf(i));
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api33Impl {
+        static boolean isSelectedChildViewEnabled(AbsListView absListView) {
+            return absListView.isSelectedChildViewEnabled();
+        }
+
+        static void setSelectedChildViewEnabled(AbsListView absListView, boolean z) {
+            absListView.setSelectedChildViewEnabled(z);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class GateKeeperDrawable extends DrawableWrapperCompat {
+        private boolean mEnabled;
+
+        GateKeeperDrawable(Drawable drawable) {
+            super(drawable);
+            this.mEnabled = true;
+        }
+
+        @Override // androidx.appcompat.graphics.drawable.DrawableWrapperCompat, android.graphics.drawable.Drawable
+        public void draw(Canvas canvas) {
+            if (this.mEnabled) {
+                super.draw(canvas);
+            }
+        }
+
+        void setEnabled(boolean z) {
+            this.mEnabled = z;
+        }
+
+        @Override // androidx.appcompat.graphics.drawable.DrawableWrapperCompat, android.graphics.drawable.Drawable
+        public void setHotspot(float f, float f2) {
+            if (this.mEnabled) {
+                super.setHotspot(f, f2);
+            }
+        }
+
+        @Override // androidx.appcompat.graphics.drawable.DrawableWrapperCompat, android.graphics.drawable.Drawable
+        public void setHotspotBounds(int i, int i2, int i3, int i4) {
+            if (this.mEnabled) {
+                super.setHotspotBounds(i, i2, i3, i4);
+            }
+        }
+
+        @Override // androidx.appcompat.graphics.drawable.DrawableWrapperCompat, android.graphics.drawable.Drawable
+        public boolean setState(int[] iArr) {
+            if (this.mEnabled) {
+                return super.setState(iArr);
+            }
+            return false;
+        }
+
+        @Override // androidx.appcompat.graphics.drawable.DrawableWrapperCompat, android.graphics.drawable.Drawable
+        public boolean setVisible(boolean z, boolean z2) {
+            if (this.mEnabled) {
+                return super.setVisible(z, z2);
+            }
+            return false;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class PreApi33Impl {
+        private static final Field sIsChildViewEnabled;
+
+        static {
+            Field field = null;
+            try {
+                field = AbsListView.class.getDeclaredField("mIsChildViewEnabled");
+                field.setAccessible(true);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+            sIsChildViewEnabled = field;
+        }
+
+        static boolean isSelectedChildViewEnabled(AbsListView absListView) {
+            Field field = sIsChildViewEnabled;
+            if (field != null) {
+                try {
+                    return field.getBoolean(absListView);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        static void setSelectedChildViewEnabled(AbsListView absListView, boolean z) {
+            Field field = sIsChildViewEnabled;
+            if (field != null) {
+                try {
+                    field.set(absListView, Boolean.valueOf(z));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public class ResolveHoverRunnable implements Runnable {
+        ResolveHoverRunnable() {
+        }
+
+        public void cancel() {
+            DropDownListView dropDownListView = DropDownListView.this;
+            dropDownListView.mResolveHoverRunnable = null;
+            dropDownListView.removeCallbacks(this);
+        }
+
+        public void post() {
+            DropDownListView.this.post(this);
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            DropDownListView dropDownListView = DropDownListView.this;
+            dropDownListView.mResolveHoverRunnable = null;
+            dropDownListView.drawableStateChanged();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
     public DropDownListView(Context context, boolean z) {
         super(context, null, R$attr.dropDownListViewStyle);
         this.mSelectorRect = new Rect();
@@ -51,11 +228,113 @@ public class DropDownListView extends ListView {
         setCacheColorHint(0);
     }
 
-    private boolean superIsSelectedChildViewEnabled() {
-        if (BuildCompat.isAtLeastT()) {
-            return Api33Impl.isSelectedChildViewEnabled(this);
+    private void clearPressedItem() {
+        this.mDrawsInPressedState = false;
+        setPressed(false);
+        drawableStateChanged();
+        View childAt = getChildAt(this.mMotionPosition - getFirstVisiblePosition());
+        if (childAt != null) {
+            childAt.setPressed(false);
         }
-        return PreApi33Impl.isSelectedChildViewEnabled(this);
+        ViewPropertyAnimatorCompat viewPropertyAnimatorCompat = this.mClickAnimation;
+        if (viewPropertyAnimatorCompat != null) {
+            viewPropertyAnimatorCompat.cancel();
+            this.mClickAnimation = null;
+        }
+    }
+
+    private void clickPressedItem(View view, int i) {
+        performItemClick(view, i, getItemIdAtPosition(i));
+    }
+
+    private void drawSelectorCompat(Canvas canvas) {
+        Drawable selector;
+        if (this.mSelectorRect.isEmpty() || (selector = getSelector()) == null) {
+            return;
+        }
+        selector.setBounds(this.mSelectorRect);
+        selector.draw(canvas);
+    }
+
+    private void positionSelectorCompat(int i, View view) {
+        Rect rect = this.mSelectorRect;
+        rect.set(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+        rect.left -= this.mSelectionLeftPadding;
+        rect.top -= this.mSelectionTopPadding;
+        rect.right += this.mSelectionRightPadding;
+        rect.bottom += this.mSelectionBottomPadding;
+        boolean superIsSelectedChildViewEnabled = superIsSelectedChildViewEnabled();
+        if (view.isEnabled() != superIsSelectedChildViewEnabled) {
+            superSetSelectedChildViewEnabled(!superIsSelectedChildViewEnabled);
+            if (i != -1) {
+                refreshDrawableState();
+            }
+        }
+    }
+
+    private void positionSelectorLikeFocusCompat(int i, View view) {
+        Drawable selector = getSelector();
+        boolean z = (selector == null || i == -1) ? false : true;
+        if (z) {
+            selector.setVisible(false, false);
+        }
+        positionSelectorCompat(i, view);
+        if (z) {
+            Rect rect = this.mSelectorRect;
+            float exactCenterX = rect.exactCenterX();
+            float exactCenterY = rect.exactCenterY();
+            selector.setVisible(getVisibility() == 0, false);
+            DrawableCompat.setHotspot(selector, exactCenterX, exactCenterY);
+        }
+    }
+
+    private void positionSelectorLikeTouchCompat(int i, View view, float f, float f2) {
+        positionSelectorLikeFocusCompat(i, view);
+        Drawable selector = getSelector();
+        if (selector == null || i == -1) {
+            return;
+        }
+        DrawableCompat.setHotspot(selector, f, f2);
+    }
+
+    private void setPressedItem(View view, int i, float f, float f2) {
+        View childAt;
+        this.mDrawsInPressedState = true;
+        int i2 = Build.VERSION.SDK_INT;
+        if (i2 >= 21) {
+            Api21Impl.drawableHotspotChanged(this, f, f2);
+        }
+        if (!isPressed()) {
+            setPressed(true);
+        }
+        layoutChildren();
+        int i3 = this.mMotionPosition;
+        if (i3 != -1 && (childAt = getChildAt(i3 - getFirstVisiblePosition())) != null && childAt != view && childAt.isPressed()) {
+            childAt.setPressed(false);
+        }
+        this.mMotionPosition = i;
+        float left = f - view.getLeft();
+        float top = f2 - view.getTop();
+        if (i2 >= 21) {
+            Api21Impl.drawableHotspotChanged(view, left, top);
+        }
+        if (!view.isPressed()) {
+            view.setPressed(true);
+        }
+        positionSelectorLikeTouchCompat(i, view, f, f2);
+        setSelectorEnabled(false);
+        refreshDrawableState();
+    }
+
+    private void setSelectorEnabled(boolean z) {
+        GateKeeperDrawable gateKeeperDrawable = this.mSelector;
+        if (gateKeeperDrawable != null) {
+            gateKeeperDrawable.setEnabled(z);
+        }
+    }
+
+    private boolean superIsSelectedChildViewEnabled() {
+        return BuildCompat.isAtLeastT() ? Api33Impl.isSelectedChildViewEnabled(this) : PreApi33Impl.isSelectedChildViewEnabled(this);
     }
 
     private void superSetSelectedChildViewEnabled(boolean z) {
@@ -66,39 +345,21 @@ public class DropDownListView extends ListView {
         }
     }
 
-    @Override // android.view.View
-    public boolean isInTouchMode() {
-        return (this.mHijackFocus && this.mListSelectionHidden) || super.isInTouchMode();
+    private boolean touchModeDrawsInPressedStateCompat() {
+        return this.mDrawsInPressedState;
     }
 
-    @Override // android.view.View
-    public boolean hasWindowFocus() {
-        return this.mHijackFocus || super.hasWindowFocus();
-    }
-
-    @Override // android.view.View
-    public boolean isFocused() {
-        return this.mHijackFocus || super.isFocused();
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    public boolean hasFocus() {
-        return this.mHijackFocus || super.hasFocus();
-    }
-
-    @Override // android.widget.AbsListView
-    public void setSelector(Drawable drawable) {
-        GateKeeperDrawable gateKeeperDrawable = drawable != null ? new GateKeeperDrawable(drawable) : null;
-        this.mSelector = gateKeeperDrawable;
-        super.setSelector(gateKeeperDrawable);
-        Rect rect = new Rect();
-        if (drawable != null) {
-            drawable.getPadding(rect);
+    private void updateSelectorStateCompat() {
+        Drawable selector = getSelector();
+        if (selector != null && touchModeDrawsInPressedStateCompat() && isPressed()) {
+            selector.setState(getDrawableState());
         }
-        this.mSelectionLeftPadding = rect.left;
-        this.mSelectionTopPadding = rect.top;
-        this.mSelectionRightPadding = rect.right;
-        this.mSelectionBottomPadding = rect.bottom;
+    }
+
+    @Override // android.widget.ListView, android.widget.AbsListView, android.view.ViewGroup, android.view.View
+    protected void dispatchDraw(Canvas canvas) {
+        drawSelectorCompat(canvas);
+        super.dispatchDraw(canvas);
     }
 
     @Override // android.widget.AbsListView, android.view.ViewGroup, android.view.View
@@ -111,35 +372,36 @@ public class DropDownListView extends ListView {
         updateSelectorStateCompat();
     }
 
-    @Override // android.widget.ListView, android.widget.AbsListView, android.view.ViewGroup, android.view.View
-    protected void dispatchDraw(Canvas canvas) {
-        drawSelectorCompat(canvas);
-        super.dispatchDraw(canvas);
+    @Override // android.view.ViewGroup, android.view.View
+    public boolean hasFocus() {
+        return this.mHijackFocus || super.hasFocus();
     }
 
-    @Override // android.widget.AbsListView, android.view.View
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        if (motionEvent.getAction() == 0) {
-            this.mMotionPosition = pointToPosition((int) motionEvent.getX(), (int) motionEvent.getY());
-        }
-        ResolveHoverRunnable resolveHoverRunnable = this.mResolveHoverRunnable;
-        if (resolveHoverRunnable != null) {
-            resolveHoverRunnable.cancel();
-        }
-        return super.onTouchEvent(motionEvent);
+    @Override // android.view.View
+    public boolean hasWindowFocus() {
+        return this.mHijackFocus || super.hasWindowFocus();
+    }
+
+    @Override // android.view.View
+    public boolean isFocused() {
+        return this.mHijackFocus || super.isFocused();
+    }
+
+    @Override // android.view.View
+    public boolean isInTouchMode() {
+        return (this.mHijackFocus && this.mListSelectionHidden) || super.isInTouchMode();
     }
 
     public int measureHeightOfChildrenCompat(int i, int i2, int i3, int i4, int i5) {
-        int makeMeasureSpec;
         int listPaddingTop = getListPaddingTop();
         int listPaddingBottom = getListPaddingBottom();
         int dividerHeight = getDividerHeight();
         Drawable divider = getDivider();
         ListAdapter adapter = getAdapter();
-        if (adapter == null) {
-            return listPaddingTop + listPaddingBottom;
-        }
         int i6 = listPaddingTop + listPaddingBottom;
+        if (adapter == null) {
+            return i6;
+        }
         dividerHeight = (dividerHeight <= 0 || divider == null) ? 0 : 0;
         int count = adapter.getCount();
         View view = null;
@@ -159,12 +421,7 @@ public class DropDownListView extends ListView {
                 view.setLayoutParams(layoutParams);
             }
             int i10 = layoutParams.height;
-            if (i10 > 0) {
-                makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(i10, 1073741824);
-            } else {
-                makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, 0);
-            }
-            view.measure(i, makeMeasureSpec);
+            view.measure(i, i10 > 0 ? View.MeasureSpec.makeMeasureSpec(i10, 1073741824) : View.MeasureSpec.makeMeasureSpec(0, 0));
             view.forceLayout();
             if (i7 > 0) {
                 i6 += dividerHeight;
@@ -179,98 +436,6 @@ public class DropDownListView extends ListView {
             i7++;
         }
         return i6;
-    }
-
-    private void setSelectorEnabled(boolean z) {
-        GateKeeperDrawable gateKeeperDrawable = this.mSelector;
-        if (gateKeeperDrawable != null) {
-            gateKeeperDrawable.setEnabled(z);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class GateKeeperDrawable extends DrawableWrapperCompat {
-        private boolean mEnabled;
-
-        GateKeeperDrawable(Drawable drawable) {
-            super(drawable);
-            this.mEnabled = true;
-        }
-
-        void setEnabled(boolean z) {
-            this.mEnabled = z;
-        }
-
-        @Override // androidx.appcompat.graphics.drawable.DrawableWrapperCompat, android.graphics.drawable.Drawable
-        public boolean setState(int[] iArr) {
-            if (this.mEnabled) {
-                return super.setState(iArr);
-            }
-            return false;
-        }
-
-        @Override // androidx.appcompat.graphics.drawable.DrawableWrapperCompat, android.graphics.drawable.Drawable
-        public void draw(Canvas canvas) {
-            if (this.mEnabled) {
-                super.draw(canvas);
-            }
-        }
-
-        @Override // androidx.appcompat.graphics.drawable.DrawableWrapperCompat, android.graphics.drawable.Drawable
-        public void setHotspot(float f, float f2) {
-            if (this.mEnabled) {
-                super.setHotspot(f, f2);
-            }
-        }
-
-        @Override // androidx.appcompat.graphics.drawable.DrawableWrapperCompat, android.graphics.drawable.Drawable
-        public void setHotspotBounds(int i, int i2, int i3, int i4) {
-            if (this.mEnabled) {
-                super.setHotspotBounds(i, i2, i3, i4);
-            }
-        }
-
-        @Override // androidx.appcompat.graphics.drawable.DrawableWrapperCompat, android.graphics.drawable.Drawable
-        public boolean setVisible(boolean z, boolean z2) {
-            if (this.mEnabled) {
-                return super.setVisible(z, z2);
-            }
-            return false;
-        }
-    }
-
-    @Override // android.view.View
-    public boolean onHoverEvent(MotionEvent motionEvent) {
-        int i = Build.VERSION.SDK_INT;
-        if (i < 26) {
-            return super.onHoverEvent(motionEvent);
-        }
-        int actionMasked = motionEvent.getActionMasked();
-        if (actionMasked == 10 && this.mResolveHoverRunnable == null) {
-            ResolveHoverRunnable resolveHoverRunnable = new ResolveHoverRunnable();
-            this.mResolveHoverRunnable = resolveHoverRunnable;
-            resolveHoverRunnable.post();
-        }
-        boolean onHoverEvent = super.onHoverEvent(motionEvent);
-        if (actionMasked == 9 || actionMasked == 7) {
-            int pointToPosition = pointToPosition((int) motionEvent.getX(), (int) motionEvent.getY());
-            if (pointToPosition != -1 && pointToPosition != getSelectedItemPosition()) {
-                View childAt = getChildAt(pointToPosition - getFirstVisiblePosition());
-                if (childAt.isEnabled()) {
-                    requestFocus();
-                    if (i >= 30 && Api30Impl.canPositionSelectorForHoveredItem()) {
-                        Api30Impl.positionSelectorForHoveredItem(this, pointToPosition, childAt);
-                    } else {
-                        setSelectionFromTop(pointToPosition, childAt.getTop() - getTop());
-                    }
-                }
-                updateSelectorStateCompat();
-            }
-        } else {
-            setSelection(-1);
-        }
-        return onHoverEvent;
     }
 
     @Override // android.widget.ListView, android.widget.AbsListView, android.widget.AdapterView, android.view.ViewGroup, android.view.View
@@ -345,8 +510,49 @@ public class DropDownListView extends ListView {
         return z;
     }
 
-    private void clickPressedItem(View view, int i) {
-        performItemClick(view, i, getItemIdAtPosition(i));
+    @Override // android.view.View
+    public boolean onHoverEvent(MotionEvent motionEvent) {
+        int i = Build.VERSION.SDK_INT;
+        if (i < 26) {
+            return super.onHoverEvent(motionEvent);
+        }
+        int actionMasked = motionEvent.getActionMasked();
+        if (actionMasked == 10 && this.mResolveHoverRunnable == null) {
+            ResolveHoverRunnable resolveHoverRunnable = new ResolveHoverRunnable();
+            this.mResolveHoverRunnable = resolveHoverRunnable;
+            resolveHoverRunnable.post();
+        }
+        boolean onHoverEvent = super.onHoverEvent(motionEvent);
+        if (actionMasked == 9 || actionMasked == 7) {
+            int pointToPosition = pointToPosition((int) motionEvent.getX(), (int) motionEvent.getY());
+            if (pointToPosition != -1 && pointToPosition != getSelectedItemPosition()) {
+                View childAt = getChildAt(pointToPosition - getFirstVisiblePosition());
+                if (childAt.isEnabled()) {
+                    requestFocus();
+                    if (i < 30 || !Api30Impl.canPositionSelectorForHoveredItem()) {
+                        setSelectionFromTop(pointToPosition, childAt.getTop() - getTop());
+                    } else {
+                        Api30Impl.positionSelectorForHoveredItem(this, pointToPosition, childAt);
+                    }
+                }
+                updateSelectorStateCompat();
+            }
+        } else {
+            setSelection(-1);
+        }
+        return onHoverEvent;
+    }
+
+    @Override // android.widget.AbsListView, android.view.View
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        if (motionEvent.getAction() == 0) {
+            this.mMotionPosition = pointToPosition((int) motionEvent.getX(), (int) motionEvent.getY());
+        }
+        ResolveHoverRunnable resolveHoverRunnable = this.mResolveHoverRunnable;
+        if (resolveHoverRunnable != null) {
+            resolveHoverRunnable.cancel();
+        }
+        return super.onTouchEvent(motionEvent);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -354,237 +560,18 @@ public class DropDownListView extends ListView {
         this.mListSelectionHidden = z;
     }
 
-    private void updateSelectorStateCompat() {
-        Drawable selector = getSelector();
-        if (selector != null && touchModeDrawsInPressedStateCompat() && isPressed()) {
-            selector.setState(getDrawableState());
+    @Override // android.widget.AbsListView
+    public void setSelector(Drawable drawable) {
+        GateKeeperDrawable gateKeeperDrawable = drawable != null ? new GateKeeperDrawable(drawable) : null;
+        this.mSelector = gateKeeperDrawable;
+        super.setSelector(gateKeeperDrawable);
+        Rect rect = new Rect();
+        if (drawable != null) {
+            drawable.getPadding(rect);
         }
-    }
-
-    private void drawSelectorCompat(Canvas canvas) {
-        Drawable selector;
-        if (this.mSelectorRect.isEmpty() || (selector = getSelector()) == null) {
-            return;
-        }
-        selector.setBounds(this.mSelectorRect);
-        selector.draw(canvas);
-    }
-
-    private void positionSelectorLikeTouchCompat(int i, View view, float f, float f2) {
-        positionSelectorLikeFocusCompat(i, view);
-        Drawable selector = getSelector();
-        if (selector == null || i == -1) {
-            return;
-        }
-        DrawableCompat.setHotspot(selector, f, f2);
-    }
-
-    private void positionSelectorLikeFocusCompat(int i, View view) {
-        Drawable selector = getSelector();
-        boolean z = (selector == null || i == -1) ? false : true;
-        if (z) {
-            selector.setVisible(false, false);
-        }
-        positionSelectorCompat(i, view);
-        if (z) {
-            Rect rect = this.mSelectorRect;
-            float exactCenterX = rect.exactCenterX();
-            float exactCenterY = rect.exactCenterY();
-            selector.setVisible(getVisibility() == 0, false);
-            DrawableCompat.setHotspot(selector, exactCenterX, exactCenterY);
-        }
-    }
-
-    private void positionSelectorCompat(int i, View view) {
-        Rect rect = this.mSelectorRect;
-        rect.set(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
-        rect.left -= this.mSelectionLeftPadding;
-        rect.top -= this.mSelectionTopPadding;
-        rect.right += this.mSelectionRightPadding;
-        rect.bottom += this.mSelectionBottomPadding;
-        boolean superIsSelectedChildViewEnabled = superIsSelectedChildViewEnabled();
-        if (view.isEnabled() != superIsSelectedChildViewEnabled) {
-            superSetSelectedChildViewEnabled(!superIsSelectedChildViewEnabled);
-            if (i != -1) {
-                refreshDrawableState();
-            }
-        }
-    }
-
-    private void clearPressedItem() {
-        this.mDrawsInPressedState = false;
-        setPressed(false);
-        drawableStateChanged();
-        View childAt = getChildAt(this.mMotionPosition - getFirstVisiblePosition());
-        if (childAt != null) {
-            childAt.setPressed(false);
-        }
-        ViewPropertyAnimatorCompat viewPropertyAnimatorCompat = this.mClickAnimation;
-        if (viewPropertyAnimatorCompat != null) {
-            viewPropertyAnimatorCompat.cancel();
-            this.mClickAnimation = null;
-        }
-    }
-
-    private void setPressedItem(View view, int i, float f, float f2) {
-        View childAt;
-        this.mDrawsInPressedState = true;
-        int i2 = Build.VERSION.SDK_INT;
-        if (i2 >= 21) {
-            Api21Impl.drawableHotspotChanged(this, f, f2);
-        }
-        if (!isPressed()) {
-            setPressed(true);
-        }
-        layoutChildren();
-        int i3 = this.mMotionPosition;
-        if (i3 != -1 && (childAt = getChildAt(i3 - getFirstVisiblePosition())) != null && childAt != view && childAt.isPressed()) {
-            childAt.setPressed(false);
-        }
-        this.mMotionPosition = i;
-        float left = f - view.getLeft();
-        float top = f2 - view.getTop();
-        if (i2 >= 21) {
-            Api21Impl.drawableHotspotChanged(view, left, top);
-        }
-        if (!view.isPressed()) {
-            view.setPressed(true);
-        }
-        positionSelectorLikeTouchCompat(i, view, f, f2);
-        setSelectorEnabled(false);
-        refreshDrawableState();
-    }
-
-    private boolean touchModeDrawsInPressedStateCompat() {
-        return this.mDrawsInPressedState;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class ResolveHoverRunnable implements Runnable {
-        ResolveHoverRunnable() {
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            DropDownListView dropDownListView = DropDownListView.this;
-            dropDownListView.mResolveHoverRunnable = null;
-            dropDownListView.drawableStateChanged();
-        }
-
-        public void cancel() {
-            DropDownListView dropDownListView = DropDownListView.this;
-            dropDownListView.mResolveHoverRunnable = null;
-            dropDownListView.removeCallbacks(this);
-        }
-
-        public void post() {
-            DropDownListView.this.post(this);
-        }
-    }
-
-    /* loaded from: classes.dex */
-    static class Api30Impl {
-        private static boolean sHasMethods;
-        private static Method sPositionSelector;
-        private static Method sSetNextSelectedPositionInt;
-        private static Method sSetSelectedPositionInt;
-
-        static {
-            try {
-                Class cls = Integer.TYPE;
-                Class cls2 = Float.TYPE;
-                Method declaredMethod = AbsListView.class.getDeclaredMethod("positionSelector", cls, View.class, Boolean.TYPE, cls2, cls2);
-                sPositionSelector = declaredMethod;
-                declaredMethod.setAccessible(true);
-                Method declaredMethod2 = AdapterView.class.getDeclaredMethod("setSelectedPositionInt", cls);
-                sSetSelectedPositionInt = declaredMethod2;
-                declaredMethod2.setAccessible(true);
-                Method declaredMethod3 = AdapterView.class.getDeclaredMethod("setNextSelectedPositionInt", cls);
-                sSetNextSelectedPositionInt = declaredMethod3;
-                declaredMethod3.setAccessible(true);
-                sHasMethods = true;
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-        }
-
-        static boolean canPositionSelectorForHoveredItem() {
-            return sHasMethods;
-        }
-
-        @SuppressLint({"BanUncheckedReflection"})
-        static void positionSelectorForHoveredItem(DropDownListView dropDownListView, int i, View view) {
-            try {
-                sPositionSelector.invoke(dropDownListView, Integer.valueOf(i), view, Boolean.FALSE, -1, -1);
-                sSetSelectedPositionInt.invoke(dropDownListView, Integer.valueOf(i));
-                sSetNextSelectedPositionInt.invoke(dropDownListView, Integer.valueOf(i));
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e2) {
-                e2.printStackTrace();
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api21Impl {
-        static void drawableHotspotChanged(View view, float f, float f2) {
-            view.drawableHotspotChanged(f, f2);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class PreApi33Impl {
-        private static final Field sIsChildViewEnabled;
-
-        static {
-            Field field = null;
-            try {
-                field = AbsListView.class.getDeclaredField("mIsChildViewEnabled");
-                field.setAccessible(true);
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
-            sIsChildViewEnabled = field;
-        }
-
-        static boolean isSelectedChildViewEnabled(AbsListView absListView) {
-            Field field = sIsChildViewEnabled;
-            if (field != null) {
-                try {
-                    return field.getBoolean(absListView);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        static void setSelectedChildViewEnabled(AbsListView absListView, boolean z) {
-            Field field = sIsChildViewEnabled;
-            if (field != null) {
-                try {
-                    field.set(absListView, Boolean.valueOf(z));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api33Impl {
-        static boolean isSelectedChildViewEnabled(AbsListView absListView) {
-            return absListView.isSelectedChildViewEnabled();
-        }
-
-        static void setSelectedChildViewEnabled(AbsListView absListView, boolean z) {
-            absListView.setSelectedChildViewEnabled(z);
-        }
+        this.mSelectionLeftPadding = rect.left;
+        this.mSelectionTopPadding = rect.top;
+        this.mSelectionRightPadding = rect.right;
+        this.mSelectionBottomPadding = rect.bottom;
     }
 }

@@ -9,7 +9,6 @@ jadx.core.utils.exceptions.JadxRuntimeException: Init of enum zzb uses external 
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zzjm {
     public static final zzjm zza;
@@ -23,23 +22,9 @@ public final class zzjm {
     public static final zzjm zzi;
     public static final zzjm zzj;
     private static final /* synthetic */ zzjm[] zzn;
-    private final Class<?> zzk;
-    private final Class<?> zzl;
+    private final Class zzk;
+    private final Class zzl;
     private final Object zzm;
-
-    public static zzjm[] values() {
-        return (zzjm[]) zzn.clone();
-    }
-
-    private zzjm(String str, int i, Class cls, Class cls2, Object obj) {
-        this.zzk = cls;
-        this.zzl = cls2;
-        this.zzm = obj;
-    }
-
-    public final Class<?> zza() {
-        return this.zzl;
-    }
 
     static {
         zzjm zzjmVar = new zzjm("VOID", 0, Void.class, Void.class, null);
@@ -64,5 +49,19 @@ public final class zzjm {
         zzjm zzjmVar10 = new zzjm("MESSAGE", 9, Object.class, Object.class, null);
         zzj = zzjmVar10;
         zzn = new zzjm[]{zzjmVar, zzjmVar2, zzjmVar3, zzjmVar4, zzjmVar5, zzjmVar6, zzjmVar7, zzjmVar8, zzjmVar9, zzjmVar10};
+    }
+
+    private zzjm(String str, int i, Class cls, Class cls2, Object obj) {
+        this.zzk = cls;
+        this.zzl = cls2;
+        this.zzm = obj;
+    }
+
+    public static zzjm[] values() {
+        return (zzjm[]) zzn.clone();
+    }
+
+    public final Class zza() {
+        return this.zzl;
     }
 }

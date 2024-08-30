@@ -5,10 +5,9 @@ import android.content.SharedPreferences;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.Executor;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public final class TopicsStore {
-    private static WeakReference<TopicsStore> topicsStoreWeakReference;
+    private static WeakReference topicsStoreWeakReference;
     private final SharedPreferences sharedPreferences;
     private final Executor syncExecutor;
     private SharedPreferencesQueue topicOperationsQueue;
@@ -21,12 +20,12 @@ public final class TopicsStore {
     public static synchronized TopicsStore getInstance(Context context, Executor executor) {
         synchronized (TopicsStore.class) {
             try {
-                WeakReference<TopicsStore> weakReference = topicsStoreWeakReference;
-                TopicsStore topicsStore = weakReference != null ? weakReference.get() : null;
+                WeakReference weakReference = topicsStoreWeakReference;
+                TopicsStore topicsStore = weakReference != null ? (TopicsStore) weakReference.get() : null;
                 if (topicsStore == null) {
                     TopicsStore topicsStore2 = new TopicsStore(context.getSharedPreferences("com.google.android.gms.appid", 0), executor);
                     topicsStore2.initStore();
-                    topicsStoreWeakReference = new WeakReference<>(topicsStore2);
+                    topicsStoreWeakReference = new WeakReference(topicsStore2);
                     return topicsStore2;
                 }
                 return topicsStore;

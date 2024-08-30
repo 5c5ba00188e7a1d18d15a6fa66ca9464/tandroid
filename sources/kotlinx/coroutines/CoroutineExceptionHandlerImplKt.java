@@ -10,14 +10,13 @@ import kotlin.coroutines.CoroutineContext;
 import kotlin.sequences.Sequence;
 import kotlin.sequences.SequencesKt__SequencesKt;
 import kotlin.sequences.SequencesKt___SequencesKt;
-/* compiled from: CoroutineExceptionHandlerImpl.kt */
 /* loaded from: classes.dex */
-public final class CoroutineExceptionHandlerImplKt {
-    private static final List<CoroutineExceptionHandler> handlers;
+public abstract class CoroutineExceptionHandlerImplKt {
+    private static final List handlers;
 
     static {
         Sequence asSequence;
-        List<CoroutineExceptionHandler> list;
+        List list;
         asSequence = SequencesKt__SequencesKt.asSequence(ServiceLoader.load(CoroutineExceptionHandler.class, CoroutineExceptionHandler.class.getClassLoader()).iterator());
         list = SequencesKt___SequencesKt.toList(asSequence);
         handlers = list;

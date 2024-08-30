@@ -55,7 +55,7 @@ public class BotHelpCell extends View {
     private LinkSpanDrawable.LinkCollector links;
     private String oldText;
     private int photoHeight;
-    private LinkSpanDrawable<ClickableSpan> pressedLink;
+    private LinkSpanDrawable pressedLink;
     private Theme.ResourcesProvider resourcesProvider;
     private Drawable selectorDrawable;
     private int selectorDrawableRadius;
@@ -88,8 +88,14 @@ public class BotHelpCell extends View {
         createRadSelectorDrawable.setCallback(this);
     }
 
-    public void setDelegate(BotHelpCellDelegate botHelpCellDelegate) {
-        this.delegate = botHelpCellDelegate;
+    private int getThemedColor(int i) {
+        return Theme.getColor(i, this.resourcesProvider);
+    }
+
+    private Drawable getThemedDrawable(String str) {
+        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
+        Drawable drawable = resourcesProvider != null ? resourcesProvider.getDrawable(str) : null;
+        return drawable != null ? drawable : Theme.getThemeDrawable(str);
     }
 
     private void resetPressedLink() {
@@ -98,6 +104,236 @@ public class BotHelpCell extends View {
         }
         this.links.clear();
         invalidate();
+    }
+
+    public boolean animating() {
+        return this.animating;
+    }
+
+    public CharSequence getText() {
+        StaticLayout staticLayout = this.textLayout;
+        if (staticLayout == null) {
+            return null;
+        }
+        return staticLayout.getText();
+    }
+
+    @Override // android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        this.imageReceiver.onAttachedToWindow();
+    }
+
+    @Override // android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        this.imageReceiver.onDetachedFromWindow();
+        this.wasDraw = false;
+    }
+
+    @Override // android.view.View
+    protected void onDraw(Canvas canvas) {
+        int i;
+        int width = (getWidth() - this.width) / 2;
+        int dp = this.photoHeight + AndroidUtilities.dp(2.0f);
+        Drawable shadowDrawable = Theme.chat_msgInMediaDrawable.getShadowDrawable();
+        if (shadowDrawable != null) {
+            shadowDrawable.setBounds(width, dp, this.width + width, this.height + dp);
+            shadowDrawable.draw(canvas);
+        }
+        Point point = AndroidUtilities.displaySize;
+        int i2 = point.x;
+        int i3 = point.y;
+        if (getParent() instanceof View) {
+            View view = (View) getParent();
+            i2 = view.getMeasuredWidth();
+            i3 = view.getMeasuredHeight();
+        }
+        int i4 = i3;
+        Theme.MessageDrawable messageDrawable = (Theme.MessageDrawable) getThemedDrawable("drawableMsgInMedia");
+        messageDrawable.setTop((int) getY(), i2, i4, false, false);
+        messageDrawable.setBounds(width, 0, this.width + width, this.height);
+        messageDrawable.draw(canvas);
+        Drawable drawable = this.selectorDrawable;
+        if (drawable != null) {
+            int i5 = this.selectorDrawableRadius;
+            int i6 = SharedConfig.bubbleRadius;
+            if (i5 != i6) {
+                this.selectorDrawableRadius = i6;
+                Theme.setMaskDrawableRad(drawable, i6, i6);
+            }
+            this.selectorDrawable.setBounds(AndroidUtilities.dp(2.0f) + width, AndroidUtilities.dp(2.0f), (this.width + width) - AndroidUtilities.dp(2.0f), this.height - AndroidUtilities.dp(2.0f));
+            this.selectorDrawable.draw(canvas);
+        }
+        this.imageReceiver.setImageCoords(width + i, this.imagePadding, this.width - (i * 2), this.photoHeight - i);
+        this.imageReceiver.draw(canvas);
+        Theme.chat_msgTextPaint.setColor(getThemedColor(Theme.key_chat_messageTextIn));
+        Theme.chat_msgTextPaint.linkColor = getThemedColor(Theme.key_chat_messageLinkIn);
+        canvas.save();
+        int dp2 = AndroidUtilities.dp(this.isPhotoVisible ? 14.0f : 11.0f) + width;
+        this.textX = dp2;
+        float f = dp2;
+        int dp3 = AndroidUtilities.dp(11.0f) + dp;
+        this.textY = dp3;
+        canvas.translate(f, dp3);
+        if (this.links.draw(canvas)) {
+            invalidate();
+        }
+        StaticLayout staticLayout = this.textLayout;
+        if (staticLayout != null) {
+            staticLayout.draw(canvas);
+        }
+        canvas.restore();
+        this.wasDraw = true;
+    }
+
+    @Override // android.view.View
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+        StaticLayout staticLayout = this.textLayout;
+        if (staticLayout != null) {
+            accessibilityNodeInfo.setText(staticLayout.getText());
+        }
+    }
+
+    @Override // android.view.View
+    protected void onMeasure(int i, int i2) {
+        setMeasuredDimension(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), this.height + AndroidUtilities.dp(8.0f));
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x00f4, code lost:
+        if (r2 != null) goto L82;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x011b  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0178  */
+    /* JADX WARN: Removed duplicated region for block: B:98:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    @Override // android.view.View
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        boolean z;
+        ClickableSpan clickableSpan;
+        BotHelpCellDelegate botHelpCellDelegate;
+        String url;
+        float x = motionEvent.getX();
+        float y = motionEvent.getY();
+        if (this.textLayout != null) {
+            if (motionEvent.getAction() == 0 || (this.pressedLink != null && motionEvent.getAction() == 1)) {
+                if (motionEvent.getAction() == 0) {
+                    resetPressedLink();
+                    try {
+                        int i = (int) (y - this.textY);
+                        int lineForVertical = this.textLayout.getLineForVertical(i);
+                        float f = (int) (x - this.textX);
+                        int offsetForHorizontal = this.textLayout.getOffsetForHorizontal(lineForVertical, f);
+                        float lineLeft = this.textLayout.getLineLeft(lineForVertical);
+                        if (lineLeft <= f && lineLeft + this.textLayout.getLineWidth(lineForVertical) >= f) {
+                            Spannable spannable = (Spannable) this.textLayout.getText();
+                            ClickableSpan[] clickableSpanArr = (ClickableSpan[]) spannable.getSpans(offsetForHorizontal, offsetForHorizontal, ClickableSpan.class);
+                            if (clickableSpanArr.length != 0) {
+                                resetPressedLink();
+                                this.pressedLink = new LinkSpanDrawable(clickableSpanArr[0], this.resourcesProvider, f, i);
+                                try {
+                                    try {
+                                        int spanStart = spannable.getSpanStart(clickableSpanArr[0]);
+                                        LinkPath obtainNewPath = this.pressedLink.obtainNewPath();
+                                        obtainNewPath.setCurrentLayout(this.textLayout, spanStart, 0.0f);
+                                        this.textLayout.getSelectionPath(spanStart, spannable.getSpanEnd(clickableSpanArr[0]), obtainNewPath);
+                                    } catch (Exception e) {
+                                        FileLog.e(e);
+                                    }
+                                    this.links.addLink(this.pressedLink);
+                                    invalidate();
+                                    z = true;
+                                } catch (Exception e2) {
+                                    e = e2;
+                                    z = true;
+                                    resetPressedLink();
+                                    FileLog.e(e);
+                                    if (this.selectorDrawable != null) {
+                                    }
+                                    if (z) {
+                                    }
+                                }
+                            }
+                        }
+                        resetPressedLink();
+                    } catch (Exception e3) {
+                        e = e3;
+                        z = false;
+                    }
+                } else {
+                    LinkSpanDrawable linkSpanDrawable = this.pressedLink;
+                    if (linkSpanDrawable != null) {
+                        try {
+                            clickableSpan = (ClickableSpan) linkSpanDrawable.getSpan();
+                        } catch (Exception e4) {
+                            FileLog.e(e4);
+                        }
+                        if (clickableSpan instanceof URLSpanNoUnderline) {
+                            url = ((URLSpanNoUnderline) clickableSpan).getURL();
+                            if (!url.startsWith("@")) {
+                                if (!url.startsWith("#")) {
+                                    if (url.startsWith("/")) {
+                                    }
+                                    resetPressedLink();
+                                    z = true;
+                                }
+                            }
+                            botHelpCellDelegate = this.delegate;
+                        } else {
+                            if (clickableSpan instanceof URLSpan) {
+                                botHelpCellDelegate = this.delegate;
+                                if (botHelpCellDelegate != null) {
+                                    url = ((URLSpan) clickableSpan).getURL();
+                                }
+                            } else if (clickableSpan != null) {
+                                clickableSpan.onClick(this);
+                            }
+                            resetPressedLink();
+                            z = true;
+                        }
+                        botHelpCellDelegate.didPressUrl(url);
+                        resetPressedLink();
+                        z = true;
+                    }
+                }
+                if (this.selectorDrawable != null) {
+                    if (!z && y > 0.0f && motionEvent.getAction() == 0 && isClickable()) {
+                        this.selectorDrawable.setState(new int[]{16842919, 16842910});
+                        if (Build.VERSION.SDK_INT >= 21) {
+                            this.selectorDrawable.setHotspot(motionEvent.getX(), motionEvent.getY());
+                        }
+                        invalidate();
+                    } else if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
+                        this.selectorDrawable.setState(new int[0]);
+                        invalidate();
+                        if (!z && motionEvent.getAction() == 1) {
+                            performClick();
+                        }
+                    }
+                    z = true;
+                }
+                return !z || super.onTouchEvent(motionEvent);
+            } else if (motionEvent.getAction() == 3) {
+                resetPressedLink();
+            }
+        }
+        z = false;
+        if (this.selectorDrawable != null) {
+        }
+        if (z) {
+            return true;
+        }
+    }
+
+    public void setAnimating(boolean z) {
+        this.animating = z;
+    }
+
+    public void setDelegate(BotHelpCellDelegate botHelpCellDelegate) {
+        this.delegate = botHelpCellDelegate;
     }
 
     public void setText(boolean z, String str) {
@@ -204,235 +440,6 @@ public class BotHelpCell extends View {
             this.photoHeight = i5;
             this.height = i4 + i5 + AndroidUtilities.dp(4.0f);
         }
-    }
-
-    public CharSequence getText() {
-        StaticLayout staticLayout = this.textLayout;
-        if (staticLayout == null) {
-            return null;
-        }
-        return staticLayout.getText();
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:101:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0122  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x017f  */
-    @Override // android.view.View
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        boolean z;
-        float x = motionEvent.getX();
-        float y = motionEvent.getY();
-        if (this.textLayout != null) {
-            if (motionEvent.getAction() == 0 || (this.pressedLink != null && motionEvent.getAction() == 1)) {
-                if (motionEvent.getAction() == 0) {
-                    resetPressedLink();
-                    try {
-                        int i = (int) (y - this.textY);
-                        int lineForVertical = this.textLayout.getLineForVertical(i);
-                        float f = (int) (x - this.textX);
-                        int offsetForHorizontal = this.textLayout.getOffsetForHorizontal(lineForVertical, f);
-                        float lineLeft = this.textLayout.getLineLeft(lineForVertical);
-                        if (lineLeft <= f && lineLeft + this.textLayout.getLineWidth(lineForVertical) >= f) {
-                            Spannable spannable = (Spannable) this.textLayout.getText();
-                            ClickableSpan[] clickableSpanArr = (ClickableSpan[]) spannable.getSpans(offsetForHorizontal, offsetForHorizontal, ClickableSpan.class);
-                            if (clickableSpanArr.length != 0) {
-                                resetPressedLink();
-                                this.pressedLink = new LinkSpanDrawable<>(clickableSpanArr[0], this.resourcesProvider, f, i);
-                                try {
-                                    try {
-                                        int spanStart = spannable.getSpanStart(clickableSpanArr[0]);
-                                        LinkPath obtainNewPath = this.pressedLink.obtainNewPath();
-                                        obtainNewPath.setCurrentLayout(this.textLayout, spanStart, 0.0f);
-                                        this.textLayout.getSelectionPath(spanStart, spannable.getSpanEnd(clickableSpanArr[0]), obtainNewPath);
-                                    } catch (Exception e) {
-                                        FileLog.e(e);
-                                    }
-                                    this.links.addLink(this.pressedLink);
-                                    invalidate();
-                                    z = true;
-                                } catch (Exception e2) {
-                                    e = e2;
-                                    z = true;
-                                    resetPressedLink();
-                                    FileLog.e(e);
-                                    if (this.selectorDrawable != null) {
-                                    }
-                                    if (z) {
-                                    }
-                                }
-                            } else {
-                                resetPressedLink();
-                            }
-                        } else {
-                            resetPressedLink();
-                        }
-                    } catch (Exception e3) {
-                        e = e3;
-                        z = false;
-                    }
-                } else {
-                    LinkSpanDrawable<ClickableSpan> linkSpanDrawable = this.pressedLink;
-                    if (linkSpanDrawable != null) {
-                        try {
-                            ClickableSpan span = linkSpanDrawable.getSpan();
-                            if (span instanceof URLSpanNoUnderline) {
-                                String url = ((URLSpanNoUnderline) span).getURL();
-                                if (!url.startsWith("@")) {
-                                    if (!url.startsWith("#")) {
-                                        if (url.startsWith("/")) {
-                                        }
-                                    }
-                                }
-                                BotHelpCellDelegate botHelpCellDelegate = this.delegate;
-                                if (botHelpCellDelegate != null) {
-                                    botHelpCellDelegate.didPressUrl(url);
-                                }
-                            } else if (span instanceof URLSpan) {
-                                BotHelpCellDelegate botHelpCellDelegate2 = this.delegate;
-                                if (botHelpCellDelegate2 != null) {
-                                    botHelpCellDelegate2.didPressUrl(((URLSpan) span).getURL());
-                                }
-                            } else if (span != null) {
-                                span.onClick(this);
-                            }
-                        } catch (Exception e4) {
-                            FileLog.e(e4);
-                        }
-                        resetPressedLink();
-                        z = true;
-                    }
-                }
-                if (this.selectorDrawable != null) {
-                    if (!z && y > 0.0f && motionEvent.getAction() == 0 && isClickable()) {
-                        this.selectorDrawable.setState(new int[]{16842919, 16842910});
-                        if (Build.VERSION.SDK_INT >= 21) {
-                            this.selectorDrawable.setHotspot(motionEvent.getX(), motionEvent.getY());
-                        }
-                        invalidate();
-                    } else if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
-                        this.selectorDrawable.setState(new int[0]);
-                        invalidate();
-                        if (!z && motionEvent.getAction() == 1) {
-                            performClick();
-                        }
-                    }
-                    z = true;
-                }
-                return !z || super.onTouchEvent(motionEvent);
-            } else if (motionEvent.getAction() == 3) {
-                resetPressedLink();
-            }
-        }
-        z = false;
-        if (this.selectorDrawable != null) {
-        }
-        if (z) {
-            return true;
-        }
-    }
-
-    @Override // android.view.View
-    protected void onMeasure(int i, int i2) {
-        setMeasuredDimension(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), this.height + AndroidUtilities.dp(8.0f));
-    }
-
-    @Override // android.view.View
-    protected void onDraw(Canvas canvas) {
-        int i;
-        int width = (getWidth() - this.width) / 2;
-        int dp = this.photoHeight + AndroidUtilities.dp(2.0f);
-        Drawable shadowDrawable = Theme.chat_msgInMediaDrawable.getShadowDrawable();
-        if (shadowDrawable != null) {
-            shadowDrawable.setBounds(width, dp, this.width + width, this.height + dp);
-            shadowDrawable.draw(canvas);
-        }
-        Point point = AndroidUtilities.displaySize;
-        int i2 = point.x;
-        int i3 = point.y;
-        if (getParent() instanceof View) {
-            View view = (View) getParent();
-            i2 = view.getMeasuredWidth();
-            i3 = view.getMeasuredHeight();
-        }
-        int i4 = i3;
-        Theme.MessageDrawable messageDrawable = (Theme.MessageDrawable) getThemedDrawable("drawableMsgInMedia");
-        messageDrawable.setTop((int) getY(), i2, i4, false, false);
-        messageDrawable.setBounds(width, 0, this.width + width, this.height);
-        messageDrawable.draw(canvas);
-        Drawable drawable = this.selectorDrawable;
-        if (drawable != null) {
-            int i5 = this.selectorDrawableRadius;
-            int i6 = SharedConfig.bubbleRadius;
-            if (i5 != i6) {
-                this.selectorDrawableRadius = i6;
-                Theme.setMaskDrawableRad(drawable, i6, i6);
-            }
-            this.selectorDrawable.setBounds(AndroidUtilities.dp(2.0f) + width, AndroidUtilities.dp(2.0f), (this.width + width) - AndroidUtilities.dp(2.0f), this.height - AndroidUtilities.dp(2.0f));
-            this.selectorDrawable.draw(canvas);
-        }
-        this.imageReceiver.setImageCoords(width + i, this.imagePadding, this.width - (i * 2), this.photoHeight - i);
-        this.imageReceiver.draw(canvas);
-        Theme.chat_msgTextPaint.setColor(getThemedColor(Theme.key_chat_messageTextIn));
-        Theme.chat_msgTextPaint.linkColor = getThemedColor(Theme.key_chat_messageLinkIn);
-        canvas.save();
-        int dp2 = AndroidUtilities.dp(this.isPhotoVisible ? 14.0f : 11.0f) + width;
-        this.textX = dp2;
-        float f = dp2;
-        int dp3 = AndroidUtilities.dp(11.0f) + dp;
-        this.textY = dp3;
-        canvas.translate(f, dp3);
-        if (this.links.draw(canvas)) {
-            invalidate();
-        }
-        StaticLayout staticLayout = this.textLayout;
-        if (staticLayout != null) {
-            staticLayout.draw(canvas);
-        }
-        canvas.restore();
-        this.wasDraw = true;
-    }
-
-    @Override // android.view.View
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        this.imageReceiver.onAttachedToWindow();
-    }
-
-    @Override // android.view.View
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        this.imageReceiver.onDetachedFromWindow();
-        this.wasDraw = false;
-    }
-
-    @Override // android.view.View
-    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-        StaticLayout staticLayout = this.textLayout;
-        if (staticLayout != null) {
-            accessibilityNodeInfo.setText(staticLayout.getText());
-        }
-    }
-
-    public boolean animating() {
-        return this.animating;
-    }
-
-    public void setAnimating(boolean z) {
-        this.animating = z;
-    }
-
-    private int getThemedColor(int i) {
-        return Theme.getColor(i, this.resourcesProvider);
-    }
-
-    private Drawable getThemedDrawable(String str) {
-        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Drawable drawable = resourcesProvider != null ? resourcesProvider.getDrawable(str) : null;
-        return drawable != null ? drawable : Theme.getThemeDrawable(str);
     }
 
     @Override // android.view.View

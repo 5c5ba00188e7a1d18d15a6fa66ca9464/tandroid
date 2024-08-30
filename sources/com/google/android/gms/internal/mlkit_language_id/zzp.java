@@ -1,9 +1,8 @@
 package com.google.android.gms.internal.mlkit_language_id;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public final class zzp<E> extends zzk<E> {
-    static final zzk<Object> zza = new zzp(new Object[0], 0);
+public final class zzp extends zzk {
+    static final zzk zza = new zzp(new Object[0], 0);
     private final transient Object[] zzb;
     private final transient int zzc;
 
@@ -13,25 +12,14 @@ public final class zzp<E> extends zzk<E> {
         this.zzc = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzl
-    public final int zzc() {
-        return 0;
+    @Override // java.util.List
+    public final Object get(int i) {
+        zzg.zza(i, this.zzc);
+        return this.zzb[i];
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.List
     public final int size() {
-        return this.zzc;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzl
-    public final Object[] zzb() {
-        return this.zzb;
-    }
-
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzl
-    final int zzd() {
         return this.zzc;
     }
 
@@ -41,9 +29,20 @@ public final class zzp<E> extends zzk<E> {
         return this.zzc;
     }
 
-    @Override // java.util.List
-    public final E get(int i) {
-        zzg.zza(i, this.zzc);
-        return (E) this.zzb[i];
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzl
+    public final Object[] zzb() {
+        return this.zzb;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzl
+    public final int zzc() {
+        return 0;
+    }
+
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzl
+    final int zzd() {
+        return this.zzc;
     }
 }

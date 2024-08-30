@@ -2,39 +2,48 @@ package com.google.android.gms.internal.vision;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public final class zzke<K, V> extends LinkedHashMap<K, V> {
+public final class zzke extends LinkedHashMap {
     private static final zzke zzb;
     private boolean zza;
+
+    static {
+        zzke zzkeVar = new zzke();
+        zzb = zzkeVar;
+        zzkeVar.zza = false;
+    }
 
     private zzke() {
         this.zza = true;
     }
 
-    private zzke(Map<K, V> map) {
+    private zzke(Map map) {
         super(map);
         this.zza = true;
     }
 
-    public static <K, V> zzke<K, V> zza() {
+    private static int zza(Object obj) {
+        if (obj instanceof byte[]) {
+            return zzjf.zzc((byte[]) obj);
+        }
+        if (obj instanceof zzje) {
+            throw new UnsupportedOperationException();
+        }
+        return obj.hashCode();
+    }
+
+    public static zzke zza() {
         return zzb;
     }
 
-    public final void zza(zzke<K, V> zzkeVar) {
-        zze();
-        if (zzkeVar.isEmpty()) {
-            return;
+    private final void zze() {
+        if (!this.zza) {
+            throw new UnsupportedOperationException();
         }
-        putAll(zzkeVar);
-    }
-
-    @Override // java.util.LinkedHashMap, java.util.HashMap, java.util.AbstractMap, java.util.Map
-    public final Set<Map.Entry<K, V>> entrySet() {
-        return isEmpty() ? Collections.emptySet() : super.entrySet();
     }
 
     @Override // java.util.LinkedHashMap, java.util.HashMap, java.util.AbstractMap, java.util.Map
@@ -43,28 +52,9 @@ public final class zzke<K, V> extends LinkedHashMap<K, V> {
         super.clear();
     }
 
-    @Override // java.util.HashMap, java.util.AbstractMap, java.util.Map
-    public final V put(K k, V v) {
-        zze();
-        zzjf.zza(k);
-        zzjf.zza(v);
-        return (V) super.put(k, v);
-    }
-
-    @Override // java.util.HashMap, java.util.AbstractMap, java.util.Map
-    public final void putAll(Map<? extends K, ? extends V> map) {
-        zze();
-        for (K k : map.keySet()) {
-            zzjf.zza(k);
-            zzjf.zza(map.get(k));
-        }
-        super.putAll(map);
-    }
-
-    @Override // java.util.HashMap, java.util.AbstractMap, java.util.Map
-    public final V remove(Object obj) {
-        zze();
-        return (V) super.remove(obj);
+    @Override // java.util.LinkedHashMap, java.util.HashMap, java.util.AbstractMap, java.util.Map
+    public final Set entrySet() {
+        return isEmpty() ? Collections.emptySet() : super.entrySet();
     }
 
     /* JADX WARN: Removed duplicated region for block: B:25:0x005c A[RETURN] */
@@ -79,9 +69,11 @@ public final class zzke<K, V> extends LinkedHashMap<K, V> {
             Map map = (Map) obj;
             if (this != map) {
                 if (size() == map.size()) {
-                    for (Map.Entry<K, V> entry : entrySet()) {
+                    Iterator it = entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry entry = (Map.Entry) it.next();
                         if (map.containsKey(entry.getKey())) {
-                            V value = entry.getValue();
+                            Object value = entry.getValue();
                             Object obj2 = map.get(entry.getKey());
                             if ((value instanceof byte[]) && (obj2 instanceof byte[])) {
                                 equals = Arrays.equals((byte[]) value, (byte[]) obj2);
@@ -107,27 +99,51 @@ public final class zzke<K, V> extends LinkedHashMap<K, V> {
         return false;
     }
 
-    private static int zza(Object obj) {
-        if (obj instanceof byte[]) {
-            return zzjf.zzc((byte[]) obj);
-        }
-        if (obj instanceof zzje) {
-            throw new UnsupportedOperationException();
-        }
-        return obj.hashCode();
-    }
-
     @Override // java.util.AbstractMap, java.util.Map
     public final int hashCode() {
+        Iterator it = entrySet().iterator();
         int i = 0;
-        for (Map.Entry<K, V> entry : entrySet()) {
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
             i += zza(entry.getValue()) ^ zza(entry.getKey());
         }
         return i;
     }
 
-    public final zzke<K, V> zzb() {
-        return isEmpty() ? new zzke<>() : new zzke<>(this);
+    @Override // java.util.HashMap, java.util.AbstractMap, java.util.Map
+    public final Object put(Object obj, Object obj2) {
+        zze();
+        zzjf.zza(obj);
+        zzjf.zza(obj2);
+        return super.put(obj, obj2);
+    }
+
+    @Override // java.util.HashMap, java.util.AbstractMap, java.util.Map
+    public final void putAll(Map map) {
+        zze();
+        for (Object obj : map.keySet()) {
+            zzjf.zza(obj);
+            zzjf.zza(map.get(obj));
+        }
+        super.putAll(map);
+    }
+
+    @Override // java.util.HashMap, java.util.AbstractMap, java.util.Map
+    public final Object remove(Object obj) {
+        zze();
+        return super.remove(obj);
+    }
+
+    public final void zza(zzke zzkeVar) {
+        zze();
+        if (zzkeVar.isEmpty()) {
+            return;
+        }
+        putAll(zzkeVar);
+    }
+
+    public final zzke zzb() {
+        return isEmpty() ? new zzke() : new zzke(this);
     }
 
     public final void zzc() {
@@ -136,17 +152,5 @@ public final class zzke<K, V> extends LinkedHashMap<K, V> {
 
     public final boolean zzd() {
         return this.zza;
-    }
-
-    private final void zze() {
-        if (!this.zza) {
-            throw new UnsupportedOperationException();
-        }
-    }
-
-    static {
-        zzke zzkeVar = new zzke();
-        zzb = zzkeVar;
-        zzkeVar.zza = false;
     }
 }

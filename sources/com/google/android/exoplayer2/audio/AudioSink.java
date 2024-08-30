@@ -9,103 +9,22 @@ import java.nio.ByteBuffer;
 public interface AudioSink {
 
     /* loaded from: classes.dex */
-    public final /* synthetic */ class -CC {
+    public abstract /* synthetic */ class -CC {
         public static void $default$setOutputStreamOffsetUs(AudioSink audioSink, long j) {
         }
     }
 
     /* loaded from: classes.dex */
-    public interface Listener {
-
-        /* loaded from: classes.dex */
-        public final /* synthetic */ class -CC {
-            public static void $default$onOffloadBufferEmptying(Listener listener) {
-            }
-
-            public static void $default$onOffloadBufferFull(Listener listener) {
-            }
-        }
-
-        void onAudioSinkError(Exception exc);
-
-        void onOffloadBufferEmptying();
-
-        void onOffloadBufferFull();
-
-        void onPositionAdvancing(long j);
-
-        void onPositionDiscontinuity();
-
-        void onSkipSilenceEnabledChanged(boolean z);
-
-        void onUnderrun(int i, long j, long j2);
-    }
-
-    void configure(Format format, int i, int[] iArr) throws ConfigurationException;
-
-    void disableTunneling();
-
-    void enableTunnelingV21();
-
-    void experimentalFlushWithoutAudioTrackRelease();
-
-    void flush();
-
-    long getCurrentPositionUs(boolean z);
-
-    int getFormatSupport(Format format);
-
-    PlaybackParameters getPlaybackParameters();
-
-    boolean handleBuffer(ByteBuffer byteBuffer, long j, int i) throws InitializationException, WriteException;
-
-    void handleDiscontinuity();
-
-    boolean hasPendingData();
-
-    boolean isEnded();
-
-    void pause();
-
-    void play();
-
-    void playToEndOfStream() throws WriteException;
-
-    void reset();
-
-    void setAudioAttributes(AudioAttributes audioAttributes);
-
-    void setAudioSessionId(int i);
-
-    void setAuxEffectInfo(AuxEffectInfo auxEffectInfo);
-
-    void setListener(Listener listener);
-
-    void setOutputStreamOffsetUs(long j);
-
-    void setPlaybackParameters(PlaybackParameters playbackParameters);
-
-    void setPlayerId(PlayerId playerId);
-
-    void setPreferredDevice(AudioDeviceInfo audioDeviceInfo);
-
-    void setSkipSilenceEnabled(boolean z);
-
-    void setVolume(float f);
-
-    boolean supportsFormat(Format format);
-
-    /* loaded from: classes.dex */
     public static final class ConfigurationException extends Exception {
         public final Format format;
 
-        public ConfigurationException(Throwable th, Format format) {
-            super(th);
+        public ConfigurationException(String str, Format format) {
+            super(str);
             this.format = format;
         }
 
-        public ConfigurationException(String str, Format format) {
-            super(str);
+        public ConfigurationException(Throwable th, Format format) {
+            super(th);
             this.format = format;
         }
     }
@@ -141,17 +60,30 @@ public interface AudioSink {
     }
 
     /* loaded from: classes.dex */
-    public static final class WriteException extends Exception {
-        public final int errorCode;
-        public final Format format;
-        public final boolean isRecoverable;
+    public interface Listener {
 
-        public WriteException(int i, Format format, boolean z) {
-            super("AudioTrack write failed: " + i);
-            this.isRecoverable = z;
-            this.errorCode = i;
-            this.format = format;
+        /* loaded from: classes.dex */
+        public abstract /* synthetic */ class -CC {
+            public static void $default$onOffloadBufferEmptying(Listener listener) {
+            }
+
+            public static void $default$onOffloadBufferFull(Listener listener) {
+            }
         }
+
+        void onAudioSinkError(Exception exc);
+
+        void onOffloadBufferEmptying();
+
+        void onOffloadBufferFull();
+
+        void onPositionAdvancing(long j);
+
+        void onPositionDiscontinuity();
+
+        void onSkipSilenceEnabledChanged(boolean z);
+
+        void onUnderrun(int i, long j, long j2);
     }
 
     /* loaded from: classes.dex */
@@ -165,4 +97,72 @@ public interface AudioSink {
             this.expectedPresentationTimeUs = j2;
         }
     }
+
+    /* loaded from: classes.dex */
+    public static final class WriteException extends Exception {
+        public final int errorCode;
+        public final Format format;
+        public final boolean isRecoverable;
+
+        public WriteException(int i, Format format, boolean z) {
+            super("AudioTrack write failed: " + i);
+            this.isRecoverable = z;
+            this.errorCode = i;
+            this.format = format;
+        }
+    }
+
+    void configure(Format format, int i, int[] iArr);
+
+    void disableTunneling();
+
+    void enableTunnelingV21();
+
+    void experimentalFlushWithoutAudioTrackRelease();
+
+    void flush();
+
+    long getCurrentPositionUs(boolean z);
+
+    int getFormatSupport(Format format);
+
+    PlaybackParameters getPlaybackParameters();
+
+    boolean handleBuffer(ByteBuffer byteBuffer, long j, int i);
+
+    void handleDiscontinuity();
+
+    boolean hasPendingData();
+
+    boolean isEnded();
+
+    void pause();
+
+    void play();
+
+    void playToEndOfStream();
+
+    void reset();
+
+    void setAudioAttributes(AudioAttributes audioAttributes);
+
+    void setAudioSessionId(int i);
+
+    void setAuxEffectInfo(AuxEffectInfo auxEffectInfo);
+
+    void setListener(Listener listener);
+
+    void setOutputStreamOffsetUs(long j);
+
+    void setPlaybackParameters(PlaybackParameters playbackParameters);
+
+    void setPlayerId(PlayerId playerId);
+
+    void setPreferredDevice(AudioDeviceInfo audioDeviceInfo);
+
+    void setSkipSilenceEnabled(boolean z);
+
+    void setVolume(float f);
+
+    boolean supportsFormat(Format format);
 }

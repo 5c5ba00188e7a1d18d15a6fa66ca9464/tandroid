@@ -54,12 +54,12 @@ public enum Mode {
         return TERMINATOR;
     }
 
+    public int getBits() {
+        return this.bits;
+    }
+
     public int getCharacterCountBits(Version version) {
         int versionNumber = version.getVersionNumber();
         return this.characterCountBitsForVersions[versionNumber <= 9 ? (char) 0 : versionNumber <= 26 ? (char) 1 : (char) 2];
-    }
-
-    public int getBits() {
-        return this.bits;
     }
 }

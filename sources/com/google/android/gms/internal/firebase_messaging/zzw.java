@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.firebase_messaging;
 
 import java.io.OutputStream;
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 final class zzw extends OutputStream {
     private long zza = 0;
@@ -16,11 +15,6 @@ final class zzw extends OutputStream {
         this.zza += bArr.length;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final long zza() {
-        return this.zza;
-    }
-
     @Override // java.io.OutputStream
     public final void write(byte[] bArr, int i, int i2) {
         int length;
@@ -29,5 +23,10 @@ final class zzw extends OutputStream {
             throw new IndexOutOfBoundsException();
         }
         this.zza += i2;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final long zza() {
+        return this.zza;
     }
 }

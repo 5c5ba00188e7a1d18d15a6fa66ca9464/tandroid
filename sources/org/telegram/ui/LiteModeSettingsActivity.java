@@ -65,274 +65,15 @@ public class LiteModeSettingsActivity extends BaseFragment {
     LinearLayoutManager layoutManager;
     RecyclerListView listView;
     Bulletin restrictBulletin;
-    private Utilities.Callback<Boolean> onPowerAppliedChange = new Utilities.Callback() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda0
+    private Utilities.Callback onPowerAppliedChange = new Utilities.Callback() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda0
         @Override // org.telegram.messenger.Utilities.Callback
         public final void run(Object obj) {
             LiteModeSettingsActivity.this.lambda$new$1((Boolean) obj);
         }
     };
     private boolean[] expanded = new boolean[3];
-    private ArrayList<Item> oldItems = new ArrayList<>();
-    private ArrayList<Item> items = new ArrayList<>();
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public View createView(Context context) {
-        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
-        this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString(R.string.PowerUsage));
-        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.LiteModeSettingsActivity.1
-            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i) {
-                if (i == -1) {
-                    LiteModeSettingsActivity.this.finishFragment();
-                }
-            }
-        });
-        FrameLayout frameLayout = new FrameLayout(context);
-        this.contentView = frameLayout;
-        frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
-        RecyclerListView recyclerListView = new RecyclerListView(context);
-        this.listView = recyclerListView;
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        this.layoutManager = linearLayoutManager;
-        recyclerListView.setLayoutManager(linearLayoutManager);
-        RecyclerListView recyclerListView2 = this.listView;
-        Adapter adapter = new Adapter();
-        this.adapter = adapter;
-        recyclerListView2.setAdapter(adapter);
-        DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
-        defaultItemAnimator.setDurations(350L);
-        defaultItemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-        defaultItemAnimator.setDelayAnimations(false);
-        defaultItemAnimator.setSupportsChangeAnimations(false);
-        this.listView.setItemAnimator(defaultItemAnimator);
-        this.contentView.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda1
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ boolean hasDoubleTap(View view, int i) {
-                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
-            }
-
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ void onDoubleTap(View view, int i, float f, float f2) {
-                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i, f, f2);
-            }
-
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public final void onItemClick(View view, int i, float f, float f2) {
-                LiteModeSettingsActivity.this.lambda$createView$0(view, i, f, f2);
-            }
-        });
-        this.fragmentView = this.contentView;
-        this.FLAGS_CHAT = AndroidUtilities.isTablet() ? 98720 : LiteMode.FLAGS_CHAT;
-        updateItems();
-        return this.fragmentView;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$0(View view, int i, float f, float f2) {
-        int expandedIndex;
-        boolean[] zArr;
-        if (view == null || i < 0 || i >= this.items.size()) {
-            return;
-        }
-        Item item = this.items.get(i);
-        int i2 = item.viewType;
-        if (i2 == 3 || i2 == 4) {
-            if (LiteMode.isPowerSaverApplied()) {
-                this.restrictBulletin = BulletinFactory.of(this).createSimpleBulletin(new BatteryDrawable(0.1f, -1, Theme.getColor(Theme.key_dialogSwipeRemove), 1.3f), LocaleController.getString(R.string.LiteBatteryRestricted)).show();
-            } else if (item.viewType == 3 && item.getFlagsCount() > 1 && (!LocaleController.isRTL ? f < view.getMeasuredWidth() - AndroidUtilities.dp(75.0f) : f > AndroidUtilities.dp(75.0f)) && (expandedIndex = getExpandedIndex(item.flags)) != -1) {
-                this.expanded[expandedIndex] = !zArr[expandedIndex];
-                updateValues();
-                updateItems();
-            } else {
-                LiteMode.toggleFlag(item.flags, !LiteMode.isEnabledSetting(item.flags));
-                updateValues();
-            }
-        } else if (i2 == 5 && item.type == 1) {
-            SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
-            boolean z = globalMainSettings.getBoolean("view_animations", true);
-            SharedPreferences.Editor edit = globalMainSettings.edit();
-            boolean z2 = !z;
-            edit.putBoolean("view_animations", z2);
-            SharedConfig.setAnimationsEnabled(z2);
-            edit.commit();
-            ((TextCell) view).setChecked(z2);
-        }
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onBecomeFullyVisible() {
-        super.onBecomeFullyVisible();
-        LiteMode.addOnPowerSaverAppliedListener(this.onPowerAppliedChange);
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onBecomeFullyHidden() {
-        super.onBecomeFullyHidden();
-        LiteMode.removeOnPowerSaverAppliedListener(this.onPowerAppliedChange);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1(Boolean bool) {
-        updateValues();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public int getExpandedIndex(int i) {
-        if (i == 3) {
-            return 0;
-        }
-        if (i == 28700) {
-            return 1;
-        }
-        return i == this.FLAGS_CHAT ? 2 : -1;
-    }
-
-    public void setExpanded(int i, boolean z) {
-        int expandedIndex = getExpandedIndex(i);
-        if (expandedIndex == -1) {
-            return;
-        }
-        this.expanded[expandedIndex] = z;
-        updateValues();
-        updateItems();
-    }
-
-    public void scrollToType(int i) {
-        for (int i2 = 0; i2 < this.items.size(); i2++) {
-            if (this.items.get(i2).type == i) {
-                highlightRow(i2);
-                return;
-            }
-        }
-    }
-
-    public void scrollToFlags(int i) {
-        for (int i2 = 0; i2 < this.items.size(); i2++) {
-            if (this.items.get(i2).flags == i) {
-                highlightRow(i2);
-                return;
-            }
-        }
-    }
-
-    private void highlightRow(final int i) {
-        this.listView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda2
-            @Override // org.telegram.ui.Components.RecyclerListView.IntReturnCallback
-            public final int run() {
-                int lambda$highlightRow$2;
-                lambda$highlightRow$2 = LiteModeSettingsActivity.this.lambda$highlightRow$2(i);
-                return lambda$highlightRow$2;
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ int lambda$highlightRow$2(int i) {
-        this.layoutManager.scrollToPositionWithOffset(i, AndroidUtilities.dp(60.0f));
-        return i;
-    }
-
-    private void updateItems() {
-        String formatString;
-        this.oldItems.clear();
-        this.oldItems.addAll(this.items);
-        this.items.clear();
-        if (Build.VERSION.SDK_INT >= 21) {
-            this.items.add(Item.asSlider());
-            ArrayList<Item> arrayList = this.items;
-            if (LiteMode.getPowerSaverLevel() <= 0) {
-                formatString = LocaleController.getString(R.string.LiteBatteryInfoDisabled);
-            } else if (LiteMode.getPowerSaverLevel() >= 100) {
-                formatString = LocaleController.getString(R.string.LiteBatteryInfoEnabled);
-            } else {
-                formatString = LocaleController.formatString(R.string.LiteBatteryInfoBelow, String.format("%d%%", Integer.valueOf(LiteMode.getPowerSaverLevel())));
-            }
-            arrayList.add(Item.asInfo(formatString));
-        }
-        this.items.add(Item.asHeader(LocaleController.getString("LiteOptionsTitle")));
-        this.items.add(Item.asSwitch(R.drawable.msg2_sticker, LocaleController.getString(R.string.LiteOptionsStickers), 3));
-        if (this.expanded[0]) {
-            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayKeyboard"), 1));
-            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayChat"), 2));
-        }
-        this.items.add(Item.asSwitch(R.drawable.msg2_smile_status, LocaleController.getString(R.string.LiteOptionsEmoji), LiteMode.FLAGS_ANIMATED_EMOJI));
-        if (this.expanded[1]) {
-            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayKeyboard"), LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD));
-            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayReactions"), LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS));
-            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayChat"), LiteMode.FLAG_ANIMATED_EMOJI_CHAT));
-        }
-        this.items.add(Item.asSwitch(R.drawable.msg2_ask_question, LocaleController.getString("LiteOptionsChat"), this.FLAGS_CHAT));
-        if (this.expanded[2]) {
-            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsBackground"), 32));
-            if (!AndroidUtilities.isTablet()) {
-                this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsTopics"), 64));
-            }
-            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsSpoiler"), 128));
-            if (SharedConfig.getDevicePerformanceClass() >= 1 || BuildVars.DEBUG_PRIVATE_VERSION) {
-                this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsBlur"), 256));
-            }
-            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsScale"), LiteMode.FLAG_CHAT_SCALE));
-            if (ThanosEffect.supports()) {
-                this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsThanos"), 65536));
-            }
-        }
-        this.items.add(Item.asSwitch(R.drawable.msg2_call_earpiece, LocaleController.getString("LiteOptionsCalls"), LiteMode.FLAG_CALLS_ANIMATIONS));
-        this.items.add(Item.asSwitch(R.drawable.msg2_videocall, LocaleController.getString("LiteOptionsAutoplayVideo"), 1024));
-        this.items.add(Item.asSwitch(R.drawable.msg2_gif, LocaleController.getString("LiteOptionsAutoplayGifs"), 2048));
-        this.items.add(Item.asInfo(""));
-        this.items.add(Item.asSwitch(LocaleController.getString("LiteSmoothTransitions"), 1));
-        this.items.add(Item.asInfo(LocaleController.getString("LiteSmoothTransitionsInfo")));
-        this.adapter.setItems(this.oldItems, this.items);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void updateInfo() {
-        String formatString;
-        if (Build.VERSION.SDK_INT < 21) {
-            return;
-        }
-        if (this.items.isEmpty()) {
-            updateItems();
-        } else if (this.items.size() >= 2) {
-            ArrayList<Item> arrayList = this.items;
-            if (LiteMode.getPowerSaverLevel() <= 0) {
-                formatString = LocaleController.getString(R.string.LiteBatteryInfoDisabled);
-            } else if (LiteMode.getPowerSaverLevel() >= 100) {
-                formatString = LocaleController.getString(R.string.LiteBatteryInfoEnabled);
-            } else {
-                formatString = LocaleController.formatString(R.string.LiteBatteryInfoBelow, String.format("%d%%", Integer.valueOf(LiteMode.getPowerSaverLevel())));
-            }
-            arrayList.set(1, Item.asInfo(formatString));
-            this.adapter.notifyItemChanged(1);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void updateValues() {
-        int childAdapterPosition;
-        if (this.listView == null) {
-            return;
-        }
-        for (int i = 0; i < this.listView.getChildCount(); i++) {
-            View childAt = this.listView.getChildAt(i);
-            if (childAt != null && (childAdapterPosition = this.listView.getChildAdapterPosition(childAt)) >= 0 && childAdapterPosition < this.items.size()) {
-                Item item = this.items.get(childAdapterPosition);
-                int i2 = item.viewType;
-                if (i2 == 3 || i2 == 4) {
-                    ((SwitchCell) childAt).update(item);
-                } else if (i2 == 1) {
-                    ((PowerSaverSlider) childAt).update();
-                }
-            }
-        }
-        if (this.restrictBulletin == null || LiteMode.isPowerSaverApplied()) {
-            return;
-        }
-        this.restrictBulletin.hide();
-        this.restrictBulletin = null;
-    }
+    private ArrayList oldItems = new ArrayList();
+    private ArrayList items = new ArrayList();
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
@@ -341,43 +82,28 @@ public class LiteModeSettingsActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View switchCell;
-            Context context = viewGroup.getContext();
-            if (i == 0) {
-                switchCell = new HeaderCell(context);
-                switchCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-            } else if (i == 1) {
-                switchCell = new PowerSaverSlider(context);
-                switchCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-            } else if (i == 2) {
-                switchCell = new TextInfoPrivacyCell(context) { // from class: org.telegram.ui.LiteModeSettingsActivity.Adapter.1
-                    @Override // org.telegram.ui.Cells.TextInfoPrivacyCell, android.view.View
-                    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-                        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-                        accessibilityNodeInfo.setEnabled(true);
-                    }
+        public int getItemCount() {
+            return LiteModeSettingsActivity.this.items.size();
+        }
 
-                    @Override // android.view.View
-                    public void onPopulateAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
-                        super.onPopulateAccessibilityEvent(accessibilityEvent);
-                        accessibilityEvent.setContentDescription(getTextView().getText());
-                        setContentDescription(getTextView().getText());
-                    }
-                };
-            } else if (i == 3 || i == 4) {
-                switchCell = new SwitchCell(context);
-            } else if (i == 5) {
-                switchCell = new TextCell(context, 23, false, true, null);
-                switchCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-            } else {
-                switchCell = null;
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemViewType(int i) {
+            if (i < 0 || i >= LiteModeSettingsActivity.this.items.size()) {
+                return 2;
             }
-            return new RecyclerListView.Holder(switchCell);
+            return ((Item) LiteModeSettingsActivity.this.items.get(i)).viewType;
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
+        public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
+            return viewHolder.getItemViewType() == 4 || viewHolder.getItemViewType() == 3 || viewHolder.getItemViewType() == 5;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+            Drawable drawable;
+            Context context;
+            int i2;
             if (i < 0 || i >= LiteModeSettingsActivity.this.items.size()) {
                 return;
             }
@@ -392,8 +118,8 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 ((PowerSaverSlider) viewHolder.itemView).update();
             } else if (itemViewType != 2) {
                 if (itemViewType == 3 || itemViewType == 4) {
-                    int i2 = i + 1;
-                    ((SwitchCell) viewHolder.itemView).set(item, (i2 >= LiteModeSettingsActivity.this.items.size() || ((Item) LiteModeSettingsActivity.this.items.get(i2)).viewType == 2) ? false : false);
+                    int i3 = i + 1;
+                    ((SwitchCell) viewHolder.itemView).set(item, (i3 >= LiteModeSettingsActivity.this.items.size() || ((Item) LiteModeSettingsActivity.this.items.get(i3)).viewType == 2) ? false : false);
                 } else if (itemViewType == 5) {
                     TextCell textCell = (TextCell) viewHolder.itemView;
                     if (item.type == 1) {
@@ -410,36 +136,470 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 textInfoPrivacyCell.setText(item.text);
                 textInfoPrivacyCell.setContentDescription(item.text);
                 boolean z2 = i > 0 && ((Item) LiteModeSettingsActivity.this.items.get(i + (-1))).viewType != 2;
-                int i3 = i + 1;
-                z = (i3 >= LiteModeSettingsActivity.this.items.size() || ((Item) LiteModeSettingsActivity.this.items.get(i3)).viewType == 2) ? false : false;
+                int i4 = i + 1;
+                z = (i4 >= LiteModeSettingsActivity.this.items.size() || ((Item) LiteModeSettingsActivity.this.items.get(i4)).viewType == 2) ? false : false;
                 if (z2 && z) {
-                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(LiteModeSettingsActivity.this.getContext(), R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                    context = LiteModeSettingsActivity.this.getContext();
+                    i2 = R.drawable.greydivider;
                 } else if (z2) {
-                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(LiteModeSettingsActivity.this.getContext(), R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                } else if (z) {
-                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(LiteModeSettingsActivity.this.getContext(), R.drawable.greydivider_top, Theme.key_windowBackgroundGrayShadow));
+                    context = LiteModeSettingsActivity.this.getContext();
+                    i2 = R.drawable.greydivider_bottom;
+                } else if (!z) {
+                    drawable = null;
+                    textInfoPrivacyCell.setBackground(drawable);
                 } else {
-                    textInfoPrivacyCell.setBackground(null);
+                    context = LiteModeSettingsActivity.this.getContext();
+                    i2 = R.drawable.greydivider_top;
                 }
+                drawable = Theme.getThemedDrawableByKey(context, i2, Theme.key_windowBackgroundGrayShadow);
+                textInfoPrivacyCell.setBackground(drawable);
             }
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public int getItemViewType(int i) {
-            if (i < 0 || i >= LiteModeSettingsActivity.this.items.size()) {
-                return 2;
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View switchCell;
+            Context context = viewGroup.getContext();
+            if (i == 0) {
+                switchCell = new HeaderCell(context);
+            } else if (i != 1) {
+                if (i == 2) {
+                    switchCell = new TextInfoPrivacyCell(context) { // from class: org.telegram.ui.LiteModeSettingsActivity.Adapter.1
+                        @Override // org.telegram.ui.Cells.TextInfoPrivacyCell, android.view.View
+                        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+                            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+                            accessibilityNodeInfo.setEnabled(true);
+                        }
+
+                        @Override // android.view.View
+                        public void onPopulateAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+                            super.onPopulateAccessibilityEvent(accessibilityEvent);
+                            accessibilityEvent.setContentDescription(getTextView().getText());
+                            setContentDescription(getTextView().getText());
+                        }
+                    };
+                } else if (i == 3 || i == 4) {
+                    switchCell = new SwitchCell(context);
+                } else if (i == 5) {
+                    switchCell = new TextCell(context, 23, false, true, null);
+                } else {
+                    switchCell = null;
+                }
+                return new RecyclerListView.Holder(switchCell);
+            } else {
+                switchCell = new PowerSaverSlider(context);
             }
-            return ((Item) LiteModeSettingsActivity.this.items.get(i)).viewType;
+            switchCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+            return new RecyclerListView.Holder(switchCell);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes4.dex */
+    public static class Item extends AdapterWithDiffUtils.Item {
+        public int flags;
+        public int iconResId;
+        public CharSequence text;
+        public int type;
+
+        private Item(int i, CharSequence charSequence, int i2, int i3, int i4) {
+            super(i, false);
+            this.text = charSequence;
+            this.iconResId = i2;
+            this.flags = i3;
+            this.type = i4;
         }
 
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public int getItemCount() {
-            return LiteModeSettingsActivity.this.items.size();
+        public static Item asCheckbox(CharSequence charSequence, int i) {
+            return new Item(4, charSequence, 0, i, 0);
         }
 
-        @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
-        public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
-            return viewHolder.getItemViewType() == 4 || viewHolder.getItemViewType() == 3 || viewHolder.getItemViewType() == 5;
+        public static Item asHeader(CharSequence charSequence) {
+            return new Item(0, charSequence, 0, 0, 0);
+        }
+
+        public static Item asInfo(CharSequence charSequence) {
+            return new Item(2, charSequence, 0, 0, 0);
+        }
+
+        public static Item asSlider() {
+            return new Item(1, null, 0, 0, 0);
+        }
+
+        public static Item asSwitch(int i, CharSequence charSequence, int i2) {
+            return new Item(3, charSequence, i, i2, 0);
+        }
+
+        public static Item asSwitch(CharSequence charSequence, int i) {
+            return new Item(5, charSequence, 0, 0, i);
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj instanceof Item) {
+                Item item = (Item) obj;
+                int i = item.viewType;
+                int i2 = this.viewType;
+                if (i != i2) {
+                    return false;
+                }
+                if (i2 != 3 || item.iconResId == this.iconResId) {
+                    if (i2 != 5 || item.type == this.type) {
+                        if ((i2 == 3 || i2 == 4) && item.flags != this.flags) {
+                            return false;
+                        }
+                        return !(i2 == 0 || i2 == 2 || i2 == 3 || i2 == 4 || i2 == 5) || TextUtils.equals(item.text, this.text);
+                    }
+                    return false;
+                }
+                return false;
+            }
+            return false;
+        }
+
+        public int getFlagsCount() {
+            return Integer.bitCount(this.flags);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes4.dex */
+    public class PowerSaverSlider extends FrameLayout {
+        BatteryDrawable batteryIcon;
+        SpannableStringBuilder batteryText;
+        LinearLayout headerLayout;
+        AnimatedTextView headerOnView;
+        private boolean headerOnVisible;
+        TextView headerTextView;
+        TextView leftTextView;
+        AnimatedTextView middleTextView;
+        private ValueAnimator offActiveAnimator;
+        private float offActiveT;
+        private ValueAnimator onActiveAnimator;
+        private float onActiveT;
+        TextView rightTextView;
+        private SeekBarAccessibilityDelegate seekBarAccessibilityDelegate;
+        SeekBarView seekBarView;
+        FrameLayout valuesView;
+
+        public PowerSaverSlider(Context context) {
+            super(context);
+            LinearLayout linearLayout = new LinearLayout(context);
+            this.headerLayout = linearLayout;
+            linearLayout.setGravity(LocaleController.isRTL ? 5 : 3);
+            this.headerLayout.setImportantForAccessibility(4);
+            TextView textView = new TextView(context);
+            this.headerTextView = textView;
+            textView.setTextSize(1, 15.0f);
+            this.headerTextView.setTypeface(AndroidUtilities.bold());
+            TextView textView2 = this.headerTextView;
+            int i = Theme.key_windowBackgroundWhiteBlueHeader;
+            textView2.setTextColor(Theme.getColor(i));
+            this.headerTextView.setGravity(LocaleController.isRTL ? 5 : 3);
+            this.headerTextView.setText(LocaleController.getString("LiteBatteryTitle"));
+            this.headerLayout.addView(this.headerTextView, LayoutHelper.createLinear(-2, -2, 16));
+            AnimatedTextView animatedTextView = new AnimatedTextView(context, true, false, false) { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.1
+                Drawable backgroundDrawable = Theme.createRoundRectDrawable(AndroidUtilities.dp(4.0f), Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader), 0.15f));
+
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // org.telegram.ui.Components.AnimatedTextView, android.view.View
+                public void onDraw(Canvas canvas) {
+                    this.backgroundDrawable.setBounds(0, 0, (int) (getPaddingLeft() + getDrawable().getCurrentWidth() + getPaddingRight()), getMeasuredHeight());
+                    this.backgroundDrawable.draw(canvas);
+                    super.onDraw(canvas);
+                }
+            };
+            this.headerOnView = animatedTextView;
+            animatedTextView.setTypeface(AndroidUtilities.bold());
+            this.headerOnView.setPadding(AndroidUtilities.dp(5.33f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(5.33f), AndroidUtilities.dp(2.0f));
+            this.headerOnView.setTextSize(AndroidUtilities.dp(12.0f));
+            this.headerOnView.setTextColor(Theme.getColor(i));
+            this.headerLayout.addView(this.headerOnView, LayoutHelper.createLinear(-2, 17, 16, 6, 1, 0, 0));
+            addView(this.headerLayout, LayoutHelper.createFrame(-1, -2.0f, 55, 21.0f, 17.0f, 21.0f, 0.0f));
+            SeekBarView seekBarView = new SeekBarView(context, true, null);
+            this.seekBarView = seekBarView;
+            seekBarView.setReportChanges(true);
+            this.seekBarView.setDelegate(new SeekBarView.SeekBarViewDelegate() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.2
+                @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+                public CharSequence getContentDescription() {
+                    return " ";
+                }
+
+                @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+                public /* synthetic */ int getStepsCount() {
+                    return SeekBarView.SeekBarViewDelegate.-CC.$default$getStepsCount(this);
+                }
+
+                @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+                public void onSeekBarDrag(boolean z, float f) {
+                    int round = Math.round(f * 100.0f);
+                    if (round != LiteMode.getPowerSaverLevel()) {
+                        LiteMode.setPowerSaverLevel(round);
+                        LiteModeSettingsActivity.this.updateValues();
+                        LiteModeSettingsActivity.this.updateInfo();
+                        if (round <= 0 || round >= 100) {
+                            try {
+                                PowerSaverSlider.this.performHapticFeedback(3, 1);
+                            } catch (Exception unused) {
+                            }
+                        }
+                    }
+                }
+
+                @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+                public void onSeekBarPressed(boolean z) {
+                }
+            });
+            this.seekBarView.setProgress(LiteMode.getPowerSaverLevel() / 100.0f);
+            this.seekBarView.setImportantForAccessibility(2);
+            addView(this.seekBarView, LayoutHelper.createFrame(-1, 44.0f, 48, 6.0f, 68.0f, 6.0f, 0.0f));
+            FrameLayout frameLayout = new FrameLayout(context);
+            this.valuesView = frameLayout;
+            frameLayout.setImportantForAccessibility(4);
+            TextView textView3 = new TextView(context);
+            this.leftTextView = textView3;
+            textView3.setTextSize(1, 13.0f);
+            TextView textView4 = this.leftTextView;
+            int i2 = Theme.key_windowBackgroundWhiteGrayText;
+            textView4.setTextColor(Theme.getColor(i2));
+            this.leftTextView.setGravity(3);
+            this.leftTextView.setText(LocaleController.getString(R.string.LiteBatteryDisabled));
+            this.valuesView.addView(this.leftTextView, LayoutHelper.createFrame(-2, -2, 19));
+            AnimatedTextView animatedTextView2 = new AnimatedTextView(context, false, true, true) { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.3
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // org.telegram.ui.Components.AnimatedTextView, android.view.View
+                public void onMeasure(int i3, int i4) {
+                    int size = View.MeasureSpec.getSize(i3);
+                    if (size <= 0) {
+                        size = AndroidUtilities.displaySize.x - AndroidUtilities.dp(20.0f);
+                    }
+                    super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) ((size - PowerSaverSlider.this.leftTextView.getPaint().measureText(PowerSaverSlider.this.leftTextView.getText().toString())) - PowerSaverSlider.this.rightTextView.getPaint().measureText(PowerSaverSlider.this.rightTextView.getText().toString())), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(24.0f), 1073741824));
+                }
+            };
+            this.middleTextView = animatedTextView2;
+            animatedTextView2.setAnimationProperties(0.45f, 0L, 240L, CubicBezierInterpolator.EASE_OUT_QUINT);
+            this.middleTextView.setGravity(1);
+            this.middleTextView.setTextSize(AndroidUtilities.dp(13.0f));
+            this.middleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText));
+            this.valuesView.addView(this.middleTextView, LayoutHelper.createFrame(-2, -2, 17));
+            this.batteryText = new SpannableStringBuilder("b");
+            BatteryDrawable batteryDrawable = new BatteryDrawable();
+            this.batteryIcon = batteryDrawable;
+            batteryDrawable.colorFromPaint(this.middleTextView.getPaint());
+            this.batteryIcon.setTranslationY(AndroidUtilities.dp(1.5f));
+            this.batteryIcon.setBounds(AndroidUtilities.dp(3.0f), AndroidUtilities.dp(-20.0f), AndroidUtilities.dp(23.0f), 0);
+            this.batteryText.setSpan(new ImageSpan(this.batteryIcon, 0), 0, this.batteryText.length(), 33);
+            TextView textView5 = new TextView(context);
+            this.rightTextView = textView5;
+            textView5.setTextSize(1, 13.0f);
+            this.rightTextView.setTextColor(Theme.getColor(i2));
+            this.rightTextView.setGravity(5);
+            this.rightTextView.setText(LocaleController.getString(R.string.LiteBatteryEnabled));
+            this.valuesView.addView(this.rightTextView, LayoutHelper.createFrame(-2, -2, 21));
+            addView(this.valuesView, LayoutHelper.createFrame(-1, -2.0f, 55, 21.0f, 52.0f, 21.0f, 0.0f));
+            this.seekBarAccessibilityDelegate = new IntSeekBarAccessibilityDelegate() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.4
+                @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
+                protected int getDelta() {
+                    return 5;
+                }
+
+                @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
+                protected int getMaxValue() {
+                    return 100;
+                }
+
+                @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
+                protected int getProgress() {
+                    return LiteMode.getPowerSaverLevel();
+                }
+
+                @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
+                public void onInitializeAccessibilityNodeInfoInternal(View view, AccessibilityNodeInfo accessibilityNodeInfo) {
+                    super.onInitializeAccessibilityNodeInfoInternal(view, accessibilityNodeInfo);
+                    accessibilityNodeInfo.setEnabled(true);
+                }
+
+                @Override // android.view.View.AccessibilityDelegate
+                public void onPopulateAccessibilityEvent(View view, AccessibilityEvent accessibilityEvent) {
+                    String formatString;
+                    int i3;
+                    super.onPopulateAccessibilityEvent(view, accessibilityEvent);
+                    StringBuilder sb = new StringBuilder(LocaleController.getString(R.string.LiteBatteryTitle));
+                    sb.append(", ");
+                    int powerSaverLevel = LiteMode.getPowerSaverLevel();
+                    if (powerSaverLevel <= 0) {
+                        i3 = R.string.LiteBatteryAlwaysDisabled;
+                    } else if (powerSaverLevel < 100) {
+                        formatString = LocaleController.formatString(R.string.AccDescrLiteBatteryWhenBelow, Integer.valueOf(Math.round(powerSaverLevel)));
+                        sb.append(formatString);
+                        accessibilityEvent.setContentDescription(sb);
+                        PowerSaverSlider.this.setContentDescription(sb);
+                    } else {
+                        i3 = R.string.LiteBatteryAlwaysEnabled;
+                    }
+                    formatString = LocaleController.getString(i3);
+                    sb.append(formatString);
+                    accessibilityEvent.setContentDescription(sb);
+                    PowerSaverSlider.this.setContentDescription(sb);
+                }
+
+                @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
+                protected void setProgress(int i3) {
+                    float f = i3 / 100.0f;
+                    PowerSaverSlider.this.seekBarView.delegate.onSeekBarDrag(true, f);
+                    PowerSaverSlider.this.seekBarView.setProgress(f);
+                }
+            };
+            update();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$updateOffActive$1(ValueAnimator valueAnimator) {
+            TextView textView = this.leftTextView;
+            int color = Theme.getColor(Theme.key_windowBackgroundWhiteGrayText);
+            int color2 = Theme.getColor(Theme.key_windowBackgroundWhiteBlueText);
+            float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+            this.offActiveT = floatValue;
+            textView.setTextColor(ColorUtils.blendARGB(color, color2, floatValue));
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$updateOnActive$0(ValueAnimator valueAnimator) {
+            TextView textView = this.rightTextView;
+            int color = Theme.getColor(Theme.key_windowBackgroundWhiteGrayText);
+            int color2 = Theme.getColor(Theme.key_windowBackgroundWhiteBlueText);
+            float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+            this.onActiveT = floatValue;
+            textView.setTextColor(ColorUtils.blendARGB(color, color2, floatValue));
+        }
+
+        private void updateHeaderOnVisibility(boolean z) {
+            if (z != this.headerOnVisible) {
+                this.headerOnVisible = z;
+                this.headerOnView.clearAnimation();
+                this.headerOnView.animate().alpha(z ? 1.0f : 0.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(220L).start();
+            }
+        }
+
+        private void updateOffActive(boolean z) {
+            final float f = z ? 1.0f : 0.0f;
+            if (this.offActiveT != f) {
+                this.offActiveT = f;
+                ValueAnimator valueAnimator = this.offActiveAnimator;
+                if (valueAnimator != null) {
+                    valueAnimator.cancel();
+                    this.offActiveAnimator = null;
+                }
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(this.offActiveT, f);
+                this.offActiveAnimator = ofFloat;
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$PowerSaverSlider$$ExternalSyntheticLambda1
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                        LiteModeSettingsActivity.PowerSaverSlider.this.lambda$updateOffActive$1(valueAnimator2);
+                    }
+                });
+                this.offActiveAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.6
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        PowerSaverSlider.this.leftTextView.setTextColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText), Theme.getColor(Theme.key_windowBackgroundWhiteBlueText), PowerSaverSlider.this.offActiveT = f));
+                    }
+                });
+                this.offActiveAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+                this.offActiveAnimator.setDuration(320L);
+                this.offActiveAnimator.start();
+            }
+        }
+
+        private void updateOnActive(boolean z) {
+            final float f = z ? 1.0f : 0.0f;
+            if (this.onActiveT != f) {
+                this.onActiveT = f;
+                ValueAnimator valueAnimator = this.onActiveAnimator;
+                if (valueAnimator != null) {
+                    valueAnimator.cancel();
+                    this.onActiveAnimator = null;
+                }
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(this.onActiveT, f);
+                this.onActiveAnimator = ofFloat;
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$PowerSaverSlider$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                        LiteModeSettingsActivity.PowerSaverSlider.this.lambda$updateOnActive$0(valueAnimator2);
+                    }
+                });
+                this.onActiveAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.5
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        PowerSaverSlider.this.rightTextView.setTextColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText), Theme.getColor(Theme.key_windowBackgroundWhiteBlueText), PowerSaverSlider.this.onActiveT = f));
+                    }
+                });
+                this.onActiveAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+                this.onActiveAnimator.setDuration(320L);
+                this.onActiveAnimator.start();
+            }
+        }
+
+        @Override // android.view.View
+        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+            this.seekBarAccessibilityDelegate.onInitializeAccessibilityNodeInfo(this, accessibilityNodeInfo);
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(112.0f), 1073741824));
+        }
+
+        @Override // android.view.View
+        public void onPopulateAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+            super.onPopulateAccessibilityEvent(accessibilityEvent);
+            this.seekBarAccessibilityDelegate.onPopulateAccessibilityEvent(this, accessibilityEvent);
+        }
+
+        @Override // android.view.View
+        public boolean performAccessibilityAction(int i, Bundle bundle) {
+            return this.seekBarAccessibilityDelegate.performAccessibilityAction(this, i, bundle);
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:13:0x0066  */
+        /* JADX WARN: Removed duplicated region for block: B:15:0x006d  */
+        /* JADX WARN: Removed duplicated region for block: B:23:0x0083  */
+        /* JADX WARN: Removed duplicated region for block: B:24:0x0085  */
+        /* JADX WARN: Removed duplicated region for block: B:27:0x008b  */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        public void update() {
+            AnimatedTextView animatedTextView;
+            CharSequence replaceCharSequence;
+            int i;
+            int powerSaverLevel = LiteMode.getPowerSaverLevel();
+            this.middleTextView.cancelAnimation();
+            if (powerSaverLevel <= 0) {
+                animatedTextView = this.middleTextView;
+                i = R.string.LiteBatteryAlwaysDisabled;
+            } else if (powerSaverLevel < 100) {
+                float f = powerSaverLevel;
+                this.batteryIcon.setFillValue(f / 100.0f, true);
+                animatedTextView = this.middleTextView;
+                replaceCharSequence = AndroidUtilities.replaceCharSequence("%s", LocaleController.getString(R.string.LiteBatteryWhenBelow), TextUtils.concat(String.format("%d%% ", Integer.valueOf(Math.round(f))), this.batteryText));
+                animatedTextView.setText(replaceCharSequence, !LocaleController.isRTL);
+                this.headerOnView.setText(LocaleController.getString(!LiteMode.isPowerSaverApplied() ? R.string.LiteBatteryEnabled : R.string.LiteBatteryDisabled).toUpperCase());
+                updateHeaderOnVisibility(powerSaverLevel <= 0 && powerSaverLevel < 100);
+                updateOnActive(powerSaverLevel < 100);
+                updateOffActive(powerSaverLevel <= 0);
+            } else {
+                animatedTextView = this.middleTextView;
+                i = R.string.LiteBatteryAlwaysEnabled;
+            }
+            replaceCharSequence = LocaleController.getString(i);
+            animatedTextView.setText(replaceCharSequence, !LocaleController.isRTL);
+            this.headerOnView.setText(LocaleController.getString(!LiteMode.isPowerSaverApplied() ? R.string.LiteBatteryEnabled : R.string.LiteBatteryDisabled).toUpperCase());
+            updateHeaderOnVisibility(powerSaverLevel <= 0 && powerSaverLevel < 100);
+            updateOnActive(powerSaverLevel < 100);
+            updateOffActive(powerSaverLevel <= 0);
         }
     }
 
@@ -537,22 +697,86 @@ public class LiteModeSettingsActivity extends BaseFragment {
             setFocusable(true);
         }
 
-        public void setDisabled(boolean z, boolean z2) {
-            if (this.disabled != z) {
-                this.disabled = z;
-                if (z2) {
-                    this.imageView.animate().alpha(z ? 0.5f : 1.0f).setDuration(220L).start();
-                    this.textViewLayout.animate().alpha(z ? 0.5f : 1.0f).setDuration(220L).start();
-                    this.switchView.animate().alpha(z ? 0.5f : 1.0f).setDuration(220L).start();
-                    this.checkBoxView.animate().alpha(z ? 0.5f : 1.0f).setDuration(220L).start();
-                } else {
-                    this.imageView.setAlpha(z ? 0.5f : 1.0f);
-                    this.textViewLayout.setAlpha(z ? 0.5f : 1.0f);
-                    this.switchView.setAlpha(z ? 0.5f : 1.0f);
-                    this.checkBoxView.setAlpha(z ? 0.5f : 1.0f);
+        /* JADX WARN: Code restructure failed: missing block: B:11:0x001e, code lost:
+            if ((r4 & org.telegram.messenger.LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) > 0) goto L25;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:20:0x002f, code lost:
+            if ((r4 & 4) > 0) goto L25;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:21:0x0031, code lost:
+            r1 = r1 - 1;
+         */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        private int preprocessFlagsCount(int i) {
+            boolean isPremium = LiteModeSettingsActivity.this.getUserConfig().isPremium();
+            int bitCount = Integer.bitCount(i);
+            if (isPremium) {
+                if ((i & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) > 0) {
+                    bitCount--;
                 }
-                setEnabled(!z);
+                if ((i & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) > 0) {
+                    bitCount--;
+                }
+            } else {
+                if ((i & 16) > 0) {
+                    bitCount--;
+                }
+                if ((i & 8) > 0) {
+                    bitCount--;
+                }
             }
+            if (SharedConfig.getDevicePerformanceClass() < 1 && (i & 256) > 0) {
+                bitCount--;
+            }
+            return (ThanosEffect.supports() || (i & 65536) <= 0) ? bitCount : bitCount - 1;
+        }
+
+        private void updateCount(Item item, boolean z) {
+            boolean z2 = true;
+            this.enabled = preprocessFlagsCount(LiteMode.getValue(true) & item.flags);
+            this.all = preprocessFlagsCount(item.flags);
+            this.countTextView.setText(String.format("%d/%d", Integer.valueOf(this.enabled), Integer.valueOf(this.all)), (!z || LocaleController.isRTL) ? false : false);
+        }
+
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            if (LocaleController.isRTL) {
+                if (this.needLine) {
+                    float dp = AndroidUtilities.dp(75.0f);
+                    canvas.drawRect(dp - AndroidUtilities.dp(0.66f), (getMeasuredHeight() - AndroidUtilities.dp(20.0f)) / 2.0f, dp, (getMeasuredHeight() + AndroidUtilities.dp(20.0f)) / 2.0f, Theme.dividerPaint);
+                }
+                if (this.needDivider) {
+                    canvas.drawLine((getMeasuredWidth() - AndroidUtilities.dp(64.0f)) + (this.textView.getTranslationX() < 0.0f ? AndroidUtilities.dp(-32.0f) : 0), getMeasuredHeight() - 1, 0.0f, getMeasuredHeight() - 1, Theme.dividerPaint);
+                    return;
+                }
+                return;
+            }
+            if (this.needLine) {
+                float measuredWidth = getMeasuredWidth() - AndroidUtilities.dp(75.0f);
+                canvas.drawRect(measuredWidth - AndroidUtilities.dp(0.66f), (getMeasuredHeight() - AndroidUtilities.dp(20.0f)) / 2.0f, measuredWidth, (getMeasuredHeight() + AndroidUtilities.dp(20.0f)) / 2.0f, Theme.dividerPaint);
+            }
+            if (this.needDivider) {
+                canvas.drawLine(AndroidUtilities.dp(64.0f) + this.textView.getTranslationX(), getMeasuredHeight() - 1, getMeasuredWidth(), getMeasuredHeight() - 1, Theme.dividerPaint);
+            }
+        }
+
+        @Override // android.view.View
+        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+            accessibilityNodeInfo.setClassName(this.checkBoxView.getVisibility() == 0 ? "android.widget.CheckBox" : "android.widget.Switch");
+            accessibilityNodeInfo.setCheckable(true);
+            accessibilityNodeInfo.setEnabled(true);
+            accessibilityNodeInfo.setChecked(this.checkBoxView.getVisibility() == 0 ? this.checkBoxView.isChecked() : this.switchView.isChecked());
+            StringBuilder sb = new StringBuilder();
+            sb.append(this.textView.getText());
+            if (this.containing) {
+                sb.append('\n');
+                sb.append(LocaleController.formatString("Of", R.string.Of, Integer.valueOf(this.enabled), Integer.valueOf(this.all)));
+            }
+            accessibilityNodeInfo.setContentDescription(sb);
         }
 
         @Override // android.widget.FrameLayout, android.view.View
@@ -606,6 +830,24 @@ public class LiteModeSettingsActivity extends BaseFragment {
             setDisabled(LiteMode.isPowerSaverApplied(), false);
         }
 
+        public void setDisabled(boolean z, boolean z2) {
+            if (this.disabled != z) {
+                this.disabled = z;
+                if (z2) {
+                    this.imageView.animate().alpha(z ? 0.5f : 1.0f).setDuration(220L).start();
+                    this.textViewLayout.animate().alpha(z ? 0.5f : 1.0f).setDuration(220L).start();
+                    this.switchView.animate().alpha(z ? 0.5f : 1.0f).setDuration(220L).start();
+                    this.checkBoxView.animate().alpha(z ? 0.5f : 1.0f).setDuration(220L).start();
+                } else {
+                    this.imageView.setAlpha(z ? 0.5f : 1.0f);
+                    this.textViewLayout.setAlpha(z ? 0.5f : 1.0f);
+                    this.switchView.setAlpha(z ? 0.5f : 1.0f);
+                    this.checkBoxView.setAlpha(z ? 0.5f : 1.0f);
+                }
+                setEnabled(!z);
+            }
+        }
+
         public void update(Item item) {
             if (item.viewType == 3) {
                 boolean z = item.getFlagsCount() > 1;
@@ -622,473 +864,244 @@ public class LiteModeSettingsActivity extends BaseFragment {
             }
             setDisabled(LiteMode.isPowerSaverApplied(), true);
         }
+    }
 
-        private void updateCount(Item item, boolean z) {
-            boolean z2 = true;
-            this.enabled = preprocessFlagsCount(LiteMode.getValue(true) & item.flags);
-            this.all = preprocessFlagsCount(item.flags);
-            this.countTextView.setText(String.format("%d/%d", Integer.valueOf(this.enabled), Integer.valueOf(this.all)), (!z || LocaleController.isRTL) ? false : false);
+    /* JADX INFO: Access modifiers changed from: private */
+    public int getExpandedIndex(int i) {
+        if (i == 3) {
+            return 0;
         }
-
-        /* JADX WARN: Code restructure failed: missing block: B:11:0x001e, code lost:
-            if ((r4 & org.telegram.messenger.LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) > 0) goto L25;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:20:0x002f, code lost:
-            if ((r4 & 4) > 0) goto L25;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:21:0x0031, code lost:
-            r1 = r1 - 1;
-         */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        private int preprocessFlagsCount(int i) {
-            boolean isPremium = LiteModeSettingsActivity.this.getUserConfig().isPremium();
-            int bitCount = Integer.bitCount(i);
-            if (isPremium) {
-                if ((i & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) > 0) {
-                    bitCount--;
-                }
-                if ((i & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) > 0) {
-                    bitCount--;
-                }
-            } else {
-                if ((i & 16) > 0) {
-                    bitCount--;
-                }
-                if ((i & 8) > 0) {
-                    bitCount--;
-                }
-            }
-            if (SharedConfig.getDevicePerformanceClass() < 1 && (i & 256) > 0) {
-                bitCount--;
-            }
-            return (ThanosEffect.supports() || (i & 65536) <= 0) ? bitCount : bitCount - 1;
+        if (i == 28700) {
+            return 1;
         }
+        return i == this.FLAGS_CHAT ? 2 : -1;
+    }
 
-        @Override // android.view.View
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            if (LocaleController.isRTL) {
-                if (this.needLine) {
-                    float dp = AndroidUtilities.dp(75.0f);
-                    canvas.drawRect(dp - AndroidUtilities.dp(0.66f), (getMeasuredHeight() - AndroidUtilities.dp(20.0f)) / 2.0f, dp, (getMeasuredHeight() + AndroidUtilities.dp(20.0f)) / 2.0f, Theme.dividerPaint);
-                }
-                if (this.needDivider) {
-                    canvas.drawLine((getMeasuredWidth() - AndroidUtilities.dp(64.0f)) + (this.textView.getTranslationX() < 0.0f ? AndroidUtilities.dp(-32.0f) : 0), getMeasuredHeight() - 1, 0.0f, getMeasuredHeight() - 1, Theme.dividerPaint);
-                    return;
-                }
-                return;
+    private void highlightRow(final int i) {
+        this.listView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.Components.RecyclerListView.IntReturnCallback
+            public final int run() {
+                int lambda$highlightRow$2;
+                lambda$highlightRow$2 = LiteModeSettingsActivity.this.lambda$highlightRow$2(i);
+                return lambda$highlightRow$2;
             }
-            if (this.needLine) {
-                float measuredWidth = getMeasuredWidth() - AndroidUtilities.dp(75.0f);
-                canvas.drawRect(measuredWidth - AndroidUtilities.dp(0.66f), (getMeasuredHeight() - AndroidUtilities.dp(20.0f)) / 2.0f, measuredWidth, (getMeasuredHeight() + AndroidUtilities.dp(20.0f)) / 2.0f, Theme.dividerPaint);
-            }
-            if (this.needDivider) {
-                canvas.drawLine(AndroidUtilities.dp(64.0f) + this.textView.getTranslationX(), getMeasuredHeight() - 1, getMeasuredWidth(), getMeasuredHeight() - 1, Theme.dividerPaint);
-            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$0(View view, int i, float f, float f2) {
+        int expandedIndex;
+        boolean[] zArr;
+        if (view == null || i < 0 || i >= this.items.size()) {
+            return;
         }
-
-        @Override // android.view.View
-        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-            accessibilityNodeInfo.setClassName(this.checkBoxView.getVisibility() == 0 ? "android.widget.CheckBox" : "android.widget.Switch");
-            accessibilityNodeInfo.setCheckable(true);
-            accessibilityNodeInfo.setEnabled(true);
-            if (this.checkBoxView.getVisibility() == 0) {
-                accessibilityNodeInfo.setChecked(this.checkBoxView.isChecked());
-            } else {
-                accessibilityNodeInfo.setChecked(this.switchView.isChecked());
+        Item item = (Item) this.items.get(i);
+        int i2 = item.viewType;
+        if (i2 != 3 && i2 != 4) {
+            if (i2 == 5 && item.type == 1) {
+                SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
+                boolean z = globalMainSettings.getBoolean("view_animations", true);
+                SharedPreferences.Editor edit = globalMainSettings.edit();
+                boolean z2 = !z;
+                edit.putBoolean("view_animations", z2);
+                SharedConfig.setAnimationsEnabled(z2);
+                edit.commit();
+                ((TextCell) view).setChecked(z2);
             }
-            StringBuilder sb = new StringBuilder();
-            sb.append(this.textView.getText());
-            if (this.containing) {
-                sb.append('\n');
-                sb.append(LocaleController.formatString("Of", R.string.Of, Integer.valueOf(this.enabled), Integer.valueOf(this.all)));
-            }
-            accessibilityNodeInfo.setContentDescription(sb);
+        } else if (LiteMode.isPowerSaverApplied()) {
+            this.restrictBulletin = BulletinFactory.of(this).createSimpleBulletin(new BatteryDrawable(0.1f, -1, Theme.getColor(Theme.key_dialogSwipeRemove), 1.3f), LocaleController.getString(R.string.LiteBatteryRestricted)).show();
+        } else if (item.viewType != 3 || item.getFlagsCount() <= 1 || (!LocaleController.isRTL ? f < view.getMeasuredWidth() - AndroidUtilities.dp(75.0f) : f > AndroidUtilities.dp(75.0f)) || (expandedIndex = getExpandedIndex(item.flags)) == -1) {
+            LiteMode.toggleFlag(item.flags, !LiteMode.isEnabledSetting(item.flags));
+            updateValues();
+        } else {
+            this.expanded[expandedIndex] = !zArr[expandedIndex];
+            updateValues();
+            updateItems();
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class PowerSaverSlider extends FrameLayout {
-        BatteryDrawable batteryIcon;
-        SpannableStringBuilder batteryText;
-        LinearLayout headerLayout;
-        AnimatedTextView headerOnView;
-        private boolean headerOnVisible;
-        TextView headerTextView;
-        TextView leftTextView;
-        AnimatedTextView middleTextView;
-        private ValueAnimator offActiveAnimator;
-        private float offActiveT;
-        private ValueAnimator onActiveAnimator;
-        private float onActiveT;
-        TextView rightTextView;
-        private SeekBarAccessibilityDelegate seekBarAccessibilityDelegate;
-        SeekBarView seekBarView;
-        FrameLayout valuesView;
-
-        public PowerSaverSlider(Context context) {
-            super(context);
-            LinearLayout linearLayout = new LinearLayout(context);
-            this.headerLayout = linearLayout;
-            linearLayout.setGravity(LocaleController.isRTL ? 5 : 3);
-            this.headerLayout.setImportantForAccessibility(4);
-            TextView textView = new TextView(context);
-            this.headerTextView = textView;
-            textView.setTextSize(1, 15.0f);
-            this.headerTextView.setTypeface(AndroidUtilities.bold());
-            TextView textView2 = this.headerTextView;
-            int i = Theme.key_windowBackgroundWhiteBlueHeader;
-            textView2.setTextColor(Theme.getColor(i));
-            this.headerTextView.setGravity(LocaleController.isRTL ? 5 : 3);
-            this.headerTextView.setText(LocaleController.getString("LiteBatteryTitle"));
-            this.headerLayout.addView(this.headerTextView, LayoutHelper.createLinear(-2, -2, 16));
-            AnimatedTextView animatedTextView = new AnimatedTextView(context, true, false, false) { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.1
-                Drawable backgroundDrawable = Theme.createRoundRectDrawable(AndroidUtilities.dp(4.0f), Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader), 0.15f));
-
-                /* JADX INFO: Access modifiers changed from: protected */
-                @Override // org.telegram.ui.Components.AnimatedTextView, android.view.View
-                public void onDraw(Canvas canvas) {
-                    this.backgroundDrawable.setBounds(0, 0, (int) (getPaddingLeft() + getDrawable().getCurrentWidth() + getPaddingRight()), getMeasuredHeight());
-                    this.backgroundDrawable.draw(canvas);
-                    super.onDraw(canvas);
-                }
-            };
-            this.headerOnView = animatedTextView;
-            animatedTextView.setTypeface(AndroidUtilities.bold());
-            this.headerOnView.setPadding(AndroidUtilities.dp(5.33f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(5.33f), AndroidUtilities.dp(2.0f));
-            this.headerOnView.setTextSize(AndroidUtilities.dp(12.0f));
-            this.headerOnView.setTextColor(Theme.getColor(i));
-            this.headerLayout.addView(this.headerOnView, LayoutHelper.createLinear(-2, 17, 16, 6, 1, 0, 0));
-            addView(this.headerLayout, LayoutHelper.createFrame(-1, -2.0f, 55, 21.0f, 17.0f, 21.0f, 0.0f));
-            SeekBarView seekBarView = new SeekBarView(context, true, null);
-            this.seekBarView = seekBarView;
-            seekBarView.setReportChanges(true);
-            this.seekBarView.setDelegate(new SeekBarView.SeekBarViewDelegate() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.2
-                @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
-                public /* synthetic */ int getStepsCount() {
-                    return SeekBarView.SeekBarViewDelegate.-CC.$default$getStepsCount(this);
-                }
-
-                @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
-                public void onSeekBarPressed(boolean z) {
-                }
-
-                @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
-                public void onSeekBarDrag(boolean z, float f) {
-                    int round = Math.round(f * 100.0f);
-                    if (round != LiteMode.getPowerSaverLevel()) {
-                        LiteMode.setPowerSaverLevel(round);
-                        LiteModeSettingsActivity.this.updateValues();
-                        LiteModeSettingsActivity.this.updateInfo();
-                        if (round <= 0 || round >= 100) {
-                            try {
-                                PowerSaverSlider.this.performHapticFeedback(3, 1);
-                            } catch (Exception unused) {
-                            }
-                        }
-                    }
-                }
-
-                @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
-                public CharSequence getContentDescription() {
-                    return " ";
-                }
-            });
-            this.seekBarView.setProgress(LiteMode.getPowerSaverLevel() / 100.0f);
-            this.seekBarView.setImportantForAccessibility(2);
-            addView(this.seekBarView, LayoutHelper.createFrame(-1, 44.0f, 48, 6.0f, 68.0f, 6.0f, 0.0f));
-            FrameLayout frameLayout = new FrameLayout(context);
-            this.valuesView = frameLayout;
-            frameLayout.setImportantForAccessibility(4);
-            TextView textView3 = new TextView(context);
-            this.leftTextView = textView3;
-            textView3.setTextSize(1, 13.0f);
-            TextView textView4 = this.leftTextView;
-            int i2 = Theme.key_windowBackgroundWhiteGrayText;
-            textView4.setTextColor(Theme.getColor(i2));
-            this.leftTextView.setGravity(3);
-            this.leftTextView.setText(LocaleController.getString(R.string.LiteBatteryDisabled));
-            this.valuesView.addView(this.leftTextView, LayoutHelper.createFrame(-2, -2, 19));
-            AnimatedTextView animatedTextView2 = new AnimatedTextView(context, false, true, true) { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.3
-                /* JADX INFO: Access modifiers changed from: protected */
-                @Override // org.telegram.ui.Components.AnimatedTextView, android.view.View
-                public void onMeasure(int i3, int i4) {
-                    int size = View.MeasureSpec.getSize(i3);
-                    if (size <= 0) {
-                        size = AndroidUtilities.displaySize.x - AndroidUtilities.dp(20.0f);
-                    }
-                    super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) ((size - PowerSaverSlider.this.leftTextView.getPaint().measureText(PowerSaverSlider.this.leftTextView.getText().toString())) - PowerSaverSlider.this.rightTextView.getPaint().measureText(PowerSaverSlider.this.rightTextView.getText().toString())), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(24.0f), 1073741824));
-                }
-            };
-            this.middleTextView = animatedTextView2;
-            animatedTextView2.setAnimationProperties(0.45f, 0L, 240L, CubicBezierInterpolator.EASE_OUT_QUINT);
-            this.middleTextView.setGravity(1);
-            this.middleTextView.setTextSize(AndroidUtilities.dp(13.0f));
-            this.middleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText));
-            this.valuesView.addView(this.middleTextView, LayoutHelper.createFrame(-2, -2, 17));
-            this.batteryText = new SpannableStringBuilder("b");
-            BatteryDrawable batteryDrawable = new BatteryDrawable();
-            this.batteryIcon = batteryDrawable;
-            batteryDrawable.colorFromPaint(this.middleTextView.getPaint());
-            this.batteryIcon.setTranslationY(AndroidUtilities.dp(1.5f));
-            this.batteryIcon.setBounds(AndroidUtilities.dp(3.0f), AndroidUtilities.dp(-20.0f), AndroidUtilities.dp(23.0f), 0);
-            this.batteryText.setSpan(new ImageSpan(this.batteryIcon, 0), 0, this.batteryText.length(), 33);
-            TextView textView5 = new TextView(context);
-            this.rightTextView = textView5;
-            textView5.setTextSize(1, 13.0f);
-            this.rightTextView.setTextColor(Theme.getColor(i2));
-            this.rightTextView.setGravity(5);
-            this.rightTextView.setText(LocaleController.getString(R.string.LiteBatteryEnabled));
-            this.valuesView.addView(this.rightTextView, LayoutHelper.createFrame(-2, -2, 21));
-            addView(this.valuesView, LayoutHelper.createFrame(-1, -2.0f, 55, 21.0f, 52.0f, 21.0f, 0.0f));
-            this.seekBarAccessibilityDelegate = new IntSeekBarAccessibilityDelegate() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.4
-                @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
-                protected int getDelta() {
-                    return 5;
-                }
-
-                @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
-                protected int getMaxValue() {
-                    return 100;
-                }
-
-                @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
-                protected int getProgress() {
-                    return LiteMode.getPowerSaverLevel();
-                }
-
-                @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
-                protected void setProgress(int i3) {
-                    float f = i3 / 100.0f;
-                    PowerSaverSlider.this.seekBarView.delegate.onSeekBarDrag(true, f);
-                    PowerSaverSlider.this.seekBarView.setProgress(f);
-                }
-
-                @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
-                public void onInitializeAccessibilityNodeInfoInternal(View view, AccessibilityNodeInfo accessibilityNodeInfo) {
-                    super.onInitializeAccessibilityNodeInfoInternal(view, accessibilityNodeInfo);
-                    accessibilityNodeInfo.setEnabled(true);
-                }
-
-                @Override // android.view.View.AccessibilityDelegate
-                public void onPopulateAccessibilityEvent(View view, AccessibilityEvent accessibilityEvent) {
-                    super.onPopulateAccessibilityEvent(view, accessibilityEvent);
-                    StringBuilder sb = new StringBuilder(LocaleController.getString(R.string.LiteBatteryTitle));
-                    sb.append(", ");
-                    int powerSaverLevel = LiteMode.getPowerSaverLevel();
-                    if (powerSaverLevel <= 0) {
-                        sb.append(LocaleController.getString(R.string.LiteBatteryAlwaysDisabled));
-                    } else if (powerSaverLevel >= 100) {
-                        sb.append(LocaleController.getString(R.string.LiteBatteryAlwaysEnabled));
-                    } else {
-                        sb.append(LocaleController.formatString(R.string.AccDescrLiteBatteryWhenBelow, Integer.valueOf(Math.round(powerSaverLevel))));
-                    }
-                    accessibilityEvent.setContentDescription(sb);
-                    PowerSaverSlider.this.setContentDescription(sb);
-                }
-            };
-            update();
-        }
-
-        @Override // android.view.View
-        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-            this.seekBarAccessibilityDelegate.onInitializeAccessibilityNodeInfo(this, accessibilityNodeInfo);
-        }
-
-        @Override // android.view.View
-        public void onPopulateAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
-            super.onPopulateAccessibilityEvent(accessibilityEvent);
-            this.seekBarAccessibilityDelegate.onPopulateAccessibilityEvent(this, accessibilityEvent);
-        }
-
-        @Override // android.view.View
-        public boolean performAccessibilityAction(int i, Bundle bundle) {
-            return this.seekBarAccessibilityDelegate.performAccessibilityAction(this, i, bundle);
-        }
-
-        public void update() {
-            int powerSaverLevel = LiteMode.getPowerSaverLevel();
-            this.middleTextView.cancelAnimation();
-            if (powerSaverLevel <= 0) {
-                this.middleTextView.setText(LocaleController.getString(R.string.LiteBatteryAlwaysDisabled), !LocaleController.isRTL);
-            } else if (powerSaverLevel >= 100) {
-                this.middleTextView.setText(LocaleController.getString(R.string.LiteBatteryAlwaysEnabled), !LocaleController.isRTL);
-            } else {
-                float f = powerSaverLevel;
-                this.batteryIcon.setFillValue(f / 100.0f, true);
-                this.middleTextView.setText(AndroidUtilities.replaceCharSequence("%s", LocaleController.getString(R.string.LiteBatteryWhenBelow), TextUtils.concat(String.format("%d%% ", Integer.valueOf(Math.round(f))), this.batteryText)), !LocaleController.isRTL);
-            }
-            this.headerOnView.setText(LocaleController.getString(LiteMode.isPowerSaverApplied() ? R.string.LiteBatteryEnabled : R.string.LiteBatteryDisabled).toUpperCase());
-            updateHeaderOnVisibility(powerSaverLevel > 0 && powerSaverLevel < 100);
-            updateOnActive(powerSaverLevel >= 100);
-            updateOffActive(powerSaverLevel <= 0);
-        }
-
-        private void updateHeaderOnVisibility(boolean z) {
-            if (z != this.headerOnVisible) {
-                this.headerOnVisible = z;
-                this.headerOnView.clearAnimation();
-                this.headerOnView.animate().alpha(z ? 1.0f : 0.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(220L).start();
-            }
-        }
-
-        private void updateOnActive(boolean z) {
-            final float f = z ? 1.0f : 0.0f;
-            if (this.onActiveT != f) {
-                this.onActiveT = f;
-                ValueAnimator valueAnimator = this.onActiveAnimator;
-                if (valueAnimator != null) {
-                    valueAnimator.cancel();
-                    this.onActiveAnimator = null;
-                }
-                ValueAnimator ofFloat = ValueAnimator.ofFloat(this.onActiveT, f);
-                this.onActiveAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$PowerSaverSlider$$ExternalSyntheticLambda0
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                        LiteModeSettingsActivity.PowerSaverSlider.this.lambda$updateOnActive$0(valueAnimator2);
-                    }
-                });
-                this.onActiveAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.5
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        PowerSaverSlider.this.rightTextView.setTextColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText), Theme.getColor(Theme.key_windowBackgroundWhiteBlueText), PowerSaverSlider.this.onActiveT = f));
-                    }
-                });
-                this.onActiveAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-                this.onActiveAnimator.setDuration(320L);
-                this.onActiveAnimator.start();
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$updateOnActive$0(ValueAnimator valueAnimator) {
-            TextView textView = this.rightTextView;
-            int color = Theme.getColor(Theme.key_windowBackgroundWhiteGrayText);
-            int color2 = Theme.getColor(Theme.key_windowBackgroundWhiteBlueText);
-            float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-            this.onActiveT = floatValue;
-            textView.setTextColor(ColorUtils.blendARGB(color, color2, floatValue));
-        }
-
-        private void updateOffActive(boolean z) {
-            final float f = z ? 1.0f : 0.0f;
-            if (this.offActiveT != f) {
-                this.offActiveT = f;
-                ValueAnimator valueAnimator = this.offActiveAnimator;
-                if (valueAnimator != null) {
-                    valueAnimator.cancel();
-                    this.offActiveAnimator = null;
-                }
-                ValueAnimator ofFloat = ValueAnimator.ofFloat(this.offActiveT, f);
-                this.offActiveAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$PowerSaverSlider$$ExternalSyntheticLambda1
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                        LiteModeSettingsActivity.PowerSaverSlider.this.lambda$updateOffActive$1(valueAnimator2);
-                    }
-                });
-                this.offActiveAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.6
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        PowerSaverSlider.this.leftTextView.setTextColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText), Theme.getColor(Theme.key_windowBackgroundWhiteBlueText), PowerSaverSlider.this.offActiveT = f));
-                    }
-                });
-                this.offActiveAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-                this.offActiveAnimator.setDuration(320L);
-                this.offActiveAnimator.start();
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$updateOffActive$1(ValueAnimator valueAnimator) {
-            TextView textView = this.leftTextView;
-            int color = Theme.getColor(Theme.key_windowBackgroundWhiteGrayText);
-            int color2 = Theme.getColor(Theme.key_windowBackgroundWhiteBlueText);
-            float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-            this.offActiveT = floatValue;
-            textView.setTextColor(ColorUtils.blendARGB(color, color2, floatValue));
-        }
-
-        @Override // android.widget.FrameLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(112.0f), 1073741824));
-        }
+    public /* synthetic */ int lambda$highlightRow$2(int i) {
+        this.layoutManager.scrollToPositionWithOffset(i, AndroidUtilities.dp(60.0f));
+        return i;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class Item extends AdapterWithDiffUtils.Item {
-        public int flags;
-        public int iconResId;
-        public CharSequence text;
-        public int type;
+    public /* synthetic */ void lambda$new$1(Boolean bool) {
+        updateValues();
+    }
 
-        private Item(int i, CharSequence charSequence, int i2, int i3, int i4) {
-            super(i, false);
-            this.text = charSequence;
-            this.iconResId = i2;
-            this.flags = i3;
-            this.type = i4;
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateInfo() {
+        String formatString;
+        int i;
+        if (Build.VERSION.SDK_INT < 21) {
+            return;
         }
-
-        public static Item asHeader(CharSequence charSequence) {
-            return new Item(0, charSequence, 0, 0, 0);
-        }
-
-        public static Item asSlider() {
-            return new Item(1, null, 0, 0, 0);
-        }
-
-        public static Item asInfo(CharSequence charSequence) {
-            return new Item(2, charSequence, 0, 0, 0);
-        }
-
-        public static Item asSwitch(int i, CharSequence charSequence, int i2) {
-            return new Item(3, charSequence, i, i2, 0);
-        }
-
-        public static Item asCheckbox(CharSequence charSequence, int i) {
-            return new Item(4, charSequence, 0, i, 0);
-        }
-
-        public static Item asSwitch(CharSequence charSequence, int i) {
-            return new Item(5, charSequence, 0, 0, i);
-        }
-
-        public int getFlagsCount() {
-            return Integer.bitCount(this.flags);
-        }
-
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
+        if (this.items.isEmpty()) {
+            updateItems();
+        } else if (this.items.size() >= 2) {
+            ArrayList arrayList = this.items;
+            if (LiteMode.getPowerSaverLevel() <= 0) {
+                i = R.string.LiteBatteryInfoDisabled;
+            } else if (LiteMode.getPowerSaverLevel() < 100) {
+                formatString = LocaleController.formatString(R.string.LiteBatteryInfoBelow, String.format("%d%%", Integer.valueOf(LiteMode.getPowerSaverLevel())));
+                arrayList.set(1, Item.asInfo(formatString));
+                this.adapter.notifyItemChanged(1);
+            } else {
+                i = R.string.LiteBatteryInfoEnabled;
             }
-            if (obj instanceof Item) {
-                Item item = (Item) obj;
-                int i = item.viewType;
-                int i2 = this.viewType;
-                if (i != i2) {
-                    return false;
-                }
-                if (i2 != 3 || item.iconResId == this.iconResId) {
-                    if (i2 != 5 || item.type == this.type) {
-                        if ((i2 == 3 || i2 == 4) && item.flags != this.flags) {
-                            return false;
-                        }
-                        return !(i2 == 0 || i2 == 2 || i2 == 3 || i2 == 4 || i2 == 5) || TextUtils.equals(item.text, this.text);
-                    }
-                    return false;
-                }
-                return false;
-            }
-            return false;
+            formatString = LocaleController.getString(i);
+            arrayList.set(1, Item.asInfo(formatString));
+            this.adapter.notifyItemChanged(1);
         }
+    }
+
+    private void updateItems() {
+        String formatString;
+        int i;
+        this.oldItems.clear();
+        this.oldItems.addAll(this.items);
+        this.items.clear();
+        if (Build.VERSION.SDK_INT >= 21) {
+            this.items.add(Item.asSlider());
+            ArrayList arrayList = this.items;
+            if (LiteMode.getPowerSaverLevel() <= 0) {
+                i = R.string.LiteBatteryInfoDisabled;
+            } else if (LiteMode.getPowerSaverLevel() >= 100) {
+                i = R.string.LiteBatteryInfoEnabled;
+            } else {
+                formatString = LocaleController.formatString(R.string.LiteBatteryInfoBelow, String.format("%d%%", Integer.valueOf(LiteMode.getPowerSaverLevel())));
+                arrayList.add(Item.asInfo(formatString));
+            }
+            formatString = LocaleController.getString(i);
+            arrayList.add(Item.asInfo(formatString));
+        }
+        this.items.add(Item.asHeader(LocaleController.getString("LiteOptionsTitle")));
+        this.items.add(Item.asSwitch(R.drawable.msg2_sticker, LocaleController.getString(R.string.LiteOptionsStickers), 3));
+        if (this.expanded[0]) {
+            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayKeyboard"), 1));
+            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayChat"), 2));
+        }
+        this.items.add(Item.asSwitch(R.drawable.msg2_smile_status, LocaleController.getString(R.string.LiteOptionsEmoji), LiteMode.FLAGS_ANIMATED_EMOJI));
+        if (this.expanded[1]) {
+            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayKeyboard"), LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD));
+            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayReactions"), LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS));
+            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayChat"), LiteMode.FLAG_ANIMATED_EMOJI_CHAT));
+        }
+        this.items.add(Item.asSwitch(R.drawable.msg2_ask_question, LocaleController.getString("LiteOptionsChat"), this.FLAGS_CHAT));
+        if (this.expanded[2]) {
+            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsBackground"), 32));
+            if (!AndroidUtilities.isTablet()) {
+                this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsTopics"), 64));
+            }
+            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsSpoiler"), 128));
+            if (SharedConfig.getDevicePerformanceClass() >= 1 || BuildVars.DEBUG_PRIVATE_VERSION) {
+                this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsBlur"), 256));
+            }
+            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsScale"), LiteMode.FLAG_CHAT_SCALE));
+            if (ThanosEffect.supports()) {
+                this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsThanos"), 65536));
+            }
+        }
+        this.items.add(Item.asSwitch(R.drawable.msg2_call_earpiece, LocaleController.getString("LiteOptionsCalls"), LiteMode.FLAG_CALLS_ANIMATIONS));
+        this.items.add(Item.asSwitch(R.drawable.msg2_videocall, LocaleController.getString("LiteOptionsAutoplayVideo"), 1024));
+        this.items.add(Item.asSwitch(R.drawable.msg2_gif, LocaleController.getString("LiteOptionsAutoplayGifs"), 2048));
+        this.items.add(Item.asInfo(""));
+        this.items.add(Item.asSwitch(LocaleController.getString("LiteSmoothTransitions"), 1));
+        this.items.add(Item.asInfo(LocaleController.getString("LiteSmoothTransitionsInfo")));
+        this.adapter.setItems(this.oldItems, this.items);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateValues() {
+        int childAdapterPosition;
+        if (this.listView == null) {
+            return;
+        }
+        for (int i = 0; i < this.listView.getChildCount(); i++) {
+            View childAt = this.listView.getChildAt(i);
+            if (childAt != null && (childAdapterPosition = this.listView.getChildAdapterPosition(childAt)) >= 0 && childAdapterPosition < this.items.size()) {
+                Item item = (Item) this.items.get(childAdapterPosition);
+                int i2 = item.viewType;
+                if (i2 == 3 || i2 == 4) {
+                    ((SwitchCell) childAt).update(item);
+                } else if (i2 == 1) {
+                    ((PowerSaverSlider) childAt).update();
+                }
+            }
+        }
+        if (this.restrictBulletin == null || LiteMode.isPowerSaverApplied()) {
+            return;
+        }
+        this.restrictBulletin.hide();
+        this.restrictBulletin = null;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public View createView(Context context) {
+        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
+        this.actionBar.setAllowOverlayTitle(true);
+        this.actionBar.setTitle(LocaleController.getString(R.string.PowerUsage));
+        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.LiteModeSettingsActivity.1
+            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+            public void onItemClick(int i) {
+                if (i == -1) {
+                    LiteModeSettingsActivity.this.finishFragment();
+                }
+            }
+        });
+        FrameLayout frameLayout = new FrameLayout(context);
+        this.contentView = frameLayout;
+        frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        RecyclerListView recyclerListView = new RecyclerListView(context);
+        this.listView = recyclerListView;
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        this.layoutManager = linearLayoutManager;
+        recyclerListView.setLayoutManager(linearLayoutManager);
+        RecyclerListView recyclerListView2 = this.listView;
+        Adapter adapter = new Adapter();
+        this.adapter = adapter;
+        recyclerListView2.setAdapter(adapter);
+        DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
+        defaultItemAnimator.setDurations(350L);
+        defaultItemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+        defaultItemAnimator.setDelayAnimations(false);
+        defaultItemAnimator.setSupportsChangeAnimations(false);
+        this.listView.setItemAnimator(defaultItemAnimator);
+        this.contentView.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda1
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+            public /* synthetic */ boolean hasDoubleTap(View view, int i) {
+                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
+            }
+
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+            public /* synthetic */ void onDoubleTap(View view, int i, float f, float f2) {
+                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i, f, f2);
+            }
+
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+            public final void onItemClick(View view, int i, float f, float f2) {
+                LiteModeSettingsActivity.this.lambda$createView$0(view, i, f, f2);
+            }
+        });
+        this.fragmentView = this.contentView;
+        this.FLAGS_CHAT = AndroidUtilities.isTablet() ? 98720 : LiteMode.FLAGS_CHAT;
+        updateItems();
+        return this.fragmentView;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onBecomeFullyHidden() {
+        super.onBecomeFullyHidden();
+        LiteMode.removeOnPowerSaverAppliedListener(this.onPowerAppliedChange);
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onBecomeFullyVisible() {
+        super.onBecomeFullyVisible();
+        LiteMode.addOnPowerSaverAppliedListener(this.onPowerAppliedChange);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -1097,5 +1110,33 @@ public class LiteModeSettingsActivity extends BaseFragment {
         LiteMode.savePreference();
         AnimatedEmojiDrawable.updateAll();
         Theme.reloadWallpaper(true);
+    }
+
+    public void scrollToFlags(int i) {
+        for (int i2 = 0; i2 < this.items.size(); i2++) {
+            if (((Item) this.items.get(i2)).flags == i) {
+                highlightRow(i2);
+                return;
+            }
+        }
+    }
+
+    public void scrollToType(int i) {
+        for (int i2 = 0; i2 < this.items.size(); i2++) {
+            if (((Item) this.items.get(i2)).type == i) {
+                highlightRow(i2);
+                return;
+            }
+        }
+    }
+
+    public void setExpanded(int i, boolean z) {
+        int expandedIndex = getExpandedIndex(i);
+        if (expandedIndex == -1) {
+            return;
+        }
+        this.expanded[expandedIndex] = z;
+        updateValues();
+        updateItems();
     }
 }

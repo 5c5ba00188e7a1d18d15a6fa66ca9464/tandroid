@@ -3,10 +3,8 @@ package com.google.android.gms.internal.base;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
-import android.os.RemoteException;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public class zaa implements IInterface {
+public abstract class zaa implements IInterface {
     private final IBinder zaa;
     private final String zab;
 
@@ -29,7 +27,7 @@ public class zaa implements IInterface {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final void zac(int i, Parcel parcel) throws RemoteException {
+    public final void zac(int i, Parcel parcel) {
         Parcel obtain = Parcel.obtain();
         try {
             this.zaa.transact(i, parcel, obtain, 0);
@@ -41,7 +39,7 @@ public class zaa implements IInterface {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final void zad(int i, Parcel parcel) throws RemoteException {
+    public final void zad(int i, Parcel parcel) {
         try {
             this.zaa.transact(1, parcel, null, 1);
         } finally {

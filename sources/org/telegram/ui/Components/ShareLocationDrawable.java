@@ -1,6 +1,7 @@
 package org.telegram.ui.Components;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
@@ -15,42 +16,45 @@ public class ShareLocationDrawable extends Drawable {
     private long lastUpdateTime = 0;
     private float[] progress = {0.0f, -0.5f};
 
-    @Override // android.graphics.drawable.Drawable
-    public int getOpacity() {
-        return -2;
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setAlpha(int i) {
-    }
-
     public ShareLocationDrawable(Context context, int i) {
+        Resources resources;
+        int i2;
+        Resources resources2;
+        int i3;
+        Resources resources3;
+        int i4;
         this.currentType = i;
         if (i == 4) {
-            this.drawable = context.getResources().getDrawable(R.drawable.filled_extend_location).mutate();
-            this.drawableLeft = context.getResources().getDrawable(R.drawable.smallanimationpinleft).mutate();
-            this.drawableRight = context.getResources().getDrawable(R.drawable.smallanimationpinright).mutate();
-        } else if (i == 5) {
-            this.drawable = context.getResources().getDrawable(R.drawable.filled_stop_location).mutate();
-            this.drawableLeft = context.getResources().getDrawable(R.drawable.smallanimationpinleft).mutate();
-            this.drawableRight = context.getResources().getDrawable(R.drawable.smallanimationpinright).mutate();
-        } else if (i == 3) {
-            this.drawable = context.getResources().getDrawable(R.drawable.nearby_l).mutate();
+            resources2 = context.getResources();
+            i3 = R.drawable.filled_extend_location;
+        } else if (i != 5) {
+            if (i == 3) {
+                resources = context.getResources();
+                i2 = R.drawable.nearby_l;
+            } else if (i == 2) {
+                resources = context.getResources();
+                i2 = R.drawable.nearby_m;
+            } else if (i == 1) {
+                resources2 = context.getResources();
+                i3 = R.drawable.smallanimationpin;
+            } else {
+                resources = context.getResources();
+                i2 = R.drawable.animationpin;
+            }
+            this.drawable = resources.getDrawable(i2).mutate();
             this.drawableLeft = context.getResources().getDrawable(R.drawable.animationpinleft).mutate();
-            this.drawableRight = context.getResources().getDrawable(R.drawable.animationpinright).mutate();
-        } else if (i == 2) {
-            this.drawable = context.getResources().getDrawable(R.drawable.nearby_m).mutate();
-            this.drawableLeft = context.getResources().getDrawable(R.drawable.animationpinleft).mutate();
-            this.drawableRight = context.getResources().getDrawable(R.drawable.animationpinright).mutate();
-        } else if (i == 1) {
-            this.drawable = context.getResources().getDrawable(R.drawable.smallanimationpin).mutate();
-            this.drawableLeft = context.getResources().getDrawable(R.drawable.smallanimationpinleft).mutate();
-            this.drawableRight = context.getResources().getDrawable(R.drawable.smallanimationpinright).mutate();
+            resources3 = context.getResources();
+            i4 = R.drawable.animationpinright;
+            this.drawableRight = resources3.getDrawable(i4).mutate();
         } else {
-            this.drawable = context.getResources().getDrawable(R.drawable.animationpin).mutate();
-            this.drawableLeft = context.getResources().getDrawable(R.drawable.animationpinleft).mutate();
-            this.drawableRight = context.getResources().getDrawable(R.drawable.animationpinright).mutate();
+            resources2 = context.getResources();
+            i3 = R.drawable.filled_stop_location;
         }
+        this.drawable = resources2.getDrawable(i3).mutate();
+        this.drawableLeft = context.getResources().getDrawable(R.drawable.smallanimationpinleft).mutate();
+        resources3 = context.getResources();
+        i4 = R.drawable.smallanimationpinright;
+        this.drawableRight = resources3.getDrawable(i4).mutate();
     }
 
     private void update() {
@@ -74,8 +78,8 @@ public class ShareLocationDrawable extends Drawable {
         invalidateSelf();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0185  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0187  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x016c  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x016e  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -84,108 +88,133 @@ public class ShareLocationDrawable extends Drawable {
         int dp;
         int dp2;
         int dp3;
+        float f;
         int dp4;
-        int dp5;
-        int dp6;
-        int dp7;
         int i;
-        int dp8;
-        int dp9;
+        int dp5;
+        int i2;
+        int dp6;
+        int i3;
+        int dp7;
         int intrinsicWidth = this.drawable.getIntrinsicWidth();
         int intrinsicHeight = this.drawable.getIntrinsicHeight();
-        int i2 = this.currentType;
-        int i3 = 3;
-        int i4 = 5;
-        int i5 = 1;
-        if (i2 == 4 || i2 == 5) {
-            dp = AndroidUtilities.dp(24.0f);
-        } else if (i2 == 3) {
-            dp = AndroidUtilities.dp(44.0f);
-        } else if (i2 == 2) {
-            dp = AndroidUtilities.dp(32.0f);
-        } else if (i2 == 1) {
-            dp = AndroidUtilities.dp(30.0f);
-        } else {
-            dp = AndroidUtilities.dp(120.0f);
-        }
-        int intrinsicHeight2 = getBounds().top + ((getIntrinsicHeight() - dp) / 2);
-        int intrinsicWidth2 = getBounds().left + ((getIntrinsicWidth() - dp) / 2);
-        int i6 = intrinsicWidth + intrinsicWidth2;
-        this.drawable.setBounds(intrinsicWidth2, intrinsicHeight2, i6, intrinsicHeight2 + intrinsicHeight);
+        int i4 = this.currentType;
+        int i5 = 3;
+        int i6 = 5;
+        int i7 = 1;
+        int dp8 = AndroidUtilities.dp((i4 == 4 || i4 == 5) ? 24.0f : i4 == 3 ? 44.0f : i4 == 2 ? 32.0f : i4 == 1 ? 30.0f : 120.0f);
+        int intrinsicHeight2 = getBounds().top + ((getIntrinsicHeight() - dp8) / 2);
+        int intrinsicWidth2 = getBounds().left + ((getIntrinsicWidth() - dp8) / 2);
+        int i8 = intrinsicWidth + intrinsicWidth2;
+        this.drawable.setBounds(intrinsicWidth2, intrinsicHeight2, i8, intrinsicHeight2 + intrinsicHeight);
         this.drawable.draw(canvas);
-        int i7 = 0;
-        while (i7 < 2) {
-            float f = this.progress[i7];
-            if (f >= 0.0f) {
-                float f2 = (f * 0.5f) + 0.5f;
-                int i8 = this.currentType;
-                if (i8 == 4 || i8 == i4) {
-                    dp2 = AndroidUtilities.dp(2.5f * f2);
-                    dp3 = AndroidUtilities.dp(f2 * 6.5f);
-                    dp4 = AndroidUtilities.dp(this.progress[i7] * 6.0f);
-                    dp5 = (intrinsicWidth2 + AndroidUtilities.dp(3.0f)) - dp4;
-                    dp6 = (intrinsicHeight2 + (intrinsicHeight / 2)) - AndroidUtilities.dp(2.0f);
-                    dp7 = AndroidUtilities.dp(3.0f);
+        int i9 = 0;
+        while (i9 < 2) {
+            float f2 = this.progress[i9];
+            if (f2 >= 0.0f) {
+                float f3 = (f2 * 0.5f) + 0.5f;
+                int i10 = this.currentType;
+                if (i10 == 4 || i10 == i6) {
+                    dp = AndroidUtilities.dp(2.5f * f3);
+                    dp2 = AndroidUtilities.dp(f3 * 6.5f);
+                    dp3 = AndroidUtilities.dp(this.progress[i9] * 6.0f);
+                    f = 3.0f;
+                    dp4 = (intrinsicWidth2 + AndroidUtilities.dp(3.0f)) - dp3;
+                    i = intrinsicHeight2 + (intrinsicHeight / 2);
+                    dp5 = AndroidUtilities.dp(2.0f);
                 } else {
-                    if (i8 == i3) {
-                        dp2 = AndroidUtilities.dp(5.0f * f2);
-                        dp3 = AndroidUtilities.dp(f2 * 18.0f);
-                        dp8 = AndroidUtilities.dp(this.progress[i7] * 15.0f);
-                        dp5 = (intrinsicWidth2 + AndroidUtilities.dp(2.0f)) - dp8;
-                        dp6 = (intrinsicHeight2 + (intrinsicHeight / 2)) - AndroidUtilities.dp(7.0f);
-                        dp9 = AndroidUtilities.dp(2.0f);
-                    } else if (i8 == 2) {
-                        dp2 = AndroidUtilities.dp(5.0f * f2);
-                        dp3 = AndroidUtilities.dp(f2 * 18.0f);
-                        dp8 = AndroidUtilities.dp(this.progress[i7] * 15.0f);
-                        dp5 = (intrinsicWidth2 + AndroidUtilities.dp(2.0f)) - dp8;
-                        dp6 = intrinsicHeight2 + (intrinsicHeight / 2);
-                        dp9 = AndroidUtilities.dp(2.0f);
-                    } else if (i8 == i5) {
-                        dp2 = AndroidUtilities.dp(2.5f * f2);
-                        dp3 = AndroidUtilities.dp(f2 * 6.5f);
-                        dp4 = AndroidUtilities.dp(this.progress[i7] * 6.0f);
-                        dp5 = (AndroidUtilities.dp(7.0f) + intrinsicWidth2) - dp4;
-                        dp6 = intrinsicHeight2 + (intrinsicHeight / 2);
-                        dp7 = AndroidUtilities.dp(7.0f);
+                    if (i10 == i5) {
+                        dp = AndroidUtilities.dp(5.0f * f3);
+                        dp2 = AndroidUtilities.dp(f3 * 18.0f);
+                        dp7 = AndroidUtilities.dp(this.progress[i9] * 15.0f);
+                        dp4 = (intrinsicWidth2 + AndroidUtilities.dp(2.0f)) - dp7;
+                        i2 = (intrinsicHeight2 + (intrinsicHeight / 2)) - AndroidUtilities.dp(7.0f);
+                    } else if (i10 == 2) {
+                        dp = AndroidUtilities.dp(5.0f * f3);
+                        dp2 = AndroidUtilities.dp(f3 * 18.0f);
+                        dp7 = AndroidUtilities.dp(this.progress[i9] * 15.0f);
+                        dp4 = (intrinsicWidth2 + AndroidUtilities.dp(2.0f)) - dp7;
+                        i2 = intrinsicHeight2 + (intrinsicHeight / 2);
+                    } else if (i10 == i7) {
+                        dp = AndroidUtilities.dp(2.5f * f3);
+                        dp2 = AndroidUtilities.dp(f3 * 6.5f);
+                        dp3 = AndroidUtilities.dp(this.progress[i9] * 6.0f);
+                        dp4 = (AndroidUtilities.dp(7.0f) + intrinsicWidth2) - dp3;
+                        i2 = intrinsicHeight2 + (intrinsicHeight / 2);
+                        dp6 = AndroidUtilities.dp(7.0f);
+                        i3 = (i8 - dp6) + dp3;
+                        float f4 = this.progress[i9];
+                        int i11 = (int) ((f4 < 0.5f ? f4 / 0.5f : 1.0f - ((f4 - 0.5f) / 0.5f)) * 255.0f);
+                        this.drawableLeft.setAlpha(i11);
+                        int i12 = i2 - dp2;
+                        int i13 = i2 + dp2;
+                        this.drawableLeft.setBounds(dp4 - dp, i12, dp4 + dp, i13);
+                        this.drawableLeft.draw(canvas);
+                        this.drawableRight.setAlpha(i11);
+                        this.drawableRight.setBounds(i3 - dp, i12, i3 + dp, i13);
+                        this.drawableRight.draw(canvas);
                     } else {
-                        dp2 = AndroidUtilities.dp(5.0f * f2);
-                        dp3 = AndroidUtilities.dp(f2 * 18.0f);
-                        dp4 = AndroidUtilities.dp(this.progress[i7] * 15.0f);
-                        dp5 = (intrinsicWidth2 + AndroidUtilities.dp(42.0f)) - dp4;
-                        dp6 = (intrinsicHeight2 + (intrinsicHeight / 2)) - AndroidUtilities.dp(7.0f);
-                        dp7 = AndroidUtilities.dp(42.0f);
+                        dp = AndroidUtilities.dp(5.0f * f3);
+                        dp2 = AndroidUtilities.dp(f3 * 18.0f);
+                        dp3 = AndroidUtilities.dp(this.progress[i9] * 15.0f);
+                        f = 42.0f;
+                        dp4 = (intrinsicWidth2 + AndroidUtilities.dp(42.0f)) - dp3;
+                        i = intrinsicHeight2 + (intrinsicHeight / 2);
+                        dp5 = AndroidUtilities.dp(7.0f);
                     }
-                    i = (i6 - dp9) + dp8;
-                    float f3 = this.progress[i7];
-                    int i9 = (int) ((f3 >= 0.5f ? f3 / 0.5f : 1.0f - ((f3 - 0.5f) / 0.5f)) * 255.0f);
-                    this.drawableLeft.setAlpha(i9);
-                    int i10 = dp6 - dp3;
-                    int i11 = dp6 + dp3;
-                    this.drawableLeft.setBounds(dp5 - dp2, i10, dp5 + dp2, i11);
+                    i3 = (i8 - AndroidUtilities.dp(2.0f)) + dp7;
+                    float f42 = this.progress[i9];
+                    int i112 = (int) ((f42 < 0.5f ? f42 / 0.5f : 1.0f - ((f42 - 0.5f) / 0.5f)) * 255.0f);
+                    this.drawableLeft.setAlpha(i112);
+                    int i122 = i2 - dp2;
+                    int i132 = i2 + dp2;
+                    this.drawableLeft.setBounds(dp4 - dp, i122, dp4 + dp, i132);
                     this.drawableLeft.draw(canvas);
-                    this.drawableRight.setAlpha(i9);
-                    this.drawableRight.setBounds(i - dp2, i10, i + dp2, i11);
+                    this.drawableRight.setAlpha(i112);
+                    this.drawableRight.setBounds(i3 - dp, i122, i3 + dp, i132);
                     this.drawableRight.draw(canvas);
                 }
-                i = (i6 - dp7) + dp4;
-                float f32 = this.progress[i7];
-                int i92 = (int) ((f32 >= 0.5f ? f32 / 0.5f : 1.0f - ((f32 - 0.5f) / 0.5f)) * 255.0f);
-                this.drawableLeft.setAlpha(i92);
-                int i102 = dp6 - dp3;
-                int i112 = dp6 + dp3;
-                this.drawableLeft.setBounds(dp5 - dp2, i102, dp5 + dp2, i112);
+                i2 = i - dp5;
+                dp6 = AndroidUtilities.dp(f);
+                i3 = (i8 - dp6) + dp3;
+                float f422 = this.progress[i9];
+                int i1122 = (int) ((f422 < 0.5f ? f422 / 0.5f : 1.0f - ((f422 - 0.5f) / 0.5f)) * 255.0f);
+                this.drawableLeft.setAlpha(i1122);
+                int i1222 = i2 - dp2;
+                int i1322 = i2 + dp2;
+                this.drawableLeft.setBounds(dp4 - dp, i1222, dp4 + dp, i1322);
                 this.drawableLeft.draw(canvas);
-                this.drawableRight.setAlpha(i92);
-                this.drawableRight.setBounds(i - dp2, i102, i + dp2, i112);
+                this.drawableRight.setAlpha(i1122);
+                this.drawableRight.setBounds(i3 - dp, i1222, i3 + dp, i1322);
                 this.drawableRight.draw(canvas);
             }
-            i7++;
-            i3 = 3;
-            i4 = 5;
-            i5 = 1;
+            i9++;
+            i5 = 3;
+            i6 = 5;
+            i7 = 1;
         }
         update();
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public int getIntrinsicHeight() {
+        int i = this.currentType;
+        return AndroidUtilities.dp((i == 4 || i == 5) ? 42.0f : i == 3 ? 100.0f : i == 2 ? 74.0f : i == 1 ? 40.0f : 180.0f);
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public int getIntrinsicWidth() {
+        int i = this.currentType;
+        return AndroidUtilities.dp((i == 4 || i == 5) ? 42.0f : i == 3 ? 100.0f : i == 2 ? 74.0f : i == 1 ? 40.0f : 120.0f);
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public int getOpacity() {
+        return -2;
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setAlpha(int i) {
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -193,41 +222,5 @@ public class ShareLocationDrawable extends Drawable {
         this.drawable.setColorFilter(colorFilter);
         this.drawableLeft.setColorFilter(colorFilter);
         this.drawableRight.setColorFilter(colorFilter);
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public int getIntrinsicWidth() {
-        int i = this.currentType;
-        if (i == 4 || i == 5) {
-            return AndroidUtilities.dp(42.0f);
-        }
-        if (i == 3) {
-            return AndroidUtilities.dp(100.0f);
-        }
-        if (i == 2) {
-            return AndroidUtilities.dp(74.0f);
-        }
-        if (i == 1) {
-            return AndroidUtilities.dp(40.0f);
-        }
-        return AndroidUtilities.dp(120.0f);
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public int getIntrinsicHeight() {
-        int i = this.currentType;
-        if (i == 4 || i == 5) {
-            return AndroidUtilities.dp(42.0f);
-        }
-        if (i == 3) {
-            return AndroidUtilities.dp(100.0f);
-        }
-        if (i == 2) {
-            return AndroidUtilities.dp(74.0f);
-        }
-        if (i == 1) {
-            return AndroidUtilities.dp(40.0f);
-        }
-        return AndroidUtilities.dp(180.0f);
     }
 }

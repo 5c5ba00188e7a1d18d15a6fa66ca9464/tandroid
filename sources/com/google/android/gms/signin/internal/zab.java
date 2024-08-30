@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zab implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -20,10 +19,10 @@ public final class zab implements Parcelable.Creator {
                 i = SafeParcelReader.readInt(parcel, readHeader);
             } else if (fieldId == 2) {
                 i2 = SafeParcelReader.readInt(parcel, readHeader);
-            } else if (fieldId == 3) {
-                intent = (Intent) SafeParcelReader.createParcelable(parcel, readHeader, Intent.CREATOR);
-            } else {
+            } else if (fieldId != 3) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                intent = (Intent) SafeParcelReader.createParcelable(parcel, readHeader, Intent.CREATOR);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);

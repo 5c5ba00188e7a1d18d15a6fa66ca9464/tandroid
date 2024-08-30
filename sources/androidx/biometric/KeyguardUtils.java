@@ -4,7 +4,27 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.os.Build;
 /* loaded from: classes.dex */
-class KeyguardUtils {
+abstract class KeyguardUtils {
+
+    /* loaded from: classes.dex */
+    private static class Api16Impl {
+        static boolean isKeyguardSecure(KeyguardManager keyguardManager) {
+            return keyguardManager.isKeyguardSecure();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class Api23Impl {
+        static KeyguardManager getKeyguardManager(Context context) {
+            return (KeyguardManager) context.getSystemService(KeyguardManager.class);
+        }
+
+        static boolean isDeviceSecure(KeyguardManager keyguardManager) {
+            return keyguardManager.isDeviceSecure();
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public static KeyguardManager getKeyguardManager(Context context) {
         if (Build.VERSION.SDK_INT >= 23) {
@@ -23,28 +43,6 @@ class KeyguardUtils {
         if (keyguardManager == null) {
             return false;
         }
-        if (Build.VERSION.SDK_INT >= 23) {
-            return Api23Impl.isDeviceSecure(keyguardManager);
-        }
-        return Api16Impl.isKeyguardSecure(keyguardManager);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api23Impl {
-        static KeyguardManager getKeyguardManager(Context context) {
-            return (KeyguardManager) context.getSystemService(KeyguardManager.class);
-        }
-
-        static boolean isDeviceSecure(KeyguardManager keyguardManager) {
-            return keyguardManager.isDeviceSecure();
-        }
-    }
-
-    /* loaded from: classes.dex */
-    private static class Api16Impl {
-        static boolean isKeyguardSecure(KeyguardManager keyguardManager) {
-            return keyguardManager.isKeyguardSecure();
-        }
+        return Build.VERSION.SDK_INT >= 23 ? Api23Impl.isDeviceSecure(keyguardManager) : Api16Impl.isKeyguardSecure(keyguardManager);
     }
 }

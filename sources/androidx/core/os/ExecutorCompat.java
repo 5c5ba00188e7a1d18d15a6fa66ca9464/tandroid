@@ -5,10 +5,7 @@ import androidx.core.util.Preconditions;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
 /* loaded from: classes.dex */
-public final class ExecutorCompat {
-    public static Executor create(Handler handler) {
-        return new HandlerExecutor(handler);
-    }
+public abstract class ExecutorCompat {
 
     /* loaded from: classes.dex */
     private static class HandlerExecutor implements Executor {
@@ -25,5 +22,9 @@ public final class ExecutorCompat {
             }
             throw new RejectedExecutionException(this.mHandler + " is shutting down");
         }
+    }
+
+    public static Executor create(Handler handler) {
+        return new HandlerExecutor(handler);
     }
 }

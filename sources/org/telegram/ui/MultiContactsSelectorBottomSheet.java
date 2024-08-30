@@ -1,6 +1,5 @@
 package org.telegram.ui;
 
-import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -50,80 +49,40 @@ import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerListView {
     private static MultiContactsSelectorBottomSheet instance;
     private final ButtonWithCounterView actionButton;
-    private final HashMap<Long, TLRPC$User> allSelectedObjects;
+    private final HashMap allSelectedObjects;
     private final SelectorBtnCell buttonContainer;
-    private final List<TLRPC$TL_contact> contacts;
-    private final List<String> contactsLetters;
-    private final Map<String, List<TLRPC$TL_contact>> contactsMap;
-    private final List<TLRPC$User> foundedUsers;
+    private final List contacts;
+    private final List contactsLetters;
+    private final Map contactsMap;
+    private final List foundedUsers;
     private final SelectorHeaderCell headerView;
-    private final List<TLRPC$TL_topPeer> hints;
-    private final ArrayList<SelectorAdapter.Item> items;
+    private final List hints;
+    private final ArrayList items;
     private int lastRequestId;
     private int listPaddingTop;
     private int maxCount;
-    private final ArrayList<SelectorAdapter.Item> oldItems;
+    private final ArrayList oldItems;
     private String query;
     private float recipientsBtnExtraSpace;
     private ReplacementSpan recipientsBtnSpaceSpan;
     private final Runnable remoteSearchRunnable;
     private final SelectorSearchCell searchField;
     private final View sectionCell;
-    private final HashSet<Long> selectedIds;
+    private final HashSet selectedIds;
     private SelectorAdapter selectorAdapter;
     private SelectorListener selectorListener;
 
     /* loaded from: classes4.dex */
     public interface SelectorListener {
-        void onUserSelected(List<Long> list);
-    }
-
-    public static void open(int i, SelectorListener selectorListener) {
-        BaseFragment lastFragment = LaunchActivity.getLastFragment();
-        if (lastFragment != null && instance == null) {
-            MultiContactsSelectorBottomSheet multiContactsSelectorBottomSheet = new MultiContactsSelectorBottomSheet(lastFragment, true, i, selectorListener);
-            multiContactsSelectorBottomSheet.show();
-            instance = multiContactsSelectorBottomSheet;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void loadData(String str) {
-        this.lastRequestId = BoostRepository.searchContacts(this.lastRequestId, str, new Utilities.Callback() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet$$ExternalSyntheticLambda6
-            @Override // org.telegram.messenger.Utilities.Callback
-            public final void run(Object obj) {
-                MultiContactsSelectorBottomSheet.this.lambda$loadData$0((List) obj);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadData$0(List list) {
-        this.foundedUsers.clear();
-        this.foundedUsers.addAll(list);
-        updateList(true, true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void createRecipientsBtnSpaceSpan() {
-        this.recipientsBtnSpaceSpan = new ReplacementSpan() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet.2
-            @Override // android.text.style.ReplacementSpan
-            public void draw(Canvas canvas, CharSequence charSequence, int i, int i2, float f, int i3, int i4, int i5, Paint paint) {
-            }
-
-            @Override // android.text.style.ReplacementSpan
-            public int getSize(Paint paint, CharSequence charSequence, int i, int i2, Paint.FontMetricsInt fontMetricsInt) {
-                return (int) MultiContactsSelectorBottomSheet.this.recipientsBtnExtraSpace;
-            }
-        };
+        void onUserSelected(List list);
     }
 
     public MultiContactsSelectorBottomSheet(BaseFragment baseFragment, boolean z, final int i, SelectorListener selectorListener) {
         super(baseFragment, z, false, false, baseFragment.getResourceProvider());
-        this.oldItems = new ArrayList<>();
-        ArrayList<SelectorAdapter.Item> arrayList = new ArrayList<>();
+        this.oldItems = new ArrayList();
+        ArrayList arrayList = new ArrayList();
         this.items = arrayList;
-        HashSet<Long> hashSet = new HashSet<>();
+        HashSet hashSet = new HashSet();
         this.selectedIds = hashSet;
         ArrayList arrayList2 = new ArrayList();
         this.contacts = arrayList2;
@@ -150,10 +109,7 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         SelectorHeaderCell selectorHeaderCell = new SelectorHeaderCell(getContext(), this.resourcesProvider) { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet.3
             @Override // org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorHeaderCell
             protected int getHeaderHeight() {
-                if (getResources().getConfiguration().orientation == 2) {
-                    return AndroidUtilities.dp(48.0f);
-                }
-                return AndroidUtilities.dp(54.0f);
+                return AndroidUtilities.dp(getResources().getConfiguration().orientation == 2 ? 48.0f : 54.0f);
             }
         };
         this.headerView = selectorHeaderCell;
@@ -300,9 +256,48 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         fixNavigationBar();
     }
 
+    private void clearSearchAfterSelect() {
+        if (isSearching()) {
+            this.query = null;
+            this.searchField.setText("");
+            AndroidUtilities.cancelRunOnUIThread(this.remoteSearchRunnable);
+            updateItems(true, true);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void createRecipientsBtnSpaceSpan() {
+        this.recipientsBtnSpaceSpan = new ReplacementSpan() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet.2
+            @Override // android.text.style.ReplacementSpan
+            public void draw(Canvas canvas, CharSequence charSequence, int i, int i2, float f, int i3, int i4, int i5, Paint paint) {
+            }
+
+            @Override // android.text.style.ReplacementSpan
+            public int getSize(Paint paint, CharSequence charSequence, int i, int i2, Paint.FontMetricsInt fontMetricsInt) {
+                return (int) MultiContactsSelectorBottomSheet.this.recipientsBtnExtraSpace;
+            }
+        };
+    }
+
+    private boolean isSearching() {
+        return !TextUtils.isEmpty(this.query);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$loadData$0(List list) {
+        this.foundedUsers.clear();
+        this.foundedUsers.addAll(list);
+        updateList(true, true);
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         next();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$2() {
+        updateList(true, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -333,21 +328,25 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$2() {
-        updateList(true, false);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4() {
         updateList(true, false);
     }
 
-    @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
-    protected void onPreDraw(Canvas canvas, int i, float f) {
-        this.headerView.setTranslationY(Math.max(i, AndroidUtilities.statusBarHeight + (((this.headerView.getMeasuredHeight() - AndroidUtilities.statusBarHeight) - AndroidUtilities.dp(40.0f)) / 2.0f)) + AndroidUtilities.dp(8.0f));
-        this.searchField.setTranslationY(this.headerView.getTranslationY() + this.headerView.getMeasuredHeight());
-        this.sectionCell.setTranslationY(this.searchField.getTranslationY() + this.searchField.getMeasuredHeight());
-        this.recyclerListView.setTranslationY(((this.headerView.getMeasuredHeight() + this.searchField.getMeasuredHeight()) + this.sectionCell.getMeasuredHeight()) - AndroidUtilities.dp(8.0f));
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$updateSectionCell$5(View view) {
+        this.selectedIds.clear();
+        this.searchField.spansContainer.removeAllSpans(true);
+        updateList(true, false);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void loadData(String str) {
+        this.lastRequestId = BoostRepository.searchContacts(this.lastRequestId, str, new Utilities.Callback() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet$$ExternalSyntheticLambda6
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                MultiContactsSelectorBottomSheet.this.lambda$loadData$0((List) obj);
+            }
+        });
     }
 
     private void next() {
@@ -364,22 +363,20 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         dismiss();
     }
 
-    public void scrollToTop(boolean z) {
-        if (z) {
-            LinearSmoothScrollerCustom linearSmoothScrollerCustom = new LinearSmoothScrollerCustom(getContext(), 2, 0.6f);
-            linearSmoothScrollerCustom.setTargetPosition(1);
-            linearSmoothScrollerCustom.setOffset(AndroidUtilities.dp(36.0f));
-            this.recyclerListView.getLayoutManager().startSmoothScroll(linearSmoothScrollerCustom);
-            return;
-        }
-        this.recyclerListView.scrollToPosition(0);
+    /* JADX INFO: Access modifiers changed from: private */
+    public void onSearch(String str) {
+        this.query = str;
+        AndroidUtilities.cancelRunOnUIThread(this.remoteSearchRunnable);
+        AndroidUtilities.runOnUIThread(this.remoteSearchRunnable, 100L);
     }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet
-    public void dismissInternal() {
-        super.dismissInternal();
-        instance = null;
-        AndroidUtilities.cancelRunOnUIThread(this.remoteSearchRunnable);
+    public static void open(int i, SelectorListener selectorListener) {
+        BaseFragment lastFragment = LaunchActivity.getLastFragment();
+        if (lastFragment != null && instance == null) {
+            MultiContactsSelectorBottomSheet multiContactsSelectorBottomSheet = new MultiContactsSelectorBottomSheet(lastFragment, true, i, selectorListener);
+            multiContactsSelectorBottomSheet.show();
+            instance = multiContactsSelectorBottomSheet;
+        }
     }
 
     private void showMaximumUsersToast() {
@@ -390,10 +387,21 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         }
     }
 
-    private void updateList(boolean z, boolean z2) {
-        updateItems(z, z2);
-        updateCheckboxes(z);
-        updateActionButton(z);
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateActionButton(boolean z) {
+        int i;
+        this.actionButton.setShowZero(false);
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+        if (this.selectedIds.size() == 0) {
+            spannableStringBuilder.append((CharSequence) "d").setSpan(this.recipientsBtnSpaceSpan, 0, 1, 33);
+            i = R.string.ChooseUsers;
+        } else {
+            i = R.string.GiftPremiumProceedBtn;
+        }
+        spannableStringBuilder.append((CharSequence) LocaleController.getString(i));
+        this.actionButton.setCount(this.selectedIds.size(), true);
+        this.actionButton.setText(spannableStringBuilder, z, false);
+        this.actionButton.setEnabled(true);
     }
 
     private void updateCheckboxes(boolean z) {
@@ -408,15 +416,15 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
                 }
                 int i4 = childAdapterPosition - 1;
                 if (i4 >= 0 && i4 < this.items.size()) {
-                    SelectorAdapter.Item item = this.items.get(i4);
+                    SelectorAdapter.Item item = (SelectorAdapter.Item) this.items.get(i4);
                     SelectorUserCell selectorUserCell = (SelectorUserCell) childAt;
                     selectorUserCell.setChecked(item.checked, z);
                     TLRPC$Chat tLRPC$Chat = item.chat;
-                    if (tLRPC$Chat != null) {
-                        selectorUserCell.setCheckboxAlpha(this.selectorAdapter.getParticipantsCount(tLRPC$Chat) > 200 ? 0.3f : 1.0f, z);
-                    } else {
-                        selectorUserCell.setCheckboxAlpha(1.0f, z);
+                    float f = 1.0f;
+                    if (tLRPC$Chat != null && this.selectorAdapter.getParticipantsCount(tLRPC$Chat) > 200) {
+                        f = 0.3f;
                     }
+                    selectorUserCell.setCheckboxAlpha(f, z);
                 }
                 i2 = childAdapterPosition;
             }
@@ -428,66 +436,85 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void updateActionButton(boolean z) {
-        this.actionButton.setShowZero(false);
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-        if (this.selectedIds.size() == 0) {
-            spannableStringBuilder.append((CharSequence) "d").setSpan(this.recipientsBtnSpaceSpan, 0, 1, 33);
-            spannableStringBuilder.append((CharSequence) LocaleController.getString(R.string.ChooseUsers));
-        } else {
-            spannableStringBuilder.append((CharSequence) LocaleController.getString(R.string.GiftPremiumProceedBtn));
-        }
-        this.actionButton.setCount(this.selectedIds.size(), true);
-        this.actionButton.setText(spannableStringBuilder, z, false);
-        this.actionButton.setEnabled(true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void onSearch(String str) {
-        this.query = str;
-        AndroidUtilities.cancelRunOnUIThread(this.remoteSearchRunnable);
-        AndroidUtilities.runOnUIThread(this.remoteSearchRunnable, 100L);
-    }
-
-    private void clearSearchAfterSelect() {
-        if (isSearching()) {
-            this.query = null;
-            this.searchField.setText("");
-            AndroidUtilities.cancelRunOnUIThread(this.remoteSearchRunnable);
-            updateItems(true, true);
-        }
+    private void updateList(boolean z, boolean z2) {
+        updateItems(z, z2);
+        updateCheckboxes(z);
+        updateActionButton(z);
     }
 
     private void updateSectionCell(boolean z) {
-        HashSet<Long> hashSet = this.selectedIds;
+        SelectorAdapter selectorAdapter;
+        View.OnClickListener onClickListener;
+        HashSet hashSet = this.selectedIds;
         if (hashSet == null) {
             return;
         }
         if (hashSet.size() > 0) {
-            this.selectorAdapter.setTopSectionClickListener(new View.OnClickListener() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet$$ExternalSyntheticLambda5
+            selectorAdapter = this.selectorAdapter;
+            onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet$$ExternalSyntheticLambda5
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     MultiContactsSelectorBottomSheet.this.lambda$updateSectionCell$5(view);
                 }
-            });
+            };
         } else {
-            this.selectorAdapter.setTopSectionClickListener(null);
+            selectorAdapter = this.selectorAdapter;
+            onClickListener = null;
         }
+        selectorAdapter.setTopSectionClickListener(onClickListener);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateSectionCell$5(View view) {
-        this.selectedIds.clear();
-        this.searchField.spansContainer.removeAllSpans(true);
-        updateList(true, false);
+    @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
+    protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
+        SelectorAdapter selectorAdapter = new SelectorAdapter(getContext(), true, this.resourcesProvider);
+        this.selectorAdapter = selectorAdapter;
+        selectorAdapter.setGreenSelector(true);
+        return this.selectorAdapter;
     }
 
-    private boolean isSearching() {
-        return !TextUtils.isEmpty(this.query);
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
+    public void dismiss() {
+        AndroidUtilities.hideKeyboard(this.searchField.getEditText());
+        super.dismiss();
     }
 
-    @SuppressLint({"NotifyDataSetChanged"})
+    @Override // org.telegram.ui.ActionBar.BottomSheet
+    public void dismissInternal() {
+        super.dismissInternal();
+        instance = null;
+        AndroidUtilities.cancelRunOnUIThread(this.remoteSearchRunnable);
+    }
+
+    @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
+    protected CharSequence getTitle() {
+        return LocaleController.getString(R.string.ChooseUsers);
+    }
+
+    @Override // org.telegram.ui.ActionBar.BottomSheet
+    public void onConfigurationChanged(Configuration configuration) {
+        super.onConfigurationChanged(configuration);
+        updateItems(false, true);
+    }
+
+    @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
+    protected void onPreDraw(Canvas canvas, int i, float f) {
+        this.headerView.setTranslationY(Math.max(i, AndroidUtilities.statusBarHeight + (((this.headerView.getMeasuredHeight() - AndroidUtilities.statusBarHeight) - AndroidUtilities.dp(40.0f)) / 2.0f)) + AndroidUtilities.dp(8.0f));
+        this.searchField.setTranslationY(this.headerView.getTranslationY() + this.headerView.getMeasuredHeight());
+        this.sectionCell.setTranslationY(this.searchField.getTranslationY() + this.searchField.getMeasuredHeight());
+        this.recyclerListView.setTranslationY(((this.headerView.getMeasuredHeight() + this.searchField.getMeasuredHeight()) + this.sectionCell.getMeasuredHeight()) - AndroidUtilities.dp(8.0f));
+    }
+
+    public void scrollToTop(boolean z) {
+        if (!z) {
+            this.recyclerListView.scrollToPosition(0);
+            return;
+        }
+        LinearSmoothScrollerCustom linearSmoothScrollerCustom = new LinearSmoothScrollerCustom(getContext(), 2, 0.6f);
+        linearSmoothScrollerCustom.setTargetPosition(1);
+        linearSmoothScrollerCustom.setOffset(AndroidUtilities.dp(36.0f));
+        this.recyclerListView.getLayoutManager().startSmoothScroll(linearSmoothScrollerCustom);
+    }
+
     public void updateItems(boolean z, boolean z2) {
         int i;
         int i2;
@@ -522,7 +549,7 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
             }
             for (String str : this.contactsLetters) {
                 ArrayList arrayList2 = new ArrayList();
-                for (TLRPC$TL_contact tLRPC$TL_contact : this.contactsMap.get(str)) {
+                for (TLRPC$TL_contact tLRPC$TL_contact : (List) this.contactsMap.get(str)) {
                     if (tLRPC$TL_contact.user_id != UserConfig.getInstance(this.currentAccount).getClientUserId()) {
                         i += AndroidUtilities.dp(56.0f);
                         TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tLRPC$TL_contact.user_id));
@@ -551,30 +578,5 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         } else {
             selectorAdapter.notifyDataSetChanged();
         }
-    }
-
-    @Override // org.telegram.ui.ActionBar.BottomSheet
-    public void onConfigurationChanged(Configuration configuration) {
-        super.onConfigurationChanged(configuration);
-        updateItems(false, true);
-    }
-
-    @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
-    protected CharSequence getTitle() {
-        return LocaleController.getString(R.string.ChooseUsers);
-    }
-
-    @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
-    protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
-        SelectorAdapter selectorAdapter = new SelectorAdapter(getContext(), true, this.resourcesProvider);
-        this.selectorAdapter = selectorAdapter;
-        selectorAdapter.setGreenSelector(true);
-        return this.selectorAdapter;
-    }
-
-    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
-        AndroidUtilities.hideKeyboard(this.searchField.getEditText());
-        super.dismiss();
     }
 }

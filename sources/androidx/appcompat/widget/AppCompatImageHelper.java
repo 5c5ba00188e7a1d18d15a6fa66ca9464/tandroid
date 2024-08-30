@@ -23,6 +23,86 @@ public class AppCompatImageHelper {
         this.mView = imageView;
     }
 
+    private boolean applyFrameworkTintUsingColorFilter(Drawable drawable) {
+        if (this.mTmpInfo == null) {
+            this.mTmpInfo = new TintInfo();
+        }
+        TintInfo tintInfo = this.mTmpInfo;
+        tintInfo.clear();
+        ColorStateList imageTintList = ImageViewCompat.getImageTintList(this.mView);
+        if (imageTintList != null) {
+            tintInfo.mHasTintList = true;
+            tintInfo.mTintList = imageTintList;
+        }
+        PorterDuff.Mode imageTintMode = ImageViewCompat.getImageTintMode(this.mView);
+        if (imageTintMode != null) {
+            tintInfo.mHasTintMode = true;
+            tintInfo.mTintMode = imageTintMode;
+        }
+        if (tintInfo.mHasTintList || tintInfo.mHasTintMode) {
+            AppCompatDrawableManager.tintDrawable(drawable, tintInfo, this.mView.getDrawableState());
+            return true;
+        }
+        return false;
+    }
+
+    private boolean shouldApplyFrameworkTintUsingColorFilter() {
+        int i = Build.VERSION.SDK_INT;
+        return i > 21 ? this.mInternalImageTint != null : i == 21;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void applyImageLevel() {
+        if (this.mView.getDrawable() != null) {
+            this.mView.getDrawable().setLevel(this.mLevel);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void applySupportImageTint() {
+        Drawable drawable = this.mView.getDrawable();
+        if (drawable != null) {
+            DrawableUtils.fixDrawable(drawable);
+        }
+        if (drawable != null) {
+            if (shouldApplyFrameworkTintUsingColorFilter() && applyFrameworkTintUsingColorFilter(drawable)) {
+                return;
+            }
+            TintInfo tintInfo = this.mImageTint;
+            if (tintInfo != null) {
+                AppCompatDrawableManager.tintDrawable(drawable, tintInfo, this.mView.getDrawableState());
+                return;
+            }
+            TintInfo tintInfo2 = this.mInternalImageTint;
+            if (tintInfo2 != null) {
+                AppCompatDrawableManager.tintDrawable(drawable, tintInfo2, this.mView.getDrawableState());
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public ColorStateList getSupportImageTintList() {
+        TintInfo tintInfo = this.mImageTint;
+        if (tintInfo != null) {
+            return tintInfo.mTintList;
+        }
+        return null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public PorterDuff.Mode getSupportImageTintMode() {
+        TintInfo tintInfo = this.mImageTint;
+        if (tintInfo != null) {
+            return tintInfo.mTintMode;
+        }
+        return null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public boolean hasOverlappingRendering() {
+        return Build.VERSION.SDK_INT < 21 || !AppCompatImageHelper$$ExternalSyntheticApiModelOutline0.m(this.mView.getBackground());
+    }
+
     public void loadFromAttributes(AttributeSet attributeSet, int i) {
         int resourceId;
         Context context = this.mView.getContext();
@@ -53,6 +133,11 @@ public class AppCompatImageHelper {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void obtainLevelFromDrawable(Drawable drawable) {
+        this.mLevel = drawable.getLevel();
+    }
+
     public void setImageResource(int i) {
         if (i != 0) {
             Drawable drawable = AppCompatResources.getDrawable(this.mView.getContext(), i);
@@ -67,11 +152,6 @@ public class AppCompatImageHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean hasOverlappingRendering() {
-        return Build.VERSION.SDK_INT < 21 || !AppCompatImageHelper$$ExternalSyntheticApiModelOutline0.m(this.mView.getBackground());
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
     public void setSupportImageTintList(ColorStateList colorStateList) {
         if (this.mImageTint == null) {
             this.mImageTint = new TintInfo();
@@ -83,15 +163,6 @@ public class AppCompatImageHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public ColorStateList getSupportImageTintList() {
-        TintInfo tintInfo = this.mImageTint;
-        if (tintInfo != null) {
-            return tintInfo.mTintList;
-        }
-        return null;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
     public void setSupportImageTintMode(PorterDuff.Mode mode) {
         if (this.mImageTint == null) {
             this.mImageTint = new TintInfo();
@@ -100,76 +171,5 @@ public class AppCompatImageHelper {
         tintInfo.mTintMode = mode;
         tintInfo.mHasTintMode = true;
         applySupportImageTint();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PorterDuff.Mode getSupportImageTintMode() {
-        TintInfo tintInfo = this.mImageTint;
-        if (tintInfo != null) {
-            return tintInfo.mTintMode;
-        }
-        return null;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void applySupportImageTint() {
-        Drawable drawable = this.mView.getDrawable();
-        if (drawable != null) {
-            DrawableUtils.fixDrawable(drawable);
-        }
-        if (drawable != null) {
-            if (shouldApplyFrameworkTintUsingColorFilter() && applyFrameworkTintUsingColorFilter(drawable)) {
-                return;
-            }
-            TintInfo tintInfo = this.mImageTint;
-            if (tintInfo != null) {
-                AppCompatDrawableManager.tintDrawable(drawable, tintInfo, this.mView.getDrawableState());
-                return;
-            }
-            TintInfo tintInfo2 = this.mInternalImageTint;
-            if (tintInfo2 != null) {
-                AppCompatDrawableManager.tintDrawable(drawable, tintInfo2, this.mView.getDrawableState());
-            }
-        }
-    }
-
-    private boolean shouldApplyFrameworkTintUsingColorFilter() {
-        int i = Build.VERSION.SDK_INT;
-        return i > 21 ? this.mInternalImageTint != null : i == 21;
-    }
-
-    private boolean applyFrameworkTintUsingColorFilter(Drawable drawable) {
-        if (this.mTmpInfo == null) {
-            this.mTmpInfo = new TintInfo();
-        }
-        TintInfo tintInfo = this.mTmpInfo;
-        tintInfo.clear();
-        ColorStateList imageTintList = ImageViewCompat.getImageTintList(this.mView);
-        if (imageTintList != null) {
-            tintInfo.mHasTintList = true;
-            tintInfo.mTintList = imageTintList;
-        }
-        PorterDuff.Mode imageTintMode = ImageViewCompat.getImageTintMode(this.mView);
-        if (imageTintMode != null) {
-            tintInfo.mHasTintMode = true;
-            tintInfo.mTintMode = imageTintMode;
-        }
-        if (tintInfo.mHasTintList || tintInfo.mHasTintMode) {
-            AppCompatDrawableManager.tintDrawable(drawable, tintInfo, this.mView.getDrawableState());
-            return true;
-        }
-        return false;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void obtainLevelFromDrawable(Drawable drawable) {
-        this.mLevel = drawable.getLevel();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void applyImageLevel() {
-        if (this.mView.getDrawable() != null) {
-            this.mView.getDrawable().setLevel(this.mLevel);
-        }
     }
 }

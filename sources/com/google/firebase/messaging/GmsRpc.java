@@ -20,17 +20,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutionException;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class GmsRpc {
     private final FirebaseApp app;
     private final FirebaseInstallationsApi firebaseInstallations;
-    private final Provider<HeartBeatInfo> heartbeatInfo;
+    private final Provider heartbeatInfo;
     private final Metadata metadata;
     private final Rpc rpc;
-    private final Provider<UserAgentPublisher> userAgentPublisher;
+    private final Provider userAgentPublisher;
 
-    GmsRpc(FirebaseApp firebaseApp, Metadata metadata, Rpc rpc, Provider<UserAgentPublisher> provider, Provider<HeartBeatInfo> provider2, FirebaseInstallationsApi firebaseInstallationsApi) {
+    GmsRpc(FirebaseApp firebaseApp, Metadata metadata, Rpc rpc, Provider provider, Provider provider2, FirebaseInstallationsApi firebaseInstallationsApi) {
         this.app = firebaseApp;
         this.metadata = metadata;
         this.rpc = rpc;
@@ -40,7 +39,7 @@ public class GmsRpc {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public GmsRpc(FirebaseApp firebaseApp, Metadata metadata, Provider<UserAgentPublisher> provider, Provider<HeartBeatInfo> provider2, FirebaseInstallationsApi firebaseInstallationsApi) {
+    public GmsRpc(FirebaseApp firebaseApp, Metadata metadata, Provider provider, Provider provider2, FirebaseInstallationsApi firebaseInstallationsApi) {
         this(firebaseApp, metadata, new Rpc(firebaseApp.getApplicationContext()), provider, provider2, firebaseInstallationsApi);
     }
 
@@ -48,7 +47,7 @@ public class GmsRpc {
         return Base64.encodeToString(bArr, 11);
     }
 
-    private Task<String> extractResponseWhenComplete(Task<Bundle> task) {
+    private Task extractResponseWhenComplete(Task task) {
         return task.continueWith(GmsRpc$$Lambda$0.$instance, new Continuation(this) { // from class: com.google.firebase.messaging.GmsRpc$$Lambda$1
             private final GmsRpc arg$1;
 
@@ -72,30 +71,30 @@ public class GmsRpc {
         }
     }
 
-    private String handleResponse(Bundle bundle) throws IOException {
-        if (bundle == null) {
+    private String handleResponse(Bundle bundle) {
+        if (bundle != null) {
+            String string = bundle.getString("registration_id");
+            if (string != null) {
+                return string;
+            }
+            String string2 = bundle.getString("unregistered");
+            if (string2 != null) {
+                return string2;
+            }
+            String string3 = bundle.getString("error");
+            if ("RST".equals(string3)) {
+                throw new IOException("INSTANCE_ID_RESET");
+            }
+            if (string3 != null) {
+                throw new IOException(string3);
+            }
+            String valueOf = String.valueOf(bundle);
+            StringBuilder sb = new StringBuilder(valueOf.length() + 21);
+            sb.append("Unexpected response: ");
+            sb.append(valueOf);
+            Log.w("FirebaseMessaging", sb.toString(), new Throwable());
             throw new IOException("SERVICE_NOT_AVAILABLE");
         }
-        String string = bundle.getString("registration_id");
-        if (string != null) {
-            return string;
-        }
-        String string2 = bundle.getString("unregistered");
-        if (string2 != null) {
-            return string2;
-        }
-        String string3 = bundle.getString("error");
-        if ("RST".equals(string3)) {
-            throw new IOException("INSTANCE_ID_RESET");
-        }
-        if (string3 != null) {
-            throw new IOException(string3);
-        }
-        String valueOf = String.valueOf(bundle);
-        StringBuilder sb = new StringBuilder(valueOf.length() + 21);
-        sb.append("Unexpected response: ");
-        sb.append(valueOf);
-        Log.w("FirebaseMessaging", sb.toString(), new Throwable());
         throw new IOException("SERVICE_NOT_AVAILABLE");
     }
 
@@ -124,17 +123,17 @@ public class GmsRpc {
         bundle.putString("firebase-app-name-hash", getHashedFirebaseAppName());
         try {
             String token = ((InstallationTokenResult) Tasks.await(this.firebaseInstallations.getToken(false))).getToken();
-            if (!TextUtils.isEmpty(token)) {
-                bundle.putString("Goog-Firebase-Installations-Auth", token);
-            } else {
+            if (TextUtils.isEmpty(token)) {
                 Log.w("FirebaseMessaging", "FIS auth token is empty");
+            } else {
+                bundle.putString("Goog-Firebase-Installations-Auth", token);
             }
         } catch (InterruptedException e) {
             e = e;
             Log.e("FirebaseMessaging", "Failed to get FIS auth token", e);
             bundle.putString("cliv", "fcm-22.0.0");
-            heartBeatInfo = this.heartbeatInfo.get();
-            userAgentPublisher = this.userAgentPublisher.get();
+            heartBeatInfo = (HeartBeatInfo) this.heartbeatInfo.get();
+            userAgentPublisher = (UserAgentPublisher) this.userAgentPublisher.get();
             if (heartBeatInfo != null) {
                 bundle.putString("Firebase-Client-Log-Type", Integer.toString(heartBeatCode.getCode()));
                 bundle.putString("Firebase-Client", userAgentPublisher.getUserAgent());
@@ -144,15 +143,15 @@ public class GmsRpc {
             e = e2;
             Log.e("FirebaseMessaging", "Failed to get FIS auth token", e);
             bundle.putString("cliv", "fcm-22.0.0");
-            heartBeatInfo = this.heartbeatInfo.get();
-            userAgentPublisher = this.userAgentPublisher.get();
+            heartBeatInfo = (HeartBeatInfo) this.heartbeatInfo.get();
+            userAgentPublisher = (UserAgentPublisher) this.userAgentPublisher.get();
             if (heartBeatInfo != null) {
             }
             return bundle;
         }
         bundle.putString("cliv", "fcm-22.0.0");
-        heartBeatInfo = this.heartbeatInfo.get();
-        userAgentPublisher = this.userAgentPublisher.get();
+        heartBeatInfo = (HeartBeatInfo) this.heartbeatInfo.get();
+        userAgentPublisher = (UserAgentPublisher) this.userAgentPublisher.get();
         if (heartBeatInfo != null && userAgentPublisher != null && (heartBeatCode = heartBeatInfo.getHeartBeatCode("fire-iid")) != HeartBeatInfo.HeartBeat.NONE) {
             bundle.putString("Firebase-Client-Log-Type", Integer.toString(heartBeatCode.getCode()));
             bundle.putString("Firebase-Client", userAgentPublisher.getUserAgent());
@@ -160,23 +159,23 @@ public class GmsRpc {
         return bundle;
     }
 
-    private Task<Bundle> startRpc(String str, String str2, String str3, Bundle bundle) {
+    private Task startRpc(String str, String str2, String str3, Bundle bundle) {
         setDefaultAttributesToBundle(str, str2, str3, bundle);
         return this.rpc.send(bundle);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public Task<String> getToken(String str) {
+    public Task getToken(String str) {
         return extractResponseWhenComplete(startRpc(str, Metadata.getDefaultSenderId(this.app), "*", new Bundle()));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ String lambda$extractResponseWhenComplete$0$GmsRpc(Task task) throws Exception {
+    public final /* synthetic */ String lambda$extractResponseWhenComplete$0$GmsRpc(Task task) {
         return handleResponse((Bundle) task.getResult(IOException.class));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public Task<?> subscribeToTopic(String str, String str2, String str3) {
+    public Task subscribeToTopic(String str, String str2, String str3) {
         Bundle bundle = new Bundle();
         String valueOf = String.valueOf(str3);
         bundle.putString("gcm.topic", valueOf.length() != 0 ? "/topics/".concat(valueOf) : new String("/topics/"));
@@ -185,7 +184,7 @@ public class GmsRpc {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public Task<?> unsubscribeFromTopic(String str, String str2, String str3) {
+    public Task unsubscribeFromTopic(String str, String str2, String str3) {
         Bundle bundle = new Bundle();
         String valueOf = String.valueOf(str3);
         bundle.putString("gcm.topic", valueOf.length() != 0 ? "/topics/".concat(valueOf) : new String("/topics/"));

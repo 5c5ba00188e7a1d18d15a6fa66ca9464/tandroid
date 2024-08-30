@@ -8,7 +8,7 @@ import java.util.Map;
 /* loaded from: classes.dex */
 public abstract class AbstractAppCallTemplate implements HttpClient.CallTemplate {
     @Override // com.microsoft.appcenter.http.HttpClient.CallTemplate
-    public void onBeforeCalling(URL url, Map<String, String> map) {
+    public void onBeforeCalling(URL url, Map map) {
         if (AppCenterLog.getLogLevel() <= 2) {
             AppCenterLog.verbose("AppCenter", "Calling " + url + "...");
             HashMap hashMap = new HashMap(map);

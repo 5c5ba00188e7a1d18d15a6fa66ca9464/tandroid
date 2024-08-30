@@ -34,24 +34,24 @@ class TwilightCalculator {
         double sin3 = (Math.sin(-0.10471975803375244d) - (Math.sin(d6) * Math.sin(asin))) / (Math.cos(d6) * Math.cos(asin));
         if (sin3 >= 1.0d) {
             this.state = 1;
-            this.sunset = -1L;
-            this.sunrise = -1L;
-        } else if (sin3 <= -1.0d) {
-            this.state = 0;
-            this.sunset = -1L;
-            this.sunrise = -1L;
-        } else {
+        } else if (sin3 > -1.0d) {
             double acos = (float) (Math.acos(sin3) / 6.283185307179586d);
             Double.isNaN(acos);
             this.sunset = Math.round((sin2 + acos) * 8.64E7d) + 946728000000L;
             Double.isNaN(acos);
             long round2 = Math.round((sin2 - acos) * 8.64E7d) + 946728000000L;
             this.sunrise = round2;
-            if (round2 < j && this.sunset > j) {
-                this.state = 0;
-            } else {
+            if (round2 >= j || this.sunset <= j) {
                 this.state = 1;
+                return;
+            } else {
+                this.state = 0;
+                return;
             }
+        } else {
+            this.state = 0;
         }
+        this.sunset = -1L;
+        this.sunrise = -1L;
     }
 }

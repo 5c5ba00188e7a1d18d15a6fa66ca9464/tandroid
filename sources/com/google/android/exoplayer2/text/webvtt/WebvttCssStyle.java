@@ -13,7 +13,7 @@ public final class WebvttCssStyle {
     private float fontSize;
     private String targetId = "";
     private String targetTag = "";
-    private Set<String> targetClasses = Collections.emptySet();
+    private Set targetClasses = Collections.emptySet();
     private String targetVoice = "";
     private String fontFamily = null;
     private boolean hasFontColor = false;
@@ -26,23 +26,51 @@ public final class WebvttCssStyle {
     private int rubyPosition = -1;
     private boolean combineUpright = false;
 
-    public void setTargetId(String str) {
-        this.targetId = str;
+    private static int updateScoreForMatch(int i, String str, String str2, int i2) {
+        if (str.isEmpty() || i == -1) {
+            return i;
+        }
+        if (str.equals(str2)) {
+            return i + i2;
+        }
+        return -1;
     }
 
-    public void setTargetTagName(String str) {
-        this.targetTag = str;
+    public int getBackgroundColor() {
+        if (this.hasBackgroundColor) {
+            return this.backgroundColor;
+        }
+        throw new IllegalStateException("Background color not defined.");
     }
 
-    public void setTargetClasses(String[] strArr) {
-        this.targetClasses = new HashSet(Arrays.asList(strArr));
+    public boolean getCombineUpright() {
+        return this.combineUpright;
     }
 
-    public void setTargetVoice(String str) {
-        this.targetVoice = str;
+    public int getFontColor() {
+        if (this.hasFontColor) {
+            return this.fontColor;
+        }
+        throw new IllegalStateException("Font color not defined");
     }
 
-    public int getSpecificityScore(String str, String str2, Set<String> set, String str3) {
+    public String getFontFamily() {
+        return this.fontFamily;
+    }
+
+    public float getFontSize() {
+        return this.fontSize;
+    }
+
+    public int getFontSizeUnit() {
+        return this.fontSizeUnit;
+    }
+
+    public int getRubyPosition() {
+        return this.rubyPosition;
+    }
+
+    public int getSpecificityScore(String str, String str2, Set set, String str3) {
         if (this.targetId.isEmpty() && this.targetTag.isEmpty() && this.targetClasses.isEmpty() && this.targetVoice.isEmpty()) {
             return TextUtils.isEmpty(str2) ? 1 : 0;
         }
@@ -61,6 +89,14 @@ public final class WebvttCssStyle {
         return (i == 1 ? 1 : 0) | (this.italic == 1 ? 2 : 0);
     }
 
+    public boolean hasBackgroundColor() {
+        return this.hasBackgroundColor;
+    }
+
+    public boolean hasFontColor() {
+        return this.hasFontColor;
+    }
+
     public boolean isLinethrough() {
         return this.linethrough == 1;
     }
@@ -69,8 +105,9 @@ public final class WebvttCssStyle {
         return this.underline == 1;
     }
 
-    public WebvttCssStyle setUnderline(boolean z) {
-        this.underline = z ? 1 : 0;
+    public WebvttCssStyle setBackgroundColor(int i) {
+        this.backgroundColor = i;
+        this.hasBackgroundColor = true;
         return this;
     }
 
@@ -79,25 +116,9 @@ public final class WebvttCssStyle {
         return this;
     }
 
-    public WebvttCssStyle setItalic(boolean z) {
-        this.italic = z ? 1 : 0;
+    public WebvttCssStyle setCombineUpright(boolean z) {
+        this.combineUpright = z;
         return this;
-    }
-
-    public String getFontFamily() {
-        return this.fontFamily;
-    }
-
-    public WebvttCssStyle setFontFamily(String str) {
-        this.fontFamily = str == null ? null : Ascii.toLowerCase(str);
-        return this;
-    }
-
-    public int getFontColor() {
-        if (!this.hasFontColor) {
-            throw new IllegalStateException("Font color not defined");
-        }
-        return this.fontColor;
     }
 
     public WebvttCssStyle setFontColor(int i) {
@@ -106,25 +127,9 @@ public final class WebvttCssStyle {
         return this;
     }
 
-    public boolean hasFontColor() {
-        return this.hasFontColor;
-    }
-
-    public int getBackgroundColor() {
-        if (!this.hasBackgroundColor) {
-            throw new IllegalStateException("Background color not defined.");
-        }
-        return this.backgroundColor;
-    }
-
-    public WebvttCssStyle setBackgroundColor(int i) {
-        this.backgroundColor = i;
-        this.hasBackgroundColor = true;
+    public WebvttCssStyle setFontFamily(String str) {
+        this.fontFamily = str == null ? null : Ascii.toLowerCase(str);
         return this;
-    }
-
-    public boolean hasBackgroundColor() {
-        return this.hasBackgroundColor;
     }
 
     public WebvttCssStyle setFontSize(float f) {
@@ -137,12 +142,9 @@ public final class WebvttCssStyle {
         return this;
     }
 
-    public int getFontSizeUnit() {
-        return this.fontSizeUnit;
-    }
-
-    public float getFontSize() {
-        return this.fontSize;
+    public WebvttCssStyle setItalic(boolean z) {
+        this.italic = z ? 1 : 0;
+        return this;
     }
 
     public WebvttCssStyle setRubyPosition(int i) {
@@ -150,26 +152,24 @@ public final class WebvttCssStyle {
         return this;
     }
 
-    public int getRubyPosition() {
-        return this.rubyPosition;
+    public void setTargetClasses(String[] strArr) {
+        this.targetClasses = new HashSet(Arrays.asList(strArr));
     }
 
-    public WebvttCssStyle setCombineUpright(boolean z) {
-        this.combineUpright = z;
+    public void setTargetId(String str) {
+        this.targetId = str;
+    }
+
+    public void setTargetTagName(String str) {
+        this.targetTag = str;
+    }
+
+    public void setTargetVoice(String str) {
+        this.targetVoice = str;
+    }
+
+    public WebvttCssStyle setUnderline(boolean z) {
+        this.underline = z ? 1 : 0;
         return this;
-    }
-
-    public boolean getCombineUpright() {
-        return this.combineUpright;
-    }
-
-    private static int updateScoreForMatch(int i, String str, String str2, int i2) {
-        if (str.isEmpty() || i == -1) {
-            return i;
-        }
-        if (str.equals(str2)) {
-            return i + i2;
-        }
-        return -1;
     }
 }

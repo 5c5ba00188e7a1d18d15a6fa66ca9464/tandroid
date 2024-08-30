@@ -1,5 +1,4 @@
 package org.telegram.ui.Components.Premium.boosts.cells.selector;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes3.dex */
-public final /* synthetic */ class SelectorSearchCell$$ExternalSyntheticApiModelOutline0 {
+public abstract /* synthetic */ class SelectorSearchCell$$ExternalSyntheticApiModelOutline0 {
 }

@@ -1,23 +1,8 @@
 package com.google.android.datatransport.runtime.firebase.transport;
-
-import com.google.firebase.encoders.proto.Protobuf;
 /* loaded from: classes.dex */
 public final class GlobalMetrics {
     private static final GlobalMetrics DEFAULT_INSTANCE = new Builder().build();
     private final StorageMetrics storage_metrics_;
-
-    GlobalMetrics(StorageMetrics storageMetrics) {
-        this.storage_metrics_ = storageMetrics;
-    }
-
-    public static Builder newBuilder() {
-        return new Builder();
-    }
-
-    @Protobuf(tag = 1)
-    public StorageMetrics getStorageMetricsInternal() {
-        return this.storage_metrics_;
-    }
 
     /* loaded from: classes.dex */
     public static final class Builder {
@@ -34,5 +19,17 @@ public final class GlobalMetrics {
             this.storage_metrics_ = storageMetrics;
             return this;
         }
+    }
+
+    GlobalMetrics(StorageMetrics storageMetrics) {
+        this.storage_metrics_ = storageMetrics;
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    public StorageMetrics getStorageMetricsInternal() {
+        return this.storage_metrics_;
     }
 }

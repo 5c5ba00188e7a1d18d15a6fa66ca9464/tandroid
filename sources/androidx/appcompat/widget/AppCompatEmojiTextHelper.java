@@ -18,6 +18,11 @@ class AppCompatEmojiTextHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
+    public InputFilter[] getFilters(InputFilter[] inputFilterArr) {
+        return this.mEmojiTextViewHelper.getFilters(inputFilterArr);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void loadFromAttributes(AttributeSet attributeSet, int i) {
         TypedArray obtainStyledAttributes = this.mView.getContext().obtainStyledAttributes(attributeSet, R$styleable.AppCompatTextView, i, 0);
         try {
@@ -32,17 +37,12 @@ class AppCompatEmojiTextHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void setEnabled(boolean z) {
-        this.mEmojiTextViewHelper.setEnabled(z);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public InputFilter[] getFilters(InputFilter[] inputFilterArr) {
-        return this.mEmojiTextViewHelper.getFilters(inputFilterArr);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
     public void setAllCaps(boolean z) {
         this.mEmojiTextViewHelper.setAllCaps(z);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setEnabled(boolean z) {
+        this.mEmojiTextViewHelper.setEnabled(z);
     }
 }

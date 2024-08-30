@@ -1,5 +1,4 @@
 package com.google.android.gms.internal.mlkit_language_id;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public enum zzdd implements zzet {
     zza(0),
@@ -19,13 +18,12 @@ public enum zzdd implements zzet {
     zzo(14),
     zzp(16);
     
-    private static final zzes<zzdd> zzq = new zzes<zzdd>() { // from class: com.google.android.gms.internal.mlkit_language_id.zzdc
+    private static final zzes zzq = new zzes() { // from class: com.google.android.gms.internal.mlkit_language_id.zzdc
     };
     private final int zzr;
 
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzet
-    public final int zza() {
-        return this.zzr;
+    zzdd(int i) {
+        this.zzr = i;
     }
 
     public static zzev zzb() {
@@ -37,7 +35,8 @@ public enum zzdd implements zzet {
         return "<" + zzdd.class.getName() + '@' + Integer.toHexString(System.identityHashCode(this)) + " number=" + this.zzr + " name=" + name() + '>';
     }
 
-    zzdd(int i) {
-        this.zzr = i;
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzet
+    public final int zza() {
+        return this.zzr;
     }
 }

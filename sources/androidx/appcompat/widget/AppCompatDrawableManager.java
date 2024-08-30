@@ -23,6 +23,29 @@ public final class AppCompatDrawableManager {
     private static AppCompatDrawableManager INSTANCE;
     private ResourceManagerInternal mResourceManager;
 
+    public static synchronized AppCompatDrawableManager get() {
+        AppCompatDrawableManager appCompatDrawableManager;
+        synchronized (AppCompatDrawableManager.class) {
+            try {
+                if (INSTANCE == null) {
+                    preload();
+                }
+                appCompatDrawableManager = INSTANCE;
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+        return appCompatDrawableManager;
+    }
+
+    public static synchronized PorterDuffColorFilter getPorterDuffColorFilter(int i, PorterDuff.Mode mode) {
+        PorterDuffColorFilter porterDuffColorFilter;
+        synchronized (AppCompatDrawableManager.class) {
+            porterDuffColorFilter = ResourceManagerInternal.getPorterDuffColorFilter(i, mode);
+        }
+        return porterDuffColorFilter;
+    }
+
     public static synchronized void preload() {
         synchronized (AppCompatDrawableManager.class) {
             if (INSTANCE == null) {
@@ -37,16 +60,17 @@ public final class AppCompatDrawableManager {
                     private final int[] TINT_COLOR_CONTROL_STATE_LIST = {R$drawable.abc_tab_indicator_material, R$drawable.abc_textfield_search_material};
                     private final int[] TINT_CHECKABLE_BUTTON_LIST = {R$drawable.abc_btn_check_material, R$drawable.abc_btn_radio_material, R$drawable.abc_btn_check_material_anim, R$drawable.abc_btn_radio_material_anim};
 
-                    private ColorStateList createDefaultButtonColorStateList(Context context) {
-                        return createButtonColorStateList(context, ThemeUtils.getThemeAttrColor(context, R$attr.colorButtonNormal));
+                    private boolean arrayContains(int[] iArr, int i) {
+                        for (int i2 : iArr) {
+                            if (i2 == i) {
+                                return true;
+                            }
+                        }
+                        return false;
                     }
 
                     private ColorStateList createBorderlessButtonColorStateList(Context context) {
                         return createButtonColorStateList(context, 0);
-                    }
-
-                    private ColorStateList createColoredButtonColorStateList(Context context) {
-                        return createButtonColorStateList(context, ThemeUtils.getThemeAttrColor(context, R$attr.colorAccent));
                     }
 
                     private ColorStateList createButtonColorStateList(Context context, int i) {
@@ -54,12 +78,27 @@ public final class AppCompatDrawableManager {
                         return new ColorStateList(new int[][]{ThemeUtils.DISABLED_STATE_SET, ThemeUtils.PRESSED_STATE_SET, ThemeUtils.FOCUSED_STATE_SET, ThemeUtils.EMPTY_STATE_SET}, new int[]{ThemeUtils.getDisabledThemeAttrColor(context, R$attr.colorButtonNormal), ColorUtils.compositeColors(themeAttrColor, i), ColorUtils.compositeColors(themeAttrColor, i), i});
                     }
 
+                    private ColorStateList createColoredButtonColorStateList(Context context) {
+                        return createButtonColorStateList(context, ThemeUtils.getThemeAttrColor(context, R$attr.colorAccent));
+                    }
+
+                    private ColorStateList createDefaultButtonColorStateList(Context context) {
+                        return createButtonColorStateList(context, ThemeUtils.getThemeAttrColor(context, R$attr.colorButtonNormal));
+                    }
+
                     private ColorStateList createSwitchThumbColorStateList(Context context) {
                         int[][] iArr = new int[3];
                         int[] iArr2 = new int[3];
                         int i = R$attr.colorSwitchThumbNormal;
                         ColorStateList themeAttrColorStateList = ThemeUtils.getThemeAttrColorStateList(context, i);
-                        if (themeAttrColorStateList != null && themeAttrColorStateList.isStateful()) {
+                        if (themeAttrColorStateList == null || !themeAttrColorStateList.isStateful()) {
+                            iArr[0] = ThemeUtils.DISABLED_STATE_SET;
+                            iArr2[0] = ThemeUtils.getDisabledThemeAttrColor(context, i);
+                            iArr[1] = ThemeUtils.CHECKED_STATE_SET;
+                            iArr2[1] = ThemeUtils.getThemeAttrColor(context, R$attr.colorControlActivated);
+                            iArr[2] = ThemeUtils.EMPTY_STATE_SET;
+                            iArr2[2] = ThemeUtils.getThemeAttrColor(context, i);
+                        } else {
                             int[] iArr3 = ThemeUtils.DISABLED_STATE_SET;
                             iArr[0] = iArr3;
                             iArr2[0] = themeAttrColorStateList.getColorForState(iArr3, 0);
@@ -67,32 +106,8 @@ public final class AppCompatDrawableManager {
                             iArr2[1] = ThemeUtils.getThemeAttrColor(context, R$attr.colorControlActivated);
                             iArr[2] = ThemeUtils.EMPTY_STATE_SET;
                             iArr2[2] = themeAttrColorStateList.getDefaultColor();
-                        } else {
-                            iArr[0] = ThemeUtils.DISABLED_STATE_SET;
-                            iArr2[0] = ThemeUtils.getDisabledThemeAttrColor(context, i);
-                            iArr[1] = ThemeUtils.CHECKED_STATE_SET;
-                            iArr2[1] = ThemeUtils.getThemeAttrColor(context, R$attr.colorControlActivated);
-                            iArr[2] = ThemeUtils.EMPTY_STATE_SET;
-                            iArr2[2] = ThemeUtils.getThemeAttrColor(context, i);
                         }
                         return new ColorStateList(iArr, iArr2);
-                    }
-
-                    @Override // androidx.appcompat.widget.ResourceManagerInternal.ResourceManagerHooks
-                    public Drawable createDrawableFor(ResourceManagerInternal resourceManagerInternal, Context context, int i) {
-                        if (i == R$drawable.abc_cab_background_top_material) {
-                            return new LayerDrawable(new Drawable[]{resourceManagerInternal.getDrawable(context, R$drawable.abc_cab_background_internal_bg), resourceManagerInternal.getDrawable(context, R$drawable.abc_cab_background_top_mtrl_alpha)});
-                        }
-                        if (i == R$drawable.abc_ratingbar_material) {
-                            return getRatingBarLayerDrawable(resourceManagerInternal, context, R$dimen.abc_star_big);
-                        }
-                        if (i == R$drawable.abc_ratingbar_indicator_material) {
-                            return getRatingBarLayerDrawable(resourceManagerInternal, context, R$dimen.abc_star_medium);
-                        }
-                        if (i == R$drawable.abc_ratingbar_small_material) {
-                            return getRatingBarLayerDrawable(resourceManagerInternal, context, R$dimen.abc_star_small);
-                        }
-                        return null;
                     }
 
                     private LayerDrawable getRatingBarLayerDrawable(ResourceManagerInternal resourceManagerInternal, Context context, int i) {
@@ -141,35 +156,21 @@ public final class AppCompatDrawableManager {
                     }
 
                     @Override // androidx.appcompat.widget.ResourceManagerInternal.ResourceManagerHooks
-                    public boolean tintDrawable(Context context, int i, Drawable drawable) {
-                        if (i == R$drawable.abc_seekbar_track_material) {
-                            LayerDrawable layerDrawable = (LayerDrawable) drawable;
-                            Drawable findDrawableByLayerId = layerDrawable.findDrawableByLayerId(16908288);
-                            int i2 = R$attr.colorControlNormal;
-                            setPorterDuffColorFilter(findDrawableByLayerId, ThemeUtils.getThemeAttrColor(context, i2), AppCompatDrawableManager.DEFAULT_MODE);
-                            setPorterDuffColorFilter(layerDrawable.findDrawableByLayerId(16908303), ThemeUtils.getThemeAttrColor(context, i2), AppCompatDrawableManager.DEFAULT_MODE);
-                            setPorterDuffColorFilter(layerDrawable.findDrawableByLayerId(16908301), ThemeUtils.getThemeAttrColor(context, R$attr.colorControlActivated), AppCompatDrawableManager.DEFAULT_MODE);
-                            return true;
-                        } else if (i == R$drawable.abc_ratingbar_material || i == R$drawable.abc_ratingbar_indicator_material || i == R$drawable.abc_ratingbar_small_material) {
-                            LayerDrawable layerDrawable2 = (LayerDrawable) drawable;
-                            setPorterDuffColorFilter(layerDrawable2.findDrawableByLayerId(16908288), ThemeUtils.getDisabledThemeAttrColor(context, R$attr.colorControlNormal), AppCompatDrawableManager.DEFAULT_MODE);
-                            Drawable findDrawableByLayerId2 = layerDrawable2.findDrawableByLayerId(16908303);
-                            int i3 = R$attr.colorControlActivated;
-                            setPorterDuffColorFilter(findDrawableByLayerId2, ThemeUtils.getThemeAttrColor(context, i3), AppCompatDrawableManager.DEFAULT_MODE);
-                            setPorterDuffColorFilter(layerDrawable2.findDrawableByLayerId(16908301), ThemeUtils.getThemeAttrColor(context, i3), AppCompatDrawableManager.DEFAULT_MODE);
-                            return true;
+                    public Drawable createDrawableFor(ResourceManagerInternal resourceManagerInternal, Context context, int i) {
+                        int i2;
+                        if (i == R$drawable.abc_cab_background_top_material) {
+                            return new LayerDrawable(new Drawable[]{resourceManagerInternal.getDrawable(context, R$drawable.abc_cab_background_internal_bg), resourceManagerInternal.getDrawable(context, R$drawable.abc_cab_background_top_mtrl_alpha)});
+                        }
+                        if (i == R$drawable.abc_ratingbar_material) {
+                            i2 = R$dimen.abc_star_big;
+                        } else if (i == R$drawable.abc_ratingbar_indicator_material) {
+                            i2 = R$dimen.abc_star_medium;
+                        } else if (i != R$drawable.abc_ratingbar_small_material) {
+                            return null;
                         } else {
-                            return false;
+                            i2 = R$dimen.abc_star_small;
                         }
-                    }
-
-                    private boolean arrayContains(int[] iArr, int i) {
-                        for (int i2 : iArr) {
-                            if (i2 == i) {
-                                return true;
-                            }
-                        }
-                        return false;
+                        return getRatingBarLayerDrawable(resourceManagerInternal, context, i2);
                     }
 
                     @Override // androidx.appcompat.widget.ResourceManagerInternal.ResourceManagerHooks
@@ -210,6 +211,41 @@ public final class AppCompatDrawableManager {
                         return null;
                     }
 
+                    @Override // androidx.appcompat.widget.ResourceManagerInternal.ResourceManagerHooks
+                    public PorterDuff.Mode getTintModeForDrawableRes(int i) {
+                        if (i == R$drawable.abc_switch_thumb_material) {
+                            return PorterDuff.Mode.MULTIPLY;
+                        }
+                        return null;
+                    }
+
+                    @Override // androidx.appcompat.widget.ResourceManagerInternal.ResourceManagerHooks
+                    public boolean tintDrawable(Context context, int i, Drawable drawable) {
+                        Drawable findDrawableByLayerId;
+                        int themeAttrColor;
+                        if (i == R$drawable.abc_seekbar_track_material) {
+                            LayerDrawable layerDrawable = (LayerDrawable) drawable;
+                            Drawable findDrawableByLayerId2 = layerDrawable.findDrawableByLayerId(16908288);
+                            int i2 = R$attr.colorControlNormal;
+                            setPorterDuffColorFilter(findDrawableByLayerId2, ThemeUtils.getThemeAttrColor(context, i2), AppCompatDrawableManager.DEFAULT_MODE);
+                            setPorterDuffColorFilter(layerDrawable.findDrawableByLayerId(16908303), ThemeUtils.getThemeAttrColor(context, i2), AppCompatDrawableManager.DEFAULT_MODE);
+                            findDrawableByLayerId = layerDrawable.findDrawableByLayerId(16908301);
+                            themeAttrColor = ThemeUtils.getThemeAttrColor(context, R$attr.colorControlActivated);
+                        } else if (i != R$drawable.abc_ratingbar_material && i != R$drawable.abc_ratingbar_indicator_material && i != R$drawable.abc_ratingbar_small_material) {
+                            return false;
+                        } else {
+                            LayerDrawable layerDrawable2 = (LayerDrawable) drawable;
+                            setPorterDuffColorFilter(layerDrawable2.findDrawableByLayerId(16908288), ThemeUtils.getDisabledThemeAttrColor(context, R$attr.colorControlNormal), AppCompatDrawableManager.DEFAULT_MODE);
+                            Drawable findDrawableByLayerId3 = layerDrawable2.findDrawableByLayerId(16908303);
+                            int i3 = R$attr.colorControlActivated;
+                            setPorterDuffColorFilter(findDrawableByLayerId3, ThemeUtils.getThemeAttrColor(context, i3), AppCompatDrawableManager.DEFAULT_MODE);
+                            findDrawableByLayerId = layerDrawable2.findDrawableByLayerId(16908301);
+                            themeAttrColor = ThemeUtils.getThemeAttrColor(context, i3);
+                        }
+                        setPorterDuffColorFilter(findDrawableByLayerId, themeAttrColor, AppCompatDrawableManager.DEFAULT_MODE);
+                        return true;
+                    }
+
                     /* JADX WARN: Removed duplicated region for block: B:22:0x0052  */
                     /* JADX WARN: Removed duplicated region for block: B:29:0x006d A[RETURN] */
                     @Override // androidx.appcompat.widget.ResourceManagerInternal.ResourceManagerHooks
@@ -227,9 +263,7 @@ public final class AppCompatDrawableManager {
                         } else if (arrayContains(this.COLORFILTER_COLOR_CONTROL_ACTIVATED, i)) {
                             i2 = R$attr.colorControlActivated;
                         } else {
-                            if (arrayContains(this.COLORFILTER_COLOR_BACKGROUND_MULTIPLY, i)) {
-                                mode2 = PorterDuff.Mode.MULTIPLY;
-                            } else {
+                            if (!arrayContains(this.COLORFILTER_COLOR_BACKGROUND_MULTIPLY, i)) {
                                 if (i == R$drawable.abc_list_divider_mtrl_alpha) {
                                     mode = mode2;
                                     z = true;
@@ -253,6 +287,7 @@ public final class AppCompatDrawableManager {
                                 }
                                 return false;
                             }
+                            mode2 = PorterDuff.Mode.MULTIPLY;
                             mode = mode2;
                             i2 = 16842801;
                             i3 = -1;
@@ -266,32 +301,14 @@ public final class AppCompatDrawableManager {
                         if (z) {
                         }
                     }
-
-                    @Override // androidx.appcompat.widget.ResourceManagerInternal.ResourceManagerHooks
-                    public PorterDuff.Mode getTintModeForDrawableRes(int i) {
-                        if (i == R$drawable.abc_switch_thumb_material) {
-                            return PorterDuff.Mode.MULTIPLY;
-                        }
-                        return null;
-                    }
                 });
             }
         }
     }
 
-    public static synchronized AppCompatDrawableManager get() {
-        AppCompatDrawableManager appCompatDrawableManager;
-        synchronized (AppCompatDrawableManager.class) {
-            try {
-                if (INSTANCE == null) {
-                    preload();
-                }
-                appCompatDrawableManager = INSTANCE;
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-        return appCompatDrawableManager;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void tintDrawable(Drawable drawable, TintInfo tintInfo, int[] iArr) {
+        ResourceManagerInternal.tintDrawable(drawable, tintInfo, iArr);
     }
 
     public synchronized Drawable getDrawable(Context context, int i) {
@@ -303,25 +320,8 @@ public final class AppCompatDrawableManager {
         return this.mResourceManager.getDrawable(context, i, z);
     }
 
-    public synchronized void onConfigurationChanged(Context context) {
-        this.mResourceManager.onConfigurationChanged(context);
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized ColorStateList getTintList(Context context, int i) {
         return this.mResourceManager.getTintList(context, i);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void tintDrawable(Drawable drawable, TintInfo tintInfo, int[] iArr) {
-        ResourceManagerInternal.tintDrawable(drawable, tintInfo, iArr);
-    }
-
-    public static synchronized PorterDuffColorFilter getPorterDuffColorFilter(int i, PorterDuff.Mode mode) {
-        PorterDuffColorFilter porterDuffColorFilter;
-        synchronized (AppCompatDrawableManager.class) {
-            porterDuffColorFilter = ResourceManagerInternal.getPorterDuffColorFilter(i, mode);
-        }
-        return porterDuffColorFilter;
     }
 }

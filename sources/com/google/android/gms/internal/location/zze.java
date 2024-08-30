@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import com.google.android.gms.common.Feature;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class zze implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator

@@ -68,9 +68,27 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         setWillNotDraw(false);
     }
 
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f), 1073741824));
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        int i3;
+        if (i == NotificationCenter.currentUserPremiumStatusChanged) {
+            i3 = this.accountNumber;
+            if (i2 != i3) {
+                return;
+            }
+        } else if (i == NotificationCenter.emojiLoaded) {
+            this.textView.invalidate();
+            return;
+        } else if (i != NotificationCenter.updateInterfaces || (((Integer) objArr[0]).intValue() & MessagesController.UPDATE_MASK_EMOJI_STATUS) <= 0) {
+            return;
+        } else {
+            i3 = this.accountNumber;
+        }
+        setAccount(i3);
+    }
+
+    public int getAccountNumber() {
+        return this.accountNumber;
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -102,57 +120,6 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         }
     }
 
-    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if (i == NotificationCenter.currentUserPremiumStatusChanged) {
-            int i3 = this.accountNumber;
-            if (i2 == i3) {
-                setAccount(i3);
-            }
-        } else if (i == NotificationCenter.emojiLoaded) {
-            this.textView.invalidate();
-        } else if (i != NotificationCenter.updateInterfaces || (((Integer) objArr[0]).intValue() & MessagesController.UPDATE_MASK_EMOJI_STATUS) <= 0) {
-        } else {
-            setAccount(this.accountNumber);
-        }
-    }
-
-    public void setAccount(int i) {
-        this.accountNumber = i;
-        TLRPC$User currentUser = UserConfig.getInstance(i).getCurrentUser();
-        if (currentUser == null) {
-            return;
-        }
-        this.avatarDrawable.setInfo(i, currentUser);
-        CharSequence formatName = ContactsController.formatName(currentUser.first_name, currentUser.last_name);
-        try {
-            formatName = Emoji.replaceEmoji(formatName, this.textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
-        } catch (Exception unused) {
-        }
-        this.textView.setText(formatName);
-        Long emojiStatusDocumentId = UserObject.getEmojiStatusDocumentId(currentUser);
-        if (emojiStatusDocumentId != null) {
-            this.textView.setDrawablePadding(AndroidUtilities.dp(4.0f));
-            this.status.set(emojiStatusDocumentId.longValue(), true);
-            this.textView.setRightDrawableOutside(true);
-        } else if (MessagesController.getInstance(i).isPremiumUser(currentUser)) {
-            this.textView.setDrawablePadding(AndroidUtilities.dp(6.0f));
-            this.status.set(PremiumGradient.getInstance().premiumStarDrawableMini, true);
-            this.textView.setRightDrawableOutside(true);
-        } else {
-            this.status.set((Drawable) null, true);
-            this.textView.setRightDrawableOutside(false);
-        }
-        this.status.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground)));
-        this.imageView.getImageReceiver().setCurrentAccount(i);
-        this.imageView.setForUserOrChat(currentUser, this.avatarDrawable);
-        this.checkBox.setVisibility(i != UserConfig.selectedAccount ? 4 : 0);
-    }
-
-    public int getAccountNumber() {
-        return this.accountNumber;
-    }
-
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
         if (UserConfig.getActivatedAccountsCount() <= 1 || !NotificationsController.getInstance(this.accountNumber).showBadgeNumber) {
@@ -182,5 +149,49 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
         accessibilityNodeInfo.addAction(16);
+    }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f), 1073741824));
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00a9  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void setAccount(int i) {
+        this.accountNumber = i;
+        TLRPC$User currentUser = UserConfig.getInstance(i).getCurrentUser();
+        if (currentUser == null) {
+            return;
+        }
+        this.avatarDrawable.setInfo(i, currentUser);
+        CharSequence formatName = ContactsController.formatName(currentUser.first_name, currentUser.last_name);
+        try {
+            formatName = Emoji.replaceEmoji(formatName, this.textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+        } catch (Exception unused) {
+        }
+        this.textView.setText(formatName);
+        Long emojiStatusDocumentId = UserObject.getEmojiStatusDocumentId(currentUser);
+        if (emojiStatusDocumentId != null) {
+            this.textView.setDrawablePadding(AndroidUtilities.dp(4.0f));
+            this.status.set(emojiStatusDocumentId.longValue(), true);
+        } else if (!MessagesController.getInstance(i).isPremiumUser(currentUser)) {
+            this.status.set((Drawable) null, true);
+            this.textView.setRightDrawableOutside(false);
+            this.status.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground)));
+            this.imageView.getImageReceiver().setCurrentAccount(i);
+            this.imageView.setForUserOrChat(currentUser, this.avatarDrawable);
+            this.checkBox.setVisibility(i != UserConfig.selectedAccount ? 4 : 0);
+        } else {
+            this.textView.setDrawablePadding(AndroidUtilities.dp(6.0f));
+            this.status.set(PremiumGradient.getInstance().premiumStarDrawableMini, true);
+        }
+        this.textView.setRightDrawableOutside(true);
+        this.status.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground)));
+        this.imageView.getImageReceiver().setCurrentAccount(i);
+        this.imageView.setForUserOrChat(currentUser, this.avatarDrawable);
+        this.checkBox.setVisibility(i != UserConfig.selectedAccount ? 4 : 0);
     }
 }

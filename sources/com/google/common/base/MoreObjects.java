@@ -1,12 +1,12 @@
 package com.google.common.base;
 /* loaded from: classes.dex */
-public final class MoreObjects {
-    public static <T> T firstNonNull(T t, T t2) {
-        if (t != null) {
-            return t;
+public abstract class MoreObjects {
+    public static Object firstNonNull(Object obj, Object obj2) {
+        if (obj != null) {
+            return obj;
         }
-        if (t2 != null) {
-            return t2;
+        if (obj2 != null) {
+            return obj2;
         }
         throw new NullPointerException("Both parameters are null");
     }

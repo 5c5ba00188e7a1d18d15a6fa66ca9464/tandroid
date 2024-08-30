@@ -19,13 +19,19 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class FontRequestEmojiCompatConfig extends EmojiCompat.Config {
     private static final FontProviderHelper DEFAULT_FONTS_CONTRACT = new FontProviderHelper();
 
-    public FontRequestEmojiCompatConfig(Context context, FontRequest fontRequest) {
-        super(new FontRequestMetadataLoader(context, fontRequest, DEFAULT_FONTS_CONTRACT));
-    }
+    /* loaded from: classes.dex */
+    public static class FontProviderHelper {
+        public Typeface buildTypeface(Context context, FontsContractCompat.FontInfo fontInfo) {
+            return FontsContractCompat.buildTypeface(context, null, new FontsContractCompat.FontInfo[]{fontInfo});
+        }
 
-    public FontRequestEmojiCompatConfig setLoadingExecutor(Executor executor) {
-        ((FontRequestMetadataLoader) getMetadataRepoLoader()).setExecutor(executor);
-        return this;
+        public FontsContractCompat.FontFamilyResult fetchFonts(Context context, FontRequest fontRequest) {
+            return FontsContractCompat.fetchFonts(context, null, fontRequest);
+        }
+
+        public void unregisterObserver(Context context, ContentObserver contentObserver) {
+            context.getContentResolver().unregisterContentObserver(contentObserver);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -48,60 +54,6 @@ public class FontRequestEmojiCompatConfig extends EmojiCompat.Config {
             this.mContext = context.getApplicationContext();
             this.mRequest = fontRequest;
             this.mFontProviderHelper = fontProviderHelper;
-        }
-
-        public void setExecutor(Executor executor) {
-            synchronized (this.mLock) {
-                this.mExecutor = executor;
-            }
-        }
-
-        @Override // androidx.emoji2.text.EmojiCompat.MetadataRepoLoader
-        public void load(EmojiCompat.MetadataRepoLoaderCallback metadataRepoLoaderCallback) {
-            Preconditions.checkNotNull(metadataRepoLoaderCallback, "LoaderCallback cannot be null");
-            synchronized (this.mLock) {
-                this.mCallback = metadataRepoLoaderCallback;
-            }
-            loadInternal();
-        }
-
-        void loadInternal() {
-            synchronized (this.mLock) {
-                try {
-                    if (this.mCallback == null) {
-                        return;
-                    }
-                    if (this.mExecutor == null) {
-                        ThreadPoolExecutor createBackgroundPriorityExecutor = ConcurrencyHelpers.createBackgroundPriorityExecutor("emojiCompat");
-                        this.mMyThreadPoolExecutor = createBackgroundPriorityExecutor;
-                        this.mExecutor = createBackgroundPriorityExecutor;
-                    }
-                    this.mExecutor.execute(new Runnable() { // from class: androidx.emoji2.text.FontRequestEmojiCompatConfig$FontRequestMetadataLoader$$ExternalSyntheticLambda0
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            FontRequestEmojiCompatConfig.FontRequestMetadataLoader.this.createMetadata();
-                        }
-                    });
-                } catch (Throwable th) {
-                    throw th;
-                }
-            }
-        }
-
-        private FontsContractCompat.FontInfo retrieveFontInfo() {
-            try {
-                FontsContractCompat.FontFamilyResult fetchFonts = this.mFontProviderHelper.fetchFonts(this.mContext, this.mRequest);
-                if (fetchFonts.getStatusCode() != 0) {
-                    throw new RuntimeException("fetchFonts failed (" + fetchFonts.getStatusCode() + ")");
-                }
-                FontsContractCompat.FontInfo[] fonts = fetchFonts.getFonts();
-                if (fonts == null || fonts.length == 0) {
-                    throw new RuntimeException("fetchFonts failed (empty result)");
-                }
-                return fonts[0];
-            } catch (PackageManager.NameNotFoundException e) {
-                throw new RuntimeException("provider not found", e);
-            }
         }
 
         private void cleanUp() {
@@ -127,6 +79,22 @@ public class FontRequestEmojiCompatConfig extends EmojiCompat.Config {
                 } catch (Throwable th) {
                     throw th;
                 }
+            }
+        }
+
+        private FontsContractCompat.FontInfo retrieveFontInfo() {
+            try {
+                FontsContractCompat.FontFamilyResult fetchFonts = this.mFontProviderHelper.fetchFonts(this.mContext, this.mRequest);
+                if (fetchFonts.getStatusCode() == 0) {
+                    FontsContractCompat.FontInfo[] fonts = fetchFonts.getFonts();
+                    if (fonts == null || fonts.length == 0) {
+                        throw new RuntimeException("fetchFonts failed (empty result)");
+                    }
+                    return fonts[0];
+                }
+                throw new RuntimeException("fetchFonts failed (" + fetchFonts.getStatusCode() + ")");
+            } catch (PackageManager.NameNotFoundException e) {
+                throw new RuntimeException("provider not found", e);
             }
         }
 
@@ -178,20 +146,52 @@ public class FontRequestEmojiCompatConfig extends EmojiCompat.Config {
                 }
             }
         }
+
+        @Override // androidx.emoji2.text.EmojiCompat.MetadataRepoLoader
+        public void load(EmojiCompat.MetadataRepoLoaderCallback metadataRepoLoaderCallback) {
+            Preconditions.checkNotNull(metadataRepoLoaderCallback, "LoaderCallback cannot be null");
+            synchronized (this.mLock) {
+                this.mCallback = metadataRepoLoaderCallback;
+            }
+            loadInternal();
+        }
+
+        void loadInternal() {
+            synchronized (this.mLock) {
+                try {
+                    if (this.mCallback == null) {
+                        return;
+                    }
+                    if (this.mExecutor == null) {
+                        ThreadPoolExecutor createBackgroundPriorityExecutor = ConcurrencyHelpers.createBackgroundPriorityExecutor("emojiCompat");
+                        this.mMyThreadPoolExecutor = createBackgroundPriorityExecutor;
+                        this.mExecutor = createBackgroundPriorityExecutor;
+                    }
+                    this.mExecutor.execute(new Runnable() { // from class: androidx.emoji2.text.FontRequestEmojiCompatConfig$FontRequestMetadataLoader$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            FontRequestEmojiCompatConfig.FontRequestMetadataLoader.this.createMetadata();
+                        }
+                    });
+                } catch (Throwable th) {
+                    throw th;
+                }
+            }
+        }
+
+        public void setExecutor(Executor executor) {
+            synchronized (this.mLock) {
+                this.mExecutor = executor;
+            }
+        }
     }
 
-    /* loaded from: classes.dex */
-    public static class FontProviderHelper {
-        public FontsContractCompat.FontFamilyResult fetchFonts(Context context, FontRequest fontRequest) throws PackageManager.NameNotFoundException {
-            return FontsContractCompat.fetchFonts(context, null, fontRequest);
-        }
+    public FontRequestEmojiCompatConfig(Context context, FontRequest fontRequest) {
+        super(new FontRequestMetadataLoader(context, fontRequest, DEFAULT_FONTS_CONTRACT));
+    }
 
-        public Typeface buildTypeface(Context context, FontsContractCompat.FontInfo fontInfo) throws PackageManager.NameNotFoundException {
-            return FontsContractCompat.buildTypeface(context, null, new FontsContractCompat.FontInfo[]{fontInfo});
-        }
-
-        public void unregisterObserver(Context context, ContentObserver contentObserver) {
-            context.getContentResolver().unregisterContentObserver(contentObserver);
-        }
+    public FontRequestEmojiCompatConfig setLoadingExecutor(Executor executor) {
+        ((FontRequestMetadataLoader) getMetadataRepoLoader()).setExecutor(executor);
+        return this;
     }
 }

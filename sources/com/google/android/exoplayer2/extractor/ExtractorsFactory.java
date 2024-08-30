@@ -2,7 +2,6 @@ package com.google.android.exoplayer2.extractor;
 
 import android.net.Uri;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
-import java.util.List;
 import java.util.Map;
 /* loaded from: classes.dex */
 public interface ExtractorsFactory {
@@ -20,12 +19,8 @@ public interface ExtractorsFactory {
         }
     };
 
-    Extractor[] createExtractors();
-
-    Extractor[] createExtractors(Uri uri, Map<String, List<String>> map);
-
     /* loaded from: classes.dex */
-    public final /* synthetic */ class -CC {
+    public abstract /* synthetic */ class -CC {
         static {
             ExtractorsFactory extractorsFactory = ExtractorsFactory.EMPTY;
         }
@@ -34,4 +29,8 @@ public interface ExtractorsFactory {
             return new Extractor[0];
         }
     }
+
+    Extractor[] createExtractors();
+
+    Extractor[] createExtractors(Uri uri, Map map);
 }

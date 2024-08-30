@@ -45,8 +45,8 @@ public class BuildVars {
         }
     }
 
-    public static boolean useInvoiceBilling() {
-        return BillingController.billingClientEmpty || DEBUG_VERSION || ApplicationLoader.isStandaloneBuild() || isBetaApp() || isHuaweiStoreApp() || hasDirectCurrency();
+    public static String getSmsHash() {
+        return ApplicationLoader.isStandaloneBuild() ? "w0lkcmTZkKh" : DEBUG_VERSION ? "O2P2z+/jBpJ" : "oLeq9AcOZkT";
     }
 
     private static boolean hasDirectCurrency() {
@@ -76,7 +76,7 @@ public class BuildVars {
         return ApplicationLoader.isHuaweiStoreBuild();
     }
 
-    public static String getSmsHash() {
-        return ApplicationLoader.isStandaloneBuild() ? "w0lkcmTZkKh" : DEBUG_VERSION ? "O2P2z+/jBpJ" : "oLeq9AcOZkT";
+    public static boolean useInvoiceBilling() {
+        return BillingController.billingClientEmpty || DEBUG_VERSION || ApplicationLoader.isStandaloneBuild() || isBetaApp() || isHuaweiStoreApp() || hasDirectCurrency();
     }
 }

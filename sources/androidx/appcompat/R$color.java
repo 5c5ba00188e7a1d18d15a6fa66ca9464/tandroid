@@ -1,6 +1,6 @@
 package androidx.appcompat;
 /* loaded from: classes.dex */
-public final class R$color {
+public abstract class R$color {
     public static final int abc_decor_view_status_guard = 2131099653;
     public static final int abc_decor_view_status_guard_light = 2131099654;
     public static final int abc_tint_btn_checkable = 2131099667;

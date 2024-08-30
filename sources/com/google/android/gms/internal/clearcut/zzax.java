@@ -1,11 +1,11 @@
 package com.google.android.gms.internal.clearcut;
 
-import java.io.IOException;
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
-final class zzax {
+abstract class zzax {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, byte[] bArr, int i2, int i3, zzay zzayVar) throws zzco {
+    public static int zza(int i, byte[] bArr, int i2, int i3, zzay zzayVar) {
         if ((i >>> 3) != 0) {
             int i4 = i & 7;
             if (i4 != 0) {
@@ -42,25 +42,15 @@ final class zzax {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, byte[] bArr, int i2, int i3, zzcn<?> zzcnVar, zzay zzayVar) {
-        zzch zzchVar = (zzch) zzcnVar;
-        int zza = zza(bArr, i2, zzayVar);
-        while (true) {
-            zzchVar.zzac(zzayVar.zzfd);
-            if (zza >= i3) {
-                break;
-            }
-            int zza2 = zza(bArr, zza, zzayVar);
-            if (i != zzayVar.zzfd) {
-                break;
-            }
-            zza = zza(bArr, zza2, zzayVar);
-        }
-        return zza;
+    public static int zza(int i, byte[] bArr, int i2, int i3, zzcn zzcnVar, zzay zzayVar) {
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(zzcnVar);
+        zza(bArr, i2, zzayVar);
+        int i4 = zzayVar.zzfd;
+        throw null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, byte[] bArr, int i2, int i3, zzey zzeyVar, zzay zzayVar) throws IOException {
+    public static int zza(int i, byte[] bArr, int i2, int i3, zzey zzeyVar, zzay zzayVar) {
         if ((i >>> 3) != 0) {
             int i4 = i & 7;
             if (i4 == 0) {
@@ -166,18 +156,18 @@ final class zzax {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(byte[] bArr, int i, zzcn<?> zzcnVar, zzay zzayVar) throws IOException {
-        zzch zzchVar = (zzch) zzcnVar;
+    public static int zza(byte[] bArr, int i, zzcn zzcnVar, zzay zzayVar) {
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(zzcnVar);
         int zza = zza(bArr, i, zzayVar);
         int i2 = zzayVar.zzfd + zza;
-        while (zza < i2) {
-            zza = zza(bArr, zza, zzayVar);
-            zzchVar.zzac(zzayVar.zzfd);
-        }
-        if (zza == i2) {
+        if (zza < i2) {
+            zza(bArr, zza, zzayVar);
+            throw null;
+        } else if (zza == i2) {
             return zza;
+        } else {
+            throw zzco.zzbl();
         }
-        throw zzco.zzbl();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -222,7 +212,7 @@ final class zzax {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzd(byte[] bArr, int i, zzay zzayVar) throws IOException {
+    public static int zzd(byte[] bArr, int i, zzay zzayVar) {
         int zza = zza(bArr, i, zzayVar);
         int i2 = zzayVar.zzfd;
         if (i2 == 0) {

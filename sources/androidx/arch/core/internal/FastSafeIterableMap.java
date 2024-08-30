@@ -4,39 +4,39 @@ import androidx.arch.core.internal.SafeIterableMap;
 import java.util.HashMap;
 import java.util.Map;
 /* loaded from: classes.dex */
-public class FastSafeIterableMap<K, V> extends SafeIterableMap<K, V> {
-    private HashMap<K, SafeIterableMap.Entry<K, V>> mHashMap = new HashMap<>();
+public class FastSafeIterableMap extends SafeIterableMap {
+    private HashMap mHashMap = new HashMap();
 
-    @Override // androidx.arch.core.internal.SafeIterableMap
-    protected SafeIterableMap.Entry<K, V> get(K k) {
-        return this.mHashMap.get(k);
+    public Map.Entry ceil(Object obj) {
+        if (contains(obj)) {
+            return ((SafeIterableMap.Entry) this.mHashMap.get(obj)).mPrevious;
+        }
+        return null;
+    }
+
+    public boolean contains(Object obj) {
+        return this.mHashMap.containsKey(obj);
     }
 
     @Override // androidx.arch.core.internal.SafeIterableMap
-    public V putIfAbsent(K k, V v) {
-        SafeIterableMap.Entry<K, V> entry = get(k);
+    protected SafeIterableMap.Entry get(Object obj) {
+        return (SafeIterableMap.Entry) this.mHashMap.get(obj);
+    }
+
+    @Override // androidx.arch.core.internal.SafeIterableMap
+    public Object putIfAbsent(Object obj, Object obj2) {
+        SafeIterableMap.Entry entry = get(obj);
         if (entry != null) {
             return entry.mValue;
         }
-        this.mHashMap.put(k, put(k, v));
+        this.mHashMap.put(obj, put(obj, obj2));
         return null;
     }
 
     @Override // androidx.arch.core.internal.SafeIterableMap
-    public V remove(K k) {
-        V v = (V) super.remove(k);
-        this.mHashMap.remove(k);
-        return v;
-    }
-
-    public boolean contains(K k) {
-        return this.mHashMap.containsKey(k);
-    }
-
-    public Map.Entry<K, V> ceil(K k) {
-        if (contains(k)) {
-            return this.mHashMap.get(k).mPrevious;
-        }
-        return null;
+    public Object remove(Object obj) {
+        Object remove = super.remove(obj);
+        this.mHashMap.remove(obj);
+        return remove;
     }
 }

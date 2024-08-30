@@ -2,7 +2,7 @@ package com.google.android.exoplayer2.audio;
 
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
-public final class WavUtil {
+public abstract class WavUtil {
     public static int getPcmEncodingForType(int i, int i2) {
         if (i != 1) {
             if (i == 3) {

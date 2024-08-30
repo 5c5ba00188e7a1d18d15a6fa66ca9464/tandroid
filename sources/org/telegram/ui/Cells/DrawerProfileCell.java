@@ -42,7 +42,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.DrawerLayoutContainer;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.ActionBar.Theme$$ExternalSyntheticApiModelOutline0;
+import org.telegram.ui.ActionBar.Theme$$ExternalSyntheticApiModelOutline2;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
@@ -58,7 +58,7 @@ import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.SnowflakesEffect;
 import org.telegram.ui.ThemeActivity;
 /* loaded from: classes4.dex */
-public class DrawerProfileCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
+public abstract class DrawerProfileCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static RLottieDrawable sunDrawable;
     public static boolean switchingTheme;
     private boolean accountsShown;
@@ -87,7 +87,145 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable status;
     private boolean updateRightDrawable;
 
-    protected void onPremiumClick() {
+    /* loaded from: classes4.dex */
+    public static class AnimatedStatusView extends View {
+        private int animationUniq;
+        private ArrayList animations;
+        private Integer color;
+        private int effectsSize;
+        private int renderedEffectsSize;
+        private int stateSize;
+        private float y1;
+        private float y2;
+
+        public AnimatedStatusView(Context context, int i, int i2) {
+            super(context);
+            this.animations = new ArrayList();
+            this.stateSize = i;
+            this.effectsSize = i2;
+            this.renderedEffectsSize = i2;
+        }
+
+        private void detach() {
+            if (!this.animations.isEmpty()) {
+                Iterator it = this.animations.iterator();
+                while (it.hasNext()) {
+                    Object next = it.next();
+                    if (next instanceof ImageReceiver) {
+                        ((ImageReceiver) next).onDetachedFromWindow();
+                    } else if (next instanceof AnimatedEmojiEffect) {
+                        ((AnimatedEmojiEffect) next).removeView(this);
+                    }
+                }
+            }
+            this.animations.clear();
+        }
+
+        /* JADX WARN: Multi-variable type inference failed */
+        public void animateChange(ReactionsLayoutInBubble.VisibleReaction visibleReaction) {
+            TLRPC$TL_availableReaction tLRPC$TL_availableReaction;
+            AnimatedEmojiEffect animatedEmojiEffect;
+            String findAnimatedEmojiEmoticon;
+            if (visibleReaction == null) {
+                detach();
+                return;
+            }
+            TLRPC$Document tLRPC$Document = null;
+            TLRPC$TL_availableReaction tLRPC$TL_availableReaction2 = visibleReaction.emojicon != null ? MediaDataController.getInstance(UserConfig.selectedAccount).getReactionsMap().get(visibleReaction.emojicon) : null;
+            if (tLRPC$TL_availableReaction2 == null) {
+                TLRPC$Document findDocument = AnimatedEmojiDrawable.findDocument(UserConfig.selectedAccount, visibleReaction.documentId);
+                if (findDocument != null && (findAnimatedEmojiEmoticon = MessageObject.findAnimatedEmojiEmoticon(findDocument, null)) != null) {
+                    tLRPC$TL_availableReaction2 = MediaDataController.getInstance(UserConfig.selectedAccount).getReactionsMap().get(findAnimatedEmojiEmoticon);
+                }
+                tLRPC$TL_availableReaction = tLRPC$TL_availableReaction2;
+                tLRPC$Document = findDocument;
+            } else {
+                tLRPC$TL_availableReaction = tLRPC$TL_availableReaction2;
+            }
+            if (tLRPC$Document != null || tLRPC$TL_availableReaction == null) {
+                AnimatedEmojiDrawable make = tLRPC$Document == null ? AnimatedEmojiDrawable.make(2, UserConfig.selectedAccount, visibleReaction.documentId) : AnimatedEmojiDrawable.make(2, UserConfig.selectedAccount, tLRPC$Document);
+                if (this.color != null) {
+                    make.setColorFilter(new PorterDuffColorFilter(this.color.intValue(), PorterDuff.Mode.MULTIPLY));
+                }
+                AnimatedEmojiEffect createFrom = AnimatedEmojiEffect.createFrom(make, false, !make.canOverrideColor());
+                createFrom.setView(this);
+                animatedEmojiEffect = createFrom;
+            } else {
+                ImageReceiver imageReceiver = new ImageReceiver();
+                imageReceiver.setParentView(this);
+                int i = this.animationUniq;
+                this.animationUniq = i + 1;
+                imageReceiver.setUniqKeyPrefix(Integer.toString(i));
+                ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$TL_availableReaction.around_animation);
+                imageReceiver.setImage(forDocument, this.effectsSize + "_" + this.effectsSize + "_nolimit", null, "tgs", tLRPC$TL_availableReaction, 1);
+                imageReceiver.setAutoRepeat(0);
+                imageReceiver.onAttachedToWindow();
+                animatedEmojiEffect = imageReceiver;
+            }
+            this.animations.add(animatedEmojiEffect);
+            invalidate();
+        }
+
+        @Override // android.view.View
+        public void dispatchDraw(Canvas canvas) {
+            int dp = AndroidUtilities.dp(this.renderedEffectsSize);
+            int dp2 = AndroidUtilities.dp(this.effectsSize);
+            for (int i = 0; i < this.animations.size(); i++) {
+                Object obj = this.animations.get(i);
+                if (obj instanceof ImageReceiver) {
+                    ImageReceiver imageReceiver = (ImageReceiver) obj;
+                    float f = dp2;
+                    imageReceiver.setImageCoords((getMeasuredWidth() - dp2) / 2.0f, (getMeasuredHeight() - dp2) / 2.0f, f, f);
+                    imageReceiver.draw(canvas);
+                } else if (obj instanceof AnimatedEmojiEffect) {
+                    AnimatedEmojiEffect animatedEmojiEffect = (AnimatedEmojiEffect) obj;
+                    animatedEmojiEffect.setBounds((int) ((getMeasuredWidth() - dp) / 2.0f), (int) ((getMeasuredHeight() - dp) / 2.0f), (int) ((getMeasuredWidth() + dp) / 2.0f), (int) ((getMeasuredHeight() + dp) / 2.0f));
+                    animatedEmojiEffect.draw(canvas);
+                    if (animatedEmojiEffect.isDone()) {
+                        animatedEmojiEffect.removeView(this);
+                        this.animations.remove(animatedEmojiEffect);
+                    }
+                }
+            }
+        }
+
+        @Override // android.view.View
+        protected void onDetachedFromWindow() {
+            super.onDetachedFromWindow();
+            detach();
+        }
+
+        @Override // android.view.View
+        protected void onMeasure(int i, int i2) {
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(Math.max(this.renderedEffectsSize, Math.max(this.stateSize, this.effectsSize))), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(Math.max(this.renderedEffectsSize, Math.max(this.stateSize, this.effectsSize))), 1073741824));
+        }
+
+        public void setColor(int i) {
+            this.color = Integer.valueOf(i);
+            PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY);
+            PorterDuffColorFilter porterDuffColorFilter2 = new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN);
+            for (int i2 = 0; i2 < this.animations.size(); i2++) {
+                Object obj = this.animations.get(i2);
+                if (obj instanceof ImageReceiver) {
+                    ((ImageReceiver) obj).setColorFilter(porterDuffColorFilter);
+                } else if (obj instanceof AnimatedEmojiEffect) {
+                    ((AnimatedEmojiEffect) obj).animatedEmojiDrawable.setColorFilter(porterDuffColorFilter2);
+                }
+            }
+        }
+
+        public void translate(float f, float f2) {
+            setTranslationX(f - (getMeasuredWidth() / 2.0f));
+            float measuredHeight = f2 - (getMeasuredHeight() / 2.0f);
+            this.y1 = measuredHeight;
+            setTranslationY(measuredHeight + this.y2);
+        }
+
+        public void translateY2(float f) {
+            float f2 = this.y1;
+            this.y2 = f;
+            setTranslationY(f2 + f);
+        }
     }
 
     public DrawerProfileCell(Context context, final DrawerLayoutContainer drawerLayoutContainer) {
@@ -111,19 +249,6 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         backupImageView.getImageReceiver().setRoundRadius(AndroidUtilities.dp(32.0f));
         addView(this.avatarImageView, LayoutHelper.createFrame(64, 64.0f, 83, 16.0f, 0.0f, 0.0f, 67.0f));
         SimpleTextView simpleTextView = new SimpleTextView(context) { // from class: org.telegram.ui.Cells.DrawerProfileCell.1
-            /* JADX INFO: Access modifiers changed from: protected */
-            @Override // org.telegram.ui.ActionBar.SimpleTextView, android.view.View
-            public void onDraw(Canvas canvas) {
-                super.onDraw(canvas);
-                if (DrawerProfileCell.this.updateRightDrawable) {
-                    DrawerProfileCell.this.updateRightDrawable = false;
-                    DrawerProfileCell drawerProfileCell = DrawerProfileCell.this;
-                    Rect rect = AndroidUtilities.rectTmp2;
-                    drawerProfileCell.getEmojiStatusLocation(rect);
-                    DrawerProfileCell.this.animatedStatus.translate(rect.centerX(), rect.centerY());
-                }
-            }
-
             @Override // android.view.View
             public void invalidate() {
                 if (HwEmojis.grab(this)) {
@@ -140,6 +265,14 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
                 super.invalidate(i, i2, i3, i4);
             }
 
+            @Override // android.view.View
+            public void invalidate(Rect rect) {
+                if (HwEmojis.grab(this)) {
+                    return;
+                }
+                super.invalidate(rect);
+            }
+
             @Override // org.telegram.ui.ActionBar.SimpleTextView, android.view.View, android.graphics.drawable.Drawable.Callback
             public void invalidateDrawable(Drawable drawable) {
                 if (HwEmojis.grab(this)) {
@@ -148,12 +281,17 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
                 super.invalidateDrawable(drawable);
             }
 
-            @Override // android.view.View
-            public void invalidate(Rect rect) {
-                if (HwEmojis.grab(this)) {
-                    return;
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.ActionBar.SimpleTextView, android.view.View
+            public void onDraw(Canvas canvas) {
+                super.onDraw(canvas);
+                if (DrawerProfileCell.this.updateRightDrawable) {
+                    DrawerProfileCell.this.updateRightDrawable = false;
+                    DrawerProfileCell drawerProfileCell = DrawerProfileCell.this;
+                    Rect rect = AndroidUtilities.rectTmp2;
+                    drawerProfileCell.getEmojiStatusLocation(rect);
+                    DrawerProfileCell.this.animatedStatus.translate(rect.centerX(), rect.centerY());
                 }
-                super.invalidate(rect);
             }
         };
         this.nameTextView = simpleTextView;
@@ -203,11 +341,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             @Override // android.view.View
             public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
                 super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-                if (Theme.isCurrentThemeDark()) {
-                    accessibilityNodeInfo.setText(LocaleController.getString(R.string.AccDescrSwitchToDayTheme));
-                } else {
-                    accessibilityNodeInfo.setText(LocaleController.getString(R.string.AccDescrSwitchToNightTheme));
-                }
+                accessibilityNodeInfo.setText(LocaleController.getString(Theme.isCurrentThemeDark() ? R.string.AccDescrSwitchToDayTheme : R.string.AccDescrSwitchToNightTheme));
             }
         };
         this.darkThemeView = rLottieImageView;
@@ -228,7 +362,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             int color2 = Theme.getColor(Theme.key_listSelector);
             this.darkThemeBackgroundColor = color2;
             rLottieImageView2.setBackgroundDrawable(Theme.createSelectorDrawable(color2, 1, AndroidUtilities.dp(17.0f)));
-            Theme.setRippleDrawableForceSoftware(Theme$$ExternalSyntheticApiModelOutline0.m(this.darkThemeView.getBackground()));
+            Theme.setRippleDrawableForceSoftware(Theme$$ExternalSyntheticApiModelOutline2.m(this.darkThemeView.getBackground()));
         }
         if (!z && sunDrawable.getCustomEndFrame() != sunDrawable.getCurrentFrame()) {
             this.darkThemeView.playAnimation();
@@ -271,6 +405,12 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$new$1(DrawerLayoutContainer drawerLayoutContainer) {
+        drawerLayoutContainer.closeDrawer(false);
+        drawerLayoutContainer.presentFragment(new ThemeActivity(1));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:29:0x0072  */
     /* JADX WARN: Removed duplicated region for block: B:30:0x007e  */
     /* JADX WARN: Removed duplicated region for block: B:33:0x0091  */
@@ -298,12 +438,12 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         } else if (activeTheme.isDark() || string.equals("Dark Blue") || string.equals("Night")) {
             str2 = string2;
             equals = str.equals(activeTheme.getKey());
-            if (!equals) {
-                theme = Theme.getTheme(str2);
-                sunDrawable.setCustomEndFrame(36);
-            } else {
+            if (equals) {
                 theme = Theme.getTheme(str);
                 sunDrawable.setCustomEndFrame(0);
+            } else {
+                theme = Theme.getTheme(str2);
+                sunDrawable.setCustomEndFrame(36);
             }
             this.darkThemeView.playAnimation();
             switchTheme(theme, equals);
@@ -320,18 +460,12 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
         str = string;
         equals = str.equals(activeTheme.getKey());
-        if (!equals) {
+        if (equals) {
         }
         this.darkThemeView.playAnimation();
         switchTheme(theme, equals);
         if (drawerLayoutContainer == null) {
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$new$1(DrawerLayoutContainer drawerLayoutContainer) {
-        drawerLayoutContainer.closeDrawer(false);
-        drawerLayoutContainer.presentFragment(new ThemeActivity(1));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -343,153 +477,71 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         return false;
     }
 
-    /* loaded from: classes4.dex */
-    public static class AnimatedStatusView extends View {
-        private int animationUniq;
-        private ArrayList<Object> animations;
-        private Integer color;
-        private int effectsSize;
-        private int renderedEffectsSize;
-        private int stateSize;
-        private float y1;
-        private float y2;
-
-        public AnimatedStatusView(Context context, int i, int i2) {
-            super(context);
-            this.animations = new ArrayList<>();
-            this.stateSize = i;
-            this.effectsSize = i2;
-            this.renderedEffectsSize = i2;
+    private void setArrowState(boolean z) {
+        float f = this.accountsShown ? 180.0f : 0.0f;
+        if (z) {
+            this.arrowView.animate().rotation(f).setDuration(220L).setInterpolator(CubicBezierInterpolator.EASE_OUT).start();
+        } else {
+            this.arrowView.animate().cancel();
+            this.arrowView.setRotation(f);
         }
+        this.arrowView.setContentDescription(LocaleController.getString(this.accountsShown ? R.string.AccDescrHideAccounts : R.string.AccDescrShowAccounts));
+    }
 
-        @Override // android.view.View
-        protected void onMeasure(int i, int i2) {
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(Math.max(this.renderedEffectsSize, Math.max(this.stateSize, this.effectsSize))), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(Math.max(this.renderedEffectsSize, Math.max(this.stateSize, this.effectsSize))), 1073741824));
-        }
-
-        public void translate(float f, float f2) {
-            setTranslationX(f - (getMeasuredWidth() / 2.0f));
-            float measuredHeight = f2 - (getMeasuredHeight() / 2.0f);
-            this.y1 = measuredHeight;
-            setTranslationY(measuredHeight + this.y2);
-        }
-
-        public void translateY2(float f) {
-            float f2 = this.y1;
-            this.y2 = f;
-            setTranslationY(f2 + f);
-        }
-
-        @Override // android.view.View
-        public void dispatchDraw(Canvas canvas) {
-            int dp = AndroidUtilities.dp(this.renderedEffectsSize);
-            int dp2 = AndroidUtilities.dp(this.effectsSize);
-            for (int i = 0; i < this.animations.size(); i++) {
-                Object obj = this.animations.get(i);
-                if (obj instanceof ImageReceiver) {
-                    ImageReceiver imageReceiver = (ImageReceiver) obj;
-                    float f = dp2;
-                    imageReceiver.setImageCoords((getMeasuredWidth() - dp2) / 2.0f, (getMeasuredHeight() - dp2) / 2.0f, f, f);
-                    imageReceiver.draw(canvas);
-                } else if (obj instanceof AnimatedEmojiEffect) {
-                    AnimatedEmojiEffect animatedEmojiEffect = (AnimatedEmojiEffect) obj;
-                    animatedEmojiEffect.setBounds((int) ((getMeasuredWidth() - dp) / 2.0f), (int) ((getMeasuredHeight() - dp) / 2.0f), (int) ((getMeasuredWidth() + dp) / 2.0f), (int) ((getMeasuredHeight() + dp) / 2.0f));
-                    animatedEmojiEffect.draw(canvas);
-                    if (animatedEmojiEffect.isDone()) {
-                        animatedEmojiEffect.removeView(this);
-                        this.animations.remove(animatedEmojiEffect);
-                    }
-                }
-            }
-        }
-
-        @Override // android.view.View
-        protected void onDetachedFromWindow() {
-            super.onDetachedFromWindow();
-            detach();
-        }
-
-        private void detach() {
-            if (!this.animations.isEmpty()) {
-                Iterator<Object> it = this.animations.iterator();
-                while (it.hasNext()) {
-                    Object next = it.next();
-                    if (next instanceof ImageReceiver) {
-                        ((ImageReceiver) next).onDetachedFromWindow();
-                    } else if (next instanceof AnimatedEmojiEffect) {
-                        ((AnimatedEmojiEffect) next).removeView(this);
-                    }
-                }
-            }
-            this.animations.clear();
-        }
-
-        public void animateChange(ReactionsLayoutInBubble.VisibleReaction visibleReaction) {
-            TLRPC$TL_availableReaction tLRPC$TL_availableReaction;
-            AnimatedEmojiDrawable make;
-            String findAnimatedEmojiEmoticon;
-            if (visibleReaction == null) {
-                detach();
-                return;
-            }
-            TLRPC$Document tLRPC$Document = null;
-            TLRPC$TL_availableReaction tLRPC$TL_availableReaction2 = visibleReaction.emojicon != null ? MediaDataController.getInstance(UserConfig.selectedAccount).getReactionsMap().get(visibleReaction.emojicon) : null;
-            if (tLRPC$TL_availableReaction2 == null) {
-                TLRPC$Document findDocument = AnimatedEmojiDrawable.findDocument(UserConfig.selectedAccount, visibleReaction.documentId);
-                if (findDocument != null && (findAnimatedEmojiEmoticon = MessageObject.findAnimatedEmojiEmoticon(findDocument, null)) != null) {
-                    tLRPC$TL_availableReaction2 = MediaDataController.getInstance(UserConfig.selectedAccount).getReactionsMap().get(findAnimatedEmojiEmoticon);
-                }
-                tLRPC$TL_availableReaction = tLRPC$TL_availableReaction2;
-                tLRPC$Document = findDocument;
-            } else {
-                tLRPC$TL_availableReaction = tLRPC$TL_availableReaction2;
-            }
-            if (tLRPC$Document == null && tLRPC$TL_availableReaction != null) {
-                ImageReceiver imageReceiver = new ImageReceiver();
-                imageReceiver.setParentView(this);
-                int i = this.animationUniq;
-                this.animationUniq = i + 1;
-                imageReceiver.setUniqKeyPrefix(Integer.toString(i));
-                ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$TL_availableReaction.around_animation);
-                imageReceiver.setImage(forDocument, this.effectsSize + "_" + this.effectsSize + "_nolimit", null, "tgs", tLRPC$TL_availableReaction, 1);
-                imageReceiver.setAutoRepeat(0);
-                imageReceiver.onAttachedToWindow();
-                this.animations.add(imageReceiver);
-                invalidate();
-                return;
-            }
-            if (tLRPC$Document == null) {
-                make = AnimatedEmojiDrawable.make(2, UserConfig.selectedAccount, visibleReaction.documentId);
-            } else {
-                make = AnimatedEmojiDrawable.make(2, UserConfig.selectedAccount, tLRPC$Document);
-            }
-            if (this.color != null) {
-                make.setColorFilter(new PorterDuffColorFilter(this.color.intValue(), PorterDuff.Mode.MULTIPLY));
-            }
-            AnimatedEmojiEffect createFrom = AnimatedEmojiEffect.createFrom(make, false, !make.canOverrideColor());
-            createFrom.setView(this);
-            this.animations.add(createFrom);
-            invalidate();
-        }
-
-        public void setColor(int i) {
-            this.color = Integer.valueOf(i);
-            PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY);
-            PorterDuffColorFilter porterDuffColorFilter2 = new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN);
-            for (int i2 = 0; i2 < this.animations.size(); i2++) {
-                Object obj = this.animations.get(i2);
-                if (obj instanceof ImageReceiver) {
-                    ((ImageReceiver) obj).setColorFilter(porterDuffColorFilter);
-                } else if (obj instanceof AnimatedEmojiEffect) {
-                    ((AnimatedEmojiEffect) obj).animatedEmojiDrawable.setColorFilter(porterDuffColorFilter2);
-                }
-            }
-        }
+    private void switchTheme(Theme.ThemeInfo themeInfo, boolean z) {
+        this.darkThemeView.getLocationInWindow(r1);
+        int[] iArr = {iArr[0] + (this.darkThemeView.getMeasuredWidth() / 2), iArr[1] + (this.darkThemeView.getMeasuredHeight() / 2)};
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, themeInfo, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), this.darkThemeView);
     }
 
     public void animateStateChange(long j) {
         this.animatedStatus.animateChange(ReactionsLayoutInBubble.VisibleReaction.fromCustomEmoji(Long.valueOf(j)));
         this.updateRightDrawable = true;
+    }
+
+    public Integer applyBackground(boolean z) {
+        Integer num = (Integer) getTag();
+        int i = Theme.key_chats_menuTopBackground;
+        if (!Theme.hasThemeKey(i) || Theme.getColor(i) == 0) {
+            i = Theme.key_chats_menuTopBackgroundCats;
+        }
+        if (z || num == null || i != num.intValue()) {
+            setBackgroundColor(Theme.getColor(i));
+            setTag(Integer.valueOf(i));
+        }
+        return Integer.valueOf(i);
+    }
+
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        TLRPC$User currentUser;
+        if (i == NotificationCenter.emojiLoaded) {
+            this.nameTextView.invalidate();
+            return;
+        }
+        if (i == NotificationCenter.userEmojiStatusUpdated) {
+            currentUser = (TLRPC$User) objArr[0];
+        } else {
+            if (i != NotificationCenter.currentUserPremiumStatusChanged) {
+                if (i != NotificationCenter.updateInterfaces) {
+                    return;
+                }
+                int intValue = ((Integer) objArr[0]).intValue();
+                if ((MessagesController.UPDATE_MASK_NAME & intValue) == 0 && (MessagesController.UPDATE_MASK_AVATAR & intValue) == 0 && (MessagesController.UPDATE_MASK_STATUS & intValue) == 0 && (MessagesController.UPDATE_MASK_PHONE & intValue) == 0 && (intValue & MessagesController.UPDATE_MASK_EMOJI_STATUS) == 0) {
+                    return;
+                }
+            }
+            currentUser = UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser();
+        }
+        setUser(currentUser, this.accountsShown);
+    }
+
+    public AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable getEmojiStatusDrawable() {
+        return this.status;
+    }
+
+    public View getEmojiStatusDrawableParent() {
+        return this.nameTextView;
     }
 
     public void getEmojiStatusLocation(Rect rect) {
@@ -502,10 +554,12 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         this.animatedStatus.translate(rect.centerX(), rect.centerY());
     }
 
-    private void switchTheme(Theme.ThemeInfo themeInfo, boolean z) {
-        this.darkThemeView.getLocationInWindow(r1);
-        int[] iArr = {iArr[0] + (this.darkThemeView.getMeasuredWidth() / 2), iArr[1] + (this.darkThemeView.getMeasuredHeight() / 2)};
-        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, themeInfo, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), this.darkThemeView);
+    public boolean hasAvatar() {
+        return this.avatarImageView.getImageReceiver().hasNotThumb();
+    }
+
+    public boolean isInAvatar(float f, float f2) {
+        return f >= ((float) this.avatarImageView.getLeft()) && f <= ((float) this.avatarImageView.getRight()) && f2 >= ((float) this.avatarImageView.getTop()) && f2 <= ((float) this.avatarImageView.getBottom());
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -541,17 +595,182 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
     }
 
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(148.0f) + AndroidUtilities.statusBarHeight, 1073741824));
-            return;
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00d0  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x016b  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0195  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x01a1  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x01b6  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x021d  */
+    /* JADX WARN: Removed duplicated region for block: B:85:? A[RETURN, SYNTHETIC] */
+    @Override // android.view.View
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    protected void onDraw(Canvas canvas) {
+        int color;
+        boolean z;
+        Integer num;
+        int color2;
+        Integer num2;
+        boolean z2;
+        float clamp;
+        SnowflakesEffect snowflakesEffect;
+        Drawable cachedWallpaper = Theme.getCachedWallpaper();
+        boolean z3 = (applyBackground(false).intValue() == Theme.key_chats_menuTopBackground || !Theme.isCustomTheme() || Theme.isPatternWallpaper() || cachedWallpaper == null || (cachedWallpaper instanceof ColorDrawable) || (cachedWallpaper instanceof GradientDrawable)) ? false : true;
+        if (!z3) {
+            int i = Theme.key_chats_menuTopShadowCats;
+            if (Theme.hasThemeKey(i)) {
+                color = Theme.getColor(i);
+                z = true;
+                num = this.currentColor;
+                if (num != null || num.intValue() != color) {
+                    this.currentColor = Integer.valueOf(color);
+                    this.shadowView.getDrawable().setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
+                }
+                int i2 = Theme.key_chats_menuName;
+                color2 = Theme.getColor(i2);
+                num2 = this.currentMoonColor;
+                if (num2 != null || num2.intValue() != color2) {
+                    this.currentMoonColor = Integer.valueOf(color2);
+                    sunDrawable.beginApplyLayerColors();
+                    sunDrawable.setLayerColor("Sunny.**", this.currentMoonColor.intValue());
+                    sunDrawable.setLayerColor("Path 6.**", this.currentMoonColor.intValue());
+                    sunDrawable.setLayerColor("Path.**", this.currentMoonColor.intValue());
+                    sunDrawable.setLayerColor("Path 5.**", this.currentMoonColor.intValue());
+                    sunDrawable.commitApplyLayerColors();
+                }
+                this.nameTextView.setTextColor(Theme.getColor(i2));
+                if (z3) {
+                    int i3 = z ? 0 : 4;
+                    if (this.shadowView.getVisibility() != i3) {
+                        this.shadowView.setVisibility(i3);
+                    }
+                    this.phoneTextView.setTextColor(Theme.getColor(Theme.key_chats_menuPhoneCats));
+                    super.onDraw(canvas);
+                } else {
+                    this.phoneTextView.setTextColor(Theme.getColor(Theme.key_chats_menuPhone));
+                    if (this.shadowView.getVisibility() != 0) {
+                        this.shadowView.setVisibility(0);
+                    }
+                    if ((cachedWallpaper instanceof ColorDrawable) || (cachedWallpaper instanceof GradientDrawable)) {
+                        cachedWallpaper.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                        cachedWallpaper.draw(canvas);
+                    } else {
+                        if (cachedWallpaper instanceof BitmapDrawable) {
+                            Bitmap bitmap = ((BitmapDrawable) cachedWallpaper).getBitmap();
+                            float max = Math.max(getMeasuredWidth() / bitmap.getWidth(), getMeasuredHeight() / bitmap.getHeight());
+                            int measuredWidth = (int) (getMeasuredWidth() / max);
+                            int measuredHeight = (int) (getMeasuredHeight() / max);
+                            int width = (bitmap.getWidth() - measuredWidth) / 2;
+                            int height = (bitmap.getHeight() - measuredHeight) / 2;
+                            this.srcRect.set(width, height, measuredWidth + width, measuredHeight + height);
+                            this.destRect.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                            try {
+                                canvas.drawBitmap(bitmap, this.srcRect, this.destRect, this.paint);
+                            } catch (Throwable th) {
+                                FileLog.e(th);
+                            }
+                            Theme.getServiceMessageColor();
+                        }
+                        z2 = this.drawPremium;
+                        if (z2) {
+                            float f = this.drawPremiumProgress;
+                            if (f != 1.0f) {
+                                this.drawPremiumProgress = f + 0.07272727f;
+                                clamp = Utilities.clamp(this.drawPremiumProgress, 1.0f, 0.0f);
+                                this.drawPremiumProgress = clamp;
+                                if (clamp != 0.0f) {
+                                    if (this.gradientTools == null) {
+                                        PremiumGradient.PremiumGradientTools premiumGradientTools = new PremiumGradient.PremiumGradientTools(Theme.key_premiumGradientBottomSheet1, Theme.key_premiumGradientBottomSheet2, Theme.key_premiumGradientBottomSheet3, -1);
+                                        this.gradientTools = premiumGradientTools;
+                                        premiumGradientTools.x1 = 0.0f;
+                                        premiumGradientTools.y1 = 1.1f;
+                                        premiumGradientTools.x2 = 1.5f;
+                                        premiumGradientTools.y2 = -0.2f;
+                                        premiumGradientTools.exactly = true;
+                                    }
+                                    this.gradientTools.gradientMatrix(0, 0, getMeasuredWidth(), getMeasuredHeight(), 0.0f, 0.0f);
+                                    this.gradientTools.paint.setAlpha((int) (this.drawPremiumProgress * 255.0f));
+                                    canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.gradientTools.paint);
+                                    StarParticlesView.Drawable drawable = this.starParticlesDrawable;
+                                    if (drawable != null) {
+                                        drawable.onDraw(canvas, this.drawPremiumProgress);
+                                    }
+                                    invalidate();
+                                }
+                                snowflakesEffect = this.snowflakesEffect;
+                                if (snowflakesEffect == null) {
+                                    snowflakesEffect.onDraw(this, canvas);
+                                    return;
+                                }
+                                return;
+                            }
+                        }
+                        if (!z2) {
+                            float f2 = this.drawPremiumProgress;
+                            if (f2 != 0.0f) {
+                                this.drawPremiumProgress = f2 - 0.07272727f;
+                            }
+                        }
+                        clamp = Utilities.clamp(this.drawPremiumProgress, 1.0f, 0.0f);
+                        this.drawPremiumProgress = clamp;
+                        if (clamp != 0.0f) {
+                        }
+                        snowflakesEffect = this.snowflakesEffect;
+                        if (snowflakesEffect == null) {
+                        }
+                    }
+                }
+                Theme.getColor(Theme.key_listSelector);
+                z2 = this.drawPremium;
+                if (z2) {
+                }
+                if (!z2) {
+                }
+                clamp = Utilities.clamp(this.drawPremiumProgress, 1.0f, 0.0f);
+                this.drawPremiumProgress = clamp;
+                if (clamp != 0.0f) {
+                }
+                snowflakesEffect = this.snowflakesEffect;
+                if (snowflakesEffect == null) {
+                }
+            }
         }
-        try {
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(148.0f), 1073741824));
-        } catch (Exception e) {
-            setMeasuredDimension(View.MeasureSpec.getSize(i), AndroidUtilities.dp(148.0f));
-            FileLog.e(e);
+        int i4 = Theme.key_chats_menuTopShadow;
+        color = Theme.hasThemeKey(i4) ? Theme.getColor(i4) : Theme.getServiceMessageColor() | (-16777216);
+        z = false;
+        num = this.currentColor;
+        if (num != null) {
+        }
+        this.currentColor = Integer.valueOf(color);
+        this.shadowView.getDrawable().setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
+        int i22 = Theme.key_chats_menuName;
+        color2 = Theme.getColor(i22);
+        num2 = this.currentMoonColor;
+        if (num2 != null) {
+        }
+        this.currentMoonColor = Integer.valueOf(color2);
+        sunDrawable.beginApplyLayerColors();
+        sunDrawable.setLayerColor("Sunny.**", this.currentMoonColor.intValue());
+        sunDrawable.setLayerColor("Path 6.**", this.currentMoonColor.intValue());
+        sunDrawable.setLayerColor("Path.**", this.currentMoonColor.intValue());
+        sunDrawable.setLayerColor("Path 5.**", this.currentMoonColor.intValue());
+        sunDrawable.commitApplyLayerColors();
+        this.nameTextView.setTextColor(Theme.getColor(i22));
+        if (z3) {
+        }
+        Theme.getColor(Theme.key_listSelector);
+        z2 = this.drawPremium;
+        if (z2) {
+        }
+        if (!z2) {
+        }
+        clamp = Utilities.clamp(this.drawPremiumProgress, 1.0f, 0.0f);
+        this.drawPremiumProgress = clamp;
+        if (clamp != 0.0f) {
+        }
+        snowflakesEffect = this.snowflakesEffect;
+        if (snowflakesEffect == null) {
         }
     }
 
@@ -573,182 +792,21 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00d0  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x016b  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0199  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x01a5  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x01ba  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0221  */
-    /* JADX WARN: Removed duplicated region for block: B:84:? A[RETURN, SYNTHETIC] */
-    @Override // android.view.View
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    protected void onDraw(Canvas canvas) {
-        int serviceMessageColor;
-        boolean z;
-        Integer num;
-        int color;
-        Integer num2;
-        boolean z2;
-        float clamp;
-        SnowflakesEffect snowflakesEffect;
-        Drawable cachedWallpaper = Theme.getCachedWallpaper();
-        boolean z3 = (applyBackground(false).intValue() == Theme.key_chats_menuTopBackground || !Theme.isCustomTheme() || Theme.isPatternWallpaper() || cachedWallpaper == null || (cachedWallpaper instanceof ColorDrawable) || (cachedWallpaper instanceof GradientDrawable)) ? false : true;
-        if (!z3) {
-            int i = Theme.key_chats_menuTopShadowCats;
-            if (Theme.hasThemeKey(i)) {
-                serviceMessageColor = Theme.getColor(i);
-                z = true;
-                num = this.currentColor;
-                if (num != null || num.intValue() != serviceMessageColor) {
-                    this.currentColor = Integer.valueOf(serviceMessageColor);
-                    this.shadowView.getDrawable().setColorFilter(new PorterDuffColorFilter(serviceMessageColor, PorterDuff.Mode.MULTIPLY));
-                }
-                int i2 = Theme.key_chats_menuName;
-                color = Theme.getColor(i2);
-                num2 = this.currentMoonColor;
-                if (num2 != null || num2.intValue() != color) {
-                    this.currentMoonColor = Integer.valueOf(color);
-                    sunDrawable.beginApplyLayerColors();
-                    sunDrawable.setLayerColor("Sunny.**", this.currentMoonColor.intValue());
-                    sunDrawable.setLayerColor("Path 6.**", this.currentMoonColor.intValue());
-                    sunDrawable.setLayerColor("Path.**", this.currentMoonColor.intValue());
-                    sunDrawable.setLayerColor("Path 5.**", this.currentMoonColor.intValue());
-                    sunDrawable.commitApplyLayerColors();
-                }
-                this.nameTextView.setTextColor(Theme.getColor(i2));
-                if (!z3) {
-                    this.phoneTextView.setTextColor(Theme.getColor(Theme.key_chats_menuPhone));
-                    if (this.shadowView.getVisibility() != 0) {
-                        this.shadowView.setVisibility(0);
-                    }
-                    if ((cachedWallpaper instanceof ColorDrawable) || (cachedWallpaper instanceof GradientDrawable)) {
-                        cachedWallpaper.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                        cachedWallpaper.draw(canvas);
-                        Theme.getColor(Theme.key_listSelector);
-                    } else if (cachedWallpaper instanceof BitmapDrawable) {
-                        Bitmap bitmap = ((BitmapDrawable) cachedWallpaper).getBitmap();
-                        float max = Math.max(getMeasuredWidth() / bitmap.getWidth(), getMeasuredHeight() / bitmap.getHeight());
-                        int measuredWidth = (int) (getMeasuredWidth() / max);
-                        int measuredHeight = (int) (getMeasuredHeight() / max);
-                        int width = (bitmap.getWidth() - measuredWidth) / 2;
-                        int height = (bitmap.getHeight() - measuredHeight) / 2;
-                        this.srcRect.set(width, height, measuredWidth + width, measuredHeight + height);
-                        this.destRect.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                        try {
-                            canvas.drawBitmap(bitmap, this.srcRect, this.destRect, this.paint);
-                        } catch (Throwable th) {
-                            FileLog.e(th);
-                        }
-                        Theme.getServiceMessageColor();
-                    }
-                } else {
-                    int i3 = z ? 0 : 4;
-                    if (this.shadowView.getVisibility() != i3) {
-                        this.shadowView.setVisibility(i3);
-                    }
-                    this.phoneTextView.setTextColor(Theme.getColor(Theme.key_chats_menuPhoneCats));
-                    super.onDraw(canvas);
-                    Theme.getColor(Theme.key_listSelector);
-                }
-                z2 = this.drawPremium;
-                if (z2) {
-                    float f = this.drawPremiumProgress;
-                    if (f != 1.0f) {
-                        this.drawPremiumProgress = f + 0.07272727f;
-                        clamp = Utilities.clamp(this.drawPremiumProgress, 1.0f, 0.0f);
-                        this.drawPremiumProgress = clamp;
-                        if (clamp != 0.0f) {
-                            if (this.gradientTools == null) {
-                                PremiumGradient.PremiumGradientTools premiumGradientTools = new PremiumGradient.PremiumGradientTools(Theme.key_premiumGradientBottomSheet1, Theme.key_premiumGradientBottomSheet2, Theme.key_premiumGradientBottomSheet3, -1);
-                                this.gradientTools = premiumGradientTools;
-                                premiumGradientTools.x1 = 0.0f;
-                                premiumGradientTools.y1 = 1.1f;
-                                premiumGradientTools.x2 = 1.5f;
-                                premiumGradientTools.y2 = -0.2f;
-                                premiumGradientTools.exactly = true;
-                            }
-                            this.gradientTools.gradientMatrix(0, 0, getMeasuredWidth(), getMeasuredHeight(), 0.0f, 0.0f);
-                            this.gradientTools.paint.setAlpha((int) (this.drawPremiumProgress * 255.0f));
-                            canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.gradientTools.paint);
-                            StarParticlesView.Drawable drawable = this.starParticlesDrawable;
-                            if (drawable != null) {
-                                drawable.onDraw(canvas, this.drawPremiumProgress);
-                            }
-                            invalidate();
-                        }
-                        snowflakesEffect = this.snowflakesEffect;
-                        if (snowflakesEffect != null) {
-                            snowflakesEffect.onDraw(this, canvas);
-                            return;
-                        }
-                        return;
-                    }
-                }
-                if (!z2) {
-                    float f2 = this.drawPremiumProgress;
-                    if (f2 != 0.0f) {
-                        this.drawPremiumProgress = f2 - 0.07272727f;
-                    }
-                }
-                clamp = Utilities.clamp(this.drawPremiumProgress, 1.0f, 0.0f);
-                this.drawPremiumProgress = clamp;
-                if (clamp != 0.0f) {
-                }
-                snowflakesEffect = this.snowflakesEffect;
-                if (snowflakesEffect != null) {
-                }
-            }
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(148.0f) + AndroidUtilities.statusBarHeight, 1073741824));
+            return;
         }
-        int i4 = Theme.key_chats_menuTopShadow;
-        if (Theme.hasThemeKey(i4)) {
-            serviceMessageColor = Theme.getColor(i4);
-        } else {
-            serviceMessageColor = Theme.getServiceMessageColor() | (-16777216);
-        }
-        z = false;
-        num = this.currentColor;
-        if (num != null) {
-        }
-        this.currentColor = Integer.valueOf(serviceMessageColor);
-        this.shadowView.getDrawable().setColorFilter(new PorterDuffColorFilter(serviceMessageColor, PorterDuff.Mode.MULTIPLY));
-        int i22 = Theme.key_chats_menuName;
-        color = Theme.getColor(i22);
-        num2 = this.currentMoonColor;
-        if (num2 != null) {
-        }
-        this.currentMoonColor = Integer.valueOf(color);
-        sunDrawable.beginApplyLayerColors();
-        sunDrawable.setLayerColor("Sunny.**", this.currentMoonColor.intValue());
-        sunDrawable.setLayerColor("Path 6.**", this.currentMoonColor.intValue());
-        sunDrawable.setLayerColor("Path.**", this.currentMoonColor.intValue());
-        sunDrawable.setLayerColor("Path 5.**", this.currentMoonColor.intValue());
-        sunDrawable.commitApplyLayerColors();
-        this.nameTextView.setTextColor(Theme.getColor(i22));
-        if (!z3) {
-        }
-        z2 = this.drawPremium;
-        if (z2) {
-        }
-        if (!z2) {
-        }
-        clamp = Utilities.clamp(this.drawPremiumProgress, 1.0f, 0.0f);
-        this.drawPremiumProgress = clamp;
-        if (clamp != 0.0f) {
-        }
-        snowflakesEffect = this.snowflakesEffect;
-        if (snowflakesEffect != null) {
+        try {
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(148.0f), 1073741824));
+        } catch (Exception e) {
+            setMeasuredDimension(View.MeasureSpec.getSize(i), AndroidUtilities.dp(148.0f));
+            FileLog.e(e);
         }
     }
 
-    public boolean isInAvatar(float f, float f2) {
-        return f >= ((float) this.avatarImageView.getLeft()) && f <= ((float) this.avatarImageView.getRight()) && f2 >= ((float) this.avatarImageView.getTop()) && f2 <= ((float) this.avatarImageView.getBottom());
-    }
-
-    public boolean hasAvatar() {
-        return this.avatarImageView.getImageReceiver().hasNotThumb();
-    }
+    protected abstract void onPremiumClick();
 
     public void setAccountsShown(boolean z, boolean z2) {
         if (this.accountsShown == z) {
@@ -759,6 +817,8 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     }
 
     public void setUser(TLRPC$User tLRPC$User, boolean z) {
+        Drawable drawable;
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable;
         int i = UserConfig.selectedAccount;
         int i2 = this.lastAccount;
         if (i != i2) {
@@ -789,18 +849,23 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             this.animatedStatus.animate().alpha(1.0f).setDuration(200L).start();
             this.nameTextView.setDrawablePadding(AndroidUtilities.dp(4.0f));
             this.status.set(emojiStatusDocumentId.longValue(), true);
-        } else if (tLRPC$User.premium) {
-            this.animatedStatus.animate().alpha(1.0f).setDuration(200L).start();
-            this.nameTextView.setDrawablePadding(AndroidUtilities.dp(4.0f));
-            if (this.premiumStar == null) {
-                this.premiumStar = getResources().getDrawable(R.drawable.msg_premium_liststar).mutate();
-            }
-            this.premiumStar.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_menuPhoneCats), PorterDuff.Mode.MULTIPLY));
-            this.status.set(this.premiumStar, true);
         } else {
-            this.animatedStatus.animateChange(null);
-            this.animatedStatus.animate().alpha(0.0f).setDuration(200L).start();
-            this.status.set((Drawable) null, true);
+            if (tLRPC$User.premium) {
+                this.animatedStatus.animate().alpha(1.0f).setDuration(200L).start();
+                this.nameTextView.setDrawablePadding(AndroidUtilities.dp(4.0f));
+                if (this.premiumStar == null) {
+                    this.premiumStar = getResources().getDrawable(R.drawable.msg_premium_liststar).mutate();
+                }
+                this.premiumStar.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_menuPhoneCats), PorterDuff.Mode.MULTIPLY));
+                swapAnimatedEmojiDrawable = this.status;
+                drawable = this.premiumStar;
+            } else {
+                drawable = null;
+                this.animatedStatus.animateChange(null);
+                this.animatedStatus.animate().alpha(0.0f).setDuration(200L).start();
+                swapAnimatedEmojiDrawable = this.status;
+            }
+            swapAnimatedEmojiDrawable.set(drawable, true);
         }
         this.animatedStatus.setColor(Theme.getColor(Theme.isCurrentThemeDark() ? Theme.key_chats_verifiedBackground : Theme.key_chats_menuPhoneCats));
         this.status.setColor(Integer.valueOf(Theme.getColor(Theme.isCurrentThemeDark() ? Theme.key_chats_verifiedBackground : Theme.key_chats_menuPhoneCats)));
@@ -812,19 +877,6 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         this.avatarImageView.setForUserOrChat(tLRPC$User, avatarDrawable);
         applyBackground(true);
         this.updateRightDrawable = true;
-    }
-
-    public Integer applyBackground(boolean z) {
-        Integer num = (Integer) getTag();
-        int i = Theme.key_chats_menuTopBackground;
-        if (!Theme.hasThemeKey(i) || Theme.getColor(i) == 0) {
-            i = Theme.key_chats_menuTopBackgroundCats;
-        }
-        if (z || num == null || i != num.intValue()) {
-            setBackgroundColor(Theme.getColor(i));
-            setTag(Integer.valueOf(i));
-        }
-        return Integer.valueOf(i);
     }
 
     public void updateColors() {
@@ -842,50 +894,10 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
     }
 
-    private void setArrowState(boolean z) {
-        float f = this.accountsShown ? 180.0f : 0.0f;
-        if (z) {
-            this.arrowView.animate().rotation(f).setDuration(220L).setInterpolator(CubicBezierInterpolator.EASE_OUT).start();
-        } else {
-            this.arrowView.animate().cancel();
-            this.arrowView.setRotation(f);
-        }
-        this.arrowView.setContentDescription(LocaleController.getString(this.accountsShown ? R.string.AccDescrHideAccounts : R.string.AccDescrShowAccounts));
-    }
-
-    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if (i == NotificationCenter.emojiLoaded) {
-            this.nameTextView.invalidate();
-        } else if (i == NotificationCenter.userEmojiStatusUpdated) {
-            setUser((TLRPC$User) objArr[0], this.accountsShown);
-        } else if (i == NotificationCenter.currentUserPremiumStatusChanged) {
-            setUser(UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser(), this.accountsShown);
-        } else if (i == NotificationCenter.updateInterfaces) {
-            int intValue = ((Integer) objArr[0]).intValue();
-            if ((MessagesController.UPDATE_MASK_NAME & intValue) == 0 && (MessagesController.UPDATE_MASK_AVATAR & intValue) == 0 && (MessagesController.UPDATE_MASK_STATUS & intValue) == 0 && (MessagesController.UPDATE_MASK_PHONE & intValue) == 0 && (intValue & MessagesController.UPDATE_MASK_EMOJI_STATUS) == 0) {
-                return;
-            }
-            setUser(UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser(), this.accountsShown);
-        }
-    }
-
-    public AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable getEmojiStatusDrawable() {
-        return this.status;
-    }
-
-    public View getEmojiStatusDrawableParent() {
-        return this.nameTextView;
-    }
-
     public void updateSunDrawable(boolean z) {
         RLottieDrawable rLottieDrawable = sunDrawable;
         if (rLottieDrawable != null) {
-            if (z) {
-                rLottieDrawable.setCustomEndFrame(36);
-            } else {
-                rLottieDrawable.setCustomEndFrame(0);
-            }
+            rLottieDrawable.setCustomEndFrame(z ? 36 : 0);
         }
         RLottieImageView rLottieImageView = this.darkThemeView;
         if (rLottieImageView != null) {

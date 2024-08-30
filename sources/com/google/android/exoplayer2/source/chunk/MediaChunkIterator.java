@@ -5,8 +5,8 @@ import java.util.NoSuchElementException;
 public interface MediaChunkIterator {
     public static final MediaChunkIterator EMPTY = new MediaChunkIterator() { // from class: com.google.android.exoplayer2.source.chunk.MediaChunkIterator.1
         @Override // com.google.android.exoplayer2.source.chunk.MediaChunkIterator
-        public boolean next() {
-            return false;
+        public long getChunkEndTimeUs() {
+            throw new NoSuchElementException();
         }
 
         @Override // com.google.android.exoplayer2.source.chunk.MediaChunkIterator
@@ -15,8 +15,8 @@ public interface MediaChunkIterator {
         }
 
         @Override // com.google.android.exoplayer2.source.chunk.MediaChunkIterator
-        public long getChunkEndTimeUs() {
-            throw new NoSuchElementException();
+        public boolean next() {
+            return false;
         }
     };
 

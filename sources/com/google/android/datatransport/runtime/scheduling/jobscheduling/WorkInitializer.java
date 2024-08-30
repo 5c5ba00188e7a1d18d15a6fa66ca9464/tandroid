@@ -19,13 +19,12 @@ public class WorkInitializer {
         this.guard = synchronizationGuard;
     }
 
-    public void ensureContextsScheduled() {
-        this.executor.execute(new Runnable() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkInitializer$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                WorkInitializer.this.lambda$ensureContextsScheduled$1();
-            }
-        });
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ Object lambda$ensureContextsScheduled$0() {
+        for (TransportContext transportContext : this.store.loadActiveContexts()) {
+            this.scheduler.schedule(transportContext, 1);
+        }
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -40,11 +39,12 @@ public class WorkInitializer {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ Object lambda$ensureContextsScheduled$0() {
-        for (TransportContext transportContext : this.store.loadActiveContexts()) {
-            this.scheduler.schedule(transportContext, 1);
-        }
-        return null;
+    public void ensureContextsScheduled() {
+        this.executor.execute(new Runnable() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkInitializer$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                WorkInitializer.this.lambda$ensureContextsScheduled$1();
+            }
+        });
     }
 }

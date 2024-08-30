@@ -1,9 +1,8 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.nio.charset.Charset;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public final class zzb {
+public abstract class zzb {
     private static final Charset zzb = Charset.forName("US-ASCII");
     private static final Charset zzc = Charset.forName("ISO-8859-1");
     public static final Charset zza = Charset.forName("UTF-8");

@@ -21,11 +21,6 @@ public class UploadingDotsSpannable extends ReplacementSpan {
     CubicBezierInterpolator circle = new CubicBezierInterpolator(0.0f, 0.5f, 0.5f, 1.0f);
 
     @Override // android.text.style.ReplacementSpan
-    public int getSize(Paint paint, CharSequence charSequence, int i, int i2, Paint.FontMetricsInt fontMetricsInt) {
-        return (int) paint.measureText("…");
-    }
-
-    @Override // android.text.style.ReplacementSpan
     public void draw(Canvas canvas, CharSequence charSequence, int i, int i2, float f, int i3, int i4, int i5, Paint paint) {
         float f2;
         TextPaint textPaint = (TextPaint) paint;
@@ -33,11 +28,7 @@ public class UploadingDotsSpannable extends ReplacementSpan {
         float f3 = -(this.fixTop ? textPaint.getFontMetrics().ascent : textPaint.getFontMetrics().top);
         float f4 = (textPaint.getFontMetrics().bottom - textPaint.getFontMetrics().top) * (this.isMediumTypeface ? 0.05f : 0.0365f);
         float f5 = f3 - f4;
-        if (this.waitForNextAnimation) {
-            if (System.currentTimeMillis() - this.lastTime > 1000) {
-                this.waitForNextAnimation = false;
-            }
-        } else {
+        if (!this.waitForNextAnimation) {
             float f6 = this.swapProgress + 0.053333335f;
             this.swapProgress = f6;
             if (f6 > 1.0f) {
@@ -52,6 +43,8 @@ public class UploadingDotsSpannable extends ReplacementSpan {
                     this.lastTime = System.currentTimeMillis();
                 }
             }
+        } else if (System.currentTimeMillis() - this.lastTime > 1000) {
+            this.waitForNextAnimation = false;
         }
         for (int i7 = 0; i7 < 3; i7++) {
             float f7 = measureText / 2.0f;
@@ -72,6 +65,11 @@ public class UploadingDotsSpannable extends ReplacementSpan {
         if (view != null) {
             view.invalidate();
         }
+    }
+
+    @Override // android.text.style.ReplacementSpan
+    public int getSize(Paint paint, CharSequence charSequence, int i, int i2, Paint.FontMetricsInt fontMetricsInt) {
+        return (int) paint.measureText("…");
     }
 
     public void setParent(View view, boolean z) {

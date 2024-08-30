@@ -7,17 +7,15 @@ import com.google.android.gms.tasks.Task;
 import java.util.Map;
 import java.util.concurrent.Executor;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class RequestDeduplicator {
     private final Executor executor;
-    private final Map<String, Task<String>> getTokenRequests = new ArrayMap();
+    private final Map getTokenRequests = new ArrayMap();
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
     /* loaded from: classes.dex */
     public interface GetTokenRequest {
-        Task<String> start();
+        Task start();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -26,10 +24,9 @@ public class RequestDeduplicator {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Multi-variable type inference failed */
-    public synchronized Task<String> getOrStartGetTokenRequest(final String str, GetTokenRequest getTokenRequest) {
+    public synchronized Task getOrStartGetTokenRequest(final String str, GetTokenRequest getTokenRequest) {
         try {
-            Task<String> task = this.getTokenRequests.get(str);
+            Task task = (Task) this.getTokenRequests.get(str);
             if (task != null) {
                 if (Log.isLoggable("FirebaseMessaging", 3)) {
                     String valueOf = String.valueOf(str);
@@ -65,7 +62,7 @@ public class RequestDeduplicator {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ Task lambda$getOrStartGetTokenRequest$0$RequestDeduplicator(String str, Task task) throws Exception {
+    public final /* synthetic */ Task lambda$getOrStartGetTokenRequest$0$RequestDeduplicator(String str, Task task) {
         synchronized (this) {
             this.getTokenRequests.remove(str);
         }

@@ -27,13 +27,35 @@ public class ButtonBarLayout extends LinearLayout {
         }
     }
 
-    public void setAllowStacking(boolean z) {
-        if (this.mAllowStacking != z) {
-            this.mAllowStacking = z;
-            if (!z && isStacked()) {
-                setStacked(false);
+    private int getNextVisibleChildIndex(int i) {
+        int childCount = getChildCount();
+        while (i < childCount) {
+            if (getChildAt(i).getVisibility() == 0) {
+                return i;
             }
-            requestLayout();
+            i++;
+        }
+        return -1;
+    }
+
+    private boolean isStacked() {
+        return this.mStacked;
+    }
+
+    private void setStacked(boolean z) {
+        if (this.mStacked != z) {
+            if (!z || this.mAllowStacking) {
+                this.mStacked = z;
+                setOrientation(z ? 1 : 0);
+                setGravity(z ? 8388613 : 80);
+                View findViewById = findViewById(R$id.spacer);
+                if (findViewById != null) {
+                    findViewById.setVisibility(z ? 8 : 4);
+                }
+                for (int childCount = getChildCount() - 2; childCount >= 0; childCount--) {
+                    bringChildToFront(getChildAt(childCount));
+                }
+            }
         }
     }
 
@@ -87,35 +109,13 @@ public class ButtonBarLayout extends LinearLayout {
         }
     }
 
-    private int getNextVisibleChildIndex(int i) {
-        int childCount = getChildCount();
-        while (i < childCount) {
-            if (getChildAt(i).getVisibility() == 0) {
-                return i;
+    public void setAllowStacking(boolean z) {
+        if (this.mAllowStacking != z) {
+            this.mAllowStacking = z;
+            if (!z && isStacked()) {
+                setStacked(false);
             }
-            i++;
+            requestLayout();
         }
-        return -1;
-    }
-
-    private void setStacked(boolean z) {
-        if (this.mStacked != z) {
-            if (!z || this.mAllowStacking) {
-                this.mStacked = z;
-                setOrientation(z ? 1 : 0);
-                setGravity(z ? 8388613 : 80);
-                View findViewById = findViewById(R$id.spacer);
-                if (findViewById != null) {
-                    findViewById.setVisibility(z ? 8 : 4);
-                }
-                for (int childCount = getChildCount() - 2; childCount >= 0; childCount--) {
-                    bringChildToFront(getChildAt(childCount));
-                }
-            }
-        }
-    }
-
-    private boolean isStacked() {
-        return this.mStacked;
     }
 }

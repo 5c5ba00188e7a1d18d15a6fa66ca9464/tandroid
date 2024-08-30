@@ -5,9 +5,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import com.google.android.gms.common.wrappers.Wrappers;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zzag {
+public abstract class zzag {
     private static final Object zza = new Object();
     private static boolean zzb;
     private static String zzc;

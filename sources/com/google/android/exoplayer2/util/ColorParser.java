@@ -9,8 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
-public final class ColorParser {
-    private static final Map<String, Integer> COLOR_MAP;
+public abstract class ColorParser {
+    private static final Map COLOR_MAP;
     private static final Pattern RGB_PATTERN = Pattern.compile("^rgb\\((\\d{1,3}),(\\d{1,3}),(\\d{1,3})\\)$");
     private static final Pattern RGBA_PATTERN_INT_ALPHA = Pattern.compile("^rgba\\((\\d{1,3}),(\\d{1,3}),(\\d{1,3}),(\\d{1,3})\\)$");
     private static final Pattern RGBA_PATTERN_FLOAT_ALPHA = Pattern.compile("^rgba\\((\\d{1,3}),(\\d{1,3}),(\\d{1,3}),(\\d*\\.?\\d*?)\\)$");
@@ -169,16 +169,7 @@ public final class ColorParser {
         hashMap.put("yellowgreen", -6632142);
     }
 
-    public static int parseTtmlColor(String str) {
-        return parseColorInternal(str, false);
-    }
-
-    public static int parseCssColor(String str) {
-        return parseColorInternal(str, true);
-    }
-
     private static int parseColorInternal(String str, boolean z) {
-        int parseInt;
         Assertions.checkArgument(!TextUtils.isEmpty(str));
         String replace = str.replace(" ", "");
         if (replace.charAt(0) == '#') {
@@ -194,12 +185,7 @@ public final class ColorParser {
         if (replace.startsWith("rgba")) {
             Matcher matcher = (z ? RGBA_PATTERN_FLOAT_ALPHA : RGBA_PATTERN_INT_ALPHA).matcher(replace);
             if (matcher.matches()) {
-                if (z) {
-                    parseInt = (int) (Float.parseFloat((String) Assertions.checkNotNull(matcher.group(4))) * 255.0f);
-                } else {
-                    parseInt = Integer.parseInt((String) Assertions.checkNotNull(matcher.group(4)), 10);
-                }
-                return Color.argb(parseInt, Integer.parseInt((String) Assertions.checkNotNull(matcher.group(1)), 10), Integer.parseInt((String) Assertions.checkNotNull(matcher.group(2)), 10), Integer.parseInt((String) Assertions.checkNotNull(matcher.group(3)), 10));
+                return Color.argb(z ? (int) (Float.parseFloat((String) Assertions.checkNotNull(matcher.group(4))) * 255.0f) : Integer.parseInt((String) Assertions.checkNotNull(matcher.group(4)), 10), Integer.parseInt((String) Assertions.checkNotNull(matcher.group(1)), 10), Integer.parseInt((String) Assertions.checkNotNull(matcher.group(2)), 10), Integer.parseInt((String) Assertions.checkNotNull(matcher.group(3)), 10));
             }
         } else if (replace.startsWith("rgb")) {
             Matcher matcher2 = RGB_PATTERN.matcher(replace);
@@ -207,11 +193,19 @@ public final class ColorParser {
                 return Color.rgb(Integer.parseInt((String) Assertions.checkNotNull(matcher2.group(1)), 10), Integer.parseInt((String) Assertions.checkNotNull(matcher2.group(2)), 10), Integer.parseInt((String) Assertions.checkNotNull(matcher2.group(3)), 10));
             }
         } else {
-            Integer num = COLOR_MAP.get(Ascii.toLowerCase(replace));
+            Integer num = (Integer) COLOR_MAP.get(Ascii.toLowerCase(replace));
             if (num != null) {
                 return num.intValue();
             }
         }
         throw new IllegalArgumentException();
+    }
+
+    public static int parseCssColor(String str) {
+        return parseColorInternal(str, true);
+    }
+
+    public static int parseTtmlColor(String str) {
+        return parseColorInternal(str, false);
     }
 }

@@ -10,12 +10,6 @@ import com.google.android.exoplayer2.metadata.scte35.SpliceInfoDecoder;
 public interface MetadataDecoderFactory {
     public static final MetadataDecoderFactory DEFAULT = new MetadataDecoderFactory() { // from class: com.google.android.exoplayer2.metadata.MetadataDecoderFactory.1
         @Override // com.google.android.exoplayer2.metadata.MetadataDecoderFactory
-        public boolean supportsFormat(Format format) {
-            String str = format.sampleMimeType;
-            return "application/id3".equals(str) || "application/x-emsg".equals(str) || "application/x-scte35".equals(str) || "application/x-icy".equals(str) || "application/vnd.dvb.ait".equals(str);
-        }
-
-        @Override // com.google.android.exoplayer2.metadata.MetadataDecoderFactory
         public MetadataDecoder createDecoder(Format format) {
             String str = format.sampleMimeType;
             if (str != null) {
@@ -66,6 +60,12 @@ public interface MetadataDecoderFactory {
                 }
             }
             throw new IllegalArgumentException("Attempted to create decoder for unsupported MIME type: " + str);
+        }
+
+        @Override // com.google.android.exoplayer2.metadata.MetadataDecoderFactory
+        public boolean supportsFormat(Format format) {
+            String str = format.sampleMimeType;
+            return "application/id3".equals(str) || "application/x-emsg".equals(str) || "application/x-scte35".equals(str) || "application/x-icy".equals(str) || "application/vnd.dvb.ait".equals(str);
         }
     };
 

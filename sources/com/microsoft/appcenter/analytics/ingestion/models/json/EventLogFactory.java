@@ -5,7 +5,6 @@ import com.microsoft.appcenter.analytics.ingestion.models.one.CommonSchemaEventL
 import com.microsoft.appcenter.ingestion.models.Log;
 import com.microsoft.appcenter.ingestion.models.json.AbstractLogFactory;
 import com.microsoft.appcenter.ingestion.models.one.CommonSchemaDataUtils;
-import com.microsoft.appcenter.ingestion.models.one.CommonSchemaLog;
 import com.microsoft.appcenter.ingestion.models.one.PartAUtils;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -17,7 +16,7 @@ public class EventLogFactory extends AbstractLogFactory {
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.json.AbstractLogFactory, com.microsoft.appcenter.ingestion.models.json.LogFactory
-    public Collection<CommonSchemaLog> toCommonSchemaLogs(Log log) {
+    public Collection toCommonSchemaLogs(Log log) {
         LinkedList linkedList = new LinkedList();
         for (String str : log.getTransmissionTargetTokens()) {
             CommonSchemaEventLog commonSchemaEventLog = new CommonSchemaEventLog();

@@ -10,9 +10,8 @@ import android.os.Looper;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
-/* compiled from: com.google.android.gms:play-services-safetynet@@17.0.1 */
 /* loaded from: classes.dex */
-public final class zzaf extends GmsClient<zzh> {
+public final class zzaf extends GmsClient {
     private final Context zze;
 
     public zzaf(Context context, Looper looper, ClientSettings clientSettings, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
@@ -27,10 +26,7 @@ public final class zzaf extends GmsClient<zzh> {
             return null;
         }
         IInterface queryLocalInterface = iBinder.queryLocalInterface("com.google.android.gms.safetynet.internal.ISafetyNetService");
-        if (queryLocalInterface instanceof zzh) {
-            return (zzh) queryLocalInterface;
-        }
-        return new zzh(iBinder);
+        return queryLocalInterface instanceof zzh ? (zzh) queryLocalInterface : new zzh(iBinder);
     }
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient, com.google.android.gms.common.api.Api.Client

@@ -13,62 +13,6 @@ public class ConfigContainer {
     private Date fetchTime;
     private JSONObject personalizationMetadata;
 
-    private ConfigContainer(JSONObject jSONObject, Date date, JSONArray jSONArray, JSONObject jSONObject2) throws JSONException {
-        JSONObject jSONObject3 = new JSONObject();
-        jSONObject3.put("configs_key", jSONObject);
-        jSONObject3.put("fetch_time_key", date.getTime());
-        jSONObject3.put("abt_experiments_key", jSONArray);
-        jSONObject3.put("personalization_metadata_key", jSONObject2);
-        this.configsJson = jSONObject;
-        this.fetchTime = date;
-        this.abtExperiments = jSONArray;
-        this.personalizationMetadata = jSONObject2;
-        this.containerJson = jSONObject3;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static ConfigContainer copyOf(JSONObject jSONObject) throws JSONException {
-        JSONObject optJSONObject = jSONObject.optJSONObject("personalization_metadata_key");
-        if (optJSONObject == null) {
-            optJSONObject = new JSONObject();
-        }
-        return new ConfigContainer(jSONObject.getJSONObject("configs_key"), new Date(jSONObject.getLong("fetch_time_key")), jSONObject.getJSONArray("abt_experiments_key"), optJSONObject);
-    }
-
-    public JSONObject getConfigs() {
-        return this.configsJson;
-    }
-
-    public Date getFetchTime() {
-        return this.fetchTime;
-    }
-
-    public JSONArray getAbtExperiments() {
-        return this.abtExperiments;
-    }
-
-    public JSONObject getPersonalizationMetadata() {
-        return this.personalizationMetadata;
-    }
-
-    public String toString() {
-        return this.containerJson.toString();
-    }
-
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof ConfigContainer) {
-            return this.containerJson.toString().equals(((ConfigContainer) obj).toString());
-        }
-        return false;
-    }
-
-    public int hashCode() {
-        return this.containerJson.hashCode();
-    }
-
     /* loaded from: classes.dex */
     public static class Builder {
         private JSONArray builderAbtExperiments;
@@ -83,16 +27,15 @@ public class ConfigContainer {
             this.builderPersonalizationMetadata = new JSONObject();
         }
 
+        public ConfigContainer build() {
+            return new ConfigContainer(this.builderConfigsJson, this.builderFetchTime, this.builderAbtExperiments, this.builderPersonalizationMetadata);
+        }
+
         public Builder replaceConfigsWith(JSONObject jSONObject) {
             try {
                 this.builderConfigsJson = new JSONObject(jSONObject.toString());
             } catch (JSONException unused) {
             }
-            return this;
-        }
-
-        public Builder withFetchTime(Date date) {
-            this.builderFetchTime = date;
             return this;
         }
 
@@ -104,6 +47,11 @@ public class ConfigContainer {
             return this;
         }
 
+        public Builder withFetchTime(Date date) {
+            this.builderFetchTime = date;
+            return this;
+        }
+
         public Builder withPersonalizationMetadata(JSONObject jSONObject) {
             try {
                 this.builderPersonalizationMetadata = new JSONObject(jSONObject.toString());
@@ -111,13 +59,61 @@ public class ConfigContainer {
             }
             return this;
         }
+    }
 
-        public ConfigContainer build() throws JSONException {
-            return new ConfigContainer(this.builderConfigsJson, this.builderFetchTime, this.builderAbtExperiments, this.builderPersonalizationMetadata);
+    private ConfigContainer(JSONObject jSONObject, Date date, JSONArray jSONArray, JSONObject jSONObject2) {
+        JSONObject jSONObject3 = new JSONObject();
+        jSONObject3.put("configs_key", jSONObject);
+        jSONObject3.put("fetch_time_key", date.getTime());
+        jSONObject3.put("abt_experiments_key", jSONArray);
+        jSONObject3.put("personalization_metadata_key", jSONObject2);
+        this.configsJson = jSONObject;
+        this.fetchTime = date;
+        this.abtExperiments = jSONArray;
+        this.personalizationMetadata = jSONObject2;
+        this.containerJson = jSONObject3;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static ConfigContainer copyOf(JSONObject jSONObject) {
+        JSONObject optJSONObject = jSONObject.optJSONObject("personalization_metadata_key");
+        if (optJSONObject == null) {
+            optJSONObject = new JSONObject();
         }
+        return new ConfigContainer(jSONObject.getJSONObject("configs_key"), new Date(jSONObject.getLong("fetch_time_key")), jSONObject.getJSONArray("abt_experiments_key"), optJSONObject);
     }
 
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof ConfigContainer) {
+            return this.containerJson.toString().equals(((ConfigContainer) obj).toString());
+        }
+        return false;
+    }
+
+    public JSONArray getAbtExperiments() {
+        return this.abtExperiments;
+    }
+
+    public JSONObject getConfigs() {
+        return this.configsJson;
+    }
+
+    public Date getFetchTime() {
+        return this.fetchTime;
+    }
+
+    public int hashCode() {
+        return this.containerJson.hashCode();
+    }
+
+    public String toString() {
+        return this.containerJson.toString();
     }
 }

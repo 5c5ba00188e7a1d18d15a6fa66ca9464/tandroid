@@ -6,13 +6,31 @@ import java.util.LinkedList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 /* loaded from: classes.dex */
-public class DefaultAppCenterFuture<T> implements AppCenterFuture<T> {
-    private Collection<AppCenterConsumer<T>> mConsumers;
+public class DefaultAppCenterFuture implements AppCenterFuture {
+    private Collection mConsumers;
     private final CountDownLatch mLatch = new CountDownLatch(1);
-    private T mResult;
+    private Object mResult;
+
+    public synchronized void complete(final Object obj) {
+        if (!isDone()) {
+            this.mResult = obj;
+            this.mLatch.countDown();
+            if (this.mConsumers != null) {
+                HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.utils.async.DefaultAppCenterFuture.2
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (AppCenterConsumer appCenterConsumer : DefaultAppCenterFuture.this.mConsumers) {
+                            appCenterConsumer.accept(obj);
+                        }
+                        DefaultAppCenterFuture.this.mConsumers = null;
+                    }
+                });
+            }
+        }
+    }
 
     @Override // com.microsoft.appcenter.utils.async.AppCenterFuture
-    public T get() {
+    public Object get() {
         while (true) {
             try {
                 this.mLatch.await();
@@ -32,11 +50,10 @@ public class DefaultAppCenterFuture<T> implements AppCenterFuture<T> {
     }
 
     @Override // com.microsoft.appcenter.utils.async.AppCenterFuture
-    public synchronized void thenAccept(final AppCenterConsumer<T> appCenterConsumer) {
+    public synchronized void thenAccept(final AppCenterConsumer appCenterConsumer) {
         try {
             if (isDone()) {
                 HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.utils.async.DefaultAppCenterFuture.1
-                    /* JADX WARN: Multi-variable type inference failed */
                     @Override // java.lang.Runnable
                     public void run() {
                         appCenterConsumer.accept(DefaultAppCenterFuture.this.mResult);
@@ -50,25 +67,6 @@ public class DefaultAppCenterFuture<T> implements AppCenterFuture<T> {
             }
         } catch (Throwable th) {
             throw th;
-        }
-    }
-
-    public synchronized void complete(final T t) {
-        if (!isDone()) {
-            this.mResult = t;
-            this.mLatch.countDown();
-            if (this.mConsumers != null) {
-                HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.utils.async.DefaultAppCenterFuture.2
-                    /* JADX WARN: Multi-variable type inference failed */
-                    @Override // java.lang.Runnable
-                    public void run() {
-                        for (AppCenterConsumer appCenterConsumer : DefaultAppCenterFuture.this.mConsumers) {
-                            appCenterConsumer.accept(t);
-                        }
-                        DefaultAppCenterFuture.this.mConsumers = null;
-                    }
-                });
-            }
         }
     }
 }

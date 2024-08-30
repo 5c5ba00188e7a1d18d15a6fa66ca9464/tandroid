@@ -8,7 +8,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.internal.BaseGmsClient;
 import com.google.android.gms.internal.common.zzi;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzb extends zzi {
     final /* synthetic */ BaseGmsClient zza;
@@ -45,61 +44,54 @@ public final class zzb extends zzi {
             return;
         }
         int i = message.what;
-        if ((i != 1 && i != 7 && ((i != 4 || this.zza.enableLocalFallback()) && message.what != 5)) || this.zza.isConnecting()) {
-            int i2 = message.what;
-            if (i2 == 4) {
-                this.zza.zzB = new ConnectionResult(message.arg2);
-                if (BaseGmsClient.zzo(this.zza)) {
-                    BaseGmsClient baseGmsClient = this.zza;
-                    z = baseGmsClient.zzC;
-                    if (!z) {
-                        baseGmsClient.zzp(3, null);
-                        return;
-                    }
-                }
-                BaseGmsClient baseGmsClient2 = this.zza;
-                connectionResult2 = baseGmsClient2.zzB;
-                ConnectionResult connectionResult3 = connectionResult2 != null ? baseGmsClient2.zzB : new ConnectionResult(8);
-                this.zza.zzc.onReportServiceBinding(connectionResult3);
-                this.zza.onConnectionFailed(connectionResult3);
-                return;
-            } else if (i2 == 5) {
-                BaseGmsClient baseGmsClient3 = this.zza;
-                connectionResult = baseGmsClient3.zzB;
-                ConnectionResult connectionResult4 = connectionResult != null ? baseGmsClient3.zzB : new ConnectionResult(8);
-                this.zza.zzc.onReportServiceBinding(connectionResult4);
-                this.zza.onConnectionFailed(connectionResult4);
-                return;
-            } else if (i2 == 3) {
-                Object obj = message.obj;
-                ConnectionResult connectionResult5 = new ConnectionResult(message.arg2, obj instanceof PendingIntent ? (PendingIntent) obj : null);
-                this.zza.zzc.onReportServiceBinding(connectionResult5);
-                this.zza.onConnectionFailed(connectionResult5);
-                return;
-            } else if (i2 == 6) {
-                this.zza.zzp(5, null);
-                BaseGmsClient baseGmsClient4 = this.zza;
-                baseConnectionCallbacks = baseGmsClient4.zzw;
-                if (baseConnectionCallbacks != null) {
-                    baseConnectionCallbacks2 = baseGmsClient4.zzw;
-                    baseConnectionCallbacks2.onConnectionSuspended(message.arg2);
-                }
-                this.zza.onConnectionSuspended(message.arg2);
-                BaseGmsClient.zzn(this.zza, 5, 1, null);
-                return;
-            } else if (i2 != 2 || this.zza.isConnected()) {
-                if (zzb(message)) {
-                    ((zzc) message.obj).zze();
+        if ((i == 1 || i == 7 || ((i == 4 && !this.zza.enableLocalFallback()) || message.what == 5)) && !this.zza.isConnecting()) {
+            zza(message);
+            return;
+        }
+        int i2 = message.what;
+        if (i2 == 4) {
+            this.zza.zzB = new ConnectionResult(message.arg2);
+            if (BaseGmsClient.zzo(this.zza)) {
+                BaseGmsClient baseGmsClient = this.zza;
+                z = baseGmsClient.zzC;
+                if (!z) {
+                    baseGmsClient.zzp(3, null);
                     return;
                 }
-                int i3 = message.what;
-                Log.wtf("GmsClient", "Don't know how to handle message: " + i3, new Exception());
-                return;
-            } else {
-                zza(message);
-                return;
             }
+            BaseGmsClient baseGmsClient2 = this.zza;
+            connectionResult2 = baseGmsClient2.zzB;
+            ConnectionResult connectionResult3 = connectionResult2 != null ? baseGmsClient2.zzB : new ConnectionResult(8);
+            this.zza.zzc.onReportServiceBinding(connectionResult3);
+            this.zza.onConnectionFailed(connectionResult3);
+        } else if (i2 == 5) {
+            BaseGmsClient baseGmsClient3 = this.zza;
+            connectionResult = baseGmsClient3.zzB;
+            ConnectionResult connectionResult4 = connectionResult != null ? baseGmsClient3.zzB : new ConnectionResult(8);
+            this.zza.zzc.onReportServiceBinding(connectionResult4);
+            this.zza.onConnectionFailed(connectionResult4);
+        } else if (i2 == 3) {
+            Object obj = message.obj;
+            ConnectionResult connectionResult5 = new ConnectionResult(message.arg2, obj instanceof PendingIntent ? (PendingIntent) obj : null);
+            this.zza.zzc.onReportServiceBinding(connectionResult5);
+            this.zza.onConnectionFailed(connectionResult5);
+        } else if (i2 == 6) {
+            this.zza.zzp(5, null);
+            BaseGmsClient baseGmsClient4 = this.zza;
+            baseConnectionCallbacks = baseGmsClient4.zzw;
+            if (baseConnectionCallbacks != null) {
+                baseConnectionCallbacks2 = baseGmsClient4.zzw;
+                baseConnectionCallbacks2.onConnectionSuspended(message.arg2);
+            }
+            this.zza.onConnectionSuspended(message.arg2);
+            BaseGmsClient.zzn(this.zza, 5, 1, null);
+        } else if (i2 == 2 && !this.zza.isConnected()) {
+            zza(message);
+        } else if (zzb(message)) {
+            ((zzc) message.obj).zze();
+        } else {
+            int i3 = message.what;
+            Log.wtf("GmsClient", "Don't know how to handle message: " + i3, new Exception());
         }
-        zza(message);
     }
 }

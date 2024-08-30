@@ -1,20 +1,17 @@
 package com.google.android.gms.internal.mlkit_language_id;
-
-import java.io.IOException;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-interface zzgp<T> {
-    int zza(T t);
+interface zzgp {
+    int zza(Object obj);
 
-    void zza(T t, zzib zzibVar) throws IOException;
+    void zza(Object obj, zzib zzibVar);
 
-    boolean zza(T t, T t2);
+    boolean zza(Object obj, Object obj2);
 
-    void zzb(T t);
+    void zzb(Object obj);
 
-    void zzb(T t, T t2);
+    void zzb(Object obj, Object obj2);
 
-    boolean zzc(T t);
+    boolean zzc(Object obj);
 
-    int zzd(T t);
+    int zzd(Object obj);
 }

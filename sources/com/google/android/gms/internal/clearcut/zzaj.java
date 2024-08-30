@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzaj extends zzae<Boolean> {
+public final class zzaj extends zzae {
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzaj(zzao zzaoVar, String str, Boolean bool) {
         super(zzaoVar, str, bool, null);
@@ -25,7 +25,7 @@ public final class zzaj extends zzae<Boolean> {
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.internal.clearcut.zzae
-    public final /* synthetic */ Boolean zzb(String str) {
+    public final /* synthetic */ Object zzb(String str) {
         if (zzy.zzcr.matcher(str).matches()) {
             return Boolean.TRUE;
         }

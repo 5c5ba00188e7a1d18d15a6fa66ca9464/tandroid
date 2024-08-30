@@ -9,9 +9,8 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
 import kotlin.jvm.internal.Intrinsics;
-/* compiled from: ComponentDialog.kt */
 /* loaded from: classes.dex */
-public class ComponentDialog extends Dialog implements LifecycleOwner, OnBackPressedDispatcherOwner {
+public abstract class ComponentDialog extends Dialog implements LifecycleOwner, OnBackPressedDispatcherOwner {
     private LifecycleRegistry _lifecycleRegistry;
     private final OnBackPressedDispatcher onBackPressedDispatcher;
 
@@ -37,9 +36,25 @@ public class ComponentDialog extends Dialog implements LifecycleOwner, OnBackPre
         return lifecycleRegistry;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static final void onBackPressedDispatcher$lambda-1(ComponentDialog this$0) {
+        Intrinsics.checkNotNullParameter(this$0, "this$0");
+        super.onBackPressed();
+    }
+
     @Override // androidx.lifecycle.LifecycleOwner
     public final Lifecycle getLifecycle() {
         return getLifecycleRegistry();
+    }
+
+    @Override // androidx.activity.OnBackPressedDispatcherOwner
+    public final OnBackPressedDispatcher getOnBackPressedDispatcher() {
+        return this.onBackPressedDispatcher;
+    }
+
+    @Override // android.app.Dialog
+    public void onBackPressed() {
+        this.onBackPressedDispatcher.onBackPressed();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -67,21 +82,5 @@ public class ComponentDialog extends Dialog implements LifecycleOwner, OnBackPre
         getLifecycleRegistry().handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
         this._lifecycleRegistry = null;
         super.onStop();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static final void onBackPressedDispatcher$lambda-1(ComponentDialog this$0) {
-        Intrinsics.checkNotNullParameter(this$0, "this$0");
-        super.onBackPressed();
-    }
-
-    @Override // androidx.activity.OnBackPressedDispatcherOwner
-    public final OnBackPressedDispatcher getOnBackPressedDispatcher() {
-        return this.onBackPressedDispatcher;
-    }
-
-    @Override // android.app.Dialog
-    public void onBackPressed() {
-        this.onBackPressedDispatcher.onBackPressed();
     }
 }

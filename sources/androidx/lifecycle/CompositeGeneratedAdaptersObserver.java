@@ -13,12 +13,15 @@ public class CompositeGeneratedAdaptersObserver implements LifecycleEventObserve
 
     @Override // androidx.lifecycle.LifecycleEventObserver
     public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
-        MethodCallsLogger methodCallsLogger = new MethodCallsLogger();
-        for (GeneratedAdapter generatedAdapter : this.mGeneratedAdapters) {
-            generatedAdapter.callMethods(lifecycleOwner, event, false, methodCallsLogger);
-        }
-        for (GeneratedAdapter generatedAdapter2 : this.mGeneratedAdapters) {
-            generatedAdapter2.callMethods(lifecycleOwner, event, true, methodCallsLogger);
+        new MethodCallsLogger();
+        GeneratedAdapter[] generatedAdapterArr = this.mGeneratedAdapters;
+        if (generatedAdapterArr.length > 0) {
+            GeneratedAdapter generatedAdapter = generatedAdapterArr[0];
+            throw null;
+        } else if (generatedAdapterArr.length <= 0) {
+        } else {
+            GeneratedAdapter generatedAdapter2 = generatedAdapterArr[0];
+            throw null;
         }
     }
 }

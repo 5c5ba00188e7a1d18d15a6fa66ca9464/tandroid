@@ -18,27 +18,15 @@ public abstract class AbstractFullBox extends AbstractBox implements Box {
         ajc$preClinit();
     }
 
-    private static /* synthetic */ void ajc$preClinit() {
-        Factory factory = new Factory("AbstractFullBox.java", AbstractFullBox.class);
-        ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setVersion", "com.googlecode.mp4parser.AbstractFullBox", "int", "version", "", "void"), 51);
-        ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setFlags", "com.googlecode.mp4parser.AbstractFullBox", "int", "flags", "", "void"), 64);
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
     public AbstractFullBox(String str) {
         super(str);
     }
 
-    public int getVersion() {
-        if (!this.isParsed) {
-            parseDetails();
-        }
-        return this.version;
-    }
-
-    public void setVersion(int i) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_0, this, this, Conversions.intObject(i)));
-        this.version = i;
+    private static /* synthetic */ void ajc$preClinit() {
+        Factory factory = new Factory("AbstractFullBox.java", AbstractFullBox.class);
+        ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setVersion", "com.googlecode.mp4parser.AbstractFullBox", "int", "version", "", "void"), 51);
+        ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setFlags", "com.googlecode.mp4parser.AbstractFullBox", "int", "flags", "", "void"), 64);
     }
 
     public int getFlags() {
@@ -48,9 +36,11 @@ public abstract class AbstractFullBox extends AbstractBox implements Box {
         return this.flags;
     }
 
-    public void setFlags(int i) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this, Conversions.intObject(i)));
-        this.flags = i;
+    public int getVersion() {
+        if (!this.isParsed) {
+            parseDetails();
+        }
+        return this.version;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -58,6 +48,16 @@ public abstract class AbstractFullBox extends AbstractBox implements Box {
         this.version = IsoTypeReader.readUInt8(byteBuffer);
         this.flags = IsoTypeReader.readUInt24(byteBuffer);
         return 4L;
+    }
+
+    public void setFlags(int i) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this, Conversions.intObject(i)));
+        this.flags = i;
+    }
+
+    public void setVersion(int i) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_0, this, this, Conversions.intObject(i)));
+        this.version = i;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

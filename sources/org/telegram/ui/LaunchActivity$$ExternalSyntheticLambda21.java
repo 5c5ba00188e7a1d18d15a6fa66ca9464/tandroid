@@ -1,7 +1,6 @@
 package org.telegram.ui;
 
 import org.telegram.messenger.Utilities;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes4.dex */
 public final /* synthetic */ class LaunchActivity$$ExternalSyntheticLambda21 implements Utilities.Callback {
     public final /* synthetic */ LaunchActivity f$0;
@@ -12,6 +11,6 @@ public final /* synthetic */ class LaunchActivity$$ExternalSyntheticLambda21 imp
 
     @Override // org.telegram.messenger.Utilities.Callback
     public final void run(Object obj) {
-        this.f$0.onPowerSaver(((Boolean) obj).booleanValue());
+        LaunchActivity.$r8$lambda$q8ZmaWdxq_rUvWiFHt_R4H4wATE(this.f$0, ((Boolean) obj).booleanValue());
     }
 }

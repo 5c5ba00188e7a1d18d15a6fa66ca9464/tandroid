@@ -1,6 +1,5 @@
 package org.telegram.messenger.video.audio_input;
 
-import java.io.IOException;
 import java.nio.ShortBuffer;
 import org.telegram.messenger.video.AudioBufferConverter;
 import org.telegram.messenger.video.AudioConversions;
@@ -17,18 +16,57 @@ public class GeneralAudioInput extends AudioInput {
     private int startOffsetShortsCounter;
     private long startOffsetUs;
 
-    public GeneralAudioInput(String str) throws IOException {
+    public GeneralAudioInput(String str) {
         this.decoder = new AudioDecoder(str);
         init();
     }
 
-    public GeneralAudioInput(String str, int i) throws IOException {
+    public GeneralAudioInput(String str, int i) {
         this.decoder = new AudioDecoder(str, i);
         init();
     }
 
+    private void decode() {
+        ShortBuffer shortBuffer = this.buffer;
+        if (shortBuffer == null || shortBuffer.remaining() <= 0) {
+            AudioDecoder.DecodedBufferData decode = this.decoder.decode();
+            if (decode.index < 0) {
+                this.buffer = null;
+                return;
+            }
+            this.buffer = this.audioBufferConverter.convert(decode.byteBuffer.asShortBuffer(), this.decoder.getSampleRate(), this.decoder.getChannelCount(), this.outputSampleRate, this.outputChannelCount);
+            this.decoder.releaseOutputBuffer(decode.index);
+        }
+    }
+
     private void init() {
         this.audioBufferConverter = new AudioBufferConverter();
+    }
+
+    @Override // org.telegram.messenger.video.audio_input.AudioInput
+    public short getNext() {
+        if (hasRemaining()) {
+            int i = this.startOffsetShortsCounter;
+            if (i < this.requiredShortsForStartOffset) {
+                this.startOffsetShortsCounter = i + 1;
+                return (short) 0;
+            }
+            decode();
+            ShortBuffer shortBuffer = this.buffer;
+            short s = (shortBuffer == null || shortBuffer.remaining() <= 0) ? (short) 0 : this.buffer.get();
+            decode();
+            ShortBuffer shortBuffer2 = this.buffer;
+            if (shortBuffer2 == null || shortBuffer2.remaining() < 1) {
+                this.hasRemaining = false;
+            }
+            return s;
+        }
+        throw new RuntimeException("Audio input has no remaining value.");
+    }
+
+    @Override // org.telegram.messenger.video.audio_input.AudioInput
+    public int getSampleRate() {
+        return this.decoder.getSampleRate();
     }
 
     public long getStartOffsetUs() {
@@ -36,8 +74,20 @@ public class GeneralAudioInput extends AudioInput {
     }
 
     @Override // org.telegram.messenger.video.audio_input.AudioInput
-    public int getSampleRate() {
-        return this.decoder.getSampleRate();
+    public boolean hasRemaining() {
+        return this.hasRemaining;
+    }
+
+    @Override // org.telegram.messenger.video.audio_input.AudioInput
+    public void release() {
+        this.buffer = null;
+        this.hasRemaining = false;
+        this.decoder.stop();
+        this.decoder.release();
+    }
+
+    public void setEndTimeUs(long j) {
+        this.decoder.setEndTimeUs(j);
     }
 
     public void setStartOffsetUs(long j) {
@@ -51,15 +101,6 @@ public class GeneralAudioInput extends AudioInput {
         this.decoder.setStartTimeUs(j);
     }
 
-    public void setEndTimeUs(long j) {
-        this.decoder.setEndTimeUs(j);
-    }
-
-    @Override // org.telegram.messenger.video.audio_input.AudioInput
-    public boolean hasRemaining() {
-        return this.hasRemaining;
-    }
-
     @Override // org.telegram.messenger.video.audio_input.AudioInput
     public void start(int i, int i2) {
         this.outputSampleRate = i;
@@ -68,47 +109,5 @@ public class GeneralAudioInput extends AudioInput {
         this.decoder.start();
         this.requiredShortsForStartOffset = AudioConversions.usToShorts(getStartOffsetUs(), this.outputSampleRate, this.outputChannelCount);
         this.startOffsetShortsCounter = 0;
-    }
-
-    @Override // org.telegram.messenger.video.audio_input.AudioInput
-    public short getNext() {
-        if (!hasRemaining()) {
-            throw new RuntimeException("Audio input has no remaining value.");
-        }
-        int i = this.startOffsetShortsCounter;
-        if (i < this.requiredShortsForStartOffset) {
-            this.startOffsetShortsCounter = i + 1;
-            return (short) 0;
-        }
-        decode();
-        ShortBuffer shortBuffer = this.buffer;
-        short s = (shortBuffer == null || shortBuffer.remaining() <= 0) ? (short) 0 : this.buffer.get();
-        decode();
-        ShortBuffer shortBuffer2 = this.buffer;
-        if (shortBuffer2 == null || shortBuffer2.remaining() < 1) {
-            this.hasRemaining = false;
-        }
-        return s;
-    }
-
-    private void decode() {
-        ShortBuffer shortBuffer = this.buffer;
-        if (shortBuffer == null || shortBuffer.remaining() <= 0) {
-            AudioDecoder.DecodedBufferData decode = this.decoder.decode();
-            if (decode.index >= 0) {
-                this.buffer = this.audioBufferConverter.convert(decode.byteBuffer.asShortBuffer(), this.decoder.getSampleRate(), this.decoder.getChannelCount(), this.outputSampleRate, this.outputChannelCount);
-                this.decoder.releaseOutputBuffer(decode.index);
-                return;
-            }
-            this.buffer = null;
-        }
-    }
-
-    @Override // org.telegram.messenger.video.audio_input.AudioInput
-    public void release() {
-        this.buffer = null;
-        this.hasRemaining = false;
-        this.decoder.stop();
-        this.decoder.release();
     }
 }

@@ -2,11 +2,33 @@ package com.google.android.exoplayer2.extractor.mkv;
 
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.util.ParsableByteArray;
-import java.io.IOException;
 /* loaded from: classes.dex */
 final class Sniffer {
     private int peekLength;
     private final ParsableByteArray scratch = new ParsableByteArray(8);
+
+    private long readUint(ExtractorInput extractorInput) {
+        int i = 0;
+        extractorInput.peekFully(this.scratch.getData(), 0, 1);
+        int i2 = this.scratch.getData()[0] & 255;
+        if (i2 == 0) {
+            return Long.MIN_VALUE;
+        }
+        int i3 = 128;
+        int i4 = 0;
+        while ((i2 & i3) == 0) {
+            i3 >>= 1;
+            i4++;
+        }
+        int i5 = i2 & (i3 ^ (-1));
+        extractorInput.peekFully(this.scratch.getData(), 1, i4);
+        while (i < i4) {
+            i++;
+            i5 = (this.scratch.getData()[i] & 255) + (i5 << 8);
+        }
+        this.peekLength += i4 + 1;
+        return i5;
+    }
 
     /* JADX WARN: Code restructure failed: missing block: B:35:0x00a2, code lost:
         return false;
@@ -14,7 +36,7 @@ final class Sniffer {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean sniff(ExtractorInput extractorInput) throws IOException {
+    public boolean sniff(ExtractorInput extractorInput) {
         long length = extractorInput.getLength();
         long j = 1024;
         if (length != -1 && length <= 1024) {
@@ -59,28 +81,5 @@ final class Sniffer {
                 }
             }
         }
-    }
-
-    private long readUint(ExtractorInput extractorInput) throws IOException {
-        int i = 0;
-        extractorInput.peekFully(this.scratch.getData(), 0, 1);
-        int i2 = this.scratch.getData()[0] & 255;
-        if (i2 == 0) {
-            return Long.MIN_VALUE;
-        }
-        int i3 = 128;
-        int i4 = 0;
-        while ((i2 & i3) == 0) {
-            i3 >>= 1;
-            i4++;
-        }
-        int i5 = i2 & (i3 ^ (-1));
-        extractorInput.peekFully(this.scratch.getData(), 1, i4);
-        while (i < i4) {
-            i++;
-            i5 = (this.scratch.getData()[i] & 255) + (i5 << 8);
-        }
-        this.peekLength += i4 + 1;
-        return i5;
     }
 }

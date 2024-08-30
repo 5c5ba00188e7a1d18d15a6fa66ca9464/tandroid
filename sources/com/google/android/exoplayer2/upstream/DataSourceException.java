@@ -5,6 +5,25 @@ import java.io.IOException;
 public class DataSourceException extends IOException {
     public final int reason;
 
+    public DataSourceException(int i) {
+        this.reason = i;
+    }
+
+    public DataSourceException(String str, int i) {
+        super(str);
+        this.reason = i;
+    }
+
+    public DataSourceException(String str, Throwable th, int i) {
+        super(str, th);
+        this.reason = i;
+    }
+
+    public DataSourceException(Throwable th, int i) {
+        super(th);
+        this.reason = i;
+    }
+
     /* JADX WARN: Code restructure failed: missing block: B:0:?, code lost:
         r2 = r2;
      */
@@ -18,24 +37,5 @@ public class DataSourceException extends IOException {
             }
         }
         return false;
-    }
-
-    public DataSourceException(int i) {
-        this.reason = i;
-    }
-
-    public DataSourceException(Throwable th, int i) {
-        super(th);
-        this.reason = i;
-    }
-
-    public DataSourceException(String str, int i) {
-        super(str);
-        this.reason = i;
-    }
-
-    public DataSourceException(String str, Throwable th, int i) {
-        super(str, th);
-        this.reason = i;
     }
 }

@@ -1,6 +1,5 @@
 package com.android.billingclient.api;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,13 +9,18 @@ import android.os.Bundle;
 import com.google.android.gms.internal.play_billing.zzb;
 import com.google.android.gms.internal.play_billing.zzfb;
 import java.util.List;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzg extends BroadcastReceiver {
     final /* synthetic */ zzh zza;
     private final PurchasesUpdatedListener zzb;
     private final zzar zze;
     private boolean zzf;
+
+    public /* synthetic */ zzg(zzh zzhVar, PurchasesUpdatedListener purchasesUpdatedListener, AlternativeBillingListener alternativeBillingListener, zzar zzarVar, zzf zzfVar) {
+        this.zza = zzhVar;
+        this.zzb = purchasesUpdatedListener;
+        this.zze = zzarVar;
+    }
 
     public /* synthetic */ zzg(zzh zzhVar, zzaz zzazVar, zzar zzarVar, zzf zzfVar) {
         this.zza = zzhVar;
@@ -30,16 +34,15 @@ public final class zzg extends BroadcastReceiver {
     }
 
     private final void zze(Bundle bundle, BillingResult billingResult, int i) {
-        if (bundle.getByteArray("FAILURE_LOGGING_PAYLOAD") != null) {
-            try {
-                this.zze.zza(zzfb.zzx(bundle.getByteArray("FAILURE_LOGGING_PAYLOAD"), com.google.android.gms.internal.play_billing.zzbn.zza()));
-                return;
-            } catch (Throwable unused) {
-                zzb.zzj("BillingBroadcastManager", "Failed parsing Api failure.");
-                return;
-            }
+        if (bundle.getByteArray("FAILURE_LOGGING_PAYLOAD") == null) {
+            this.zze.zza(zzaq.zza(23, i, billingResult));
+            return;
         }
-        this.zze.zza(zzaq.zza(23, i, billingResult));
+        try {
+            this.zze.zza(zzfb.zzx(bundle.getByteArray("FAILURE_LOGGING_PAYLOAD"), com.google.android.gms.internal.play_billing.zzbn.zza()));
+        } catch (Throwable unused) {
+            zzb.zzj("BillingBroadcastManager", "Failed parsing Api failure.");
+        }
     }
 
     @Override // android.content.BroadcastReceiver
@@ -65,7 +68,7 @@ public final class zzg extends BroadcastReceiver {
             i = 2;
         }
         if (action.equals("com.android.vending.billing.PURCHASES_UPDATED")) {
-            List<Purchase> zzh = zzb.zzh(extras);
+            List zzh = zzb.zzh(extras);
             if (zzd.getResponseCode() == 0) {
                 this.zze.zzb(zzaq.zzb(i));
             } else {
@@ -86,7 +89,6 @@ public final class zzg extends BroadcastReceiver {
         }
     }
 
-    @SuppressLint({"UnprotectedReceiver"})
     public final void zzc(Context context, IntentFilter intentFilter) {
         zzg zzgVar;
         zzg zzgVar2;
@@ -101,11 +103,5 @@ public final class zzg extends BroadcastReceiver {
             context.registerReceiver(zzgVar, intentFilter);
         }
         this.zzf = true;
-    }
-
-    public /* synthetic */ zzg(zzh zzhVar, PurchasesUpdatedListener purchasesUpdatedListener, AlternativeBillingListener alternativeBillingListener, zzar zzarVar, zzf zzfVar) {
-        this.zza = zzhVar;
-        this.zzb = purchasesUpdatedListener;
-        this.zze = zzarVar;
     }
 }

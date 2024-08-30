@@ -5,10 +5,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailabilityLight;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.internal.BaseGmsClient;
+import com.google.android.gms.common.internal.zal;
 import java.util.ArrayList;
 import java.util.Map;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zaao extends zaav {
     final /* synthetic */ zaaw zaa;
@@ -34,7 +34,7 @@ public final class zaao extends zaav {
         Context context3;
         boolean z2;
         googleApiAvailabilityLight = this.zaa.zad;
-        com.google.android.gms.common.internal.zal zalVar = new com.google.android.gms.common.internal.zal(googleApiAvailabilityLight);
+        zal zalVar = new zal(googleApiAvailabilityLight);
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
         for (Api.Client client : this.zac.keySet()) {

@@ -56,5 +56,5 @@ public interface AnalyticsCollector extends Player.Listener, MediaSourceEventLis
 
     void setPlayer(Player player, Looper looper);
 
-    void updateMediaPeriodQueueInfo(List<MediaSource.MediaPeriodId> list, MediaSource.MediaPeriodId mediaPeriodId);
+    void updateMediaPeriodQueueInfo(List list, MediaSource.MediaPeriodId mediaPeriodId);
 }

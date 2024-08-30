@@ -1,7 +1,4 @@
 package com.google.android.gms.internal.play_billing;
-
-import java.io.IOException;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 final class zzei extends zzeg {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -41,10 +38,11 @@ final class zzei extends zzeg {
         if (zzeh.zzc().equals(obj2)) {
             return obj;
         }
+        zzeh zzehVar = (zzeh) obj2;
         if (zzeh.zzc().equals(obj)) {
-            return zzeh.zze((zzeh) obj, (zzeh) obj2);
+            return zzeh.zze((zzeh) obj, zzehVar);
         }
-        ((zzeh) obj).zzd((zzeh) obj2);
+        ((zzeh) obj).zzd(zzehVar);
         return obj;
     }
 
@@ -68,7 +66,7 @@ final class zzei extends zzeg {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzeg
-    public final /* synthetic */ void zzi(Object obj, zzey zzeyVar) throws IOException {
+    public final /* synthetic */ void zzi(Object obj, zzey zzeyVar) {
         ((zzeh) obj).zzk(zzeyVar);
     }
 }

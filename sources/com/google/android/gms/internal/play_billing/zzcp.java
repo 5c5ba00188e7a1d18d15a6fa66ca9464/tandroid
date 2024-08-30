@@ -3,7 +3,6 @@ package com.google.android.gms.internal.play_billing;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 final class zzcp extends zzct {
     private static final Class zza = Collections.unmodifiableList(Collections.emptyList()).getClass();
@@ -23,9 +22,7 @@ final class zzcp extends zzct {
         } else if (zza.isAssignableFrom(list.getClass())) {
             return;
         } else {
-            if (!(list instanceof zzdm) || !(list instanceof zzcf)) {
-                unmodifiableList = Collections.unmodifiableList(list);
-            } else {
+            if ((list instanceof zzdm) && (list instanceof zzcf)) {
                 zzcf zzcfVar = (zzcf) list;
                 if (zzcfVar.zzc()) {
                     zzcfVar.zzb();
@@ -33,54 +30,69 @@ final class zzcp extends zzct {
                 }
                 return;
             }
+            unmodifiableList = Collections.unmodifiableList(list);
         }
         zzeq.zzs(obj, j, unmodifiableList);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0094 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x009c  */
     @Override // com.google.android.gms.internal.play_billing.zzct
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public final void zzb(Object obj, Object obj2, long j) {
         zzcm zzcmVar;
+        int size;
         List list = (List) zzeq.zzf(obj2, j);
-        int size = list.size();
+        int size2 = list.size();
         List list2 = (List) zzeq.zzf(obj, j);
-        if (list2.isEmpty()) {
-            if (list2 instanceof zzcn) {
-                list2 = new zzcm(size);
-            } else if (!(list2 instanceof zzdm) || !(list2 instanceof zzcf)) {
-                list2 = new ArrayList(size);
-            } else {
-                list2 = ((zzcf) list2).zzd(size);
-            }
-            zzeq.zzs(obj, j, list2);
-        } else {
+        if (!list2.isEmpty()) {
             if (zza.isAssignableFrom(list2.getClass())) {
-                ArrayList arrayList = new ArrayList(list2.size() + size);
+                ArrayList arrayList = new ArrayList(list2.size() + size2);
                 arrayList.addAll(list2);
-                zzeq.zzs(obj, j, arrayList);
                 zzcmVar = arrayList;
-            } else if (list2 instanceof zzel) {
-                zzcm zzcmVar2 = new zzcm(list2.size() + size);
-                zzcmVar2.addAll(zzcmVar2.size(), (zzel) list2);
-                zzeq.zzs(obj, j, zzcmVar2);
-                zzcmVar = zzcmVar2;
-            } else if ((list2 instanceof zzdm) && (list2 instanceof zzcf)) {
-                zzcf zzcfVar = (zzcf) list2;
-                if (!zzcfVar.zzc()) {
-                    list2 = zzcfVar.zzd(list2.size() + size);
-                    zzeq.zzs(obj, j, list2);
+            } else if (!(list2 instanceof zzel)) {
+                if ((list2 instanceof zzdm) && (list2 instanceof zzcf)) {
+                    zzcf zzcfVar = (zzcf) list2;
+                    if (!zzcfVar.zzc()) {
+                        list2 = zzcfVar.zzd(list2.size() + size2);
+                    }
                 }
+                size = list2.size();
+                int size3 = list.size();
+                if (size > 0 && size3 > 0) {
+                    list2.addAll(list);
+                }
+                if (size > 0) {
+                    list = list2;
+                }
+                zzeq.zzs(obj, j, list);
+            } else {
+                zzcm zzcmVar2 = new zzcm(list2.size() + size2);
+                zzcmVar2.addAll(zzcmVar2.size(), (zzel) list2);
+                zzcmVar = zzcmVar2;
             }
+            zzeq.zzs(obj, j, zzcmVar);
             list2 = zzcmVar;
+            size = list2.size();
+            int size32 = list.size();
+            if (size > 0) {
+                list2.addAll(list);
+            }
+            if (size > 0) {
+            }
+            zzeq.zzs(obj, j, list);
         }
-        int size2 = list2.size();
-        int size3 = list.size();
-        if (size2 > 0 && size3 > 0) {
-            list2.addAll(list);
+        list2 = list2 instanceof zzcn ? new zzcm(size2) : ((list2 instanceof zzdm) && (list2 instanceof zzcf)) ? ((zzcf) list2).zzd(size2) : new ArrayList(size2);
+        zzeq.zzs(obj, j, list2);
+        size = list2.size();
+        int size322 = list.size();
+        if (size > 0) {
         }
-        if (size2 > 0) {
-            list = list2;
+        if (size > 0) {
         }
         zzeq.zzs(obj, j, list);
     }

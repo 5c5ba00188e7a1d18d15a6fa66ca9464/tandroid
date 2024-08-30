@@ -70,7 +70,7 @@ public class StoryLinkPreviewDialog extends Dialog {
     private final Theme.ResourcesProvider resourcesProvider;
     private final TextView subtitleTextView;
     private final TextView titleTextView;
-    private Utilities.Callback<LinkPreview.WebPagePreview> whenDone;
+    private Utilities.Callback whenDone;
     private final FrameLayout windowView;
 
     public StoryLinkPreviewDialog(Context context, final int i) {
@@ -123,6 +123,14 @@ public class StoryLinkPreviewDialog extends Dialog {
             private final Path path = new Path();
             private final RectF rect = new RectF();
 
+            @Override // android.view.View
+            public void draw(Canvas canvas) {
+                canvas.save();
+                canvas.clipPath(this.path);
+                super.draw(canvas);
+                canvas.restore();
+            }
+
             @Override // android.widget.FrameLayout, android.view.View
             protected void onMeasure(int i2, int i3) {
                 super.onMeasure(i2, i3);
@@ -132,14 +140,6 @@ public class StoryLinkPreviewDialog extends Dialog {
                 if (StoryLinkPreviewDialog.this.linkView != null) {
                     StoryLinkPreviewDialog.this.linkView.setMaxWidth(getMeasuredWidth() - AndroidUtilities.dp(32.0f));
                 }
-            }
-
-            @Override // android.view.View
-            public void draw(Canvas canvas) {
-                canvas.save();
-                canvas.clipPath(this.path);
-                super.draw(canvas);
-                canvas.restore();
             }
         };
         this.previewContainer = frameLayout2;
@@ -249,21 +249,21 @@ public class StoryLinkPreviewDialog extends Dialog {
                     int i4;
                     int i5;
                     int i6 = Build.VERSION.SDK_INT;
-                    if (i6 < 30) {
-                        Rect rect = StoryLinkPreviewDialog.this.insets;
-                        stableInsetLeft = windowInsets.getStableInsetLeft();
-                        stableInsetTop = windowInsets.getStableInsetTop();
-                        stableInsetRight = windowInsets.getStableInsetRight();
-                        stableInsetBottom = windowInsets.getStableInsetBottom();
-                        rect.set(stableInsetLeft, stableInsetTop, stableInsetRight, stableInsetBottom);
-                    } else {
+                    if (i6 >= 30) {
                         insets = windowInsets.getInsets(WindowInsetsCompat.Type.displayCutout() | WindowInsetsCompat.Type.systemBars());
-                        Rect rect2 = StoryLinkPreviewDialog.this.insets;
+                        Rect rect = StoryLinkPreviewDialog.this.insets;
                         i2 = insets.left;
                         i3 = insets.top;
                         i4 = insets.right;
                         i5 = insets.bottom;
-                        rect2.set(i2, i3, i4, i5);
+                        rect.set(i2, i3, i4, i5);
+                    } else {
+                        Rect rect2 = StoryLinkPreviewDialog.this.insets;
+                        stableInsetLeft = windowInsets.getStableInsetLeft();
+                        stableInsetTop = windowInsets.getStableInsetTop();
+                        stableInsetRight = windowInsets.getStableInsetRight();
+                        stableInsetBottom = windowInsets.getStableInsetBottom();
+                        rect2.set(stableInsetLeft, stableInsetTop, stableInsetRight, stableInsetBottom);
                     }
                     StoryLinkPreviewDialog.this.windowView.setPadding(StoryLinkPreviewDialog.this.insets.left, StoryLinkPreviewDialog.this.insets.top, StoryLinkPreviewDialog.this.insets.right, StoryLinkPreviewDialog.this.insets.bottom);
                     StoryLinkPreviewDialog.this.windowView.requestLayout();
@@ -276,66 +276,6 @@ public class StoryLinkPreviewDialog extends Dialog {
                 }
             });
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(View view) {
-        onBackPressed();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1(int i, View view) {
-        LinkPreview.WebPagePreview webPagePreview = this.link;
-        boolean z = webPagePreview.captionAbove;
-        webPagePreview.captionAbove = !z;
-        this.captionButton.setState(z, true);
-        this.linkView.set(i, this.link, true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$2(int i, View view) {
-        LinkPreview.WebPagePreview webPagePreview = this.link;
-        boolean z = webPagePreview.largePhoto;
-        webPagePreview.largePhoto = !z;
-        this.photoButton.setState(z, true);
-        this.linkView.set(i, this.link, true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$3() {
-        Utilities.Callback<LinkPreview.WebPagePreview> callback = this.whenDone;
-        if (callback != null) {
-            callback.run(null);
-            this.whenDone = null;
-        }
-        dismiss();
-    }
-
-    @Override // android.app.Dialog
-    protected void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-        Window window = getWindow();
-        window.setWindowAnimations(R.style.DialogNoAnimation);
-        setContentView(this.windowView, new ViewGroup.LayoutParams(-1, -1));
-        WindowManager.LayoutParams attributes = window.getAttributes();
-        attributes.width = -1;
-        attributes.height = -1;
-        attributes.gravity = 119;
-        attributes.dimAmount = 0.0f;
-        int i = attributes.flags & (-3);
-        attributes.softInputMode = 16;
-        attributes.flags = 131072 | i;
-        int i2 = Build.VERSION.SDK_INT;
-        if (i2 >= 21) {
-            attributes.flags = i | (-1945960192);
-        }
-        attributes.flags |= 1152;
-        if (i2 >= 28) {
-            attributes.layoutInDisplayCutoutMode = 1;
-        }
-        window.setAttributes(attributes);
-        this.windowView.setSystemUiVisibility(256);
-        AndroidUtilities.setLightNavigationBar(this.windowView, !Theme.isCurrentThemeDark());
     }
 
     private void animateOpenTo(final boolean z, final Runnable runnable) {
@@ -380,16 +320,52 @@ public class StoryLinkPreviewDialog extends Dialog {
         this.windowView.invalidate();
     }
 
-    private void prepareBlur(final View view) {
-        if (view != null) {
-            view.setVisibility(4);
-        }
-        AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda1
-            @Override // org.telegram.messenger.Utilities.Callback
-            public final void run(Object obj) {
-                StoryLinkPreviewDialog.this.lambda$prepareBlur$5(view, (Bitmap) obj);
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$dismiss$6() {
+        super.dismiss();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$dismiss$7() {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda8
+            @Override // java.lang.Runnable
+            public final void run() {
+                StoryLinkPreviewDialog.this.lambda$dismiss$6();
             }
-        }, 14.0f);
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0(View view) {
+        onBackPressed();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$1(int i, View view) {
+        LinkPreview.WebPagePreview webPagePreview = this.link;
+        boolean z = webPagePreview.captionAbove;
+        webPagePreview.captionAbove = !z;
+        this.captionButton.setState(z, true);
+        this.linkView.set(i, this.link, true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$2(int i, View view) {
+        LinkPreview.WebPagePreview webPagePreview = this.link;
+        boolean z = webPagePreview.largePhoto;
+        webPagePreview.largePhoto = !z;
+        this.photoButton.setState(z, true);
+        this.linkView.set(i, this.link, true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$3() {
+        Utilities.Callback callback = this.whenDone;
+        if (callback != null) {
+            callback.run(null);
+            this.whenDone = null;
+        }
+        dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -412,18 +388,16 @@ public class StoryLinkPreviewDialog extends Dialog {
         this.blurMatrix = new Matrix();
     }
 
-    @Override // android.app.Dialog
-    public void show() {
-        if (AndroidUtilities.isSafeToShow(getContext())) {
-            super.show();
-            prepareBlur(null);
-            animateOpenTo(true, null);
+    private void prepareBlur(final View view) {
+        if (view != null) {
+            view.setVisibility(4);
         }
-    }
-
-    @Override // android.app.Dialog
-    public boolean isShowing() {
-        return !this.dismissing;
+        AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda1
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                StoryLinkPreviewDialog.this.lambda$prepareBlur$5(view, (Bitmap) obj);
+            }
+        }, 14.0f);
     }
 
     @Override // android.app.Dialog, android.content.DialogInterface
@@ -431,7 +405,7 @@ public class StoryLinkPreviewDialog extends Dialog {
         if (this.dismissing) {
             return;
         }
-        Utilities.Callback<LinkPreview.WebPagePreview> callback = this.whenDone;
+        Utilities.Callback callback = this.whenDone;
         if (callback != null) {
             callback.run(this.link);
             this.whenDone = null;
@@ -446,22 +420,39 @@ public class StoryLinkPreviewDialog extends Dialog {
         this.windowView.invalidate();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$dismiss$6() {
-        super.dismiss();
+    @Override // android.app.Dialog
+    public boolean isShowing() {
+        return !this.dismissing;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$dismiss$7() {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda8
-            @Override // java.lang.Runnable
-            public final void run() {
-                StoryLinkPreviewDialog.this.lambda$dismiss$6();
-            }
-        });
+    @Override // android.app.Dialog
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        Window window = getWindow();
+        window.setWindowAnimations(R.style.DialogNoAnimation);
+        setContentView(this.windowView, new ViewGroup.LayoutParams(-1, -1));
+        WindowManager.LayoutParams attributes = window.getAttributes();
+        attributes.width = -1;
+        attributes.height = -1;
+        attributes.gravity = 119;
+        attributes.dimAmount = 0.0f;
+        int i = attributes.flags & (-3);
+        attributes.softInputMode = 16;
+        attributes.flags = 131072 | i;
+        int i2 = Build.VERSION.SDK_INT;
+        if (i2 >= 21) {
+            attributes.flags = i | (-1945960192);
+        }
+        attributes.flags |= 1152;
+        if (i2 >= 28) {
+            attributes.layoutInDisplayCutoutMode = 1;
+        }
+        window.setAttributes(attributes);
+        this.windowView.setSystemUiVisibility(256);
+        AndroidUtilities.setLightNavigationBar(this.windowView, !Theme.isCurrentThemeDark());
     }
 
-    public void set(LinkPreview.WebPagePreview webPagePreview, Utilities.Callback<LinkPreview.WebPagePreview> callback) {
+    public void set(LinkPreview.WebPagePreview webPagePreview, Utilities.Callback callback) {
         TLRPC$WebPage tLRPC$WebPage;
         this.link = webPagePreview;
         this.photoButton.setVisibility(webPagePreview != null && (tLRPC$WebPage = webPagePreview.webpage) != null && (tLRPC$WebPage.photo != null || MessageObject.isVideoDocument(tLRPC$WebPage.document)) ? 0 : 8);
@@ -474,6 +465,24 @@ public class StoryLinkPreviewDialog extends Dialog {
     public void setStoryPreviewView(final PreviewView previewView) {
         this.backgroundView.setImageDrawable(new Drawable() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog.8
             @Override // android.graphics.drawable.Drawable
+            public void draw(Canvas canvas) {
+                canvas.save();
+                canvas.translate(getBounds().left, getBounds().top);
+                previewView.draw(canvas);
+                canvas.restore();
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public int getIntrinsicHeight() {
+                return previewView.getHeight();
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public int getIntrinsicWidth() {
+                return previewView.getWidth();
+            }
+
+            @Override // android.graphics.drawable.Drawable
             public int getOpacity() {
                 return -2;
             }
@@ -485,24 +494,15 @@ public class StoryLinkPreviewDialog extends Dialog {
             @Override // android.graphics.drawable.Drawable
             public void setColorFilter(ColorFilter colorFilter) {
             }
-
-            @Override // android.graphics.drawable.Drawable
-            public void draw(Canvas canvas) {
-                canvas.save();
-                canvas.translate(getBounds().left, getBounds().top);
-                previewView.draw(canvas);
-                canvas.restore();
-            }
-
-            @Override // android.graphics.drawable.Drawable
-            public int getIntrinsicWidth() {
-                return previewView.getWidth();
-            }
-
-            @Override // android.graphics.drawable.Drawable
-            public int getIntrinsicHeight() {
-                return previewView.getHeight();
-            }
         });
+    }
+
+    @Override // android.app.Dialog
+    public void show() {
+        if (AndroidUtilities.isSafeToShow(getContext())) {
+            super.show();
+            prepareBlur(null);
+            animateOpenTo(true, null);
+        }
     }
 }

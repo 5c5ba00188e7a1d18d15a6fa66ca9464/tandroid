@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.vision.Frame;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zzs extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zzs> CREATOR = new zzv();
@@ -26,6 +25,16 @@ public final class zzs extends AbstractSafeParcelable {
         this.zze = i4;
     }
 
+    public static zzs zza(Frame frame) {
+        zzs zzsVar = new zzs();
+        zzsVar.zza = frame.getMetadata().getWidth();
+        zzsVar.zzb = frame.getMetadata().getHeight();
+        zzsVar.zze = frame.getMetadata().getRotation();
+        zzsVar.zzc = frame.getMetadata().getId();
+        zzsVar.zzd = frame.getMetadata().getTimestampMillis();
+        return zzsVar;
+    }
+
     @Override // android.os.Parcelable
     public final void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
@@ -35,15 +44,5 @@ public final class zzs extends AbstractSafeParcelable {
         SafeParcelWriter.writeLong(parcel, 5, this.zzd);
         SafeParcelWriter.writeInt(parcel, 6, this.zze);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    public static zzs zza(Frame frame) {
-        zzs zzsVar = new zzs();
-        zzsVar.zza = frame.getMetadata().getWidth();
-        zzsVar.zzb = frame.getMetadata().getHeight();
-        zzsVar.zze = frame.getMetadata().getRotation();
-        zzsVar.zzc = frame.getMetadata().getId();
-        zzsVar.zzd = frame.getMetadata().getTimestampMillis();
-        return zzsVar;
     }
 }

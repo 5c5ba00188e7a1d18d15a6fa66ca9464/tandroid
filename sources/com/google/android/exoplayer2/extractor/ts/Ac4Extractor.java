@@ -10,7 +10,6 @@ import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
 import com.google.android.exoplayer2.util.ParsableByteArray;
-import java.io.IOException;
 import java.util.Map;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
@@ -34,13 +33,42 @@ public final class Ac4Extractor implements Extractor {
     private final ParsableByteArray sampleData = new ParsableByteArray((int) LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
     private boolean startedPacket;
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Extractor[] lambda$static$0() {
+        return new Extractor[]{new Ac4Extractor()};
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.Extractor
+    public void init(ExtractorOutput extractorOutput) {
+        this.reader.createTracks(extractorOutput, new TsPayloadReader.TrackIdGenerator(0, 1));
+        extractorOutput.endTracks();
+        extractorOutput.seekMap(new SeekMap.Unseekable(-9223372036854775807L));
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.Extractor
+    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) {
+        int read = extractorInput.read(this.sampleData.getData(), 0, LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
+        if (read == -1) {
+            return -1;
+        }
+        this.sampleData.setPosition(0);
+        this.sampleData.setLimit(read);
+        if (!this.startedPacket) {
+            this.reader.packetStarted(0L, 4);
+            this.startedPacket = true;
+        }
+        this.reader.consume(this.sampleData);
+        return 0;
+    }
+
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void release() {
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ Extractor[] lambda$static$0() {
-        return new Extractor[]{new Ac4Extractor()};
+    @Override // com.google.android.exoplayer2.extractor.Extractor
+    public void seek(long j, long j2) {
+        this.startedPacket = false;
+        this.reader.seek();
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:11:0x003d, code lost:
@@ -57,7 +85,7 @@ public final class Ac4Extractor implements Extractor {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean sniff(ExtractorInput extractorInput) throws IOException {
+    public boolean sniff(ExtractorInput extractorInput) {
         ParsableByteArray parsableByteArray = new ParsableByteArray(10);
         int i = 0;
         while (true) {
@@ -95,34 +123,5 @@ public final class Ac4Extractor implements Extractor {
             }
             extractorInput.advancePeekPosition(i2);
         }
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.Extractor
-    public void init(ExtractorOutput extractorOutput) {
-        this.reader.createTracks(extractorOutput, new TsPayloadReader.TrackIdGenerator(0, 1));
-        extractorOutput.endTracks();
-        extractorOutput.seekMap(new SeekMap.Unseekable(-9223372036854775807L));
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.Extractor
-    public void seek(long j, long j2) {
-        this.startedPacket = false;
-        this.reader.seek();
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.Extractor
-    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
-        int read = extractorInput.read(this.sampleData.getData(), 0, LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
-        if (read == -1) {
-            return -1;
-        }
-        this.sampleData.setPosition(0);
-        this.sampleData.setLimit(read);
-        if (!this.startedPacket) {
-            this.reader.packetStarted(0L, 4);
-            this.startedPacket = true;
-        }
-        this.reader.consume(this.sampleData);
-        return 0;
     }
 }

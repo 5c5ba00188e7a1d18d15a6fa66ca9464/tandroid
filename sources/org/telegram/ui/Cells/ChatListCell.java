@@ -18,11 +18,8 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadioButton;
 /* loaded from: classes4.dex */
-public class ChatListCell extends LinearLayout {
+public abstract class ChatListCell extends LinearLayout {
     private ListView[] listView;
-
-    protected void didSelectChatType(boolean z) {
-    }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
@@ -61,6 +58,9 @@ public class ChatListCell extends LinearLayout {
 
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
+            RectF rectF;
+            float dp;
+            float dp2;
             int color = Theme.getColor(Theme.key_switchTrack);
             int red = Color.red(color);
             int green = Color.green(color);
@@ -77,22 +77,27 @@ public class ChatListCell extends LinearLayout {
             canvas.drawText(string, (getMeasuredWidth() - ((int) Math.ceil(this.textPaint.measureText(string)))) / 2, AndroidUtilities.dp(96.0f), this.textPaint);
             int i = 0;
             for (int i2 = 2; i < i2; i2 = 2) {
-                int dp = AndroidUtilities.dp(i == 0 ? 21.0f : 53.0f);
+                int dp3 = AndroidUtilities.dp(i == 0 ? 21.0f : 53.0f);
                 Theme.dialogs_onlineCirclePaint.setColor(Color.argb(i == 0 ? NotificationCenter.groupPackUpdated : 90, red, green, blue));
-                canvas.drawCircle(AndroidUtilities.dp(22.0f), dp, AndroidUtilities.dp(11.0f), Theme.dialogs_onlineCirclePaint);
+                canvas.drawCircle(AndroidUtilities.dp(22.0f), dp3, AndroidUtilities.dp(11.0f), Theme.dialogs_onlineCirclePaint);
                 int i3 = 0;
                 while (true) {
                     if (i3 < (this.isThreeLines ? 3 : 2)) {
                         Theme.dialogs_onlineCirclePaint.setColor(Color.argb(i3 == 0 ? NotificationCenter.groupPackUpdated : 90, red, green, blue));
                         if (this.isThreeLines) {
                             float f = i3 * 7;
-                            this.rect.set(AndroidUtilities.dp(41.0f), dp - AndroidUtilities.dp(8.3f - f), getMeasuredWidth() - AndroidUtilities.dp(i3 == 0 ? 72.0f : 48.0f), dp - AndroidUtilities.dp(5.3f - f));
-                            canvas.drawRoundRect(this.rect, AndroidUtilities.dpf2(1.5f), AndroidUtilities.dpf2(1.5f), Theme.dialogs_onlineCirclePaint);
+                            this.rect.set(AndroidUtilities.dp(41.0f), dp3 - AndroidUtilities.dp(8.3f - f), getMeasuredWidth() - AndroidUtilities.dp(i3 == 0 ? 72.0f : 48.0f), dp3 - AndroidUtilities.dp(5.3f - f));
+                            rectF = this.rect;
+                            dp = AndroidUtilities.dpf2(1.5f);
+                            dp2 = AndroidUtilities.dpf2(1.5f);
                         } else {
                             int i4 = i3 * 10;
-                            this.rect.set(AndroidUtilities.dp(41.0f), dp - AndroidUtilities.dp(7 - i4), getMeasuredWidth() - AndroidUtilities.dp(i3 == 0 ? 72.0f : 48.0f), dp - AndroidUtilities.dp(3 - i4));
-                            canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
+                            this.rect.set(AndroidUtilities.dp(41.0f), dp3 - AndroidUtilities.dp(7 - i4), getMeasuredWidth() - AndroidUtilities.dp(i3 == 0 ? 72.0f : 48.0f), dp3 - AndroidUtilities.dp(3 - i4));
+                            rectF = this.rect;
+                            dp = AndroidUtilities.dp(2.0f);
+                            dp2 = AndroidUtilities.dp(2.0f);
                         }
+                        canvas.drawRoundRect(rectF, dp, dp2, Theme.dialogs_onlineCirclePaint);
                         i3++;
                     }
                 }
@@ -141,6 +146,8 @@ public class ChatListCell extends LinearLayout {
         }
         didSelectChatType(z);
     }
+
+    protected abstract void didSelectChatType(boolean z);
 
     @Override // android.view.View
     public void invalidate() {

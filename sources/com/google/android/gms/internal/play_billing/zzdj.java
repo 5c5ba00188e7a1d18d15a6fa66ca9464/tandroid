@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.play_billing;
 
-import java.io.IOException;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
+import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 /* loaded from: classes.dex */
 final class zzdj implements zzdp {
     private final zzdf zza;
@@ -45,10 +44,7 @@ final class zzdj implements zzdp {
     @Override // com.google.android.gms.internal.play_billing.zzdp
     public final Object zze() {
         zzdf zzdfVar = this.zza;
-        if (zzdfVar instanceof zzcb) {
-            return ((zzcb) zzdfVar).zzi();
-        }
-        return zzdfVar.zzk().zze();
+        return zzdfVar instanceof zzcb ? ((zzcb) zzdfVar).zzi() : zzdfVar.zzk().zze();
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzdp
@@ -67,17 +63,17 @@ final class zzdj implements zzdp {
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzdp
-    public final void zzh(Object obj, byte[] bArr, int i, int i2, zzan zzanVar) throws IOException {
+    public final void zzh(Object obj, byte[] bArr, int i, int i2, zzan zzanVar) {
         zzcb zzcbVar = (zzcb) obj;
         if (zzcbVar.zzc == zzeh.zzc()) {
             zzcbVar.zzc = zzeh.zzf();
         }
-        zzby zzbyVar = (zzby) obj;
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(obj);
         throw null;
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzdp
-    public final void zzi(Object obj, zzey zzeyVar) throws IOException {
+    public final void zzi(Object obj, zzey zzeyVar) {
         this.zzd.zza(obj);
         throw null;
     }

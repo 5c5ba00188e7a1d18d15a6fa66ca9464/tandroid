@@ -13,15 +13,15 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlSerializer;
 /* loaded from: classes.dex */
-class ShortcutsInfoSerialization {
+abstract class ShortcutsInfoSerialization {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
@@ -38,41 +38,13 @@ class ShortcutsInfoSerialization {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void saveAsXml(List<ShortcutContainer> list, File file) {
-        FileOutputStream startWrite;
-        AtomicFile atomicFile = new AtomicFile(file);
-        FileOutputStream fileOutputStream = null;
-        try {
-            startWrite = atomicFile.startWrite();
-        } catch (Exception e) {
-            e = e;
-        }
-        try {
-            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(startWrite);
-            XmlSerializer newSerializer = Xml.newSerializer();
-            newSerializer.setOutput(bufferedOutputStream, "UTF_8");
-            newSerializer.startDocument(null, Boolean.TRUE);
-            newSerializer.startTag(null, "share_targets");
-            for (ShortcutContainer shortcutContainer : list) {
-                serializeShortcutContainer(newSerializer, shortcutContainer);
-            }
-            newSerializer.endTag(null, "share_targets");
-            newSerializer.endDocument();
-            bufferedOutputStream.flush();
-            startWrite.flush();
-            atomicFile.finishWrite(startWrite);
-        } catch (Exception e2) {
-            e = e2;
-            fileOutputStream = startWrite;
-            Log.e("ShortcutInfoCompatSaver", "Failed to write to file " + atomicFile.getBaseFile(), e);
-            atomicFile.failWrite(fileOutputStream);
-            throw new RuntimeException("Failed to write to file " + atomicFile.getBaseFile(), e);
-        }
+    private static String getAttributeValue(XmlPullParser xmlPullParser, String str) {
+        String attributeValue = xmlPullParser.getAttributeValue("http://schemas.android.com/apk/res/android", str);
+        return attributeValue == null ? xmlPullParser.getAttributeValue(null, str) : attributeValue;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static Map<String, ShortcutContainer> loadFromXml(File file, Context context) {
+    public static Map loadFromXml(File file, Context context) {
         FileInputStream fileInputStream;
         ShortcutContainer parseShortcutContainer;
         ShortcutInfoCompat shortcutInfoCompat;
@@ -83,25 +55,47 @@ class ShortcutsInfoSerialization {
             file.delete();
             Log.e("ShortcutInfoCompatSaver", "Failed to load saved values from file " + file.getAbsolutePath() + ". Old state removed, new added", e);
         }
-        if (file.exists()) {
-            XmlPullParser newPullParser = Xml.newPullParser();
-            newPullParser.setInput(fileInputStream, "UTF_8");
-            while (true) {
-                int next = newPullParser.next();
-                if (next == 1) {
-                    break;
-                } else if (next == 2 && newPullParser.getName().equals("target") && (parseShortcutContainer = parseShortcutContainer(newPullParser, context)) != null && (shortcutInfoCompat = parseShortcutContainer.mShortcutInfo) != null) {
-                    arrayMap.put(shortcutInfoCompat.getId(), parseShortcutContainer);
-                }
-            }
+        if (!file.exists()) {
             fileInputStream.close();
             return arrayMap;
+        }
+        XmlPullParser newPullParser = Xml.newPullParser();
+        newPullParser.setInput(fileInputStream, "UTF_8");
+        while (true) {
+            int next = newPullParser.next();
+            if (next == 1) {
+                break;
+            } else if (next == 2 && newPullParser.getName().equals("target") && (parseShortcutContainer = parseShortcutContainer(newPullParser, context)) != null && (shortcutInfoCompat = parseShortcutContainer.mShortcutInfo) != null) {
+                arrayMap.put(shortcutInfoCompat.getId(), parseShortcutContainer);
+            }
         }
         fileInputStream.close();
         return arrayMap;
     }
 
-    private static ShortcutContainer parseShortcutContainer(XmlPullParser xmlPullParser, Context context) throws Exception {
+    private static ComponentName parseComponentName(XmlPullParser xmlPullParser) {
+        String attributeValue = getAttributeValue(xmlPullParser, "component");
+        if (TextUtils.isEmpty(attributeValue)) {
+            return null;
+        }
+        return ComponentName.unflattenFromString(attributeValue);
+    }
+
+    private static Intent parseIntent(XmlPullParser xmlPullParser) {
+        String attributeValue = getAttributeValue(xmlPullParser, "action");
+        String attributeValue2 = getAttributeValue(xmlPullParser, "targetPackage");
+        String attributeValue3 = getAttributeValue(xmlPullParser, "targetClass");
+        if (attributeValue == null) {
+            return null;
+        }
+        Intent intent = new Intent(attributeValue);
+        if (!TextUtils.isEmpty(attributeValue2) && !TextUtils.isEmpty(attributeValue3)) {
+            intent.setClassName(attributeValue2, attributeValue3);
+        }
+        return intent;
+    }
+
+    private static ShortcutContainer parseShortcutContainer(XmlPullParser xmlPullParser, Context context) {
         if (xmlPullParser.getName().equals("target")) {
             String attributeValue = getAttributeValue(xmlPullParser, "id");
             String attributeValue2 = getAttributeValue(xmlPullParser, "short_label");
@@ -119,7 +113,11 @@ class ShortcutsInfoSerialization {
             while (true) {
                 int next = xmlPullParser.next();
                 if (next != 1) {
-                    if (next == 2) {
+                    if (next != 2) {
+                        if (next == 3 && xmlPullParser.getName().equals("target")) {
+                            break;
+                        }
+                    } else {
                         String name = xmlPullParser.getName();
                         name.hashCode();
                         if (name.equals("intent")) {
@@ -133,8 +131,6 @@ class ShortcutsInfoSerialization {
                                 hashSet.add(attributeValue7);
                             }
                         }
-                    } else if (next == 3 && xmlPullParser.getName().equals("target")) {
-                        break;
                     }
                 } else {
                     break;
@@ -161,34 +157,67 @@ class ShortcutsInfoSerialization {
         return null;
     }
 
-    private static ComponentName parseComponentName(XmlPullParser xmlPullParser) {
-        String attributeValue = getAttributeValue(xmlPullParser, "component");
-        if (TextUtils.isEmpty(attributeValue)) {
-            return null;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void saveAsXml(List list, File file) {
+        FileOutputStream startWrite;
+        AtomicFile atomicFile = new AtomicFile(file);
+        FileOutputStream fileOutputStream = null;
+        try {
+            startWrite = atomicFile.startWrite();
+        } catch (Exception e) {
+            e = e;
         }
-        return ComponentName.unflattenFromString(attributeValue);
+        try {
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(startWrite);
+            XmlSerializer newSerializer = Xml.newSerializer();
+            newSerializer.setOutput(bufferedOutputStream, "UTF_8");
+            newSerializer.startDocument(null, Boolean.TRUE);
+            newSerializer.startTag(null, "share_targets");
+            Iterator it = list.iterator();
+            while (it.hasNext()) {
+                serializeShortcutContainer(newSerializer, (ShortcutContainer) it.next());
+            }
+            newSerializer.endTag(null, "share_targets");
+            newSerializer.endDocument();
+            bufferedOutputStream.flush();
+            startWrite.flush();
+            atomicFile.finishWrite(startWrite);
+        } catch (Exception e2) {
+            e = e2;
+            fileOutputStream = startWrite;
+            Log.e("ShortcutInfoCompatSaver", "Failed to write to file " + atomicFile.getBaseFile(), e);
+            atomicFile.failWrite(fileOutputStream);
+            throw new RuntimeException("Failed to write to file " + atomicFile.getBaseFile(), e);
+        }
     }
 
-    private static Intent parseIntent(XmlPullParser xmlPullParser) {
-        String attributeValue = getAttributeValue(xmlPullParser, "action");
-        String attributeValue2 = getAttributeValue(xmlPullParser, "targetPackage");
-        String attributeValue3 = getAttributeValue(xmlPullParser, "targetClass");
-        if (attributeValue == null) {
-            return null;
+    private static void serializeAttribute(XmlSerializer xmlSerializer, String str, String str2) {
+        if (TextUtils.isEmpty(str2)) {
+            return;
         }
-        Intent intent = new Intent(attributeValue);
-        if (!TextUtils.isEmpty(attributeValue2) && !TextUtils.isEmpty(attributeValue3)) {
-            intent.setClassName(attributeValue2, attributeValue3);
-        }
-        return intent;
+        xmlSerializer.attribute(null, str, str2);
     }
 
-    private static String getAttributeValue(XmlPullParser xmlPullParser, String str) {
-        String attributeValue = xmlPullParser.getAttributeValue("http://schemas.android.com/apk/res/android", str);
-        return attributeValue == null ? xmlPullParser.getAttributeValue(null, str) : attributeValue;
+    private static void serializeCategory(XmlSerializer xmlSerializer, String str) {
+        if (TextUtils.isEmpty(str)) {
+            return;
+        }
+        xmlSerializer.startTag(null, "categories");
+        serializeAttribute(xmlSerializer, "name", str);
+        xmlSerializer.endTag(null, "categories");
     }
 
-    private static void serializeShortcutContainer(XmlSerializer xmlSerializer, ShortcutContainer shortcutContainer) throws IOException {
+    private static void serializeIntent(XmlSerializer xmlSerializer, Intent intent) {
+        xmlSerializer.startTag(null, "intent");
+        serializeAttribute(xmlSerializer, "action", intent.getAction());
+        if (intent.getComponent() != null) {
+            serializeAttribute(xmlSerializer, "targetPackage", intent.getComponent().getPackageName());
+            serializeAttribute(xmlSerializer, "targetClass", intent.getComponent().getClassName());
+        }
+        xmlSerializer.endTag(null, "intent");
+    }
+
+    private static void serializeShortcutContainer(XmlSerializer xmlSerializer, ShortcutContainer shortcutContainer) {
         xmlSerializer.startTag(null, "target");
         ShortcutInfoCompat shortcutInfoCompat = shortcutContainer.mShortcutInfo;
         serializeAttribute(xmlSerializer, "id", shortcutInfoCompat.getId());
@@ -216,31 +245,5 @@ class ShortcutsInfoSerialization {
             serializeCategory(xmlSerializer, str);
         }
         xmlSerializer.endTag(null, "target");
-    }
-
-    private static void serializeIntent(XmlSerializer xmlSerializer, Intent intent) throws IOException {
-        xmlSerializer.startTag(null, "intent");
-        serializeAttribute(xmlSerializer, "action", intent.getAction());
-        if (intent.getComponent() != null) {
-            serializeAttribute(xmlSerializer, "targetPackage", intent.getComponent().getPackageName());
-            serializeAttribute(xmlSerializer, "targetClass", intent.getComponent().getClassName());
-        }
-        xmlSerializer.endTag(null, "intent");
-    }
-
-    private static void serializeCategory(XmlSerializer xmlSerializer, String str) throws IOException {
-        if (TextUtils.isEmpty(str)) {
-            return;
-        }
-        xmlSerializer.startTag(null, "categories");
-        serializeAttribute(xmlSerializer, "name", str);
-        xmlSerializer.endTag(null, "categories");
-    }
-
-    private static void serializeAttribute(XmlSerializer xmlSerializer, String str, String str2) throws IOException {
-        if (TextUtils.isEmpty(str2)) {
-            return;
-        }
-        xmlSerializer.attribute(null, str, str2);
     }
 }

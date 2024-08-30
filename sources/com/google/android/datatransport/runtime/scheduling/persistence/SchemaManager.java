@@ -8,7 +8,7 @@ import java.util.List;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class SchemaManager extends SQLiteOpenHelper {
-    private static final List<Migration> INCREMENTAL_MIGRATIONS;
+    private static final List INCREMENTAL_MIGRATIONS;
     private static final Migration MIGRATE_TO_V1;
     private static final Migration MIGRATE_TO_V2;
     private static final Migration MIGRATE_TO_V3;
@@ -63,6 +63,20 @@ public final class SchemaManager extends SQLiteOpenHelper {
         INCREMENTAL_MIGRATIONS = Arrays.asList(migration, migration2, migration3, migration4, migration5);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public SchemaManager(Context context, String str, int i) {
+        super(context, str, (SQLiteDatabase.CursorFactory) null, i);
+        this.configured = false;
+        this.schemaVersion = i;
+    }
+
+    private void ensureConfigured(SQLiteDatabase sQLiteDatabase) {
+        if (this.configured) {
+            return;
+        }
+        onConfigure(sQLiteDatabase);
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$0(SQLiteDatabase sQLiteDatabase) {
         sQLiteDatabase.execSQL("CREATE TABLE events (_id INTEGER PRIMARY KEY, context_id INTEGER NOT NULL, transport_name TEXT NOT NULL, timestamp_ms INTEGER NOT NULL, uptime_ms INTEGER NOT NULL, payload BLOB NOT NULL, code INTEGER, num_attempts INTEGER NOT NULL,FOREIGN KEY (context_id) REFERENCES transport_contexts(_id) ON DELETE CASCADE)");
@@ -95,11 +109,21 @@ public final class SchemaManager extends SQLiteOpenHelper {
         sQLiteDatabase.execSQL(CREATE_INITIAL_GLOBAL_LOG_EVENT_STATE_VALUE_SQL);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public SchemaManager(Context context, String str, int i) {
-        super(context, str, (SQLiteDatabase.CursorFactory) null, i);
-        this.configured = false;
-        this.schemaVersion = i;
+    private void onCreate(SQLiteDatabase sQLiteDatabase, int i) {
+        ensureConfigured(sQLiteDatabase);
+        upgrade(sQLiteDatabase, 0, i);
+    }
+
+    private void upgrade(SQLiteDatabase sQLiteDatabase, int i, int i2) {
+        List list = INCREMENTAL_MIGRATIONS;
+        if (i2 <= list.size()) {
+            while (i < i2) {
+                ((Migration) INCREMENTAL_MIGRATIONS.get(i)).upgrade(sQLiteDatabase);
+                i++;
+            }
+            return;
+        }
+        throw new IllegalArgumentException("Migration from " + i + " to " + i2 + " was requested, but cannot be performed. Only " + list.size() + " migrations are provided");
     }
 
     @Override // android.database.sqlite.SQLiteOpenHelper
@@ -109,27 +133,9 @@ public final class SchemaManager extends SQLiteOpenHelper {
         sQLiteDatabase.setForeignKeyConstraintsEnabled(true);
     }
 
-    private void ensureConfigured(SQLiteDatabase sQLiteDatabase) {
-        if (this.configured) {
-            return;
-        }
-        onConfigure(sQLiteDatabase);
-    }
-
     @Override // android.database.sqlite.SQLiteOpenHelper
     public void onCreate(SQLiteDatabase sQLiteDatabase) {
         onCreate(sQLiteDatabase, this.schemaVersion);
-    }
-
-    private void onCreate(SQLiteDatabase sQLiteDatabase, int i) {
-        ensureConfigured(sQLiteDatabase);
-        upgrade(sQLiteDatabase, 0, i);
-    }
-
-    @Override // android.database.sqlite.SQLiteOpenHelper
-    public void onUpgrade(SQLiteDatabase sQLiteDatabase, int i, int i2) {
-        ensureConfigured(sQLiteDatabase);
-        upgrade(sQLiteDatabase, i, i2);
     }
 
     @Override // android.database.sqlite.SQLiteOpenHelper
@@ -148,15 +154,9 @@ public final class SchemaManager extends SQLiteOpenHelper {
         ensureConfigured(sQLiteDatabase);
     }
 
-    private void upgrade(SQLiteDatabase sQLiteDatabase, int i, int i2) {
-        List<Migration> list = INCREMENTAL_MIGRATIONS;
-        if (i2 <= list.size()) {
-            while (i < i2) {
-                INCREMENTAL_MIGRATIONS.get(i).upgrade(sQLiteDatabase);
-                i++;
-            }
-            return;
-        }
-        throw new IllegalArgumentException("Migration from " + i + " to " + i2 + " was requested, but cannot be performed. Only " + list.size() + " migrations are provided");
+    @Override // android.database.sqlite.SQLiteOpenHelper
+    public void onUpgrade(SQLiteDatabase sQLiteDatabase, int i, int i2) {
+        ensureConfigured(sQLiteDatabase);
+        upgrade(sQLiteDatabase, i, i2);
     }
 }

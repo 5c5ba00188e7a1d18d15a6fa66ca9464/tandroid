@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zaf implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -27,10 +26,10 @@ public final class zaf implements Parcelable.Creator {
                 i2 = SafeParcelReader.readInt(parcel, readHeader);
             } else if (fieldId == 4) {
                 bundle = SafeParcelReader.createBundle(parcel, readHeader);
-            } else if (fieldId == 1000) {
-                i = SafeParcelReader.readInt(parcel, readHeader);
-            } else {
+            } else if (fieldId != 1000) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                i = SafeParcelReader.readInt(parcel, readHeader);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);

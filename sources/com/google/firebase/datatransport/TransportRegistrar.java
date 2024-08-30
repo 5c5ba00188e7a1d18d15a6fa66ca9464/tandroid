@@ -1,7 +1,6 @@
 package com.google.firebase.datatransport;
 
 import android.content.Context;
-import androidx.annotation.Keep;
 import com.google.android.datatransport.TransportFactory;
 import com.google.android.datatransport.cct.CCTDestination;
 import com.google.android.datatransport.runtime.TransportRuntime;
@@ -12,11 +11,16 @@ import com.google.firebase.components.ComponentRegistrar;
 import com.google.firebase.components.Dependency;
 import java.util.Collections;
 import java.util.List;
-@Keep
 /* loaded from: classes.dex */
 public class TransportRegistrar implements ComponentRegistrar {
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ TransportFactory lambda$getComponents$0(ComponentContainer componentContainer) {
+        TransportRuntime.initialize((Context) componentContainer.get(Context.class));
+        return TransportRuntime.getInstance().newFactory(CCTDestination.LEGACY_INSTANCE);
+    }
+
     @Override // com.google.firebase.components.ComponentRegistrar
-    public List<Component<?>> getComponents() {
+    public List<Component> getComponents() {
         return Collections.singletonList(Component.builder(TransportFactory.class).add(Dependency.required(Context.class)).factory(new ComponentFactory() { // from class: com.google.firebase.datatransport.TransportRegistrar$$ExternalSyntheticLambda0
             @Override // com.google.firebase.components.ComponentFactory
             public final Object create(ComponentContainer componentContainer) {
@@ -25,11 +29,5 @@ public class TransportRegistrar implements ComponentRegistrar {
                 return lambda$getComponents$0;
             }
         }).build());
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ TransportFactory lambda$getComponents$0(ComponentContainer componentContainer) {
-        TransportRuntime.initialize((Context) componentContainer.get(Context.class));
-        return TransportRuntime.getInstance().newFactory(CCTDestination.LEGACY_INSTANCE);
     }
 }

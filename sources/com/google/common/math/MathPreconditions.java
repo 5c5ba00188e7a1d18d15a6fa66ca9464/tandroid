@@ -1,6 +1,6 @@
 package com.google.common.math;
 /* loaded from: classes.dex */
-final class MathPreconditions {
+abstract class MathPreconditions {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static void checkRoundingUnnecessary(boolean z) {
         if (!z) {

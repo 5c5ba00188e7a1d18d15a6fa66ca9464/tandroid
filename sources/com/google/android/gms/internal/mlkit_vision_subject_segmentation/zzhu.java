@@ -3,9 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ObjectEncoder;
 import com.google.firebase.encoders.ObjectEncoderContext;
-import java.io.IOException;
 import org.telegram.messenger.NotificationCenter;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 final class zzhu implements ObjectEncoder {
     private static final FieldDescriptor zzA;
@@ -657,7 +655,7 @@ final class zzhu implements ObjectEncoder {
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoder
-    public final /* bridge */ /* synthetic */ void encode(Object obj, Object obj2) throws IOException {
+    public final /* bridge */ /* synthetic */ void encode(Object obj, Object obj2) {
         zzoe zzoeVar = (zzoe) obj;
         ObjectEncoderContext objectEncoderContext = (ObjectEncoderContext) obj2;
         objectEncoderContext.add(zzb, zzoeVar.zzg());

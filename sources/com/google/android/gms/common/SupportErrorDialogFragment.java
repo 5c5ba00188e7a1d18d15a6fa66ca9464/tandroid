@@ -8,12 +8,23 @@ import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import com.google.android.gms.common.internal.Preconditions;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public class SupportErrorDialogFragment extends DialogFragment {
     private Dialog zaa;
     private DialogInterface.OnCancelListener zab;
     private Dialog zac;
+
+    public static SupportErrorDialogFragment newInstance(Dialog dialog, DialogInterface.OnCancelListener onCancelListener) {
+        SupportErrorDialogFragment supportErrorDialogFragment = new SupportErrorDialogFragment();
+        Dialog dialog2 = (Dialog) Preconditions.checkNotNull(dialog, "Cannot display null dialog");
+        dialog2.setOnCancelListener(null);
+        dialog2.setOnDismissListener(null);
+        supportErrorDialogFragment.zaa = dialog2;
+        if (onCancelListener != null) {
+            supportErrorDialogFragment.zab = onCancelListener;
+        }
+        return supportErrorDialogFragment;
+    }
 
     @Override // androidx.fragment.app.DialogFragment, android.content.DialogInterface.OnCancelListener
     public void onCancel(DialogInterface dialogInterface) {
@@ -39,17 +50,5 @@ public class SupportErrorDialogFragment extends DialogFragment {
     @Override // androidx.fragment.app.DialogFragment
     public void show(FragmentManager fragmentManager, String str) {
         super.show(fragmentManager, str);
-    }
-
-    public static SupportErrorDialogFragment newInstance(Dialog dialog, DialogInterface.OnCancelListener onCancelListener) {
-        SupportErrorDialogFragment supportErrorDialogFragment = new SupportErrorDialogFragment();
-        Dialog dialog2 = (Dialog) Preconditions.checkNotNull(dialog, "Cannot display null dialog");
-        dialog2.setOnCancelListener(null);
-        dialog2.setOnDismissListener(null);
-        supportErrorDialogFragment.zaa = dialog2;
-        if (onCancelListener != null) {
-            supportErrorDialogFragment.zab = onCancelListener;
-        }
-        return supportErrorDialogFragment;
     }
 }

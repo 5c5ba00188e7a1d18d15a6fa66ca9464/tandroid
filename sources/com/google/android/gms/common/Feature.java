@@ -5,12 +5,10 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class Feature extends AbstractSafeParcelable {
     public static final Parcelable.Creator<Feature> CREATOR = new zzc();
     private final String zza;
-    @Deprecated
     private final int zzb;
     private final long zzc;
 

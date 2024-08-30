@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_common;
 
 import java.util.NoSuchElementException;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 abstract class zzag extends zzbe {
     private final int zza;
@@ -26,12 +25,12 @@ abstract class zzag extends zzbe {
 
     @Override // java.util.Iterator, java.util.ListIterator
     public final Object next() {
-        if (!hasNext()) {
-            throw new NoSuchElementException();
+        if (hasNext()) {
+            int i = this.zzb;
+            this.zzb = i + 1;
+            return zza(i);
         }
-        int i = this.zzb;
-        this.zzb = i + 1;
-        return zza(i);
+        throw new NoSuchElementException();
     }
 
     @Override // java.util.ListIterator
@@ -41,12 +40,12 @@ abstract class zzag extends zzbe {
 
     @Override // java.util.ListIterator
     public final Object previous() {
-        if (!hasPrevious()) {
-            throw new NoSuchElementException();
+        if (hasPrevious()) {
+            int i = this.zzb - 1;
+            this.zzb = i;
+            return zza(i);
         }
-        int i = this.zzb - 1;
-        this.zzb = i;
-        return zza(i);
+        throw new NoSuchElementException();
     }
 
     @Override // java.util.ListIterator

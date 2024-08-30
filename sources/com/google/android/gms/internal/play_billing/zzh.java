@@ -3,10 +3,8 @@ package com.google.android.gms.internal.play_billing;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
-import android.os.RemoteException;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-public class zzh implements IInterface {
+public abstract class zzh implements IInterface {
     private final IBinder zza;
     private final String zzb = "com.android.vending.billing.IInAppBillingService";
 
@@ -28,7 +26,7 @@ public class zzh implements IInterface {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final Parcel zzo(int i, Parcel parcel) throws RemoteException {
+    public final Parcel zzo(int i, Parcel parcel) {
         Parcel obtain = Parcel.obtain();
         try {
             try {

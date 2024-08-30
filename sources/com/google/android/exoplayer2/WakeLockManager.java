@@ -1,6 +1,5 @@
 package com.google.android.exoplayer2;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.PowerManager;
 import com.google.android.exoplayer2.util.Log;
@@ -13,6 +12,18 @@ final class WakeLockManager {
 
     public WakeLockManager(Context context) {
         this.powerManager = (PowerManager) context.getApplicationContext().getSystemService("power");
+    }
+
+    private void updateWakeLock() {
+        PowerManager.WakeLock wakeLock = this.wakeLock;
+        if (wakeLock == null) {
+            return;
+        }
+        if (this.enabled && this.stayAwake) {
+            wakeLock.acquire();
+        } else {
+            wakeLock.release();
+        }
     }
 
     public void setEnabled(boolean z) {
@@ -33,18 +44,5 @@ final class WakeLockManager {
     public void setStayAwake(boolean z) {
         this.stayAwake = z;
         updateWakeLock();
-    }
-
-    @SuppressLint({"WakelockTimeout"})
-    private void updateWakeLock() {
-        PowerManager.WakeLock wakeLock = this.wakeLock;
-        if (wakeLock == null) {
-            return;
-        }
-        if (this.enabled && this.stayAwake) {
-            wakeLock.acquire();
-        } else {
-            wakeLock.release();
-        }
     }
 }

@@ -1,7 +1,6 @@
 package com.google.android.exoplayer2.extractor.flv;
 
 import com.google.android.exoplayer2.Format;
-import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.extractor.flv.TagPayloadReader;
 import com.google.android.exoplayer2.util.NalUnitUtil;
@@ -24,19 +23,19 @@ final class VideoTagPayloadReader extends TagPayloadReader {
     }
 
     @Override // com.google.android.exoplayer2.extractor.flv.TagPayloadReader
-    protected boolean parseHeader(ParsableByteArray parsableByteArray) throws TagPayloadReader.UnsupportedFormatException {
+    protected boolean parseHeader(ParsableByteArray parsableByteArray) {
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
         int i = (readUnsignedByte >> 4) & 15;
         int i2 = readUnsignedByte & 15;
-        if (i2 != 7) {
-            throw new TagPayloadReader.UnsupportedFormatException("Video format not supported: " + i2);
+        if (i2 == 7) {
+            this.frameType = i;
+            return i != 5;
         }
-        this.frameType = i;
-        return i != 5;
+        throw new TagPayloadReader.UnsupportedFormatException("Video format not supported: " + i2);
     }
 
     @Override // com.google.android.exoplayer2.extractor.flv.TagPayloadReader
-    protected boolean parsePayload(ParsableByteArray parsableByteArray, long j) throws ParserException {
+    protected boolean parsePayload(ParsableByteArray parsableByteArray, long j) {
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
         long readInt24 = j + (parsableByteArray.readInt24() * 1000);
         if (readUnsignedByte == 0 && !this.hasOutputFormat) {

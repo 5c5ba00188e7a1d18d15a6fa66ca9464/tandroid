@@ -9,12 +9,27 @@ import javax.crypto.spec.IvParameterSpec;
 /* loaded from: classes.dex */
 class CryptoAesHandler implements CryptoHandler {
     @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
-    public String getAlgorithm() {
-        return "AES/CBC/PKCS7Padding/256";
+    public byte[] decrypt(CryptoUtils.ICryptoFactory iCryptoFactory, int i, KeyStore.Entry entry, byte[] bArr) {
+        CryptoUtils.ICipher cipher = iCryptoFactory.getCipher("AES/CBC/PKCS7Padding", "AndroidKeyStoreBCWorkaround");
+        int blockSize = cipher.getBlockSize();
+        cipher.init(2, ((KeyStore.SecretKeyEntry) entry).getSecretKey(), new IvParameterSpec(bArr, 0, blockSize));
+        return cipher.doFinal(bArr, blockSize, bArr.length - blockSize);
     }
 
     @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
-    public void generateKey(CryptoUtils.ICryptoFactory iCryptoFactory, String str, Context context) throws Exception {
+    public byte[] encrypt(CryptoUtils.ICryptoFactory iCryptoFactory, int i, KeyStore.Entry entry, byte[] bArr) {
+        CryptoUtils.ICipher cipher = iCryptoFactory.getCipher("AES/CBC/PKCS7Padding", "AndroidKeyStoreBCWorkaround");
+        cipher.init(1, ((KeyStore.SecretKeyEntry) entry).getSecretKey());
+        byte[] iv = cipher.getIV();
+        byte[] doFinal = cipher.doFinal(bArr);
+        byte[] bArr2 = new byte[iv.length + doFinal.length];
+        System.arraycopy(iv, 0, bArr2, 0, iv.length);
+        System.arraycopy(doFinal, 0, bArr2, iv.length, doFinal.length);
+        return bArr2;
+    }
+
+    @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
+    public void generateKey(CryptoUtils.ICryptoFactory iCryptoFactory, String str, Context context) {
         KeyGenParameterSpec.Builder blockModes;
         KeyGenParameterSpec.Builder encryptionPaddings;
         KeyGenParameterSpec.Builder keySize;
@@ -33,22 +48,7 @@ class CryptoAesHandler implements CryptoHandler {
     }
 
     @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
-    public byte[] encrypt(CryptoUtils.ICryptoFactory iCryptoFactory, int i, KeyStore.Entry entry, byte[] bArr) throws Exception {
-        CryptoUtils.ICipher cipher = iCryptoFactory.getCipher("AES/CBC/PKCS7Padding", "AndroidKeyStoreBCWorkaround");
-        cipher.init(1, ((KeyStore.SecretKeyEntry) entry).getSecretKey());
-        byte[] iv = cipher.getIV();
-        byte[] doFinal = cipher.doFinal(bArr);
-        byte[] bArr2 = new byte[iv.length + doFinal.length];
-        System.arraycopy(iv, 0, bArr2, 0, iv.length);
-        System.arraycopy(doFinal, 0, bArr2, iv.length, doFinal.length);
-        return bArr2;
-    }
-
-    @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
-    public byte[] decrypt(CryptoUtils.ICryptoFactory iCryptoFactory, int i, KeyStore.Entry entry, byte[] bArr) throws Exception {
-        CryptoUtils.ICipher cipher = iCryptoFactory.getCipher("AES/CBC/PKCS7Padding", "AndroidKeyStoreBCWorkaround");
-        int blockSize = cipher.getBlockSize();
-        cipher.init(2, ((KeyStore.SecretKeyEntry) entry).getSecretKey(), new IvParameterSpec(bArr, 0, blockSize));
-        return cipher.doFinal(bArr, blockSize, bArr.length - blockSize);
+    public String getAlgorithm() {
+        return "AES/CBC/PKCS7Padding/256";
     }
 }

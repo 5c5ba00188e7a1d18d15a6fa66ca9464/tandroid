@@ -8,16 +8,15 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
-public final class ArrayTypeAdapter<E> extends TypeAdapter<Object> {
+public final class ArrayTypeAdapter extends TypeAdapter {
     public static final TypeAdapterFactory FACTORY = new TypeAdapterFactory() { // from class: com.google.gson.internal.bind.ArrayTypeAdapter.1
         @Override // com.google.gson.TypeAdapterFactory
-        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
+        public TypeAdapter create(Gson gson, TypeToken typeToken) {
             Type type = typeToken.getType();
             if ((type instanceof GenericArrayType) || ((type instanceof Class) && ((Class) type).isArray())) {
                 Type arrayComponentType = $Gson$Types.getArrayComponentType(type);
@@ -26,16 +25,16 @@ public final class ArrayTypeAdapter<E> extends TypeAdapter<Object> {
             return null;
         }
     };
-    private final Class<E> componentType;
-    private final TypeAdapter<E> componentTypeAdapter;
+    private final Class componentType;
+    private final TypeAdapter componentTypeAdapter;
 
-    public ArrayTypeAdapter(Gson gson, TypeAdapter<E> typeAdapter, Class<E> cls) {
+    public ArrayTypeAdapter(Gson gson, TypeAdapter typeAdapter, Class cls) {
         this.componentTypeAdapter = new TypeAdapterRuntimeTypeWrapper(gson, typeAdapter, cls);
         this.componentType = cls;
     }
 
     @Override // com.google.gson.TypeAdapter
-    public Object read(JsonReader jsonReader) throws IOException {
+    public Object read(JsonReader jsonReader) {
         if (jsonReader.peek() == JsonToken.NULL) {
             jsonReader.nextNull();
             return null;
@@ -48,18 +47,17 @@ public final class ArrayTypeAdapter<E> extends TypeAdapter<Object> {
         jsonReader.endArray();
         int size = arrayList.size();
         if (this.componentType.isPrimitive()) {
-            Object newInstance = Array.newInstance((Class<?>) this.componentType, size);
+            Object newInstance = Array.newInstance(this.componentType, size);
             for (int i = 0; i < size; i++) {
                 Array.set(newInstance, i, arrayList.get(i));
             }
             return newInstance;
         }
-        return arrayList.toArray((Object[]) Array.newInstance((Class<?>) this.componentType, size));
+        return arrayList.toArray((Object[]) Array.newInstance(this.componentType, size));
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
     @Override // com.google.gson.TypeAdapter
-    public void write(JsonWriter jsonWriter, Object obj) throws IOException {
+    public void write(JsonWriter jsonWriter, Object obj) {
         if (obj == null) {
             jsonWriter.nullValue();
             return;

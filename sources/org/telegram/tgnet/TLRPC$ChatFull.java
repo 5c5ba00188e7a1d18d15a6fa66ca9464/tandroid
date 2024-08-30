@@ -71,13 +71,18 @@ public abstract class TLRPC$ChatFull extends TLObject {
     public int unread_important_count;
     public boolean view_forum_as_messages;
     public TLRPC$WallPaper wallpaper;
-    public ArrayList<TL_bots$BotInfo> bot_info = new ArrayList<>();
-    public ArrayList<String> pending_suggestions = new ArrayList<>();
-    public ArrayList<Long> recent_requesters = new ArrayList<>();
-    public ArrayList<String> available_reactions_legacy = new ArrayList<>();
+    public ArrayList bot_info = new ArrayList();
+    public ArrayList pending_suggestions = new ArrayList();
+    public ArrayList recent_requesters = new ArrayList();
+    public ArrayList available_reactions_legacy = new ArrayList();
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r3v4, types: [org.telegram.tgnet.TLRPC$TL_chatReactionsNone] */
+    /* JADX WARN: Type inference failed for: r3v5, types: [org.telegram.tgnet.TLRPC$ChatReactions] */
+    /* JADX WARN: Type inference failed for: r3v6, types: [org.telegram.tgnet.TLRPC$TL_chatReactionsSome] */
     public static TLRPC$ChatFull TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$ChatFull tLRPC$ChatFull;
+        ?? tLRPC$TL_chatReactionsNone;
         switch (i) {
             case -1977734781:
                 tLRPC$ChatFull = new TLRPC$TL_chatFull() { // from class: org.telegram.tgnet.TLRPC$TL_chatFull_layer131
@@ -154,7 +159,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size = this.bot_info.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i4 = 0; i4 < size; i4++) {
-                                this.bot_info.get(i4).serializeToStream(abstractSerializedData2);
+                                ((TL_bots$BotInfo) this.bot_info.get(i4)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 64) != 0) {
@@ -264,7 +269,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i4 = 0; i4 < size; i4++) {
-                            this.bot_info.get(i4).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i4)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -361,7 +366,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i4 = 0; i4 < size; i4++) {
-                            this.bot_info.get(i4).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i4)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -492,7 +497,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i7 = 0; i7 < size; i7++) {
-                            this.bot_info.get(i7).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i7)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -596,7 +601,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i3 = 0; i3 < size; i3++) {
-                            this.bot_info.get(i3).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i3)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -693,7 +698,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i4 = 0; i4 < size; i4++) {
-                            this.bot_info.get(i4).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i4)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -804,7 +809,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size = this.bot_info.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i4 = 0; i4 < size; i4++) {
-                                this.bot_info.get(i4).serializeToStream(abstractSerializedData2);
+                                ((TL_bots$BotInfo) this.bot_info.get(i4)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 64) != 0) {
@@ -833,7 +838,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.recent_requesters.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i5 = 0; i5 < size2; i5++) {
-                                abstractSerializedData2.writeInt64(this.recent_requesters.get(i5).longValue());
+                                abstractSerializedData2.writeInt64(((Long) this.recent_requesters.get(i5)).longValue());
                             }
                         }
                         if ((this.flags & 262144) != 0) {
@@ -946,7 +951,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i6 = 0; i6 < size; i6++) {
-                            this.bot_info.get(i6).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i6)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -1076,7 +1081,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size = this.bot_info.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i4 = 0; i4 < size; i4++) {
-                                this.bot_info.get(i4).serializeToStream(abstractSerializedData2);
+                                ((TL_bots$BotInfo) this.bot_info.get(i4)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 64) != 0) {
@@ -1105,7 +1110,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.recent_requesters.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i5 = 0; i5 < size2; i5++) {
-                                abstractSerializedData2.writeInt64(this.recent_requesters.get(i5).longValue());
+                                abstractSerializedData2.writeInt64(((Long) this.recent_requesters.get(i5)).longValue());
                             }
                         }
                         if ((this.flags & 262144) != 0) {
@@ -1113,7 +1118,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size3 = this.available_reactions_legacy.size();
                             abstractSerializedData2.writeInt32(size3);
                             for (int i6 = 0; i6 < size3; i6++) {
-                                abstractSerializedData2.writeString(this.available_reactions_legacy.get(i6));
+                                abstractSerializedData2.writeString((String) this.available_reactions_legacy.get(i6));
                             }
                         }
                     }
@@ -1315,7 +1320,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i10 = 0; i10 < size; i10++) {
-                            this.bot_info.get(i10).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i10)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt64(this.migrated_from_chat_id);
@@ -1362,7 +1367,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.pending_suggestions.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i11 = 0; i11 < size2; i11++) {
-                                abstractSerializedData2.writeString(this.pending_suggestions.get(i11));
+                                abstractSerializedData2.writeString((String) this.pending_suggestions.get(i11));
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
@@ -1379,7 +1384,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size3 = this.recent_requesters.size();
                             abstractSerializedData2.writeInt32(size3);
                             for (int i12 = 0; i12 < size3; i12++) {
-                                abstractSerializedData2.writeInt64(this.recent_requesters.get(i12).longValue());
+                                abstractSerializedData2.writeInt64(((Long) this.recent_requesters.get(i12)).longValue());
                             }
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -1390,7 +1395,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size4 = this.available_reactions_legacy.size();
                             abstractSerializedData2.writeInt32(size4);
                             for (int i13 = 0; i13 < size4; i13++) {
-                                abstractSerializedData2.writeString(this.available_reactions_legacy.get(i13));
+                                abstractSerializedData2.writeString((String) this.available_reactions_legacy.get(i13));
                             }
                         }
                     }
@@ -1560,7 +1565,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i10 = 0; i10 < size; i10++) {
-                            this.bot_info.get(i10).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i10)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt64(this.migrated_from_chat_id);
@@ -1607,7 +1612,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.pending_suggestions.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i11 = 0; i11 < size2; i11++) {
-                                abstractSerializedData2.writeString(this.pending_suggestions.get(i11));
+                                abstractSerializedData2.writeString((String) this.pending_suggestions.get(i11));
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
@@ -1821,7 +1826,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i11 = 0; i11 < size; i11++) {
-                            this.bot_info.get(i11).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i11)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt64(this.migrated_from_chat_id);
@@ -1868,7 +1873,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.pending_suggestions.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i12 = 0; i12 < size2; i12++) {
-                                abstractSerializedData2.writeString(this.pending_suggestions.get(i12));
+                                abstractSerializedData2.writeString((String) this.pending_suggestions.get(i12));
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
@@ -1885,7 +1890,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size3 = this.recent_requesters.size();
                             abstractSerializedData2.writeInt32(size3);
                             for (int i13 = 0; i13 < size3; i13++) {
-                                abstractSerializedData2.writeInt64(this.recent_requesters.get(i13).longValue());
+                                abstractSerializedData2.writeInt64(((Long) this.recent_requesters.get(i13)).longValue());
                             }
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -1896,7 +1901,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size4 = this.available_reactions_legacy.size();
                             abstractSerializedData2.writeInt32(size4);
                             for (int i14 = 0; i14 < size4; i14++) {
-                                abstractSerializedData2.writeString(this.available_reactions_legacy.get(i14));
+                                abstractSerializedData2.writeString((String) this.available_reactions_legacy.get(i14));
                             }
                         }
                     }
@@ -1955,7 +1960,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size = this.bot_info.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i2 = 0; i2 < size; i2++) {
-                                this.bot_info.get(i2).serializeToStream(abstractSerializedData2);
+                                ((TL_bots$BotInfo) this.bot_info.get(i2)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 64) != 0) {
@@ -2110,7 +2115,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i10 = 0; i10 < size; i10++) {
-                            this.bot_info.get(i10).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i10)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -2224,7 +2229,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size = this.bot_info.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i4 = 0; i4 < size; i4++) {
-                                this.bot_info.get(i4).serializeToStream(abstractSerializedData2);
+                                ((TL_bots$BotInfo) this.bot_info.get(i4)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 64) != 0) {
@@ -2380,7 +2385,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i10 = 0; i10 < size; i10++) {
-                            this.bot_info.get(i10).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i10)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -2620,7 +2625,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i14 = 0; i14 < size; i14++) {
-                            this.bot_info.get(i14).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i14)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt64(this.migrated_from_chat_id);
@@ -2667,7 +2672,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.pending_suggestions.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i15 = 0; i15 < size2; i15++) {
-                                abstractSerializedData2.writeString(this.pending_suggestions.get(i15));
+                                abstractSerializedData2.writeString((String) this.pending_suggestions.get(i15));
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
@@ -2684,7 +2689,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size3 = this.recent_requesters.size();
                             abstractSerializedData2.writeInt32(size3);
                             for (int i16 = 0; i16 < size3; i16++) {
-                                abstractSerializedData2.writeInt64(this.recent_requesters.get(i16).longValue());
+                                abstractSerializedData2.writeInt64(((Long) this.recent_requesters.get(i16)).longValue());
                             }
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -2765,7 +2770,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size = this.bot_info.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i4 = 0; i4 < size; i4++) {
-                                this.bot_info.get(i4).serializeToStream(abstractSerializedData2);
+                                ((TL_bots$BotInfo) this.bot_info.get(i4)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 64) != 0) {
@@ -2949,7 +2954,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i7 = 0; i7 < size; i7++) {
-                            this.bot_info.get(i7).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i7)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -3041,7 +3046,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size = this.bot_info.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i4 = 0; i4 < size; i4++) {
-                                this.bot_info.get(i4).serializeToStream(abstractSerializedData2);
+                                ((TL_bots$BotInfo) this.bot_info.get(i4)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 64) != 0) {
@@ -3269,7 +3274,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i16 = 0; i16 < size; i16++) {
-                            this.bot_info.get(i16).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i16)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt64(this.migrated_from_chat_id);
@@ -3316,7 +3321,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.pending_suggestions.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i17 = 0; i17 < size2; i17++) {
-                                abstractSerializedData2.writeString(this.pending_suggestions.get(i17));
+                                abstractSerializedData2.writeString((String) this.pending_suggestions.get(i17));
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
@@ -3333,7 +3338,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size3 = this.recent_requesters.size();
                             abstractSerializedData2.writeInt32(size3);
                             for (int i18 = 0; i18 < size3; i18++) {
-                                abstractSerializedData2.writeInt64(this.recent_requesters.get(i18).longValue());
+                                abstractSerializedData2.writeInt64(((Long) this.recent_requesters.get(i18)).longValue());
                             }
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -3474,7 +3479,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i8 = 0; i8 < size; i8++) {
-                            this.bot_info.get(i8).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i8)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -3599,7 +3604,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i5 = 0; i5 < size; i5++) {
-                            this.bot_info.get(i5).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i5)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -3681,7 +3686,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size = this.bot_info.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i4 = 0; i4 < size; i4++) {
-                                this.bot_info.get(i4).serializeToStream(abstractSerializedData2);
+                                ((TL_bots$BotInfo) this.bot_info.get(i4)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 64) != 0) {
@@ -3803,7 +3808,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i7 = 0; i7 < size; i7++) {
-                            this.bot_info.get(i7).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i7)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -3882,7 +3887,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size = this.bot_info.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i3 = 0; i3 < size; i3++) {
-                                this.bot_info.get(i3).serializeToStream(abstractSerializedData2);
+                                ((TL_bots$BotInfo) this.bot_info.get(i3)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 64) != 0) {
@@ -4049,7 +4054,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i10 = 0; i10 < size; i10++) {
-                            this.bot_info.get(i10).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i10)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -4096,7 +4101,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.pending_suggestions.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i11 = 0; i11 < size2; i11++) {
-                                abstractSerializedData2.writeString(this.pending_suggestions.get(i11));
+                                abstractSerializedData2.writeString((String) this.pending_suggestions.get(i11));
                             }
                         }
                     }
@@ -4237,7 +4242,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i9 = 0; i9 < size; i9++) {
-                            this.bot_info.get(i9).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i9)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -4314,7 +4319,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i2 = 0; i2 < size; i2++) {
-                            this.bot_info.get(i2).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i2)).serializeToStream(abstractSerializedData2);
                         }
                     }
                 };
@@ -4483,7 +4488,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i10 = 0; i10 < size; i10++) {
-                            this.bot_info.get(i10).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i10)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -4530,7 +4535,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.pending_suggestions.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i11 = 0; i11 < size2; i11++) {
-                                abstractSerializedData2.writeString(this.pending_suggestions.get(i11));
+                                abstractSerializedData2.writeString((String) this.pending_suggestions.get(i11));
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
@@ -4773,7 +4778,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i19 = 0; i19 < size; i19++) {
-                            this.bot_info.get(i19).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i19)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt64(this.migrated_from_chat_id);
@@ -4820,7 +4825,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.pending_suggestions.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i20 = 0; i20 < size2; i20++) {
-                                abstractSerializedData2.writeString(this.pending_suggestions.get(i20));
+                                abstractSerializedData2.writeString((String) this.pending_suggestions.get(i20));
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
@@ -4837,7 +4842,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size3 = this.recent_requesters.size();
                             abstractSerializedData2.writeInt32(size3);
                             for (int i21 = 0; i21 < size3; i21++) {
-                                abstractSerializedData2.writeInt64(this.recent_requesters.get(i21).longValue());
+                                abstractSerializedData2.writeInt64(((Long) this.recent_requesters.get(i21)).longValue());
                             }
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -4958,7 +4963,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size = this.bot_info.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i4 = 0; i4 < size; i4++) {
-                                this.bot_info.get(i4).serializeToStream(abstractSerializedData2);
+                                ((TL_bots$BotInfo) this.bot_info.get(i4)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 64) != 0) {
@@ -4987,7 +4992,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.recent_requesters.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i5 = 0; i5 < size2; i5++) {
-                                abstractSerializedData2.writeInt64(this.recent_requesters.get(i5).longValue());
+                                abstractSerializedData2.writeInt64(((Long) this.recent_requesters.get(i5)).longValue());
                             }
                         }
                     }
@@ -5071,7 +5076,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size = this.bot_info.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i4 = 0; i4 < size; i4++) {
-                                this.bot_info.get(i4).serializeToStream(abstractSerializedData2);
+                                ((TL_bots$BotInfo) this.bot_info.get(i4)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 64) != 0) {
@@ -5173,7 +5178,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size = this.bot_info.size();
                             abstractSerializedData2.writeInt32(size);
                             for (int i4 = 0; i4 < size; i4++) {
-                                this.bot_info.get(i4).serializeToStream(abstractSerializedData2);
+                                ((TL_bots$BotInfo) this.bot_info.get(i4)).serializeToStream(abstractSerializedData2);
                             }
                         }
                         if ((this.flags & 64) != 0) {
@@ -5358,7 +5363,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i10 = 0; i10 < size; i10++) {
-                            this.bot_info.get(i10).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i10)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt64(this.migrated_from_chat_id);
@@ -5405,7 +5410,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.pending_suggestions.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i11 = 0; i11 < size2; i11++) {
-                                abstractSerializedData2.writeString(this.pending_suggestions.get(i11));
+                                abstractSerializedData2.writeString((String) this.pending_suggestions.get(i11));
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
@@ -5597,7 +5602,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i10 = 0; i10 < size; i10++) {
-                            this.bot_info.get(i10).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i10)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt64(this.migrated_from_chat_id);
@@ -5644,7 +5649,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.pending_suggestions.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i11 = 0; i11 < size2; i11++) {
-                                abstractSerializedData2.writeString(this.pending_suggestions.get(i11));
+                                abstractSerializedData2.writeString((String) this.pending_suggestions.get(i11));
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
@@ -5661,7 +5666,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size3 = this.recent_requesters.size();
                             abstractSerializedData2.writeInt32(size3);
                             for (int i12 = 0; i12 < size3; i12++) {
-                                abstractSerializedData2.writeInt64(this.recent_requesters.get(i12).longValue());
+                                abstractSerializedData2.writeInt64(((Long) this.recent_requesters.get(i12)).longValue());
                             }
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -5850,7 +5855,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i10 = 0; i10 < size; i10++) {
-                            this.bot_info.get(i10).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i10)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt64(this.migrated_from_chat_id);
@@ -5897,7 +5902,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.pending_suggestions.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i11 = 0; i11 < size2; i11++) {
-                                abstractSerializedData2.writeString(this.pending_suggestions.get(i11));
+                                abstractSerializedData2.writeString((String) this.pending_suggestions.get(i11));
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
@@ -5914,7 +5919,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size3 = this.recent_requesters.size();
                             abstractSerializedData2.writeInt32(size3);
                             for (int i12 = 0; i12 < size3; i12++) {
-                                abstractSerializedData2.writeInt64(this.recent_requesters.get(i12).longValue());
+                                abstractSerializedData2.writeInt64(((Long) this.recent_requesters.get(i12)).longValue());
                             }
                         }
                     }
@@ -6142,7 +6147,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i16 = 0; i16 < size; i16++) {
-                            this.bot_info.get(i16).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i16)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt64(this.migrated_from_chat_id);
@@ -6189,7 +6194,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.pending_suggestions.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i17 = 0; i17 < size2; i17++) {
-                                abstractSerializedData2.writeString(this.pending_suggestions.get(i17));
+                                abstractSerializedData2.writeString((String) this.pending_suggestions.get(i17));
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
@@ -6206,7 +6211,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size3 = this.recent_requesters.size();
                             abstractSerializedData2.writeInt32(size3);
                             for (int i18 = 0; i18 < size3; i18++) {
-                                abstractSerializedData2.writeInt64(this.recent_requesters.get(i18).longValue());
+                                abstractSerializedData2.writeInt64(((Long) this.recent_requesters.get(i18)).longValue());
                             }
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -6443,7 +6448,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i16 = 0; i16 < size; i16++) {
-                            this.bot_info.get(i16).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i16)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt64(this.migrated_from_chat_id);
@@ -6490,7 +6495,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size2 = this.pending_suggestions.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i17 = 0; i17 < size2; i17++) {
-                                abstractSerializedData2.writeString(this.pending_suggestions.get(i17));
+                                abstractSerializedData2.writeString((String) this.pending_suggestions.get(i17));
                             }
                         }
                         if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
@@ -6507,7 +6512,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             int size3 = this.recent_requesters.size();
                             abstractSerializedData2.writeInt32(size3);
                             for (int i18 = 0; i18 < size3; i18++) {
-                                abstractSerializedData2.writeInt64(this.recent_requesters.get(i18).longValue());
+                                abstractSerializedData2.writeInt64(((Long) this.recent_requesters.get(i18)).longValue());
                             }
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -6623,7 +6628,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i6 = 0; i6 < size; i6++) {
-                            this.bot_info.get(i6).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i6)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -6785,7 +6790,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         int size = this.bot_info.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i10 = 0; i10 < size; i10++) {
-                            this.bot_info.get(i10).serializeToStream(abstractSerializedData2);
+                            ((TL_bots$BotInfo) this.bot_info.get(i10)).serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32((int) this.migrated_from_chat_id);
@@ -6837,17 +6842,17 @@ public abstract class TLRPC$ChatFull extends TLObject {
         if (tLRPC$ChatFull != null) {
             tLRPC$ChatFull.readParams(abstractSerializedData, z);
             if (tLRPC$ChatFull.available_reactions == null) {
-                if (!tLRPC$ChatFull.available_reactions_legacy.isEmpty()) {
-                    TLRPC$TL_chatReactionsSome tLRPC$TL_chatReactionsSome = new TLRPC$TL_chatReactionsSome();
+                if (tLRPC$ChatFull.available_reactions_legacy.isEmpty()) {
+                    tLRPC$TL_chatReactionsNone = new TLRPC$TL_chatReactionsNone();
+                } else {
+                    tLRPC$TL_chatReactionsNone = new TLRPC$TL_chatReactionsSome();
                     for (int i2 = 0; i2 < tLRPC$ChatFull.available_reactions_legacy.size(); i2++) {
                         TLRPC$TL_reactionEmoji tLRPC$TL_reactionEmoji = new TLRPC$TL_reactionEmoji();
-                        tLRPC$TL_reactionEmoji.emoticon = tLRPC$ChatFull.available_reactions_legacy.get(i2);
-                        tLRPC$TL_chatReactionsSome.reactions.add(tLRPC$TL_reactionEmoji);
+                        tLRPC$TL_reactionEmoji.emoticon = (String) tLRPC$ChatFull.available_reactions_legacy.get(i2);
+                        tLRPC$TL_chatReactionsNone.reactions.add(tLRPC$TL_reactionEmoji);
                     }
-                    tLRPC$ChatFull.available_reactions = tLRPC$TL_chatReactionsSome;
-                } else {
-                    tLRPC$ChatFull.available_reactions = new TLRPC$TL_chatReactionsNone();
                 }
+                tLRPC$ChatFull.available_reactions = tLRPC$TL_chatReactionsNone;
             }
         }
         return tLRPC$ChatFull;

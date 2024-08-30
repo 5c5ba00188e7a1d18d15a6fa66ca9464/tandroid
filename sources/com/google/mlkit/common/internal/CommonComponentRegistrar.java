@@ -16,7 +16,6 @@ import com.google.mlkit.common.sdkinternal.MlKitThreadPool;
 import com.google.mlkit.common.sdkinternal.SharedPrefManager;
 import com.google.mlkit.common.sdkinternal.model.ModelFileHelper;
 import java.util.List;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public class CommonComponentRegistrar implements ComponentRegistrar {
     @Override // com.google.firebase.components.ComponentRegistrar

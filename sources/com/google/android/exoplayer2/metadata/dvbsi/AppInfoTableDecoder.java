@@ -9,14 +9,6 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public final class AppInfoTableDecoder extends SimpleMetadataDecoder {
-    @Override // com.google.android.exoplayer2.metadata.SimpleMetadataDecoder
-    protected Metadata decode(MetadataInputBuffer metadataInputBuffer, ByteBuffer byteBuffer) {
-        if (byteBuffer.get() == 116) {
-            return parseAit(new ParsableBitArray(byteBuffer.array(), byteBuffer.limit()));
-        }
-        return null;
-    }
-
     private static Metadata parseAit(ParsableBitArray parsableBitArray) {
         parsableBitArray.skipBits(12);
         int bytePosition = (parsableBitArray.getBytePosition() + parsableBitArray.readBits(12)) - 4;
@@ -64,5 +56,13 @@ public final class AppInfoTableDecoder extends SimpleMetadataDecoder {
             return null;
         }
         return new Metadata(arrayList);
+    }
+
+    @Override // com.google.android.exoplayer2.metadata.SimpleMetadataDecoder
+    protected Metadata decode(MetadataInputBuffer metadataInputBuffer, ByteBuffer byteBuffer) {
+        if (byteBuffer.get() == 116) {
+            return parseAit(new ParsableBitArray(byteBuffer.array(), byteBuffer.limit()));
+        }
+        return null;
     }
 }

@@ -36,8 +36,8 @@ public enum CharacterSetECI {
     
     private final String[] otherEncodingNames;
     private final int[] values;
-    private static final Map<Integer, CharacterSetECI> VALUE_TO_ECI = new HashMap();
-    private static final Map<String, CharacterSetECI> NAME_TO_ECI = new HashMap();
+    private static final Map VALUE_TO_ECI = new HashMap();
+    private static final Map NAME_TO_ECI = new HashMap();
 
     static {
         CharacterSetECI[] values;
@@ -66,18 +66,18 @@ public enum CharacterSetECI {
         this.otherEncodingNames = strArr;
     }
 
-    public int getValue() {
-        return this.values[0];
+    public static CharacterSetECI getCharacterSetECIByName(String str) {
+        return (CharacterSetECI) NAME_TO_ECI.get(str);
     }
 
-    public static CharacterSetECI getCharacterSetECIByValue(int i) throws FormatException {
+    public static CharacterSetECI getCharacterSetECIByValue(int i) {
         if (i < 0 || i >= 900) {
             throw FormatException.getFormatInstance();
         }
-        return VALUE_TO_ECI.get(Integer.valueOf(i));
+        return (CharacterSetECI) VALUE_TO_ECI.get(Integer.valueOf(i));
     }
 
-    public static CharacterSetECI getCharacterSetECIByName(String str) {
-        return NAME_TO_ECI.get(str);
+    public int getValue() {
+        return this.values[0];
     }
 }

@@ -11,7 +11,6 @@ import com.google.android.gms.common.api.internal.BaseImplementation$ApiMethodIm
 import com.google.android.gms.common.api.internal.LifecycleActivity;
 import com.google.android.gms.common.api.internal.SignInConnectionListener;
 import com.google.android.gms.common.api.internal.zabe;
-import com.google.android.gms.common.api.internal.zada;
 import com.google.android.gms.common.api.internal.zak;
 import com.google.android.gms.common.api.internal.zat;
 import com.google.android.gms.common.internal.ClientSettings;
@@ -28,14 +27,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.locks.ReentrantLock;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
-@Deprecated
 /* loaded from: classes.dex */
 public abstract class GoogleApiClient {
     private static final Set zaa = Collections.newSetFromMap(new WeakHashMap());
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
-    @Deprecated
     /* loaded from: classes.dex */
     public static final class Builder {
         private Account zaa;
@@ -64,10 +59,10 @@ public abstract class GoogleApiClient {
             this.zag = context.getClass().getName();
         }
 
-        public Builder addApi(Api<Object> api) {
+        public Builder addApi(Api api) {
             Preconditions.checkNotNull(api, "Api must not be null");
             this.zaj.put(api, null);
-            List<Scope> impliedScopes = ((Api.BaseClientBuilder) Preconditions.checkNotNull(api.zac(), "Base client builder must not be null")).getImpliedScopes(null);
+            List impliedScopes = ((Api.BaseClientBuilder) Preconditions.checkNotNull(api.zac(), "Base client builder must not be null")).getImpliedScopes(null);
             this.zac.addAll(impliedScopes);
             this.zab.addAll(impliedScopes);
             return this;
@@ -101,7 +96,7 @@ public abstract class GoogleApiClient {
                 zat zatVar = new zat(api2, z2);
                 arrayList.add(zatVar);
                 Api.AbstractClientBuilder abstractClientBuilder = (Api.AbstractClientBuilder) Preconditions.checkNotNull(api2.zaa());
-                Api.Client buildClient = abstractClientBuilder.buildClient(this.zai, this.zan, zaa, (ClientSettings) obj, (ConnectionCallbacks) zatVar, (OnConnectionFailedListener) zatVar);
+                Api.Client buildClient = abstractClientBuilder.buildClient(this.zai, this.zan, zaa, obj, (ConnectionCallbacks) zatVar, (OnConnectionFailedListener) zatVar);
                 arrayMap2.put(api2.zab(), buildClient);
                 if (abstractClientBuilder.getPriority() == 1) {
                     z = obj != null;
@@ -141,20 +136,16 @@ public abstract class GoogleApiClient {
         }
     }
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
-    @Deprecated
     /* loaded from: classes.dex */
     public interface ConnectionCallbacks extends com.google.android.gms.common.api.internal.ConnectionCallbacks {
     }
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
-    @Deprecated
     /* loaded from: classes.dex */
     public interface OnConnectionFailedListener extends com.google.android.gms.common.api.internal.OnConnectionFailedListener {
     }
 
-    public static Set<GoogleApiClient> getAllClients() {
-        Set<GoogleApiClient> set = zaa;
+    public static Set getAllClients() {
+        Set set = zaa;
         synchronized (set) {
         }
         return set;
@@ -166,17 +157,11 @@ public abstract class GoogleApiClient {
 
     public abstract void dump(String str, FileDescriptor fileDescriptor, PrintWriter printWriter, String[] strArr);
 
-    public <A extends Api.AnyClient, R extends Result, T extends BaseImplementation$ApiMethodImpl<R, A>> T enqueue(T t) {
-        throw new UnsupportedOperationException();
-    }
+    public abstract BaseImplementation$ApiMethodImpl enqueue(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl);
 
-    public <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T execute(T t) {
-        throw new UnsupportedOperationException();
-    }
+    public abstract BaseImplementation$ApiMethodImpl execute(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl);
 
-    public Looper getLooper() {
-        throw new UnsupportedOperationException();
-    }
+    public abstract Looper getLooper();
 
     public boolean maybeSignIn(SignInConnectionListener signInConnectionListener) {
         throw new UnsupportedOperationException();
@@ -189,8 +174,4 @@ public abstract class GoogleApiClient {
     public abstract void registerConnectionFailedListener(OnConnectionFailedListener onConnectionFailedListener);
 
     public abstract void unregisterConnectionFailedListener(OnConnectionFailedListener onConnectionFailedListener);
-
-    public void zap(zada zadaVar) {
-        throw new UnsupportedOperationException();
-    }
 }

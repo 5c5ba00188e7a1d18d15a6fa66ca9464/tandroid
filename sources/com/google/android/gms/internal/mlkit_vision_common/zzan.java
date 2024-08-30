@@ -4,7 +4,6 @@ import com.google.firebase.encoders.ObjectEncoder;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
-/* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public final class zzan {
     private final Map zza;

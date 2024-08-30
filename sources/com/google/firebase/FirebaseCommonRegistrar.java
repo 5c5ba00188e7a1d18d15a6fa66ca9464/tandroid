@@ -3,7 +3,6 @@ package com.google.firebase;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
-import com.google.firebase.components.Component;
 import com.google.firebase.components.ComponentRegistrar;
 import com.google.firebase.heartbeatinfo.DefaultHeartBeatInfo;
 import com.google.firebase.platforminfo.DefaultUserAgentPublisher;
@@ -13,8 +12,41 @@ import java.util.ArrayList;
 import java.util.List;
 /* loaded from: classes.dex */
 public class FirebaseCommonRegistrar implements ComponentRegistrar {
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ String lambda$getComponents$0(Context context) {
+        ApplicationInfo applicationInfo = context.getApplicationInfo();
+        return applicationInfo != null ? String.valueOf(applicationInfo.targetSdkVersion) : "";
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ String lambda$getComponents$1(Context context) {
+        int i;
+        ApplicationInfo applicationInfo = context.getApplicationInfo();
+        if (applicationInfo == null || Build.VERSION.SDK_INT < 24) {
+            return "";
+        }
+        i = applicationInfo.minSdkVersion;
+        return String.valueOf(i);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ String lambda$getComponents$2(Context context) {
+        int i = Build.VERSION.SDK_INT;
+        return context.getPackageManager().hasSystemFeature("android.hardware.type.television") ? "tv" : (i < 20 || !context.getPackageManager().hasSystemFeature("android.hardware.type.watch")) ? (i < 23 || !context.getPackageManager().hasSystemFeature("android.hardware.type.automotive")) ? (i < 26 || !context.getPackageManager().hasSystemFeature("android.hardware.type.embedded")) ? "" : "embedded" : "auto" : "watch";
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ String lambda$getComponents$3(Context context) {
+        String installerPackageName = context.getPackageManager().getInstallerPackageName(context.getPackageName());
+        return installerPackageName != null ? safeValue(installerPackageName) : "";
+    }
+
+    private static String safeValue(String str) {
+        return str.replace(' ', '_').replace('/', '_');
+    }
+
     @Override // com.google.firebase.components.ComponentRegistrar
-    public List<Component<?>> getComponents() {
+    public List getComponents() {
         ArrayList arrayList = new ArrayList();
         arrayList.add(DefaultUserAgentPublisher.component());
         arrayList.add(DefaultHeartBeatInfo.component());
@@ -60,53 +92,5 @@ public class FirebaseCommonRegistrar implements ComponentRegistrar {
             arrayList.add(LibraryVersionComponent.create("kotlin", detectVersion));
         }
         return arrayList;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$getComponents$0(Context context) {
-        ApplicationInfo applicationInfo = context.getApplicationInfo();
-        if (applicationInfo != null) {
-            return String.valueOf(applicationInfo.targetSdkVersion);
-        }
-        return "";
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$getComponents$1(Context context) {
-        int i;
-        ApplicationInfo applicationInfo = context.getApplicationInfo();
-        if (applicationInfo != null && Build.VERSION.SDK_INT >= 24) {
-            i = applicationInfo.minSdkVersion;
-            return String.valueOf(i);
-        }
-        return "";
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$getComponents$2(Context context) {
-        int i = Build.VERSION.SDK_INT;
-        if (context.getPackageManager().hasSystemFeature("android.hardware.type.television")) {
-            return "tv";
-        }
-        if (i >= 20 && context.getPackageManager().hasSystemFeature("android.hardware.type.watch")) {
-            return "watch";
-        }
-        if (i >= 23 && context.getPackageManager().hasSystemFeature("android.hardware.type.automotive")) {
-            return "auto";
-        }
-        if (i >= 26 && context.getPackageManager().hasSystemFeature("android.hardware.type.embedded")) {
-            return "embedded";
-        }
-        return "";
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$getComponents$3(Context context) {
-        String installerPackageName = context.getPackageManager().getInstallerPackageName(context.getPackageName());
-        return installerPackageName != null ? safeValue(installerPackageName) : "";
-    }
-
-    private static String safeValue(String str) {
-        return str.replace(' ', '_').replace('/', '_');
     }
 }

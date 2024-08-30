@@ -26,79 +26,6 @@ public class ErrorAttachmentLog extends AbstractLog {
         return errorAttachmentLog;
     }
 
-    @Override // com.microsoft.appcenter.ingestion.models.Log
-    public String getType() {
-        return "errorAttachment";
-    }
-
-    public UUID getId() {
-        return this.id;
-    }
-
-    public void setId(UUID uuid) {
-        this.id = uuid;
-    }
-
-    public UUID getErrorId() {
-        return this.errorId;
-    }
-
-    public void setErrorId(UUID uuid) {
-        this.errorId = uuid;
-    }
-
-    public String getContentType() {
-        return this.contentType;
-    }
-
-    public void setContentType(String str) {
-        this.contentType = str;
-    }
-
-    public String getFileName() {
-        return this.fileName;
-    }
-
-    public void setFileName(String str) {
-        this.fileName = str;
-    }
-
-    public byte[] getData() {
-        return this.data;
-    }
-
-    public void setData(byte[] bArr) {
-        this.data = bArr;
-    }
-
-    public boolean isValid() {
-        return (getId() == null || getErrorId() == null || getContentType() == null || getData() == null) ? false : true;
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.AbstractLog, com.microsoft.appcenter.ingestion.models.Model
-    public void read(JSONObject jSONObject) throws JSONException {
-        super.read(jSONObject);
-        setId(UUID.fromString(jSONObject.getString("id")));
-        setErrorId(UUID.fromString(jSONObject.getString("errorId")));
-        setContentType(jSONObject.getString("contentType"));
-        setFileName(jSONObject.optString("fileName", null));
-        try {
-            setData(Base64.decode(jSONObject.getString("data"), 0));
-        } catch (IllegalArgumentException e) {
-            throw new JSONException(e.getMessage());
-        }
-    }
-
-    @Override // com.microsoft.appcenter.ingestion.models.AbstractLog, com.microsoft.appcenter.ingestion.models.Model
-    public void write(JSONStringer jSONStringer) throws JSONException {
-        super.write(jSONStringer);
-        JSONUtils.write(jSONStringer, "id", getId());
-        JSONUtils.write(jSONStringer, "errorId", getErrorId());
-        JSONUtils.write(jSONStringer, "contentType", getContentType());
-        JSONUtils.write(jSONStringer, "fileName", getFileName());
-        JSONUtils.write(jSONStringer, "data", Base64.encodeToString(getData(), 2));
-    }
-
     @Override // com.microsoft.appcenter.ingestion.models.AbstractLog
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -127,6 +54,31 @@ public class ErrorAttachmentLog extends AbstractLog {
         return false;
     }
 
+    public String getContentType() {
+        return this.contentType;
+    }
+
+    public byte[] getData() {
+        return this.data;
+    }
+
+    public UUID getErrorId() {
+        return this.errorId;
+    }
+
+    public String getFileName() {
+        return this.fileName;
+    }
+
+    public UUID getId() {
+        return this.id;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Log
+    public String getType() {
+        return "errorAttachment";
+    }
+
     @Override // com.microsoft.appcenter.ingestion.models.AbstractLog
     public int hashCode() {
         int hashCode = super.hashCode() * 31;
@@ -138,5 +90,53 @@ public class ErrorAttachmentLog extends AbstractLog {
         int hashCode4 = (hashCode3 + (str != null ? str.hashCode() : 0)) * 31;
         String str2 = this.fileName;
         return ((hashCode4 + (str2 != null ? str2.hashCode() : 0)) * 31) + Arrays.hashCode(this.data);
+    }
+
+    public boolean isValid() {
+        return (getId() == null || getErrorId() == null || getContentType() == null || getData() == null) ? false : true;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.AbstractLog, com.microsoft.appcenter.ingestion.models.Model
+    public void read(JSONObject jSONObject) {
+        super.read(jSONObject);
+        setId(UUID.fromString(jSONObject.getString("id")));
+        setErrorId(UUID.fromString(jSONObject.getString("errorId")));
+        setContentType(jSONObject.getString("contentType"));
+        setFileName(jSONObject.optString("fileName", null));
+        try {
+            setData(Base64.decode(jSONObject.getString("data"), 0));
+        } catch (IllegalArgumentException e) {
+            throw new JSONException(e.getMessage());
+        }
+    }
+
+    public void setContentType(String str) {
+        this.contentType = str;
+    }
+
+    public void setData(byte[] bArr) {
+        this.data = bArr;
+    }
+
+    public void setErrorId(UUID uuid) {
+        this.errorId = uuid;
+    }
+
+    public void setFileName(String str) {
+        this.fileName = str;
+    }
+
+    public void setId(UUID uuid) {
+        this.id = uuid;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.AbstractLog, com.microsoft.appcenter.ingestion.models.Model
+    public void write(JSONStringer jSONStringer) {
+        super.write(jSONStringer);
+        JSONUtils.write(jSONStringer, "id", getId());
+        JSONUtils.write(jSONStringer, "errorId", getErrorId());
+        JSONUtils.write(jSONStringer, "contentType", getContentType());
+        JSONUtils.write(jSONStringer, "fileName", getFileName());
+        JSONUtils.write(jSONStringer, "data", Base64.encodeToString(getData(), 2));
     }
 }

@@ -1,6 +1,6 @@
 package com.google.android.gms.internal.clearcut;
 /* loaded from: classes.dex */
-final /* synthetic */ class zzbw {
+abstract /* synthetic */ class zzbw {
     static final /* synthetic */ int[] zzgq;
 
     static {

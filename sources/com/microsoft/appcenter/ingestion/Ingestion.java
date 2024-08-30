@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface Ingestion extends Closeable {
     void reopen();
 
-    ServiceCall sendAsync(String str, UUID uuid, LogContainer logContainer, ServiceCallback serviceCallback) throws IllegalArgumentException;
+    ServiceCall sendAsync(String str, UUID uuid, LogContainer logContainer, ServiceCallback serviceCallback);
 
     void setLogUrl(String str);
 }

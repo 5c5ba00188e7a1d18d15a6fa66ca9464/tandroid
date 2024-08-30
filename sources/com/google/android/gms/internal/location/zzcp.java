@@ -1,9 +1,7 @@
 package com.google.android.gms.internal.location;
 
-import android.os.RemoteException;
 import com.google.android.gms.common.api.internal.TaskUtil;
 import com.google.android.gms.tasks.TaskCompletionSource;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 final class zzcp extends zzj {
     final /* synthetic */ TaskCompletionSource zza;
@@ -21,7 +19,7 @@ final class zzcp extends zzj {
     }
 
     @Override // com.google.android.gms.internal.location.zzk
-    public final void zze() throws RemoteException {
+    public final void zze() {
         this.zzb.zzf();
     }
 }

@@ -21,9 +21,51 @@ class AppCompatProgressBarHelper {
     private Bitmap mSampleTile;
     private final ProgressBar mView;
 
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class Api23Impl {
+        public static void transferLayerProperties(LayerDrawable layerDrawable, LayerDrawable layerDrawable2, int i) {
+            layerDrawable2.setLayerGravity(i, layerDrawable.getLayerGravity(i));
+            layerDrawable2.setLayerWidth(i, layerDrawable.getLayerWidth(i));
+            layerDrawable2.setLayerHeight(i, layerDrawable.getLayerHeight(i));
+            layerDrawable2.setLayerInsetLeft(i, layerDrawable.getLayerInsetLeft(i));
+            layerDrawable2.setLayerInsetRight(i, layerDrawable.getLayerInsetRight(i));
+            layerDrawable2.setLayerInsetTop(i, layerDrawable.getLayerInsetTop(i));
+            layerDrawable2.setLayerInsetBottom(i, layerDrawable.getLayerInsetBottom(i));
+            layerDrawable2.setLayerInsetStart(i, layerDrawable.getLayerInsetStart(i));
+            layerDrawable2.setLayerInsetEnd(i, layerDrawable.getLayerInsetEnd(i));
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public AppCompatProgressBarHelper(ProgressBar progressBar) {
         this.mView = progressBar;
+    }
+
+    private Shape getDrawableShape() {
+        return new RoundRectShape(new float[]{5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f}, null, null);
+    }
+
+    private Drawable tileifyIndeterminate(Drawable drawable) {
+        if (drawable instanceof AnimationDrawable) {
+            AnimationDrawable animationDrawable = (AnimationDrawable) drawable;
+            int numberOfFrames = animationDrawable.getNumberOfFrames();
+            AnimationDrawable animationDrawable2 = new AnimationDrawable();
+            animationDrawable2.setOneShot(animationDrawable.isOneShot());
+            for (int i = 0; i < numberOfFrames; i++) {
+                Drawable tileify = tileify(animationDrawable.getFrame(i), true);
+                tileify.setLevel(10000);
+                animationDrawable2.addFrame(tileify, animationDrawable.getDuration(i));
+            }
+            animationDrawable2.setLevel(10000);
+            return animationDrawable2;
+        }
+        return drawable;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public Bitmap getSampleTile() {
+        return this.mSampleTile;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -75,47 +117,5 @@ class AppCompatProgressBarHelper {
             return z ? new ClipDrawable(shapeDrawable, 3, 1) : shapeDrawable;
         }
         return drawable;
-    }
-
-    private Drawable tileifyIndeterminate(Drawable drawable) {
-        if (drawable instanceof AnimationDrawable) {
-            AnimationDrawable animationDrawable = (AnimationDrawable) drawable;
-            int numberOfFrames = animationDrawable.getNumberOfFrames();
-            AnimationDrawable animationDrawable2 = new AnimationDrawable();
-            animationDrawable2.setOneShot(animationDrawable.isOneShot());
-            for (int i = 0; i < numberOfFrames; i++) {
-                Drawable tileify = tileify(animationDrawable.getFrame(i), true);
-                tileify.setLevel(10000);
-                animationDrawable2.addFrame(tileify, animationDrawable.getDuration(i));
-            }
-            animationDrawable2.setLevel(10000);
-            return animationDrawable2;
-        }
-        return drawable;
-    }
-
-    private Shape getDrawableShape() {
-        return new RoundRectShape(new float[]{5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f}, null, null);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Bitmap getSampleTile() {
-        return this.mSampleTile;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api23Impl {
-        public static void transferLayerProperties(LayerDrawable layerDrawable, LayerDrawable layerDrawable2, int i) {
-            layerDrawable2.setLayerGravity(i, layerDrawable.getLayerGravity(i));
-            layerDrawable2.setLayerWidth(i, layerDrawable.getLayerWidth(i));
-            layerDrawable2.setLayerHeight(i, layerDrawable.getLayerHeight(i));
-            layerDrawable2.setLayerInsetLeft(i, layerDrawable.getLayerInsetLeft(i));
-            layerDrawable2.setLayerInsetRight(i, layerDrawable.getLayerInsetRight(i));
-            layerDrawable2.setLayerInsetTop(i, layerDrawable.getLayerInsetTop(i));
-            layerDrawable2.setLayerInsetBottom(i, layerDrawable.getLayerInsetBottom(i));
-            layerDrawable2.setLayerInsetStart(i, layerDrawable.getLayerInsetStart(i));
-            layerDrawable2.setLayerInsetEnd(i, layerDrawable.getLayerInsetEnd(i));
-        }
     }
 }

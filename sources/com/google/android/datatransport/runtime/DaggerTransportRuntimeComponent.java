@@ -8,44 +8,58 @@ import com.google.android.datatransport.runtime.dagger.internal.DoubleCheck;
 import com.google.android.datatransport.runtime.dagger.internal.Factory;
 import com.google.android.datatransport.runtime.dagger.internal.InstanceFactory;
 import com.google.android.datatransport.runtime.dagger.internal.Preconditions;
-import com.google.android.datatransport.runtime.scheduling.DefaultScheduler;
 import com.google.android.datatransport.runtime.scheduling.DefaultScheduler_Factory;
 import com.google.android.datatransport.runtime.scheduling.SchedulingConfigModule_ConfigFactory;
 import com.google.android.datatransport.runtime.scheduling.SchedulingModule_WorkSchedulerFactory;
-import com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig;
-import com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader;
 import com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader_Factory;
-import com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkInitializer;
 import com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkInitializer_Factory;
-import com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkScheduler;
 import com.google.android.datatransport.runtime.scheduling.persistence.EventStore;
 import com.google.android.datatransport.runtime.scheduling.persistence.EventStoreModule_DbNameFactory;
 import com.google.android.datatransport.runtime.scheduling.persistence.EventStoreModule_PackageNameFactory;
 import com.google.android.datatransport.runtime.scheduling.persistence.EventStoreModule_SchemaVersionFactory;
 import com.google.android.datatransport.runtime.scheduling.persistence.EventStoreModule_StoreConfigFactory;
-import com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore;
 import com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore_Factory;
 import com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager_Factory;
 import com.google.android.datatransport.runtime.time.TimeModule_EventClockFactory;
 import com.google.android.datatransport.runtime.time.TimeModule_UptimeClockFactory;
-import java.util.concurrent.Executor;
 import javax.inject.Provider;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class DaggerTransportRuntimeComponent extends TransportRuntimeComponent {
-    private Provider<SchedulerConfig> configProvider;
+    private Provider configProvider;
     private Provider creationContextFactoryProvider;
-    private Provider<DefaultScheduler> defaultSchedulerProvider;
-    private Provider<Executor> executorProvider;
+    private Provider defaultSchedulerProvider;
+    private Provider executorProvider;
     private Provider metadataBackendRegistryProvider;
-    private Provider<String> packageNameProvider;
-    private Provider<SQLiteEventStore> sQLiteEventStoreProvider;
+    private Provider packageNameProvider;
+    private Provider sQLiteEventStoreProvider;
     private Provider schemaManagerProvider;
-    private Provider<Context> setApplicationContextProvider;
-    private Provider<TransportRuntime> transportRuntimeProvider;
-    private Provider<Uploader> uploaderProvider;
-    private Provider<WorkInitializer> workInitializerProvider;
-    private Provider<WorkScheduler> workSchedulerProvider;
+    private Provider setApplicationContextProvider;
+    private Provider transportRuntimeProvider;
+    private Provider uploaderProvider;
+    private Provider workInitializerProvider;
+    private Provider workSchedulerProvider;
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static final class Builder implements TransportRuntimeComponent.Builder {
+        private Context setApplicationContext;
+
+        private Builder() {
+        }
+
+        @Override // com.google.android.datatransport.runtime.TransportRuntimeComponent.Builder
+        public TransportRuntimeComponent build() {
+            Preconditions.checkBuilderRequirement(this.setApplicationContext, Context.class);
+            return new DaggerTransportRuntimeComponent(this.setApplicationContext);
+        }
+
+        @Override // com.google.android.datatransport.runtime.TransportRuntimeComponent.Builder
+        public Builder setApplicationContext(Context context) {
+            this.setApplicationContext = (Context) Preconditions.checkNotNull(context);
+            return this;
+        }
+    }
 
     private DaggerTransportRuntimeComponent(Context context) {
         initialize(context);
@@ -69,48 +83,27 @@ public final class DaggerTransportRuntimeComponent extends TransportRuntimeCompo
         this.configProvider = create3;
         SchedulingModule_WorkSchedulerFactory create4 = SchedulingModule_WorkSchedulerFactory.create(this.setApplicationContextProvider, this.sQLiteEventStoreProvider, create3, TimeModule_UptimeClockFactory.create());
         this.workSchedulerProvider = create4;
-        Provider<Executor> provider = this.executorProvider;
+        Provider provider = this.executorProvider;
         Provider provider2 = this.metadataBackendRegistryProvider;
-        Provider<SQLiteEventStore> provider3 = this.sQLiteEventStoreProvider;
+        Provider provider3 = this.sQLiteEventStoreProvider;
         this.defaultSchedulerProvider = DefaultScheduler_Factory.create(provider, provider2, create4, provider3, provider3);
-        Provider<Context> provider4 = this.setApplicationContextProvider;
+        Provider provider4 = this.setApplicationContextProvider;
         Provider provider5 = this.metadataBackendRegistryProvider;
-        Provider<SQLiteEventStore> provider6 = this.sQLiteEventStoreProvider;
+        Provider provider6 = this.sQLiteEventStoreProvider;
         this.uploaderProvider = Uploader_Factory.create(provider4, provider5, provider6, this.workSchedulerProvider, this.executorProvider, provider6, TimeModule_EventClockFactory.create(), TimeModule_UptimeClockFactory.create(), this.sQLiteEventStoreProvider);
-        Provider<Executor> provider7 = this.executorProvider;
-        Provider<SQLiteEventStore> provider8 = this.sQLiteEventStoreProvider;
+        Provider provider7 = this.executorProvider;
+        Provider provider8 = this.sQLiteEventStoreProvider;
         this.workInitializerProvider = WorkInitializer_Factory.create(provider7, provider8, this.workSchedulerProvider, provider8);
         this.transportRuntimeProvider = DoubleCheck.provider(TransportRuntime_Factory.create(TimeModule_EventClockFactory.create(), TimeModule_UptimeClockFactory.create(), this.defaultSchedulerProvider, this.uploaderProvider, this.workInitializerProvider));
     }
 
     @Override // com.google.android.datatransport.runtime.TransportRuntimeComponent
-    TransportRuntime getTransportRuntime() {
-        return this.transportRuntimeProvider.get();
+    EventStore getEventStore() {
+        return (EventStore) this.sQLiteEventStoreProvider.get();
     }
 
     @Override // com.google.android.datatransport.runtime.TransportRuntimeComponent
-    EventStore getEventStore() {
-        return this.sQLiteEventStoreProvider.get();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Builder implements TransportRuntimeComponent.Builder {
-        private Context setApplicationContext;
-
-        private Builder() {
-        }
-
-        @Override // com.google.android.datatransport.runtime.TransportRuntimeComponent.Builder
-        public Builder setApplicationContext(Context context) {
-            this.setApplicationContext = (Context) Preconditions.checkNotNull(context);
-            return this;
-        }
-
-        @Override // com.google.android.datatransport.runtime.TransportRuntimeComponent.Builder
-        public TransportRuntimeComponent build() {
-            Preconditions.checkBuilderRequirement(this.setApplicationContext, Context.class);
-            return new DaggerTransportRuntimeComponent(this.setApplicationContext);
-        }
+    TransportRuntime getTransportRuntime() {
+        return (TransportRuntime) this.transportRuntimeProvider.get();
     }
 }

@@ -2,9 +2,8 @@ package com.google.android.gms.internal.play_billing;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-public final class zzcg {
+public abstract class zzcg {
     static final Charset zza = Charset.forName("US-ASCII");
     static final Charset zzb = Charset.forName("UTF-8");
     static final Charset zzc = Charset.forName("ISO-8859-1");

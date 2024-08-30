@@ -1,5 +1,4 @@
 package androidx.core.graphics.drawable;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes.dex */
-public final /* synthetic */ class WrappedDrawableApi21$$ExternalSyntheticApiModelOutline3 {
+public abstract /* synthetic */ class WrappedDrawableApi21$$ExternalSyntheticApiModelOutline3 {
 }

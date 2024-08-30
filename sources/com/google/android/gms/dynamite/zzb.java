@@ -2,9 +2,8 @@ package com.google.android.gms.dynamite;
 
 import android.os.Looper;
 import android.util.Log;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zzb {
+public abstract class zzb {
     private static volatile ClassLoader zza;
     private static volatile Thread zzb;
 

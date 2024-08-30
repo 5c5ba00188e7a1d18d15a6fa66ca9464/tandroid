@@ -6,10 +6,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.RandomAccess;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzcm extends zzal implements RandomAccess, zzcn {
-    @Deprecated
     public static final zzcn zza;
     private static final zzcm zzb;
     private final List zzc;
@@ -20,18 +18,25 @@ public final class zzcm extends zzal implements RandomAccess, zzcn {
         zza = zzcmVar;
     }
 
-    public zzcm() {
-        this(10);
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public zzcm(int i) {
+        super(true);
+        ArrayList arrayList = new ArrayList(i);
+        this.zzc = arrayList;
+    }
+
+    private zzcm(ArrayList arrayList) {
+        super(true);
+        this.zzc = arrayList;
+    }
+
+    private zzcm(boolean z) {
+        super(false);
+        this.zzc = Collections.emptyList();
     }
 
     private static String zzi(Object obj) {
-        if (obj instanceof String) {
-            return (String) obj;
-        }
-        if (obj instanceof zzba) {
-            return ((zzba) obj).zzm(zzcg.zzb);
-        }
-        return zzcg.zzd((byte[]) obj);
+        return obj instanceof String ? (String) obj : obj instanceof zzba ? ((zzba) obj).zzm(zzcg.zzb) : zzcg.zzd((byte[]) obj);
     }
 
     @Override // java.util.AbstractList, java.util.List
@@ -52,7 +57,12 @@ public final class zzcm extends zzal implements RandomAccess, zzcn {
         return addAll;
     }
 
-    @Override // com.google.android.gms.internal.play_billing.zzal, java.util.AbstractList, java.util.AbstractCollection, java.util.Collection, java.util.List
+    @Override // java.util.AbstractCollection, java.util.Collection, java.util.List
+    public final boolean addAll(Collection collection) {
+        return addAll(size(), collection);
+    }
+
+    @Override // java.util.AbstractList, java.util.AbstractCollection, java.util.Collection, java.util.List
     public final void clear() {
         zza();
         this.zzc.clear();
@@ -80,12 +90,12 @@ public final class zzcm extends zzal implements RandomAccess, zzcn {
 
     @Override // com.google.android.gms.internal.play_billing.zzcf
     public final /* bridge */ /* synthetic */ zzcf zzd(int i) {
-        if (i < size()) {
-            throw new IllegalArgumentException();
+        if (i >= size()) {
+            ArrayList arrayList = new ArrayList(i);
+            arrayList.addAll(this.zzc);
+            return new zzcm(arrayList);
         }
-        ArrayList arrayList = new ArrayList(i);
-        arrayList.addAll(this.zzc);
-        return new zzcm(arrayList);
+        throw new IllegalArgumentException();
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzcn
@@ -124,27 +134,5 @@ public final class zzcm extends zzal implements RandomAccess, zzcn {
     @Override // com.google.android.gms.internal.play_billing.zzcn
     public final List zzh() {
         return Collections.unmodifiableList(this.zzc);
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zzcm(int i) {
-        super(true);
-        ArrayList arrayList = new ArrayList(i);
-        this.zzc = arrayList;
-    }
-
-    private zzcm(ArrayList arrayList) {
-        super(true);
-        this.zzc = arrayList;
-    }
-
-    private zzcm(boolean z) {
-        super(false);
-        this.zzc = Collections.emptyList();
-    }
-
-    @Override // com.google.android.gms.internal.play_billing.zzal, java.util.AbstractCollection, java.util.Collection, java.util.List
-    public final boolean addAll(Collection collection) {
-        return addAll(size(), collection);
     }
 }

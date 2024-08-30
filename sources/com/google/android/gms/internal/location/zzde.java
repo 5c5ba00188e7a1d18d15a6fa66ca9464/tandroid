@@ -6,7 +6,6 @@ import com.google.android.gms.common.internal.ClientIdentity;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.location.LocationRequest;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class zzde implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator

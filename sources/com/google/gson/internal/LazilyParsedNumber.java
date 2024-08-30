@@ -14,6 +14,30 @@ public final class LazilyParsedNumber extends Number {
     }
 
     @Override // java.lang.Number
+    public double doubleValue() {
+        return Double.parseDouble(this.value);
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof LazilyParsedNumber) {
+            return this.value.equals(((LazilyParsedNumber) obj).value);
+        }
+        return false;
+    }
+
+    @Override // java.lang.Number
+    public float floatValue() {
+        return Float.parseFloat(this.value);
+    }
+
+    public int hashCode() {
+        return this.value.hashCode();
+    }
+
+    @Override // java.lang.Number
     public int intValue() {
         try {
             try {
@@ -35,31 +59,7 @@ public final class LazilyParsedNumber extends Number {
         }
     }
 
-    @Override // java.lang.Number
-    public float floatValue() {
-        return Float.parseFloat(this.value);
-    }
-
-    @Override // java.lang.Number
-    public double doubleValue() {
-        return Double.parseDouble(this.value);
-    }
-
     public String toString() {
         return this.value;
-    }
-
-    public int hashCode() {
-        return this.value.hashCode();
-    }
-
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof LazilyParsedNumber) {
-            return this.value.equals(((LazilyParsedNumber) obj).value);
-        }
-        return false;
     }
 }

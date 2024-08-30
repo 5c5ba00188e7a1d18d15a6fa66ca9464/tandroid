@@ -18,38 +18,9 @@ public class SubMenuBuilder extends MenuBuilder implements SubMenu {
         this.mItem = menuItemImpl;
     }
 
-    @Override // androidx.appcompat.view.menu.MenuBuilder, android.view.Menu
-    public void setQwertyMode(boolean z) {
-        this.mParentMenu.setQwertyMode(z);
-    }
-
     @Override // androidx.appcompat.view.menu.MenuBuilder
-    public boolean isQwertyMode() {
-        return this.mParentMenu.isQwertyMode();
-    }
-
-    @Override // androidx.appcompat.view.menu.MenuBuilder
-    public boolean isShortcutsVisible() {
-        return this.mParentMenu.isShortcutsVisible();
-    }
-
-    public Menu getParentMenu() {
-        return this.mParentMenu;
-    }
-
-    @Override // android.view.SubMenu
-    public MenuItem getItem() {
-        return this.mItem;
-    }
-
-    @Override // androidx.appcompat.view.menu.MenuBuilder
-    public void setCallback(MenuBuilder.Callback callback) {
-        this.mParentMenu.setCallback(callback);
-    }
-
-    @Override // androidx.appcompat.view.menu.MenuBuilder
-    public MenuBuilder getRootMenu() {
-        return this.mParentMenu.getRootMenu();
+    public boolean collapseItemActionView(MenuItemImpl menuItemImpl) {
+        return this.mParentMenu.collapseItemActionView(menuItemImpl);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -58,51 +29,9 @@ public class SubMenuBuilder extends MenuBuilder implements SubMenu {
         return super.dispatchMenuItemSelected(menuBuilder, menuItem) || this.mParentMenu.dispatchMenuItemSelected(menuBuilder, menuItem);
     }
 
-    @Override // android.view.SubMenu
-    public SubMenu setIcon(Drawable drawable) {
-        this.mItem.setIcon(drawable);
-        return this;
-    }
-
-    @Override // android.view.SubMenu
-    public SubMenu setIcon(int i) {
-        this.mItem.setIcon(i);
-        return this;
-    }
-
-    @Override // android.view.SubMenu
-    public SubMenu setHeaderIcon(Drawable drawable) {
-        return (SubMenu) super.setHeaderIconInt(drawable);
-    }
-
-    @Override // android.view.SubMenu
-    public SubMenu setHeaderIcon(int i) {
-        return (SubMenu) super.setHeaderIconInt(i);
-    }
-
-    @Override // android.view.SubMenu
-    public SubMenu setHeaderTitle(CharSequence charSequence) {
-        return (SubMenu) super.setHeaderTitleInt(charSequence);
-    }
-
-    @Override // android.view.SubMenu
-    public SubMenu setHeaderTitle(int i) {
-        return (SubMenu) super.setHeaderTitleInt(i);
-    }
-
-    @Override // android.view.SubMenu
-    public SubMenu setHeaderView(View view) {
-        return (SubMenu) super.setHeaderViewInt(view);
-    }
-
     @Override // androidx.appcompat.view.menu.MenuBuilder
     public boolean expandItemActionView(MenuItemImpl menuItemImpl) {
         return this.mParentMenu.expandItemActionView(menuItemImpl);
-    }
-
-    @Override // androidx.appcompat.view.menu.MenuBuilder
-    public boolean collapseItemActionView(MenuItemImpl menuItemImpl) {
-        return this.mParentMenu.collapseItemActionView(menuItemImpl);
     }
 
     @Override // androidx.appcompat.view.menu.MenuBuilder
@@ -115,13 +44,84 @@ public class SubMenuBuilder extends MenuBuilder implements SubMenu {
         return super.getActionViewStatesKey() + ":" + itemId;
     }
 
-    @Override // androidx.appcompat.view.menu.MenuBuilder, android.view.Menu
-    public void setGroupDividerEnabled(boolean z) {
-        this.mParentMenu.setGroupDividerEnabled(z);
+    @Override // android.view.SubMenu
+    public MenuItem getItem() {
+        return this.mItem;
+    }
+
+    public Menu getParentMenu() {
+        return this.mParentMenu;
+    }
+
+    @Override // androidx.appcompat.view.menu.MenuBuilder
+    public MenuBuilder getRootMenu() {
+        return this.mParentMenu.getRootMenu();
     }
 
     @Override // androidx.appcompat.view.menu.MenuBuilder
     public boolean isGroupDividerEnabled() {
         return this.mParentMenu.isGroupDividerEnabled();
+    }
+
+    @Override // androidx.appcompat.view.menu.MenuBuilder
+    public boolean isQwertyMode() {
+        return this.mParentMenu.isQwertyMode();
+    }
+
+    @Override // androidx.appcompat.view.menu.MenuBuilder
+    public boolean isShortcutsVisible() {
+        return this.mParentMenu.isShortcutsVisible();
+    }
+
+    @Override // androidx.appcompat.view.menu.MenuBuilder
+    public void setCallback(MenuBuilder.Callback callback) {
+        this.mParentMenu.setCallback(callback);
+    }
+
+    @Override // androidx.appcompat.view.menu.MenuBuilder, android.view.Menu
+    public void setGroupDividerEnabled(boolean z) {
+        this.mParentMenu.setGroupDividerEnabled(z);
+    }
+
+    @Override // android.view.SubMenu
+    public SubMenu setHeaderIcon(int i) {
+        return (SubMenu) super.setHeaderIconInt(i);
+    }
+
+    @Override // android.view.SubMenu
+    public SubMenu setHeaderIcon(Drawable drawable) {
+        return (SubMenu) super.setHeaderIconInt(drawable);
+    }
+
+    @Override // android.view.SubMenu
+    public SubMenu setHeaderTitle(int i) {
+        return (SubMenu) super.setHeaderTitleInt(i);
+    }
+
+    @Override // android.view.SubMenu
+    public SubMenu setHeaderTitle(CharSequence charSequence) {
+        return (SubMenu) super.setHeaderTitleInt(charSequence);
+    }
+
+    @Override // android.view.SubMenu
+    public SubMenu setHeaderView(View view) {
+        return (SubMenu) super.setHeaderViewInt(view);
+    }
+
+    @Override // android.view.SubMenu
+    public SubMenu setIcon(int i) {
+        this.mItem.setIcon(i);
+        return this;
+    }
+
+    @Override // android.view.SubMenu
+    public SubMenu setIcon(Drawable drawable) {
+        this.mItem.setIcon(drawable);
+        return this;
+    }
+
+    @Override // androidx.appcompat.view.menu.MenuBuilder, android.view.Menu
+    public void setQwertyMode(boolean z) {
+        this.mParentMenu.setQwertyMode(z);
     }
 }

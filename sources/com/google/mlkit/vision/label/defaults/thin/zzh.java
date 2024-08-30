@@ -28,7 +28,6 @@ import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.common.internal.ImageUtils;
 import com.google.mlkit.vision.label.defaults.ImageLabelerOptions;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zzh extends MLTask {
     private static final ImageUtils zzc = ImageUtils.getInstance();
@@ -76,7 +75,7 @@ public final class zzh extends MLTask {
     }
 
     @Override // com.google.mlkit.common.sdkinternal.ModelResource
-    public final synchronized void load() throws MlKitException {
+    public final synchronized void load() {
         this.zzd.zzb();
         zznp zznpVar = this.zze;
         zzkg zzkgVar = new zzkg();
@@ -100,7 +99,6 @@ public final class zzh extends MLTask {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ zznf zzc(long j, zzke zzkeVar, InputImage inputImage) {
-        zzjr zzjrVar;
         zzkg zzkgVar = new zzkg();
         zzkgVar.zze(zzkd.zzb);
         zzky zzkyVar = new zzky();
@@ -116,20 +114,7 @@ public final class zzh extends MLTask {
         int mobileVisionImageFormat = imageUtils.getMobileVisionImageFormat(inputImage);
         int mobileVisionImageSize = imageUtils.getMobileVisionImageSize(inputImage);
         zzjq zzjqVar = new zzjq();
-        if (mobileVisionImageFormat == -1) {
-            zzjrVar = zzjr.zzg;
-        } else if (mobileVisionImageFormat == 35) {
-            zzjrVar = zzjr.zze;
-        } else if (mobileVisionImageFormat == 842094169) {
-            zzjrVar = zzjr.zzd;
-        } else if (mobileVisionImageFormat == 16) {
-            zzjrVar = zzjr.zzb;
-        } else if (mobileVisionImageFormat == 17) {
-            zzjrVar = zzjr.zzc;
-        } else {
-            zzjrVar = zzjr.zza;
-        }
-        zzjqVar.zza(zzjrVar);
+        zzjqVar.zza(mobileVisionImageFormat != -1 ? mobileVisionImageFormat != 35 ? mobileVisionImageFormat != 842094169 ? mobileVisionImageFormat != 16 ? mobileVisionImageFormat != 17 ? zzjr.zza : zzjr.zzc : zzjr.zzb : zzjr.zzd : zzjr.zze : zzjr.zzg);
         zzjqVar.zzb(Integer.valueOf(mobileVisionImageSize));
         zzkyVar.zzc(zzjqVar.zzd());
         zzkyVar.zze(this.zzb);
@@ -139,8 +124,7 @@ public final class zzh extends MLTask {
 
     @Override // com.google.mlkit.common.sdkinternal.MLTask
     /* renamed from: zzd */
-    public final synchronized List run(InputImage inputImage) throws MlKitException {
-        zzke zzkeVar;
+    public final synchronized List run(InputImage inputImage) {
         List zza;
         Preconditions.checkNotNull(inputImage, "Mobile vision input can not be null");
         long elapsedRealtime = SystemClock.elapsedRealtime();
@@ -149,12 +133,7 @@ public final class zzh extends MLTask {
             zze(zzke.zza, inputImage, elapsedRealtime);
             this.zza = false;
         } catch (MlKitException e) {
-            if (e.getErrorCode() == 14) {
-                zzkeVar = zzke.zzk;
-            } else {
-                zzkeVar = zzke.zzV;
-            }
-            zze(zzkeVar, inputImage, elapsedRealtime);
+            zze(e.getErrorCode() == 14 ? zzke.zzk : zzke.zzV, inputImage, elapsedRealtime);
             throw e;
         }
         return zza;

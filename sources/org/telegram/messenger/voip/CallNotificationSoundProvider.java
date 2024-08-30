@@ -30,22 +30,10 @@ public class CallNotificationSoundProvider extends ContentProvider {
     }
 
     @Override // android.content.ContentProvider
-    public Cursor query(Uri uri, String[] strArr, String str, String[] strArr2, String str2) {
-        return null;
-    }
-
-    @Override // android.content.ContentProvider
-    public int update(Uri uri, ContentValues contentValues, String str, String[] strArr) {
-        return 0;
-    }
-
-    @Override // android.content.ContentProvider
-    public ParcelFileDescriptor openFile(Uri uri, String str) throws FileNotFoundException {
+    public ParcelFileDescriptor openFile(Uri uri, String str) {
         if (!"r".equals(str)) {
             throw new SecurityException("Unexpected file mode " + str);
-        } else if (ApplicationLoader.applicationContext == null) {
-            throw new FileNotFoundException("Unexpected application state");
-        } else {
+        } else if (ApplicationLoader.applicationContext != null) {
             try {
                 VoIPService sharedInstance = VoIPService.getSharedInstance();
                 if (sharedInstance != null) {
@@ -59,6 +47,18 @@ public class CallNotificationSoundProvider extends ContentProvider {
             } catch (Exception e) {
                 throw new FileNotFoundException(e.getMessage());
             }
+        } else {
+            throw new FileNotFoundException("Unexpected application state");
         }
+    }
+
+    @Override // android.content.ContentProvider
+    public Cursor query(Uri uri, String[] strArr, String str, String[] strArr2, String str2) {
+        return null;
+    }
+
+    @Override // android.content.ContentProvider
+    public int update(Uri uri, ContentValues contentValues, String str, String[] strArr) {
+        return 0;
     }
 }

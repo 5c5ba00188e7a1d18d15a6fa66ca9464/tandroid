@@ -6,7 +6,6 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.wallet.AutoResolveHelper;
 import com.google.android.gms.wallet.PaymentData;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class zzab extends zzx {
     private final TaskCompletionSource zza;

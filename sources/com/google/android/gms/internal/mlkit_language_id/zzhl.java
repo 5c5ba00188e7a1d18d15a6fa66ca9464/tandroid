@@ -1,10 +1,9 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.ListIterator;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzhl implements ListIterator<String> {
-    private ListIterator<String> zza;
+final class zzhl implements ListIterator {
+    private ListIterator zza;
     private final /* synthetic */ int zzb;
     private final /* synthetic */ zzhi zzc;
 
@@ -17,6 +16,12 @@ final class zzhl implements ListIterator<String> {
         this.zza = zzfgVar.listIterator(i);
     }
 
+    @Override // java.util.ListIterator
+    public final /* synthetic */ void add(Object obj) {
+        String str = (String) obj;
+        throw new UnsupportedOperationException();
+    }
+
     @Override // java.util.ListIterator, java.util.Iterator
     public final boolean hasNext() {
         return this.zza.hasNext();
@@ -27,9 +32,19 @@ final class zzhl implements ListIterator<String> {
         return this.zza.hasPrevious();
     }
 
+    @Override // java.util.ListIterator, java.util.Iterator
+    public final /* synthetic */ Object next() {
+        return (String) this.zza.next();
+    }
+
     @Override // java.util.ListIterator
     public final int nextIndex() {
         return this.zza.nextIndex();
+    }
+
+    @Override // java.util.ListIterator
+    public final /* synthetic */ Object previous() {
+        return (String) this.zza.previous();
     }
 
     @Override // java.util.ListIterator
@@ -43,22 +58,8 @@ final class zzhl implements ListIterator<String> {
     }
 
     @Override // java.util.ListIterator
-    public final /* synthetic */ void add(String str) {
+    public final /* synthetic */ void set(Object obj) {
+        String str = (String) obj;
         throw new UnsupportedOperationException();
-    }
-
-    @Override // java.util.ListIterator
-    public final /* synthetic */ void set(String str) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override // java.util.ListIterator
-    public final /* synthetic */ String previous() {
-        return this.zza.previous();
-    }
-
-    @Override // java.util.ListIterator, java.util.Iterator
-    public final /* synthetic */ Object next() {
-        return this.zza.next();
     }
 }

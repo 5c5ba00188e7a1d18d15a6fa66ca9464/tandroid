@@ -57,10 +57,6 @@ public class HintDialogCell extends FrameLayout {
     private boolean showPremiumBlocked;
     boolean wasDraw;
 
-    public boolean isBlocked() {
-        return this.premiumBlocked;
-    }
-
     public HintDialogCell(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.avatarDrawable = new AvatarDrawable();
@@ -119,19 +115,6 @@ public class HintDialogCell extends FrameLayout {
         invalidate();
     }
 
-    public void showPremiumBlocked() {
-        if (this.showPremiumBlocked) {
-            return;
-        }
-        this.showPremiumBlocked = true;
-        NotificationCenter.getInstance(this.currentAccount).listen(this, NotificationCenter.userIsPremiumBlockedUpadted, new Utilities.Callback() { // from class: org.telegram.ui.Cells.HintDialogCell$$ExternalSyntheticLambda0
-            @Override // org.telegram.messenger.Utilities.Callback
-            public final void run(Object obj) {
-                HintDialogCell.this.lambda$showPremiumBlocked$1((Object[]) obj);
-            }
-        });
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showPremiumBlocked$1(Object[] objArr) {
         updatePremiumBlocked(true);
@@ -149,92 +132,8 @@ public class HintDialogCell extends FrameLayout {
         }
     }
 
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(86.0f), 1073741824));
-        this.counterView.counterDrawable.horizontalPadding = AndroidUtilities.dp(13.0f);
-    }
-
-    public void update(int i) {
-        int i2;
-        if ((MessagesController.UPDATE_MASK_STATUS & i) != 0 && this.currentUser != null) {
-            this.currentUser = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.currentUser.id));
-            this.imageView.invalidate();
-            invalidate();
-        }
-        if (i != 0 && (MessagesController.UPDATE_MASK_READ_DIALOG_MESSAGE & i) == 0 && (i & MessagesController.UPDATE_MASK_NEW_MESSAGE) == 0) {
-            return;
-        }
-        TLRPC$Dialog tLRPC$Dialog = MessagesController.getInstance(this.currentAccount).dialogs_dict.get(this.dialogId);
-        if (tLRPC$Dialog != null && (i2 = tLRPC$Dialog.unread_count) != 0) {
-            if (this.lastUnreadCount != i2) {
-                this.lastUnreadCount = i2;
-                this.counterView.setCount(i2, this.wasDraw);
-                return;
-            }
-            return;
-        }
-        this.lastUnreadCount = 0;
-        this.counterView.setCount(0, this.wasDraw);
-    }
-
-    public void update() {
-        if (DialogObject.isUserDialog(this.dialogId)) {
-            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.dialogId));
-            this.currentUser = user;
-            this.avatarDrawable.setInfo(this.currentAccount, user);
-        } else {
-            this.avatarDrawable.setInfo(this.currentAccount, MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.dialogId)));
-            this.currentUser = null;
-        }
-        updatePremiumBlocked(true);
-    }
-
-    public void setColors(int i, int i2) {
-        this.nameTextView.setTextColor(Theme.getColor(i, this.resourcesProvider));
-        this.backgroundColorKey = i2;
-        this.checkBox.setColor(Theme.key_dialogRoundCheckBox, i2, Theme.key_dialogRoundCheckBoxCheck);
-    }
-
-    public void setDialog(long j, boolean z, CharSequence charSequence) {
-        if (this.dialogId != j) {
-            this.wasDraw = false;
-            invalidate();
-        }
-        this.dialogId = j;
-        if (DialogObject.isUserDialog(j)) {
-            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j));
-            this.currentUser = user;
-            if (charSequence != null) {
-                this.nameTextView.setText(charSequence);
-            } else if (user != null) {
-                this.nameTextView.setText(UserObject.getFirstName(user));
-            } else {
-                this.nameTextView.setText("");
-            }
-            this.avatarDrawable.setInfo(this.currentAccount, this.currentUser);
-            this.imageView.setForUserOrChat(this.currentUser, this.avatarDrawable);
-        } else {
-            TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
-            if (charSequence != null) {
-                this.nameTextView.setText(charSequence);
-            } else if (chat != null) {
-                this.nameTextView.setText(chat.title);
-            } else {
-                this.nameTextView.setText("");
-            }
-            this.avatarDrawable.setInfo(this.currentAccount, chat);
-            this.currentUser = null;
-            this.imageView.setForUserOrChat(chat, this.avatarDrawable);
-        }
-        updatePremiumBlocked(false);
-        if (z) {
-            update(0);
-        }
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:41:0x008d  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x019f  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x019c  */
     @Override // android.view.ViewGroup
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -279,21 +178,23 @@ public class HintDialogCell extends FrameLayout {
                         this.lockDrawable.setBounds((int) (x - (((drawable.getIntrinsicWidth() / 2.0f) * 0.875f) * f)), (int) (y - (((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f) * f)), (int) (x + ((this.lockDrawable.getIntrinsicWidth() / 2.0f) * 0.875f * f)), (int) (y + ((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f * f)));
                         this.lockDrawable.setAlpha((int) (f * 255.0f));
                         this.lockDrawable.draw(canvas);
-                        canvas.restore();
-                    } else if (this.showOnlineProgress != 0.0f) {
-                        int dp = AndroidUtilities.dp(53.0f);
-                        int dp2 = AndroidUtilities.dp(59.0f);
-                        canvas.save();
-                        float f4 = this.showOnlineProgress;
-                        float f5 = dp2;
-                        float f6 = dp;
-                        canvas.scale(f4, f4, f5, f6);
-                        Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(this.backgroundColorKey));
-                        canvas.drawCircle(f5, f6, AndroidUtilities.dp(7.0f), Theme.dialogs_onlineCirclePaint);
-                        Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(Theme.key_chats_onlineCircle));
-                        canvas.drawCircle(f5, f6, AndroidUtilities.dp(5.0f), Theme.dialogs_onlineCirclePaint);
-                        canvas.restore();
+                    } else {
+                        if (this.showOnlineProgress != 0.0f) {
+                            int dp = AndroidUtilities.dp(53.0f);
+                            int dp2 = AndroidUtilities.dp(59.0f);
+                            canvas.save();
+                            float f4 = this.showOnlineProgress;
+                            float f5 = dp2;
+                            float f6 = dp;
+                            canvas.scale(f4, f4, f5, f6);
+                            Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(this.backgroundColorKey));
+                            canvas.drawCircle(f5, f6, AndroidUtilities.dp(7.0f), Theme.dialogs_onlineCirclePaint);
+                            Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(Theme.key_chats_onlineCircle));
+                            canvas.drawCircle(f5, f6, AndroidUtilities.dp(5.0f), Theme.dialogs_onlineCirclePaint);
+                        }
+                        this.wasDraw = true;
                     }
+                    canvas.restore();
                     this.wasDraw = true;
                 }
             }
@@ -311,9 +212,18 @@ public class HintDialogCell extends FrameLayout {
             f = this.premiumBlockedT.set(this.premiumBlocked);
             if (f <= 0.0f) {
             }
+            canvas.restore();
             this.wasDraw = true;
         }
         return drawChild;
+    }
+
+    public long getDialogId() {
+        return this.dialogId;
+    }
+
+    public boolean isBlocked() {
+        return this.premiumBlocked;
     }
 
     @Override // android.view.View
@@ -327,13 +237,108 @@ public class HintDialogCell extends FrameLayout {
         }
     }
 
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(86.0f), 1073741824));
+        this.counterView.counterDrawable.horizontalPadding = AndroidUtilities.dp(13.0f);
+    }
+
     public void setChecked(boolean z, boolean z2) {
         if (this.drawCheckbox) {
             this.checkBox.setChecked(z, z2);
         }
     }
 
-    public long getDialogId() {
-        return this.dialogId;
+    public void setColors(int i, int i2) {
+        this.nameTextView.setTextColor(Theme.getColor(i, this.resourcesProvider));
+        this.backgroundColorKey = i2;
+        this.checkBox.setColor(Theme.key_dialogRoundCheckBox, i2, Theme.key_dialogRoundCheckBoxCheck);
+    }
+
+    public void setDialog(long j, boolean z, CharSequence charSequence) {
+        if (this.dialogId != j) {
+            this.wasDraw = false;
+            invalidate();
+        }
+        this.dialogId = j;
+        if (DialogObject.isUserDialog(j)) {
+            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j));
+            this.currentUser = user;
+            if (charSequence != null) {
+                this.nameTextView.setText(charSequence);
+            } else if (user != null) {
+                this.nameTextView.setText(UserObject.getFirstName(user));
+            } else {
+                this.nameTextView.setText("");
+            }
+            this.avatarDrawable.setInfo(this.currentAccount, this.currentUser);
+            this.imageView.setForUserOrChat(this.currentUser, this.avatarDrawable);
+        } else {
+            TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
+            TextView textView = this.nameTextView;
+            if (charSequence == null) {
+                if (chat != null) {
+                    charSequence = chat.title;
+                } else {
+                    textView.setText("");
+                    this.avatarDrawable.setInfo(this.currentAccount, chat);
+                    this.currentUser = null;
+                    this.imageView.setForUserOrChat(chat, this.avatarDrawable);
+                }
+            }
+            textView.setText(charSequence);
+            this.avatarDrawable.setInfo(this.currentAccount, chat);
+            this.currentUser = null;
+            this.imageView.setForUserOrChat(chat, this.avatarDrawable);
+        }
+        updatePremiumBlocked(false);
+        if (z) {
+            update(0);
+        }
+    }
+
+    public void showPremiumBlocked() {
+        if (this.showPremiumBlocked) {
+            return;
+        }
+        this.showPremiumBlocked = true;
+        NotificationCenter.getInstance(this.currentAccount).listen(this, NotificationCenter.userIsPremiumBlockedUpadted, new Utilities.Callback() { // from class: org.telegram.ui.Cells.HintDialogCell$$ExternalSyntheticLambda0
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                HintDialogCell.this.lambda$showPremiumBlocked$1((Object[]) obj);
+            }
+        });
+    }
+
+    public void update() {
+        if (DialogObject.isUserDialog(this.dialogId)) {
+            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.dialogId));
+            this.currentUser = user;
+            this.avatarDrawable.setInfo(this.currentAccount, user);
+        } else {
+            this.avatarDrawable.setInfo(this.currentAccount, MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.dialogId)));
+            this.currentUser = null;
+        }
+        updatePremiumBlocked(true);
+    }
+
+    public void update(int i) {
+        int i2;
+        if ((MessagesController.UPDATE_MASK_STATUS & i) != 0 && this.currentUser != null) {
+            this.currentUser = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.currentUser.id));
+            this.imageView.invalidate();
+            invalidate();
+        }
+        if (i != 0 && (MessagesController.UPDATE_MASK_READ_DIALOG_MESSAGE & i) == 0 && (i & MessagesController.UPDATE_MASK_NEW_MESSAGE) == 0) {
+            return;
+        }
+        TLRPC$Dialog tLRPC$Dialog = (TLRPC$Dialog) MessagesController.getInstance(this.currentAccount).dialogs_dict.get(this.dialogId);
+        if (tLRPC$Dialog == null || (i2 = tLRPC$Dialog.unread_count) == 0) {
+            i2 = 0;
+        } else if (this.lastUnreadCount == i2) {
+            return;
+        }
+        this.lastUnreadCount = i2;
+        this.counterView.setCount(i2, this.wasDraw);
     }
 }

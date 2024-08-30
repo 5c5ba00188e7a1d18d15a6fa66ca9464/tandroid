@@ -6,9 +6,12 @@ import android.os.Process;
 import androidx.core.app.AppOpsManagerCompat;
 import androidx.core.util.ObjectsCompat;
 /* loaded from: classes.dex */
-public final class PermissionChecker {
+public abstract class PermissionChecker {
+    public static int checkCallingOrSelfPermission(Context context, String str) {
+        return checkPermission(context, str, Binder.getCallingPid(), Binder.getCallingUid(), Binder.getCallingPid() == Process.myPid() ? context.getPackageName() : null);
+    }
+
     public static int checkPermission(Context context, String str, int i, int i2, String str2) {
-        int noteProxyOpNoThrow;
         if (context.checkPermission(str, i, i2) == -1) {
             return -1;
         }
@@ -23,21 +26,10 @@ public final class PermissionChecker {
             }
             str2 = packagesForUid[0];
         }
-        int myUid = Process.myUid();
-        String packageName = context.getPackageName();
-        if (myUid == i2 && ObjectsCompat.equals(packageName, str2)) {
-            noteProxyOpNoThrow = AppOpsManagerCompat.checkOrNoteProxyOp(context, i2, permissionToOp, str2);
-        } else {
-            noteProxyOpNoThrow = AppOpsManagerCompat.noteProxyOpNoThrow(context, permissionToOp, str2);
-        }
-        return noteProxyOpNoThrow == 0 ? 0 : -2;
+        return ((Process.myUid() != i2 || !ObjectsCompat.equals(context.getPackageName(), str2)) ? AppOpsManagerCompat.noteProxyOpNoThrow(context, permissionToOp, str2) : AppOpsManagerCompat.checkOrNoteProxyOp(context, i2, permissionToOp, str2)) == 0 ? 0 : -2;
     }
 
     public static int checkSelfPermission(Context context, String str) {
         return checkPermission(context, str, Process.myPid(), Process.myUid(), context.getPackageName());
-    }
-
-    public static int checkCallingOrSelfPermission(Context context, String str) {
-        return checkPermission(context, str, Binder.getCallingPid(), Binder.getCallingUid(), Binder.getCallingPid() == Process.myPid() ? context.getPackageName() : null);
     }
 }

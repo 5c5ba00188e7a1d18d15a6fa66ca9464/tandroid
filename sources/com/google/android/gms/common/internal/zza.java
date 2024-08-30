@@ -3,7 +3,6 @@ package com.google.android.gms.common.internal;
 import android.app.PendingIntent;
 import android.os.Bundle;
 import com.google.android.gms.common.ConnectionResult;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 abstract class zza extends zzc {
     public final int zza;
@@ -19,6 +18,22 @@ abstract class zza extends zzc {
         this.zzb = bundle;
     }
 
+    @Override // com.google.android.gms.common.internal.zzc
+    protected final /* bridge */ /* synthetic */ void zza(Object obj) {
+        ConnectionResult connectionResult;
+        if (this.zza != 0) {
+            this.zzc.zzp(1, null);
+            Bundle bundle = this.zzb;
+            connectionResult = new ConnectionResult(this.zza, bundle != null ? (PendingIntent) bundle.getParcelable("pendingIntent") : null);
+        } else if (zzd()) {
+            return;
+        } else {
+            this.zzc.zzp(1, null);
+            connectionResult = new ConnectionResult(8, null);
+        }
+        zzb(connectionResult);
+    }
+
     protected abstract void zzb(ConnectionResult connectionResult);
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -27,17 +42,4 @@ abstract class zza extends zzc {
     }
 
     protected abstract boolean zzd();
-
-    @Override // com.google.android.gms.common.internal.zzc
-    protected final /* bridge */ /* synthetic */ void zza(Object obj) {
-        if (this.zza != 0) {
-            this.zzc.zzp(1, null);
-            Bundle bundle = this.zzb;
-            zzb(new ConnectionResult(this.zza, bundle != null ? (PendingIntent) bundle.getParcelable("pendingIntent") : null));
-        } else if (zzd()) {
-        } else {
-            this.zzc.zzp(1, null);
-            zzb(new ConnectionResult(8, null));
-        }
-    }
 }

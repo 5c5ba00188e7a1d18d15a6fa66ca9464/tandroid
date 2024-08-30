@@ -5,16 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public abstract class zzds extends zzdp implements List, RandomAccess {
     private static final zzdv zza = new zzdq(zzdt.zza, 0);
 
     static zzds zzi(Object[] objArr, int i) {
-        if (i == 0) {
-            return zzdt.zza;
-        }
-        return new zzdt(objArr, i);
+        return i == 0 ? zzdt.zza : new zzdt(objArr, i);
     }
 
     public static zzds zzj(Collection collection) {
@@ -41,13 +37,11 @@ public abstract class zzds extends zzdp implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    @Deprecated
     public final void add(int i, Object obj) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.List
-    @Deprecated
     public final boolean addAll(int i, Collection collection) {
         throw new UnsupportedOperationException();
     }
@@ -117,7 +111,7 @@ public abstract class zzds extends zzdp implements List, RandomAccess {
         return -1;
     }
 
-    @Override // com.google.android.gms.internal.location.zzdp, java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
+    @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.List
     public final /* synthetic */ Iterator iterator() {
         return listIterator(0);
     }
@@ -141,13 +135,11 @@ public abstract class zzds extends zzdp implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    @Deprecated
     public final Object remove(int i) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.List
-    @Deprecated
     public final Object set(int i, Object obj) {
         throw new UnsupportedOperationException();
     }
@@ -162,14 +154,8 @@ public abstract class zzds extends zzdp implements List, RandomAccess {
     }
 
     @Override // com.google.android.gms.internal.location.zzdp
-    @Deprecated
     public final zzds zzd() {
         return this;
-    }
-
-    @Override // com.google.android.gms.internal.location.zzdp
-    public final zzdu zze() {
-        return listIterator(0);
     }
 
     @Override // java.util.List
@@ -177,13 +163,7 @@ public abstract class zzds extends zzdp implements List, RandomAccess {
     public zzds subList(int i, int i2) {
         zzdm.zzc(i, i2, size());
         int i3 = i2 - i;
-        if (i3 == size()) {
-            return this;
-        }
-        if (i3 != 0) {
-            return new zzdr(this, i, i3);
-        }
-        return zzdt.zza;
+        return i3 == size() ? this : i3 == 0 ? zzdt.zza : new zzdr(this, i, i3);
     }
 
     @Override // java.util.List

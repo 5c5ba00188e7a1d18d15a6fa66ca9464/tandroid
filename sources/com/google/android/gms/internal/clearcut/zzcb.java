@@ -70,7 +70,7 @@ public final class zzcb {
     private final int id;
     private final zzcq zzix;
     private final zzcd zziy;
-    private final Class<?> zziz;
+    private final Class zziz;
     private final boolean zzja;
 
     static {

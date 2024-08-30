@@ -6,7 +6,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class BinaryFrame extends Id3Frame {
-    public static final Parcelable.Creator<BinaryFrame> CREATOR = new Parcelable.Creator<BinaryFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.BinaryFrame.1
+    public static final Parcelable.Creator<BinaryFrame> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.id3.BinaryFrame.1
         @Override // android.os.Parcelable.Creator
         public BinaryFrame createFromParcel(Parcel parcel) {
             return new BinaryFrame(parcel);
@@ -19,14 +19,14 @@ public final class BinaryFrame extends Id3Frame {
     };
     public final byte[] data;
 
-    public BinaryFrame(String str, byte[] bArr) {
-        super(str);
-        this.data = bArr;
-    }
-
     BinaryFrame(Parcel parcel) {
         super((String) Util.castNonNull(parcel.readString()));
         this.data = (byte[]) Util.castNonNull(parcel.createByteArray());
+    }
+
+    public BinaryFrame(String str, byte[] bArr) {
+        super(str);
+        this.data = bArr;
     }
 
     public boolean equals(Object obj) {

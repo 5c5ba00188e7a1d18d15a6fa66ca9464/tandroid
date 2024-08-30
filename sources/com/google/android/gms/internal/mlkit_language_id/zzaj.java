@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import org.telegram.messenger.NotificationCenter;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public enum zzaj implements zzet {
     zzd(0),
@@ -126,13 +125,12 @@ public enum zzaj implements zzet {
     zzdp(361),
     zzdq(371);
     
-    private static final zzes<zzaj> zzdr = new zzes<zzaj>() { // from class: com.google.android.gms.internal.mlkit_language_id.zzam
+    private static final zzes zzdr = new zzes() { // from class: com.google.android.gms.internal.mlkit_language_id.zzam
     };
     private final int zzds;
 
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzet
-    public final int zza() {
-        return this.zzds;
+    zzaj(int i) {
+        this.zzds = i;
     }
 
     public static zzev zzb() {
@@ -144,7 +142,8 @@ public enum zzaj implements zzet {
         return "<" + zzaj.class.getName() + '@' + Integer.toHexString(System.identityHashCode(this)) + " number=" + this.zzds + " name=" + name() + '>';
     }
 
-    zzaj(int i) {
-        this.zzds = i;
+    @Override // com.google.android.gms.internal.mlkit_language_id.zzet
+    public final int zza() {
+        return this.zzds;
     }
 }

@@ -9,12 +9,11 @@ import java.util.logging.Logger;
 import org.telegram.messenger.NotificationCenter;
 import sun.misc.Unsafe;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public final class zzma {
+public abstract class zzma {
     static final boolean zza;
     private static final Unsafe zzb;
-    private static final Class<?> zzc;
+    private static final Class zzc;
     private static final boolean zzd;
     private static final boolean zze;
     private static final zzd zzf;
@@ -36,10 +35,6 @@ public final class zzma {
     private static final long zzv;
     private static final int zzw;
 
-    private zzma() {
-    }
-
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
     private static final class zza extends zzd {
         zza(Unsafe unsafe) {
@@ -48,10 +43,7 @@ public final class zzma {
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
         public final byte zza(Object obj, long j) {
-            if (zzma.zza) {
-                return zzma.zzk(obj, j);
-            }
-            return zzma.zzl(obj, j);
+            return zzma.zza ? zzma.zzk(obj, j) : zzma.zzl(obj, j);
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
@@ -64,11 +56,13 @@ public final class zzma {
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
-        public final boolean zzb(Object obj, long j) {
-            if (zzma.zza) {
-                return zzma.zzm(obj, j);
-            }
-            return zzma.zzn(obj, j);
+        public final void zza(Object obj, long j, double d) {
+            zza(obj, j, Double.doubleToLongBits(d));
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzma.zzd
+        public final void zza(Object obj, long j, float f) {
+            zza(obj, j, Float.floatToIntBits(f));
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
@@ -81,27 +75,21 @@ public final class zzma {
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
-        public final float zzc(Object obj, long j) {
-            return Float.intBitsToFloat(zze(obj, j));
+        public final boolean zzb(Object obj, long j) {
+            return zzma.zza ? zzma.zzm(obj, j) : zzma.zzn(obj, j);
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
-        public final void zza(Object obj, long j, float f) {
-            zza(obj, j, Float.floatToIntBits(f));
+        public final float zzc(Object obj, long j) {
+            return Float.intBitsToFloat(zze(obj, j));
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
         public final double zzd(Object obj, long j) {
             return Double.longBitsToDouble(zzf(obj, j));
         }
-
-        @Override // com.google.android.gms.internal.vision.zzma.zzd
-        public final void zza(Object obj, long j, double d) {
-            zza(obj, j, Double.doubleToLongBits(d));
-        }
     }
 
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
     private static final class zzb extends zzd {
         zzb(Unsafe unsafe) {
@@ -119,18 +107,8 @@ public final class zzma {
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
-        public final boolean zzb(Object obj, long j) {
-            return this.zza.getBoolean(obj, j);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzma.zzd
-        public final void zza(Object obj, long j, boolean z) {
-            this.zza.putBoolean(obj, j, z);
-        }
-
-        @Override // com.google.android.gms.internal.vision.zzma.zzd
-        public final float zzc(Object obj, long j) {
-            return this.zza.getFloat(obj, j);
+        public final void zza(Object obj, long j, double d) {
+            this.zza.putDouble(obj, j, d);
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
@@ -139,17 +117,26 @@ public final class zzma {
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
-        public final double zzd(Object obj, long j) {
-            return this.zza.getDouble(obj, j);
+        public final void zza(Object obj, long j, boolean z) {
+            this.zza.putBoolean(obj, j, z);
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
-        public final void zza(Object obj, long j, double d) {
-            this.zza.putDouble(obj, j, d);
+        public final boolean zzb(Object obj, long j) {
+            return this.zza.getBoolean(obj, j);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzma.zzd
+        public final float zzc(Object obj, long j) {
+            return this.zza.getFloat(obj, j);
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzma.zzd
+        public final double zzd(Object obj, long j) {
+            return this.zza.getDouble(obj, j);
         }
     }
 
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
     private static final class zzc extends zzd {
         zzc(Unsafe unsafe) {
@@ -158,10 +145,7 @@ public final class zzma {
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
         public final byte zza(Object obj, long j) {
-            if (zzma.zza) {
-                return zzma.zzk(obj, j);
-            }
-            return zzma.zzl(obj, j);
+            return zzma.zza ? zzma.zzk(obj, j) : zzma.zzl(obj, j);
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
@@ -174,11 +158,13 @@ public final class zzma {
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
-        public final boolean zzb(Object obj, long j) {
-            if (zzma.zza) {
-                return zzma.zzm(obj, j);
-            }
-            return zzma.zzn(obj, j);
+        public final void zza(Object obj, long j, double d) {
+            zza(obj, j, Double.doubleToLongBits(d));
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzma.zzd
+        public final void zza(Object obj, long j, float f) {
+            zza(obj, j, Float.floatToIntBits(f));
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
@@ -191,33 +177,22 @@ public final class zzma {
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
-        public final float zzc(Object obj, long j) {
-            return Float.intBitsToFloat(zze(obj, j));
+        public final boolean zzb(Object obj, long j) {
+            return zzma.zza ? zzma.zzm(obj, j) : zzma.zzn(obj, j);
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
-        public final void zza(Object obj, long j, float f) {
-            zza(obj, j, Float.floatToIntBits(f));
+        public final float zzc(Object obj, long j) {
+            return Float.intBitsToFloat(zze(obj, j));
         }
 
         @Override // com.google.android.gms.internal.vision.zzma.zzd
         public final double zzd(Object obj, long j) {
             return Double.longBitsToDouble(zzf(obj, j));
         }
-
-        @Override // com.google.android.gms.internal.vision.zzma.zzd
-        public final void zza(Object obj, long j, double d) {
-            zza(obj, j, Double.doubleToLongBits(d));
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zza() {
-        return zzh;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
     public static abstract class zzd {
         Unsafe zza;
@@ -234,6 +209,14 @@ public final class zzma {
 
         public abstract void zza(Object obj, long j, float f);
 
+        public final void zza(Object obj, long j, int i) {
+            this.zza.putInt(obj, j, i);
+        }
+
+        public final void zza(Object obj, long j, long j2) {
+            this.zza.putLong(obj, j, j2);
+        }
+
         public abstract void zza(Object obj, long j, boolean z);
 
         public abstract boolean zzb(Object obj, long j);
@@ -246,105 +229,50 @@ public final class zzma {
             return this.zza.getInt(obj, j);
         }
 
-        public final void zza(Object obj, long j, int i) {
-            this.zza.putInt(obj, j, i);
-        }
-
         public final long zzf(Object obj, long j) {
             return this.zza.getLong(obj, j);
         }
+    }
 
-        public final void zza(Object obj, long j, long j2) {
-            this.zza.putLong(obj, j, j2);
+    static {
+        Unsafe zzc2 = zzc();
+        zzb = zzc2;
+        zzc = zzhi.zzb();
+        boolean zzd2 = zzd(Long.TYPE);
+        zzd = zzd2;
+        boolean zzd3 = zzd(Integer.TYPE);
+        zze = zzd3;
+        zzd zzdVar = null;
+        if (zzc2 != null) {
+            if (!zzhi.zza()) {
+                zzdVar = new zzb(zzc2);
+            } else if (zzd2) {
+                zzdVar = new zzc(zzc2);
+            } else if (zzd3) {
+                zzdVar = new zza(zzc2);
+            }
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zzb() {
-        return zzg;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static <T> T zza(Class<T> cls) {
-        try {
-            return (T) zzb.allocateInstance(cls);
-        } catch (InstantiationException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    private static int zzb(Class<?> cls) {
-        if (zzh) {
-            return zzf.zza.arrayBaseOffset(cls);
-        }
-        return -1;
-    }
-
-    private static int zzc(Class<?> cls) {
-        if (zzh) {
-            return zzf.zza.arrayIndexScale(cls);
-        }
-        return -1;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(Object obj, long j) {
-        return zzf.zze(obj, j);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(Object obj, long j, int i) {
-        zzf.zza(obj, j, i);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static long zzb(Object obj, long j) {
-        return zzf.zzf(obj, j);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(Object obj, long j, long j2) {
-        zzf.zza(obj, j, j2);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zzc(Object obj, long j) {
-        return zzf.zzb(obj, j);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(Object obj, long j, boolean z) {
-        zzf.zza(obj, j, z);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static float zzd(Object obj, long j) {
-        return zzf.zzc(obj, j);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(Object obj, long j, float f) {
-        zzf.zza(obj, j, f);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static double zze(Object obj, long j) {
-        return zzf.zzd(obj, j);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(Object obj, long j, double d) {
-        zzf.zza(obj, j, d);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zzf(Object obj, long j) {
-        return zzf.zza.getObject(obj, j);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(Object obj, long j, Object obj2) {
-        zzf.zza.putObject(obj, j, obj2);
+        zzf = zzdVar;
+        zzg = zze();
+        zzh = zzd();
+        long zzb2 = zzb(byte[].class);
+        zzi = zzb2;
+        zzj = zzb(boolean[].class);
+        zzk = zzc(boolean[].class);
+        zzl = zzb(int[].class);
+        zzm = zzc(int[].class);
+        zzn = zzb(long[].class);
+        zzo = zzc(long[].class);
+        zzp = zzb(float[].class);
+        zzq = zzc(float[].class);
+        zzr = zzb(double[].class);
+        zzs = zzc(double[].class);
+        zzt = zzb(Object[].class);
+        zzu = zzc(Object[].class);
+        Field zzf2 = zzf();
+        zzv = (zzf2 == null || zzdVar == null) ? -1L : zzdVar.zza.objectFieldOffset(zzf2);
+        zzw = (int) (zzb2 & 7);
+        zza = ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -353,8 +281,89 @@ public final class zzma {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
+    public static int zza(Object obj, long j) {
+        return zzf.zze(obj, j);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static Object zza(Class cls) {
+        try {
+            return zzb.allocateInstance(cls);
+        } catch (InstantiationException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    private static Field zza(Class cls, String str) {
+        try {
+            return cls.getDeclaredField(str);
+        } catch (Throwable unused) {
+            return null;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void zza(Object obj, long j, double d) {
+        zzf.zza(obj, j, d);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void zza(Object obj, long j, float f) {
+        zzf.zza(obj, j, f);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void zza(Object obj, long j, int i) {
+        zzf.zza(obj, j, i);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void zza(Object obj, long j, long j2) {
+        zzf.zza(obj, j, j2);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void zza(Object obj, long j, Object obj2) {
+        zzf.zza.putObject(obj, j, obj2);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void zza(Object obj, long j, boolean z) {
+        zzf.zza(obj, j, z);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void zza(byte[] bArr, long j, byte b) {
         zzf.zza((Object) bArr, zzi + j, b);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static boolean zza() {
+        return zzh;
+    }
+
+    private static int zzb(Class cls) {
+        if (zzh) {
+            return zzf.zza.arrayBaseOffset(cls);
+        }
+        return -1;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static long zzb(Object obj, long j) {
+        return zzf.zzf(obj, j);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static boolean zzb() {
+        return zzg;
+    }
+
+    private static int zzc(Class cls) {
+        if (zzh) {
+            return zzf.zza.arrayIndexScale(cls);
+        }
+        return -1;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -364,6 +373,35 @@ public final class zzma {
         } catch (Throwable unused) {
             return null;
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void zzc(Object obj, long j, byte b) {
+        long j2 = (-4) & j;
+        int i = ((((int) j) ^ (-1)) & 3) << 3;
+        zza(obj, j2, ((255 & b) << i) | (zza(obj, j2) & ((NotificationCenter.voipServiceCreated << i) ^ (-1))));
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static boolean zzc(Object obj, long j) {
+        return zzf.zzb(obj, j);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static float zzd(Object obj, long j) {
+        return zzf.zzc(obj, j);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void zzd(Object obj, long j, byte b) {
+        long j2 = (-4) & j;
+        int i = (((int) j) & 3) << 3;
+        zza(obj, j2, ((255 & b) << i) | (zza(obj, j2) & ((NotificationCenter.voipServiceCreated << i) ^ (-1))));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void zzd(Object obj, long j, boolean z) {
+        zzc(obj, j, z ? (byte) 1 : (byte) 0);
     }
 
     private static boolean zzd() {
@@ -407,6 +445,39 @@ public final class zzma {
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    private static boolean zzd(Class cls) {
+        if (zzhi.zza()) {
+            try {
+                Class cls2 = zzc;
+                Class cls3 = Boolean.TYPE;
+                cls2.getMethod("peekLong", cls, cls3);
+                cls2.getMethod("pokeLong", cls, Long.TYPE, cls3);
+                Class cls4 = Integer.TYPE;
+                cls2.getMethod("pokeInt", cls, cls4, cls3);
+                cls2.getMethod("peekInt", cls, cls3);
+                cls2.getMethod("pokeByte", cls, Byte.TYPE);
+                cls2.getMethod("peekByte", cls);
+                cls2.getMethod("pokeByteArray", cls, byte[].class, cls4, cls4);
+                cls2.getMethod("peekByteArray", cls, byte[].class, cls4, cls4);
+                return true;
+            } catch (Throwable unused) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static double zze(Object obj, long j) {
+        return zzf.zzd(obj, j);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void zze(Object obj, long j, boolean z) {
+        zzd(obj, j, z ? (byte) 1 : (byte) 0);
+    }
+
     private static boolean zze() {
         Unsafe unsafe = zzb;
         if (unsafe == null) {
@@ -444,26 +515,9 @@ public final class zzma {
         }
     }
 
-    private static boolean zzd(Class<?> cls) {
-        if (zzhi.zza()) {
-            try {
-                Class<?> cls2 = zzc;
-                Class<?> cls3 = Boolean.TYPE;
-                cls2.getMethod("peekLong", cls, cls3);
-                cls2.getMethod("pokeLong", cls, Long.TYPE, cls3);
-                Class<?> cls4 = Integer.TYPE;
-                cls2.getMethod("pokeInt", cls, cls4, cls3);
-                cls2.getMethod("peekInt", cls, cls3);
-                cls2.getMethod("pokeByte", cls, Byte.TYPE);
-                cls2.getMethod("peekByte", cls);
-                cls2.getMethod("pokeByteArray", cls, byte[].class, cls4, cls4);
-                cls2.getMethod("peekByteArray", cls, byte[].class, cls4, cls4);
-                return true;
-            } catch (Throwable unused) {
-                return false;
-            }
-        }
-        return false;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static Object zzf(Object obj, long j) {
+        return zzf.zza.getObject(obj, j);
     }
 
     private static Field zzf() {
@@ -478,14 +532,6 @@ public final class zzma {
         return zza2;
     }
 
-    private static Field zza(Class<?> cls, String str) {
-        try {
-            return cls.getDeclaredField(str);
-        } catch (Throwable unused) {
-            return null;
-        }
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
     public static byte zzk(Object obj, long j) {
         return (byte) (zza(obj, (-4) & j) >>> ((int) (((j ^ (-1)) & 3) << 3)));
@@ -497,20 +543,6 @@ public final class zzma {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static void zzc(Object obj, long j, byte b) {
-        long j2 = (-4) & j;
-        int i = ((((int) j) ^ (-1)) & 3) << 3;
-        zza(obj, j2, ((255 & b) << i) | (zza(obj, j2) & ((NotificationCenter.voipServiceCreated << i) ^ (-1))));
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static void zzd(Object obj, long j, byte b) {
-        long j2 = (-4) & j;
-        int i = (((int) j) & 3) << 3;
-        zza(obj, j2, ((255 & b) << i) | (zza(obj, j2) & ((NotificationCenter.voipServiceCreated << i) ^ (-1))));
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
     public static boolean zzm(Object obj, long j) {
         return zzk(obj, j) != 0;
     }
@@ -518,56 +550,5 @@ public final class zzma {
     /* JADX INFO: Access modifiers changed from: private */
     public static boolean zzn(Object obj, long j) {
         return zzl(obj, j) != 0;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static void zzd(Object obj, long j, boolean z) {
-        zzc(obj, j, z ? (byte) 1 : (byte) 0);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static void zze(Object obj, long j, boolean z) {
-        zzd(obj, j, z ? (byte) 1 : (byte) 0);
-    }
-
-    static {
-        Unsafe zzc2 = zzc();
-        zzb = zzc2;
-        zzc = zzhi.zzb();
-        boolean zzd2 = zzd(Long.TYPE);
-        zzd = zzd2;
-        boolean zzd3 = zzd(Integer.TYPE);
-        zze = zzd3;
-        zzd zzdVar = null;
-        if (zzc2 != null) {
-            if (!zzhi.zza()) {
-                zzdVar = new zzb(zzc2);
-            } else if (zzd2) {
-                zzdVar = new zzc(zzc2);
-            } else if (zzd3) {
-                zzdVar = new zza(zzc2);
-            }
-        }
-        zzf = zzdVar;
-        zzg = zze();
-        zzh = zzd();
-        long zzb2 = zzb(byte[].class);
-        zzi = zzb2;
-        zzj = zzb(boolean[].class);
-        zzk = zzc(boolean[].class);
-        zzl = zzb(int[].class);
-        zzm = zzc(int[].class);
-        zzn = zzb(long[].class);
-        zzo = zzc(long[].class);
-        zzp = zzb(float[].class);
-        zzq = zzc(float[].class);
-        zzr = zzb(double[].class);
-        zzs = zzc(double[].class);
-        zzt = zzb(Object[].class);
-        zzu = zzc(Object[].class);
-        Field zzf2 = zzf();
-        zzv = (zzf2 == null || zzdVar == null) ? -1L : zzdVar.zza.objectFieldOffset(zzf2);
-        zzw = (int) (zzb2 & 7);
-        zza = ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN;
     }
 }

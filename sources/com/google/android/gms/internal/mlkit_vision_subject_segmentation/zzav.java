@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public abstract class zzav extends zzaq implements List, RandomAccess {
     public static final /* synthetic */ int $r8$clinit = 0;
@@ -13,10 +12,7 @@ public abstract class zzav extends zzaq implements List, RandomAccess {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static zzav zzg(Object[] objArr, int i) {
-        if (i == 0) {
-            return zzbl.zza;
-        }
-        return new zzbl(objArr, i);
+        return i == 0 ? zzbl.zza : new zzbl(objArr, i);
     }
 
     public static zzav zzh(Collection collection) {
@@ -33,13 +29,11 @@ public abstract class zzav extends zzaq implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    @Deprecated
     public final void add(int i, Object obj) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.List
-    @Deprecated
     public final boolean addAll(int i, Collection collection) {
         throw new UnsupportedOperationException();
     }
@@ -133,13 +127,11 @@ public abstract class zzav extends zzaq implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    @Deprecated
     public final Object remove(int i) {
         throw new UnsupportedOperationException();
     }
 
     @Override // java.util.List
-    @Deprecated
     public final Object set(int i, Object obj) {
         throw new UnsupportedOperationException();
     }
@@ -159,13 +151,7 @@ public abstract class zzav extends zzaq implements List, RandomAccess {
     public zzav subList(int i, int i2) {
         zzi.zzc(i, i2, size());
         int i3 = i2 - i;
-        if (i3 == size()) {
-            return this;
-        }
-        if (i3 != 0) {
-            return new zzau(this, i, i3);
-        }
-        return zzbl.zza;
+        return i3 == size() ? this : i3 == 0 ? zzbl.zza : new zzau(this, i, i3);
     }
 
     @Override // java.util.List

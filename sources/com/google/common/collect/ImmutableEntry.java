@@ -2,28 +2,28 @@ package com.google.common.collect;
 
 import java.io.Serializable;
 /* loaded from: classes.dex */
-class ImmutableEntry<K, V> extends AbstractMapEntry<K, V> implements Serializable {
-    final K key;
-    final V value;
+class ImmutableEntry extends AbstractMapEntry implements Serializable {
+    final Object key;
+    final Object value;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public ImmutableEntry(K k, V v) {
-        this.key = k;
-        this.value = v;
+    public ImmutableEntry(Object obj, Object obj2) {
+        this.key = obj;
+        this.value = obj2;
     }
 
     @Override // com.google.common.collect.AbstractMapEntry, java.util.Map.Entry
-    public final K getKey() {
+    public final Object getKey() {
         return this.key;
     }
 
     @Override // com.google.common.collect.AbstractMapEntry, java.util.Map.Entry
-    public final V getValue() {
+    public final Object getValue() {
         return this.value;
     }
 
     @Override // java.util.Map.Entry
-    public final V setValue(V v) {
+    public final Object setValue(Object obj) {
         throw new UnsupportedOperationException();
     }
 }

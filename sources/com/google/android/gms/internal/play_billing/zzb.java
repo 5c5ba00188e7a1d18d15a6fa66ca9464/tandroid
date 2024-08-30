@@ -9,9 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONException;
 import org.telegram.messenger.OneUIUtilities;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-public final class zzb {
+public abstract class zzb {
     public static final int zza = Runtime.getRuntime().availableProcessors();
 
     public static int zza(Intent intent, String str) {
@@ -23,20 +22,22 @@ public final class zzb {
     }
 
     public static int zzb(Bundle bundle, String str) {
+        String concat;
         if (bundle == null) {
-            zzj(str, "Unexpected null bundle received!");
-            return 6;
-        }
-        Object obj = bundle.get("RESPONSE_CODE");
-        if (obj == null) {
-            zzi(str, "getResponseCodeFromBundle() got null response code, assuming OK");
-            return 0;
-        } else if (obj instanceof Integer) {
-            return ((Integer) obj).intValue();
+            concat = "Unexpected null bundle received!";
         } else {
-            zzj(str, "Unexpected type for bundle response code: ".concat(obj.getClass().getName()));
-            return 6;
+            Object obj = bundle.get("RESPONSE_CODE");
+            if (obj == null) {
+                zzi(str, "getResponseCodeFromBundle() got null response code, assuming OK");
+                return 0;
+            } else if (obj instanceof Integer) {
+                return ((Integer) obj).intValue();
+            } else {
+                concat = "Unexpected type for bundle response code: ".concat(obj.getClass().getName());
+            }
         }
+        zzj(str, concat);
+        return 6;
     }
 
     public static Bundle zzc(boolean z, boolean z2, boolean z3, boolean z4, String str) {
@@ -49,16 +50,16 @@ public final class zzb {
     }
 
     public static BillingResult zzd(Intent intent, String str) {
-        if (intent == null) {
-            zzj("BillingHelper", "Got null intent!");
+        if (intent != null) {
             BillingResult.Builder newBuilder = BillingResult.newBuilder();
-            newBuilder.setResponseCode(6);
-            newBuilder.setDebugMessage("An internal error occurred.");
+            newBuilder.setResponseCode(zzb(intent.getExtras(), str));
+            newBuilder.setDebugMessage(zzf(intent.getExtras(), str));
             return newBuilder.build();
         }
+        zzj("BillingHelper", "Got null intent!");
         BillingResult.Builder newBuilder2 = BillingResult.newBuilder();
-        newBuilder2.setResponseCode(zzb(intent.getExtras(), str));
-        newBuilder2.setDebugMessage(zzf(intent.getExtras(), str));
+        newBuilder2.setResponseCode(6);
+        newBuilder2.setDebugMessage("An internal error occurred.");
         return newBuilder2.build();
     }
 
@@ -109,17 +110,17 @@ public final class zzb {
 
     public static void zzi(String str, String str2) {
         if (Log.isLoggable(str, 2)) {
-            if (!str2.isEmpty()) {
-                int i = OneUIUtilities.ONE_UI_4_0;
-                while (!str2.isEmpty() && i > 0) {
-                    int min = Math.min(str2.length(), Math.min(4000, i));
-                    Log.v(str, str2.substring(0, min));
-                    str2 = str2.substring(min);
-                    i -= min;
-                }
+            if (str2.isEmpty()) {
+                Log.v(str, str2);
                 return;
             }
-            Log.v(str, str2);
+            int i = OneUIUtilities.ONE_UI_4_0;
+            while (!str2.isEmpty() && i > 0) {
+                int min = Math.min(str2.length(), Math.min(4000, i));
+                Log.v(str, str2.substring(0, min));
+                str2 = str2.substring(min);
+                i -= min;
+            }
         }
     }
 

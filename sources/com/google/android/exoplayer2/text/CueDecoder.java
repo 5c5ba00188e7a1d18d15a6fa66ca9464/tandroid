@@ -8,7 +8,7 @@ import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public final class CueDecoder {
-    public ImmutableList<Cue> decode(byte[] bArr) {
+    public ImmutableList decode(byte[] bArr) {
         Parcel obtain = Parcel.obtain();
         obtain.unmarshall(bArr, 0, bArr.length);
         obtain.setDataPosition(0);

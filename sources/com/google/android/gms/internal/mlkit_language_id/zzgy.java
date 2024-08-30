@@ -3,7 +3,6 @@ package com.google.android.gms.internal.mlkit_language_id;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 final class zzgy implements Iterator {
     private int zza;
@@ -14,6 +13,20 @@ final class zzgy implements Iterator {
     private zzgy(zzgq zzgqVar) {
         this.zzd = zzgqVar;
         this.zza = -1;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public /* synthetic */ zzgy(zzgq zzgqVar, zzgt zzgtVar) {
+        this(zzgqVar);
+    }
+
+    private final Iterator zza() {
+        Map map;
+        if (this.zzc == null) {
+            map = this.zzd.zzc;
+            this.zzc = map.entrySet().iterator();
+        }
+        return this.zzc;
     }
 
     @Override // java.util.Iterator
@@ -32,6 +45,24 @@ final class zzgy implements Iterator {
     }
 
     @Override // java.util.Iterator
+    public final /* synthetic */ Object next() {
+        List list;
+        Object next;
+        List list2;
+        this.zzb = true;
+        int i = this.zza + 1;
+        this.zza = i;
+        list = this.zzd.zzb;
+        if (i < list.size()) {
+            list2 = this.zzd.zzb;
+            next = list2.get(this.zza);
+        } else {
+            next = zza().next();
+        }
+        return (Map.Entry) next;
+    }
+
+    @Override // java.util.Iterator
     public final void remove() {
         List list;
         if (!this.zzb) {
@@ -41,42 +72,13 @@ final class zzgy implements Iterator {
         this.zzd.zzf();
         int i = this.zza;
         list = this.zzd.zzb;
-        if (i < list.size()) {
-            zzgq zzgqVar = this.zzd;
-            int i2 = this.zza;
-            this.zza = i2 - 1;
-            zzgqVar.zzc(i2);
+        if (i >= list.size()) {
+            zza().remove();
             return;
         }
-        zza().remove();
-    }
-
-    private final Iterator zza() {
-        Map map;
-        if (this.zzc == null) {
-            map = this.zzd.zzc;
-            this.zzc = map.entrySet().iterator();
-        }
-        return this.zzc;
-    }
-
-    @Override // java.util.Iterator
-    public final /* synthetic */ Object next() {
-        List list;
-        List list2;
-        this.zzb = true;
-        int i = this.zza + 1;
-        this.zza = i;
-        list = this.zzd.zzb;
-        if (i >= list.size()) {
-            return (Map.Entry) zza().next();
-        }
-        list2 = this.zzd.zzb;
-        return (Map.Entry) list2.get(this.zza);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzgy(zzgq zzgqVar, zzgt zzgtVar) {
-        this(zzgqVar);
+        zzgq zzgqVar = this.zzd;
+        int i2 = this.zza;
+        this.zza = i2 - 1;
+        zzgqVar.zzc(i2);
     }
 }

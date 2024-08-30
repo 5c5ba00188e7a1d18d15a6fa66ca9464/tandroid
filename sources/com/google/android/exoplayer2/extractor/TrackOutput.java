@@ -3,21 +3,13 @@ package com.google.android.exoplayer2.extractor;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.upstream.DataReader;
 import com.google.android.exoplayer2.util.ParsableByteArray;
-import java.io.IOException;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public interface TrackOutput {
-    void format(Format format);
 
-    int sampleData(DataReader dataReader, int i, boolean z) throws IOException;
-
-    int sampleData(DataReader dataReader, int i, boolean z, int i2) throws IOException;
-
-    void sampleData(ParsableByteArray parsableByteArray, int i);
-
-    void sampleData(ParsableByteArray parsableByteArray, int i, int i2);
-
-    void sampleMetadata(long j, int i, int i2, int i3, CryptoData cryptoData);
+    /* loaded from: classes.dex */
+    public abstract /* synthetic */ class -CC {
+    }
 
     /* loaded from: classes.dex */
     public static final class CryptoData {
@@ -49,7 +41,15 @@ public interface TrackOutput {
         }
     }
 
-    /* loaded from: classes.dex */
-    public final /* synthetic */ class -CC {
-    }
+    void format(Format format);
+
+    int sampleData(DataReader dataReader, int i, boolean z);
+
+    int sampleData(DataReader dataReader, int i, boolean z, int i2);
+
+    void sampleData(ParsableByteArray parsableByteArray, int i);
+
+    void sampleData(ParsableByteArray parsableByteArray, int i, int i2);
+
+    void sampleMetadata(long j, int i, int i2, int i3, CryptoData cryptoData);
 }

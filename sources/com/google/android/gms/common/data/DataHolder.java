@@ -5,14 +5,11 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
-import com.google.android.gms.common.annotation.KeepName;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.HashMap;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
-@KeepName
 /* loaded from: classes.dex */
 public final class DataHolder extends AbstractSafeParcelable implements Closeable {
     public static final Parcelable.Creator<DataHolder> CREATOR = new zaf();
@@ -28,7 +25,6 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
     boolean zae = false;
     private boolean zak = true;
 
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
     public static class Builder {
         private final String[] zaa;
@@ -67,7 +63,7 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
         }
     }
 
-    protected final void finalize() throws Throwable {
+    protected final void finalize() {
         try {
             if (this.zak && this.zah.length > 0 && !isClosed()) {
                 close();

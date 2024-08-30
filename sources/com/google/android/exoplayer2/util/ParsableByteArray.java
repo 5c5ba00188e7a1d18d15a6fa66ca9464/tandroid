@@ -10,7 +10,7 @@ import java.util.Arrays;
 public final class ParsableByteArray {
     private static final char[] CR_AND_LF = {'\r', '\n'};
     private static final char[] LF = {'\n'};
-    private static final ImmutableSet<Charset> SUPPORTED_CHARSETS_FOR_READLINE = ImmutableSet.of(Charsets.US_ASCII, Charsets.UTF_8, Charsets.UTF_16, Charsets.UTF_16BE, Charsets.UTF_16LE);
+    private static final ImmutableSet SUPPORTED_CHARSETS_FOR_READLINE = ImmutableSet.of((Object) Charsets.US_ASCII, (Object) Charsets.UTF_8, (Object) Charsets.UTF_16, (Object) Charsets.UTF_16BE, (Object) Charsets.UTF_16LE);
     private byte[] data;
     private int limit;
     private int position;
@@ -34,18 +34,78 @@ public final class ParsableByteArray {
         this.limit = i;
     }
 
-    public void reset(int i) {
-        reset(capacity() < i ? new byte[i] : this.data, i);
+    private int findNextLineTerminator(Charset charset) {
+        int i;
+        if (charset.equals(Charsets.UTF_8) || charset.equals(Charsets.US_ASCII)) {
+            i = 1;
+        } else if (!charset.equals(Charsets.UTF_16) && !charset.equals(Charsets.UTF_16LE) && !charset.equals(Charsets.UTF_16BE)) {
+            throw new IllegalArgumentException("Unsupported charset: " + charset);
+        } else {
+            i = 2;
+        }
+        int i2 = this.position;
+        while (true) {
+            int i3 = this.limit;
+            if (i2 >= i3 - (i - 1)) {
+                return i3;
+            }
+            if ((charset.equals(Charsets.UTF_8) || charset.equals(Charsets.US_ASCII)) && Util.isLinebreak(this.data[i2])) {
+                return i2;
+            }
+            if (charset.equals(Charsets.UTF_16) || charset.equals(Charsets.UTF_16BE)) {
+                byte[] bArr = this.data;
+                if (bArr[i2] == 0 && Util.isLinebreak(bArr[i2 + 1])) {
+                    return i2;
+                }
+            }
+            if (charset.equals(Charsets.UTF_16LE)) {
+                byte[] bArr2 = this.data;
+                if (bArr2[i2 + 1] == 0 && Util.isLinebreak(bArr2[i2])) {
+                    return i2;
+                }
+            }
+            i2 += i;
+        }
     }
 
-    public void reset(byte[] bArr) {
-        reset(bArr, bArr.length);
+    private char readCharacterIfInList(Charset charset, char[] cArr) {
+        char checkedCast;
+        int i = 1;
+        if ((charset.equals(Charsets.UTF_8) || charset.equals(Charsets.US_ASCII)) && bytesLeft() >= 1) {
+            checkedCast = Chars.checkedCast(UnsignedBytes.toInt(this.data[this.position]));
+        } else {
+            if ((!charset.equals(Charsets.UTF_16) && !charset.equals(Charsets.UTF_16BE)) || bytesLeft() < 2) {
+                if (charset.equals(Charsets.UTF_16LE) && bytesLeft() >= 2) {
+                    byte[] bArr = this.data;
+                    int i2 = this.position;
+                    checkedCast = Chars.fromBytes(bArr[i2 + 1], bArr[i2]);
+                }
+                return (char) 0;
+            }
+            byte[] bArr2 = this.data;
+            int i3 = this.position;
+            checkedCast = Chars.fromBytes(bArr2[i3], bArr2[i3 + 1]);
+            i = 2;
+        }
+        if (Chars.contains(cArr, checkedCast)) {
+            this.position += i;
+            return Chars.checkedCast(checkedCast);
+        }
+        return (char) 0;
     }
 
-    public void reset(byte[] bArr, int i) {
-        this.data = bArr;
-        this.limit = i;
-        this.position = 0;
+    private void skipLineTerminator(Charset charset) {
+        if (readCharacterIfInList(charset, CR_AND_LF) == '\r') {
+            readCharacterIfInList(charset, LF);
+        }
+    }
+
+    public int bytesLeft() {
+        return this.limit - this.position;
+    }
+
+    public int capacity() {
+        return this.data.length;
     }
 
     public void ensureCapacity(int i) {
@@ -54,38 +114,20 @@ public final class ParsableByteArray {
         }
     }
 
-    public int bytesLeft() {
-        return this.limit - this.position;
-    }
-
-    public int limit() {
-        return this.limit;
-    }
-
-    public void setLimit(int i) {
-        Assertions.checkArgument(i >= 0 && i <= this.data.length);
-        this.limit = i;
+    public byte[] getData() {
+        return this.data;
     }
 
     public int getPosition() {
         return this.position;
     }
 
-    public void setPosition(int i) {
-        Assertions.checkArgument(i >= 0 && i <= this.limit);
-        this.position = i;
+    public int limit() {
+        return this.limit;
     }
 
-    public byte[] getData() {
-        return this.data;
-    }
-
-    public int capacity() {
-        return this.data.length;
-    }
-
-    public void skipBytes(int i) {
-        setPosition(this.position + i);
+    public int peekUnsignedByte() {
+        return this.data[this.position] & 255;
     }
 
     public void readBytes(ParsableBitArray parsableBitArray, int i) {
@@ -96,172 +138,6 @@ public final class ParsableByteArray {
     public void readBytes(byte[] bArr, int i, int i2) {
         System.arraycopy(this.data, this.position, bArr, i, i2);
         this.position += i2;
-    }
-
-    public int peekUnsignedByte() {
-        return this.data[this.position] & 255;
-    }
-
-    public int readUnsignedByte() {
-        byte[] bArr = this.data;
-        int i = this.position;
-        this.position = i + 1;
-        return bArr[i] & 255;
-    }
-
-    public int readUnsignedShort() {
-        byte[] bArr = this.data;
-        int i = this.position;
-        this.position = i + 2;
-        return (bArr[i + 1] & 255) | ((bArr[i] & 255) << 8);
-    }
-
-    public int readLittleEndianUnsignedShort() {
-        byte[] bArr = this.data;
-        int i = this.position;
-        this.position = i + 2;
-        return ((bArr[i + 1] & 255) << 8) | (bArr[i] & 255);
-    }
-
-    public short readShort() {
-        byte[] bArr = this.data;
-        int i = this.position;
-        this.position = i + 2;
-        return (short) ((bArr[i + 1] & 255) | ((bArr[i] & 255) << 8));
-    }
-
-    public short readLittleEndianShort() {
-        byte[] bArr = this.data;
-        int i = this.position;
-        this.position = i + 2;
-        return (short) (((bArr[i + 1] & 255) << 8) | (bArr[i] & 255));
-    }
-
-    public int readUnsignedInt24() {
-        byte[] bArr = this.data;
-        int i = this.position;
-        int i2 = (bArr[i + 1] & 255) << 8;
-        this.position = i + 3;
-        return (bArr[i + 2] & 255) | i2 | ((bArr[i] & 255) << 16);
-    }
-
-    public int readInt24() {
-        byte[] bArr = this.data;
-        int i = this.position;
-        int i2 = (bArr[i + 1] & 255) << 8;
-        this.position = i + 3;
-        return (bArr[i + 2] & 255) | i2 | (((bArr[i] & 255) << 24) >> 8);
-    }
-
-    public long readUnsignedInt() {
-        byte[] bArr = this.data;
-        int i = this.position;
-        this.position = i + 4;
-        return (bArr[i + 3] & 255) | ((bArr[i] & 255) << 24) | ((bArr[i + 1] & 255) << 16) | ((bArr[i + 2] & 255) << 8);
-    }
-
-    public long readLittleEndianUnsignedInt() {
-        byte[] bArr = this.data;
-        int i = this.position;
-        this.position = i + 4;
-        return ((bArr[i + 3] & 255) << 24) | (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 2] & 255) << 16);
-    }
-
-    public int readInt() {
-        byte[] bArr = this.data;
-        int i = this.position;
-        int i2 = ((bArr[i + 1] & 255) << 16) | ((bArr[i] & 255) << 24);
-        this.position = i + 4;
-        return (bArr[i + 3] & 255) | i2 | ((bArr[i + 2] & 255) << 8);
-    }
-
-    public int readLittleEndianInt() {
-        byte[] bArr = this.data;
-        int i = this.position;
-        int i2 = ((bArr[i + 1] & 255) << 8) | (bArr[i] & 255);
-        this.position = i + 4;
-        return ((bArr[i + 3] & 255) << 24) | i2 | ((bArr[i + 2] & 255) << 16);
-    }
-
-    public long readLong() {
-        byte[] bArr = this.data;
-        int i = this.position;
-        long j = ((bArr[i] & 255) << 56) | ((bArr[i + 1] & 255) << 48) | ((bArr[i + 2] & 255) << 40) | ((bArr[i + 3] & 255) << 32) | ((bArr[i + 4] & 255) << 24);
-        this.position = i + 8;
-        return (bArr[i + 7] & 255) | j | ((bArr[i + 5] & 255) << 16) | ((bArr[i + 6] & 255) << 8);
-    }
-
-    public long readLittleEndianLong() {
-        byte[] bArr = this.data;
-        int i = this.position;
-        long j = (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 2] & 255) << 16) | ((bArr[i + 3] & 255) << 24) | ((bArr[i + 4] & 255) << 32) | ((bArr[i + 5] & 255) << 40);
-        this.position = i + 8;
-        return ((bArr[i + 7] & 255) << 56) | j | ((bArr[i + 6] & 255) << 48);
-    }
-
-    public int readUnsignedFixedPoint1616() {
-        byte[] bArr = this.data;
-        int i = this.position;
-        int i2 = (bArr[i + 1] & 255) | ((bArr[i] & 255) << 8);
-        this.position = i + 4;
-        return i2;
-    }
-
-    public int readSynchSafeInt() {
-        return (readUnsignedByte() << 21) | (readUnsignedByte() << 14) | (readUnsignedByte() << 7) | readUnsignedByte();
-    }
-
-    public int readUnsignedIntToInt() {
-        int readInt = readInt();
-        if (readInt >= 0) {
-            return readInt;
-        }
-        throw new IllegalStateException("Top bit not zero: " + readInt);
-    }
-
-    public int readLittleEndianUnsignedIntToInt() {
-        int readLittleEndianInt = readLittleEndianInt();
-        if (readLittleEndianInt >= 0) {
-            return readLittleEndianInt;
-        }
-        throw new IllegalStateException("Top bit not zero: " + readLittleEndianInt);
-    }
-
-    public long readUnsignedLongToLong() {
-        long readLong = readLong();
-        if (readLong >= 0) {
-            return readLong;
-        }
-        throw new IllegalStateException("Top bit not zero: " + readLong);
-    }
-
-    public double readDouble() {
-        return Double.longBitsToDouble(readLong());
-    }
-
-    public String readString(int i) {
-        return readString(i, Charsets.UTF_8);
-    }
-
-    public String readString(int i, Charset charset) {
-        String str = new String(this.data, this.position, i, charset);
-        this.position += i;
-        return str;
-    }
-
-    public String readNullTerminatedString(int i) {
-        if (i == 0) {
-            return "";
-        }
-        int i2 = this.position;
-        int i3 = (i2 + i) - 1;
-        String fromUtf8Bytes = Util.fromUtf8Bytes(this.data, i2, (i3 >= this.limit || this.data[i3] != 0) ? i : i - 1);
-        this.position += i;
-        return fromUtf8Bytes;
-    }
-
-    public String readNullTerminatedString() {
-        return readDelimiterTerminatedString((char) 0);
     }
 
     public String readDelimiterTerminatedString(char c) {
@@ -280,6 +156,26 @@ public final class ParsableByteArray {
             this.position = i + 1;
         }
         return fromUtf8Bytes;
+    }
+
+    public double readDouble() {
+        return Double.longBitsToDouble(readLong());
+    }
+
+    public int readInt() {
+        byte[] bArr = this.data;
+        int i = this.position;
+        int i2 = ((bArr[i + 1] & 255) << 16) | ((bArr[i] & 255) << 24);
+        this.position = i + 4;
+        return (bArr[i + 3] & 255) | i2 | ((bArr[i + 2] & 255) << 8);
+    }
+
+    public int readInt24() {
+        byte[] bArr = this.data;
+        int i = this.position;
+        int i2 = (bArr[i + 1] & 255) << 8;
+        this.position = i + 3;
+        return (bArr[i + 2] & 255) | i2 | (((bArr[i] & 255) << 24) >> 8);
     }
 
     public String readLine() {
@@ -301,6 +197,148 @@ public final class ParsableByteArray {
         }
         skipLineTerminator(charset);
         return readString;
+    }
+
+    public int readLittleEndianInt() {
+        byte[] bArr = this.data;
+        int i = this.position;
+        int i2 = ((bArr[i + 1] & 255) << 8) | (bArr[i] & 255);
+        this.position = i + 4;
+        return ((bArr[i + 3] & 255) << 24) | i2 | ((bArr[i + 2] & 255) << 16);
+    }
+
+    public long readLittleEndianLong() {
+        byte[] bArr = this.data;
+        int i = this.position;
+        long j = (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 2] & 255) << 16) | ((bArr[i + 3] & 255) << 24) | ((bArr[i + 4] & 255) << 32) | ((bArr[i + 5] & 255) << 40);
+        this.position = i + 8;
+        return ((bArr[i + 7] & 255) << 56) | j | ((bArr[i + 6] & 255) << 48);
+    }
+
+    public short readLittleEndianShort() {
+        byte[] bArr = this.data;
+        int i = this.position;
+        this.position = i + 2;
+        return (short) (((bArr[i + 1] & 255) << 8) | (bArr[i] & 255));
+    }
+
+    public long readLittleEndianUnsignedInt() {
+        byte[] bArr = this.data;
+        int i = this.position;
+        this.position = i + 4;
+        return ((bArr[i + 3] & 255) << 24) | (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 2] & 255) << 16);
+    }
+
+    public int readLittleEndianUnsignedIntToInt() {
+        int readLittleEndianInt = readLittleEndianInt();
+        if (readLittleEndianInt >= 0) {
+            return readLittleEndianInt;
+        }
+        throw new IllegalStateException("Top bit not zero: " + readLittleEndianInt);
+    }
+
+    public int readLittleEndianUnsignedShort() {
+        byte[] bArr = this.data;
+        int i = this.position;
+        this.position = i + 2;
+        return ((bArr[i + 1] & 255) << 8) | (bArr[i] & 255);
+    }
+
+    public long readLong() {
+        byte[] bArr = this.data;
+        int i = this.position;
+        long j = ((bArr[i] & 255) << 56) | ((bArr[i + 1] & 255) << 48) | ((bArr[i + 2] & 255) << 40) | ((bArr[i + 3] & 255) << 32) | ((bArr[i + 4] & 255) << 24);
+        this.position = i + 8;
+        return (bArr[i + 7] & 255) | j | ((bArr[i + 5] & 255) << 16) | ((bArr[i + 6] & 255) << 8);
+    }
+
+    public String readNullTerminatedString() {
+        return readDelimiterTerminatedString((char) 0);
+    }
+
+    public String readNullTerminatedString(int i) {
+        if (i == 0) {
+            return "";
+        }
+        int i2 = this.position;
+        int i3 = (i2 + i) - 1;
+        String fromUtf8Bytes = Util.fromUtf8Bytes(this.data, i2, (i3 >= this.limit || this.data[i3] != 0) ? i : i - 1);
+        this.position += i;
+        return fromUtf8Bytes;
+    }
+
+    public short readShort() {
+        byte[] bArr = this.data;
+        int i = this.position;
+        this.position = i + 2;
+        return (short) ((bArr[i + 1] & 255) | ((bArr[i] & 255) << 8));
+    }
+
+    public String readString(int i) {
+        return readString(i, Charsets.UTF_8);
+    }
+
+    public String readString(int i, Charset charset) {
+        String str = new String(this.data, this.position, i, charset);
+        this.position += i;
+        return str;
+    }
+
+    public int readSynchSafeInt() {
+        return (readUnsignedByte() << 21) | (readUnsignedByte() << 14) | (readUnsignedByte() << 7) | readUnsignedByte();
+    }
+
+    public int readUnsignedByte() {
+        byte[] bArr = this.data;
+        int i = this.position;
+        this.position = i + 1;
+        return bArr[i] & 255;
+    }
+
+    public int readUnsignedFixedPoint1616() {
+        byte[] bArr = this.data;
+        int i = this.position;
+        int i2 = (bArr[i + 1] & 255) | ((bArr[i] & 255) << 8);
+        this.position = i + 4;
+        return i2;
+    }
+
+    public long readUnsignedInt() {
+        byte[] bArr = this.data;
+        int i = this.position;
+        this.position = i + 4;
+        return (bArr[i + 3] & 255) | ((bArr[i] & 255) << 24) | ((bArr[i + 1] & 255) << 16) | ((bArr[i + 2] & 255) << 8);
+    }
+
+    public int readUnsignedInt24() {
+        byte[] bArr = this.data;
+        int i = this.position;
+        int i2 = (bArr[i + 1] & 255) << 8;
+        this.position = i + 3;
+        return (bArr[i + 2] & 255) | i2 | ((bArr[i] & 255) << 16);
+    }
+
+    public int readUnsignedIntToInt() {
+        int readInt = readInt();
+        if (readInt >= 0) {
+            return readInt;
+        }
+        throw new IllegalStateException("Top bit not zero: " + readInt);
+    }
+
+    public long readUnsignedLongToLong() {
+        long readLong = readLong();
+        if (readLong >= 0) {
+            return readLong;
+        }
+        throw new IllegalStateException("Top bit not zero: " + readLong);
+    }
+
+    public int readUnsignedShort() {
+        byte[] bArr = this.data;
+        int i = this.position;
+        this.position = i + 2;
+        return (bArr[i + 1] & 255) | ((bArr[i] & 255) << 8);
     }
 
     public long readUtf8EncodedLong() {
@@ -363,70 +401,31 @@ public final class ParsableByteArray {
         return null;
     }
 
-    private int findNextLineTerminator(Charset charset) {
-        int i;
-        if (charset.equals(Charsets.UTF_8) || charset.equals(Charsets.US_ASCII)) {
-            i = 1;
-        } else if (!charset.equals(Charsets.UTF_16) && !charset.equals(Charsets.UTF_16LE) && !charset.equals(Charsets.UTF_16BE)) {
-            throw new IllegalArgumentException("Unsupported charset: " + charset);
-        } else {
-            i = 2;
-        }
-        int i2 = this.position;
-        while (true) {
-            int i3 = this.limit;
-            if (i2 >= i3 - (i - 1)) {
-                return i3;
-            }
-            if ((charset.equals(Charsets.UTF_8) || charset.equals(Charsets.US_ASCII)) && Util.isLinebreak(this.data[i2])) {
-                return i2;
-            }
-            if (charset.equals(Charsets.UTF_16) || charset.equals(Charsets.UTF_16BE)) {
-                byte[] bArr = this.data;
-                if (bArr[i2] == 0 && Util.isLinebreak(bArr[i2 + 1])) {
-                    return i2;
-                }
-            }
-            if (charset.equals(Charsets.UTF_16LE)) {
-                byte[] bArr2 = this.data;
-                if (bArr2[i2 + 1] == 0 && Util.isLinebreak(bArr2[i2])) {
-                    return i2;
-                }
-            }
-            i2 += i;
-        }
+    public void reset(int i) {
+        reset(capacity() < i ? new byte[i] : this.data, i);
     }
 
-    private void skipLineTerminator(Charset charset) {
-        if (readCharacterIfInList(charset, CR_AND_LF) == '\r') {
-            readCharacterIfInList(charset, LF);
-        }
+    public void reset(byte[] bArr) {
+        reset(bArr, bArr.length);
     }
 
-    private char readCharacterIfInList(Charset charset, char[] cArr) {
-        char checkedCast;
-        int i = 1;
-        if ((charset.equals(Charsets.UTF_8) || charset.equals(Charsets.US_ASCII)) && bytesLeft() >= 1) {
-            checkedCast = Chars.checkedCast(UnsignedBytes.toInt(this.data[this.position]));
-        } else {
-            if ((charset.equals(Charsets.UTF_16) || charset.equals(Charsets.UTF_16BE)) && bytesLeft() >= 2) {
-                byte[] bArr = this.data;
-                int i2 = this.position;
-                checkedCast = Chars.fromBytes(bArr[i2], bArr[i2 + 1]);
-            } else {
-                if (charset.equals(Charsets.UTF_16LE) && bytesLeft() >= 2) {
-                    byte[] bArr2 = this.data;
-                    int i3 = this.position;
-                    checkedCast = Chars.fromBytes(bArr2[i3 + 1], bArr2[i3]);
-                }
-                return (char) 0;
-            }
-            i = 2;
-        }
-        if (Chars.contains(cArr, checkedCast)) {
-            this.position += i;
-            return Chars.checkedCast(checkedCast);
-        }
-        return (char) 0;
+    public void reset(byte[] bArr, int i) {
+        this.data = bArr;
+        this.limit = i;
+        this.position = 0;
+    }
+
+    public void setLimit(int i) {
+        Assertions.checkArgument(i >= 0 && i <= this.data.length);
+        this.limit = i;
+    }
+
+    public void setPosition(int i) {
+        Assertions.checkArgument(i >= 0 && i <= this.limit);
+        this.position = i;
+    }
+
+    public void skipBytes(int i) {
+        setPosition(this.position + i);
     }
 }

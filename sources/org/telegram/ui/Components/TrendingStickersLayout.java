@@ -60,7 +60,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
     private long hash;
     private float highlightProgress;
     private boolean ignoreLayout;
-    private final LongSparseArray<TLRPC$StickerSetCovered> installingStickerSets;
+    private final LongSparseArray installingStickerSets;
     private final GridLayoutManager layoutManager;
     private final RecyclerListView listView;
     private boolean loaded;
@@ -69,7 +69,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
     Paint paint;
     private BaseFragment parentFragment;
     private final TLRPC$StickerSetCovered[] primaryInstallingStickerSets;
-    private final LongSparseArray<TLRPC$StickerSetCovered> removingStickerSets;
+    private final LongSparseArray removingStickerSets;
     private final Theme.ResourcesProvider resourcesProvider;
     private boolean scrollFromAnimator;
     private TLRPC$StickerSetCovered scrollToSet;
@@ -93,6 +93,10 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             return false;
         }
 
+        public String[] getLastSearchKeyboardLanguage() {
+            return this.lastSearchKeyboardLanguage;
+        }
+
         public boolean isInScheduleMode() {
             return false;
         }
@@ -112,12 +116,464 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
 
         public abstract void onStickerSetRemove(TLRPC$StickerSetCovered tLRPC$StickerSetCovered);
 
-        public String[] getLastSearchKeyboardLanguage() {
-            return this.lastSearchKeyboardLanguage;
-        }
-
         public void setLastSearchKeyboardLanguage(String[] strArr) {
             this.lastSearchKeyboardLanguage = strArr;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public class TrendingStickersAdapter extends RecyclerListView.SelectionAdapter {
+        private final Context context;
+        private boolean endReached;
+        private boolean loadingMore;
+        private int totalItems;
+        private final SparseArray cache = new SparseArray();
+        private final ArrayList sets = new ArrayList();
+        private final SparseArray positionsToSets = new SparseArray();
+        private final HashMap setsToPosition = new HashMap();
+        private final ArrayList otherPacks = new ArrayList();
+        private int stickersPerRow = 5;
+
+        public TrendingStickersAdapter(Context context) {
+            this.context = context;
+        }
+
+        /* JADX WARN: Code restructure failed: missing block: B:54:0x013b, code lost:
+            if (r11.cache.get(r13).equals(-1) != false) goto L49;
+         */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        private void bindStickerSetCell(View view, int i, boolean z) {
+            TLRPC$StickerSetCovered tLRPC$StickerSetCovered;
+            boolean z2;
+            boolean z3;
+            boolean z4;
+            MediaDataController mediaDataController = MediaDataController.getInstance(TrendingStickersLayout.this.currentAccount);
+            boolean z5 = true;
+            if (i < this.totalItems) {
+                TLRPC$StickerSetCovered tLRPC$StickerSetCovered2 = (TLRPC$StickerSetCovered) this.sets.get(((Integer) this.cache.get(i)).intValue());
+                ArrayList<Long> unreadStickerSets = mediaDataController.getUnreadStickerSets();
+                boolean z6 = unreadStickerSets != null && unreadStickerSets.contains(Long.valueOf(tLRPC$StickerSetCovered2.set.id));
+                if (z6) {
+                    mediaDataController.markFeaturedStickersByIdAsRead(false, tLRPC$StickerSetCovered2.set.id);
+                }
+                tLRPC$StickerSetCovered = tLRPC$StickerSetCovered2;
+                z2 = z6;
+            } else {
+                tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) this.sets.get(((Integer) this.cache.get(i)).intValue());
+                z2 = false;
+            }
+            mediaDataController.preloadStickerSetThumb(tLRPC$StickerSetCovered);
+            int i2 = 0;
+            while (true) {
+                if (i2 >= TrendingStickersLayout.this.primaryInstallingStickerSets.length) {
+                    z3 = false;
+                    break;
+                }
+                if (TrendingStickersLayout.this.primaryInstallingStickerSets[i2] != null) {
+                    TLRPC$TL_messages_stickerSet stickerSetById = MediaDataController.getInstance(TrendingStickersLayout.this.currentAccount).getStickerSetById(TrendingStickersLayout.this.primaryInstallingStickerSets[i2].set.id);
+                    if (stickerSetById != null && !stickerSetById.set.archived) {
+                        TrendingStickersLayout.this.primaryInstallingStickerSets[i2] = null;
+                    } else if (TrendingStickersLayout.this.primaryInstallingStickerSets[i2].set.id == tLRPC$StickerSetCovered.set.id) {
+                        z3 = true;
+                        break;
+                    }
+                }
+                i2++;
+            }
+            boolean isStickerPackInstalled = mediaDataController.isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
+            boolean z7 = TrendingStickersLayout.this.installingStickerSets.indexOfKey(tLRPC$StickerSetCovered.set.id) >= 0;
+            boolean z8 = TrendingStickersLayout.this.removingStickerSets.indexOfKey(tLRPC$StickerSetCovered.set.id) >= 0;
+            if (z7 && isStickerPackInstalled) {
+                TrendingStickersLayout.this.installingStickerSets.remove(tLRPC$StickerSetCovered.set.id);
+                z4 = false;
+            } else {
+                if (z8 && !isStickerPackInstalled) {
+                    TrendingStickersLayout.this.removingStickerSets.remove(tLRPC$StickerSetCovered.set.id);
+                }
+                z4 = z7;
+            }
+            FeaturedStickerSetInfoCell featuredStickerSetInfoCell = (FeaturedStickerSetInfoCell) view;
+            featuredStickerSetInfoCell.setStickerSet(tLRPC$StickerSetCovered, z2, z, 0, 0, z3);
+            featuredStickerSetInfoCell.setAddDrawProgress(!z3 && z4, z);
+            if (i > 0) {
+                int i3 = i - 1;
+                if (this.cache.get(i3) != null) {
+                }
+                featuredStickerSetInfoCell.setNeedDivider(z5);
+            }
+            z5 = false;
+            featuredStickerSetInfoCell.setNeedDivider(z5);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void installStickerSet(TLRPC$StickerSetCovered tLRPC$StickerSetCovered, View view) {
+            boolean z;
+            int i = 0;
+            while (true) {
+                if (i >= TrendingStickersLayout.this.primaryInstallingStickerSets.length) {
+                    break;
+                }
+                if (TrendingStickersLayout.this.primaryInstallingStickerSets[i] != null) {
+                    TLRPC$TL_messages_stickerSet stickerSetById = MediaDataController.getInstance(TrendingStickersLayout.this.currentAccount).getStickerSetById(TrendingStickersLayout.this.primaryInstallingStickerSets[i].set.id);
+                    if (stickerSetById != null && !stickerSetById.set.archived) {
+                        TrendingStickersLayout.this.primaryInstallingStickerSets[i] = null;
+                        break;
+                    } else if (TrendingStickersLayout.this.primaryInstallingStickerSets[i].set.id == tLRPC$StickerSetCovered.set.id) {
+                        return;
+                    }
+                }
+                i++;
+            }
+            int i2 = 0;
+            while (true) {
+                if (i2 >= TrendingStickersLayout.this.primaryInstallingStickerSets.length) {
+                    z = false;
+                    break;
+                } else if (TrendingStickersLayout.this.primaryInstallingStickerSets[i2] == null) {
+                    TrendingStickersLayout.this.primaryInstallingStickerSets[i2] = tLRPC$StickerSetCovered;
+                    z = true;
+                    break;
+                } else {
+                    i2++;
+                }
+            }
+            if (!z && view != null) {
+                if (view instanceof FeaturedStickerSetCell2) {
+                    ((FeaturedStickerSetCell2) view).setDrawProgress(true, true);
+                } else if (view instanceof FeaturedStickerSetInfoCell) {
+                    ((FeaturedStickerSetInfoCell) view).setAddDrawProgress(true, true);
+                }
+            }
+            TrendingStickersLayout.this.installingStickerSets.put(tLRPC$StickerSetCovered.set.id, tLRPC$StickerSetCovered);
+            if (view != null) {
+                TrendingStickersLayout.this.delegate.onStickerSetAdd(tLRPC$StickerSetCovered, z);
+                return;
+            }
+            int size = this.positionsToSets.size();
+            for (int i3 = 0; i3 < size; i3++) {
+                TLRPC$StickerSetCovered tLRPC$StickerSetCovered2 = (TLRPC$StickerSetCovered) this.positionsToSets.get(i3);
+                if (tLRPC$StickerSetCovered2 != null && tLRPC$StickerSetCovered2.set.id == tLRPC$StickerSetCovered.set.id) {
+                    notifyItemChanged(i3, 0);
+                    return;
+                }
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$loadMoreStickerSets$2(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
+            int i;
+            int i2;
+            this.loadingMore = false;
+            if (tLRPC$TL_error != null || !(tLObject instanceof TLRPC$TL_messages_featuredStickers)) {
+                this.endReached = true;
+                return;
+            }
+            ArrayList arrayList = ((TLRPC$TL_messages_featuredStickers) tLObject).sets;
+            if (arrayList.size() < 40) {
+                this.endReached = true;
+            }
+            if (arrayList.isEmpty()) {
+                return;
+            }
+            if (this.otherPacks.isEmpty()) {
+                SparseArray sparseArray = this.cache;
+                int i3 = this.totalItems;
+                this.totalItems = i3 + 1;
+                sparseArray.put(i3, -1);
+            }
+            this.otherPacks.addAll(arrayList);
+            int size = this.sets.size();
+            for (int i4 = 0; i4 < arrayList.size(); i4++) {
+                TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) arrayList.get(i4);
+                if (!tLRPC$StickerSetCovered.covers.isEmpty() || tLRPC$StickerSetCovered.cover != null) {
+                    this.sets.add(tLRPC$StickerSetCovered);
+                    this.positionsToSets.put(this.totalItems, tLRPC$StickerSetCovered);
+                    SparseArray sparseArray2 = this.cache;
+                    int i5 = this.totalItems;
+                    this.totalItems = i5 + 1;
+                    int i6 = size + 1;
+                    sparseArray2.put(i5, Integer.valueOf(size));
+                    if (tLRPC$StickerSetCovered.covers.isEmpty()) {
+                        this.cache.put(this.totalItems, tLRPC$StickerSetCovered.cover);
+                        i = 1;
+                    } else {
+                        i = (int) Math.ceil(tLRPC$StickerSetCovered.covers.size() / this.stickersPerRow);
+                        for (int i7 = 0; i7 < tLRPC$StickerSetCovered.covers.size(); i7++) {
+                            this.cache.put(this.totalItems + i7, tLRPC$StickerSetCovered.covers.get(i7));
+                        }
+                    }
+                    int i8 = 0;
+                    while (true) {
+                        i2 = this.stickersPerRow * i;
+                        if (i8 >= i2) {
+                            break;
+                        }
+                        this.positionsToSets.put(this.totalItems + i8, tLRPC$StickerSetCovered);
+                        i8++;
+                    }
+                    this.totalItems += i2;
+                    size = i6;
+                }
+            }
+            notifyDataSetChanged();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$loadMoreStickerSets$3(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    TrendingStickersLayout.TrendingStickersAdapter.this.lambda$loadMoreStickerSets$2(tLRPC$TL_error, tLObject);
+                }
+            });
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onCreateViewHolder$0(View view) {
+            FeaturedStickerSetInfoCell featuredStickerSetInfoCell = (FeaturedStickerSetInfoCell) view.getParent();
+            TLRPC$StickerSetCovered stickerSet = featuredStickerSetInfoCell.getStickerSet();
+            if (TrendingStickersLayout.this.installingStickerSets.indexOfKey(stickerSet.set.id) >= 0 || TrendingStickersLayout.this.removingStickerSets.indexOfKey(stickerSet.set.id) >= 0) {
+                return;
+            }
+            if (!featuredStickerSetInfoCell.isInstalled()) {
+                installStickerSet(stickerSet, featuredStickerSetInfoCell);
+                return;
+            }
+            TrendingStickersLayout.this.removingStickerSets.put(stickerSet.set.id, stickerSet);
+            TrendingStickersLayout.this.delegate.onStickerSetRemove(stickerSet);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onCreateViewHolder$1(View view) {
+            FeaturedStickerSetCell2 featuredStickerSetCell2 = (FeaturedStickerSetCell2) view.getParent();
+            TLRPC$StickerSetCovered stickerSet = featuredStickerSetCell2.getStickerSet();
+            if (TrendingStickersLayout.this.installingStickerSets.indexOfKey(stickerSet.set.id) >= 0 || TrendingStickersLayout.this.removingStickerSets.indexOfKey(stickerSet.set.id) >= 0) {
+                return;
+            }
+            if (!featuredStickerSetCell2.isInstalled()) {
+                installStickerSet(stickerSet, featuredStickerSetCell2);
+                return;
+            }
+            TrendingStickersLayout.this.removingStickerSets.put(stickerSet.set.id, stickerSet);
+            TrendingStickersLayout.this.delegate.onStickerSetRemove(stickerSet);
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemCount() {
+            return this.totalItems + 1;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemViewType(int i) {
+            if (i == getItemCount() - 1) {
+                return 3;
+            }
+            Object obj = this.cache.get(i);
+            if (obj != null) {
+                if (obj instanceof TLRPC$Document) {
+                    return 0;
+                }
+                return obj.equals(-1) ? 4 : 2;
+            }
+            return 1;
+        }
+
+        public void getThemeDescriptions(List list, RecyclerListView recyclerListView, ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate) {
+            FeaturedStickerSetInfoCell.createThemeDescriptions(list, recyclerListView, themeDescriptionDelegate);
+            FeaturedStickerSetCell2.createThemeDescriptions(list, recyclerListView, themeDescriptionDelegate);
+            GraySectionCell.createThemeDescriptions(list, recyclerListView);
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
+        public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
+            return viewHolder.getItemViewType() == 5;
+        }
+
+        public void loadMoreStickerSets() {
+            if (!TrendingStickersLayout.this.loaded || this.loadingMore || this.endReached) {
+                return;
+            }
+            this.loadingMore = true;
+            TLRPC$TL_messages_getOldFeaturedStickers tLRPC$TL_messages_getOldFeaturedStickers = new TLRPC$TL_messages_getOldFeaturedStickers();
+            tLRPC$TL_messages_getOldFeaturedStickers.offset = this.otherPacks.size();
+            tLRPC$TL_messages_getOldFeaturedStickers.limit = 40;
+            ConnectionsManager.getInstance(TrendingStickersLayout.this.currentAccount).sendRequest(tLRPC$TL_messages_getOldFeaturedStickers, new RequestDelegate() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda0
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    TrendingStickersLayout.TrendingStickersAdapter.this.lambda$loadMoreStickerSets$3(tLObject, tLRPC$TL_error);
+                }
+            });
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+            int itemViewType = viewHolder.getItemViewType();
+            if (itemViewType == 0) {
+                ((StickerEmojiCell) viewHolder.itemView).setSticker((TLRPC$Document) this.cache.get(i), this.positionsToSets.get(i), false);
+            } else if (itemViewType == 1) {
+                ((EmptyCell) viewHolder.itemView).setHeight(AndroidUtilities.dp(82.0f));
+            } else {
+                if (itemViewType != 2) {
+                    if (itemViewType == 4) {
+                        ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString(R.string.OtherStickers));
+                        return;
+                    } else if (itemViewType != 5) {
+                        return;
+                    }
+                }
+                bindStickerSetCell(viewHolder.itemView, i, false);
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i, List list) {
+            if (!list.contains(0)) {
+                super.onBindViewHolder(viewHolder, i, list);
+                return;
+            }
+            int itemViewType = viewHolder.getItemViewType();
+            if (itemViewType == 2 || itemViewType == 5) {
+                bindStickerSetCell(viewHolder.itemView, i, true);
+            }
+        }
+
+        /* JADX WARN: Multi-variable type inference failed */
+        /* JADX WARN: Type inference failed for: r7v6, types: [android.view.View] */
+        /* JADX WARN: Type inference failed for: r8v9, types: [org.telegram.ui.Cells.FeaturedStickerSetCell2] */
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            FrameLayout frameLayout;
+            FeaturedStickerSetInfoCell featuredStickerSetInfoCell;
+            if (i != 0) {
+                if (i == 1) {
+                    featuredStickerSetInfoCell = new EmptyCell(this.context);
+                } else if (i == 2) {
+                    FeaturedStickerSetInfoCell featuredStickerSetInfoCell2 = new FeaturedStickerSetInfoCell(this.context, 17, true, true, TrendingStickersLayout.this.resourcesProvider);
+                    featuredStickerSetInfoCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda2
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            TrendingStickersLayout.TrendingStickersAdapter.this.lambda$onCreateViewHolder$0(view);
+                        }
+                    });
+                    featuredStickerSetInfoCell = featuredStickerSetInfoCell2;
+                } else if (i == 3) {
+                    featuredStickerSetInfoCell = new View(this.context);
+                } else if (i == 4) {
+                    featuredStickerSetInfoCell = new GraySectionCell(this.context, TrendingStickersLayout.this.resourcesProvider);
+                } else if (i != 5) {
+                    featuredStickerSetInfoCell = null;
+                } else {
+                    ?? featuredStickerSetCell2 = new FeaturedStickerSetCell2(this.context, TrendingStickersLayout.this.resourcesProvider);
+                    featuredStickerSetCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda1
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            TrendingStickersLayout.TrendingStickersAdapter.this.lambda$onCreateViewHolder$1(view);
+                        }
+                    });
+                    featuredStickerSetCell2.getImageView().setLayerNum(3);
+                    frameLayout = featuredStickerSetCell2;
+                }
+                return new RecyclerListView.Holder(featuredStickerSetInfoCell);
+            }
+            StickerEmojiCell stickerEmojiCell = new StickerEmojiCell(this.context, false, TrendingStickersLayout.this.resourcesProvider) { // from class: org.telegram.ui.Components.TrendingStickersLayout.TrendingStickersAdapter.1
+                @Override // android.widget.FrameLayout, android.view.View
+                public void onMeasure(int i2, int i3) {
+                    super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(82.0f), 1073741824));
+                }
+            };
+            stickerEmojiCell.getImageView().setLayerNum(3);
+            frameLayout = stickerEmojiCell;
+            featuredStickerSetInfoCell = frameLayout;
+            return new RecyclerListView.Holder(featuredStickerSetInfoCell);
+        }
+
+        public void refreshStickerSets() {
+            int i;
+            int measuredWidth = TrendingStickersLayout.this.getMeasuredWidth();
+            if (measuredWidth != 0) {
+                this.stickersPerRow = Math.max(5, measuredWidth / AndroidUtilities.dp(72.0f));
+                if (TrendingStickersLayout.this.layoutManager.getSpanCount() != this.stickersPerRow) {
+                    TrendingStickersLayout.this.layoutManager.setSpanCount(this.stickersPerRow);
+                    TrendingStickersLayout.this.loaded = false;
+                }
+            }
+            if (TrendingStickersLayout.this.loaded) {
+                return;
+            }
+            this.cache.clear();
+            this.positionsToSets.clear();
+            this.setsToPosition.clear();
+            this.sets.clear();
+            this.totalItems = 0;
+            MediaDataController mediaDataController = MediaDataController.getInstance(TrendingStickersLayout.this.currentAccount);
+            ArrayList arrayList = new ArrayList(mediaDataController.getFeaturedStickerSets());
+            int size = arrayList.size();
+            arrayList.addAll(this.otherPacks);
+            int i2 = 0;
+            int i3 = 0;
+            while (true) {
+                int i4 = 1;
+                if (i2 >= arrayList.size()) {
+                    break;
+                }
+                TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) arrayList.get(i2);
+                if (!tLRPC$StickerSetCovered.covers.isEmpty() || tLRPC$StickerSetCovered.cover != null) {
+                    if (i2 == size) {
+                        SparseArray sparseArray = this.cache;
+                        int i5 = this.totalItems;
+                        this.totalItems = i5 + 1;
+                        sparseArray.put(i5, -1);
+                    }
+                    this.sets.add(tLRPC$StickerSetCovered);
+                    this.positionsToSets.put(this.totalItems, tLRPC$StickerSetCovered);
+                    this.setsToPosition.put(tLRPC$StickerSetCovered, Integer.valueOf(this.totalItems));
+                    SparseArray sparseArray2 = this.cache;
+                    int i6 = this.totalItems;
+                    this.totalItems = i6 + 1;
+                    int i7 = i3 + 1;
+                    sparseArray2.put(i6, Integer.valueOf(i3));
+                    if (tLRPC$StickerSetCovered.covers.isEmpty()) {
+                        this.cache.put(this.totalItems, tLRPC$StickerSetCovered.cover);
+                    } else {
+                        i4 = (int) Math.ceil(tLRPC$StickerSetCovered.covers.size() / this.stickersPerRow);
+                        for (int i8 = 0; i8 < tLRPC$StickerSetCovered.covers.size(); i8++) {
+                            this.cache.put(this.totalItems + i8, tLRPC$StickerSetCovered.covers.get(i8));
+                        }
+                    }
+                    int i9 = 0;
+                    while (true) {
+                        i = this.stickersPerRow * i4;
+                        if (i9 >= i) {
+                            break;
+                        }
+                        this.positionsToSets.put(this.totalItems + i9, tLRPC$StickerSetCovered);
+                        i9++;
+                    }
+                    this.totalItems += i;
+                    i3 = i7;
+                }
+                i2++;
+            }
+            if (this.totalItems != 0) {
+                TrendingStickersLayout.this.loaded = true;
+                TrendingStickersLayout.this.hash = mediaDataController.getFeaturedStickersHashWithoutUnread(false);
+            }
+            notifyDataSetChanged();
+        }
+
+        public void updateColors(RecyclerListView recyclerListView) {
+            int childCount = recyclerListView.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View childAt = recyclerListView.getChildAt(i);
+                if (childAt instanceof FeaturedStickerSetInfoCell) {
+                    ((FeaturedStickerSetInfoCell) childAt).updateColors();
+                } else if (childAt instanceof FeaturedStickerSetCell2) {
+                    ((FeaturedStickerSetCell2) childAt).updateColors();
+                }
+            }
         }
     }
 
@@ -125,7 +581,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         this(context, delegate, new TLRPC$StickerSetCovered[10], new LongSparseArray(), new LongSparseArray(), null, null);
     }
 
-    public TrendingStickersLayout(Context context, final Delegate delegate, TLRPC$StickerSetCovered[] tLRPC$StickerSetCoveredArr, LongSparseArray<TLRPC$StickerSetCovered> longSparseArray, LongSparseArray<TLRPC$StickerSetCovered> longSparseArray2, TLRPC$StickerSetCovered tLRPC$StickerSetCovered, Theme.ResourcesProvider resourcesProvider) {
+    public TrendingStickersLayout(Context context, final Delegate delegate, TLRPC$StickerSetCovered[] tLRPC$StickerSetCoveredArr, LongSparseArray longSparseArray, LongSparseArray longSparseArray2, TLRPC$StickerSetCovered tLRPC$StickerSetCovered, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         int i = UserConfig.selectedAccount;
         this.currentAccount = i;
@@ -141,6 +597,16 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         this.adapter = trendingStickersAdapter;
         this.searchAdapter = new StickersSearchAdapter(context, new StickersSearchAdapter.Delegate() { // from class: org.telegram.ui.Components.TrendingStickersLayout.1
             @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
+            public String[] getLastSearchKeyboardLanguage() {
+                return delegate.getLastSearchKeyboardLanguage();
+            }
+
+            @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
+            public int getStickersPerRow() {
+                return TrendingStickersLayout.this.adapter.stickersPerRow;
+            }
+
+            @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
             public void onSearchStart() {
                 TrendingStickersLayout.this.searchView.getProgressDrawable().startAnimation();
             }
@@ -148,21 +614,6 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
             public void onSearchStop() {
                 TrendingStickersLayout.this.searchView.getProgressDrawable().stopAnimation();
-            }
-
-            @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
-            public void setAdapterVisible(boolean z) {
-                if (!z || TrendingStickersLayout.this.listView.getAdapter() == TrendingStickersLayout.this.searchAdapter) {
-                    if (z || TrendingStickersLayout.this.listView.getAdapter() == TrendingStickersLayout.this.adapter) {
-                        return;
-                    }
-                    TrendingStickersLayout.this.listView.setAdapter(TrendingStickersLayout.this.adapter);
-                } else {
-                    TrendingStickersLayout.this.listView.setAdapter(TrendingStickersLayout.this.searchAdapter);
-                }
-                if (TrendingStickersLayout.this.listView.getAdapter().getItemCount() > 0) {
-                    TrendingStickersLayout.this.layoutManager.scrollToPositionWithOffset(0, (-TrendingStickersLayout.this.listView.getPaddingTop()) + AndroidUtilities.dp(58.0f) + TrendingStickersLayout.this.topOffset, false);
-                }
             }
 
             @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
@@ -176,13 +627,22 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             }
 
             @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
-            public int getStickersPerRow() {
-                return TrendingStickersLayout.this.adapter.stickersPerRow;
-            }
-
-            @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
-            public String[] getLastSearchKeyboardLanguage() {
-                return delegate.getLastSearchKeyboardLanguage();
+            public void setAdapterVisible(boolean z) {
+                RecyclerListView recyclerListView;
+                RecyclerView.Adapter adapter;
+                if (z && TrendingStickersLayout.this.listView.getAdapter() != TrendingStickersLayout.this.searchAdapter) {
+                    recyclerListView = TrendingStickersLayout.this.listView;
+                    adapter = TrendingStickersLayout.this.searchAdapter;
+                } else if (z || TrendingStickersLayout.this.listView.getAdapter() == TrendingStickersLayout.this.adapter) {
+                    return;
+                } else {
+                    recyclerListView = TrendingStickersLayout.this.listView;
+                    adapter = TrendingStickersLayout.this.adapter;
+                }
+                recyclerListView.setAdapter(adapter);
+                if (TrendingStickersLayout.this.listView.getAdapter().getItemCount() > 0) {
+                    TrendingStickersLayout.this.layoutManager.scrollToPositionWithOffset(0, (-TrendingStickersLayout.this.listView.getPaddingTop()) + AndroidUtilities.dp(58.0f) + TrendingStickersLayout.this.topOffset, false);
+                }
             }
 
             @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
@@ -203,15 +663,20 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         searchField.setHint(LocaleController.getString(R.string.SearchTrendingStickersHint));
         frameLayout.addView(searchField, LayoutHelper.createFrame(-1, -1, 48));
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.TrendingStickersLayout.3
-            @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
-            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-                return super.onInterceptTouchEvent(motionEvent) || delegate.onListViewInterceptTouchEvent(this, motionEvent);
+            @Override // org.telegram.ui.Components.RecyclerListView
+            protected boolean allowSelectChildAtPosition(float f, float f2) {
+                return f2 >= ((float) (TrendingStickersLayout.this.topOffset + AndroidUtilities.dp(58.0f)));
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
             public boolean dispatchTouchEvent(MotionEvent motionEvent) {
                 TrendingStickersLayout.this.motionEventCatchedByListView = true;
                 return super.dispatchTouchEvent(motionEvent);
+            }
+
+            @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
+            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+                return super.onInterceptTouchEvent(motionEvent) || delegate.onListViewInterceptTouchEvent(this, motionEvent);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
@@ -228,11 +693,6 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
                     return;
                 }
                 super.requestLayout();
-            }
-
-            @Override // org.telegram.ui.Components.RecyclerListView
-            protected boolean allowSelectChildAtPosition(float f, float f2) {
-                return f2 >= ((float) (TrendingStickersLayout.this.topOffset + AndroidUtilities.dp(58.0f)));
             }
         };
         this.listView = recyclerListView;
@@ -255,20 +715,10 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         recyclerListView.setItemAnimator(null);
         recyclerListView.setLayoutAnimation(null);
         FillLastGridLayoutManager fillLastGridLayoutManager = new FillLastGridLayoutManager(context, 5, AndroidUtilities.dp(58.0f), recyclerListView) { // from class: org.telegram.ui.Components.TrendingStickersLayout.4
-            @Override // androidx.recyclerview.widget.GridLayoutManager, androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-            public boolean supportsPredictiveItemAnimations() {
-                return false;
-            }
-
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.LinearLayoutManager
             public boolean isLayoutRTL() {
                 return LocaleController.isRTL;
-            }
-
-            @Override // org.telegram.ui.Components.FillLastGridLayoutManager
-            protected boolean shouldCalcLastItemHeight() {
-                return TrendingStickersLayout.this.listView.getAdapter() == TrendingStickersLayout.this.searchAdapter;
             }
 
             @Override // androidx.recyclerview.widget.GridLayoutManager, androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -302,22 +752,39 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
                 }
                 return super.scrollVerticallyBy(i2, recycler, state);
             }
+
+            @Override // org.telegram.ui.Components.FillLastGridLayoutManager
+            protected boolean shouldCalcLastItemHeight() {
+                return TrendingStickersLayout.this.listView.getAdapter() == TrendingStickersLayout.this.searchAdapter;
+            }
+
+            @Override // androidx.recyclerview.widget.GridLayoutManager, androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
+            public boolean supportsPredictiveItemAnimations() {
+                return false;
+            }
         };
         this.layoutManager = fillLastGridLayoutManager;
         recyclerListView.setLayoutManager(fillLastGridLayoutManager);
         fillLastGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.TrendingStickersLayout.5
             @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
             public int getSpanSize(int i2) {
-                if (TrendingStickersLayout.this.listView.getAdapter() != TrendingStickersLayout.this.adapter) {
-                    return TrendingStickersLayout.this.searchAdapter.getSpanSize(i2);
+                if (TrendingStickersLayout.this.listView.getAdapter() == TrendingStickersLayout.this.adapter) {
+                    if ((TrendingStickersLayout.this.adapter.cache.get(i2) instanceof Integer) || i2 >= TrendingStickersLayout.this.adapter.totalItems) {
+                        return TrendingStickersLayout.this.adapter.stickersPerRow;
+                    }
+                    return 1;
                 }
-                if ((TrendingStickersLayout.this.adapter.cache.get(i2) instanceof Integer) || i2 >= TrendingStickersLayout.this.adapter.totalItems) {
-                    return TrendingStickersLayout.this.adapter.stickersPerRow;
-                }
-                return 1;
+                return TrendingStickersLayout.this.searchAdapter.getSpanSize(i2);
             }
         });
         recyclerListView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout.6
+            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+            public void onScrollStateChanged(RecyclerView recyclerView, int i2) {
+                if (TrendingStickersLayout.this.onScrollListener != null) {
+                    TrendingStickersLayout.this.onScrollListener.onScrollStateChanged(recyclerView, i2);
+                }
+            }
+
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
             public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
                 if (TrendingStickersLayout.this.onScrollListener != null) {
@@ -328,13 +795,6 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
                 }
                 if (TrendingStickersLayout.this.layoutManager.findLastVisibleItemPosition() >= (TrendingStickersLayout.this.adapter.getItemCount() - ((TrendingStickersLayout.this.adapter.stickersPerRow + 1) * 10)) - 1) {
                     TrendingStickersLayout.this.adapter.loadMoreStickerSets();
-                }
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrollStateChanged(RecyclerView recyclerView, int i2) {
-                if (TrendingStickersLayout.this.onScrollListener != null) {
-                    TrendingStickersLayout.this.onScrollListener.onScrollStateChanged(recyclerView, i2);
                 }
             }
         });
@@ -355,18 +815,17 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         notificationCenter.addObserver(this, NotificationCenter.featuredStickersDidLoad);
     }
 
+    private int getThemedColor(int i) {
+        return Theme.getColor(i, this.resourcesProvider);
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view, int i) {
-        TLRPC$StickerSetCovered tLRPC$StickerSetCovered;
         RecyclerView.Adapter adapter = this.listView.getAdapter();
         StickersSearchAdapter stickersSearchAdapter = this.searchAdapter;
-        if (adapter == stickersSearchAdapter) {
-            tLRPC$StickerSetCovered = stickersSearchAdapter.getSetForPosition(i);
-        } else {
-            tLRPC$StickerSetCovered = i < this.adapter.totalItems ? (TLRPC$StickerSetCovered) this.adapter.positionsToSets.get(i) : null;
-        }
-        if (tLRPC$StickerSetCovered != null) {
-            showStickerSet(tLRPC$StickerSetCovered.set);
+        TLRPC$StickerSetCovered setForPosition = adapter == stickersSearchAdapter ? stickersSearchAdapter.getSetForPosition(i) : i < this.adapter.totalItems ? (TLRPC$StickerSetCovered) this.adapter.positionsToSets.get(i) : null;
+        if (setForPosition != null) {
+            showStickerSet(setForPosition.set);
         }
     }
 
@@ -375,19 +834,102 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         return delegate.onListViewTouchEvent(this.listView, onItemClickListener, motionEvent);
     }
 
-    @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        Integer num;
-        super.onLayout(z, i, i2, i3, i4);
-        if (this.wasLayout) {
-            return;
+    private void setShadowVisible(boolean z) {
+        if (this.shadowVisible != z) {
+            this.shadowVisible = z;
+            this.shadowView.animate().alpha(z ? 1.0f : 0.0f).setDuration(200L).start();
         }
-        this.wasLayout = true;
-        this.adapter.refreshStickerSets();
-        if (this.scrollToSet == null || (num = (Integer) this.adapter.setsToPosition.get(this.scrollToSet)) == null) {
-            return;
+    }
+
+    private void showStickerSet(final TLRPC$InputStickerSet tLRPC$InputStickerSet) {
+        StickersAlert stickersAlert = new StickersAlert(getContext(), this.parentFragment, tLRPC$InputStickerSet, null, this.delegate.canSendSticker() ? new StickersAlert.StickersAlertDelegate() { // from class: org.telegram.ui.Components.TrendingStickersLayout.7
+            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertDelegate
+            public boolean canSchedule() {
+                return TrendingStickersLayout.this.delegate.canSchedule();
+            }
+
+            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertDelegate
+            public boolean isInScheduleMode() {
+                return TrendingStickersLayout.this.delegate.isInScheduleMode();
+            }
+
+            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertDelegate
+            public void onStickerSelected(TLRPC$Document tLRPC$Document, String str, Object obj, MessageObject.SendAnimationData sendAnimationData, boolean z, boolean z2, int i) {
+                TrendingStickersLayout.this.delegate.onStickerSelected(tLRPC$Document, obj, z, z2, i);
+            }
+        } : null, this.resourcesProvider);
+        stickersAlert.setShowTooltipWhenToggle(false);
+        stickersAlert.setInstallDelegate(new StickersAlert.StickersAlertInstallDelegate() { // from class: org.telegram.ui.Components.TrendingStickersLayout.8
+            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
+            public void onStickerSetInstalled() {
+                if (TrendingStickersLayout.this.listView.getAdapter() != TrendingStickersLayout.this.adapter) {
+                    TrendingStickersLayout.this.searchAdapter.installStickerSet(tLRPC$InputStickerSet);
+                    return;
+                }
+                for (int i = 0; i < TrendingStickersLayout.this.adapter.sets.size(); i++) {
+                    TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) TrendingStickersLayout.this.adapter.sets.get(i);
+                    if (tLRPC$StickerSetCovered.set.id == tLRPC$InputStickerSet.id) {
+                        TrendingStickersLayout.this.adapter.installStickerSet(tLRPC$StickerSetCovered, null);
+                        return;
+                    }
+                }
+            }
+
+            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
+            public void onStickerSetUninstalled() {
+            }
+        });
+        this.parentFragment.showDialog(stickersAlert);
+    }
+
+    private void showStickerSet(TLRPC$StickerSet tLRPC$StickerSet) {
+        showStickerSet(tLRPC$StickerSet, null);
+    }
+
+    private void updateLastItemInAdapter() {
+        RecyclerView.Adapter adapter = this.listView.getAdapter();
+        adapter.notifyItemChanged(adapter.getItemCount() - 1);
+    }
+
+    private void updateVisibleTrendingSets() {
+        RecyclerView.Adapter adapter = this.listView.getAdapter();
+        if (adapter != null) {
+            adapter.notifyItemRangeChanged(0, adapter.getItemCount(), 0);
         }
-        this.layoutManager.scrollToPositionWithOffset(num.intValue(), (-this.listView.getPaddingTop()) + AndroidUtilities.dp(58.0f));
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x002c, code lost:
+        if (r3.loaded != false) goto L10;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x002e, code lost:
+        updateVisibleTrendingSets();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0032, code lost:
+        r3.adapter.refreshStickerSets();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0037, code lost:
+        return;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:21:?, code lost:
+        return;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x0011, code lost:
+        if (r3.loaded != false) goto L10;
+     */
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        if (i == NotificationCenter.stickersDidLoad) {
+            if (((Integer) objArr[0]).intValue() != 0) {
+            }
+        } else if (i != NotificationCenter.featuredStickersDidLoad) {
+        } else {
+            if (this.hash != MediaDataController.getInstance(this.currentAccount).getFeaturedStickersHashWithoutUnread(false)) {
+                this.loaded = false;
+            }
+        }
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -431,13 +973,6 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         super.dispatchDraw(canvas);
     }
 
-    @Override // android.view.View
-    protected void onConfigurationChanged(Configuration configuration) {
-        super.onConfigurationChanged(configuration);
-        updateLastItemInAdapter();
-        this.wasLayout = false;
-    }
-
     @Override // android.view.ViewGroup, android.view.View
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
         this.motionEventCatchedByListView = false;
@@ -450,96 +985,82 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         return dispatchTouchEvent;
     }
 
-    private void showStickerSet(TLRPC$StickerSet tLRPC$StickerSet) {
-        showStickerSet(tLRPC$StickerSet, null);
+    public int getContentTopOffset() {
+        return this.topOffset;
     }
 
-    public void showStickerSet(TLRPC$StickerSet tLRPC$StickerSet, TLRPC$InputStickerSet tLRPC$InputStickerSet) {
-        if (tLRPC$StickerSet != null) {
-            tLRPC$InputStickerSet = new TLRPC$TL_inputStickerSetID();
-            tLRPC$InputStickerSet.access_hash = tLRPC$StickerSet.access_hash;
-            tLRPC$InputStickerSet.id = tLRPC$StickerSet.id;
-        }
-        if (tLRPC$InputStickerSet != null) {
-            showStickerSet(tLRPC$InputStickerSet);
+    public void getThemeDescriptions(List list, ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate) {
+        this.searchView.getThemeDescriptions(list);
+        this.adapter.getThemeDescriptions(list, this.listView, themeDescriptionDelegate);
+        this.searchAdapter.getThemeDescriptions(list, this.listView, themeDescriptionDelegate);
+        list.add(new ThemeDescription(this.shadowView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_dialogShadowLine));
+        list.add(new ThemeDescription(this.searchLayout, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_dialogBackground));
+    }
+
+    public void glueToTop(boolean z) {
+        this.gluedToTop = z;
+        if (!z) {
+            ValueAnimator valueAnimator = this.glueToTopAnimator;
+            if (valueAnimator != null) {
+                valueAnimator.removeAllListeners();
+                this.glueToTopAnimator.cancel();
+                this.glueToTopAnimator = null;
+            }
+        } else if (getContentTopOffset() <= 0 || this.glueToTopAnimator != null) {
+        } else {
+            final int contentTopOffset = getContentTopOffset();
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+            this.glueToTopAnimator = ofFloat;
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout.9
+                int dy = 0;
+
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    int floatValue = (int) (contentTopOffset * ((Float) valueAnimator2.getAnimatedValue()).floatValue());
+                    TrendingStickersLayout.this.scrollFromAnimator = true;
+                    TrendingStickersLayout.this.listView.scrollBy(0, floatValue - this.dy);
+                    TrendingStickersLayout.this.scrollFromAnimator = false;
+                    this.dy = floatValue;
+                }
+            });
+            this.glueToTopAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.TrendingStickersLayout.10
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    TrendingStickersLayout.this.glueToTopAnimator = null;
+                }
+            });
+            this.glueToTopAnimator.setDuration(250L);
+            this.glueToTopAnimator.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
+            this.glueToTopAnimator.start();
         }
     }
 
-    private void showStickerSet(final TLRPC$InputStickerSet tLRPC$InputStickerSet) {
-        StickersAlert stickersAlert = new StickersAlert(getContext(), this.parentFragment, tLRPC$InputStickerSet, null, this.delegate.canSendSticker() ? new StickersAlert.StickersAlertDelegate() { // from class: org.telegram.ui.Components.TrendingStickersLayout.7
-            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertDelegate
-            public void onStickerSelected(TLRPC$Document tLRPC$Document, String str, Object obj, MessageObject.SendAnimationData sendAnimationData, boolean z, boolean z2, int i) {
-                TrendingStickersLayout.this.delegate.onStickerSelected(tLRPC$Document, obj, z, z2, i);
-            }
+    @Override // android.view.View
+    protected void onConfigurationChanged(Configuration configuration) {
+        super.onConfigurationChanged(configuration);
+        updateLastItemInAdapter();
+        this.wasLayout = false;
+    }
 
-            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertDelegate
-            public boolean canSchedule() {
-                return TrendingStickersLayout.this.delegate.canSchedule();
-            }
-
-            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertDelegate
-            public boolean isInScheduleMode() {
-                return TrendingStickersLayout.this.delegate.isInScheduleMode();
-            }
-        } : null, this.resourcesProvider);
-        stickersAlert.setShowTooltipWhenToggle(false);
-        stickersAlert.setInstallDelegate(new StickersAlert.StickersAlertInstallDelegate() { // from class: org.telegram.ui.Components.TrendingStickersLayout.8
-            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
-            public void onStickerSetUninstalled() {
-            }
-
-            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
-            public void onStickerSetInstalled() {
-                if (TrendingStickersLayout.this.listView.getAdapter() != TrendingStickersLayout.this.adapter) {
-                    TrendingStickersLayout.this.searchAdapter.installStickerSet(tLRPC$InputStickerSet);
-                    return;
-                }
-                for (int i = 0; i < TrendingStickersLayout.this.adapter.sets.size(); i++) {
-                    TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) TrendingStickersLayout.this.adapter.sets.get(i);
-                    if (tLRPC$StickerSetCovered.set.id == tLRPC$InputStickerSet.id) {
-                        TrendingStickersLayout.this.adapter.installStickerSet(tLRPC$StickerSetCovered, null);
-                        return;
-                    }
-                }
-            }
-        });
-        this.parentFragment.showDialog(stickersAlert);
+    @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        Integer num;
+        super.onLayout(z, i, i2, i3, i4);
+        if (this.wasLayout) {
+            return;
+        }
+        this.wasLayout = true;
+        this.adapter.refreshStickerSets();
+        if (this.scrollToSet == null || (num = (Integer) this.adapter.setsToPosition.get(this.scrollToSet)) == null) {
+            return;
+        }
+        this.layoutManager.scrollToPositionWithOffset(num.intValue(), (-this.listView.getPaddingTop()) + AndroidUtilities.dp(58.0f));
     }
 
     public void recycle() {
         NotificationCenter notificationCenter = NotificationCenter.getInstance(this.currentAccount);
         notificationCenter.removeObserver(this, NotificationCenter.stickersDidLoad);
         notificationCenter.removeObserver(this, NotificationCenter.featuredStickersDidLoad);
-    }
-
-    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if (i == NotificationCenter.stickersDidLoad) {
-            if (((Integer) objArr[0]).intValue() == 0) {
-                if (this.loaded) {
-                    updateVisibleTrendingSets();
-                } else {
-                    this.adapter.refreshStickerSets();
-                }
-            }
-        } else if (i == NotificationCenter.featuredStickersDidLoad) {
-            if (this.hash != MediaDataController.getInstance(this.currentAccount).getFeaturedStickersHashWithoutUnread(false)) {
-                this.loaded = false;
-            }
-            if (this.loaded) {
-                updateVisibleTrendingSets();
-            } else {
-                this.adapter.refreshStickerSets();
-            }
-        }
-    }
-
-    public void setOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
-        this.onScrollListener = onScrollListener;
-    }
-
-    public void setParentFragment(BaseFragment baseFragment) {
-        this.parentFragment = baseFragment;
     }
 
     public void setContentViewPaddingTop(int i) {
@@ -551,13 +1072,23 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         }
     }
 
-    private void updateLastItemInAdapter() {
-        RecyclerView.Adapter adapter = this.listView.getAdapter();
-        adapter.notifyItemChanged(adapter.getItemCount() - 1);
+    public void setOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
+        this.onScrollListener = onScrollListener;
     }
 
-    public int getContentTopOffset() {
-        return this.topOffset;
+    public void setParentFragment(BaseFragment baseFragment) {
+        this.parentFragment = baseFragment;
+    }
+
+    public void showStickerSet(TLRPC$StickerSet tLRPC$StickerSet, TLRPC$InputStickerSet tLRPC$InputStickerSet) {
+        if (tLRPC$StickerSet != null) {
+            tLRPC$InputStickerSet = new TLRPC$TL_inputStickerSetID();
+            tLRPC$InputStickerSet.access_hash = tLRPC$StickerSet.access_hash;
+            tLRPC$InputStickerSet.id = tLRPC$StickerSet.id;
+        }
+        if (tLRPC$InputStickerSet != null) {
+            showStickerSet(tLRPC$InputStickerSet);
+        }
     }
 
     public boolean update() {
@@ -591,20 +1122,6 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         return false;
     }
 
-    private void updateVisibleTrendingSets() {
-        RecyclerView.Adapter adapter = this.listView.getAdapter();
-        if (adapter != null) {
-            adapter.notifyItemRangeChanged(0, adapter.getItemCount(), 0);
-        }
-    }
-
-    private void setShadowVisible(boolean z) {
-        if (this.shadowVisible != z) {
-            this.shadowVisible = z;
-            this.shadowView.animate().alpha(z ? 1.0f : 0.0f).setDuration(200L).start();
-        }
-    }
-
     public void updateColors() {
         RecyclerView.Adapter adapter = this.listView.getAdapter();
         TrendingStickersAdapter trendingStickersAdapter = this.adapter;
@@ -613,519 +1130,5 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         } else {
             this.searchAdapter.updateColors(this.listView);
         }
-    }
-
-    public void getThemeDescriptions(List<ThemeDescription> list, ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate) {
-        this.searchView.getThemeDescriptions(list);
-        this.adapter.getThemeDescriptions(list, this.listView, themeDescriptionDelegate);
-        this.searchAdapter.getThemeDescriptions(list, this.listView, themeDescriptionDelegate);
-        list.add(new ThemeDescription(this.shadowView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_dialogShadowLine));
-        list.add(new ThemeDescription(this.searchLayout, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_dialogBackground));
-    }
-
-    public void glueToTop(boolean z) {
-        this.gluedToTop = z;
-        if (z) {
-            if (getContentTopOffset() <= 0 || this.glueToTopAnimator != null) {
-                return;
-            }
-            final int contentTopOffset = getContentTopOffset();
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            this.glueToTopAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout.9
-                int dy = 0;
-
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    int floatValue = (int) (contentTopOffset * ((Float) valueAnimator.getAnimatedValue()).floatValue());
-                    TrendingStickersLayout.this.scrollFromAnimator = true;
-                    TrendingStickersLayout.this.listView.scrollBy(0, floatValue - this.dy);
-                    TrendingStickersLayout.this.scrollFromAnimator = false;
-                    this.dy = floatValue;
-                }
-            });
-            this.glueToTopAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.TrendingStickersLayout.10
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    TrendingStickersLayout.this.glueToTopAnimator = null;
-                }
-            });
-            this.glueToTopAnimator.setDuration(250L);
-            this.glueToTopAnimator.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
-            this.glueToTopAnimator.start();
-            return;
-        }
-        ValueAnimator valueAnimator = this.glueToTopAnimator;
-        if (valueAnimator != null) {
-            valueAnimator.removeAllListeners();
-            this.glueToTopAnimator.cancel();
-            this.glueToTopAnimator = null;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class TrendingStickersAdapter extends RecyclerListView.SelectionAdapter {
-        private final Context context;
-        private boolean endReached;
-        private boolean loadingMore;
-        private int totalItems;
-        private final SparseArray<Object> cache = new SparseArray<>();
-        private final ArrayList<TLRPC$StickerSetCovered> sets = new ArrayList<>();
-        private final SparseArray<TLRPC$StickerSetCovered> positionsToSets = new SparseArray<>();
-        private final HashMap<TLRPC$StickerSetCovered, Integer> setsToPosition = new HashMap<>();
-        private final ArrayList<TLRPC$StickerSetCovered> otherPacks = new ArrayList<>();
-        private int stickersPerRow = 5;
-
-        public TrendingStickersAdapter(Context context) {
-            this.context = context;
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public int getItemCount() {
-            return this.totalItems + 1;
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
-        public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
-            return viewHolder.getItemViewType() == 5;
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public int getItemViewType(int i) {
-            if (i == getItemCount() - 1) {
-                return 3;
-            }
-            Object obj = this.cache.get(i);
-            if (obj != null) {
-                if (obj instanceof TLRPC$Document) {
-                    return 0;
-                }
-                return obj.equals(-1) ? 4 : 2;
-            }
-            return 1;
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onCreateViewHolder$0(View view) {
-            FeaturedStickerSetInfoCell featuredStickerSetInfoCell = (FeaturedStickerSetInfoCell) view.getParent();
-            TLRPC$StickerSetCovered stickerSet = featuredStickerSetInfoCell.getStickerSet();
-            if (TrendingStickersLayout.this.installingStickerSets.indexOfKey(stickerSet.set.id) >= 0 || TrendingStickersLayout.this.removingStickerSets.indexOfKey(stickerSet.set.id) >= 0) {
-                return;
-            }
-            if (featuredStickerSetInfoCell.isInstalled()) {
-                TrendingStickersLayout.this.removingStickerSets.put(stickerSet.set.id, stickerSet);
-                TrendingStickersLayout.this.delegate.onStickerSetRemove(stickerSet);
-                return;
-            }
-            installStickerSet(stickerSet, featuredStickerSetInfoCell);
-        }
-
-        /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r7v6, types: [android.view.View] */
-        /* JADX WARN: Type inference failed for: r8v9, types: [org.telegram.ui.Cells.FeaturedStickerSetCell2] */
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            FrameLayout frameLayout;
-            FeaturedStickerSetInfoCell featuredStickerSetInfoCell;
-            if (i == 0) {
-                StickerEmojiCell stickerEmojiCell = new StickerEmojiCell(this.context, false, TrendingStickersLayout.this.resourcesProvider) { // from class: org.telegram.ui.Components.TrendingStickersLayout.TrendingStickersAdapter.1
-                    @Override // android.widget.FrameLayout, android.view.View
-                    public void onMeasure(int i2, int i3) {
-                        super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(82.0f), 1073741824));
-                    }
-                };
-                stickerEmojiCell.getImageView().setLayerNum(3);
-                frameLayout = stickerEmojiCell;
-            } else {
-                if (i == 1) {
-                    featuredStickerSetInfoCell = new EmptyCell(this.context);
-                } else if (i == 2) {
-                    FeaturedStickerSetInfoCell featuredStickerSetInfoCell2 = new FeaturedStickerSetInfoCell(this.context, 17, true, true, TrendingStickersLayout.this.resourcesProvider);
-                    featuredStickerSetInfoCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda2
-                        @Override // android.view.View.OnClickListener
-                        public final void onClick(View view) {
-                            TrendingStickersLayout.TrendingStickersAdapter.this.lambda$onCreateViewHolder$0(view);
-                        }
-                    });
-                    featuredStickerSetInfoCell = featuredStickerSetInfoCell2;
-                } else if (i == 3) {
-                    featuredStickerSetInfoCell = new View(this.context);
-                } else if (i == 4) {
-                    featuredStickerSetInfoCell = new GraySectionCell(this.context, TrendingStickersLayout.this.resourcesProvider);
-                } else if (i != 5) {
-                    featuredStickerSetInfoCell = null;
-                } else {
-                    ?? featuredStickerSetCell2 = new FeaturedStickerSetCell2(this.context, TrendingStickersLayout.this.resourcesProvider);
-                    featuredStickerSetCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda1
-                        @Override // android.view.View.OnClickListener
-                        public final void onClick(View view) {
-                            TrendingStickersLayout.TrendingStickersAdapter.this.lambda$onCreateViewHolder$1(view);
-                        }
-                    });
-                    featuredStickerSetCell2.getImageView().setLayerNum(3);
-                    frameLayout = featuredStickerSetCell2;
-                }
-                return new RecyclerListView.Holder(featuredStickerSetInfoCell);
-            }
-            featuredStickerSetInfoCell = frameLayout;
-            return new RecyclerListView.Holder(featuredStickerSetInfoCell);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onCreateViewHolder$1(View view) {
-            FeaturedStickerSetCell2 featuredStickerSetCell2 = (FeaturedStickerSetCell2) view.getParent();
-            TLRPC$StickerSetCovered stickerSet = featuredStickerSetCell2.getStickerSet();
-            if (TrendingStickersLayout.this.installingStickerSets.indexOfKey(stickerSet.set.id) >= 0 || TrendingStickersLayout.this.removingStickerSets.indexOfKey(stickerSet.set.id) >= 0) {
-                return;
-            }
-            if (featuredStickerSetCell2.isInstalled()) {
-                TrendingStickersLayout.this.removingStickerSets.put(stickerSet.set.id, stickerSet);
-                TrendingStickersLayout.this.delegate.onStickerSetRemove(stickerSet);
-                return;
-            }
-            installStickerSet(stickerSet, featuredStickerSetCell2);
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            int itemViewType = viewHolder.getItemViewType();
-            if (itemViewType == 0) {
-                ((StickerEmojiCell) viewHolder.itemView).setSticker((TLRPC$Document) this.cache.get(i), this.positionsToSets.get(i), false);
-            } else if (itemViewType == 1) {
-                ((EmptyCell) viewHolder.itemView).setHeight(AndroidUtilities.dp(82.0f));
-            } else {
-                if (itemViewType != 2) {
-                    if (itemViewType == 4) {
-                        ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString(R.string.OtherStickers));
-                        return;
-                    } else if (itemViewType != 5) {
-                        return;
-                    }
-                }
-                bindStickerSetCell(viewHolder.itemView, i, false);
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i, List list) {
-            if (list.contains(0)) {
-                int itemViewType = viewHolder.getItemViewType();
-                if (itemViewType == 2 || itemViewType == 5) {
-                    bindStickerSetCell(viewHolder.itemView, i, true);
-                    return;
-                }
-                return;
-            }
-            super.onBindViewHolder(viewHolder, i, list);
-        }
-
-        /* JADX WARN: Code restructure failed: missing block: B:54:0x013b, code lost:
-            if (r11.cache.get(r13).equals(-1) != false) goto L49;
-         */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        private void bindStickerSetCell(View view, int i, boolean z) {
-            TLRPC$StickerSetCovered tLRPC$StickerSetCovered;
-            boolean z2;
-            boolean z3;
-            boolean z4;
-            MediaDataController mediaDataController = MediaDataController.getInstance(TrendingStickersLayout.this.currentAccount);
-            boolean z5 = true;
-            if (i < this.totalItems) {
-                TLRPC$StickerSetCovered tLRPC$StickerSetCovered2 = this.sets.get(((Integer) this.cache.get(i)).intValue());
-                ArrayList<Long> unreadStickerSets = mediaDataController.getUnreadStickerSets();
-                boolean z6 = unreadStickerSets != null && unreadStickerSets.contains(Long.valueOf(tLRPC$StickerSetCovered2.set.id));
-                if (z6) {
-                    mediaDataController.markFeaturedStickersByIdAsRead(false, tLRPC$StickerSetCovered2.set.id);
-                }
-                tLRPC$StickerSetCovered = tLRPC$StickerSetCovered2;
-                z2 = z6;
-            } else {
-                tLRPC$StickerSetCovered = this.sets.get(((Integer) this.cache.get(i)).intValue());
-                z2 = false;
-            }
-            mediaDataController.preloadStickerSetThumb(tLRPC$StickerSetCovered);
-            int i2 = 0;
-            while (true) {
-                if (i2 >= TrendingStickersLayout.this.primaryInstallingStickerSets.length) {
-                    z3 = false;
-                    break;
-                }
-                if (TrendingStickersLayout.this.primaryInstallingStickerSets[i2] != null) {
-                    TLRPC$TL_messages_stickerSet stickerSetById = MediaDataController.getInstance(TrendingStickersLayout.this.currentAccount).getStickerSetById(TrendingStickersLayout.this.primaryInstallingStickerSets[i2].set.id);
-                    if (stickerSetById == null || stickerSetById.set.archived) {
-                        if (TrendingStickersLayout.this.primaryInstallingStickerSets[i2].set.id == tLRPC$StickerSetCovered.set.id) {
-                            z3 = true;
-                            break;
-                        }
-                    } else {
-                        TrendingStickersLayout.this.primaryInstallingStickerSets[i2] = null;
-                    }
-                }
-                i2++;
-            }
-            boolean isStickerPackInstalled = mediaDataController.isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
-            boolean z7 = TrendingStickersLayout.this.installingStickerSets.indexOfKey(tLRPC$StickerSetCovered.set.id) >= 0;
-            boolean z8 = TrendingStickersLayout.this.removingStickerSets.indexOfKey(tLRPC$StickerSetCovered.set.id) >= 0;
-            if (z7 && isStickerPackInstalled) {
-                TrendingStickersLayout.this.installingStickerSets.remove(tLRPC$StickerSetCovered.set.id);
-                z4 = false;
-            } else {
-                if (z8 && !isStickerPackInstalled) {
-                    TrendingStickersLayout.this.removingStickerSets.remove(tLRPC$StickerSetCovered.set.id);
-                }
-                z4 = z7;
-            }
-            FeaturedStickerSetInfoCell featuredStickerSetInfoCell = (FeaturedStickerSetInfoCell) view;
-            featuredStickerSetInfoCell.setStickerSet(tLRPC$StickerSetCovered, z2, z, 0, 0, z3);
-            featuredStickerSetInfoCell.setAddDrawProgress(!z3 && z4, z);
-            if (i > 0) {
-                int i3 = i - 1;
-                if (this.cache.get(i3) != null) {
-                }
-                featuredStickerSetInfoCell.setNeedDivider(z5);
-            }
-            z5 = false;
-            featuredStickerSetInfoCell.setNeedDivider(z5);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public void installStickerSet(TLRPC$StickerSetCovered tLRPC$StickerSetCovered, View view) {
-            boolean z;
-            int i = 0;
-            while (true) {
-                if (i >= TrendingStickersLayout.this.primaryInstallingStickerSets.length) {
-                    break;
-                }
-                if (TrendingStickersLayout.this.primaryInstallingStickerSets[i] != null) {
-                    TLRPC$TL_messages_stickerSet stickerSetById = MediaDataController.getInstance(TrendingStickersLayout.this.currentAccount).getStickerSetById(TrendingStickersLayout.this.primaryInstallingStickerSets[i].set.id);
-                    if (stickerSetById == null || stickerSetById.set.archived) {
-                        if (TrendingStickersLayout.this.primaryInstallingStickerSets[i].set.id == tLRPC$StickerSetCovered.set.id) {
-                            return;
-                        }
-                    } else {
-                        TrendingStickersLayout.this.primaryInstallingStickerSets[i] = null;
-                        break;
-                    }
-                }
-                i++;
-            }
-            int i2 = 0;
-            while (true) {
-                if (i2 >= TrendingStickersLayout.this.primaryInstallingStickerSets.length) {
-                    z = false;
-                    break;
-                } else if (TrendingStickersLayout.this.primaryInstallingStickerSets[i2] == null) {
-                    TrendingStickersLayout.this.primaryInstallingStickerSets[i2] = tLRPC$StickerSetCovered;
-                    z = true;
-                    break;
-                } else {
-                    i2++;
-                }
-            }
-            if (!z && view != null) {
-                if (view instanceof FeaturedStickerSetCell2) {
-                    ((FeaturedStickerSetCell2) view).setDrawProgress(true, true);
-                } else if (view instanceof FeaturedStickerSetInfoCell) {
-                    ((FeaturedStickerSetInfoCell) view).setAddDrawProgress(true, true);
-                }
-            }
-            TrendingStickersLayout.this.installingStickerSets.put(tLRPC$StickerSetCovered.set.id, tLRPC$StickerSetCovered);
-            if (view != null) {
-                TrendingStickersLayout.this.delegate.onStickerSetAdd(tLRPC$StickerSetCovered, z);
-                return;
-            }
-            int size = this.positionsToSets.size();
-            for (int i3 = 0; i3 < size; i3++) {
-                TLRPC$StickerSetCovered tLRPC$StickerSetCovered2 = this.positionsToSets.get(i3);
-                if (tLRPC$StickerSetCovered2 != null && tLRPC$StickerSetCovered2.set.id == tLRPC$StickerSetCovered.set.id) {
-                    notifyItemChanged(i3, 0);
-                    return;
-                }
-            }
-        }
-
-        public void refreshStickerSets() {
-            int i;
-            int measuredWidth = TrendingStickersLayout.this.getMeasuredWidth();
-            if (measuredWidth != 0) {
-                this.stickersPerRow = Math.max(5, measuredWidth / AndroidUtilities.dp(72.0f));
-                if (TrendingStickersLayout.this.layoutManager.getSpanCount() != this.stickersPerRow) {
-                    TrendingStickersLayout.this.layoutManager.setSpanCount(this.stickersPerRow);
-                    TrendingStickersLayout.this.loaded = false;
-                }
-            }
-            if (TrendingStickersLayout.this.loaded) {
-                return;
-            }
-            this.cache.clear();
-            this.positionsToSets.clear();
-            this.setsToPosition.clear();
-            this.sets.clear();
-            this.totalItems = 0;
-            MediaDataController mediaDataController = MediaDataController.getInstance(TrendingStickersLayout.this.currentAccount);
-            ArrayList arrayList = new ArrayList(mediaDataController.getFeaturedStickerSets());
-            int size = arrayList.size();
-            arrayList.addAll(this.otherPacks);
-            int i2 = 0;
-            int i3 = 0;
-            while (true) {
-                int i4 = 1;
-                if (i2 >= arrayList.size()) {
-                    break;
-                }
-                TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) arrayList.get(i2);
-                if (!tLRPC$StickerSetCovered.covers.isEmpty() || tLRPC$StickerSetCovered.cover != null) {
-                    if (i2 == size) {
-                        SparseArray<Object> sparseArray = this.cache;
-                        int i5 = this.totalItems;
-                        this.totalItems = i5 + 1;
-                        sparseArray.put(i5, -1);
-                    }
-                    this.sets.add(tLRPC$StickerSetCovered);
-                    this.positionsToSets.put(this.totalItems, tLRPC$StickerSetCovered);
-                    this.setsToPosition.put(tLRPC$StickerSetCovered, Integer.valueOf(this.totalItems));
-                    SparseArray<Object> sparseArray2 = this.cache;
-                    int i6 = this.totalItems;
-                    this.totalItems = i6 + 1;
-                    int i7 = i3 + 1;
-                    sparseArray2.put(i6, Integer.valueOf(i3));
-                    if (!tLRPC$StickerSetCovered.covers.isEmpty()) {
-                        i4 = (int) Math.ceil(tLRPC$StickerSetCovered.covers.size() / this.stickersPerRow);
-                        for (int i8 = 0; i8 < tLRPC$StickerSetCovered.covers.size(); i8++) {
-                            this.cache.put(this.totalItems + i8, tLRPC$StickerSetCovered.covers.get(i8));
-                        }
-                    } else {
-                        this.cache.put(this.totalItems, tLRPC$StickerSetCovered.cover);
-                    }
-                    int i9 = 0;
-                    while (true) {
-                        i = this.stickersPerRow * i4;
-                        if (i9 >= i) {
-                            break;
-                        }
-                        this.positionsToSets.put(this.totalItems + i9, tLRPC$StickerSetCovered);
-                        i9++;
-                    }
-                    this.totalItems += i;
-                    i3 = i7;
-                }
-                i2++;
-            }
-            if (this.totalItems != 0) {
-                TrendingStickersLayout.this.loaded = true;
-                TrendingStickersLayout.this.hash = mediaDataController.getFeaturedStickersHashWithoutUnread(false);
-            }
-            notifyDataSetChanged();
-        }
-
-        public void loadMoreStickerSets() {
-            if (!TrendingStickersLayout.this.loaded || this.loadingMore || this.endReached) {
-                return;
-            }
-            this.loadingMore = true;
-            TLRPC$TL_messages_getOldFeaturedStickers tLRPC$TL_messages_getOldFeaturedStickers = new TLRPC$TL_messages_getOldFeaturedStickers();
-            tLRPC$TL_messages_getOldFeaturedStickers.offset = this.otherPacks.size();
-            tLRPC$TL_messages_getOldFeaturedStickers.limit = 40;
-            ConnectionsManager.getInstance(TrendingStickersLayout.this.currentAccount).sendRequest(tLRPC$TL_messages_getOldFeaturedStickers, new RequestDelegate() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda0
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    TrendingStickersLayout.TrendingStickersAdapter.this.lambda$loadMoreStickerSets$3(tLObject, tLRPC$TL_error);
-                }
-            });
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$loadMoreStickerSets$3(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda3
-                @Override // java.lang.Runnable
-                public final void run() {
-                    TrendingStickersLayout.TrendingStickersAdapter.this.lambda$loadMoreStickerSets$2(tLRPC$TL_error, tLObject);
-                }
-            });
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$loadMoreStickerSets$2(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
-            int i;
-            int i2;
-            this.loadingMore = false;
-            if (tLRPC$TL_error == null && (tLObject instanceof TLRPC$TL_messages_featuredStickers)) {
-                ArrayList<TLRPC$StickerSetCovered> arrayList = ((TLRPC$TL_messages_featuredStickers) tLObject).sets;
-                if (arrayList.size() < 40) {
-                    this.endReached = true;
-                }
-                if (arrayList.isEmpty()) {
-                    return;
-                }
-                if (this.otherPacks.isEmpty()) {
-                    SparseArray<Object> sparseArray = this.cache;
-                    int i3 = this.totalItems;
-                    this.totalItems = i3 + 1;
-                    sparseArray.put(i3, -1);
-                }
-                this.otherPacks.addAll(arrayList);
-                int size = this.sets.size();
-                for (int i4 = 0; i4 < arrayList.size(); i4++) {
-                    TLRPC$StickerSetCovered tLRPC$StickerSetCovered = arrayList.get(i4);
-                    if (!tLRPC$StickerSetCovered.covers.isEmpty() || tLRPC$StickerSetCovered.cover != null) {
-                        this.sets.add(tLRPC$StickerSetCovered);
-                        this.positionsToSets.put(this.totalItems, tLRPC$StickerSetCovered);
-                        SparseArray<Object> sparseArray2 = this.cache;
-                        int i5 = this.totalItems;
-                        this.totalItems = i5 + 1;
-                        int i6 = size + 1;
-                        sparseArray2.put(i5, Integer.valueOf(size));
-                        if (!tLRPC$StickerSetCovered.covers.isEmpty()) {
-                            i = (int) Math.ceil(tLRPC$StickerSetCovered.covers.size() / this.stickersPerRow);
-                            for (int i7 = 0; i7 < tLRPC$StickerSetCovered.covers.size(); i7++) {
-                                this.cache.put(this.totalItems + i7, tLRPC$StickerSetCovered.covers.get(i7));
-                            }
-                        } else {
-                            this.cache.put(this.totalItems, tLRPC$StickerSetCovered.cover);
-                            i = 1;
-                        }
-                        int i8 = 0;
-                        while (true) {
-                            i2 = this.stickersPerRow * i;
-                            if (i8 >= i2) {
-                                break;
-                            }
-                            this.positionsToSets.put(this.totalItems + i8, tLRPC$StickerSetCovered);
-                            i8++;
-                        }
-                        this.totalItems += i2;
-                        size = i6;
-                    }
-                }
-                notifyDataSetChanged();
-                return;
-            }
-            this.endReached = true;
-        }
-
-        public void updateColors(RecyclerListView recyclerListView) {
-            int childCount = recyclerListView.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View childAt = recyclerListView.getChildAt(i);
-                if (childAt instanceof FeaturedStickerSetInfoCell) {
-                    ((FeaturedStickerSetInfoCell) childAt).updateColors();
-                } else if (childAt instanceof FeaturedStickerSetCell2) {
-                    ((FeaturedStickerSetCell2) childAt).updateColors();
-                }
-            }
-        }
-
-        public void getThemeDescriptions(List<ThemeDescription> list, RecyclerListView recyclerListView, ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate) {
-            FeaturedStickerSetInfoCell.createThemeDescriptions(list, recyclerListView, themeDescriptionDelegate);
-            FeaturedStickerSetCell2.createThemeDescriptions(list, recyclerListView, themeDescriptionDelegate);
-            GraySectionCell.createThemeDescriptions(list, recyclerListView);
-        }
-    }
-
-    private int getThemedColor(int i) {
-        return Theme.getColor(i, this.resourcesProvider);
     }
 }

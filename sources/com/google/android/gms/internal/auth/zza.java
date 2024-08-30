@@ -2,9 +2,8 @@ package com.google.android.gms.internal.auth;
 
 import android.os.IBinder;
 import android.os.IInterface;
-/* compiled from: com.google.android.gms:play-services-auth-base@@18.0.4 */
 /* loaded from: classes.dex */
-public class zza implements IInterface {
+public abstract class zza implements IInterface {
     private final IBinder zza;
     private final String zzb;
 

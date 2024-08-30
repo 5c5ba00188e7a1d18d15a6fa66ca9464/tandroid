@@ -12,9 +12,8 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.util.DeviceProperties;
 import com.google.android.gms.common.wrappers.Wrappers;
 import java.util.Locale;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zac {
+public abstract class zac {
     private static final SimpleArrayMap zaa = new SimpleArrayMap();
     private static Locale zab;
 
@@ -33,17 +32,7 @@ public final class zac {
     }
 
     public static String zac(Context context, int i) {
-        Resources resources = context.getResources();
-        if (i != 1) {
-            if (i != 2) {
-                if (i == 3) {
-                    return resources.getString(R$string.common_google_play_services_enable_button);
-                }
-                return resources.getString(17039370);
-            }
-            return resources.getString(R$string.common_google_play_services_update_button);
-        }
-        return resources.getString(R$string.common_google_play_services_install_button);
+        return context.getResources().getString(i != 1 ? i != 2 ? i != 3 ? 17039370 : R$string.common_google_play_services_enable_button : R$string.common_google_play_services_update_button : R$string.common_google_play_services_install_button);
     }
 
     public static String zad(Context context, int i) {
@@ -56,19 +45,19 @@ public final class zac {
                 if (i != 5) {
                     if (i != 7) {
                         if (i != 9) {
-                            if (i == 20) {
-                                return zah(context, "common_google_play_services_restricted_profile_text", zaa2);
+                            if (i != 20) {
+                                switch (i) {
+                                    case 16:
+                                        return zah(context, "common_google_play_services_api_unavailable_text", zaa2);
+                                    case 17:
+                                        return zah(context, "common_google_play_services_sign_in_failed_text", zaa2);
+                                    case 18:
+                                        return resources.getString(R$string.common_google_play_services_updating_text, zaa2);
+                                    default:
+                                        return resources.getString(com.google.android.gms.common.R$string.common_google_play_services_unknown_issue, zaa2);
+                                }
                             }
-                            switch (i) {
-                                case 16:
-                                    return zah(context, "common_google_play_services_api_unavailable_text", zaa2);
-                                case 17:
-                                    return zah(context, "common_google_play_services_sign_in_failed_text", zaa2);
-                                case 18:
-                                    return resources.getString(R$string.common_google_play_services_updating_text, zaa2);
-                                default:
-                                    return resources.getString(com.google.android.gms.common.R$string.common_google_play_services_unknown_issue, zaa2);
-                            }
+                            return zah(context, "common_google_play_services_restricted_profile_text", zaa2);
                         }
                         return resources.getString(R$string.common_google_play_services_unsupported_text, zaa2);
                     }
@@ -82,17 +71,17 @@ public final class zac {
         return resources.getString(R$string.common_google_play_services_install_text, zaa2);
     }
 
+    public static String zae(Context context, int i) {
+        return (i == 6 || i == 19) ? zah(context, "common_google_play_services_resolution_required_text", zaa(context)) : zad(context, i);
+    }
+
     public static String zaf(Context context, int i) {
-        String zag;
-        if (i == 6) {
-            zag = zai(context, "common_google_play_services_resolution_required_title");
-        } else {
-            zag = zag(context, i);
-        }
-        return zag == null ? context.getResources().getString(R$string.common_google_play_services_notification_ticker) : zag;
+        String zai = i == 6 ? zai(context, "common_google_play_services_resolution_required_title") : zag(context, i);
+        return zai == null ? context.getResources().getString(R$string.common_google_play_services_notification_ticker) : zai;
     }
 
     public static String zag(Context context, int i) {
+        String str;
         Resources resources = context.getResources();
         switch (i) {
             case 1:
@@ -112,28 +101,28 @@ public final class zac {
                 Log.e("GoogleApiAvailability", "Network error occurred. Please retry request later.");
                 return zai(context, "common_google_play_services_network_error_title");
             case 8:
-                Log.e("GoogleApiAvailability", "Internal error occurred. Please see logs for detailed information");
-                return null;
+                str = "Internal error occurred. Please see logs for detailed information";
+                break;
             case 9:
-                Log.e("GoogleApiAvailability", "Google Play services is invalid. Cannot recover.");
-                return null;
+                str = "Google Play services is invalid. Cannot recover.";
+                break;
             case 10:
-                Log.e("GoogleApiAvailability", "Developer error occurred. Please see logs for detailed information");
-                return null;
+                str = "Developer error occurred. Please see logs for detailed information";
+                break;
             case 11:
-                Log.e("GoogleApiAvailability", "The application is not licensed to the user.");
-                return null;
+                str = "The application is not licensed to the user.";
+                break;
             case 12:
             case 13:
             case 14:
             case 15:
             case 19:
             default:
-                Log.e("GoogleApiAvailability", "Unexpected error code " + i);
-                return null;
+                str = "Unexpected error code " + i;
+                break;
             case 16:
-                Log.e("GoogleApiAvailability", "One of the API components you attempted to connect to is not available.");
-                return null;
+                str = "One of the API components you attempted to connect to is not available.";
+                break;
             case 17:
                 Log.e("GoogleApiAvailability", "The specified account could not be signed in.");
                 return zai(context, "common_google_play_services_sign_in_failed_title");
@@ -141,6 +130,8 @@ public final class zac {
                 Log.e("GoogleApiAvailability", "The current user profile is restricted and could not use authenticated features.");
                 return zai(context, "common_google_play_services_restricted_profile_title");
         }
+        Log.e("GoogleApiAvailability", str);
+        return null;
     }
 
     private static String zah(Context context, String str, String str2) {
@@ -175,22 +166,15 @@ public final class zac {
                     return null;
                 }
                 String string = remoteResource.getString(identifier);
-                if (TextUtils.isEmpty(string)) {
-                    Log.w("GoogleApiAvailability", "Got empty resource: " + str);
-                    return null;
+                if (!TextUtils.isEmpty(string)) {
+                    simpleArrayMap.put(str, string);
+                    return string;
                 }
-                simpleArrayMap.put(str, string);
-                return string;
+                Log.w("GoogleApiAvailability", "Got empty resource: " + str);
+                return null;
             } catch (Throwable th) {
                 throw th;
             }
         }
-    }
-
-    public static String zae(Context context, int i) {
-        if (i == 6 || i == 19) {
-            return zah(context, "common_google_play_services_resolution_required_text", zaa(context));
-        }
-        return zad(context, i);
     }
 }

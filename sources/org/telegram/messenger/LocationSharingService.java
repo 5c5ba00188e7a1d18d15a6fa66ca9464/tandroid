@@ -18,27 +18,35 @@ public class LocationSharingService extends Service implements NotificationCente
     private Handler handler;
     private Runnable runnable;
 
-    @Override // android.app.Service
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
     public LocationSharingService() {
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.liveLocationsChanged);
     }
 
-    @Override // android.app.Service
-    public void onCreate() {
-        super.onCreate();
-        this.handler = new Handler();
-        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.LocationSharingService$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                LocationSharingService.this.lambda$onCreate$1();
+    private ArrayList<LocationController.SharingLocationInfo> getInfos() {
+        ArrayList<LocationController.SharingLocationInfo> arrayList = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            ArrayList<LocationController.SharingLocationInfo> arrayList2 = LocationController.getInstance(i).sharingLocationsUI;
+            if (!arrayList2.isEmpty()) {
+                arrayList.addAll(arrayList2);
             }
-        };
-        this.runnable = runnable;
-        this.handler.postDelayed(runnable, 1000L);
+        }
+        return arrayList;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$didReceivedNotification$2() {
+        if (getInfos().isEmpty()) {
+            stopSelf();
+        } else {
+            updateNotification(true);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$onCreate$0() {
+        for (int i = 0; i < 4; i++) {
+            LocationController.getInstance(i).update();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -52,23 +60,37 @@ public class LocationSharingService extends Service implements NotificationCente
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$onCreate$0() {
-        for (int i = 0; i < 4; i++) {
-            LocationController.getInstance(i).update();
+    private void updateNotification(boolean z) {
+        String formatPluralString;
+        int i;
+        if (this.builder == null) {
+            return;
         }
-    }
-
-    @Override // android.app.Service
-    public void onDestroy() {
-        super.onDestroy();
-        Handler handler = this.handler;
-        if (handler != null) {
-            handler.removeCallbacks(this.runnable);
+        ArrayList<LocationController.SharingLocationInfo> infos = getInfos();
+        if (infos.size() == 1) {
+            LocationController.SharingLocationInfo sharingLocationInfo = infos.get(0);
+            long dialogId = sharingLocationInfo.messageObject.getDialogId();
+            int i2 = sharingLocationInfo.messageObject.currentAccount;
+            boolean isUserDialog = DialogObject.isUserDialog(dialogId);
+            MessagesController messagesController = MessagesController.getInstance(i2);
+            if (isUserDialog) {
+                formatPluralString = UserObject.getFirstName(messagesController.getUser(Long.valueOf(dialogId)));
+                i = R.string.AttachLiveLocationIsSharing;
+            } else {
+                TLRPC$Chat chat = messagesController.getChat(Long.valueOf(-dialogId));
+                formatPluralString = chat != null ? chat.title : "";
+                i = R.string.AttachLiveLocationIsSharingChat;
+            }
+        } else {
+            formatPluralString = LocaleController.formatPluralString("Chats", infos.size(), new Object[0]);
+            i = R.string.AttachLiveLocationIsSharingChats;
         }
-        stopForeground(true);
-        NotificationManagerCompat.from(ApplicationLoader.applicationContext).cancel(6);
-        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.liveLocationsChanged);
+        String format = String.format(LocaleController.getString(i), LocaleController.getString(R.string.AttachLiveLocation), formatPluralString);
+        this.builder.setTicker(format);
+        this.builder.setContentText(format);
+        if (z) {
+            NotificationManagerCompat.from(ApplicationLoader.applicationContext).notify(6, this.builder.build());
+        }
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -85,59 +107,35 @@ public class LocationSharingService extends Service implements NotificationCente
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didReceivedNotification$2() {
-        if (getInfos().isEmpty()) {
-            stopSelf();
-        } else {
-            updateNotification(true);
-        }
+    @Override // android.app.Service
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
-    private ArrayList<LocationController.SharingLocationInfo> getInfos() {
-        ArrayList<LocationController.SharingLocationInfo> arrayList = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            ArrayList<LocationController.SharingLocationInfo> arrayList2 = LocationController.getInstance(i).sharingLocationsUI;
-            if (!arrayList2.isEmpty()) {
-                arrayList.addAll(arrayList2);
+    @Override // android.app.Service
+    public void onCreate() {
+        super.onCreate();
+        this.handler = new Handler();
+        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.LocationSharingService$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationSharingService.this.lambda$onCreate$1();
             }
-        }
-        return arrayList;
+        };
+        this.runnable = runnable;
+        this.handler.postDelayed(runnable, 1000L);
     }
 
-    private void updateNotification(boolean z) {
-        String formatPluralString;
-        String string;
-        if (this.builder == null) {
-            return;
+    @Override // android.app.Service
+    public void onDestroy() {
+        super.onDestroy();
+        Handler handler = this.handler;
+        if (handler != null) {
+            handler.removeCallbacks(this.runnable);
         }
-        ArrayList<LocationController.SharingLocationInfo> infos = getInfos();
-        if (infos.size() == 1) {
-            LocationController.SharingLocationInfo sharingLocationInfo = infos.get(0);
-            long dialogId = sharingLocationInfo.messageObject.getDialogId();
-            int i = sharingLocationInfo.messageObject.currentAccount;
-            if (DialogObject.isUserDialog(dialogId)) {
-                formatPluralString = UserObject.getFirstName(MessagesController.getInstance(i).getUser(Long.valueOf(dialogId)));
-                string = LocaleController.getString(R.string.AttachLiveLocationIsSharing);
-            } else {
-                TLRPC$Chat chat = MessagesController.getInstance(i).getChat(Long.valueOf(-dialogId));
-                if (chat != null) {
-                    formatPluralString = chat.title;
-                } else {
-                    formatPluralString = "";
-                }
-                string = LocaleController.getString(R.string.AttachLiveLocationIsSharingChat);
-            }
-        } else {
-            formatPluralString = LocaleController.formatPluralString("Chats", infos.size(), new Object[0]);
-            string = LocaleController.getString(R.string.AttachLiveLocationIsSharingChats);
-        }
-        String format = String.format(string, LocaleController.getString(R.string.AttachLiveLocation), formatPluralString);
-        this.builder.setTicker(format);
-        this.builder.setContentText(format);
-        if (z) {
-            NotificationManagerCompat.from(ApplicationLoader.applicationContext).notify(6, this.builder.build());
-        }
+        stopForeground(true);
+        NotificationManagerCompat.from(ApplicationLoader.applicationContext).cancel(6);
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.liveLocationsChanged);
     }
 
     @Override // android.app.Service

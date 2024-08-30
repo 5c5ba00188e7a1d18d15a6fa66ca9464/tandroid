@@ -1,6 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes3.dex */
-public class TLRPC$messages_quickReplies extends TLObject {
+public abstract class TLRPC$messages_quickReplies extends TLObject {
     public static TLRPC$messages_quickReplies TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$messages_quickReplies tLRPC$TL_messages_quickReplies = i != -963811691 ? i != 1603398491 ? null : new TLRPC$messages_quickReplies() { // from class: org.telegram.tgnet.TLRPC$TL_messages_quickRepliesNotModified
             @Override // org.telegram.tgnet.TLObject

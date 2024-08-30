@@ -53,26 +53,75 @@ public class SessionCell extends FrameLayout {
     private boolean showStub;
     private AnimatedFloat showStubValue;
 
-    /* JADX WARN: Code restructure failed: missing block: B:84:0x0215, code lost:
-        if (r25 == 0) goto L41;
+    /* loaded from: classes4.dex */
+    public static class CircleGradientDrawable extends Drawable {
+        private int colorBottom;
+        private int colorTop;
+        private Paint paint;
+        private int size;
+
+        public CircleGradientDrawable(int i, int i2, int i3) {
+            this.size = i;
+            this.colorTop = i2;
+            this.colorBottom = i3;
+            Paint paint = new Paint(1);
+            this.paint = paint;
+            paint.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, i, new int[]{i2, i3}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void draw(Canvas canvas) {
+            canvas.drawCircle(getBounds().centerX(), getBounds().centerY(), Math.min(getBounds().width(), getBounds().height()) / 2.0f, this.paint);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicHeight() {
+            return this.size;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicWidth() {
+            return this.size;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getOpacity() {
+            return -2;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setAlpha(int i) {
+            this.paint.setAlpha(i);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setColorFilter(ColorFilter colorFilter) {
+        }
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:85:0x0213, code lost:
+        if (r25 == 0) goto L42;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public SessionCell(Context context, int i) {
         super(context);
+        LinearLayout linearLayout;
+        TextView textView;
+        LinearLayout.LayoutParams createLinear;
         this.showStubValue = new AnimatedFloat(this);
         this.currentAccount = UserConfig.selectedAccount;
-        LinearLayout linearLayout = new LinearLayout(context);
-        this.linearLayout = linearLayout;
-        linearLayout.setOrientation(0);
+        LinearLayout linearLayout2 = new LinearLayout(context);
+        this.linearLayout = linearLayout2;
+        linearLayout2.setOrientation(0);
         this.linearLayout.setWeightSum(1.0f);
         this.currentType = i;
         int i2 = 21;
         if (i == 1) {
-            LinearLayout linearLayout2 = this.linearLayout;
+            LinearLayout linearLayout3 = this.linearLayout;
             boolean z = LocaleController.isRTL;
-            addView(linearLayout2, LayoutHelper.createFrame(-1, 30.0f, (z ? 5 : 3) | 48, z ? 15 : 49, 11.0f, z ? 49 : 15, 0.0f));
+            addView(linearLayout3, LayoutHelper.createFrame(-1, 30.0f, (z ? 5 : 3) | 48, z ? 15 : 49, 11.0f, z ? 49 : 15, 0.0f));
             AvatarDrawable avatarDrawable = new AvatarDrawable();
             this.avatarDrawable = avatarDrawable;
             avatarDrawable.setTextSize(AndroidUtilities.dp(10.0f));
@@ -95,41 +144,46 @@ public class SessionCell extends FrameLayout {
             BackupImageView backupImageView6 = this.imageView;
             boolean z4 = LocaleController.isRTL;
             addView(backupImageView6, LayoutHelper.createFrame(42, 42.0f, (z4 ? 5 : 3) | 48, z4 ? 0 : 16, 9.0f, z4 ? 16 : 0, 0.0f));
-            LinearLayout linearLayout3 = this.linearLayout;
+            LinearLayout linearLayout4 = this.linearLayout;
             boolean z5 = LocaleController.isRTL;
-            addView(linearLayout3, LayoutHelper.createFrame(-1, 30.0f, (z5 ? 5 : 3) | 48, z5 ? 15 : 72, 6.333f, z5 ? 72 : 15, 0.0f));
+            addView(linearLayout4, LayoutHelper.createFrame(-1, 30.0f, (z5 ? 5 : 3) | 48, z5 ? 15 : 72, 6.333f, z5 ? 72 : 15, 0.0f));
         }
-        TextView textView = new TextView(context);
-        this.nameTextView = textView;
+        TextView textView2 = new TextView(context);
+        this.nameTextView = textView2;
         int i3 = Theme.key_windowBackgroundWhiteBlackText;
-        textView.setTextColor(Theme.getColor(i3));
+        textView2.setTextColor(Theme.getColor(i3));
         this.nameTextView.setTextSize(1, i == 0 ? 15.0f : 16.0f);
         this.nameTextView.setLines(1);
         this.nameTextView.setTypeface(AndroidUtilities.bold());
         this.nameTextView.setMaxLines(1);
         this.nameTextView.setSingleLine(true);
-        TextView textView2 = this.nameTextView;
+        TextView textView3 = this.nameTextView;
         TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
-        textView2.setEllipsize(truncateAt);
+        textView3.setEllipsize(truncateAt);
         this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-        TextView textView3 = new TextView(context);
-        this.onlineTextView = textView3;
-        textView3.setTextSize(1, i == 0 ? 12.0f : 13.0f);
+        TextView textView4 = new TextView(context);
+        this.onlineTextView = textView4;
+        textView4.setTextSize(1, i == 0 ? 12.0f : 13.0f);
         this.onlineTextView.setGravity((LocaleController.isRTL ? 3 : 5) | 48);
         if (LocaleController.isRTL) {
             this.linearLayout.addView(this.onlineTextView, LayoutHelper.createLinear(-2, -1, 51, 0, 2, 0, 0));
-            this.linearLayout.addView(this.nameTextView, LayoutHelper.createLinear(0, -1, 1.0f, 53, 10, 0, 0, 0));
+            linearLayout = this.linearLayout;
+            textView = this.nameTextView;
+            createLinear = LayoutHelper.createLinear(0, -1, 1.0f, 53, 10, 0, 0, 0);
         } else {
             this.linearLayout.addView(this.nameTextView, LayoutHelper.createLinear(0, -1, 1.0f, 51, 0, 0, 10, 0));
-            this.linearLayout.addView(this.onlineTextView, LayoutHelper.createLinear(-2, -1, 53, 0, 2, 0, 0));
+            linearLayout = this.linearLayout;
+            textView = this.onlineTextView;
+            createLinear = LayoutHelper.createLinear(-2, -1, 53, 0, 2, 0, 0);
         }
+        linearLayout.addView(textView, createLinear);
         if (!LocaleController.isRTL) {
             i2 = i != 0 ? 21 : 72;
         }
         r3 = 21;
-        TextView textView4 = new TextView(context);
-        this.detailTextView = textView4;
-        textView4.setTextColor(Theme.getColor(i3));
+        TextView textView5 = new TextView(context);
+        this.detailTextView = textView5;
+        textView5.setTextColor(Theme.getColor(i3));
         this.detailTextView.setTextSize(1, i == 0 ? 13.0f : 14.0f);
         this.detailTextView.setLines(1);
         this.detailTextView.setMaxLines(1);
@@ -139,9 +193,9 @@ public class SessionCell extends FrameLayout {
         float f = i2;
         float f2 = r3;
         addView(this.detailTextView, LayoutHelper.createFrame(-1, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, f, i == 0 ? 28.0f : 36.0f, f2, 0.0f));
-        TextView textView5 = new TextView(context);
-        this.detailExTextView = textView5;
-        textView5.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3));
+        TextView textView6 = new TextView(context);
+        this.detailExTextView = textView6;
+        textView6.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3));
         this.detailExTextView.setTextSize(1, i != 0 ? 14.0f : 13.0f);
         this.detailExTextView.setLines(1);
         this.detailExTextView.setMaxLines(1);
@@ -149,6 +203,87 @@ public class SessionCell extends FrameLayout {
         this.detailExTextView.setEllipsize(truncateAt);
         this.detailExTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         addView(this.detailExTextView, LayoutHelper.createFrame(-1, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, f, i == 0 ? 46.0f : 59.0f, f2, 0.0f));
+    }
+
+    public static CombinedDrawable createDrawable(int i, String str) {
+        TLRPC$TL_authorization tLRPC$TL_authorization = new TLRPC$TL_authorization();
+        tLRPC$TL_authorization.device_model = str;
+        tLRPC$TL_authorization.platform = str;
+        tLRPC$TL_authorization.app_name = str;
+        return createDrawable(i, tLRPC$TL_authorization);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:64:0x011c  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x011f  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0126  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static CombinedDrawable createDrawable(int i, TLRPC$TL_authorization tLRPC$TL_authorization) {
+        int i2;
+        int i3;
+        int i4;
+        String lowerCase = tLRPC$TL_authorization.platform.toLowerCase();
+        if (lowerCase.isEmpty()) {
+            lowerCase = tLRPC$TL_authorization.system_version.toLowerCase();
+        }
+        String lowerCase2 = tLRPC$TL_authorization.device_model.toLowerCase();
+        if (lowerCase2.contains("safari")) {
+            i2 = R.drawable.device_web_safari;
+        } else if (lowerCase2.contains("edge")) {
+            i2 = R.drawable.device_web_edge;
+        } else if (lowerCase2.contains("chrome")) {
+            i2 = R.drawable.device_web_chrome;
+        } else if (lowerCase2.contains("opera")) {
+            i2 = R.drawable.device_web_opera;
+        } else if (lowerCase2.contains("firefox")) {
+            i2 = R.drawable.device_web_firefox;
+        } else {
+            if (!lowerCase2.contains("vivaldi")) {
+                if (lowerCase.contains("ios")) {
+                    i2 = lowerCase2.contains("ipad") ? R.drawable.device_tablet_ios : R.drawable.device_phone_ios;
+                    i3 = Theme.key_avatar_backgroundBlue;
+                    i4 = Theme.key_avatar_background2Blue;
+                } else {
+                    if (lowerCase.contains("windows")) {
+                        i2 = R.drawable.device_desktop_win;
+                    } else if (lowerCase.contains("macos")) {
+                        i2 = R.drawable.device_desktop_osx;
+                    } else if (lowerCase.contains("android")) {
+                        i2 = lowerCase2.contains("tab") ? R.drawable.device_tablet_android : R.drawable.device_phone_android;
+                        i3 = Theme.key_avatar_backgroundGreen;
+                        i4 = Theme.key_avatar_background2Green;
+                    } else {
+                        if (lowerCase.contains("fragment")) {
+                            i2 = R.drawable.fragment;
+                        } else if (lowerCase.contains("premiumbot")) {
+                            i2 = R.drawable.filled_star_plus;
+                            i3 = Theme.key_color_yellow;
+                            i4 = Theme.key_color_orange;
+                        } else if (lowerCase.contains("ads")) {
+                            i2 = R.drawable.msg_channel;
+                        } else if (lowerCase.equals("?")) {
+                            i2 = R.drawable.msg_emoji_question;
+                        } else if (tLRPC$TL_authorization.app_name.toLowerCase().contains("desktop")) {
+                            i2 = R.drawable.device_desktop_other;
+                        }
+                        i3 = -1;
+                        i4 = -1;
+                    }
+                    i3 = Theme.key_avatar_backgroundCyan;
+                    i4 = Theme.key_avatar_background2Cyan;
+                }
+                Drawable mutate = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
+                mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
+                return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate);
+            }
+            i2 = R.drawable.device_web_other;
+        }
+        i3 = Theme.key_avatar_backgroundPink;
+        i4 = Theme.key_avatar_background2Pink;
+        Drawable mutate2 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
+        mutate2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
+        return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate2);
     }
 
     private void setContentAlpha(float f) {
@@ -179,241 +314,6 @@ public class SessionCell extends FrameLayout {
         LinearLayout linearLayout = this.linearLayout;
         if (linearLayout != null) {
             linearLayout.setAlpha(f);
-        }
-    }
-
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.currentType == 0 ? 70.0f : 90.0f) + (this.needDivider ? 1 : 0), 1073741824));
-    }
-
-    public void setSession(TLObject tLObject, boolean z) {
-        String str;
-        String stringForMessageListDate;
-        this.needDivider = z;
-        if (tLObject instanceof TLRPC$TL_authorization) {
-            TLRPC$TL_authorization tLRPC$TL_authorization = (TLRPC$TL_authorization) tLObject;
-            this.imageView.setImageDrawable(createDrawable(42, tLRPC$TL_authorization));
-            StringBuilder sb = new StringBuilder();
-            if (tLRPC$TL_authorization.device_model.length() != 0) {
-                sb.append(tLRPC$TL_authorization.device_model);
-            }
-            if (sb.length() == 0) {
-                if (tLRPC$TL_authorization.platform.length() != 0) {
-                    sb.append(tLRPC$TL_authorization.platform);
-                }
-                if (tLRPC$TL_authorization.system_version.length() != 0) {
-                    if (tLRPC$TL_authorization.platform.length() != 0) {
-                        sb.append(" ");
-                    }
-                    sb.append(tLRPC$TL_authorization.system_version);
-                }
-            }
-            this.nameTextView.setText(sb);
-            if ((tLRPC$TL_authorization.flags & 1) != 0) {
-                setTag(Integer.valueOf(Theme.key_windowBackgroundWhiteValueText));
-                stringForMessageListDate = LocaleController.getString(R.string.Online);
-            } else {
-                setTag(Integer.valueOf(Theme.key_windowBackgroundWhiteGrayText3));
-                stringForMessageListDate = LocaleController.stringForMessageListDate(tLRPC$TL_authorization.date_active);
-            }
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-            if (tLRPC$TL_authorization.country.length() != 0) {
-                spannableStringBuilder.append((CharSequence) tLRPC$TL_authorization.country);
-            }
-            if (spannableStringBuilder.length() != 0) {
-                DotDividerSpan dotDividerSpan = new DotDividerSpan();
-                dotDividerSpan.setTopPadding(AndroidUtilities.dp(1.5f));
-                spannableStringBuilder.append((CharSequence) " . ").setSpan(dotDividerSpan, spannableStringBuilder.length() - 2, spannableStringBuilder.length() - 1, 0);
-            }
-            spannableStringBuilder.append((CharSequence) stringForMessageListDate);
-            this.detailExTextView.setText(spannableStringBuilder);
-            StringBuilder sb2 = new StringBuilder();
-            sb2.append(tLRPC$TL_authorization.app_name);
-            sb2.append(" ");
-            sb2.append(tLRPC$TL_authorization.app_version);
-            this.detailTextView.setText(sb2);
-        } else if (tLObject instanceof TLRPC$TL_webAuthorization) {
-            TLRPC$TL_webAuthorization tLRPC$TL_webAuthorization = (TLRPC$TL_webAuthorization) tLObject;
-            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tLRPC$TL_webAuthorization.bot_id));
-            this.nameTextView.setText(tLRPC$TL_webAuthorization.domain);
-            if (user != null) {
-                this.avatarDrawable.setInfo(this.currentAccount, user);
-                str = UserObject.getFirstName(user);
-                this.imageView.setForUserOrChat(user, this.avatarDrawable);
-            } else {
-                str = "";
-            }
-            int i = Theme.key_windowBackgroundWhiteGrayText3;
-            setTag(Integer.valueOf(i));
-            this.onlineTextView.setText(LocaleController.stringForMessageListDate(tLRPC$TL_webAuthorization.date_active));
-            this.onlineTextView.setTextColor(Theme.getColor(i));
-            StringBuilder sb3 = new StringBuilder();
-            if (tLRPC$TL_webAuthorization.ip.length() != 0) {
-                sb3.append(tLRPC$TL_webAuthorization.ip);
-            }
-            if (tLRPC$TL_webAuthorization.region.length() != 0) {
-                if (sb3.length() != 0) {
-                    sb3.append(" ");
-                }
-                sb3.append("— ");
-                sb3.append(tLRPC$TL_webAuthorization.region);
-            }
-            this.detailExTextView.setText(sb3);
-            StringBuilder sb4 = new StringBuilder();
-            if (!TextUtils.isEmpty(str)) {
-                sb4.append(str);
-            }
-            if (tLRPC$TL_webAuthorization.browser.length() != 0) {
-                if (sb4.length() != 0) {
-                    sb4.append(", ");
-                }
-                sb4.append(tLRPC$TL_webAuthorization.browser);
-            }
-            if (tLRPC$TL_webAuthorization.platform.length() != 0) {
-                if (sb4.length() != 0) {
-                    sb4.append(", ");
-                }
-                sb4.append(tLRPC$TL_webAuthorization.platform);
-            }
-            this.detailTextView.setText(sb4);
-        }
-        if (this.showStub) {
-            this.showStub = false;
-            invalidate();
-        }
-    }
-
-    public static CombinedDrawable createDrawable(int i, String str) {
-        TLRPC$TL_authorization tLRPC$TL_authorization = new TLRPC$TL_authorization();
-        tLRPC$TL_authorization.device_model = str;
-        tLRPC$TL_authorization.platform = str;
-        tLRPC$TL_authorization.app_name = str;
-        return createDrawable(i, tLRPC$TL_authorization);
-    }
-
-    public static CombinedDrawable createDrawable(int i, TLRPC$TL_authorization tLRPC$TL_authorization) {
-        int i2;
-        int i3;
-        int i4;
-        String lowerCase = tLRPC$TL_authorization.platform.toLowerCase();
-        if (lowerCase.isEmpty()) {
-            lowerCase = tLRPC$TL_authorization.system_version.toLowerCase();
-        }
-        String lowerCase2 = tLRPC$TL_authorization.device_model.toLowerCase();
-        if (lowerCase2.contains("safari")) {
-            i2 = R.drawable.device_web_safari;
-            i3 = Theme.key_avatar_backgroundPink;
-            i4 = Theme.key_avatar_background2Pink;
-        } else if (lowerCase2.contains("edge")) {
-            i2 = R.drawable.device_web_edge;
-            i3 = Theme.key_avatar_backgroundPink;
-            i4 = Theme.key_avatar_background2Pink;
-        } else if (lowerCase2.contains("chrome")) {
-            i2 = R.drawable.device_web_chrome;
-            i3 = Theme.key_avatar_backgroundPink;
-            i4 = Theme.key_avatar_background2Pink;
-        } else if (lowerCase2.contains("opera")) {
-            i2 = R.drawable.device_web_opera;
-            i3 = Theme.key_avatar_backgroundPink;
-            i4 = Theme.key_avatar_background2Pink;
-        } else if (lowerCase2.contains("firefox")) {
-            i2 = R.drawable.device_web_firefox;
-            i3 = Theme.key_avatar_backgroundPink;
-            i4 = Theme.key_avatar_background2Pink;
-        } else if (lowerCase2.contains("vivaldi")) {
-            i2 = R.drawable.device_web_other;
-            i3 = Theme.key_avatar_backgroundPink;
-            i4 = Theme.key_avatar_background2Pink;
-        } else if (lowerCase.contains("ios")) {
-            i2 = lowerCase2.contains("ipad") ? R.drawable.device_tablet_ios : R.drawable.device_phone_ios;
-            i3 = Theme.key_avatar_backgroundBlue;
-            i4 = Theme.key_avatar_background2Blue;
-        } else if (lowerCase.contains("windows")) {
-            i2 = R.drawable.device_desktop_win;
-            i3 = Theme.key_avatar_backgroundCyan;
-            i4 = Theme.key_avatar_background2Cyan;
-        } else if (lowerCase.contains("macos")) {
-            i2 = R.drawable.device_desktop_osx;
-            i3 = Theme.key_avatar_backgroundCyan;
-            i4 = Theme.key_avatar_background2Cyan;
-        } else if (lowerCase.contains("android")) {
-            i2 = lowerCase2.contains("tab") ? R.drawable.device_tablet_android : R.drawable.device_phone_android;
-            i3 = Theme.key_avatar_backgroundGreen;
-            i4 = Theme.key_avatar_background2Green;
-        } else {
-            if (lowerCase.contains("fragment")) {
-                i2 = R.drawable.fragment;
-            } else if (lowerCase.contains("premiumbot")) {
-                i2 = R.drawable.filled_star_plus;
-                i3 = Theme.key_color_yellow;
-                i4 = Theme.key_color_orange;
-            } else if (lowerCase.contains("ads")) {
-                i2 = R.drawable.msg_channel;
-                i3 = Theme.key_avatar_backgroundPink;
-                i4 = Theme.key_avatar_background2Pink;
-            } else if (lowerCase.equals("?")) {
-                i2 = R.drawable.msg_emoji_question;
-            } else if (tLRPC$TL_authorization.app_name.toLowerCase().contains("desktop")) {
-                i2 = R.drawable.device_desktop_other;
-                i3 = Theme.key_avatar_backgroundCyan;
-                i4 = Theme.key_avatar_background2Cyan;
-            } else {
-                i2 = R.drawable.device_web_other;
-                i3 = Theme.key_avatar_backgroundPink;
-                i4 = Theme.key_avatar_background2Pink;
-            }
-            i3 = -1;
-            i4 = -1;
-        }
-        Drawable mutate = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
-        mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
-        return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 == -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate);
-    }
-
-    /* loaded from: classes4.dex */
-    public static class CircleGradientDrawable extends Drawable {
-        private int colorBottom;
-        private int colorTop;
-        private Paint paint;
-        private int size;
-
-        @Override // android.graphics.drawable.Drawable
-        public int getOpacity() {
-            return -2;
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public void setColorFilter(ColorFilter colorFilter) {
-        }
-
-        public CircleGradientDrawable(int i, int i2, int i3) {
-            this.size = i;
-            this.colorTop = i2;
-            this.colorBottom = i3;
-            Paint paint = new Paint(1);
-            this.paint = paint;
-            paint.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, i, new int[]{i2, i3}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public void draw(Canvas canvas) {
-            canvas.drawCircle(getBounds().centerX(), getBounds().centerY(), Math.min(getBounds().width(), getBounds().height()) / 2.0f, this.paint);
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public void setAlpha(int i) {
-            this.paint.setAlpha(i);
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public int getIntrinsicHeight() {
-            return this.size;
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public int getIntrinsicWidth() {
-            return this.size;
         }
     }
 
@@ -457,6 +357,121 @@ public class SessionCell extends FrameLayout {
         }
     }
 
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.currentType == 0 ? 70.0f : 90.0f) + (this.needDivider ? 1 : 0), 1073741824));
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:63:0x019d  */
+    /* JADX WARN: Removed duplicated region for block: B:65:? A[RETURN, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void setSession(TLObject tLObject, boolean z) {
+        String str;
+        StringBuilder sb;
+        String str2;
+        String stringForMessageListDate;
+        this.needDivider = z;
+        if (!(tLObject instanceof TLRPC$TL_authorization)) {
+            if (tLObject instanceof TLRPC$TL_webAuthorization) {
+                TLRPC$TL_webAuthorization tLRPC$TL_webAuthorization = (TLRPC$TL_webAuthorization) tLObject;
+                TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tLRPC$TL_webAuthorization.bot_id));
+                this.nameTextView.setText(tLRPC$TL_webAuthorization.domain);
+                if (user != null) {
+                    this.avatarDrawable.setInfo(this.currentAccount, user);
+                    str = UserObject.getFirstName(user);
+                    this.imageView.setForUserOrChat(user, this.avatarDrawable);
+                } else {
+                    str = "";
+                }
+                int i = Theme.key_windowBackgroundWhiteGrayText3;
+                setTag(Integer.valueOf(i));
+                this.onlineTextView.setText(LocaleController.stringForMessageListDate(tLRPC$TL_webAuthorization.date_active));
+                this.onlineTextView.setTextColor(Theme.getColor(i));
+                StringBuilder sb2 = new StringBuilder();
+                if (tLRPC$TL_webAuthorization.ip.length() != 0) {
+                    sb2.append(tLRPC$TL_webAuthorization.ip);
+                }
+                if (tLRPC$TL_webAuthorization.region.length() != 0) {
+                    if (sb2.length() != 0) {
+                        sb2.append(" ");
+                    }
+                    sb2.append("— ");
+                    sb2.append(tLRPC$TL_webAuthorization.region);
+                }
+                this.detailExTextView.setText(sb2);
+                sb = new StringBuilder();
+                if (!TextUtils.isEmpty(str)) {
+                    sb.append(str);
+                }
+                if (tLRPC$TL_webAuthorization.browser.length() != 0) {
+                    if (sb.length() != 0) {
+                        sb.append(", ");
+                    }
+                    sb.append(tLRPC$TL_webAuthorization.browser);
+                }
+                if (tLRPC$TL_webAuthorization.platform.length() != 0) {
+                    if (sb.length() != 0) {
+                        sb.append(", ");
+                    }
+                    str2 = tLRPC$TL_webAuthorization.platform;
+                }
+                this.detailTextView.setText(sb);
+            }
+            if (this.showStub) {
+                return;
+            }
+            this.showStub = false;
+            invalidate();
+            return;
+        }
+        TLRPC$TL_authorization tLRPC$TL_authorization = (TLRPC$TL_authorization) tLObject;
+        this.imageView.setImageDrawable(createDrawable(42, tLRPC$TL_authorization));
+        StringBuilder sb3 = new StringBuilder();
+        if (tLRPC$TL_authorization.device_model.length() != 0) {
+            sb3.append(tLRPC$TL_authorization.device_model);
+        }
+        if (sb3.length() == 0) {
+            if (tLRPC$TL_authorization.platform.length() != 0) {
+                sb3.append(tLRPC$TL_authorization.platform);
+            }
+            if (tLRPC$TL_authorization.system_version.length() != 0) {
+                if (tLRPC$TL_authorization.platform.length() != 0) {
+                    sb3.append(" ");
+                }
+                sb3.append(tLRPC$TL_authorization.system_version);
+            }
+        }
+        this.nameTextView.setText(sb3);
+        if ((tLRPC$TL_authorization.flags & 1) != 0) {
+            setTag(Integer.valueOf(Theme.key_windowBackgroundWhiteValueText));
+            stringForMessageListDate = LocaleController.getString(R.string.Online);
+        } else {
+            setTag(Integer.valueOf(Theme.key_windowBackgroundWhiteGrayText3));
+            stringForMessageListDate = LocaleController.stringForMessageListDate(tLRPC$TL_authorization.date_active);
+        }
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+        if (tLRPC$TL_authorization.country.length() != 0) {
+            spannableStringBuilder.append((CharSequence) tLRPC$TL_authorization.country);
+        }
+        if (spannableStringBuilder.length() != 0) {
+            DotDividerSpan dotDividerSpan = new DotDividerSpan();
+            dotDividerSpan.setTopPadding(AndroidUtilities.dp(1.5f));
+            spannableStringBuilder.append((CharSequence) " . ").setSpan(dotDividerSpan, spannableStringBuilder.length() - 2, spannableStringBuilder.length() - 1, 0);
+        }
+        spannableStringBuilder.append((CharSequence) stringForMessageListDate);
+        this.detailExTextView.setText(spannableStringBuilder);
+        sb = new StringBuilder();
+        sb.append(tLRPC$TL_authorization.app_name);
+        sb.append(" ");
+        str2 = tLRPC$TL_authorization.app_version;
+        sb.append(str2);
+        this.detailTextView.setText(sb);
+        if (this.showStub) {
+        }
+    }
+
     public void showStub(FlickerLoadingView flickerLoadingView) {
         this.globalGradient = flickerLoadingView;
         this.showStub = true;
@@ -464,11 +479,10 @@ public class SessionCell extends FrameLayout {
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
         CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(Theme.key_avatar_backgroundGreen)), mutate);
         BackupImageView backupImageView = this.placeholderImageView;
-        if (backupImageView != null) {
-            backupImageView.setImageDrawable(combinedDrawable);
-        } else {
-            this.imageView.setImageDrawable(combinedDrawable);
+        if (backupImageView == null) {
+            backupImageView = this.imageView;
         }
+        backupImageView.setImageDrawable(combinedDrawable);
         invalidate();
     }
 }

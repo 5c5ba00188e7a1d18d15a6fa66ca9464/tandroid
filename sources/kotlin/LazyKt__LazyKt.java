@@ -1,5 +1,4 @@
 package kotlin;
-/* compiled from: Lazy.kt */
 /* loaded from: classes.dex */
-class LazyKt__LazyKt extends LazyKt__LazyJVMKt {
+abstract class LazyKt__LazyKt extends LazyKt__LazyJVMKt {
 }

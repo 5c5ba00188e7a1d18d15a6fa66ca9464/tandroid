@@ -10,7 +10,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zak implements Handler.Callback {
     private final zaj zab;
@@ -31,21 +30,21 @@ public final class zak implements Handler.Callback {
     @Override // android.os.Handler.Callback
     public final boolean handleMessage(Message message) {
         int i = message.what;
-        if (i == 1) {
-            GoogleApiClient.ConnectionCallbacks connectionCallbacks = (GoogleApiClient.ConnectionCallbacks) message.obj;
-            synchronized (this.zai) {
-                try {
-                    if (this.zae && this.zab.isConnected() && this.zac.contains(connectionCallbacks)) {
-                        connectionCallbacks.onConnected(null);
-                    }
-                } catch (Throwable th) {
-                    throw th;
-                }
-            }
-            return true;
+        if (i != 1) {
+            Log.wtf("GmsClientEvents", "Don't know how to handle message: " + i, new Exception());
+            return false;
         }
-        Log.wtf("GmsClientEvents", "Don't know how to handle message: " + i, new Exception());
-        return false;
+        GoogleApiClient.ConnectionCallbacks connectionCallbacks = (GoogleApiClient.ConnectionCallbacks) message.obj;
+        synchronized (this.zai) {
+            try {
+                if (this.zae && this.zab.isConnected() && this.zac.contains(connectionCallbacks)) {
+                    connectionCallbacks.onConnected(null);
+                }
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+        return true;
     }
 
     public final void zaa() {

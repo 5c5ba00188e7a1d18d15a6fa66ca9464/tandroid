@@ -9,7 +9,7 @@ import com.google.common.base.Objects;
 public final class PercentageRating extends Rating {
     private final float percent;
     private static final String FIELD_PERCENT = Util.intToStringMaxRadix(1);
-    public static final Bundleable.Creator<PercentageRating> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.PercentageRating$$ExternalSyntheticLambda0
+    public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.PercentageRating$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.Bundleable.Creator
         public final Bundleable fromBundle(Bundle bundle) {
             PercentageRating fromBundle;
@@ -27,12 +27,19 @@ public final class PercentageRating extends Rating {
         this.percent = f;
     }
 
-    public int hashCode() {
-        return Objects.hashCode(Float.valueOf(this.percent));
+    /* JADX INFO: Access modifiers changed from: private */
+    public static PercentageRating fromBundle(Bundle bundle) {
+        Assertions.checkArgument(bundle.getInt(Rating.FIELD_RATING_TYPE, -1) == 1);
+        float f = bundle.getFloat(FIELD_PERCENT, -1.0f);
+        return f == -1.0f ? new PercentageRating() : new PercentageRating(f);
     }
 
     public boolean equals(Object obj) {
         return (obj instanceof PercentageRating) && this.percent == ((PercentageRating) obj).percent;
+    }
+
+    public int hashCode() {
+        return Objects.hashCode(Float.valueOf(this.percent));
     }
 
     @Override // com.google.android.exoplayer2.Bundleable
@@ -41,12 +48,5 @@ public final class PercentageRating extends Rating {
         bundle.putInt(Rating.FIELD_RATING_TYPE, 1);
         bundle.putFloat(FIELD_PERCENT, this.percent);
         return bundle;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static PercentageRating fromBundle(Bundle bundle) {
-        Assertions.checkArgument(bundle.getInt(Rating.FIELD_RATING_TYPE, -1) == 1);
-        float f = bundle.getFloat(FIELD_PERCENT, -1.0f);
-        return f == -1.0f ? new PercentageRating() : new PercentageRating(f);
     }
 }

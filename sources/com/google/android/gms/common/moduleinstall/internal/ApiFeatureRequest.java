@@ -15,7 +15,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public class ApiFeatureRequest extends AbstractSafeParcelable {
     public static final Parcelable.Creator<ApiFeatureRequest> CREATOR = new zac();
@@ -25,10 +24,7 @@ public class ApiFeatureRequest extends AbstractSafeParcelable {
             Feature feature = (Feature) obj;
             Feature feature2 = (Feature) obj2;
             Parcelable.Creator<ApiFeatureRequest> creator = ApiFeatureRequest.CREATOR;
-            if (!feature.getName().equals(feature2.getName())) {
-                return feature.getName().compareTo(feature2.getName());
-            }
-            return (feature.getVersion() > feature2.getVersion() ? 1 : (feature.getVersion() == feature2.getVersion() ? 0 : -1));
+            return !feature.getName().equals(feature2.getName()) ? feature.getName().compareTo(feature2.getName()) : (feature.getVersion() > feature2.getVersion() ? 1 : (feature.getVersion() == feature2.getVersion() ? 0 : -1));
         }
     };
     private final List zab;
@@ -66,7 +62,7 @@ public class ApiFeatureRequest extends AbstractSafeParcelable {
         return false;
     }
 
-    public List<Feature> getApiFeatures() {
+    public List getApiFeatures() {
         return this.zab;
     }
 

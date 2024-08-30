@@ -31,15 +31,6 @@ public class FileVideoCapturer implements VideoCapturer {
         VideoFrame getNextFrame();
     }
 
-    @Override // org.webrtc.VideoCapturer
-    public void changeCaptureFormat(int i, int i2, int i3) {
-    }
-
-    @Override // org.webrtc.VideoCapturer
-    public boolean isScreencast() {
-        return false;
-    }
-
     /* loaded from: classes.dex */
     private static class VideoReaderY4M implements VideoReader {
         private static final int FRAME_DELIMETER_LENGTH = 6;
@@ -51,7 +42,7 @@ public class FileVideoCapturer implements VideoCapturer {
         private final FileChannel mediaFileChannel;
         private final long videoStart;
 
-        public VideoReaderY4M(String str) throws IOException {
+        public VideoReaderY4M(String str) {
             String[] split;
             RandomAccessFile randomAccessFile = new RandomAccessFile(str, "r");
             this.mediaFile = randomAccessFile;
@@ -61,9 +52,7 @@ public class FileVideoCapturer implements VideoCapturer {
                 int read = this.mediaFile.read();
                 if (read == -1) {
                     throw new RuntimeException("Found end of file before end of header for file: " + str);
-                } else if (read != 10) {
-                    sb.append((char) read);
-                } else {
+                } else if (read == 10) {
                     this.videoStart = this.mediaFileChannel.position();
                     String str2 = "";
                     int i = 0;
@@ -89,7 +78,18 @@ public class FileVideoCapturer implements VideoCapturer {
                     this.frameHeight = i2;
                     Logging.d(TAG, "frame dim: (" + i + ", " + i2 + ")");
                     return;
+                } else {
+                    sb.append((char) read);
                 }
+            }
+        }
+
+        @Override // org.webrtc.FileVideoCapturer.VideoReader
+        public void close() {
+            try {
+                this.mediaFile.close();
+            } catch (IOException e) {
+                Logging.e(TAG, "Problem closing file", e);
             }
         }
 
@@ -113,29 +113,20 @@ public class FileVideoCapturer implements VideoCapturer {
                     }
                 }
                 String str = new String(allocate2.array(), Charset.forName("US-ASCII"));
-                if (!str.equals("FRAME\n")) {
-                    throw new RuntimeException("Frames should be delimited by FRAME plus newline, found delimter was: '" + str + "'");
+                if (str.equals("FRAME\n")) {
+                    this.mediaFileChannel.read(dataY);
+                    this.mediaFileChannel.read(dataU);
+                    this.mediaFileChannel.read(dataV);
+                    return new VideoFrame(allocate, 0, nanos);
                 }
-                this.mediaFileChannel.read(dataY);
-                this.mediaFileChannel.read(dataU);
-                this.mediaFileChannel.read(dataV);
-                return new VideoFrame(allocate, 0, nanos);
+                throw new RuntimeException("Frames should be delimited by FRAME plus newline, found delimter was: '" + str + "'");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
-
-        @Override // org.webrtc.FileVideoCapturer.VideoReader
-        public void close() {
-            try {
-                this.mediaFile.close();
-            } catch (IOException e) {
-                Logging.e(TAG, "Problem closing file", e);
-            }
-        }
     }
 
-    public FileVideoCapturer(String str) throws IOException {
+    public FileVideoCapturer(String str) {
         try {
             this.videoReader = new VideoReaderY4M(str);
         } catch (IOException e) {
@@ -144,10 +135,13 @@ public class FileVideoCapturer implements VideoCapturer {
         }
     }
 
-    public void tick() {
-        VideoFrame nextFrame = this.videoReader.getNextFrame();
-        this.capturerObserver.onFrameCaptured(nextFrame);
-        nextFrame.release();
+    @Override // org.webrtc.VideoCapturer
+    public void changeCaptureFormat(int i, int i2, int i3) {
+    }
+
+    @Override // org.webrtc.VideoCapturer
+    public void dispose() {
+        this.videoReader.close();
     }
 
     @Override // org.webrtc.VideoCapturer
@@ -156,17 +150,23 @@ public class FileVideoCapturer implements VideoCapturer {
     }
 
     @Override // org.webrtc.VideoCapturer
+    public boolean isScreencast() {
+        return false;
+    }
+
+    @Override // org.webrtc.VideoCapturer
     public void startCapture(int i, int i2, int i3) {
         this.timer.schedule(this.tickTask, 0L, 1000 / i3);
     }
 
     @Override // org.webrtc.VideoCapturer
-    public void stopCapture() throws InterruptedException {
+    public void stopCapture() {
         this.timer.cancel();
     }
 
-    @Override // org.webrtc.VideoCapturer
-    public void dispose() {
-        this.videoReader.close();
+    public void tick() {
+        VideoFrame nextFrame = this.videoReader.getNextFrame();
+        this.capturerObserver.onFrameCaptured(nextFrame);
+        nextFrame.release();
     }
 }

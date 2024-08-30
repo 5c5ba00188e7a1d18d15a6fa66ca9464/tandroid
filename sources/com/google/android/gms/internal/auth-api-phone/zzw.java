@@ -10,9 +10,8 @@ import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.common.api.internal.OnConnectionFailedListener;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
-/* compiled from: com.google.android.gms:play-services-auth-api-phone@@17.5.1 */
 /* loaded from: classes.dex */
-public final class zzw extends GmsClient<zzh> {
+public final class zzw extends GmsClient {
     public zzw(Context context, Looper looper, ClientSettings clientSettings, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
         super(context, looper, 126, clientSettings, connectionCallbacks, onConnectionFailedListener);
     }
@@ -24,10 +23,7 @@ public final class zzw extends GmsClient<zzh> {
             return null;
         }
         IInterface queryLocalInterface = iBinder.queryLocalInterface("com.google.android.gms.auth.api.phone.internal.ISmsRetrieverApiService");
-        if (queryLocalInterface instanceof zzh) {
-            return (zzh) queryLocalInterface;
-        }
-        return new zzh(iBinder);
+        return queryLocalInterface instanceof zzh ? (zzh) queryLocalInterface : new zzh(iBinder);
     }
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient

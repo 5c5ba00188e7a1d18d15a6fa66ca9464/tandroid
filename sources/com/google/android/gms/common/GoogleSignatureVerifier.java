@@ -6,10 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.Signature;
 import android.util.Log;
 import com.google.android.gms.common.internal.Preconditions;
-import com.google.errorprone.annotations.RestrictedInheritance;
 import org.telegram.messenger.NotificationCenter;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
-@RestrictedInheritance(allowedOnPath = ".*java.*/com/google/android/gms/common/testing/.*", explanation = "Sub classing of GMS Core's APIs are restricted to testing fakes.", link = "go/gmscore-restrictedinheritance")
 /* loaded from: classes.dex */
 public class GoogleSignatureVerifier {
     private static GoogleSignatureVerifier zza;

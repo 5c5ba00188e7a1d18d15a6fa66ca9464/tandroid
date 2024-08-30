@@ -1,6 +1,5 @@
 package org.telegram.ui.Components.Premium.boosts.cells;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -15,7 +14,6 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.TextStyleSpan;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
-@SuppressLint({"ViewConstructor"})
 /* loaded from: classes3.dex */
 public class LinkCell extends FrameLayout {
     private ImageView imageView;
@@ -74,13 +72,6 @@ public class LinkCell extends FrameLayout {
         AndroidUtilities.addToClipboard(this.link);
     }
 
-    public void setSlug(String str) {
-        this.slug = str;
-        this.link = "https://t.me/giftcode/" + str;
-        SpoilersTextView spoilersTextView = this.linkView;
-        spoilersTextView.setText("t.me/giftcode/" + str);
-    }
-
     public void hideSlug(final Runnable runnable) {
         this.imageView.setVisibility(4);
         this.linkView.setPadding(AndroidUtilities.dp(18.0f), AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f), AndroidUtilities.dp(18.0f));
@@ -98,5 +89,12 @@ public class LinkCell extends FrameLayout {
                 runnable.run();
             }
         });
+    }
+
+    public void setSlug(String str) {
+        this.slug = str;
+        this.link = "https://t.me/giftcode/" + str;
+        SpoilersTextView spoilersTextView = this.linkView;
+        spoilersTextView.setText("t.me/giftcode/" + str);
     }
 }

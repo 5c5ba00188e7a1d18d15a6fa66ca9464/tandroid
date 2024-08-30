@@ -9,15 +9,53 @@ import java.util.List;
 public final class DisplayCutoutCompat {
     private final DisplayCutout mDisplayCutout;
 
+    /* loaded from: classes.dex */
+    static class Api28Impl {
+        static DisplayCutout createDisplayCutout(Rect rect, List<Rect> list) {
+            return new DisplayCutout(rect, list);
+        }
+
+        static List<Rect> getBoundingRects(DisplayCutout displayCutout) {
+            return displayCutout.getBoundingRects();
+        }
+
+        static int getSafeInsetBottom(DisplayCutout displayCutout) {
+            return displayCutout.getSafeInsetBottom();
+        }
+
+        static int getSafeInsetLeft(DisplayCutout displayCutout) {
+            return displayCutout.getSafeInsetLeft();
+        }
+
+        static int getSafeInsetRight(DisplayCutout displayCutout) {
+            return displayCutout.getSafeInsetRight();
+        }
+
+        static int getSafeInsetTop(DisplayCutout displayCutout) {
+            return displayCutout.getSafeInsetTop();
+        }
+    }
+
     private DisplayCutoutCompat(DisplayCutout displayCutout) {
         this.mDisplayCutout = displayCutout;
     }
 
-    public int getSafeInsetTop() {
-        if (Build.VERSION.SDK_INT >= 28) {
-            return Api28Impl.getSafeInsetTop(this.mDisplayCutout);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static DisplayCutoutCompat wrap(DisplayCutout displayCutout) {
+        if (displayCutout == null) {
+            return null;
         }
-        return 0;
+        return new DisplayCutoutCompat(displayCutout);
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || DisplayCutoutCompat.class != obj.getClass()) {
+            return false;
+        }
+        return ObjectsCompat.equals(this.mDisplayCutout, ((DisplayCutoutCompat) obj).mDisplayCutout);
     }
 
     public int getSafeInsetBottom() {
@@ -41,14 +79,11 @@ public final class DisplayCutoutCompat {
         return 0;
     }
 
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    public int getSafeInsetTop() {
+        if (Build.VERSION.SDK_INT >= 28) {
+            return Api28Impl.getSafeInsetTop(this.mDisplayCutout);
         }
-        if (obj == null || DisplayCutoutCompat.class != obj.getClass()) {
-            return false;
-        }
-        return ObjectsCompat.equals(this.mDisplayCutout, ((DisplayCutoutCompat) obj).mDisplayCutout);
+        return 0;
     }
 
     public int hashCode() {
@@ -63,40 +98,5 @@ public final class DisplayCutoutCompat {
 
     public String toString() {
         return "DisplayCutoutCompat{" + this.mDisplayCutout + "}";
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static DisplayCutoutCompat wrap(DisplayCutout displayCutout) {
-        if (displayCutout == null) {
-            return null;
-        }
-        return new DisplayCutoutCompat(displayCutout);
-    }
-
-    /* loaded from: classes.dex */
-    static class Api28Impl {
-        static DisplayCutout createDisplayCutout(Rect rect, List<Rect> list) {
-            return new DisplayCutout(rect, list);
-        }
-
-        static int getSafeInsetTop(DisplayCutout displayCutout) {
-            return displayCutout.getSafeInsetTop();
-        }
-
-        static int getSafeInsetBottom(DisplayCutout displayCutout) {
-            return displayCutout.getSafeInsetBottom();
-        }
-
-        static int getSafeInsetLeft(DisplayCutout displayCutout) {
-            return displayCutout.getSafeInsetLeft();
-        }
-
-        static int getSafeInsetRight(DisplayCutout displayCutout) {
-            return displayCutout.getSafeInsetRight();
-        }
-
-        static List<Rect> getBoundingRects(DisplayCutout displayCutout) {
-            return displayCutout.getBoundingRects();
-        }
     }
 }

@@ -14,8 +14,8 @@ public class TextPaintMarkSpan extends MetricAffectingSpan {
         return this.textPaint;
     }
 
-    @Override // android.text.style.MetricAffectingSpan
-    public void updateMeasureState(TextPaint textPaint) {
+    @Override // android.text.style.CharacterStyle
+    public void updateDrawState(TextPaint textPaint) {
         TextPaint textPaint2 = this.textPaint;
         if (textPaint2 != null) {
             textPaint.setColor(textPaint2.getColor());
@@ -28,8 +28,8 @@ public class TextPaintMarkSpan extends MetricAffectingSpan {
         }
     }
 
-    @Override // android.text.style.CharacterStyle
-    public void updateDrawState(TextPaint textPaint) {
+    @Override // android.text.style.MetricAffectingSpan
+    public void updateMeasureState(TextPaint textPaint) {
         TextPaint textPaint2 = this.textPaint;
         if (textPaint2 != null) {
             textPaint.setColor(textPaint2.getColor());

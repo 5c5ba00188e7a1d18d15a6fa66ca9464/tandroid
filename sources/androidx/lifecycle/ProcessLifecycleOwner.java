@@ -30,15 +30,18 @@ public class ProcessLifecycleOwner implements LifecycleOwner {
         }
 
         @Override // androidx.lifecycle.ReportFragment.ActivityInitializationListener
-        public void onStart() {
-            ProcessLifecycleOwner.this.activityStarted();
-        }
-
-        @Override // androidx.lifecycle.ReportFragment.ActivityInitializationListener
         public void onResume() {
             ProcessLifecycleOwner.this.activityResumed();
         }
+
+        @Override // androidx.lifecycle.ReportFragment.ActivityInitializationListener
+        public void onStart() {
+            ProcessLifecycleOwner.this.activityStarted();
+        }
     };
+
+    private ProcessLifecycleOwner() {
+    }
 
     public static LifecycleOwner get() {
         return sInstance;
@@ -47,6 +50,27 @@ public class ProcessLifecycleOwner implements LifecycleOwner {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static void init(Context context) {
         sInstance.attach(context);
+    }
+
+    void activityPaused() {
+        int i = this.mResumedCounter - 1;
+        this.mResumedCounter = i;
+        if (i == 0) {
+            this.mHandler.postDelayed(this.mDelayedPauseRunnable, 700L);
+        }
+    }
+
+    void activityResumed() {
+        int i = this.mResumedCounter + 1;
+        this.mResumedCounter = i;
+        if (i == 1) {
+            if (!this.mPauseSent) {
+                this.mHandler.removeCallbacks(this.mDelayedPauseRunnable);
+                return;
+            }
+            this.mRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+            this.mPauseSent = false;
+        }
     }
 
     void activityStarted() {
@@ -58,30 +82,47 @@ public class ProcessLifecycleOwner implements LifecycleOwner {
         }
     }
 
-    void activityResumed() {
-        int i = this.mResumedCounter + 1;
-        this.mResumedCounter = i;
-        if (i == 1) {
-            if (this.mPauseSent) {
-                this.mRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
-                this.mPauseSent = false;
-                return;
-            }
-            this.mHandler.removeCallbacks(this.mDelayedPauseRunnable);
-        }
-    }
-
-    void activityPaused() {
-        int i = this.mResumedCounter - 1;
-        this.mResumedCounter = i;
-        if (i == 0) {
-            this.mHandler.postDelayed(this.mDelayedPauseRunnable, 700L);
-        }
-    }
-
     void activityStopped() {
         this.mStartedCounter--;
         dispatchStopIfNeeded();
+    }
+
+    void attach(Context context) {
+        this.mHandler = new Handler();
+        this.mRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
+        ((Application) context.getApplicationContext()).registerActivityLifecycleCallbacks(new EmptyActivityLifecycleCallbacks() { // from class: androidx.lifecycle.ProcessLifecycleOwner.3
+            @Override // androidx.lifecycle.EmptyActivityLifecycleCallbacks, android.app.Application.ActivityLifecycleCallbacks
+            public void onActivityCreated(Activity activity, Bundle bundle) {
+                if (Build.VERSION.SDK_INT < 29) {
+                    ReportFragment.get(activity).setProcessListener(ProcessLifecycleOwner.this.mInitializationListener);
+                }
+            }
+
+            @Override // androidx.lifecycle.EmptyActivityLifecycleCallbacks, android.app.Application.ActivityLifecycleCallbacks
+            public void onActivityPaused(Activity activity) {
+                ProcessLifecycleOwner.this.activityPaused();
+            }
+
+            @Override // android.app.Application.ActivityLifecycleCallbacks
+            public void onActivityPreCreated(Activity activity, Bundle bundle) {
+                activity.registerActivityLifecycleCallbacks(new EmptyActivityLifecycleCallbacks() { // from class: androidx.lifecycle.ProcessLifecycleOwner.3.1
+                    @Override // android.app.Application.ActivityLifecycleCallbacks
+                    public void onActivityPostResumed(Activity activity2) {
+                        ProcessLifecycleOwner.this.activityResumed();
+                    }
+
+                    @Override // android.app.Application.ActivityLifecycleCallbacks
+                    public void onActivityPostStarted(Activity activity2) {
+                        ProcessLifecycleOwner.this.activityStarted();
+                    }
+                });
+            }
+
+            @Override // androidx.lifecycle.EmptyActivityLifecycleCallbacks, android.app.Application.ActivityLifecycleCallbacks
+            public void onActivityStopped(Activity activity) {
+                ProcessLifecycleOwner.this.activityStopped();
+            }
+        });
     }
 
     void dispatchPauseIfNeeded() {
@@ -96,47 +137,6 @@ public class ProcessLifecycleOwner implements LifecycleOwner {
             this.mRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
             this.mStopSent = true;
         }
-    }
-
-    private ProcessLifecycleOwner() {
-    }
-
-    void attach(Context context) {
-        this.mHandler = new Handler();
-        this.mRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
-        ((Application) context.getApplicationContext()).registerActivityLifecycleCallbacks(new EmptyActivityLifecycleCallbacks() { // from class: androidx.lifecycle.ProcessLifecycleOwner.3
-            @Override // android.app.Application.ActivityLifecycleCallbacks
-            public void onActivityPreCreated(Activity activity, Bundle bundle) {
-                activity.registerActivityLifecycleCallbacks(new EmptyActivityLifecycleCallbacks() { // from class: androidx.lifecycle.ProcessLifecycleOwner.3.1
-                    @Override // android.app.Application.ActivityLifecycleCallbacks
-                    public void onActivityPostStarted(Activity activity2) {
-                        ProcessLifecycleOwner.this.activityStarted();
-                    }
-
-                    @Override // android.app.Application.ActivityLifecycleCallbacks
-                    public void onActivityPostResumed(Activity activity2) {
-                        ProcessLifecycleOwner.this.activityResumed();
-                    }
-                });
-            }
-
-            @Override // androidx.lifecycle.EmptyActivityLifecycleCallbacks, android.app.Application.ActivityLifecycleCallbacks
-            public void onActivityCreated(Activity activity, Bundle bundle) {
-                if (Build.VERSION.SDK_INT < 29) {
-                    ReportFragment.get(activity).setProcessListener(ProcessLifecycleOwner.this.mInitializationListener);
-                }
-            }
-
-            @Override // androidx.lifecycle.EmptyActivityLifecycleCallbacks, android.app.Application.ActivityLifecycleCallbacks
-            public void onActivityPaused(Activity activity) {
-                ProcessLifecycleOwner.this.activityPaused();
-            }
-
-            @Override // androidx.lifecycle.EmptyActivityLifecycleCallbacks, android.app.Application.ActivityLifecycleCallbacks
-            public void onActivityStopped(Activity activity) {
-                ProcessLifecycleOwner.this.activityStopped();
-            }
-        });
     }
 
     @Override // androidx.lifecycle.LifecycleOwner

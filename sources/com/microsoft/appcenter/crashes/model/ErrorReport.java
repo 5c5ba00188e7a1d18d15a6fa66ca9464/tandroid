@@ -11,31 +11,31 @@ public class ErrorReport {
     private String stackTrace;
     private String threadName;
 
-    public void setId(String str) {
-        this.id = str;
-    }
-
-    public void setThreadName(String str) {
-        this.threadName = str;
-    }
-
-    public void setStackTrace(String str) {
-        this.stackTrace = str;
-    }
-
-    public void setAppStartTime(Date date) {
-        this.appStartTime = date;
+    public Device getDevice() {
+        return this.device;
     }
 
     public void setAppErrorTime(Date date) {
         this.appErrorTime = date;
     }
 
-    public Device getDevice() {
-        return this.device;
+    public void setAppStartTime(Date date) {
+        this.appStartTime = date;
     }
 
     public void setDevice(Device device) {
         this.device = device;
+    }
+
+    public void setId(String str) {
+        this.id = str;
+    }
+
+    public void setStackTrace(String str) {
+        this.stackTrace = str;
+    }
+
+    public void setThreadName(String str) {
+        this.threadName = str;
     }
 }

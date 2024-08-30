@@ -7,7 +7,6 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSourceUtil;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.StatsDataSource;
-import java.io.IOException;
 /* loaded from: classes.dex */
 public final class InitializationChunk extends Chunk {
     private final ChunkExtractor chunkExtractor;
@@ -20,17 +19,17 @@ public final class InitializationChunk extends Chunk {
         this.chunkExtractor = chunkExtractor;
     }
 
-    public void init(ChunkExtractor.TrackOutputProvider trackOutputProvider) {
-        this.trackOutputProvider = trackOutputProvider;
-    }
-
     @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
     public void cancelLoad() {
         this.loadCanceled = true;
     }
 
+    public void init(ChunkExtractor.TrackOutputProvider trackOutputProvider) {
+        this.trackOutputProvider = trackOutputProvider;
+    }
+
     @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
-    public void load() throws IOException {
+    public void load() {
         if (this.nextLoadPosition == 0) {
             this.chunkExtractor.init(this.trackOutputProvider, -9223372036854775807L, -9223372036854775807L);
         }

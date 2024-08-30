@@ -90,8 +90,4 @@ public class zzfl {
     public static zzfl[] values() {
         return (zzfl[]) zzqw.clone();
     }
-
-    public final zzfq zzek() {
-        return this.zzqu;
-    }
 }

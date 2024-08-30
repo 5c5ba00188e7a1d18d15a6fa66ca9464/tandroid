@@ -45,29 +45,52 @@ public class DefaultLoadControl implements LoadControl {
         this.retainBackBufferFromKeyframe = z2;
     }
 
-    @Override // com.google.android.exoplayer2.LoadControl
-    public void onPrepared() {
-        reset(false);
+    private static void assertGreaterOrEqual(int i, int i2, String str, String str2) {
+        boolean z = i >= i2;
+        Assertions.checkArgument(z, str + " cannot be less than " + str2);
     }
 
-    @Override // com.google.android.exoplayer2.LoadControl
-    public void onTracksSelected(Renderer[] rendererArr, TrackGroupArray trackGroupArray, ExoTrackSelection[] exoTrackSelectionArr) {
+    private static int getDefaultBufferSize(int i) {
+        switch (i) {
+            case VoIPController.ERROR_PRIVACY /* -2 */:
+                return 0;
+            case -1:
+            default:
+                throw new IllegalArgumentException();
+            case 0:
+                return 144310272;
+            case 1:
+                return 13107200;
+            case 2:
+                return 131072000;
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+                return 131072;
+        }
+    }
+
+    private void reset(boolean z) {
         int i = this.targetBufferBytesOverwrite;
         if (i == -1) {
-            i = calculateTargetBufferBytes(rendererArr, exoTrackSelectionArr);
+            i = 13107200;
         }
         this.targetBufferBytes = i;
-        this.allocator.setTargetBufferSize(i);
+        this.isLoading = false;
+        if (z) {
+            this.allocator.reset();
+        }
     }
 
-    @Override // com.google.android.exoplayer2.LoadControl
-    public void onStopped() {
-        reset(true);
-    }
-
-    @Override // com.google.android.exoplayer2.LoadControl
-    public void onReleased() {
-        reset(true);
+    protected int calculateTargetBufferBytes(Renderer[] rendererArr, ExoTrackSelection[] exoTrackSelectionArr) {
+        int i = 0;
+        for (int i2 = 0; i2 < rendererArr.length; i2++) {
+            if (exoTrackSelectionArr[i2] != null) {
+                i += getDefaultBufferSize(rendererArr[i2].getTrackType());
+            }
+        }
+        return Math.max(13107200, i);
     }
 
     @Override // com.google.android.exoplayer2.LoadControl
@@ -78,6 +101,31 @@ public class DefaultLoadControl implements LoadControl {
     @Override // com.google.android.exoplayer2.LoadControl
     public long getBackBufferDurationUs() {
         return this.backBufferDurationUs;
+    }
+
+    @Override // com.google.android.exoplayer2.LoadControl
+    public void onPrepared() {
+        reset(false);
+    }
+
+    @Override // com.google.android.exoplayer2.LoadControl
+    public void onReleased() {
+        reset(true);
+    }
+
+    @Override // com.google.android.exoplayer2.LoadControl
+    public void onStopped() {
+        reset(true);
+    }
+
+    @Override // com.google.android.exoplayer2.LoadControl
+    public void onTracksSelected(Renderer[] rendererArr, TrackGroupArray trackGroupArray, ExoTrackSelection[] exoTrackSelectionArr) {
+        int i = this.targetBufferBytesOverwrite;
+        if (i == -1) {
+            i = calculateTargetBufferBytes(rendererArr, exoTrackSelectionArr);
+        }
+        this.targetBufferBytes = i;
+        this.allocator.setTargetBufferSize(i);
     }
 
     @Override // com.google.android.exoplayer2.LoadControl
@@ -115,53 +163,5 @@ public class DefaultLoadControl implements LoadControl {
             j3 = Math.min(j2 / 2, j3);
         }
         return j3 <= 0 || playoutDurationForMediaDuration >= j3 || (!this.prioritizeTimeOverSizeThresholds && this.allocator.getTotalBytesAllocated() >= this.targetBufferBytes);
-    }
-
-    protected int calculateTargetBufferBytes(Renderer[] rendererArr, ExoTrackSelection[] exoTrackSelectionArr) {
-        int i = 0;
-        for (int i2 = 0; i2 < rendererArr.length; i2++) {
-            if (exoTrackSelectionArr[i2] != null) {
-                i += getDefaultBufferSize(rendererArr[i2].getTrackType());
-            }
-        }
-        return Math.max(13107200, i);
-    }
-
-    private void reset(boolean z) {
-        int i = this.targetBufferBytesOverwrite;
-        if (i == -1) {
-            i = 13107200;
-        }
-        this.targetBufferBytes = i;
-        this.isLoading = false;
-        if (z) {
-            this.allocator.reset();
-        }
-    }
-
-    private static int getDefaultBufferSize(int i) {
-        switch (i) {
-            case VoIPController.ERROR_PRIVACY /* -2 */:
-                return 0;
-            case -1:
-            default:
-                throw new IllegalArgumentException();
-            case 0:
-                return 144310272;
-            case 1:
-                return 13107200;
-            case 2:
-                return 131072000;
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-                return 131072;
-        }
-    }
-
-    private static void assertGreaterOrEqual(int i, int i2, String str, String str2) {
-        boolean z = i >= i2;
-        Assertions.checkArgument(z, str + " cannot be less than " + str2);
     }
 }

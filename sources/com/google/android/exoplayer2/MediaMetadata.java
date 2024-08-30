@@ -43,7 +43,6 @@ public final class MediaMetadata implements Bundleable {
     public final Integer trackNumber;
     public final Rating userRating;
     public final CharSequence writer;
-    @Deprecated
     public final Integer year;
     public static final MediaMetadata EMPTY = new Builder().build();
     private static final String FIELD_TITLE = Util.intToStringMaxRadix(0);
@@ -79,7 +78,7 @@ public final class MediaMetadata implements Bundleable {
     private static final String FIELD_MEDIA_TYPE = Util.intToStringMaxRadix(31);
     private static final String FIELD_IS_BROWSABLE = Util.intToStringMaxRadix(32);
     private static final String FIELD_EXTRAS = Util.intToStringMaxRadix(1000);
-    public static final Bundleable.Creator<MediaMetadata> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.MediaMetadata$$ExternalSyntheticLambda0
+    public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.MediaMetadata$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.Bundleable.Creator
         public final Bundleable fromBundle(Bundle bundle) {
             MediaMetadata fromBundle;
@@ -87,73 +86,6 @@ public final class MediaMetadata implements Bundleable {
             return fromBundle;
         }
     };
-
-    private static int getFolderTypeFromMediaType(int i) {
-        switch (i) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-            case 31:
-            case 32:
-            case 33:
-            case 34:
-            case 35:
-                return 1;
-            case 20:
-            case 26:
-            case 27:
-            case 28:
-            case 29:
-            case 30:
-            default:
-                return 0;
-            case 21:
-                return 2;
-            case 22:
-                return 3;
-            case 23:
-                return 4;
-            case 24:
-                return 5;
-            case 25:
-                return 6;
-        }
-    }
-
-    private static int getMediaTypeFromFolderType(int i) {
-        switch (i) {
-            case 1:
-                return 0;
-            case 2:
-                return 21;
-            case 3:
-                return 22;
-            case 4:
-                return 23;
-            case 5:
-                return 24;
-            case 6:
-                return 25;
-            default:
-                return 20;
-        }
-    }
 
     /* loaded from: classes.dex */
     public static final class Builder {
@@ -230,188 +162,14 @@ public final class MediaMetadata implements Bundleable {
             this.extras = mediaMetadata.extras;
         }
 
-        public Builder setTitle(CharSequence charSequence) {
-            this.title = charSequence;
-            return this;
-        }
-
-        public Builder setArtist(CharSequence charSequence) {
-            this.artist = charSequence;
-            return this;
-        }
-
-        public Builder setAlbumTitle(CharSequence charSequence) {
-            this.albumTitle = charSequence;
-            return this;
-        }
-
-        public Builder setAlbumArtist(CharSequence charSequence) {
-            this.albumArtist = charSequence;
-            return this;
-        }
-
-        public Builder setDisplayTitle(CharSequence charSequence) {
-            this.displayTitle = charSequence;
-            return this;
-        }
-
-        public Builder setSubtitle(CharSequence charSequence) {
-            this.subtitle = charSequence;
-            return this;
-        }
-
-        public Builder setDescription(CharSequence charSequence) {
-            this.description = charSequence;
-            return this;
-        }
-
-        public Builder setUserRating(Rating rating) {
-            this.userRating = rating;
-            return this;
-        }
-
-        public Builder setOverallRating(Rating rating) {
-            this.overallRating = rating;
-            return this;
-        }
-
-        public Builder setArtworkData(byte[] bArr, Integer num) {
-            this.artworkData = bArr == null ? null : (byte[]) bArr.clone();
-            this.artworkDataType = num;
-            return this;
+        public MediaMetadata build() {
+            return new MediaMetadata(this);
         }
 
         public Builder maybeSetArtworkData(byte[] bArr, int i) {
             if (this.artworkData == null || Util.areEqual(Integer.valueOf(i), 3) || !Util.areEqual(this.artworkDataType, 3)) {
                 this.artworkData = (byte[]) bArr.clone();
                 this.artworkDataType = Integer.valueOf(i);
-            }
-            return this;
-        }
-
-        public Builder setArtworkUri(Uri uri) {
-            this.artworkUri = uri;
-            return this;
-        }
-
-        public Builder setTrackNumber(Integer num) {
-            this.trackNumber = num;
-            return this;
-        }
-
-        public Builder setTotalTrackCount(Integer num) {
-            this.totalTrackCount = num;
-            return this;
-        }
-
-        public Builder setFolderType(Integer num) {
-            this.folderType = num;
-            return this;
-        }
-
-        public Builder setIsBrowsable(Boolean bool) {
-            this.isBrowsable = bool;
-            return this;
-        }
-
-        public Builder setIsPlayable(Boolean bool) {
-            this.isPlayable = bool;
-            return this;
-        }
-
-        public Builder setRecordingYear(Integer num) {
-            this.recordingYear = num;
-            return this;
-        }
-
-        public Builder setRecordingMonth(Integer num) {
-            this.recordingMonth = num;
-            return this;
-        }
-
-        public Builder setRecordingDay(Integer num) {
-            this.recordingDay = num;
-            return this;
-        }
-
-        public Builder setReleaseYear(Integer num) {
-            this.releaseYear = num;
-            return this;
-        }
-
-        public Builder setReleaseMonth(Integer num) {
-            this.releaseMonth = num;
-            return this;
-        }
-
-        public Builder setReleaseDay(Integer num) {
-            this.releaseDay = num;
-            return this;
-        }
-
-        public Builder setWriter(CharSequence charSequence) {
-            this.writer = charSequence;
-            return this;
-        }
-
-        public Builder setComposer(CharSequence charSequence) {
-            this.composer = charSequence;
-            return this;
-        }
-
-        public Builder setConductor(CharSequence charSequence) {
-            this.conductor = charSequence;
-            return this;
-        }
-
-        public Builder setDiscNumber(Integer num) {
-            this.discNumber = num;
-            return this;
-        }
-
-        public Builder setTotalDiscCount(Integer num) {
-            this.totalDiscCount = num;
-            return this;
-        }
-
-        public Builder setGenre(CharSequence charSequence) {
-            this.genre = charSequence;
-            return this;
-        }
-
-        public Builder setCompilation(CharSequence charSequence) {
-            this.compilation = charSequence;
-            return this;
-        }
-
-        public Builder setStation(CharSequence charSequence) {
-            this.station = charSequence;
-            return this;
-        }
-
-        public Builder setMediaType(Integer num) {
-            this.mediaType = num;
-            return this;
-        }
-
-        public Builder setExtras(Bundle bundle) {
-            this.extras = bundle;
-            return this;
-        }
-
-        public Builder populateFromMetadata(Metadata metadata) {
-            for (int i = 0; i < metadata.length(); i++) {
-                metadata.get(i).populateMediaMetadata(this);
-            }
-            return this;
-        }
-
-        public Builder populateFromMetadata(List<Metadata> list) {
-            for (int i = 0; i < list.size(); i++) {
-                Metadata metadata = list.get(i);
-                for (int i2 = 0; i2 < metadata.length(); i2++) {
-                    metadata.get(i2).populateMediaMetadata(this);
-                }
             }
             return this;
         }
@@ -555,8 +313,182 @@ public final class MediaMetadata implements Bundleable {
             return this;
         }
 
-        public MediaMetadata build() {
-            return new MediaMetadata(this);
+        public Builder populateFromMetadata(Metadata metadata) {
+            for (int i = 0; i < metadata.length(); i++) {
+                metadata.get(i).populateMediaMetadata(this);
+            }
+            return this;
+        }
+
+        public Builder populateFromMetadata(List list) {
+            for (int i = 0; i < list.size(); i++) {
+                Metadata metadata = (Metadata) list.get(i);
+                for (int i2 = 0; i2 < metadata.length(); i2++) {
+                    metadata.get(i2).populateMediaMetadata(this);
+                }
+            }
+            return this;
+        }
+
+        public Builder setAlbumArtist(CharSequence charSequence) {
+            this.albumArtist = charSequence;
+            return this;
+        }
+
+        public Builder setAlbumTitle(CharSequence charSequence) {
+            this.albumTitle = charSequence;
+            return this;
+        }
+
+        public Builder setArtist(CharSequence charSequence) {
+            this.artist = charSequence;
+            return this;
+        }
+
+        public Builder setArtworkData(byte[] bArr, Integer num) {
+            this.artworkData = bArr == null ? null : (byte[]) bArr.clone();
+            this.artworkDataType = num;
+            return this;
+        }
+
+        public Builder setArtworkUri(Uri uri) {
+            this.artworkUri = uri;
+            return this;
+        }
+
+        public Builder setCompilation(CharSequence charSequence) {
+            this.compilation = charSequence;
+            return this;
+        }
+
+        public Builder setComposer(CharSequence charSequence) {
+            this.composer = charSequence;
+            return this;
+        }
+
+        public Builder setConductor(CharSequence charSequence) {
+            this.conductor = charSequence;
+            return this;
+        }
+
+        public Builder setDescription(CharSequence charSequence) {
+            this.description = charSequence;
+            return this;
+        }
+
+        public Builder setDiscNumber(Integer num) {
+            this.discNumber = num;
+            return this;
+        }
+
+        public Builder setDisplayTitle(CharSequence charSequence) {
+            this.displayTitle = charSequence;
+            return this;
+        }
+
+        public Builder setExtras(Bundle bundle) {
+            this.extras = bundle;
+            return this;
+        }
+
+        public Builder setFolderType(Integer num) {
+            this.folderType = num;
+            return this;
+        }
+
+        public Builder setGenre(CharSequence charSequence) {
+            this.genre = charSequence;
+            return this;
+        }
+
+        public Builder setIsBrowsable(Boolean bool) {
+            this.isBrowsable = bool;
+            return this;
+        }
+
+        public Builder setIsPlayable(Boolean bool) {
+            this.isPlayable = bool;
+            return this;
+        }
+
+        public Builder setMediaType(Integer num) {
+            this.mediaType = num;
+            return this;
+        }
+
+        public Builder setOverallRating(Rating rating) {
+            this.overallRating = rating;
+            return this;
+        }
+
+        public Builder setRecordingDay(Integer num) {
+            this.recordingDay = num;
+            return this;
+        }
+
+        public Builder setRecordingMonth(Integer num) {
+            this.recordingMonth = num;
+            return this;
+        }
+
+        public Builder setRecordingYear(Integer num) {
+            this.recordingYear = num;
+            return this;
+        }
+
+        public Builder setReleaseDay(Integer num) {
+            this.releaseDay = num;
+            return this;
+        }
+
+        public Builder setReleaseMonth(Integer num) {
+            this.releaseMonth = num;
+            return this;
+        }
+
+        public Builder setReleaseYear(Integer num) {
+            this.releaseYear = num;
+            return this;
+        }
+
+        public Builder setStation(CharSequence charSequence) {
+            this.station = charSequence;
+            return this;
+        }
+
+        public Builder setSubtitle(CharSequence charSequence) {
+            this.subtitle = charSequence;
+            return this;
+        }
+
+        public Builder setTitle(CharSequence charSequence) {
+            this.title = charSequence;
+            return this;
+        }
+
+        public Builder setTotalDiscCount(Integer num) {
+            this.totalDiscCount = num;
+            return this;
+        }
+
+        public Builder setTotalTrackCount(Integer num) {
+            this.totalTrackCount = num;
+            return this;
+        }
+
+        public Builder setTrackNumber(Integer num) {
+            this.trackNumber = num;
+            return this;
+        }
+
+        public Builder setUserRating(Rating rating) {
+            this.userRating = rating;
+            return this;
+        }
+
+        public Builder setWriter(CharSequence charSequence) {
+            this.writer = charSequence;
+            return this;
         }
     }
 
@@ -611,6 +543,149 @@ public final class MediaMetadata implements Bundleable {
         this.station = builder.station;
         this.mediaType = num2;
         this.extras = builder.extras;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static MediaMetadata fromBundle(Bundle bundle) {
+        Bundle bundle2;
+        Bundle bundle3;
+        Builder builder = new Builder();
+        Builder description = builder.setTitle(bundle.getCharSequence(FIELD_TITLE)).setArtist(bundle.getCharSequence(FIELD_ARTIST)).setAlbumTitle(bundle.getCharSequence(FIELD_ALBUM_TITLE)).setAlbumArtist(bundle.getCharSequence(FIELD_ALBUM_ARTIST)).setDisplayTitle(bundle.getCharSequence(FIELD_DISPLAY_TITLE)).setSubtitle(bundle.getCharSequence(FIELD_SUBTITLE)).setDescription(bundle.getCharSequence(FIELD_DESCRIPTION));
+        byte[] byteArray = bundle.getByteArray(FIELD_ARTWORK_DATA);
+        String str = FIELD_ARTWORK_DATA_TYPE;
+        description.setArtworkData(byteArray, bundle.containsKey(str) ? Integer.valueOf(bundle.getInt(str)) : null).setArtworkUri((Uri) bundle.getParcelable(FIELD_ARTWORK_URI)).setWriter(bundle.getCharSequence(FIELD_WRITER)).setComposer(bundle.getCharSequence(FIELD_COMPOSER)).setConductor(bundle.getCharSequence(FIELD_CONDUCTOR)).setGenre(bundle.getCharSequence(FIELD_GENRE)).setCompilation(bundle.getCharSequence(FIELD_COMPILATION)).setStation(bundle.getCharSequence(FIELD_STATION)).setExtras(bundle.getBundle(FIELD_EXTRAS));
+        String str2 = FIELD_USER_RATING;
+        if (bundle.containsKey(str2) && (bundle3 = bundle.getBundle(str2)) != null) {
+            builder.setUserRating((Rating) Rating.CREATOR.fromBundle(bundle3));
+        }
+        String str3 = FIELD_OVERALL_RATING;
+        if (bundle.containsKey(str3) && (bundle2 = bundle.getBundle(str3)) != null) {
+            builder.setOverallRating((Rating) Rating.CREATOR.fromBundle(bundle2));
+        }
+        String str4 = FIELD_TRACK_NUMBER;
+        if (bundle.containsKey(str4)) {
+            builder.setTrackNumber(Integer.valueOf(bundle.getInt(str4)));
+        }
+        String str5 = FIELD_TOTAL_TRACK_COUNT;
+        if (bundle.containsKey(str5)) {
+            builder.setTotalTrackCount(Integer.valueOf(bundle.getInt(str5)));
+        }
+        String str6 = FIELD_FOLDER_TYPE;
+        if (bundle.containsKey(str6)) {
+            builder.setFolderType(Integer.valueOf(bundle.getInt(str6)));
+        }
+        String str7 = FIELD_IS_BROWSABLE;
+        if (bundle.containsKey(str7)) {
+            builder.setIsBrowsable(Boolean.valueOf(bundle.getBoolean(str7)));
+        }
+        String str8 = FIELD_IS_PLAYABLE;
+        if (bundle.containsKey(str8)) {
+            builder.setIsPlayable(Boolean.valueOf(bundle.getBoolean(str8)));
+        }
+        String str9 = FIELD_RECORDING_YEAR;
+        if (bundle.containsKey(str9)) {
+            builder.setRecordingYear(Integer.valueOf(bundle.getInt(str9)));
+        }
+        String str10 = FIELD_RECORDING_MONTH;
+        if (bundle.containsKey(str10)) {
+            builder.setRecordingMonth(Integer.valueOf(bundle.getInt(str10)));
+        }
+        String str11 = FIELD_RECORDING_DAY;
+        if (bundle.containsKey(str11)) {
+            builder.setRecordingDay(Integer.valueOf(bundle.getInt(str11)));
+        }
+        String str12 = FIELD_RELEASE_YEAR;
+        if (bundle.containsKey(str12)) {
+            builder.setReleaseYear(Integer.valueOf(bundle.getInt(str12)));
+        }
+        String str13 = FIELD_RELEASE_MONTH;
+        if (bundle.containsKey(str13)) {
+            builder.setReleaseMonth(Integer.valueOf(bundle.getInt(str13)));
+        }
+        String str14 = FIELD_RELEASE_DAY;
+        if (bundle.containsKey(str14)) {
+            builder.setReleaseDay(Integer.valueOf(bundle.getInt(str14)));
+        }
+        String str15 = FIELD_DISC_NUMBER;
+        if (bundle.containsKey(str15)) {
+            builder.setDiscNumber(Integer.valueOf(bundle.getInt(str15)));
+        }
+        String str16 = FIELD_TOTAL_DISC_COUNT;
+        if (bundle.containsKey(str16)) {
+            builder.setTotalDiscCount(Integer.valueOf(bundle.getInt(str16)));
+        }
+        String str17 = FIELD_MEDIA_TYPE;
+        if (bundle.containsKey(str17)) {
+            builder.setMediaType(Integer.valueOf(bundle.getInt(str17)));
+        }
+        return builder.build();
+    }
+
+    private static int getFolderTypeFromMediaType(int i) {
+        switch (i) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 31:
+            case 32:
+            case 33:
+            case 34:
+            case 35:
+                return 1;
+            case 20:
+            case 26:
+            case 27:
+            case 28:
+            case 29:
+            case 30:
+            default:
+                return 0;
+            case 21:
+                return 2;
+            case 22:
+                return 3;
+            case 23:
+                return 4;
+            case 24:
+                return 5;
+            case 25:
+                return 6;
+        }
+    }
+
+    private static int getMediaTypeFromFolderType(int i) {
+        switch (i) {
+            case 1:
+                return 0;
+            case 2:
+                return 21;
+            case 3:
+                return 22;
+            case 4:
+                return 23;
+            case 5:
+                return 24;
+            case 6:
+                return 25;
+            default:
+                return 20;
+        }
     }
 
     public Builder buildUpon() {
@@ -768,81 +843,5 @@ public final class MediaMetadata implements Bundleable {
             bundle.putBundle(FIELD_EXTRAS, bundle2);
         }
         return bundle;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static MediaMetadata fromBundle(Bundle bundle) {
-        Bundle bundle2;
-        Bundle bundle3;
-        Builder builder = new Builder();
-        Builder description = builder.setTitle(bundle.getCharSequence(FIELD_TITLE)).setArtist(bundle.getCharSequence(FIELD_ARTIST)).setAlbumTitle(bundle.getCharSequence(FIELD_ALBUM_TITLE)).setAlbumArtist(bundle.getCharSequence(FIELD_ALBUM_ARTIST)).setDisplayTitle(bundle.getCharSequence(FIELD_DISPLAY_TITLE)).setSubtitle(bundle.getCharSequence(FIELD_SUBTITLE)).setDescription(bundle.getCharSequence(FIELD_DESCRIPTION));
-        byte[] byteArray = bundle.getByteArray(FIELD_ARTWORK_DATA);
-        String str = FIELD_ARTWORK_DATA_TYPE;
-        description.setArtworkData(byteArray, bundle.containsKey(str) ? Integer.valueOf(bundle.getInt(str)) : null).setArtworkUri((Uri) bundle.getParcelable(FIELD_ARTWORK_URI)).setWriter(bundle.getCharSequence(FIELD_WRITER)).setComposer(bundle.getCharSequence(FIELD_COMPOSER)).setConductor(bundle.getCharSequence(FIELD_CONDUCTOR)).setGenre(bundle.getCharSequence(FIELD_GENRE)).setCompilation(bundle.getCharSequence(FIELD_COMPILATION)).setStation(bundle.getCharSequence(FIELD_STATION)).setExtras(bundle.getBundle(FIELD_EXTRAS));
-        String str2 = FIELD_USER_RATING;
-        if (bundle.containsKey(str2) && (bundle3 = bundle.getBundle(str2)) != null) {
-            builder.setUserRating(Rating.CREATOR.fromBundle(bundle3));
-        }
-        String str3 = FIELD_OVERALL_RATING;
-        if (bundle.containsKey(str3) && (bundle2 = bundle.getBundle(str3)) != null) {
-            builder.setOverallRating(Rating.CREATOR.fromBundle(bundle2));
-        }
-        String str4 = FIELD_TRACK_NUMBER;
-        if (bundle.containsKey(str4)) {
-            builder.setTrackNumber(Integer.valueOf(bundle.getInt(str4)));
-        }
-        String str5 = FIELD_TOTAL_TRACK_COUNT;
-        if (bundle.containsKey(str5)) {
-            builder.setTotalTrackCount(Integer.valueOf(bundle.getInt(str5)));
-        }
-        String str6 = FIELD_FOLDER_TYPE;
-        if (bundle.containsKey(str6)) {
-            builder.setFolderType(Integer.valueOf(bundle.getInt(str6)));
-        }
-        String str7 = FIELD_IS_BROWSABLE;
-        if (bundle.containsKey(str7)) {
-            builder.setIsBrowsable(Boolean.valueOf(bundle.getBoolean(str7)));
-        }
-        String str8 = FIELD_IS_PLAYABLE;
-        if (bundle.containsKey(str8)) {
-            builder.setIsPlayable(Boolean.valueOf(bundle.getBoolean(str8)));
-        }
-        String str9 = FIELD_RECORDING_YEAR;
-        if (bundle.containsKey(str9)) {
-            builder.setRecordingYear(Integer.valueOf(bundle.getInt(str9)));
-        }
-        String str10 = FIELD_RECORDING_MONTH;
-        if (bundle.containsKey(str10)) {
-            builder.setRecordingMonth(Integer.valueOf(bundle.getInt(str10)));
-        }
-        String str11 = FIELD_RECORDING_DAY;
-        if (bundle.containsKey(str11)) {
-            builder.setRecordingDay(Integer.valueOf(bundle.getInt(str11)));
-        }
-        String str12 = FIELD_RELEASE_YEAR;
-        if (bundle.containsKey(str12)) {
-            builder.setReleaseYear(Integer.valueOf(bundle.getInt(str12)));
-        }
-        String str13 = FIELD_RELEASE_MONTH;
-        if (bundle.containsKey(str13)) {
-            builder.setReleaseMonth(Integer.valueOf(bundle.getInt(str13)));
-        }
-        String str14 = FIELD_RELEASE_DAY;
-        if (bundle.containsKey(str14)) {
-            builder.setReleaseDay(Integer.valueOf(bundle.getInt(str14)));
-        }
-        String str15 = FIELD_DISC_NUMBER;
-        if (bundle.containsKey(str15)) {
-            builder.setDiscNumber(Integer.valueOf(bundle.getInt(str15)));
-        }
-        String str16 = FIELD_TOTAL_DISC_COUNT;
-        if (bundle.containsKey(str16)) {
-            builder.setTotalDiscCount(Integer.valueOf(bundle.getInt(str16)));
-        }
-        String str17 = FIELD_MEDIA_TYPE;
-        if (bundle.containsKey(str17)) {
-            builder.setMediaType(Integer.valueOf(bundle.getInt(str17)));
-        }
-        return builder.build();
     }
 }

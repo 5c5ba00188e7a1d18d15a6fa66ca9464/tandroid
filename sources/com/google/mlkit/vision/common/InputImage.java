@@ -10,7 +10,6 @@ import com.google.android.gms.internal.mlkit_vision_common.zzmu;
 import com.google.mlkit.common.sdkinternal.MLTaskInput;
 import java.nio.ByteBuffer;
 import org.telegram.messenger.NotificationCenter;
-/* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public class InputImage implements MLTaskInput {
     private volatile Bitmap zza;

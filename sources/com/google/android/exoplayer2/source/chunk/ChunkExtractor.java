@@ -5,14 +5,13 @@ import com.google.android.exoplayer2.analytics.PlayerId;
 import com.google.android.exoplayer2.extractor.ChunkIndex;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.TrackOutput;
-import java.io.IOException;
 import java.util.List;
 /* loaded from: classes.dex */
 public interface ChunkExtractor {
 
     /* loaded from: classes.dex */
     public interface Factory {
-        ChunkExtractor createProgressiveMediaExtractor(int i, Format format, boolean z, List<Format> list, TrackOutput trackOutput, PlayerId playerId);
+        ChunkExtractor createProgressiveMediaExtractor(int i, Format format, boolean z, List list, TrackOutput trackOutput, PlayerId playerId);
     }
 
     /* loaded from: classes.dex */
@@ -26,7 +25,7 @@ public interface ChunkExtractor {
 
     void init(TrackOutputProvider trackOutputProvider, long j, long j2);
 
-    boolean read(ExtractorInput extractorInput) throws IOException;
+    boolean read(ExtractorInput extractorInput);
 
     void release();
 }

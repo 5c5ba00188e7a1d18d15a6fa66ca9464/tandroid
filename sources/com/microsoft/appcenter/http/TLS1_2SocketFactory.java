@@ -1,6 +1,5 @@
 package com.microsoft.appcenter.http;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.security.KeyManagementException;
@@ -32,6 +31,36 @@ class TLS1_2SocketFactory extends SSLSocketFactory {
         return sSLSocket;
     }
 
+    @Override // javax.net.SocketFactory
+    public SSLSocket createSocket() {
+        return forceTLS1_2(this.delegate.createSocket());
+    }
+
+    @Override // javax.net.SocketFactory
+    public SSLSocket createSocket(String str, int i) {
+        return forceTLS1_2(this.delegate.createSocket(str, i));
+    }
+
+    @Override // javax.net.SocketFactory
+    public SSLSocket createSocket(String str, int i, InetAddress inetAddress, int i2) {
+        return forceTLS1_2(this.delegate.createSocket(str, i, inetAddress, i2));
+    }
+
+    @Override // javax.net.SocketFactory
+    public SSLSocket createSocket(InetAddress inetAddress, int i) {
+        return forceTLS1_2(this.delegate.createSocket(inetAddress, i));
+    }
+
+    @Override // javax.net.SocketFactory
+    public SSLSocket createSocket(InetAddress inetAddress, int i, InetAddress inetAddress2, int i2) {
+        return forceTLS1_2(this.delegate.createSocket(inetAddress, i, inetAddress2, i2));
+    }
+
+    @Override // javax.net.ssl.SSLSocketFactory
+    public SSLSocket createSocket(Socket socket, String str, int i, boolean z) {
+        return forceTLS1_2(this.delegate.createSocket(socket, str, i, z));
+    }
+
     @Override // javax.net.ssl.SSLSocketFactory
     public String[] getDefaultCipherSuites() {
         return this.delegate.getDefaultCipherSuites();
@@ -40,35 +69,5 @@ class TLS1_2SocketFactory extends SSLSocketFactory {
     @Override // javax.net.ssl.SSLSocketFactory
     public String[] getSupportedCipherSuites() {
         return this.delegate.getSupportedCipherSuites();
-    }
-
-    @Override // javax.net.SocketFactory
-    public SSLSocket createSocket() throws IOException {
-        return forceTLS1_2(this.delegate.createSocket());
-    }
-
-    @Override // javax.net.SocketFactory
-    public SSLSocket createSocket(String str, int i) throws IOException {
-        return forceTLS1_2(this.delegate.createSocket(str, i));
-    }
-
-    @Override // javax.net.SocketFactory
-    public SSLSocket createSocket(InetAddress inetAddress, int i) throws IOException {
-        return forceTLS1_2(this.delegate.createSocket(inetAddress, i));
-    }
-
-    @Override // javax.net.SocketFactory
-    public SSLSocket createSocket(String str, int i, InetAddress inetAddress, int i2) throws IOException {
-        return forceTLS1_2(this.delegate.createSocket(str, i, inetAddress, i2));
-    }
-
-    @Override // javax.net.SocketFactory
-    public SSLSocket createSocket(InetAddress inetAddress, int i, InetAddress inetAddress2, int i2) throws IOException {
-        return forceTLS1_2(this.delegate.createSocket(inetAddress, i, inetAddress2, i2));
-    }
-
-    @Override // javax.net.ssl.SSLSocketFactory
-    public SSLSocket createSocket(Socket socket, String str, int i, boolean z) throws IOException {
-        return forceTLS1_2(this.delegate.createSocket(socket, str, i, z));
     }
 }

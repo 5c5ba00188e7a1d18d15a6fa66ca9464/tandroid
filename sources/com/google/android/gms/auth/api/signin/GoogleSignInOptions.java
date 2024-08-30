@@ -25,7 +25,6 @@ import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.ApiOptions, ReflectedParcelable {
     public static final Parcelable.Creator<GoogleSignInOptions> CREATOR;
@@ -49,6 +48,97 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
     private String zap;
     private Map zaq;
 
+    /* loaded from: classes.dex */
+    public static final class Builder {
+        private Set zaa;
+        private boolean zab;
+        private boolean zac;
+        private boolean zad;
+        private String zae;
+        private Account zaf;
+        private String zag;
+        private Map zah;
+        private String zai;
+
+        public Builder() {
+            this.zaa = new HashSet();
+            this.zah = new HashMap();
+        }
+
+        public Builder(GoogleSignInOptions googleSignInOptions) {
+            this.zaa = new HashSet();
+            this.zah = new HashMap();
+            Preconditions.checkNotNull(googleSignInOptions);
+            this.zaa = new HashSet(googleSignInOptions.zah);
+            this.zab = googleSignInOptions.zak;
+            this.zac = googleSignInOptions.zal;
+            this.zad = googleSignInOptions.zaj;
+            this.zae = googleSignInOptions.zam;
+            this.zaf = googleSignInOptions.zai;
+            this.zag = googleSignInOptions.zan;
+            this.zah = GoogleSignInOptions.zam(googleSignInOptions.zao);
+            this.zai = googleSignInOptions.zap;
+        }
+
+        private final String zaa(String str) {
+            Preconditions.checkNotEmpty(str);
+            String str2 = this.zae;
+            boolean z = true;
+            if (str2 != null && !str2.equals(str)) {
+                z = false;
+            }
+            Preconditions.checkArgument(z, "two different server client ids provided");
+            return str;
+        }
+
+        public GoogleSignInOptions build() {
+            if (this.zaa.contains(GoogleSignInOptions.zae)) {
+                Set set = this.zaa;
+                Scope scope = GoogleSignInOptions.zad;
+                if (set.contains(scope)) {
+                    this.zaa.remove(scope);
+                }
+            }
+            if (this.zad && (this.zaf == null || !this.zaa.isEmpty())) {
+                requestId();
+            }
+            return new GoogleSignInOptions(new ArrayList(this.zaa), this.zaf, this.zad, this.zab, this.zac, this.zae, this.zag, this.zah, this.zai);
+        }
+
+        public Builder requestEmail() {
+            this.zaa.add(GoogleSignInOptions.zab);
+            return this;
+        }
+
+        public Builder requestId() {
+            this.zaa.add(GoogleSignInOptions.zac);
+            return this;
+        }
+
+        public Builder requestIdToken(String str) {
+            this.zad = true;
+            zaa(str);
+            this.zae = str;
+            return this;
+        }
+
+        public Builder requestProfile() {
+            this.zaa.add(GoogleSignInOptions.zaa);
+            return this;
+        }
+
+        public Builder requestScopes(Scope scope, Scope... scopeArr) {
+            this.zaa.add(scope);
+            this.zaa.addAll(Arrays.asList(scopeArr));
+            return this;
+        }
+
+        public Builder setLogSessionId(String str) {
+            this.zai = str;
+            return this;
+        }
+    }
+
     static {
         Scope scope = new Scope("https://www.googleapis.com/auth/games_lite");
         zad = scope;
@@ -69,7 +159,21 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         this(i, arrayList, account, z, z2, z3, str, str2, zam(arrayList2), str3);
     }
 
-    public static GoogleSignInOptions zab(String str) throws JSONException {
+    private GoogleSignInOptions(int i, ArrayList arrayList, Account account, boolean z, boolean z2, boolean z3, String str, String str2, Map map, String str3) {
+        this.zaf = i;
+        this.zah = arrayList;
+        this.zai = account;
+        this.zaj = z;
+        this.zak = z2;
+        this.zal = z3;
+        this.zam = str;
+        this.zan = str2;
+        this.zao = new ArrayList(map.values());
+        this.zaq = map;
+        this.zap = str3;
+    }
+
+    public static GoogleSignInOptions zab(String str) {
         if (TextUtils.isEmpty(str)) {
             return null;
         }
@@ -136,7 +240,7 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         return this.zai;
     }
 
-    public ArrayList<GoogleSignInOptionsExtensionParcelable> getExtensions() {
+    public ArrayList getExtensions() {
         return this.zao;
     }
 
@@ -144,8 +248,8 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         return this.zap;
     }
 
-    public ArrayList<Scope> getScopes() {
-        return new ArrayList<>(this.zah);
+    public ArrayList getScopes() {
+        return new ArrayList(this.zah);
     }
 
     public String getServerClientId() {
@@ -226,111 +330,5 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
-    /* loaded from: classes.dex */
-    public static final class Builder {
-        private Set zaa;
-        private boolean zab;
-        private boolean zac;
-        private boolean zad;
-        private String zae;
-        private Account zaf;
-        private String zag;
-        private Map zah;
-        private String zai;
-
-        public Builder() {
-            this.zaa = new HashSet();
-            this.zah = new HashMap();
-        }
-
-        private final String zaa(String str) {
-            Preconditions.checkNotEmpty(str);
-            String str2 = this.zae;
-            boolean z = true;
-            if (str2 != null && !str2.equals(str)) {
-                z = false;
-            }
-            Preconditions.checkArgument(z, "two different server client ids provided");
-            return str;
-        }
-
-        public GoogleSignInOptions build() {
-            if (this.zaa.contains(GoogleSignInOptions.zae)) {
-                Set set = this.zaa;
-                Scope scope = GoogleSignInOptions.zad;
-                if (set.contains(scope)) {
-                    this.zaa.remove(scope);
-                }
-            }
-            if (this.zad && (this.zaf == null || !this.zaa.isEmpty())) {
-                requestId();
-            }
-            return new GoogleSignInOptions(new ArrayList(this.zaa), this.zaf, this.zad, this.zab, this.zac, this.zae, this.zag, this.zah, this.zai);
-        }
-
-        public Builder requestEmail() {
-            this.zaa.add(GoogleSignInOptions.zab);
-            return this;
-        }
-
-        public Builder requestId() {
-            this.zaa.add(GoogleSignInOptions.zac);
-            return this;
-        }
-
-        public Builder requestIdToken(String str) {
-            this.zad = true;
-            zaa(str);
-            this.zae = str;
-            return this;
-        }
-
-        public Builder requestProfile() {
-            this.zaa.add(GoogleSignInOptions.zaa);
-            return this;
-        }
-
-        public Builder requestScopes(Scope scope, Scope... scopeArr) {
-            this.zaa.add(scope);
-            this.zaa.addAll(Arrays.asList(scopeArr));
-            return this;
-        }
-
-        public Builder setLogSessionId(String str) {
-            this.zai = str;
-            return this;
-        }
-
-        public Builder(GoogleSignInOptions googleSignInOptions) {
-            this.zaa = new HashSet();
-            this.zah = new HashMap();
-            Preconditions.checkNotNull(googleSignInOptions);
-            this.zaa = new HashSet(googleSignInOptions.zah);
-            this.zab = googleSignInOptions.zak;
-            this.zac = googleSignInOptions.zal;
-            this.zad = googleSignInOptions.zaj;
-            this.zae = googleSignInOptions.zam;
-            this.zaf = googleSignInOptions.zai;
-            this.zag = googleSignInOptions.zan;
-            this.zah = GoogleSignInOptions.zam(googleSignInOptions.zao);
-            this.zai = googleSignInOptions.zap;
-        }
-    }
-
-    private GoogleSignInOptions(int i, ArrayList arrayList, Account account, boolean z, boolean z2, boolean z3, String str, String str2, Map map, String str3) {
-        this.zaf = i;
-        this.zah = arrayList;
-        this.zai = account;
-        this.zaj = z;
-        this.zak = z2;
-        this.zal = z3;
-        this.zam = str;
-        this.zan = str2;
-        this.zao = new ArrayList(map.values());
-        this.zaq = map;
-        this.zap = str3;
     }
 }

@@ -3,16 +3,10 @@ package com.google.android.gms.vision.face.internal.client;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-vision@@20.1.3 */
 /* loaded from: classes.dex */
-public final class zzd implements Parcelable.Creator<FaceParcel> {
+public final class zzd implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ FaceParcel[] newArray(int i) {
-        return new FaceParcel[i];
-    }
-
-    @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ FaceParcel createFromParcel(Parcel parcel) {
+    public final /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         LandmarkParcel[] landmarkParcelArr = null;
         zza[] zzaVarArr = null;
@@ -84,5 +78,10 @@ public final class zzd implements Parcelable.Creator<FaceParcel> {
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
         return new FaceParcel(i, i2, f, f2, f3, f4, f5, f6, f7, landmarkParcelArr, f8, f9, f10, zzaVarArr, f11);
+    }
+
+    @Override // android.os.Parcelable.Creator
+    public final /* synthetic */ Object[] newArray(int i) {
+        return new FaceParcel[i];
     }
 }

@@ -13,7 +13,7 @@ public class ApplicationLifecycleListener implements Application.ActivityLifecyc
     private int mResumedCounter = 0;
     private boolean mPauseSent = true;
     private boolean mStopSent = true;
-    private final Set<ApplicationLifecycleCallbacks> mLifecycleCallbacks = new CopyOnWriteArraySet();
+    private final Set mLifecycleCallbacks = new CopyOnWriteArraySet();
     private Runnable mDelayedPauseRunnable = new Runnable() { // from class: com.microsoft.appcenter.utils.ApplicationLifecycleListener.1
         @Override // java.lang.Runnable
         public void run() {
@@ -29,24 +29,8 @@ public class ApplicationLifecycleListener implements Application.ActivityLifecyc
         void onApplicationEnterForeground();
     }
 
-    @Override // android.app.Application.ActivityLifecycleCallbacks
-    public void onActivityCreated(Activity activity, Bundle bundle) {
-    }
-
-    @Override // android.app.Application.ActivityLifecycleCallbacks
-    public void onActivityDestroyed(Activity activity) {
-    }
-
-    @Override // android.app.Application.ActivityLifecycleCallbacks
-    public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-    }
-
     public ApplicationLifecycleListener(Handler handler) {
         this.mHandler = handler;
-    }
-
-    public void registerApplicationLifecycleCallbacks(ApplicationLifecycleCallbacks applicationLifecycleCallbacks) {
-        this.mLifecycleCallbacks.add(applicationLifecycleCallbacks);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -67,28 +51,11 @@ public class ApplicationLifecycleListener implements Application.ActivityLifecyc
     }
 
     @Override // android.app.Application.ActivityLifecycleCallbacks
-    public void onActivityStarted(Activity activity) {
-        int i = this.mStartedCounter + 1;
-        this.mStartedCounter = i;
-        if (i == 1 && this.mStopSent) {
-            for (ApplicationLifecycleCallbacks applicationLifecycleCallbacks : this.mLifecycleCallbacks) {
-                applicationLifecycleCallbacks.onApplicationEnterForeground();
-            }
-            this.mStopSent = false;
-        }
+    public void onActivityCreated(Activity activity, Bundle bundle) {
     }
 
     @Override // android.app.Application.ActivityLifecycleCallbacks
-    public void onActivityResumed(Activity activity) {
-        int i = this.mResumedCounter + 1;
-        this.mResumedCounter = i;
-        if (i == 1) {
-            if (this.mPauseSent) {
-                this.mPauseSent = false;
-            } else {
-                this.mHandler.removeCallbacks(this.mDelayedPauseRunnable);
-            }
-        }
+    public void onActivityDestroyed(Activity activity) {
     }
 
     @Override // android.app.Application.ActivityLifecycleCallbacks
@@ -108,8 +75,41 @@ public class ApplicationLifecycleListener implements Application.ActivityLifecyc
     }
 
     @Override // android.app.Application.ActivityLifecycleCallbacks
+    public void onActivityResumed(Activity activity) {
+        int i = this.mResumedCounter + 1;
+        this.mResumedCounter = i;
+        if (i == 1) {
+            if (this.mPauseSent) {
+                this.mPauseSent = false;
+            } else {
+                this.mHandler.removeCallbacks(this.mDelayedPauseRunnable);
+            }
+        }
+    }
+
+    @Override // android.app.Application.ActivityLifecycleCallbacks
+    public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+    }
+
+    @Override // android.app.Application.ActivityLifecycleCallbacks
+    public void onActivityStarted(Activity activity) {
+        int i = this.mStartedCounter + 1;
+        this.mStartedCounter = i;
+        if (i == 1 && this.mStopSent) {
+            for (ApplicationLifecycleCallbacks applicationLifecycleCallbacks : this.mLifecycleCallbacks) {
+                applicationLifecycleCallbacks.onApplicationEnterForeground();
+            }
+            this.mStopSent = false;
+        }
+    }
+
+    @Override // android.app.Application.ActivityLifecycleCallbacks
     public void onActivityStopped(Activity activity) {
         this.mStartedCounter = Math.max(this.mStartedCounter - 1, 0);
         dispatchStopIfNeeded();
+    }
+
+    public void registerApplicationLifecycleCallbacks(ApplicationLifecycleCallbacks applicationLifecycleCallbacks) {
+        this.mLifecycleCallbacks.add(applicationLifecycleCallbacks);
     }
 }

@@ -1,5 +1,4 @@
 package kotlin.ranges;
-/* compiled from: Ranges.kt */
 /* loaded from: classes.dex */
-class RangesKt__RangesKt {
+abstract class RangesKt__RangesKt {
 }

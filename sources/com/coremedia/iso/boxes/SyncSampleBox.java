@@ -19,20 +19,15 @@ public class SyncSampleBox extends AbstractFullBox {
         ajc$preClinit();
     }
 
+    public SyncSampleBox() {
+        super("stss");
+    }
+
     private static /* synthetic */ void ajc$preClinit() {
         Factory factory = new Factory("SyncSampleBox.java", SyncSampleBox.class);
         ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getSampleNumber", "com.coremedia.iso.boxes.SyncSampleBox", "", "", "", "[J"), 46);
         ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "toString", "com.coremedia.iso.boxes.SyncSampleBox", "", "", "", "java.lang.String"), 77);
         ajc$tjp_2 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setSampleNumber", "com.coremedia.iso.boxes.SyncSampleBox", "[J", "sampleNumber", "", "void"), 81);
-    }
-
-    public SyncSampleBox() {
-        super("stss");
-    }
-
-    @Override // com.googlecode.mp4parser.AbstractBox
-    protected long getContentSize() {
-        return (this.sampleNumber.length * 4) + 8;
     }
 
     @Override // com.googlecode.mp4parser.AbstractBox
@@ -54,13 +49,18 @@ public class SyncSampleBox extends AbstractFullBox {
         }
     }
 
-    public String toString() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this));
-        return "SyncSampleBox[entryCount=" + this.sampleNumber.length + "]";
+    @Override // com.googlecode.mp4parser.AbstractBox
+    protected long getContentSize() {
+        return (this.sampleNumber.length * 4) + 8;
     }
 
     public void setSampleNumber(long[] jArr) {
         RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_2, this, this, jArr));
         this.sampleNumber = jArr;
+    }
+
+    public String toString() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this));
+        return "SyncSampleBox[entryCount=" + this.sampleNumber.length + "]";
     }
 }

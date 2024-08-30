@@ -4,8 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
-@Deprecated
 /* loaded from: classes.dex */
 public final class zza extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zza> CREATOR = new zzb();
@@ -21,7 +19,19 @@ public final class zza extends AbstractSafeParcelable {
     boolean zzj;
     String zzk;
 
-    zza() {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public zza(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, boolean z, String str10) {
+        this.zza = str;
+        this.zzb = str2;
+        this.zzc = str3;
+        this.zzd = str4;
+        this.zze = str5;
+        this.zzf = str6;
+        this.zzg = str7;
+        this.zzh = str8;
+        this.zzi = str9;
+        this.zzj = z;
+        this.zzk = str10;
     }
 
     @Override // android.os.Parcelable
@@ -39,20 +49,5 @@ public final class zza extends AbstractSafeParcelable {
         SafeParcelWriter.writeBoolean(parcel, 11, this.zzj);
         SafeParcelWriter.writeString(parcel, 12, this.zzk, false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zza(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, boolean z, String str10) {
-        this.zza = str;
-        this.zzb = str2;
-        this.zzc = str3;
-        this.zzd = str4;
-        this.zze = str5;
-        this.zzf = str6;
-        this.zzg = str7;
-        this.zzh = str8;
-        this.zzi = str9;
-        this.zzj = z;
-        this.zzk = str10;
     }
 }

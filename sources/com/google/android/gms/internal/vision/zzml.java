@@ -9,7 +9,6 @@ jadx.core.utils.exceptions.JadxRuntimeException: Init of enum zzc uses external 
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public class zzml {
     public static final zzml zza;
@@ -33,19 +32,6 @@ public class zzml {
     private static final /* synthetic */ zzml[] zzu;
     private final zzmo zzs;
     private final int zzt;
-
-    public static zzml[] values() {
-        return (zzml[]) zzu.clone();
-    }
-
-    private zzml(String str, int i, zzmo zzmoVar, int i2) {
-        this.zzs = zzmoVar;
-        this.zzt = i2;
-    }
-
-    public final zzmo zza() {
-        return this.zzs;
-    }
 
     static {
         zzml zzmlVar = new zzml("DOUBLE", 0, zzmo.zzd, 1);
@@ -94,5 +80,18 @@ public class zzml {
         zzml zzmlVar18 = new zzml("SINT64", 17, zzmoVar, 0);
         zzr = zzmlVar18;
         zzu = new zzml[]{zzmlVar, zzmlVar2, zzmlVar3, zzmlVar4, zzmlVar5, zzmlVar6, zzmlVar7, zzmlVar8, zzmlVar9, zzmlVar10, zzmlVar11, zzmlVar12, zzmlVar13, zzmlVar14, zzmlVar15, zzmlVar16, zzmlVar17, zzmlVar18};
+    }
+
+    private zzml(String str, int i, zzmo zzmoVar, int i2) {
+        this.zzs = zzmoVar;
+        this.zzt = i2;
+    }
+
+    public static zzml[] values() {
+        return (zzml[]) zzu.clone();
+    }
+
+    public final zzmo zza() {
+        return this.zzs;
     }
 }

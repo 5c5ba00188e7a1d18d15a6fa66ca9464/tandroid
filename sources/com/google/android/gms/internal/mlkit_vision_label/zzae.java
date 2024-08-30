@@ -2,7 +2,6 @@ package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.util.List;
 import java.util.ListIterator;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 final class zzae extends zzac implements ListIterator {
     final /* synthetic */ zzaf zzd;
@@ -11,6 +10,12 @@ final class zzae extends zzac implements ListIterator {
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public zzae(zzaf zzafVar) {
         super(zzafVar);
+        this.zzd = zzafVar;
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public zzae(zzaf zzafVar, int i) {
+        super(zzafVar, ((List) zzafVar.zzb).listIterator(i));
         this.zzd = zzafVar;
     }
 
@@ -53,11 +58,5 @@ final class zzae extends zzac implements ListIterator {
     public final void set(Object obj) {
         zza();
         ((ListIterator) this.zza).set(obj);
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zzae(zzaf zzafVar, int i) {
-        super(zzafVar, ((List) zzafVar.zzb).listIterator(i));
-        this.zzd = zzafVar;
     }
 }

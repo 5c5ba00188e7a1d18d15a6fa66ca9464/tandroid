@@ -1,15 +1,15 @@
 package com.google.android.datatransport.runtime.retries;
 /* loaded from: classes.dex */
-public final class Retries {
-    public static <TInput, TResult, TException extends Throwable> TResult retry(int i, TInput tinput, Function<TInput, TResult, TException> function, RetryStrategy<TInput, TResult> retryStrategy) throws Throwable {
-        TResult apply;
+public abstract class Retries {
+    public static Object retry(int i, Object obj, Function function, RetryStrategy retryStrategy) {
+        Object apply;
         if (i < 1) {
-            return function.apply(tinput);
+            return function.apply(obj);
         }
         do {
-            apply = function.apply(tinput);
-            tinput = retryStrategy.shouldRetry(tinput, apply);
-            if (tinput == null) {
+            apply = function.apply(obj);
+            obj = retryStrategy.shouldRetry(obj, apply);
+            if (obj == null) {
                 break;
             }
             i--;

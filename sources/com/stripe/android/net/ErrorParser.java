@@ -4,7 +4,21 @@ import com.stripe.android.util.StripeJsonUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 /* loaded from: classes.dex */
-class ErrorParser {
+abstract class ErrorParser {
+
+    /* loaded from: classes.dex */
+    static class StripeError {
+        public String charge;
+        public String code;
+        public String decline_code;
+        public String message;
+        public String param;
+        public String type;
+
+        StripeError() {
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public static StripeError parseError(String str) {
         StripeError stripeError = new StripeError();
@@ -20,18 +34,5 @@ class ErrorParser {
             stripeError.message = "An improperly formatted error response was found.";
         }
         return stripeError;
-    }
-
-    /* loaded from: classes.dex */
-    static class StripeError {
-        public String charge;
-        public String code;
-        public String decline_code;
-        public String message;
-        public String param;
-        public String type;
-
-        StripeError() {
-        }
     }
 }

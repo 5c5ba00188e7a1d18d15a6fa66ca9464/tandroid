@@ -2,21 +2,16 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzv extends WeakReference<Throwable> {
+final class zzv extends WeakReference {
     private final int zza;
 
-    public zzv(Throwable th, ReferenceQueue<Throwable> referenceQueue) {
+    public zzv(Throwable th, ReferenceQueue referenceQueue) {
         super(th, referenceQueue);
         if (th == null) {
             throw new NullPointerException("The referent cannot be null");
         }
         this.zza = System.identityHashCode(th);
-    }
-
-    public final int hashCode() {
-        return this.zza;
     }
 
     public final boolean equals(Object obj) {
@@ -30,5 +25,9 @@ final class zzv extends WeakReference<Throwable> {
             }
         }
         return false;
+    }
+
+    public final int hashCode() {
+        return this.zza;
     }
 }

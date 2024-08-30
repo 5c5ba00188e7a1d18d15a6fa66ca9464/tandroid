@@ -1,9 +1,26 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import org.telegram.messenger.NotificationCenter;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 final class zzht extends zzho {
+    private static int zza(byte[] bArr, int i, long j, int i2) {
+        int zzb;
+        int zzb2;
+        int zzb3;
+        if (i2 == 0) {
+            zzb = zzhp.zzb(i);
+            return zzb;
+        } else if (i2 == 1) {
+            zzb2 = zzhp.zzb(i, zzhn.zza(bArr, j));
+            return zzb2;
+        } else if (i2 == 2) {
+            zzb3 = zzhp.zzb(i, zzhn.zza(bArr, j), zzhn.zza(bArr, j + 1));
+            return zzb3;
+        } else {
+            throw new AssertionError();
+        }
+    }
+
     /* JADX WARN: Code restructure failed: missing block: B:33:0x0060, code lost:
         return -1;
      */
@@ -63,26 +80,25 @@ final class zzht extends zzho {
                 int i9 = i8 - 1;
                 if (b >= -32) {
                     if (b >= -16) {
-                        if (i9 < 3) {
+                        if (i9 >= 3) {
+                            i8 -= 4;
+                            long j7 = j5 + j2;
+                            byte zza = zzhn.zza(bArr, j5);
+                            if (zza > -65 || (((b << 28) + (zza + 112)) >> 30) != 0) {
+                                break;
+                            }
+                            long j8 = j5 + 2;
+                            if (zzhn.zza(bArr, j7) > -65) {
+                                break;
+                            }
+                            j5 += 3;
+                            if (zzhn.zza(bArr, j8) > -65) {
+                                break;
+                            }
+                        } else {
                             return zza(bArr, b, j5, i9);
                         }
-                        i8 -= 4;
-                        long j7 = j5 + j2;
-                        byte zza = zzhn.zza(bArr, j5);
-                        if (zza > -65 || (((b << 28) + (zza + 112)) >> 30) != 0) {
-                            break;
-                        }
-                        long j8 = j5 + 2;
-                        if (zzhn.zza(bArr, j7) > -65) {
-                            break;
-                        }
-                        j5 += 3;
-                        if (zzhn.zza(bArr, j8) > -65) {
-                            break;
-                        }
-                    } else if (i9 < i5) {
-                        return zza(bArr, b, j5, i9);
-                    } else {
+                    } else if (i9 >= i5) {
                         i8 -= 3;
                         long j9 = j5 + j2;
                         byte zza2 = zzhn.zza(bArr, j5);
@@ -95,6 +111,8 @@ final class zzht extends zzho {
                         }
                         i5 = 2;
                         i6 = 0;
+                    } else {
+                        return zza(bArr, b, j5, i9);
                     }
                 } else if (i9 != 0) {
                     i8 -= 2;
@@ -162,36 +180,36 @@ final class zzht extends zzho {
                     str = str3;
                     str2 = str4;
                     if ((charAt3 >= 55296 && 57343 >= charAt3) || j4 > j5 - 3) {
-                        if (j4 <= j5 - 4) {
-                            int i5 = i4 + 1;
-                            if (i5 != length) {
-                                char charAt4 = charSequence.charAt(i5);
-                                if (Character.isSurrogatePair(charAt3, charAt4)) {
-                                    int codePoint = Character.toCodePoint(charAt3, charAt4);
-                                    j2 = 1;
-                                    zzhn.zza(bArr, j4, (byte) ((codePoint >>> 18) | NotificationCenter.reloadInterface));
-                                    j3 = j5;
-                                    zzhn.zza(bArr, j4 + 1, (byte) (((codePoint >>> 12) & 63) | 128));
-                                    long j6 = 3 + j4;
-                                    zzhn.zza(bArr, j4 + 2, (byte) (((codePoint >>> 6) & 63) | 128));
-                                    j4 += 4;
-                                    zzhn.zza(bArr, j6, (byte) ((codePoint & 63) | 128));
-                                    i4 = i5;
-                                } else {
-                                    i4 = i5;
-                                }
+                        if (j4 > j5 - 4) {
+                            if (55296 > charAt3 || charAt3 > 57343 || ((i3 = i4 + 1) != length && Character.isSurrogatePair(charAt3, charSequence.charAt(i3)))) {
+                                StringBuilder sb2 = new StringBuilder(46);
+                                sb2.append(str2);
+                                sb2.append(charAt3);
+                                sb2.append(str);
+                                sb2.append(j4);
+                                throw new ArrayIndexOutOfBoundsException(sb2.toString());
                             }
-                            throw new zzhq(i4 - 1, length);
-                        } else if (55296 <= charAt3 && charAt3 <= 57343 && ((i3 = i4 + 1) == length || !Character.isSurrogatePair(charAt3, charSequence.charAt(i3)))) {
                             throw new zzhq(i4, length);
-                        } else {
-                            StringBuilder sb2 = new StringBuilder(46);
-                            sb2.append(str2);
-                            sb2.append(charAt3);
-                            sb2.append(str);
-                            sb2.append(j4);
-                            throw new ArrayIndexOutOfBoundsException(sb2.toString());
                         }
+                        int i5 = i4 + 1;
+                        if (i5 != length) {
+                            char charAt4 = charSequence.charAt(i5);
+                            if (Character.isSurrogatePair(charAt3, charAt4)) {
+                                int codePoint = Character.toCodePoint(charAt3, charAt4);
+                                j2 = 1;
+                                zzhn.zza(bArr, j4, (byte) ((codePoint >>> 18) | NotificationCenter.reloadInterface));
+                                j3 = j5;
+                                zzhn.zza(bArr, j4 + 1, (byte) (((codePoint >>> 12) & 63) | 128));
+                                long j6 = 3 + j4;
+                                zzhn.zza(bArr, j4 + 2, (byte) (((codePoint >>> 6) & 63) | 128));
+                                j4 += 4;
+                                zzhn.zza(bArr, j6, (byte) ((codePoint & 63) | 128));
+                                i4 = i5;
+                            } else {
+                                i4 = i5;
+                            }
+                        }
+                        throw new zzhq(i4 - 1, length);
                     }
                     zzhn.zza(bArr, j4, (byte) ((charAt3 >>> '\f') | 480));
                     long j7 = j4 + 2;
@@ -223,23 +241,5 @@ final class zzht extends zzho {
             j5 = j3;
         }
         return (int) j4;
-    }
-
-    private static int zza(byte[] bArr, int i, long j, int i2) {
-        int zzb;
-        int zzb2;
-        int zzb3;
-        if (i2 == 0) {
-            zzb = zzhp.zzb(i);
-            return zzb;
-        } else if (i2 == 1) {
-            zzb2 = zzhp.zzb(i, zzhn.zza(bArr, j));
-            return zzb2;
-        } else if (i2 == 2) {
-            zzb3 = zzhp.zzb(i, zzhn.zza(bArr, j), zzhn.zza(bArr, j + 1));
-            return zzb3;
-        } else {
-            throw new AssertionError();
-        }
     }
 }

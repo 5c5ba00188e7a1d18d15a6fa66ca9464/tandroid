@@ -46,6 +46,11 @@ public final class AvcConfigurationBox extends AbstractBox {
         ajc$preClinit();
     }
 
+    public AvcConfigurationBox() {
+        super("avcC");
+        this.avcDecoderConfigurationRecord = new AvcDecoderConfigurationRecord();
+    }
+
     private static /* synthetic */ void ajc$preClinit() {
         Factory factory = new Factory("AvcConfigurationBox.java", AvcConfigurationBox.class);
         ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getConfigurationVersion", "com.mp4parser.iso14496.part15.AvcConfigurationBox", "", "", "", "int"), 44);
@@ -80,64 +85,15 @@ public final class AvcConfigurationBox extends AbstractBox {
         ajc$tjp_9 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setProfileCompatibility", "com.mp4parser.iso14496.part15.AvcConfigurationBox", "int", "profileCompatibility", "", "void"), 80);
     }
 
-    public AvcConfigurationBox() {
-        super("avcC");
-        this.avcDecoderConfigurationRecord = new AvcDecoderConfigurationRecord();
-    }
-
-    public void setConfigurationVersion(int i) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_7, this, this, Conversions.intObject(i)));
-        this.avcDecoderConfigurationRecord.configurationVersion = i;
-    }
-
-    public void setAvcProfileIndication(int i) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_8, this, this, Conversions.intObject(i)));
-        this.avcDecoderConfigurationRecord.avcProfileIndication = i;
-    }
-
-    public void setProfileCompatibility(int i) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_9, this, this, Conversions.intObject(i)));
-        this.avcDecoderConfigurationRecord.profileCompatibility = i;
-    }
-
-    public void setAvcLevelIndication(int i) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_10, this, this, Conversions.intObject(i)));
-        this.avcDecoderConfigurationRecord.avcLevelIndication = i;
-    }
-
-    public void setLengthSizeMinusOne(int i) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_11, this, this, Conversions.intObject(i)));
-        this.avcDecoderConfigurationRecord.lengthSizeMinusOne = i;
-    }
-
-    public void setSequenceParameterSets(List<byte[]> list) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_12, this, this, list));
-        this.avcDecoderConfigurationRecord.sequenceParameterSets = list;
-    }
-
-    public void setPictureParameterSets(List<byte[]> list) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_13, this, this, list));
-        this.avcDecoderConfigurationRecord.pictureParameterSets = list;
-    }
-
-    public void setChromaFormat(int i) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_15, this, this, Conversions.intObject(i)));
-        this.avcDecoderConfigurationRecord.chromaFormat = i;
-    }
-
-    public void setBitDepthLumaMinus8(int i) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_17, this, this, Conversions.intObject(i)));
-        this.avcDecoderConfigurationRecord.bitDepthLumaMinus8 = i;
-    }
-
-    public void setBitDepthChromaMinus8(int i) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_19, this, this, Conversions.intObject(i)));
-        this.avcDecoderConfigurationRecord.bitDepthChromaMinus8 = i;
-    }
-
     @Override // com.googlecode.mp4parser.AbstractBox
     public void _parseDetails(ByteBuffer byteBuffer) {
         this.avcDecoderConfigurationRecord = new AvcDecoderConfigurationRecord(byteBuffer);
+    }
+
+    @Override // com.googlecode.mp4parser.AbstractBox
+    public void getContent(ByteBuffer byteBuffer) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_25, this, this, byteBuffer));
+        this.avcDecoderConfigurationRecord.getContent(byteBuffer);
     }
 
     @Override // com.googlecode.mp4parser.AbstractBox
@@ -146,10 +102,54 @@ public final class AvcConfigurationBox extends AbstractBox {
         return this.avcDecoderConfigurationRecord.getContentSize();
     }
 
-    @Override // com.googlecode.mp4parser.AbstractBox
-    public void getContent(ByteBuffer byteBuffer) {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_25, this, this, byteBuffer));
-        this.avcDecoderConfigurationRecord.getContent(byteBuffer);
+    public void setAvcLevelIndication(int i) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_10, this, this, Conversions.intObject(i)));
+        this.avcDecoderConfigurationRecord.avcLevelIndication = i;
+    }
+
+    public void setAvcProfileIndication(int i) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_8, this, this, Conversions.intObject(i)));
+        this.avcDecoderConfigurationRecord.avcProfileIndication = i;
+    }
+
+    public void setBitDepthChromaMinus8(int i) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_19, this, this, Conversions.intObject(i)));
+        this.avcDecoderConfigurationRecord.bitDepthChromaMinus8 = i;
+    }
+
+    public void setBitDepthLumaMinus8(int i) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_17, this, this, Conversions.intObject(i)));
+        this.avcDecoderConfigurationRecord.bitDepthLumaMinus8 = i;
+    }
+
+    public void setChromaFormat(int i) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_15, this, this, Conversions.intObject(i)));
+        this.avcDecoderConfigurationRecord.chromaFormat = i;
+    }
+
+    public void setConfigurationVersion(int i) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_7, this, this, Conversions.intObject(i)));
+        this.avcDecoderConfigurationRecord.configurationVersion = i;
+    }
+
+    public void setLengthSizeMinusOne(int i) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_11, this, this, Conversions.intObject(i)));
+        this.avcDecoderConfigurationRecord.lengthSizeMinusOne = i;
+    }
+
+    public void setPictureParameterSets(List list) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_13, this, this, list));
+        this.avcDecoderConfigurationRecord.pictureParameterSets = list;
+    }
+
+    public void setProfileCompatibility(int i) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_9, this, this, Conversions.intObject(i)));
+        this.avcDecoderConfigurationRecord.profileCompatibility = i;
+    }
+
+    public void setSequenceParameterSets(List list) {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_12, this, this, list));
+        this.avcDecoderConfigurationRecord.sequenceParameterSets = list;
     }
 
     public String toString() {

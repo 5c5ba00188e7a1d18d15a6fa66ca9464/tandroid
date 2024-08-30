@@ -27,6 +27,26 @@ public class URLSpanMono extends MetricAffectingSpan {
         AndroidUtilities.addToClipboard(this.currentMessage.subSequence(this.currentStart, this.currentEnd).toString());
     }
 
+    @Override // android.text.style.CharacterStyle
+    public void updateDrawState(TextPaint textPaint) {
+        int color;
+        textPaint.setTextSize(AndroidUtilities.dp(SharedConfig.fontSize - 1));
+        byte b = this.currentType;
+        if (b == 2) {
+            color = -1;
+        } else {
+            color = Theme.getColor(b == 1 ? Theme.key_chat_messageTextOut : Theme.key_chat_messageTextIn);
+        }
+        textPaint.setColor(color);
+        TextStyleSpan.TextStyleRun textStyleRun = this.style;
+        if (textStyleRun != null) {
+            textStyleRun.applyStyle(textPaint);
+            return;
+        }
+        textPaint.setTypeface(Typeface.MONOSPACE);
+        textPaint.setUnderlineText(false);
+    }
+
     @Override // android.text.style.MetricAffectingSpan
     public void updateMeasureState(TextPaint textPaint) {
         textPaint.setTextSize(AndroidUtilities.dp(SharedConfig.fontSize - 1));
@@ -37,25 +57,5 @@ public class URLSpanMono extends MetricAffectingSpan {
         } else {
             textPaint.setTypeface(Typeface.MONOSPACE);
         }
-    }
-
-    @Override // android.text.style.CharacterStyle
-    public void updateDrawState(TextPaint textPaint) {
-        textPaint.setTextSize(AndroidUtilities.dp(SharedConfig.fontSize - 1));
-        byte b = this.currentType;
-        if (b == 2) {
-            textPaint.setColor(-1);
-        } else if (b == 1) {
-            textPaint.setColor(Theme.getColor(Theme.key_chat_messageTextOut));
-        } else {
-            textPaint.setColor(Theme.getColor(Theme.key_chat_messageTextIn));
-        }
-        TextStyleSpan.TextStyleRun textStyleRun = this.style;
-        if (textStyleRun != null) {
-            textStyleRun.applyStyle(textPaint);
-            return;
-        }
-        textPaint.setTypeface(Typeface.MONOSPACE);
-        textPaint.setUnderlineText(false);
     }
 }

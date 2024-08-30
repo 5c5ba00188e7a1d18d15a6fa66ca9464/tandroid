@@ -22,7 +22,38 @@ public class WebAppDisclaimerAlert {
     private CheckBoxCell cell;
     private TextView positiveButton;
 
-    public static void show(final Context context, final Consumer<Boolean> consumer, TLRPC$User tLRPC$User, final Runnable runnable) {
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$show$0(Context context) {
+        Browser.openUrl(context, LocaleController.getString(R.string.WebAppDisclaimerUrl));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$show$1(Consumer consumer, boolean[] zArr, DialogInterface dialogInterface, int i) {
+        consumer.accept(Boolean.TRUE);
+        zArr[0] = true;
+        dialogInterface.dismiss();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$show$3(WebAppDisclaimerAlert webAppDisclaimerAlert, View view) {
+        CheckBoxCell checkBoxCell = webAppDisclaimerAlert.cell;
+        checkBoxCell.setChecked(!checkBoxCell.isChecked(), true);
+        webAppDisclaimerAlert.positiveButton.setEnabled(webAppDisclaimerAlert.cell.isChecked());
+        webAppDisclaimerAlert.positiveButton.animate().alpha(webAppDisclaimerAlert.cell.isChecked() ? 1.0f : 0.5f).start();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$show$4(boolean[] zArr, Runnable runnable, DialogInterface dialogInterface) {
+        if (zArr[0]) {
+            return;
+        }
+        zArr[0] = true;
+        if (runnable != null) {
+            runnable.run();
+        }
+    }
+
+    public static void show(final Context context, final Consumer consumer, TLRPC$User tLRPC$User, final Runnable runnable) {
         final WebAppDisclaimerAlert webAppDisclaimerAlert = new WebAppDisclaimerAlert();
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(LocaleController.getString(R.string.TermsOfUse));
@@ -81,36 +112,5 @@ public class WebAppDisclaimerAlert {
                 WebAppDisclaimerAlert.lambda$show$4(zArr, runnable, dialogInterface);
             }
         });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$show$0(Context context) {
-        Browser.openUrl(context, LocaleController.getString(R.string.WebAppDisclaimerUrl));
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$show$1(Consumer consumer, boolean[] zArr, DialogInterface dialogInterface, int i) {
-        consumer.accept(Boolean.TRUE);
-        zArr[0] = true;
-        dialogInterface.dismiss();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$show$3(WebAppDisclaimerAlert webAppDisclaimerAlert, View view) {
-        CheckBoxCell checkBoxCell = webAppDisclaimerAlert.cell;
-        checkBoxCell.setChecked(!checkBoxCell.isChecked(), true);
-        webAppDisclaimerAlert.positiveButton.setEnabled(webAppDisclaimerAlert.cell.isChecked());
-        webAppDisclaimerAlert.positiveButton.animate().alpha(webAppDisclaimerAlert.cell.isChecked() ? 1.0f : 0.5f).start();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$show$4(boolean[] zArr, Runnable runnable, DialogInterface dialogInterface) {
-        if (zArr[0]) {
-            return;
-        }
-        zArr[0] = true;
-        if (runnable != null) {
-            runnable.run();
-        }
     }
 }

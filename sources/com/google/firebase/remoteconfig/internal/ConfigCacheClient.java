@@ -19,10 +19,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 /* loaded from: classes.dex */
 public class ConfigCacheClient {
-    private Task<ConfigContainer> cachedContainerTask = null;
+    private Task cachedContainerTask = null;
     private final ExecutorService executorService;
     private final ConfigStorageClient storageClient;
-    private static final Map<String, ConfigCacheClient> clientInstances = new HashMap();
+    private static final Map clientInstances = new HashMap();
     private static final Executor DIRECT_EXECUTOR = new Executor() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda1
         @Override // java.util.concurrent.Executor
         public final void execute(Runnable runnable) {
@@ -30,72 +30,99 @@ public class ConfigCacheClient {
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class AwaitListener implements OnSuccessListener, OnFailureListener, OnCanceledListener {
+        private final CountDownLatch latch;
+
+        private AwaitListener() {
+            this.latch = new CountDownLatch(1);
+        }
+
+        public boolean await(long j, TimeUnit timeUnit) {
+            return this.latch.await(j, timeUnit);
+        }
+
+        @Override // com.google.android.gms.tasks.OnCanceledListener
+        public void onCanceled() {
+            this.latch.countDown();
+        }
+
+        @Override // com.google.android.gms.tasks.OnFailureListener
+        public void onFailure(Exception exc) {
+            this.latch.countDown();
+        }
+
+        @Override // com.google.android.gms.tasks.OnSuccessListener
+        public void onSuccess(Object obj) {
+            this.latch.countDown();
+        }
+    }
+
     private ConfigCacheClient(ExecutorService executorService, ConfigStorageClient configStorageClient) {
         this.executorService = executorService;
         this.storageClient = configStorageClient;
     }
 
-    public ConfigContainer getBlocking() {
-        return getBlocking(5L);
+    private static Object await(Task task, long j, TimeUnit timeUnit) {
+        AwaitListener awaitListener = new AwaitListener();
+        Executor executor = DIRECT_EXECUTOR;
+        task.addOnSuccessListener(executor, awaitListener);
+        task.addOnFailureListener(executor, awaitListener);
+        task.addOnCanceledListener(executor, awaitListener);
+        if (awaitListener.await(j, timeUnit)) {
+            if (task.isSuccessful()) {
+                return task.getResult();
+            }
+            throw new ExecutionException(task.getException());
+        }
+        throw new TimeoutException("Task await timed out.");
     }
 
-    ConfigContainer getBlocking(long j) {
-        synchronized (this) {
+    public static synchronized ConfigCacheClient getInstance(ExecutorService executorService, ConfigStorageClient configStorageClient) {
+        ConfigCacheClient configCacheClient;
+        synchronized (ConfigCacheClient.class) {
             try {
-                Task<ConfigContainer> task = this.cachedContainerTask;
-                if (task != null && task.isSuccessful()) {
-                    return this.cachedContainerTask.getResult();
+                String fileName = configStorageClient.getFileName();
+                Map map = clientInstances;
+                if (!map.containsKey(fileName)) {
+                    map.put(fileName, new ConfigCacheClient(executorService, configStorageClient));
                 }
-                try {
-                    return (ConfigContainer) await(get(), j, TimeUnit.SECONDS);
-                } catch (InterruptedException | ExecutionException | TimeoutException e) {
-                    Log.d("FirebaseRemoteConfig", "Reading from storage file failed.", e);
-                    return null;
-                }
+                configCacheClient = (ConfigCacheClient) map.get(fileName);
             } catch (Throwable th) {
                 throw th;
             }
         }
-    }
-
-    public Task<ConfigContainer> put(ConfigContainer configContainer) {
-        return put(configContainer, true);
+        return configCacheClient;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ Void lambda$put$0(ConfigContainer configContainer) throws Exception {
+    public /* synthetic */ Void lambda$put$0(ConfigContainer configContainer) {
         return this.storageClient.write(configContainer);
     }
 
-    public Task<ConfigContainer> put(final ConfigContainer configContainer, final boolean z) {
-        return Tasks.call(this.executorService, new Callable() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda2
-            @Override // java.util.concurrent.Callable
-            public final Object call() {
-                Void lambda$put$0;
-                lambda$put$0 = ConfigCacheClient.this.lambda$put$0(configContainer);
-                return lambda$put$0;
-            }
-        }).onSuccessTask(this.executorService, new SuccessContinuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda3
-            @Override // com.google.android.gms.tasks.SuccessContinuation
-            public final Task then(Object obj) {
-                Task lambda$put$1;
-                lambda$put$1 = ConfigCacheClient.this.lambda$put$1(z, configContainer, (Void) obj);
-                return lambda$put$1;
-            }
-        });
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ Task lambda$put$1(boolean z, ConfigContainer configContainer, Void r3) throws Exception {
+    public /* synthetic */ Task lambda$put$1(boolean z, ConfigContainer configContainer, Void r3) {
         if (z) {
             updateInMemoryConfigContainer(configContainer);
         }
         return Tasks.forResult(configContainer);
     }
 
-    public synchronized Task<ConfigContainer> get() {
+    private synchronized void updateInMemoryConfigContainer(ConfigContainer configContainer) {
+        this.cachedContainerTask = Tasks.forResult(configContainer);
+    }
+
+    public void clear() {
+        synchronized (this) {
+            this.cachedContainerTask = Tasks.forResult(null);
+        }
+        this.storageClient.clear();
+    }
+
+    public synchronized Task get() {
         try {
-            Task<ConfigContainer> task = this.cachedContainerTask;
+            Task task = this.cachedContainerTask;
             if (task != null) {
                 if (task.isComplete() && !this.cachedContainerTask.isSuccessful()) {
                 }
@@ -115,75 +142,48 @@ public class ConfigCacheClient {
         return this.cachedContainerTask;
     }
 
-    public void clear() {
+    public ConfigContainer getBlocking() {
+        return getBlocking(5L);
+    }
+
+    ConfigContainer getBlocking(long j) {
         synchronized (this) {
-            this.cachedContainerTask = Tasks.forResult(null);
-        }
-        this.storageClient.clear();
-    }
-
-    private synchronized void updateInMemoryConfigContainer(ConfigContainer configContainer) {
-        this.cachedContainerTask = Tasks.forResult(configContainer);
-    }
-
-    public static synchronized ConfigCacheClient getInstance(ExecutorService executorService, ConfigStorageClient configStorageClient) {
-        ConfigCacheClient configCacheClient;
-        synchronized (ConfigCacheClient.class) {
             try {
-                String fileName = configStorageClient.getFileName();
-                Map<String, ConfigCacheClient> map = clientInstances;
-                if (!map.containsKey(fileName)) {
-                    map.put(fileName, new ConfigCacheClient(executorService, configStorageClient));
+                Task task = this.cachedContainerTask;
+                if (task != null && task.isSuccessful()) {
+                    return (ConfigContainer) this.cachedContainerTask.getResult();
                 }
-                configCacheClient = map.get(fileName);
+                try {
+                    return (ConfigContainer) await(get(), j, TimeUnit.SECONDS);
+                } catch (InterruptedException | ExecutionException | TimeoutException e) {
+                    Log.d("FirebaseRemoteConfig", "Reading from storage file failed.", e);
+                    return null;
+                }
             } catch (Throwable th) {
                 throw th;
             }
         }
-        return configCacheClient;
     }
 
-    private static <TResult> TResult await(Task<TResult> task, long j, TimeUnit timeUnit) throws ExecutionException, InterruptedException, TimeoutException {
-        AwaitListener awaitListener = new AwaitListener();
-        Executor executor = DIRECT_EXECUTOR;
-        task.addOnSuccessListener(executor, awaitListener);
-        task.addOnFailureListener(executor, awaitListener);
-        task.addOnCanceledListener(executor, awaitListener);
-        if (!awaitListener.await(j, timeUnit)) {
-            throw new TimeoutException("Task await timed out.");
-        }
-        if (task.isSuccessful()) {
-            return task.getResult();
-        }
-        throw new ExecutionException(task.getException());
+    public Task put(ConfigContainer configContainer) {
+        return put(configContainer, true);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class AwaitListener<TResult> implements OnSuccessListener<TResult>, OnFailureListener, OnCanceledListener {
-        private final CountDownLatch latch;
-
-        private AwaitListener() {
-            this.latch = new CountDownLatch(1);
-        }
-
-        @Override // com.google.android.gms.tasks.OnSuccessListener
-        public void onSuccess(TResult tresult) {
-            this.latch.countDown();
-        }
-
-        @Override // com.google.android.gms.tasks.OnFailureListener
-        public void onFailure(Exception exc) {
-            this.latch.countDown();
-        }
-
-        @Override // com.google.android.gms.tasks.OnCanceledListener
-        public void onCanceled() {
-            this.latch.countDown();
-        }
-
-        public boolean await(long j, TimeUnit timeUnit) throws InterruptedException {
-            return this.latch.await(j, timeUnit);
-        }
+    public Task put(final ConfigContainer configContainer, final boolean z) {
+        return Tasks.call(this.executorService, new Callable() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda2
+            @Override // java.util.concurrent.Callable
+            public final Object call() {
+                Void lambda$put$0;
+                lambda$put$0 = ConfigCacheClient.this.lambda$put$0(configContainer);
+                return lambda$put$0;
+            }
+        }).onSuccessTask(this.executorService, new SuccessContinuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda3
+            @Override // com.google.android.gms.tasks.SuccessContinuation
+            public final Task then(Object obj) {
+                Task lambda$put$1;
+                lambda$put$1 = ConfigCacheClient.this.lambda$put$1(z, configContainer, (Void) obj);
+                return lambda$put$1;
+            }
+        });
     }
 }

@@ -20,36 +20,26 @@ public class TypingDotsDrawable extends StatusDrawable {
     private boolean started = false;
     private DecelerateInterpolator decelerateInterpolator = new DecelerateInterpolator();
 
-    @Override // android.graphics.drawable.Drawable
-    public int getOpacity() {
-        return -2;
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setAlpha(int i) {
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setColorFilter(ColorFilter colorFilter) {
-    }
-
     public TypingDotsDrawable(boolean z) {
         if (z) {
             this.currentPaint = new Paint(1);
         }
     }
 
-    @Override // org.telegram.ui.Components.StatusDrawable
-    public void setColor(int i) {
-        Paint paint = this.currentPaint;
-        if (paint != null) {
-            paint.setColor(i);
+    /* JADX INFO: Access modifiers changed from: private */
+    public void checkUpdate() {
+        if (this.started) {
+            if (NotificationCenter.getInstance(this.currentAccount).isAnimationInProgress()) {
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TypingDotsDrawable$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        TypingDotsDrawable.this.checkUpdate();
+                    }
+                }, 100L);
+            } else {
+                update();
+            }
         }
-    }
-
-    @Override // org.telegram.ui.Components.StatusDrawable
-    public void setIsChat(boolean z) {
-        this.isChat = z;
     }
 
     private void update() {
@@ -82,6 +72,57 @@ public class TypingDotsDrawable extends StatusDrawable {
         invalidateSelf();
     }
 
+    @Override // android.graphics.drawable.Drawable
+    public void draw(Canvas canvas) {
+        int dp = AndroidUtilities.dp(this.isChat ? 8.5f : 9.3f) + getBounds().top;
+        Paint paint = this.currentPaint;
+        if (paint == null) {
+            paint = Theme.chat_statusPaint;
+            paint.setAlpha(NotificationCenter.voipServiceCreated);
+        }
+        float f = dp;
+        canvas.drawCircle(AndroidUtilities.dp(3.0f), f, this.scales[0] * AndroidUtilities.density, paint);
+        canvas.drawCircle(AndroidUtilities.dp(9.0f), f, this.scales[1] * AndroidUtilities.density, paint);
+        canvas.drawCircle(AndroidUtilities.dp(15.0f), f, this.scales[2] * AndroidUtilities.density, paint);
+        checkUpdate();
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public int getIntrinsicHeight() {
+        return AndroidUtilities.dp(18.0f);
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public int getIntrinsicWidth() {
+        return AndroidUtilities.dp(18.0f);
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public int getOpacity() {
+        return -2;
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setAlpha(int i) {
+    }
+
+    @Override // org.telegram.ui.Components.StatusDrawable
+    public void setColor(int i) {
+        Paint paint = this.currentPaint;
+        if (paint != null) {
+            paint.setColor(i);
+        }
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setColorFilter(ColorFilter colorFilter) {
+    }
+
+    @Override // org.telegram.ui.Components.StatusDrawable
+    public void setIsChat(boolean z) {
+        this.isChat = z;
+    }
+
     @Override // org.telegram.ui.Components.StatusDrawable
     public void start() {
         this.lastUpdateTime = System.currentTimeMillis();
@@ -100,55 +141,5 @@ public class TypingDotsDrawable extends StatusDrawable {
         fArr[1] = 150.0f;
         fArr[2] = 300.0f;
         this.started = false;
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void draw(Canvas canvas) {
-        int dp;
-        int i;
-        if (this.isChat) {
-            dp = AndroidUtilities.dp(8.5f);
-            i = getBounds().top;
-        } else {
-            dp = AndroidUtilities.dp(9.3f);
-            i = getBounds().top;
-        }
-        int i2 = dp + i;
-        Paint paint = this.currentPaint;
-        if (paint == null) {
-            paint = Theme.chat_statusPaint;
-            paint.setAlpha(NotificationCenter.voipServiceCreated);
-        }
-        float f = i2;
-        canvas.drawCircle(AndroidUtilities.dp(3.0f), f, this.scales[0] * AndroidUtilities.density, paint);
-        canvas.drawCircle(AndroidUtilities.dp(9.0f), f, this.scales[1] * AndroidUtilities.density, paint);
-        canvas.drawCircle(AndroidUtilities.dp(15.0f), f, this.scales[2] * AndroidUtilities.density, paint);
-        checkUpdate();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void checkUpdate() {
-        if (this.started) {
-            if (!NotificationCenter.getInstance(this.currentAccount).isAnimationInProgress()) {
-                update();
-            } else {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TypingDotsDrawable$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        TypingDotsDrawable.this.checkUpdate();
-                    }
-                }, 100L);
-            }
-        }
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public int getIntrinsicWidth() {
-        return AndroidUtilities.dp(18.0f);
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public int getIntrinsicHeight() {
-        return AndroidUtilities.dp(18.0f);
     }
 }

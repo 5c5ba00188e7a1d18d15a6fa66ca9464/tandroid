@@ -13,22 +13,22 @@ import java.util.concurrent.Executor;
 /* loaded from: classes.dex */
 public class BiometricViewModel extends ViewModel {
     private AuthenticationCallbackProvider mAuthenticationCallbackProvider;
-    private MutableLiveData<BiometricErrorData> mAuthenticationError;
-    private MutableLiveData<CharSequence> mAuthenticationHelpMessage;
-    private MutableLiveData<BiometricPrompt.AuthenticationResult> mAuthenticationResult;
+    private MutableLiveData mAuthenticationError;
+    private MutableLiveData mAuthenticationHelpMessage;
+    private MutableLiveData mAuthenticationResult;
     private CancellationSignalProvider mCancellationSignalProvider;
     private BiometricPrompt.AuthenticationCallback mClientCallback;
     private Executor mClientExecutor;
     private BiometricPrompt.CryptoObject mCryptoObject;
-    private MutableLiveData<CharSequence> mFingerprintDialogHelpMessage;
-    private MutableLiveData<Integer> mFingerprintDialogState;
-    private MutableLiveData<Boolean> mIsAuthenticationFailurePending;
+    private MutableLiveData mFingerprintDialogHelpMessage;
+    private MutableLiveData mFingerprintDialogState;
+    private MutableLiveData mIsAuthenticationFailurePending;
     private boolean mIsAwaitingResult;
     private boolean mIsConfirmingDeviceCredential;
     private boolean mIsDelayingPrompt;
-    private MutableLiveData<Boolean> mIsFingerprintDialogCancelPending;
+    private MutableLiveData mIsFingerprintDialogCancelPending;
     private boolean mIsIgnoringCancel;
-    private MutableLiveData<Boolean> mIsNegativeButtonPressPending;
+    private MutableLiveData mIsNegativeButtonPressPending;
     private boolean mIsPromptShowing;
     private DialogInterface.OnClickListener mNegativeButtonListener;
     private CharSequence mNegativeButtonTextOverride;
@@ -36,6 +36,50 @@ public class BiometricViewModel extends ViewModel {
     private int mCanceledFrom = 0;
     private boolean mIsFingerprintDialogDismissedInstantly = true;
     private int mFingerprintDialogPreviousState = 0;
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static final class CallbackListener extends AuthenticationCallbackProvider.Listener {
+        private final WeakReference mViewModelRef;
+
+        CallbackListener(BiometricViewModel biometricViewModel) {
+            this.mViewModelRef = new WeakReference(biometricViewModel);
+        }
+
+        @Override // androidx.biometric.AuthenticationCallbackProvider.Listener
+        void onError(int i, CharSequence charSequence) {
+            if (this.mViewModelRef.get() == null || ((BiometricViewModel) this.mViewModelRef.get()).isConfirmingDeviceCredential() || !((BiometricViewModel) this.mViewModelRef.get()).isAwaitingResult()) {
+                return;
+            }
+            ((BiometricViewModel) this.mViewModelRef.get()).setAuthenticationError(new BiometricErrorData(i, charSequence));
+        }
+
+        @Override // androidx.biometric.AuthenticationCallbackProvider.Listener
+        void onFailure() {
+            if (this.mViewModelRef.get() == null || !((BiometricViewModel) this.mViewModelRef.get()).isAwaitingResult()) {
+                return;
+            }
+            ((BiometricViewModel) this.mViewModelRef.get()).setAuthenticationFailurePending(true);
+        }
+
+        @Override // androidx.biometric.AuthenticationCallbackProvider.Listener
+        void onHelp(CharSequence charSequence) {
+            if (this.mViewModelRef.get() != null) {
+                ((BiometricViewModel) this.mViewModelRef.get()).setAuthenticationHelpMessage(charSequence);
+            }
+        }
+
+        @Override // androidx.biometric.AuthenticationCallbackProvider.Listener
+        void onSuccess(BiometricPrompt.AuthenticationResult authenticationResult) {
+            if (this.mViewModelRef.get() == null || !((BiometricViewModel) this.mViewModelRef.get()).isAwaitingResult()) {
+                return;
+            }
+            if (authenticationResult.getAuthenticationType() == -1) {
+                authenticationResult = new BiometricPrompt.AuthenticationResult(authenticationResult.getCryptoObject(), ((BiometricViewModel) this.mViewModelRef.get()).getInferredAuthenticationResultType());
+            }
+            ((BiometricViewModel) this.mViewModelRef.get()).setAuthenticationResult(authenticationResult);
+        }
+    }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
@@ -53,74 +97,81 @@ public class BiometricViewModel extends ViewModel {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class CallbackListener extends AuthenticationCallbackProvider.Listener {
-        private final WeakReference<BiometricViewModel> mViewModelRef;
-
-        CallbackListener(BiometricViewModel biometricViewModel) {
-            this.mViewModelRef = new WeakReference<>(biometricViewModel);
-        }
-
-        @Override // androidx.biometric.AuthenticationCallbackProvider.Listener
-        void onSuccess(BiometricPrompt.AuthenticationResult authenticationResult) {
-            if (this.mViewModelRef.get() == null || !this.mViewModelRef.get().isAwaitingResult()) {
-                return;
-            }
-            if (authenticationResult.getAuthenticationType() == -1) {
-                authenticationResult = new BiometricPrompt.AuthenticationResult(authenticationResult.getCryptoObject(), this.mViewModelRef.get().getInferredAuthenticationResultType());
-            }
-            this.mViewModelRef.get().setAuthenticationResult(authenticationResult);
-        }
-
-        @Override // androidx.biometric.AuthenticationCallbackProvider.Listener
-        void onError(int i, CharSequence charSequence) {
-            if (this.mViewModelRef.get() == null || this.mViewModelRef.get().isConfirmingDeviceCredential() || !this.mViewModelRef.get().isAwaitingResult()) {
-                return;
-            }
-            this.mViewModelRef.get().setAuthenticationError(new BiometricErrorData(i, charSequence));
-        }
-
-        @Override // androidx.biometric.AuthenticationCallbackProvider.Listener
-        void onHelp(CharSequence charSequence) {
-            if (this.mViewModelRef.get() != null) {
-                this.mViewModelRef.get().setAuthenticationHelpMessage(charSequence);
-            }
-        }
-
-        @Override // androidx.biometric.AuthenticationCallbackProvider.Listener
-        void onFailure() {
-            if (this.mViewModelRef.get() == null || !this.mViewModelRef.get().isAwaitingResult()) {
-                return;
-            }
-            this.mViewModelRef.get().setAuthenticationFailurePending(true);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
     public static class NegativeButtonListener implements DialogInterface.OnClickListener {
-        private final WeakReference<BiometricViewModel> mViewModelRef;
+        private final WeakReference mViewModelRef;
 
         NegativeButtonListener(BiometricViewModel biometricViewModel) {
-            this.mViewModelRef = new WeakReference<>(biometricViewModel);
+            this.mViewModelRef = new WeakReference(biometricViewModel);
         }
 
         @Override // android.content.DialogInterface.OnClickListener
         public void onClick(DialogInterface dialogInterface, int i) {
             if (this.mViewModelRef.get() != null) {
-                this.mViewModelRef.get().setNegativeButtonPressPending(true);
+                ((BiometricViewModel) this.mViewModelRef.get()).setNegativeButtonPressPending(true);
             }
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Executor getClientExecutor() {
-        Executor executor = this.mClientExecutor;
-        return executor != null ? executor : new DefaultExecutor();
+    private static void updateValue(MutableLiveData mutableLiveData, Object obj) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            mutableLiveData.setValue(obj);
+        } else {
+            mutableLiveData.postValue(obj);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void setClientExecutor(Executor executor) {
-        this.mClientExecutor = executor;
+    public int getAllowedAuthenticators() {
+        BiometricPrompt.PromptInfo promptInfo = this.mPromptInfo;
+        if (promptInfo != null) {
+            return AuthenticatorUtils.getConsolidatedAuthenticators(promptInfo, this.mCryptoObject);
+        }
+        return 0;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public AuthenticationCallbackProvider getAuthenticationCallbackProvider() {
+        if (this.mAuthenticationCallbackProvider == null) {
+            this.mAuthenticationCallbackProvider = new AuthenticationCallbackProvider(new CallbackListener(this));
+        }
+        return this.mAuthenticationCallbackProvider;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public MutableLiveData getAuthenticationError() {
+        if (this.mAuthenticationError == null) {
+            this.mAuthenticationError = new MutableLiveData();
+        }
+        return this.mAuthenticationError;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public LiveData getAuthenticationHelpMessage() {
+        if (this.mAuthenticationHelpMessage == null) {
+            this.mAuthenticationHelpMessage = new MutableLiveData();
+        }
+        return this.mAuthenticationHelpMessage;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public LiveData getAuthenticationResult() {
+        if (this.mAuthenticationResult == null) {
+            this.mAuthenticationResult = new MutableLiveData();
+        }
+        return this.mAuthenticationResult;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public int getCanceledFrom() {
+        return this.mCanceledFrom;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public CancellationSignalProvider getCancellationSignalProvider() {
+        if (this.mCancellationSignalProvider == null) {
+            this.mCancellationSignalProvider = new CancellationSignalProvider();
+        }
+        return this.mCancellationSignalProvider;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -133,36 +184,14 @@ public class BiometricViewModel extends ViewModel {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void setClientCallback(BiometricPrompt.AuthenticationCallback authenticationCallback) {
-        this.mClientCallback = authenticationCallback;
+    public Executor getClientExecutor() {
+        Executor executor = this.mClientExecutor;
+        return executor != null ? executor : new DefaultExecutor();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void resetClientCallback() {
-        this.mClientCallback = null;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setPromptInfo(BiometricPrompt.PromptInfo promptInfo) {
-        this.mPromptInfo = promptInfo;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CharSequence getTitle() {
-        BiometricPrompt.PromptInfo promptInfo = this.mPromptInfo;
-        if (promptInfo != null) {
-            return promptInfo.getTitle();
-        }
-        return null;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CharSequence getSubtitle() {
-        BiometricPrompt.PromptInfo promptInfo = this.mPromptInfo;
-        if (promptInfo != null) {
-            return promptInfo.getSubtitle();
-        }
-        return null;
+    public BiometricPrompt.CryptoObject getCryptoObject() {
+        return this.mCryptoObject;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -172,6 +201,40 @@ public class BiometricViewModel extends ViewModel {
             return promptInfo.getDescription();
         }
         return null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public LiveData getFingerprintDialogHelpMessage() {
+        if (this.mFingerprintDialogHelpMessage == null) {
+            this.mFingerprintDialogHelpMessage = new MutableLiveData();
+        }
+        return this.mFingerprintDialogHelpMessage;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public int getFingerprintDialogPreviousState() {
+        return this.mFingerprintDialogPreviousState;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public LiveData getFingerprintDialogState() {
+        if (this.mFingerprintDialogState == null) {
+            this.mFingerprintDialogState = new MutableLiveData();
+        }
+        return this.mFingerprintDialogState;
+    }
+
+    int getInferredAuthenticationResultType() {
+        int allowedAuthenticators = getAllowedAuthenticators();
+        return (!AuthenticatorUtils.isSomeBiometricAllowed(allowedAuthenticators) || AuthenticatorUtils.isDeviceCredentialAllowed(allowedAuthenticators)) ? -1 : 2;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public DialogInterface.OnClickListener getNegativeButtonListener() {
+        if (this.mNegativeButtonListener == null) {
+            this.mNegativeButtonListener = new NegativeButtonListener(this);
+        }
+        return this.mNegativeButtonListener;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -188,77 +251,29 @@ public class BiometricViewModel extends ViewModel {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isConfirmationRequired() {
-        BiometricPrompt.PromptInfo promptInfo = this.mPromptInfo;
-        return promptInfo == null || promptInfo.isConfirmationRequired();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getAllowedAuthenticators() {
+    public CharSequence getSubtitle() {
         BiometricPrompt.PromptInfo promptInfo = this.mPromptInfo;
         if (promptInfo != null) {
-            return AuthenticatorUtils.getConsolidatedAuthenticators(promptInfo, this.mCryptoObject);
+            return promptInfo.getSubtitle();
         }
-        return 0;
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public BiometricPrompt.CryptoObject getCryptoObject() {
-        return this.mCryptoObject;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setCryptoObject(BiometricPrompt.CryptoObject cryptoObject) {
-        this.mCryptoObject = cryptoObject;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AuthenticationCallbackProvider getAuthenticationCallbackProvider() {
-        if (this.mAuthenticationCallbackProvider == null) {
-            this.mAuthenticationCallbackProvider = new AuthenticationCallbackProvider(new CallbackListener(this));
+    public CharSequence getTitle() {
+        BiometricPrompt.PromptInfo promptInfo = this.mPromptInfo;
+        if (promptInfo != null) {
+            return promptInfo.getTitle();
         }
-        return this.mAuthenticationCallbackProvider;
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public CancellationSignalProvider getCancellationSignalProvider() {
-        if (this.mCancellationSignalProvider == null) {
-            this.mCancellationSignalProvider = new CancellationSignalProvider();
+    public LiveData isAuthenticationFailurePending() {
+        if (this.mIsAuthenticationFailurePending == null) {
+            this.mIsAuthenticationFailurePending = new MutableLiveData();
         }
-        return this.mCancellationSignalProvider;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public DialogInterface.OnClickListener getNegativeButtonListener() {
-        if (this.mNegativeButtonListener == null) {
-            this.mNegativeButtonListener = new NegativeButtonListener(this);
-        }
-        return this.mNegativeButtonListener;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setNegativeButtonTextOverride(CharSequence charSequence) {
-        this.mNegativeButtonTextOverride = charSequence;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getCanceledFrom() {
-        return this.mCanceledFrom;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setCanceledFrom(int i) {
-        this.mCanceledFrom = i;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isPromptShowing() {
-        return this.mIsPromptShowing;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setPromptShowing(boolean z) {
-        this.mIsPromptShowing = z;
+        return this.mIsAuthenticationFailurePending;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -267,8 +282,9 @@ public class BiometricViewModel extends ViewModel {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void setAwaitingResult(boolean z) {
-        this.mIsAwaitingResult = z;
+    public boolean isConfirmationRequired() {
+        BiometricPrompt.PromptInfo promptInfo = this.mPromptInfo;
+        return promptInfo == null || promptInfo.isConfirmationRequired();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -277,107 +293,16 @@ public class BiometricViewModel extends ViewModel {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void setConfirmingDeviceCredential(boolean z) {
-        this.mIsConfirmingDeviceCredential = z;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean isDelayingPrompt() {
         return this.mIsDelayingPrompt;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void setDelayingPrompt(boolean z) {
-        this.mIsDelayingPrompt = z;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isIgnoringCancel() {
-        return this.mIsIgnoringCancel;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setIgnoringCancel(boolean z) {
-        this.mIsIgnoringCancel = z;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LiveData<BiometricPrompt.AuthenticationResult> getAuthenticationResult() {
-        if (this.mAuthenticationResult == null) {
-            this.mAuthenticationResult = new MutableLiveData<>();
+    public LiveData isFingerprintDialogCancelPending() {
+        if (this.mIsFingerprintDialogCancelPending == null) {
+            this.mIsFingerprintDialogCancelPending = new MutableLiveData();
         }
-        return this.mAuthenticationResult;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setAuthenticationResult(BiometricPrompt.AuthenticationResult authenticationResult) {
-        if (this.mAuthenticationResult == null) {
-            this.mAuthenticationResult = new MutableLiveData<>();
-        }
-        updateValue(this.mAuthenticationResult, authenticationResult);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public MutableLiveData<BiometricErrorData> getAuthenticationError() {
-        if (this.mAuthenticationError == null) {
-            this.mAuthenticationError = new MutableLiveData<>();
-        }
-        return this.mAuthenticationError;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setAuthenticationError(BiometricErrorData biometricErrorData) {
-        if (this.mAuthenticationError == null) {
-            this.mAuthenticationError = new MutableLiveData<>();
-        }
-        updateValue(this.mAuthenticationError, biometricErrorData);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LiveData<CharSequence> getAuthenticationHelpMessage() {
-        if (this.mAuthenticationHelpMessage == null) {
-            this.mAuthenticationHelpMessage = new MutableLiveData<>();
-        }
-        return this.mAuthenticationHelpMessage;
-    }
-
-    void setAuthenticationHelpMessage(CharSequence charSequence) {
-        if (this.mAuthenticationHelpMessage == null) {
-            this.mAuthenticationHelpMessage = new MutableLiveData<>();
-        }
-        updateValue(this.mAuthenticationHelpMessage, charSequence);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LiveData<Boolean> isAuthenticationFailurePending() {
-        if (this.mIsAuthenticationFailurePending == null) {
-            this.mIsAuthenticationFailurePending = new MutableLiveData<>();
-        }
-        return this.mIsAuthenticationFailurePending;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setAuthenticationFailurePending(boolean z) {
-        if (this.mIsAuthenticationFailurePending == null) {
-            this.mIsAuthenticationFailurePending = new MutableLiveData<>();
-        }
-        updateValue(this.mIsAuthenticationFailurePending, Boolean.valueOf(z));
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LiveData<Boolean> isNegativeButtonPressPending() {
-        if (this.mIsNegativeButtonPressPending == null) {
-            this.mIsNegativeButtonPressPending = new MutableLiveData<>();
-        }
-        return this.mIsNegativeButtonPressPending;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setNegativeButtonPressPending(boolean z) {
-        if (this.mIsNegativeButtonPressPending == null) {
-            this.mIsNegativeButtonPressPending = new MutableLiveData<>();
-        }
-        updateValue(this.mIsNegativeButtonPressPending, Boolean.valueOf(z));
+        return this.mIsFingerprintDialogCancelPending;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -386,29 +311,113 @@ public class BiometricViewModel extends ViewModel {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void setFingerprintDialogDismissedInstantly(boolean z) {
-        this.mIsFingerprintDialogDismissedInstantly = z;
+    public boolean isIgnoringCancel() {
+        return this.mIsIgnoringCancel;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public LiveData<Boolean> isFingerprintDialogCancelPending() {
-        if (this.mIsFingerprintDialogCancelPending == null) {
-            this.mIsFingerprintDialogCancelPending = new MutableLiveData<>();
+    public LiveData isNegativeButtonPressPending() {
+        if (this.mIsNegativeButtonPressPending == null) {
+            this.mIsNegativeButtonPressPending = new MutableLiveData();
         }
-        return this.mIsFingerprintDialogCancelPending;
+        return this.mIsNegativeButtonPressPending;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public boolean isPromptShowing() {
+        return this.mIsPromptShowing;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void resetClientCallback() {
+        this.mClientCallback = null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setAuthenticationError(BiometricErrorData biometricErrorData) {
+        if (this.mAuthenticationError == null) {
+            this.mAuthenticationError = new MutableLiveData();
+        }
+        updateValue(this.mAuthenticationError, biometricErrorData);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setAuthenticationFailurePending(boolean z) {
+        if (this.mIsAuthenticationFailurePending == null) {
+            this.mIsAuthenticationFailurePending = new MutableLiveData();
+        }
+        updateValue(this.mIsAuthenticationFailurePending, Boolean.valueOf(z));
+    }
+
+    void setAuthenticationHelpMessage(CharSequence charSequence) {
+        if (this.mAuthenticationHelpMessage == null) {
+            this.mAuthenticationHelpMessage = new MutableLiveData();
+        }
+        updateValue(this.mAuthenticationHelpMessage, charSequence);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setAuthenticationResult(BiometricPrompt.AuthenticationResult authenticationResult) {
+        if (this.mAuthenticationResult == null) {
+            this.mAuthenticationResult = new MutableLiveData();
+        }
+        updateValue(this.mAuthenticationResult, authenticationResult);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setAwaitingResult(boolean z) {
+        this.mIsAwaitingResult = z;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setCanceledFrom(int i) {
+        this.mCanceledFrom = i;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setClientCallback(BiometricPrompt.AuthenticationCallback authenticationCallback) {
+        this.mClientCallback = authenticationCallback;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setClientExecutor(Executor executor) {
+        this.mClientExecutor = executor;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setConfirmingDeviceCredential(boolean z) {
+        this.mIsConfirmingDeviceCredential = z;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setCryptoObject(BiometricPrompt.CryptoObject cryptoObject) {
+        this.mCryptoObject = cryptoObject;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setDelayingPrompt(boolean z) {
+        this.mIsDelayingPrompt = z;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void setFingerprintDialogCancelPending(boolean z) {
         if (this.mIsFingerprintDialogCancelPending == null) {
-            this.mIsFingerprintDialogCancelPending = new MutableLiveData<>();
+            this.mIsFingerprintDialogCancelPending = new MutableLiveData();
         }
         updateValue(this.mIsFingerprintDialogCancelPending, Boolean.valueOf(z));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public int getFingerprintDialogPreviousState() {
-        return this.mFingerprintDialogPreviousState;
+    public void setFingerprintDialogDismissedInstantly(boolean z) {
+        this.mIsFingerprintDialogDismissedInstantly = z;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setFingerprintDialogHelpMessage(CharSequence charSequence) {
+        if (this.mFingerprintDialogHelpMessage == null) {
+            this.mFingerprintDialogHelpMessage = new MutableLiveData();
+        }
+        updateValue(this.mFingerprintDialogHelpMessage, charSequence);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -417,47 +426,38 @@ public class BiometricViewModel extends ViewModel {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public LiveData<Integer> getFingerprintDialogState() {
-        if (this.mFingerprintDialogState == null) {
-            this.mFingerprintDialogState = new MutableLiveData<>();
-        }
-        return this.mFingerprintDialogState;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
     public void setFingerprintDialogState(int i) {
         if (this.mFingerprintDialogState == null) {
-            this.mFingerprintDialogState = new MutableLiveData<>();
+            this.mFingerprintDialogState = new MutableLiveData();
         }
         updateValue(this.mFingerprintDialogState, Integer.valueOf(i));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public LiveData<CharSequence> getFingerprintDialogHelpMessage() {
-        if (this.mFingerprintDialogHelpMessage == null) {
-            this.mFingerprintDialogHelpMessage = new MutableLiveData<>();
-        }
-        return this.mFingerprintDialogHelpMessage;
+    public void setIgnoringCancel(boolean z) {
+        this.mIsIgnoringCancel = z;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void setFingerprintDialogHelpMessage(CharSequence charSequence) {
-        if (this.mFingerprintDialogHelpMessage == null) {
-            this.mFingerprintDialogHelpMessage = new MutableLiveData<>();
+    public void setNegativeButtonPressPending(boolean z) {
+        if (this.mIsNegativeButtonPressPending == null) {
+            this.mIsNegativeButtonPressPending = new MutableLiveData();
         }
-        updateValue(this.mFingerprintDialogHelpMessage, charSequence);
+        updateValue(this.mIsNegativeButtonPressPending, Boolean.valueOf(z));
     }
 
-    int getInferredAuthenticationResultType() {
-        int allowedAuthenticators = getAllowedAuthenticators();
-        return (!AuthenticatorUtils.isSomeBiometricAllowed(allowedAuthenticators) || AuthenticatorUtils.isDeviceCredentialAllowed(allowedAuthenticators)) ? -1 : 2;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setNegativeButtonTextOverride(CharSequence charSequence) {
+        this.mNegativeButtonTextOverride = charSequence;
     }
 
-    private static <T> void updateValue(MutableLiveData<T> mutableLiveData, T t) {
-        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            mutableLiveData.setValue(t);
-        } else {
-            mutableLiveData.postValue(t);
-        }
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setPromptInfo(BiometricPrompt.PromptInfo promptInfo) {
+        this.mPromptInfo = promptInfo;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setPromptShowing(boolean z) {
+        this.mIsPromptShowing = z;
     }
 }

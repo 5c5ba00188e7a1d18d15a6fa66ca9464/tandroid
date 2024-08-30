@@ -6,7 +6,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class GeobFrame extends Id3Frame {
-    public static final Parcelable.Creator<GeobFrame> CREATOR = new Parcelable.Creator<GeobFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.GeobFrame.1
+    public static final Parcelable.Creator<GeobFrame> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.id3.GeobFrame.1
         @Override // android.os.Parcelable.Creator
         public GeobFrame createFromParcel(Parcel parcel) {
             return new GeobFrame(parcel);
@@ -22,20 +22,20 @@ public final class GeobFrame extends Id3Frame {
     public final String filename;
     public final String mimeType;
 
-    public GeobFrame(String str, String str2, String str3, byte[] bArr) {
-        super("GEOB");
-        this.mimeType = str;
-        this.filename = str2;
-        this.description = str3;
-        this.data = bArr;
-    }
-
     GeobFrame(Parcel parcel) {
         super("GEOB");
         this.mimeType = (String) Util.castNonNull(parcel.readString());
         this.filename = (String) Util.castNonNull(parcel.readString());
         this.description = (String) Util.castNonNull(parcel.readString());
         this.data = (byte[]) Util.castNonNull(parcel.createByteArray());
+    }
+
+    public GeobFrame(String str, String str2, String str3, byte[] bArr) {
+        super("GEOB");
+        this.mimeType = str;
+        this.filename = str2;
+        this.description = str3;
+        this.data = bArr;
     }
 
     public boolean equals(Object obj) {

@@ -21,5 +21,5 @@ abstract class zzcy {
     public abstract void zza(Object obj, long j);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract <L> void zza(Object obj, Object obj2, long j);
+    public abstract void zza(Object obj, Object obj2, long j);
 }

@@ -30,19 +30,14 @@ public class WrappedDrawableApi21 extends WrappedDrawableApi14 {
         findAndCacheIsProjectedDrawableMethod();
     }
 
-    @Override // android.graphics.drawable.Drawable
-    public void setHotspot(float f, float f2) {
-        this.mDrawable.setHotspot(f, f2);
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setHotspotBounds(int i, int i2, int i3, int i4) {
-        this.mDrawable.setHotspotBounds(i, i2, i3, i4);
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void getOutline(Outline outline) {
-        this.mDrawable.getOutline(outline);
+    private void findAndCacheIsProjectedDrawableMethod() {
+        if (sIsProjectedDrawableMethod == null) {
+            try {
+                sIsProjectedDrawableMethod = Drawable.class.getDeclaredMethod("isProjected", null);
+            } catch (Exception e) {
+                Log.w("WrappedDrawableApi21", "Failed to retrieve Drawable#isProjected() method", e);
+            }
+        }
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -52,40 +47,9 @@ public class WrappedDrawableApi21 extends WrappedDrawableApi14 {
         return dirtyBounds;
     }
 
-    @Override // androidx.core.graphics.drawable.WrappedDrawableApi14, android.graphics.drawable.Drawable, androidx.core.graphics.drawable.TintAwareDrawable
-    public void setTintList(ColorStateList colorStateList) {
-        if (isCompatTintEnabled()) {
-            super.setTintList(colorStateList);
-        } else {
-            this.mDrawable.setTintList(colorStateList);
-        }
-    }
-
-    @Override // androidx.core.graphics.drawable.WrappedDrawableApi14, android.graphics.drawable.Drawable, androidx.core.graphics.drawable.TintAwareDrawable
-    public void setTint(int i) {
-        if (isCompatTintEnabled()) {
-            super.setTint(i);
-        } else {
-            this.mDrawable.setTint(i);
-        }
-    }
-
-    @Override // androidx.core.graphics.drawable.WrappedDrawableApi14, android.graphics.drawable.Drawable, androidx.core.graphics.drawable.TintAwareDrawable
-    public void setTintMode(PorterDuff.Mode mode) {
-        if (isCompatTintEnabled()) {
-            super.setTintMode(mode);
-        } else {
-            this.mDrawable.setTintMode(mode);
-        }
-    }
-
-    @Override // androidx.core.graphics.drawable.WrappedDrawableApi14, android.graphics.drawable.Drawable
-    public boolean setState(int[] iArr) {
-        if (super.setState(iArr)) {
-            invalidateSelf();
-            return true;
-        }
-        return false;
+    @Override // android.graphics.drawable.Drawable
+    public void getOutline(Outline outline) {
+        this.mDrawable.getOutline(outline);
     }
 
     @Override // androidx.core.graphics.drawable.WrappedDrawableApi14
@@ -112,13 +76,49 @@ public class WrappedDrawableApi21 extends WrappedDrawableApi14 {
         }
     }
 
-    private void findAndCacheIsProjectedDrawableMethod() {
-        if (sIsProjectedDrawableMethod == null) {
-            try {
-                sIsProjectedDrawableMethod = Drawable.class.getDeclaredMethod("isProjected", null);
-            } catch (Exception e) {
-                Log.w("WrappedDrawableApi21", "Failed to retrieve Drawable#isProjected() method", e);
-            }
+    @Override // android.graphics.drawable.Drawable
+    public void setHotspot(float f, float f2) {
+        this.mDrawable.setHotspot(f, f2);
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public void setHotspotBounds(int i, int i2, int i3, int i4) {
+        this.mDrawable.setHotspotBounds(i, i2, i3, i4);
+    }
+
+    @Override // androidx.core.graphics.drawable.WrappedDrawableApi14, android.graphics.drawable.Drawable
+    public boolean setState(int[] iArr) {
+        if (super.setState(iArr)) {
+            invalidateSelf();
+            return true;
+        }
+        return false;
+    }
+
+    @Override // androidx.core.graphics.drawable.WrappedDrawableApi14, android.graphics.drawable.Drawable, androidx.core.graphics.drawable.TintAwareDrawable
+    public void setTint(int i) {
+        if (isCompatTintEnabled()) {
+            super.setTint(i);
+        } else {
+            this.mDrawable.setTint(i);
+        }
+    }
+
+    @Override // androidx.core.graphics.drawable.WrappedDrawableApi14, android.graphics.drawable.Drawable, androidx.core.graphics.drawable.TintAwareDrawable
+    public void setTintList(ColorStateList colorStateList) {
+        if (isCompatTintEnabled()) {
+            super.setTintList(colorStateList);
+        } else {
+            this.mDrawable.setTintList(colorStateList);
+        }
+    }
+
+    @Override // androidx.core.graphics.drawable.WrappedDrawableApi14, android.graphics.drawable.Drawable, androidx.core.graphics.drawable.TintAwareDrawable
+    public void setTintMode(PorterDuff.Mode mode) {
+        if (isCompatTintEnabled()) {
+            super.setTintMode(mode);
+        } else {
+            this.mDrawable.setTintMode(mode);
         }
     }
 }

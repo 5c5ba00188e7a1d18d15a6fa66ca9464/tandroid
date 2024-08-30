@@ -18,8 +18,8 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
-public class BottomPagerTabs extends View {
-    private Utilities.Callback<Integer> onTabClick;
+public abstract class BottomPagerTabs extends View {
+    private Utilities.Callback onTabClick;
     private float progress;
     private final Theme.ResourcesProvider resourcesProvider;
     private boolean scrolling;
@@ -47,11 +47,6 @@ public class BottomPagerTabs extends View {
         final TextPaint paint;
         final Drawable ripple;
 
-        public Tab customFrameInvert() {
-            this.customFrameInvert = true;
-            return this;
-        }
-
         public Tab(int i, int i2, int i3, int i4, CharSequence charSequence) {
             TextPaint textPaint = new TextPaint(1);
             this.paint = textPaint;
@@ -78,6 +73,17 @@ public class BottomPagerTabs extends View {
             this.ripple = Theme.createSelectorDrawable(Theme.multAlpha(Theme.getColor(i5, BottomPagerTabs.this.resourcesProvider), 0.1f), 7, AndroidUtilities.dp(16.0f));
         }
 
+        public Tab customFrameInvert() {
+            this.customFrameInvert = true;
+            return this;
+        }
+
+        /* JADX WARN: Code restructure failed: missing block: B:26:0x0070, code lost:
+            if (r4 != false) goto L20;
+         */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         public void setActive(boolean z, boolean z2) {
             if (this.customFrameInvert) {
                 z = !z;
@@ -86,19 +92,19 @@ public class BottomPagerTabs extends View {
                 return;
             }
             if (BottomPagerTabs.this.tabs[this.i].customEndFrameMid != 0) {
+                RLottieDrawable rLottieDrawable = this.drawable;
                 if (z) {
-                    this.drawable.setCustomEndFrame(this.customEndFrameMid);
+                    rLottieDrawable.setCustomEndFrame(this.customEndFrameMid);
                     if (this.drawable.getCurrentFrame() >= this.customEndFrameEnd - 2) {
                         this.drawable.setCurrentFrame(0, false);
                     }
                     int currentFrame = this.drawable.getCurrentFrame();
                     int i = this.customEndFrameMid;
-                    if (currentFrame <= i) {
-                        this.drawable.start();
-                    } else {
+                    if (currentFrame > i) {
                         this.drawable.setCurrentFrame(i);
                     }
-                } else if (this.drawable.getCurrentFrame() >= this.customEndFrameMid - 1) {
+                    this.drawable.start();
+                } else if (rLottieDrawable.getCurrentFrame() >= this.customEndFrameMid - 1) {
                     this.drawable.setCustomEndFrame(this.customEndFrameEnd - 1);
                     this.drawable.start();
                 } else {
@@ -107,9 +113,6 @@ public class BottomPagerTabs extends View {
                 }
             } else if (z) {
                 this.drawable.setCurrentFrame(0);
-                if (z2) {
-                    this.drawable.start();
-                }
             }
             this.active = z;
         }
@@ -134,22 +137,6 @@ public class BottomPagerTabs extends View {
         setProgress(0.0f, false);
     }
 
-    public Tab[] createTabs() {
-        return new Tab[0];
-    }
-
-    public void setScrolling(boolean z) {
-        if (this.scrolling == z) {
-            return;
-        }
-        this.scrolling = z;
-        invalidate();
-    }
-
-    public void setProgress(float f) {
-        setProgress(f, true);
-    }
-
     private void setProgress(float f, boolean z) {
         float clamp = Utilities.clamp(f, this.tabs.length, 0.0f);
         this.progress = clamp;
@@ -157,19 +144,17 @@ public class BottomPagerTabs extends View {
         int i = 0;
         while (true) {
             Tab[] tabArr = this.tabs;
-            if (i < tabArr.length) {
-                tabArr[i].setActive(((float) Math.abs(this.value - i)) < (this.tabs[i].active ? 0.25f : 0.35f), z);
-                i++;
-            } else {
+            if (i >= tabArr.length) {
                 invalidate();
                 return;
+            } else {
+                tabArr[i].setActive(((float) Math.abs(this.value - i)) < (this.tabs[i].active ? 0.25f : 0.35f), z);
+                i++;
             }
         }
     }
 
-    public void setOnTabClick(Utilities.Callback<Integer> callback) {
-        this.onTabClick = callback;
-    }
+    public abstract Tab[] createTabs();
 
     @Override // android.view.View
     protected void dispatchDraw(Canvas canvas) {
@@ -239,8 +224,13 @@ public class BottomPagerTabs extends View {
     }
 
     @Override // android.view.View
+    protected void onMeasure(int i, int i2) {
+        setMeasuredDimension(View.MeasureSpec.getSize(i), AndroidUtilities.dp(64.0f) + AndroidUtilities.getShadowHeight());
+    }
+
+    @Override // android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        Utilities.Callback<Integer> callback;
+        Utilities.Callback callback;
         if (motionEvent.getAction() == 0) {
             this.touchDown = true;
             return true;
@@ -291,9 +281,20 @@ public class BottomPagerTabs extends View {
         return super.onTouchEvent(motionEvent);
     }
 
-    @Override // android.view.View
-    protected void onMeasure(int i, int i2) {
-        setMeasuredDimension(View.MeasureSpec.getSize(i), AndroidUtilities.dp(64.0f) + AndroidUtilities.getShadowHeight());
+    public void setOnTabClick(Utilities.Callback<Integer> callback) {
+        this.onTabClick = callback;
+    }
+
+    public void setProgress(float f) {
+        setProgress(f, true);
+    }
+
+    public void setScrolling(boolean z) {
+        if (this.scrolling == z) {
+            return;
+        }
+        this.scrolling = z;
+        invalidate();
     }
 
     @Override // android.view.View
@@ -301,14 +302,13 @@ public class BottomPagerTabs extends View {
         int i = 0;
         while (true) {
             Tab[] tabArr = this.tabs;
-            if (i < tabArr.length) {
-                if (tabArr[i].ripple == drawable) {
-                    return true;
-                }
-                i++;
-            } else {
+            if (i >= tabArr.length) {
                 return super.verifyDrawable(drawable);
             }
+            if (tabArr[i].ripple == drawable) {
+                return true;
+            }
+            i++;
         }
     }
 }

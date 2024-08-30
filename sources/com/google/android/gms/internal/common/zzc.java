@@ -4,13 +4,9 @@ import android.os.BadParcelableException;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zzc {
+public abstract class zzc {
     private static final ClassLoader zza = zzc.class.getClassLoader();
-
-    private zzc() {
-    }
 
     public static Parcelable zza(Parcel parcel, Parcelable.Creator creator) {
         if (parcel.readInt() == 0) {
@@ -32,10 +28,6 @@ public final class zzc {
     }
 
     public static void zzf(Parcel parcel, IInterface iInterface) {
-        if (iInterface == null) {
-            parcel.writeStrongBinder(null);
-        } else {
-            parcel.writeStrongBinder(iInterface.asBinder());
-        }
+        parcel.writeStrongBinder(iInterface == null ? null : iInterface.asBinder());
     }
 }

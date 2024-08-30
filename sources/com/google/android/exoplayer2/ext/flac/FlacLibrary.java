@@ -6,9 +6,6 @@ import org.telegram.messenger.NativeLoader;
 public final class FlacLibrary {
     public static final /* synthetic */ int $r8$clinit = 0;
 
-    public static void setLibraries(String... strArr) {
-    }
-
     static {
         ExoPlayerLibraryInfo.registerModule("goog.exo.flac");
     }
@@ -18,5 +15,8 @@ public final class FlacLibrary {
 
     public static boolean isAvailable() {
         return NativeLoader.loaded();
+    }
+
+    public static void setLibraries(String... strArr) {
     }
 }

@@ -3,11 +3,10 @@ package com.google.android.gms.internal.icing;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
-public final class zzt implements Parcelable.Creator<zzs> {
+public final class zzt implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ zzs createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         String str = null;
         String str2 = null;
@@ -23,9 +22,7 @@ public final class zzt implements Parcelable.Creator<zzs> {
             int fieldId = SafeParcelReader.getFieldId(readHeader);
             if (fieldId == 11) {
                 str4 = SafeParcelReader.createString(parcel, readHeader);
-            } else if (fieldId == 12) {
-                zzuVar = (zzu) SafeParcelReader.createParcelable(parcel, readHeader, zzu.CREATOR);
-            } else {
+            } else if (fieldId != 12) {
                 switch (fieldId) {
                     case 1:
                         str = SafeParcelReader.createString(parcel, readHeader);
@@ -52,6 +49,8 @@ public final class zzt implements Parcelable.Creator<zzs> {
                         SafeParcelReader.skipUnknownField(parcel, readHeader);
                         continue;
                 }
+            } else {
+                zzuVar = (zzu) SafeParcelReader.createParcelable(parcel, readHeader, zzu.CREATOR);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
@@ -59,7 +58,7 @@ public final class zzt implements Parcelable.Creator<zzs> {
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ zzs[] newArray(int i) {
+    public final /* bridge */ /* synthetic */ Object[] newArray(int i) {
         return new zzs[i];
     }
 }

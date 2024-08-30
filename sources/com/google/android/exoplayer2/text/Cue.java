@@ -47,7 +47,7 @@ public final class Cue implements Bundleable {
     private static final String FIELD_WINDOW_COLOR_SET = Util.intToStringMaxRadix(14);
     private static final String FIELD_VERTICAL_TYPE = Util.intToStringMaxRadix(15);
     private static final String FIELD_SHEAR_DEGREES = Util.intToStringMaxRadix(16);
-    public static final Bundleable.Creator<Cue> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.text.Cue$$ExternalSyntheticLambda0
+    public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.text.Cue$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.Bundleable.Creator
         public final Bundleable fromBundle(Bundle bundle) {
             Cue fromBundle;
@@ -55,58 +55,6 @@ public final class Cue implements Bundleable {
             return fromBundle;
         }
     };
-
-    private Cue(CharSequence charSequence, Layout.Alignment alignment, Layout.Alignment alignment2, Bitmap bitmap, float f, int i, int i2, float f2, int i3, int i4, float f3, float f4, float f5, boolean z, int i5, int i6, float f6) {
-        if (charSequence == null) {
-            Assertions.checkNotNull(bitmap);
-        } else {
-            Assertions.checkArgument(bitmap == null);
-        }
-        if (charSequence instanceof Spanned) {
-            this.text = SpannedString.valueOf(charSequence);
-        } else if (charSequence != null) {
-            this.text = charSequence.toString();
-        } else {
-            this.text = null;
-        }
-        this.textAlignment = alignment;
-        this.multiRowAlignment = alignment2;
-        this.bitmap = bitmap;
-        this.line = f;
-        this.lineType = i;
-        this.lineAnchor = i2;
-        this.position = f2;
-        this.positionAnchor = i3;
-        this.size = f4;
-        this.bitmapHeight = f5;
-        this.windowColorSet = z;
-        this.windowColor = i5;
-        this.textSizeType = i4;
-        this.textSize = f3;
-        this.verticalType = i6;
-        this.shearDegrees = f6;
-    }
-
-    public Builder buildUpon() {
-        return new Builder();
-    }
-
-    public boolean equals(Object obj) {
-        Bitmap bitmap;
-        Bitmap bitmap2;
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || Cue.class != obj.getClass()) {
-            return false;
-        }
-        Cue cue = (Cue) obj;
-        return TextUtils.equals(this.text, cue.text) && this.textAlignment == cue.textAlignment && this.multiRowAlignment == cue.multiRowAlignment && ((bitmap = this.bitmap) != null ? !((bitmap2 = cue.bitmap) == null || !bitmap.sameAs(bitmap2)) : cue.bitmap == null) && this.line == cue.line && this.lineType == cue.lineType && this.lineAnchor == cue.lineAnchor && this.position == cue.position && this.positionAnchor == cue.positionAnchor && this.size == cue.size && this.bitmapHeight == cue.bitmapHeight && this.windowColorSet == cue.windowColorSet && this.windowColor == cue.windowColor && this.textSizeType == cue.textSizeType && this.textSize == cue.textSize && this.verticalType == cue.verticalType && this.shearDegrees == cue.shearDegrees;
-    }
-
-    public int hashCode() {
-        return Objects.hashCode(this.text, this.textAlignment, this.multiRowAlignment, this.bitmap, Float.valueOf(this.line), Integer.valueOf(this.lineType), Integer.valueOf(this.lineAnchor), Float.valueOf(this.position), Integer.valueOf(this.positionAnchor), Float.valueOf(this.size), Float.valueOf(this.bitmapHeight), Boolean.valueOf(this.windowColorSet), Integer.valueOf(this.windowColor), Integer.valueOf(this.textSizeType), Float.valueOf(this.textSize), Integer.valueOf(this.verticalType), Float.valueOf(this.shearDegrees));
-    }
 
     /* loaded from: classes.dex */
     public static final class Builder {
@@ -167,9 +115,21 @@ public final class Cue implements Bundleable {
             this.shearDegrees = cue.shearDegrees;
         }
 
-        public Builder setText(CharSequence charSequence) {
-            this.text = charSequence;
+        public Cue build() {
+            return new Cue(this.text, this.textAlignment, this.multiRowAlignment, this.bitmap, this.line, this.lineType, this.lineAnchor, this.position, this.positionAnchor, this.textSizeType, this.textSize, this.size, this.bitmapHeight, this.windowColorSet, this.windowColor, this.verticalType, this.shearDegrees);
+        }
+
+        public Builder clearWindowColor() {
+            this.windowColorSet = false;
             return this;
+        }
+
+        public int getLineAnchor() {
+            return this.lineAnchor;
+        }
+
+        public int getPositionAnchor() {
+            return this.positionAnchor;
         }
 
         public CharSequence getText() {
@@ -181,13 +141,8 @@ public final class Cue implements Bundleable {
             return this;
         }
 
-        public Builder setTextAlignment(Layout.Alignment alignment) {
-            this.textAlignment = alignment;
-            return this;
-        }
-
-        public Builder setMultiRowAlignment(Layout.Alignment alignment) {
-            this.multiRowAlignment = alignment;
+        public Builder setBitmapHeight(float f) {
+            this.bitmapHeight = f;
             return this;
         }
 
@@ -202,8 +157,9 @@ public final class Cue implements Bundleable {
             return this;
         }
 
-        public int getLineAnchor() {
-            return this.lineAnchor;
+        public Builder setMultiRowAlignment(Layout.Alignment alignment) {
+            this.multiRowAlignment = alignment;
+            return this;
         }
 
         public Builder setPosition(float f) {
@@ -216,13 +172,8 @@ public final class Cue implements Bundleable {
             return this;
         }
 
-        public int getPositionAnchor() {
-            return this.positionAnchor;
-        }
-
-        public Builder setTextSize(float f, int i) {
-            this.textSize = f;
-            this.textSizeType = i;
+        public Builder setShearDegrees(float f) {
+            this.shearDegrees = f;
             return this;
         }
 
@@ -231,19 +182,19 @@ public final class Cue implements Bundleable {
             return this;
         }
 
-        public Builder setBitmapHeight(float f) {
-            this.bitmapHeight = f;
+        public Builder setText(CharSequence charSequence) {
+            this.text = charSequence;
             return this;
         }
 
-        public Builder setWindowColor(int i) {
-            this.windowColor = i;
-            this.windowColorSet = true;
+        public Builder setTextAlignment(Layout.Alignment alignment) {
+            this.textAlignment = alignment;
             return this;
         }
 
-        public Builder clearWindowColor() {
-            this.windowColorSet = false;
+        public Builder setTextSize(float f, int i) {
+            this.textSize = f;
+            this.textSizeType = i;
             return this;
         }
 
@@ -252,37 +203,36 @@ public final class Cue implements Bundleable {
             return this;
         }
 
-        public Builder setShearDegrees(float f) {
-            this.shearDegrees = f;
+        public Builder setWindowColor(int i) {
+            this.windowColor = i;
+            this.windowColorSet = true;
             return this;
-        }
-
-        public Cue build() {
-            return new Cue(this.text, this.textAlignment, this.multiRowAlignment, this.bitmap, this.line, this.lineType, this.lineAnchor, this.position, this.positionAnchor, this.textSizeType, this.textSize, this.size, this.bitmapHeight, this.windowColorSet, this.windowColor, this.verticalType, this.shearDegrees);
         }
     }
 
-    @Override // com.google.android.exoplayer2.Bundleable
-    public Bundle toBundle() {
-        Bundle bundle = new Bundle();
-        bundle.putCharSequence(FIELD_TEXT, this.text);
-        bundle.putSerializable(FIELD_TEXT_ALIGNMENT, this.textAlignment);
-        bundle.putSerializable(FIELD_MULTI_ROW_ALIGNMENT, this.multiRowAlignment);
-        bundle.putParcelable(FIELD_BITMAP, this.bitmap);
-        bundle.putFloat(FIELD_LINE, this.line);
-        bundle.putInt(FIELD_LINE_TYPE, this.lineType);
-        bundle.putInt(FIELD_LINE_ANCHOR, this.lineAnchor);
-        bundle.putFloat(FIELD_POSITION, this.position);
-        bundle.putInt(FIELD_POSITION_ANCHOR, this.positionAnchor);
-        bundle.putInt(FIELD_TEXT_SIZE_TYPE, this.textSizeType);
-        bundle.putFloat(FIELD_TEXT_SIZE, this.textSize);
-        bundle.putFloat(FIELD_SIZE, this.size);
-        bundle.putFloat(FIELD_BITMAP_HEIGHT, this.bitmapHeight);
-        bundle.putBoolean(FIELD_WINDOW_COLOR_SET, this.windowColorSet);
-        bundle.putInt(FIELD_WINDOW_COLOR, this.windowColor);
-        bundle.putInt(FIELD_VERTICAL_TYPE, this.verticalType);
-        bundle.putFloat(FIELD_SHEAR_DEGREES, this.shearDegrees);
-        return bundle;
+    private Cue(CharSequence charSequence, Layout.Alignment alignment, Layout.Alignment alignment2, Bitmap bitmap, float f, int i, int i2, float f2, int i3, int i4, float f3, float f4, float f5, boolean z, int i5, int i6, float f6) {
+        if (charSequence == null) {
+            Assertions.checkNotNull(bitmap);
+        } else {
+            Assertions.checkArgument(bitmap == null);
+        }
+        this.text = charSequence instanceof Spanned ? SpannedString.valueOf(charSequence) : charSequence != null ? charSequence.toString() : null;
+        this.textAlignment = alignment;
+        this.multiRowAlignment = alignment2;
+        this.bitmap = bitmap;
+        this.line = f;
+        this.lineType = i;
+        this.lineAnchor = i2;
+        this.position = f2;
+        this.positionAnchor = i3;
+        this.size = f4;
+        this.bitmapHeight = f5;
+        this.windowColorSet = z;
+        this.windowColor = i5;
+        this.textSizeType = i4;
+        this.textSize = f3;
+        this.verticalType = i6;
+        this.shearDegrees = f6;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -354,5 +304,49 @@ public final class Cue implements Bundleable {
             builder.setShearDegrees(bundle.getFloat(str12));
         }
         return builder.build();
+    }
+
+    public Builder buildUpon() {
+        return new Builder();
+    }
+
+    public boolean equals(Object obj) {
+        Bitmap bitmap;
+        Bitmap bitmap2;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || Cue.class != obj.getClass()) {
+            return false;
+        }
+        Cue cue = (Cue) obj;
+        return TextUtils.equals(this.text, cue.text) && this.textAlignment == cue.textAlignment && this.multiRowAlignment == cue.multiRowAlignment && ((bitmap = this.bitmap) != null ? !((bitmap2 = cue.bitmap) == null || !bitmap.sameAs(bitmap2)) : cue.bitmap == null) && this.line == cue.line && this.lineType == cue.lineType && this.lineAnchor == cue.lineAnchor && this.position == cue.position && this.positionAnchor == cue.positionAnchor && this.size == cue.size && this.bitmapHeight == cue.bitmapHeight && this.windowColorSet == cue.windowColorSet && this.windowColor == cue.windowColor && this.textSizeType == cue.textSizeType && this.textSize == cue.textSize && this.verticalType == cue.verticalType && this.shearDegrees == cue.shearDegrees;
+    }
+
+    public int hashCode() {
+        return Objects.hashCode(this.text, this.textAlignment, this.multiRowAlignment, this.bitmap, Float.valueOf(this.line), Integer.valueOf(this.lineType), Integer.valueOf(this.lineAnchor), Float.valueOf(this.position), Integer.valueOf(this.positionAnchor), Float.valueOf(this.size), Float.valueOf(this.bitmapHeight), Boolean.valueOf(this.windowColorSet), Integer.valueOf(this.windowColor), Integer.valueOf(this.textSizeType), Float.valueOf(this.textSize), Integer.valueOf(this.verticalType), Float.valueOf(this.shearDegrees));
+    }
+
+    @Override // com.google.android.exoplayer2.Bundleable
+    public Bundle toBundle() {
+        Bundle bundle = new Bundle();
+        bundle.putCharSequence(FIELD_TEXT, this.text);
+        bundle.putSerializable(FIELD_TEXT_ALIGNMENT, this.textAlignment);
+        bundle.putSerializable(FIELD_MULTI_ROW_ALIGNMENT, this.multiRowAlignment);
+        bundle.putParcelable(FIELD_BITMAP, this.bitmap);
+        bundle.putFloat(FIELD_LINE, this.line);
+        bundle.putInt(FIELD_LINE_TYPE, this.lineType);
+        bundle.putInt(FIELD_LINE_ANCHOR, this.lineAnchor);
+        bundle.putFloat(FIELD_POSITION, this.position);
+        bundle.putInt(FIELD_POSITION_ANCHOR, this.positionAnchor);
+        bundle.putInt(FIELD_TEXT_SIZE_TYPE, this.textSizeType);
+        bundle.putFloat(FIELD_TEXT_SIZE, this.textSize);
+        bundle.putFloat(FIELD_SIZE, this.size);
+        bundle.putFloat(FIELD_BITMAP_HEIGHT, this.bitmapHeight);
+        bundle.putBoolean(FIELD_WINDOW_COLOR_SET, this.windowColorSet);
+        bundle.putInt(FIELD_WINDOW_COLOR, this.windowColor);
+        bundle.putInt(FIELD_VERTICAL_TYPE, this.verticalType);
+        bundle.putFloat(FIELD_SHEAR_DEGREES, this.shearDegrees);
+        return bundle;
     }
 }

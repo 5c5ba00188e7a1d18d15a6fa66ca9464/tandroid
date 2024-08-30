@@ -1,7 +1,7 @@
 package androidx.core.util;
 /* loaded from: classes.dex */
-public interface Pools$Pool<T> {
-    T acquire();
+public interface Pools$Pool {
+    Object acquire();
 
-    boolean release(T t);
+    boolean release(Object obj);
 }

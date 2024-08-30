@@ -1,68 +1,18 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
-import com.google.android.gms.internal.mlkit_language_id.zzde;
-import com.google.android.gms.internal.mlkit_language_id.zzdh;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public abstract class zzde<MessageType extends zzde<MessageType, BuilderType>, BuilderType extends zzdh<MessageType, BuilderType>> implements zzfz {
+public abstract class zzde implements zzfz {
     protected int zza = 0;
 
-    @Override // com.google.android.gms.internal.mlkit_language_id.zzfz
-    public final zzdn zze() {
-        try {
-            zzdv zzc = zzdn.zzc(zzj());
-            zza(zzc.zzb());
-            return zzc.zza();
-        } catch (IOException e) {
-            String name = getClass().getName();
-            StringBuilder sb = new StringBuilder(name.length() + 62 + "ByteString".length());
-            sb.append("Serializing ");
-            sb.append(name);
-            sb.append(" to a ");
-            sb.append("ByteString");
-            sb.append(" threw an IOException (should never happen).");
-            throw new RuntimeException(sb.toString(), e);
-        }
-    }
-
-    public final byte[] zzf() {
-        try {
-            byte[] bArr = new byte[zzj()];
-            zzea zza = zzea.zza(bArr);
-            zza(zza);
-            zza.zzb();
-            return bArr;
-        } catch (IOException e) {
-            String name = getClass().getName();
-            StringBuilder sb = new StringBuilder(name.length() + 62 + "byte array".length());
-            sb.append("Serializing ");
-            sb.append(name);
-            sb.append(" to a ");
-            sb.append("byte array");
-            sb.append(" threw an IOException (should never happen).");
-            throw new RuntimeException(sb.toString(), e);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int zzg() {
-        throw new UnsupportedOperationException();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void zza(int i) {
-        throw new UnsupportedOperationException();
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
-    public static <T> void zza(Iterable<T> iterable, List<? super T> list) {
+    public static void zza(Iterable iterable, List list) {
         zzeq.zza(iterable);
         if (iterable instanceof zzfg) {
-            List<?> zzb = ((zzfg) iterable).zzb();
+            List zzb = ((zzfg) iterable).zzb();
             zzfg zzfgVar = (zzfg) list;
             int size = list.size();
             for (Object obj : zzb) {
@@ -89,8 +39,8 @@ public abstract class zzde<MessageType extends zzde<MessageType, BuilderType>, B
                 ((ArrayList) list).ensureCapacity(list.size() + ((Collection) iterable).size());
             }
             int size3 = list.size();
-            for (T t : iterable) {
-                if (t == null) {
+            for (Object obj2 : iterable) {
+                if (obj2 == null) {
                     StringBuilder sb3 = new StringBuilder(37);
                     sb3.append("Element at index ");
                     sb3.append(list.size() - size3);
@@ -101,8 +51,33 @@ public abstract class zzde<MessageType extends zzde<MessageType, BuilderType>, B
                     }
                     throw new NullPointerException(sb4);
                 }
-                list.add(t);
+                list.add(obj2);
             }
         }
     }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public abstract void zza(int i);
+
+    public final byte[] zzf() {
+        try {
+            byte[] bArr = new byte[zzj()];
+            zzea zza = zzea.zza(bArr);
+            zza(zza);
+            zza.zzb();
+            return bArr;
+        } catch (IOException e) {
+            String name = getClass().getName();
+            StringBuilder sb = new StringBuilder(name.length() + 62 + "byte array".length());
+            sb.append("Serializing ");
+            sb.append(name);
+            sb.append(" to a ");
+            sb.append("byte array");
+            sb.append(" threw an IOException (should never happen).");
+            throw new RuntimeException(sb.toString(), e);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public abstract int zzg();
 }

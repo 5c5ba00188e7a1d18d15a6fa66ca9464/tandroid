@@ -6,7 +6,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiActivity;
 import com.google.android.gms.common.internal.Preconditions;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zao implements Runnable {
     final /* synthetic */ zap zaa;
@@ -31,13 +30,13 @@ public final class zao implements Runnable {
             if (zapVar2.zac.getErrorResolutionIntent(zapVar2.getActivity(), zab.getErrorCode(), null) != null) {
                 zap zapVar3 = this.zaa;
                 zapVar3.zac.zag(zapVar3.getActivity(), this.zaa.mLifecycleFragment, zab.getErrorCode(), 2, this.zaa);
-            } else if (zab.getErrorCode() == 18) {
+            } else if (zab.getErrorCode() != 18) {
+                this.zaa.zaa(zab, this.zab.zaa());
+            } else {
                 zap zapVar4 = this.zaa;
                 Dialog zab2 = zapVar4.zac.zab(zapVar4.getActivity(), this.zaa);
                 zap zapVar5 = this.zaa;
                 zapVar5.zac.zac(zapVar5.getActivity().getApplicationContext(), new zan(this, zab2));
-            } else {
-                this.zaa.zaa(zab, this.zab.zaa());
             }
         }
     }

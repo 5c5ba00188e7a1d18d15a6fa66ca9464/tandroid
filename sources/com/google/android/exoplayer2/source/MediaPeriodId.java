@@ -7,22 +7,6 @@ public class MediaPeriodId {
     public final Object periodUid;
     public final long windowSequenceNumber;
 
-    public MediaPeriodId(Object obj) {
-        this(obj, -1L);
-    }
-
-    public MediaPeriodId(Object obj, long j) {
-        this(obj, -1, -1, j, -1);
-    }
-
-    public MediaPeriodId(Object obj, long j, int i) {
-        this(obj, -1, -1, j, i);
-    }
-
-    public MediaPeriodId(Object obj, int i, int i2, long j) {
-        this(obj, i, i2, j, -1);
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
     public MediaPeriodId(MediaPeriodId mediaPeriodId) {
         this.periodUid = mediaPeriodId.periodUid;
@@ -30,6 +14,14 @@ public class MediaPeriodId {
         this.adIndexInAdGroup = mediaPeriodId.adIndexInAdGroup;
         this.windowSequenceNumber = mediaPeriodId.windowSequenceNumber;
         this.nextAdGroupIndex = mediaPeriodId.nextAdGroupIndex;
+    }
+
+    public MediaPeriodId(Object obj) {
+        this(obj, -1L);
+    }
+
+    public MediaPeriodId(Object obj, int i, int i2, long j) {
+        this(obj, i, i2, j, -1);
     }
 
     private MediaPeriodId(Object obj, int i, int i2, long j, int i3) {
@@ -40,12 +32,16 @@ public class MediaPeriodId {
         this.nextAdGroupIndex = i3;
     }
 
-    public MediaPeriodId copyWithPeriodUid(Object obj) {
-        return this.periodUid.equals(obj) ? this : new MediaPeriodId(obj, this.adGroupIndex, this.adIndexInAdGroup, this.windowSequenceNumber, this.nextAdGroupIndex);
+    public MediaPeriodId(Object obj, long j) {
+        this(obj, -1, -1, j, -1);
     }
 
-    public boolean isAd() {
-        return this.adGroupIndex != -1;
+    public MediaPeriodId(Object obj, long j, int i) {
+        this(obj, -1, -1, j, i);
+    }
+
+    public MediaPeriodId copyWithPeriodUid(Object obj) {
+        return this.periodUid.equals(obj) ? this : new MediaPeriodId(obj, this.adGroupIndex, this.adIndexInAdGroup, this.windowSequenceNumber, this.nextAdGroupIndex);
     }
 
     public boolean equals(Object obj) {
@@ -61,5 +57,9 @@ public class MediaPeriodId {
 
     public int hashCode() {
         return ((((((((this.periodUid.hashCode() + 527) * 31) + this.adGroupIndex) * 31) + this.adIndexInAdGroup) * 31) + ((int) this.windowSequenceNumber)) * 31) + this.nextAdGroupIndex;
+    }
+
+    public boolean isAd() {
+        return this.adGroupIndex != -1;
     }
 }

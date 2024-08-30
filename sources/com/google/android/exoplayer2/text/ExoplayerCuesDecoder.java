@@ -12,10 +12,39 @@ public final class ExoplayerCuesDecoder implements SubtitleDecoder {
     private boolean released;
     private final CueDecoder cueDecoder = new CueDecoder();
     private final SubtitleInputBuffer inputBuffer = new SubtitleInputBuffer();
-    private final Deque<SubtitleOutputBuffer> availableOutputBuffers = new ArrayDeque();
+    private final Deque availableOutputBuffers = new ArrayDeque();
 
-    @Override // com.google.android.exoplayer2.text.SubtitleDecoder
-    public void setPositionUs(long j) {
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static final class SingleEventSubtitle implements Subtitle {
+        private final ImmutableList cues;
+        private final long timeUs;
+
+        public SingleEventSubtitle(long j, ImmutableList immutableList) {
+            this.timeUs = j;
+            this.cues = immutableList;
+        }
+
+        @Override // com.google.android.exoplayer2.text.Subtitle
+        public List getCues(long j) {
+            return j >= this.timeUs ? this.cues : ImmutableList.of();
+        }
+
+        @Override // com.google.android.exoplayer2.text.Subtitle
+        public long getEventTime(int i) {
+            Assertions.checkArgument(i == 0);
+            return this.timeUs;
+        }
+
+        @Override // com.google.android.exoplayer2.text.Subtitle
+        public int getEventTimeCount() {
+            return 1;
+        }
+
+        @Override // com.google.android.exoplayer2.text.Subtitle
+        public int getNextEventTimeIndex(long j) {
+            return this.timeUs > j ? 0 : -1;
+        }
     }
 
     public ExoplayerCuesDecoder() {
@@ -30,13 +59,16 @@ public final class ExoplayerCuesDecoder implements SubtitleDecoder {
         this.inputBufferState = 0;
     }
 
-    @Override // com.google.android.exoplayer2.decoder.Decoder
-    public String getName() {
-        return "ExoplayerCuesDecoder";
+    /* JADX INFO: Access modifiers changed from: private */
+    public void releaseOutputBuffer(SubtitleOutputBuffer subtitleOutputBuffer) {
+        Assertions.checkState(this.availableOutputBuffers.size() < 2);
+        Assertions.checkArgument(!this.availableOutputBuffers.contains(subtitleOutputBuffer));
+        subtitleOutputBuffer.clear();
+        this.availableOutputBuffers.addFirst(subtitleOutputBuffer);
     }
 
     @Override // com.google.android.exoplayer2.decoder.Decoder
-    public SubtitleInputBuffer dequeueInputBuffer() throws SubtitleDecoderException {
+    public SubtitleInputBuffer dequeueInputBuffer() {
         Assertions.checkState(!this.released);
         if (this.inputBufferState != 0) {
             return null;
@@ -46,29 +78,21 @@ public final class ExoplayerCuesDecoder implements SubtitleDecoder {
     }
 
     @Override // com.google.android.exoplayer2.decoder.Decoder
-    public void queueInputBuffer(SubtitleInputBuffer subtitleInputBuffer) throws SubtitleDecoderException {
-        Assertions.checkState(!this.released);
-        Assertions.checkState(this.inputBufferState == 1);
-        Assertions.checkArgument(this.inputBuffer == subtitleInputBuffer);
-        this.inputBufferState = 2;
-    }
-
-    @Override // com.google.android.exoplayer2.decoder.Decoder
-    public SubtitleOutputBuffer dequeueOutputBuffer() throws SubtitleDecoderException {
+    public SubtitleOutputBuffer dequeueOutputBuffer() {
         Assertions.checkState(!this.released);
         if (this.inputBufferState != 2 || this.availableOutputBuffers.isEmpty()) {
             return null;
         }
-        SubtitleOutputBuffer removeFirst = this.availableOutputBuffers.removeFirst();
+        SubtitleOutputBuffer subtitleOutputBuffer = (SubtitleOutputBuffer) this.availableOutputBuffers.removeFirst();
         if (this.inputBuffer.isEndOfStream()) {
-            removeFirst.addFlag(4);
+            subtitleOutputBuffer.addFlag(4);
         } else {
             SubtitleInputBuffer subtitleInputBuffer = this.inputBuffer;
-            removeFirst.setContent(this.inputBuffer.timeUs, new SingleEventSubtitle(subtitleInputBuffer.timeUs, this.cueDecoder.decode(((ByteBuffer) Assertions.checkNotNull(subtitleInputBuffer.data)).array())), 0L);
+            subtitleOutputBuffer.setContent(this.inputBuffer.timeUs, new SingleEventSubtitle(subtitleInputBuffer.timeUs, this.cueDecoder.decode(((ByteBuffer) Assertions.checkNotNull(subtitleInputBuffer.data)).array())), 0L);
         }
         this.inputBuffer.clear();
         this.inputBufferState = 0;
-        return removeFirst;
+        return subtitleOutputBuffer;
     }
 
     @Override // com.google.android.exoplayer2.decoder.Decoder
@@ -79,48 +103,24 @@ public final class ExoplayerCuesDecoder implements SubtitleDecoder {
     }
 
     @Override // com.google.android.exoplayer2.decoder.Decoder
+    public String getName() {
+        return "ExoplayerCuesDecoder";
+    }
+
+    @Override // com.google.android.exoplayer2.decoder.Decoder
+    public void queueInputBuffer(SubtitleInputBuffer subtitleInputBuffer) {
+        Assertions.checkState(!this.released);
+        Assertions.checkState(this.inputBufferState == 1);
+        Assertions.checkArgument(this.inputBuffer == subtitleInputBuffer);
+        this.inputBufferState = 2;
+    }
+
+    @Override // com.google.android.exoplayer2.decoder.Decoder
     public void release() {
         this.released = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void releaseOutputBuffer(SubtitleOutputBuffer subtitleOutputBuffer) {
-        Assertions.checkState(this.availableOutputBuffers.size() < 2);
-        Assertions.checkArgument(!this.availableOutputBuffers.contains(subtitleOutputBuffer));
-        subtitleOutputBuffer.clear();
-        this.availableOutputBuffers.addFirst(subtitleOutputBuffer);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class SingleEventSubtitle implements Subtitle {
-        private final ImmutableList<Cue> cues;
-        private final long timeUs;
-
-        @Override // com.google.android.exoplayer2.text.Subtitle
-        public int getEventTimeCount() {
-            return 1;
-        }
-
-        public SingleEventSubtitle(long j, ImmutableList<Cue> immutableList) {
-            this.timeUs = j;
-            this.cues = immutableList;
-        }
-
-        @Override // com.google.android.exoplayer2.text.Subtitle
-        public int getNextEventTimeIndex(long j) {
-            return this.timeUs > j ? 0 : -1;
-        }
-
-        @Override // com.google.android.exoplayer2.text.Subtitle
-        public long getEventTime(int i) {
-            Assertions.checkArgument(i == 0);
-            return this.timeUs;
-        }
-
-        @Override // com.google.android.exoplayer2.text.Subtitle
-        public List<Cue> getCues(long j) {
-            return j >= this.timeUs ? this.cues : ImmutableList.of();
-        }
+    @Override // com.google.android.exoplayer2.text.SubtitleDecoder
+    public void setPositionUs(long j) {
     }
 }

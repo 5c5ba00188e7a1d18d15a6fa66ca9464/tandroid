@@ -19,10 +19,10 @@ public abstract class StripeException extends Exception {
     @Override // java.lang.Throwable
     public String toString() {
         String str;
-        if (this.requestId == null) {
-            str = "";
-        } else {
+        if (this.requestId != null) {
             str = "; request-id: " + this.requestId;
+        } else {
+            str = "";
         }
         return super.toString() + str;
     }

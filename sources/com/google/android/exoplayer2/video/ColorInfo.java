@@ -16,7 +16,7 @@ public final class ColorInfo implements Bundleable {
     private static final String FIELD_COLOR_RANGE = Util.intToStringMaxRadix(1);
     private static final String FIELD_COLOR_TRANSFER = Util.intToStringMaxRadix(2);
     private static final String FIELD_HDR_STATIC_INFO = Util.intToStringMaxRadix(3);
-    public static final Bundleable.Creator<ColorInfo> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.video.ColorInfo$$ExternalSyntheticLambda0
+    public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.video.ColorInfo$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.Bundleable.Creator
         public final Bundleable fromBundle(Bundle bundle) {
             ColorInfo lambda$static$0;
@@ -24,6 +24,13 @@ public final class ColorInfo implements Bundleable {
             return lambda$static$0;
         }
     };
+
+    public ColorInfo(int i, int i2, int i3, byte[] bArr) {
+        this.colorSpace = i;
+        this.colorRange = i2;
+        this.colorTransfer = i3;
+        this.hdrStaticInfo = bArr;
+    }
 
     public static int isoColorPrimariesToColorSpace(int i) {
         if (i != 1) {
@@ -48,11 +55,9 @@ public final class ColorInfo implements Bundleable {
         return 3;
     }
 
-    public ColorInfo(int i, int i2, int i3, byte[] bArr) {
-        this.colorSpace = i;
-        this.colorRange = i2;
-        this.colorTransfer = i3;
-        this.hdrStaticInfo = bArr;
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ ColorInfo lambda$static$0(Bundle bundle) {
+        return new ColorInfo(bundle.getInt(FIELD_COLOR_SPACE, -1), bundle.getInt(FIELD_COLOR_RANGE, -1), bundle.getInt(FIELD_COLOR_TRANSFER, -1), bundle.getByteArray(FIELD_HDR_STATIC_INFO));
     }
 
     public boolean equals(Object obj) {
@@ -64,20 +69,6 @@ public final class ColorInfo implements Bundleable {
         }
         ColorInfo colorInfo = (ColorInfo) obj;
         return this.colorSpace == colorInfo.colorSpace && this.colorRange == colorInfo.colorRange && this.colorTransfer == colorInfo.colorTransfer && Arrays.equals(this.hdrStaticInfo, colorInfo.hdrStaticInfo);
-    }
-
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("ColorInfo(");
-        sb.append(this.colorSpace);
-        sb.append(", ");
-        sb.append(this.colorRange);
-        sb.append(", ");
-        sb.append(this.colorTransfer);
-        sb.append(", ");
-        sb.append(this.hdrStaticInfo != null);
-        sb.append(")");
-        return sb.toString();
     }
 
     public int hashCode() {
@@ -97,8 +88,17 @@ public final class ColorInfo implements Bundleable {
         return bundle;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ ColorInfo lambda$static$0(Bundle bundle) {
-        return new ColorInfo(bundle.getInt(FIELD_COLOR_SPACE, -1), bundle.getInt(FIELD_COLOR_RANGE, -1), bundle.getInt(FIELD_COLOR_TRANSFER, -1), bundle.getByteArray(FIELD_HDR_STATIC_INFO));
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ColorInfo(");
+        sb.append(this.colorSpace);
+        sb.append(", ");
+        sb.append(this.colorRange);
+        sb.append(", ");
+        sb.append(this.colorTransfer);
+        sb.append(", ");
+        sb.append(this.hdrStaticInfo != null);
+        sb.append(")");
+        return sb.toString();
     }
 }

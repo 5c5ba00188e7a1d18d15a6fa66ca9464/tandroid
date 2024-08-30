@@ -10,13 +10,13 @@ public final class AdapterListUpdateCallback implements ListUpdateCallback {
     }
 
     @Override // androidx.recyclerview.widget.ListUpdateCallback
-    public void onInserted(int i, int i2) {
-        this.mAdapter.notifyItemRangeInserted(i, i2);
+    public void onChanged(int i, int i2, Object obj) {
+        this.mAdapter.notifyItemRangeChanged(i, i2, obj);
     }
 
     @Override // androidx.recyclerview.widget.ListUpdateCallback
-    public void onRemoved(int i, int i2) {
-        this.mAdapter.notifyItemRangeRemoved(i, i2);
+    public void onInserted(int i, int i2) {
+        this.mAdapter.notifyItemRangeInserted(i, i2);
     }
 
     @Override // androidx.recyclerview.widget.ListUpdateCallback
@@ -25,7 +25,7 @@ public final class AdapterListUpdateCallback implements ListUpdateCallback {
     }
 
     @Override // androidx.recyclerview.widget.ListUpdateCallback
-    public void onChanged(int i, int i2, Object obj) {
-        this.mAdapter.notifyItemRangeChanged(i, i2, obj);
+    public void onRemoved(int i, int i2) {
+        this.mAdapter.notifyItemRangeRemoved(i, i2);
     }
 }

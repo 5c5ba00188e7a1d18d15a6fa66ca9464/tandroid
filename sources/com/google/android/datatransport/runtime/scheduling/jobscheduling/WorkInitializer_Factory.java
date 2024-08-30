@@ -6,29 +6,29 @@ import com.google.android.datatransport.runtime.synchronization.SynchronizationG
 import java.util.concurrent.Executor;
 import javax.inject.Provider;
 /* loaded from: classes.dex */
-public final class WorkInitializer_Factory implements Factory<WorkInitializer> {
-    private final Provider<Executor> executorProvider;
-    private final Provider<SynchronizationGuard> guardProvider;
-    private final Provider<WorkScheduler> schedulerProvider;
-    private final Provider<EventStore> storeProvider;
+public final class WorkInitializer_Factory implements Factory {
+    private final Provider executorProvider;
+    private final Provider guardProvider;
+    private final Provider schedulerProvider;
+    private final Provider storeProvider;
 
-    public WorkInitializer_Factory(Provider<Executor> provider, Provider<EventStore> provider2, Provider<WorkScheduler> provider3, Provider<SynchronizationGuard> provider4) {
+    public WorkInitializer_Factory(Provider provider, Provider provider2, Provider provider3, Provider provider4) {
         this.executorProvider = provider;
         this.storeProvider = provider2;
         this.schedulerProvider = provider3;
         this.guardProvider = provider4;
     }
 
-    @Override // javax.inject.Provider
-    public WorkInitializer get() {
-        return newInstance(this.executorProvider.get(), this.storeProvider.get(), this.schedulerProvider.get(), this.guardProvider.get());
-    }
-
-    public static WorkInitializer_Factory create(Provider<Executor> provider, Provider<EventStore> provider2, Provider<WorkScheduler> provider3, Provider<SynchronizationGuard> provider4) {
+    public static WorkInitializer_Factory create(Provider provider, Provider provider2, Provider provider3, Provider provider4) {
         return new WorkInitializer_Factory(provider, provider2, provider3, provider4);
     }
 
     public static WorkInitializer newInstance(Executor executor, EventStore eventStore, WorkScheduler workScheduler, SynchronizationGuard synchronizationGuard) {
         return new WorkInitializer(executor, eventStore, workScheduler, synchronizationGuard);
+    }
+
+    @Override // javax.inject.Provider
+    public WorkInitializer get() {
+        return newInstance((Executor) this.executorProvider.get(), (EventStore) this.storeProvider.get(), (WorkScheduler) this.schedulerProvider.get(), (SynchronizationGuard) this.guardProvider.get());
     }
 }

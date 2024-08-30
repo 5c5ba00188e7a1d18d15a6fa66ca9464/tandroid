@@ -13,9 +13,4 @@ public class JuliLogger extends Logger {
     public void logDebug(String str) {
         this.logger.log(Level.FINE, str);
     }
-
-    @Override // com.googlecode.mp4parser.util.Logger
-    public void logError(String str) {
-        this.logger.log(Level.SEVERE, str);
-    }
 }

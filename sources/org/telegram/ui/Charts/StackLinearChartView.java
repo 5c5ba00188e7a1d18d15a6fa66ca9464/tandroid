@@ -10,26 +10,17 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Charts.data.ChartData;
 import org.telegram.ui.Charts.data.StackLinearChartData;
+import org.telegram.ui.Charts.view_data.ChartHorizontalLinesData;
 import org.telegram.ui.Charts.view_data.LineViewData;
 import org.telegram.ui.Charts.view_data.StackLinearViewData;
 import org.telegram.ui.Charts.view_data.TransitionParams;
 /* loaded from: classes4.dex */
-public class StackLinearChartView<T extends StackLinearViewData> extends BaseChartView<StackLinearChartData, T> {
+public class StackLinearChartView extends BaseChartView {
     private float[] mapPoints;
     private Matrix matrix;
     Path ovalPath;
     boolean[] skipPoints;
     float[] startFromY;
-
-    @Override // org.telegram.ui.Charts.BaseChartView
-    public long findMaxValue(int i, int i2) {
-        return 100L;
-    }
-
-    @Override // org.telegram.ui.Charts.BaseChartView
-    protected float getMinDistance() {
-        return 0.1f;
-    }
 
     public StackLinearChartView(Context context) {
         super(context);
@@ -41,21 +32,33 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
         this.drawPointOnSelection = false;
     }
 
-    @Override // org.telegram.ui.Charts.BaseChartView
-    public T createLineViewData(ChartData.Line line) {
-        return (T) new StackLinearViewData(line);
+    private int quarterForPoint(float f, float f2) {
+        float centerX = this.chartArea.centerX();
+        float centerY = this.chartArea.centerY() + AndroidUtilities.dp(16.0f);
+        if (f < centerX || f2 > centerY) {
+            if (f < centerX || f2 < centerY) {
+                return (f >= centerX || f2 < centerY) ? 3 : 2;
+            }
+            return 1;
+        }
+        return 0;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:117:0x03d0  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x0423  */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x042b  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x042e  */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x0435 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x0477  */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x048d  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x0491  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x049d  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x04ab  */
+    @Override // org.telegram.ui.Charts.BaseChartView
+    public StackLinearViewData createLineViewData(ChartData.Line line) {
+        return new StackLinearViewData(line);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:117:0x03cc  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x041f  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x0427  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x042a  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x0431 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x0473  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x0486  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x048a  */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x0496  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x04a4  */
     /* JADX WARN: Removed duplicated region for block: B:70:0x0214  */
     /* JADX WARN: Removed duplicated region for block: B:72:0x021c  */
     /* JADX WARN: Removed duplicated region for block: B:75:0x0228  */
@@ -76,39 +79,41 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
         float f5;
         float f6;
         float f7;
-        float f8;
         int i2;
-        float f9;
+        float f8;
         int i3;
         boolean z;
+        float f9;
         float f10;
         float f11;
         float f12;
         float f13;
         float f14;
         float f15;
-        float f16;
         int i4;
+        float f16;
         float f17;
+        Path path;
         float f18;
-        float f19;
-        double degrees;
         int quarterForPoint;
         int quarterForPoint2;
+        Path path2;
+        float measuredWidth;
+        float measuredHeight;
         boolean z2;
+        float f19;
         float f20;
         float f21;
+        double atan;
         float f22;
-        double degrees2;
         float f23;
-        float f24;
-        if (this.chartData != 0) {
-            float f25 = this.chartWidth;
+        if (this.chartData != null) {
+            float f24 = this.chartWidth;
             ChartPickerDelegate chartPickerDelegate = this.pickerDelegate;
-            float f26 = chartPickerDelegate.pickerEnd;
-            float f27 = chartPickerDelegate.pickerStart;
-            float f28 = f25 / (f26 - f27);
-            float f29 = (f27 * f28) - BaseChartView.HORIZONTAL_PADDING;
+            float f25 = chartPickerDelegate.pickerEnd;
+            float f26 = chartPickerDelegate.pickerStart;
+            float f27 = f24 / (f25 - f26);
+            float f28 = (f26 * f27) - BaseChartView.HORIZONTAL_PADDING;
             float centerX = this.chartArea.centerX();
             float centerY = this.chartArea.centerY() + AndroidUtilities.dp(16.0f);
             int i5 = 0;
@@ -124,320 +129,320 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
             }
             int i7 = this.transitionMode;
             if (i7 == 2) {
-                float f30 = this.transitionParams.progress / 0.6f;
-                if (f30 > 1.0f) {
-                    f30 = 1.0f;
+                float f29 = this.transitionParams.progress / 0.6f;
+                if (f29 > 1.0f) {
+                    f29 = 1.0f;
                 }
                 this.ovalPath.reset();
                 float width = this.chartArea.width() > this.chartArea.height() ? this.chartArea.width() : this.chartArea.height();
                 float height = (this.chartArea.width() > this.chartArea.height() ? this.chartArea.height() : this.chartArea.width()) * 0.45f;
-                float f31 = height + (((width - height) / 2.0f) * (1.0f - this.transitionParams.progress));
+                float f30 = height + (((width - height) / 2.0f) * (1.0f - this.transitionParams.progress));
                 RectF rectF = new RectF();
-                rectF.set(centerX - f31, centerY - f31, centerX + f31, centerY + f31);
-                this.ovalPath.addRoundRect(rectF, f31, f31, Path.Direction.CW);
+                rectF.set(centerX - f30, centerY - f30, centerX + f30, centerY + f30);
+                this.ovalPath.addRoundRect(rectF, f30, f30, Path.Direction.CW);
                 canvas.clipPath(this.ovalPath);
-                f = f30;
+                f = f29;
                 i = NotificationCenter.voipServiceCreated;
             } else {
                 i = i7 == 3 ? (int) (this.transitionParams.progress * 255.0f) : NotificationCenter.voipServiceCreated;
                 f = 0.0f;
             }
             float[] fArr = ((StackLinearChartData) this.chartData).xPercentage;
-            int i8 = ((int) (BaseChartView.HORIZONTAL_PADDING / (fArr.length < 2 ? 1.0f : fArr[1] * f28))) + 1;
+            int i8 = ((int) (BaseChartView.HORIZONTAL_PADDING / (fArr.length < 2 ? 1.0f : fArr[1] * f27))) + 1;
             int max = Math.max(0, (this.startXIndex - i8) - 1);
             int min = Math.min(((StackLinearChartData) this.chartData).xPercentage.length - 1, this.endXIndex + i8 + 1);
             int i9 = max;
-            float f32 = 0.0f;
+            float f31 = 0.0f;
             boolean z3 = false;
-            float f33 = 0.0f;
+            float f32 = 0.0f;
             while (i9 <= min) {
                 int i10 = 0;
-                float f34 = 0.0f;
+                float f33 = 0.0f;
                 int i11 = 0;
                 while (i5 < this.lines.size()) {
                     LineViewData lineViewData = (LineViewData) this.lines.get(i5);
                     int i12 = i;
                     if (lineViewData.enabled || lineViewData.alpha != 0.0f) {
-                        f23 = f32;
-                        f24 = f;
+                        f22 = f31;
+                        f23 = f;
                         long j = lineViewData.line.y[i9];
                         if (j > 0) {
-                            f34 += ((float) j) * lineViewData.alpha;
+                            f33 += ((float) j) * lineViewData.alpha;
                             i10++;
                         }
                         i11 = i5;
                     } else {
-                        f23 = f32;
-                        f24 = f;
+                        f22 = f31;
+                        f23 = f;
                     }
                     i5++;
                     i = i12;
-                    f = f24;
-                    f32 = f23;
+                    f = f23;
+                    f31 = f22;
                 }
                 int i13 = i;
-                float f35 = f;
-                float f36 = 0.0f;
+                float f34 = f;
+                float f35 = 0.0f;
                 int i14 = 0;
                 while (i14 < this.lines.size()) {
                     LineViewData lineViewData2 = (LineViewData) this.lines.get(i14);
                     if (lineViewData2.enabled || lineViewData2.alpha != 0.0f) {
                         long[] jArr = lineViewData2.line.y;
-                        f2 = f32;
+                        f2 = f31;
                         if (i10 == 1) {
                             if (jArr[i9] != 0) {
                                 f4 = centerY;
                                 f3 = centerX;
                                 f5 = lineViewData2.alpha;
                                 float[] fArr2 = ((StackLinearChartData) this.chartData).xPercentage;
-                                f6 = (fArr2[i9] * f28) - f29;
-                                if (i9 != min) {
-                                    f7 = getMeasuredWidth();
-                                } else {
-                                    f7 = (fArr2[i9 + 1] * f28) - f29;
-                                }
+                                f6 = (fArr2[i9] * f27) - f28;
+                                float measuredWidth2 = i9 != min ? getMeasuredWidth() : (fArr2[i9 + 1] * f27) - f28;
                                 if (f5 != 0.0f) {
-                                    f8 = f28;
+                                    f7 = f27;
                                     i2 = i11;
                                     if (i14 == i2) {
                                         z3 = true;
                                     }
                                 } else {
-                                    f8 = f28;
+                                    f7 = f27;
                                     i2 = i11;
                                 }
-                                f9 = f29;
-                                float measuredHeight = ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT) * f5;
+                                f8 = f28;
+                                float measuredHeight2 = ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT) * f5;
                                 i3 = i10;
-                                float measuredHeight2 = ((getMeasuredHeight() - this.chartBottom) - measuredHeight) - f36;
+                                float measuredHeight3 = ((getMeasuredHeight() - this.chartBottom) - measuredHeight2) - f35;
                                 z = z3;
-                                this.startFromY[i14] = measuredHeight2;
-                                float measuredHeight3 = getMeasuredHeight() - this.chartBottom;
+                                this.startFromY[i14] = measuredHeight3;
+                                float measuredHeight4 = getMeasuredHeight() - this.chartBottom;
                                 if (i9 != min) {
-                                    f33 = f6;
+                                    f32 = f6;
                                 } else if (i9 == max) {
                                     f2 = f6;
                                 }
                                 if (this.transitionMode == 2 || i14 == i2) {
-                                    f10 = f5;
-                                    f11 = f4;
-                                    f12 = f36;
-                                    f13 = f6;
-                                    f14 = f13;
-                                    f15 = 0.0f;
+                                    f9 = f5;
+                                    f10 = f4;
+                                    f11 = f35;
+                                    f12 = f6;
+                                    f13 = f12;
+                                    f14 = 0.0f;
                                 } else {
                                     if (f6 < f3) {
                                         TransitionParams transitionParams = this.transitionParams;
-                                        f21 = transitionParams.startX[i14];
-                                        f22 = transitionParams.startY[i14];
+                                        f20 = transitionParams.startX[i14];
+                                        f21 = transitionParams.startY[i14];
                                     } else {
                                         TransitionParams transitionParams2 = this.transitionParams;
-                                        f21 = transitionParams2.endX[i14];
-                                        f22 = transitionParams2.endY[i14];
+                                        f20 = transitionParams2.endX[i14];
+                                        f21 = transitionParams2.endY[i14];
                                     }
-                                    float f37 = f3 - f21;
-                                    float f38 = f4 - f22;
-                                    float f39 = 1.0f - f35;
-                                    float f40 = ((((f6 - f21) * f38) / f37) + f22) * f35;
-                                    float f41 = (measuredHeight2 * f39) + f40;
-                                    float f42 = (measuredHeight3 * f39) + f40;
-                                    float f43 = f38 / f37;
-                                    if (f43 > 0.0f) {
-                                        f10 = f5;
-                                        degrees2 = Math.toDegrees(-Math.atan(f43));
+                                    float f36 = f3 - f20;
+                                    float f37 = f4 - f21;
+                                    float f38 = 1.0f - f34;
+                                    float f39 = ((((f6 - f20) * f37) / f36) + f21) * f34;
+                                    float f40 = (measuredHeight3 * f38) + f39;
+                                    float f41 = (measuredHeight4 * f38) + f39;
+                                    float f42 = f37 / f36;
+                                    if (f42 > 0.0f) {
+                                        f9 = f5;
+                                        atan = -Math.atan(f42);
                                     } else {
-                                        f10 = f5;
-                                        degrees2 = Math.toDegrees(Math.atan(Math.abs(f43)));
+                                        f9 = f5;
+                                        atan = Math.atan(Math.abs(f42));
                                     }
-                                    f15 = ((float) degrees2) - 90.0f;
+                                    f14 = ((float) Math.toDegrees(atan)) - 90.0f;
                                     if (f6 >= f3) {
                                         float[] fArr3 = this.mapPoints;
                                         fArr3[0] = f6;
-                                        fArr3[1] = f41;
+                                        fArr3[1] = f40;
                                         this.matrix.reset();
-                                        f11 = f4;
-                                        this.matrix.postRotate(this.transitionParams.progress * f15, f3, f11);
+                                        f10 = f4;
+                                        this.matrix.postRotate(this.transitionParams.progress * f14, f3, f10);
                                         this.matrix.mapPoints(this.mapPoints);
                                         float[] fArr4 = this.mapPoints;
-                                        float f44 = fArr4[0];
-                                        float f45 = fArr4[1];
-                                        if (f44 < f3) {
-                                            f44 = f3;
+                                        float f43 = fArr4[0];
+                                        float f44 = fArr4[1];
+                                        if (f43 < f3) {
+                                            f43 = f3;
                                         }
                                         fArr4[0] = f6;
-                                        fArr4[1] = f42;
+                                        fArr4[1] = f41;
                                         this.matrix.reset();
-                                        this.matrix.postRotate(this.transitionParams.progress * f15, f3, f11);
+                                        this.matrix.postRotate(this.transitionParams.progress * f14, f3, f10);
                                         this.matrix.mapPoints(this.mapPoints);
-                                        measuredHeight3 = this.mapPoints[1];
+                                        measuredHeight4 = this.mapPoints[1];
                                         if (f6 < f3) {
-                                            f14 = f3;
-                                            f13 = f44;
-                                            measuredHeight2 = f45;
+                                            f13 = f3;
+                                            f12 = f43;
+                                            measuredHeight3 = f44;
                                         } else {
-                                            f13 = f44;
-                                            measuredHeight2 = f45;
-                                            f14 = f6;
+                                            f12 = f43;
+                                            measuredHeight3 = f44;
+                                            f13 = f6;
                                         }
-                                        f12 = f36;
+                                        f11 = f35;
                                     } else {
-                                        f11 = f4;
-                                        if (f7 >= f3) {
-                                            measuredHeight2 = (f41 * f39) + (f11 * f35);
-                                            f12 = f36;
-                                            measuredHeight3 = measuredHeight2;
-                                            f13 = (f6 * f39) + (f3 * f35);
-                                            f14 = f13;
+                                        f10 = f4;
+                                        if (measuredWidth2 >= f3) {
+                                            measuredHeight3 = (f40 * f38) + (f10 * f34);
+                                            f11 = f35;
+                                            measuredHeight4 = measuredHeight3;
+                                            f12 = (f6 * f38) + (f3 * f34);
+                                            f13 = f12;
                                         } else {
                                             float[] fArr5 = this.mapPoints;
                                             fArr5[0] = f6;
-                                            fArr5[1] = f41;
+                                            fArr5[1] = f40;
                                             this.matrix.reset();
                                             Matrix matrix = this.matrix;
                                             TransitionParams transitionParams3 = this.transitionParams;
-                                            f12 = f36;
-                                            float f46 = transitionParams3.progress;
-                                            matrix.postRotate((f46 * f15) + (f46 * transitionParams3.angle[i14]), f3, f11);
+                                            f11 = f35;
+                                            float f45 = transitionParams3.progress;
+                                            matrix.postRotate((f45 * f14) + (f45 * transitionParams3.angle[i14]), f3, f10);
                                             this.matrix.mapPoints(this.mapPoints);
                                             float[] fArr6 = this.mapPoints;
-                                            float f47 = fArr6[0];
-                                            float f48 = fArr6[1];
-                                            if (f7 >= f3) {
-                                                float f49 = this.transitionParams.progress;
-                                                fArr6[0] = (f6 * (1.0f - f49)) + (f49 * f3);
+                                            float f46 = fArr6[0];
+                                            float f47 = fArr6[1];
+                                            if (measuredWidth2 >= f3) {
+                                                float f48 = this.transitionParams.progress;
+                                                fArr6[0] = (f6 * (1.0f - f48)) + (f48 * f3);
                                             } else {
                                                 fArr6[0] = f6;
                                             }
-                                            fArr6[1] = f42;
+                                            fArr6[1] = f41;
                                             this.matrix.reset();
                                             Matrix matrix2 = this.matrix;
                                             TransitionParams transitionParams4 = this.transitionParams;
-                                            float f50 = transitionParams4.progress;
-                                            matrix2.postRotate((f50 * f15) + (f50 * transitionParams4.angle[i14]), f3, f11);
+                                            float f49 = transitionParams4.progress;
+                                            matrix2.postRotate((f49 * f14) + (f49 * transitionParams4.angle[i14]), f3, f10);
                                             this.matrix.mapPoints(this.mapPoints);
                                             float[] fArr7 = this.mapPoints;
-                                            float f51 = fArr7[0];
-                                            measuredHeight3 = fArr7[1];
-                                            f13 = f47;
-                                            f14 = f51;
-                                            measuredHeight2 = f48;
+                                            float f50 = fArr7[0];
+                                            measuredHeight4 = fArr7[1];
+                                            f12 = f46;
+                                            f13 = f50;
+                                            measuredHeight3 = f47;
                                         }
                                     }
                                 }
                                 if (i9 != max) {
-                                    float measuredHeight4 = getMeasuredHeight();
+                                    float measuredHeight5 = getMeasuredHeight();
                                     i4 = max;
-                                    f16 = f13;
+                                    f15 = f12;
                                     if (this.transitionMode != 2 || i14 == i2) {
                                         z2 = false;
-                                        f20 = 0.0f;
+                                        f19 = 0.0f;
                                     } else {
                                         float[] fArr8 = this.mapPoints;
                                         fArr8[0] = 0.0f - f3;
-                                        fArr8[1] = measuredHeight4;
+                                        fArr8[1] = measuredHeight5;
                                         this.matrix.reset();
                                         Matrix matrix3 = this.matrix;
                                         TransitionParams transitionParams5 = this.transitionParams;
-                                        float f52 = transitionParams5.progress;
-                                        matrix3.postRotate((f15 * f52) + (f52 * transitionParams5.angle[i14]), f3, f11);
+                                        float f51 = transitionParams5.progress;
+                                        matrix3.postRotate((f14 * f51) + (f51 * transitionParams5.angle[i14]), f3, f10);
                                         this.matrix.mapPoints(this.mapPoints);
                                         float[] fArr9 = this.mapPoints;
                                         z2 = false;
-                                        float f53 = fArr9[0];
-                                        measuredHeight4 = fArr9[1];
-                                        f20 = f53;
+                                        float f52 = fArr9[0];
+                                        measuredHeight5 = fArr9[1];
+                                        f19 = f52;
                                     }
-                                    lineViewData2.chartPath.moveTo(f20, measuredHeight4);
+                                    lineViewData2.chartPath.moveTo(f19, measuredHeight5);
                                     this.skipPoints[i14] = z2;
                                 } else {
-                                    f16 = f13;
+                                    f15 = f12;
                                     i4 = max;
                                 }
                                 TransitionParams transitionParams6 = this.transitionParams;
-                                float f54 = transitionParams6 != null ? 0.0f : transitionParams6.progress;
-                                if (f10 != 0.0f && i9 > 0 && jArr[i9 - 1] == 0 && i9 < min && jArr[i9 + 1] == 0 && this.transitionMode != 2) {
+                                float f53 = transitionParams6 != null ? 0.0f : transitionParams6.progress;
+                                if (f9 == 0.0f || i9 <= 0 || jArr[i9 - 1] != 0 || i9 >= min || jArr[i9 + 1] != 0 || this.transitionMode == 2) {
+                                    if (this.skipPoints[i14]) {
+                                        f16 = 1.0f;
+                                    } else {
+                                        if (i14 == i2) {
+                                            path = lineViewData2.chartPath;
+                                            f16 = 1.0f;
+                                            measuredHeight4 *= 1.0f - f53;
+                                        } else {
+                                            f16 = 1.0f;
+                                            path = lineViewData2.chartPath;
+                                        }
+                                        path.lineTo(f13, measuredHeight4);
+                                    }
+                                    if (i14 != i2) {
+                                        f17 = f15;
+                                        lineViewData2.chartPath.lineTo(f17, (f16 - f53) * measuredHeight3);
+                                    } else {
+                                        f17 = f15;
+                                        lineViewData2.chartPath.lineTo(f17, measuredHeight3);
+                                    }
+                                    this.skipPoints[i14] = false;
+                                } else {
                                     if (!this.skipPoints[i14]) {
                                         if (i14 == i2) {
-                                            lineViewData2.chartPath.lineTo(f14, measuredHeight3 * (1.0f - f54));
+                                            lineViewData2.chartPath.lineTo(f13, measuredHeight4 * (1.0f - f53));
                                         } else {
-                                            lineViewData2.chartPath.lineTo(f14, measuredHeight3);
+                                            lineViewData2.chartPath.lineTo(f13, measuredHeight4);
                                         }
                                     }
                                     this.skipPoints[i14] = true;
-                                    f18 = f16;
-                                } else {
-                                    if (this.skipPoints[i14]) {
-                                        f17 = 1.0f;
-                                    } else if (i14 == i2) {
-                                        f17 = 1.0f;
-                                        lineViewData2.chartPath.lineTo(f14, measuredHeight3 * (1.0f - f54));
-                                    } else {
-                                        f17 = 1.0f;
-                                        lineViewData2.chartPath.lineTo(f14, measuredHeight3);
-                                    }
-                                    if (i14 != i2) {
-                                        f18 = f16;
-                                        lineViewData2.chartPath.lineTo(f18, (f17 - f54) * measuredHeight2);
-                                    } else {
-                                        f18 = f16;
-                                        lineViewData2.chartPath.lineTo(f18, measuredHeight2);
-                                    }
-                                    this.skipPoints[i14] = false;
+                                    f17 = f15;
                                 }
                                 if (i9 == min) {
-                                    float measuredWidth = getMeasuredWidth();
-                                    float measuredHeight5 = getMeasuredHeight();
-                                    if (this.transitionMode == 2 && i14 != i2) {
+                                    float measuredWidth3 = getMeasuredWidth();
+                                    float measuredHeight6 = getMeasuredHeight();
+                                    if (this.transitionMode != 2 || i14 == i2) {
+                                        lineViewData2.chartPath.lineTo(measuredWidth3, measuredHeight6);
+                                    } else {
                                         float[] fArr10 = this.mapPoints;
-                                        fArr10[0] = measuredWidth + f3;
-                                        fArr10[1] = measuredHeight5;
+                                        fArr10[0] = measuredWidth3 + f3;
+                                        fArr10[1] = measuredHeight6;
                                         this.matrix.reset();
                                         Matrix matrix4 = this.matrix;
                                         TransitionParams transitionParams7 = this.transitionParams;
-                                        matrix4.postRotate(transitionParams7.progress * transitionParams7.angle[i14], f3, f11);
+                                        matrix4.postRotate(transitionParams7.progress * transitionParams7.angle[i14], f3, f10);
                                         this.matrix.mapPoints(this.mapPoints);
                                         float[] fArr11 = this.mapPoints;
-                                        float f55 = fArr11[0];
-                                        float f56 = fArr11[1];
-                                    } else {
-                                        lineViewData2.chartPath.lineTo(measuredWidth, measuredHeight5);
+                                        float f54 = fArr11[0];
+                                        float f55 = fArr11[1];
                                     }
                                     if (this.transitionMode == 2) {
                                         if (i14 != i2) {
                                             TransitionParams transitionParams8 = this.transitionParams;
-                                            float f57 = (f11 - transitionParams8.startY[i14]) / (f3 - transitionParams8.startX[i14]);
-                                            if (f57 > 0.0f) {
-                                                degrees = Math.toDegrees(-Math.atan(f57));
-                                            } else {
-                                                degrees = Math.toDegrees(Math.atan(Math.abs(f57)));
-                                            }
+                                            float f56 = (f10 - transitionParams8.startY[i14]) / (f3 - transitionParams8.startX[i14]);
+                                            float degrees = ((float) Math.toDegrees(f56 > 0.0f ? -Math.atan(f56) : Math.atan(Math.abs(f56)))) - 90.0f;
                                             TransitionParams transitionParams9 = this.transitionParams;
-                                            float f58 = transitionParams9.startX[i14];
-                                            float f59 = transitionParams9.startY[i14];
+                                            float f57 = transitionParams9.startX[i14];
+                                            float f58 = transitionParams9.startY[i14];
                                             float[] fArr12 = this.mapPoints;
-                                            fArr12[0] = f58;
-                                            fArr12[1] = f59;
+                                            fArr12[0] = f57;
+                                            fArr12[1] = f58;
                                             this.matrix.reset();
                                             Matrix matrix5 = this.matrix;
                                             TransitionParams transitionParams10 = this.transitionParams;
-                                            float f60 = transitionParams10.progress;
-                                            matrix5.postRotate(((((float) degrees) - 90.0f) * f60) + (f60 * transitionParams10.angle[i14]), f3, f11);
+                                            float f59 = transitionParams10.progress;
+                                            matrix5.postRotate((degrees * f59) + (f59 * transitionParams10.angle[i14]), f3, f10);
                                             this.matrix.mapPoints(this.mapPoints);
                                             float[] fArr13 = this.mapPoints;
-                                            float f61 = fArr13[0];
-                                            float f62 = fArr13[1];
-                                            if (Math.abs(f18 - f61) < 0.001d && ((f62 < f11 && measuredHeight2 < f11) || (f62 > f11 && measuredHeight2 > f11))) {
+                                            float f60 = fArr13[0];
+                                            float f61 = fArr13[1];
+                                            if (Math.abs(f17 - f60) >= 0.001d || ((f61 >= f10 || measuredHeight3 >= f10) && (f61 <= f10 || measuredHeight3 <= f10))) {
+                                                quarterForPoint = quarterForPoint(f17, measuredHeight3);
+                                                quarterForPoint2 = quarterForPoint(f60, f61);
+                                            } else {
                                                 quarterForPoint2 = this.transitionParams.angle[i14] == -180.0f ? 0 : 3;
                                                 quarterForPoint = 0;
-                                            } else {
-                                                quarterForPoint = quarterForPoint(f18, measuredHeight2);
-                                                quarterForPoint2 = quarterForPoint(f61, f62);
                                             }
                                             while (quarterForPoint <= quarterForPoint2) {
                                                 if (quarterForPoint == 0) {
-                                                    lineViewData2.chartPath.lineTo(getMeasuredWidth(), 0.0f);
+                                                    path2 = lineViewData2.chartPath;
+                                                    measuredWidth = getMeasuredWidth();
+                                                    measuredHeight = 0.0f;
                                                 } else if (quarterForPoint == 1) {
-                                                    lineViewData2.chartPath.lineTo(getMeasuredWidth(), getMeasuredHeight());
+                                                    path2 = lineViewData2.chartPath;
+                                                    measuredWidth = getMeasuredWidth();
+                                                    measuredHeight = getMeasuredHeight();
                                                 } else {
                                                     if (quarterForPoint == 2) {
                                                         lineViewData2.chartPath.lineTo(0.0f, getMeasuredHeight());
@@ -446,47 +451,48 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                                                     }
                                                     quarterForPoint++;
                                                 }
+                                                path2.lineTo(measuredWidth, measuredHeight);
                                                 quarterForPoint++;
                                             }
-                                            f19 = f12 + measuredHeight;
+                                            f18 = f11 + measuredHeight2;
                                         }
                                     }
-                                    f19 = f12 + measuredHeight;
+                                    f18 = f11 + measuredHeight2;
                                 }
-                                f19 = f12 + measuredHeight;
+                                f18 = f11 + measuredHeight2;
                             }
                             f3 = centerX;
                             f4 = centerY;
                             f5 = 0.0f;
                             float[] fArr22 = ((StackLinearChartData) this.chartData).xPercentage;
-                            f6 = (fArr22[i9] * f28) - f29;
+                            f6 = (fArr22[i9] * f27) - f28;
                             if (i9 != min) {
                             }
                             if (f5 != 0.0f) {
                             }
-                            f9 = f29;
-                            float measuredHeight6 = ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT) * f5;
+                            f8 = f28;
+                            float measuredHeight22 = ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT) * f5;
                             i3 = i10;
-                            float measuredHeight22 = ((getMeasuredHeight() - this.chartBottom) - measuredHeight6) - f36;
+                            float measuredHeight32 = ((getMeasuredHeight() - this.chartBottom) - measuredHeight22) - f35;
                             z = z3;
-                            this.startFromY[i14] = measuredHeight22;
-                            float measuredHeight32 = getMeasuredHeight() - this.chartBottom;
+                            this.startFromY[i14] = measuredHeight32;
+                            float measuredHeight42 = getMeasuredHeight() - this.chartBottom;
                             if (i9 != min) {
                             }
                             if (this.transitionMode == 2) {
                             }
-                            f10 = f5;
-                            f11 = f4;
-                            f12 = f36;
-                            f13 = f6;
-                            f14 = f13;
-                            f15 = 0.0f;
+                            f9 = f5;
+                            f10 = f4;
+                            f11 = f35;
+                            f12 = f6;
+                            f13 = f12;
+                            f14 = 0.0f;
                             if (i9 != max) {
                             }
                             TransitionParams transitionParams62 = this.transitionParams;
                             if (transitionParams62 != null) {
                             }
-                            if (f10 != 0.0f) {
+                            if (f9 == 0.0f) {
                             }
                             if (this.skipPoints[i14]) {
                             }
@@ -495,41 +501,41 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                             this.skipPoints[i14] = false;
                             if (i9 == min) {
                             }
-                            f19 = f12 + measuredHeight6;
+                            f18 = f11 + measuredHeight22;
                         } else {
-                            if (f34 != 0.0f) {
+                            if (f33 != 0.0f) {
                                 f3 = centerX;
                                 f4 = centerY;
-                                f5 = (((float) jArr[i9]) * lineViewData2.alpha) / f34;
+                                f5 = (((float) jArr[i9]) * lineViewData2.alpha) / f33;
                                 float[] fArr222 = ((StackLinearChartData) this.chartData).xPercentage;
-                                f6 = (fArr222[i9] * f28) - f29;
+                                f6 = (fArr222[i9] * f27) - f28;
                                 if (i9 != min) {
                                 }
                                 if (f5 != 0.0f) {
                                 }
-                                f9 = f29;
-                                float measuredHeight62 = ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT) * f5;
+                                f8 = f28;
+                                float measuredHeight222 = ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT) * f5;
                                 i3 = i10;
-                                float measuredHeight222 = ((getMeasuredHeight() - this.chartBottom) - measuredHeight62) - f36;
+                                float measuredHeight322 = ((getMeasuredHeight() - this.chartBottom) - measuredHeight222) - f35;
                                 z = z3;
-                                this.startFromY[i14] = measuredHeight222;
-                                float measuredHeight322 = getMeasuredHeight() - this.chartBottom;
+                                this.startFromY[i14] = measuredHeight322;
+                                float measuredHeight422 = getMeasuredHeight() - this.chartBottom;
                                 if (i9 != min) {
                                 }
                                 if (this.transitionMode == 2) {
                                 }
-                                f10 = f5;
-                                f11 = f4;
-                                f12 = f36;
-                                f13 = f6;
-                                f14 = f13;
-                                f15 = 0.0f;
+                                f9 = f5;
+                                f10 = f4;
+                                f11 = f35;
+                                f12 = f6;
+                                f13 = f12;
+                                f14 = 0.0f;
                                 if (i9 != max) {
                                 }
                                 TransitionParams transitionParams622 = this.transitionParams;
                                 if (transitionParams622 != null) {
                                 }
-                                if (f10 != 0.0f) {
+                                if (f9 == 0.0f) {
                                 }
                                 if (this.skipPoints[i14]) {
                                 }
@@ -538,40 +544,40 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                                 this.skipPoints[i14] = false;
                                 if (i9 == min) {
                                 }
-                                f19 = f12 + measuredHeight62;
+                                f18 = f11 + measuredHeight222;
                             }
                             f3 = centerX;
                             f4 = centerY;
                             f5 = 0.0f;
                             float[] fArr2222 = ((StackLinearChartData) this.chartData).xPercentage;
-                            f6 = (fArr2222[i9] * f28) - f29;
+                            f6 = (fArr2222[i9] * f27) - f28;
                             if (i9 != min) {
                             }
                             if (f5 != 0.0f) {
                             }
-                            f9 = f29;
-                            float measuredHeight622 = ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT) * f5;
+                            f8 = f28;
+                            float measuredHeight2222 = ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT) * f5;
                             i3 = i10;
-                            float measuredHeight2222 = ((getMeasuredHeight() - this.chartBottom) - measuredHeight622) - f36;
+                            float measuredHeight3222 = ((getMeasuredHeight() - this.chartBottom) - measuredHeight2222) - f35;
                             z = z3;
-                            this.startFromY[i14] = measuredHeight2222;
-                            float measuredHeight3222 = getMeasuredHeight() - this.chartBottom;
+                            this.startFromY[i14] = measuredHeight3222;
+                            float measuredHeight4222 = getMeasuredHeight() - this.chartBottom;
                             if (i9 != min) {
                             }
                             if (this.transitionMode == 2) {
                             }
-                            f10 = f5;
-                            f11 = f4;
-                            f12 = f36;
-                            f13 = f6;
-                            f14 = f13;
-                            f15 = 0.0f;
+                            f9 = f5;
+                            f10 = f4;
+                            f11 = f35;
+                            f12 = f6;
+                            f13 = f12;
+                            f14 = 0.0f;
                             if (i9 != max) {
                             }
                             TransitionParams transitionParams6222 = this.transitionParams;
                             if (transitionParams6222 != null) {
                             }
-                            if (f10 != 0.0f) {
+                            if (f9 == 0.0f) {
                             }
                             if (this.skipPoints[i14]) {
                             }
@@ -580,43 +586,43 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                             this.skipPoints[i14] = false;
                             if (i9 == min) {
                             }
-                            f19 = f12 + measuredHeight622;
+                            f18 = f11 + measuredHeight2222;
                         }
                     } else {
+                        f7 = f27;
                         f8 = f28;
-                        f9 = f29;
-                        f19 = f36;
-                        f2 = f32;
+                        f18 = f35;
+                        f2 = f31;
                         i3 = i10;
                         i4 = max;
                         i2 = i11;
                         f3 = centerX;
                         z = z3;
-                        f11 = centerY;
+                        f10 = centerY;
                     }
                     i14++;
-                    f36 = f19;
+                    f35 = f18;
                     centerX = f3;
-                    centerY = f11;
+                    centerY = f10;
                     z3 = z;
-                    f32 = f2;
+                    f31 = f2;
                     max = i4;
-                    f29 = f9;
+                    f28 = f8;
                     i10 = i3;
                     i11 = i2;
-                    f28 = f8;
+                    f27 = f7;
                 }
                 i9++;
                 centerY = centerY;
                 i = i13;
-                f = f35;
-                f32 = f32;
-                f29 = f29;
+                f = f34;
+                f31 = f31;
+                f28 = f28;
                 i5 = 0;
             }
             int i15 = i;
             canvas.save();
-            canvas.clipRect(f32, BaseChartView.SIGNATURE_TEXT_HEIGHT, f33, getMeasuredHeight() - this.chartBottom);
+            canvas.clipRect(f31, BaseChartView.SIGNATURE_TEXT_HEIGHT, f32, getMeasuredHeight() - this.chartBottom);
             if (z3) {
                 canvas.drawColor(Theme.getColor(Theme.key_statisticChartLineEmpty));
             }
@@ -631,18 +637,6 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
         }
     }
 
-    private int quarterForPoint(float f, float f2) {
-        float centerX = this.chartArea.centerX();
-        float centerY = this.chartArea.centerY() + AndroidUtilities.dp(16.0f);
-        if (f < centerX || f2 > centerY) {
-            if (f < centerX || f2 < centerY) {
-                return (f >= centerX || f2 < centerY) ? 3 : 2;
-            }
-            return 1;
-        }
-        return 0;
-    }
-
     @Override // org.telegram.ui.Charts.BaseChartView
     protected void drawPickerChart(Canvas canvas) {
         long j;
@@ -652,7 +646,7 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
         int i;
         boolean z;
         long j2;
-        if (this.chartData != 0) {
+        if (this.chartData != null) {
             int size = this.lines.size();
             for (int i2 = 0; i2 < size; i2++) {
                 ((StackLinearViewData) this.lines.get(i2)).chartPathPicker.reset();
@@ -763,32 +757,7 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Charts.BaseChartView, android.view.View
-    public void onDraw(Canvas canvas) {
-        tick();
-        drawChart(canvas);
-        drawBottomLine(canvas);
-        this.tmpN = this.horizontalLines.size();
-        int i = 0;
-        while (true) {
-            this.tmpI = i;
-            int i2 = this.tmpI;
-            if (i2 < this.tmpN) {
-                drawHorizontalLines(canvas, this.horizontalLines.get(i2));
-                drawSignaturesToHorizontalLines(canvas, this.horizontalLines.get(this.tmpI));
-                i = this.tmpI + 1;
-            } else {
-                drawBottomSignature(canvas);
-                drawPicker(canvas);
-                drawSelection(canvas);
-                super.onDraw(canvas);
-                return;
-            }
-        }
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0137  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0139  */
     /* JADX WARN: Removed duplicated region for block: B:47:0x0142  */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
@@ -796,8 +765,8 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
     */
     public void fillTransitionParams(TransitionParams transitionParams) {
         float f;
-        T t = this.chartData;
-        if (t == 0) {
+        ChartData chartData = this.chartData;
+        if (chartData == null) {
             return;
         }
         float f2 = this.chartWidth;
@@ -807,7 +776,7 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
         float f5 = f2 / (f3 - f4);
         float f6 = BaseChartView.HORIZONTAL_PADDING;
         float f7 = (f4 * f5) - f6;
-        float[] fArr = ((StackLinearChartData) t).xPercentage;
+        float[] fArr = ((StackLinearChartData) chartData).xPercentage;
         int i = 2;
         int i2 = 1;
         int i3 = ((int) (f6 / (fArr.length < 2 ? 1.0f : fArr[1] * f5))) + 1;
@@ -848,14 +817,13 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                             float f11 = i9;
                             float measuredHeight2 = ((getMeasuredHeight() - this.chartBottom) - measuredHeight) - f11;
                             i9 = (int) (f11 + measuredHeight);
+                            TransitionParams transitionParams2 = this.transitionParams;
                             if (i4 != 0) {
-                                TransitionParams transitionParams2 = this.transitionParams;
                                 transitionParams2.startX[i8] = f10;
                                 transitionParams2.startY[i8] = measuredHeight2;
                             } else {
-                                TransitionParams transitionParams3 = this.transitionParams;
-                                transitionParams3.endX[i8] = f10;
-                                transitionParams3.endY[i8] = measuredHeight2;
+                                transitionParams2.endX[i8] = f10;
+                                transitionParams2.endY[i8] = measuredHeight2;
                             }
                         }
                         f = 0.0f;
@@ -864,6 +832,7 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                         float f112 = i9;
                         float measuredHeight22 = ((getMeasuredHeight() - this.chartBottom) - measuredHeight3) - f112;
                         i9 = (int) (f112 + measuredHeight3);
+                        TransitionParams transitionParams22 = this.transitionParams;
                         if (i4 != 0) {
                         }
                     } else {
@@ -874,6 +843,7 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                             float f1122 = i9;
                             float measuredHeight222 = ((getMeasuredHeight() - this.chartBottom) - measuredHeight32) - f1122;
                             i9 = (int) (f1122 + measuredHeight32);
+                            TransitionParams transitionParams222 = this.transitionParams;
                             if (i4 != 0) {
                             }
                         }
@@ -883,6 +853,7 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                         float f11222 = i9;
                         float measuredHeight2222 = ((getMeasuredHeight() - this.chartBottom) - measuredHeight322) - f11222;
                         i9 = (int) (f11222 + measuredHeight322);
+                        TransitionParams transitionParams2222 = this.transitionParams;
                         if (i4 != 0) {
                         }
                     }
@@ -893,6 +864,40 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
             i4++;
             i = 2;
             i2 = 1;
+        }
+    }
+
+    @Override // org.telegram.ui.Charts.BaseChartView
+    public long findMaxValue(int i, int i2) {
+        return 100L;
+    }
+
+    @Override // org.telegram.ui.Charts.BaseChartView
+    protected float getMinDistance() {
+        return 0.1f;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Charts.BaseChartView, android.view.View
+    public void onDraw(Canvas canvas) {
+        tick();
+        drawChart(canvas);
+        drawBottomLine(canvas);
+        this.tmpN = this.horizontalLines.size();
+        int i = 0;
+        while (true) {
+            this.tmpI = i;
+            int i2 = this.tmpI;
+            if (i2 >= this.tmpN) {
+                drawBottomSignature(canvas);
+                drawPicker(canvas);
+                drawSelection(canvas);
+                super.onDraw(canvas);
+                return;
+            }
+            drawHorizontalLines(canvas, (ChartHorizontalLinesData) this.horizontalLines.get(i2));
+            drawSignaturesToHorizontalLines(canvas, (ChartHorizontalLinesData) this.horizontalLines.get(this.tmpI));
+            i = this.tmpI + 1;
         }
     }
 }

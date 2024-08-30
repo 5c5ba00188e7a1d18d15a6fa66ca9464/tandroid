@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public class MethodInvocation extends AbstractSafeParcelable {
     public static final Parcelable.Creator<MethodInvocation> CREATOR = new zan();
@@ -18,9 +17,20 @@ public class MethodInvocation extends AbstractSafeParcelable {
     private final int zah;
     private final int zai;
 
-    @Deprecated
     public MethodInvocation(int i, int i2, int i3, long j, long j2, String str, String str2, int i4) {
         this(i, i2, i3, j, j2, str, str2, i4, -1);
+    }
+
+    public MethodInvocation(int i, int i2, int i3, long j, long j2, String str, String str2, int i4, int i5) {
+        this.zaa = i;
+        this.zab = i2;
+        this.zac = i3;
+        this.zad = j;
+        this.zae = j2;
+        this.zaf = str;
+        this.zag = str2;
+        this.zah = i4;
+        this.zai = i5;
     }
 
     @Override // android.os.Parcelable
@@ -36,17 +46,5 @@ public class MethodInvocation extends AbstractSafeParcelable {
         SafeParcelWriter.writeInt(parcel, 8, this.zah);
         SafeParcelWriter.writeInt(parcel, 9, this.zai);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    public MethodInvocation(int i, int i2, int i3, long j, long j2, String str, String str2, int i4, int i5) {
-        this.zaa = i;
-        this.zab = i2;
-        this.zac = i3;
-        this.zad = j;
-        this.zae = j2;
-        this.zaf = str;
-        this.zag = str2;
-        this.zah = i4;
-        this.zai = i5;
     }
 }

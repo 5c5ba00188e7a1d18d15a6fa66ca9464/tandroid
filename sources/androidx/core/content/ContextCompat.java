@@ -1,7 +1,6 @@
 package androidx.core.content;
 
 import android.accounts.AccountManager;
-import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.AppOpsManager;
@@ -61,117 +60,98 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.concurrent.Executor;
 import org.webrtc.MediaStreamTrack;
-@SuppressLint({"PrivateConstructorForUtilityClass"})
 /* loaded from: classes.dex */
-public class ContextCompat {
+public abstract class ContextCompat {
     private static final Object sLock = new Object();
     private static final Object sSync = new Object();
 
-    public static boolean startActivities(Context context, Intent[] intentArr, Bundle bundle) {
-        Api16Impl.startActivities(context, intentArr, bundle);
-        return true;
-    }
-
-    public static void startActivity(Context context, Intent intent, Bundle bundle) {
-        Api16Impl.startActivity(context, intent, bundle);
-    }
-
-    public static File[] getExternalFilesDirs(Context context, String str) {
-        return Api19Impl.getExternalFilesDirs(context, str);
-    }
-
-    public static File[] getExternalCacheDirs(Context context) {
-        return Api19Impl.getExternalCacheDirs(context);
-    }
-
-    public static Drawable getDrawable(Context context, int i) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            return Api21Impl.getDrawable(context, i);
+    /* loaded from: classes.dex */
+    static class Api16Impl {
+        static void startActivities(Context context, Intent[] intentArr, Bundle bundle) {
+            context.startActivities(intentArr, bundle);
         }
-        return context.getResources().getDrawable(i);
-    }
 
-    public static ColorStateList getColorStateList(Context context, int i) {
-        return ResourcesCompat.getColorStateList(context.getResources(), i, context.getTheme());
-    }
-
-    public static int getColor(Context context, int i) {
-        if (Build.VERSION.SDK_INT >= 23) {
-            return Api23Impl.getColor(context, i);
-        }
-        return context.getResources().getColor(i);
-    }
-
-    public static int checkSelfPermission(Context context, String str) {
-        ObjectsCompat.requireNonNull(str, "permission must be non-null");
-        if (BuildCompat.isAtLeastT() || !TextUtils.equals("android.permission.POST_NOTIFICATIONS", str)) {
-            return context.checkPermission(str, Process.myPid(), Process.myUid());
-        }
-        return NotificationManagerCompat.from(context).areNotificationsEnabled() ? 0 : -1;
-    }
-
-    public static File getNoBackupFilesDir(Context context) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            return Api21Impl.getNoBackupFilesDir(context);
-        }
-        return createFilesDir(new File(context.getApplicationInfo().dataDir, "no_backup"));
-    }
-
-    private static File createFilesDir(File file) {
-        synchronized (sSync) {
-            try {
-                if (!file.exists()) {
-                    if (file.mkdirs()) {
-                        return file;
-                    }
-                    Log.w("ContextCompat", "Unable to create files subdir " + file.getPath());
-                }
-                return file;
-            } catch (Throwable th) {
-                throw th;
-            }
+        static void startActivity(Context context, Intent intent, Bundle bundle) {
+            context.startActivity(intent, bundle);
         }
     }
 
-    public static Context createDeviceProtectedStorageContext(Context context) {
-        if (Build.VERSION.SDK_INT >= 24) {
-            return Api24Impl.createDeviceProtectedStorageContext(context);
+    /* loaded from: classes.dex */
+    static class Api19Impl {
+        static File[] getExternalCacheDirs(Context context) {
+            return context.getExternalCacheDirs();
         }
-        return null;
+
+        static File[] getExternalFilesDirs(Context context, String str) {
+            return context.getExternalFilesDirs(str);
+        }
+
+        static File[] getObbDirs(Context context) {
+            return context.getObbDirs();
+        }
     }
 
-    public static Executor getMainExecutor(Context context) {
-        if (Build.VERSION.SDK_INT >= 28) {
-            return Api28Impl.getMainExecutor(context);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api21Impl {
+        static File getCodeCacheDir(Context context) {
+            return context.getCodeCacheDir();
         }
-        return ExecutorCompat.create(new Handler(context.getMainLooper()));
+
+        static Drawable getDrawable(Context context, int i) {
+            return context.getDrawable(i);
+        }
+
+        static File getNoBackupFilesDir(Context context) {
+            return context.getNoBackupFilesDir();
+        }
     }
 
-    public static <T> T getSystemService(Context context, Class<T> cls) {
-        if (Build.VERSION.SDK_INT >= 23) {
-            return (T) Api23Impl.getSystemService(context, cls);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api23Impl {
+        static int getColor(Context context, int i) {
+            return context.getColor(i);
         }
-        String systemServiceName = getSystemServiceName(context, cls);
-        if (systemServiceName != null) {
-            return (T) context.getSystemService(systemServiceName);
+
+        static <T> T getSystemService(Context context, Class<T> cls) {
+            return (T) context.getSystemService(cls);
         }
-        return null;
+
+        static String getSystemServiceName(Context context, Class<?> cls) {
+            return context.getSystemServiceName(cls);
+        }
     }
 
-    public static String getSystemServiceName(Context context, Class<?> cls) {
-        if (Build.VERSION.SDK_INT >= 23) {
-            return Api23Impl.getSystemServiceName(context, cls);
+    /* loaded from: classes.dex */
+    static class Api24Impl {
+        static Context createDeviceProtectedStorageContext(Context context) {
+            return context.createDeviceProtectedStorageContext();
         }
-        return LegacyServiceMapHolder.SERVICES.get(cls);
+
+        static File getDataDir(Context context) {
+            return context.getDataDir();
+        }
+
+        static boolean isDeviceProtectedStorage(Context context) {
+            return context.isDeviceProtectedStorage();
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class Api28Impl {
+        static Executor getMainExecutor(Context context) {
+            return context.getMainExecutor();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class LegacyServiceMapHolder {
-        static final HashMap<Class<?>, String> SERVICES;
+        static final HashMap SERVICES;
 
         static {
-            HashMap<Class<?>, String> hashMap = new HashMap<>();
+            HashMap hashMap = new HashMap();
             SERVICES = hashMap;
             int i = Build.VERSION.SDK_INT;
             if (i >= 22) {
@@ -232,83 +212,78 @@ public class ContextCompat {
         }
     }
 
-    /* loaded from: classes.dex */
-    static class Api16Impl {
-        static void startActivities(Context context, Intent[] intentArr, Bundle bundle) {
-            context.startActivities(intentArr, bundle);
-        }
+    public static int checkSelfPermission(Context context, String str) {
+        ObjectsCompat.requireNonNull(str, "permission must be non-null");
+        return (BuildCompat.isAtLeastT() || !TextUtils.equals("android.permission.POST_NOTIFICATIONS", str)) ? context.checkPermission(str, Process.myPid(), Process.myUid()) : NotificationManagerCompat.from(context).areNotificationsEnabled() ? 0 : -1;
+    }
 
-        static void startActivity(Context context, Intent intent, Bundle bundle) {
-            context.startActivity(intent, bundle);
+    public static Context createDeviceProtectedStorageContext(Context context) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            return Api24Impl.createDeviceProtectedStorageContext(context);
+        }
+        return null;
+    }
+
+    private static File createFilesDir(File file) {
+        synchronized (sSync) {
+            try {
+                if (!file.exists()) {
+                    if (file.mkdirs()) {
+                        return file;
+                    }
+                    Log.w("ContextCompat", "Unable to create files subdir " + file.getPath());
+                }
+                return file;
+            } catch (Throwable th) {
+                throw th;
+            }
         }
     }
 
-    /* loaded from: classes.dex */
-    static class Api19Impl {
-        static File[] getExternalCacheDirs(Context context) {
-            return context.getExternalCacheDirs();
-        }
-
-        static File[] getExternalFilesDirs(Context context, String str) {
-            return context.getExternalFilesDirs(str);
-        }
-
-        static File[] getObbDirs(Context context) {
-            return context.getObbDirs();
-        }
+    public static int getColor(Context context, int i) {
+        return Build.VERSION.SDK_INT >= 23 ? Api23Impl.getColor(context, i) : context.getResources().getColor(i);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api21Impl {
-        static Drawable getDrawable(Context context, int i) {
-            return context.getDrawable(i);
-        }
-
-        static File getNoBackupFilesDir(Context context) {
-            return context.getNoBackupFilesDir();
-        }
-
-        static File getCodeCacheDir(Context context) {
-            return context.getCodeCacheDir();
-        }
+    public static ColorStateList getColorStateList(Context context, int i) {
+        return ResourcesCompat.getColorStateList(context.getResources(), i, context.getTheme());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api23Impl {
-        static int getColor(Context context, int i) {
-            return context.getColor(i);
-        }
-
-        static <T> T getSystemService(Context context, Class<T> cls) {
-            return (T) context.getSystemService(cls);
-        }
-
-        static String getSystemServiceName(Context context, Class<?> cls) {
-            return context.getSystemServiceName(cls);
-        }
+    public static Drawable getDrawable(Context context, int i) {
+        return Build.VERSION.SDK_INT >= 21 ? Api21Impl.getDrawable(context, i) : context.getResources().getDrawable(i);
     }
 
-    /* loaded from: classes.dex */
-    static class Api24Impl {
-        static File getDataDir(Context context) {
-            return context.getDataDir();
-        }
-
-        static Context createDeviceProtectedStorageContext(Context context) {
-            return context.createDeviceProtectedStorageContext();
-        }
-
-        static boolean isDeviceProtectedStorage(Context context) {
-            return context.isDeviceProtectedStorage();
-        }
+    public static File[] getExternalCacheDirs(Context context) {
+        return Api19Impl.getExternalCacheDirs(context);
     }
 
-    /* loaded from: classes.dex */
-    static class Api28Impl {
-        static Executor getMainExecutor(Context context) {
-            return context.getMainExecutor();
+    public static File[] getExternalFilesDirs(Context context, String str) {
+        return Api19Impl.getExternalFilesDirs(context, str);
+    }
+
+    public static Executor getMainExecutor(Context context) {
+        return Build.VERSION.SDK_INT >= 28 ? Api28Impl.getMainExecutor(context) : ExecutorCompat.create(new Handler(context.getMainLooper()));
+    }
+
+    public static File getNoBackupFilesDir(Context context) {
+        return Build.VERSION.SDK_INT >= 21 ? Api21Impl.getNoBackupFilesDir(context) : createFilesDir(new File(context.getApplicationInfo().dataDir, "no_backup"));
+    }
+
+    public static Object getSystemService(Context context, Class cls) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            return Api23Impl.getSystemService(context, cls);
         }
+        String systemServiceName = getSystemServiceName(context, cls);
+        if (systemServiceName != null) {
+            return context.getSystemService(systemServiceName);
+        }
+        return null;
+    }
+
+    public static String getSystemServiceName(Context context, Class cls) {
+        return Build.VERSION.SDK_INT >= 23 ? Api23Impl.getSystemServiceName(context, cls) : (String) LegacyServiceMapHolder.SERVICES.get(cls);
+    }
+
+    public static void startActivity(Context context, Intent intent, Bundle bundle) {
+        Api16Impl.startActivity(context, intent, bundle);
     }
 }

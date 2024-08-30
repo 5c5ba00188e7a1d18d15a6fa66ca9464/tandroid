@@ -1,6 +1,5 @@
 package org.telegram.ui.Components.Premium.boosts.cells;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -8,7 +7,6 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
-@SuppressLint({"ViewConstructor"})
 /* loaded from: classes3.dex */
 public class SubtitleWithCounterCell extends org.telegram.ui.Cells.HeaderCell {
     private final AnimatedTextView counterTextView;

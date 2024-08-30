@@ -6,7 +6,6 @@ import com.google.firebase.encoders.ObjectEncoder;
 import com.google.firebase.encoders.ObjectEncoderContext;
 import com.google.firebase.encoders.ValueEncoder;
 import com.google.firebase.encoders.proto.Protobuf;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -16,127 +15,20 @@ import java.util.Map;
 import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 final class ProtobufDataEncoderContext implements ObjectEncoderContext {
-    private final ObjectEncoder<Object> fallbackEncoder;
-    private final Map<Class<?>, ObjectEncoder<?>> objectEncoders;
+    private final ObjectEncoder fallbackEncoder;
+    private final Map objectEncoders;
     private OutputStream output;
     private final ProtobufValueEncoderContext valueEncoderContext = new ProtobufValueEncoderContext(this);
-    private final Map<Class<?>, ValueEncoder<?>> valueEncoders;
+    private final Map valueEncoders;
     private static final Charset UTF_8 = Charset.forName("UTF-8");
     private static final FieldDescriptor MAP_KEY_DESC = FieldDescriptor.builder("key").withProperty(AtProtobuf.builder().tag(1).build()).build();
     private static final FieldDescriptor MAP_VALUE_DESC = FieldDescriptor.builder("value").withProperty(AtProtobuf.builder().tag(2).build()).build();
-    private static final ObjectEncoder<Map.Entry<Object, Object>> DEFAULT_MAP_ENCODER = new ObjectEncoder() { // from class: com.google.firebase.encoders.proto.ProtobufDataEncoderContext$$ExternalSyntheticLambda0
+    private static final ObjectEncoder DEFAULT_MAP_ENCODER = new ObjectEncoder() { // from class: com.google.firebase.encoders.proto.ProtobufDataEncoderContext$$ExternalSyntheticLambda0
         @Override // com.google.firebase.encoders.ObjectEncoder
         public final void encode(Object obj, Object obj2) {
             ProtobufDataEncoderContext.lambda$static$0((Map.Entry) obj, (ObjectEncoderContext) obj2);
         }
     };
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$static$0(Map.Entry entry, ObjectEncoderContext objectEncoderContext) throws IOException {
-        objectEncoderContext.add(MAP_KEY_DESC, entry.getKey());
-        objectEncoderContext.add(MAP_VALUE_DESC, entry.getValue());
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ProtobufDataEncoderContext(OutputStream outputStream, Map<Class<?>, ObjectEncoder<?>> map, Map<Class<?>, ValueEncoder<?>> map2, ObjectEncoder<Object> objectEncoder) {
-        this.output = outputStream;
-        this.objectEncoders = map;
-        this.valueEncoders = map2;
-        this.fallbackEncoder = objectEncoder;
-    }
-
-    @Override // com.google.firebase.encoders.ObjectEncoderContext
-    public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, Object obj) throws IOException {
-        return add(fieldDescriptor, obj, true);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, Object obj, boolean z) throws IOException {
-        if (obj == null) {
-            return this;
-        }
-        if (obj instanceof CharSequence) {
-            CharSequence charSequence = (CharSequence) obj;
-            if (z && charSequence.length() == 0) {
-                return this;
-            }
-            writeVarInt32((getTag(fieldDescriptor) << 3) | 2);
-            byte[] bytes = charSequence.toString().getBytes(UTF_8);
-            writeVarInt32(bytes.length);
-            this.output.write(bytes);
-            return this;
-        } else if (obj instanceof Collection) {
-            for (Object obj2 : (Collection) obj) {
-                add(fieldDescriptor, obj2, false);
-            }
-            return this;
-        } else if (obj instanceof Map) {
-            for (Map.Entry entry : ((Map) obj).entrySet()) {
-                doEncode((ObjectEncoder<FieldDescriptor>) DEFAULT_MAP_ENCODER, fieldDescriptor, (FieldDescriptor) entry, false);
-            }
-            return this;
-        } else if (obj instanceof Double) {
-            return add(fieldDescriptor, ((Double) obj).doubleValue(), z);
-        } else {
-            if (obj instanceof Float) {
-                return add(fieldDescriptor, ((Float) obj).floatValue(), z);
-            }
-            if (obj instanceof Number) {
-                return add(fieldDescriptor, ((Number) obj).longValue(), z);
-            }
-            if (obj instanceof Boolean) {
-                return add(fieldDescriptor, ((Boolean) obj).booleanValue(), z);
-            }
-            if (obj instanceof byte[]) {
-                byte[] bArr = (byte[]) obj;
-                if (z && bArr.length == 0) {
-                    return this;
-                }
-                writeVarInt32((getTag(fieldDescriptor) << 3) | 2);
-                writeVarInt32(bArr.length);
-                this.output.write(bArr);
-                return this;
-            }
-            ObjectEncoder<?> objectEncoder = this.objectEncoders.get(obj.getClass());
-            if (objectEncoder != null) {
-                return doEncode((ObjectEncoder<FieldDescriptor>) objectEncoder, fieldDescriptor, (FieldDescriptor) obj, z);
-            }
-            ValueEncoder<?> valueEncoder = this.valueEncoders.get(obj.getClass());
-            if (valueEncoder != null) {
-                return doEncode((ValueEncoder<FieldDescriptor>) valueEncoder, fieldDescriptor, (FieldDescriptor) obj, z);
-            }
-            if (obj instanceof ProtoEnum) {
-                return add(fieldDescriptor, ((ProtoEnum) obj).getNumber());
-            }
-            if (obj instanceof Enum) {
-                return add(fieldDescriptor, ((Enum) obj).ordinal());
-            }
-            return doEncode((ObjectEncoder<FieldDescriptor>) this.fallbackEncoder, fieldDescriptor, (FieldDescriptor) obj, z);
-        }
-    }
-
-    ObjectEncoderContext add(FieldDescriptor fieldDescriptor, double d, boolean z) throws IOException {
-        if (z && d == 0.0d) {
-            return this;
-        }
-        writeVarInt32((getTag(fieldDescriptor) << 3) | 1);
-        this.output.write(allocateBuffer(8).putDouble(d).array());
-        return this;
-    }
-
-    ObjectEncoderContext add(FieldDescriptor fieldDescriptor, float f, boolean z) throws IOException {
-        if (z && f == 0.0f) {
-            return this;
-        }
-        writeVarInt32((getTag(fieldDescriptor) << 3) | 5);
-        this.output.write(allocateBuffer(4).putFloat(f).array());
-        return this;
-    }
-
-    @Override // com.google.firebase.encoders.ObjectEncoderContext
-    public ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, int i) throws IOException {
-        return add(fieldDescriptor, i, true);
-    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
@@ -161,7 +53,190 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
         }
     }
 
-    ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, int i, boolean z) throws IOException {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public ProtobufDataEncoderContext(OutputStream outputStream, Map map, Map map2, ObjectEncoder objectEncoder) {
+        this.output = outputStream;
+        this.objectEncoders = map;
+        this.valueEncoders = map2;
+        this.fallbackEncoder = objectEncoder;
+    }
+
+    private static ByteBuffer allocateBuffer(int i) {
+        return ByteBuffer.allocate(i).order(ByteOrder.LITTLE_ENDIAN);
+    }
+
+    private long determineSize(ObjectEncoder objectEncoder, Object obj) {
+        LengthCountingOutputStream lengthCountingOutputStream = new LengthCountingOutputStream();
+        try {
+            OutputStream outputStream = this.output;
+            this.output = lengthCountingOutputStream;
+            objectEncoder.encode(obj, this);
+            this.output = outputStream;
+            long length = lengthCountingOutputStream.getLength();
+            lengthCountingOutputStream.close();
+            return length;
+        } catch (Throwable th) {
+            try {
+                lengthCountingOutputStream.close();
+            } catch (Throwable th2) {
+                th.addSuppressed(th2);
+            }
+            throw th;
+        }
+    }
+
+    private ProtobufDataEncoderContext doEncode(ObjectEncoder objectEncoder, FieldDescriptor fieldDescriptor, Object obj, boolean z) {
+        long determineSize = determineSize(objectEncoder, obj);
+        if (z && determineSize == 0) {
+            return this;
+        }
+        writeVarInt32((getTag(fieldDescriptor) << 3) | 2);
+        writeVarInt64(determineSize);
+        objectEncoder.encode(obj, this);
+        return this;
+    }
+
+    private ProtobufDataEncoderContext doEncode(ValueEncoder valueEncoder, FieldDescriptor fieldDescriptor, Object obj, boolean z) {
+        this.valueEncoderContext.resetContext(fieldDescriptor, z);
+        valueEncoder.encode(obj, this.valueEncoderContext);
+        return this;
+    }
+
+    private static Protobuf getProtobuf(FieldDescriptor fieldDescriptor) {
+        Protobuf protobuf = (Protobuf) fieldDescriptor.getProperty(Protobuf.class);
+        if (protobuf != null) {
+            return protobuf;
+        }
+        throw new EncodingException("Field has no @Protobuf config");
+    }
+
+    private static int getTag(FieldDescriptor fieldDescriptor) {
+        Protobuf protobuf = (Protobuf) fieldDescriptor.getProperty(Protobuf.class);
+        if (protobuf != null) {
+            return protobuf.tag();
+        }
+        throw new EncodingException("Field has no @Protobuf config");
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$static$0(Map.Entry entry, ObjectEncoderContext objectEncoderContext) {
+        objectEncoderContext.add(MAP_KEY_DESC, entry.getKey());
+        objectEncoderContext.add(MAP_VALUE_DESC, entry.getValue());
+    }
+
+    private void writeVarInt32(int i) {
+        while (true) {
+            int i2 = ((i & (-128)) > 0L ? 1 : ((i & (-128)) == 0L ? 0 : -1));
+            OutputStream outputStream = this.output;
+            if (i2 == 0) {
+                outputStream.write(i & NotificationCenter.dialogTranslate);
+                return;
+            } else {
+                outputStream.write((i & NotificationCenter.dialogTranslate) | 128);
+                i >>>= 7;
+            }
+        }
+    }
+
+    private void writeVarInt64(long j) {
+        while (true) {
+            int i = (((-128) & j) > 0L ? 1 : (((-128) & j) == 0L ? 0 : -1));
+            OutputStream outputStream = this.output;
+            if (i == 0) {
+                outputStream.write(((int) j) & NotificationCenter.dialogTranslate);
+                return;
+            } else {
+                outputStream.write((((int) j) & NotificationCenter.dialogTranslate) | 128);
+                j >>>= 7;
+            }
+        }
+    }
+
+    ObjectEncoderContext add(FieldDescriptor fieldDescriptor, double d, boolean z) {
+        if (z && d == 0.0d) {
+            return this;
+        }
+        writeVarInt32((getTag(fieldDescriptor) << 3) | 1);
+        this.output.write(allocateBuffer(8).putDouble(d).array());
+        return this;
+    }
+
+    ObjectEncoderContext add(FieldDescriptor fieldDescriptor, float f, boolean z) {
+        if (z && f == 0.0f) {
+            return this;
+        }
+        writeVarInt32((getTag(fieldDescriptor) << 3) | 5);
+        this.output.write(allocateBuffer(4).putFloat(f).array());
+        return this;
+    }
+
+    @Override // com.google.firebase.encoders.ObjectEncoderContext
+    public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, Object obj) {
+        return add(fieldDescriptor, obj, true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, Object obj, boolean z) {
+        if (obj == null) {
+            return this;
+        }
+        if (obj instanceof CharSequence) {
+            CharSequence charSequence = (CharSequence) obj;
+            if (z && charSequence.length() == 0) {
+                return this;
+            }
+            writeVarInt32((getTag(fieldDescriptor) << 3) | 2);
+            byte[] bytes = charSequence.toString().getBytes(UTF_8);
+            writeVarInt32(bytes.length);
+            this.output.write(bytes);
+            return this;
+        } else if (obj instanceof Collection) {
+            for (Object obj2 : (Collection) obj) {
+                add(fieldDescriptor, obj2, false);
+            }
+            return this;
+        } else if (obj instanceof Map) {
+            for (Map.Entry entry : ((Map) obj).entrySet()) {
+                doEncode(DEFAULT_MAP_ENCODER, fieldDescriptor, (Object) entry, false);
+            }
+            return this;
+        } else if (obj instanceof Double) {
+            return add(fieldDescriptor, ((Double) obj).doubleValue(), z);
+        } else {
+            if (obj instanceof Float) {
+                return add(fieldDescriptor, ((Float) obj).floatValue(), z);
+            }
+            if (obj instanceof Number) {
+                return add(fieldDescriptor, ((Number) obj).longValue(), z);
+            }
+            if (obj instanceof Boolean) {
+                return add(fieldDescriptor, ((Boolean) obj).booleanValue(), z);
+            }
+            if (!(obj instanceof byte[])) {
+                ObjectEncoder objectEncoder = (ObjectEncoder) this.objectEncoders.get(obj.getClass());
+                if (objectEncoder != null) {
+                    return doEncode(objectEncoder, fieldDescriptor, obj, z);
+                }
+                ValueEncoder valueEncoder = (ValueEncoder) this.valueEncoders.get(obj.getClass());
+                return valueEncoder != null ? doEncode(valueEncoder, fieldDescriptor, obj, z) : obj instanceof ProtoEnum ? add(fieldDescriptor, ((ProtoEnum) obj).getNumber()) : obj instanceof Enum ? add(fieldDescriptor, ((Enum) obj).ordinal()) : doEncode(this.fallbackEncoder, fieldDescriptor, obj, z);
+            }
+            byte[] bArr = (byte[]) obj;
+            if (z && bArr.length == 0) {
+                return this;
+            }
+            writeVarInt32((getTag(fieldDescriptor) << 3) | 2);
+            writeVarInt32(bArr.length);
+            this.output.write(bArr);
+            return this;
+        }
+    }
+
+    @Override // com.google.firebase.encoders.ObjectEncoderContext
+    public ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, int i) {
+        return add(fieldDescriptor, i, true);
+    }
+
+    ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, int i, boolean z) {
         if (z && i == 0) {
             return this;
         }
@@ -181,11 +256,11 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext
-    public ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, long j) throws IOException {
+    public ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, long j) {
         return add(fieldDescriptor, j, true);
     }
 
-    ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, long j, boolean z) throws IOException {
+    ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, long j, boolean z) {
         if (z && j == 0) {
             return this;
         }
@@ -205,93 +280,20 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, boolean z, boolean z2) throws IOException {
+    public ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, boolean z, boolean z2) {
         return add(fieldDescriptor, z ? 1 : 0, z2);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public ProtobufDataEncoderContext encode(Object obj) throws IOException {
+    public ProtobufDataEncoderContext encode(Object obj) {
         if (obj == null) {
             return this;
         }
-        ObjectEncoder<?> objectEncoder = this.objectEncoders.get(obj.getClass());
+        ObjectEncoder objectEncoder = (ObjectEncoder) this.objectEncoders.get(obj.getClass());
         if (objectEncoder != null) {
             objectEncoder.encode(obj, this);
             return this;
         }
         throw new EncodingException("No encoder for " + obj.getClass());
-    }
-
-    private <T> ProtobufDataEncoderContext doEncode(ObjectEncoder<T> objectEncoder, FieldDescriptor fieldDescriptor, T t, boolean z) throws IOException {
-        long determineSize = determineSize(objectEncoder, t);
-        if (z && determineSize == 0) {
-            return this;
-        }
-        writeVarInt32((getTag(fieldDescriptor) << 3) | 2);
-        writeVarInt64(determineSize);
-        objectEncoder.encode(t, this);
-        return this;
-    }
-
-    private <T> long determineSize(ObjectEncoder<T> objectEncoder, T t) throws IOException {
-        LengthCountingOutputStream lengthCountingOutputStream = new LengthCountingOutputStream();
-        try {
-            OutputStream outputStream = this.output;
-            this.output = lengthCountingOutputStream;
-            objectEncoder.encode(t, this);
-            this.output = outputStream;
-            long length = lengthCountingOutputStream.getLength();
-            lengthCountingOutputStream.close();
-            return length;
-        } catch (Throwable th) {
-            try {
-                lengthCountingOutputStream.close();
-            } catch (Throwable th2) {
-                th.addSuppressed(th2);
-            }
-            throw th;
-        }
-    }
-
-    private <T> ProtobufDataEncoderContext doEncode(ValueEncoder<T> valueEncoder, FieldDescriptor fieldDescriptor, T t, boolean z) throws IOException {
-        this.valueEncoderContext.resetContext(fieldDescriptor, z);
-        valueEncoder.encode(t, this.valueEncoderContext);
-        return this;
-    }
-
-    private static ByteBuffer allocateBuffer(int i) {
-        return ByteBuffer.allocate(i).order(ByteOrder.LITTLE_ENDIAN);
-    }
-
-    private static int getTag(FieldDescriptor fieldDescriptor) {
-        Protobuf protobuf = (Protobuf) fieldDescriptor.getProperty(Protobuf.class);
-        if (protobuf == null) {
-            throw new EncodingException("Field has no @Protobuf config");
-        }
-        return protobuf.tag();
-    }
-
-    private static Protobuf getProtobuf(FieldDescriptor fieldDescriptor) {
-        Protobuf protobuf = (Protobuf) fieldDescriptor.getProperty(Protobuf.class);
-        if (protobuf != null) {
-            return protobuf;
-        }
-        throw new EncodingException("Field has no @Protobuf config");
-    }
-
-    private void writeVarInt32(int i) throws IOException {
-        while ((i & (-128)) != 0) {
-            this.output.write((i & NotificationCenter.dialogTranslate) | 128);
-            i >>>= 7;
-        }
-        this.output.write(i & NotificationCenter.dialogTranslate);
-    }
-
-    private void writeVarInt64(long j) throws IOException {
-        while (((-128) & j) != 0) {
-            this.output.write((((int) j) & NotificationCenter.dialogTranslate) | 128);
-            j >>>= 7;
-        }
-        this.output.write(((int) j) & NotificationCenter.dialogTranslate);
     }
 }

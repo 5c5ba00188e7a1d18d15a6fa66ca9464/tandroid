@@ -7,7 +7,6 @@ import java.io.BufferedOutputStream;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +14,7 @@ import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -41,7 +41,7 @@ final class MultiDexExtractor implements Closeable {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public MultiDexExtractor(File file, File file2) throws IOException {
+    public MultiDexExtractor(File file, File file2) {
         Log.i("MultiDex", "MultiDexExtractor(" + file.getPath() + ", " + file2.getPath() + ")");
         this.sourceApk = file;
         this.dexDir = file2;
@@ -84,73 +84,83 @@ final class MultiDexExtractor implements Closeable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public List<? extends File> load(Context context, String str, boolean z) throws IOException {
-        List<ExtractedDex> performExtractions;
-        List<ExtractedDex> list;
-        Log.i("MultiDex", "MultiDexExtractor.load(" + this.sourceApk.getPath() + ", " + z + ", " + str + ")");
-        if (!this.cacheLock.isValid()) {
-            throw new IllegalStateException("MultiDexExtractor was closed");
-        }
-        if (!z && !isModified(context, this.sourceApk, this.sourceCrc, str)) {
-            try {
-                list = loadExistingExtractions(context, str);
-            } catch (IOException e) {
-                Log.w("MultiDex", "Failed to reload existing extracted secondary dex files, falling back to fresh extraction", e);
-                performExtractions = performExtractions();
-                putStoredApkInfo(context, str, getTimeStamp(this.sourceApk), this.sourceCrc, performExtractions);
+    private void clearDexDir() {
+        File[] listFiles = this.dexDir.listFiles(new FileFilter() { // from class: androidx.multidex.MultiDexExtractor.1
+            @Override // java.io.FileFilter
+            public boolean accept(File file) {
+                return !file.getName().equals("MultiDex.lock");
             }
-            Log.i("MultiDex", "load found " + list.size() + " secondary dex files");
-            return list;
+        });
+        if (listFiles == null) {
+            Log.w("MultiDex", "Failed to list secondary dex dir content (" + this.dexDir.getPath() + ").");
+            return;
         }
-        if (z) {
-            Log.i("MultiDex", "Forced extraction must be performed.");
-        } else {
-            Log.i("MultiDex", "Detected that extraction must be performed.");
+        for (File file : listFiles) {
+            Log.i("MultiDex", "Trying to delete old file " + file.getPath() + " of size " + file.length());
+            if (file.delete()) {
+                Log.i("MultiDex", "Deleted old file " + file.getPath());
+            } else {
+                Log.w("MultiDex", "Failed to delete old file " + file.getPath());
+            }
         }
-        performExtractions = performExtractions();
-        putStoredApkInfo(context, str, getTimeStamp(this.sourceApk), this.sourceCrc, performExtractions);
-        list = performExtractions;
-        Log.i("MultiDex", "load found " + list.size() + " secondary dex files");
-        return list;
     }
 
-    @Override // java.io.Closeable, java.lang.AutoCloseable
-    public void close() throws IOException {
-        this.cacheLock.release();
-        this.lockChannel.close();
-        this.lockRaf.close();
+    private static void closeQuietly(Closeable closeable) {
+        try {
+            closeable.close();
+        } catch (IOException e) {
+            Log.w("MultiDex", "Failed to close resource", e);
+        }
     }
 
-    private List<ExtractedDex> loadExistingExtractions(Context context, String str) throws IOException {
-        Log.i("MultiDex", "loading existing secondary dex files");
-        String str2 = this.sourceApk.getName() + ".classes";
-        SharedPreferences multiDexPreferences = getMultiDexPreferences(context);
-        int i = multiDexPreferences.getInt(str + "dex.number", 1);
-        ArrayList arrayList = new ArrayList(i + (-1));
-        int i2 = 2;
-        while (i2 <= i) {
-            ExtractedDex extractedDex = new ExtractedDex(this.dexDir, str2 + i2 + ".zip");
-            if (extractedDex.isFile()) {
-                extractedDex.crc = getZipCrc(extractedDex);
-                long j = multiDexPreferences.getLong(str + "dex.crc." + i2, -1L);
-                long j2 = multiDexPreferences.getLong(str + "dex.time." + i2, -1L);
-                long lastModified = extractedDex.lastModified();
-                if (j2 == lastModified) {
-                    String str3 = str2;
-                    SharedPreferences sharedPreferences = multiDexPreferences;
-                    if (j == extractedDex.crc) {
-                        arrayList.add(extractedDex);
-                        i2++;
-                        multiDexPreferences = sharedPreferences;
-                        str2 = str3;
-                    }
+    private static void extract(ZipFile zipFile, ZipEntry zipEntry, File file, String str) {
+        InputStream inputStream = zipFile.getInputStream(zipEntry);
+        File createTempFile = File.createTempFile("tmp-" + str, ".zip", file.getParentFile());
+        Log.i("MultiDex", "Extracting " + createTempFile.getPath());
+        try {
+            ZipOutputStream zipOutputStream = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(createTempFile)));
+            ZipEntry zipEntry2 = new ZipEntry("classes.dex");
+            zipEntry2.setTime(zipEntry.getTime());
+            zipOutputStream.putNextEntry(zipEntry2);
+            byte[] bArr = new byte[LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM];
+            while (true) {
+                int read = inputStream.read(bArr);
+                if (read == -1) {
+                    break;
                 }
-                throw new IOException("Invalid extracted dex: " + extractedDex + " (key \"" + str + "\"), expected modification time: " + j2 + ", modification time: " + lastModified + ", expected crc: " + j + ", file crc: " + extractedDex.crc);
+                zipOutputStream.write(bArr, 0, read);
             }
-            throw new IOException("Missing extracted secondary dex file '" + extractedDex.getPath() + "'");
+            zipOutputStream.closeEntry();
+            zipOutputStream.close();
+            if (!createTempFile.setReadOnly()) {
+                throw new IOException("Failed to mark readonly \"" + createTempFile.getAbsolutePath() + "\" (tmp of \"" + file.getAbsolutePath() + "\")");
+            }
+            Log.i("MultiDex", "Renaming to " + file.getPath());
+            if (createTempFile.renameTo(file)) {
+                closeQuietly(inputStream);
+                createTempFile.delete();
+                return;
+            }
+            throw new IOException("Failed to rename \"" + createTempFile.getAbsolutePath() + "\" to \"" + file.getAbsolutePath() + "\"");
+        } catch (Throwable th) {
+            closeQuietly(inputStream);
+            createTempFile.delete();
+            throw th;
         }
-        return arrayList;
+    }
+
+    private static SharedPreferences getMultiDexPreferences(Context context) {
+        return context.getSharedPreferences("multidex.version", 4);
+    }
+
+    private static long getTimeStamp(File file) {
+        long lastModified = file.lastModified();
+        return lastModified == -1 ? lastModified - 1 : lastModified;
+    }
+
+    private static long getZipCrc(File file) {
+        long zipCrc = ZipUtil.getZipCrc(file);
+        return zipCrc == -1 ? zipCrc - 1 : zipCrc;
     }
 
     private static boolean isModified(Context context, File file, long j, String str) {
@@ -163,17 +173,38 @@ final class MultiDexExtractor implements Closeable {
         return true;
     }
 
-    private static long getTimeStamp(File file) {
-        long lastModified = file.lastModified();
-        return lastModified == -1 ? lastModified - 1 : lastModified;
+    private List loadExistingExtractions(Context context, String str) {
+        Log.i("MultiDex", "loading existing secondary dex files");
+        String str2 = this.sourceApk.getName() + ".classes";
+        SharedPreferences multiDexPreferences = getMultiDexPreferences(context);
+        int i = multiDexPreferences.getInt(str + "dex.number", 1);
+        ArrayList arrayList = new ArrayList(i + (-1));
+        int i2 = 2;
+        while (i2 <= i) {
+            ExtractedDex extractedDex = new ExtractedDex(this.dexDir, str2 + i2 + ".zip");
+            if (!extractedDex.isFile()) {
+                throw new IOException("Missing extracted secondary dex file '" + extractedDex.getPath() + "'");
+            }
+            extractedDex.crc = getZipCrc(extractedDex);
+            long j = multiDexPreferences.getLong(str + "dex.crc." + i2, -1L);
+            long j2 = multiDexPreferences.getLong(str + "dex.time." + i2, -1L);
+            long lastModified = extractedDex.lastModified();
+            if (j2 == lastModified) {
+                String str3 = str2;
+                SharedPreferences sharedPreferences = multiDexPreferences;
+                if (j == extractedDex.crc) {
+                    arrayList.add(extractedDex);
+                    i2++;
+                    multiDexPreferences = sharedPreferences;
+                    str2 = str3;
+                }
+            }
+            throw new IOException("Invalid extracted dex: " + extractedDex + " (key \"" + str + "\"), expected modification time: " + j2 + ", modification time: " + lastModified + ", expected crc: " + j + ", file crc: " + extractedDex.crc);
+        }
+        return arrayList;
     }
 
-    private static long getZipCrc(File file) throws IOException {
-        long zipCrc = ZipUtil.getZipCrc(file);
-        return zipCrc == -1 ? zipCrc - 1 : zipCrc;
-    }
-
-    private List<ExtractedDex> performExtractions() throws IOException {
+    private List performExtractions() {
         boolean z;
         String str = this.sourceApk.getName() + ".classes";
         clearDexDir();
@@ -239,13 +270,15 @@ final class MultiDexExtractor implements Closeable {
         }
     }
 
-    private static void putStoredApkInfo(Context context, String str, long j, long j2, List<ExtractedDex> list) {
+    private static void putStoredApkInfo(Context context, String str, long j, long j2, List list) {
         SharedPreferences.Editor edit = getMultiDexPreferences(context).edit();
         edit.putLong(str + "timestamp", j);
         edit.putLong(str + "crc", j2);
         edit.putInt(str + "dex.number", list.size() + 1);
+        Iterator it = list.iterator();
         int i = 2;
-        for (ExtractedDex extractedDex : list) {
+        while (it.hasNext()) {
+            ExtractedDex extractedDex = (ExtractedDex) it.next();
             edit.putLong(str + "dex.crc." + i, extractedDex.crc);
             edit.putLong(str + "dex.time." + i, extractedDex.lastModified());
             i++;
@@ -253,67 +286,34 @@ final class MultiDexExtractor implements Closeable {
         edit.commit();
     }
 
-    private static SharedPreferences getMultiDexPreferences(Context context) {
-        return context.getSharedPreferences("multidex.version", 4);
+    @Override // java.io.Closeable, java.lang.AutoCloseable
+    public void close() {
+        this.cacheLock.release();
+        this.lockChannel.close();
+        this.lockRaf.close();
     }
 
-    private void clearDexDir() {
-        File[] listFiles = this.dexDir.listFiles(new FileFilter() { // from class: androidx.multidex.MultiDexExtractor.1
-            @Override // java.io.FileFilter
-            public boolean accept(File file) {
-                return !file.getName().equals("MultiDex.lock");
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public List load(Context context, String str, boolean z) {
+        List list;
+        Log.i("MultiDex", "MultiDexExtractor.load(" + this.sourceApk.getPath() + ", " + z + ", " + str + ")");
+        if (this.cacheLock.isValid()) {
+            if (!z && !isModified(context, this.sourceApk, this.sourceCrc, str)) {
+                try {
+                    list = loadExistingExtractions(context, str);
+                } catch (IOException e) {
+                    Log.w("MultiDex", "Failed to reload existing extracted secondary dex files, falling back to fresh extraction", e);
+                }
+                Log.i("MultiDex", "load found " + list.size() + " secondary dex files");
+                return list;
             }
-        });
-        if (listFiles == null) {
-            Log.w("MultiDex", "Failed to list secondary dex dir content (" + this.dexDir.getPath() + ").");
-            return;
+            Log.i("MultiDex", z ? "Forced extraction must be performed." : "Detected that extraction must be performed.");
+            List performExtractions = performExtractions();
+            putStoredApkInfo(context, str, getTimeStamp(this.sourceApk), this.sourceCrc, performExtractions);
+            list = performExtractions;
+            Log.i("MultiDex", "load found " + list.size() + " secondary dex files");
+            return list;
         }
-        for (File file : listFiles) {
-            Log.i("MultiDex", "Trying to delete old file " + file.getPath() + " of size " + file.length());
-            if (!file.delete()) {
-                Log.w("MultiDex", "Failed to delete old file " + file.getPath());
-            } else {
-                Log.i("MultiDex", "Deleted old file " + file.getPath());
-            }
-        }
-    }
-
-    private static void extract(ZipFile zipFile, ZipEntry zipEntry, File file, String str) throws IOException, FileNotFoundException {
-        InputStream inputStream = zipFile.getInputStream(zipEntry);
-        File createTempFile = File.createTempFile("tmp-" + str, ".zip", file.getParentFile());
-        Log.i("MultiDex", "Extracting " + createTempFile.getPath());
-        try {
-            ZipOutputStream zipOutputStream = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(createTempFile)));
-            ZipEntry zipEntry2 = new ZipEntry("classes.dex");
-            zipEntry2.setTime(zipEntry.getTime());
-            zipOutputStream.putNextEntry(zipEntry2);
-            byte[] bArr = new byte[LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM];
-            for (int read = inputStream.read(bArr); read != -1; read = inputStream.read(bArr)) {
-                zipOutputStream.write(bArr, 0, read);
-            }
-            zipOutputStream.closeEntry();
-            zipOutputStream.close();
-            if (!createTempFile.setReadOnly()) {
-                throw new IOException("Failed to mark readonly \"" + createTempFile.getAbsolutePath() + "\" (tmp of \"" + file.getAbsolutePath() + "\")");
-            }
-            Log.i("MultiDex", "Renaming to " + file.getPath());
-            if (!createTempFile.renameTo(file)) {
-                throw new IOException("Failed to rename \"" + createTempFile.getAbsolutePath() + "\" to \"" + file.getAbsolutePath() + "\"");
-            }
-            closeQuietly(inputStream);
-            createTempFile.delete();
-        } catch (Throwable th) {
-            closeQuietly(inputStream);
-            createTempFile.delete();
-            throw th;
-        }
-    }
-
-    private static void closeQuietly(Closeable closeable) {
-        try {
-            closeable.close();
-        } catch (IOException e) {
-            Log.w("MultiDex", "Failed to close resource", e);
-        }
+        throw new IllegalStateException("MultiDexExtractor was closed");
     }
 }

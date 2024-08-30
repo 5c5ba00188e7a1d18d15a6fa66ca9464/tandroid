@@ -9,15 +9,6 @@ public final class ExoTimeoutException extends RuntimeException {
     }
 
     private static String getErrorMessage(int i) {
-        if (i != 1) {
-            if (i != 2) {
-                if (i == 3) {
-                    return "Detaching surface timed out.";
-                }
-                return "Undefined timeout.";
-            }
-            return "Setting foreground mode timed out.";
-        }
-        return "Player release timed out.";
+        return i != 1 ? i != 2 ? i != 3 ? "Undefined timeout." : "Detaching surface timed out." : "Setting foreground mode timed out." : "Player release timed out.";
     }
 }

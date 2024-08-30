@@ -3,10 +3,8 @@ package com.google.android.gms.internal.vision;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
-import android.os.RemoteException;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public class zzb implements IInterface {
+public abstract class zzb implements IInterface {
     private final IBinder zza;
     private final String zzb;
 
@@ -16,11 +14,6 @@ public class zzb implements IInterface {
         this.zzb = str;
     }
 
-    @Override // android.os.IInterface
-    public IBinder asBinder() {
-        return this.zza;
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
     public final Parcel a_() {
         Parcel obtain = Parcel.obtain();
@@ -28,8 +21,13 @@ public class zzb implements IInterface {
         return obtain;
     }
 
+    @Override // android.os.IInterface
+    public IBinder asBinder() {
+        return this.zza;
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
-    public final Parcel zza(int i, Parcel parcel) throws RemoteException {
+    public final Parcel zza(int i, Parcel parcel) {
         Parcel obtain = Parcel.obtain();
         try {
             try {
@@ -46,7 +44,7 @@ public class zzb implements IInterface {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final void zzb(int i, Parcel parcel) throws RemoteException {
+    public final void zzb(int i, Parcel parcel) {
         Parcel obtain = Parcel.obtain();
         try {
             this.zza.transact(i, parcel, obtain, 0);

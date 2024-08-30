@@ -2,7 +2,6 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import java.util.List;
 import java.util.ListIterator;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 final class zzu extends zzs implements ListIterator {
     final /* synthetic */ zzv zzd;
@@ -11,6 +10,12 @@ final class zzu extends zzs implements ListIterator {
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public zzu(zzv zzvVar) {
         super(zzvVar);
+        this.zzd = zzvVar;
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public zzu(zzv zzvVar, int i) {
+        super(zzvVar, ((List) zzvVar.zzb).listIterator(i));
         this.zzd = zzvVar;
     }
 
@@ -56,11 +61,5 @@ final class zzu extends zzs implements ListIterator {
     public final void set(Object obj) {
         zza();
         ((ListIterator) this.zza).set(obj);
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zzu(zzv zzvVar, int i) {
-        super(zzvVar, ((List) zzvVar.zzb).listIterator(i));
-        this.zzd = zzvVar;
     }
 }

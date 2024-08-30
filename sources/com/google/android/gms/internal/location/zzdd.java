@@ -11,8 +11,6 @@ import com.google.android.gms.common.util.WorkSourceUtil;
 import com.google.android.gms.location.LocationRequest;
 import java.util.Iterator;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
-@Deprecated
 /* loaded from: classes.dex */
 public final class zzdd extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zzdd> CREATOR = new zzde();
@@ -58,7 +56,6 @@ public final class zzdd extends AbstractSafeParcelable {
         this.zza = builder.build();
     }
 
-    @Deprecated
     public static zzdd zza(String str, LocationRequest locationRequest) {
         return new zzdd(locationRequest, null, false, false, null, false, false, null, Long.MAX_VALUE);
     }

@@ -2,9 +2,8 @@ package com.google.android.gms.internal.mlkit_common;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
-public final class zzaf {
+public abstract class zzaf {
     public static String zza(String str, Object... objArr) {
         int length;
         int length2;

@@ -8,11 +8,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.dynamic.LifecycleDelegate;
 import java.util.LinkedList;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public abstract class DeferredLifecycleHelper<T extends LifecycleDelegate> {
+public abstract class DeferredLifecycleHelper {
     private LifecycleDelegate zaa;
     private Bundle zab;
     private LinkedList zac;
@@ -70,10 +68,10 @@ public abstract class DeferredLifecycleHelper<T extends LifecycleDelegate> {
         createDelegate(this.zad);
     }
 
-    protected abstract void createDelegate(OnDelegateCreatedListener<T> onDelegateCreatedListener);
+    protected abstract void createDelegate(OnDelegateCreatedListener onDelegateCreatedListener);
 
-    public T getDelegate() {
-        return (T) this.zaa;
+    public LifecycleDelegate getDelegate() {
+        return this.zaa;
     }
 
     public void onCreate(Bundle bundle) {

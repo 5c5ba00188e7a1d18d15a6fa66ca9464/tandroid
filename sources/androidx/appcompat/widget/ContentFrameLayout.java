@@ -43,14 +43,63 @@ public class ContentFrameLayout extends FrameLayout {
         fitSystemWindows(rect);
     }
 
-    public void setAttachListener(OnAttachListener onAttachListener) {
-        this.mAttachListener = onAttachListener;
+    public TypedValue getFixedHeightMajor() {
+        if (this.mFixedHeightMajor == null) {
+            this.mFixedHeightMajor = new TypedValue();
+        }
+        return this.mFixedHeightMajor;
     }
 
-    public void setDecorPadding(int i, int i2, int i3, int i4) {
-        this.mDecorPadding.set(i, i2, i3, i4);
-        if (ViewCompat.isLaidOut(this)) {
-            requestLayout();
+    public TypedValue getFixedHeightMinor() {
+        if (this.mFixedHeightMinor == null) {
+            this.mFixedHeightMinor = new TypedValue();
+        }
+        return this.mFixedHeightMinor;
+    }
+
+    public TypedValue getFixedWidthMajor() {
+        if (this.mFixedWidthMajor == null) {
+            this.mFixedWidthMajor = new TypedValue();
+        }
+        return this.mFixedWidthMajor;
+    }
+
+    public TypedValue getFixedWidthMinor() {
+        if (this.mFixedWidthMinor == null) {
+            this.mFixedWidthMinor = new TypedValue();
+        }
+        return this.mFixedWidthMinor;
+    }
+
+    public TypedValue getMinWidthMajor() {
+        if (this.mMinWidthMajor == null) {
+            this.mMinWidthMajor = new TypedValue();
+        }
+        return this.mMinWidthMajor;
+    }
+
+    public TypedValue getMinWidthMinor() {
+        if (this.mMinWidthMinor == null) {
+            this.mMinWidthMinor = new TypedValue();
+        }
+        return this.mMinWidthMinor;
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        OnAttachListener onAttachListener = this.mAttachListener;
+        if (onAttachListener != null) {
+            onAttachListener.onAttachedFromWindow();
+        }
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        OnAttachListener onAttachListener = this.mAttachListener;
+        if (onAttachListener != null) {
+            onAttachListener.onDetachedFromWindow();
         }
     }
 
@@ -188,63 +237,14 @@ public class ContentFrameLayout extends FrameLayout {
         }
     }
 
-    public TypedValue getMinWidthMajor() {
-        if (this.mMinWidthMajor == null) {
-            this.mMinWidthMajor = new TypedValue();
-        }
-        return this.mMinWidthMajor;
+    public void setAttachListener(OnAttachListener onAttachListener) {
+        this.mAttachListener = onAttachListener;
     }
 
-    public TypedValue getMinWidthMinor() {
-        if (this.mMinWidthMinor == null) {
-            this.mMinWidthMinor = new TypedValue();
-        }
-        return this.mMinWidthMinor;
-    }
-
-    public TypedValue getFixedWidthMajor() {
-        if (this.mFixedWidthMajor == null) {
-            this.mFixedWidthMajor = new TypedValue();
-        }
-        return this.mFixedWidthMajor;
-    }
-
-    public TypedValue getFixedWidthMinor() {
-        if (this.mFixedWidthMinor == null) {
-            this.mFixedWidthMinor = new TypedValue();
-        }
-        return this.mFixedWidthMinor;
-    }
-
-    public TypedValue getFixedHeightMajor() {
-        if (this.mFixedHeightMajor == null) {
-            this.mFixedHeightMajor = new TypedValue();
-        }
-        return this.mFixedHeightMajor;
-    }
-
-    public TypedValue getFixedHeightMinor() {
-        if (this.mFixedHeightMinor == null) {
-            this.mFixedHeightMinor = new TypedValue();
-        }
-        return this.mFixedHeightMinor;
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        OnAttachListener onAttachListener = this.mAttachListener;
-        if (onAttachListener != null) {
-            onAttachListener.onAttachedFromWindow();
-        }
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        OnAttachListener onAttachListener = this.mAttachListener;
-        if (onAttachListener != null) {
-            onAttachListener.onDetachedFromWindow();
+    public void setDecorPadding(int i, int i2, int i3, int i4) {
+        this.mDecorPadding.set(i, i2, i3, i4);
+        if (ViewCompat.isLaidOut(this)) {
+            requestLayout();
         }
     }
 }

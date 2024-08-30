@@ -6,7 +6,22 @@ import java.nio.ByteBuffer;
 import java.util.UUID;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
-public final class PsshAtomUtil {
+public abstract class PsshAtomUtil {
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class PsshAtom {
+        private final byte[] schemeData;
+        private final UUID uuid;
+        private final int version;
+
+        public PsshAtom(UUID uuid, int i, byte[] bArr) {
+            this.uuid = uuid;
+            this.version = i;
+            this.schemeData = bArr;
+        }
+    }
+
     public static byte[] buildPsshAtom(UUID uuid, byte[] bArr) {
         return buildPsshAtom(uuid, null, bArr);
     }
@@ -40,34 +55,6 @@ public final class PsshAtomUtil {
         return parsePsshAtom(bArr) != null;
     }
 
-    public static UUID parseUuid(byte[] bArr) {
-        PsshAtom parsePsshAtom = parsePsshAtom(bArr);
-        if (parsePsshAtom == null) {
-            return null;
-        }
-        return parsePsshAtom.uuid;
-    }
-
-    public static int parseVersion(byte[] bArr) {
-        PsshAtom parsePsshAtom = parsePsshAtom(bArr);
-        if (parsePsshAtom == null) {
-            return -1;
-        }
-        return parsePsshAtom.version;
-    }
-
-    public static byte[] parseSchemeSpecificData(byte[] bArr, UUID uuid) {
-        PsshAtom parsePsshAtom = parsePsshAtom(bArr);
-        if (parsePsshAtom == null) {
-            return null;
-        }
-        if (!uuid.equals(parsePsshAtom.uuid)) {
-            Log.w("PsshAtomUtil", "UUID mismatch. Expected: " + uuid + ", got: " + parsePsshAtom.uuid + ".");
-            return null;
-        }
-        return parsePsshAtom.schemeData;
-    }
-
     private static PsshAtom parsePsshAtom(byte[] bArr) {
         ParsableByteArray parsableByteArray = new ParsableByteArray(bArr);
         if (parsableByteArray.limit() < 32) {
@@ -95,17 +82,31 @@ public final class PsshAtomUtil {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class PsshAtom {
-        private final byte[] schemeData;
-        private final UUID uuid;
-        private final int version;
-
-        public PsshAtom(UUID uuid, int i, byte[] bArr) {
-            this.uuid = uuid;
-            this.version = i;
-            this.schemeData = bArr;
+    public static byte[] parseSchemeSpecificData(byte[] bArr, UUID uuid) {
+        PsshAtom parsePsshAtom = parsePsshAtom(bArr);
+        if (parsePsshAtom == null) {
+            return null;
         }
+        if (uuid.equals(parsePsshAtom.uuid)) {
+            return parsePsshAtom.schemeData;
+        }
+        Log.w("PsshAtomUtil", "UUID mismatch. Expected: " + uuid + ", got: " + parsePsshAtom.uuid + ".");
+        return null;
+    }
+
+    public static UUID parseUuid(byte[] bArr) {
+        PsshAtom parsePsshAtom = parsePsshAtom(bArr);
+        if (parsePsshAtom == null) {
+            return null;
+        }
+        return parsePsshAtom.uuid;
+    }
+
+    public static int parseVersion(byte[] bArr) {
+        PsshAtom parsePsshAtom = parsePsshAtom(bArr);
+        if (parsePsshAtom == null) {
+            return -1;
+        }
+        return parsePsshAtom.version;
     }
 }

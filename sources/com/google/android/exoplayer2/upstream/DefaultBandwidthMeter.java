@@ -18,7 +18,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
     private long bitrateEstimate;
     private final Clock clock;
     private final BandwidthMeter.EventListener.EventDispatcher eventDispatcher;
-    private final ImmutableMap<Integer, Long> initialBitrateEstimates;
+    private final ImmutableMap initialBitrateEstimates;
     private long lastReportedBitrateEstimate;
     private int networkType;
     private int networkTypeOverride;
@@ -30,32 +30,18 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
     private int streamCount;
     private long totalBytesTransferred;
     private long totalElapsedTimeMs;
-    public static final ImmutableList<Long> DEFAULT_INITIAL_BITRATE_ESTIMATES_WIFI = ImmutableList.of(4400000L, 3200000L, 2300000L, 1600000L, 810000L);
-    public static final ImmutableList<Long> DEFAULT_INITIAL_BITRATE_ESTIMATES_2G = ImmutableList.of(1400000L, 990000L, 730000L, 510000L, 230000L);
-    public static final ImmutableList<Long> DEFAULT_INITIAL_BITRATE_ESTIMATES_3G = ImmutableList.of(2100000L, 1400000L, 1000000L, 890000L, 640000L);
-    public static final ImmutableList<Long> DEFAULT_INITIAL_BITRATE_ESTIMATES_4G = ImmutableList.of(2600000L, 1700000L, 1300000L, 1000000L, 700000L);
-    public static final ImmutableList<Long> DEFAULT_INITIAL_BITRATE_ESTIMATES_5G_NSA = ImmutableList.of(5700000L, 3700000L, 2300000L, 1700000L, 990000L);
-    public static final ImmutableList<Long> DEFAULT_INITIAL_BITRATE_ESTIMATES_5G_SA = ImmutableList.of(2800000L, 1800000L, 1400000L, 1100000L, 870000L);
-
-    @Override // com.google.android.exoplayer2.upstream.BandwidthMeter
-    public /* synthetic */ long getTimeToFirstByteEstimateUs() {
-        return BandwidthMeter.-CC.$default$getTimeToFirstByteEstimateUs(this);
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.BandwidthMeter
-    public TransferListener getTransferListener() {
-        return this;
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.TransferListener
-    public void onTransferInitializing(DataSource dataSource, DataSpec dataSpec, boolean z) {
-    }
+    public static final ImmutableList DEFAULT_INITIAL_BITRATE_ESTIMATES_WIFI = ImmutableList.of((Object) 4400000L, (Object) 3200000L, (Object) 2300000L, (Object) 1600000L, (Object) 810000L);
+    public static final ImmutableList DEFAULT_INITIAL_BITRATE_ESTIMATES_2G = ImmutableList.of((Object) 1400000L, (Object) 990000L, (Object) 730000L, (Object) 510000L, (Object) 230000L);
+    public static final ImmutableList DEFAULT_INITIAL_BITRATE_ESTIMATES_3G = ImmutableList.of((Object) 2100000L, (Object) 1400000L, (Object) 1000000L, (Object) 890000L, (Object) 640000L);
+    public static final ImmutableList DEFAULT_INITIAL_BITRATE_ESTIMATES_4G = ImmutableList.of((Object) 2600000L, (Object) 1700000L, (Object) 1300000L, (Object) 1000000L, (Object) 700000L);
+    public static final ImmutableList DEFAULT_INITIAL_BITRATE_ESTIMATES_5G_NSA = ImmutableList.of((Object) 5700000L, (Object) 3700000L, (Object) 2300000L, (Object) 1700000L, (Object) 990000L);
+    public static final ImmutableList DEFAULT_INITIAL_BITRATE_ESTIMATES_5G_SA = ImmutableList.of((Object) 2800000L, (Object) 1800000L, (Object) 1400000L, (Object) 1100000L, (Object) 870000L);
 
     /* loaded from: classes.dex */
     public static final class Builder {
         private Clock clock;
         private final Context context;
-        private Map<Integer, Long> initialBitrateEstimates;
+        private Map initialBitrateEstimates;
         private boolean resetOnNetworkTypeChange;
         private int slidingWindowMaxWeight;
 
@@ -67,179 +53,47 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             this.resetOnNetworkTypeChange = true;
         }
 
-        public DefaultBandwidthMeter build() {
-            return new DefaultBandwidthMeter(this.context, this.initialBitrateEstimates, this.slidingWindowMaxWeight, this.clock, this.resetOnNetworkTypeChange);
-        }
-
-        private static Map<Integer, Long> getInitialBitrateEstimatesForCountry(String str) {
+        private static Map getInitialBitrateEstimatesForCountry(String str) {
             int[] initialBitrateCountryGroupAssignment = DefaultBandwidthMeter.getInitialBitrateCountryGroupAssignment(str);
             HashMap hashMap = new HashMap(8);
             hashMap.put(0, 1000000L);
-            ImmutableList<Long> immutableList = DefaultBandwidthMeter.DEFAULT_INITIAL_BITRATE_ESTIMATES_WIFI;
-            hashMap.put(2, immutableList.get(initialBitrateCountryGroupAssignment[0]));
-            hashMap.put(3, DefaultBandwidthMeter.DEFAULT_INITIAL_BITRATE_ESTIMATES_2G.get(initialBitrateCountryGroupAssignment[1]));
-            hashMap.put(4, DefaultBandwidthMeter.DEFAULT_INITIAL_BITRATE_ESTIMATES_3G.get(initialBitrateCountryGroupAssignment[2]));
-            hashMap.put(5, DefaultBandwidthMeter.DEFAULT_INITIAL_BITRATE_ESTIMATES_4G.get(initialBitrateCountryGroupAssignment[3]));
-            hashMap.put(10, DefaultBandwidthMeter.DEFAULT_INITIAL_BITRATE_ESTIMATES_5G_NSA.get(initialBitrateCountryGroupAssignment[4]));
-            hashMap.put(9, DefaultBandwidthMeter.DEFAULT_INITIAL_BITRATE_ESTIMATES_5G_SA.get(initialBitrateCountryGroupAssignment[5]));
-            hashMap.put(7, immutableList.get(initialBitrateCountryGroupAssignment[0]));
+            ImmutableList immutableList = DefaultBandwidthMeter.DEFAULT_INITIAL_BITRATE_ESTIMATES_WIFI;
+            hashMap.put(2, (Long) immutableList.get(initialBitrateCountryGroupAssignment[0]));
+            hashMap.put(3, (Long) DefaultBandwidthMeter.DEFAULT_INITIAL_BITRATE_ESTIMATES_2G.get(initialBitrateCountryGroupAssignment[1]));
+            hashMap.put(4, (Long) DefaultBandwidthMeter.DEFAULT_INITIAL_BITRATE_ESTIMATES_3G.get(initialBitrateCountryGroupAssignment[2]));
+            hashMap.put(5, (Long) DefaultBandwidthMeter.DEFAULT_INITIAL_BITRATE_ESTIMATES_4G.get(initialBitrateCountryGroupAssignment[3]));
+            hashMap.put(10, (Long) DefaultBandwidthMeter.DEFAULT_INITIAL_BITRATE_ESTIMATES_5G_NSA.get(initialBitrateCountryGroupAssignment[4]));
+            hashMap.put(9, (Long) DefaultBandwidthMeter.DEFAULT_INITIAL_BITRATE_ESTIMATES_5G_SA.get(initialBitrateCountryGroupAssignment[5]));
+            hashMap.put(7, (Long) immutableList.get(initialBitrateCountryGroupAssignment[0]));
             return hashMap;
         }
-    }
 
-    public static synchronized DefaultBandwidthMeter getSingletonInstance(Context context) {
-        DefaultBandwidthMeter defaultBandwidthMeter;
-        synchronized (DefaultBandwidthMeter.class) {
-            try {
-                if (singletonInstance == null) {
-                    singletonInstance = new Builder(context).build();
-                }
-                defaultBandwidthMeter = singletonInstance;
-            } catch (Throwable th) {
-                throw th;
-            }
+        public DefaultBandwidthMeter build() {
+            return new DefaultBandwidthMeter(this.context, this.initialBitrateEstimates, this.slidingWindowMaxWeight, this.clock, this.resetOnNetworkTypeChange);
         }
-        return defaultBandwidthMeter;
     }
 
-    private DefaultBandwidthMeter(Context context, Map<Integer, Long> map, int i, Clock clock, boolean z) {
-        this.initialBitrateEstimates = ImmutableMap.copyOf((Map) map);
+    private DefaultBandwidthMeter(Context context, Map map, int i, Clock clock, boolean z) {
+        this.initialBitrateEstimates = ImmutableMap.copyOf(map);
         this.eventDispatcher = new BandwidthMeter.EventListener.EventDispatcher();
         this.slidingPercentile = new SlidingPercentile(i);
         this.clock = clock;
         this.resetOnNetworkTypeChange = z;
-        if (context != null) {
-            NetworkTypeObserver networkTypeObserver = NetworkTypeObserver.getInstance(context);
-            int networkType = networkTypeObserver.getNetworkType();
-            this.networkType = networkType;
-            this.bitrateEstimate = getInitialBitrateEstimateForNetworkType(networkType);
-            networkTypeObserver.register(new NetworkTypeObserver.Listener() { // from class: com.google.android.exoplayer2.upstream.DefaultBandwidthMeter$$ExternalSyntheticLambda0
-                @Override // com.google.android.exoplayer2.util.NetworkTypeObserver.Listener
-                public final void onNetworkTypeChanged(int i2) {
-                    DefaultBandwidthMeter.this.onNetworkTypeChanged(i2);
-                }
-            });
+        if (context == null) {
+            this.networkType = 0;
+            this.bitrateEstimate = getInitialBitrateEstimateForNetworkType(0);
             return;
         }
-        this.networkType = 0;
-        this.bitrateEstimate = getInitialBitrateEstimateForNetworkType(0);
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.BandwidthMeter
-    public synchronized long getBitrateEstimate() {
-        return this.bitrateEstimate;
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.BandwidthMeter
-    public void addEventListener(Handler handler, BandwidthMeter.EventListener eventListener) {
-        Assertions.checkNotNull(handler);
-        Assertions.checkNotNull(eventListener);
-        this.eventDispatcher.addListener(handler, eventListener);
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.BandwidthMeter
-    public void removeEventListener(BandwidthMeter.EventListener eventListener) {
-        this.eventDispatcher.removeListener(eventListener);
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.TransferListener
-    public synchronized void onTransferStart(DataSource dataSource, DataSpec dataSpec, boolean z) {
-        try {
-            if (isTransferAtFullNetworkSpeed(dataSpec, z)) {
-                if (this.streamCount == 0) {
-                    this.sampleStartTimeMs = this.clock.elapsedRealtime();
-                }
-                this.streamCount++;
+        NetworkTypeObserver networkTypeObserver = NetworkTypeObserver.getInstance(context);
+        int networkType = networkTypeObserver.getNetworkType();
+        this.networkType = networkType;
+        this.bitrateEstimate = getInitialBitrateEstimateForNetworkType(networkType);
+        networkTypeObserver.register(new NetworkTypeObserver.Listener() { // from class: com.google.android.exoplayer2.upstream.DefaultBandwidthMeter$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.util.NetworkTypeObserver.Listener
+            public final void onNetworkTypeChanged(int i2) {
+                DefaultBandwidthMeter.this.onNetworkTypeChanged(i2);
             }
-        } catch (Throwable th) {
-            throw th;
-        }
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.TransferListener
-    public synchronized void onBytesTransferred(DataSource dataSource, DataSpec dataSpec, boolean z, int i) {
-        if (isTransferAtFullNetworkSpeed(dataSpec, z)) {
-            this.sampleBytesTransferred += i;
-        }
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.TransferListener
-    public synchronized void onTransferEnd(DataSource dataSource, DataSpec dataSpec, boolean z) {
-        try {
-            if (isTransferAtFullNetworkSpeed(dataSpec, z)) {
-                Assertions.checkState(this.streamCount > 0);
-                long elapsedRealtime = this.clock.elapsedRealtime();
-                int i = (int) (elapsedRealtime - this.sampleStartTimeMs);
-                this.totalElapsedTimeMs += i;
-                long j = this.totalBytesTransferred;
-                long j2 = this.sampleBytesTransferred;
-                this.totalBytesTransferred = j + j2;
-                if (i > 0) {
-                    this.slidingPercentile.addSample((int) Math.sqrt(j2), (((float) j2) * 8000.0f) / i);
-                    if (this.totalElapsedTimeMs < 2000) {
-                        if (this.totalBytesTransferred >= 524288) {
-                        }
-                        maybeNotifyBandwidthSample(i, this.sampleBytesTransferred, this.bitrateEstimate);
-                        this.sampleStartTimeMs = elapsedRealtime;
-                        this.sampleBytesTransferred = 0L;
-                    }
-                    this.bitrateEstimate = this.slidingPercentile.getPercentile(0.5f);
-                    maybeNotifyBandwidthSample(i, this.sampleBytesTransferred, this.bitrateEstimate);
-                    this.sampleStartTimeMs = elapsedRealtime;
-                    this.sampleBytesTransferred = 0L;
-                }
-                this.streamCount--;
-            }
-        } catch (Throwable th) {
-            throw th;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public synchronized void onNetworkTypeChanged(int i) {
-        int i2 = this.networkType;
-        if (i2 == 0 || this.resetOnNetworkTypeChange) {
-            if (this.networkTypeOverrideSet) {
-                i = this.networkTypeOverride;
-            }
-            if (i2 == i) {
-                return;
-            }
-            this.networkType = i;
-            if (i != 1 && i != 0 && i != 8) {
-                this.bitrateEstimate = getInitialBitrateEstimateForNetworkType(i);
-                long elapsedRealtime = this.clock.elapsedRealtime();
-                maybeNotifyBandwidthSample(this.streamCount > 0 ? (int) (elapsedRealtime - this.sampleStartTimeMs) : 0, this.sampleBytesTransferred, this.bitrateEstimate);
-                this.sampleStartTimeMs = elapsedRealtime;
-                this.sampleBytesTransferred = 0L;
-                this.totalBytesTransferred = 0L;
-                this.totalElapsedTimeMs = 0L;
-                this.slidingPercentile.reset();
-            }
-        }
-    }
-
-    private void maybeNotifyBandwidthSample(int i, long j, long j2) {
-        if (i == 0 && j == 0 && j2 == this.lastReportedBitrateEstimate) {
-            return;
-        }
-        this.lastReportedBitrateEstimate = j2;
-        this.eventDispatcher.bandwidthSample(i, j, j2);
-    }
-
-    private long getInitialBitrateEstimateForNetworkType(int i) {
-        Long l = this.initialBitrateEstimates.get(Integer.valueOf(i));
-        if (l == null) {
-            l = this.initialBitrateEstimates.get(0);
-        }
-        if (l == null) {
-            l = 1000000L;
-        }
-        return l.longValue();
-    }
-
-    private static boolean isTransferAtFullNetworkSpeed(DataSpec dataSpec, boolean z) {
-        return z && !dataSpec.isFlagSet(8);
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1919,43 +1773,128 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 c = 65535;
                 break;
         }
+        int[] iArr = {2, 2, 0, 0, 2, 2};
         switch (c) {
             case 0:
             case '1':
-                return new int[]{2, 2, 0, 0, 2, 2};
+                return iArr;
             case 1:
-                return new int[]{1, 4, 3, 4, 4, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 4;
+                iArr[2] = 3;
+                iArr[3] = 4;
+                iArr[4] = 4;
+                iArr[5] = 2;
+                return iArr;
             case 2:
             case NotificationCenter.applyGroupCallVisibleParticipants /* 166 */:
-                return new int[]{4, 3, 3, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 3;
+                iArr[2] = 3;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 3:
-                return new int[]{2, 4, 3, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 4;
+                iArr[2] = 3;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 4:
             case 16:
             case 25:
             case 28:
             case '8':
             case 'D':
-                return new int[]{0, 2, 0, 0, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 2;
+                iArr[2] = 0;
+                iArr[3] = 0;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 5:
-                return new int[]{1, 1, 1, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 1;
+                iArr[2] = 1;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 6:
-                return new int[]{2, 3, 2, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 3;
+                iArr[2] = 2;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 7:
-                return new int[]{4, 4, 4, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 4;
+                iArr[2] = 4;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '\b':
             case '>':
             case NotificationCenter.storiesBlocklistUpdate /* 188 */:
-                return new int[]{4, 2, 2, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '\t':
-                return new int[]{2, 2, 3, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 2;
+                iArr[2] = 3;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '\n':
-                return new int[]{1, 2, 1, 4, 1, 4};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 2;
+                iArr[2] = 1;
+                iArr[3] = 4;
+                iArr[4] = 1;
+                iArr[5] = 4;
+                return iArr;
             case 11:
-                return new int[]{0, 2, 1, 1, 3, 0};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 2;
+                iArr[2] = 1;
+                iArr[3] = 1;
+                iArr[4] = 3;
+                iArr[5] = 0;
+                return iArr;
             case '\f':
             case 'U':
-                return new int[]{1, 2, 4, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 2;
+                iArr[2] = 4;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '\r':
             case '2':
             case 'x':
@@ -1964,26 +1903,75 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case NotificationCenter.groupCallVisibilityChanged /* 170 */:
             case NotificationCenter.channelRecommendationsLoaded /* 193 */:
             case NotificationCenter.didReceiveSmsCode /* 223 */:
-                return new int[]{0, 2, 2, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 14:
             case 19:
             case ':':
-                return new int[]{3, 3, 4, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 3;
+                iArr[2] = 4;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 15:
             case '^':
-                return new int[]{1, 1, 1, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 1;
+                iArr[2] = 1;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 17:
             case 't':
-                return new int[]{2, 1, 2, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 1;
+                iArr[2] = 2;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 18:
-                return new int[]{0, 1, 4, 4, 3, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 1;
+                iArr[2] = 4;
+                iArr[3] = 4;
+                iArr[4] = 3;
+                iArr[5] = 2;
+                return iArr;
             case 20:
             case '?':
             case 'S':
             case NotificationCenter.storiesLimitUpdate /* 189 */:
-                return new int[]{0, 0, 0, 0, 1, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 0;
+                iArr[2] = 0;
+                iArr[3] = 0;
+                iArr[4] = 1;
+                iArr[5] = 2;
+                return iArr;
             case 21:
-                return new int[]{1, 3, 1, 4, 4, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 3;
+                iArr[2] = 1;
+                iArr[3] = 4;
+                iArr[4] = 4;
+                iArr[5] = 2;
+                return iArr;
             case 22:
             case '[':
             case NotificationCenter.didUpdateConnectionState /* 133 */:
@@ -1991,341 +1979,1516 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case NotificationCenter.groupPackUpdated /* 204 */:
             case NotificationCenter.emojiLoaded /* 225 */:
             case NotificationCenter.themeAccentListUpdated /* 233 */:
-                return new int[]{4, 4, 4, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 4;
+                iArr[2] = 4;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 23:
-                return new int[]{4, 4, 2, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 4;
+                iArr[2] = 2;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 24:
             case NotificationCenter.httpFileDidFailedLoad /* 132 */:
             case NotificationCenter.themeUploadedToServer /* 175 */:
-                return new int[]{1, 2, 2, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 26:
-                return new int[]{3, 2, 0, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 2;
+                iArr[2] = 0;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 27:
-                return new int[]{1, 2, 3, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 2;
+                iArr[2] = 3;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 29:
-                return new int[]{1, 1, 2, 1, 1, 0};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 1;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 1;
+                iArr[5] = 0;
+                return iArr;
             case 30:
             case 'v':
-                return new int[]{3, 2, 1, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 2;
+                iArr[2] = 1;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 31:
             case 150:
             case NotificationCenter.themeListUpdated /* 231 */:
-                return new int[]{3, 1, 2, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 1;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case ' ':
-                return new int[]{3, 2, 1, 0, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 2;
+                iArr[2] = 1;
+                iArr[3] = 0;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '!':
-                return new int[]{1, 1, 2, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 1;
+                iArr[2] = 2;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '\"':
             case ')':
-                return new int[]{2, 2, 2, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '#':
-                return new int[]{0, 2, 3, 3, 3, 3};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 2;
+                iArr[2] = 3;
+                iArr[3] = 3;
+                iArr[4] = 3;
+                iArr[5] = 3;
+                return iArr;
             case '$':
             case 'o':
-                return new int[]{4, 3, 3, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 3;
+                iArr[2] = 3;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '%':
             case NotificationCenter.boostedChannelByUser /* 183 */:
-                return new int[]{4, 2, 4, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 2;
+                iArr[2] = 4;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '&':
             case 'L':
-                return new int[]{3, 3, 3, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 3;
+                iArr[2] = 3;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '\'':
-                return new int[]{0, 0, 0, 0, 0, 3};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 0;
+                iArr[2] = 0;
+                iArr[3] = 0;
+                iArr[4] = 0;
+                iArr[5] = 3;
+                return iArr;
             case '(':
             case '=':
-                return new int[]{3, 4, 3, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 4;
+                iArr[2] = 3;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '*':
-                return new int[]{1, 1, 2, 1, 3, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 1;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 3;
+                iArr[5] = 2;
+                return iArr;
             case '+':
-                return new int[]{4, 3, 3, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 3;
+                iArr[2] = 3;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case ',':
-                return new int[]{2, 0, 4, 3, 3, 1};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 0;
+                iArr[2] = 4;
+                iArr[3] = 3;
+                iArr[4] = 3;
+                iArr[5] = 1;
+                return iArr;
             case '-':
-                return new int[]{2, 3, 4, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 3;
+                iArr[2] = 4;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '.':
-                return new int[]{2, 4, 4, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 4;
+                iArr[2] = 4;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '/':
             case 'n':
-                return new int[]{4, 2, 4, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 2;
+                iArr[2] = 4;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '0':
-                return new int[]{2, 3, 0, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 3;
+                iArr[2] = 0;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '3':
             case 'Z':
             case '~':
-                return new int[]{1, 0, 0, 0, 0, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 0;
+                iArr[2] = 0;
+                iArr[3] = 0;
+                iArr[4] = 0;
+                iArr[5] = 2;
+                return iArr;
             case '4':
-                return new int[]{0, 0, 2, 0, 1, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 0;
+                iArr[2] = 2;
+                iArr[3] = 0;
+                iArr[4] = 1;
+                iArr[5] = 2;
+                return iArr;
             case '5':
-                return new int[]{0, 1, 3, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 1;
+                iArr[2] = 3;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '6':
             case NotificationCenter.openBoostForUsersDialog /* 201 */:
             case NotificationCenter.premiumFloodWaitReceived /* 207 */:
-                return new int[]{4, 3, 4, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 3;
+                iArr[2] = 4;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '7':
             case '<':
             case '\\':
             case '|':
             case NotificationCenter.messagePlayingProgressDidChanged /* 144 */:
-                return new int[]{0, 0, 0, 0, 0, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 0;
+                iArr[2] = 0;
+                iArr[3] = 0;
+                iArr[4] = 0;
+                iArr[5] = 2;
+                return iArr;
             case '9':
-                return new int[]{3, 4, 4, 4, 4, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 4;
+                iArr[2] = 4;
+                iArr[3] = 4;
+                iArr[4] = 4;
+                iArr[5] = 2;
+                return iArr;
             case ';':
-                return new int[]{1, 3, 2, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 3;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '@':
             case NotificationCenter.savedMessagesDialogsUpdate /* 194 */:
-                return new int[]{4, 4, 3, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 4;
+                iArr[2] = 3;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'A':
-                return new int[]{0, 0, 0, 2, 0, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 0;
+                iArr[2] = 0;
+                iArr[3] = 2;
+                iArr[4] = 0;
+                iArr[5] = 2;
+                return iArr;
             case 'B':
-                return new int[]{3, 1, 2, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 1;
+                iArr[2] = 2;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'C':
-                return new int[]{4, 2, 3, 0, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 2;
+                iArr[2] = 3;
+                iArr[3] = 0;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'E':
-                return new int[]{1, 1, 2, 1, 1, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 1;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 1;
+                iArr[5] = 2;
+                return iArr;
             case 'F':
             case NotificationCenter.timezonesUpdated /* 205 */:
-                return new int[]{3, 4, 1, 0, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 4;
+                iArr[2] = 1;
+                iArr[3] = 0;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'G':
-                return new int[]{0, 1, 1, 2, 1, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 1;
+                iArr[2] = 1;
+                iArr[3] = 2;
+                iArr[4] = 1;
+                iArr[5] = 2;
+                return iArr;
             case 'H':
             case 'p':
             case 's':
             case 'w':
             case NotificationCenter.storyQualityUpdate /* 200 */:
             case NotificationCenter.didReceiveCall /* 224 */:
-                return new int[]{1, 2, 0, 0, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 2;
+                iArr[2] = 0;
+                iArr[3] = 0;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'I':
-                return new int[]{1, 0, 0, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 0;
+                iArr[2] = 0;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'J':
             case NotificationCenter.didEndCall /* 168 */:
             case NotificationCenter.dialogPhotosUpdate /* 192 */:
-                return new int[]{3, 2, 3, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 2;
+                iArr[2] = 3;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'K':
-                return new int[]{0, 2, 1, 0, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 2;
+                iArr[2] = 1;
+                iArr[3] = 0;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'M':
             case 'g':
-                return new int[]{1, 2, 0, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 2;
+                iArr[2] = 0;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'N':
             case NotificationCenter.availableEffectsUpdate /* 208 */:
-                return new int[]{2, 2, 2, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'O':
-                return new int[]{4, 3, 2, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 3;
+                iArr[2] = 2;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'P':
-                return new int[]{4, 4, 4, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 4;
+                iArr[2] = 4;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'Q':
-                return new int[]{3, 1, 1, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 1;
+                iArr[2] = 1;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'R':
-                return new int[]{4, 4, 3, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 4;
+                iArr[2] = 3;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'T':
-                return new int[]{2, 2, 2, 1, 1, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 1;
+                iArr[5] = 2;
+                return iArr;
             case 'V':
-                return new int[]{4, 4, 2, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 4;
+                iArr[2] = 2;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'W':
-                return new int[]{3, 0, 1, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 0;
+                iArr[2] = 1;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'X':
-                return new int[]{0, 1, 1, 3, 2, 0};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 1;
+                iArr[2] = 1;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 0;
+                return iArr;
             case 'Y':
-                return new int[]{3, 3, 2, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 3;
+                iArr[2] = 2;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case ']':
-                return new int[]{3, 1, 1, 2, 3, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 1;
+                iArr[2] = 1;
+                iArr[3] = 2;
+                iArr[4] = 3;
+                iArr[5] = 2;
+                return iArr;
             case '_':
-                return new int[]{1, 2, 2, 3, 4, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 3;
+                iArr[4] = 4;
+                iArr[5] = 2;
+                return iArr;
             case '`':
-                return new int[]{0, 2, 0, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 2;
+                iArr[2] = 0;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'a':
-                return new int[]{1, 1, 2, 1, 2, 1};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 1;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 1;
+                return iArr;
             case 'b':
             case NotificationCenter.botStarsUpdated /* 215 */:
             case NotificationCenter.didSetNewTheme /* 230 */:
-                return new int[]{4, 2, 2, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'c':
             case NotificationCenter.storiesSendAsUpdate /* 190 */:
-                return new int[]{3, 2, 2, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'd':
-                return new int[]{4, 2, 3, 3, 4, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 2;
+                iArr[2] = 3;
+                iArr[3] = 3;
+                iArr[4] = 4;
+                iArr[5] = 2;
+                return iArr;
             case 'e':
-                return new int[]{0, 0, 1, 0, 0, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 0;
+                iArr[2] = 1;
+                iArr[3] = 0;
+                iArr[4] = 0;
+                iArr[5] = 2;
+                return iArr;
             case 'f':
-                return new int[]{0, 0, 1, 1, 1, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 0;
+                iArr[2] = 1;
+                iArr[3] = 1;
+                iArr[4] = 1;
+                iArr[5] = 2;
+                return iArr;
             case 'h':
-                return new int[]{2, 4, 2, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 4;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'i':
-                return new int[]{2, 0, 1, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 0;
+                iArr[2] = 1;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'j':
-                return new int[]{0, 3, 3, 3, 4, 4};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 3;
+                iArr[2] = 3;
+                iArr[3] = 3;
+                iArr[4] = 4;
+                iArr[5] = 4;
+                return iArr;
             case 'k':
-                return new int[]{3, 2, 2, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'l':
             case NotificationCenter.fileNewChunkAvailable /* 141 */:
-                return new int[]{2, 1, 1, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 1;
+                iArr[2] = 1;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'm':
-                return new int[]{1, 0, 4, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 0;
+                iArr[2] = 4;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'q':
-                return new int[]{0, 2, 2, 4, 4, 4};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 4;
+                iArr[4] = 4;
+                iArr[5] = 4;
+                return iArr;
             case 'r':
-                return new int[]{1, 0, 1, 0, 0, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 0;
+                iArr[2] = 1;
+                iArr[3] = 0;
+                iArr[4] = 0;
+                iArr[5] = 2;
+                return iArr;
             case 'u':
-                return new int[]{1, 2, 1, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 2;
+                iArr[2] = 1;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 'y':
-                return new int[]{3, 2, 3, 4, 4, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 2;
+                iArr[2] = 3;
+                iArr[3] = 4;
+                iArr[4] = 4;
+                iArr[5] = 2;
+                return iArr;
             case 'z':
-                return new int[]{3, 4, 3, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 4;
+                iArr[2] = 3;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '{':
             case NotificationCenter.updateAllMessages /* 219 */:
-                return new int[]{3, 3, 3, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 3;
+                iArr[2] = 3;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case '}':
-                return new int[]{1, 1, 4, 2, 0, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 1;
+                iArr[2] = 4;
+                iArr[3] = 2;
+                iArr[4] = 0;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.dialogTranslate /* 127 */:
             case NotificationCenter.starTransactionsLoaded /* 212 */:
             case NotificationCenter.goingToPreviewTheme /* 237 */:
-                return new int[]{3, 2, 4, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 2;
+                iArr[2] = 4;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 128:
-                return new int[]{3, 3, 2, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 3;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.walletPendingTransactionsChanged /* 129 */:
-                return new int[]{0, 2, 2, 0, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 0;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.walletSyncProgressChanged /* 130 */:
-                return new int[]{1, 0, 0, 0, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 0;
+                iArr[2] = 0;
+                iArr[3] = 0;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.httpFileDidLoad /* 131 */:
-                return new int[]{2, 0, 0, 1, 1, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 0;
+                iArr[2] = 0;
+                iArr[3] = 1;
+                iArr[4] = 1;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.fileUploaded /* 134 */:
-                return new int[]{4, 2, 1, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 2;
+                iArr[2] = 1;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.fileUploadFailed /* 135 */:
-                return new int[]{2, 0, 0, 1, 3, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 0;
+                iArr[2] = 0;
+                iArr[3] = 1;
+                iArr[4] = 3;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.fileUploadProgressChanged /* 136 */:
             case NotificationCenter.channelStarsUpdated /* 217 */:
-                return new int[]{3, 4, 2, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 4;
+                iArr[2] = 2;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.fileLoadProgressChanged /* 137 */:
-                return new int[]{2, 2, 2, 3, 4, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 3;
+                iArr[4] = 4;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.fileLoaded /* 138 */:
-                return new int[]{2, 0, 1, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 0;
+                iArr[2] = 1;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.fileLoadFailed /* 139 */:
-                return new int[]{0, 2, 4, 4, 4, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 2;
+                iArr[2] = 4;
+                iArr[3] = 4;
+                iArr[4] = 4;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.filePreparingFailed /* 142 */:
-                return new int[]{4, 2, 3, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 2;
+                iArr[2] = 3;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.messagePlayingDidReset /* 145 */:
             case NotificationCenter.didStartedMultiGiftsSelector /* 182 */:
-                return new int[]{3, 1, 1, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 1;
+                iArr[2] = 1;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.messagePlayingPlayStateChanged /* 146 */:
-                return new int[]{3, 4, 1, 3, 3, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 4;
+                iArr[2] = 1;
+                iArr[3] = 3;
+                iArr[4] = 3;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.messagePlayingDidStart /* 147 */:
-                return new int[]{4, 2, 3, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 2;
+                iArr[2] = 3;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.messagePlayingDidSeek /* 148 */:
-                return new int[]{3, 4, 4, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 4;
+                iArr[2] = 4;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.messagePlayingGoingToStop /* 149 */:
-                return new int[]{1, 0, 4, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 0;
+                iArr[2] = 4;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.recordStarted /* 151 */:
-                return new int[]{3, 4, 3, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 4;
+                iArr[2] = 3;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.recordStartError /* 152 */:
-                return new int[]{3, 2, 3, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 2;
+                iArr[2] = 3;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.recordPaused /* 154 */:
-                return new int[]{3, 4, 2, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 4;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 155:
-                return new int[]{2, 3, 4, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 3;
+                iArr[2] = 4;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.screenshotTook /* 156 */:
-                return new int[]{0, 2, 3, 3, 0, 4};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 2;
+                iArr[2] = 3;
+                iArr[3] = 3;
+                iArr[4] = 0;
+                iArr[5] = 4;
+                return iArr;
             case NotificationCenter.albumsDidLoad /* 157 */:
-                return new int[]{0, 1, 2, 1, 1, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 1;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 1;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.audioDidSent /* 158 */:
-                return new int[]{2, 1, 4, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 1;
+                iArr[2] = 4;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.audioRecordTooShort /* 159 */:
-                return new int[]{4, 0, 3, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 0;
+                iArr[2] = 3;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.audioRouteChanged /* 160 */:
-                return new int[]{4, 2, 2, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.didStartedCall /* 161 */:
-                return new int[]{1, 0, 2, 2, 4, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 0;
+                iArr[2] = 2;
+                iArr[3] = 2;
+                iArr[4] = 4;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.groupCallUpdated /* 162 */:
-                return new int[]{2, 3, 1, 3, 4, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 3;
+                iArr[2] = 1;
+                iArr[3] = 3;
+                iArr[4] = 4;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.groupCallSpeakingUsersUpdated /* 163 */:
-                return new int[]{2, 3, 3, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 3;
+                iArr[2] = 3;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.groupCallScreencastStateChanged /* 164 */:
-                return new int[]{1, 2, 4, 4, 3, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 2;
+                iArr[2] = 4;
+                iArr[3] = 4;
+                iArr[4] = 3;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.activeGroupCallsUpdated /* 165 */:
             case NotificationCenter.smsJobStatusUpdate /* 199 */:
-                return new int[]{2, 3, 3, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 3;
+                iArr[2] = 3;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.groupCallTypingsUpdated /* 167 */:
-                return new int[]{2, 1, 3, 2, 2, 0};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 1;
+                iArr[2] = 3;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 0;
+                return iArr;
             case NotificationCenter.closeInCallActivity /* 169 */:
-                return new int[]{2, 1, 2, 2, 4, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 1;
+                iArr[2] = 2;
+                iArr[3] = 2;
+                iArr[4] = 4;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.appDidLogout /* 171 */:
-                return new int[]{2, 0, 2, 0, 2, 1};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 0;
+                iArr[2] = 2;
+                iArr[3] = 0;
+                iArr[4] = 2;
+                iArr[5] = 1;
+                return iArr;
             case NotificationCenter.configLoaded /* 172 */:
-                return new int[]{3, 4, 1, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 4;
+                iArr[2] = 1;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.needDeleteDialog /* 173 */:
-                return new int[]{1, 0, 0, 0, 1, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 0;
+                iArr[2] = 0;
+                iArr[3] = 0;
+                iArr[4] = 1;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.newEmojiSuggestionsAvailable /* 174 */:
-                return new int[]{2, 2, 4, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 2;
+                iArr[2] = 4;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.themeUploadError /* 176 */:
-                return new int[]{1, 4, 4, 4, 4, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 4;
+                iArr[2] = 4;
+                iArr[3] = 4;
+                iArr[4] = 4;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.dialogFiltersUpdated /* 177 */:
-                return new int[]{1, 2, 2, 3, 1, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 3;
+                iArr[4] = 1;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.filterSettingsUpdated /* 178 */:
-                return new int[]{0, 0, 1, 2, 1, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 0;
+                iArr[2] = 1;
+                iArr[3] = 2;
+                iArr[4] = 1;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.suggestedFiltersLoaded /* 179 */:
-                return new int[]{2, 0, 0, 0, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 0;
+                iArr[2] = 0;
+                iArr[3] = 0;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.updateBotMenuButton /* 180 */:
-                return new int[]{1, 0, 0, 0, 3, 3};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 0;
+                iArr[2] = 0;
+                iArr[3] = 0;
+                iArr[4] = 3;
+                iArr[5] = 3;
+                return iArr;
             case NotificationCenter.giftsToUserSent /* 181 */:
-                return new int[]{3, 3, 1, 0, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 3;
+                iArr[2] = 1;
+                iArr[3] = 0;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.boostByChannelCreated /* 184 */:
-                return new int[]{4, 3, 1, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 3;
+                iArr[2] = 1;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.didUpdatePremiumGiftStickers /* 185 */:
-                return new int[]{4, 3, 4, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 3;
+                iArr[2] = 4;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.didUpdatePremiumGiftFieldIcon /* 186 */:
-                return new int[]{0, 1, 1, 1, 0, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 1;
+                iArr[2] = 1;
+                iArr[3] = 1;
+                iArr[4] = 0;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.storiesEnabledUpdate /* 187 */:
-                return new int[]{2, 3, 3, 3, 3, 3};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 3;
+                iArr[2] = 3;
+                iArr[3] = 3;
+                iArr[4] = 3;
+                iArr[5] = 3;
+                return iArr;
             case NotificationCenter.unconfirmedAuthUpdate /* 191 */:
-                return new int[]{1, 1, 1, 1, 3, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 1;
+                iArr[2] = 1;
+                iArr[3] = 1;
+                iArr[4] = 3;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.savedReactionTagsUpdate /* 195 */:
-                return new int[]{3, 2, 2, 4, 4, 2};
+                // fill-array-data instruction
+                iArr[0] = 3;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 4;
+                iArr[4] = 4;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.userIsPremiumBlockedUpadted /* 196 */:
-                return new int[]{2, 4, 3, 0, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 4;
+                iArr[2] = 3;
+                iArr[3] = 0;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.savedMessagesForwarded /* 197 */:
             case NotificationCenter.starGiftOptionsLoaded /* 210 */:
-                return new int[]{4, 2, 2, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.emojiKeywordsLoaded /* 198 */:
-                return new int[]{2, 2, 1, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 2;
+                iArr[2] = 1;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.groupRestrictionsUnlockedByBoosts /* 202 */:
-                return new int[]{4, 4, 3, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 4;
+                iArr[2] = 3;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case 203:
-                return new int[]{2, 2, 1, 3, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 2;
+                iArr[2] = 1;
+                iArr[3] = 3;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.customStickerCreated /* 206 */:
-                return new int[]{0, 1, 2, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 1;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.starOptionsLoaded /* 209 */:
-                return new int[]{4, 2, 4, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 2;
+                iArr[2] = 4;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.starBalanceUpdated /* 211 */:
             case NotificationCenter.wallpapersDidLoad /* 221 */:
-                return new int[]{2, 1, 1, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 1;
+                iArr[2] = 1;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.starSubscriptionsLoaded /* 213 */:
-                return new int[]{1, 0, 0, 1, 3, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 0;
+                iArr[2] = 0;
+                iArr[3] = 1;
+                iArr[4] = 3;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.factCheckLoaded /* 214 */:
-                return new int[]{1, 4, 0, 0, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 4;
+                iArr[2] = 0;
+                iArr[3] = 0;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.botStarsTransactionsLoaded /* 216 */:
-                return new int[]{0, 2, 0, 0, 0, 0};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 2;
+                iArr[2] = 0;
+                iArr[3] = 0;
+                iArr[4] = 0;
+                iArr[5] = 0;
+                return iArr;
             case NotificationCenter.webViewResolved /* 218 */:
-                return new int[]{0, 1, 1, 2, 4, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 1;
+                iArr[2] = 1;
+                iArr[3] = 2;
+                iArr[4] = 4;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.pushMessagesUpdated /* 220 */:
-                return new int[]{1, 1, 4, 1, 3, 1};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 1;
+                iArr[2] = 4;
+                iArr[3] = 1;
+                iArr[4] = 3;
+                iArr[5] = 1;
+                return iArr;
             case NotificationCenter.wallpapersNeedReload /* 222 */:
-                return new int[]{2, 2, 3, 4, 3, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 2;
+                iArr[2] = 3;
+                iArr[3] = 4;
+                iArr[4] = 3;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.invalidateMotionBackground /* 226 */:
-                return new int[]{2, 2, 0, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 2;
+                iArr[2] = 0;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.closeOtherAppActivities /* 227 */:
-                return new int[]{0, 2, 1, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 2;
+                iArr[2] = 1;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.cameraInitied /* 228 */:
-                return new int[]{0, 0, 1, 2, 2, 1};
+                // fill-array-data instruction
+                iArr[0] = 0;
+                iArr[1] = 0;
+                iArr[2] = 1;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 1;
+                return iArr;
             case NotificationCenter.didReplacedPhotoInMemCache /* 229 */:
-                return new int[]{4, 3, 3, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 3;
+                iArr[2] = 3;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.didApplyNewTheme /* 232 */:
-                return new int[]{1, 2, 1, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 1;
+                iArr[1] = 2;
+                iArr[2] = 1;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.needCheckSystemBarColors /* 234 */:
-                return new int[]{2, 3, 3, 4, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 3;
+                iArr[2] = 3;
+                iArr[3] = 4;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.needShareTheme /* 235 */:
-                return new int[]{2, 3, 2, 1, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 3;
+                iArr[2] = 2;
+                iArr[3] = 1;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
             case NotificationCenter.needSetDayNightTheme /* 236 */:
-                return new int[]{4, 4, 4, 3, 3, 2};
+                // fill-array-data instruction
+                iArr[0] = 4;
+                iArr[1] = 4;
+                iArr[2] = 4;
+                iArr[3] = 3;
+                iArr[4] = 3;
+                iArr[5] = 2;
+                return iArr;
             default:
-                return new int[]{2, 2, 2, 2, 2, 2};
+                // fill-array-data instruction
+                iArr[0] = 2;
+                iArr[1] = 2;
+                iArr[2] = 2;
+                iArr[3] = 2;
+                iArr[4] = 2;
+                iArr[5] = 2;
+                return iArr;
         }
+    }
+
+    private long getInitialBitrateEstimateForNetworkType(int i) {
+        Long l = (Long) this.initialBitrateEstimates.get(Integer.valueOf(i));
+        if (l == null) {
+            l = (Long) this.initialBitrateEstimates.get(0);
+        }
+        if (l == null) {
+            l = 1000000L;
+        }
+        return l.longValue();
+    }
+
+    public static synchronized DefaultBandwidthMeter getSingletonInstance(Context context) {
+        DefaultBandwidthMeter defaultBandwidthMeter;
+        synchronized (DefaultBandwidthMeter.class) {
+            try {
+                if (singletonInstance == null) {
+                    singletonInstance = new Builder(context).build();
+                }
+                defaultBandwidthMeter = singletonInstance;
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+        return defaultBandwidthMeter;
+    }
+
+    private static boolean isTransferAtFullNetworkSpeed(DataSpec dataSpec, boolean z) {
+        return z && !dataSpec.isFlagSet(8);
+    }
+
+    private void maybeNotifyBandwidthSample(int i, long j, long j2) {
+        if (i == 0 && j == 0 && j2 == this.lastReportedBitrateEstimate) {
+            return;
+        }
+        this.lastReportedBitrateEstimate = j2;
+        this.eventDispatcher.bandwidthSample(i, j, j2);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public synchronized void onNetworkTypeChanged(int i) {
+        int i2 = this.networkType;
+        if (i2 == 0 || this.resetOnNetworkTypeChange) {
+            if (this.networkTypeOverrideSet) {
+                i = this.networkTypeOverride;
+            }
+            if (i2 == i) {
+                return;
+            }
+            this.networkType = i;
+            if (i != 1 && i != 0 && i != 8) {
+                this.bitrateEstimate = getInitialBitrateEstimateForNetworkType(i);
+                long elapsedRealtime = this.clock.elapsedRealtime();
+                maybeNotifyBandwidthSample(this.streamCount > 0 ? (int) (elapsedRealtime - this.sampleStartTimeMs) : 0, this.sampleBytesTransferred, this.bitrateEstimate);
+                this.sampleStartTimeMs = elapsedRealtime;
+                this.sampleBytesTransferred = 0L;
+                this.totalBytesTransferred = 0L;
+                this.totalElapsedTimeMs = 0L;
+                this.slidingPercentile.reset();
+            }
+        }
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.BandwidthMeter
+    public void addEventListener(Handler handler, BandwidthMeter.EventListener eventListener) {
+        Assertions.checkNotNull(handler);
+        Assertions.checkNotNull(eventListener);
+        this.eventDispatcher.addListener(handler, eventListener);
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.BandwidthMeter
+    public synchronized long getBitrateEstimate() {
+        return this.bitrateEstimate;
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.BandwidthMeter
+    public /* synthetic */ long getTimeToFirstByteEstimateUs() {
+        return BandwidthMeter.-CC.$default$getTimeToFirstByteEstimateUs(this);
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.BandwidthMeter
+    public TransferListener getTransferListener() {
+        return this;
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.TransferListener
+    public synchronized void onBytesTransferred(DataSource dataSource, DataSpec dataSpec, boolean z, int i) {
+        if (isTransferAtFullNetworkSpeed(dataSpec, z)) {
+            this.sampleBytesTransferred += i;
+        }
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.TransferListener
+    public synchronized void onTransferEnd(DataSource dataSource, DataSpec dataSpec, boolean z) {
+        try {
+            if (isTransferAtFullNetworkSpeed(dataSpec, z)) {
+                Assertions.checkState(this.streamCount > 0);
+                long elapsedRealtime = this.clock.elapsedRealtime();
+                int i = (int) (elapsedRealtime - this.sampleStartTimeMs);
+                this.totalElapsedTimeMs += i;
+                long j = this.totalBytesTransferred;
+                long j2 = this.sampleBytesTransferred;
+                this.totalBytesTransferred = j + j2;
+                if (i > 0) {
+                    this.slidingPercentile.addSample((int) Math.sqrt(j2), (((float) j2) * 8000.0f) / i);
+                    if (this.totalElapsedTimeMs < 2000) {
+                        if (this.totalBytesTransferred >= 524288) {
+                        }
+                        maybeNotifyBandwidthSample(i, this.sampleBytesTransferred, this.bitrateEstimate);
+                        this.sampleStartTimeMs = elapsedRealtime;
+                        this.sampleBytesTransferred = 0L;
+                    }
+                    this.bitrateEstimate = this.slidingPercentile.getPercentile(0.5f);
+                    maybeNotifyBandwidthSample(i, this.sampleBytesTransferred, this.bitrateEstimate);
+                    this.sampleStartTimeMs = elapsedRealtime;
+                    this.sampleBytesTransferred = 0L;
+                }
+                this.streamCount--;
+            }
+        } catch (Throwable th) {
+            throw th;
+        }
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.TransferListener
+    public void onTransferInitializing(DataSource dataSource, DataSpec dataSpec, boolean z) {
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.TransferListener
+    public synchronized void onTransferStart(DataSource dataSource, DataSpec dataSpec, boolean z) {
+        try {
+            if (isTransferAtFullNetworkSpeed(dataSpec, z)) {
+                if (this.streamCount == 0) {
+                    this.sampleStartTimeMs = this.clock.elapsedRealtime();
+                }
+                this.streamCount++;
+            }
+        } catch (Throwable th) {
+            throw th;
+        }
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.BandwidthMeter
+    public void removeEventListener(BandwidthMeter.EventListener eventListener) {
+        this.eventDispatcher.removeListener(eventListener);
     }
 }

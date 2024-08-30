@@ -1,12 +1,11 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Iterator;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzgw implements Iterable<Object> {
+final class zzgw implements Iterable {
     @Override // java.lang.Iterable
-    public final Iterator<Object> iterator() {
-        Iterator<Object> it;
+    public final Iterator iterator() {
+        Iterator it;
         it = zzgu.zza;
         return it;
     }

@@ -37,6 +37,7 @@ import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$MessagePeerReaction;
 import org.telegram.tgnet.TLRPC$Photo;
+import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$Reaction;
 import org.telegram.tgnet.TLRPC$TL_availableReaction;
 import org.telegram.tgnet.TLRPC$User;
@@ -81,9 +82,6 @@ public class ReactedUserHolderView extends FrameLayout {
     SimpleTextView subtitleView;
     SimpleTextView titleView;
 
-    public void openStory(long j, Runnable runnable) {
-    }
-
     static {
         int i = R.drawable.msg_mini_checks;
         int i2 = Theme.key_windowBackgroundWhiteGrayText;
@@ -114,12 +112,12 @@ public class ReactedUserHolderView extends FrameLayout {
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BackupImageView, android.view.View
             public void onDraw(Canvas canvas) {
-                if (i == ReactedUserHolderView.STYLE_STORY) {
-                    ReactedUserHolderView.this.params.originalAvatarRect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-                    StoriesUtilities.drawAvatarWithStory(ReactedUserHolderView.this.dialogId, canvas, getImageReceiver(), ReactedUserHolderView.this.params);
+                if (i != ReactedUserHolderView.STYLE_STORY) {
+                    super.onDraw(canvas);
                     return;
                 }
-                super.onDraw(canvas);
+                ReactedUserHolderView.this.params.originalAvatarRect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
+                StoriesUtilities.drawAvatarWithStory(ReactedUserHolderView.this.dialogId, canvas, getImageReceiver(), ReactedUserHolderView.this.params);
             }
 
             @Override // android.view.View
@@ -180,241 +178,10 @@ public class ReactedUserHolderView extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x02fd  */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x0314  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x0317  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01d1  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x01f3  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public void setUserReaction(TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, TLRPC$Reaction tLRPC$Reaction, boolean z, long j, TL_stories$StoryItem tL_stories$StoryItem, boolean z2, boolean z3, boolean z4) {
-        TLRPC$ChatPhoto tLRPC$ChatPhoto;
-        Drawable drawable;
-        String formatString;
-        boolean z5;
-        boolean z6;
-        long j2;
-        float f;
-        MessageSeenCheckDrawable messageSeenCheckDrawable;
-        TL_stories$StoryFwdHeader tL_stories$StoryFwdHeader;
-        TLRPC$Document tLRPC$Document;
-        TLRPC$Photo tLRPC$Photo;
-        TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
-        TLRPC$User tLRPC$User2 = tLRPC$User == null ? tLRPC$Chat : tLRPC$User;
-        if (tLRPC$User2 == null) {
-            return;
-        }
-        this.statusBadgeComponent.updateDrawable(tLRPC$User, tLRPC$Chat, Theme.getColor(this.style == STYLE_STORY ? Theme.key_windowBackgroundWhiteBlackText : Theme.key_chats_verifiedBackground, this.resourcesProvider), false);
-        this.avatarDrawable.setInfo(this.currentAccount, (TLObject) tLRPC$User2);
-        if (tLRPC$User != null) {
-            this.dialogId = tLRPC$User.id;
-            this.titleView.setText(UserObject.getUserName(tLRPC$User));
-        } else {
-            this.dialogId = -tLRPC$Chat.id;
-            this.titleView.setText(tLRPC$Chat.title);
-        }
-        Drawable drawable2 = this.avatarDrawable;
-        if (tLRPC$User == null ? !((tLRPC$ChatPhoto = tLRPC$Chat.photo) == null || (drawable = tLRPC$ChatPhoto.strippedBitmap) == null) : !((tLRPC$UserProfilePhoto = tLRPC$User.photo) == null || (drawable = tLRPC$UserProfilePhoto.strippedBitmap) == null)) {
-            drawable2 = drawable;
-        }
-        this.avatarView.setImage(ImageLocation.getForUserOrChat(tLRPC$User2, 1), "50_50", drawable2, tLRPC$User2);
-        if (z) {
-            BackupImageView backupImageView = this.reactView;
-            if (backupImageView != null) {
-                backupImageView.setAnimatedEmojiDrawable(null);
-            }
-            Drawable mutate = ContextCompat.getDrawable(getContext(), R.drawable.media_like_active).mutate();
-            this.reactView.setColorFilter(new PorterDuffColorFilter(-53704, PorterDuff.Mode.MULTIPLY));
-            this.reactView.setImageDrawable(mutate);
-            formatString = LocaleController.formatString("AccDescrLike", R.string.AccDescrLike, new Object[0]);
-            z5 = true;
-        } else if (tLRPC$Reaction != null) {
-            ReactionsLayoutInBubble.VisibleReaction fromTL = ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$Reaction);
-            if (fromTL.emojicon != null) {
-                BackupImageView backupImageView2 = this.reactView;
-                if (backupImageView2 != null) {
-                    backupImageView2.setAnimatedEmojiDrawable(null);
-                }
-                TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(this.currentAccount).getReactionsMap().get(fromTL.emojicon);
-                BackupImageView backupImageView3 = this.reactView;
-                if (backupImageView3 != null) {
-                    if (tLRPC$TL_availableReaction != null) {
-                        this.reactView.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastreactframe", "webp", DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.static_icon.thumbs, Theme.key_windowBackgroundGray, 1.0f), tLRPC$TL_availableReaction);
-                        z6 = true;
-                    } else {
-                        backupImageView3.setImageDrawable(null);
-                        z6 = false;
-                    }
-                    this.reactView.setColorFilter(null);
-                } else {
-                    z6 = false;
-                }
-            } else {
-                AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(0, this.currentAccount, fromTL.documentId);
-                animatedEmojiDrawable.setColorFilter(Theme.getAnimatedEmojiColorFilter(this.resourcesProvider));
-                BackupImageView backupImageView4 = this.reactView;
-                if (backupImageView4 != null) {
-                    backupImageView4.setAnimatedEmojiDrawable(animatedEmojiDrawable);
-                }
-                z6 = true;
-            }
-            int i = R.string.AccDescrReactedWith;
-            CharSequence text = this.titleView.getText();
-            Object obj = fromTL.emojicon;
-            if (obj == null) {
-                obj = tLRPC$Reaction;
-            }
-            formatString = LocaleController.formatString("AccDescrReactedWith", i, text, obj);
-            z5 = z6;
-        } else {
-            BackupImageView backupImageView5 = this.reactView;
-            if (backupImageView5 != null) {
-                backupImageView5.setAnimatedEmojiDrawable(null);
-                this.reactView.setImageDrawable(null);
-            }
-            formatString = LocaleController.formatString("AccDescrPersonHasSeen", R.string.AccDescrPersonHasSeen, this.titleView.getText());
-            z5 = false;
-        }
-        if (tL_stories$StoryItem != null) {
-            this.storyId = tL_stories$StoryItem.id;
-            if (this.storyPreviewView != null) {
-                TLRPC$MessageMedia tLRPC$MessageMedia = tL_stories$StoryItem.media;
-                if (tLRPC$MessageMedia != null && (tLRPC$Photo = tLRPC$MessageMedia.photo) != null) {
-                    this.storyPreviewView.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 35, false, null, true), tL_stories$StoryItem.media.photo), "22_35", (ImageLocation) null, (String) null, -1, tL_stories$StoryItem);
-                } else if (tLRPC$MessageMedia != null && (tLRPC$Document = tLRPC$MessageMedia.document) != null) {
-                    this.storyPreviewView.setImage(ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 35, false, null, true), tL_stories$StoryItem.media.document), "22_35", (ImageLocation) null, (String) null, -1, tL_stories$StoryItem);
-                }
-                this.storyPreviewView.setRoundRadius(AndroidUtilities.dp(3.33f));
-            }
-            if (j <= 0) {
-                j2 = tL_stories$StoryItem.date;
-                if (j2 != 0) {
-                    formatString = formatString + " " + LocaleController.formatSeenDate(j2);
-                }
-                setContentDescription(formatString);
-                f = 0.0f;
-                if (j2 == 0) {
-                    this.subtitleView.setVisibility(0);
-                    if (tL_stories$StoryItem != null) {
-                        messageSeenCheckDrawable = z2 ? forwardDrawable : repostDrawable;
-                    } else if (z3) {
-                        messageSeenCheckDrawable = seenDrawable;
-                    } else {
-                        messageSeenCheckDrawable = reactDrawable;
-                    }
-                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-                    spannableStringBuilder.append(messageSeenCheckDrawable.getSpanned(getContext(), this.resourcesProvider));
-                    spannableStringBuilder.append((CharSequence) LocaleController.formatSeenDate(j2));
-                    if (!z2 && tL_stories$StoryItem != null && !TextUtils.isEmpty(tL_stories$StoryItem.caption)) {
-                        spannableStringBuilder.append((CharSequence) "\u2004");
-                        spannableStringBuilder.append((CharSequence) ".");
-                        DotDividerSpan dotDividerSpan = new DotDividerSpan();
-                        dotDividerSpan.setSize(2.33333f);
-                        dotDividerSpan.setTopPadding(AndroidUtilities.dp(5.0f));
-                        spannableStringBuilder.setSpan(dotDividerSpan, spannableStringBuilder.length() - 1, spannableStringBuilder.length(), 33);
-                        spannableStringBuilder.append((CharSequence) "\u2004");
-                        int length = spannableStringBuilder.length();
-                        spannableStringBuilder.append((CharSequence) LocaleController.getString(R.string.StoryRepostCommented));
-                        spannableStringBuilder.setSpan(new RelativeSizeSpan(0.95f), length, spannableStringBuilder.length(), 33);
-                    } else if (!z2 && tL_stories$StoryItem != null && (tL_stories$StoryFwdHeader = tL_stories$StoryItem.fwd_from) != null && tL_stories$StoryFwdHeader.modified) {
-                        spannableStringBuilder.append((CharSequence) "\u2004");
-                        spannableStringBuilder.append((CharSequence) ".");
-                        DotDividerSpan dotDividerSpan2 = new DotDividerSpan();
-                        dotDividerSpan2.setSize(2.33333f);
-                        dotDividerSpan2.setTopPadding(AndroidUtilities.dp(5.0f));
-                        spannableStringBuilder.setSpan(dotDividerSpan2, spannableStringBuilder.length() - 1, spannableStringBuilder.length(), 33);
-                        spannableStringBuilder.append((CharSequence) "\u2004");
-                        int length2 = spannableStringBuilder.length();
-                        spannableStringBuilder.append((CharSequence) "edited");
-                        spannableStringBuilder.setSpan(new RelativeSizeSpan(0.95f), length2, spannableStringBuilder.length(), 33);
-                    }
-                    this.subtitleView.setText(spannableStringBuilder);
-                    this.subtitleView.setTranslationY(!z3 ? AndroidUtilities.dp(-1.0f) : 0.0f);
-                    this.titleView.setTranslationY(0.0f);
-                    if (z4) {
-                        this.titleView.setTranslationY(AndroidUtilities.dp(9.0f));
-                        this.titleView.animate().translationY(0.0f);
-                        this.subtitleView.setAlpha(0.0f);
-                        this.subtitleView.animate().alpha(1.0f);
-                    }
-                } else {
-                    this.subtitleView.setVisibility(8);
-                    this.titleView.setTranslationY(AndroidUtilities.dp(9.0f));
-                }
-                this.titleView.setRightPadding(AndroidUtilities.dp(!z5 ? 30.0f : 0.0f));
-                this.titleView.setTranslationX((z5 || !LocaleController.isRTL) ? 0.0f : AndroidUtilities.dp(30.0f));
-                ((ViewGroup.MarginLayoutParams) this.subtitleView.getLayoutParams()).rightMargin = AndroidUtilities.dp((z5 || LocaleController.isRTL) ? 12.0f : 36.0f);
-                SimpleTextView simpleTextView = this.subtitleView;
-                if (z5 && LocaleController.isRTL) {
-                    f = AndroidUtilities.dp(30.0f);
-                }
-                simpleTextView.setTranslationX(f);
-            }
-        } else {
-            this.storyId = -1;
-            BackupImageView backupImageView6 = this.storyPreviewView;
-            if (backupImageView6 != null) {
-                backupImageView6.setImageDrawable(null);
-            }
-        }
-        j2 = j;
-        if (j2 != 0) {
-        }
-        setContentDescription(formatString);
-        f = 0.0f;
-        if (j2 == 0) {
-        }
-        this.titleView.setRightPadding(AndroidUtilities.dp(!z5 ? 30.0f : 0.0f));
-        this.titleView.setTranslationX((z5 || !LocaleController.isRTL) ? 0.0f : AndroidUtilities.dp(30.0f));
-        ((ViewGroup.MarginLayoutParams) this.subtitleView.getLayoutParams()).rightMargin = AndroidUtilities.dp((z5 || LocaleController.isRTL) ? 12.0f : 36.0f);
-        SimpleTextView simpleTextView2 = this.subtitleView;
-        if (z5) {
-            f = AndroidUtilities.dp(30.0f);
-        }
-        simpleTextView2.setTranslationX(f);
-    }
-
-    public void setUserReaction(TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction) {
-        TLRPC$Chat chat;
-        TLRPC$User tLRPC$User;
-        if (tLRPC$MessagePeerReaction == null) {
-            return;
-        }
-        long peerId = MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id);
-        if (peerId > 0) {
-            tLRPC$User = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(peerId));
-            chat = null;
-        } else {
-            chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-peerId));
-            tLRPC$User = null;
-        }
-        setUserReaction(tLRPC$User, chat, tLRPC$MessagePeerReaction.reaction, false, tLRPC$MessagePeerReaction.date, null, false, tLRPC$MessagePeerReaction.dateIsSeen, false);
-    }
-
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.style == STYLE_DEFAULT ? 50 : 58), 1073741824));
-    }
-
-    @Override // android.view.View
-    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-        accessibilityNodeInfo.setEnabled(true);
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        this.statusBadgeComponent.onAttachedToWindow();
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        this.statusBadgeComponent.onDetachedFromWindow();
-        this.params.onDetachFromWindow();
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$animateAlpha$0(ValueAnimator valueAnimator) {
+        this.alphaInternal = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        invalidate();
     }
 
     public void animateAlpha(final float f, boolean z) {
@@ -423,39 +190,29 @@ public class ReactedUserHolderView extends FrameLayout {
             valueAnimator.cancel();
             this.alphaAnimator = null;
         }
-        if (z) {
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.alphaInternal, f);
-            this.alphaAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.ReactedUserHolderView$$ExternalSyntheticLambda0
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    ReactedUserHolderView.this.lambda$animateAlpha$0(valueAnimator2);
-                }
-            });
-            this.alphaAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.ReactedUserHolderView.4
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    ReactedUserHolderView.this.alphaInternal = f;
-                    ReactedUserHolderView.this.invalidate();
-                }
-            });
-            this.alphaAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-            this.alphaAnimator.setDuration(420L);
-            this.alphaAnimator.start();
+        if (!z) {
+            this.alphaInternal = f;
+            invalidate();
             return;
         }
-        this.alphaInternal = f;
-        invalidate();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$animateAlpha$0(ValueAnimator valueAnimator) {
-        this.alphaInternal = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        invalidate();
-    }
-
-    public float getAlphaInternal() {
-        return this.alphaInternal;
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.alphaInternal, f);
+        this.alphaAnimator = ofFloat;
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.ReactedUserHolderView$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                ReactedUserHolderView.this.lambda$animateAlpha$0(valueAnimator2);
+            }
+        });
+        this.alphaAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.ReactedUserHolderView.4
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                ReactedUserHolderView.this.alphaInternal = f;
+                ReactedUserHolderView.this.invalidate();
+            }
+        });
+        this.alphaAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+        this.alphaAnimator.setDuration(420L);
+        this.alphaAnimator.start();
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -481,7 +238,274 @@ public class ReactedUserHolderView extends FrameLayout {
         }
     }
 
+    public float getAlphaInternal() {
+        return this.alphaInternal;
+    }
+
     public Theme.ResourcesProvider getResourcesProvider() {
         return this.resourcesProvider;
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        this.statusBadgeComponent.onAttachedToWindow();
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        this.statusBadgeComponent.onDetachedFromWindow();
+        this.params.onDetachFromWindow();
+    }
+
+    @Override // android.view.View
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+        accessibilityNodeInfo.setEnabled(true);
+    }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.style == STYLE_DEFAULT ? 50 : 58), 1073741824));
+    }
+
+    public void openStory(long j, Runnable runnable) {
+    }
+
+    public void setUserReaction(TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction) {
+        TLRPC$Chat chat;
+        TLRPC$User tLRPC$User;
+        if (tLRPC$MessagePeerReaction == null) {
+            return;
+        }
+        long peerId = MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id);
+        int i = (peerId > 0L ? 1 : (peerId == 0L ? 0 : -1));
+        MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
+        if (i > 0) {
+            tLRPC$User = messagesController.getUser(Long.valueOf(peerId));
+            chat = null;
+        } else {
+            chat = messagesController.getChat(Long.valueOf(-peerId));
+            tLRPC$User = null;
+        }
+        setUserReaction(tLRPC$User, chat, tLRPC$MessagePeerReaction.reaction, false, tLRPC$MessagePeerReaction.date, null, false, tLRPC$MessagePeerReaction.dateIsSeen, false);
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x02b3  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x02bb  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x02c6  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x02e8  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x02ff  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x0302  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x01c2  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x01e4  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void setUserReaction(TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, TLRPC$Reaction tLRPC$Reaction, boolean z, long j, TL_stories$StoryItem tL_stories$StoryItem, boolean z2, boolean z3, boolean z4) {
+        SimpleTextView simpleTextView;
+        String str;
+        TLRPC$ChatPhoto tLRPC$ChatPhoto;
+        Drawable drawable;
+        String formatString;
+        boolean z5;
+        boolean z6;
+        long j2;
+        float f;
+        TL_stories$StoryFwdHeader tL_stories$StoryFwdHeader;
+        int length;
+        RelativeSizeSpan relativeSizeSpan;
+        TLRPC$Document tLRPC$Document;
+        BackupImageView backupImageView;
+        ImageLocation forDocument;
+        TLRPC$Photo tLRPC$Photo;
+        TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
+        TLRPC$User tLRPC$User2 = tLRPC$User == null ? tLRPC$Chat : tLRPC$User;
+        if (tLRPC$User2 == null) {
+            return;
+        }
+        this.statusBadgeComponent.updateDrawable(tLRPC$User, tLRPC$Chat, Theme.getColor(this.style == STYLE_STORY ? Theme.key_windowBackgroundWhiteBlackText : Theme.key_chats_verifiedBackground, this.resourcesProvider), false);
+        this.avatarDrawable.setInfo(this.currentAccount, (TLObject) tLRPC$User2);
+        if (tLRPC$User != null) {
+            this.dialogId = tLRPC$User.id;
+            simpleTextView = this.titleView;
+            str = UserObject.getUserName(tLRPC$User);
+        } else {
+            this.dialogId = -tLRPC$Chat.id;
+            simpleTextView = this.titleView;
+            str = tLRPC$Chat.title;
+        }
+        simpleTextView.setText(str);
+        Drawable drawable2 = this.avatarDrawable;
+        if (tLRPC$User == null ? !((tLRPC$ChatPhoto = tLRPC$Chat.photo) == null || (drawable = tLRPC$ChatPhoto.strippedBitmap) == null) : !((tLRPC$UserProfilePhoto = tLRPC$User.photo) == null || (drawable = tLRPC$UserProfilePhoto.strippedBitmap) == null)) {
+            drawable2 = drawable;
+        }
+        this.avatarView.setImage(ImageLocation.getForUserOrChat(tLRPC$User2, 1), "50_50", drawable2, tLRPC$User2);
+        if (z) {
+            BackupImageView backupImageView2 = this.reactView;
+            if (backupImageView2 != null) {
+                backupImageView2.setAnimatedEmojiDrawable(null);
+            }
+            Drawable mutate = ContextCompat.getDrawable(getContext(), R.drawable.media_like_active).mutate();
+            this.reactView.setColorFilter(new PorterDuffColorFilter(-53704, PorterDuff.Mode.MULTIPLY));
+            this.reactView.setImageDrawable(mutate);
+            formatString = LocaleController.formatString("AccDescrLike", R.string.AccDescrLike, new Object[0]);
+            z5 = true;
+        } else if (tLRPC$Reaction != null) {
+            ReactionsLayoutInBubble.VisibleReaction fromTL = ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$Reaction);
+            if (fromTL.emojicon != null) {
+                BackupImageView backupImageView3 = this.reactView;
+                if (backupImageView3 != null) {
+                    backupImageView3.setAnimatedEmojiDrawable(null);
+                }
+                TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(this.currentAccount).getReactionsMap().get(fromTL.emojicon);
+                BackupImageView backupImageView4 = this.reactView;
+                if (backupImageView4 != null) {
+                    if (tLRPC$TL_availableReaction != null) {
+                        this.reactView.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastreactframe", "webp", DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.static_icon.thumbs, Theme.key_windowBackgroundGray, 1.0f), tLRPC$TL_availableReaction);
+                        z6 = true;
+                    } else {
+                        backupImageView4.setImageDrawable(null);
+                        z6 = false;
+                    }
+                    this.reactView.setColorFilter(null);
+                } else {
+                    z6 = false;
+                }
+            } else {
+                AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(0, this.currentAccount, fromTL.documentId);
+                animatedEmojiDrawable.setColorFilter(Theme.getAnimatedEmojiColorFilter(this.resourcesProvider));
+                BackupImageView backupImageView5 = this.reactView;
+                if (backupImageView5 != null) {
+                    backupImageView5.setAnimatedEmojiDrawable(animatedEmojiDrawable);
+                }
+                z6 = true;
+            }
+            int i = R.string.AccDescrReactedWith;
+            CharSequence text = this.titleView.getText();
+            Object obj = fromTL.emojicon;
+            if (obj == null) {
+                obj = tLRPC$Reaction;
+            }
+            formatString = LocaleController.formatString("AccDescrReactedWith", i, text, obj);
+            z5 = z6;
+        } else {
+            BackupImageView backupImageView6 = this.reactView;
+            if (backupImageView6 != null) {
+                backupImageView6.setAnimatedEmojiDrawable(null);
+                this.reactView.setImageDrawable(null);
+            }
+            formatString = LocaleController.formatString("AccDescrPersonHasSeen", R.string.AccDescrPersonHasSeen, this.titleView.getText());
+            z5 = false;
+        }
+        if (tL_stories$StoryItem != null) {
+            this.storyId = tL_stories$StoryItem.id;
+            if (this.storyPreviewView != null) {
+                TLRPC$MessageMedia tLRPC$MessageMedia = tL_stories$StoryItem.media;
+                if (tLRPC$MessageMedia == null || (tLRPC$Photo = tLRPC$MessageMedia.photo) == null) {
+                    if (tLRPC$MessageMedia != null && (tLRPC$Document = tLRPC$MessageMedia.document) != null) {
+                        TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 35, false, null, true);
+                        backupImageView = this.storyPreviewView;
+                        forDocument = ImageLocation.getForDocument(closestPhotoSizeWithSize, tL_stories$StoryItem.media.document);
+                    }
+                    this.storyPreviewView.setRoundRadius(AndroidUtilities.dp(3.33f));
+                } else {
+                    TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 35, false, null, true);
+                    backupImageView = this.storyPreviewView;
+                    forDocument = ImageLocation.getForPhoto(closestPhotoSizeWithSize2, tL_stories$StoryItem.media.photo);
+                }
+                backupImageView.setImage(forDocument, "22_35", (ImageLocation) null, (String) null, -1, tL_stories$StoryItem);
+                this.storyPreviewView.setRoundRadius(AndroidUtilities.dp(3.33f));
+            }
+            if (j <= 0) {
+                j2 = tL_stories$StoryItem.date;
+                if (j2 != 0) {
+                    formatString = formatString + " " + LocaleController.formatSeenDate(j2);
+                }
+                setContentDescription(formatString);
+                f = 0.0f;
+                if (j2 == 0) {
+                    this.subtitleView.setVisibility(0);
+                    MessageSeenCheckDrawable messageSeenCheckDrawable = tL_stories$StoryItem != null ? z2 ? forwardDrawable : repostDrawable : z3 ? seenDrawable : reactDrawable;
+                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+                    spannableStringBuilder.append(messageSeenCheckDrawable.getSpanned(getContext(), this.resourcesProvider));
+                    spannableStringBuilder.append((CharSequence) LocaleController.formatSeenDate(j2));
+                    if (z2 || tL_stories$StoryItem == null || TextUtils.isEmpty(tL_stories$StoryItem.caption)) {
+                        if (!z2 && tL_stories$StoryItem != null && (tL_stories$StoryFwdHeader = tL_stories$StoryItem.fwd_from) != null && tL_stories$StoryFwdHeader.modified) {
+                            spannableStringBuilder.append((CharSequence) "\u2004");
+                            spannableStringBuilder.append((CharSequence) ".");
+                            DotDividerSpan dotDividerSpan = new DotDividerSpan();
+                            dotDividerSpan.setSize(2.33333f);
+                            dotDividerSpan.setTopPadding(AndroidUtilities.dp(5.0f));
+                            spannableStringBuilder.setSpan(dotDividerSpan, spannableStringBuilder.length() - 1, spannableStringBuilder.length(), 33);
+                            spannableStringBuilder.append((CharSequence) "\u2004");
+                            length = spannableStringBuilder.length();
+                            spannableStringBuilder.append((CharSequence) "edited");
+                            relativeSizeSpan = new RelativeSizeSpan(0.95f);
+                        }
+                        this.subtitleView.setText(spannableStringBuilder);
+                        this.subtitleView.setTranslationY(z3 ? AndroidUtilities.dp(-1.0f) : 0.0f);
+                        this.titleView.setTranslationY(0.0f);
+                        if (z4) {
+                            this.titleView.setTranslationY(AndroidUtilities.dp(9.0f));
+                            this.titleView.animate().translationY(0.0f);
+                            this.subtitleView.setAlpha(0.0f);
+                            this.subtitleView.animate().alpha(1.0f);
+                        }
+                    } else {
+                        spannableStringBuilder.append((CharSequence) "\u2004");
+                        spannableStringBuilder.append((CharSequence) ".");
+                        DotDividerSpan dotDividerSpan2 = new DotDividerSpan();
+                        dotDividerSpan2.setSize(2.33333f);
+                        dotDividerSpan2.setTopPadding(AndroidUtilities.dp(5.0f));
+                        spannableStringBuilder.setSpan(dotDividerSpan2, spannableStringBuilder.length() - 1, spannableStringBuilder.length(), 33);
+                        spannableStringBuilder.append((CharSequence) "\u2004");
+                        length = spannableStringBuilder.length();
+                        spannableStringBuilder.append((CharSequence) LocaleController.getString(R.string.StoryRepostCommented));
+                        relativeSizeSpan = new RelativeSizeSpan(0.95f);
+                    }
+                    spannableStringBuilder.setSpan(relativeSizeSpan, length, spannableStringBuilder.length(), 33);
+                    this.subtitleView.setText(spannableStringBuilder);
+                    this.subtitleView.setTranslationY(z3 ? AndroidUtilities.dp(-1.0f) : 0.0f);
+                    this.titleView.setTranslationY(0.0f);
+                    if (z4) {
+                    }
+                } else {
+                    this.subtitleView.setVisibility(8);
+                    this.titleView.setTranslationY(AndroidUtilities.dp(9.0f));
+                }
+                this.titleView.setRightPadding(AndroidUtilities.dp(!z5 ? 30.0f : 0.0f));
+                this.titleView.setTranslationX((z5 || !LocaleController.isRTL) ? 0.0f : AndroidUtilities.dp(30.0f));
+                ((ViewGroup.MarginLayoutParams) this.subtitleView.getLayoutParams()).rightMargin = AndroidUtilities.dp((z5 || LocaleController.isRTL) ? 12.0f : 36.0f);
+                SimpleTextView simpleTextView2 = this.subtitleView;
+                if (z5 && LocaleController.isRTL) {
+                    f = AndroidUtilities.dp(30.0f);
+                }
+                simpleTextView2.setTranslationX(f);
+            }
+        } else {
+            this.storyId = -1;
+            BackupImageView backupImageView7 = this.storyPreviewView;
+            if (backupImageView7 != null) {
+                backupImageView7.setImageDrawable(null);
+            }
+        }
+        j2 = j;
+        if (j2 != 0) {
+        }
+        setContentDescription(formatString);
+        f = 0.0f;
+        if (j2 == 0) {
+        }
+        this.titleView.setRightPadding(AndroidUtilities.dp(!z5 ? 30.0f : 0.0f));
+        this.titleView.setTranslationX((z5 || !LocaleController.isRTL) ? 0.0f : AndroidUtilities.dp(30.0f));
+        ((ViewGroup.MarginLayoutParams) this.subtitleView.getLayoutParams()).rightMargin = AndroidUtilities.dp((z5 || LocaleController.isRTL) ? 12.0f : 36.0f);
+        SimpleTextView simpleTextView22 = this.subtitleView;
+        if (z5) {
+            f = AndroidUtilities.dp(30.0f);
+        }
+        simpleTextView22.setTranslationX(f);
     }
 }

@@ -5,7 +5,6 @@ import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.ExtractorUtil;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
-import java.io.IOException;
 import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 final class OggPageHeader {
@@ -21,44 +20,7 @@ final class OggPageHeader {
     public final int[] laces = new int[NotificationCenter.voipServiceCreated];
     private final ParsableByteArray scratch = new ParsableByteArray((int) NotificationCenter.voipServiceCreated);
 
-    public void reset() {
-        this.revision = 0;
-        this.type = 0;
-        this.granulePosition = 0L;
-        this.streamSerialNumber = 0L;
-        this.pageSequenceNumber = 0L;
-        this.pageChecksum = 0L;
-        this.pageSegmentCount = 0;
-        this.headerSize = 0;
-        this.bodySize = 0;
-    }
-
-    public boolean skipToNextPage(ExtractorInput extractorInput) throws IOException {
-        return skipToNextPage(extractorInput, -1L);
-    }
-
-    public boolean skipToNextPage(ExtractorInput extractorInput, long j) throws IOException {
-        Assertions.checkArgument(extractorInput.getPosition() == extractorInput.getPeekPosition());
-        this.scratch.reset(4);
-        while (true) {
-            if ((j == -1 || extractorInput.getPosition() + 4 < j) && ExtractorUtil.peekFullyQuietly(extractorInput, this.scratch.getData(), 0, 4, true)) {
-                this.scratch.setPosition(0);
-                if (this.scratch.readUnsignedInt() == 1332176723) {
-                    extractorInput.resetPeekPosition();
-                    return true;
-                }
-                extractorInput.skipFully(1);
-            }
-        }
-        do {
-            if (j != -1 && extractorInput.getPosition() >= j) {
-                break;
-            }
-        } while (extractorInput.skip(1) != -1);
-        return false;
-    }
-
-    public boolean populate(ExtractorInput extractorInput, boolean z) throws IOException {
+    public boolean populate(ExtractorInput extractorInput, boolean z) {
         reset();
         this.scratch.reset(27);
         if (ExtractorUtil.peekFullyQuietly(extractorInput, this.scratch.getData(), 0, 27, z) && this.scratch.readUnsignedInt() == 1332176723) {
@@ -88,6 +50,43 @@ final class OggPageHeader {
             }
             return false;
         }
+        return false;
+    }
+
+    public void reset() {
+        this.revision = 0;
+        this.type = 0;
+        this.granulePosition = 0L;
+        this.streamSerialNumber = 0L;
+        this.pageSequenceNumber = 0L;
+        this.pageChecksum = 0L;
+        this.pageSegmentCount = 0;
+        this.headerSize = 0;
+        this.bodySize = 0;
+    }
+
+    public boolean skipToNextPage(ExtractorInput extractorInput) {
+        return skipToNextPage(extractorInput, -1L);
+    }
+
+    public boolean skipToNextPage(ExtractorInput extractorInput, long j) {
+        Assertions.checkArgument(extractorInput.getPosition() == extractorInput.getPeekPosition());
+        this.scratch.reset(4);
+        while (true) {
+            if ((j == -1 || extractorInput.getPosition() + 4 < j) && ExtractorUtil.peekFullyQuietly(extractorInput, this.scratch.getData(), 0, 4, true)) {
+                this.scratch.setPosition(0);
+                if (this.scratch.readUnsignedInt() == 1332176723) {
+                    extractorInput.resetPeekPosition();
+                    return true;
+                }
+                extractorInput.skipFully(1);
+            }
+        }
+        do {
+            if (j != -1 && extractorInput.getPosition() >= j) {
+                break;
+            }
+        } while (extractorInput.skip(1) != -1);
         return false;
     }
 }

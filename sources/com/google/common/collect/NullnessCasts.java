@@ -1,13 +1,13 @@
 package com.google.common.collect;
 /* loaded from: classes.dex */
-final class NullnessCasts {
+abstract class NullnessCasts {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <T> T uncheckedCastNullableTToT(T t) {
-        return t;
+    public static Object uncheckedCastNullableTToT(Object obj) {
+        return obj;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <T> T unsafeNull() {
+    public static Object unsafeNull() {
         return null;
     }
 }

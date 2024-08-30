@@ -3,10 +3,8 @@ package com.google.android.gms.internal.maps;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
-import android.os.RemoteException;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
-public class zza implements IInterface {
+public abstract class zza implements IInterface {
     private final IBinder zza;
     private final String zzb;
 
@@ -22,7 +20,7 @@ public class zza implements IInterface {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final Parcel zzH(int i, Parcel parcel) throws RemoteException {
+    public final Parcel zzH(int i, Parcel parcel) {
         Parcel obtain = Parcel.obtain();
         try {
             try {
@@ -46,7 +44,7 @@ public class zza implements IInterface {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final void zzc(int i, Parcel parcel) throws RemoteException {
+    public final void zzc(int i, Parcel parcel) {
         Parcel obtain = Parcel.obtain();
         try {
             this.zza.transact(i, parcel, obtain, 0);

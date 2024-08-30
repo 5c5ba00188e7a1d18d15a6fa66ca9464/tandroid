@@ -3,7 +3,6 @@ package com.google.android.gms.auth.api.signin;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 public final class zbc implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -19,10 +18,10 @@ public final class zbc implements Parcelable.Creator {
                 str = SafeParcelReader.createString(parcel, readHeader);
             } else if (fieldId == 7) {
                 googleSignInAccount = (GoogleSignInAccount) SafeParcelReader.createParcelable(parcel, readHeader, GoogleSignInAccount.CREATOR);
-            } else if (fieldId == 8) {
-                str2 = SafeParcelReader.createString(parcel, readHeader);
-            } else {
+            } else if (fieldId != 8) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                str2 = SafeParcelReader.createString(parcel, readHeader);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);

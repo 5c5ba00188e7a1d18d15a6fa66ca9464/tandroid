@@ -3,9 +3,8 @@ package com.google.android.gms.common.util;
 import android.content.Context;
 import android.util.Log;
 import com.google.android.gms.common.internal.Preconditions;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public final class CrashUtils {
+public abstract class CrashUtils {
     private static final String[] zza = {"android.", "com.android.", "dalvik.", "java.", "javax."};
 
     public static boolean addDynamiteErrorToDropBox(Context context, Throwable th) {

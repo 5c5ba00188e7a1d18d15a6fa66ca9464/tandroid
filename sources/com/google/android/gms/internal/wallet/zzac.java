@@ -17,7 +17,6 @@ import com.google.android.gms.common.internal.GmsClient;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.wallet.IsReadyToPayRequest;
 import com.google.android.gms.wallet.PaymentDataRequest;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class zzac extends GmsClient {
     private final Context zze;
@@ -94,7 +93,7 @@ public final class zzac extends GmsClient {
         return true;
     }
 
-    public final void zzs(IsReadyToPayRequest isReadyToPayRequest, TaskCompletionSource taskCompletionSource) throws RemoteException {
+    public final void zzs(IsReadyToPayRequest isReadyToPayRequest, TaskCompletionSource taskCompletionSource) {
         zzy zzyVar = new zzy(taskCompletionSource);
         try {
             ((zzs) getService()).zze(isReadyToPayRequest, zzu(), zzyVar);

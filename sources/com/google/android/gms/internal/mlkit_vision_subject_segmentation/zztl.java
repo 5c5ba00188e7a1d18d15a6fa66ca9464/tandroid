@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public final class zztl {
     private static zzav zza;
@@ -98,13 +97,12 @@ public final class zztl {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ String zzb() throws Exception {
+    public final /* synthetic */ String zzb() {
         return LibraryVersion.getInstance().getVersion(this.zzi);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void zzc(zzta zztaVar, zzob zzobVar, String str) {
-        String mlSdkInstanceId;
         zztaVar.zzb(zzobVar);
         String zzd = zztaVar.zzd();
         zzsa zzsaVar = new zzsa();
@@ -114,12 +112,7 @@ public final class zztl {
         zzsaVar.zzg(Boolean.TRUE);
         zzsaVar.zzl(zzd);
         zzsaVar.zzj(str);
-        if (this.zzh.isSuccessful()) {
-            mlSdkInstanceId = (String) this.zzh.getResult();
-        } else {
-            mlSdkInstanceId = this.zzf.getMlSdkInstanceId();
-        }
-        zzsaVar.zzi(mlSdkInstanceId);
+        zzsaVar.zzi(this.zzh.isSuccessful() ? (String) this.zzh.getResult() : this.zzf.getMlSdkInstanceId());
         zzsaVar.zzd(10);
         zzsaVar.zzk(Integer.valueOf(this.zzj));
         zztaVar.zzc(zzsaVar);

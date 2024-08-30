@@ -7,7 +7,6 @@ import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.internal.location.zzd;
 import com.google.android.gms.internal.location.zzdj;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class LastLocationRequest extends AbstractSafeParcelable {
     public static final Parcelable.Creator<LastLocationRequest> CREATOR = new zzv();
@@ -17,7 +16,6 @@ public final class LastLocationRequest extends AbstractSafeParcelable {
     private final String zzd;
     private final zzd zze;
 
-    /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
     /* loaded from: classes.dex */
     public static final class Builder {
         private long zza = Long.MAX_VALUE;

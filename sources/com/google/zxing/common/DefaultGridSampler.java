@@ -4,7 +4,7 @@ import com.google.zxing.NotFoundException;
 /* loaded from: classes.dex */
 public final class DefaultGridSampler extends GridSampler {
     @Override // com.google.zxing.common.GridSampler
-    public BitMatrix sampleGrid(BitMatrix bitMatrix, int i, int i2, PerspectiveTransform perspectiveTransform) throws NotFoundException {
+    public BitMatrix sampleGrid(BitMatrix bitMatrix, int i, int i2, PerspectiveTransform perspectiveTransform) {
         if (i <= 0 || i2 <= 0) {
             throw NotFoundException.getNotFoundInstance();
         }

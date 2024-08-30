@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class ReedSolomonEncoder {
-    private final List<GenericGFPoly> cachedGenerators;
+    private final List cachedGenerators;
     private final GenericGF field;
 
     public ReedSolomonEncoder(GenericGF genericGF) {
@@ -16,15 +16,15 @@ public final class ReedSolomonEncoder {
 
     private GenericGFPoly buildGenerator(int i) {
         if (i >= this.cachedGenerators.size()) {
-            List<GenericGFPoly> list = this.cachedGenerators;
-            GenericGFPoly genericGFPoly = list.get(list.size() - 1);
+            List list = this.cachedGenerators;
+            GenericGFPoly genericGFPoly = (GenericGFPoly) list.get(list.size() - 1);
             for (int size = this.cachedGenerators.size(); size <= i; size++) {
                 GenericGF genericGF = this.field;
                 genericGFPoly = genericGFPoly.multiply(new GenericGFPoly(genericGF, new int[]{1, genericGF.exp((size - 1) + genericGF.getGeneratorBase())}));
                 this.cachedGenerators.add(genericGFPoly);
             }
         }
-        return this.cachedGenerators.get(i);
+        return (GenericGFPoly) this.cachedGenerators.get(i);
     }
 
     public void encode(int[] iArr, int i) {

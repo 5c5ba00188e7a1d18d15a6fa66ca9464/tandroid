@@ -1,8 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Arrays;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzf {
     private final String zza;
@@ -18,12 +16,13 @@ public final class zzf {
         this.zza = (String) zzg.zza(str);
     }
 
-    public final zzf zza(String str, @NullableDecl Object obj) {
-        return zzb(str, obj);
-    }
-
-    public final zzf zza(String str, float f) {
-        return zzb(str, String.valueOf(f));
+    private final zzf zzb(String str, Object obj) {
+        zze zzeVar = new zze();
+        this.zzc.zzc = zzeVar;
+        this.zzc = zzeVar;
+        zzeVar.zzb = obj;
+        zzeVar.zza = (String) zzg.zza(str);
+        return this;
     }
 
     public final String toString() {
@@ -40,11 +39,11 @@ public final class zzf {
                 sb.append(str2);
                 sb.append('=');
             }
-            if (obj != null && obj.getClass().isArray()) {
+            if (obj == null || !obj.getClass().isArray()) {
+                sb.append(obj);
+            } else {
                 String deepToString = Arrays.deepToString(new Object[]{obj});
                 sb.append((CharSequence) deepToString, 1, deepToString.length() - 1);
-            } else {
-                sb.append(obj);
             }
             zzeVar = zzeVar.zzc;
             str = ", ";
@@ -53,12 +52,11 @@ public final class zzf {
         return sb.toString();
     }
 
-    private final zzf zzb(String str, @NullableDecl Object obj) {
-        zze zzeVar = new zze();
-        this.zzc.zzc = zzeVar;
-        this.zzc = zzeVar;
-        zzeVar.zzb = obj;
-        zzeVar.zza = (String) zzg.zza(str);
-        return this;
+    public final zzf zza(String str, float f) {
+        return zzb(str, String.valueOf(f));
+    }
+
+    public final zzf zza(String str, Object obj) {
+        return zzb(str, obj);
     }
 }

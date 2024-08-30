@@ -6,7 +6,6 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class Scope extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<Scope> CREATOR = new zza();
@@ -18,6 +17,10 @@ public final class Scope extends AbstractSafeParcelable implements ReflectedParc
         Preconditions.checkNotEmpty(str, "scopeUri must not be null or empty");
         this.zza = i;
         this.zzb = str;
+    }
+
+    public Scope(String str) {
+        this(1, str);
     }
 
     public boolean equals(Object obj) {
@@ -48,9 +51,5 @@ public final class Scope extends AbstractSafeParcelable implements ReflectedParc
         SafeParcelWriter.writeInt(parcel, 1, this.zza);
         SafeParcelWriter.writeString(parcel, 2, getScopeUri(), false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    public Scope(String str) {
-        this(1, str);
     }
 }

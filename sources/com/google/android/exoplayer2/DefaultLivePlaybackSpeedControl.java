@@ -26,10 +26,6 @@ public final class DefaultLivePlaybackSpeedControl implements LivePlaybackSpeedC
     private long targetLiveOffsetOverrideUs;
     private final long targetLiveOffsetRebufferDeltaUs;
 
-    private static long smooth(long j, long j2, float f) {
-        return (((float) j) * f) + ((1.0f - f) * ((float) j2));
-    }
-
     /* loaded from: classes.dex */
     public static final class Builder {
         private float fallbackMinPlaybackSpeed = 0.97f;
@@ -67,71 +63,20 @@ public final class DefaultLivePlaybackSpeedControl implements LivePlaybackSpeedC
         this.smoothedMinPossibleLiveOffsetDeviationUs = -9223372036854775807L;
     }
 
-    @Override // com.google.android.exoplayer2.LivePlaybackSpeedControl
-    public void setLiveConfiguration(MediaItem.LiveConfiguration liveConfiguration) {
-        this.mediaConfigurationTargetLiveOffsetUs = Util.msToUs(liveConfiguration.targetOffsetMs);
-        this.minTargetLiveOffsetUs = Util.msToUs(liveConfiguration.minOffsetMs);
-        this.maxTargetLiveOffsetUs = Util.msToUs(liveConfiguration.maxOffsetMs);
-        float f = liveConfiguration.minPlaybackSpeed;
-        if (f == -3.4028235E38f) {
-            f = this.fallbackMinPlaybackSpeed;
-        }
-        this.minPlaybackSpeed = f;
-        float f2 = liveConfiguration.maxPlaybackSpeed;
-        if (f2 == -3.4028235E38f) {
-            f2 = this.fallbackMaxPlaybackSpeed;
-        }
-        this.maxPlaybackSpeed = f2;
-        if (f == 1.0f && f2 == 1.0f) {
-            this.mediaConfigurationTargetLiveOffsetUs = -9223372036854775807L;
-        }
-        maybeResetTargetLiveOffsetUs();
-    }
-
-    @Override // com.google.android.exoplayer2.LivePlaybackSpeedControl
-    public void setTargetLiveOffsetOverrideUs(long j) {
-        this.targetLiveOffsetOverrideUs = j;
-        maybeResetTargetLiveOffsetUs();
-    }
-
-    @Override // com.google.android.exoplayer2.LivePlaybackSpeedControl
-    public void notifyRebuffer() {
-        long j = this.currentTargetLiveOffsetUs;
-        if (j == -9223372036854775807L) {
+    private void adjustTargetLiveOffsetUs(long j) {
+        long j2 = this.smoothedMinPossibleLiveOffsetUs + (this.smoothedMinPossibleLiveOffsetDeviationUs * 3);
+        if (this.currentTargetLiveOffsetUs > j2) {
+            float msToUs = (float) Util.msToUs(this.minUpdateIntervalMs);
+            this.currentTargetLiveOffsetUs = Longs.max(j2, this.idealTargetLiveOffsetUs, this.currentTargetLiveOffsetUs - (((this.adjustedPlaybackSpeed - 1.0f) * msToUs) + ((this.maxPlaybackSpeed - 1.0f) * msToUs)));
             return;
         }
-        long j2 = j + this.targetLiveOffsetRebufferDeltaUs;
-        this.currentTargetLiveOffsetUs = j2;
+        long constrainValue = Util.constrainValue(j - (Math.max(0.0f, this.adjustedPlaybackSpeed - 1.0f) / this.proportionalControlFactor), this.currentTargetLiveOffsetUs, j2);
+        this.currentTargetLiveOffsetUs = constrainValue;
         long j3 = this.maxTargetLiveOffsetUs;
-        if (j3 != -9223372036854775807L && j2 > j3) {
-            this.currentTargetLiveOffsetUs = j3;
+        if (j3 == -9223372036854775807L || constrainValue <= j3) {
+            return;
         }
-        this.lastPlaybackSpeedUpdateMs = -9223372036854775807L;
-    }
-
-    @Override // com.google.android.exoplayer2.LivePlaybackSpeedControl
-    public float getAdjustedPlaybackSpeed(long j, long j2) {
-        if (this.mediaConfigurationTargetLiveOffsetUs == -9223372036854775807L) {
-            return 1.0f;
-        }
-        updateSmoothedMinPossibleLiveOffsetUs(j, j2);
-        if (this.lastPlaybackSpeedUpdateMs != -9223372036854775807L && SystemClock.elapsedRealtime() - this.lastPlaybackSpeedUpdateMs < this.minUpdateIntervalMs) {
-            return this.adjustedPlaybackSpeed;
-        }
-        this.lastPlaybackSpeedUpdateMs = SystemClock.elapsedRealtime();
-        adjustTargetLiveOffsetUs(j);
-        long j3 = j - this.currentTargetLiveOffsetUs;
-        if (Math.abs(j3) < this.maxLiveOffsetErrorUsForUnitSpeed) {
-            this.adjustedPlaybackSpeed = 1.0f;
-        } else {
-            this.adjustedPlaybackSpeed = Util.constrainValue((this.proportionalControlFactor * ((float) j3)) + 1.0f, this.minPlaybackSpeed, this.maxPlaybackSpeed);
-        }
-        return this.adjustedPlaybackSpeed;
-    }
-
-    @Override // com.google.android.exoplayer2.LivePlaybackSpeedControl
-    public long getTargetLiveOffsetUs() {
-        return this.currentTargetLiveOffsetUs;
+        this.currentTargetLiveOffsetUs = j3;
     }
 
     private void maybeResetTargetLiveOffsetUs() {
@@ -162,32 +107,89 @@ public final class DefaultLivePlaybackSpeedControl implements LivePlaybackSpeedC
         this.lastPlaybackSpeedUpdateMs = -9223372036854775807L;
     }
 
+    private static long smooth(long j, long j2, float f) {
+        return (((float) j) * f) + ((1.0f - f) * ((float) j2));
+    }
+
     private void updateSmoothedMinPossibleLiveOffsetUs(long j, long j2) {
+        long smooth;
         long j3 = j - j2;
         long j4 = this.smoothedMinPossibleLiveOffsetUs;
         if (j4 == -9223372036854775807L) {
             this.smoothedMinPossibleLiveOffsetUs = j3;
-            this.smoothedMinPossibleLiveOffsetDeviationUs = 0L;
-            return;
+            smooth = 0;
+        } else {
+            long max = Math.max(j3, smooth(j4, j3, this.minPossibleLiveOffsetSmoothingFactor));
+            this.smoothedMinPossibleLiveOffsetUs = max;
+            smooth = smooth(this.smoothedMinPossibleLiveOffsetDeviationUs, Math.abs(j3 - max), this.minPossibleLiveOffsetSmoothingFactor);
         }
-        long max = Math.max(j3, smooth(j4, j3, this.minPossibleLiveOffsetSmoothingFactor));
-        this.smoothedMinPossibleLiveOffsetUs = max;
-        this.smoothedMinPossibleLiveOffsetDeviationUs = smooth(this.smoothedMinPossibleLiveOffsetDeviationUs, Math.abs(j3 - max), this.minPossibleLiveOffsetSmoothingFactor);
+        this.smoothedMinPossibleLiveOffsetDeviationUs = smooth;
     }
 
-    private void adjustTargetLiveOffsetUs(long j) {
-        long j2 = this.smoothedMinPossibleLiveOffsetUs + (this.smoothedMinPossibleLiveOffsetDeviationUs * 3);
-        if (this.currentTargetLiveOffsetUs > j2) {
-            float msToUs = (float) Util.msToUs(this.minUpdateIntervalMs);
-            this.currentTargetLiveOffsetUs = Longs.max(j2, this.idealTargetLiveOffsetUs, this.currentTargetLiveOffsetUs - (((this.adjustedPlaybackSpeed - 1.0f) * msToUs) + ((this.maxPlaybackSpeed - 1.0f) * msToUs)));
+    @Override // com.google.android.exoplayer2.LivePlaybackSpeedControl
+    public float getAdjustedPlaybackSpeed(long j, long j2) {
+        if (this.mediaConfigurationTargetLiveOffsetUs == -9223372036854775807L) {
+            return 1.0f;
+        }
+        updateSmoothedMinPossibleLiveOffsetUs(j, j2);
+        if (this.lastPlaybackSpeedUpdateMs == -9223372036854775807L || SystemClock.elapsedRealtime() - this.lastPlaybackSpeedUpdateMs >= this.minUpdateIntervalMs) {
+            this.lastPlaybackSpeedUpdateMs = SystemClock.elapsedRealtime();
+            adjustTargetLiveOffsetUs(j);
+            long j3 = j - this.currentTargetLiveOffsetUs;
+            if (Math.abs(j3) < this.maxLiveOffsetErrorUsForUnitSpeed) {
+                this.adjustedPlaybackSpeed = 1.0f;
+            } else {
+                this.adjustedPlaybackSpeed = Util.constrainValue((this.proportionalControlFactor * ((float) j3)) + 1.0f, this.minPlaybackSpeed, this.maxPlaybackSpeed);
+            }
+            return this.adjustedPlaybackSpeed;
+        }
+        return this.adjustedPlaybackSpeed;
+    }
+
+    @Override // com.google.android.exoplayer2.LivePlaybackSpeedControl
+    public long getTargetLiveOffsetUs() {
+        return this.currentTargetLiveOffsetUs;
+    }
+
+    @Override // com.google.android.exoplayer2.LivePlaybackSpeedControl
+    public void notifyRebuffer() {
+        long j = this.currentTargetLiveOffsetUs;
+        if (j == -9223372036854775807L) {
             return;
         }
-        long constrainValue = Util.constrainValue(j - (Math.max(0.0f, this.adjustedPlaybackSpeed - 1.0f) / this.proportionalControlFactor), this.currentTargetLiveOffsetUs, j2);
-        this.currentTargetLiveOffsetUs = constrainValue;
+        long j2 = j + this.targetLiveOffsetRebufferDeltaUs;
+        this.currentTargetLiveOffsetUs = j2;
         long j3 = this.maxTargetLiveOffsetUs;
-        if (j3 == -9223372036854775807L || constrainValue <= j3) {
-            return;
+        if (j3 != -9223372036854775807L && j2 > j3) {
+            this.currentTargetLiveOffsetUs = j3;
         }
-        this.currentTargetLiveOffsetUs = j3;
+        this.lastPlaybackSpeedUpdateMs = -9223372036854775807L;
+    }
+
+    @Override // com.google.android.exoplayer2.LivePlaybackSpeedControl
+    public void setLiveConfiguration(MediaItem.LiveConfiguration liveConfiguration) {
+        this.mediaConfigurationTargetLiveOffsetUs = Util.msToUs(liveConfiguration.targetOffsetMs);
+        this.minTargetLiveOffsetUs = Util.msToUs(liveConfiguration.minOffsetMs);
+        this.maxTargetLiveOffsetUs = Util.msToUs(liveConfiguration.maxOffsetMs);
+        float f = liveConfiguration.minPlaybackSpeed;
+        if (f == -3.4028235E38f) {
+            f = this.fallbackMinPlaybackSpeed;
+        }
+        this.minPlaybackSpeed = f;
+        float f2 = liveConfiguration.maxPlaybackSpeed;
+        if (f2 == -3.4028235E38f) {
+            f2 = this.fallbackMaxPlaybackSpeed;
+        }
+        this.maxPlaybackSpeed = f2;
+        if (f == 1.0f && f2 == 1.0f) {
+            this.mediaConfigurationTargetLiveOffsetUs = -9223372036854775807L;
+        }
+        maybeResetTargetLiveOffsetUs();
+    }
+
+    @Override // com.google.android.exoplayer2.LivePlaybackSpeedControl
+    public void setTargetLiveOffsetOverrideUs(long j) {
+        this.targetLiveOffsetOverrideUs = j;
+        maybeResetTargetLiveOffsetUs();
     }
 }

@@ -3,7 +3,6 @@ package com.google.mlkit.vision.label.defaults.thin;
 import com.google.android.gms.internal.mlkit_vision_label.zzke;
 import com.google.android.gms.internal.mlkit_vision_label.zznf;
 import com.google.mlkit.vision.common.InputImage;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final /* synthetic */ class zzf {
     public final /* synthetic */ zzh zza;

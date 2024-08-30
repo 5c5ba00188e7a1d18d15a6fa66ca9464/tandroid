@@ -6,17 +6,18 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 /* loaded from: classes.dex */
 public class GlUtil {
-    public static void checkNoGLES2Error(String str) {
-    }
-
-    private GlUtil() {
-    }
 
     /* loaded from: classes.dex */
     public static class GlOutOfMemoryException extends RuntimeException {
         public GlOutOfMemoryException(String str) {
             super(str);
         }
+    }
+
+    private GlUtil() {
+    }
+
+    public static void checkNoGLES2Error(String str) {
     }
 
     public static FloatBuffer createFloatBuffer(float[] fArr) {

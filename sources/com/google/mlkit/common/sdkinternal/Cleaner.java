@@ -4,13 +4,11 @@ import java.lang.ref.ReferenceQueue;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public class Cleaner {
     private final ReferenceQueue zza = new ReferenceQueue();
     private final Set zzb = Collections.synchronizedSet(new HashSet());
 
-    /* compiled from: com.google.mlkit:common@@18.10.0 */
     /* loaded from: classes.dex */
     public interface Cleanable {
         void clean();

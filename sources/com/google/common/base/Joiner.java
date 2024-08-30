@@ -6,49 +6,39 @@ import java.util.Iterator;
 public class Joiner {
     private final String separator;
 
-    public static Joiner on(String str) {
-        return new Joiner(str);
+    private Joiner(String str) {
+        this.separator = (String) Preconditions.checkNotNull(str);
     }
 
     public static Joiner on(char c) {
         return new Joiner(String.valueOf(c));
     }
 
-    private Joiner(String str) {
-        this.separator = (String) Preconditions.checkNotNull(str);
-    }
-
-    public <A extends Appendable> A appendTo(A a, Iterator<? extends Object> it) throws IOException {
-        Preconditions.checkNotNull(a);
+    public Appendable appendTo(Appendable appendable, Iterator it) {
+        Preconditions.checkNotNull(appendable);
         if (it.hasNext()) {
-            a.append(toString(it.next()));
-            while (it.hasNext()) {
-                a.append(this.separator);
-                a.append(toString(it.next()));
+            while (true) {
+                appendable.append(toString(it.next()));
+                if (!it.hasNext()) {
+                    break;
+                }
+                appendable.append(this.separator);
             }
         }
-        return a;
+        return appendable;
     }
 
-    public final StringBuilder appendTo(StringBuilder sb, Iterable<? extends Object> iterable) {
+    public final StringBuilder appendTo(StringBuilder sb, Iterable iterable) {
         return appendTo(sb, iterable.iterator());
     }
 
-    public final StringBuilder appendTo(StringBuilder sb, Iterator<? extends Object> it) {
+    public final StringBuilder appendTo(StringBuilder sb, Iterator it) {
         try {
-            appendTo((Joiner) sb, it);
+            appendTo((Appendable) sb, it);
             return sb;
         } catch (IOException e) {
             throw new AssertionError(e);
         }
-    }
-
-    public final String join(Iterable<? extends Object> iterable) {
-        return join(iterable.iterator());
-    }
-
-    public final String join(Iterator<? extends Object> it) {
-        return appendTo(new StringBuilder(), it).toString();
     }
 
     CharSequence toString(Object obj) {

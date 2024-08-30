@@ -20,20 +20,6 @@ public class VideoMediaHeaderBox extends AbstractMediaHeaderBox {
         ajc$preClinit();
     }
 
-    private static /* synthetic */ void ajc$preClinit() {
-        Factory factory = new Factory("VideoMediaHeaderBox.java", VideoMediaHeaderBox.class);
-        ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getGraphicsmode", "com.coremedia.iso.boxes.VideoMediaHeaderBox", "", "", "", "int"), 39);
-        ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getOpcolor", "com.coremedia.iso.boxes.VideoMediaHeaderBox", "", "", "", "[I"), 43);
-        ajc$tjp_2 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "toString", "com.coremedia.iso.boxes.VideoMediaHeaderBox", "", "", "", "java.lang.String"), 71);
-        ajc$tjp_3 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setOpcolor", "com.coremedia.iso.boxes.VideoMediaHeaderBox", "[I", "opcolor", "", "void"), 75);
-        ajc$tjp_4 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setGraphicsmode", "com.coremedia.iso.boxes.VideoMediaHeaderBox", "int", "graphicsmode", "", "void"), 79);
-    }
-
-    @Override // com.googlecode.mp4parser.AbstractBox
-    protected long getContentSize() {
-        return 12L;
-    }
-
     public VideoMediaHeaderBox() {
         super("vmhd");
         this.graphicsmode = 0;
@@ -41,14 +27,13 @@ public class VideoMediaHeaderBox extends AbstractMediaHeaderBox {
         setFlags(1);
     }
 
-    public int getGraphicsmode() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_0, this, this));
-        return this.graphicsmode;
-    }
-
-    public int[] getOpcolor() {
-        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this));
-        return this.opcolor;
+    private static /* synthetic */ void ajc$preClinit() {
+        Factory factory = new Factory("VideoMediaHeaderBox.java", VideoMediaHeaderBox.class);
+        ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getGraphicsmode", "com.coremedia.iso.boxes.VideoMediaHeaderBox", "", "", "", "int"), 39);
+        ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getOpcolor", "com.coremedia.iso.boxes.VideoMediaHeaderBox", "", "", "", "[I"), 43);
+        ajc$tjp_2 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "toString", "com.coremedia.iso.boxes.VideoMediaHeaderBox", "", "", "", "java.lang.String"), 71);
+        ajc$tjp_3 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setOpcolor", "com.coremedia.iso.boxes.VideoMediaHeaderBox", "[I", "opcolor", "", "void"), 75);
+        ajc$tjp_4 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setGraphicsmode", "com.coremedia.iso.boxes.VideoMediaHeaderBox", "int", "graphicsmode", "", "void"), 79);
     }
 
     @Override // com.googlecode.mp4parser.AbstractBox
@@ -68,6 +53,21 @@ public class VideoMediaHeaderBox extends AbstractMediaHeaderBox {
         for (int i : this.opcolor) {
             IsoTypeWriter.writeUInt16(byteBuffer, i);
         }
+    }
+
+    @Override // com.googlecode.mp4parser.AbstractBox
+    protected long getContentSize() {
+        return 12L;
+    }
+
+    public int getGraphicsmode() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_0, this, this));
+        return this.graphicsmode;
+    }
+
+    public int[] getOpcolor() {
+        RequiresParseDetailAspect.aspectOf().before(Factory.makeJP(ajc$tjp_1, this, this));
+        return this.opcolor;
     }
 
     public String toString() {

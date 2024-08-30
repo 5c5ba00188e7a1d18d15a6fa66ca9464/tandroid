@@ -1,7 +1,4 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
-
-import org.telegram.messenger.NotificationCenter;
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public final class zzoe {
     private final zzsc zza;
@@ -37,37 +34,30 @@ public final class zzoe {
         this.zzg = zzdyVar;
     }
 
-    @zzcd(zza = NotificationCenter.dialogTranslate)
     public final zzdy zza() {
         return this.zzg;
     }
 
-    @zzcd(zza = 61)
     public final zznz zzb() {
         return this.zzc;
     }
 
-    @zzcd(zza = 2)
     public final zzob zzc() {
         return this.zzb;
     }
 
-    @zzcd(zza = 124)
     public final zzqz zzd() {
         return this.zzd;
     }
 
-    @zzcd(zza = 126)
     public final zzrc zze() {
         return this.zzf;
     }
 
-    @zzcd(zza = 125)
     public final zzrf zzf() {
         return this.zze;
     }
 
-    @zzcd(zza = 1)
     public final zzsc zzg() {
         return this.zza;
     }

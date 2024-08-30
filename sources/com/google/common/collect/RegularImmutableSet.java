@@ -1,8 +1,8 @@
 package com.google.common.collect;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class RegularImmutableSet<E> extends ImmutableSet<E> {
-    static final RegularImmutableSet<Object> EMPTY;
+public final class RegularImmutableSet extends ImmutableSet {
+    static final RegularImmutableSet EMPTY;
     private static final Object[] EMPTY_ARRAY;
     final transient Object[] elements;
     private final transient int hashCode;
@@ -10,27 +10,10 @@ public final class RegularImmutableSet<E> extends ImmutableSet<E> {
     private final transient int size;
     final transient Object[] table;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.common.collect.ImmutableCollection
-    public int internalArrayStart() {
-        return 0;
-    }
-
-    @Override // com.google.common.collect.ImmutableSet
-    boolean isHashCodeFast() {
-        return true;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // com.google.common.collect.ImmutableCollection
-    public boolean isPartialView() {
-        return false;
-    }
-
     static {
         Object[] objArr = new Object[0];
         EMPTY_ARRAY = objArr;
-        EMPTY = new RegularImmutableSet<>(objArr, 0, objArr, 0, 0);
+        EMPTY = new RegularImmutableSet(objArr, 0, objArr, 0, 0);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -62,14 +45,20 @@ public final class RegularImmutableSet<E> extends ImmutableSet<E> {
         }
     }
 
-    @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
-    public int size() {
-        return this.size;
+    @Override // com.google.common.collect.ImmutableCollection
+    int copyIntoArray(Object[] objArr, int i) {
+        System.arraycopy(this.elements, 0, objArr, i, this.size);
+        return i + this.size;
     }
 
-    @Override // com.google.common.collect.ImmutableSet, com.google.common.collect.ImmutableCollection, java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
-    public UnmodifiableIterator<E> iterator() {
-        return asList().iterator();
+    @Override // com.google.common.collect.ImmutableSet
+    ImmutableList createAsList() {
+        return ImmutableList.asImmutableList(this.elements, this.size);
+    }
+
+    @Override // com.google.common.collect.ImmutableSet, java.util.Collection, java.util.Set
+    public int hashCode() {
+        return this.hashCode;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -85,18 +74,28 @@ public final class RegularImmutableSet<E> extends ImmutableSet<E> {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.common.collect.ImmutableCollection
-    public int copyIntoArray(Object[] objArr, int i) {
-        System.arraycopy(this.elements, 0, objArr, i, this.size);
-        return i + this.size;
+    public int internalArrayStart() {
+        return 0;
     }
 
     @Override // com.google.common.collect.ImmutableSet
-    ImmutableList<E> createAsList() {
-        return ImmutableList.asImmutableList(this.elements, this.size);
+    boolean isHashCodeFast() {
+        return true;
     }
 
-    @Override // com.google.common.collect.ImmutableSet, java.util.Collection, java.util.Set
-    public int hashCode() {
-        return this.hashCode;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // com.google.common.collect.ImmutableCollection
+    public boolean isPartialView() {
+        return false;
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
+    public UnmodifiableIterator iterator() {
+        return asList().iterator();
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
+    public int size() {
+        return this.size;
     }
 }

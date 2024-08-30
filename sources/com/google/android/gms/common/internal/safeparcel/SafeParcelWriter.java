@@ -5,9 +5,8 @@ import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public class SafeParcelWriter {
+public abstract class SafeParcelWriter {
     public static int beginObjectHeader(Parcel parcel) {
         return zza(parcel, 20293);
     }
@@ -91,7 +90,7 @@ public class SafeParcelWriter {
         zzb(parcel, zza);
     }
 
-    public static void writeFloatList(Parcel parcel, int i, List<Float> list, boolean z) {
+    public static void writeFloatList(Parcel parcel, int i, List list, boolean z) {
         if (list == null) {
             if (z) {
                 zzc(parcel, i, 0);
@@ -103,7 +102,7 @@ public class SafeParcelWriter {
         int size = list.size();
         parcel.writeInt(size);
         for (int i2 = 0; i2 < size; i2++) {
-            parcel.writeFloat(list.get(i2).floatValue());
+            parcel.writeFloat(((Float) list.get(i2)).floatValue());
         }
         zzb(parcel, zza);
     }
@@ -148,7 +147,7 @@ public class SafeParcelWriter {
         zzb(parcel, zza);
     }
 
-    public static void writeIntegerList(Parcel parcel, int i, List<Integer> list, boolean z) {
+    public static void writeIntegerList(Parcel parcel, int i, List list, boolean z) {
         if (list == null) {
             if (z) {
                 zzc(parcel, i, 0);
@@ -160,7 +159,7 @@ public class SafeParcelWriter {
         int size = list.size();
         parcel.writeInt(size);
         for (int i2 = 0; i2 < size; i2++) {
-            parcel.writeInt(list.get(i2).intValue());
+            parcel.writeInt(((Integer) list.get(i2)).intValue());
         }
         zzb(parcel, zza);
     }
@@ -177,15 +176,6 @@ public class SafeParcelWriter {
     public static void writeLong(Parcel parcel, int i, long j) {
         zzc(parcel, i, 8);
         parcel.writeLong(j);
-    }
-
-    public static void writeLongObject(Parcel parcel, int i, Long l, boolean z) {
-        if (l != null) {
-            zzc(parcel, i, 8);
-            parcel.writeLong(l.longValue());
-        } else if (z) {
-            zzc(parcel, i, 0);
-        }
     }
 
     public static void writeParcelable(Parcel parcel, int i, Parcelable parcelable, int i2, boolean z) {
@@ -227,7 +217,7 @@ public class SafeParcelWriter {
         zzb(parcel, zza);
     }
 
-    public static void writeStringList(Parcel parcel, int i, List<String> list, boolean z) {
+    public static void writeStringList(Parcel parcel, int i, List list, boolean z) {
         if (list == null) {
             if (z) {
                 zzc(parcel, i, 0);
@@ -240,8 +230,8 @@ public class SafeParcelWriter {
         zzb(parcel, zza);
     }
 
-    public static <T extends Parcelable> void writeTypedArray(Parcel parcel, int i, T[] tArr, int i2, boolean z) {
-        if (tArr == null) {
+    public static void writeTypedArray(Parcel parcel, int i, Parcelable[] parcelableArr, int i2, boolean z) {
+        if (parcelableArr == null) {
             if (z) {
                 zzc(parcel, i, 0);
                 return;
@@ -249,18 +239,18 @@ public class SafeParcelWriter {
             return;
         }
         int zza = zza(parcel, i);
-        parcel.writeInt(tArr.length);
-        for (T t : tArr) {
-            if (t == null) {
+        parcel.writeInt(parcelableArr.length);
+        for (Parcelable parcelable : parcelableArr) {
+            if (parcelable == null) {
                 parcel.writeInt(0);
             } else {
-                zzd(parcel, t, i2);
+                zzd(parcel, parcelable, i2);
             }
         }
         zzb(parcel, zza);
     }
 
-    public static <T extends Parcelable> void writeTypedList(Parcel parcel, int i, List<T> list, boolean z) {
+    public static void writeTypedList(Parcel parcel, int i, List list, boolean z) {
         if (list == null) {
             if (z) {
                 zzc(parcel, i, 0);
@@ -272,11 +262,11 @@ public class SafeParcelWriter {
         int size = list.size();
         parcel.writeInt(size);
         for (int i2 = 0; i2 < size; i2++) {
-            T t = list.get(i2);
-            if (t == null) {
+            Parcelable parcelable = (Parcelable) list.get(i2);
+            if (parcelable == null) {
                 parcel.writeInt(0);
             } else {
-                zzd(parcel, t, 0);
+                zzd(parcel, parcelable, 0);
             }
         }
         zzb(parcel, zza);

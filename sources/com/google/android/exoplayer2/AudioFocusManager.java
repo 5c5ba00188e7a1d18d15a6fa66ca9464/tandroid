@@ -23,6 +23,31 @@ public final class AudioFocusManager {
     private float volumeMultiplier = 1.0f;
     private int audioFocusState = 0;
 
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public class AudioFocusListener implements AudioManager.OnAudioFocusChangeListener {
+        private final Handler eventHandler;
+
+        public AudioFocusListener(Handler handler) {
+            this.eventHandler = handler;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onAudioFocusChange$0(int i) {
+            AudioFocusManager.this.handlePlatformAudioFocusChange(i);
+        }
+
+        @Override // android.media.AudioManager.OnAudioFocusChangeListener
+        public void onAudioFocusChange(final int i) {
+            this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.AudioFocusManager$AudioFocusListener$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    AudioFocusManager.AudioFocusListener.this.lambda$onAudioFocusChange$0(i);
+                }
+            });
+        }
+    }
+
     /* loaded from: classes.dex */
     public interface PlayerControl {
         void executePlayerCommand(int i);
@@ -36,54 +61,8 @@ public final class AudioFocusManager {
         this.focusListener = new AudioFocusListener(handler);
     }
 
-    public float getVolumeMultiplier() {
-        return this.volumeMultiplier;
-    }
-
-    public void setAudioAttributes(AudioAttributes audioAttributes) {
-        if (Util.areEqual(this.audioAttributes, audioAttributes)) {
-            return;
-        }
-        this.audioAttributes = audioAttributes;
-        int convertAudioAttributesToFocusGain = convertAudioAttributesToFocusGain(audioAttributes);
-        this.focusGainToRequest = convertAudioAttributesToFocusGain;
-        boolean z = true;
-        if (convertAudioAttributesToFocusGain != 1 && convertAudioAttributesToFocusGain != 0) {
-            z = false;
-        }
-        Assertions.checkArgument(z, "Automatic handling of audio focus is only available for USAGE_MEDIA and USAGE_GAME.");
-    }
-
-    public int updateAudioFocus(boolean z, int i) {
-        if (shouldAbandonAudioFocusIfHeld(i)) {
-            abandonAudioFocusIfHeld();
-            return z ? 1 : -1;
-        } else if (z) {
-            return requestAudioFocus();
-        } else {
-            return -1;
-        }
-    }
-
-    public void release() {
-        this.playerControl = null;
-        abandonAudioFocusIfHeld();
-    }
-
-    private boolean shouldAbandonAudioFocusIfHeld(int i) {
-        return i == 1 || this.focusGainToRequest != 1;
-    }
-
-    private int requestAudioFocus() {
-        if (this.audioFocusState == 1) {
-            return 1;
-        }
-        if ((Util.SDK_INT >= 26 ? requestAudioFocusV26() : requestAudioFocusDefault()) == 1) {
-            setAudioFocusState(1);
-            return 1;
-        }
-        setAudioFocusState(0);
-        return -1;
+    private void abandonAudioFocusDefault() {
+        this.audioManager.abandonAudioFocus(this.focusListener);
     }
 
     private void abandonAudioFocusIfHeld() {
@@ -98,50 +77,11 @@ public final class AudioFocusManager {
         setAudioFocusState(0);
     }
 
-    private int requestAudioFocusDefault() {
-        return this.audioManager.requestAudioFocus(this.focusListener, Util.getStreamTypeForAudioUsage(((AudioAttributes) Assertions.checkNotNull(this.audioAttributes)).usage), this.focusGainToRequest);
-    }
-
-    private int requestAudioFocusV26() {
-        AudioFocusRequest.Builder builder;
-        AudioFocusRequest.Builder audioAttributes;
-        AudioFocusRequest.Builder willPauseWhenDucked;
-        AudioFocusRequest.Builder onAudioFocusChangeListener;
-        AudioFocusRequest build;
-        int requestAudioFocus;
-        AudioFocusRequest audioFocusRequest = this.audioFocusRequest;
-        if (audioFocusRequest == null || this.rebuildAudioFocusRequest) {
-            if (audioFocusRequest == null) {
-                builder = new AudioFocusRequest.Builder(this.focusGainToRequest);
-            } else {
-                builder = new AudioFocusRequest.Builder(this.audioFocusRequest);
-            }
-            boolean willPauseWhenDucked2 = willPauseWhenDucked();
-            audioAttributes = builder.setAudioAttributes(((AudioAttributes) Assertions.checkNotNull(this.audioAttributes)).getAudioAttributesV21().audioAttributes);
-            willPauseWhenDucked = audioAttributes.setWillPauseWhenDucked(willPauseWhenDucked2);
-            onAudioFocusChangeListener = willPauseWhenDucked.setOnAudioFocusChangeListener(this.focusListener);
-            build = onAudioFocusChangeListener.build();
-            this.audioFocusRequest = build;
-            this.rebuildAudioFocusRequest = false;
-        }
-        requestAudioFocus = this.audioManager.requestAudioFocus(this.audioFocusRequest);
-        return requestAudioFocus;
-    }
-
-    private void abandonAudioFocusDefault() {
-        this.audioManager.abandonAudioFocus(this.focusListener);
-    }
-
     private void abandonAudioFocusV26() {
         AudioFocusRequest audioFocusRequest = this.audioFocusRequest;
         if (audioFocusRequest != null) {
             this.audioManager.abandonAudioFocusRequest(audioFocusRequest);
         }
-    }
-
-    private boolean willPauseWhenDucked() {
-        AudioAttributes audioAttributes = this.audioAttributes;
-        return audioAttributes != null && audioAttributes.contentType == 1;
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
@@ -185,6 +125,72 @@ public final class AudioFocusManager {
         return 3;
     }
 
+    private void executePlayerCommand(int i) {
+        PlayerControl playerControl = this.playerControl;
+        if (playerControl != null) {
+            playerControl.executePlayerCommand(i);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void handlePlatformAudioFocusChange(int i) {
+        int i2;
+        if (i == -3 || i == -2) {
+            if (i == -2 || willPauseWhenDucked()) {
+                executePlayerCommand(0);
+                i2 = 2;
+            } else {
+                i2 = 3;
+            }
+            setAudioFocusState(i2);
+        } else if (i == -1) {
+            executePlayerCommand(-1);
+            abandonAudioFocusIfHeld();
+        } else if (i == 1) {
+            setAudioFocusState(1);
+            executePlayerCommand(1);
+        } else {
+            Log.w("AudioFocusManager", "Unknown focus change type: " + i);
+        }
+    }
+
+    private int requestAudioFocus() {
+        if (this.audioFocusState == 1) {
+            return 1;
+        }
+        if ((Util.SDK_INT >= 26 ? requestAudioFocusV26() : requestAudioFocusDefault()) == 1) {
+            setAudioFocusState(1);
+            return 1;
+        }
+        setAudioFocusState(0);
+        return -1;
+    }
+
+    private int requestAudioFocusDefault() {
+        return this.audioManager.requestAudioFocus(this.focusListener, Util.getStreamTypeForAudioUsage(((AudioAttributes) Assertions.checkNotNull(this.audioAttributes)).usage), this.focusGainToRequest);
+    }
+
+    private int requestAudioFocusV26() {
+        AudioFocusRequest.Builder audioAttributes;
+        AudioFocusRequest.Builder willPauseWhenDucked;
+        AudioFocusRequest.Builder onAudioFocusChangeListener;
+        AudioFocusRequest build;
+        int requestAudioFocus;
+        AudioFocusRequest audioFocusRequest = this.audioFocusRequest;
+        if (audioFocusRequest == null || this.rebuildAudioFocusRequest) {
+            AudioFocusRequest.Builder builder = audioFocusRequest == null ? new AudioFocusRequest.Builder(this.focusGainToRequest) : new AudioFocusRequest.Builder(this.audioFocusRequest);
+            boolean willPauseWhenDucked2 = willPauseWhenDucked();
+            audioAttributes = builder.setAudioAttributes(((AudioAttributes) Assertions.checkNotNull(this.audioAttributes)).getAudioAttributesV21().audioAttributes);
+            willPauseWhenDucked = audioAttributes.setWillPauseWhenDucked(willPauseWhenDucked2);
+            onAudioFocusChangeListener = willPauseWhenDucked.setOnAudioFocusChangeListener(this.focusListener);
+            build = onAudioFocusChangeListener.build();
+            this.audioFocusRequest = build;
+            this.rebuildAudioFocusRequest = false;
+        }
+        requestAudioFocus = this.audioManager.requestAudioFocus(this.audioFocusRequest);
+        return requestAudioFocus;
+    }
+
     private void setAudioFocusState(int i) {
         if (this.audioFocusState == i) {
             return;
@@ -201,55 +207,46 @@ public final class AudioFocusManager {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void handlePlatformAudioFocusChange(int i) {
-        if (i == -3 || i == -2) {
-            if (i == -2 || willPauseWhenDucked()) {
-                executePlayerCommand(0);
-                setAudioFocusState(2);
-                return;
-            }
-            setAudioFocusState(3);
-        } else if (i == -1) {
-            executePlayerCommand(-1);
+    private boolean shouldAbandonAudioFocusIfHeld(int i) {
+        return i == 1 || this.focusGainToRequest != 1;
+    }
+
+    private boolean willPauseWhenDucked() {
+        AudioAttributes audioAttributes = this.audioAttributes;
+        return audioAttributes != null && audioAttributes.contentType == 1;
+    }
+
+    public float getVolumeMultiplier() {
+        return this.volumeMultiplier;
+    }
+
+    public void release() {
+        this.playerControl = null;
+        abandonAudioFocusIfHeld();
+    }
+
+    public void setAudioAttributes(AudioAttributes audioAttributes) {
+        if (Util.areEqual(this.audioAttributes, audioAttributes)) {
+            return;
+        }
+        this.audioAttributes = audioAttributes;
+        int convertAudioAttributesToFocusGain = convertAudioAttributesToFocusGain(audioAttributes);
+        this.focusGainToRequest = convertAudioAttributesToFocusGain;
+        boolean z = true;
+        if (convertAudioAttributesToFocusGain != 1 && convertAudioAttributesToFocusGain != 0) {
+            z = false;
+        }
+        Assertions.checkArgument(z, "Automatic handling of audio focus is only available for USAGE_MEDIA and USAGE_GAME.");
+    }
+
+    public int updateAudioFocus(boolean z, int i) {
+        if (shouldAbandonAudioFocusIfHeld(i)) {
             abandonAudioFocusIfHeld();
-        } else if (i == 1) {
-            setAudioFocusState(1);
-            executePlayerCommand(1);
+            return z ? 1 : -1;
+        } else if (z) {
+            return requestAudioFocus();
         } else {
-            Log.w("AudioFocusManager", "Unknown focus change type: " + i);
-        }
-    }
-
-    private void executePlayerCommand(int i) {
-        PlayerControl playerControl = this.playerControl;
-        if (playerControl != null) {
-            playerControl.executePlayerCommand(i);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class AudioFocusListener implements AudioManager.OnAudioFocusChangeListener {
-        private final Handler eventHandler;
-
-        public AudioFocusListener(Handler handler) {
-            this.eventHandler = handler;
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onAudioFocusChange$0(int i) {
-            AudioFocusManager.this.handlePlatformAudioFocusChange(i);
-        }
-
-        @Override // android.media.AudioManager.OnAudioFocusChangeListener
-        public void onAudioFocusChange(final int i) {
-            this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.AudioFocusManager$AudioFocusListener$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    AudioFocusManager.AudioFocusListener.this.lambda$onAudioFocusChange$0(i);
-                }
-            });
+            return -1;
         }
     }
 }

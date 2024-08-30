@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.internal.location.zzd;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class zzv implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -26,10 +25,10 @@ public final class zzv implements Parcelable.Creator {
                 z = SafeParcelReader.readBoolean(parcel, readHeader);
             } else if (fieldId == 4) {
                 str = SafeParcelReader.createString(parcel, readHeader);
-            } else if (fieldId == 5) {
-                zzdVar = (zzd) SafeParcelReader.createParcelable(parcel, readHeader, zzd.CREATOR);
-            } else {
+            } else if (fieldId != 5) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                zzdVar = (zzd) SafeParcelReader.createParcelable(parcel, readHeader, zzd.CREATOR);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);

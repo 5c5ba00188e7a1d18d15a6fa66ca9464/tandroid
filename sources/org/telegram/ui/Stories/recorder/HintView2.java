@@ -106,7 +106,7 @@ public class HintView2 extends View {
     private float pathLastHeight;
     private float pathLastWidth;
     private boolean pathSet;
-    private LinkSpanDrawable<ClickableSpan> pressedLink;
+    private LinkSpanDrawable pressedLink;
     private boolean repeatedBounce;
     protected float rounding;
     private Drawable selectorDrawable;
@@ -159,7 +159,7 @@ public class HintView2 extends View {
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
         this.show = new AnimatedFloat(this, 350L, cubicBezierInterpolator);
         this.iconMargin = AndroidUtilities.dp(2.0f);
-        this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.HintView2$$ExternalSyntheticLambda1
+        this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.HintView2$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 HintView2.this.hide();
@@ -182,171 +182,120 @@ public class HintView2 extends View {
         setTextColor(-1);
     }
 
-    public HintView2 setDirection(int i) {
-        this.direction = i;
-        return this;
-    }
-
-    public HintView2 setRounding(float f) {
-        this.rounding = AndroidUtilities.dp(f);
-        this.backgroundPaint.setPathEffect(new CornerPathEffect(this.rounding));
-        Paint paint = this.cutSelectorPaint;
-        if (paint != null) {
-            paint.setPathEffect(new CornerPathEffect(this.rounding));
-        }
-        Paint paint2 = this.blurCutPaint;
-        if (paint2 != null) {
-            paint2.setPathEffect(new CornerPathEffect(this.rounding));
-        }
-        return this;
-    }
-
-    public HintView2 setMultilineText(boolean z) {
-        this.multiline = z;
-        if (z) {
-            this.innerPadding.set(AndroidUtilities.dp(15.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(15.0f), AndroidUtilities.dp(8.0f));
-            this.closeButtonMargin = AndroidUtilities.dp(6.0f);
-        } else {
-            this.innerPadding.set(AndroidUtilities.dp(11.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(this.closeButton ? 15.0f : 11.0f), AndroidUtilities.dp(7.0f));
-            this.closeButtonMargin = AndroidUtilities.dp(2.0f);
-        }
-        return this;
-    }
-
-    public HintView2 setText(CharSequence charSequence) {
-        if (getMeasuredWidth() < 0) {
-            this.textToSet = charSequence;
-        } else if (!this.multiline) {
-            this.textDrawable.setText(charSequence, false);
-        } else {
-            makeLayout(charSequence, getTextMaxWidth());
-        }
-        return this;
-    }
-
-    public CharSequence getText() {
-        CharSequence charSequence = this.textToSet;
-        if (charSequence != null) {
-            return charSequence;
-        }
-        if (!this.multiline) {
-            return this.textDrawable.getText();
-        }
-        StaticLayout staticLayout = this.textLayout;
-        if (staticLayout != null) {
-            return staticLayout.getText();
-        }
-        return null;
-    }
-
-    public HintView2 setText(CharSequence charSequence, boolean z) {
-        if (getMeasuredWidth() < 0) {
-            this.textToSet = charSequence;
-        } else {
-            this.textDrawable.setText(charSequence, !LocaleController.isRTL && z);
-        }
-        return this;
-    }
-
-    public HintView2 setTextSize(int i) {
-        float f = i;
-        this.textDrawable.setTextSize(AndroidUtilities.dp(f));
-        this.textPaint.setTextSize(AndroidUtilities.dp(f));
-        return this;
-    }
-
-    public HintView2 setCloseButton(boolean z) {
-        this.closeButton = z;
-        if (!this.multiline) {
-            this.innerPadding.set(AndroidUtilities.dp(11.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(this.closeButton ? 15.0f : 11.0f), AndroidUtilities.dp(7.0f));
-        }
-        return this;
-    }
-
-    public HintView2 setMaxWidth(float f) {
-        this.textMaxWidth = AndroidUtilities.dp(f);
-        return this;
-    }
-
-    public HintView2 setMaxWidthPx(int i) {
-        this.textMaxWidth = i;
-        return this;
-    }
-
-    public HintView2 setIcon(int i) {
-        RLottieDrawable rLottieDrawable = new RLottieDrawable(i, "" + i, AndroidUtilities.dp(34.0f), AndroidUtilities.dp(34.0f));
-        rLottieDrawable.start();
-        return setIcon(rLottieDrawable);
-    }
-
-    public HintView2 setIcon(Drawable drawable) {
-        Drawable drawable2 = this.icon;
-        if (drawable2 != null) {
-            drawable2.setCallback(null);
-        }
-        this.icon = drawable;
-        if (drawable != null) {
-            drawable.setCallback(this);
-            Drawable drawable3 = this.icon;
-            if (drawable3 instanceof RLottieDrawable) {
-                this.duration = Math.max(this.duration, ((RLottieDrawable) drawable3).getDuration());
+    private void bounceShow() {
+        if (this.repeatedBounce) {
+            ValueAnimator valueAnimator = this.bounceAnimator;
+            if (valueAnimator != null) {
+                valueAnimator.cancel();
+                this.bounceAnimator = null;
             }
-            this.iconWidth = this.icon.getIntrinsicWidth();
-            this.iconHeight = this.icon.getIntrinsicHeight();
-            this.iconLeft = true;
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+            this.bounceAnimator = ofFloat;
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.HintView2$$ExternalSyntheticLambda2
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    HintView2.this.lambda$bounceShow$0(valueAnimator2);
+                }
+            });
+            this.bounceAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.HintView2.2
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    HintView2.this.bounceT = 1.0f;
+                    HintView2.this.invalidate();
+                }
+            });
+            this.bounceAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_BACK);
+            this.bounceAnimator.setDuration(300L);
+            this.bounceAnimator.start();
         }
-        return this;
     }
 
-    public static float measureCorrectly(CharSequence charSequence, TextPaint textPaint) {
-        float f = 0.0f;
-        if (charSequence == null) {
-            return 0.0f;
-        }
-        if (!(charSequence instanceof Spanned)) {
-            return textPaint.measureText(charSequence.toString());
-        }
-        Spanned spanned = (Spanned) charSequence;
-        TypefaceSpan[] typefaceSpanArr = (TypefaceSpan[]) spanned.getSpans(0, charSequence.length(), TypefaceSpan.class);
-        AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) spanned.getSpans(0, charSequence.length(), AnimatedEmojiSpan.class);
-        Emoji.EmojiSpan[] emojiSpanArr = (Emoji.EmojiSpan[]) spanned.getSpans(0, charSequence.length(), Emoji.EmojiSpan.class);
-        ColoredImageSpan[] coloredImageSpanArr = (ColoredImageSpan[]) spanned.getSpans(0, charSequence.length(), ColoredImageSpan.class);
-        int i = 0;
-        for (Emoji.EmojiSpan emojiSpan : emojiSpanArr) {
-            i += emojiSpan.size;
-        }
-        int i2 = i;
-        for (int i3 = 0; i3 < coloredImageSpanArr.length; i3++) {
-            ColoredImageSpan coloredImageSpan = coloredImageSpanArr[i3];
-            i2 += coloredImageSpan.getSize(textPaint, charSequence, spanned.getSpanStart(coloredImageSpan), spanned.getSpanEnd(coloredImageSpanArr[i3]), textPaint.getFontMetricsInt());
-        }
-        for (AnimatedEmojiSpan animatedEmojiSpan : animatedEmojiSpanArr) {
-            i2 = (int) (i2 + animatedEmojiSpan.size);
-        }
-        if (typefaceSpanArr == null || typefaceSpanArr.length == 0) {
-            return textPaint.measureText(charSequence.toString()) + i2;
-        }
-        int i4 = 0;
-        for (int i5 = 0; i5 < typefaceSpanArr.length; i5++) {
-            int spanStart = spanned.getSpanStart(typefaceSpanArr[i5]);
-            int spanEnd = spanned.getSpanEnd(typefaceSpanArr[i5]);
-            int max = Math.max(i4, spanStart);
-            if (max - i4 > 0) {
-                f += textPaint.measureText(spanned, i4, max);
+    private boolean checkTouchLinks(MotionEvent motionEvent) {
+        if (this.textLayout != null) {
+            final ClickableSpan hitLink = hitLink((int) motionEvent.getX(), (int) motionEvent.getY());
+            if (hitLink != null && motionEvent.getAction() == 0) {
+                final LinkSpanDrawable linkSpanDrawable = new LinkSpanDrawable(hitLink, null, motionEvent.getX(), motionEvent.getY());
+                this.pressedLink = linkSpanDrawable;
+                this.links.addLink(linkSpanDrawable);
+                SpannableString spannableString = new SpannableString(this.textLayout.getText());
+                int spanStart = spannableString.getSpanStart(this.pressedLink.getSpan());
+                int spanEnd = spannableString.getSpanEnd(this.pressedLink.getSpan());
+                LinkPath obtainNewPath = this.pressedLink.obtainNewPath();
+                obtainNewPath.setCurrentLayout(this.textLayout, spanStart, 0.0f);
+                this.textLayout.getSelectionPath(spanStart, spanEnd, obtainNewPath);
+                invalidate();
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.HintView2$$ExternalSyntheticLambda3
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        HintView2.this.lambda$checkTouchLinks$1(linkSpanDrawable, hitLink);
+                    }
+                }, ViewConfiguration.getLongPressTimeout());
+                pause();
+                return true;
             }
-            i4 = Math.max(max, spanEnd);
-            if (i4 - max > 0) {
-                Typeface typeface = textPaint.getTypeface();
-                textPaint.setTypeface(typefaceSpanArr[i5].getTypeface());
-                f += textPaint.measureText(spanned, max, i4);
-                textPaint.setTypeface(typeface);
+            if (motionEvent.getAction() == 1) {
+                this.links.clear();
+                invalidate();
+                unpause();
+                LinkSpanDrawable linkSpanDrawable2 = this.pressedLink;
+                if (linkSpanDrawable2 != null && linkSpanDrawable2.getSpan() == hitLink) {
+                    LinkSpanDrawable.LinksTextView.OnLinkPress onLinkPress = this.onPressListener;
+                    if (onLinkPress != null) {
+                        onLinkPress.run((ClickableSpan) this.pressedLink.getSpan());
+                    } else if (this.pressedLink.getSpan() != null) {
+                        ((ClickableSpan) this.pressedLink.getSpan()).onClick(this);
+                    }
+                    this.pressedLink = null;
+                    return true;
+                }
+                this.pressedLink = null;
+            }
+            if (motionEvent.getAction() == 3) {
+                this.links.clear();
+                invalidate();
+                unpause();
+                this.pressedLink = null;
             }
         }
-        int max2 = Math.max(i4, charSequence.length());
-        if (max2 - i4 > 0) {
-            f += textPaint.measureText(spanned, i4, max2);
+        return this.pressedLink != null;
+    }
+
+    private boolean checkTouchTap(MotionEvent motionEvent) {
+        float x = motionEvent.getX();
+        float y = motionEvent.getY();
+        if (motionEvent.getAction() == 0 && containsTouch(motionEvent, 0.0f, 0.0f)) {
+            this.bounceX = x;
+            this.bounceY = y;
+            this.bounce.setPressed(true);
+            Drawable drawable = this.selectorDrawable;
+            if (drawable != null && Build.VERSION.SDK_INT >= 21) {
+                drawable.setHotspot(x, y);
+                this.selectorDrawable.setState(new int[]{16842919, 16842910});
+            }
+            return true;
+        } else if (motionEvent.getAction() != 1) {
+            if (motionEvent.getAction() == 3) {
+                this.bounce.setPressed(false);
+                Drawable drawable2 = this.selectorDrawable;
+                if (drawable2 != null) {
+                    drawable2.setState(new int[0]);
+                }
+                return true;
+            }
+            return false;
+        } else {
+            if (hasOnClickListeners()) {
+                performClick();
+            } else if (this.hideByTouch) {
+                hide();
+            }
+            this.bounce.setPressed(false);
+            Drawable drawable3 = this.selectorDrawable;
+            if (drawable3 != null) {
+                drawable3.setState(new int[0]);
+            }
+            return true;
         }
-        return f + i2;
     }
 
     public static int cutInFancyHalf(CharSequence charSequence, TextPaint textPaint) {
@@ -384,221 +333,6 @@ public class HintView2 extends View {
         return (int) Math.ceil(Math.max(f2, f3));
     }
 
-    public HintView2 useScale(boolean z) {
-        this.useScale = z;
-        return this;
-    }
-
-    public HintView2 setDuration(long j) {
-        this.duration = j;
-        return this;
-    }
-
-    public HintView2 setAnimatedTextHacks(boolean z, boolean z2, boolean z3) {
-        this.textDrawable.setHacks(z, z2, z3);
-        return this;
-    }
-
-    public HintView2 setInnerPadding(int i, int i2, int i3, int i4) {
-        this.innerPadding.set(AndroidUtilities.dp(i), AndroidUtilities.dp(i2), AndroidUtilities.dp(i3), AndroidUtilities.dp(i4));
-        return this;
-    }
-
-    public HintView2 setIconMargin(int i) {
-        this.iconMargin = AndroidUtilities.dp(i);
-        return this;
-    }
-
-    public HintView2 setIconTranslate(float f, float f2) {
-        this.iconTx = f;
-        this.iconTy = f2;
-        return this;
-    }
-
-    public HintView2 setTextColor(int i) {
-        this.textDrawable.setTextColor(i);
-        this.textPaint.setColor(i);
-        return this;
-    }
-
-    public HintView2 setHideByTouch(boolean z) {
-        this.hideByTouch = z;
-        return this;
-    }
-
-    public HintView2 setSelectorColor(int i) {
-        if (Build.VERSION.SDK_INT < 21) {
-            return this;
-        }
-        Paint paint = new Paint(1);
-        this.cutSelectorPaint = paint;
-        paint.setPathEffect(new CornerPathEffect(this.rounding));
-        BaseCell.RippleDrawableSafe rippleDrawableSafe = new BaseCell.RippleDrawableSafe(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{i}), null, new Drawable() { // from class: org.telegram.ui.Stories.recorder.HintView2.1
-            @Override // android.graphics.drawable.Drawable
-            public int getOpacity() {
-                return -2;
-            }
-
-            @Override // android.graphics.drawable.Drawable
-            public void setAlpha(int i2) {
-            }
-
-            @Override // android.graphics.drawable.Drawable
-            public void setColorFilter(ColorFilter colorFilter) {
-            }
-
-            @Override // android.graphics.drawable.Drawable
-            public void draw(Canvas canvas) {
-                canvas.save();
-                HintView2 hintView2 = HintView2.this;
-                canvas.drawPath(hintView2.path, hintView2.cutSelectorPaint);
-                canvas.restore();
-            }
-        });
-        this.selectorDrawable = rippleDrawableSafe;
-        rippleDrawableSafe.setCallback(this);
-        return this;
-    }
-
-    public HintView2 setBounce(boolean z) {
-        this.repeatedBounce = z;
-        return this;
-    }
-
-    public HintView2 setTextAlign(Layout.Alignment alignment) {
-        this.textLayoutAlignment = alignment;
-        return this;
-    }
-
-    public HintView2 setBgColor(int i) {
-        this.backgroundPaint.setColor(i);
-        return this;
-    }
-
-    public HintView2 setOnHiddenListener(Runnable runnable) {
-        this.onHidden = runnable;
-        return this;
-    }
-
-    public HintView2 setJoint(float f, float f2) {
-        if (Math.abs(this.joint - f) >= 1.0f || Math.abs(this.jointTranslate - AndroidUtilities.dp(f2)) >= 1.0f) {
-            this.pathSet = false;
-            invalidate();
-        }
-        this.joint = f;
-        this.jointTranslate = AndroidUtilities.dp(f2);
-        return this;
-    }
-
-    public HintView2 setJointPx(float f, float f2) {
-        if (Math.abs(this.joint - f) >= 1.0f || Math.abs(this.jointTranslate - f2) >= 1.0f) {
-            this.pathSet = false;
-            invalidate();
-        }
-        this.joint = f;
-        this.jointTranslate = f2;
-        return this;
-    }
-
-    public TextPaint getTextPaint() {
-        if (this.multiline) {
-            return this.textPaint;
-        }
-        return this.textDrawable.getPaint();
-    }
-
-    public HintView2 show() {
-        prepareBlur();
-        if (this.shown) {
-            bounceShow();
-        }
-        AndroidUtilities.makeAccessibilityAnnouncement(getText());
-        this.shown = true;
-        invalidate();
-        AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
-        long j = this.duration;
-        if (j > 0) {
-            AndroidUtilities.runOnUIThread(this.hideRunnable, j);
-        }
-        Runnable runnable = this.onHidden;
-        if (runnable != null) {
-            AndroidUtilities.cancelRunOnUIThread(runnable);
-        }
-        return this;
-    }
-
-    private void bounceShow() {
-        if (this.repeatedBounce) {
-            ValueAnimator valueAnimator = this.bounceAnimator;
-            if (valueAnimator != null) {
-                valueAnimator.cancel();
-                this.bounceAnimator = null;
-            }
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            this.bounceAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.HintView2$$ExternalSyntheticLambda3
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    HintView2.this.lambda$bounceShow$0(valueAnimator2);
-                }
-            });
-            this.bounceAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.HintView2.2
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    HintView2.this.bounceT = 1.0f;
-                    HintView2.this.invalidate();
-                }
-            });
-            this.bounceAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_BACK);
-            this.bounceAnimator.setDuration(300L);
-            this.bounceAnimator.start();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$bounceShow$0(ValueAnimator valueAnimator) {
-        this.bounceT = Math.max(1.0f, ((Float) valueAnimator.getAnimatedValue()).floatValue());
-        invalidate();
-    }
-
-    public void hide() {
-        hide(true);
-    }
-
-    public void hide(boolean z) {
-        AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
-        Runnable runnable = this.onHidden;
-        if (runnable != null) {
-            AndroidUtilities.cancelRunOnUIThread(runnable);
-        }
-        this.shown = false;
-        if (!z) {
-            this.show.set(false, false);
-        }
-        invalidate();
-        Runnable runnable2 = this.onHidden;
-        if (runnable2 != null) {
-            AndroidUtilities.runOnUIThread(runnable2, this.show.get() * ((float) this.show.getDuration()));
-        }
-        this.links.clear();
-    }
-
-    public void pause() {
-        AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
-    }
-
-    public void unpause() {
-        AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
-        long j = this.duration;
-        if (j > 0) {
-            AndroidUtilities.runOnUIThread(this.hideRunnable, j);
-        }
-    }
-
-    public boolean shown() {
-        return this.shown;
-    }
-
     private int getTextMaxWidth() {
         int measuredWidth = (getMeasuredWidth() - getPaddingLeft()) - getPaddingRight();
         RectF rectF = this.innerPadding;
@@ -610,32 +344,61 @@ public class HintView2 extends View {
         return Math.max(0, i);
     }
 
-    @Override // android.view.View
-    protected void onMeasure(int i, int i2) {
-        setMeasuredDimension(View.MeasureSpec.getSize(i), View.MeasureSpec.getSize(i2));
-        this.pathSet = false;
-        int textMaxWidth = getTextMaxWidth();
-        this.textDrawable.setOverrideFullWidth(textMaxWidth);
-        if (this.multiline) {
-            CharSequence charSequence = this.textToSet;
-            if (charSequence == null) {
-                StaticLayout staticLayout = this.textLayout;
-                if (staticLayout == null) {
-                    return;
-                }
-                charSequence = staticLayout.getText();
-            }
-            StaticLayout staticLayout2 = this.textLayout;
-            if (staticLayout2 == null || staticLayout2.getWidth() != textMaxWidth) {
-                makeLayout(charSequence, textMaxWidth);
-            }
-        } else {
-            CharSequence charSequence2 = this.textToSet;
-            if (charSequence2 != null) {
-                this.textDrawable.setText(charSequence2, false);
+    private ClickableSpan hitLink(int i, int i2) {
+        StaticLayout staticLayout = this.textLayout;
+        if (staticLayout == null) {
+            return null;
+        }
+        int i3 = (int) (i2 - this.textY);
+        int lineForVertical = staticLayout.getLineForVertical(i3);
+        float f = (int) (i - this.textX);
+        int offsetForHorizontal = this.textLayout.getOffsetForHorizontal(lineForVertical, f);
+        float lineLeft = this.textLayout.getLineLeft(lineForVertical);
+        if (lineLeft <= f && lineLeft + this.textLayout.getLineWidth(lineForVertical) >= f && i3 >= 0 && i3 <= this.textLayout.getHeight()) {
+            ClickableSpan[] clickableSpanArr = (ClickableSpan[]) new SpannableString(this.textLayout.getText()).getSpans(offsetForHorizontal, offsetForHorizontal, ClickableSpan.class);
+            if (clickableSpanArr.length != 0 && !AndroidUtilities.isAccessibilityScreenReaderEnabled()) {
+                return clickableSpanArr[0];
             }
         }
-        this.textToSet = null;
+        return null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$bounceShow$0(ValueAnimator valueAnimator) {
+        this.bounceT = Math.max(1.0f, ((Float) valueAnimator.getAnimatedValue()).floatValue());
+        invalidate();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$checkTouchLinks$1(LinkSpanDrawable linkSpanDrawable, ClickableSpan clickableSpan) {
+        LinkSpanDrawable.LinksTextView.OnLinkPress onLinkPress = this.onLongPressListener;
+        if (onLinkPress == null || this.pressedLink != linkSpanDrawable) {
+            return;
+        }
+        onLinkPress.run(clickableSpan);
+        this.pressedLink = null;
+        this.links.clear();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$prepareBlur$2(Bitmap bitmap) {
+        this.drawingMyBlur = false;
+        this.blurBitmapWidth = bitmap.getWidth();
+        this.blurBitmapHeight = bitmap.getHeight();
+        Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+        this.blurBitmapShader = new BitmapShader(bitmap, tileMode, tileMode);
+        this.blurBitmapMatrix = new Matrix();
+        Paint paint = new Paint(1);
+        this.blurBackgroundPaint = paint;
+        paint.setShader(this.blurBitmapShader);
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(1.5f);
+        AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, Theme.isCurrentThemeDark() ? 0.12f : -0.08f);
+        this.blurBackgroundPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+        Paint paint2 = new Paint(1);
+        this.blurCutPaint = paint2;
+        paint2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+        this.blurCutPaint.setPathEffect(new CornerPathEffect(this.rounding));
     }
 
     private void makeLayout(CharSequence charSequence, int i) {
@@ -652,20 +415,191 @@ public class HintView2 extends View {
         this.emojiGroupedSpans = AnimatedEmojiSpan.update(0, this, this.emojiGroupedSpans, this.textLayout);
     }
 
-    @Override // android.view.View
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        AnimatedEmojiSpan.release(this, this.emojiGroupedSpans);
+    public static float measureCorrectly(CharSequence charSequence, TextPaint textPaint) {
+        float f = 0.0f;
+        if (charSequence == null) {
+            return 0.0f;
+        }
+        if (charSequence instanceof Spanned) {
+            Spanned spanned = (Spanned) charSequence;
+            TypefaceSpan[] typefaceSpanArr = (TypefaceSpan[]) spanned.getSpans(0, charSequence.length(), TypefaceSpan.class);
+            AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) spanned.getSpans(0, charSequence.length(), AnimatedEmojiSpan.class);
+            Emoji.EmojiSpan[] emojiSpanArr = (Emoji.EmojiSpan[]) spanned.getSpans(0, charSequence.length(), Emoji.EmojiSpan.class);
+            ColoredImageSpan[] coloredImageSpanArr = (ColoredImageSpan[]) spanned.getSpans(0, charSequence.length(), ColoredImageSpan.class);
+            int i = 0;
+            for (Emoji.EmojiSpan emojiSpan : emojiSpanArr) {
+                i += emojiSpan.size;
+            }
+            int i2 = i;
+            for (int i3 = 0; i3 < coloredImageSpanArr.length; i3++) {
+                ColoredImageSpan coloredImageSpan = coloredImageSpanArr[i3];
+                i2 += coloredImageSpan.getSize(textPaint, charSequence, spanned.getSpanStart(coloredImageSpan), spanned.getSpanEnd(coloredImageSpanArr[i3]), textPaint.getFontMetricsInt());
+            }
+            for (AnimatedEmojiSpan animatedEmojiSpan : animatedEmojiSpanArr) {
+                i2 = (int) (i2 + animatedEmojiSpan.size);
+            }
+            if (typefaceSpanArr == null || typefaceSpanArr.length == 0) {
+                return textPaint.measureText(charSequence.toString()) + i2;
+            }
+            int i4 = 0;
+            for (int i5 = 0; i5 < typefaceSpanArr.length; i5++) {
+                int spanStart = spanned.getSpanStart(typefaceSpanArr[i5]);
+                int spanEnd = spanned.getSpanEnd(typefaceSpanArr[i5]);
+                int max = Math.max(i4, spanStart);
+                if (max - i4 > 0) {
+                    f += textPaint.measureText(spanned, i4, max);
+                }
+                i4 = Math.max(max, spanEnd);
+                if (i4 - max > 0) {
+                    Typeface typeface = textPaint.getTypeface();
+                    textPaint.setTypeface(typefaceSpanArr[i5].getTypeface());
+                    f += textPaint.measureText(spanned, max, i4);
+                    textPaint.setTypeface(typeface);
+                }
+            }
+            int max2 = Math.max(i4, charSequence.length());
+            if (max2 - i4 > 0) {
+                f += textPaint.measureText(spanned, i4, max2);
+            }
+            return f + i2;
+        }
+        return textPaint.measureText(charSequence.toString());
     }
 
-    protected void drawBgPath(Canvas canvas) {
-        if (this.blurBackgroundPaint != null) {
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.voipServiceCreated, 31);
-            canvas.drawPath(this.path, this.blurBackgroundPaint);
-            canvas.drawPath(this.path, this.blurCutPaint);
-            canvas.restore();
+    private void prepareBlur() {
+        if (this.useBlur) {
+            this.drawingMyBlur = true;
+            AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.HintView2$$ExternalSyntheticLambda1
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    HintView2.this.lambda$prepareBlur$2((Bitmap) obj);
+                }
+            }, this.blurScale);
         }
-        canvas.drawPath(this.path, this.backgroundPaint);
+    }
+
+    private void rewindPath(float f, float f2) {
+        float clamp;
+        int i = this.direction;
+        if (i == 1 || i == 3) {
+            float clamp2 = Utilities.clamp(AndroidUtilities.lerp(getPaddingLeft(), getMeasuredWidth() - getPaddingRight(), this.joint) + this.jointTranslate, getMeasuredWidth() - getPaddingRight(), getPaddingLeft());
+            float min = Math.min(Math.max(getPaddingLeft(), clamp2 - (f / 2.0f)) + f, getMeasuredWidth() - getPaddingRight());
+            float f3 = min - f;
+            float f4 = this.rounding;
+            float f5 = this.arrowHalfWidth;
+            clamp = Utilities.clamp(clamp2, (min - f4) - f5, f4 + f3 + f5);
+            if (this.direction == 1) {
+                this.bounds.set(f3, getPaddingTop() + this.arrowHeight, min, getPaddingTop() + this.arrowHeight + f2);
+            } else {
+                this.bounds.set(f3, ((getMeasuredHeight() - this.arrowHeight) - getPaddingBottom()) - f2, min, (getMeasuredHeight() - this.arrowHeight) - getPaddingBottom());
+            }
+        } else {
+            float clamp3 = Utilities.clamp(AndroidUtilities.lerp(getPaddingTop(), getMeasuredHeight() - getPaddingBottom(), this.joint) + this.jointTranslate, getMeasuredHeight() - getPaddingBottom(), getPaddingTop());
+            float min2 = Math.min(Math.max(getPaddingTop(), clamp3 - (f2 / 2.0f)) + f2, getMeasuredHeight() - getPaddingBottom());
+            float f6 = min2 - f2;
+            float f7 = this.rounding;
+            float f8 = this.arrowHalfWidth;
+            clamp = Utilities.clamp(clamp3, (min2 - f7) - f8, f7 + f6 + f8);
+            if (this.direction == 0) {
+                this.bounds.set(getPaddingLeft() + this.arrowHeight, f6, getPaddingLeft() + this.arrowHeight + f, min2);
+            } else {
+                this.bounds.set(((getMeasuredWidth() - getPaddingRight()) - this.arrowHeight) - f, f6, (getMeasuredWidth() - getPaddingRight()) - this.arrowHeight, min2);
+            }
+        }
+        Rect rect = this.boundsWithArrow;
+        RectF rectF = this.bounds;
+        rect.set((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
+        this.path.rewind();
+        Path path = this.path;
+        RectF rectF2 = this.bounds;
+        path.moveTo(rectF2.left, rectF2.bottom);
+        if (this.direction == 0) {
+            this.path.lineTo(this.bounds.left, this.arrowHalfWidth + clamp + AndroidUtilities.dp(2.0f));
+            this.path.lineTo(this.bounds.left, this.arrowHalfWidth + clamp);
+            this.path.lineTo(this.bounds.left - this.arrowHeight, AndroidUtilities.dp(1.0f) + clamp);
+            float f9 = this.bounds.left - this.arrowHeight;
+            this.arrowX = f9;
+            this.arrowY = clamp;
+            this.path.lineTo(f9, clamp - AndroidUtilities.dp(1.0f));
+            this.path.lineTo(this.bounds.left, clamp - this.arrowHalfWidth);
+            this.path.lineTo(this.bounds.left, (clamp - this.arrowHalfWidth) - AndroidUtilities.dp(2.0f));
+            Rect rect2 = this.boundsWithArrow;
+            rect2.left = (int) (rect2.left - this.arrowHeight);
+        }
+        Path path2 = this.path;
+        RectF rectF3 = this.bounds;
+        path2.lineTo(rectF3.left, rectF3.top);
+        if (this.direction == 1) {
+            this.path.lineTo((clamp - this.arrowHalfWidth) - AndroidUtilities.dp(2.0f), this.bounds.top);
+            this.path.lineTo(clamp - this.arrowHalfWidth, this.bounds.top);
+            this.path.lineTo(clamp - AndroidUtilities.dp(1.0f), this.bounds.top - this.arrowHeight);
+            this.arrowX = clamp;
+            this.arrowY = this.bounds.top - this.arrowHeight;
+            this.path.lineTo(AndroidUtilities.dp(1.0f) + clamp, this.bounds.top - this.arrowHeight);
+            this.path.lineTo(this.arrowHalfWidth + clamp, this.bounds.top);
+            this.path.lineTo(this.arrowHalfWidth + clamp + AndroidUtilities.dp(2.0f), this.bounds.top);
+            Rect rect3 = this.boundsWithArrow;
+            rect3.top = (int) (rect3.top - this.arrowHeight);
+        }
+        Path path3 = this.path;
+        RectF rectF4 = this.bounds;
+        path3.lineTo(rectF4.right, rectF4.top);
+        if (this.direction == 2) {
+            this.path.lineTo(this.bounds.right, (clamp - this.arrowHalfWidth) - AndroidUtilities.dp(2.0f));
+            this.path.lineTo(this.bounds.right, clamp - this.arrowHalfWidth);
+            this.path.lineTo(this.bounds.right + this.arrowHeight, clamp - AndroidUtilities.dp(1.0f));
+            float f10 = this.bounds.right + this.arrowHeight;
+            this.arrowX = f10;
+            this.arrowY = clamp;
+            this.path.lineTo(f10, AndroidUtilities.dp(1.0f) + clamp);
+            this.path.lineTo(this.bounds.right, this.arrowHalfWidth + clamp);
+            this.path.lineTo(this.bounds.right, this.arrowHalfWidth + clamp + AndroidUtilities.dp(2.0f));
+            Rect rect4 = this.boundsWithArrow;
+            rect4.right = (int) (rect4.right + this.arrowHeight);
+        }
+        Path path4 = this.path;
+        RectF rectF5 = this.bounds;
+        path4.lineTo(rectF5.right, rectF5.bottom);
+        if (this.direction == 3) {
+            this.path.lineTo(this.arrowHalfWidth + clamp + AndroidUtilities.dp(2.0f), this.bounds.bottom);
+            this.path.lineTo(this.arrowHalfWidth + clamp, this.bounds.bottom);
+            this.path.lineTo(AndroidUtilities.dp(1.0f) + clamp, this.bounds.bottom + this.arrowHeight);
+            this.arrowX = clamp;
+            this.arrowY = this.bounds.bottom + this.arrowHeight;
+            this.path.lineTo(clamp - AndroidUtilities.dp(1.0f), this.bounds.bottom + this.arrowHeight);
+            this.path.lineTo(clamp - this.arrowHalfWidth, this.bounds.bottom);
+            this.path.lineTo((clamp - this.arrowHalfWidth) - AndroidUtilities.dp(2.0f), this.bounds.bottom);
+            Rect rect5 = this.boundsWithArrow;
+            rect5.bottom = (int) (rect5.bottom + this.arrowHeight);
+        }
+        this.path.close();
+        this.pathSet = true;
+    }
+
+    private void updateBlurBounds() {
+        if (!this.useBlur || this.blurBitmapShader == null || this.blurBitmapMatrix == null) {
+            return;
+        }
+        if (this.blurPos == null) {
+            this.blurPos = new int[2];
+        }
+        getLocationOnScreen(this.blurPos);
+        this.blurBitmapMatrix.reset();
+        Matrix matrix = this.blurBitmapMatrix;
+        Point point = AndroidUtilities.displaySize;
+        matrix.postScale(point.x / this.blurBitmapWidth, (point.y + AndroidUtilities.statusBarHeight) / this.blurBitmapHeight);
+        Matrix matrix2 = this.blurBitmapMatrix;
+        int[] iArr = this.blurPos;
+        matrix2.postTranslate(-iArr[0], -iArr[1]);
+        if (this.show.get() < 1.0f && this.useScale) {
+            float lerp = 1.0f / AndroidUtilities.lerp(0.5f, 1.0f, this.show.get());
+            this.blurBitmapMatrix.postScale(lerp, lerp, this.arrowX, this.arrowY);
+        }
+        this.blurBitmapShader.setLocalMatrix(this.blurBitmapMatrix);
+    }
+
+    public boolean containsTouch(MotionEvent motionEvent, float f, float f2) {
+        return this.bounds.contains(motionEvent.getX() - f, motionEvent.getY() - f2);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -817,107 +751,89 @@ public class HintView2 extends View {
         canvas.restore();
     }
 
-    private void rewindPath(float f, float f2) {
-        float clamp;
-        int i = this.direction;
-        if (i == 1 || i == 3) {
-            float clamp2 = Utilities.clamp(AndroidUtilities.lerp(getPaddingLeft(), getMeasuredWidth() - getPaddingRight(), this.joint) + this.jointTranslate, getMeasuredWidth() - getPaddingRight(), getPaddingLeft());
-            float min = Math.min(Math.max(getPaddingLeft(), clamp2 - (f / 2.0f)) + f, getMeasuredWidth() - getPaddingRight());
-            float f3 = min - f;
-            float f4 = this.rounding;
-            float f5 = this.arrowHalfWidth;
-            clamp = Utilities.clamp(clamp2, (min - f4) - f5, f4 + f3 + f5);
-            if (this.direction == 1) {
-                this.bounds.set(f3, getPaddingTop() + this.arrowHeight, min, getPaddingTop() + this.arrowHeight + f2);
-            } else {
-                this.bounds.set(f3, ((getMeasuredHeight() - this.arrowHeight) - getPaddingBottom()) - f2, min, (getMeasuredHeight() - this.arrowHeight) - getPaddingBottom());
+    protected void drawBgPath(Canvas canvas) {
+        if (this.blurBackgroundPaint != null) {
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.voipServiceCreated, 31);
+            canvas.drawPath(this.path, this.blurBackgroundPaint);
+            canvas.drawPath(this.path, this.blurCutPaint);
+            canvas.restore();
+        }
+        canvas.drawPath(this.path, this.backgroundPaint);
+    }
+
+    public CharSequence getText() {
+        CharSequence charSequence = this.textToSet;
+        if (charSequence != null) {
+            return charSequence;
+        }
+        if (this.multiline) {
+            StaticLayout staticLayout = this.textLayout;
+            if (staticLayout != null) {
+                return staticLayout.getText();
             }
-        } else {
-            float clamp3 = Utilities.clamp(AndroidUtilities.lerp(getPaddingTop(), getMeasuredHeight() - getPaddingBottom(), this.joint) + this.jointTranslate, getMeasuredHeight() - getPaddingBottom(), getPaddingTop());
-            float min2 = Math.min(Math.max(getPaddingTop(), clamp3 - (f2 / 2.0f)) + f2, getMeasuredHeight() - getPaddingBottom());
-            float f6 = min2 - f2;
-            float f7 = this.rounding;
-            float f8 = this.arrowHalfWidth;
-            clamp = Utilities.clamp(clamp3, (min2 - f7) - f8, f7 + f6 + f8);
-            if (this.direction == 0) {
-                this.bounds.set(getPaddingLeft() + this.arrowHeight, f6, getPaddingLeft() + this.arrowHeight + f, min2);
-            } else {
-                this.bounds.set(((getMeasuredWidth() - getPaddingRight()) - this.arrowHeight) - f, f6, (getMeasuredWidth() - getPaddingRight()) - this.arrowHeight, min2);
-            }
+            return null;
         }
-        Rect rect = this.boundsWithArrow;
-        RectF rectF = this.bounds;
-        rect.set((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
-        this.path.rewind();
-        Path path = this.path;
-        RectF rectF2 = this.bounds;
-        path.moveTo(rectF2.left, rectF2.bottom);
-        if (this.direction == 0) {
-            this.path.lineTo(this.bounds.left, this.arrowHalfWidth + clamp + AndroidUtilities.dp(2.0f));
-            this.path.lineTo(this.bounds.left, this.arrowHalfWidth + clamp);
-            this.path.lineTo(this.bounds.left - this.arrowHeight, AndroidUtilities.dp(1.0f) + clamp);
-            float f9 = this.bounds.left - this.arrowHeight;
-            this.arrowX = f9;
-            this.arrowY = clamp;
-            this.path.lineTo(f9, clamp - AndroidUtilities.dp(1.0f));
-            this.path.lineTo(this.bounds.left, clamp - this.arrowHalfWidth);
-            this.path.lineTo(this.bounds.left, (clamp - this.arrowHalfWidth) - AndroidUtilities.dp(2.0f));
-            Rect rect2 = this.boundsWithArrow;
-            rect2.left = (int) (rect2.left - this.arrowHeight);
+        return this.textDrawable.getText();
+    }
+
+    public TextPaint getTextPaint() {
+        return this.multiline ? this.textPaint : this.textDrawable.getPaint();
+    }
+
+    public void hide() {
+        hide(true);
+    }
+
+    public void hide(boolean z) {
+        AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
+        Runnable runnable = this.onHidden;
+        if (runnable != null) {
+            AndroidUtilities.cancelRunOnUIThread(runnable);
         }
-        Path path2 = this.path;
-        RectF rectF3 = this.bounds;
-        path2.lineTo(rectF3.left, rectF3.top);
-        if (this.direction == 1) {
-            this.path.lineTo((clamp - this.arrowHalfWidth) - AndroidUtilities.dp(2.0f), this.bounds.top);
-            this.path.lineTo(clamp - this.arrowHalfWidth, this.bounds.top);
-            this.path.lineTo(clamp - AndroidUtilities.dp(1.0f), this.bounds.top - this.arrowHeight);
-            this.arrowX = clamp;
-            this.arrowY = this.bounds.top - this.arrowHeight;
-            this.path.lineTo(AndroidUtilities.dp(1.0f) + clamp, this.bounds.top - this.arrowHeight);
-            this.path.lineTo(this.arrowHalfWidth + clamp, this.bounds.top);
-            this.path.lineTo(this.arrowHalfWidth + clamp + AndroidUtilities.dp(2.0f), this.bounds.top);
-            Rect rect3 = this.boundsWithArrow;
-            rect3.top = (int) (rect3.top - this.arrowHeight);
+        this.shown = false;
+        if (!z) {
+            this.show.set(false, false);
         }
-        Path path3 = this.path;
-        RectF rectF4 = this.bounds;
-        path3.lineTo(rectF4.right, rectF4.top);
-        if (this.direction == 2) {
-            this.path.lineTo(this.bounds.right, (clamp - this.arrowHalfWidth) - AndroidUtilities.dp(2.0f));
-            this.path.lineTo(this.bounds.right, clamp - this.arrowHalfWidth);
-            this.path.lineTo(this.bounds.right + this.arrowHeight, clamp - AndroidUtilities.dp(1.0f));
-            float f10 = this.bounds.right + this.arrowHeight;
-            this.arrowX = f10;
-            this.arrowY = clamp;
-            this.path.lineTo(f10, AndroidUtilities.dp(1.0f) + clamp);
-            this.path.lineTo(this.bounds.right, this.arrowHalfWidth + clamp);
-            this.path.lineTo(this.bounds.right, this.arrowHalfWidth + clamp + AndroidUtilities.dp(2.0f));
-            Rect rect4 = this.boundsWithArrow;
-            rect4.right = (int) (rect4.right + this.arrowHeight);
+        invalidate();
+        Runnable runnable2 = this.onHidden;
+        if (runnable2 != null) {
+            AndroidUtilities.runOnUIThread(runnable2, this.show.get() * ((float) this.show.getDuration()));
         }
-        Path path4 = this.path;
-        RectF rectF5 = this.bounds;
-        path4.lineTo(rectF5.right, rectF5.bottom);
-        if (this.direction == 3) {
-            this.path.lineTo(this.arrowHalfWidth + clamp + AndroidUtilities.dp(2.0f), this.bounds.bottom);
-            this.path.lineTo(this.arrowHalfWidth + clamp, this.bounds.bottom);
-            this.path.lineTo(AndroidUtilities.dp(1.0f) + clamp, this.bounds.bottom + this.arrowHeight);
-            this.arrowX = clamp;
-            this.arrowY = this.bounds.bottom + this.arrowHeight;
-            this.path.lineTo(clamp - AndroidUtilities.dp(1.0f), this.bounds.bottom + this.arrowHeight);
-            this.path.lineTo(clamp - this.arrowHalfWidth, this.bounds.bottom);
-            this.path.lineTo((clamp - this.arrowHalfWidth) - AndroidUtilities.dp(2.0f), this.bounds.bottom);
-            Rect rect5 = this.boundsWithArrow;
-            rect5.bottom = (int) (rect5.bottom + this.arrowHeight);
-        }
-        this.path.close();
-        this.pathSet = true;
+        this.links.clear();
     }
 
     @Override // android.view.View
-    protected boolean verifyDrawable(Drawable drawable) {
-        return drawable == this.textDrawable || drawable == this.selectorDrawable || drawable == this.icon || super.verifyDrawable(drawable);
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        AnimatedEmojiSpan.release(this, this.emojiGroupedSpans);
+    }
+
+    @Override // android.view.View
+    protected void onMeasure(int i, int i2) {
+        setMeasuredDimension(View.MeasureSpec.getSize(i), View.MeasureSpec.getSize(i2));
+        this.pathSet = false;
+        int textMaxWidth = getTextMaxWidth();
+        this.textDrawable.setOverrideFullWidth(textMaxWidth);
+        if (this.multiline) {
+            CharSequence charSequence = this.textToSet;
+            if (charSequence == null) {
+                StaticLayout staticLayout = this.textLayout;
+                if (staticLayout == null) {
+                    return;
+                }
+                charSequence = staticLayout.getText();
+            }
+            StaticLayout staticLayout2 = this.textLayout;
+            if (staticLayout2 == null || staticLayout2.getWidth() != textMaxWidth) {
+                makeLayout(charSequence, textMaxWidth);
+            }
+        } else {
+            CharSequence charSequence2 = this.textToSet;
+            if (charSequence2 != null) {
+                this.textDrawable.setText(charSequence2, false);
+            }
+        }
+        this.textToSet = null;
     }
 
     @Override // android.view.View
@@ -928,179 +844,263 @@ public class HintView2 extends View {
         return false;
     }
 
-    public boolean containsTouch(MotionEvent motionEvent, float f, float f2) {
-        return this.bounds.contains(motionEvent.getX() - f, motionEvent.getY() - f2);
+    public void pause() {
+        AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
     }
 
-    private boolean checkTouchTap(MotionEvent motionEvent) {
-        float x = motionEvent.getX();
-        float y = motionEvent.getY();
-        if (motionEvent.getAction() == 0 && containsTouch(motionEvent, 0.0f, 0.0f)) {
-            this.bounceX = x;
-            this.bounceY = y;
-            this.bounce.setPressed(true);
-            Drawable drawable = this.selectorDrawable;
-            if (drawable != null && Build.VERSION.SDK_INT >= 21) {
-                drawable.setHotspot(x, y);
-                this.selectorDrawable.setState(new int[]{16842919, 16842910});
+    public HintView2 setAnimatedTextHacks(boolean z, boolean z2, boolean z3) {
+        this.textDrawable.setHacks(z, z2, z3);
+        return this;
+    }
+
+    public HintView2 setBgColor(int i) {
+        this.backgroundPaint.setColor(i);
+        return this;
+    }
+
+    public HintView2 setBounce(boolean z) {
+        this.repeatedBounce = z;
+        return this;
+    }
+
+    public HintView2 setCloseButton(boolean z) {
+        this.closeButton = z;
+        if (!this.multiline) {
+            this.innerPadding.set(AndroidUtilities.dp(11.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(this.closeButton ? 15.0f : 11.0f), AndroidUtilities.dp(7.0f));
+        }
+        return this;
+    }
+
+    public HintView2 setDirection(int i) {
+        this.direction = i;
+        return this;
+    }
+
+    public HintView2 setDuration(long j) {
+        this.duration = j;
+        return this;
+    }
+
+    public HintView2 setHideByTouch(boolean z) {
+        this.hideByTouch = z;
+        return this;
+    }
+
+    public HintView2 setIcon(int i) {
+        RLottieDrawable rLottieDrawable = new RLottieDrawable(i, "" + i, AndroidUtilities.dp(34.0f), AndroidUtilities.dp(34.0f));
+        rLottieDrawable.start();
+        return setIcon(rLottieDrawable);
+    }
+
+    public HintView2 setIcon(Drawable drawable) {
+        Drawable drawable2 = this.icon;
+        if (drawable2 != null) {
+            drawable2.setCallback(null);
+        }
+        this.icon = drawable;
+        if (drawable != null) {
+            drawable.setCallback(this);
+            Drawable drawable3 = this.icon;
+            if (drawable3 instanceof RLottieDrawable) {
+                this.duration = Math.max(this.duration, ((RLottieDrawable) drawable3).getDuration());
             }
-            return true;
-        } else if (motionEvent.getAction() == 1) {
-            if (hasOnClickListeners()) {
-                performClick();
-            } else if (this.hideByTouch) {
-                hide();
-            }
-            this.bounce.setPressed(false);
-            Drawable drawable2 = this.selectorDrawable;
-            if (drawable2 != null) {
-                drawable2.setState(new int[0]);
-            }
-            return true;
-        } else if (motionEvent.getAction() == 3) {
-            this.bounce.setPressed(false);
-            Drawable drawable3 = this.selectorDrawable;
-            if (drawable3 != null) {
-                drawable3.setState(new int[0]);
-            }
-            return true;
+            this.iconWidth = this.icon.getIntrinsicWidth();
+            this.iconHeight = this.icon.getIntrinsicHeight();
+            this.iconLeft = true;
+        }
+        return this;
+    }
+
+    public HintView2 setIconMargin(int i) {
+        this.iconMargin = AndroidUtilities.dp(i);
+        return this;
+    }
+
+    public HintView2 setIconTranslate(float f, float f2) {
+        this.iconTx = f;
+        this.iconTy = f2;
+        return this;
+    }
+
+    public HintView2 setInnerPadding(int i, int i2, int i3, int i4) {
+        this.innerPadding.set(AndroidUtilities.dp(i), AndroidUtilities.dp(i2), AndroidUtilities.dp(i3), AndroidUtilities.dp(i4));
+        return this;
+    }
+
+    public HintView2 setJoint(float f, float f2) {
+        if (Math.abs(this.joint - f) >= 1.0f || Math.abs(this.jointTranslate - AndroidUtilities.dp(f2)) >= 1.0f) {
+            this.pathSet = false;
+            invalidate();
+        }
+        this.joint = f;
+        this.jointTranslate = AndroidUtilities.dp(f2);
+        return this;
+    }
+
+    public HintView2 setJointPx(float f, float f2) {
+        if (Math.abs(this.joint - f) >= 1.0f || Math.abs(this.jointTranslate - f2) >= 1.0f) {
+            this.pathSet = false;
+            invalidate();
+        }
+        this.joint = f;
+        this.jointTranslate = f2;
+        return this;
+    }
+
+    public HintView2 setMaxWidth(float f) {
+        this.textMaxWidth = AndroidUtilities.dp(f);
+        return this;
+    }
+
+    public HintView2 setMaxWidthPx(int i) {
+        this.textMaxWidth = i;
+        return this;
+    }
+
+    public HintView2 setMultilineText(boolean z) {
+        int dp;
+        this.multiline = z;
+        if (z) {
+            this.innerPadding.set(AndroidUtilities.dp(15.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(15.0f), AndroidUtilities.dp(8.0f));
+            dp = AndroidUtilities.dp(6.0f);
         } else {
-            return false;
+            this.innerPadding.set(AndroidUtilities.dp(11.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(this.closeButton ? 15.0f : 11.0f), AndroidUtilities.dp(7.0f));
+            dp = AndroidUtilities.dp(2.0f);
         }
+        this.closeButtonMargin = dp;
+        return this;
     }
 
-    private boolean checkTouchLinks(MotionEvent motionEvent) {
-        if (this.textLayout != null) {
-            final ClickableSpan hitLink = hitLink((int) motionEvent.getX(), (int) motionEvent.getY());
-            if (hitLink != null && motionEvent.getAction() == 0) {
-                final LinkSpanDrawable<ClickableSpan> linkSpanDrawable = new LinkSpanDrawable<>(hitLink, null, motionEvent.getX(), motionEvent.getY());
-                this.pressedLink = linkSpanDrawable;
-                this.links.addLink(linkSpanDrawable);
-                SpannableString spannableString = new SpannableString(this.textLayout.getText());
-                int spanStart = spannableString.getSpanStart(this.pressedLink.getSpan());
-                int spanEnd = spannableString.getSpanEnd(this.pressedLink.getSpan());
-                LinkPath obtainNewPath = this.pressedLink.obtainNewPath();
-                obtainNewPath.setCurrentLayout(this.textLayout, spanStart, 0.0f);
-                this.textLayout.getSelectionPath(spanStart, spanEnd, obtainNewPath);
-                invalidate();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.HintView2$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        HintView2.this.lambda$checkTouchLinks$1(linkSpanDrawable, hitLink);
-                    }
-                }, ViewConfiguration.getLongPressTimeout());
-                pause();
-                return true;
-            }
-            if (motionEvent.getAction() == 1) {
-                this.links.clear();
-                invalidate();
-                unpause();
-                LinkSpanDrawable<ClickableSpan> linkSpanDrawable2 = this.pressedLink;
-                if (linkSpanDrawable2 != null && linkSpanDrawable2.getSpan() == hitLink) {
-                    LinkSpanDrawable.LinksTextView.OnLinkPress onLinkPress = this.onPressListener;
-                    if (onLinkPress != null) {
-                        onLinkPress.run(this.pressedLink.getSpan());
-                    } else if (this.pressedLink.getSpan() != null) {
-                        this.pressedLink.getSpan().onClick(this);
-                    }
-                    this.pressedLink = null;
-                    return true;
-                }
-                this.pressedLink = null;
-            }
-            if (motionEvent.getAction() == 3) {
-                this.links.clear();
-                invalidate();
-                unpause();
-                this.pressedLink = null;
-            }
-        }
-        return this.pressedLink != null;
+    public HintView2 setOnHiddenListener(Runnable runnable) {
+        this.onHidden = runnable;
+        return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkTouchLinks$1(LinkSpanDrawable linkSpanDrawable, ClickableSpan clickableSpan) {
-        LinkSpanDrawable.LinksTextView.OnLinkPress onLinkPress = this.onLongPressListener;
-        if (onLinkPress == null || this.pressedLink != linkSpanDrawable) {
-            return;
+    public HintView2 setRounding(float f) {
+        this.rounding = AndroidUtilities.dp(f);
+        this.backgroundPaint.setPathEffect(new CornerPathEffect(this.rounding));
+        Paint paint = this.cutSelectorPaint;
+        if (paint != null) {
+            paint.setPathEffect(new CornerPathEffect(this.rounding));
         }
-        onLinkPress.run(clickableSpan);
-        this.pressedLink = null;
-        this.links.clear();
+        Paint paint2 = this.blurCutPaint;
+        if (paint2 != null) {
+            paint2.setPathEffect(new CornerPathEffect(this.rounding));
+        }
+        return this;
     }
 
-    private ClickableSpan hitLink(int i, int i2) {
-        StaticLayout staticLayout = this.textLayout;
-        if (staticLayout == null) {
-            return null;
+    public HintView2 setSelectorColor(int i) {
+        if (Build.VERSION.SDK_INT < 21) {
+            return this;
         }
-        int i3 = (int) (i2 - this.textY);
-        int lineForVertical = staticLayout.getLineForVertical(i3);
-        float f = (int) (i - this.textX);
-        int offsetForHorizontal = this.textLayout.getOffsetForHorizontal(lineForVertical, f);
-        float lineLeft = this.textLayout.getLineLeft(lineForVertical);
-        if (lineLeft <= f && lineLeft + this.textLayout.getLineWidth(lineForVertical) >= f && i3 >= 0 && i3 <= this.textLayout.getHeight()) {
-            ClickableSpan[] clickableSpanArr = (ClickableSpan[]) new SpannableString(this.textLayout.getText()).getSpans(offsetForHorizontal, offsetForHorizontal, ClickableSpan.class);
-            if (clickableSpanArr.length != 0 && !AndroidUtilities.isAccessibilityScreenReaderEnabled()) {
-                return clickableSpanArr[0];
-            }
-        }
-        return null;
-    }
-
-    private void prepareBlur() {
-        if (this.useBlur) {
-            this.drawingMyBlur = true;
-            AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.HintView2$$ExternalSyntheticLambda2
-                @Override // org.telegram.messenger.Utilities.Callback
-                public final void run(Object obj) {
-                    HintView2.this.lambda$prepareBlur$2((Bitmap) obj);
-                }
-            }, this.blurScale);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$prepareBlur$2(Bitmap bitmap) {
-        this.drawingMyBlur = false;
-        this.blurBitmapWidth = bitmap.getWidth();
-        this.blurBitmapHeight = bitmap.getHeight();
-        Shader.TileMode tileMode = Shader.TileMode.CLAMP;
-        this.blurBitmapShader = new BitmapShader(bitmap, tileMode, tileMode);
-        this.blurBitmapMatrix = new Matrix();
         Paint paint = new Paint(1);
-        this.blurBackgroundPaint = paint;
-        paint.setShader(this.blurBitmapShader);
-        ColorMatrix colorMatrix = new ColorMatrix();
-        colorMatrix.setSaturation(1.5f);
-        AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, Theme.isCurrentThemeDark() ? 0.12f : -0.08f);
-        this.blurBackgroundPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
-        Paint paint2 = new Paint(1);
-        this.blurCutPaint = paint2;
-        paint2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-        this.blurCutPaint.setPathEffect(new CornerPathEffect(this.rounding));
+        this.cutSelectorPaint = paint;
+        paint.setPathEffect(new CornerPathEffect(this.rounding));
+        BaseCell.RippleDrawableSafe rippleDrawableSafe = new BaseCell.RippleDrawableSafe(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{i}), null, new Drawable() { // from class: org.telegram.ui.Stories.recorder.HintView2.1
+            @Override // android.graphics.drawable.Drawable
+            public void draw(Canvas canvas) {
+                canvas.save();
+                HintView2 hintView2 = HintView2.this;
+                canvas.drawPath(hintView2.path, hintView2.cutSelectorPaint);
+                canvas.restore();
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public int getOpacity() {
+                return -2;
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public void setAlpha(int i2) {
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public void setColorFilter(ColorFilter colorFilter) {
+            }
+        });
+        this.selectorDrawable = rippleDrawableSafe;
+        rippleDrawableSafe.setCallback(this);
+        return this;
     }
 
-    private void updateBlurBounds() {
-        if (!this.useBlur || this.blurBitmapShader == null || this.blurBitmapMatrix == null) {
-            return;
+    public HintView2 setText(CharSequence charSequence) {
+        if (getMeasuredWidth() < 0) {
+            this.textToSet = charSequence;
+        } else if (this.multiline) {
+            makeLayout(charSequence, getTextMaxWidth());
+        } else {
+            this.textDrawable.setText(charSequence, false);
         }
-        if (this.blurPos == null) {
-            this.blurPos = new int[2];
+        return this;
+    }
+
+    public HintView2 setText(CharSequence charSequence, boolean z) {
+        if (getMeasuredWidth() < 0) {
+            this.textToSet = charSequence;
+        } else {
+            this.textDrawable.setText(charSequence, !LocaleController.isRTL && z);
         }
-        getLocationOnScreen(this.blurPos);
-        this.blurBitmapMatrix.reset();
-        Matrix matrix = this.blurBitmapMatrix;
-        Point point = AndroidUtilities.displaySize;
-        matrix.postScale(point.x / this.blurBitmapWidth, (point.y + AndroidUtilities.statusBarHeight) / this.blurBitmapHeight);
-        Matrix matrix2 = this.blurBitmapMatrix;
-        int[] iArr = this.blurPos;
-        matrix2.postTranslate(-iArr[0], -iArr[1]);
-        if (this.show.get() < 1.0f && this.useScale) {
-            float lerp = 1.0f / AndroidUtilities.lerp(0.5f, 1.0f, this.show.get());
-            this.blurBitmapMatrix.postScale(lerp, lerp, this.arrowX, this.arrowY);
+        return this;
+    }
+
+    public HintView2 setTextAlign(Layout.Alignment alignment) {
+        this.textLayoutAlignment = alignment;
+        return this;
+    }
+
+    public HintView2 setTextColor(int i) {
+        this.textDrawable.setTextColor(i);
+        this.textPaint.setColor(i);
+        return this;
+    }
+
+    public HintView2 setTextSize(int i) {
+        float f = i;
+        this.textDrawable.setTextSize(AndroidUtilities.dp(f));
+        this.textPaint.setTextSize(AndroidUtilities.dp(f));
+        return this;
+    }
+
+    public HintView2 show() {
+        prepareBlur();
+        if (this.shown) {
+            bounceShow();
         }
-        this.blurBitmapShader.setLocalMatrix(this.blurBitmapMatrix);
+        AndroidUtilities.makeAccessibilityAnnouncement(getText());
+        this.shown = true;
+        invalidate();
+        AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
+        long j = this.duration;
+        if (j > 0) {
+            AndroidUtilities.runOnUIThread(this.hideRunnable, j);
+        }
+        Runnable runnable = this.onHidden;
+        if (runnable != null) {
+            AndroidUtilities.cancelRunOnUIThread(runnable);
+        }
+        return this;
+    }
+
+    public boolean shown() {
+        return this.shown;
+    }
+
+    public void unpause() {
+        AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
+        long j = this.duration;
+        if (j > 0) {
+            AndroidUtilities.runOnUIThread(this.hideRunnable, j);
+        }
+    }
+
+    public HintView2 useScale(boolean z) {
+        this.useScale = z;
+        return this;
+    }
+
+    @Override // android.view.View
+    protected boolean verifyDrawable(Drawable drawable) {
+        return drawable == this.textDrawable || drawable == this.selectorDrawable || drawable == this.icon || super.verifyDrawable(drawable);
     }
 }

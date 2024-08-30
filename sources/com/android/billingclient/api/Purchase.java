@@ -4,16 +4,14 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public class Purchase {
     private final String zza;
     private final String zzb;
     private final JSONObject zzc;
 
-    public Purchase(String str, String str2) throws JSONException {
+    public Purchase(String str, String str2) {
         this.zza = str;
         this.zzb = str2;
         this.zzc = new JSONObject(str);
@@ -66,7 +64,7 @@ public class Purchase {
         return this.zza;
     }
 
-    public List<String> getProducts() {
+    public List getProducts() {
         return zza();
     }
 

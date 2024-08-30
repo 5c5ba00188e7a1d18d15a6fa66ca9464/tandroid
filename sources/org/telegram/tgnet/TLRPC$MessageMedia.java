@@ -125,11 +125,7 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                         this.flags = readInt32;
                         this.nopremium = (readInt32 & 8) != 0;
                         this.spoiler = (readInt32 & 16) != 0;
-                        if ((readInt32 & 1) != 0) {
-                            this.document = TLRPC$Document.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        } else {
-                            this.document = new TLRPC$TL_documentEmpty();
-                        }
+                        this.document = (readInt32 & 1) != 0 ? TLRPC$Document.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2) : new TLRPC$TL_documentEmpty();
                         if ((this.flags & 4) != 0) {
                             this.ttl_seconds = abstractSerializedData2.readInt32(z2);
                         }
@@ -194,11 +190,7 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        if ((readInt32 & 1) != 0) {
-                            this.photo = TLRPC$Photo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        } else {
-                            this.photo = new TLRPC$TL_photoEmpty();
-                        }
+                        this.photo = (readInt32 & 1) != 0 ? TLRPC$Photo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2) : new TLRPC$TL_photoEmpty();
                         if ((this.flags & 2) != 0) {
                             this.captionLegacy = abstractSerializedData2.readString(z2);
                         }
@@ -442,14 +434,14 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                         int size = this.channels.size();
                         abstractSerializedData2.writeInt32(size);
                         for (int i3 = 0; i3 < size; i3++) {
-                            abstractSerializedData2.writeInt64(this.channels.get(i3).longValue());
+                            abstractSerializedData2.writeInt64(((Long) this.channels.get(i3)).longValue());
                         }
                         if ((this.flags & 2) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             int size2 = this.countries_iso2.size();
                             abstractSerializedData2.writeInt32(size2);
                             for (int i4 = 0; i4 < size2; i4++) {
-                                abstractSerializedData2.writeString(this.countries_iso2.get(i4));
+                                abstractSerializedData2.writeString((String) this.countries_iso2.get(i4));
                             }
                         }
                         abstractSerializedData2.writeInt32(this.quantity);
@@ -548,11 +540,7 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        if ((readInt32 & 1) != 0) {
-                            this.document = TLRPC$Document.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        } else {
-                            this.document = new TLRPC$TL_documentEmpty();
-                        }
+                        this.document = (readInt32 & 1) != 0 ? TLRPC$Document.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2) : new TLRPC$TL_documentEmpty();
                         if ((this.flags & 2) != 0) {
                             this.captionLegacy = abstractSerializedData2.readString(z2);
                         }

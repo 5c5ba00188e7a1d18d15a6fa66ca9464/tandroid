@@ -1,21 +1,14 @@
 package com.googlecode.mp4parser.h264.read;
 
 import com.googlecode.mp4parser.h264.Debug;
-import java.io.IOException;
 import java.io.InputStream;
 /* loaded from: classes.dex */
 public class CAVLCReader extends BitstreamReader {
-    public CAVLCReader(InputStream inputStream) throws IOException {
+    public CAVLCReader(InputStream inputStream) {
         super(inputStream);
     }
 
-    public long readNBit(int i, String str) throws IOException {
-        long readNBit = readNBit(i);
-        trace(str, String.valueOf(readNBit));
-        return readNBit;
-    }
-
-    private int readUE() throws IOException {
+    private int readUE() {
         int i = 0;
         while (read1Bit() == 0) {
             i++;
@@ -24,22 +17,6 @@ public class CAVLCReader extends BitstreamReader {
             return (int) (((1 << i) - 1) + readNBit(i));
         }
         return 0;
-    }
-
-    public int readUE(String str) throws IOException {
-        int readUE = readUE();
-        trace(str, String.valueOf(readUE));
-        return readUE;
-    }
-
-    public boolean readBool(String str) throws IOException {
-        boolean z = read1Bit() != 0;
-        trace(str, z ? "1" : "0");
-        return z;
-    }
-
-    public int readU(int i, String str) throws IOException {
-        return (int) readNBit(i, str);
     }
 
     private void trace(String str, String str2) {
@@ -59,5 +36,27 @@ public class CAVLCReader extends BitstreamReader {
         sb.append(" (" + str2 + ")");
         this.debugBits.clear();
         Debug.println(sb.toString());
+    }
+
+    public boolean readBool(String str) {
+        boolean z = read1Bit() != 0;
+        trace(str, z ? "1" : "0");
+        return z;
+    }
+
+    public long readNBit(int i, String str) {
+        long readNBit = readNBit(i);
+        trace(str, String.valueOf(readNBit));
+        return readNBit;
+    }
+
+    public int readU(int i, String str) {
+        return (int) readNBit(i, str);
+    }
+
+    public int readUE(String str) {
+        int readUE = readUE();
+        trace(str, String.valueOf(readUE));
+        return readUE;
     }
 }

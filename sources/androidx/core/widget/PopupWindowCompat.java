@@ -7,14 +7,36 @@ import android.widget.PopupWindow;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 /* loaded from: classes.dex */
-public final class PopupWindowCompat {
+public abstract class PopupWindowCompat {
     private static Field sOverlapAnchorField;
     private static boolean sOverlapAnchorFieldAttempted;
     private static Method sSetWindowLayoutTypeMethod;
     private static boolean sSetWindowLayoutTypeMethodAttempted;
 
-    public static void showAsDropDown(PopupWindow popupWindow, View view, int i, int i2, int i3) {
-        Api19Impl.showAsDropDown(popupWindow, view, i, i2, i3);
+    /* loaded from: classes.dex */
+    static class Api19Impl {
+        static void showAsDropDown(PopupWindow popupWindow, View view, int i, int i2, int i3) {
+            popupWindow.showAsDropDown(view, i, i2, i3);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class Api23Impl {
+        static boolean getOverlapAnchor(PopupWindow popupWindow) {
+            return popupWindow.getOverlapAnchor();
+        }
+
+        static int getWindowLayoutType(PopupWindow popupWindow) {
+            return popupWindow.getWindowLayoutType();
+        }
+
+        static void setOverlapAnchor(PopupWindow popupWindow, boolean z) {
+            popupWindow.setOverlapAnchor(z);
+        }
+
+        static void setWindowLayoutType(PopupWindow popupWindow, int i) {
+            popupWindow.setWindowLayoutType(i);
+        }
     }
 
     public static void setOverlapAnchor(PopupWindow popupWindow, boolean z) {
@@ -66,29 +88,7 @@ public final class PopupWindowCompat {
         }
     }
 
-    /* loaded from: classes.dex */
-    static class Api23Impl {
-        static void setOverlapAnchor(PopupWindow popupWindow, boolean z) {
-            popupWindow.setOverlapAnchor(z);
-        }
-
-        static boolean getOverlapAnchor(PopupWindow popupWindow) {
-            return popupWindow.getOverlapAnchor();
-        }
-
-        static void setWindowLayoutType(PopupWindow popupWindow, int i) {
-            popupWindow.setWindowLayoutType(i);
-        }
-
-        static int getWindowLayoutType(PopupWindow popupWindow) {
-            return popupWindow.getWindowLayoutType();
-        }
-    }
-
-    /* loaded from: classes.dex */
-    static class Api19Impl {
-        static void showAsDropDown(PopupWindow popupWindow, View view, int i, int i2, int i3) {
-            popupWindow.showAsDropDown(view, i, i2, i3);
-        }
+    public static void showAsDropDown(PopupWindow popupWindow, View view, int i, int i2, int i3) {
+        Api19Impl.showAsDropDown(popupWindow, view, i, i2, i3);
     }
 }

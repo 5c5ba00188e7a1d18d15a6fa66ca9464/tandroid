@@ -6,9 +6,8 @@ import android.os.Parcelable;
 import com.google.android.gms.common.data.DataHolder;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-safetynet@@17.0.1 */
 /* loaded from: classes.dex */
-public final class zzj implements Parcelable.Creator<SafeBrowsingData> {
+public final class zzj implements Parcelable.Creator {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static void zza(SafeBrowsingData safeBrowsingData, Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
@@ -21,7 +20,7 @@ public final class zzj implements Parcelable.Creator<SafeBrowsingData> {
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ SafeBrowsingData createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         String str = null;
         DataHolder dataHolder = null;
@@ -39,10 +38,10 @@ public final class zzj implements Parcelable.Creator<SafeBrowsingData> {
                 parcelFileDescriptor = (ParcelFileDescriptor) SafeParcelReader.createParcelable(parcel, readHeader, ParcelFileDescriptor.CREATOR);
             } else if (fieldId == 5) {
                 j = SafeParcelReader.readLong(parcel, readHeader);
-            } else if (fieldId == 6) {
-                bArr = SafeParcelReader.createByteArray(parcel, readHeader);
-            } else {
+            } else if (fieldId != 6) {
                 SafeParcelReader.skipUnknownField(parcel, readHeader);
+            } else {
+                bArr = SafeParcelReader.createByteArray(parcel, readHeader);
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
@@ -50,7 +49,7 @@ public final class zzj implements Parcelable.Creator<SafeBrowsingData> {
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ SafeBrowsingData[] newArray(int i) {
+    public final /* bridge */ /* synthetic */ Object[] newArray(int i) {
         return new SafeBrowsingData[i];
     }
 }

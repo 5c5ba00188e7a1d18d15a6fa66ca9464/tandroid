@@ -4,9 +4,9 @@ import java.lang.reflect.Field;
 import java.security.PrivilegedExceptionAction;
 import sun.misc.Unsafe;
 /* loaded from: classes.dex */
-final class zzfe implements PrivilegedExceptionAction<Unsafe> {
+final class zzfe implements PrivilegedExceptionAction {
     @Override // java.security.PrivilegedExceptionAction
-    public final /* synthetic */ Unsafe run() throws Exception {
+    public final /* synthetic */ Object run() {
         Field[] declaredFields;
         for (Field field : Unsafe.class.getDeclaredFields()) {
             field.setAccessible(true);

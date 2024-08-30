@@ -16,7 +16,7 @@ public class FilledTabsView extends View {
     private final Paint backgroundPaint;
     private RectF[] bounds;
     private int lastPressedIndex;
-    private Utilities.Callback<Integer> onTabClick;
+    private Utilities.Callback onTabClick;
     private final Paint selectedPaint;
     private float selectedTabIndex;
     private Text[] tabs;
@@ -29,34 +29,6 @@ public class FilledTabsView extends View {
         this.lastPressedIndex = -1;
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
         paint.setColor(-1);
-    }
-
-    public void setTabs(CharSequence... charSequenceArr) {
-        this.tabs = new Text[charSequenceArr.length];
-        this.bounds = new RectF[charSequenceArr.length];
-        for (int i = 0; i < charSequenceArr.length; i++) {
-            this.tabs[i] = new Text(charSequenceArr[i], 14.0f, AndroidUtilities.bold());
-            this.bounds[i] = new RectF();
-        }
-        invalidate();
-    }
-
-    public void setSelected(float f) {
-        if (Math.abs(f - this.selectedTabIndex) > 0.001f) {
-            invalidate();
-        }
-        this.selectedTabIndex = f;
-    }
-
-    public FilledTabsView onTabSelected(Utilities.Callback<Integer> callback) {
-        this.onTabClick = callback;
-        return this;
-    }
-
-    @Override // android.view.View
-    public void setBackgroundColor(int i) {
-        this.backgroundPaint.setColor(i);
-        invalidate();
     }
 
     @Override // android.view.View
@@ -87,13 +59,7 @@ public class FilledTabsView extends View {
         int i2 = 0;
         while (true) {
             Text[] textArr2 = this.tabs;
-            if (i2 < textArr2.length) {
-                int i3 = i2;
-                textArr2[i2].draw(canvas, dp4, height / 2.0f, -1, 1.0f);
-                this.bounds[i3].set(dp4 - AndroidUtilities.dp(14.0f), dp2, this.tabs[i3].getWidth() + dp4 + AndroidUtilities.dp(14.0f), dp3);
-                dp4 += this.tabs[i3].getWidth() + AndroidUtilities.dp(24.0f);
-                i2 = i3 + 1;
-            } else {
+            if (i2 >= textArr2.length) {
                 AndroidUtilities.dp(2.0f);
                 int clamp = Utilities.clamp((int) Math.floor(this.selectedTabIndex), this.tabs.length - 1, 0);
                 int clamp2 = Utilities.clamp((int) Math.ceil(this.selectedTabIndex), this.tabs.length - 1, 0);
@@ -115,7 +81,17 @@ public class FilledTabsView extends View {
                 canvas.restore();
                 return;
             }
+            int i3 = i2;
+            textArr2[i2].draw(canvas, dp4, height / 2.0f, -1, 1.0f);
+            this.bounds[i3].set(dp4 - AndroidUtilities.dp(14.0f), dp2, this.tabs[i3].getWidth() + dp4 + AndroidUtilities.dp(14.0f), dp3);
+            dp4 += this.tabs[i3].getWidth() + AndroidUtilities.dp(24.0f);
+            i2 = i3 + 1;
         }
+    }
+
+    public FilledTabsView onTabSelected(Utilities.Callback callback) {
+        this.onTabClick = callback;
+        return this;
     }
 
     @Override // android.view.View
@@ -137,7 +113,7 @@ public class FilledTabsView extends View {
         }
         if (i >= 0 && i != this.lastPressedIndex) {
             this.lastPressedIndex = i;
-            Utilities.Callback<Integer> callback = this.onTabClick;
+            Utilities.Callback callback = this.onTabClick;
             if (callback != null) {
                 callback.run(Integer.valueOf(i));
             }
@@ -149,5 +125,28 @@ public class FilledTabsView extends View {
             return super.onTouchEvent(motionEvent);
         }
         return true;
+    }
+
+    @Override // android.view.View
+    public void setBackgroundColor(int i) {
+        this.backgroundPaint.setColor(i);
+        invalidate();
+    }
+
+    public void setSelected(float f) {
+        if (Math.abs(f - this.selectedTabIndex) > 0.001f) {
+            invalidate();
+        }
+        this.selectedTabIndex = f;
+    }
+
+    public void setTabs(CharSequence... charSequenceArr) {
+        this.tabs = new Text[charSequenceArr.length];
+        this.bounds = new RectF[charSequenceArr.length];
+        for (int i = 0; i < charSequenceArr.length; i++) {
+            this.tabs[i] = new Text(charSequenceArr[i], 14.0f, AndroidUtilities.bold());
+            this.bounds[i] = new RectF();
+        }
+        invalidate();
     }
 }

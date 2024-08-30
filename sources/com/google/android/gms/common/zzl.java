@@ -1,7 +1,6 @@
 package com.google.android.gms.common;
 
 import java.lang.ref.WeakReference;
-/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 abstract class zzl extends zzj {
     private static final WeakReference zza = new WeakReference(null);

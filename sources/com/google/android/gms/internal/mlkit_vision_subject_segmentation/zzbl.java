@@ -1,6 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public final class zzbl extends zzav {
     static final zzav zza = new zzbl(new Object[0], 0);

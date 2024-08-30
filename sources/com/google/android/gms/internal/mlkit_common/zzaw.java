@@ -1,6 +1,5 @@
 package com.google.android.gms.internal.mlkit_common;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public final class zzaw extends zzaq {
     static final zzaq zza = new zzaw(new Object[0], 0);

@@ -20,11 +20,6 @@ public final class GenericGF {
     public static final GenericGF AZTEC_DATA_12 = new GenericGF(4201, LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM, 1);
     public static final GenericGF AZTEC_DATA_10 = new GenericGF(1033, 1024, 1);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int addOrSubtract(int i, int i2) {
-        return i ^ i2;
-    }
-
     static {
         GenericGF genericGF = new GenericGF(67, 64, 1);
         AZTEC_DATA_6 = genericGF;
@@ -58,13 +53,8 @@ public final class GenericGF {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public GenericGFPoly getZero() {
-        return this.zero;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GenericGFPoly getOne() {
-        return this.one;
+    public static int addOrSubtract(int i, int i2) {
+        return i ^ i2;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -85,20 +75,38 @@ public final class GenericGF {
         return this.expTable[i];
     }
 
+    public int getGeneratorBase() {
+        return this.generatorBase;
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
-    public int log(int i) {
-        if (i == 0) {
-            throw new IllegalArgumentException();
-        }
-        return this.logTable[i];
+    public GenericGFPoly getOne() {
+        return this.one;
+    }
+
+    public int getSize() {
+        return this.size;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public GenericGFPoly getZero() {
+        return this.zero;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public int inverse(int i) {
-        if (i == 0) {
-            throw new ArithmeticException();
+        if (i != 0) {
+            return this.expTable[(this.size - this.logTable[i]) - 1];
         }
-        return this.expTable[(this.size - this.logTable[i]) - 1];
+        throw new ArithmeticException();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public int log(int i) {
+        if (i != 0) {
+            return this.logTable[i];
+        }
+        throw new IllegalArgumentException();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -109,14 +117,6 @@ public final class GenericGF {
         int[] iArr = this.expTable;
         int[] iArr2 = this.logTable;
         return iArr[(iArr2[i] + iArr2[i2]) % (this.size - 1)];
-    }
-
-    public int getSize() {
-        return this.size;
-    }
-
-    public int getGeneratorBase() {
-        return this.generatorBase;
     }
 
     public String toString() {

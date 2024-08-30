@@ -1,78 +1,34 @@
 package com.google.android.gms.internal.vision;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Locale;
-/* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public abstract class zzht implements Serializable, Iterable<Byte> {
+public abstract class zzht implements Serializable, Iterable {
     public static final zzht zza = new zzid(zzjf.zzb);
     private static final zzhz zzb;
-    private static final Comparator<zzht> zzd;
+    private static final Comparator zzd;
     private int zzc = 0;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static int zzb(byte b) {
-        return b & 255;
-    }
-
-    public abstract boolean equals(Object obj);
-
-    public abstract byte zza(int i);
-
-    public abstract int zza();
-
-    protected abstract int zza(int i, int i2, int i3);
-
-    public abstract zzht zza(int i, int i2);
-
-    protected abstract String zza(Charset charset);
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(zzhq zzhqVar) throws IOException;
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract byte zzb(int i);
-
-    public abstract boolean zzc();
-
-    public static zzht zza(byte[] bArr, int i, int i2) {
-        zzb(i, i + i2, bArr.length);
-        return new zzid(zzb.zza(bArr, i, i2));
+    static {
+        zzb = zzhi.zza() ? new zzic(null) : new zzhx(null);
+        zzd = new zzhv();
     }
 
     public static zzht zza(String str) {
         return new zzid(str.getBytes(zzjf.zza));
     }
 
-    public final String zzb() {
-        return zza() == 0 ? "" : zza(zzjf.zza);
+    public static zzht zza(byte[] bArr, int i, int i2) {
+        zzb(i, i + i2, bArr.length);
+        return new zzid(zzb.zza(bArr, i, i2));
     }
 
-    public final int hashCode() {
-        int i = this.zzc;
-        if (i == 0) {
-            int zza2 = zza();
-            i = zza(zza2, 0, zza2);
-            if (i == 0) {
-                i = 1;
-            }
-            this.zzc = i;
-        }
-        return i;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzib zzc(int i) {
-        return new zzib(i, null);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final int zzd() {
-        return this.zzc;
+    /* JADX INFO: Access modifiers changed from: private */
+    public static int zzb(byte b) {
+        return b & 255;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -104,17 +60,59 @@ public abstract class zzht implements Serializable, Iterable<Byte> {
         return i4;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static zzib zzc(int i) {
+        return new zzib(i, null);
+    }
+
+    public abstract boolean equals(Object obj);
+
+    public final int hashCode() {
+        int i = this.zzc;
+        if (i == 0) {
+            int zza2 = zza();
+            i = zza(zza2, 0, zza2);
+            if (i == 0) {
+                i = 1;
+            }
+            this.zzc = i;
+        }
+        return i;
+    }
+
+    @Override // java.lang.Iterable
+    public /* synthetic */ Iterator iterator() {
+        return new zzhs(this);
+    }
+
     public final String toString() {
         return String.format(Locale.ROOT, "<ByteString@%s size=%d contents=\"%s\">", Integer.toHexString(System.identityHashCode(this)), Integer.valueOf(zza()), zza() <= 50 ? zzlq.zza(this) : String.valueOf(zzlq.zza(zza(0, 47))).concat("..."));
     }
 
-    @Override // java.lang.Iterable
-    public /* synthetic */ Iterator<Byte> iterator() {
-        return new zzhs(this);
+    public abstract byte zza(int i);
+
+    public abstract int zza();
+
+    protected abstract int zza(int i, int i2, int i3);
+
+    public abstract zzht zza(int i, int i2);
+
+    protected abstract String zza(Charset charset);
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public abstract void zza(zzhq zzhqVar);
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public abstract byte zzb(int i);
+
+    public final String zzb() {
+        return zza() == 0 ? "" : zza(zzjf.zza);
     }
 
-    static {
-        zzb = zzhi.zza() ? new zzic(null) : new zzhx(null);
-        zzd = new zzhv();
+    public abstract boolean zzc();
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final int zzd() {
+        return this.zzc;
     }
 }

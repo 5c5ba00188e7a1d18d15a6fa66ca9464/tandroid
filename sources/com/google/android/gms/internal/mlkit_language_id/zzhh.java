@@ -1,30 +1,27 @@
 package com.google.android.gms.internal.mlkit_language_id;
-
-import java.io.IOException;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-abstract class zzhh<T, B> {
+abstract class zzhh {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract T zza(Object obj);
+    public abstract Object zza(Object obj);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(T t, zzib zzibVar) throws IOException;
+    public abstract void zza(Object obj, zzib zzibVar);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(Object obj, T t);
+    public abstract void zza(Object obj, Object obj2);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract T zzb(T t, T t2);
+    public abstract Object zzb(Object obj, Object obj2);
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public abstract void zzb(Object obj);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zzb(T t, zzib zzibVar) throws IOException;
+    public abstract void zzb(Object obj, zzib zzibVar);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract int zzc(T t);
+    public abstract int zzc(Object obj);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract int zzd(T t);
+    public abstract int zzd(Object obj);
 }

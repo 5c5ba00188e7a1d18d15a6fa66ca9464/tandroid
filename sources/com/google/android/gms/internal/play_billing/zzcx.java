@@ -1,6 +1,5 @@
 package com.google.android.gms.internal.play_billing;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzcx implements zzdq {
     private static final zzdd zza = new zzcv();
@@ -25,23 +24,40 @@ public final class zzcx implements zzdq {
 
     @Override // com.google.android.gms.internal.play_billing.zzdq
     public final zzdp zza(Class cls) {
+        zzdk zza2;
+        zzct zzc;
+        zzeg zzy;
+        zzbo zza3;
+        zzda zza4;
+        zzeg zzy2;
+        zzbo zza5;
         zzdr.zzC(cls);
         zzdc zzb = this.zzb.zzb(cls);
-        if (!zzb.zzb()) {
+        if (zzb.zzb()) {
             if (zzcb.class.isAssignableFrom(cls)) {
-                if (zzb(zzb)) {
-                    return zzdi.zzl(cls, zzb, zzdl.zzb(), zzct.zzd(), zzdr.zzz(), zzbq.zzb(), zzdb.zzb());
-                }
-                return zzdi.zzl(cls, zzb, zzdl.zzb(), zzct.zzd(), zzdr.zzz(), null, zzdb.zzb());
-            } else if (zzb(zzb)) {
-                return zzdi.zzl(cls, zzb, zzdl.zza(), zzct.zzc(), zzdr.zzy(), zzbq.zza(), zzdb.zza());
+                zzy2 = zzdr.zzz();
+                zza5 = zzbq.zzb();
             } else {
-                return zzdi.zzl(cls, zzb, zzdl.zza(), zzct.zzc(), zzdr.zzy(), null, zzdb.zza());
+                zzy2 = zzdr.zzy();
+                zza5 = zzbq.zza();
             }
-        } else if (zzcb.class.isAssignableFrom(cls)) {
-            return zzdj.zzc(zzdr.zzz(), zzbq.zzb(), zzb.zza());
-        } else {
-            return zzdj.zzc(zzdr.zzy(), zzbq.zza(), zzb.zza());
+            return zzdj.zzc(zzy2, zza5, zzb.zza());
         }
+        if (zzcb.class.isAssignableFrom(cls)) {
+            boolean zzb2 = zzb(zzb);
+            zza2 = zzdl.zzb();
+            zzc = zzct.zzd();
+            zzy = zzdr.zzz();
+            zza3 = zzb2 ? zzbq.zzb() : null;
+            zza4 = zzdb.zzb();
+        } else {
+            boolean zzb3 = zzb(zzb);
+            zza2 = zzdl.zza();
+            zzc = zzct.zzc();
+            zzy = zzdr.zzy();
+            zza3 = zzb3 ? zzbq.zza() : null;
+            zza4 = zzdb.zza();
+        }
+        return zzdi.zzl(cls, zzb, zza2, zzc, zzy, zza3, zza4);
     }
 }

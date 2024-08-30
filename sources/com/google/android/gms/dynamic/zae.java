@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 final class zae implements View.OnClickListener {
     final /* synthetic */ Context zaa;

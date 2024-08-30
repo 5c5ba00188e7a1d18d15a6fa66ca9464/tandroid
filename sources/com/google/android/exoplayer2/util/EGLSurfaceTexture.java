@@ -8,7 +8,6 @@ import android.opengl.EGLDisplay;
 import android.opengl.EGLSurface;
 import android.opengl.GLES20;
 import android.os.Handler;
-import com.google.android.exoplayer2.util.GlUtil;
 /* loaded from: classes.dex */
 public final class EGLSurfaceTexture implements SurfaceTexture.OnFrameAvailableListener, Runnable {
     private static final int[] EGL_CONFIG_ATTRIBUTES = {12352, 4, 12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 0, 12327, 12344, 12339, 4, 12344};
@@ -23,9 +22,6 @@ public final class EGLSurfaceTexture implements SurfaceTexture.OnFrameAvailableL
     public interface TextureImageListener {
     }
 
-    private void dispatchOnFrameAvailable() {
-    }
-
     public EGLSurfaceTexture(Handler handler) {
         this(handler, null);
     }
@@ -35,7 +31,53 @@ public final class EGLSurfaceTexture implements SurfaceTexture.OnFrameAvailableL
         this.textureIdHolder = new int[1];
     }
 
-    public void init(int i) throws GlUtil.GlException {
+    private static EGLConfig chooseEGLConfig(EGLDisplay eGLDisplay) {
+        EGLConfig[] eGLConfigArr = new EGLConfig[1];
+        int[] iArr = new int[1];
+        boolean eglChooseConfig = EGL14.eglChooseConfig(eGLDisplay, EGL_CONFIG_ATTRIBUTES, 0, eGLConfigArr, 0, 1, iArr, 0);
+        GlUtil.checkGlException(eglChooseConfig && iArr[0] > 0 && eGLConfigArr[0] != null, Util.formatInvariant("eglChooseConfig failed: success=%b, numConfigs[0]=%d, configs[0]=%s", Boolean.valueOf(eglChooseConfig), Integer.valueOf(iArr[0]), eGLConfigArr[0]));
+        return eGLConfigArr[0];
+    }
+
+    private static EGLContext createEGLContext(EGLDisplay eGLDisplay, EGLConfig eGLConfig, int i) {
+        EGLContext eglCreateContext = EGL14.eglCreateContext(eGLDisplay, eGLConfig, EGL14.EGL_NO_CONTEXT, i == 0 ? new int[]{12440, 2, 12344} : new int[]{12440, 2, 12992, 1, 12344}, 0);
+        GlUtil.checkGlException(eglCreateContext != null, "eglCreateContext failed");
+        return eglCreateContext;
+    }
+
+    private static EGLSurface createEGLSurface(EGLDisplay eGLDisplay, EGLConfig eGLConfig, EGLContext eGLContext, int i) {
+        EGLSurface eglCreatePbufferSurface;
+        if (i == 1) {
+            eglCreatePbufferSurface = EGL14.EGL_NO_SURFACE;
+        } else {
+            eglCreatePbufferSurface = EGL14.eglCreatePbufferSurface(eGLDisplay, eGLConfig, i == 2 ? new int[]{12375, 1, 12374, 1, 12992, 1, 12344} : new int[]{12375, 1, 12374, 1, 12344}, 0);
+            GlUtil.checkGlException(eglCreatePbufferSurface != null, "eglCreatePbufferSurface failed");
+        }
+        GlUtil.checkGlException(EGL14.eglMakeCurrent(eGLDisplay, eglCreatePbufferSurface, eglCreatePbufferSurface, eGLContext), "eglMakeCurrent failed");
+        return eglCreatePbufferSurface;
+    }
+
+    private void dispatchOnFrameAvailable() {
+    }
+
+    private static void generateTextureIds(int[] iArr) {
+        GLES20.glGenTextures(1, iArr, 0);
+        GlUtil.checkGlError();
+    }
+
+    private static EGLDisplay getDefaultDisplay() {
+        EGLDisplay eglGetDisplay = EGL14.eglGetDisplay(0);
+        GlUtil.checkGlException(eglGetDisplay != null, "eglGetDisplay failed");
+        int[] iArr = new int[2];
+        GlUtil.checkGlException(EGL14.eglInitialize(eglGetDisplay, iArr, 0, iArr, 1), "eglInitialize failed");
+        return eglGetDisplay;
+    }
+
+    public SurfaceTexture getSurfaceTexture() {
+        return (SurfaceTexture) Assertions.checkNotNull(this.texture);
+    }
+
+    public void init(int i) {
         EGLDisplay defaultDisplay = getDefaultDisplay();
         this.display = defaultDisplay;
         EGLConfig chooseEGLConfig = chooseEGLConfig(defaultDisplay);
@@ -46,6 +88,11 @@ public final class EGLSurfaceTexture implements SurfaceTexture.OnFrameAvailableL
         SurfaceTexture surfaceTexture = new SurfaceTexture(this.textureIdHolder[0]);
         this.texture = surfaceTexture;
         surfaceTexture.setOnFrameAvailableListener(this);
+    }
+
+    @Override // android.graphics.SurfaceTexture.OnFrameAvailableListener
+    public void onFrameAvailable(SurfaceTexture surfaceTexture) {
+        this.handler.post(this);
     }
 
     /* JADX WARN: Type inference failed for: r1v0, types: [android.opengl.EGLContext, android.graphics.SurfaceTexture, android.opengl.EGLSurface, android.opengl.EGLDisplay] */
@@ -86,15 +133,6 @@ public final class EGLSurfaceTexture implements SurfaceTexture.OnFrameAvailableL
         }
     }
 
-    public SurfaceTexture getSurfaceTexture() {
-        return (SurfaceTexture) Assertions.checkNotNull(this.texture);
-    }
-
-    @Override // android.graphics.SurfaceTexture.OnFrameAvailableListener
-    public void onFrameAvailable(SurfaceTexture surfaceTexture) {
-        this.handler.post(this);
-    }
-
     @Override // java.lang.Runnable
     public void run() {
         dispatchOnFrameAvailable();
@@ -105,44 +143,5 @@ public final class EGLSurfaceTexture implements SurfaceTexture.OnFrameAvailableL
             } catch (RuntimeException unused) {
             }
         }
-    }
-
-    private static EGLDisplay getDefaultDisplay() throws GlUtil.GlException {
-        EGLDisplay eglGetDisplay = EGL14.eglGetDisplay(0);
-        GlUtil.checkGlException(eglGetDisplay != null, "eglGetDisplay failed");
-        int[] iArr = new int[2];
-        GlUtil.checkGlException(EGL14.eglInitialize(eglGetDisplay, iArr, 0, iArr, 1), "eglInitialize failed");
-        return eglGetDisplay;
-    }
-
-    private static EGLConfig chooseEGLConfig(EGLDisplay eGLDisplay) throws GlUtil.GlException {
-        EGLConfig[] eGLConfigArr = new EGLConfig[1];
-        int[] iArr = new int[1];
-        boolean eglChooseConfig = EGL14.eglChooseConfig(eGLDisplay, EGL_CONFIG_ATTRIBUTES, 0, eGLConfigArr, 0, 1, iArr, 0);
-        GlUtil.checkGlException(eglChooseConfig && iArr[0] > 0 && eGLConfigArr[0] != null, Util.formatInvariant("eglChooseConfig failed: success=%b, numConfigs[0]=%d, configs[0]=%s", Boolean.valueOf(eglChooseConfig), Integer.valueOf(iArr[0]), eGLConfigArr[0]));
-        return eGLConfigArr[0];
-    }
-
-    private static EGLContext createEGLContext(EGLDisplay eGLDisplay, EGLConfig eGLConfig, int i) throws GlUtil.GlException {
-        EGLContext eglCreateContext = EGL14.eglCreateContext(eGLDisplay, eGLConfig, EGL14.EGL_NO_CONTEXT, i == 0 ? new int[]{12440, 2, 12344} : new int[]{12440, 2, 12992, 1, 12344}, 0);
-        GlUtil.checkGlException(eglCreateContext != null, "eglCreateContext failed");
-        return eglCreateContext;
-    }
-
-    private static EGLSurface createEGLSurface(EGLDisplay eGLDisplay, EGLConfig eGLConfig, EGLContext eGLContext, int i) throws GlUtil.GlException {
-        EGLSurface eglCreatePbufferSurface;
-        if (i == 1) {
-            eglCreatePbufferSurface = EGL14.EGL_NO_SURFACE;
-        } else {
-            eglCreatePbufferSurface = EGL14.eglCreatePbufferSurface(eGLDisplay, eGLConfig, i == 2 ? new int[]{12375, 1, 12374, 1, 12992, 1, 12344} : new int[]{12375, 1, 12374, 1, 12344}, 0);
-            GlUtil.checkGlException(eglCreatePbufferSurface != null, "eglCreatePbufferSurface failed");
-        }
-        GlUtil.checkGlException(EGL14.eglMakeCurrent(eGLDisplay, eglCreatePbufferSurface, eglCreatePbufferSurface, eGLContext), "eglMakeCurrent failed");
-        return eglCreatePbufferSurface;
-    }
-
-    private static void generateTextureIds(int[] iArr) throws GlUtil.GlException {
-        GLES20.glGenTextures(1, iArr, 0);
-        GlUtil.checkGlError();
     }
 }

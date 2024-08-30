@@ -23,98 +23,6 @@ final class TtmlStyle {
     private int textCombine = -1;
     private float shearPercentage = Float.MAX_VALUE;
 
-    public int getStyle() {
-        int i = this.bold;
-        if (i == -1 && this.italic == -1) {
-            return -1;
-        }
-        return (i == 1 ? 1 : 0) | (this.italic == 1 ? 2 : 0);
-    }
-
-    public boolean isLinethrough() {
-        return this.linethrough == 1;
-    }
-
-    public TtmlStyle setLinethrough(boolean z) {
-        this.linethrough = z ? 1 : 0;
-        return this;
-    }
-
-    public boolean isUnderline() {
-        return this.underline == 1;
-    }
-
-    public TtmlStyle setUnderline(boolean z) {
-        this.underline = z ? 1 : 0;
-        return this;
-    }
-
-    public TtmlStyle setBold(boolean z) {
-        this.bold = z ? 1 : 0;
-        return this;
-    }
-
-    public TtmlStyle setItalic(boolean z) {
-        this.italic = z ? 1 : 0;
-        return this;
-    }
-
-    public String getFontFamily() {
-        return this.fontFamily;
-    }
-
-    public TtmlStyle setFontFamily(String str) {
-        this.fontFamily = str;
-        return this;
-    }
-
-    public int getFontColor() {
-        if (!this.hasFontColor) {
-            throw new IllegalStateException("Font color has not been defined.");
-        }
-        return this.fontColor;
-    }
-
-    public TtmlStyle setFontColor(int i) {
-        this.fontColor = i;
-        this.hasFontColor = true;
-        return this;
-    }
-
-    public boolean hasFontColor() {
-        return this.hasFontColor;
-    }
-
-    public int getBackgroundColor() {
-        if (!this.hasBackgroundColor) {
-            throw new IllegalStateException("Background color has not been defined.");
-        }
-        return this.backgroundColor;
-    }
-
-    public TtmlStyle setBackgroundColor(int i) {
-        this.backgroundColor = i;
-        this.hasBackgroundColor = true;
-        return this;
-    }
-
-    public boolean hasBackgroundColor() {
-        return this.hasBackgroundColor;
-    }
-
-    public TtmlStyle setShearPercentage(float f) {
-        this.shearPercentage = f;
-        return this;
-    }
-
-    public float getShearPercentage() {
-        return this.shearPercentage;
-    }
-
-    public TtmlStyle chain(TtmlStyle ttmlStyle) {
-        return inherit(ttmlStyle, true);
-    }
-
     private TtmlStyle inherit(TtmlStyle ttmlStyle, boolean z) {
         int i;
         Layout.Alignment alignment;
@@ -171,66 +79,111 @@ final class TtmlStyle {
         return this;
     }
 
-    public TtmlStyle setId(String str) {
-        this.id = str;
-        return this;
+    public TtmlStyle chain(TtmlStyle ttmlStyle) {
+        return inherit(ttmlStyle, true);
+    }
+
+    public int getBackgroundColor() {
+        if (this.hasBackgroundColor) {
+            return this.backgroundColor;
+        }
+        throw new IllegalStateException("Background color has not been defined.");
+    }
+
+    public int getFontColor() {
+        if (this.hasFontColor) {
+            return this.fontColor;
+        }
+        throw new IllegalStateException("Font color has not been defined.");
+    }
+
+    public String getFontFamily() {
+        return this.fontFamily;
+    }
+
+    public float getFontSize() {
+        return this.fontSize;
+    }
+
+    public int getFontSizeUnit() {
+        return this.fontSizeUnit;
     }
 
     public String getId() {
         return this.id;
     }
 
-    public TtmlStyle setRubyType(int i) {
-        this.rubyType = i;
-        return this;
-    }
-
-    public int getRubyType() {
-        return this.rubyType;
-    }
-
-    public TtmlStyle setRubyPosition(int i) {
-        this.rubyPosition = i;
-        return this;
+    public Layout.Alignment getMultiRowAlign() {
+        return this.multiRowAlign;
     }
 
     public int getRubyPosition() {
         return this.rubyPosition;
     }
 
+    public int getRubyType() {
+        return this.rubyType;
+    }
+
+    public float getShearPercentage() {
+        return this.shearPercentage;
+    }
+
+    public int getStyle() {
+        int i = this.bold;
+        if (i == -1 && this.italic == -1) {
+            return -1;
+        }
+        return (i == 1 ? 1 : 0) | (this.italic == 1 ? 2 : 0);
+    }
+
     public Layout.Alignment getTextAlign() {
         return this.textAlign;
-    }
-
-    public TtmlStyle setTextAlign(Layout.Alignment alignment) {
-        this.textAlign = alignment;
-        return this;
-    }
-
-    public Layout.Alignment getMultiRowAlign() {
-        return this.multiRowAlign;
-    }
-
-    public TtmlStyle setMultiRowAlign(Layout.Alignment alignment) {
-        this.multiRowAlign = alignment;
-        return this;
     }
 
     public boolean getTextCombine() {
         return this.textCombine == 1;
     }
 
-    public TtmlStyle setTextCombine(boolean z) {
-        this.textCombine = z ? 1 : 0;
-        return this;
-    }
-
     public TextEmphasis getTextEmphasis() {
         return this.textEmphasis;
     }
 
-    public TtmlStyle setTextEmphasis(TextEmphasis textEmphasis) {
-        this.textEmphasis = textEmphasis;
+    public boolean hasBackgroundColor() {
+        return this.hasBackgroundColor;
+    }
+
+    public boolean hasFontColor() {
+        return this.hasFontColor;
+    }
+
+    public boolean isLinethrough() {
+        return this.linethrough == 1;
+    }
+
+    public boolean isUnderline() {
+        return this.underline == 1;
+    }
+
+    public TtmlStyle setBackgroundColor(int i) {
+        this.backgroundColor = i;
+        this.hasBackgroundColor = true;
+        return this;
+    }
+
+    public TtmlStyle setBold(boolean z) {
+        this.bold = z ? 1 : 0;
+        return this;
+    }
+
+    public TtmlStyle setFontColor(int i) {
+        this.fontColor = i;
+        this.hasFontColor = true;
+        return this;
+    }
+
+    public TtmlStyle setFontFamily(String str) {
+        this.fontFamily = str;
         return this;
     }
 
@@ -244,11 +197,58 @@ final class TtmlStyle {
         return this;
     }
 
-    public int getFontSizeUnit() {
-        return this.fontSizeUnit;
+    public TtmlStyle setId(String str) {
+        this.id = str;
+        return this;
     }
 
-    public float getFontSize() {
-        return this.fontSize;
+    public TtmlStyle setItalic(boolean z) {
+        this.italic = z ? 1 : 0;
+        return this;
+    }
+
+    public TtmlStyle setLinethrough(boolean z) {
+        this.linethrough = z ? 1 : 0;
+        return this;
+    }
+
+    public TtmlStyle setMultiRowAlign(Layout.Alignment alignment) {
+        this.multiRowAlign = alignment;
+        return this;
+    }
+
+    public TtmlStyle setRubyPosition(int i) {
+        this.rubyPosition = i;
+        return this;
+    }
+
+    public TtmlStyle setRubyType(int i) {
+        this.rubyType = i;
+        return this;
+    }
+
+    public TtmlStyle setShearPercentage(float f) {
+        this.shearPercentage = f;
+        return this;
+    }
+
+    public TtmlStyle setTextAlign(Layout.Alignment alignment) {
+        this.textAlign = alignment;
+        return this;
+    }
+
+    public TtmlStyle setTextCombine(boolean z) {
+        this.textCombine = z ? 1 : 0;
+        return this;
+    }
+
+    public TtmlStyle setTextEmphasis(TextEmphasis textEmphasis) {
+        this.textEmphasis = textEmphasis;
+        return this;
+    }
+
+    public TtmlStyle setUnderline(boolean z) {
+        this.underline = z ? 1 : 0;
+        return this;
     }
 }

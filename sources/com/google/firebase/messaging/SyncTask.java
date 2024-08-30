@@ -1,6 +1,5 @@
 package com.google.firebase.messaging;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +16,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class SyncTask implements Runnable {
     private final FirebaseMessaging firebaseMessaging;
@@ -25,7 +23,6 @@ public class SyncTask implements Runnable {
     ExecutorService processorExecutor = new ThreadPoolExecutor(0, 1, 30, TimeUnit.SECONDS, new LinkedBlockingQueue(), new NamedThreadFactory("firebase-iid-executor"));
     private final PowerManager.WakeLock syncWakeLock;
 
-    /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
     /* loaded from: classes.dex */
     static class ConnectivityChangeReceiver extends BroadcastReceiver {
         private SyncTask task;
@@ -55,7 +52,6 @@ public class SyncTask implements Runnable {
         }
     }
 
-    @SuppressLint({"InvalidWakeLockTag"})
     public SyncTask(FirebaseMessaging firebaseMessaging, long j) {
         this.firebaseMessaging = firebaseMessaging;
         this.nextDelaySeconds = j;
@@ -81,7 +77,8 @@ public class SyncTask implements Runnable {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    boolean maybeRefreshToken() throws IOException {
+    boolean maybeRefreshToken() {
+        String str;
         try {
             if (this.firebaseMessaging.blockingGetToken() == null) {
                 Log.e("FirebaseMessaging", "Token retrieval failed: null");
@@ -99,22 +96,22 @@ public class SyncTask implements Runnable {
                 sb.append("Token retrieval failed: ");
                 sb.append(message);
                 sb.append(". Will retry token retrieval");
-                Log.w("FirebaseMessaging", sb.toString());
-                return false;
-            } else if (e.getMessage() == null) {
-                Log.w("FirebaseMessaging", "Token retrieval failed without exception message. Will retry token retrieval");
-                return false;
-            } else {
+                str = sb.toString();
+            } else if (e.getMessage() != null) {
                 throw e;
+            } else {
+                str = "Token retrieval failed without exception message. Will retry token retrieval";
             }
+            Log.w("FirebaseMessaging", str);
+            return false;
         } catch (SecurityException unused) {
-            Log.w("FirebaseMessaging", "Token retrieval failed with SecurityException. Will retry token retrieval");
+            str = "Token retrieval failed with SecurityException. Will retry token retrieval";
+            Log.w("FirebaseMessaging", str);
             return false;
         }
     }
 
     @Override // java.lang.Runnable
-    @SuppressLint({"WakelockTimeout"})
     public void run() {
         if (ServiceStarter.getInstance().hasWakeLockPermission(getContext())) {
             this.syncWakeLock.acquire();

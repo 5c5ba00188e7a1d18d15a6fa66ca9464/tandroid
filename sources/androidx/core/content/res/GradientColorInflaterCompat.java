@@ -8,16 +8,47 @@ import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.util.AttributeSet;
 import androidx.core.R$styleable;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class GradientColorInflaterCompat {
+public abstract class GradientColorInflaterCompat {
+
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static Shader createFromXmlInner(Resources resources, XmlPullParser xmlPullParser, AttributeSet attributeSet, Resources.Theme theme) throws IOException, XmlPullParserException {
+    /* loaded from: classes.dex */
+    public static final class ColorStops {
+        final int[] mColors;
+        final float[] mOffsets;
+
+        ColorStops(int i, int i2) {
+            this.mColors = new int[]{i, i2};
+            this.mOffsets = new float[]{0.0f, 1.0f};
+        }
+
+        ColorStops(int i, int i2, int i3) {
+            this.mColors = new int[]{i, i2, i3};
+            this.mOffsets = new float[]{0.0f, 0.5f, 1.0f};
+        }
+
+        ColorStops(List list, List list2) {
+            int size = list.size();
+            this.mColors = new int[size];
+            this.mOffsets = new float[size];
+            for (int i = 0; i < size; i++) {
+                this.mColors[i] = ((Integer) list.get(i)).intValue();
+                this.mOffsets[i] = ((Float) list2.get(i)).floatValue();
+            }
+        }
+    }
+
+    private static ColorStops checkColors(ColorStops colorStops, int i, int i2, boolean z, int i3) {
+        return colorStops != null ? colorStops : z ? new ColorStops(i, i3, i2) : new ColorStops(i, i2);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static Shader createFromXmlInner(Resources resources, XmlPullParser xmlPullParser, AttributeSet attributeSet, Resources.Theme theme) {
         String name = xmlPullParser.getName();
         if (!name.equals("gradient")) {
             throw new XmlPullParserException(xmlPullParser.getPositionDescription() + ": invalid gradient color tag " + name);
@@ -39,14 +70,11 @@ public final class GradientColorInflaterCompat {
         obtainAttributes.recycle();
         ColorStops checkColors = checkColors(inflateChildElements(resources, xmlPullParser, attributeSet, theme), namedColor, namedColor3, hasAttribute, namedColor2);
         if (namedInt != 1) {
-            if (namedInt == 2) {
-                return new SweepGradient(namedFloat5, namedFloat6, checkColors.mColors, checkColors.mOffsets);
-            }
-            return new LinearGradient(namedFloat, namedFloat2, namedFloat3, namedFloat4, checkColors.mColors, checkColors.mOffsets, parseTileMode(namedInt2));
-        } else if (namedFloat7 <= 0.0f) {
-            throw new XmlPullParserException("<gradient> tag requires 'gradientRadius' attribute with radial type");
-        } else {
+            return namedInt != 2 ? new LinearGradient(namedFloat, namedFloat2, namedFloat3, namedFloat4, checkColors.mColors, checkColors.mOffsets, parseTileMode(namedInt2)) : new SweepGradient(namedFloat5, namedFloat6, checkColors.mColors, checkColors.mOffsets);
+        } else if (namedFloat7 > 0.0f) {
             return new RadialGradient(namedFloat5, namedFloat6, namedFloat7, checkColors.mColors, checkColors.mOffsets, parseTileMode(namedInt2));
+        } else {
+            throw new XmlPullParserException("<gradient> tag requires 'gradientRadius' attribute with radial type");
         }
     }
 
@@ -56,7 +84,7 @@ public final class GradientColorInflaterCompat {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    private static ColorStops inflateChildElements(Resources resources, XmlPullParser xmlPullParser, AttributeSet attributeSet, Resources.Theme theme) throws XmlPullParserException, IOException {
+    private static ColorStops inflateChildElements(Resources resources, XmlPullParser xmlPullParser, AttributeSet attributeSet, Resources.Theme theme) {
         int depth;
         int depth2 = xmlPullParser.getDepth() + 1;
         ArrayList arrayList = new ArrayList(20);
@@ -87,50 +115,7 @@ public final class GradientColorInflaterCompat {
         return null;
     }
 
-    private static ColorStops checkColors(ColorStops colorStops, int i, int i2, boolean z, int i3) {
-        if (colorStops != null) {
-            return colorStops;
-        }
-        if (z) {
-            return new ColorStops(i, i3, i2);
-        }
-        return new ColorStops(i, i2);
-    }
-
     private static Shader.TileMode parseTileMode(int i) {
-        if (i != 1) {
-            if (i == 2) {
-                return Shader.TileMode.MIRROR;
-            }
-            return Shader.TileMode.CLAMP;
-        }
-        return Shader.TileMode.REPEAT;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class ColorStops {
-        final int[] mColors;
-        final float[] mOffsets;
-
-        ColorStops(List<Integer> list, List<Float> list2) {
-            int size = list.size();
-            this.mColors = new int[size];
-            this.mOffsets = new float[size];
-            for (int i = 0; i < size; i++) {
-                this.mColors[i] = list.get(i).intValue();
-                this.mOffsets[i] = list2.get(i).floatValue();
-            }
-        }
-
-        ColorStops(int i, int i2) {
-            this.mColors = new int[]{i, i2};
-            this.mOffsets = new float[]{0.0f, 1.0f};
-        }
-
-        ColorStops(int i, int i2, int i3) {
-            this.mColors = new int[]{i, i2, i3};
-            this.mOffsets = new float[]{0.0f, 0.5f, 1.0f};
-        }
+        return i != 1 ? i != 2 ? Shader.TileMode.CLAMP : Shader.TileMode.MIRROR : Shader.TileMode.REPEAT;
     }
 }

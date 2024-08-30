@@ -6,18 +6,9 @@ import java.util.Set;
 /* loaded from: classes.dex */
 public class GlobalLibraryVersionRegistrar {
     private static volatile GlobalLibraryVersionRegistrar INSTANCE;
-    private final Set<LibraryVersion> infos = new HashSet();
+    private final Set infos = new HashSet();
 
     GlobalLibraryVersionRegistrar() {
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Set<LibraryVersion> getRegisteredVersions() {
-        Set<LibraryVersion> unmodifiableSet;
-        synchronized (this.infos) {
-            unmodifiableSet = Collections.unmodifiableSet(this.infos);
-        }
-        return unmodifiableSet;
     }
 
     public static GlobalLibraryVersionRegistrar getInstance() {
@@ -35,5 +26,14 @@ public class GlobalLibraryVersionRegistrar {
             }
         }
         return globalLibraryVersionRegistrar;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public Set getRegisteredVersions() {
+        Set unmodifiableSet;
+        synchronized (this.infos) {
+            unmodifiableSet = Collections.unmodifiableSet(this.infos);
+        }
+        return unmodifiableSet;
     }
 }

@@ -11,36 +11,47 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
-/* compiled from: Recreator.kt */
 /* loaded from: classes.dex */
 public final class Recreator implements LifecycleEventObserver {
     public static final Companion Companion = new Companion(null);
     private final SavedStateRegistryOwner owner;
 
+    /* loaded from: classes.dex */
+    public static final class Companion {
+        private Companion() {
+        }
+
+        public /* synthetic */ Companion(DefaultConstructorMarker defaultConstructorMarker) {
+            this();
+        }
+    }
+
+    /* loaded from: classes.dex */
+    public static final class SavedStateProvider implements SavedStateRegistry.SavedStateProvider {
+        private final Set classes;
+
+        public SavedStateProvider(SavedStateRegistry registry) {
+            Intrinsics.checkNotNullParameter(registry, "registry");
+            this.classes = new LinkedHashSet();
+            registry.registerSavedStateProvider("androidx.savedstate.Restarter", this);
+        }
+
+        public final void add(String className) {
+            Intrinsics.checkNotNullParameter(className, "className");
+            this.classes.add(className);
+        }
+
+        @Override // androidx.savedstate.SavedStateRegistry.SavedStateProvider
+        public Bundle saveState() {
+            Bundle bundle = new Bundle();
+            bundle.putStringArrayList("classes_to_restore", new ArrayList<>(this.classes));
+            return bundle;
+        }
+    }
+
     public Recreator(SavedStateRegistryOwner owner) {
         Intrinsics.checkNotNullParameter(owner, "owner");
         this.owner = owner;
-    }
-
-    @Override // androidx.lifecycle.LifecycleEventObserver
-    public void onStateChanged(LifecycleOwner source, Lifecycle.Event event) {
-        Intrinsics.checkNotNullParameter(source, "source");
-        Intrinsics.checkNotNullParameter(event, "event");
-        if (event != Lifecycle.Event.ON_CREATE) {
-            throw new AssertionError("Next event must be ON_CREATE");
-        }
-        source.getLifecycle().removeObserver(this);
-        Bundle consumeRestoredStateForKey = this.owner.getSavedStateRegistry().consumeRestoredStateForKey("androidx.savedstate.Restarter");
-        if (consumeRestoredStateForKey == null) {
-            return;
-        }
-        ArrayList<String> stringArrayList = consumeRestoredStateForKey.getStringArrayList("classes_to_restore");
-        if (stringArrayList == null) {
-            throw new IllegalStateException("Bundle with restored state for the component \"androidx.savedstate.Restarter\" must contain list of strings by the key \"classes_to_restore\"");
-        }
-        for (String str : stringArrayList) {
-            reflectiveNew(str);
-        }
     }
 
     private final void reflectiveNew(String str) {
@@ -65,38 +76,24 @@ public final class Recreator implements LifecycleEventObserver {
         }
     }
 
-    /* compiled from: Recreator.kt */
-    /* loaded from: classes.dex */
-    public static final class SavedStateProvider implements SavedStateRegistry.SavedStateProvider {
-        private final Set<String> classes;
-
-        public SavedStateProvider(SavedStateRegistry registry) {
-            Intrinsics.checkNotNullParameter(registry, "registry");
-            this.classes = new LinkedHashSet();
-            registry.registerSavedStateProvider("androidx.savedstate.Restarter", this);
+    @Override // androidx.lifecycle.LifecycleEventObserver
+    public void onStateChanged(LifecycleOwner source, Lifecycle.Event event) {
+        Intrinsics.checkNotNullParameter(source, "source");
+        Intrinsics.checkNotNullParameter(event, "event");
+        if (event != Lifecycle.Event.ON_CREATE) {
+            throw new AssertionError("Next event must be ON_CREATE");
         }
-
-        @Override // androidx.savedstate.SavedStateRegistry.SavedStateProvider
-        public Bundle saveState() {
-            Bundle bundle = new Bundle();
-            bundle.putStringArrayList("classes_to_restore", new ArrayList<>(this.classes));
-            return bundle;
+        source.getLifecycle().removeObserver(this);
+        Bundle consumeRestoredStateForKey = this.owner.getSavedStateRegistry().consumeRestoredStateForKey("androidx.savedstate.Restarter");
+        if (consumeRestoredStateForKey == null) {
+            return;
         }
-
-        public final void add(String className) {
-            Intrinsics.checkNotNullParameter(className, "className");
-            this.classes.add(className);
+        ArrayList<String> stringArrayList = consumeRestoredStateForKey.getStringArrayList("classes_to_restore");
+        if (stringArrayList == null) {
+            throw new IllegalStateException("Bundle with restored state for the component \"androidx.savedstate.Restarter\" must contain list of strings by the key \"classes_to_restore\"");
         }
-    }
-
-    /* compiled from: Recreator.kt */
-    /* loaded from: classes.dex */
-    public static final class Companion {
-        public /* synthetic */ Companion(DefaultConstructorMarker defaultConstructorMarker) {
-            this();
-        }
-
-        private Companion() {
+        for (String str : stringArrayList) {
+            reflectiveNew(str);
         }
     }
 }

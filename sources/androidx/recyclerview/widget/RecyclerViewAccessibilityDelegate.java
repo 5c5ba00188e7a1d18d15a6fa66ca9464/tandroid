@@ -10,50 +10,6 @@ public class RecyclerViewAccessibilityDelegate extends AccessibilityDelegateComp
     final AccessibilityDelegateCompat mItemDelegate = new ItemDelegate(this);
     final RecyclerView mRecyclerView;
 
-    public RecyclerViewAccessibilityDelegate(RecyclerView recyclerView) {
-        this.mRecyclerView = recyclerView;
-    }
-
-    boolean shouldIgnore() {
-        return this.mRecyclerView.hasPendingAdapterUpdates();
-    }
-
-    @Override // androidx.core.view.AccessibilityDelegateCompat
-    public boolean performAccessibilityAction(View view, int i, Bundle bundle) {
-        if (super.performAccessibilityAction(view, i, bundle)) {
-            return true;
-        }
-        if (shouldIgnore() || this.mRecyclerView.getLayoutManager() == null) {
-            return false;
-        }
-        return this.mRecyclerView.getLayoutManager().performAccessibilityAction(i, bundle);
-    }
-
-    @Override // androidx.core.view.AccessibilityDelegateCompat
-    public void onInitializeAccessibilityNodeInfo(View view, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
-        super.onInitializeAccessibilityNodeInfo(view, accessibilityNodeInfoCompat);
-        if (shouldIgnore() || this.mRecyclerView.getLayoutManager() == null) {
-            return;
-        }
-        this.mRecyclerView.getLayoutManager().onInitializeAccessibilityNodeInfo(accessibilityNodeInfoCompat);
-    }
-
-    @Override // androidx.core.view.AccessibilityDelegateCompat
-    public void onInitializeAccessibilityEvent(View view, AccessibilityEvent accessibilityEvent) {
-        super.onInitializeAccessibilityEvent(view, accessibilityEvent);
-        if (!(view instanceof RecyclerView) || shouldIgnore()) {
-            return;
-        }
-        RecyclerView recyclerView = (RecyclerView) view;
-        if (recyclerView.getLayoutManager() != null) {
-            recyclerView.getLayoutManager().onInitializeAccessibilityEvent(accessibilityEvent);
-        }
-    }
-
-    public AccessibilityDelegateCompat getItemDelegate() {
-        return this.mItemDelegate;
-    }
-
     /* loaded from: classes.dex */
     public static class ItemDelegate extends AccessibilityDelegateCompat {
         final RecyclerViewAccessibilityDelegate mRecyclerViewDelegate;
@@ -81,5 +37,49 @@ public class RecyclerViewAccessibilityDelegate extends AccessibilityDelegateComp
             }
             return this.mRecyclerViewDelegate.mRecyclerView.getLayoutManager().performAccessibilityActionForItem(view, i, bundle);
         }
+    }
+
+    public RecyclerViewAccessibilityDelegate(RecyclerView recyclerView) {
+        this.mRecyclerView = recyclerView;
+    }
+
+    public AccessibilityDelegateCompat getItemDelegate() {
+        return this.mItemDelegate;
+    }
+
+    @Override // androidx.core.view.AccessibilityDelegateCompat
+    public void onInitializeAccessibilityEvent(View view, AccessibilityEvent accessibilityEvent) {
+        super.onInitializeAccessibilityEvent(view, accessibilityEvent);
+        if (!(view instanceof RecyclerView) || shouldIgnore()) {
+            return;
+        }
+        RecyclerView recyclerView = (RecyclerView) view;
+        if (recyclerView.getLayoutManager() != null) {
+            recyclerView.getLayoutManager().onInitializeAccessibilityEvent(accessibilityEvent);
+        }
+    }
+
+    @Override // androidx.core.view.AccessibilityDelegateCompat
+    public void onInitializeAccessibilityNodeInfo(View view, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
+        super.onInitializeAccessibilityNodeInfo(view, accessibilityNodeInfoCompat);
+        if (shouldIgnore() || this.mRecyclerView.getLayoutManager() == null) {
+            return;
+        }
+        this.mRecyclerView.getLayoutManager().onInitializeAccessibilityNodeInfo(accessibilityNodeInfoCompat);
+    }
+
+    @Override // androidx.core.view.AccessibilityDelegateCompat
+    public boolean performAccessibilityAction(View view, int i, Bundle bundle) {
+        if (super.performAccessibilityAction(view, i, bundle)) {
+            return true;
+        }
+        if (shouldIgnore() || this.mRecyclerView.getLayoutManager() == null) {
+            return false;
+        }
+        return this.mRecyclerView.getLayoutManager().performAccessibilityAction(i, bundle);
+    }
+
+    boolean shouldIgnore() {
+        return this.mRecyclerView.hasPendingAdapterUpdates();
     }
 }

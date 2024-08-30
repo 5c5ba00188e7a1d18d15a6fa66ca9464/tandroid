@@ -11,13 +11,13 @@ import java.util.Objects;
 /* loaded from: classes.dex */
 public class TypeToken<T> {
     private final int hashCode;
-    private final Class<? super T> rawType;
+    private final Class rawType;
     private final Type type;
 
     protected TypeToken() {
         Type typeTokenTypeArgument = getTypeTokenTypeArgument();
         this.type = typeTokenTypeArgument;
-        this.rawType = (Class<? super T>) $Gson$Types.getRawType(typeTokenTypeArgument);
+        this.rawType = $Gson$Types.getRawType(typeTokenTypeArgument);
         this.hashCode = typeTokenTypeArgument.hashCode();
     }
 
@@ -25,12 +25,16 @@ public class TypeToken<T> {
         Objects.requireNonNull(type);
         Type canonicalize = $Gson$Types.canonicalize(type);
         this.type = canonicalize;
-        this.rawType = (Class<? super T>) $Gson$Types.getRawType(canonicalize);
+        this.rawType = $Gson$Types.getRawType(canonicalize);
         this.hashCode = canonicalize.hashCode();
     }
 
-    private static boolean isCapturingTypeVariablesForbidden() {
-        return !Objects.equals(System.getProperty("gson.allowCapturingTypeVariables"), "true");
+    public static TypeToken get(Class cls) {
+        return new TypeToken(cls);
+    }
+
+    public static TypeToken get(Type type) {
+        return new TypeToken(type);
     }
 
     private Type getTypeTokenTypeArgument() {
@@ -48,6 +52,10 @@ public class TypeToken<T> {
             throw new IllegalStateException("TypeToken must be created with a type argument: new TypeToken<...>() {}; When using code shrinkers (ProGuard, R8, ...) make sure that generic signatures are preserved.\nSee " + TroubleshootingGuide.createUrl("type-token-raw"));
         }
         throw new IllegalStateException("Must only create direct subclasses of TypeToken");
+    }
+
+    private static boolean isCapturingTypeVariablesForbidden() {
+        return !Objects.equals(System.getProperty("gson.allowCapturingTypeVariables"), "true");
     }
 
     private static void verifyNoTypeVariable(Type type) {
@@ -89,7 +97,11 @@ public class TypeToken<T> {
         }
     }
 
-    public final Class<? super T> getRawType() {
+    public final boolean equals(Object obj) {
+        return (obj instanceof TypeToken) && $Gson$Types.equals(this.type, ((TypeToken) obj).type);
+    }
+
+    public final Class getRawType() {
         return this.rawType;
     }
 
@@ -101,19 +113,7 @@ public class TypeToken<T> {
         return this.hashCode;
     }
 
-    public final boolean equals(Object obj) {
-        return (obj instanceof TypeToken) && $Gson$Types.equals(this.type, ((TypeToken) obj).type);
-    }
-
     public final String toString() {
         return $Gson$Types.typeToString(this.type);
-    }
-
-    public static TypeToken<?> get(Type type) {
-        return new TypeToken<>(type);
-    }
-
-    public static <T> TypeToken<T> get(Class<T> cls) {
-        return new TypeToken<>(cls);
     }
 }

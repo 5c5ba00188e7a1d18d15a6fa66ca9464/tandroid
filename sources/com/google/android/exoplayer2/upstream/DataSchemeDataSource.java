@@ -6,7 +6,6 @@ import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Charsets;
-import java.io.IOException;
 import java.net.URLDecoder;
 /* loaded from: classes.dex */
 public final class DataSchemeDataSource extends BaseDataSource {
@@ -20,7 +19,25 @@ public final class DataSchemeDataSource extends BaseDataSource {
     }
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
-    public long open(DataSpec dataSpec) throws IOException {
+    public void close() {
+        if (this.data != null) {
+            this.data = null;
+            transferEnded();
+        }
+        this.dataSpec = null;
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.DataSource
+    public Uri getUri() {
+        DataSpec dataSpec = this.dataSpec;
+        if (dataSpec != null) {
+            return dataSpec.uri;
+        }
+        return null;
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.DataSource
+    public long open(DataSpec dataSpec) {
         transferInitializing(dataSpec);
         this.dataSpec = dataSpec;
         Uri uri = dataSpec.uri;
@@ -75,23 +92,5 @@ public final class DataSchemeDataSource extends BaseDataSource {
         this.bytesRemaining -= min;
         bytesTransferred(min);
         return min;
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.DataSource
-    public Uri getUri() {
-        DataSpec dataSpec = this.dataSpec;
-        if (dataSpec != null) {
-            return dataSpec.uri;
-        }
-        return null;
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.DataSource
-    public void close() {
-        if (this.data != null) {
-            this.data = null;
-            transferEnded();
-        }
-        this.dataSpec = null;
     }
 }

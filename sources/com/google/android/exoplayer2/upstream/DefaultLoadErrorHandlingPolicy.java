@@ -10,11 +10,6 @@ import java.io.IOException;
 public class DefaultLoadErrorHandlingPolicy implements LoadErrorHandlingPolicy {
     private final int minimumLoadableRetryCount;
 
-    @Override // com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy
-    public /* synthetic */ void onLoadTaskConcluded(long j) {
-        LoadErrorHandlingPolicy.-CC.$default$onLoadTaskConcluded(this, j);
-    }
-
     public DefaultLoadErrorHandlingPolicy() {
         this(-1);
     }
@@ -38,6 +33,12 @@ public class DefaultLoadErrorHandlingPolicy implements LoadErrorHandlingPolicy {
     }
 
     @Override // com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy
+    public int getMinimumLoadableRetryCount(int i) {
+        int i2 = this.minimumLoadableRetryCount;
+        return i2 == -1 ? i == 7 ? 6 : 3 : i2;
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy
     public long getRetryDelayMsFor(LoadErrorHandlingPolicy.LoadErrorInfo loadErrorInfo) {
         IOException iOException = loadErrorInfo.exception;
         if ((iOException instanceof ParserException) || (iOException instanceof FileNotFoundException) || (iOException instanceof HttpDataSource.CleartextNotPermittedException) || (iOException instanceof Loader.UnexpectedLoaderException) || DataSourceException.isCausedByPositionOutOfRange(iOException)) {
@@ -46,17 +47,16 @@ public class DefaultLoadErrorHandlingPolicy implements LoadErrorHandlingPolicy {
         return Math.min((loadErrorInfo.errorCount - 1) * 1000, 5000);
     }
 
-    @Override // com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy
-    public int getMinimumLoadableRetryCount(int i) {
-        int i2 = this.minimumLoadableRetryCount;
-        return i2 == -1 ? i == 7 ? 6 : 3 : i2;
-    }
-
     protected boolean isEligibleForFallback(IOException iOException) {
         if (iOException instanceof HttpDataSource.InvalidResponseCodeException) {
             int i = ((HttpDataSource.InvalidResponseCodeException) iOException).responseCode;
             return i == 403 || i == 404 || i == 410 || i == 416 || i == 500 || i == 503;
         }
         return false;
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy
+    public /* synthetic */ void onLoadTaskConcluded(long j) {
+        LoadErrorHandlingPolicy.-CC.$default$onLoadTaskConcluded(this, j);
     }
 }

@@ -26,21 +26,11 @@ public class HintTextView extends View implements FlashViews.Invertable {
         animatedTextDrawable.setOverrideFullWidth(AndroidUtilities.displaySize.x);
     }
 
-    public void setText(CharSequence charSequence, boolean z) {
-        this.textDrawable.setText(charSequence, z);
-        invalidate();
-    }
-
     @Override // android.view.View
     public void draw(Canvas canvas) {
         super.draw(canvas);
         this.textDrawable.setBounds(0, 0, getWidth(), getHeight());
         this.textDrawable.draw(canvas);
-    }
-
-    @Override // android.view.View
-    protected boolean verifyDrawable(Drawable drawable) {
-        return drawable == this.textDrawable || super.verifyDrawable(drawable);
     }
 
     @Override // android.view.View
@@ -52,5 +42,15 @@ public class HintTextView extends View implements FlashViews.Invertable {
     @Override // org.telegram.ui.Stories.recorder.FlashViews.Invertable
     public void setInvert(float f) {
         this.textDrawable.setTextColor(ColorUtils.blendARGB(-1, -16777216, f));
+    }
+
+    public void setText(CharSequence charSequence, boolean z) {
+        this.textDrawable.setText(charSequence, z);
+        invalidate();
+    }
+
+    @Override // android.view.View
+    protected boolean verifyDrawable(Drawable drawable) {
+        return drawable == this.textDrawable || super.verifyDrawable(drawable);
     }
 }

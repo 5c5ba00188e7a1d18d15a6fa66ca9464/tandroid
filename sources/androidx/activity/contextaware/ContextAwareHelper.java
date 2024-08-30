@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 /* loaded from: classes.dex */
 public final class ContextAwareHelper {
     private volatile Context mContext;
-    private final Set<OnContextAvailableListener> mListeners = new CopyOnWriteArraySet();
+    private final Set mListeners = new CopyOnWriteArraySet();
 
     public void addOnContextAvailableListener(OnContextAvailableListener onContextAvailableListener) {
         if (this.mContext != null) {
@@ -15,14 +15,14 @@ public final class ContextAwareHelper {
         this.mListeners.add(onContextAvailableListener);
     }
 
+    public void clearAvailableContext() {
+        this.mContext = null;
+    }
+
     public void dispatchOnContextAvailable(Context context) {
         this.mContext = context;
         for (OnContextAvailableListener onContextAvailableListener : this.mListeners) {
             onContextAvailableListener.onContextAvailable(context);
         }
-    }
-
-    public void clearAvailableContext() {
-        this.mContext = null;
     }
 }

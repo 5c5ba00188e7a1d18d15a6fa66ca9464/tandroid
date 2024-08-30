@@ -12,11 +12,11 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.List;
 /* loaded from: classes.dex */
-public final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleDecoderOutputBuffer, FlacDecoderException> {
+public final class FlacDecoder extends SimpleDecoder {
     private final FlacDecoderJni decoderJni;
     private final FlacStreamMetadata streamMetadata;
 
-    public FlacDecoder(int i, int i2, int i3, List<byte[]> list) throws FlacDecoderException {
+    public FlacDecoder(int i, int i2, int i3, List<byte[]> list) {
         super(new DecoderInputBuffer[i], new SimpleDecoderOutputBuffer[i2]);
         if (list.size() != 1) {
             throw new FlacDecoderException("Initialization data must be of length 1");
@@ -33,11 +33,6 @@ public final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleD
         } catch (IOException e2) {
             throw new IllegalStateException(e2);
         }
-    }
-
-    @Override // com.google.android.exoplayer2.decoder.Decoder
-    public String getName() {
-        return "libflac";
     }
 
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
@@ -79,13 +74,18 @@ public final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleD
         }
     }
 
-    @Override // com.google.android.exoplayer2.decoder.SimpleDecoder, com.google.android.exoplayer2.decoder.Decoder
-    public void release() {
-        super.release();
-        this.decoderJni.release();
+    @Override // com.google.android.exoplayer2.decoder.Decoder
+    public String getName() {
+        return "libflac";
     }
 
     public FlacStreamMetadata getStreamMetadata() {
         return this.streamMetadata;
+    }
+
+    @Override // com.google.android.exoplayer2.decoder.SimpleDecoder, com.google.android.exoplayer2.decoder.Decoder
+    public void release() {
+        super.release();
+        this.decoderJni.release();
     }
 }

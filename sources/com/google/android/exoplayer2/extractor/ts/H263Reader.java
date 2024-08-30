@@ -28,56 +28,228 @@ public final class H263Reader implements ElementaryStreamReader {
     private final CsdBuffer csdBuffer = new CsdBuffer(128);
     private long pesTimeUs = -9223372036854775807L;
 
-    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
-    public void packetFinished() {
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static final class CsdBuffer {
+        private static final byte[] START_CODE = {0, 0, 1};
+        public byte[] data;
+        private boolean isFilling;
+        public int length;
+        private int state;
+        public int volStartPosition;
+
+        public CsdBuffer(int i) {
+            this.data = new byte[i];
+        }
+
+        public void onData(byte[] bArr, int i, int i2) {
+            if (this.isFilling) {
+                int i3 = i2 - i;
+                byte[] bArr2 = this.data;
+                int length = bArr2.length;
+                int i4 = this.length + i3;
+                if (length < i4) {
+                    this.data = Arrays.copyOf(bArr2, i4 * 2);
+                }
+                System.arraycopy(bArr, i, this.data, this.length, i3);
+                this.length += i3;
+            }
+        }
+
+        /* JADX WARN: Code restructure failed: missing block: B:27:0x003d, code lost:
+            if (r7 != 181) goto L24;
+         */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        public boolean onStartCode(int i, int i2) {
+            int i3 = this.state;
+            if (i3 != 0) {
+                int i4 = 2;
+                if (i3 != 1) {
+                    if (i3 != 2) {
+                        i4 = 4;
+                        if (i3 == 3) {
+                            if ((i & NotificationCenter.reloadInterface) == 32) {
+                                this.volStartPosition = this.length;
+                                this.state = i4;
+                            }
+                            Log.w("H263Reader", "Unexpected start code value");
+                            reset();
+                        } else if (i3 != 4) {
+                            throw new IllegalStateException();
+                        } else {
+                            if (i == 179 || i == 181) {
+                                this.length -= i2;
+                                this.isFilling = false;
+                                return true;
+                            }
+                        }
+                    } else {
+                        if (i <= 31) {
+                            this.state = 3;
+                        }
+                        Log.w("H263Reader", "Unexpected start code value");
+                        reset();
+                    }
+                }
+            } else if (i == 176) {
+                this.state = 1;
+                this.isFilling = true;
+            }
+            byte[] bArr = START_CODE;
+            onData(bArr, 0, bArr.length);
+            return false;
+        }
+
+        public void reset() {
+            this.isFilling = false;
+            this.length = 0;
+            this.state = 0;
+        }
+    }
+
+    /* loaded from: classes.dex */
+    private static final class SampleReader {
+        private boolean lookingForVopCodingType;
+        private final TrackOutput output;
+        private boolean readingSample;
+        private boolean sampleIsKeyframe;
+        private long samplePosition;
+        private long sampleTimeUs;
+        private int startCodeValue;
+        private int vopBytesRead;
+
+        public SampleReader(TrackOutput trackOutput) {
+            this.output = trackOutput;
+        }
+
+        public void onData(byte[] bArr, int i, int i2) {
+            if (this.lookingForVopCodingType) {
+                int i3 = this.vopBytesRead;
+                int i4 = (i + 1) - i3;
+                if (i4 >= i2) {
+                    this.vopBytesRead = i3 + (i2 - i);
+                    return;
+                }
+                this.sampleIsKeyframe = ((bArr[i4] & 192) >> 6) == 0;
+                this.lookingForVopCodingType = false;
+            }
+        }
+
+        public void onDataEnd(long j, int i, boolean z) {
+            if (this.startCodeValue == 182 && z && this.readingSample) {
+                long j2 = this.sampleTimeUs;
+                if (j2 != -9223372036854775807L) {
+                    this.output.sampleMetadata(j2, this.sampleIsKeyframe ? 1 : 0, (int) (j - this.samplePosition), i, null);
+                }
+            }
+            if (this.startCodeValue != 179) {
+                this.samplePosition = j;
+            }
+        }
+
+        public void onStartCode(int i, long j) {
+            this.startCodeValue = i;
+            this.sampleIsKeyframe = false;
+            this.readingSample = i == 182 || i == 179;
+            this.lookingForVopCodingType = i == 182;
+            this.vopBytesRead = 0;
+            this.sampleTimeUs = j;
+        }
+
+        public void reset() {
+            this.readingSample = false;
+            this.lookingForVopCodingType = false;
+            this.sampleIsKeyframe = false;
+            this.startCodeValue = -1;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public H263Reader(UserDataReader userDataReader) {
+        ParsableByteArray parsableByteArray;
         this.userDataReader = userDataReader;
         if (userDataReader != null) {
             this.userData = new NalUnitTargetBuffer(NotificationCenter.filterSettingsUpdated, 128);
-            this.userDataParsable = new ParsableByteArray();
-            return;
+            parsableByteArray = new ParsableByteArray();
+        } else {
+            parsableByteArray = null;
+            this.userData = null;
         }
-        this.userData = null;
-        this.userDataParsable = null;
+        this.userDataParsable = parsableByteArray;
     }
 
-    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
-    public void seek() {
-        NalUnitUtil.clearPrefixFlags(this.prefixFlags);
-        this.csdBuffer.reset();
-        SampleReader sampleReader = this.sampleReader;
-        if (sampleReader != null) {
-            sampleReader.reset();
+    private static Format parseCsdBuffer(CsdBuffer csdBuffer, int i, String str) {
+        float f;
+        byte[] copyOf = Arrays.copyOf(csdBuffer.data, csdBuffer.length);
+        ParsableBitArray parsableBitArray = new ParsableBitArray(copyOf);
+        parsableBitArray.skipBytes(i);
+        parsableBitArray.skipBytes(4);
+        parsableBitArray.skipBit();
+        parsableBitArray.skipBits(8);
+        if (parsableBitArray.readBit()) {
+            parsableBitArray.skipBits(4);
+            parsableBitArray.skipBits(3);
         }
-        NalUnitTargetBuffer nalUnitTargetBuffer = this.userData;
-        if (nalUnitTargetBuffer != null) {
-            nalUnitTargetBuffer.reset();
+        int readBits = parsableBitArray.readBits(4);
+        if (readBits == 15) {
+            int readBits2 = parsableBitArray.readBits(8);
+            int readBits3 = parsableBitArray.readBits(8);
+            if (readBits3 != 0) {
+                f = readBits2 / readBits3;
+            }
+            Log.w("H263Reader", "Invalid aspect ratio");
+            f = 1.0f;
+        } else {
+            float[] fArr = PIXEL_WIDTH_HEIGHT_RATIO_BY_ASPECT_RATIO_INFO;
+            if (readBits < fArr.length) {
+                f = fArr[readBits];
+            }
+            Log.w("H263Reader", "Invalid aspect ratio");
+            f = 1.0f;
         }
-        this.totalBytesWritten = 0L;
-        this.pesTimeUs = -9223372036854775807L;
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
-    public void createTracks(ExtractorOutput extractorOutput, TsPayloadReader.TrackIdGenerator trackIdGenerator) {
-        trackIdGenerator.generateNewId();
-        this.formatId = trackIdGenerator.getFormatId();
-        TrackOutput track = extractorOutput.track(trackIdGenerator.getTrackId(), 2);
-        this.output = track;
-        this.sampleReader = new SampleReader(track);
-        UserDataReader userDataReader = this.userDataReader;
-        if (userDataReader != null) {
-            userDataReader.createTracks(extractorOutput, trackIdGenerator);
+        if (parsableBitArray.readBit()) {
+            parsableBitArray.skipBits(2);
+            parsableBitArray.skipBits(1);
+            if (parsableBitArray.readBit()) {
+                parsableBitArray.skipBits(15);
+                parsableBitArray.skipBit();
+                parsableBitArray.skipBits(15);
+                parsableBitArray.skipBit();
+                parsableBitArray.skipBits(15);
+                parsableBitArray.skipBit();
+                parsableBitArray.skipBits(3);
+                parsableBitArray.skipBits(11);
+                parsableBitArray.skipBit();
+                parsableBitArray.skipBits(15);
+                parsableBitArray.skipBit();
+            }
         }
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
-    public void packetStarted(long j, int i) {
-        if (j != -9223372036854775807L) {
-            this.pesTimeUs = j;
+        if (parsableBitArray.readBits(2) != 0) {
+            Log.w("H263Reader", "Unhandled video object layer shape");
         }
+        parsableBitArray.skipBit();
+        int readBits4 = parsableBitArray.readBits(16);
+        parsableBitArray.skipBit();
+        if (parsableBitArray.readBit()) {
+            if (readBits4 == 0) {
+                Log.w("H263Reader", "Invalid vop_increment_time_resolution");
+            } else {
+                int i2 = 0;
+                for (int i3 = readBits4 - 1; i3 > 0; i3 >>= 1) {
+                    i2++;
+                }
+                parsableBitArray.skipBits(i2);
+            }
+        }
+        parsableBitArray.skipBit();
+        int readBits5 = parsableBitArray.readBits(13);
+        parsableBitArray.skipBit();
+        int readBits6 = parsableBitArray.readBits(13);
+        parsableBitArray.skipBit();
+        parsableBitArray.skipBit();
+        return new Format.Builder().setId(str).setSampleMimeType("video/mp4v-es").setWidth(readBits5).setHeight(readBits6).setPixelWidthHeightRatio(f).setInitializationData(Collections.singletonList(copyOf)).build();
     }
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
@@ -141,209 +313,43 @@ public final class H263Reader implements ElementaryStreamReader {
         }
     }
 
-    private static Format parseCsdBuffer(CsdBuffer csdBuffer, int i, String str) {
-        byte[] copyOf = Arrays.copyOf(csdBuffer.data, csdBuffer.length);
-        ParsableBitArray parsableBitArray = new ParsableBitArray(copyOf);
-        parsableBitArray.skipBytes(i);
-        parsableBitArray.skipBytes(4);
-        parsableBitArray.skipBit();
-        parsableBitArray.skipBits(8);
-        if (parsableBitArray.readBit()) {
-            parsableBitArray.skipBits(4);
-            parsableBitArray.skipBits(3);
-        }
-        int readBits = parsableBitArray.readBits(4);
-        float f = 1.0f;
-        if (readBits == 15) {
-            int readBits2 = parsableBitArray.readBits(8);
-            int readBits3 = parsableBitArray.readBits(8);
-            if (readBits3 == 0) {
-                Log.w("H263Reader", "Invalid aspect ratio");
-            } else {
-                f = readBits2 / readBits3;
-            }
-        } else {
-            float[] fArr = PIXEL_WIDTH_HEIGHT_RATIO_BY_ASPECT_RATIO_INFO;
-            if (readBits < fArr.length) {
-                f = fArr[readBits];
-            } else {
-                Log.w("H263Reader", "Invalid aspect ratio");
-            }
-        }
-        if (parsableBitArray.readBit()) {
-            parsableBitArray.skipBits(2);
-            parsableBitArray.skipBits(1);
-            if (parsableBitArray.readBit()) {
-                parsableBitArray.skipBits(15);
-                parsableBitArray.skipBit();
-                parsableBitArray.skipBits(15);
-                parsableBitArray.skipBit();
-                parsableBitArray.skipBits(15);
-                parsableBitArray.skipBit();
-                parsableBitArray.skipBits(3);
-                parsableBitArray.skipBits(11);
-                parsableBitArray.skipBit();
-                parsableBitArray.skipBits(15);
-                parsableBitArray.skipBit();
-            }
-        }
-        if (parsableBitArray.readBits(2) != 0) {
-            Log.w("H263Reader", "Unhandled video object layer shape");
-        }
-        parsableBitArray.skipBit();
-        int readBits4 = parsableBitArray.readBits(16);
-        parsableBitArray.skipBit();
-        if (parsableBitArray.readBit()) {
-            if (readBits4 == 0) {
-                Log.w("H263Reader", "Invalid vop_increment_time_resolution");
-            } else {
-                int i2 = 0;
-                for (int i3 = readBits4 - 1; i3 > 0; i3 >>= 1) {
-                    i2++;
-                }
-                parsableBitArray.skipBits(i2);
-            }
-        }
-        parsableBitArray.skipBit();
-        int readBits5 = parsableBitArray.readBits(13);
-        parsableBitArray.skipBit();
-        int readBits6 = parsableBitArray.readBits(13);
-        parsableBitArray.skipBit();
-        parsableBitArray.skipBit();
-        return new Format.Builder().setId(str).setSampleMimeType("video/mp4v-es").setWidth(readBits5).setHeight(readBits6).setPixelWidthHeightRatio(f).setInitializationData(Collections.singletonList(copyOf)).build();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class CsdBuffer {
-        private static final byte[] START_CODE = {0, 0, 1};
-        public byte[] data;
-        private boolean isFilling;
-        public int length;
-        private int state;
-        public int volStartPosition;
-
-        public CsdBuffer(int i) {
-            this.data = new byte[i];
-        }
-
-        public void reset() {
-            this.isFilling = false;
-            this.length = 0;
-            this.state = 0;
-        }
-
-        public boolean onStartCode(int i, int i2) {
-            int i3 = this.state;
-            if (i3 != 0) {
-                if (i3 != 1) {
-                    if (i3 != 2) {
-                        if (i3 != 3) {
-                            if (i3 != 4) {
-                                throw new IllegalStateException();
-                            }
-                            if (i == 179 || i == 181) {
-                                this.length -= i2;
-                                this.isFilling = false;
-                                return true;
-                            }
-                        } else if ((i & NotificationCenter.reloadInterface) != 32) {
-                            Log.w("H263Reader", "Unexpected start code value");
-                            reset();
-                        } else {
-                            this.volStartPosition = this.length;
-                            this.state = 4;
-                        }
-                    } else if (i > 31) {
-                        Log.w("H263Reader", "Unexpected start code value");
-                        reset();
-                    } else {
-                        this.state = 3;
-                    }
-                } else if (i != 181) {
-                    Log.w("H263Reader", "Unexpected start code value");
-                    reset();
-                } else {
-                    this.state = 2;
-                }
-            } else if (i == 176) {
-                this.state = 1;
-                this.isFilling = true;
-            }
-            byte[] bArr = START_CODE;
-            onData(bArr, 0, bArr.length);
-            return false;
-        }
-
-        public void onData(byte[] bArr, int i, int i2) {
-            if (this.isFilling) {
-                int i3 = i2 - i;
-                byte[] bArr2 = this.data;
-                int length = bArr2.length;
-                int i4 = this.length + i3;
-                if (length < i4) {
-                    this.data = Arrays.copyOf(bArr2, i4 * 2);
-                }
-                System.arraycopy(bArr, i, this.data, this.length, i3);
-                this.length += i3;
-            }
+    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
+    public void createTracks(ExtractorOutput extractorOutput, TsPayloadReader.TrackIdGenerator trackIdGenerator) {
+        trackIdGenerator.generateNewId();
+        this.formatId = trackIdGenerator.getFormatId();
+        TrackOutput track = extractorOutput.track(trackIdGenerator.getTrackId(), 2);
+        this.output = track;
+        this.sampleReader = new SampleReader(track);
+        UserDataReader userDataReader = this.userDataReader;
+        if (userDataReader != null) {
+            userDataReader.createTracks(extractorOutput, trackIdGenerator);
         }
     }
 
-    /* loaded from: classes.dex */
-    private static final class SampleReader {
-        private boolean lookingForVopCodingType;
-        private final TrackOutput output;
-        private boolean readingSample;
-        private boolean sampleIsKeyframe;
-        private long samplePosition;
-        private long sampleTimeUs;
-        private int startCodeValue;
-        private int vopBytesRead;
+    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
+    public void packetFinished() {
+    }
 
-        public SampleReader(TrackOutput trackOutput) {
-            this.output = trackOutput;
+    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
+    public void packetStarted(long j, int i) {
+        if (j != -9223372036854775807L) {
+            this.pesTimeUs = j;
         }
+    }
 
-        public void reset() {
-            this.readingSample = false;
-            this.lookingForVopCodingType = false;
-            this.sampleIsKeyframe = false;
-            this.startCodeValue = -1;
+    @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
+    public void seek() {
+        NalUnitUtil.clearPrefixFlags(this.prefixFlags);
+        this.csdBuffer.reset();
+        SampleReader sampleReader = this.sampleReader;
+        if (sampleReader != null) {
+            sampleReader.reset();
         }
-
-        public void onStartCode(int i, long j) {
-            this.startCodeValue = i;
-            this.sampleIsKeyframe = false;
-            this.readingSample = i == 182 || i == 179;
-            this.lookingForVopCodingType = i == 182;
-            this.vopBytesRead = 0;
-            this.sampleTimeUs = j;
+        NalUnitTargetBuffer nalUnitTargetBuffer = this.userData;
+        if (nalUnitTargetBuffer != null) {
+            nalUnitTargetBuffer.reset();
         }
-
-        public void onData(byte[] bArr, int i, int i2) {
-            if (this.lookingForVopCodingType) {
-                int i3 = this.vopBytesRead;
-                int i4 = (i + 1) - i3;
-                if (i4 < i2) {
-                    this.sampleIsKeyframe = ((bArr[i4] & 192) >> 6) == 0;
-                    this.lookingForVopCodingType = false;
-                    return;
-                }
-                this.vopBytesRead = i3 + (i2 - i);
-            }
-        }
-
-        public void onDataEnd(long j, int i, boolean z) {
-            if (this.startCodeValue == 182 && z && this.readingSample) {
-                long j2 = this.sampleTimeUs;
-                if (j2 != -9223372036854775807L) {
-                    this.output.sampleMetadata(j2, this.sampleIsKeyframe ? 1 : 0, (int) (j - this.samplePosition), i, null);
-                }
-            }
-            if (this.startCodeValue != 179) {
-                this.samplePosition = j;
-            }
-        }
+        this.totalBytesWritten = 0L;
+        this.pesTimeUs = -9223372036854775807L;
     }
 }

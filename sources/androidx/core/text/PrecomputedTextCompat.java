@@ -9,15 +9,10 @@ import android.text.TextDirectionHeuristic;
 import android.text.TextDirectionHeuristics;
 import android.text.TextPaint;
 import android.text.TextUtils;
-import android.text.style.MetricAffectingSpan;
 import androidx.core.util.ObjectsCompat;
 import java.util.Locale;
 /* loaded from: classes.dex */
-public class PrecomputedTextCompat implements Spannable {
-    private static final Object sLock = new Object();
-    private final Params mParams;
-    private final Spannable mText;
-    private final PrecomputedText mWrapped;
+public abstract class PrecomputedTextCompat implements Spannable {
 
     /* loaded from: classes.dex */
     public static final class Params {
@@ -46,6 +41,10 @@ public class PrecomputedTextCompat implements Spannable {
                 this.mTextDir = TextDirectionHeuristics.FIRSTSTRONG_LTR;
             }
 
+            public Params build() {
+                return new Params(this.mPaint, this.mTextDir, this.mBreakStrategy, this.mHyphenationFrequency);
+            }
+
             public Builder setBreakStrategy(int i) {
                 this.mBreakStrategy = i;
                 return this;
@@ -60,30 +59,6 @@ public class PrecomputedTextCompat implements Spannable {
                 this.mTextDir = textDirectionHeuristic;
                 return this;
             }
-
-            public Params build() {
-                return new Params(this.mPaint, this.mTextDir, this.mBreakStrategy, this.mHyphenationFrequency);
-            }
-        }
-
-        Params(TextPaint textPaint, TextDirectionHeuristic textDirectionHeuristic, int i, int i2) {
-            PrecomputedText.Params.Builder breakStrategy;
-            PrecomputedText.Params.Builder hyphenationFrequency;
-            PrecomputedText.Params.Builder textDirection;
-            PrecomputedText.Params build;
-            if (Build.VERSION.SDK_INT >= 29) {
-                breakStrategy = new PrecomputedText.Params.Builder(textPaint).setBreakStrategy(i);
-                hyphenationFrequency = breakStrategy.setHyphenationFrequency(i2);
-                textDirection = hyphenationFrequency.setTextDirection(textDirectionHeuristic);
-                build = textDirection.build();
-                this.mWrapped = build;
-            } else {
-                this.mWrapped = null;
-            }
-            this.mPaint = textPaint;
-            this.mTextDir = textDirectionHeuristic;
-            this.mBreakStrategy = i;
-            this.mHyphenationFrequency = i2;
         }
 
         public Params(PrecomputedText.Params params) {
@@ -102,20 +77,35 @@ public class PrecomputedTextCompat implements Spannable {
             this.mWrapped = Build.VERSION.SDK_INT < 29 ? null : params;
         }
 
-        public TextPaint getTextPaint() {
-            return this.mPaint;
+        Params(TextPaint textPaint, TextDirectionHeuristic textDirectionHeuristic, int i, int i2) {
+            PrecomputedText.Params params;
+            PrecomputedText.Params.Builder breakStrategy;
+            PrecomputedText.Params.Builder hyphenationFrequency;
+            PrecomputedText.Params.Builder textDirection;
+            if (Build.VERSION.SDK_INT >= 29) {
+                breakStrategy = new PrecomputedText.Params.Builder(textPaint).setBreakStrategy(i);
+                hyphenationFrequency = breakStrategy.setHyphenationFrequency(i2);
+                textDirection = hyphenationFrequency.setTextDirection(textDirectionHeuristic);
+                params = textDirection.build();
+            } else {
+                params = null;
+            }
+            this.mWrapped = params;
+            this.mPaint = textPaint;
+            this.mTextDir = textDirectionHeuristic;
+            this.mBreakStrategy = i;
+            this.mHyphenationFrequency = i2;
         }
 
-        public TextDirectionHeuristic getTextDirection() {
-            return this.mTextDir;
-        }
-
-        public int getBreakStrategy() {
-            return this.mBreakStrategy;
-        }
-
-        public int getHyphenationFrequency() {
-            return this.mHyphenationFrequency;
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (obj instanceof Params) {
+                Params params = (Params) obj;
+                return equalsWithoutTextDirection(params) && this.mTextDir == params.getTextDirection();
+            }
+            return false;
         }
 
         public boolean equalsWithoutTextDirection(Params params) {
@@ -158,15 +148,20 @@ public class PrecomputedTextCompat implements Spannable {
             return false;
         }
 
-        public boolean equals(Object obj) {
-            if (obj == this) {
-                return true;
-            }
-            if (obj instanceof Params) {
-                Params params = (Params) obj;
-                return equalsWithoutTextDirection(params) && this.mTextDir == params.getTextDirection();
-            }
-            return false;
+        public int getBreakStrategy() {
+            return this.mBreakStrategy;
+        }
+
+        public int getHyphenationFrequency() {
+            return this.mHyphenationFrequency;
+        }
+
+        public TextDirectionHeuristic getTextDirection() {
+            return this.mTextDir;
+        }
+
+        public TextPaint getTextPaint() {
+            return this.mPaint;
         }
 
         public int hashCode() {
@@ -204,134 +199,52 @@ public class PrecomputedTextCompat implements Spannable {
         }
 
         public String toString() {
+            StringBuilder sb;
+            Object textLocale;
             String fontVariationSettings;
-            LocaleList textLocales;
             float letterSpacing;
             boolean isElegantTextHeight;
-            StringBuilder sb = new StringBuilder("{");
-            sb.append("textSize=" + this.mPaint.getTextSize());
-            sb.append(", textScaleX=" + this.mPaint.getTextScaleX());
-            sb.append(", textSkewX=" + this.mPaint.getTextSkewX());
+            StringBuilder sb2 = new StringBuilder("{");
+            sb2.append("textSize=" + this.mPaint.getTextSize());
+            sb2.append(", textScaleX=" + this.mPaint.getTextScaleX());
+            sb2.append(", textSkewX=" + this.mPaint.getTextSkewX());
             int i = Build.VERSION.SDK_INT;
             if (i >= 21) {
-                StringBuilder sb2 = new StringBuilder();
-                sb2.append(", letterSpacing=");
-                letterSpacing = this.mPaint.getLetterSpacing();
-                sb2.append(letterSpacing);
-                sb.append(sb2.toString());
                 StringBuilder sb3 = new StringBuilder();
-                sb3.append(", elegantTextHeight=");
+                sb3.append(", letterSpacing=");
+                letterSpacing = this.mPaint.getLetterSpacing();
+                sb3.append(letterSpacing);
+                sb2.append(sb3.toString());
+                StringBuilder sb4 = new StringBuilder();
+                sb4.append(", elegantTextHeight=");
                 isElegantTextHeight = this.mPaint.isElegantTextHeight();
-                sb3.append(isElegantTextHeight);
-                sb.append(sb3.toString());
+                sb4.append(isElegantTextHeight);
+                sb2.append(sb4.toString());
             }
             if (i >= 24) {
-                StringBuilder sb4 = new StringBuilder();
-                sb4.append(", textLocale=");
-                textLocales = this.mPaint.getTextLocales();
-                sb4.append(textLocales);
-                sb.append(sb4.toString());
+                sb = new StringBuilder();
+                sb.append(", textLocale=");
+                textLocale = this.mPaint.getTextLocales();
             } else {
-                sb.append(", textLocale=" + this.mPaint.getTextLocale());
+                sb = new StringBuilder();
+                sb.append(", textLocale=");
+                textLocale = this.mPaint.getTextLocale();
             }
-            sb.append(", typeface=" + this.mPaint.getTypeface());
+            sb.append(textLocale);
+            sb2.append(sb.toString());
+            sb2.append(", typeface=" + this.mPaint.getTypeface());
             if (i >= 26) {
                 StringBuilder sb5 = new StringBuilder();
                 sb5.append(", variationSettings=");
                 fontVariationSettings = this.mPaint.getFontVariationSettings();
                 sb5.append(fontVariationSettings);
-                sb.append(sb5.toString());
+                sb2.append(sb5.toString());
             }
-            sb.append(", textDir=" + this.mTextDir);
-            sb.append(", breakStrategy=" + this.mBreakStrategy);
-            sb.append(", hyphenationFrequency=" + this.mHyphenationFrequency);
-            sb.append("}");
-            return sb.toString();
+            sb2.append(", textDir=" + this.mTextDir);
+            sb2.append(", breakStrategy=" + this.mBreakStrategy);
+            sb2.append(", hyphenationFrequency=" + this.mHyphenationFrequency);
+            sb2.append("}");
+            return sb2.toString();
         }
-    }
-
-    public PrecomputedText getPrecomputedText() {
-        if (PrecomputedTextCompat$$ExternalSyntheticApiModelOutline0.m(this.mText)) {
-            return PrecomputedTextCompat$$ExternalSyntheticApiModelOutline1.m(this.mText);
-        }
-        return null;
-    }
-
-    public Params getParams() {
-        return this.mParams;
-    }
-
-    @Override // android.text.Spannable
-    public void setSpan(Object obj, int i, int i2, int i3) {
-        if (obj instanceof MetricAffectingSpan) {
-            throw new IllegalArgumentException("MetricAffectingSpan can not be set to PrecomputedText.");
-        }
-        if (Build.VERSION.SDK_INT >= 29) {
-            this.mWrapped.setSpan(obj, i, i2, i3);
-        } else {
-            this.mText.setSpan(obj, i, i2, i3);
-        }
-    }
-
-    @Override // android.text.Spannable
-    public void removeSpan(Object obj) {
-        if (obj instanceof MetricAffectingSpan) {
-            throw new IllegalArgumentException("MetricAffectingSpan can not be removed from PrecomputedText.");
-        }
-        if (Build.VERSION.SDK_INT >= 29) {
-            this.mWrapped.removeSpan(obj);
-        } else {
-            this.mText.removeSpan(obj);
-        }
-    }
-
-    @Override // android.text.Spanned
-    public <T> T[] getSpans(int i, int i2, Class<T> cls) {
-        Object[] spans;
-        if (Build.VERSION.SDK_INT >= 29) {
-            spans = this.mWrapped.getSpans(i, i2, cls);
-            return (T[]) spans;
-        }
-        return (T[]) this.mText.getSpans(i, i2, cls);
-    }
-
-    @Override // android.text.Spanned
-    public int getSpanStart(Object obj) {
-        return this.mText.getSpanStart(obj);
-    }
-
-    @Override // android.text.Spanned
-    public int getSpanEnd(Object obj) {
-        return this.mText.getSpanEnd(obj);
-    }
-
-    @Override // android.text.Spanned
-    public int getSpanFlags(Object obj) {
-        return this.mText.getSpanFlags(obj);
-    }
-
-    @Override // android.text.Spanned
-    public int nextSpanTransition(int i, int i2, Class cls) {
-        return this.mText.nextSpanTransition(i, i2, cls);
-    }
-
-    @Override // java.lang.CharSequence
-    public int length() {
-        return this.mText.length();
-    }
-
-    @Override // java.lang.CharSequence
-    public char charAt(int i) {
-        return this.mText.charAt(i);
-    }
-
-    @Override // java.lang.CharSequence
-    public CharSequence subSequence(int i, int i2) {
-        return this.mText.subSequence(i, i2);
-    }
-
-    @Override // java.lang.CharSequence
-    public String toString() {
-        return this.mText.toString();
     }
 }

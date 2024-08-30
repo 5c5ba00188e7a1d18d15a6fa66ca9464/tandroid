@@ -1,9 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
-import java.io.IOException;
 import java.nio.charset.Charset;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public class zzax extends zzaw {
     protected final byte[] zza;
@@ -32,7 +30,10 @@ public class zzax extends zzaw {
                     if (zzd > zzaxVar.zzd()) {
                         int zzd2 = zzd();
                         throw new IllegalArgumentException("Length too large: " + zzd + zzd2);
-                    } else if (zzd <= zzaxVar.zzd()) {
+                    } else if (zzd > zzaxVar.zzd()) {
+                        int zzd3 = zzaxVar.zzd();
+                        throw new IllegalArgumentException("Ran off end of other: 0, " + zzd + ", " + zzd3);
+                    } else {
                         byte[] bArr = this.zza;
                         byte[] bArr2 = zzaxVar.zza;
                         zzaxVar.zzc();
@@ -46,9 +47,6 @@ public class zzax extends zzaw {
                             i2++;
                         }
                         return true;
-                    } else {
-                        int zzd3 = zzaxVar.zzd();
-                        throw new IllegalArgumentException("Ran off end of other: 0, " + zzd + ", " + zzd3);
                     }
                 }
                 return false;
@@ -96,7 +94,7 @@ public class zzax extends zzaw {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzba
-    public final void zzh(zzaq zzaqVar) throws IOException {
+    public final void zzh(zzaq zzaqVar) {
         ((zzbf) zzaqVar).zzc(this.zza, 0, zzd());
     }
 

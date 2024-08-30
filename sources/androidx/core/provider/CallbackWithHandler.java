@@ -16,22 +16,22 @@ public class CallbackWithHandler {
         this.mCallbackHandler = handler;
     }
 
-    private void onTypefaceRetrieved(final Typeface typeface) {
-        final FontsContractCompat.FontRequestCallback fontRequestCallback = this.mCallback;
-        this.mCallbackHandler.post(new Runnable() { // from class: androidx.core.provider.CallbackWithHandler.1
-            @Override // java.lang.Runnable
-            public void run() {
-                fontRequestCallback.onTypefaceRetrieved(typeface);
-            }
-        });
-    }
-
     private void onTypefaceRequestFailed(final int i) {
         final FontsContractCompat.FontRequestCallback fontRequestCallback = this.mCallback;
         this.mCallbackHandler.post(new Runnable() { // from class: androidx.core.provider.CallbackWithHandler.2
             @Override // java.lang.Runnable
             public void run() {
                 fontRequestCallback.onTypefaceRequestFailed(i);
+            }
+        });
+    }
+
+    private void onTypefaceRetrieved(final Typeface typeface) {
+        final FontsContractCompat.FontRequestCallback fontRequestCallback = this.mCallback;
+        this.mCallbackHandler.post(new Runnable() { // from class: androidx.core.provider.CallbackWithHandler.1
+            @Override // java.lang.Runnable
+            public void run() {
+                fontRequestCallback.onTypefaceRetrieved(typeface);
             }
         });
     }

@@ -17,13 +17,6 @@ public final class EncryptedFileDataSource extends BaseDataSource {
     private boolean opened;
     private Uri uri;
 
-    @Override // com.google.android.exoplayer2.upstream.BaseDataSource, com.google.android.exoplayer2.upstream.DataSource
-    public /* bridge */ /* synthetic */ Map getResponseHeaders() {
-        Map emptyMap;
-        emptyMap = Collections.emptyMap();
-        return emptyMap;
-    }
-
     /* loaded from: classes3.dex */
     public static class EncryptedFileDataSourceException extends IOException {
         public EncryptedFileDataSourceException(Throwable th) {
@@ -44,7 +37,34 @@ public final class EncryptedFileDataSource extends BaseDataSource {
     }
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
-    public long open(DataSpec dataSpec) throws IOException {
+    public void close() {
+        try {
+            this.fileInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (this.opened) {
+            this.opened = false;
+            transferEnded();
+        }
+        this.fileInputStream = null;
+        this.uri = null;
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.BaseDataSource, com.google.android.exoplayer2.upstream.DataSource
+    public /* bridge */ /* synthetic */ Map getResponseHeaders() {
+        Map emptyMap;
+        emptyMap = Collections.emptyMap();
+        return emptyMap;
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.DataSource
+    public Uri getUri() {
+        return this.uri;
+    }
+
+    @Override // com.google.android.exoplayer2.upstream.DataSource
+    public long open(DataSpec dataSpec) {
         this.uri = dataSpec.uri;
         File file = new File(dataSpec.uri.getPath());
         String name = file.getName();
@@ -55,19 +75,19 @@ public final class EncryptedFileDataSource extends BaseDataSource {
         transferInitializing(dataSpec);
         long j = dataSpec.position;
         long j2 = length;
-        if (j > j2) {
-            throw new DataSourceException(2008);
+        if (j <= j2) {
+            int i = (int) (j2 - j);
+            this.bytesRemaining = i;
+            long j3 = dataSpec.length;
+            if (j3 != -1) {
+                this.bytesRemaining = (int) Math.min(i, j3);
+            }
+            this.opened = true;
+            transferStarted(dataSpec);
+            long j4 = dataSpec.length;
+            return j4 != -1 ? j4 : this.bytesRemaining;
         }
-        int i = (int) (j2 - j);
-        this.bytesRemaining = i;
-        long j3 = dataSpec.length;
-        if (j3 != -1) {
-            this.bytesRemaining = (int) Math.min(i, j3);
-        }
-        this.opened = true;
-        transferStarted(dataSpec);
-        long j4 = dataSpec.length;
-        return j4 != -1 ? j4 : this.bytesRemaining;
+        throw new DataSourceException(2008);
     }
 
     @Override // com.google.android.exoplayer2.upstream.DataReader
@@ -88,25 +108,5 @@ public final class EncryptedFileDataSource extends BaseDataSource {
         this.bytesRemaining -= min;
         bytesTransferred(min);
         return min;
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.DataSource
-    public Uri getUri() {
-        return this.uri;
-    }
-
-    @Override // com.google.android.exoplayer2.upstream.DataSource
-    public void close() {
-        try {
-            this.fileInputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (this.opened) {
-            this.opened = false;
-            transferEnded();
-        }
-        this.fileInputStream = null;
-        this.uri = null;
     }
 }

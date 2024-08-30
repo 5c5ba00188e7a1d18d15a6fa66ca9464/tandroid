@@ -4,7 +4,18 @@ import com.google.common.base.Objects;
 import java.util.Arrays;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class CompactHashing {
+public abstract class CompactHashing {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static Object createTable(int i) {
+        if (i >= 2 && i <= 1073741824 && Integer.highestOneBit(i) == i) {
+            return i <= 256 ? new byte[i] : i <= 65536 ? new short[i] : new int[i];
+        }
+        StringBuilder sb = new StringBuilder(52);
+        sb.append("must be power of 2 between 2^1 and 2^30: ");
+        sb.append(i);
+        throw new IllegalArgumentException(sb.toString());
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int getHashPrefix(int i, int i2) {
         return i & (i2 ^ (-1));
@@ -23,61 +34,6 @@ public final class CompactHashing {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int newCapacity(int i) {
         return (i < 32 ? 4 : 2) * (i + 1);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int tableSize(int i) {
-        return Math.max(4, Hashing.closedTableSize(i + 1, 1.0d));
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object createTable(int i) {
-        if (i < 2 || i > 1073741824 || Integer.highestOneBit(i) != i) {
-            StringBuilder sb = new StringBuilder(52);
-            sb.append("must be power of 2 between 2^1 and 2^30: ");
-            sb.append(i);
-            throw new IllegalArgumentException(sb.toString());
-        } else if (i <= 256) {
-            return new byte[i];
-        } else {
-            if (i <= 65536) {
-                return new short[i];
-            }
-            return new int[i];
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void tableClear(Object obj) {
-        if (obj instanceof byte[]) {
-            Arrays.fill((byte[]) obj, (byte) 0);
-        } else if (obj instanceof short[]) {
-            Arrays.fill((short[]) obj, (short) 0);
-        } else {
-            Arrays.fill((int[]) obj, 0);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int tableGet(Object obj, int i) {
-        if (obj instanceof byte[]) {
-            return ((byte[]) obj)[i] & 255;
-        }
-        if (obj instanceof short[]) {
-            return ((short[]) obj)[i] & 65535;
-        }
-        return ((int[]) obj)[i];
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void tableSet(Object obj, int i, int i2) {
-        if (obj instanceof byte[]) {
-            ((byte[]) obj)[i] = (byte) i2;
-        } else if (obj instanceof short[]) {
-            ((short[]) obj)[i] = (short) i2;
-        } else {
-            ((int[]) obj)[i] = i2;
-        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -111,5 +67,37 @@ public final class CompactHashing {
             iArr[i5] = maskCombine(iArr[i5], next2, i);
         }
         return i2;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void tableClear(Object obj) {
+        if (obj instanceof byte[]) {
+            Arrays.fill((byte[]) obj, (byte) 0);
+        } else if (obj instanceof short[]) {
+            Arrays.fill((short[]) obj, (short) 0);
+        } else {
+            Arrays.fill((int[]) obj, 0);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static int tableGet(Object obj, int i) {
+        return obj instanceof byte[] ? ((byte[]) obj)[i] & 255 : obj instanceof short[] ? ((short[]) obj)[i] & 65535 : ((int[]) obj)[i];
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void tableSet(Object obj, int i, int i2) {
+        if (obj instanceof byte[]) {
+            ((byte[]) obj)[i] = (byte) i2;
+        } else if (obj instanceof short[]) {
+            ((short[]) obj)[i] = (short) i2;
+        } else {
+            ((int[]) obj)[i] = i2;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static int tableSize(int i) {
+        return Math.max(4, Hashing.closedTableSize(i + 1, 1.0d));
     }
 }

@@ -7,15 +7,15 @@ public class GlRectDrawer extends GlGenericDrawer {
 
     /* loaded from: classes.dex */
     private static class ShaderCallbacks implements GlGenericDrawer.ShaderCallbacks {
+        private ShaderCallbacks() {
+        }
+
         @Override // org.webrtc.GlGenericDrawer.ShaderCallbacks
         public void onNewShader(GlShader glShader) {
         }
 
         @Override // org.webrtc.GlGenericDrawer.ShaderCallbacks
         public void onPrepareShader(GlShader glShader, float[] fArr, int i, int i2, int i3, int i4) {
-        }
-
-        private ShaderCallbacks() {
         }
     }
 

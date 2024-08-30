@@ -1,5 +1,4 @@
 package com.google.android.search.verification.client;
-/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes.dex */
-public final /* synthetic */ class SearchActionVerificationClientActivity$$ExternalSyntheticApiModelOutline0 {
+public abstract /* synthetic */ class SearchActionVerificationClientActivity$$ExternalSyntheticApiModelOutline0 {
 }

@@ -12,6 +12,7 @@ public class ConstantBitrateSeekMap implements SeekMap {
     private final long inputLength;
 
     public ConstantBitrateSeekMap(long j, long j2, int i, int i2, boolean z) {
+        long timeUsAtPosition;
         this.inputLength = j;
         this.firstFrameBytePosition = j2;
         this.frameSize = i2 == -1 ? 1 : i2;
@@ -19,46 +20,12 @@ public class ConstantBitrateSeekMap implements SeekMap {
         this.allowSeeksIfLengthUnknown = z;
         if (j == -1) {
             this.dataSize = -1L;
-            this.durationUs = -9223372036854775807L;
-            return;
+            timeUsAtPosition = -9223372036854775807L;
+        } else {
+            this.dataSize = j - j2;
+            timeUsAtPosition = getTimeUsAtPosition(j, j2, i);
         }
-        this.dataSize = j - j2;
-        this.durationUs = getTimeUsAtPosition(j, j2, i);
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.SeekMap
-    public boolean isSeekable() {
-        return this.dataSize != -1 || this.allowSeeksIfLengthUnknown;
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.SeekMap
-    public SeekMap.SeekPoints getSeekPoints(long j) {
-        if (this.dataSize == -1 && !this.allowSeeksIfLengthUnknown) {
-            return new SeekMap.SeekPoints(new SeekPoint(0L, this.firstFrameBytePosition));
-        }
-        long framePositionForTimeUs = getFramePositionForTimeUs(j);
-        long timeUsAtPosition = getTimeUsAtPosition(framePositionForTimeUs);
-        SeekPoint seekPoint = new SeekPoint(timeUsAtPosition, framePositionForTimeUs);
-        if (this.dataSize != -1 && timeUsAtPosition < j) {
-            long j2 = framePositionForTimeUs + this.frameSize;
-            if (j2 < this.inputLength) {
-                return new SeekMap.SeekPoints(seekPoint, new SeekPoint(getTimeUsAtPosition(j2), j2));
-            }
-        }
-        return new SeekMap.SeekPoints(seekPoint);
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.SeekMap
-    public long getDurationUs() {
-        return this.durationUs;
-    }
-
-    public long getTimeUsAtPosition(long j) {
-        return getTimeUsAtPosition(j, this.firstFrameBytePosition, this.bitrate);
-    }
-
-    private static long getTimeUsAtPosition(long j, long j2, int i) {
-        return (Math.max(0L, j - j2) * 8000000) / i;
+        this.durationUs = timeUsAtPosition;
     }
 
     private long getFramePositionForTimeUs(long j) {
@@ -69,5 +36,40 @@ public class ConstantBitrateSeekMap implements SeekMap {
             j3 = Math.min(j3, j4 - j2);
         }
         return this.firstFrameBytePosition + Math.max(j3, 0L);
+    }
+
+    private static long getTimeUsAtPosition(long j, long j2, int i) {
+        return (Math.max(0L, j - j2) * 8000000) / i;
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.SeekMap
+    public long getDurationUs() {
+        return this.durationUs;
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.SeekMap
+    public SeekMap.SeekPoints getSeekPoints(long j) {
+        if (this.dataSize != -1 || this.allowSeeksIfLengthUnknown) {
+            long framePositionForTimeUs = getFramePositionForTimeUs(j);
+            long timeUsAtPosition = getTimeUsAtPosition(framePositionForTimeUs);
+            SeekPoint seekPoint = new SeekPoint(timeUsAtPosition, framePositionForTimeUs);
+            if (this.dataSize != -1 && timeUsAtPosition < j) {
+                long j2 = framePositionForTimeUs + this.frameSize;
+                if (j2 < this.inputLength) {
+                    return new SeekMap.SeekPoints(seekPoint, new SeekPoint(getTimeUsAtPosition(j2), j2));
+                }
+            }
+            return new SeekMap.SeekPoints(seekPoint);
+        }
+        return new SeekMap.SeekPoints(new SeekPoint(0L, this.firstFrameBytePosition));
+    }
+
+    public long getTimeUsAtPosition(long j) {
+        return getTimeUsAtPosition(j, this.firstFrameBytePosition, this.bitrate);
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.SeekMap
+    public boolean isSeekable() {
+        return this.dataSize != -1 || this.allowSeeksIfLengthUnknown;
     }
 }

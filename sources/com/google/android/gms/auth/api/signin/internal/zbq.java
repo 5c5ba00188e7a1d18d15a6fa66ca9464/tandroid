@@ -1,10 +1,8 @@
 package com.google.android.gms.auth.api.signin.internal;
 
 import android.os.Parcel;
-import android.os.RemoteException;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.Status;
-/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 public abstract class zbq extends com.google.android.gms.internal.auth-api.zbb implements zbr {
     public zbq() {
@@ -12,7 +10,7 @@ public abstract class zbq extends com.google.android.gms.internal.auth-api.zbb i
     }
 
     @Override // com.google.android.gms.internal.auth-api.zbb
-    protected final boolean zba(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
+    protected final boolean zba(int i, Parcel parcel, Parcel parcel2, int i2) {
         switch (i) {
             case 101:
                 com.google.android.gms.internal.auth-api.zbc.zbb(parcel);

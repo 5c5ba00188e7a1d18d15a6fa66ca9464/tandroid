@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewParent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
-import androidx.collection.SparseArrayCompat;
 import androidx.core.view.AccessibilityDelegateCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewParentCompat;
@@ -21,9 +20,9 @@ import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
     private static final Rect INVALID_PARENT_BOUNDS = new Rect(ConnectionsManager.DEFAULT_DATACENTER_ID, ConnectionsManager.DEFAULT_DATACENTER_ID, Integer.MIN_VALUE, Integer.MIN_VALUE);
-    private static final FocusStrategy$BoundsAdapter<AccessibilityNodeInfoCompat> NODE_ADAPTER = new FocusStrategy$BoundsAdapter<AccessibilityNodeInfoCompat>() { // from class: androidx.customview.widget.ExploreByTouchHelper.1
+    private static final FocusStrategy$BoundsAdapter NODE_ADAPTER = new FocusStrategy$BoundsAdapter() { // from class: androidx.customview.widget.ExploreByTouchHelper.1
     };
-    private static final FocusStrategy$CollectionAdapter<SparseArrayCompat<AccessibilityNodeInfoCompat>, AccessibilityNodeInfoCompat> SPARSE_VALUES_ADAPTER = new FocusStrategy$CollectionAdapter<SparseArrayCompat<AccessibilityNodeInfoCompat>, AccessibilityNodeInfoCompat>() { // from class: androidx.customview.widget.ExploreByTouchHelper.2
+    private static final FocusStrategy$CollectionAdapter SPARSE_VALUES_ADAPTER = new FocusStrategy$CollectionAdapter() { // from class: androidx.customview.widget.ExploreByTouchHelper.2
     };
     private final View mHost;
     private final AccessibilityManager mManager;
@@ -36,24 +35,29 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
     int mKeyboardFocusedVirtualViewId = Integer.MIN_VALUE;
     private int mHoveredVirtualViewId = Integer.MIN_VALUE;
 
-    protected abstract int getVirtualViewAt(float f, float f2);
+    /* loaded from: classes.dex */
+    private class MyNodeProvider extends AccessibilityNodeProviderCompat {
+        MyNodeProvider() {
+        }
 
-    protected abstract void getVisibleVirtualViews(List<Integer> list);
+        @Override // androidx.core.view.accessibility.AccessibilityNodeProviderCompat
+        public AccessibilityNodeInfoCompat createAccessibilityNodeInfo(int i) {
+            return AccessibilityNodeInfoCompat.obtain(ExploreByTouchHelper.this.obtainAccessibilityNodeInfo(i));
+        }
 
-    protected abstract boolean onPerformActionForVirtualView(int i, int i2, Bundle bundle);
+        @Override // androidx.core.view.accessibility.AccessibilityNodeProviderCompat
+        public AccessibilityNodeInfoCompat findFocus(int i) {
+            int i2 = i == 2 ? ExploreByTouchHelper.this.mAccessibilityFocusedVirtualViewId : ExploreByTouchHelper.this.mKeyboardFocusedVirtualViewId;
+            if (i2 == Integer.MIN_VALUE) {
+                return null;
+            }
+            return createAccessibilityNodeInfo(i2);
+        }
 
-    protected void onPopulateEventForHost(AccessibilityEvent accessibilityEvent) {
-    }
-
-    protected void onPopulateEventForVirtualView(int i, AccessibilityEvent accessibilityEvent) {
-    }
-
-    protected void onPopulateNodeForHost(AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
-    }
-
-    protected abstract void onPopulateNodeForVirtualView(int i, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat);
-
-    protected void onVirtualViewKeyboardFocusChanged(int i, boolean z) {
+        @Override // androidx.core.view.accessibility.AccessibilityNodeProviderCompat
+        public boolean performAction(int i, int i2, Bundle bundle) {
+            return ExploreByTouchHelper.this.performAction(i, i2, bundle);
+        }
     }
 
     public ExploreByTouchHelper(View view) {
@@ -68,66 +72,18 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
         }
     }
 
-    @Override // androidx.core.view.AccessibilityDelegateCompat
-    public AccessibilityNodeProviderCompat getAccessibilityNodeProvider(View view) {
-        if (this.mNodeProvider == null) {
-            this.mNodeProvider = new MyNodeProvider();
-        }
-        return this.mNodeProvider;
-    }
-
-    public final boolean dispatchHoverEvent(MotionEvent motionEvent) {
-        if (this.mManager.isEnabled() && this.mManager.isTouchExplorationEnabled()) {
-            int action = motionEvent.getAction();
-            if (action == 7 || action == 9) {
-                int virtualViewAt = getVirtualViewAt(motionEvent.getX(), motionEvent.getY());
-                updateHoveredVirtualView(virtualViewAt);
-                return virtualViewAt != Integer.MIN_VALUE;
-            } else if (action == 10 && this.mHoveredVirtualViewId != Integer.MIN_VALUE) {
-                updateHoveredVirtualView(Integer.MIN_VALUE);
-                return true;
-            } else {
-                return false;
-            }
+    private boolean clearAccessibilityFocus(int i) {
+        if (this.mAccessibilityFocusedVirtualViewId == i) {
+            this.mAccessibilityFocusedVirtualViewId = Integer.MIN_VALUE;
+            this.mHost.invalidate();
+            sendEventForVirtualView(i, 65536);
+            return true;
         }
         return false;
     }
 
-    public final boolean sendEventForVirtualView(int i, int i2) {
-        ViewParent parent;
-        if (i == Integer.MIN_VALUE || !this.mManager.isEnabled() || (parent = this.mHost.getParent()) == null) {
-            return false;
-        }
-        return ViewParentCompat.requestSendAccessibilityEvent(parent, this.mHost, createEvent(i, i2));
-    }
-
-    private void updateHoveredVirtualView(int i) {
-        int i2 = this.mHoveredVirtualViewId;
-        if (i2 == i) {
-            return;
-        }
-        this.mHoveredVirtualViewId = i;
-        sendEventForVirtualView(i, 128);
-        sendEventForVirtualView(i2, 256);
-    }
-
     private AccessibilityEvent createEvent(int i, int i2) {
-        if (i == -1) {
-            return createEventForHost(i2);
-        }
-        return createEventForChild(i, i2);
-    }
-
-    private AccessibilityEvent createEventForHost(int i) {
-        AccessibilityEvent obtain = AccessibilityEvent.obtain(i);
-        this.mHost.onInitializeAccessibilityEvent(obtain);
-        return obtain;
-    }
-
-    @Override // androidx.core.view.AccessibilityDelegateCompat
-    public void onInitializeAccessibilityEvent(View view, AccessibilityEvent accessibilityEvent) {
-        super.onInitializeAccessibilityEvent(view, accessibilityEvent);
-        onPopulateEventForHost(accessibilityEvent);
+        return i != -1 ? createEventForChild(i, i2) : createEventForHost(i2);
     }
 
     private AccessibilityEvent createEventForChild(int i, int i2) {
@@ -149,32 +105,10 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
         return obtain;
     }
 
-    AccessibilityNodeInfoCompat obtainAccessibilityNodeInfo(int i) {
-        if (i == -1) {
-            return createNodeForHost();
-        }
-        return createNodeForChild(i);
-    }
-
-    private AccessibilityNodeInfoCompat createNodeForHost() {
-        AccessibilityNodeInfoCompat obtain = AccessibilityNodeInfoCompat.obtain(this.mHost);
-        ViewCompat.onInitializeAccessibilityNodeInfo(this.mHost, obtain);
-        ArrayList arrayList = new ArrayList();
-        getVisibleVirtualViews(arrayList);
-        if (obtain.getChildCount() > 0 && arrayList.size() > 0) {
-            throw new RuntimeException("Views cannot have both real and virtual children");
-        }
-        int size = arrayList.size();
-        for (int i = 0; i < size; i++) {
-            obtain.addChild(this.mHost, ((Integer) arrayList.get(i)).intValue());
-        }
+    private AccessibilityEvent createEventForHost(int i) {
+        AccessibilityEvent obtain = AccessibilityEvent.obtain(i);
+        this.mHost.onInitializeAccessibilityEvent(obtain);
         return obtain;
-    }
-
-    @Override // androidx.core.view.AccessibilityDelegateCompat
-    public void onInitializeAccessibilityNodeInfo(View view, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
-        super.onInitializeAccessibilityNodeInfo(view, accessibilityNodeInfoCompat);
-        onPopulateNodeForHost(accessibilityNodeInfoCompat);
     }
 
     private AccessibilityNodeInfoCompat createNodeForChild(int i) {
@@ -196,98 +130,97 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
         }
         int actions = obtain.getActions();
         if ((actions & 64) == 0) {
-            if ((actions & 128) != 0) {
-                throw new RuntimeException("Callbacks must not add ACTION_CLEAR_ACCESSIBILITY_FOCUS in populateNodeForVirtualViewId()");
-            }
-            obtain.setPackageName(this.mHost.getContext().getPackageName());
-            obtain.setSource(this.mHost, i);
-            if (this.mAccessibilityFocusedVirtualViewId == i) {
-                obtain.setAccessibilityFocused(true);
-                obtain.addAction(128);
-            } else {
-                obtain.setAccessibilityFocused(false);
-                obtain.addAction(64);
-            }
-            boolean z = this.mKeyboardFocusedVirtualViewId == i;
-            if (z) {
-                obtain.addAction(2);
-            } else if (obtain.isFocusable()) {
-                obtain.addAction(1);
-            }
-            obtain.setFocused(z);
-            this.mHost.getLocationOnScreen(this.mTempGlobalRect);
-            obtain.getBoundsInScreen(this.mTempScreenRect);
-            if (this.mTempScreenRect.equals(rect)) {
-                obtain.getBoundsInParent(this.mTempScreenRect);
-                if (obtain.mParentVirtualDescendantId != -1) {
-                    AccessibilityNodeInfoCompat obtain2 = AccessibilityNodeInfoCompat.obtain();
-                    for (int i2 = obtain.mParentVirtualDescendantId; i2 != -1; i2 = obtain2.mParentVirtualDescendantId) {
-                        obtain2.setParent(this.mHost, -1);
-                        obtain2.setBoundsInParent(INVALID_PARENT_BOUNDS);
-                        onPopulateNodeForVirtualView(i2, obtain2);
-                        obtain2.getBoundsInParent(this.mTempParentRect);
-                        Rect rect2 = this.mTempScreenRect;
-                        Rect rect3 = this.mTempParentRect;
-                        rect2.offset(rect3.left, rect3.top);
-                    }
-                    obtain2.recycle();
+            if ((actions & 128) == 0) {
+                obtain.setPackageName(this.mHost.getContext().getPackageName());
+                obtain.setSource(this.mHost, i);
+                if (this.mAccessibilityFocusedVirtualViewId == i) {
+                    obtain.setAccessibilityFocused(true);
+                    obtain.addAction(128);
+                } else {
+                    obtain.setAccessibilityFocused(false);
+                    obtain.addAction(64);
                 }
-                this.mTempScreenRect.offset(this.mTempGlobalRect[0] - this.mHost.getScrollX(), this.mTempGlobalRect[1] - this.mHost.getScrollY());
-            }
-            if (this.mHost.getLocalVisibleRect(this.mTempVisibleRect)) {
-                this.mTempVisibleRect.offset(this.mTempGlobalRect[0] - this.mHost.getScrollX(), this.mTempGlobalRect[1] - this.mHost.getScrollY());
-                if (this.mTempScreenRect.intersect(this.mTempVisibleRect)) {
-                    obtain.setBoundsInScreen(this.mTempScreenRect);
-                    if (isVisibleToUser(this.mTempScreenRect)) {
-                        obtain.setVisibleToUser(true);
+                boolean z = this.mKeyboardFocusedVirtualViewId == i;
+                if (z) {
+                    obtain.addAction(2);
+                } else if (obtain.isFocusable()) {
+                    obtain.addAction(1);
+                }
+                obtain.setFocused(z);
+                this.mHost.getLocationOnScreen(this.mTempGlobalRect);
+                obtain.getBoundsInScreen(this.mTempScreenRect);
+                if (this.mTempScreenRect.equals(rect)) {
+                    obtain.getBoundsInParent(this.mTempScreenRect);
+                    if (obtain.mParentVirtualDescendantId != -1) {
+                        AccessibilityNodeInfoCompat obtain2 = AccessibilityNodeInfoCompat.obtain();
+                        for (int i2 = obtain.mParentVirtualDescendantId; i2 != -1; i2 = obtain2.mParentVirtualDescendantId) {
+                            obtain2.setParent(this.mHost, -1);
+                            obtain2.setBoundsInParent(INVALID_PARENT_BOUNDS);
+                            onPopulateNodeForVirtualView(i2, obtain2);
+                            obtain2.getBoundsInParent(this.mTempParentRect);
+                            Rect rect2 = this.mTempScreenRect;
+                            Rect rect3 = this.mTempParentRect;
+                            rect2.offset(rect3.left, rect3.top);
+                        }
+                        obtain2.recycle();
+                    }
+                    this.mTempScreenRect.offset(this.mTempGlobalRect[0] - this.mHost.getScrollX(), this.mTempGlobalRect[1] - this.mHost.getScrollY());
+                }
+                if (this.mHost.getLocalVisibleRect(this.mTempVisibleRect)) {
+                    this.mTempVisibleRect.offset(this.mTempGlobalRect[0] - this.mHost.getScrollX(), this.mTempGlobalRect[1] - this.mHost.getScrollY());
+                    if (this.mTempScreenRect.intersect(this.mTempVisibleRect)) {
+                        obtain.setBoundsInScreen(this.mTempScreenRect);
+                        if (isVisibleToUser(this.mTempScreenRect)) {
+                            obtain.setVisibleToUser(true);
+                        }
                     }
                 }
+                return obtain;
             }
-            return obtain;
+            throw new RuntimeException("Callbacks must not add ACTION_CLEAR_ACCESSIBILITY_FOCUS in populateNodeForVirtualViewId()");
         }
         throw new RuntimeException("Callbacks must not add ACTION_ACCESSIBILITY_FOCUS in populateNodeForVirtualViewId()");
     }
 
-    boolean performAction(int i, int i2, Bundle bundle) {
-        if (i == -1) {
-            return performActionForHost(i2, bundle);
-        }
-        return performActionForChild(i, i2, bundle);
-    }
-
-    private boolean performActionForHost(int i, Bundle bundle) {
-        return ViewCompat.performAccessibilityAction(this.mHost, i, bundle);
-    }
-
-    private boolean performActionForChild(int i, int i2, Bundle bundle) {
-        if (i2 != 1) {
-            if (i2 != 2) {
-                if (i2 != 64) {
-                    if (i2 == 128) {
-                        return clearAccessibilityFocus(i);
-                    }
-                    return onPerformActionForVirtualView(i, i2, bundle);
-                }
-                return requestAccessibilityFocus(i);
+    private AccessibilityNodeInfoCompat createNodeForHost() {
+        AccessibilityNodeInfoCompat obtain = AccessibilityNodeInfoCompat.obtain(this.mHost);
+        ViewCompat.onInitializeAccessibilityNodeInfo(this.mHost, obtain);
+        ArrayList arrayList = new ArrayList();
+        getVisibleVirtualViews(arrayList);
+        if (obtain.getChildCount() <= 0 || arrayList.size() <= 0) {
+            int size = arrayList.size();
+            for (int i = 0; i < size; i++) {
+                obtain.addChild(this.mHost, ((Integer) arrayList.get(i)).intValue());
             }
-            return clearKeyboardFocusForVirtualView(i);
+            return obtain;
         }
-        return requestKeyboardFocusForVirtualView(i);
+        throw new RuntimeException("Views cannot have both real and virtual children");
     }
 
     private boolean isVisibleToUser(Rect rect) {
         if (rect == null || rect.isEmpty() || this.mHost.getWindowVisibility() != 0) {
             return false;
         }
-        ViewParent parent = this.mHost.getParent();
-        while (parent instanceof View) {
-            View view = (View) parent;
-            if (view.getAlpha() <= 0.0f || view.getVisibility() != 0) {
-                return false;
+        View view = this.mHost;
+        do {
+            ViewParent parent = view.getParent();
+            if (!(parent instanceof View)) {
+                return parent != null;
             }
-            parent = view.getParent();
-        }
-        return parent != null;
+            view = (View) parent;
+            if (view.getAlpha() <= 0.0f) {
+                break;
+            }
+        } while (view.getVisibility() == 0);
+        return false;
+    }
+
+    private boolean performActionForChild(int i, int i2, Bundle bundle) {
+        return i2 != 1 ? i2 != 2 ? i2 != 64 ? i2 != 128 ? onPerformActionForVirtualView(i, i2, bundle) : clearAccessibilityFocus(i) : requestAccessibilityFocus(i) : clearKeyboardFocusForVirtualView(i) : requestKeyboardFocusForVirtualView(i);
+    }
+
+    private boolean performActionForHost(int i, Bundle bundle) {
+        return ViewCompat.performAccessibilityAction(this.mHost, i, bundle);
     }
 
     private boolean requestAccessibilityFocus(int i) {
@@ -304,14 +237,89 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
         return false;
     }
 
-    private boolean clearAccessibilityFocus(int i) {
-        if (this.mAccessibilityFocusedVirtualViewId == i) {
-            this.mAccessibilityFocusedVirtualViewId = Integer.MIN_VALUE;
-            this.mHost.invalidate();
-            sendEventForVirtualView(i, 65536);
-            return true;
+    private void updateHoveredVirtualView(int i) {
+        int i2 = this.mHoveredVirtualViewId;
+        if (i2 == i) {
+            return;
+        }
+        this.mHoveredVirtualViewId = i;
+        sendEventForVirtualView(i, 128);
+        sendEventForVirtualView(i2, 256);
+    }
+
+    public final boolean clearKeyboardFocusForVirtualView(int i) {
+        if (this.mKeyboardFocusedVirtualViewId != i) {
+            return false;
+        }
+        this.mKeyboardFocusedVirtualViewId = Integer.MIN_VALUE;
+        onVirtualViewKeyboardFocusChanged(i, false);
+        sendEventForVirtualView(i, 8);
+        return true;
+    }
+
+    public final boolean dispatchHoverEvent(MotionEvent motionEvent) {
+        if (this.mManager.isEnabled() && this.mManager.isTouchExplorationEnabled()) {
+            int action = motionEvent.getAction();
+            if (action == 7 || action == 9) {
+                int virtualViewAt = getVirtualViewAt(motionEvent.getX(), motionEvent.getY());
+                updateHoveredVirtualView(virtualViewAt);
+                return virtualViewAt != Integer.MIN_VALUE;
+            } else if (action == 10 && this.mHoveredVirtualViewId != Integer.MIN_VALUE) {
+                updateHoveredVirtualView(Integer.MIN_VALUE);
+                return true;
+            } else {
+                return false;
+            }
         }
         return false;
+    }
+
+    @Override // androidx.core.view.AccessibilityDelegateCompat
+    public AccessibilityNodeProviderCompat getAccessibilityNodeProvider(View view) {
+        if (this.mNodeProvider == null) {
+            this.mNodeProvider = new MyNodeProvider();
+        }
+        return this.mNodeProvider;
+    }
+
+    protected abstract int getVirtualViewAt(float f, float f2);
+
+    protected abstract void getVisibleVirtualViews(List list);
+
+    AccessibilityNodeInfoCompat obtainAccessibilityNodeInfo(int i) {
+        return i == -1 ? createNodeForHost() : createNodeForChild(i);
+    }
+
+    @Override // androidx.core.view.AccessibilityDelegateCompat
+    public void onInitializeAccessibilityEvent(View view, AccessibilityEvent accessibilityEvent) {
+        super.onInitializeAccessibilityEvent(view, accessibilityEvent);
+        onPopulateEventForHost(accessibilityEvent);
+    }
+
+    @Override // androidx.core.view.AccessibilityDelegateCompat
+    public void onInitializeAccessibilityNodeInfo(View view, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
+        super.onInitializeAccessibilityNodeInfo(view, accessibilityNodeInfoCompat);
+        onPopulateNodeForHost(accessibilityNodeInfoCompat);
+    }
+
+    protected abstract boolean onPerformActionForVirtualView(int i, int i2, Bundle bundle);
+
+    protected void onPopulateEventForHost(AccessibilityEvent accessibilityEvent) {
+    }
+
+    protected void onPopulateEventForVirtualView(int i, AccessibilityEvent accessibilityEvent) {
+    }
+
+    protected void onPopulateNodeForHost(AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
+    }
+
+    protected abstract void onPopulateNodeForVirtualView(int i, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat);
+
+    protected void onVirtualViewKeyboardFocusChanged(int i, boolean z) {
+    }
+
+    boolean performAction(int i, int i2, Bundle bundle) {
+        return i != -1 ? performActionForChild(i, i2, bundle) : performActionForHost(i2, bundle);
     }
 
     public final boolean requestKeyboardFocusForVirtualView(int i) {
@@ -328,38 +336,11 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
         return false;
     }
 
-    public final boolean clearKeyboardFocusForVirtualView(int i) {
-        if (this.mKeyboardFocusedVirtualViewId != i) {
+    public final boolean sendEventForVirtualView(int i, int i2) {
+        ViewParent parent;
+        if (i == Integer.MIN_VALUE || !this.mManager.isEnabled() || (parent = this.mHost.getParent()) == null) {
             return false;
         }
-        this.mKeyboardFocusedVirtualViewId = Integer.MIN_VALUE;
-        onVirtualViewKeyboardFocusChanged(i, false);
-        sendEventForVirtualView(i, 8);
-        return true;
-    }
-
-    /* loaded from: classes.dex */
-    private class MyNodeProvider extends AccessibilityNodeProviderCompat {
-        MyNodeProvider() {
-        }
-
-        @Override // androidx.core.view.accessibility.AccessibilityNodeProviderCompat
-        public AccessibilityNodeInfoCompat createAccessibilityNodeInfo(int i) {
-            return AccessibilityNodeInfoCompat.obtain(ExploreByTouchHelper.this.obtainAccessibilityNodeInfo(i));
-        }
-
-        @Override // androidx.core.view.accessibility.AccessibilityNodeProviderCompat
-        public boolean performAction(int i, int i2, Bundle bundle) {
-            return ExploreByTouchHelper.this.performAction(i, i2, bundle);
-        }
-
-        @Override // androidx.core.view.accessibility.AccessibilityNodeProviderCompat
-        public AccessibilityNodeInfoCompat findFocus(int i) {
-            int i2 = i == 2 ? ExploreByTouchHelper.this.mAccessibilityFocusedVirtualViewId : ExploreByTouchHelper.this.mKeyboardFocusedVirtualViewId;
-            if (i2 == Integer.MIN_VALUE) {
-                return null;
-            }
-            return createAccessibilityNodeInfo(i2);
-        }
+        return ViewParentCompat.requestSendAccessibilityEvent(parent, this.mHost, createEvent(i, i2));
     }
 }

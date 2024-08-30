@@ -3,7 +3,14 @@ package com.google.android.exoplayer2.extractor.ts;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
-public final class TsUtil {
+public abstract class TsUtil {
+    public static int findSyncBytePosition(byte[] bArr, int i, int i2) {
+        while (i < i2 && bArr[i] != 71) {
+            i++;
+        }
+        return i;
+    }
+
     public static boolean isStartOfTsPacket(byte[] bArr, int i, int i2, int i3) {
         int i4 = 0;
         for (int i5 = -4; i5 <= 4; i5++) {
@@ -18,13 +25,6 @@ public final class TsUtil {
             }
         }
         return false;
-    }
-
-    public static int findSyncBytePosition(byte[] bArr, int i, int i2) {
-        while (i < i2 && bArr[i] != 71) {
-            i++;
-        }
-        return i;
     }
 
     public static long readPcrFromPacket(ParsableByteArray parsableByteArray, int i, int i2) {

@@ -4,9 +4,7 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-/* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class ProductDetails {
     private final String zza;
@@ -23,7 +21,6 @@ public final class ProductDetails {
     private final List zzl;
     private final List zzm;
 
-    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static final class OneTimePurchaseOfferDetails {
         private final String zza;
@@ -37,7 +34,7 @@ public final class ProductDetails {
         private final zzbi zzi;
         private final zzbh zzj;
 
-        OneTimePurchaseOfferDetails(JSONObject jSONObject) throws JSONException {
+        OneTimePurchaseOfferDetails(JSONObject jSONObject) {
             this.zza = jSONObject.optString("formattedPrice");
             this.zzb = jSONObject.optLong("priceAmountMicros");
             this.zzc = jSONObject.optString("priceCurrencyCode");
@@ -74,7 +71,6 @@ public final class ProductDetails {
         }
     }
 
-    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static final class PricingPhase {
         private final String zza;
@@ -110,7 +106,6 @@ public final class ProductDetails {
         }
     }
 
-    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static class PricingPhases {
         private final List zza;
@@ -128,12 +123,11 @@ public final class ProductDetails {
             this.zza = arrayList;
         }
 
-        public List<PricingPhase> getPricingPhaseList() {
+        public List getPricingPhaseList() {
             return this.zza;
         }
     }
 
-    /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static final class SubscriptionOfferDetails {
         private final String zza;
@@ -143,7 +137,7 @@ public final class ProductDetails {
         private final List zze;
         private final zzbf zzf;
 
-        SubscriptionOfferDetails(JSONObject jSONObject) throws JSONException {
+        SubscriptionOfferDetails(JSONObject jSONObject) {
             this.zza = jSONObject.optString("basePlanId");
             String optString = jSONObject.optString("offerId");
             this.zzb = true == optString.isEmpty() ? null : optString;
@@ -171,7 +165,7 @@ public final class ProductDetails {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public ProductDetails(String str) throws JSONException {
+    public ProductDetails(String str) {
         this.zza = str;
         JSONObject jSONObject = new JSONObject(str);
         this.zzb = jSONObject;
@@ -244,7 +238,7 @@ public final class ProductDetails {
         return this.zzd;
     }
 
-    public List<SubscriptionOfferDetails> getSubscriptionOfferDetails() {
+    public List getSubscriptionOfferDetails() {
         return this.zzl;
     }
 

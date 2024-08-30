@@ -81,7 +81,7 @@ public class TLRPC$TL_stickerSet extends TLRPC$StickerSet {
             int size = this.thumbs.size();
             abstractSerializedData.writeInt32(size);
             for (int i8 = 0; i8 < size; i8++) {
-                this.thumbs.get(i8).serializeToStream(abstractSerializedData);
+                ((TLRPC$PhotoSize) this.thumbs.get(i8)).serializeToStream(abstractSerializedData);
             }
         }
         if ((this.flags & 16) != 0) {

@@ -2,13 +2,10 @@ package com.google.android.gms.wallet.wobs;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.google.android.gms.common.annotation.KeepName;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.common.util.ArrayUtils;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
-@KeepName
 /* loaded from: classes.dex */
 public class CommonWalletObject extends AbstractSafeParcelable {
     public static final Parcelable.Creator<CommonWalletObject> CREATOR = new zzc();
@@ -19,15 +16,12 @@ public class CommonWalletObject extends AbstractSafeParcelable {
     String zze;
     String zzf;
     String zzg;
-    @Deprecated
     String zzh;
     int zzi;
     ArrayList zzj;
     TimeInterval zzk;
     ArrayList zzl;
-    @Deprecated
     String zzm;
-    @Deprecated
     String zzn;
     ArrayList zzo;
     boolean zzp;
@@ -42,6 +36,29 @@ public class CommonWalletObject extends AbstractSafeParcelable {
         this.zzq = ArrayUtils.newArrayList();
         this.zzr = ArrayUtils.newArrayList();
         this.zzs = ArrayUtils.newArrayList();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public CommonWalletObject(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, int i, ArrayList arrayList, TimeInterval timeInterval, ArrayList arrayList2, String str9, String str10, ArrayList arrayList3, boolean z, ArrayList arrayList4, ArrayList arrayList5, ArrayList arrayList6) {
+        this.zza = str;
+        this.zzb = str2;
+        this.zzc = str3;
+        this.zzd = str4;
+        this.zze = str5;
+        this.zzf = str6;
+        this.zzg = str7;
+        this.zzh = str8;
+        this.zzi = i;
+        this.zzj = arrayList;
+        this.zzk = timeInterval;
+        this.zzl = arrayList2;
+        this.zzm = str9;
+        this.zzn = str10;
+        this.zzo = arrayList3;
+        this.zzp = z;
+        this.zzq = arrayList4;
+        this.zzr = arrayList5;
+        this.zzs = arrayList6;
     }
 
     public static zzb zzb() {
@@ -71,28 +88,5 @@ public class CommonWalletObject extends AbstractSafeParcelable {
         SafeParcelWriter.writeTypedList(parcel, 19, this.zzr, false);
         SafeParcelWriter.writeTypedList(parcel, 20, this.zzs, false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CommonWalletObject(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, int i, ArrayList arrayList, TimeInterval timeInterval, ArrayList arrayList2, String str9, String str10, ArrayList arrayList3, boolean z, ArrayList arrayList4, ArrayList arrayList5, ArrayList arrayList6) {
-        this.zza = str;
-        this.zzb = str2;
-        this.zzc = str3;
-        this.zzd = str4;
-        this.zze = str5;
-        this.zzf = str6;
-        this.zzg = str7;
-        this.zzh = str8;
-        this.zzi = i;
-        this.zzj = arrayList;
-        this.zzk = timeInterval;
-        this.zzl = arrayList2;
-        this.zzm = str9;
-        this.zzn = str10;
-        this.zzo = arrayList3;
-        this.zzp = z;
-        this.zzq = arrayList4;
-        this.zzr = arrayList5;
-        this.zzs = arrayList6;
     }
 }

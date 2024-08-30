@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import org.telegram.messenger.NotificationCenter;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 final class zzhr extends zzho {
     @Override // com.google.android.gms.internal.mlkit_language_id.zzho
@@ -29,22 +28,25 @@ final class zzhr extends zzho {
                     }
                     return -1;
                 } else if (b >= -16) {
-                    if (i4 < i3 - 2) {
-                        int i5 = i2 + 2;
-                        byte b2 = bArr[i4];
-                        if (b2 <= -65 && (((b << 28) + (b2 + 112)) >> 30) == 0) {
-                            int i6 = i2 + 3;
-                            if (bArr[i5] <= -65) {
-                                i2 += 4;
-                                if (bArr[i6] > -65) {
-                                }
+                    if (i4 >= i3 - 2) {
+                        zzc2 = zzhp.zzc(bArr, i4, i3);
+                        return zzc2;
+                    }
+                    int i5 = i2 + 2;
+                    byte b2 = bArr[i4];
+                    if (b2 <= -65 && (((b << 28) + (b2 + 112)) >> 30) == 0) {
+                        int i6 = i2 + 3;
+                        if (bArr[i5] <= -65) {
+                            i2 += 4;
+                            if (bArr[i6] > -65) {
                             }
                         }
-                        return -1;
                     }
-                    zzc2 = zzhp.zzc(bArr, i4, i3);
-                    return zzc2;
-                } else if (i4 < i3 - 1) {
+                    return -1;
+                } else if (i4 >= i3 - 1) {
+                    zzc = zzhp.zzc(bArr, i4, i3);
+                    return zzc;
+                } else {
                     int i7 = i2 + 2;
                     byte b3 = bArr[i4];
                     if (b3 <= -65 && ((b != -32 || b3 >= -96) && (b != -19 || b3 < -96))) {
@@ -53,9 +55,6 @@ final class zzhr extends zzho {
                         }
                     }
                     return -1;
-                } else {
-                    zzc = zzhp.zzc(bArr, i4, i3);
-                    return zzc;
                 }
             }
             i2 = i4;
@@ -94,34 +93,34 @@ final class zzhr extends zzho {
                 i7 += 2;
                 bArr[i8] = (byte) ((charAt2 & '?') | 128);
             } else if ((charAt2 >= 55296 && 57343 >= charAt2) || i7 > i5 - 3) {
-                if (i7 <= i5 - 4) {
-                    int i9 = i6 + 1;
-                    if (i9 != charSequence.length()) {
-                        char charAt3 = charSequence.charAt(i9);
-                        if (Character.isSurrogatePair(charAt2, charAt3)) {
-                            int codePoint = Character.toCodePoint(charAt2, charAt3);
-                            bArr[i7] = (byte) ((codePoint >>> 18) | NotificationCenter.reloadInterface);
-                            bArr[i7 + 1] = (byte) (((codePoint >>> 12) & 63) | 128);
-                            int i10 = i7 + 3;
-                            bArr[i7 + 2] = (byte) (((codePoint >>> 6) & 63) | 128);
-                            i7 += 4;
-                            bArr[i10] = (byte) ((codePoint & 63) | 128);
-                            i6 = i9;
-                        } else {
-                            i6 = i9;
-                        }
+                if (i7 > i5 - 4) {
+                    if (55296 > charAt2 || charAt2 > 57343 || ((i3 = i6 + 1) != charSequence.length() && Character.isSurrogatePair(charAt2, charSequence.charAt(i3)))) {
+                        StringBuilder sb = new StringBuilder(37);
+                        sb.append("Failed writing ");
+                        sb.append(charAt2);
+                        sb.append(" at index ");
+                        sb.append(i7);
+                        throw new ArrayIndexOutOfBoundsException(sb.toString());
                     }
-                    throw new zzhq(i6 - 1, length);
-                } else if (55296 <= charAt2 && charAt2 <= 57343 && ((i3 = i6 + 1) == charSequence.length() || !Character.isSurrogatePair(charAt2, charSequence.charAt(i3)))) {
                     throw new zzhq(i6, length);
-                } else {
-                    StringBuilder sb = new StringBuilder(37);
-                    sb.append("Failed writing ");
-                    sb.append(charAt2);
-                    sb.append(" at index ");
-                    sb.append(i7);
-                    throw new ArrayIndexOutOfBoundsException(sb.toString());
                 }
+                int i9 = i6 + 1;
+                if (i9 != charSequence.length()) {
+                    char charAt3 = charSequence.charAt(i9);
+                    if (Character.isSurrogatePair(charAt2, charAt3)) {
+                        int codePoint = Character.toCodePoint(charAt2, charAt3);
+                        bArr[i7] = (byte) ((codePoint >>> 18) | NotificationCenter.reloadInterface);
+                        bArr[i7 + 1] = (byte) (((codePoint >>> 12) & 63) | 128);
+                        int i10 = i7 + 3;
+                        bArr[i7 + 2] = (byte) (((codePoint >>> 6) & 63) | 128);
+                        i7 += 4;
+                        bArr[i10] = (byte) ((codePoint & 63) | 128);
+                        i6 = i9;
+                    } else {
+                        i6 = i9;
+                    }
+                }
+                throw new zzhq(i6 - 1, length);
             } else {
                 bArr[i7] = (byte) ((charAt2 >>> '\f') | 480);
                 int i11 = i7 + 2;

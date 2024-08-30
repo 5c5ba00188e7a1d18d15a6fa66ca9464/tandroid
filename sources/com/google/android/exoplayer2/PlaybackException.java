@@ -15,7 +15,7 @@ public class PlaybackException extends Exception implements Bundleable {
     private static final String FIELD_STRING_MESSAGE = Util.intToStringMaxRadix(2);
     private static final String FIELD_STRING_CAUSE_CLASS_NAME = Util.intToStringMaxRadix(3);
     private static final String FIELD_STRING_CAUSE_MESSAGE = Util.intToStringMaxRadix(4);
-    public static final Bundleable.Creator<PlaybackException> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.PlaybackException$$ExternalSyntheticLambda0
+    public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.PlaybackException$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.Bundleable.Creator
         public final Bundleable fromBundle(Bundle bundle) {
             return new PlaybackException(bundle);
@@ -34,25 +34,12 @@ public class PlaybackException extends Exception implements Bundleable {
         this.timestampMs = j;
     }
 
-    public Bundle toBundle() {
-        Bundle bundle = new Bundle();
-        bundle.putInt(FIELD_INT_ERROR_CODE, this.errorCode);
-        bundle.putLong(FIELD_LONG_TIMESTAMP_MS, this.timestampMs);
-        bundle.putString(FIELD_STRING_MESSAGE, getMessage());
-        Throwable cause = getCause();
-        if (cause != null) {
-            bundle.putString(FIELD_STRING_CAUSE_CLASS_NAME, cause.getClass().getName());
-            bundle.putString(FIELD_STRING_CAUSE_MESSAGE, cause.getMessage());
-        }
-        return bundle;
-    }
-
-    private static Throwable createThrowable(Class<?> cls, String str) throws Exception {
-        return (Throwable) cls.getConstructor(String.class).newInstance(str);
-    }
-
     private static RemoteException createRemoteException(String str) {
         return new RemoteException(str);
+    }
+
+    private static Throwable createThrowable(Class cls, String str) {
+        return (Throwable) cls.getConstructor(String.class).newInstance(str);
     }
 
     private static Throwable getCauseFromBundle(Bundle bundle) {
@@ -70,5 +57,18 @@ public class PlaybackException extends Exception implements Bundleable {
         } catch (Throwable unused) {
         }
         return createRemoteException(string2);
+    }
+
+    public Bundle toBundle() {
+        Bundle bundle = new Bundle();
+        bundle.putInt(FIELD_INT_ERROR_CODE, this.errorCode);
+        bundle.putLong(FIELD_LONG_TIMESTAMP_MS, this.timestampMs);
+        bundle.putString(FIELD_STRING_MESSAGE, getMessage());
+        Throwable cause = getCause();
+        if (cause != null) {
+            bundle.putString(FIELD_STRING_CAUSE_CLASS_NAME, cause.getClass().getName());
+            bundle.putString(FIELD_STRING_CAUSE_MESSAGE, cause.getMessage());
+        }
+        return bundle;
     }
 }

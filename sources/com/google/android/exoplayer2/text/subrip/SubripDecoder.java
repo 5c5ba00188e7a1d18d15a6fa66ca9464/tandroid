@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /* loaded from: classes.dex */
 public final class SubripDecoder extends SimpleSubtitleDecoder {
-    private final ArrayList<String> tags;
+    private final ArrayList tags;
     private final StringBuilder textBuilder;
     private static final Pattern SUBRIP_TIMING_LINE = Pattern.compile("\\s*((?:(\\d+):)?(\\d+):(\\d+)(?:,(\\d+))?)\\s*-->\\s*((?:(\\d+):)?(\\d+):(\\d+)(?:,(\\d+))?)\\s*");
     private static final Pattern SUBRIP_TAG_PATTERN = Pattern.compile("\\{\\\\.*?\\}");
@@ -25,85 +25,7 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
     public SubripDecoder() {
         super("SubripDecoder");
         this.textBuilder = new StringBuilder();
-        this.tags = new ArrayList<>();
-    }
-
-    @Override // com.google.android.exoplayer2.text.SimpleSubtitleDecoder
-    protected Subtitle decode(byte[] bArr, int i, boolean z) {
-        String str;
-        ArrayList arrayList = new ArrayList();
-        LongArray longArray = new LongArray();
-        ParsableByteArray parsableByteArray = new ParsableByteArray(bArr, i);
-        Charset detectUtfCharset = detectUtfCharset(parsableByteArray);
-        while (true) {
-            String readLine = parsableByteArray.readLine(detectUtfCharset);
-            int i2 = 0;
-            if (readLine == null) {
-                break;
-            } else if (readLine.length() != 0) {
-                try {
-                    Integer.parseInt(readLine);
-                    String readLine2 = parsableByteArray.readLine(detectUtfCharset);
-                    if (readLine2 == null) {
-                        Log.w("SubripDecoder", "Unexpected end");
-                        break;
-                    }
-                    Matcher matcher = SUBRIP_TIMING_LINE.matcher(readLine2);
-                    if (!matcher.matches()) {
-                        Log.w("SubripDecoder", "Skipping invalid timing: " + readLine2);
-                    } else {
-                        longArray.add(parseTimecode(matcher, 1));
-                        longArray.add(parseTimecode(matcher, 6));
-                        this.textBuilder.setLength(0);
-                        this.tags.clear();
-                        for (String readLine3 = parsableByteArray.readLine(detectUtfCharset); !TextUtils.isEmpty(readLine3); readLine3 = parsableByteArray.readLine(detectUtfCharset)) {
-                            if (this.textBuilder.length() > 0) {
-                                this.textBuilder.append("<br>");
-                            }
-                            this.textBuilder.append(processLine(readLine3, this.tags));
-                        }
-                        Spanned fromHtml = Html.fromHtml(this.textBuilder.toString());
-                        while (true) {
-                            if (i2 >= this.tags.size()) {
-                                str = null;
-                                break;
-                            }
-                            str = this.tags.get(i2);
-                            if (str.matches("\\{\\\\an[1-9]\\}")) {
-                                break;
-                            }
-                            i2++;
-                        }
-                        arrayList.add(buildCue(fromHtml, str));
-                        arrayList.add(Cue.EMPTY);
-                    }
-                } catch (NumberFormatException unused) {
-                    Log.w("SubripDecoder", "Skipping invalid index: " + readLine);
-                }
-            }
-        }
-        return new SubripSubtitle((Cue[]) arrayList.toArray(new Cue[0]), longArray.toArray());
-    }
-
-    private Charset detectUtfCharset(ParsableByteArray parsableByteArray) {
-        Charset readUtfCharsetFromBom = parsableByteArray.readUtfCharsetFromBom();
-        return readUtfCharsetFromBom != null ? readUtfCharsetFromBom : Charsets.UTF_8;
-    }
-
-    private String processLine(String str, ArrayList<String> arrayList) {
-        String trim = str.trim();
-        StringBuilder sb = new StringBuilder(trim);
-        Matcher matcher = SUBRIP_TAG_PATTERN.matcher(trim);
-        int i = 0;
-        while (matcher.find()) {
-            String group = matcher.group();
-            arrayList.add(group);
-            int start = matcher.start() - i;
-            int length = group.length();
-            sb.replace(start, start + length, "");
-            i += length;
-        }
-        return sb.toString();
+        this.tags = new ArrayList();
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
@@ -267,14 +189,9 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
         return text.setPosition(getFractionalPositionForAnchorType(text.getPositionAnchor())).setLine(getFractionalPositionForAnchorType(text.getLineAnchor()), 0).build();
     }
 
-    private static long parseTimecode(Matcher matcher, int i) {
-        String group = matcher.group(i + 1);
-        long parseLong = (group != null ? Long.parseLong(group) * 3600000 : 0L) + (Long.parseLong((String) Assertions.checkNotNull(matcher.group(i + 2))) * 60000) + (Long.parseLong((String) Assertions.checkNotNull(matcher.group(i + 3))) * 1000);
-        String group2 = matcher.group(i + 4);
-        if (group2 != null) {
-            parseLong += Long.parseLong(group2);
-        }
-        return parseLong * 1000;
+    private Charset detectUtfCharset(ParsableByteArray parsableByteArray) {
+        Charset readUtfCharsetFromBom = parsableByteArray.readUtfCharsetFromBom();
+        return readUtfCharsetFromBom != null ? readUtfCharsetFromBom : Charsets.UTF_8;
     }
 
     static float getFractionalPositionForAnchorType(int i) {
@@ -288,5 +205,99 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
             return 0.5f;
         }
         return 0.08f;
+    }
+
+    private static long parseTimecode(Matcher matcher, int i) {
+        String group = matcher.group(i + 1);
+        long parseLong = (group != null ? Long.parseLong(group) * 3600000 : 0L) + (Long.parseLong((String) Assertions.checkNotNull(matcher.group(i + 2))) * 60000) + (Long.parseLong((String) Assertions.checkNotNull(matcher.group(i + 3))) * 1000);
+        String group2 = matcher.group(i + 4);
+        if (group2 != null) {
+            parseLong += Long.parseLong(group2);
+        }
+        return parseLong * 1000;
+    }
+
+    private String processLine(String str, ArrayList arrayList) {
+        String trim = str.trim();
+        StringBuilder sb = new StringBuilder(trim);
+        Matcher matcher = SUBRIP_TAG_PATTERN.matcher(trim);
+        int i = 0;
+        while (matcher.find()) {
+            String group = matcher.group();
+            arrayList.add(group);
+            int start = matcher.start() - i;
+            int length = group.length();
+            sb.replace(start, start + length, "");
+            i += length;
+        }
+        return sb.toString();
+    }
+
+    @Override // com.google.android.exoplayer2.text.SimpleSubtitleDecoder
+    protected Subtitle decode(byte[] bArr, int i, boolean z) {
+        StringBuilder sb;
+        String str;
+        String str2;
+        ArrayList arrayList = new ArrayList();
+        LongArray longArray = new LongArray();
+        ParsableByteArray parsableByteArray = new ParsableByteArray(bArr, i);
+        Charset detectUtfCharset = detectUtfCharset(parsableByteArray);
+        while (true) {
+            String readLine = parsableByteArray.readLine(detectUtfCharset);
+            int i2 = 0;
+            if (readLine == null) {
+                break;
+            } else if (readLine.length() != 0) {
+                try {
+                    Integer.parseInt(readLine);
+                    readLine = parsableByteArray.readLine(detectUtfCharset);
+                } catch (NumberFormatException unused) {
+                    sb = new StringBuilder();
+                    str = "Skipping invalid index: ";
+                }
+                if (readLine == null) {
+                    Log.w("SubripDecoder", "Unexpected end");
+                    break;
+                }
+                Matcher matcher = SUBRIP_TIMING_LINE.matcher(readLine);
+                if (matcher.matches()) {
+                    longArray.add(parseTimecode(matcher, 1));
+                    longArray.add(parseTimecode(matcher, 6));
+                    this.textBuilder.setLength(0);
+                    this.tags.clear();
+                    while (true) {
+                        String readLine2 = parsableByteArray.readLine(detectUtfCharset);
+                        if (TextUtils.isEmpty(readLine2)) {
+                            break;
+                        }
+                        if (this.textBuilder.length() > 0) {
+                            this.textBuilder.append("<br>");
+                        }
+                        this.textBuilder.append(processLine(readLine2, this.tags));
+                    }
+                    Spanned fromHtml = Html.fromHtml(this.textBuilder.toString());
+                    while (true) {
+                        if (i2 >= this.tags.size()) {
+                            str2 = null;
+                            break;
+                        }
+                        str2 = (String) this.tags.get(i2);
+                        if (str2.matches("\\{\\\\an[1-9]\\}")) {
+                            break;
+                        }
+                        i2++;
+                    }
+                    arrayList.add(buildCue(fromHtml, str2));
+                    arrayList.add(Cue.EMPTY);
+                } else {
+                    sb = new StringBuilder();
+                    str = "Skipping invalid timing: ";
+                    sb.append(str);
+                    sb.append(readLine);
+                    Log.w("SubripDecoder", sb.toString());
+                }
+            }
+        }
+        return new SubripSubtitle((Cue[]) arrayList.toArray(new Cue[0]), longArray.toArray());
     }
 }

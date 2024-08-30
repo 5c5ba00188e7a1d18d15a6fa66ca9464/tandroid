@@ -10,8 +10,13 @@ public abstract class PagerAdapter {
     private final DataSetObservable mObservable = new DataSetObservable();
     private DataSetObserver mViewPagerObserver;
 
-    @Deprecated
+    public abstract void destroyItem(ViewGroup viewGroup, int i, Object obj);
+
     public void finishUpdate(View view) {
+    }
+
+    public void finishUpdate(ViewGroup viewGroup) {
+        finishUpdate((View) viewGroup);
     }
 
     public abstract int getCount();
@@ -28,52 +33,9 @@ public abstract class PagerAdapter {
         return 1.0f;
     }
 
+    public abstract Object instantiateItem(ViewGroup viewGroup, int i);
+
     public abstract boolean isViewFromObject(View view, Object obj);
-
-    public void restoreState(Parcelable parcelable, ClassLoader classLoader) {
-    }
-
-    public Parcelable saveState() {
-        return null;
-    }
-
-    @Deprecated
-    public void setPrimaryItem(View view, int i, Object obj) {
-    }
-
-    @Deprecated
-    public void startUpdate(View view) {
-    }
-
-    public void startUpdate(ViewGroup viewGroup) {
-        startUpdate((View) viewGroup);
-    }
-
-    public Object instantiateItem(ViewGroup viewGroup, int i) {
-        return instantiateItem((View) viewGroup, i);
-    }
-
-    public void destroyItem(ViewGroup viewGroup, int i, Object obj) {
-        destroyItem((View) viewGroup, i, obj);
-    }
-
-    public void setPrimaryItem(ViewGroup viewGroup, int i, Object obj) {
-        setPrimaryItem((View) viewGroup, i, obj);
-    }
-
-    public void finishUpdate(ViewGroup viewGroup) {
-        finishUpdate((View) viewGroup);
-    }
-
-    @Deprecated
-    public Object instantiateItem(View view, int i) {
-        throw new UnsupportedOperationException("Required method instantiateItem was not overridden");
-    }
-
-    @Deprecated
-    public void destroyItem(View view, int i, Object obj) {
-        throw new UnsupportedOperationException("Required method destroyItem was not overridden");
-    }
 
     public void notifyDataSetChanged() {
         synchronized (this) {
@@ -93,10 +55,31 @@ public abstract class PagerAdapter {
         this.mObservable.registerObserver(dataSetObserver);
     }
 
+    public void restoreState(Parcelable parcelable, ClassLoader classLoader) {
+    }
+
+    public Parcelable saveState() {
+        return null;
+    }
+
+    public void setPrimaryItem(View view, int i, Object obj) {
+    }
+
+    public void setPrimaryItem(ViewGroup viewGroup, int i, Object obj) {
+        setPrimaryItem((View) viewGroup, i, obj);
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public void setViewPagerObserver(DataSetObserver dataSetObserver) {
         synchronized (this) {
             this.mViewPagerObserver = dataSetObserver;
         }
+    }
+
+    public void startUpdate(View view) {
+    }
+
+    public void startUpdate(ViewGroup viewGroup) {
+        startUpdate((View) viewGroup);
     }
 }

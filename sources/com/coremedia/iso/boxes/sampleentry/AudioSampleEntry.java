@@ -1,7 +1,6 @@
 package com.coremedia.iso.boxes.sampleentry;
 
 import com.coremedia.iso.IsoTypeWriter;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 /* loaded from: classes.dex */
@@ -24,28 +23,8 @@ public final class AudioSampleEntry extends AbstractSampleEntry {
         super(str);
     }
 
-    public int getChannelCount() {
-        return this.channelCount;
-    }
-
-    public long getSampleRate() {
-        return this.sampleRate;
-    }
-
-    public void setChannelCount(int i) {
-        this.channelCount = i;
-    }
-
-    public void setSampleSize(int i) {
-        this.sampleSize = i;
-    }
-
-    public void setSampleRate(long j) {
-        this.sampleRate = j;
-    }
-
     @Override // com.googlecode.mp4parser.AbstractContainerBox, com.coremedia.iso.boxes.Box
-    public void getBox(WritableByteChannel writableByteChannel) throws IOException {
+    public void getBox(WritableByteChannel writableByteChannel) {
         writableByteChannel.write(getHeader());
         int i = this.soundVersion;
         ByteBuffer allocate = ByteBuffer.allocate((i == 1 ? 16 : 0) + 28 + (i == 2 ? 36 : 0));
@@ -58,11 +37,7 @@ public final class AudioSampleEntry extends AbstractSampleEntry {
         IsoTypeWriter.writeUInt16(allocate, this.sampleSize);
         IsoTypeWriter.writeUInt16(allocate, this.compressionId);
         IsoTypeWriter.writeUInt16(allocate, this.packetSize);
-        if (this.type.equals("mlpa")) {
-            IsoTypeWriter.writeUInt32(allocate, getSampleRate());
-        } else {
-            IsoTypeWriter.writeUInt32(allocate, getSampleRate() << 16);
-        }
+        IsoTypeWriter.writeUInt32(allocate, this.type.equals("mlpa") ? getSampleRate() : getSampleRate() << 16);
         if (this.soundVersion == 1) {
             IsoTypeWriter.writeUInt32(allocate, this.samplesPerPacket);
             IsoTypeWriter.writeUInt32(allocate, this.bytesPerPacket);
@@ -80,6 +55,14 @@ public final class AudioSampleEntry extends AbstractSampleEntry {
         writeContainer(writableByteChannel);
     }
 
+    public int getChannelCount() {
+        return this.channelCount;
+    }
+
+    public long getSampleRate() {
+        return this.sampleRate;
+    }
+
     @Override // com.googlecode.mp4parser.AbstractContainerBox, com.coremedia.iso.boxes.Box
     public long getSize() {
         int i = this.soundVersion;
@@ -89,6 +72,18 @@ public final class AudioSampleEntry extends AbstractSampleEntry {
             i2 = 8;
         }
         return containerSize + i2;
+    }
+
+    public void setChannelCount(int i) {
+        this.channelCount = i;
+    }
+
+    public void setSampleRate(long j) {
+        this.sampleRate = j;
+    }
+
+    public void setSampleSize(int i) {
+        this.sampleSize = i;
     }
 
     @Override // com.googlecode.mp4parser.BasicContainer

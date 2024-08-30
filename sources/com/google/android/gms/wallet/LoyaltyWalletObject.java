@@ -4,11 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.wallet.wobs.LoyaltyPoints;
 import com.google.android.gms.wallet.wobs.TimeInterval;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class LoyaltyWalletObject extends AbstractSafeParcelable {
     public static final Parcelable.Creator<LoyaltyWalletObject> CREATOR = new zzs();
@@ -20,16 +18,13 @@ public final class LoyaltyWalletObject extends AbstractSafeParcelable {
     String zzf;
     String zzg;
     String zzh;
-    @Deprecated
     String zzi;
     String zzj;
     int zzk;
     ArrayList zzl;
     TimeInterval zzm;
     ArrayList zzn;
-    @Deprecated
     String zzo;
-    @Deprecated
     String zzp;
     ArrayList zzq;
     boolean zzr;
@@ -38,13 +33,30 @@ public final class LoyaltyWalletObject extends AbstractSafeParcelable {
     ArrayList zzu;
     LoyaltyPoints zzv;
 
-    LoyaltyWalletObject() {
-        this.zzl = ArrayUtils.newArrayList();
-        this.zzn = ArrayUtils.newArrayList();
-        this.zzq = ArrayUtils.newArrayList();
-        this.zzs = ArrayUtils.newArrayList();
-        this.zzt = ArrayUtils.newArrayList();
-        this.zzu = ArrayUtils.newArrayList();
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public LoyaltyWalletObject(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, String str10, int i, ArrayList arrayList, TimeInterval timeInterval, ArrayList arrayList2, String str11, String str12, ArrayList arrayList3, boolean z, ArrayList arrayList4, ArrayList arrayList5, ArrayList arrayList6, LoyaltyPoints loyaltyPoints) {
+        this.zza = str;
+        this.zzb = str2;
+        this.zzc = str3;
+        this.zzd = str4;
+        this.zze = str5;
+        this.zzf = str6;
+        this.zzg = str7;
+        this.zzh = str8;
+        this.zzi = str9;
+        this.zzj = str10;
+        this.zzk = i;
+        this.zzl = arrayList;
+        this.zzm = timeInterval;
+        this.zzn = arrayList2;
+        this.zzo = str11;
+        this.zzp = str12;
+        this.zzq = arrayList3;
+        this.zzr = z;
+        this.zzs = arrayList4;
+        this.zzt = arrayList5;
+        this.zzu = arrayList6;
+        this.zzv = loyaltyPoints;
     }
 
     @Override // android.os.Parcelable
@@ -73,31 +85,5 @@ public final class LoyaltyWalletObject extends AbstractSafeParcelable {
         SafeParcelWriter.writeTypedList(parcel, 22, this.zzu, false);
         SafeParcelWriter.writeParcelable(parcel, 23, this.zzv, i, false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LoyaltyWalletObject(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, String str10, int i, ArrayList arrayList, TimeInterval timeInterval, ArrayList arrayList2, String str11, String str12, ArrayList arrayList3, boolean z, ArrayList arrayList4, ArrayList arrayList5, ArrayList arrayList6, LoyaltyPoints loyaltyPoints) {
-        this.zza = str;
-        this.zzb = str2;
-        this.zzc = str3;
-        this.zzd = str4;
-        this.zze = str5;
-        this.zzf = str6;
-        this.zzg = str7;
-        this.zzh = str8;
-        this.zzi = str9;
-        this.zzj = str10;
-        this.zzk = i;
-        this.zzl = arrayList;
-        this.zzm = timeInterval;
-        this.zzn = arrayList2;
-        this.zzo = str11;
-        this.zzp = str12;
-        this.zzq = arrayList3;
-        this.zzr = z;
-        this.zzs = arrayList4;
-        this.zzt = arrayList5;
-        this.zzu = arrayList6;
-        this.zzv = loyaltyPoints;
     }
 }

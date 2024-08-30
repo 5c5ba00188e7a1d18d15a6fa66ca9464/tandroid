@@ -4,9 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 /* loaded from: classes.dex */
-public final class zzd implements Parcelable.Creator<zzc> {
+public final class zzd implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ zzc createFromParcel(Parcel parcel) {
+    public final /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         long j = 0;
         long j2 = 0;
@@ -29,7 +29,7 @@ public final class zzd implements Parcelable.Creator<zzc> {
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ zzc[] newArray(int i) {
+    public final /* synthetic */ Object[] newArray(int i) {
         return new zzc[i];
     }
 }

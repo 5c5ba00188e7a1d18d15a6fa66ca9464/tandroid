@@ -13,36 +13,17 @@ import java.util.List;
 /* loaded from: classes.dex */
 public final class BundleListRetriever extends Binder {
     private static final int SUGGESTED_MAX_IPC_SIZE;
-    private final ImmutableList<Bundle> list;
+    private final ImmutableList list;
 
     static {
         SUGGESTED_MAX_IPC_SIZE = Util.SDK_INT >= 30 ? IBinder.getSuggestedMaxIpcSizeBytes() : 65536;
     }
 
-    public BundleListRetriever(List<Bundle> list) {
+    public BundleListRetriever(List list) {
         this.list = ImmutableList.copyOf((Collection) list);
     }
 
-    @Override // android.os.Binder
-    protected boolean onTransact(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
-        if (i != 1) {
-            return super.onTransact(i, parcel, parcel2, i2);
-        }
-        if (parcel2 == null) {
-            return false;
-        }
-        int size = this.list.size();
-        int readInt = parcel.readInt();
-        while (readInt < size && parcel2.dataSize() < SUGGESTED_MAX_IPC_SIZE) {
-            parcel2.writeInt(1);
-            parcel2.writeBundle(this.list.get(readInt));
-            readInt++;
-        }
-        parcel2.writeInt(readInt < size ? 2 : 0);
-        return true;
-    }
-
-    public static ImmutableList<Bundle> getList(IBinder iBinder) {
+    public static ImmutableList getList(IBinder iBinder) {
         int readInt;
         ImmutableList.Builder builder = ImmutableList.builder();
         int i = 1;
@@ -57,7 +38,7 @@ public final class BundleListRetriever extends Binder {
                     while (true) {
                         readInt = obtain2.readInt();
                         if (readInt == 1) {
-                            builder.add((ImmutableList.Builder) ((Bundle) Assertions.checkNotNull(obtain2.readBundle())));
+                            builder.add((Object) ((Bundle) Assertions.checkNotNull(obtain2.readBundle())));
                             i2++;
                         }
                     }
@@ -74,5 +55,24 @@ public final class BundleListRetriever extends Binder {
             }
         }
         return builder.build();
+    }
+
+    @Override // android.os.Binder
+    protected boolean onTransact(int i, Parcel parcel, Parcel parcel2, int i2) {
+        if (i != 1) {
+            return super.onTransact(i, parcel, parcel2, i2);
+        }
+        if (parcel2 == null) {
+            return false;
+        }
+        int size = this.list.size();
+        int readInt = parcel.readInt();
+        while (readInt < size && parcel2.dataSize() < SUGGESTED_MAX_IPC_SIZE) {
+            parcel2.writeInt(1);
+            parcel2.writeBundle((Bundle) this.list.get(readInt));
+            readInt++;
+        }
+        parcel2.writeInt(readInt < size ? 2 : 0);
+        return true;
     }
 }

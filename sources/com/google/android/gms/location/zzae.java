@@ -1,9 +1,8 @@
 package com.google.android.gms.location;
 
 import com.google.android.gms.common.internal.Preconditions;
-/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
-public final class zzae {
+public abstract class zzae {
     public static int zza(int i) {
         boolean z;
         if (i != 100 && i != 102 && i != 104) {

@@ -3,13 +3,9 @@ package com.google.android.gms.internal.wallet;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
-/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
-public final class zzc {
+public abstract class zzc {
     private static final ClassLoader zza = zzc.class.getClassLoader();
-
-    private zzc() {
-    }
 
     public static Parcelable zza(Parcel parcel, Parcelable.Creator creator) {
         if (parcel.readInt() == 0) {

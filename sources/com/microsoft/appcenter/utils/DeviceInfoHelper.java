@@ -1,6 +1,5 @@
 package com.microsoft.appcenter.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.graphics.Point;
@@ -15,10 +14,17 @@ import com.microsoft.appcenter.ingestion.models.WrapperSdk;
 import java.util.Locale;
 import java.util.TimeZone;
 /* loaded from: classes.dex */
-public class DeviceInfoHelper {
+public abstract class DeviceInfoHelper {
     private static WrapperSdk sWrapperSdk;
 
-    public static synchronized Device getDeviceInfo(Context context) throws DeviceInfoException {
+    /* loaded from: classes.dex */
+    public static class DeviceInfoException extends Exception {
+        public DeviceInfoException(String str, Throwable th) {
+            super(str, th);
+        }
+    }
+
+    public static synchronized Device getDeviceInfo(Context context) {
         Device device;
         synchronized (DeviceInfoHelper.class) {
             try {
@@ -76,11 +82,6 @@ public class DeviceInfoHelper {
         return device;
     }
 
-    public static int getVersionCode(PackageInfo packageInfo) {
-        return packageInfo.versionCode;
-    }
-
-    @SuppressLint({"SwitchIntDef"})
     private static String getScreenSize(Context context) {
         int i;
         int i2;
@@ -102,10 +103,7 @@ public class DeviceInfoHelper {
         return i2 + "x" + i;
     }
 
-    /* loaded from: classes.dex */
-    public static class DeviceInfoException extends Exception {
-        public DeviceInfoException(String str, Throwable th) {
-            super(str, th);
-        }
+    public static int getVersionCode(PackageInfo packageInfo) {
+        return packageInfo.versionCode;
     }
 }

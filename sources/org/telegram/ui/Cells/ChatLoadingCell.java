@@ -45,15 +45,6 @@ public class ChatLoadingCell extends FrameLayout {
         this.frameLayout.addView(this.progressBar, LayoutHelper.createFrame(32, 32, 17));
     }
 
-    public boolean hasGradientService() {
-        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        return resourcesProvider != null ? resourcesProvider.hasGradientService() : Theme.hasGradientService();
-    }
-
-    public void applyServiceShaderMatrix() {
-        applyServiceShaderMatrix(getMeasuredWidth(), this.backgroundHeight, getX(), this.viewTop);
-    }
-
     private void applyServiceShaderMatrix(int i, int i2, float f, float f2) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         if (resourcesProvider != null) {
@@ -61,23 +52,6 @@ public class ChatLoadingCell extends FrameLayout {
         } else {
             Theme.applyServiceShaderMatrix(i, i2, f, f2);
         }
-    }
-
-    public void setVisiblePart(float f, int i) {
-        if (this.viewTop != f) {
-            invalidate();
-        }
-        this.viewTop = f;
-        this.backgroundHeight = i;
-    }
-
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(44.0f), 1073741824));
-    }
-
-    public void setProgressVisible(boolean z) {
-        this.frameLayout.setVisibility(z ? 0 : 4);
     }
 
     private int getThemedColor(int i) {
@@ -89,5 +63,31 @@ public class ChatLoadingCell extends FrameLayout {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         Paint paint = resourcesProvider != null ? resourcesProvider.getPaint(str) : null;
         return paint != null ? paint : Theme.getThemePaint(str);
+    }
+
+    public void applyServiceShaderMatrix() {
+        applyServiceShaderMatrix(getMeasuredWidth(), this.backgroundHeight, getX(), this.viewTop);
+    }
+
+    public boolean hasGradientService() {
+        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
+        return resourcesProvider != null ? resourcesProvider.hasGradientService() : Theme.hasGradientService();
+    }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(44.0f), 1073741824));
+    }
+
+    public void setProgressVisible(boolean z) {
+        this.frameLayout.setVisibility(z ? 0 : 4);
+    }
+
+    public void setVisiblePart(float f, int i) {
+        if (this.viewTop != f) {
+            invalidate();
+        }
+        this.viewTop = f;
+        this.backgroundHeight = i;
     }
 }

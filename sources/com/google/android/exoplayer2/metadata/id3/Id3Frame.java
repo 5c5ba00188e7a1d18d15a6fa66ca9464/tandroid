@@ -7,6 +7,10 @@ import com.google.android.exoplayer2.metadata.Metadata;
 public abstract class Id3Frame implements Metadata.Entry {
     public final String id;
 
+    public Id3Frame(String str) {
+        this.id = str;
+    }
+
     @Override // android.os.Parcelable
     public int describeContents() {
         return 0;
@@ -25,10 +29,6 @@ public abstract class Id3Frame implements Metadata.Entry {
     @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
     public /* synthetic */ void populateMediaMetadata(MediaMetadata.Builder builder) {
         Metadata.Entry.-CC.$default$populateMediaMetadata(this, builder);
-    }
-
-    public Id3Frame(String str) {
-        this.id = str;
     }
 
     public String toString() {

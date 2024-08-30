@@ -1,41 +1,39 @@
 package com.google.android.gms.internal.clearcut;
-
-import java.io.IOException;
 /* loaded from: classes.dex */
-abstract class zzex<T, B> {
+abstract class zzex {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(B b, int i, long j);
+    public abstract void zza(Object obj, int i, long j);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(B b, int i, zzbb zzbbVar);
+    public abstract void zza(Object obj, int i, zzbb zzbbVar);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(T t, zzfr zzfrVar) throws IOException;
+    public abstract void zza(Object obj, zzfr zzfrVar);
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public abstract void zzc(Object obj);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zzc(T t, zzfr zzfrVar) throws IOException;
+    public abstract void zzc(Object obj, zzfr zzfrVar);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract B zzdz();
+    public abstract Object zzdz();
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zze(Object obj, T t);
+    public abstract void zze(Object obj, Object obj2);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zzf(Object obj, B b);
+    public abstract void zzf(Object obj, Object obj2);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract T zzg(T t, T t2);
+    public abstract Object zzg(Object obj, Object obj2);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract int zzm(T t);
+    public abstract int zzm(Object obj);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract T zzq(Object obj);
+    public abstract Object zzq(Object obj);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract int zzr(T t);
+    public abstract int zzr(Object obj);
 }

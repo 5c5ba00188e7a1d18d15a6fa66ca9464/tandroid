@@ -1,18 +1,15 @@
 package com.google.android.gms.internal.clearcut;
 
-import java.io.IOException;
 import java.util.Arrays;
 /* loaded from: classes.dex */
-public final class zzha extends zzfu<zzha> implements Cloneable {
+public final class zzha extends zzfu implements Cloneable {
     private byte[] zzbjn;
     private zzge$zzd zzbjo;
     public byte[] zzbjp;
     private String zzbjq;
     private String zzbjr;
-    private zzgy zzbjs;
     private String zzbjt;
     public long zzbju;
-    private zzgz zzbjv;
     public byte[] zzbjw;
     private String zzbjx;
     private int zzbjy;
@@ -37,10 +34,8 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
         this.zzbjp = bArr;
         this.zzbjq = "";
         this.zzbjr = "";
-        this.zzbjs = null;
         this.zzbjt = "";
         this.zzbju = 180000L;
-        this.zzbjv = null;
         this.zzbjw = bArr;
         this.zzbjx = "";
         this.zzbjy = 0;
@@ -48,16 +43,14 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
         this.zzbka = 0L;
         this.zzbkb = null;
         this.zzbkc = false;
-        this.zzrj = null;
         this.zzrs = -1;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    @Override // com.google.android.gms.internal.clearcut.zzfu, com.google.android.gms.internal.clearcut.zzfz
     /* renamed from: zzgd */
     public final zzha clone() {
         try {
-            zzha zzhaVar = (zzha) super.clone();
+            zzha zzhaVar = (zzha) super.zzeo();
             zzhb[] zzhbVarArr = this.zzbjm;
             if (zzhbVarArr != null && zzhbVarArr.length > 0) {
                 zzhaVar.zzbjm = new zzhb[zzhbVarArr.length];
@@ -68,23 +61,12 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
                         break;
                     }
                     zzhb zzhbVar = zzhbVarArr2[i];
-                    if (zzhbVar != null) {
-                        zzhaVar.zzbjm[i] = (zzhb) zzhbVar.clone();
-                    }
                     i++;
                 }
             }
             zzge$zzd zzge_zzd = this.zzbjo;
             if (zzge_zzd != null) {
                 zzhaVar.zzbjo = zzge_zzd;
-            }
-            zzgy zzgyVar = this.zzbjs;
-            if (zzgyVar != null) {
-                zzhaVar.zzbjs = (zzgy) zzgyVar.clone();
-            }
-            zzgz zzgzVar = this.zzbjv;
-            if (zzgzVar != null) {
-                zzhaVar.zzbjv = (zzgz) zzgzVar.clone();
             }
             int[] iArr = this.zzbjz;
             if (iArr != null && iArr.length > 0) {
@@ -152,14 +134,6 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
                         } else if (!str4.equals(zzhaVar.zzbjr)) {
                             return false;
                         }
-                        zzgy zzgyVar = this.zzbjs;
-                        if (zzgyVar == null) {
-                            if (zzhaVar.zzbjs != null) {
-                                return false;
-                            }
-                        } else if (!zzgyVar.equals(zzhaVar.zzbjs)) {
-                            return false;
-                        }
                         String str5 = this.zzbjt;
                         if (str5 == null) {
                             if (zzhaVar.zzbjt != null) {
@@ -168,18 +142,7 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
                         } else if (!str5.equals(zzhaVar.zzbjt)) {
                             return false;
                         }
-                        if (this.zzbju != zzhaVar.zzbju) {
-                            return false;
-                        }
-                        zzgz zzgzVar = this.zzbjv;
-                        if (zzgzVar == null) {
-                            if (zzhaVar.zzbjv != null) {
-                                return false;
-                            }
-                        } else if (!zzgzVar.equals(zzhaVar.zzbjv)) {
-                            return false;
-                        }
-                        if (Arrays.equals(this.zzbjw, zzhaVar.zzbjw)) {
+                        if (this.zzbju == zzhaVar.zzbju && Arrays.equals(this.zzbjw, zzhaVar.zzbjw)) {
                             String str6 = this.zzbjx;
                             if (str6 == null) {
                                 if (zzhaVar.zzbjx != null) {
@@ -197,15 +160,7 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
                                 } else if (!zzge_zzs.equals(zzhaVar.zzbkb)) {
                                     return false;
                                 }
-                                if (this.zzbkc != zzhaVar.zzbkc) {
-                                    return false;
-                                }
-                                zzfw zzfwVar = this.zzrj;
-                                if (zzfwVar == null || zzfwVar.isEmpty()) {
-                                    zzfw zzfwVar2 = zzhaVar.zzrj;
-                                    return zzfwVar2 == null || zzfwVar2.isEmpty();
-                                }
-                                return this.zzrj.equals(zzhaVar.zzrj);
+                                return this.zzbkc == zzhaVar.zzbkc;
                             }
                             return false;
                         }
@@ -225,7 +180,6 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
         long j2 = this.zzbjg;
         int hashCode = (((((zzha.class.getName().hashCode() + 527) * 31) + ((int) (j ^ (j >>> 32)))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 961;
         String str = this.tag;
-        int i = 0;
         int hashCode2 = (((hashCode + (str == null ? 0 : str.hashCode())) * 31) + this.zzbji) * 31;
         String str2 = this.zzbjj;
         int hashCode3 = ((((((hashCode2 + (str2 == null ? 0 : str2.hashCode())) * 961) + 1237) * 31) + zzfy.hashCode(this.zzbjm)) * 31) + Arrays.hashCode(this.zzbjn);
@@ -234,27 +188,19 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
         String str3 = this.zzbjq;
         int hashCode5 = (hashCode4 + (str3 == null ? 0 : str3.hashCode())) * 31;
         String str4 = this.zzbjr;
-        int hashCode6 = hashCode5 + (str4 == null ? 0 : str4.hashCode());
-        zzgy zzgyVar = this.zzbjs;
-        int hashCode7 = ((hashCode6 * 31) + (zzgyVar == null ? 0 : zzgyVar.hashCode())) * 31;
+        int hashCode6 = (hashCode5 + (str4 == null ? 0 : str4.hashCode())) * 961;
         String str5 = this.zzbjt;
-        int hashCode8 = str5 == null ? 0 : str5.hashCode();
+        int hashCode7 = str5 == null ? 0 : str5.hashCode();
         long j3 = this.zzbju;
-        zzgz zzgzVar = this.zzbjv;
-        int hashCode9 = (((((((hashCode7 + hashCode8) * 31) + ((int) (j3 ^ (j3 >>> 32)))) * 31) + (zzgzVar == null ? 0 : zzgzVar.hashCode())) * 31) + Arrays.hashCode(this.zzbjw)) * 31;
+        int hashCode8 = (((((hashCode6 + hashCode7) * 31) + ((int) (j3 ^ (j3 >>> 32)))) * 961) + Arrays.hashCode(this.zzbjw)) * 31;
         String str6 = this.zzbjx;
-        int hashCode10 = ((hashCode9 + (str6 == null ? 0 : str6.hashCode())) * 961) + zzfy.hashCode(this.zzbjz);
+        int hashCode9 = ((hashCode8 + (str6 == null ? 0 : str6.hashCode())) * 961) + zzfy.hashCode(this.zzbjz);
         zzge$zzs zzge_zzs = this.zzbkb;
-        int hashCode11 = ((((hashCode10 * 961) + (zzge_zzs == null ? 0 : zzge_zzs.hashCode())) * 31) + (this.zzbkc ? 1231 : 1237)) * 31;
-        zzfw zzfwVar = this.zzrj;
-        if (zzfwVar != null && !zzfwVar.isEmpty()) {
-            i = this.zzrj.hashCode();
-        }
-        return hashCode11 + i;
+        return ((((hashCode9 * 961) + (zzge_zzs != null ? zzge_zzs.hashCode() : 0)) * 31) + (this.zzbkc ? 1231 : 1237)) * 31;
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzfu, com.google.android.gms.internal.clearcut.zzfz
-    public final void zza(zzfs zzfsVar) throws IOException {
+    public final void zza(zzfs zzfsVar) {
         long j = this.zzbjf;
         if (j != 0) {
             zzfsVar.zzi(1, j);
@@ -273,9 +219,6 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
                     break;
                 }
                 zzhb zzhbVar = zzhbVarArr2[i2];
-                if (zzhbVar != null) {
-                    zzfsVar.zza(3, zzhbVar);
-                }
                 i2++;
             }
         }
@@ -286,10 +229,6 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
         }
         if (!Arrays.equals(this.zzbjp, bArr2)) {
             zzfsVar.zza(6, this.zzbjp);
-        }
-        zzgy zzgyVar = this.zzbjs;
-        if (zzgyVar != null) {
-            zzfsVar.zza(7, zzgyVar);
         }
         String str2 = this.zzbjq;
         if (str2 != null && !str2.equals("")) {
@@ -315,10 +254,6 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
         if (j2 != 180000) {
             zzfsVar.zzb(15, 0);
             zzfsVar.zzn(zzfs.zzj(j2));
-        }
-        zzgz zzgzVar = this.zzbjv;
-        if (zzgzVar != null) {
-            zzfsVar.zza(16, zzgzVar);
         }
         long j3 = this.zzbjg;
         if (j3 != 0) {
@@ -380,9 +315,6 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
                     break;
                 }
                 zzhb zzhbVar = zzhbVarArr2[i2];
-                if (zzhbVar != null) {
-                    zzen += zzfs.zzb(3, zzhbVar);
-                }
                 i2++;
             }
         }
@@ -393,10 +325,6 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
         }
         if (!Arrays.equals(this.zzbjp, bArr2)) {
             zzen += zzfs.zzb(6, this.zzbjp);
-        }
-        zzgy zzgyVar = this.zzbjs;
-        if (zzgyVar != null) {
-            zzen += zzfs.zzb(7, zzgyVar);
         }
         String str2 = this.zzbjq;
         if (str2 != null && !str2.equals("")) {
@@ -421,10 +349,6 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
         long j2 = this.zzbju;
         if (j2 != 180000) {
             zzen += zzfs.zzr(15) + zzfs.zzo(zzfs.zzj(j2));
-        }
-        zzgz zzgzVar = this.zzbjv;
-        if (zzgzVar != null) {
-            zzen += zzfs.zzb(16, zzgzVar);
         }
         long j3 = this.zzbjg;
         if (j3 != 0) {
@@ -459,15 +383,5 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
         }
         String str6 = this.zzbjj;
         return (str6 == null || str6.equals("")) ? zzen : zzen + zzfs.zzb(26, this.zzbjj);
-    }
-
-    @Override // com.google.android.gms.internal.clearcut.zzfu
-    public final /* synthetic */ zzha zzeo() throws CloneNotSupportedException {
-        return (zzha) clone();
-    }
-
-    @Override // com.google.android.gms.internal.clearcut.zzfu, com.google.android.gms.internal.clearcut.zzfz
-    public final /* synthetic */ zzfz zzep() throws CloneNotSupportedException {
-        return (zzha) clone();
     }
 }

@@ -4,9 +4,8 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-/* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
-public final class d {
+public abstract class d {
     public static final List a(List list) {
         ArrayList arrayList = new ArrayList();
         Iterator it = list.iterator();

@@ -4,13 +4,19 @@ import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.internal.mlkit_vision_label_common.zzd;
 import com.google.android.gms.internal.mlkit_vision_label_common.zze;
 import com.google.android.gms.internal.mlkit_vision_label_common.zzi;
-/* compiled from: com.google.mlkit:image-labeling-common@@18.1.0 */
 /* loaded from: classes.dex */
 public class ImageLabel {
     private final String zza;
     private final float zzb;
     private final int zzc;
     private final String zzd;
+
+    public ImageLabel(String str, float f, int i, String str2) {
+        this.zza = zzi.zza(str);
+        this.zzb = f;
+        this.zzc = i;
+        this.zzd = str2;
+    }
 
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -46,12 +52,5 @@ public class ImageLabel {
         zza.zzb("index", this.zzc);
         zza.zzc("mid", this.zzd);
         return zza.toString();
-    }
-
-    public ImageLabel(String str, float f, int i, String str2) {
-        this.zza = zzi.zza(str);
-        this.zzb = f;
-        this.zzc = i;
-        this.zzd = str2;
     }
 }

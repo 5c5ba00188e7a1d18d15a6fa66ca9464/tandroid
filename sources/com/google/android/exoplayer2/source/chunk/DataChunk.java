@@ -5,15 +5,12 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSourceUtil;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.util.Util;
-import java.io.IOException;
 import java.util.Arrays;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public abstract class DataChunk extends Chunk {
     private byte[] data;
     private volatile boolean loadCanceled;
-
-    protected abstract void consume(byte[] bArr, int i) throws IOException;
 
     public DataChunk(DataSource dataSource, DataSpec dataSpec, int i, Format format, int i2, Object obj, byte[] bArr) {
         super(dataSource, dataSpec, i, format, i2, obj, -9223372036854775807L, -9223372036854775807L);
@@ -29,8 +26,11 @@ public abstract class DataChunk extends Chunk {
         dataChunk.data = bArr2;
     }
 
-    public byte[] getDataHolder() {
-        return this.data;
+    private void maybeExpandData(int i) {
+        byte[] bArr = this.data;
+        if (bArr.length < i + LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) {
+            this.data = Arrays.copyOf(bArr, bArr.length + LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
+        }
     }
 
     @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
@@ -38,8 +38,14 @@ public abstract class DataChunk extends Chunk {
         this.loadCanceled = true;
     }
 
+    protected abstract void consume(byte[] bArr, int i);
+
+    public byte[] getDataHolder() {
+        return this.data;
+    }
+
     @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
-    public final void load() throws IOException {
+    public final void load() {
         try {
             this.dataSource.open(this.dataSpec);
             int i = 0;
@@ -58,13 +64,6 @@ public abstract class DataChunk extends Chunk {
         } catch (Throwable th) {
             DataSourceUtil.closeQuietly(this.dataSource);
             throw th;
-        }
-    }
-
-    private void maybeExpandData(int i) {
-        byte[] bArr = this.data;
-        if (bArr.length < i + LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) {
-            this.data = Arrays.copyOf(bArr, bArr.length + LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
         }
     }
 }

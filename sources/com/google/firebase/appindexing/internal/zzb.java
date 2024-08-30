@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
 public final class zzb extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zzb> CREATOR = new zzy();
@@ -23,6 +22,15 @@ public final class zzb extends AbstractSafeParcelable {
         this.zzd = str2;
         this.zze = bArr;
         this.zzf = z2;
+    }
+
+    public zzb(boolean z, String str, String str2, byte[] bArr, boolean z2) {
+        this.zza = 0;
+        this.zzb = z;
+        this.zzc = null;
+        this.zzd = null;
+        this.zze = null;
+        this.zzf = false;
     }
 
     public final String toString() {
@@ -72,14 +80,5 @@ public final class zzb extends AbstractSafeParcelable {
 
     public final void zza(int i) {
         this.zza = i;
-    }
-
-    public zzb(boolean z, String str, String str2, byte[] bArr, boolean z2) {
-        this.zza = 0;
-        this.zzb = z;
-        this.zzc = null;
-        this.zzd = null;
-        this.zze = null;
-        this.zzf = false;
     }
 }

@@ -2,11 +2,10 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.internal.mlkit_language_id.zzeo;
 import org.telegram.messenger.LiteMode;
-/* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
+public final class zzy$zzbh extends zzeo implements zzgb {
     private static final zzy$zzbh zzo;
-    private static volatile zzgj<zzy$zzbh> zzp;
+    private static volatile zzgj zzp;
     private int zzc;
     private String zzd = "";
     private String zze = "";
@@ -15,19 +14,28 @@ public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
     private String zzh = "";
     private String zzi = "";
     private String zzj = "";
-    private zzew<String> zzk = zzeo.zzl();
+    private zzew zzk = zzeo.zzl();
     private String zzl = "";
     private boolean zzm;
     private boolean zzn;
 
-    private zzy$zzbh() {
-    }
-
-    /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
-    public static final class zza extends zzeo.zzb<zzy$zzbh, zza> implements zzgb {
+    public static final class zza extends zzeo.zzb implements zzgb {
         private zza() {
             super(zzy$zzbh.zzo);
+        }
+
+        /* synthetic */ zza(zzx zzxVar) {
+            this();
+        }
+
+        public final zza zza(Iterable iterable) {
+            if (this.zzb) {
+                zzc();
+                this.zzb = false;
+            }
+            ((zzy$zzbh) this.zza).zza(iterable);
+            return this;
         }
 
         public final zza zza(String str) {
@@ -39,12 +47,30 @@ public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
             return this;
         }
 
+        public final zza zza(boolean z) {
+            if (this.zzb) {
+                zzc();
+                this.zzb = false;
+            }
+            ((zzy$zzbh) this.zza).zza(true);
+            return this;
+        }
+
         public final zza zzb(String str) {
             if (this.zzb) {
                 zzc();
                 this.zzb = false;
             }
             ((zzy$zzbh) this.zza).zzb(str);
+            return this;
+        }
+
+        public final zza zzb(boolean z) {
+            if (this.zzb) {
+                zzc();
+                this.zzb = false;
+            }
+            ((zzy$zzbh) this.zza).zzb(true);
             return this;
         }
 
@@ -66,15 +92,6 @@ public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
             return this;
         }
 
-        public final zza zza(Iterable<String> iterable) {
-            if (this.zzb) {
-                zzc();
-                this.zzb = false;
-            }
-            ((zzy$zzbh) this.zza).zza(iterable);
-            return this;
-        }
-
         public final zza zze(String str) {
             if (this.zzb) {
                 zzc();
@@ -83,28 +100,28 @@ public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
             ((zzy$zzbh) this.zza).zze(str);
             return this;
         }
+    }
 
-        public final zza zza(boolean z) {
-            if (this.zzb) {
-                zzc();
-                this.zzb = false;
-            }
-            ((zzy$zzbh) this.zza).zza(true);
-            return this;
-        }
+    static {
+        zzy$zzbh zzy_zzbh = new zzy$zzbh();
+        zzo = zzy_zzbh;
+        zzeo.zza(zzy$zzbh.class, zzy_zzbh);
+    }
 
-        public final zza zzb(boolean z) {
-            if (this.zzb) {
-                zzc();
-                this.zzb = false;
-            }
-            ((zzy$zzbh) this.zza).zzb(true);
-            return this;
-        }
+    private zzy$zzbh() {
+    }
 
-        /* synthetic */ zza(zzx zzxVar) {
-            this();
+    public static zza zza(zzy$zzbh zzy_zzbh) {
+        return (zza) zzo.zza((zzeo) zzy_zzbh);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public final void zza(Iterable iterable) {
+        zzew zzewVar = this.zzk;
+        if (!zzewVar.zza()) {
+            this.zzk = zzeo.zza(zzewVar);
         }
+        zzde.zza(iterable, this.zzk);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -115,6 +132,16 @@ public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    public final void zza(boolean z) {
+        this.zzc |= 256;
+        this.zzm = true;
+    }
+
+    public static zza zzb() {
+        return (zza) zzo.zzh();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zzb(String str) {
         str.getClass();
         this.zzc |= 2;
@@ -122,14 +149,20 @@ public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    public final void zzb(boolean z) {
+        this.zzc |= LiteMode.FLAG_CALLS_ANIMATIONS;
+        this.zzn = true;
+    }
+
+    public static zzy$zzbh zzc() {
+        return zzo;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zzc(String str) {
         str.getClass();
         this.zzc |= 8;
         this.zzg = str;
-    }
-
-    public final String zza() {
-        return this.zzh;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -140,43 +173,14 @@ public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public final void zza(Iterable<String> iterable) {
-        zzew<String> zzewVar = this.zzk;
-        if (!zzewVar.zza()) {
-            this.zzk = zzeo.zza(zzewVar);
-        }
-        zzde.zza(iterable, this.zzk);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
     public final void zze(String str) {
         str.getClass();
         this.zzc |= 128;
         this.zzl = str;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public final void zza(boolean z) {
-        this.zzc |= 256;
-        this.zzm = true;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public final void zzb(boolean z) {
-        this.zzc |= LiteMode.FLAG_CALLS_ANIMATIONS;
-        this.zzn = true;
-    }
-
-    public static zza zzb() {
-        return zzo.zzh();
-    }
-
-    public static zza zza(zzy$zzbh zzy_zzbh) {
-        return zzo.zza(zzy_zzbh);
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzy$zzbh>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
+    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {
         switch (zzx.zza[i - 1]) {
@@ -189,13 +193,13 @@ public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
             case 4:
                 return zzo;
             case 5:
-                zzgj<zzy$zzbh> zzgjVar = zzp;
-                zzgj<zzy$zzbh> zzgjVar2 = zzgjVar;
+                zzgj zzgjVar = zzp;
+                zzgj zzgjVar2 = zzgjVar;
                 if (zzgjVar == null) {
                     synchronized (zzy$zzbh.class) {
                         try {
-                            zzgj<zzy$zzbh> zzgjVar3 = zzp;
-                            zzgj<zzy$zzbh> zzgjVar4 = zzgjVar3;
+                            zzgj zzgjVar3 = zzp;
+                            zzgj zzgjVar4 = zzgjVar3;
                             if (zzgjVar3 == null) {
                                 ?? zzaVar = new zzeo.zza(zzo);
                                 zzp = zzaVar;
@@ -215,13 +219,7 @@ public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
         }
     }
 
-    public static zzy$zzbh zzc() {
-        return zzo;
-    }
-
-    static {
-        zzy$zzbh zzy_zzbh = new zzy$zzbh();
-        zzo = zzy_zzbh;
-        zzeo.zza(zzy$zzbh.class, zzy_zzbh);
+    public final String zza() {
+        return this.zzh;
     }
 }

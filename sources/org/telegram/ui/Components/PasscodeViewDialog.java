@@ -46,6 +46,17 @@ public class PasscodeViewDialog extends Dialog {
         }
         PasscodeView passcodeView = new PasscodeView(context) { // from class: org.telegram.ui.Components.PasscodeViewDialog.2
             @Override // org.telegram.ui.Components.PasscodeView
+            protected void onAnimationUpdate(float f) {
+                LaunchActivity launchActivity = LaunchActivity.instance;
+                if (launchActivity == null) {
+                    return;
+                }
+                DrawerLayoutContainer drawerLayoutContainer = launchActivity.drawerLayoutContainer;
+                drawerLayoutContainer.setScaleX(AndroidUtilities.lerp(1.0f, 1.25f, f));
+                drawerLayoutContainer.setScaleY(AndroidUtilities.lerp(1.0f, 1.25f, f));
+            }
+
+            @Override // org.telegram.ui.Components.PasscodeView
             protected void onHidden() {
                 PasscodeViewDialog.super.dismiss();
                 LaunchActivity launchActivity = LaunchActivity.instance;
@@ -56,20 +67,39 @@ public class PasscodeViewDialog extends Dialog {
                 drawerLayoutContainer.setScaleX(1.0f);
                 drawerLayoutContainer.setScaleY(1.0f);
             }
-
-            @Override // org.telegram.ui.Components.PasscodeView
-            protected void onAnimationUpdate(float f) {
-                LaunchActivity launchActivity = LaunchActivity.instance;
-                if (launchActivity == null) {
-                    return;
-                }
-                DrawerLayoutContainer drawerLayoutContainer = launchActivity.drawerLayoutContainer;
-                drawerLayoutContainer.setScaleX(AndroidUtilities.lerp(1.0f, 1.25f, f));
-                drawerLayoutContainer.setScaleY(AndroidUtilities.lerp(1.0f, 1.25f, f));
-            }
         };
         this.passcodeView = passcodeView;
         frameLayout.addView(passcodeView, LayoutHelper.createFrame(-1, -1, 119));
+    }
+
+    @Override // android.app.Dialog, android.content.DialogInterface
+    public void dismiss() {
+        LaunchActivity launchActivity;
+        if (!this.passcodeView.onBackPressed() || (launchActivity = LaunchActivity.instance) == null) {
+            return;
+        }
+        launchActivity.moveTaskToBack(true);
+    }
+
+    @Override // android.app.Dialog, android.view.Window.Callback
+    public boolean dispatchKeyEvent(KeyEvent keyEvent) {
+        LaunchActivity launchActivity;
+        if (keyEvent.getKeyCode() == 4 && keyEvent.getRepeatCount() == 0) {
+            if (this.passcodeView.onBackPressed() && (launchActivity = LaunchActivity.instance) != null) {
+                launchActivity.moveTaskToBack(true);
+            }
+            return true;
+        }
+        return super.dispatchKeyEvent(keyEvent);
+    }
+
+    @Override // android.app.Dialog
+    public void onBackPressed() {
+        LaunchActivity launchActivity;
+        if (!this.passcodeView.onBackPressed() || (launchActivity = LaunchActivity.instance) == null) {
+            return;
+        }
+        launchActivity.moveTaskToBack(true);
     }
 
     @Override // android.app.Dialog
@@ -100,35 +130,5 @@ public class PasscodeViewDialog extends Dialog {
         window.setAttributes(attributes);
         this.windowView.setSystemUiVisibility(256);
         AndroidUtilities.setLightNavigationBar(window, false);
-    }
-
-    @Override // android.app.Dialog
-    public void onBackPressed() {
-        LaunchActivity launchActivity;
-        if (!this.passcodeView.onBackPressed() || (launchActivity = LaunchActivity.instance) == null) {
-            return;
-        }
-        launchActivity.moveTaskToBack(true);
-    }
-
-    @Override // android.app.Dialog, android.content.DialogInterface
-    public void dismiss() {
-        LaunchActivity launchActivity;
-        if (!this.passcodeView.onBackPressed() || (launchActivity = LaunchActivity.instance) == null) {
-            return;
-        }
-        launchActivity.moveTaskToBack(true);
-    }
-
-    @Override // android.app.Dialog, android.view.Window.Callback
-    public boolean dispatchKeyEvent(KeyEvent keyEvent) {
-        LaunchActivity launchActivity;
-        if (keyEvent.getKeyCode() == 4 && keyEvent.getRepeatCount() == 0) {
-            if (this.passcodeView.onBackPressed() && (launchActivity = LaunchActivity.instance) != null) {
-                launchActivity.moveTaskToBack(true);
-            }
-            return true;
-        }
-        return super.dispatchKeyEvent(keyEvent);
     }
 }

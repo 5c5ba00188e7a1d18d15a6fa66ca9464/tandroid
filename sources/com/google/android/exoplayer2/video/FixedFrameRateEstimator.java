@@ -10,12 +10,119 @@ final class FixedFrameRateEstimator {
     private Matcher candidateMatcher = new Matcher();
     private long lastFramePresentationTimeNs = -9223372036854775807L;
 
-    public void reset() {
-        this.currentMatcher.reset();
-        this.candidateMatcher.reset();
-        this.candidateMatcherActive = false;
-        this.lastFramePresentationTimeNs = -9223372036854775807L;
-        this.framesWithoutSyncCount = 0;
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static final class Matcher {
+        private long firstFrameDurationNs;
+        private long firstFramePresentationTimeNs;
+        private long frameCount;
+        private long lastFramePresentationTimeNs;
+        private long matchingFrameCount;
+        private long matchingFrameDurationSumNs;
+        private int recentFrameOutlierCount;
+        private final boolean[] recentFrameOutlierFlags = new boolean[15];
+
+        private static int getRecentFrameOutlierIndex(long j) {
+            return (int) (j % 15);
+        }
+
+        public long getFrameDurationNs() {
+            long j = this.matchingFrameCount;
+            if (j == 0) {
+                return 0L;
+            }
+            return this.matchingFrameDurationSumNs / j;
+        }
+
+        public long getMatchingFrameDurationSumNs() {
+            return this.matchingFrameDurationSumNs;
+        }
+
+        public boolean isLastFrameOutlier() {
+            long j = this.frameCount;
+            if (j == 0) {
+                return false;
+            }
+            return this.recentFrameOutlierFlags[getRecentFrameOutlierIndex(j - 1)];
+        }
+
+        public boolean isSynced() {
+            return this.frameCount > 15 && this.recentFrameOutlierCount == 0;
+        }
+
+        public void onNextFrame(long j) {
+            int i;
+            long j2 = this.frameCount;
+            if (j2 == 0) {
+                this.firstFramePresentationTimeNs = j;
+            } else if (j2 == 1) {
+                long j3 = j - this.firstFramePresentationTimeNs;
+                this.firstFrameDurationNs = j3;
+                this.matchingFrameDurationSumNs = j3;
+                this.matchingFrameCount = 1L;
+            } else {
+                long j4 = j - this.lastFramePresentationTimeNs;
+                int recentFrameOutlierIndex = getRecentFrameOutlierIndex(j2);
+                if (Math.abs(j4 - this.firstFrameDurationNs) <= 1000000) {
+                    this.matchingFrameCount++;
+                    this.matchingFrameDurationSumNs += j4;
+                    boolean[] zArr = this.recentFrameOutlierFlags;
+                    if (zArr[recentFrameOutlierIndex]) {
+                        zArr[recentFrameOutlierIndex] = false;
+                        i = this.recentFrameOutlierCount - 1;
+                        this.recentFrameOutlierCount = i;
+                    }
+                } else {
+                    boolean[] zArr2 = this.recentFrameOutlierFlags;
+                    if (!zArr2[recentFrameOutlierIndex]) {
+                        zArr2[recentFrameOutlierIndex] = true;
+                        i = this.recentFrameOutlierCount + 1;
+                        this.recentFrameOutlierCount = i;
+                    }
+                }
+            }
+            this.frameCount++;
+            this.lastFramePresentationTimeNs = j;
+        }
+
+        public void reset() {
+            this.frameCount = 0L;
+            this.matchingFrameCount = 0L;
+            this.matchingFrameDurationSumNs = 0L;
+            this.recentFrameOutlierCount = 0;
+            Arrays.fill(this.recentFrameOutlierFlags, false);
+        }
+    }
+
+    public long getFrameDurationNs() {
+        if (isSynced()) {
+            return this.currentMatcher.getFrameDurationNs();
+        }
+        return -9223372036854775807L;
+    }
+
+    public float getFrameRate() {
+        if (isSynced()) {
+            double frameDurationNs = this.currentMatcher.getFrameDurationNs();
+            Double.isNaN(frameDurationNs);
+            return (float) (1.0E9d / frameDurationNs);
+        }
+        return -1.0f;
+    }
+
+    public int getFramesWithoutSyncCount() {
+        return this.framesWithoutSyncCount;
+    }
+
+    public long getMatchingFrameDurationSumNs() {
+        if (isSynced()) {
+            return this.currentMatcher.getMatchingFrameDurationSumNs();
+        }
+        return -9223372036854775807L;
+    }
+
+    public boolean isSynced() {
+        return this.currentMatcher.isSynced();
     }
 
     public void onNextFrame(long j) {
@@ -41,115 +148,11 @@ final class FixedFrameRateEstimator {
         this.framesWithoutSyncCount = this.currentMatcher.isSynced() ? 0 : this.framesWithoutSyncCount + 1;
     }
 
-    public boolean isSynced() {
-        return this.currentMatcher.isSynced();
-    }
-
-    public int getFramesWithoutSyncCount() {
-        return this.framesWithoutSyncCount;
-    }
-
-    public long getMatchingFrameDurationSumNs() {
-        if (isSynced()) {
-            return this.currentMatcher.getMatchingFrameDurationSumNs();
-        }
-        return -9223372036854775807L;
-    }
-
-    public long getFrameDurationNs() {
-        if (isSynced()) {
-            return this.currentMatcher.getFrameDurationNs();
-        }
-        return -9223372036854775807L;
-    }
-
-    public float getFrameRate() {
-        if (isSynced()) {
-            double frameDurationNs = this.currentMatcher.getFrameDurationNs();
-            Double.isNaN(frameDurationNs);
-            return (float) (1.0E9d / frameDurationNs);
-        }
-        return -1.0f;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Matcher {
-        private long firstFrameDurationNs;
-        private long firstFramePresentationTimeNs;
-        private long frameCount;
-        private long lastFramePresentationTimeNs;
-        private long matchingFrameCount;
-        private long matchingFrameDurationSumNs;
-        private int recentFrameOutlierCount;
-        private final boolean[] recentFrameOutlierFlags = new boolean[15];
-
-        public void reset() {
-            this.frameCount = 0L;
-            this.matchingFrameCount = 0L;
-            this.matchingFrameDurationSumNs = 0L;
-            this.recentFrameOutlierCount = 0;
-            Arrays.fill(this.recentFrameOutlierFlags, false);
-        }
-
-        public boolean isSynced() {
-            return this.frameCount > 15 && this.recentFrameOutlierCount == 0;
-        }
-
-        public boolean isLastFrameOutlier() {
-            long j = this.frameCount;
-            if (j == 0) {
-                return false;
-            }
-            return this.recentFrameOutlierFlags[getRecentFrameOutlierIndex(j - 1)];
-        }
-
-        public long getMatchingFrameDurationSumNs() {
-            return this.matchingFrameDurationSumNs;
-        }
-
-        public long getFrameDurationNs() {
-            long j = this.matchingFrameCount;
-            if (j == 0) {
-                return 0L;
-            }
-            return this.matchingFrameDurationSumNs / j;
-        }
-
-        public void onNextFrame(long j) {
-            long j2 = this.frameCount;
-            if (j2 == 0) {
-                this.firstFramePresentationTimeNs = j;
-            } else if (j2 == 1) {
-                long j3 = j - this.firstFramePresentationTimeNs;
-                this.firstFrameDurationNs = j3;
-                this.matchingFrameDurationSumNs = j3;
-                this.matchingFrameCount = 1L;
-            } else {
-                long j4 = j - this.lastFramePresentationTimeNs;
-                int recentFrameOutlierIndex = getRecentFrameOutlierIndex(j2);
-                if (Math.abs(j4 - this.firstFrameDurationNs) <= 1000000) {
-                    this.matchingFrameCount++;
-                    this.matchingFrameDurationSumNs += j4;
-                    boolean[] zArr = this.recentFrameOutlierFlags;
-                    if (zArr[recentFrameOutlierIndex]) {
-                        zArr[recentFrameOutlierIndex] = false;
-                        this.recentFrameOutlierCount--;
-                    }
-                } else {
-                    boolean[] zArr2 = this.recentFrameOutlierFlags;
-                    if (!zArr2[recentFrameOutlierIndex]) {
-                        zArr2[recentFrameOutlierIndex] = true;
-                        this.recentFrameOutlierCount++;
-                    }
-                }
-            }
-            this.frameCount++;
-            this.lastFramePresentationTimeNs = j;
-        }
-
-        private static int getRecentFrameOutlierIndex(long j) {
-            return (int) (j % 15);
-        }
+    public void reset() {
+        this.currentMatcher.reset();
+        this.candidateMatcher.reset();
+        this.candidateMatcherActive = false;
+        this.lastFramePresentationTimeNs = -9223372036854775807L;
+        this.framesWithoutSyncCount = 0;
     }
 }

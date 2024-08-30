@@ -15,11 +15,45 @@ public final class AppInitializer {
     private static volatile AppInitializer sInstance;
     private static final Object sLock = new Object();
     final Context mContext;
-    final Set<Class<? extends Initializer<?>>> mDiscovered = new HashSet();
-    final Map<Class<?>, Object> mInitialized = new HashMap();
+    final Set mDiscovered = new HashSet();
+    final Map mInitialized = new HashMap();
 
     AppInitializer(Context context) {
         this.mContext = context.getApplicationContext();
+    }
+
+    private Object doInitialize(Class cls, Set set) {
+        Object obj;
+        if (Trace.isEnabled()) {
+            try {
+                Trace.beginSection(cls.getSimpleName());
+            } catch (Throwable th) {
+                Trace.endSection();
+                throw th;
+            }
+        }
+        if (set.contains(cls)) {
+            throw new IllegalStateException(String.format("Cannot initialize %s. Cycle detected.", cls.getName()));
+        }
+        if (this.mInitialized.containsKey(cls)) {
+            obj = this.mInitialized.get(cls);
+        } else {
+            set.add(cls);
+            Initializer initializer = (Initializer) cls.getDeclaredConstructor(null).newInstance(null);
+            List<Class> dependencies = initializer.dependencies();
+            if (!dependencies.isEmpty()) {
+                for (Class cls2 : dependencies) {
+                    if (!this.mInitialized.containsKey(cls2)) {
+                        doInitialize(cls2, set);
+                    }
+                }
+            }
+            obj = initializer.create(this.mContext);
+            set.remove(cls);
+            this.mInitialized.put(cls, obj);
+        }
+        Trace.endSection();
+        return obj;
     }
 
     public static AppInitializer getInstance(Context context) {
@@ -36,63 +70,6 @@ public final class AppInitializer {
         return sInstance;
     }
 
-    public <T> T initializeComponent(Class<? extends Initializer<T>> cls) {
-        return (T) doInitialize(cls);
-    }
-
-    public boolean isEagerlyInitialized(Class<? extends Initializer<?>> cls) {
-        return this.mDiscovered.contains(cls);
-    }
-
-    <T> T doInitialize(Class<? extends Initializer<?>> cls) {
-        T t;
-        synchronized (sLock) {
-            try {
-                t = (T) this.mInitialized.get(cls);
-                if (t == null) {
-                    t = (T) doInitialize(cls, new HashSet());
-                }
-            } catch (Throwable th) {
-                throw th;
-            }
-        }
-        return t;
-    }
-
-    private <T> T doInitialize(Class<? extends Initializer<?>> cls, Set<Class<?>> set) {
-        T t;
-        if (Trace.isEnabled()) {
-            try {
-                Trace.beginSection(cls.getSimpleName());
-            } catch (Throwable th) {
-                Trace.endSection();
-                throw th;
-            }
-        }
-        if (set.contains(cls)) {
-            throw new IllegalStateException(String.format("Cannot initialize %s. Cycle detected.", cls.getName()));
-        }
-        if (!this.mInitialized.containsKey(cls)) {
-            set.add(cls);
-            Initializer<?> newInstance = cls.getDeclaredConstructor(null).newInstance(null);
-            List<Class<? extends Initializer<?>>> dependencies = newInstance.dependencies();
-            if (!dependencies.isEmpty()) {
-                for (Class<? extends Initializer<?>> cls2 : dependencies) {
-                    if (!this.mInitialized.containsKey(cls2)) {
-                        doInitialize(cls2, set);
-                    }
-                }
-            }
-            t = (T) newInstance.create(this.mContext);
-            set.remove(cls);
-            this.mInitialized.put(cls, t);
-        } else {
-            t = (T) this.mInitialized.get(cls);
-        }
-        Trace.endSection();
-        return t;
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
     public void discoverAndInitialize() {
         try {
@@ -107,7 +84,6 @@ public final class AppInitializer {
         }
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
     void discoverAndInitialize(Bundle bundle) {
         String string = this.mContext.getString(R$string.androidx_startup);
         if (bundle != null) {
@@ -121,12 +97,35 @@ public final class AppInitializer {
                         }
                     }
                 }
-                for (Class<? extends Initializer<?>> cls2 : this.mDiscovered) {
+                for (Class cls2 : this.mDiscovered) {
                     doInitialize(cls2, hashSet);
                 }
             } catch (ClassNotFoundException e) {
                 throw new StartupException(e);
             }
         }
+    }
+
+    Object doInitialize(Class cls) {
+        Object obj;
+        synchronized (sLock) {
+            try {
+                obj = this.mInitialized.get(cls);
+                if (obj == null) {
+                    obj = doInitialize(cls, new HashSet());
+                }
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+        return obj;
+    }
+
+    public Object initializeComponent(Class cls) {
+        return doInitialize(cls);
+    }
+
+    public boolean isEagerlyInitialized(Class cls) {
+        return this.mDiscovered.contains(cls);
     }
 }

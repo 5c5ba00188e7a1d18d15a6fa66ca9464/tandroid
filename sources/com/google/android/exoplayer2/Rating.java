@@ -6,7 +6,7 @@ import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public abstract class Rating implements Bundleable {
     static final String FIELD_RATING_TYPE = Util.intToStringMaxRadix(0);
-    public static final Bundleable.Creator<Rating> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.Rating$$ExternalSyntheticLambda0
+    public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.Rating$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.Bundleable.Creator
         public final Bundleable fromBundle(Bundle bundle) {
             Rating fromBundle;
@@ -17,19 +17,19 @@ public abstract class Rating implements Bundleable {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static Rating fromBundle(Bundle bundle) {
+        Bundleable.Creator creator;
         int i = bundle.getInt(FIELD_RATING_TYPE, -1);
-        if (i != 0) {
-            if (i != 1) {
-                if (i != 2) {
-                    if (i == 3) {
-                        return ThumbRating.CREATOR.fromBundle(bundle);
-                    }
-                    throw new IllegalArgumentException("Unknown RatingType: " + i);
-                }
-                return StarRating.CREATOR.fromBundle(bundle);
-            }
-            return PercentageRating.CREATOR.fromBundle(bundle);
+        if (i == 0) {
+            creator = HeartRating.CREATOR;
+        } else if (i == 1) {
+            creator = PercentageRating.CREATOR;
+        } else if (i == 2) {
+            creator = StarRating.CREATOR;
+        } else if (i != 3) {
+            throw new IllegalArgumentException("Unknown RatingType: " + i);
+        } else {
+            creator = ThumbRating.CREATOR;
         }
-        return HeartRating.CREATOR.fromBundle(bundle);
+        return (Rating) creator.fromBundle(bundle);
     }
 }

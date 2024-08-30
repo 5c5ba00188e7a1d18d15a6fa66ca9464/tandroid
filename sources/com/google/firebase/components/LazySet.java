@@ -7,21 +7,50 @@ import java.util.Collections;
 import java.util.Set;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class LazySet<T> implements Provider<Set<T>> {
-    private volatile Set<T> actualSet = null;
-    private volatile Set<Provider<T>> providers = Collections.newSetFromMap(new ConcurrentHashMap());
+public class LazySet implements Provider {
+    private volatile Set actualSet = null;
+    private volatile Set providers = Collections.newSetFromMap(new ConcurrentHashMap());
 
-    LazySet(Collection<Provider<T>> collection) {
+    LazySet(Collection collection) {
         this.providers.addAll(collection);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static LazySet<?> fromCollection(Collection<Provider<?>> collection) {
-        return new LazySet<>((Set) collection);
+    public static LazySet fromCollection(Collection collection) {
+        return new LazySet((Set) collection);
+    }
+
+    private synchronized void updateSet() {
+        try {
+            for (Provider provider : this.providers) {
+                this.actualSet.add(provider.get());
+            }
+            this.providers = null;
+        } catch (Throwable th) {
+            throw th;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public synchronized void add(Provider provider) {
+        Set set;
+        Object obj;
+        try {
+            if (this.actualSet == null) {
+                set = this.providers;
+                obj = provider;
+            } else {
+                set = this.actualSet;
+                obj = provider.get();
+            }
+            set.add(obj);
+        } catch (Throwable th) {
+            throw th;
+        }
     }
 
     @Override // com.google.firebase.inject.Provider
-    public Set<T> get() {
+    public Set get() {
         if (this.actualSet == null) {
             synchronized (this) {
                 try {
@@ -34,29 +63,5 @@ public class LazySet<T> implements Provider<Set<T>> {
             }
         }
         return Collections.unmodifiableSet(this.actualSet);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void add(Provider<T> provider) {
-        try {
-            if (this.actualSet == null) {
-                this.providers.add(provider);
-            } else {
-                this.actualSet.add(provider.get());
-            }
-        } catch (Throwable th) {
-            throw th;
-        }
-    }
-
-    private synchronized void updateSet() {
-        try {
-            for (Provider<T> provider : this.providers) {
-                this.actualSet.add(provider.get());
-            }
-            this.providers = null;
-        } catch (Throwable th) {
-            throw th;
-        }
     }
 }

@@ -70,6 +70,88 @@ public class PhotoEditToolCell extends FrameLayout {
         addView(photoEditorSeekBar, LayoutHelper.createFrame(-1, 40.0f, 19, 96.0f, 0.0f, 24.0f, 0.0f));
     }
 
+    private int getThemedColor(int i) {
+        return Theme.getColor(i, this.resourcesProvider);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$setSeekBarDelegate$0(PhotoEditorSeekBar.PhotoEditorSeekBarDelegate photoEditorSeekBarDelegate, int i, int i2) {
+        StringBuilder sb;
+        String str;
+        photoEditorSeekBarDelegate.onProgressChanged(i, i2);
+        TextView textView = this.valueTextView;
+        if (i2 > 0) {
+            sb = new StringBuilder();
+            str = "+";
+        } else {
+            sb = new StringBuilder();
+            str = "";
+        }
+        sb.append(str);
+        sb.append(i2);
+        textView.setText(sb.toString());
+        if (this.valueTextView.getTag() != null) {
+            AndroidUtilities.cancelRunOnUIThread(this.hideValueRunnable);
+            AndroidUtilities.runOnUIThread(this.hideValueRunnable, 1000L);
+            return;
+        }
+        AnimatorSet animatorSet = this.valueAnimation;
+        if (animatorSet != null) {
+            animatorSet.cancel();
+        }
+        this.valueTextView.setTag(1);
+        AnimatorSet animatorSet2 = new AnimatorSet();
+        this.valueAnimation = animatorSet2;
+        TextView textView2 = this.valueTextView;
+        Property property = View.ALPHA;
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(textView2, property, 1.0f), ObjectAnimator.ofFloat(this.nameTextView, property, 0.0f));
+        this.valueAnimation.setDuration(250L);
+        this.valueAnimation.setInterpolator(new DecelerateInterpolator());
+        this.valueAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoEditToolCell.2
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                AndroidUtilities.runOnUIThread(PhotoEditToolCell.this.hideValueRunnable, 1000L);
+            }
+        });
+        this.valueAnimation.start();
+    }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(40.0f), 1073741824));
+    }
+
+    public void setIconAndTextAndValue(String str, float f, int i, int i2) {
+        TextView textView;
+        StringBuilder sb;
+        String str2;
+        AnimatorSet animatorSet = this.valueAnimation;
+        if (animatorSet != null) {
+            animatorSet.cancel();
+            this.valueAnimation = null;
+        }
+        AndroidUtilities.cancelRunOnUIThread(this.hideValueRunnable);
+        this.valueTextView.setTag(null);
+        TextView textView2 = this.nameTextView;
+        textView2.setText(str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase());
+        if (f > 0.0f) {
+            textView = this.valueTextView;
+            sb = new StringBuilder();
+            str2 = "+";
+        } else {
+            textView = this.valueTextView;
+            sb = new StringBuilder();
+            str2 = "";
+        }
+        sb.append(str2);
+        sb.append((int) f);
+        textView.setText(sb.toString());
+        this.valueTextView.setAlpha(0.0f);
+        this.nameTextView.setAlpha(1.0f);
+        this.seekBar.setMinMax(i, i2);
+        this.seekBar.setProgress((int) f, false);
+    }
+
     public void setSeekBarDelegate(final PhotoEditorSeekBar.PhotoEditorSeekBarDelegate photoEditorSeekBarDelegate) {
         this.seekBar.setDelegate(new PhotoEditorSeekBar.PhotoEditorSeekBarDelegate() { // from class: org.telegram.ui.Cells.PhotoEditToolCell$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.PhotoEditorSeekBar.PhotoEditorSeekBarDelegate
@@ -79,77 +161,9 @@ public class PhotoEditToolCell extends FrameLayout {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setSeekBarDelegate$0(PhotoEditorSeekBar.PhotoEditorSeekBarDelegate photoEditorSeekBarDelegate, int i, int i2) {
-        photoEditorSeekBarDelegate.onProgressChanged(i, i2);
-        if (i2 > 0) {
-            TextView textView = this.valueTextView;
-            textView.setText("+" + i2);
-        } else {
-            TextView textView2 = this.valueTextView;
-            textView2.setText("" + i2);
-        }
-        if (this.valueTextView.getTag() == null) {
-            AnimatorSet animatorSet = this.valueAnimation;
-            if (animatorSet != null) {
-                animatorSet.cancel();
-            }
-            this.valueTextView.setTag(1);
-            AnimatorSet animatorSet2 = new AnimatorSet();
-            this.valueAnimation = animatorSet2;
-            TextView textView3 = this.valueTextView;
-            Property property = View.ALPHA;
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(textView3, property, 1.0f), ObjectAnimator.ofFloat(this.nameTextView, property, 0.0f));
-            this.valueAnimation.setDuration(250L);
-            this.valueAnimation.setInterpolator(new DecelerateInterpolator());
-            this.valueAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoEditToolCell.2
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    AndroidUtilities.runOnUIThread(PhotoEditToolCell.this.hideValueRunnable, 1000L);
-                }
-            });
-            this.valueAnimation.start();
-            return;
-        }
-        AndroidUtilities.cancelRunOnUIThread(this.hideValueRunnable);
-        AndroidUtilities.runOnUIThread(this.hideValueRunnable, 1000L);
-    }
-
     @Override // android.view.View
     public void setTag(Object obj) {
         super.setTag(obj);
         this.seekBar.setTag(obj);
-    }
-
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(40.0f), 1073741824));
-    }
-
-    public void setIconAndTextAndValue(String str, float f, int i, int i2) {
-        AnimatorSet animatorSet = this.valueAnimation;
-        if (animatorSet != null) {
-            animatorSet.cancel();
-            this.valueAnimation = null;
-        }
-        AndroidUtilities.cancelRunOnUIThread(this.hideValueRunnable);
-        this.valueTextView.setTag(null);
-        TextView textView = this.nameTextView;
-        textView.setText(str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase());
-        if (f > 0.0f) {
-            TextView textView2 = this.valueTextView;
-            textView2.setText("+" + ((int) f));
-        } else {
-            TextView textView3 = this.valueTextView;
-            textView3.setText("" + ((int) f));
-        }
-        this.valueTextView.setAlpha(0.0f);
-        this.nameTextView.setAlpha(1.0f);
-        this.seekBar.setMinMax(i, i2);
-        this.seekBar.setProgress((int) f, false);
-    }
-
-    private int getThemedColor(int i) {
-        return Theme.getColor(i, this.resourcesProvider);
     }
 }

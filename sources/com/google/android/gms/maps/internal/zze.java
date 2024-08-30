@@ -3,12 +3,10 @@ package com.google.android.gms.maps.internal;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
-import android.os.RemoteException;
 import com.google.android.gms.dynamic.IObjectWrapper;
 import com.google.android.gms.internal.maps.zzh;
 import com.google.android.gms.internal.maps.zzi;
 import com.google.android.gms.maps.GoogleMapOptions;
-/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zze extends com.google.android.gms.internal.maps.zza implements zzf {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -17,7 +15,7 @@ public final class zze extends com.google.android.gms.internal.maps.zza implemen
     }
 
     @Override // com.google.android.gms.maps.internal.zzf
-    public final int zzd() throws RemoteException {
+    public final int zzd() {
         Parcel zzH = zzH(9, zza());
         int readInt = zzH.readInt();
         zzH.recycle();
@@ -25,7 +23,7 @@ public final class zze extends com.google.android.gms.internal.maps.zza implemen
     }
 
     @Override // com.google.android.gms.maps.internal.zzf
-    public final ICameraUpdateFactoryDelegate zze() throws RemoteException {
+    public final ICameraUpdateFactoryDelegate zze() {
         ICameraUpdateFactoryDelegate zzbVar;
         Parcel zzH = zzH(4, zza());
         IBinder readStrongBinder = zzH.readStrongBinder();
@@ -40,7 +38,7 @@ public final class zze extends com.google.android.gms.internal.maps.zza implemen
     }
 
     @Override // com.google.android.gms.maps.internal.zzf
-    public final IMapViewDelegate zzg(IObjectWrapper iObjectWrapper, GoogleMapOptions googleMapOptions) throws RemoteException {
+    public final IMapViewDelegate zzg(IObjectWrapper iObjectWrapper, GoogleMapOptions googleMapOptions) {
         IMapViewDelegate zzlVar;
         Parcel zza = zza();
         com.google.android.gms.internal.maps.zzc.zzg(zza, iObjectWrapper);
@@ -58,7 +56,7 @@ public final class zze extends com.google.android.gms.internal.maps.zza implemen
     }
 
     @Override // com.google.android.gms.maps.internal.zzf
-    public final zzi zzj() throws RemoteException {
+    public final zzi zzj() {
         Parcel zzH = zzH(5, zza());
         zzi zzb = zzh.zzb(zzH.readStrongBinder());
         zzH.recycle();
@@ -66,7 +64,7 @@ public final class zze extends com.google.android.gms.internal.maps.zza implemen
     }
 
     @Override // com.google.android.gms.maps.internal.zzf
-    public final void zzk(IObjectWrapper iObjectWrapper, int i) throws RemoteException {
+    public final void zzk(IObjectWrapper iObjectWrapper, int i) {
         Parcel zza = zza();
         com.google.android.gms.internal.maps.zzc.zzg(zza, iObjectWrapper);
         zza.writeInt(i);
@@ -74,7 +72,7 @@ public final class zze extends com.google.android.gms.internal.maps.zza implemen
     }
 
     @Override // com.google.android.gms.maps.internal.zzf
-    public final void zzl(IObjectWrapper iObjectWrapper, int i) throws RemoteException {
+    public final void zzl(IObjectWrapper iObjectWrapper, int i) {
         Parcel zza = zza();
         com.google.android.gms.internal.maps.zzc.zzg(zza, iObjectWrapper);
         zza.writeInt(i);

@@ -8,23 +8,23 @@ import com.google.firebase.encoders.ObjectEncoder;
 import com.google.firebase.encoders.ObjectEncoderContext;
 import com.google.firebase.encoders.ValueEncoder;
 import com.google.firebase.encoders.ValueEncoderContext;
-import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class JsonValueObjectEncoderContext implements ObjectEncoderContext, ValueEncoderContext {
-    private final ObjectEncoder<Object> fallbackEncoder;
+public final class JsonValueObjectEncoderContext implements ObjectEncoderContext, ValueEncoderContext {
+    private final ObjectEncoder fallbackEncoder;
     private final boolean ignoreNullValues;
     private final JsonWriter jsonWriter;
-    private final Map<Class<?>, ObjectEncoder<?>> objectEncoders;
-    private final Map<Class<?>, ValueEncoder<?>> valueEncoders;
+    private final Map objectEncoders;
+    private final Map valueEncoders;
     private JsonValueObjectEncoderContext childContext = null;
     private boolean active = true;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public JsonValueObjectEncoderContext(Writer writer, Map<Class<?>, ObjectEncoder<?>> map, Map<Class<?>, ValueEncoder<?>> map2, ObjectEncoder<Object> objectEncoder, boolean z) {
+    public JsonValueObjectEncoderContext(Writer writer, Map map, Map map2, ObjectEncoder objectEncoder, boolean z) {
         this.jsonWriter = new JsonWriter(writer);
         this.objectEncoders = map;
         this.valueEncoders = map2;
@@ -32,78 +32,71 @@ final class JsonValueObjectEncoderContext implements ObjectEncoderContext, Value
         this.ignoreNullValues = z;
     }
 
-    public JsonValueObjectEncoderContext add(String str, Object obj) throws IOException {
-        if (this.ignoreNullValues) {
-            return internalAddIgnoreNullValues(str, obj);
+    private boolean cannotBeInline(Object obj) {
+        return obj == null || obj.getClass().isArray() || (obj instanceof Collection) || (obj instanceof Date) || (obj instanceof Enum) || (obj instanceof Number);
+    }
+
+    private JsonValueObjectEncoderContext internalAdd(String str, Object obj) {
+        maybeUnNest();
+        this.jsonWriter.name(str);
+        if (obj == null) {
+            this.jsonWriter.nullValue();
+            return this;
         }
-        return internalAdd(str, obj);
+        return add(obj, false);
     }
 
-    public JsonValueObjectEncoderContext add(String str, int i) throws IOException {
+    private JsonValueObjectEncoderContext internalAddIgnoreNullValues(String str, Object obj) {
+        if (obj == null) {
+            return this;
+        }
         maybeUnNest();
         this.jsonWriter.name(str);
-        return add(i);
+        return add(obj, false);
     }
 
-    public JsonValueObjectEncoderContext add(String str, long j) throws IOException {
-        maybeUnNest();
-        this.jsonWriter.name(str);
-        return add(j);
+    private void maybeUnNest() {
+        if (!this.active) {
+            throw new IllegalStateException("Parent context used since this context was created. Cannot use this context anymore.");
+        }
+        JsonValueObjectEncoderContext jsonValueObjectEncoderContext = this.childContext;
+        if (jsonValueObjectEncoderContext != null) {
+            jsonValueObjectEncoderContext.maybeUnNest();
+            this.childContext.active = false;
+            this.childContext = null;
+            this.jsonWriter.endObject();
+        }
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext
-    public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, Object obj) throws IOException {
-        return add(fieldDescriptor.getName(), obj);
-    }
-
-    @Override // com.google.firebase.encoders.ObjectEncoderContext
-    public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, int i) throws IOException {
+    public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, int i) {
         return add(fieldDescriptor.getName(), i);
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext
-    public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, long j) throws IOException {
+    public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, long j) {
         return add(fieldDescriptor.getName(), j);
     }
 
-    @Override // com.google.firebase.encoders.ValueEncoderContext
-    public JsonValueObjectEncoderContext add(String str) throws IOException {
-        maybeUnNest();
-        this.jsonWriter.value(str);
-        return this;
+    @Override // com.google.firebase.encoders.ObjectEncoderContext
+    public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, Object obj) {
+        return add(fieldDescriptor.getName(), obj);
     }
 
-    public JsonValueObjectEncoderContext add(int i) throws IOException {
+    public JsonValueObjectEncoderContext add(int i) {
         maybeUnNest();
         this.jsonWriter.value(i);
         return this;
     }
 
-    public JsonValueObjectEncoderContext add(long j) throws IOException {
+    public JsonValueObjectEncoderContext add(long j) {
         maybeUnNest();
         this.jsonWriter.value(j);
         return this;
     }
 
-    @Override // com.google.firebase.encoders.ValueEncoderContext
-    public JsonValueObjectEncoderContext add(boolean z) throws IOException {
-        maybeUnNest();
-        this.jsonWriter.value(z);
-        return this;
-    }
-
-    public JsonValueObjectEncoderContext add(byte[] bArr) throws IOException {
-        maybeUnNest();
-        if (bArr == null) {
-            this.jsonWriter.nullValue();
-        } else {
-            this.jsonWriter.value(Base64.encodeToString(bArr, 2));
-        }
-        return this;
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
-    public JsonValueObjectEncoderContext add(Object obj, boolean z) throws IOException {
+    public JsonValueObjectEncoderContext add(Object obj, boolean z) {
         int[] iArr;
         int i = 0;
         if (z && cannotBeInline(obj)) {
@@ -114,10 +107,45 @@ final class JsonValueObjectEncoderContext implements ObjectEncoderContext, Value
         } else if (obj instanceof Number) {
             this.jsonWriter.value((Number) obj);
             return this;
-        } else if (obj.getClass().isArray()) {
-            if (obj instanceof byte[]) {
-                return add((byte[]) obj);
+        } else if (!obj.getClass().isArray()) {
+            if (obj instanceof Collection) {
+                this.jsonWriter.beginArray();
+                for (Object obj2 : (Collection) obj) {
+                    add(obj2, false);
+                }
+                this.jsonWriter.endArray();
+                return this;
+            } else if (obj instanceof Map) {
+                this.jsonWriter.beginObject();
+                for (Map.Entry entry : ((Map) obj).entrySet()) {
+                    Object key = entry.getKey();
+                    try {
+                        add((String) key, entry.getValue());
+                    } catch (ClassCastException e) {
+                        throw new EncodingException(String.format("Only String keys are currently supported in maps, got %s of type %s instead.", key, key.getClass()), e);
+                    }
+                }
+                this.jsonWriter.endObject();
+                return this;
+            } else {
+                ObjectEncoder objectEncoder = (ObjectEncoder) this.objectEncoders.get(obj.getClass());
+                if (objectEncoder != null) {
+                    return doEncode(objectEncoder, obj, z);
+                }
+                ValueEncoder valueEncoder = (ValueEncoder) this.valueEncoders.get(obj.getClass());
+                if (valueEncoder != null) {
+                    valueEncoder.encode(obj, this);
+                    return this;
+                } else if (obj instanceof Enum) {
+                    add(((Enum) obj).name());
+                    return this;
+                } else {
+                    return doEncode(this.fallbackEncoder, obj, z);
+                }
             }
+        } else if (obj instanceof byte[]) {
+            return add((byte[]) obj);
+        } else {
             this.jsonWriter.beginArray();
             if (obj instanceof int[]) {
                 int length = ((int[]) obj).length;
@@ -151,50 +179,62 @@ final class JsonValueObjectEncoderContext implements ObjectEncoderContext, Value
                     add((Object) number, false);
                 }
             } else {
-                for (Object obj2 : (Object[]) obj) {
-                    add(obj2, false);
+                for (Object obj3 : (Object[]) obj) {
+                    add(obj3, false);
                 }
             }
             this.jsonWriter.endArray();
             return this;
-        } else if (obj instanceof Collection) {
-            this.jsonWriter.beginArray();
-            for (Object obj3 : (Collection) obj) {
-                add(obj3, false);
-            }
-            this.jsonWriter.endArray();
-            return this;
-        } else if (obj instanceof Map) {
-            this.jsonWriter.beginObject();
-            for (Map.Entry entry : ((Map) obj).entrySet()) {
-                Object key = entry.getKey();
-                try {
-                    add((String) key, entry.getValue());
-                } catch (ClassCastException e) {
-                    throw new EncodingException(String.format("Only String keys are currently supported in maps, got %s of type %s instead.", key, key.getClass()), e);
-                }
-            }
-            this.jsonWriter.endObject();
-            return this;
-        } else {
-            ObjectEncoder<?> objectEncoder = this.objectEncoders.get(obj.getClass());
-            if (objectEncoder != null) {
-                return doEncode(objectEncoder, obj, z);
-            }
-            ValueEncoder<?> valueEncoder = this.valueEncoders.get(obj.getClass());
-            if (valueEncoder != null) {
-                valueEncoder.encode(obj, this);
-                return this;
-            } else if (obj instanceof Enum) {
-                add(((Enum) obj).name());
-                return this;
-            } else {
-                return doEncode(this.fallbackEncoder, obj, z);
-            }
         }
     }
 
-    JsonValueObjectEncoderContext doEncode(ObjectEncoder<Object> objectEncoder, Object obj, boolean z) throws IOException {
+    @Override // com.google.firebase.encoders.ValueEncoderContext
+    public JsonValueObjectEncoderContext add(String str) {
+        maybeUnNest();
+        this.jsonWriter.value(str);
+        return this;
+    }
+
+    public JsonValueObjectEncoderContext add(String str, int i) {
+        maybeUnNest();
+        this.jsonWriter.name(str);
+        return add(i);
+    }
+
+    public JsonValueObjectEncoderContext add(String str, long j) {
+        maybeUnNest();
+        this.jsonWriter.name(str);
+        return add(j);
+    }
+
+    public JsonValueObjectEncoderContext add(String str, Object obj) {
+        return this.ignoreNullValues ? internalAddIgnoreNullValues(str, obj) : internalAdd(str, obj);
+    }
+
+    @Override // com.google.firebase.encoders.ValueEncoderContext
+    public JsonValueObjectEncoderContext add(boolean z) {
+        maybeUnNest();
+        this.jsonWriter.value(z);
+        return this;
+    }
+
+    public JsonValueObjectEncoderContext add(byte[] bArr) {
+        maybeUnNest();
+        if (bArr == null) {
+            this.jsonWriter.nullValue();
+        } else {
+            this.jsonWriter.value(Base64.encodeToString(bArr, 2));
+        }
+        return this;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void close() {
+        maybeUnNest();
+        this.jsonWriter.flush();
+    }
+
+    JsonValueObjectEncoderContext doEncode(ObjectEncoder objectEncoder, Object obj, boolean z) {
         if (!z) {
             this.jsonWriter.beginObject();
         }
@@ -203,47 +243,5 @@ final class JsonValueObjectEncoderContext implements ObjectEncoderContext, Value
             this.jsonWriter.endObject();
         }
         return this;
-    }
-
-    private boolean cannotBeInline(Object obj) {
-        return obj == null || obj.getClass().isArray() || (obj instanceof Collection) || (obj instanceof Date) || (obj instanceof Enum) || (obj instanceof Number);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void close() throws IOException {
-        maybeUnNest();
-        this.jsonWriter.flush();
-    }
-
-    private void maybeUnNest() throws IOException {
-        if (!this.active) {
-            throw new IllegalStateException("Parent context used since this context was created. Cannot use this context anymore.");
-        }
-        JsonValueObjectEncoderContext jsonValueObjectEncoderContext = this.childContext;
-        if (jsonValueObjectEncoderContext != null) {
-            jsonValueObjectEncoderContext.maybeUnNest();
-            this.childContext.active = false;
-            this.childContext = null;
-            this.jsonWriter.endObject();
-        }
-    }
-
-    private JsonValueObjectEncoderContext internalAdd(String str, Object obj) throws IOException, EncodingException {
-        maybeUnNest();
-        this.jsonWriter.name(str);
-        if (obj == null) {
-            this.jsonWriter.nullValue();
-            return this;
-        }
-        return add(obj, false);
-    }
-
-    private JsonValueObjectEncoderContext internalAddIgnoreNullValues(String str, Object obj) throws IOException, EncodingException {
-        if (obj == null) {
-            return this;
-        }
-        maybeUnNest();
-        this.jsonWriter.name(str);
-        return add(obj, false);
     }
 }

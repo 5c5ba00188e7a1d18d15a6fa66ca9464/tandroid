@@ -1,6 +1,5 @@
 package org.telegram.ui.Components.Premium.boosts.cells.selector;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -13,7 +12,6 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.BackDrawable;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
-@SuppressLint({"ViewConstructor"})
 /* loaded from: classes3.dex */
 public class SelectorHeaderCell extends FrameLayout {
     public BackDrawable backDrawable;
@@ -68,8 +66,17 @@ public class SelectorHeaderCell extends FrameLayout {
         canvas.drawRect(0.0f, getHeight() - AndroidUtilities.getShadowHeight(), getWidth(), getHeight(), this.dividerPaint);
     }
 
-    public void setText(CharSequence charSequence) {
-        this.textView.setText(charSequence);
+    protected int getHeaderHeight() {
+        return AndroidUtilities.dp(56.0f);
+    }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(getHeaderHeight(), 1073741824));
+    }
+
+    public void setBackImage(int i) {
+        this.closeView.setImageResource(i);
     }
 
     public void setCloseImageVisible(boolean z) {
@@ -79,20 +86,11 @@ public class SelectorHeaderCell extends FrameLayout {
         textView.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, 23, (z2 || !z) ? 22.0f : 53.0f, 0.0f, (z2 && z) ? 53.0f : 22.0f, 0.0f));
     }
 
-    public void setBackImage(int i) {
-        this.closeView.setImageResource(i);
-    }
-
     public void setOnCloseClickListener(Runnable runnable) {
         this.onCloseClickListener = runnable;
     }
 
-    @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(getHeaderHeight(), 1073741824));
-    }
-
-    protected int getHeaderHeight() {
-        return AndroidUtilities.dp(56.0f);
+    public void setText(CharSequence charSequence) {
+        this.textView.setText(charSequence);
     }
 }

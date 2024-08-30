@@ -3,11 +3,9 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
-import android.os.RemoteException;
 import com.google.android.gms.dynamic.IObjectWrapper;
 import java.util.ArrayList;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zzof extends zza implements IInterface {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -15,7 +13,7 @@ public final class zzof extends zza implements IInterface {
         super(iBinder, "com.google.mlkit.vision.label.aidls.IImageLabeler");
     }
 
-    public final List zzd(IObjectWrapper iObjectWrapper, zzod zzodVar) throws RemoteException {
+    public final List zzd(IObjectWrapper iObjectWrapper, zzod zzodVar) {
         Parcel zza = zza();
         zzc.zzb(zza, iObjectWrapper);
         zzc.zza(zza, zzodVar);
@@ -25,11 +23,11 @@ public final class zzof extends zza implements IInterface {
         return createTypedArrayList;
     }
 
-    public final void zze() throws RemoteException {
+    public final void zze() {
         zzc(1, zza());
     }
 
-    public final void zzf() throws RemoteException {
+    public final void zzf() {
         zzc(2, zza());
     }
 }
