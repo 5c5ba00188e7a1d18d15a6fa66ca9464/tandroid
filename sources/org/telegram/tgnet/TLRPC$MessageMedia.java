@@ -388,15 +388,6 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                 break;
             case -626162256:
                 tLRPC$MessageMedia = new TLRPC$TL_messageMediaGiveaway() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaGiveaway_layer186
-                    public ArrayList channels = new ArrayList();
-                    public ArrayList countries_iso2 = new ArrayList();
-                    public int months;
-                    public boolean only_new_subscribers;
-                    public String prize_description;
-                    public int quantity;
-                    public int until_date;
-                    public boolean winners_are_visible;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_messageMediaGiveaway, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);

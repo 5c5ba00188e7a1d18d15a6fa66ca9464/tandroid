@@ -477,10 +477,10 @@ public class ReactionsLayoutInBubble {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:148:0x0390  */
-        /* JADX WARN: Removed duplicated region for block: B:152:0x03ac  */
-        /* JADX WARN: Removed duplicated region for block: B:153:0x03b4  */
-        /* JADX WARN: Removed duplicated region for block: B:162:0x03fc  */
+        /* JADX WARN: Removed duplicated region for block: B:149:0x0393  */
+        /* JADX WARN: Removed duplicated region for block: B:153:0x03af  */
+        /* JADX WARN: Removed duplicated region for block: B:154:0x03b7  */
+        /* JADX WARN: Removed duplicated region for block: B:162:0x03fb  */
         /* JADX WARN: Removed duplicated region for block: B:164:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -536,7 +536,7 @@ public class ReactionsLayoutInBubble {
                 animatedTextDrawable.setTextColor(this.lastDrawnTextColor);
             }
             ReactionsLayoutInBubble.paint.setColor(this.lastDrawnBackgroundColor);
-            z2 = (this.isTag && drawTagDot() && Color.alpha(this.lastDrawnTagDotColor) == 0) ? false : false;
+            boolean z3 = this.isTag && drawTagDot() && Color.alpha(this.lastDrawnTagDotColor) == 0;
             if (f4 != 1.0f) {
                 ReactionsLayoutInBubble.textPaint.setAlpha((int) (ReactionsLayoutInBubble.textPaint.getAlpha() * f4));
                 ReactionsLayoutInBubble.paint.setAlpha((int) (ReactionsLayoutInBubble.paint.getAlpha() * f4));
@@ -555,6 +555,8 @@ public class ReactionsLayoutInBubble {
             if (scale != 1.0f) {
                 canvas.save();
                 canvas.scale(scale, scale, (f8 / 2.0f) + f, (this.height / 2.0f) + f2);
+            } else {
+                z2 = false;
             }
             float f9 = this.height / 2.0f;
             if (getDrawServiceShaderBackground() > 0.0f) {
@@ -578,7 +580,7 @@ public class ReactionsLayoutInBubble {
                     canvas.drawRoundRect(rectF, f9, f9, currentBackgroundDrawable.getPaint());
                 }
             }
-            if (z2) {
+            if (z3) {
                 rectF.right += AndroidUtilities.dp(4.0f);
                 canvas.saveLayerAlpha(rectF, NotificationCenter.didClearDatabase, 31);
                 rectF.right -= AndroidUtilities.dp(4.0f);
@@ -588,7 +590,7 @@ public class ReactionsLayoutInBubble {
             }
             drawRoundRect(canvas, rectF, f9, ReactionsLayoutInBubble.paint);
             if (this.isTag && drawTagDot()) {
-                if (z2) {
+                if (z3) {
                     paint = ReactionsLayoutInBubble.cutTagPaint;
                 } else {
                     ReactionsLayoutInBubble.tagPaint.setColor(this.lastDrawnTagDotColor);
@@ -597,7 +599,7 @@ public class ReactionsLayoutInBubble {
                 }
                 canvas.drawCircle(rectF.right - AndroidUtilities.dp(8.4f), rectF.centerY(), AndroidUtilities.dp(2.66f), paint);
             }
-            if (z2) {
+            if (z3) {
                 canvas.restore();
             }
             if (imageReceiver != null) {
@@ -661,10 +663,10 @@ public class ReactionsLayoutInBubble {
                         this.avatarsDrawable.onDraw(canvas);
                         canvas.restore();
                     }
-                    if (scale == 1.0f) {
-                        canvas.restore();
+                    if (z2) {
                         return;
                     }
+                    canvas.restore();
                     return;
                 }
             } else {
@@ -687,7 +689,7 @@ public class ReactionsLayoutInBubble {
                 this.avatarsDrawable.onDraw(canvas);
                 canvas.restore();
             }
-            if (scale == 1.0f) {
+            if (z2) {
             }
         }
 
