@@ -969,7 +969,7 @@ public class SharedConfig {
                                     customTabs = sharedPreferences.getBoolean("custom_tabs", true);
                                     inappBrowser = sharedPreferences.getBoolean("inapp_browser", true);
                                     adaptableColorInBrowser = sharedPreferences.getBoolean("adaptableBrowser", false);
-                                    onlyLocalInstantView = sharedPreferences.getBoolean("onlyLocalInstantView", BuildVars.DEBUG_VERSION);
+                                    onlyLocalInstantView = sharedPreferences.getBoolean("onlyLocalInstantView", BuildVars.DEBUG_PRIVATE_VERSION);
                                     directShare = sharedPreferences.getBoolean("direct_share", true);
                                     boolean z = sharedPreferences.getBoolean("shuffleMusic", false);
                                     shuffleMusic = z;
@@ -1084,7 +1084,7 @@ public class SharedConfig {
                     customTabs = sharedPreferences.getBoolean("custom_tabs", true);
                     inappBrowser = sharedPreferences.getBoolean("inapp_browser", true);
                     adaptableColorInBrowser = sharedPreferences.getBoolean("adaptableBrowser", false);
-                    onlyLocalInstantView = sharedPreferences.getBoolean("onlyLocalInstantView", BuildVars.DEBUG_VERSION);
+                    onlyLocalInstantView = sharedPreferences.getBoolean("onlyLocalInstantView", BuildVars.DEBUG_PRIVATE_VERSION);
                     directShare = sharedPreferences.getBoolean("direct_share", true);
                     boolean z2 = sharedPreferences.getBoolean("shuffleMusic", false);
                     shuffleMusic = z2;

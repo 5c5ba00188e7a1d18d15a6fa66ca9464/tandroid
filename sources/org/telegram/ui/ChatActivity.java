@@ -15971,7 +15971,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 }
                             }
                         } catch (Exception e2) {
-                            FileLog.e(e2);
+                            FileLog.e((Throwable) e2, false);
                         }
                     }
                 }

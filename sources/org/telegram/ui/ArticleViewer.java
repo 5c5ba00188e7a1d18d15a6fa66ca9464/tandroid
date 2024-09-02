@@ -4313,6 +4313,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             return i == 1 ? 3 : 4;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onMeasure$0() {
+            requestLayout();
+        }
+
         @Override // org.telegram.ui.Cells.TextSelectionHelper.ArticleSelectableView
         public void fillTextLayoutBlocks(ArrayList arrayList) {
             DrawingText drawingText = this.captionLayout;
@@ -4359,7 +4364,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     this.radialProgress.draw(canvas);
                 }
             }
-            if (!TextUtils.isEmpty(this.currentBlock.url)) {
+            if (!TextUtils.isEmpty(this.currentBlock.url) && !(this.currentPhoto instanceof WebInstantView.WebPhoto)) {
                 int measuredWidth = getMeasuredWidth() - AndroidUtilities.dp(35.0f);
                 int imageY = (int) (this.imageView.getImageY() + AndroidUtilities.dp(11.0f));
                 this.linkDrawable.setBounds(measuredWidth, imageY, AndroidUtilities.dp(24.0f) + measuredWidth, AndroidUtilities.dp(24.0f) + imageY);
@@ -4520,7 +4525,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                     WebInstantView.loadPhoto((WebInstantView.WebPhoto) this.currentPhoto, this.imageView, new Runnable() { // from class: org.telegram.ui.ArticleViewer$BlockPhotoCell$$ExternalSyntheticLambda0
                                         @Override // java.lang.Runnable
                                         public final void run() {
-                                            ArticleViewer.BlockPhotoCell.this.requestLayout();
+                                            ArticleViewer.BlockPhotoCell.this.lambda$onMeasure$0();
                                         }
                                     });
                                 } else {
@@ -8056,6 +8061,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 WebInstantView.Loader loader = this.currentInstantLoader;
                 if (loader != null) {
                     loader.cancel();
+                    this.currentInstantLoader.recycle();
                     this.currentInstantLoader = null;
                 }
                 return null;
@@ -8063,6 +8069,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 WebInstantView.Loader loader2 = this.currentInstantLoader;
                 if (loader2 != null) {
                     loader2.cancel();
+                    this.currentInstantLoader.recycle();
                     this.currentInstantLoader = null;
                 }
                 return null;
@@ -8076,6 +8083,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     WebInstantView.Loader loader4 = this.currentInstantLoader;
                     if (loader4 != null) {
                         loader4.cancel();
+                        this.currentInstantLoader.recycle();
                         this.currentInstantLoader = null;
                     }
                     WebInstantView.Loader loader5 = new WebInstantView.Loader(ArticleViewer.this.currentAccount);
@@ -8203,6 +8211,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 WebInstantView.Loader loader = this.currentInstantLoader;
                 if (loader != null) {
                     loader.cancel();
+                    this.currentInstantLoader.recycle();
                     this.currentInstantLoader = null;
                 }
             }
@@ -11198,6 +11207,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                 if (obj instanceof CachedWeb) {
                                     ((CachedWeb) obj).destroy();
                                 }
+                                if (obj instanceof TLRPC$WebPage) {
+                                    WebInstantView.recycle((TLRPC$WebPage) obj);
+                                }
                             } else if (!z) {
                                 ArticleViewer articleViewer7 = ArticleViewer.this;
                                 Sheet sheet8 = articleViewer7.sheet;
@@ -13017,6 +13029,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         if (remove instanceof CachedWeb) {
                             ((CachedWeb) remove).destroy();
                         }
+                        if (remove instanceof TLRPC$WebPage) {
+                            WebInstantView.recycle((TLRPC$WebPage) remove);
+                        }
                     } else {
                         ArticleViewer articleViewer4 = ArticleViewer.this;
                         Sheet sheet4 = articleViewer4.sheet;
@@ -13082,6 +13097,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         ArticleViewer.this.pages[1].setVisibility(8);
                         if (remove instanceof CachedWeb) {
                             ((CachedWeb) remove).destroy();
+                        }
+                        if (remove instanceof TLRPC$WebPage) {
+                            WebInstantView.recycle((TLRPC$WebPage) remove);
                         }
                     } else {
                         ArticleViewer.this.saveCurrentPagePosition();
@@ -13161,6 +13179,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         if (remove instanceof CachedWeb) {
                             ((CachedWeb) remove).destroy();
                         }
+                        if (remove instanceof TLRPC$WebPage) {
+                            WebInstantView.recycle((TLRPC$WebPage) remove);
+                        }
                     } else {
                         ArticleViewer articleViewer4 = ArticleViewer.this;
                         Sheet sheet4 = articleViewer4.sheet;
@@ -13228,6 +13249,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             Object next = it.next();
                             if (next instanceof CachedWeb) {
                                 ((CachedWeb) next).destroy();
+                            }
+                            if (next instanceof TLRPC$WebPage) {
+                                WebInstantView.recycle((TLRPC$WebPage) next);
                             }
                         }
                     } else {
@@ -15154,6 +15178,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         if (remove instanceof CachedWeb) {
             ((CachedWeb) remove).destroy();
         }
+        if (remove instanceof TLRPC$WebPage) {
+            WebInstantView.recycle((TLRPC$WebPage) remove);
+        }
         ArrayList arrayList2 = this.pagesStack;
         updateInterfaceForCurrentPage(arrayList2.get(arrayList2.size() - 1), false, -1);
         return true;
@@ -16175,6 +16202,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     ((CachedWeb) obj).detach(this.pages[1]);
                 }
                 ((CachedWeb) obj).destroy();
+            } else if (obj instanceof TLRPC$WebPage) {
+                WebInstantView.recycle((TLRPC$WebPage) obj);
             }
         }
         this.pagesStack.clear();
