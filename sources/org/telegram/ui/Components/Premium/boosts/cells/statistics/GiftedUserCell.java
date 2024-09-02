@@ -11,7 +11,7 @@ import java.util.Date;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
-import org.telegram.tgnet.tl.TL_stories$TL_boost;
+import org.telegram.tgnet.tl.TL_stories$Boost;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.UserCell;
@@ -21,7 +21,7 @@ import org.telegram.ui.Components.LayoutHelper;
 public class GiftedUserCell extends UserCell {
     private FrameLayout badgeLayout;
     private TextView badgeTextView;
-    private TL_stories$TL_boost boost;
+    private TL_stories$Boost boost;
     private CounterDrawable counterDrawable;
     private Drawable giftDrawable;
     private Drawable giveawayDrawable;
@@ -67,7 +67,7 @@ public class GiftedUserCell extends UserCell {
         avatarDrawable.setColor(i2, i3);
     }
 
-    public TL_stories$TL_boost getBoost() {
+    public TL_stories$Boost getBoost() {
         return this.boost;
     }
 
@@ -78,73 +78,77 @@ public class GiftedUserCell extends UserCell {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:17:0x00d6  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x012c  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x00a3  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00b1  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00c7  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x011d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void setStatus(TL_stories$TL_boost tL_stories$TL_boost) {
+    public void setStatus(TL_stories$Boost tL_stories$Boost) {
         AvatarDrawable avatarDrawable;
         int i;
-        this.boost = tL_stories$TL_boost;
-        if (tL_stories$TL_boost.gift || tL_stories$TL_boost.giveaway) {
+        this.boost = tL_stories$Boost;
+        if (tL_stories$Boost.gift || tL_stories$Boost.giveaway) {
             this.badgeLayout.setVisibility(0);
-            int i2 = ((tL_stories$TL_boost.expires - tL_stories$TL_boost.date) / 30) / 86400;
-            if (tL_stories$TL_boost.unclaimed) {
-                this.nameTextView.setText(LocaleController.getString(R.string.BoostingUnclaimed));
-                avatarDrawable = this.avatarDrawable;
-                i = 18;
+            int i2 = ((tL_stories$Boost.expires - tL_stories$Boost.date) / 30) / 86400;
+            long j = tL_stories$Boost.stars;
+            if (j > 0) {
+                this.nameTextView.setText(LocaleController.formatPluralString("BoostingStars", (int) j, new Object[0]));
+                this.avatarDrawable.setAvatarType(26);
             } else {
-                if (tL_stories$TL_boost.user_id == -1) {
-                    this.nameTextView.setText(LocaleController.getString(R.string.BoostingToBeDistributed));
+                if (tL_stories$Boost.unclaimed) {
+                    this.nameTextView.setText(LocaleController.getString(R.string.BoostingUnclaimed));
                     avatarDrawable = this.avatarDrawable;
-                    i = 19;
-                }
-                String format = LocaleController.getInstance().getFormatterScheduleDay().format(new Date(tL_stories$TL_boost.expires * 1000));
-                String format2 = LocaleController.getInstance().getFormatterDay().format(new Date(tL_stories$TL_boost.expires * 1000));
-                SimpleTextView simpleTextView = this.statusTextView;
-                simpleTextView.setText(LocaleController.formatString("BoostingShortMonths", R.string.BoostingShortMonths, Integer.valueOf(i2)) + " • " + LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, format, format2));
-                if (tL_stories$TL_boost.gift) {
-                    if (this.giftDrawable == null) {
-                        Drawable drawable = getResources().getDrawable(R.drawable.mini_gift);
-                        this.giftDrawable = drawable;
-                        drawable.setColorFilter(new PorterDuffColorFilter(-3240417, PorterDuff.Mode.MULTIPLY));
+                    i = 18;
+                } else {
+                    if (tL_stories$Boost.user_id == -1) {
+                        this.nameTextView.setText(LocaleController.getString(R.string.BoostingToBeDistributed));
+                        avatarDrawable = this.avatarDrawable;
+                        i = 19;
                     }
-                    this.badgeTextView.setTextColor(-3240417);
-                    this.badgeTextView.setCompoundDrawablesWithIntrinsicBounds(this.giftDrawable, (Drawable) null, (Drawable) null, (Drawable) null);
-                    this.badgeTextView.setCompoundDrawablePadding(AndroidUtilities.dp(4.0f));
-                    this.badgeTextView.setText(LocaleController.getString(R.string.BoostingGift));
-                    this.badgeLayout.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), Theme.multAlpha(-3240417, 0.2f)));
-                }
-                if (tL_stories$TL_boost.giveaway) {
-                    if (this.giveawayDrawable == null) {
-                        Drawable drawable2 = getResources().getDrawable(R.drawable.mini_giveaway);
-                        this.giveawayDrawable = drawable2;
-                        drawable2.setColorFilter(new PorterDuffColorFilter(-13397548, PorterDuff.Mode.MULTIPLY));
+                    String format = LocaleController.getInstance().getFormatterBoostExpired().format(new Date(tL_stories$Boost.expires * 1000));
+                    this.statusTextView.setText(tL_stories$Boost.stars <= 0 ? LocaleController.formatString(R.string.BoostingStarsExpires, format) : LocaleController.formatString(R.string.BoostingExpires, format));
+                    if (tL_stories$Boost.gift) {
+                        if (this.giftDrawable == null) {
+                            Drawable drawable = getResources().getDrawable(R.drawable.mini_gift);
+                            this.giftDrawable = drawable;
+                            drawable.setColorFilter(new PorterDuffColorFilter(-3240417, PorterDuff.Mode.MULTIPLY));
+                        }
+                        this.badgeTextView.setTextColor(-3240417);
+                        this.badgeTextView.setCompoundDrawablesWithIntrinsicBounds(this.giftDrawable, (Drawable) null, (Drawable) null, (Drawable) null);
+                        this.badgeTextView.setCompoundDrawablePadding(AndroidUtilities.dp(4.0f));
+                        this.badgeTextView.setText(LocaleController.getString(R.string.BoostingGift));
+                        this.badgeLayout.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), Theme.multAlpha(-3240417, 0.2f)));
                     }
-                    this.badgeTextView.setTextColor(-13397548);
-                    this.badgeTextView.setCompoundDrawablesWithIntrinsicBounds(this.giveawayDrawable, (Drawable) null, (Drawable) null, (Drawable) null);
-                    this.badgeTextView.setCompoundDrawablePadding(AndroidUtilities.dp(4.0f));
-                    this.badgeTextView.setText(LocaleController.getString(R.string.BoostingGiveaway));
-                    this.badgeLayout.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), Theme.multAlpha(-13397548, 0.2f)));
+                    if (tL_stories$Boost.giveaway) {
+                        if (this.giveawayDrawable == null) {
+                            Drawable drawable2 = getResources().getDrawable(R.drawable.mini_giveaway);
+                            this.giveawayDrawable = drawable2;
+                            drawable2.setColorFilter(new PorterDuffColorFilter(-13397548, PorterDuff.Mode.MULTIPLY));
+                        }
+                        this.badgeTextView.setTextColor(-13397548);
+                        this.badgeTextView.setCompoundDrawablesWithIntrinsicBounds(this.giveawayDrawable, (Drawable) null, (Drawable) null, (Drawable) null);
+                        this.badgeTextView.setCompoundDrawablePadding(AndroidUtilities.dp(4.0f));
+                        this.badgeTextView.setText(LocaleController.getString(R.string.BoostingGiveaway));
+                        this.badgeLayout.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), Theme.multAlpha(-13397548, 0.2f)));
+                    }
                 }
+                avatarDrawable.setAvatarType(i);
+                setAvatarColorByMonths(i2);
             }
-            avatarDrawable.setAvatarType(i);
-            setAvatarColorByMonths(i2);
             this.avatarImageView.setForUserOrChat(null, this.avatarDrawable);
             this.nameTextView.setRightDrawable((Drawable) null);
-            String format3 = LocaleController.getInstance().getFormatterScheduleDay().format(new Date(tL_stories$TL_boost.expires * 1000));
-            String format22 = LocaleController.getInstance().getFormatterDay().format(new Date(tL_stories$TL_boost.expires * 1000));
-            SimpleTextView simpleTextView2 = this.statusTextView;
-            simpleTextView2.setText(LocaleController.formatString("BoostingShortMonths", R.string.BoostingShortMonths, Integer.valueOf(i2)) + " • " + LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, format3, format22));
-            if (tL_stories$TL_boost.gift) {
+            String format2 = LocaleController.getInstance().getFormatterBoostExpired().format(new Date(tL_stories$Boost.expires * 1000));
+            this.statusTextView.setText(tL_stories$Boost.stars <= 0 ? LocaleController.formatString(R.string.BoostingStarsExpires, format2) : LocaleController.formatString(R.string.BoostingExpires, format2));
+            if (tL_stories$Boost.gift) {
             }
-            if (tL_stories$TL_boost.giveaway) {
+            if (tL_stories$Boost.giveaway) {
             }
         } else {
             this.badgeLayout.setVisibility(8);
         }
-        int i3 = tL_stories$TL_boost.multiplier;
+        int i3 = tL_stories$Boost.multiplier;
         if (i3 > 0) {
             this.counterDrawable.setText(String.valueOf(i3));
             this.nameTextView.setRightDrawable(this.counterDrawable);
@@ -152,12 +156,12 @@ public class GiftedUserCell extends UserCell {
             this.nameTextView.setRightDrawable((Drawable) null);
         }
         if (this.badgeLayout.getVisibility() != 0) {
-            SimpleTextView simpleTextView3 = this.nameTextView;
-            simpleTextView3.setPadding(0, simpleTextView3.getPaddingTop(), 0, this.nameTextView.getPaddingBottom());
+            SimpleTextView simpleTextView = this.nameTextView;
+            simpleTextView.setPadding(0, simpleTextView.getPaddingTop(), 0, this.nameTextView.getPaddingBottom());
             return;
         }
         int measureText = ((int) this.badgeTextView.getPaint().measureText(this.badgeTextView.getText().toString())) + AndroidUtilities.dp(22.0f);
-        SimpleTextView simpleTextView4 = this.nameTextView;
-        simpleTextView4.setPadding(LocaleController.isRTL ? measureText : 0, simpleTextView4.getPaddingTop(), LocaleController.isRTL ? 0 : measureText, this.nameTextView.getPaddingBottom());
+        SimpleTextView simpleTextView2 = this.nameTextView;
+        simpleTextView2.setPadding(LocaleController.isRTL ? measureText : 0, simpleTextView2.getPaddingTop(), LocaleController.isRTL ? 0 : measureText, this.nameTextView.getPaddingBottom());
     }
 }

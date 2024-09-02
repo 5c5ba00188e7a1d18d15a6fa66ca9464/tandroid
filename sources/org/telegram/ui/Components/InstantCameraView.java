@@ -2134,8 +2134,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 }
                 GLES20.glBlendFunc(770, 771);
                 if (InstantCameraView.this.useCamera2) {
-                    str = RLottieDrawable.readRes(null, R.raw.instant_lanczos_vert);
-                    createFragmentShader = RLottieDrawable.readRes(null, R.raw.instant_lanczos_frag_oes);
+                    str = AndroidUtilities.readRes(R.raw.instant_lanczos_vert);
+                    createFragmentShader = AndroidUtilities.readRes(R.raw.instant_lanczos_frag_oes);
                 } else {
                     InstantCameraView instantCameraView = InstantCameraView.this;
                     createFragmentShader = instantCameraView.createFragmentShader(instantCameraView.previewSize[0]);
@@ -2934,7 +2934,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         if (!arrayList2.isEmpty()) {
             arrayList = arrayList2;
         }
-        return Build.MANUFACTURER.equalsIgnoreCase("Xiaomi") ? CameraController.chooseOptimalSize(arrayList, 640, 480, this.aspectRatio, false) : CameraController.chooseOptimalSize(arrayList, 480, NotificationCenter.onRequestPermissionResultReceived, this.aspectRatio, false);
+        return Build.MANUFACTURER.equalsIgnoreCase("Xiaomi") ? CameraController.chooseOptimalSize(arrayList, 640, 480, this.aspectRatio, false) : CameraController.chooseOptimalSize(arrayList, 480, NotificationCenter.onActivityResultReceived, this.aspectRatio, false);
     }
 
     public void createCamera(final int i, final SurfaceTexture surfaceTexture) {
@@ -4188,7 +4188,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(imageViewInvertable, property, z ? 1.0f : 0.0f);
         ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(this.flashButton, property, z ? 1.0f : 0.0f);
         ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(this.muteImageView, property, 0.0f);
-        ObjectAnimator ofInt = ObjectAnimator.ofInt(this.paint, AnimationProperties.PAINT_ALPHA, z ? NotificationCenter.voipServiceCreated : 0);
+        ObjectAnimator ofInt = ObjectAnimator.ofInt(this.paint, AnimationProperties.PAINT_ALPHA, z ? NotificationCenter.didClearDatabase : 0);
         ObjectAnimator ofFloat5 = ObjectAnimator.ofFloat(this.cameraContainer, property, z ? 1.0f : 0.0f);
         InstantViewCameraContainer instantViewCameraContainer = this.cameraContainer;
         Property property2 = View.SCALE_X;

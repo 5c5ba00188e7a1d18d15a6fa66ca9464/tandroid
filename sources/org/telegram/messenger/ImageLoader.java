@@ -110,6 +110,7 @@ import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.SlotsDrawable;
 import org.telegram.ui.Components.ThemePreviewDrawable;
+import org.telegram.ui.web.WebInstantView;
 /* loaded from: classes3.dex */
 public class ImageLoader {
     public static final String AUTOPLAY_FILTER = "g";
@@ -998,22 +999,22 @@ public class ImageLoader {
             boolean z = true;
             if (tLRPC$WallPaperSettings2.second_background_color == 0) {
                 i = AndroidUtilities.getPatternColor(tLRPC$WallPaperSettings2.background_color);
-                canvas.drawColor(ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.background_color, NotificationCenter.voipServiceCreated));
+                canvas.drawColor(ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.background_color, NotificationCenter.didClearDatabase));
             } else {
                 int i2 = tLRPC$WallPaperSettings2.third_background_color;
-                int alphaComponent = ColorUtils.setAlphaComponent(tLRPC$WallPaperSettings2.background_color, NotificationCenter.voipServiceCreated);
+                int alphaComponent = ColorUtils.setAlphaComponent(tLRPC$WallPaperSettings2.background_color, NotificationCenter.didClearDatabase);
                 if (i2 == 0) {
-                    int alphaComponent2 = ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.second_background_color, NotificationCenter.voipServiceCreated);
+                    int alphaComponent2 = ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.second_background_color, NotificationCenter.didClearDatabase);
                     int averageColor = AndroidUtilities.getAverageColor(alphaComponent, alphaComponent2);
                     GradientDrawable gradientDrawable = new GradientDrawable(BackgroundGradientDrawable.getGradientOrientation(tLRPC$WallPaper.settings.rotation), new int[]{alphaComponent, alphaComponent2});
                     gradientDrawable.setBounds(0, 0, createBitmap.getWidth(), createBitmap.getHeight());
                     gradientDrawable.draw(canvas);
                     i = averageColor;
                 } else {
-                    int alphaComponent3 = ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.second_background_color, NotificationCenter.voipServiceCreated);
-                    int alphaComponent4 = ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.third_background_color, NotificationCenter.voipServiceCreated);
+                    int alphaComponent3 = ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.second_background_color, NotificationCenter.didClearDatabase);
+                    int alphaComponent4 = ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.third_background_color, NotificationCenter.didClearDatabase);
                     int i3 = tLRPC$WallPaper.settings.fourth_background_color;
-                    int alphaComponent5 = i3 == 0 ? 0 : ColorUtils.setAlphaComponent(i3, NotificationCenter.voipServiceCreated);
+                    int alphaComponent5 = i3 == 0 ? 0 : ColorUtils.setAlphaComponent(i3, NotificationCenter.didClearDatabase);
                     int patternColor = MotionBackgroundDrawable.getPatternColor(alphaComponent, alphaComponent3, alphaComponent4, alphaComponent5);
                     MotionBackgroundDrawable motionBackgroundDrawable = new MotionBackgroundDrawable();
                     motionBackgroundDrawable.setColors(alphaComponent, alphaComponent3, alphaComponent4, alphaComponent5);
@@ -5718,6 +5719,7 @@ public class ImageLoader {
         if (imageReceiver == null) {
             return;
         }
+        WebInstantView.cancelLoadPhoto(imageReceiver);
         ArrayList<Runnable> loadingOperations = imageReceiver.getLoadingOperations();
         if (!loadingOperations.isEmpty()) {
             for (int i = 0; i < loadingOperations.size(); i++) {

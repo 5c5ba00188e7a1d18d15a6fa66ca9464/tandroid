@@ -93,7 +93,7 @@ public class AvatarDrawable extends Drawable {
         this.roundRadius = -1;
         this.drawAvatarBackground = true;
         this.rotate45Background = false;
-        this.alpha = NotificationCenter.voipServiceCreated;
+        this.alpha = NotificationCenter.didClearDatabase;
         this.resourcesProvider = resourcesProvider;
         TextPaint textPaint = new TextPaint(1);
         this.namePaint = textPaint;
@@ -277,7 +277,7 @@ public class AvatarDrawable extends Drawable {
             Theme.dialogs_archiveAvatarDrawable.draw(canvas);
             canvas.restore();
         } else if (i3 != 0) {
-            drawable2 = i3 == 1 ? Theme.avatarDrawables[0] : i3 == 4 ? Theme.avatarDrawables[2] : i3 == 5 ? Theme.avatarDrawables[3] : i3 == 6 ? Theme.avatarDrawables[4] : i3 == 7 ? Theme.avatarDrawables[5] : i3 == 8 ? Theme.avatarDrawables[6] : i3 == 9 ? Theme.avatarDrawables[7] : i3 == 10 ? Theme.avatarDrawables[8] : i3 == 3 ? Theme.avatarDrawables[10] : i3 == 12 ? Theme.avatarDrawables[11] : i3 == 14 ? Theme.avatarDrawables[12] : i3 == 15 ? Theme.avatarDrawables[13] : i3 == 16 ? Theme.avatarDrawables[14] : i3 == 19 ? Theme.avatarDrawables[15] : i3 == 18 ? Theme.avatarDrawables[16] : i3 == 20 ? Theme.avatarDrawables[17] : i3 == 21 ? Theme.avatarDrawables[18] : i3 == 22 ? Theme.avatarDrawables[19] : i3 == 23 ? Theme.avatarDrawables[21] : i3 == 24 ? Theme.avatarDrawables[20] : Theme.avatarDrawables[9];
+            drawable2 = i3 == 1 ? Theme.avatarDrawables[0] : i3 == 4 ? Theme.avatarDrawables[2] : i3 == 5 ? Theme.avatarDrawables[3] : i3 == 6 ? Theme.avatarDrawables[4] : i3 == 7 ? Theme.avatarDrawables[5] : i3 == 8 ? Theme.avatarDrawables[6] : i3 == 9 ? Theme.avatarDrawables[7] : i3 == 10 ? Theme.avatarDrawables[8] : i3 == 3 ? Theme.avatarDrawables[10] : i3 == 12 ? Theme.avatarDrawables[11] : i3 == 14 ? Theme.avatarDrawables[12] : i3 == 15 ? Theme.avatarDrawables[13] : i3 == 16 ? Theme.avatarDrawables[14] : i3 == 19 ? Theme.avatarDrawables[15] : i3 == 18 ? Theme.avatarDrawables[16] : i3 == 20 ? Theme.avatarDrawables[17] : i3 == 21 ? Theme.avatarDrawables[18] : i3 == 22 ? Theme.avatarDrawables[19] : i3 == 23 ? Theme.avatarDrawables[21] : i3 == 24 ? Theme.avatarDrawables[20] : i3 == 25 ? Theme.avatarDrawables[22] : i3 == 26 ? Theme.avatarDrawables[23] : Theme.avatarDrawables[9];
             if (drawable2 != null) {
                 int intrinsicWidth2 = (int) (drawable2.getIntrinsicWidth() * this.scaleSize);
                 int intrinsicHeight2 = (int) (drawable2.getIntrinsicHeight() * this.scaleSize);
@@ -288,7 +288,7 @@ public class AvatarDrawable extends Drawable {
                 if (i9 != 255) {
                     drawable2.setAlpha(i9);
                     drawable2.draw(canvas);
-                    drawable2.setAlpha(NotificationCenter.voipServiceCreated);
+                    drawable2.setAlpha(NotificationCenter.didClearDatabase);
                 }
                 drawable2.draw(canvas);
             }
@@ -376,7 +376,7 @@ public class AvatarDrawable extends Drawable {
         this.archivedAvatarProgress = f;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:64:0x01d6 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0214 A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -410,6 +410,14 @@ public class AvatarDrawable extends Drawable {
                 this.hasGradient = true;
                 this.color = getThemedColor(Theme.keys_avatar_background[getColorIndex(5L)]);
                 i2 = Theme.keys_avatar_background2[getColorIndex(5L)];
+            } else if (i == 25) {
+                this.hasGradient = true;
+                this.color = getThemedColor(Theme.keys_avatar_background[getColorIndex(2L)]);
+                i2 = Theme.keys_avatar_background2[getColorIndex(2L)];
+            } else if (i == 26) {
+                this.hasGradient = true;
+                this.color = getThemedColor(Theme.keys_avatar_background[getColorIndex(1L)]);
+                i2 = Theme.keys_avatar_background2[getColorIndex(1L)];
             } else if (i == 4) {
                 this.hasGradient = true;
                 this.color = getThemedColor(Theme.keys_avatar_background[getColorIndex(5L)]);

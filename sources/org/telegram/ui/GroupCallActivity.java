@@ -531,7 +531,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             if (r7 != 0) goto L198;
          */
         /* JADX WARN: Code restructure failed: missing block: B:188:0x091f, code lost:
-            r11 = org.telegram.messenger.NotificationCenter.voipServiceCreated;
+            r11 = org.telegram.messenger.NotificationCenter.didClearDatabase;
          */
         /* JADX WARN: Code restructure failed: missing block: B:189:0x0922, code lost:
             r10.setAlpha((int) (r12 * 255.0f));
@@ -579,7 +579,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             if (r26.this$0.switchToButtonInt2 != 0.0f) goto L189;
          */
         /* JADX WARN: Code restructure failed: missing block: B:207:0x09cc, code lost:
-            r26.this$0.paint.setAlpha(org.telegram.messenger.NotificationCenter.voipServiceCreated);
+            r26.this$0.paint.setAlpha(org.telegram.messenger.NotificationCenter.didClearDatabase);
             r2 = r26.this$0.scheduleButtonTextView.getX() - getX();
             r10 = r26.this$0.scheduleButtonTextView.getY() - getY();
             r26.this$0.rect.set(r2, r10, r26.this$0.scheduleButtonTextView.getMeasuredWidth() + r2, r26.this$0.scheduleButtonTextView.getMeasuredHeight() + r10);
@@ -793,7 +793,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                             GroupCallActivity.this.tinyWaveDrawable.draw(x, y, canvas, GroupCallActivity.this.paint);
                             canvas.restore();
                         }
-                        GroupCallActivity.this.paint.setAlpha(NotificationCenter.voipServiceCreated);
+                        GroupCallActivity.this.paint.setAlpha(NotificationCenter.didClearDatabase);
                         if (z) {
                             canvas.drawCircle(x, y, AndroidUtilities.dp(57.0f), GroupCallActivity.this.paint);
                             GroupCallActivity.this.paint.setColor(Theme.getColor(Theme.key_voipgroup_connectingProgress));
@@ -1201,9 +1201,9 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                         int nextInt = Utilities.random.nextInt(100);
                         int i3 = 120;
                         if (nextInt >= 32) {
-                            i2 = NotificationCenter.reloadInterface;
+                            i2 = NotificationCenter.locationPermissionDenied;
                             if (nextInt < 64) {
-                                i3 = NotificationCenter.reloadInterface;
+                                i3 = NotificationCenter.locationPermissionDenied;
                                 i2 = 120;
                             } else {
                                 i3 = 420;
@@ -2415,12 +2415,6 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyItemInserted(int i) {
-            updateRows();
-            super.notifyItemInserted(i);
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyItemMoved(int i, int i2) {
             updateRows();
             super.notifyItemMoved(i, i2);
@@ -2448,12 +2442,6 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         public void notifyItemRangeRemoved(int i, int i2) {
             updateRows();
             super.notifyItemRangeRemoved(i, i2);
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyItemRemoved(int i) {
-            updateRows();
-            super.notifyItemRemoved(i);
         }
 
         /* JADX WARN: Removed duplicated region for block: B:101:? A[RETURN, SYNTHETIC] */
@@ -5104,7 +5092,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             }
             AccountSelectCell accountSelectCell = new AccountSelectCell(context, true);
             this.accountSelectCell = accountSelectCell;
-            accountSelectCell.setTag(R.id.width_tag, Integer.valueOf((int) NotificationCenter.reloadInterface));
+            accountSelectCell.setTag(R.id.width_tag, Integer.valueOf((int) NotificationCenter.locationPermissionDenied));
             this.otherItem.addSubItem(8, this.accountSelectCell, -2, AndroidUtilities.dp(48.0f));
             this.otherItem.setShowSubmenuByMove(false);
             AccountSelectCell accountSelectCell2 = this.accountSelectCell;
@@ -5490,7 +5478,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 calendar.setTimeInMillis(currentTimeMillis);
                 final int i20 = calendar.get(1);
                 int i21 = calendar.get(6);
-                this.scheduleTimerContainer.addView(numberPicker, LayoutHelper.createLinear(0, (int) NotificationCenter.onRequestPermissionResultReceived, 0.5f));
+                this.scheduleTimerContainer.addView(numberPicker, LayoutHelper.createLinear(0, (int) NotificationCenter.onActivityResultReceived, 0.5f));
                 numberPicker.setMinValue(0);
                 numberPicker.setMaxValue(365);
                 numberPicker.setWrapSelectorWheel(false);
@@ -5511,7 +5499,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 numberPicker.setOnValueChangedListener(onValueChangeListener);
                 numberPicker2.setMinValue(0);
                 numberPicker2.setMaxValue(23);
-                this.scheduleTimerContainer.addView(numberPicker2, LayoutHelper.createLinear(0, (int) NotificationCenter.onRequestPermissionResultReceived, 0.2f));
+                this.scheduleTimerContainer.addView(numberPicker2, LayoutHelper.createLinear(0, (int) NotificationCenter.onActivityResultReceived, 0.2f));
                 numberPicker2.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda20
                     @Override // org.telegram.ui.Components.NumberPicker.Formatter
                     public final String format(int i22) {
@@ -5532,7 +5520,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                         return lambda$new$34;
                     }
                 });
-                this.scheduleTimerContainer.addView(numberPicker3, LayoutHelper.createLinear(0, (int) NotificationCenter.onRequestPermissionResultReceived, 0.3f));
+                this.scheduleTimerContainer.addView(numberPicker3, LayoutHelper.createLinear(0, (int) NotificationCenter.onActivityResultReceived, 0.3f));
                 numberPicker3.setOnValueChangedListener(onValueChangeListener);
                 calendar.setTimeInMillis(currentTimeMillis + 10800000);
                 calendar.set(12, 0);
@@ -6975,7 +6963,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
         AccountSelectCell accountSelectCell3 = new AccountSelectCell(context, true);
         this.accountSelectCell = accountSelectCell3;
-        accountSelectCell3.setTag(R.id.width_tag, Integer.valueOf((int) NotificationCenter.reloadInterface));
+        accountSelectCell3.setTag(R.id.width_tag, Integer.valueOf((int) NotificationCenter.locationPermissionDenied));
         this.otherItem.addSubItem(8, this.accountSelectCell, -2, AndroidUtilities.dp(48.0f));
         this.otherItem.setShowSubmenuByMove(false);
         AccountSelectCell accountSelectCell22 = this.accountSelectCell;
@@ -10003,7 +9991,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     };
                     this.scrimPopupWindow = actionBarPopupWindow2;
                     actionBarPopupWindow2.setPauseNotifications(true);
-                    this.scrimPopupWindow.setDismissAnimationDuration(NotificationCenter.pushMessagesUpdated);
+                    this.scrimPopupWindow.setDismissAnimationDuration(NotificationCenter.updateAllMessages);
                     this.scrimPopupWindow.setOutsideTouchable(true);
                     this.scrimPopupWindow.setClippingEnabled(true);
                     this.scrimPopupWindow.setAnimationStyle(R.style.PopupContextAnimation);
@@ -10653,10 +10641,10 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                                                     int i8 = this.muteButtonState;
                                                     if (z3) {
                                                         if (i8 == 7) {
-                                                            this.bigMicDrawable.setCurrentFrame(NotificationCenter.premiumStatusChangedGlobal);
+                                                            this.bigMicDrawable.setCurrentFrame(NotificationCenter.premiumPromoUpdated);
                                                         } else if (i8 == 6) {
                                                             rLottieDrawable3 = this.bigMicDrawable;
-                                                            i5 = NotificationCenter.goingToPreviewTheme;
+                                                            i5 = NotificationCenter.needSetDayNightTheme;
                                                         } else if (i8 == 1) {
                                                             rLottieDrawable3 = this.bigMicDrawable;
                                                             i5 = NotificationCenter.fileUploadProgressChanged;
@@ -10845,7 +10833,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                             i3 = 376;
                         } else if (i6 == 6) {
                             rLottieDrawable2 = this.bigMicDrawable;
-                            i3 = NotificationCenter.goingToPreviewTheme;
+                            i3 = NotificationCenter.needSetDayNightTheme;
                         } else if (i6 == 2) {
                             rLottieDrawable2 = this.bigMicDrawable;
                             i3 = 36;
@@ -10872,7 +10860,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                             i2 = 311;
                         } else if (i10 == 6) {
                             rLottieDrawable = this.bigMicDrawable;
-                            i2 = NotificationCenter.premiumStatusChangedGlobal;
+                            i2 = NotificationCenter.premiumPromoUpdated;
                         } else if (i10 == 1) {
                             rLottieDrawable = this.bigMicDrawable;
                             i2 = NotificationCenter.needDeleteDialog;
@@ -10890,7 +10878,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                             i2 = 376;
                         } else if (i11 == 6) {
                             rLottieDrawable = this.bigMicDrawable;
-                            i2 = NotificationCenter.goingToPreviewTheme;
+                            i2 = NotificationCenter.needSetDayNightTheme;
                         } else if (i11 == 2 || i11 == 4) {
                             rLottieDrawable = this.bigMicDrawable;
                             i2 = 36;

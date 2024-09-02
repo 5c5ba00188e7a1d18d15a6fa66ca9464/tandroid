@@ -30,7 +30,7 @@ public class ImageReceiverSpan extends ReplacementSpan {
             ImageReceiverSpan.this.imageReceiver.onDetachedFromWindow();
         }
     };
-    private int shadowPaintAlpha = NotificationCenter.voipServiceCreated;
+    private int shadowPaintAlpha = NotificationCenter.didClearDatabase;
 
     public ImageReceiverSpan(View view, int i, float f) {
         this.currentAccount = i;

@@ -397,7 +397,7 @@ public class SerializedData extends AbstractSerializedData {
                 i = this.len + 4;
                 this.len = i;
             } else {
-                this.out.write(NotificationCenter.didClearDatabase);
+                this.out.write(NotificationCenter.screenStateChanged);
                 this.out.write(bArr.length);
                 this.out.write(bArr.length >> 8);
                 dataOutputStream = this.out;

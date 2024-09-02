@@ -278,7 +278,7 @@ public class ChatNotificationsPopupWrapper {
         ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(this.windowLayout, -2, -2);
         this.popupWindow = actionBarPopupWindow;
         actionBarPopupWindow.setPauseNotifications(true);
-        this.popupWindow.setDismissAnimationDuration(NotificationCenter.pushMessagesUpdated);
+        this.popupWindow.setDismissAnimationDuration(NotificationCenter.updateAllMessages);
         this.popupWindow.setOutsideTouchable(true);
         this.popupWindow.setClippingEnabled(true);
         this.popupWindow.setAnimationStyle(R.style.PopupContextAnimation);

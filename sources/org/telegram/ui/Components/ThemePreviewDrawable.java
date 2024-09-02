@@ -145,7 +145,7 @@ public class ThemePreviewDrawable extends BitmapDrawable {
                     if (themeDocument.accent.patternIntensity >= 0.0f) {
                         paint2.setColorFilter(new PorterDuffColorFilter(patternColor, PorterDuff.Mode.SRC_IN));
                     }
-                    paint2.setAlpha(NotificationCenter.voipServiceCreated);
+                    paint2.setAlpha(NotificationCenter.didClearDatabase);
                     float max = Math.max(560 / decodeFile.getWidth(), 678 / decodeFile.getHeight());
                     canvas.save();
                     canvas.translate((560 - ((int) (decodeFile.getWidth() * max))) / 2, (678 - ((int) (decodeFile.getHeight() * max))) / 2);
@@ -175,7 +175,7 @@ public class ThemePreviewDrawable extends BitmapDrawable {
             drawable6.setBounds(width, intrinsicHeight2, drawable6.getIntrinsicWidth() + width, drawable6.getIntrinsicHeight() + intrinsicHeight2);
             drawable6.draw(canvas);
         }
-        messageDrawableArr[1].setBounds(NotificationCenter.didStartedCall, NotificationCenter.botStarsTransactionsLoaded, createBitmap.getWidth() - 20, 308);
+        messageDrawableArr[1].setBounds(NotificationCenter.didStartedCall, NotificationCenter.botStarsUpdated, createBitmap.getWidth() - 20, 308);
         messageDrawableArr[1].setTop(0, 560, 522, false, false);
         messageDrawableArr[1].draw(canvas);
         messageDrawableArr[1].setBounds(NotificationCenter.didStartedCall, 430, createBitmap.getWidth() - 20, 522);

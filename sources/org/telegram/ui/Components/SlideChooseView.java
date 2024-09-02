@@ -274,7 +274,7 @@ public class SlideChooseView extends View {
         int measuredWidth = getMeasuredWidth();
         int i3 = this.circleSize;
         String[] strArr = this.optionsStr;
-        this.lineSize = (((measuredWidth - (i3 * strArr.length)) - ((this.gapSize * 2) * (strArr.length - 1))) - (this.sideSide * 2)) / (strArr.length - 1);
+        this.lineSize = (((measuredWidth - (i3 * strArr.length)) - ((this.gapSize * 2) * (strArr.length - 1))) - (this.sideSide * 2)) / Math.max(1, strArr.length - 1);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:43:0x00e6, code lost:

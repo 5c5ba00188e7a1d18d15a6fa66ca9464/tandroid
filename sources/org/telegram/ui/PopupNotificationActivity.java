@@ -1310,7 +1310,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         };
         this.popupContainer = relativeLayout2;
         relativeLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-        relativeLayout.addView(this.popupContainer, LayoutHelper.createRelative(-1, NotificationCenter.reloadInterface, 12, 0, 12, 0, 13));
+        relativeLayout.addView(this.popupContainer, LayoutHelper.createRelative(-1, NotificationCenter.locationPermissionDenied, 12, 0, 12, 0, 13));
         ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
         if (chatActivityEnterView != null) {
             chatActivityEnterView.onDestroy();

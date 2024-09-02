@@ -41,7 +41,7 @@ public class ChatBackgroundDrawable extends Drawable {
     View parent;
     private final boolean themeIsDark;
     final TLRPC$WallPaper wallpaper;
-    int alpha = NotificationCenter.voipServiceCreated;
+    int alpha = NotificationCenter.didClearDatabase;
     ImageReceiver imageReceiver = new ImageReceiver() { // from class: org.telegram.ui.ChatBackgroundDrawable.1
         @Override // org.telegram.messenger.ImageReceiver
         public void invalidate() {
@@ -152,17 +152,17 @@ public class ChatBackgroundDrawable extends Drawable {
             if (tLRPC$WallPaperSettings == null || tLRPC$WallPaperSettings.intensity < 0) {
                 colorDrawable = new ColorDrawable(-16777216);
             } else if (tLRPC$WallPaperSettings.second_background_color == 0) {
-                colorDrawable = new ColorDrawable(ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.background_color, NotificationCenter.voipServiceCreated));
+                colorDrawable = new ColorDrawable(ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.background_color, NotificationCenter.didClearDatabase));
             } else {
                 int i = tLRPC$WallPaperSettings.third_background_color;
-                int alphaComponent = ColorUtils.setAlphaComponent(tLRPC$WallPaperSettings.background_color, NotificationCenter.voipServiceCreated);
+                int alphaComponent = ColorUtils.setAlphaComponent(tLRPC$WallPaperSettings.background_color, NotificationCenter.didClearDatabase);
                 if (i == 0) {
-                    bitmapDrawableOf = bitmapDrawableOf(new GradientDrawable(BackgroundGradientDrawable.getGradientOrientation(tLRPC$WallPaper.settings.rotation), new int[]{alphaComponent, ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.second_background_color, NotificationCenter.voipServiceCreated)}));
+                    bitmapDrawableOf = bitmapDrawableOf(new GradientDrawable(BackgroundGradientDrawable.getGradientOrientation(tLRPC$WallPaper.settings.rotation), new int[]{alphaComponent, ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.second_background_color, NotificationCenter.didClearDatabase)}));
                 } else {
-                    int alphaComponent2 = ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.second_background_color, NotificationCenter.voipServiceCreated);
-                    int alphaComponent3 = ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.third_background_color, NotificationCenter.voipServiceCreated);
+                    int alphaComponent2 = ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.second_background_color, NotificationCenter.didClearDatabase);
+                    int alphaComponent3 = ColorUtils.setAlphaComponent(tLRPC$WallPaper.settings.third_background_color, NotificationCenter.didClearDatabase);
                     int i2 = tLRPC$WallPaper.settings.fourth_background_color;
-                    r2 = i2 != 0 ? ColorUtils.setAlphaComponent(i2, NotificationCenter.voipServiceCreated) : 0;
+                    r2 = i2 != 0 ? ColorUtils.setAlphaComponent(i2, NotificationCenter.didClearDatabase) : 0;
                     MotionBackgroundDrawable motionBackgroundDrawable = new MotionBackgroundDrawable();
                     motionBackgroundDrawable.setColors(alphaComponent, alphaComponent2, alphaComponent3, r2);
                     bitmapDrawableOf = new BitmapDrawable(motionBackgroundDrawable.getBitmap());

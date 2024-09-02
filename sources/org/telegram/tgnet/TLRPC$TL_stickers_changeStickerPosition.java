@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_stickers_changeStickerPosition extends TLObject {
-    public static int constructor = -4795190;
     public int position;
     public TLRPC$InputDocument sticker;
 
@@ -12,7 +11,7 @@ public class TLRPC$TL_stickers_changeStickerPosition extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-4795190);
         this.sticker.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.position);
     }

@@ -365,7 +365,7 @@ public abstract class zzfd {
     public static void zza(Object obj, long j, byte b) {
         long j2 = (-4) & j;
         int i = ((((int) j) ^ (-1)) & 3) << 3;
-        zza(obj, j2, ((255 & b) << i) | (zzj(obj, j2) & ((NotificationCenter.voipServiceCreated << i) ^ (-1))));
+        zza(obj, j2, ((255 & b) << i) | (zzj(obj, j2) & ((NotificationCenter.didClearDatabase << i) ^ (-1))));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -435,7 +435,7 @@ public abstract class zzfd {
     public static void zzb(Object obj, long j, byte b) {
         long j2 = (-4) & j;
         int i = (((int) j) & 3) << 3;
-        zza(obj, j2, ((255 & b) << i) | (zzj(obj, j2) & ((NotificationCenter.voipServiceCreated << i) ^ (-1))));
+        zza(obj, j2, ((255 & b) << i) | (zzj(obj, j2) & ((NotificationCenter.didClearDatabase << i) ^ (-1))));
     }
 
     /* JADX INFO: Access modifiers changed from: private */

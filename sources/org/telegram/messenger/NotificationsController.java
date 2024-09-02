@@ -3601,9 +3601,10 @@ public class NotificationsController extends BaseController {
 
     private int getTotalAllUnreadCount() {
         int size;
+        FileLog.d("getTotalAllUnreadCount: init 0");
         int i = 0;
         for (int i2 = 0; i2 < 4; i2++) {
-            if (UserConfig.getInstance(i2).isClientActivated()) {
+            if (UserConfig.getInstance(i2).isClientActivated() && (SharedConfig.showNotificationsForAllAccounts || UserConfig.selectedAccount == i2)) {
                 NotificationsController notificationsController = getInstance(i2);
                 if (notificationsController.showBadgeNumber) {
                     if (notificationsController.showBadgeMessages) {
@@ -3614,6 +3615,7 @@ public class NotificationsController extends BaseController {
                                 for (int i3 = 0; i3 < size2; i3++) {
                                     TLRPC$Dialog tLRPC$Dialog = (TLRPC$Dialog) arrayList.get(i3);
                                     if ((tLRPC$Dialog == null || !DialogObject.isChatDialog(tLRPC$Dialog.id) || !ChatObject.isNotInChat(getMessagesController().getChat(Long.valueOf(-tLRPC$Dialog.id)))) && tLRPC$Dialog != null) {
+                                        FileLog.d("getTotalAllUnreadCount: account=" + i2 + " count += getDialogUnreadCount (" + MessagesController.getInstance(i2).getDialogUnreadCount(tLRPC$Dialog) + ")");
                                         i += MessagesController.getInstance(i2).getDialogUnreadCount(tLRPC$Dialog);
                                     }
                                 }
@@ -3621,6 +3623,7 @@ public class NotificationsController extends BaseController {
                                 FileLog.e(e);
                             }
                         } else {
+                            FileLog.d("getTotalAllUnreadCount: account=" + i2 + " count += total_unread_count (" + notificationsController.total_unread_count + ")");
                             size = notificationsController.total_unread_count;
                         }
                     } else if (notificationsController.showBadgeMuted) {
@@ -3629,6 +3632,7 @@ public class NotificationsController extends BaseController {
                             for (int i4 = 0; i4 < size3; i4++) {
                                 TLRPC$Dialog tLRPC$Dialog2 = MessagesController.getInstance(i2).allDialogs.get(i4);
                                 if ((!DialogObject.isChatDialog(tLRPC$Dialog2.id) || !ChatObject.isNotInChat(getMessagesController().getChat(Long.valueOf(-tLRPC$Dialog2.id)))) && MessagesController.getInstance(i2).getDialogUnreadCount(tLRPC$Dialog2) != 0) {
+                                    FileLog.d("getTotalAllUnreadCount: account=" + i2 + " count++ if getDialogUnreadCount != 0 (" + MessagesController.getInstance(i2).getDialogUnreadCount(tLRPC$Dialog2) + ")");
                                     i++;
                                 }
                             }
@@ -3636,12 +3640,14 @@ public class NotificationsController extends BaseController {
                             FileLog.e((Throwable) e2, false);
                         }
                     } else {
+                        FileLog.d("getTotalAllUnreadCount: account=" + i2 + " count += controller.pushDialogs (" + notificationsController.pushDialogs.size() + ")");
                         size = notificationsController.pushDialogs.size();
                     }
                     i += size;
                 }
             }
         }
+        FileLog.d("getTotalAllUnreadCount: total is " + i);
         return i;
     }
 

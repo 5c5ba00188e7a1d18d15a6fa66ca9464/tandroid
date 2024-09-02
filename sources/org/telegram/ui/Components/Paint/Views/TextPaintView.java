@@ -104,7 +104,7 @@ public class TextPaintView extends EntityView {
             canvas.drawCircle(dp, f11, (dpf2 - AndroidUtilities.dp(1.0f)) + 1.0f, this.dotPaint);
             canvas.drawCircle(f2, f11, dpf2, this.dotStrokePaint);
             canvas.drawCircle(f2, f11, (dpf2 - AndroidUtilities.dp(1.0f)) + 1.0f, this.dotPaint);
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.voipServiceCreated, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.didClearDatabase, 31);
             float f12 = dp + min2;
             float f13 = f3 - min2;
             canvas.drawLine(dp, f12, dp, f13, this.paint);

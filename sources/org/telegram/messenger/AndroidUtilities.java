@@ -260,6 +260,8 @@ public class AndroidUtilities {
     private static Pattern uriParse;
     public static boolean usingHardwareInput;
     private static Vibrator vibrator;
+    public static ThreadLocal<byte[]> readBufferLocal = new ThreadLocal<>();
+    public static ThreadLocal<byte[]> bufferLocal = new ThreadLocal<>();
     private static final Hashtable<String, Typeface> typefaceCache = new Hashtable<>();
     private static int prevOrientation = -10;
     private static boolean waitingForSms = false;
@@ -650,7 +652,7 @@ public class AndroidUtilities {
             i2 = (int) ((f5 * 255.0f) + 0.5f);
             i3 = (int) ((f7 * 255.0f) + 0.5f);
         }
-        return ((i & NotificationCenter.voipServiceCreated) << 16) | (-16777216) | ((i2 & NotificationCenter.voipServiceCreated) << 8) | (i3 & NotificationCenter.voipServiceCreated);
+        return ((i & NotificationCenter.didClearDatabase) << 16) | (-16777216) | ((i2 & NotificationCenter.didClearDatabase) << 8) | (i3 & NotificationCenter.didClearDatabase);
     }
 
     public static float[] RGBtoHSB(int i, int i2, int i3) {
@@ -1018,7 +1020,7 @@ public class AndroidUtilities {
             }
             i = -16777216;
         }
-        double[] rgbToHsv = rgbToHsv((i >> 16) & NotificationCenter.voipServiceCreated, (i >> 8) & NotificationCenter.voipServiceCreated, i & NotificationCenter.voipServiceCreated);
+        double[] rgbToHsv = rgbToHsv((i >> 16) & NotificationCenter.didClearDatabase, (i >> 8) & NotificationCenter.didClearDatabase, i & NotificationCenter.didClearDatabase);
         double d = rgbToHsv[1];
         rgbToHsv[1] = Math.min(1.0d, 0.05d + d + ((1.0d - d) * 0.1d));
         int[] hsvToRgb = hsvToRgb(rgbToHsv[0], rgbToHsv[1], Math.max(0.0d, rgbToHsv[2] * 0.65d));
@@ -2107,7 +2109,7 @@ public class AndroidUtilities {
     }
 
     public static int getAverageColor(int i, int i2) {
-        return Color.argb((int) NotificationCenter.voipServiceCreated, (Color.red(i) / 2) + (Color.red(i2) / 2), (Color.green(i) / 2) + (Color.green(i2) / 2), (Color.blue(i) / 2) + (Color.blue(i2) / 2));
+        return Color.argb((int) NotificationCenter.didClearDatabase, (Color.red(i) / 2) + (Color.red(i2) / 2), (Color.green(i) / 2) + (Color.green(i2) / 2), (Color.blue(i) / 2) + (Color.blue(i2) / 2));
     }
 
     public static void getBitmapFromSurface(Surface surface, Bitmap bitmap) {
@@ -2413,7 +2415,7 @@ public class AndroidUtilities {
         if (i == 0) {
             return 0;
         }
-        return Color.argb((int) NotificationCenter.voipServiceCreated, i4 / i, i3 / i, i2 / i);
+        return Color.argb((int) NotificationCenter.didClearDatabase, i4 / i, i3 / i, i2 / i);
     }
 
     public static String getHostAuthority(Uri uri) {
@@ -2454,7 +2456,7 @@ public class AndroidUtilities {
         try {
             int i = 1;
             int attributeInt = exifInterface.getAttributeInt("Orientation", 1);
-            int i2 = NotificationCenter.onRequestPermissionResultReceived;
+            int i2 = NotificationCenter.onActivityResultReceived;
             switch (attributeInt) {
                 case 2:
                     i2 = 0;
@@ -3301,7 +3303,7 @@ public class AndroidUtilities {
 
     public static int hsvToColor(double d, double d2, double d3) {
         int[] hsvToRgb = hsvToRgb(d, d2, d3);
-        return Color.argb((int) NotificationCenter.voipServiceCreated, hsvToRgb[0], hsvToRgb[1], hsvToRgb[2]);
+        return Color.argb((int) NotificationCenter.didClearDatabase, hsvToRgb[0], hsvToRgb[1], hsvToRgb[2]);
     }
 
     public static int[] hsvToRgb(double d, double d2, double d3) {
@@ -4957,6 +4959,67 @@ public class AndroidUtilities {
         try {
             Thread.sleep(j);
         } catch (InterruptedException unused) {
+        }
+    }
+
+    public static String readRes(int i) {
+        return readRes(null, i);
+    }
+
+    public static String readRes(File file) {
+        return readRes(file, 0);
+    }
+
+    public static String readRes(File file, int i) {
+        InputStream inputStream;
+        byte[] bArr = readBufferLocal.get();
+        if (bArr == null) {
+            bArr = new byte[65536];
+            readBufferLocal.set(bArr);
+        }
+        try {
+            inputStream = file != null ? new FileInputStream(file) : ApplicationLoader.applicationContext.getResources().openRawResource(i);
+        } catch (Throwable unused) {
+            inputStream = null;
+        }
+        try {
+            byte[] bArr2 = bufferLocal.get();
+            if (bArr2 == null) {
+                bArr2 = new byte[LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM];
+                bufferLocal.set(bArr2);
+            }
+            int i2 = 0;
+            while (true) {
+                int read = inputStream.read(bArr2, 0, bArr2.length);
+                if (read >= 0) {
+                    int i3 = i2 + read;
+                    if (bArr.length < i3) {
+                        byte[] bArr3 = new byte[bArr.length * 2];
+                        System.arraycopy(bArr, 0, bArr3, 0, i2);
+                        readBufferLocal.set(bArr3);
+                        bArr = bArr3;
+                    }
+                    if (read > 0) {
+                        System.arraycopy(bArr2, 0, bArr, i2, read);
+                        i2 = i3;
+                    }
+                } else {
+                    try {
+                        break;
+                    } catch (Throwable unused2) {
+                    }
+                }
+            }
+            inputStream.close();
+            return new String(bArr, 0, i2);
+        } catch (Throwable unused3) {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (Throwable unused4) {
+                }
+            }
+            return null;
         }
     }
 

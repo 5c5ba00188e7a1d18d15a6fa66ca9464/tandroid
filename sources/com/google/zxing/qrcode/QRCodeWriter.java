@@ -17,7 +17,6 @@ import java.util.Map;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
-import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes.dex */
 public final class QRCodeWriter {
     private int imageBlockX;
@@ -377,7 +376,7 @@ public final class QRCodeWriter {
                         gradientDrawable = gradientDrawable;
                     }
                     Canvas canvas5 = canvas;
-                    String readRes = RLottieDrawable.readRes(null, R.raw.qr_logo);
+                    String readRes = AndroidUtilities.readRes(R.raw.qr_logo);
                     int i28 = this.imageSize;
                     Bitmap bitmap3 = SvgHelper.getBitmap(readRes, i28, i28, false);
                     float f6 = i7;

@@ -73,7 +73,7 @@ abstract class Atom {
     }
 
     public static String getAtomTypeString(int i) {
-        return "" + ((char) ((i >> 24) & NotificationCenter.voipServiceCreated)) + ((char) ((i >> 16) & NotificationCenter.voipServiceCreated)) + ((char) ((i >> 8) & NotificationCenter.voipServiceCreated)) + ((char) (i & NotificationCenter.voipServiceCreated));
+        return "" + ((char) ((i >> 24) & NotificationCenter.didClearDatabase)) + ((char) ((i >> 16) & NotificationCenter.didClearDatabase)) + ((char) ((i >> 8) & NotificationCenter.didClearDatabase)) + ((char) (i & NotificationCenter.didClearDatabase));
     }
 
     public static int parseFullAtomFlags(int i) {
@@ -81,7 +81,7 @@ abstract class Atom {
     }
 
     public static int parseFullAtomVersion(int i) {
-        return (i >> 24) & NotificationCenter.voipServiceCreated;
+        return (i >> 24) & NotificationCenter.didClearDatabase;
     }
 
     public String toString() {

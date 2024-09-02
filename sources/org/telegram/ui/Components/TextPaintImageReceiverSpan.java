@@ -12,6 +12,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.ui.web.WebInstantView;
 /* loaded from: classes3.dex */
 public class TextPaintImageReceiverSpan extends ReplacementSpan {
     private boolean alignTop;
@@ -27,7 +28,7 @@ public class TextPaintImageReceiverSpan extends ReplacementSpan {
         this.imageReceiver = imageReceiver;
         imageReceiver.setInvalidateAll(true);
         if (z2) {
-            this.imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.TextPaintImageReceiverSpan$$ExternalSyntheticLambda0
+            this.imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.TextPaintImageReceiverSpan$$ExternalSyntheticLambda2
                 @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
                 public final void didSetImage(ImageReceiver imageReceiver2, boolean z3, boolean z4, boolean z5) {
                     TextPaintImageReceiverSpan.lambda$new$0(imageReceiver2, z3, z4, z5);
@@ -48,11 +49,56 @@ public class TextPaintImageReceiverSpan extends ReplacementSpan {
         this.alignTop = z;
     }
 
+    public TextPaintImageReceiverSpan(View view, WebInstantView.WebPhoto webPhoto, Object obj, int i, int i2, boolean z, boolean z2) {
+        String.format(Locale.US, "%d_%d_i", Integer.valueOf(i), Integer.valueOf(i2));
+        this.width = i;
+        this.height = i2;
+        ImageReceiver imageReceiver = new ImageReceiver(view);
+        this.imageReceiver = imageReceiver;
+        imageReceiver.setInvalidateAll(true);
+        if (z2) {
+            this.imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.TextPaintImageReceiverSpan$$ExternalSyntheticLambda0
+                @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                public final void didSetImage(ImageReceiver imageReceiver2, boolean z3, boolean z4, boolean z5) {
+                    TextPaintImageReceiverSpan.lambda$new$1(imageReceiver2, z3, z4, z5);
+                }
+
+                @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                public /* synthetic */ void didSetImageBitmap(int i3, String str, Drawable drawable) {
+                    ImageReceiver.ImageReceiverDelegate.-CC.$default$didSetImageBitmap(this, i3, str, drawable);
+                }
+
+                @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver2) {
+                    ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver2);
+                }
+            });
+        }
+        WebInstantView.loadPhoto(webPhoto, this.imageReceiver, new Runnable() { // from class: org.telegram.ui.Components.TextPaintImageReceiverSpan$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                TextPaintImageReceiverSpan.lambda$new$2();
+            }
+        });
+        this.alignTop = z;
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$0(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
         if (imageReceiver.canInvertBitmap()) {
             imageReceiver.setColorFilter(new ColorMatrixColorFilter(new float[]{-1.0f, 0.0f, 0.0f, 0.0f, 255.0f, 0.0f, -1.0f, 0.0f, 0.0f, 255.0f, 0.0f, 0.0f, -1.0f, 0.0f, 255.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f}));
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$new$1(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
+        if (imageReceiver.canInvertBitmap()) {
+            imageReceiver.setColorFilter(new ColorMatrixColorFilter(new float[]{-1.0f, 0.0f, 0.0f, 0.0f, 255.0f, 0.0f, -1.0f, 0.0f, 0.0f, 255.0f, 0.0f, 0.0f, -1.0f, 0.0f, 255.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f}));
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$new$2() {
     }
 
     @Override // android.text.style.ReplacementSpan

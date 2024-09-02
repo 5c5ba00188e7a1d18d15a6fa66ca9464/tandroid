@@ -22,7 +22,7 @@ public class BitReaderBuffer {
         int i3 = this.position;
         int i4 = 8 - (i3 % 8);
         if (i <= i4) {
-            readBits = ((i2 << (i3 % 8)) & NotificationCenter.voipServiceCreated) >> ((i3 % 8) + (i4 - i));
+            readBits = ((i2 << (i3 % 8)) & NotificationCenter.didClearDatabase) >> ((i3 % 8) + (i4 - i));
             this.position = i3 + i;
         } else {
             int i5 = i - i4;

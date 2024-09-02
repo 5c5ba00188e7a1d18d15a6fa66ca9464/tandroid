@@ -264,7 +264,7 @@ public class MediaActionDrawable extends Drawable {
             } else {
                 int i25 = this.nextIcon;
                 if (i25 == 3 || i25 == 14 || i25 == 2) {
-                    this.paint.setAlpha(NotificationCenter.voipServiceCreated);
+                    this.paint.setAlpha(NotificationCenter.didClearDatabase);
                     f2 = this.transitionProgress;
                 } else {
                     this.paint.setAlpha((int) (Math.min(1.0f, this.savedTransitionProgress / 0.5f) * 255.0f * (1.0f - this.transitionProgress)));
@@ -479,7 +479,7 @@ public class MediaActionDrawable extends Drawable {
                                     centerY = 0.0f;
                                     f15 = 0.0f;
                                     f14 = 0.0f;
-                                    min = NotificationCenter.voipServiceCreated;
+                                    min = NotificationCenter.didClearDatabase;
                                     f13 = 1.0f;
                                 }
                             }
@@ -590,7 +590,7 @@ public class MediaActionDrawable extends Drawable {
         } else {
             if (i30 == 10 || this.nextIcon == 10 || i30 == 13) {
                 int i35 = this.nextIcon;
-                int i36 = (i35 == 4 || i35 == 6) ? (int) ((1.0f - this.transitionProgress) * 255.0f) : NotificationCenter.voipServiceCreated;
+                int i36 = (i35 == 4 || i35 == 6) ? (int) ((1.0f - this.transitionProgress) * 255.0f) : NotificationCenter.didClearDatabase;
                 if (i36 != 0) {
                     applyShaderMatrix(false);
                     this.paint.setAlpha((int) (i36 * this.overrideAlpha));
@@ -646,7 +646,7 @@ public class MediaActionDrawable extends Drawable {
             Drawable drawable4 = drawable2;
             if (this.currentIcon != i6 || i38 == i6) {
                 applyShaderMatrix(false);
-                this.paint.setAlpha(this.currentIcon != this.nextIcon ? NotificationCenter.voipServiceCreated : (int) (this.transitionProgress * 255.0f));
+                this.paint.setAlpha(this.currentIcon != this.nextIcon ? NotificationCenter.didClearDatabase : (int) (this.transitionProgress * 255.0f));
                 int dp15 = i4 + AndroidUtilities.dp(7.0f);
                 int dp16 = i2 - AndroidUtilities.dp(3.0f);
                 if (this.currentIcon != this.nextIcon) {
@@ -674,7 +674,7 @@ public class MediaActionDrawable extends Drawable {
                 int i39 = this.currentIcon;
                 int i40 = this.nextIcon;
                 float f67 = i39 != i40 ? 1.0f : i40 == 13 ? this.transitionProgress : 1.0f - this.transitionProgress;
-                this.paint.setAlpha(i39 != i40 ? NotificationCenter.voipServiceCreated : (int) (f67 * 255.0f));
+                this.paint.setAlpha(i39 != i40 ? NotificationCenter.didClearDatabase : (int) (f67 * 255.0f));
                 AndroidUtilities.dp(7.0f);
                 AndroidUtilities.dp(3.0f);
                 if (this.currentIcon != this.nextIcon) {
@@ -737,17 +737,17 @@ public class MediaActionDrawable extends Drawable {
                 int i42 = this.nextIcon;
                 if ((i42 == 0 || i42 == i16) && (i15 == 0 || i15 == i16)) {
                     Paint paint = this.paint2;
-                    i17 = NotificationCenter.voipServiceCreated;
-                    paint.setAlpha(NotificationCenter.voipServiceCreated);
+                    i17 = NotificationCenter.didClearDatabase;
+                    paint.setAlpha(NotificationCenter.didClearDatabase);
                     z = true;
                 } else {
                     if (i42 == 4) {
                         this.paint2.setAlpha((int) ((1.0f - this.transitionProgress) * 255.0f));
                     } else {
-                        this.paint2.setAlpha(i15 == i42 ? NotificationCenter.voipServiceCreated : (int) (this.transitionProgress * 255.0f));
+                        this.paint2.setAlpha(i15 == i42 ? NotificationCenter.didClearDatabase : (int) (this.transitionProgress * 255.0f));
                     }
                     z = true;
-                    i17 = NotificationCenter.voipServiceCreated;
+                    i17 = NotificationCenter.didClearDatabase;
                 }
                 applyShaderMatrix(z);
                 canvas.save();
@@ -798,7 +798,7 @@ public class MediaActionDrawable extends Drawable {
                 Theme.playPauseAnimator.draw(canvas, this.paint2, f74);
                 canvas.restore();
             } else {
-                i17 = NotificationCenter.voipServiceCreated;
+                i17 = NotificationCenter.didClearDatabase;
             }
             if (this.currentIcon == 6 || this.nextIcon == 6) {
                 applyShaderMatrix(false);
@@ -846,7 +846,7 @@ public class MediaActionDrawable extends Drawable {
                 int intrinsicWidth = (int) (drawable3.getIntrinsicWidth() * f22);
                 int intrinsicHeight = (int) (drawable3.getIntrinsicHeight() * f22);
                 drawable3.setColorFilter(this.colorFilter);
-                drawable3.setAlpha(this.currentIcon == this.nextIcon ? NotificationCenter.voipServiceCreated : (int) ((1.0f - this.transitionProgress) * 255.0f));
+                drawable3.setAlpha(this.currentIcon == this.nextIcon ? NotificationCenter.didClearDatabase : (int) ((1.0f - this.transitionProgress) * 255.0f));
                 int i44 = intrinsicWidth / 2;
                 int i45 = intrinsicHeight / 2;
                 drawable3.setBounds(i2 - i44, i4 - i45, i44 + i2, i45 + i4);
@@ -856,7 +856,7 @@ public class MediaActionDrawable extends Drawable {
                 int intrinsicWidth2 = (int) (drawable4.getIntrinsicWidth() * f20);
                 int intrinsicHeight2 = (int) (drawable4.getIntrinsicHeight() * f20);
                 drawable4.setColorFilter(this.colorFilter);
-                drawable4.setAlpha(this.currentIcon == this.nextIcon ? NotificationCenter.voipServiceCreated : (int) (this.transitionProgress * 255.0f));
+                drawable4.setAlpha(this.currentIcon == this.nextIcon ? NotificationCenter.didClearDatabase : (int) (this.transitionProgress * 255.0f));
                 int i46 = intrinsicWidth2 / 2;
                 int i47 = intrinsicHeight2 / 2;
                 drawable4.setBounds(i2 - i46, i4 - i47, i46 + i2, i47 + i4);
@@ -867,7 +867,7 @@ public class MediaActionDrawable extends Drawable {
             if (pathArr7 != null && pathArr7 != pathArr8) {
                 int dp21 = AndroidUtilities.dp(24.0f);
                 this.paint2.setStyle(Paint.Style.FILL_AND_STROKE);
-                this.paint2.setAlpha(this.currentIcon == this.nextIcon ? NotificationCenter.voipServiceCreated : (int) ((1.0f - this.transitionProgress) * 255.0f));
+                this.paint2.setAlpha(this.currentIcon == this.nextIcon ? NotificationCenter.didClearDatabase : (int) ((1.0f - this.transitionProgress) * 255.0f));
                 applyShaderMatrix(true);
                 canvas.save();
                 canvas.translate(i2, i4);
@@ -887,7 +887,7 @@ public class MediaActionDrawable extends Drawable {
             }
             if (pathArr8 != null) {
                 int dp22 = AndroidUtilities.dp(24.0f);
-                int i48 = this.currentIcon == this.nextIcon ? NotificationCenter.voipServiceCreated : (int) (this.transitionProgress * 255.0f);
+                int i48 = this.currentIcon == this.nextIcon ? NotificationCenter.didClearDatabase : (int) (this.transitionProgress * 255.0f);
                 this.paint2.setStyle(Paint.Style.FILL_AND_STROKE);
                 this.paint2.setAlpha(i48);
                 applyShaderMatrix(true);
@@ -979,7 +979,7 @@ public class MediaActionDrawable extends Drawable {
         if (this.currentIcon != i6) {
         }
         applyShaderMatrix(false);
-        this.paint.setAlpha(this.currentIcon != this.nextIcon ? NotificationCenter.voipServiceCreated : (int) (this.transitionProgress * 255.0f));
+        this.paint.setAlpha(this.currentIcon != this.nextIcon ? NotificationCenter.didClearDatabase : (int) (this.transitionProgress * 255.0f));
         int dp152 = i4 + AndroidUtilities.dp(7.0f);
         int dp162 = i2 - AndroidUtilities.dp(3.0f);
         if (this.currentIcon != this.nextIcon) {
@@ -1000,7 +1000,7 @@ public class MediaActionDrawable extends Drawable {
         int i402 = this.nextIcon;
         if (i392 != i402) {
         }
-        this.paint.setAlpha(i392 != i402 ? NotificationCenter.voipServiceCreated : (int) (f67 * 255.0f));
+        this.paint.setAlpha(i392 != i402 ? NotificationCenter.didClearDatabase : (int) (f67 * 255.0f));
         AndroidUtilities.dp(7.0f);
         AndroidUtilities.dp(3.0f);
         if (this.currentIcon != this.nextIcon) {

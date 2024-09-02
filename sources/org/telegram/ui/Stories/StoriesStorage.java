@@ -283,7 +283,7 @@ public class StoriesStorage {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:72:0x01c1  */
-    /* JADX WARN: Type inference failed for: r3v18, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v18, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v20 */
     /* JADX WARN: Type inference failed for: r3v26 */
     /*

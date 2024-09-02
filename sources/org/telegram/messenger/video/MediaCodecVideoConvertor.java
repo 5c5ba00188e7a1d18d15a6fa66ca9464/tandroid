@@ -8,6 +8,7 @@ import android.os.Build;
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.R;
@@ -16,7 +17,6 @@ import org.telegram.messenger.Utilities;
 import org.telegram.messenger.VideoEditedInfo;
 import org.telegram.messenger.video.audio_input.AudioInput;
 import org.telegram.messenger.video.audio_input.GeneralAudioInput;
-import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 /* loaded from: classes3.dex */
 public class MediaCodecVideoConvertor {
@@ -362,7 +362,7 @@ public class MediaCodecVideoConvertor {
 
     private static String hdrFragmentShader(int i, int i2, int i3, int i4, boolean z, StoryEntry.HDRInfo hDRInfo) {
         if (z) {
-            String readRes = RLottieDrawable.readRes(null, hDRInfo.getHDRType() == 1 ? R.raw.hdr2sdr_hlg : R.raw.hdr2sdr_pq);
+            String readRes = AndroidUtilities.readRes(hDRInfo.getHDRType() == 1 ? R.raw.hdr2sdr_hlg : R.raw.hdr2sdr_pq);
             String replace = readRes.replace("$dstWidth", i3 + ".0");
             String replace2 = replace.replace("$dstHeight", i4 + ".0");
             return replace2 + "\nvarying vec2 vTextureCoord;\nvoid main() {\n    gl_FragColor = TEX(vTextureCoord);\n}";

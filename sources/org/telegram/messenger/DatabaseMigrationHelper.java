@@ -1391,8 +1391,8 @@ public class DatabaseMigrationHelper {
         return i7;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:58:0x02bc A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x02be A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x02bd A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x02bf A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

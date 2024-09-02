@@ -162,10 +162,6 @@ public class ManageChatUserCell extends FrameLayout {
         return 0L;
     }
 
-    public boolean hasAvatarSet() {
-        return this.avatarImageView.getImageReceiver().hasNotThumb();
-    }
-
     @Override // android.view.View
     public boolean hasOverlappingRendering() {
         return false;

@@ -424,7 +424,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
     @Override // org.telegram.ui.Components.UniversalFragment, org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         AndroidUtilities.requestAdjustResize(getParentActivity(), this.classGuid);
-        this.greetingsView = new ChatGreetingsView(context, getUserConfig().getCurrentUser(), 1, this.currentAccount, this.sticker, getResourceProvider()) { // from class: org.telegram.ui.Business.BusinessIntroActivity.1
+        this.greetingsView = new ChatGreetingsView(context, getUserConfig().getCurrentUser(), this.currentAccount, this.sticker, getResourceProvider()) { // from class: org.telegram.ui.Business.BusinessIntroActivity.1
             @Override // org.telegram.ui.Components.ChatGreetingsView, android.widget.LinearLayout, android.view.View
             protected void onMeasure(int i, int i2) {
                 super.onMeasure(i, i2);

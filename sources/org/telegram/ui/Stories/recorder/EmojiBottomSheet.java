@@ -2882,7 +2882,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 canvas.scale(scale, scale, this.bounds.centerX(), this.bounds.centerY());
                 canvas.drawRoundRect(this.bounds, AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), StoryWidgetsCell.this.bgPaint);
                 if (this.lockDrawable != null) {
-                    canvas.saveLayerAlpha(this.bounds, NotificationCenter.voipServiceCreated, 31);
+                    canvas.saveLayerAlpha(this.bounds, NotificationCenter.didClearDatabase, 31);
                 }
                 int i = 0;
                 if (this.drawable == null) {

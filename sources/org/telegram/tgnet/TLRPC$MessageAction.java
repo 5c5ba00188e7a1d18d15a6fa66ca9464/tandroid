@@ -71,6 +71,9 @@ public abstract class TLRPC$MessageAction extends TLObject {
                     }
                 };
                 break;
+            case -2015170219:
+                tLRPC$MessageAction = new TLRPC$TL_messageActionGiveawayResults();
+                break;
             case -1892568281:
                 tLRPC$MessageAction = new TLRPC$MessageAction() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionPaymentSentMe
                     public TLRPC$TL_paymentCharge charge;
@@ -197,6 +200,9 @@ public abstract class TLRPC$MessageAction extends TLObject {
                     }
                 };
                 break;
+            case -1475391004:
+                tLRPC$MessageAction = new TLRPC$TL_messageActionGiveawayLaunch();
+                break;
             case -1441072131:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionSetMessagesTTL() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionSetMessagesTTL_layer149
                     @Override // org.telegram.tgnet.TLRPC$TL_messageActionSetMessagesTTL, org.telegram.tgnet.TLObject
@@ -229,6 +235,9 @@ public abstract class TLRPC$MessageAction extends TLObject {
                         abstractSerializedData2.writeString(this.domain);
                     }
                 };
+                break;
+            case -1341372510:
+                tLRPC$MessageAction = new TLRPC$TL_messageActionPrizeStars();
                 break;
             case -1336546578:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionChannelMigrateFrom() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom_layer131
@@ -516,18 +525,29 @@ public abstract class TLRPC$MessageAction extends TLObject {
                 tLRPC$MessageAction = new TLRPC$TL_messageActionChatAddUser();
                 break;
             case 715107781:
-                tLRPC$MessageAction = new TLRPC$TL_messageActionGiveawayResults();
+                tLRPC$MessageAction = new TLRPC$TL_messageActionGiveawayResults() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionGiveawayResults_layer186
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageActionGiveawayResults, org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        this.winners_count = abstractSerializedData2.readInt32(z2);
+                        this.unclaimed_count = abstractSerializedData2.readInt32(z2);
+                    }
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageActionGiveawayResults, org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(715107781);
+                        abstractSerializedData2.writeInt32(this.winners_count);
+                        abstractSerializedData2.writeInt32(this.unclaimed_count);
+                    }
+                };
                 break;
             case 827428507:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionRequestedPeer();
                 break;
             case 858499565:
-                tLRPC$MessageAction = new TLRPC$MessageAction() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionGiveawayLaunch
-                    public static int constructor = 858499565;
-
-                    @Override // org.telegram.tgnet.TLObject
+                tLRPC$MessageAction = new TLRPC$TL_messageActionGiveawayLaunch() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionGiveawayLaunch_layer186
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageActionGiveawayLaunch, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(858499565);
                     }
                 };
                 break;

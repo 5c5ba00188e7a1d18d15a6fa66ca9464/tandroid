@@ -192,7 +192,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             addView(this.profileSearchCell, LayoutHelper.createFrame(-1, -1.0f));
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
-            imageView.setAlpha(NotificationCenter.factCheckLoaded);
+            imageView.setAlpha(NotificationCenter.starSubscriptionsLoaded);
             this.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_featuredStickers_addButton), PorterDuff.Mode.MULTIPLY));
             this.imageView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 1));
             this.imageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -523,12 +523,6 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         public void notifyItemRangeRemoved(int i, int i2) {
             updateRows();
             super.notifyItemRangeRemoved(i, i2);
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyItemRemoved(int i) {
-            updateRows();
-            super.notifyItemRemoved(i);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

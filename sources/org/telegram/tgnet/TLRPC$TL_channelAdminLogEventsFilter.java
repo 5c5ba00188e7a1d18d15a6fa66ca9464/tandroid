@@ -8,6 +8,7 @@ public class TLRPC$TL_channelAdminLogEventsFilter extends TLObject {
     public boolean demote;
     public boolean edit;
     public int flags;
+    public boolean forums;
     public boolean group_call;
     public boolean info;
     public boolean invite;
@@ -17,7 +18,9 @@ public class TLRPC$TL_channelAdminLogEventsFilter extends TLObject {
     public boolean leave;
     public boolean pinned;
     public boolean promote;
+    public boolean send;
     public boolean settings;
+    public boolean sub_extend;
     public boolean unban;
     public boolean unkick;
 
@@ -40,7 +43,10 @@ public class TLRPC$TL_channelAdminLogEventsFilter extends TLObject {
         this.edit = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
         this.delete = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
         this.group_call = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
-        this.invites = (readInt32 & LiteMode.FLAG_CHAT_SCALE) != 0;
+        this.invites = (32768 & readInt32) != 0;
+        this.send = (65536 & readInt32) != 0;
+        this.forums = (131072 & readInt32) != 0;
+        this.sub_extend = (readInt32 & 262144) != 0;
     }
 
     @Override // org.telegram.tgnet.TLObject
@@ -78,6 +84,12 @@ public class TLRPC$TL_channelAdminLogEventsFilter extends TLObject {
         this.flags = i15;
         int i16 = this.invites ? i15 | LiteMode.FLAG_CHAT_SCALE : i15 & (-32769);
         this.flags = i16;
-        abstractSerializedData.writeInt32(i16);
+        int i17 = this.send ? i16 | 65536 : i16 & (-65537);
+        this.flags = i17;
+        int i18 = this.forums ? i17 | 131072 : i17 & (-131073);
+        this.flags = i18;
+        int i19 = this.sub_extend ? i18 | 262144 : i18 & (-262145);
+        this.flags = i19;
+        abstractSerializedData.writeInt32(i19);
     }
 }

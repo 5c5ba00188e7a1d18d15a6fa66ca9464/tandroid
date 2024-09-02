@@ -17,7 +17,6 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.location.LocationManager;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
@@ -1219,7 +1218,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r10v211 */
     /* JADX WARN: Type inference failed for: r10v212 */
     /* JADX WARN: Type inference failed for: r10v213 */
-    /* JADX WARN: Type inference failed for: r10v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r10v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r10v4 */
     /* JADX WARN: Type inference failed for: r10v5 */
     /* JADX WARN: Type inference failed for: r10v8 */
@@ -9626,21 +9625,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     public /* synthetic */ void lambda$onCreate$6(View view, int i, float f, float f2) {
         BaseFragment mediaActivity;
         int i2;
-        BaseFragment peopleNearbyActivity;
-        int checkSelfPermission;
         BaseFragment chatActivity;
+        BaseFragment callLogActivity;
         DrawerLayoutAdapter drawerLayoutAdapter;
-        if (!this.drawerLayoutAdapter.click(view, i)) {
-            boolean z = true;
-            if (i == 0) {
-                DrawerProfileCell drawerProfileCell = (DrawerProfileCell) view;
-                if (drawerProfileCell.isInAvatar(f, f2)) {
-                    openSettings(drawerProfileCell.hasAvatar());
-                    return;
-                }
-                this.drawerLayoutAdapter.setAccountsShown(!drawerLayoutAdapter.isAccountsShown(), true);
+        if (this.drawerLayoutAdapter.click(view, i)) {
+            this.drawerLayoutContainer.closeDrawer(false);
+        } else if (i == 0) {
+            DrawerProfileCell drawerProfileCell = (DrawerProfileCell) view;
+            if (drawerProfileCell.isInAvatar(f, f2)) {
+                openSettings(drawerProfileCell.hasAvatar());
                 return;
             }
+            this.drawerLayoutAdapter.setAccountsShown(!drawerLayoutAdapter.isAccountsShown(), true);
+        } else {
             if (view instanceof DrawerUserCell) {
                 switchToAccount(((DrawerUserCell) view).getAccountNumber(), true);
             } else {
@@ -9673,7 +9670,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         };
                         return;
                     }
-                    peopleNearbyActivity = new LoginActivity(num.intValue());
+                    callLogActivity = new LoginActivity(num.intValue());
                 } else {
                     int id = this.drawerLayoutAdapter.getId(i);
                     final TLRPC$TL_attachMenuBot attachMenuBot = this.drawerLayoutAdapter.getAttachMenuBot(i);
@@ -9716,7 +9713,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         bundle3.putBoolean("needFinishFragment", false);
                         chatActivity = new ContactsActivity(bundle3);
                     } else if (id == 7) {
-                        peopleNearbyActivity = new InviteContactsActivity();
+                        callLogActivity = new InviteContactsActivity();
                     } else if (id == 8) {
                         openSettings(false);
                         return;
@@ -9724,31 +9721,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         if (id == 9) {
                             i2 = R.string.TelegramFaqUrl;
                         } else if (id == 10) {
-                            peopleNearbyActivity = new CallLogActivity();
+                            callLogActivity = new CallLogActivity();
                         } else if (id == 11) {
                             Bundle bundle4 = new Bundle();
                             bundle4.putLong("user_id", UserConfig.getInstance(this.currentAccount).getClientUserId());
                             chatActivity = new ChatActivity(bundle4);
-                        } else if (id == 12) {
-                            int i5 = Build.VERSION.SDK_INT;
-                            if (i5 >= 23) {
-                                checkSelfPermission = checkSelfPermission("android.permission.ACCESS_COARSE_LOCATION");
-                                if (checkSelfPermission != 0) {
-                                    lambda$runLinkRequest$91(new ActionIntroActivity(1));
-                                }
-                            }
-                            if (i5 >= 28) {
-                                z = ((LocationManager) ApplicationLoader.applicationContext.getSystemService("location")).isLocationEnabled();
-                            } else {
-                                try {
-                                    if (Settings.Secure.getInt(ApplicationLoader.applicationContext.getContentResolver(), "location_mode", 0) == 0) {
-                                        z = false;
-                                    }
-                                } catch (Throwable th) {
-                                    FileLog.e(th);
-                                }
-                            }
-                            peopleNearbyActivity = z ? new PeopleNearbyActivity() : new ActionIntroActivity(4);
                         } else if (id != 13) {
                             if (id == 15) {
                                 showSelectStatusDialog();
@@ -9778,12 +9755,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     }
                     lambda$runLinkRequest$91(chatActivity);
                 }
-                lambda$runLinkRequest$91(peopleNearbyActivity);
+                lambda$runLinkRequest$91(callLogActivity);
             }
             this.drawerLayoutContainer.closeDrawer(false);
-            return;
         }
-        this.drawerLayoutContainer.closeDrawer(false);
     }
 
     public /* synthetic */ boolean lambda$onCreate$7(ItemTouchHelper itemTouchHelper, View view, int i) {
@@ -14533,7 +14508,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             Bitmap snapshotView = AndroidUtilities.snapshotView(this.drawerLayoutContainer);
                             View view2 = this.rippleAbove;
                             if (view2 != null && view2.getBackground() != null) {
-                                this.rippleAbove.getBackground().setAlpha(NotificationCenter.voipServiceCreated);
+                                this.rippleAbove.getBackground().setAlpha(NotificationCenter.didClearDatabase);
                             }
                             this.frameLayout.removeView(this.themeSwitchImageView);
                             ImageView imageView = new ImageView(this);

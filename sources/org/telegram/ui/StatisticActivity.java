@@ -92,10 +92,8 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.EmptyCell;
-import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.LoadingCell;
 import org.telegram.ui.Cells.ManageChatTextCell;
-import org.telegram.ui.Cells.ManageChatUserCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.StatisticPostInfoCell;
 import org.telegram.ui.Charts.BarChartView;
@@ -129,7 +127,6 @@ import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.ViewPagerFixed;
-import org.telegram.ui.PeopleNearbyActivity;
 import org.telegram.ui.StatisticActivity;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
@@ -3742,7 +3739,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
             this.progressLayout.addView(this.imageView, LayoutHelper.createLinear(120, 120, 1, 0, 0, 0, 20));
             this.progressLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 1, 0, 0, 0, 10));
             this.progressLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 1));
-            frameLayout.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.reloadInterface, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
+            frameLayout.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.locationPermissionDenied, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
             if (this.adapter == null) {
                 this.adapter = new Adapter();
             }
@@ -3870,7 +3867,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         this.progressLayout.addView(this.imageView, LayoutHelper.createLinear(120, 120, 1, 0, 0, 0, 20));
         this.progressLayout.addView(textView3, LayoutHelper.createLinear(-2, -2, 1, 0, 0, 0, 10));
         this.progressLayout.addView(textView22, LayoutHelper.createLinear(-2, -2, 1));
-        frameLayout.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.reloadInterface, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
+        frameLayout.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.locationPermissionDenied, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
         if (this.adapter == null) {
         }
         this.recyclerListView.setAdapter(this.adapter);
@@ -4037,8 +4034,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList getThemeDescriptions() {
-        ChartViewData chartViewData;
-        ChartViewData chartViewData2;
         ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
@@ -4091,7 +4086,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         arrayList.add(new ThemeDescription(this.recyclerListView, ThemeDescription.FLAG_CHECKTAG, new Class[]{ManageChatTextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteBlueIcon));
         arrayList.add(new ThemeDescription(this.recyclerListView, ThemeDescription.FLAG_CHECKTAG, new Class[]{ManageChatTextCell.class}, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i5));
         arrayList.add(new ThemeDescription(this.recyclerListView, ThemeDescription.FLAG_CHECKTAG, new Class[]{ManageChatTextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i5));
-        arrayList.add(new ThemeDescription(this.recyclerListView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{ManageChatUserCell.class, ManageChatTextCell.class, HeaderCell.class, TextView.class, PeopleNearbyActivity.HintInnerCell.class}, null, null, null, i2));
         if (this.isMegagroup) {
             int i6 = 0;
             while (i6 < 6) {
@@ -4101,23 +4095,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         } else {
             int i7 = 0;
             while (i7 < 12) {
-                if (i7 == 0) {
-                    chartViewData2 = this.growthData;
-                } else if (i7 == 1) {
-                    chartViewData2 = this.followersData;
-                } else if (i7 == 2) {
-                    chartViewData2 = this.interactionsData;
-                } else if (i7 == 3) {
-                    chartViewData = this.ivInteractionsData;
-                    putColorFromData(chartViewData, arrayList, themeDescriptionDelegate);
-                    i7++;
-                } else {
-                    chartViewData = i7 == 4 ? this.viewsBySourceData : i7 == 5 ? this.newFollowersBySourceData : i7 == 6 ? this.notificationsData : i7 == 7 ? this.topHoursData : i7 == 8 ? this.languagesData : i7 == 9 ? this.reactionsByEmotionData : i7 == 10 ? this.storyInteractionsData : this.storyReactionsByEmotionData;
-                    putColorFromData(chartViewData, arrayList, themeDescriptionDelegate);
-                    i7++;
-                }
-                chartViewData = chartViewData2;
-                putColorFromData(chartViewData, arrayList, themeDescriptionDelegate);
+                putColorFromData(i7 == 0 ? this.growthData : i7 == 1 ? this.followersData : i7 == 2 ? this.interactionsData : i7 == 3 ? this.ivInteractionsData : i7 == 4 ? this.viewsBySourceData : i7 == 5 ? this.newFollowersBySourceData : i7 == 6 ? this.notificationsData : i7 == 7 ? this.topHoursData : i7 == 8 ? this.languagesData : i7 == 9 ? this.reactionsByEmotionData : i7 == 10 ? this.storyInteractionsData : this.storyReactionsByEmotionData, arrayList, themeDescriptionDelegate);
                 i7++;
             }
         }

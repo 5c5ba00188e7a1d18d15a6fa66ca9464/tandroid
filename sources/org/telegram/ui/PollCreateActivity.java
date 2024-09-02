@@ -1477,12 +1477,12 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
         PollEditTextCell pollEditTextCell = (PollEditTextCell) view;
         if (i == this.questionRow) {
             charSequence = this.questionString;
-            i3 = NotificationCenter.voipServiceCreated;
+            i3 = NotificationCenter.didClearDatabase;
             if (charSequence != null) {
-                i2 = NotificationCenter.voipServiceCreated;
+                i2 = NotificationCenter.didClearDatabase;
                 i5 = charSequence.length();
             } else {
-                i4 = NotificationCenter.voipServiceCreated;
+                i4 = NotificationCenter.didClearDatabase;
                 i2 = i4;
                 i5 = 0;
             }

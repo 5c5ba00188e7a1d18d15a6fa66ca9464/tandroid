@@ -2927,7 +2927,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         bundle.putLong("chat_id", -chatActivity.getDialogId());
         chatActivity.getParentLayout().addFragmentToStack(new TopicsFragment(bundle), chatActivity.getParentLayout().getFragmentStack().size() - 1);
         chatActivity.setSwitchFromTopics(true);
-        chatActivity.lambda$onBackPressed$308();
+        chatActivity.lambda$onBackPressed$307();
     }
 
     private void setButtonType(int i) {

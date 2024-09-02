@@ -17,6 +17,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import androidx.core.content.ContextCompat;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
@@ -81,7 +82,7 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
         this.countScale = 1.0f;
         this.enabledT = 1.0f;
         this.enabled = true;
-        this.globalAlpha = NotificationCenter.voipServiceCreated;
+        this.globalAlpha = NotificationCenter.didClearDatabase;
         this.subTextAlpha = NotificationCenter.storyQualityUpdate;
         this.filled = z;
         this.resourcesProvider = resourcesProvider;
@@ -366,8 +367,7 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
         }
         this.lastCount = i;
         this.countAlpha = (i != 0 || this.showZero) ? 1.0f : 0.0f;
-        AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.countText;
-        animatedTextDrawable.setText("" + i, z);
+        this.countText.setText(LocaleController.formatNumber(i, ' '), z);
         invalidate();
     }
 

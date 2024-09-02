@@ -184,7 +184,7 @@ public final class Id3Decoder extends SimpleMetadataDecoder {
         if (i == 4) {
             readUnsignedIntToInt = parsableByteArray.readUnsignedIntToInt();
             if (!z) {
-                readUnsignedIntToInt = (((readUnsignedIntToInt >> 24) & NotificationCenter.voipServiceCreated) << 21) | (readUnsignedIntToInt & NotificationCenter.voipServiceCreated) | (((readUnsignedIntToInt >> 8) & NotificationCenter.voipServiceCreated) << 7) | (((readUnsignedIntToInt >> 16) & NotificationCenter.voipServiceCreated) << 14);
+                readUnsignedIntToInt = (((readUnsignedIntToInt >> 24) & NotificationCenter.didClearDatabase) << 21) | (readUnsignedIntToInt & NotificationCenter.didClearDatabase) | (((readUnsignedIntToInt >> 8) & NotificationCenter.didClearDatabase) << 7) | (((readUnsignedIntToInt >> 16) & NotificationCenter.didClearDatabase) << 14);
             }
         } else {
             readUnsignedIntToInt = i == 3 ? parsableByteArray.readUnsignedIntToInt() : parsableByteArray.readUnsignedInt24();

@@ -1326,16 +1326,6 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyItemInserted(int i) {
-            updateRows(false);
-            try {
-                super.notifyItemInserted(i);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyItemMoved(int i, int i2) {
             updateRows(false);
             try {
@@ -1370,16 +1360,6 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             updateRows(false);
             try {
                 super.notifyItemRangeRemoved(i, i2);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyItemRemoved(int i) {
-            updateRows(false);
-            try {
-                super.notifyItemRemoved(i);
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -2440,7 +2420,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         };
         this.scrimPopupWindow = actionBarPopupWindow;
         actionBarPopupWindow.setPauseNotifications(true);
-        this.scrimPopupWindow.setDismissAnimationDuration(NotificationCenter.pushMessagesUpdated);
+        this.scrimPopupWindow.setDismissAnimationDuration(NotificationCenter.updateAllMessages);
         this.scrimPopupWindow.setOutsideTouchable(true);
         this.scrimPopupWindow.setClippingEnabled(true);
         this.scrimPopupWindow.setAnimationStyle(R.style.PopupContextAnimation);

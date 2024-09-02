@@ -428,7 +428,7 @@ public class EditWidgetActivity extends BaseFragment {
                 linearLayout2.addView(this.cells[i2], LayoutHelper.createLinear(-1, -2));
                 i2++;
             }
-            linearLayout2.addView(EditWidgetActivity.this.previewImageView, LayoutHelper.createLinear((int) NotificationCenter.webViewResolved, (int) NotificationCenter.audioRouteChanged, 17));
+            linearLayout2.addView(EditWidgetActivity.this.previewImageView, LayoutHelper.createLinear((int) NotificationCenter.channelStarsUpdated, (int) NotificationCenter.audioRouteChanged, 17));
             imageView = EditWidgetActivity.this.previewImageView;
             i = R.drawable.chats_widget_preview;
             imageView.setImageResource(i);
@@ -481,7 +481,7 @@ public class EditWidgetActivity extends BaseFragment {
             while (i < 2) {
                 Drawable drawable = i == 0 ? this.oldBackgroundDrawable : this.backgroundDrawable;
                 if (drawable != null) {
-                    drawable.setAlpha((i != 1 || this.oldBackgroundDrawable == null || ((BaseFragment) EditWidgetActivity.this).parentLayout == null) ? NotificationCenter.voipServiceCreated : (int) (255.0f * themeAnimationValue));
+                    drawable.setAlpha((i != 1 || this.oldBackgroundDrawable == null || ((BaseFragment) EditWidgetActivity.this).parentLayout == null) ? NotificationCenter.didClearDatabase : (int) (255.0f * themeAnimationValue));
                     if ((drawable instanceof ColorDrawable) || (drawable instanceof GradientDrawable) || (drawable instanceof MotionBackgroundDrawable)) {
                         drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
                         if (drawable instanceof BackgroundGradientDrawable) {

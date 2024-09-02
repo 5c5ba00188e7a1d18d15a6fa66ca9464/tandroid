@@ -70,11 +70,11 @@ public final class zzbf extends zzbi {
         try {
             byte[] bArr = this.zzc;
             int i2 = this.zze;
-            bArr[i2] = (byte) (i & NotificationCenter.voipServiceCreated);
-            bArr[i2 + 1] = (byte) ((i >> 8) & NotificationCenter.voipServiceCreated);
-            bArr[i2 + 2] = (byte) ((i >> 16) & NotificationCenter.voipServiceCreated);
+            bArr[i2] = (byte) (i & NotificationCenter.didClearDatabase);
+            bArr[i2 + 1] = (byte) ((i >> 8) & NotificationCenter.didClearDatabase);
+            bArr[i2 + 2] = (byte) ((i >> 16) & NotificationCenter.didClearDatabase);
             this.zze = i2 + 4;
-            bArr[i2 + 3] = (byte) ((i >> 24) & NotificationCenter.voipServiceCreated);
+            bArr[i2 + 3] = (byte) ((i >> 24) & NotificationCenter.didClearDatabase);
         } catch (IndexOutOfBoundsException e) {
             throw new zzbg(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
         }
@@ -91,15 +91,15 @@ public final class zzbf extends zzbi {
         try {
             byte[] bArr = this.zzc;
             int i = this.zze;
-            bArr[i] = (byte) (((int) j) & NotificationCenter.voipServiceCreated);
-            bArr[i + 1] = (byte) (((int) (j >> 8)) & NotificationCenter.voipServiceCreated);
-            bArr[i + 2] = (byte) (((int) (j >> 16)) & NotificationCenter.voipServiceCreated);
-            bArr[i + 3] = (byte) (((int) (j >> 24)) & NotificationCenter.voipServiceCreated);
-            bArr[i + 4] = (byte) (((int) (j >> 32)) & NotificationCenter.voipServiceCreated);
-            bArr[i + 5] = (byte) (((int) (j >> 40)) & NotificationCenter.voipServiceCreated);
-            bArr[i + 6] = (byte) (((int) (j >> 48)) & NotificationCenter.voipServiceCreated);
+            bArr[i] = (byte) (((int) j) & NotificationCenter.didClearDatabase);
+            bArr[i + 1] = (byte) (((int) (j >> 8)) & NotificationCenter.didClearDatabase);
+            bArr[i + 2] = (byte) (((int) (j >> 16)) & NotificationCenter.didClearDatabase);
+            bArr[i + 3] = (byte) (((int) (j >> 24)) & NotificationCenter.didClearDatabase);
+            bArr[i + 4] = (byte) (((int) (j >> 32)) & NotificationCenter.didClearDatabase);
+            bArr[i + 5] = (byte) (((int) (j >> 40)) & NotificationCenter.didClearDatabase);
+            bArr[i + 6] = (byte) (((int) (j >> 48)) & NotificationCenter.didClearDatabase);
             this.zze = i + 8;
-            bArr[i + 7] = (byte) (((int) (j >> 56)) & NotificationCenter.voipServiceCreated);
+            bArr[i + 7] = (byte) (((int) (j >> 56)) & NotificationCenter.didClearDatabase);
         } catch (IndexOutOfBoundsException e) {
             throw new zzbg(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
         }

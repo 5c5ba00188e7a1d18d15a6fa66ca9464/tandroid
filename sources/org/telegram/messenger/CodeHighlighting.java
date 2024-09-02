@@ -327,11 +327,11 @@ public class CodeHighlighting {
         }
 
         public int readUint16() {
-            return (this.is.read() & NotificationCenter.voipServiceCreated) | ((this.is.read() & NotificationCenter.voipServiceCreated) << 8);
+            return (this.is.read() & NotificationCenter.didClearDatabase) | ((this.is.read() & NotificationCenter.didClearDatabase) << 8);
         }
 
         public int readUint8() {
-            return this.is.read() & NotificationCenter.voipServiceCreated;
+            return this.is.read() & NotificationCenter.didClearDatabase;
         }
     }
 

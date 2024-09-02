@@ -120,7 +120,7 @@ public final class zzfs {
                                 char charAt3 = charSequence.charAt(i3);
                                 if (Character.isSurrogatePair(charAt2, charAt3)) {
                                     int codePoint = Character.toCodePoint(charAt2, charAt3);
-                                    byteBuffer.put((byte) ((codePoint >>> 18) | NotificationCenter.reloadInterface));
+                                    byteBuffer.put((byte) ((codePoint >>> 18) | NotificationCenter.locationPermissionDenied));
                                     byteBuffer.put((byte) (((codePoint >>> 12) & 63) | 128));
                                     byteBuffer.put((byte) (((codePoint >>> 6) & 63) | 128));
                                     byteBuffer.put((byte) ((codePoint & 63) | 128));
@@ -187,7 +187,7 @@ public final class zzfs {
                             char charAt5 = charSequence.charAt(i7);
                             if (Character.isSurrogatePair(charAt4, charAt5)) {
                                 int codePoint2 = Character.toCodePoint(charAt4, charAt5);
-                                array[i] = (byte) ((codePoint2 >>> 18) | NotificationCenter.reloadInterface);
+                                array[i] = (byte) ((codePoint2 >>> 18) | NotificationCenter.locationPermissionDenied);
                                 array[i + 1] = (byte) (((codePoint2 >>> 12) & 63) | 128);
                                 int i8 = i + 3;
                                 array[i + 2] = (byte) (((codePoint2 >>> 6) & 63) | 128);

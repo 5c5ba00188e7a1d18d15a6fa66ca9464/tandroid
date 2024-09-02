@@ -1581,7 +1581,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     /* JADX WARN: Type inference failed for: r12v9 */
     /* JADX WARN: Type inference failed for: r15v1 */
     /* JADX WARN: Type inference failed for: r15v15 */
-    /* JADX WARN: Type inference failed for: r15v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r1v33, types: [boolean] */
     /* JADX WARN: Type inference failed for: r25v0, types: [org.telegram.ui.Adapters.MentionsAdapter] */
     /* JADX WARN: Type inference failed for: r3v25 */

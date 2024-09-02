@@ -237,7 +237,7 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
                 if (this.muteButton.getDrawable() != null) {
                     this.muteButton.getDrawable().setAlpha((int) (this.progress * 255.0f * getAlpha()));
                     this.muteButton.draw(canvas);
-                    this.muteButton.getDrawable().setAlpha(NotificationCenter.voipServiceCreated);
+                    this.muteButton.getDrawable().setAlpha(NotificationCenter.didClearDatabase);
                 }
                 canvas.restore();
             }
@@ -447,7 +447,7 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
                 this.avatarImageView.setTranslationY(0.0f);
                 this.avatarImageView.setScaleX(1.0f);
                 this.avatarImageView.setScaleY(1.0f);
-                this.backgroundPaint.setAlpha(NotificationCenter.voipServiceCreated);
+                this.backgroundPaint.setAlpha(NotificationCenter.didClearDatabase);
                 invalidate();
                 GroupCallMiniTextureView groupCallMiniTextureView = this.renderer;
                 if (groupCallMiniTextureView != null) {

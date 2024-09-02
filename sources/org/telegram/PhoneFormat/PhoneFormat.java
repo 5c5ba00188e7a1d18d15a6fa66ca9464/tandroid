@@ -72,7 +72,7 @@ public class PhoneFormat {
         return sb.toString();
     }
 
-    /* JADX WARN: Type inference failed for: r2v10, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v10, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v12 */
     /* JADX WARN: Type inference failed for: r2v9 */
     public CallingCodeInfo callingCodeInfo(String str) {
@@ -306,10 +306,10 @@ public class PhoneFormat {
                 str = Locale.getDefault().getCountry().toLowerCase();
             }
             this.defaultCountry = str;
-            this.callingCodeOffsets = new HashMap((int) NotificationCenter.voipServiceCreated);
-            this.callingCodeCountries = new HashMap((int) NotificationCenter.voipServiceCreated);
+            this.callingCodeOffsets = new HashMap((int) NotificationCenter.didClearDatabase);
+            this.callingCodeCountries = new HashMap((int) NotificationCenter.didClearDatabase);
             this.callingCodeData = new HashMap(10);
-            this.countryCallingCode = new HashMap((int) NotificationCenter.voipServiceCreated);
+            this.countryCallingCode = new HashMap((int) NotificationCenter.didClearDatabase);
             parseDataHeader();
             this.initialzed = true;
         } catch (Exception e7) {

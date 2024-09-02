@@ -504,7 +504,7 @@ public class Camera2Session {
                 } else if (rotation == 2) {
                     i = NotificationCenter.updateBotMenuButton;
                 } else if (rotation == 3) {
-                    i = NotificationCenter.onRequestPermissionResultReceived;
+                    i = NotificationCenter.onActivityResultReceived;
                 }
                 CameraCharacteristics cameraCharacteristics = this.cameraCharacteristics;
                 key = CameraCharacteristics.SENSOR_ORIENTATION;
@@ -736,7 +736,7 @@ public class Camera2Session {
                 } else if (rotation == 2) {
                     i = NotificationCenter.updateBotMenuButton;
                 } else if (rotation == 3) {
-                    i = NotificationCenter.onRequestPermissionResultReceived;
+                    i = NotificationCenter.onActivityResultReceived;
                 }
                 CameraCharacteristics cameraCharacteristics = this.cameraCharacteristics;
                 key = CameraCharacteristics.SENSOR_ORIENTATION;

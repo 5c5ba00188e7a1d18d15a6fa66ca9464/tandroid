@@ -910,7 +910,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$9(int i, DialogInterface dialogInterface, int i2) {
-        MessagesController.getNotificationsSettings(this.currentAccount).edit().putInt("repeat_messages", i2 != 1 ? i2 == 2 ? 10 : i2 == 3 ? 30 : i2 == 4 ? 60 : i2 == 5 ? 120 : i2 == 6 ? NotificationCenter.reloadInterface : 0 : 5).commit();
+        MessagesController.getNotificationsSettings(this.currentAccount).edit().putInt("repeat_messages", i2 != 1 ? i2 == 2 ? 10 : i2 == 3 ? 30 : i2 == 4 ? 60 : i2 == 5 ? 120 : i2 == 6 ? NotificationCenter.locationPermissionDenied : 0 : 5).commit();
         this.updateRepeatNotifications = true;
         this.adapter.notifyItemChanged(i);
     }

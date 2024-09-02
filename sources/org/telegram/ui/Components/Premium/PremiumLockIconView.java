@@ -103,7 +103,7 @@ public class PremiumLockIconView extends ImageView {
         if (this.wasDrawn) {
             Paint paint = this.paint;
             this.oldShaderPaint = paint;
-            paint.setAlpha(NotificationCenter.voipServiceCreated);
+            paint.setAlpha(NotificationCenter.didClearDatabase);
             this.shaderCrossfadeProgress = 0.0f;
         }
         this.paint = new Paint(1);
@@ -208,7 +208,7 @@ public class PremiumLockIconView extends ImageView {
                         this.oldShaderPaint = null;
                     }
                     invalidate();
-                    this.paint.setAlpha(NotificationCenter.voipServiceCreated);
+                    this.paint.setAlpha(NotificationCenter.didClearDatabase);
                 }
             }
             canvas.drawCircle(measuredWidth, measuredHeight, measuredWidth, this.paint);

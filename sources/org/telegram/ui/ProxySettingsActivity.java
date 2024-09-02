@@ -53,7 +53,6 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.QRCodeBottomSheet;
-import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes4.dex */
 public class ProxySettingsActivity extends BaseFragment {
     private boolean addingNewProxy;
@@ -256,7 +255,7 @@ public class ProxySettingsActivity extends BaseFragment {
                     return;
                 }
                 QRCodeBottomSheet qRCodeBottomSheet = new QRCodeBottomSheet(context, LocaleController.getString(R.string.ShareQrCode), str + sb.toString(), LocaleController.getString(R.string.QRCodeLinkHelpProxy), true);
-                qRCodeBottomSheet.setCenterImage(SvgHelper.getBitmap(RLottieDrawable.readRes(null, R.raw.qr_dog), AndroidUtilities.dp(60.0f), AndroidUtilities.dp(60.0f), false));
+                qRCodeBottomSheet.setCenterImage(SvgHelper.getBitmap(AndroidUtilities.readRes(R.raw.qr_dog), AndroidUtilities.dp(60.0f), AndroidUtilities.dp(60.0f), false));
                 showDialog(qRCodeBottomSheet);
                 return;
             }

@@ -119,7 +119,7 @@ public class BarChartView extends BaseChartView {
                             float f16 = f13;
                             i2 = i;
                             canvas.drawLine(f14, f16, f14, getMeasuredHeight() - this.chartBottom, paint2);
-                            barViewData.paint.setAlpha(NotificationCenter.voipServiceCreated);
+                            barViewData.paint.setAlpha(NotificationCenter.didClearDatabase);
                             i = i2 + 1;
                             i9 = 2;
                             c = 1;

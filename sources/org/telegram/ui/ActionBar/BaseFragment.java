@@ -1323,4 +1323,8 @@ public abstract class BaseFragment {
             iNavigationLayout.startActivityForResult(intent, i);
         }
     }
+
+    public void whenFullyVisible(Runnable runnable) {
+        this.fullyVisibleListener = runnable;
+    }
 }

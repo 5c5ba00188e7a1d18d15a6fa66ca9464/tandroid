@@ -1380,7 +1380,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         int checkSelfPermission;
         int checkSelfPermission2;
         if (Build.VERSION.SDK_INT < 29) {
-            return NotificationCenter.invalidateMotionBackground;
+            return NotificationCenter.emojiLoaded;
         }
         checkSelfPermission = contextWrapper.checkSelfPermission("android.permission.CAMERA");
         int i = checkSelfPermission == 0 ? 64 : 0;
@@ -2579,7 +2579,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Type inference failed for: r0v11, types: [int, java.lang.String] */
+    /* JADX WARN: Type inference failed for: r0v11, types: [java.lang.String, int] */
     /* JADX WARN: Type inference failed for: r0v7, types: [org.telegram.messenger.AccountInstance, java.lang.String] */
     public /* synthetic */ void lambda$createGroupInstance$45(final int i, final long j, long j2, final int i2, final int i3) {
         StringBuilder sb;
@@ -4303,10 +4303,10 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00f4 A[Catch: all -> 0x0026, TryCatch #0 {all -> 0x0026, Exception -> 0x0085, blocks: (B:9:0x0020, B:11:0x0024, B:15:0x0029, B:17:0x0041, B:26:0x005c, B:28:0x0073, B:32:0x0089, B:34:0x008f, B:42:0x00aa, B:47:0x00dd, B:49:0x00f4, B:51:0x0109, B:54:0x0112, B:56:0x0118, B:61:0x0126, B:67:0x013d, B:68:0x014c, B:59:0x0120, B:35:0x0094, B:37:0x0098, B:41:0x00a5, B:44:0x00d1, B:46:0x00d8, B:18:0x0047, B:20:0x0050, B:24:0x0059), top: B:73:0x0020 }] */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0106  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0133  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0136  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00f5 A[Catch: all -> 0x0026, TryCatch #0 {all -> 0x0026, Exception -> 0x0085, blocks: (B:9:0x0020, B:11:0x0024, B:15:0x0029, B:17:0x0041, B:26:0x005c, B:28:0x0073, B:32:0x0089, B:34:0x008f, B:42:0x00aa, B:47:0x00de, B:49:0x00f5, B:51:0x010a, B:54:0x0113, B:56:0x0119, B:61:0x0127, B:67:0x013e, B:68:0x014d, B:59:0x0121, B:35:0x0094, B:37:0x0098, B:41:0x00a5, B:44:0x00d2, B:46:0x00d9, B:18:0x0047, B:20:0x0050, B:24:0x0059), top: B:73:0x0020 }] */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0107  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0134  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0137  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -222,23 +222,23 @@ public abstract class WebvttCueParser {
 
     static {
         HashMap hashMap = new HashMap();
-        hashMap.put("white", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated)));
-        hashMap.put("lime", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.voipServiceCreated, 0)));
-        hashMap.put("cyan", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated)));
-        hashMap.put("red", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, 0, 0)));
-        hashMap.put("yellow", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated, 0)));
-        hashMap.put("magenta", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, 0, (int) NotificationCenter.voipServiceCreated)));
-        hashMap.put("blue", Integer.valueOf(Color.rgb(0, 0, (int) NotificationCenter.voipServiceCreated)));
+        hashMap.put("white", Integer.valueOf(Color.rgb((int) NotificationCenter.didClearDatabase, (int) NotificationCenter.didClearDatabase, (int) NotificationCenter.didClearDatabase)));
+        hashMap.put("lime", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.didClearDatabase, 0)));
+        hashMap.put("cyan", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.didClearDatabase, (int) NotificationCenter.didClearDatabase)));
+        hashMap.put("red", Integer.valueOf(Color.rgb((int) NotificationCenter.didClearDatabase, 0, 0)));
+        hashMap.put("yellow", Integer.valueOf(Color.rgb((int) NotificationCenter.didClearDatabase, (int) NotificationCenter.didClearDatabase, 0)));
+        hashMap.put("magenta", Integer.valueOf(Color.rgb((int) NotificationCenter.didClearDatabase, 0, (int) NotificationCenter.didClearDatabase)));
+        hashMap.put("blue", Integer.valueOf(Color.rgb(0, 0, (int) NotificationCenter.didClearDatabase)));
         hashMap.put("black", Integer.valueOf(Color.rgb(0, 0, 0)));
         DEFAULT_TEXT_COLORS = Collections.unmodifiableMap(hashMap);
         HashMap hashMap2 = new HashMap();
-        hashMap2.put("bg_white", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated)));
-        hashMap2.put("bg_lime", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.voipServiceCreated, 0)));
-        hashMap2.put("bg_cyan", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated)));
-        hashMap2.put("bg_red", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, 0, 0)));
-        hashMap2.put("bg_yellow", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated, 0)));
-        hashMap2.put("bg_magenta", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, 0, (int) NotificationCenter.voipServiceCreated)));
-        hashMap2.put("bg_blue", Integer.valueOf(Color.rgb(0, 0, (int) NotificationCenter.voipServiceCreated)));
+        hashMap2.put("bg_white", Integer.valueOf(Color.rgb((int) NotificationCenter.didClearDatabase, (int) NotificationCenter.didClearDatabase, (int) NotificationCenter.didClearDatabase)));
+        hashMap2.put("bg_lime", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.didClearDatabase, 0)));
+        hashMap2.put("bg_cyan", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.didClearDatabase, (int) NotificationCenter.didClearDatabase)));
+        hashMap2.put("bg_red", Integer.valueOf(Color.rgb((int) NotificationCenter.didClearDatabase, 0, 0)));
+        hashMap2.put("bg_yellow", Integer.valueOf(Color.rgb((int) NotificationCenter.didClearDatabase, (int) NotificationCenter.didClearDatabase, 0)));
+        hashMap2.put("bg_magenta", Integer.valueOf(Color.rgb((int) NotificationCenter.didClearDatabase, 0, (int) NotificationCenter.didClearDatabase)));
+        hashMap2.put("bg_blue", Integer.valueOf(Color.rgb(0, 0, (int) NotificationCenter.didClearDatabase)));
         hashMap2.put("bg_black", Integer.valueOf(Color.rgb(0, 0, 0)));
         DEFAULT_BACKGROUND_COLORS = Collections.unmodifiableMap(hashMap2);
     }

@@ -93,8 +93,6 @@ public class BusinessChatbotController {
         if (System.currentTimeMillis() - this.lastTime > 60000 || !(z = this.loaded)) {
             this.loading = true;
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_getConnectedBots
-                public static int constructor = 1319421967;
-
                 @Override // org.telegram.tgnet.TLObject
                 public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z2) {
                     return TLRPC$TL_account_connectedBots.TLdeserialize(abstractSerializedData, i, z2);
@@ -102,7 +100,7 @@ public class BusinessChatbotController {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
+                    abstractSerializedData.writeInt32(1319421967);
                 }
             }, new RequestDelegate() { // from class: org.telegram.ui.Business.BusinessChatbotController$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate

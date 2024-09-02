@@ -24,7 +24,7 @@ public final class GenericGF {
         GenericGF genericGF = new GenericGF(67, 64, 1);
         AZTEC_DATA_6 = genericGF;
         AZTEC_PARAM = new GenericGF(19, 16, 1);
-        QR_CODE_FIELD_256 = new GenericGF(NotificationCenter.didUpdateGlobalAutoDeleteTimer, 256, 0);
+        QR_CODE_FIELD_256 = new GenericGF(NotificationCenter.chatSwithcedToForum, 256, 0);
         GenericGF genericGF2 = new GenericGF(301, 256, 1);
         DATA_MATRIX_FIELD_256 = genericGF2;
         AZTEC_DATA_8 = genericGF2;

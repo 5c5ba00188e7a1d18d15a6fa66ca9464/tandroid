@@ -15,7 +15,7 @@ public class RecordStatusDrawable extends StatusDrawable {
     private long lastUpdateTime = 0;
     private boolean started = false;
     private RectF rect = new RectF();
-    int alpha = NotificationCenter.voipServiceCreated;
+    int alpha = NotificationCenter.didClearDatabase;
 
     public RecordStatusDrawable(boolean z) {
         if (z) {

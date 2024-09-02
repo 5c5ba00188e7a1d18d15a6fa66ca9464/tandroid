@@ -7423,7 +7423,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     /* JADX WARN: Removed duplicated region for block: B:274:0x04b5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:280:0x04f0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r10v4 */
-    /* JADX WARN: Type inference failed for: r10v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r10v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r10v6 */
     /* JADX WARN: Type inference failed for: r10v7 */
     /* JADX WARN: Type inference failed for: r10v8 */

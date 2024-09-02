@@ -170,7 +170,7 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                         Drawable drawable = getDrawable();
                         if (drawable != null) {
                             drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                            drawable.setAlpha(NotificationCenter.voipServiceCreated);
+                            drawable.setAlpha(NotificationCenter.didClearDatabase);
                             drawable.draw(canvas);
                         }
                     }
@@ -239,7 +239,7 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                     Drawable drawable = getDrawable();
                     if (drawable != null) {
                         drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                        drawable.setAlpha(NotificationCenter.voipServiceCreated);
+                        drawable.setAlpha(NotificationCenter.didClearDatabase);
                         drawable.draw(canvas);
                     }
                 }

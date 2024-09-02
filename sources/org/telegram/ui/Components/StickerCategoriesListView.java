@@ -898,7 +898,7 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
                 int width = (int) (i2 + ((getWidth() + AndroidUtilities.dp(32.0f)) * (1.0f - this.categoriesShownT)));
                 canvas.drawRect((int) (i + ((getWidth() + AndroidUtilities.dp(32.0f)) * (1.0f - this.categoriesShownT))), 0.0f, width, getHeight(), this.backgroundPaint);
                 if (width < getWidth() && (drawable = this.leftBoundDrawable) != null) {
-                    drawable.setAlpha(NotificationCenter.voipServiceCreated);
+                    drawable.setAlpha(NotificationCenter.didClearDatabase);
                     Drawable drawable2 = this.leftBoundDrawable;
                     drawable2.setBounds(width, 0, drawable2.getIntrinsicWidth() + width, getHeight());
                     this.leftBoundDrawable.draw(canvas);

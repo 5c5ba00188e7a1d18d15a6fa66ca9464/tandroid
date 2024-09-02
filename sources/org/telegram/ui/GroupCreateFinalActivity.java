@@ -388,7 +388,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             ActionBarPopupWindow actionBarPopupWindow2 = new ActionBarPopupWindow(autoDeletePopupWrapper.windowLayout, -2, -2);
             this.popupWindow = actionBarPopupWindow2;
             actionBarPopupWindow2.setPauseNotifications(true);
-            this.popupWindow.setDismissAnimationDuration(NotificationCenter.pushMessagesUpdated);
+            this.popupWindow.setDismissAnimationDuration(NotificationCenter.updateAllMessages);
             this.popupWindow.setOutsideTouchable(true);
             this.popupWindow.setClippingEnabled(true);
             this.popupWindow.setAnimationStyle(R.style.PopupContextAnimation);

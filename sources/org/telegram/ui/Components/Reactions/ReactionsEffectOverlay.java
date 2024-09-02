@@ -661,7 +661,7 @@ public class ReactionsEffectOverlay {
             AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
             if (animatedEmojiDrawable != null) {
                 animatedEmojiDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                this.animatedEmojiDrawable.setAlpha(NotificationCenter.voipServiceCreated);
+                this.animatedEmojiDrawable.setAlpha(NotificationCenter.didClearDatabase);
                 this.animatedEmojiDrawable.draw(canvas);
             } else {
                 AnimatedEmojiEffect animatedEmojiEffect = this.emojiEffect;
@@ -736,7 +736,7 @@ public class ReactionsEffectOverlay {
     /* JADX WARN: Type inference failed for: r15v15 */
     /* JADX WARN: Type inference failed for: r15v16 */
     /* JADX WARN: Type inference failed for: r15v4 */
-    /* JADX WARN: Type inference failed for: r15v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r15v6 */
     /* JADX WARN: Type inference failed for: r15v7 */
     /*

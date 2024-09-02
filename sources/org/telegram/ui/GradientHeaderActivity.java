@@ -240,7 +240,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
             if (f3 > 0.01f || !GradientHeaderActivity.this.drawActionBarShadow()) {
                 return;
             }
-            ((BaseFragment) GradientHeaderActivity.this).parentLayout.drawHeaderShadow(canvas, NotificationCenter.voipServiceCreated, ((BaseFragment) GradientHeaderActivity.this).actionBar.getMeasuredHeight());
+            ((BaseFragment) GradientHeaderActivity.this).parentLayout.drawHeaderShadow(canvas, NotificationCenter.didClearDatabase, ((BaseFragment) GradientHeaderActivity.this).actionBar.getMeasuredHeight());
         }
 
         @Override // android.view.ViewGroup, android.view.View

@@ -65,7 +65,7 @@ public abstract class InputConnectionCompat {
     }
 
     /* JADX WARN: Type inference failed for: r0v0 */
-    /* JADX WARN: Type inference failed for: r0v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r0v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r0v5 */
     /* JADX WARN: Type inference failed for: r0v6 */
     static boolean handlePerformPrivateCommand(String str, Bundle bundle, OnCommitContentListener onCommitContentListener) {

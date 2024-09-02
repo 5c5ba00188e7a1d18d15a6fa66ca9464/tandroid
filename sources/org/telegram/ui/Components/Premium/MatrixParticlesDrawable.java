@@ -47,7 +47,7 @@ public class MatrixParticlesDrawable {
             MatrixParticlesDrawable.this.paint.setAlpha((int) (f3 * clamp * 255.0f));
             MatrixParticlesDrawable matrixParticlesDrawable3 = MatrixParticlesDrawable.this;
             canvas.drawBitmap(matrixParticlesDrawable3.bitmaps[this.nextIndex], f, f2, matrixParticlesDrawable3.paint);
-            MatrixParticlesDrawable.this.paint.setAlpha(NotificationCenter.voipServiceCreated);
+            MatrixParticlesDrawable.this.paint.setAlpha(NotificationCenter.didClearDatabase);
             if (clamp >= 1.0f) {
                 this.index = this.nextIndex;
                 this.lastUpdateTime = j;

@@ -894,7 +894,7 @@ public abstract class FilterTabsView extends FrameLayout {
                         float dp3 = (z2 || this.titleAnimateOutLayout != null) ? f7 + f6 + AndroidUtilities.dp(6.0f) : (f6 - this.titleXOffset) + f2 + f7 + AndroidUtilities.dp(6.0f);
                         int measuredHeight = (getMeasuredHeight() - AndroidUtilities.dp(20.0f)) / 2;
                         if (z3 || ((!FilterTabsView.this.isEditing && FilterTabsView.this.editingStartAnimationProgress == 0.0f) || format != null)) {
-                            FilterTabsView.this.counterPaint.setAlpha(NotificationCenter.voipServiceCreated);
+                            FilterTabsView.this.counterPaint.setAlpha(NotificationCenter.didClearDatabase);
                         } else {
                             FilterTabsView.this.counterPaint.setAlpha((int) (FilterTabsView.this.editingStartAnimationProgress * 255.0f));
                         }
@@ -968,7 +968,7 @@ public abstract class FilterTabsView extends FrameLayout {
                                                 this.stableCounter.draw(canvas);
                                                 canvas.restore();
                                             }
-                                            FilterTabsView.this.textCounterPaint.setAlpha(NotificationCenter.voipServiceCreated);
+                                            FilterTabsView.this.textCounterPaint.setAlpha(NotificationCenter.didClearDatabase);
                                         }
                                     }
                                     f14 += (dp - (lineBottom - staticLayout.getLineTop(i13))) / 2.0f;
@@ -980,7 +980,7 @@ public abstract class FilterTabsView extends FrameLayout {
                                     }
                                     if (this.stableCounter != null) {
                                     }
-                                    FilterTabsView.this.textCounterPaint.setAlpha(NotificationCenter.voipServiceCreated);
+                                    FilterTabsView.this.textCounterPaint.setAlpha(NotificationCenter.didClearDatabase);
                                 } else if (format != null) {
                                     if (z3) {
                                         FilterTabsView.this.textCounterPaint.setAlpha((int) ((1.0f - FilterTabsView.this.editingStartAnimationProgress) * 255.0f));
@@ -1044,7 +1044,7 @@ public abstract class FilterTabsView extends FrameLayout {
                 int measuredHeight2 = (getMeasuredHeight() - AndroidUtilities.dp(20.0f)) / 2;
                 if (z3) {
                 }
-                FilterTabsView.this.counterPaint.setAlpha(NotificationCenter.voipServiceCreated);
+                FilterTabsView.this.counterPaint.setAlpha(NotificationCenter.didClearDatabase);
                 if (z6) {
                 }
                 f3 = i12;

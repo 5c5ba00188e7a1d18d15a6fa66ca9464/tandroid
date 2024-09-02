@@ -82,7 +82,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         public RepostStoryDrawable(Context context, View view, boolean z, Theme.ResourcesProvider resourcesProvider) {
             Paint paint = new Paint(1);
             this.paint = paint;
-            this.alpha = NotificationCenter.voipServiceCreated;
+            this.alpha = NotificationCenter.didClearDatabase;
             LinearGradient linearGradient = new LinearGradient(0.0f, 0.0f, AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f), new int[]{Theme.getColor(Theme.key_stories_circle1, resourcesProvider), Theme.getColor(Theme.key_stories_circle2, resourcesProvider)}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
             this.gradient = linearGradient;
             paint.setShader(linearGradient);

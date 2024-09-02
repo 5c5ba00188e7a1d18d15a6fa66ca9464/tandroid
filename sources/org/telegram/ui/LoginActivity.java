@@ -9826,8 +9826,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             } else {
                 i = 72;
             }
-            final boolean z = BuildVars.DEBUG_VERSION;
-            if (z && LoginActivity.this.activityMode == 0) {
+            if (LoginActivity.this.activityMode == 0) {
                 CheckBoxCell checkBoxCell3 = new CheckBoxCell(context, 2);
                 this.testBackendCheckBox = checkBoxCell3;
                 checkBoxCell3.setText(LocaleController.getString(R.string.DebugTestBackend), "", LoginActivity.this.testBackend = LoginActivity.this.getConnectionsManager().isTestBackend(), false);
@@ -9842,7 +9841,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 this.testBackendCheckBox.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda11
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
-                        LoginActivity.PhoneView.this.lambda$new$8(z, view);
+                        LoginActivity.PhoneView.this.lambda$new$8(r2, view);
                     }
                 });
             }
@@ -9908,8 +9907,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
             LoginActivity.this.getAccountInstance().getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_help_getNearestDc
                 @Override // org.telegram.tgnet.TLObject
-                public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i8, boolean z2) {
-                    return TLRPC$TL_nearestDc.TLdeserialize(abstractSerializedData, i8, z2);
+                public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i8, boolean z) {
+                    return TLRPC$TL_nearestDc.TLdeserialize(abstractSerializedData, i8, z);
                 }
 
                 @Override // org.telegram.tgnet.TLObject
@@ -12735,7 +12734,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         CustomPhoneKeyboardView customPhoneKeyboardView = new CustomPhoneKeyboardView(context);
         this.keyboardView = customPhoneKeyboardView;
         customPhoneKeyboardView.setViewToFindFocus(this.slideViewsContainer);
-        this.keyboardLinearLayout.addView(this.keyboardView, LayoutHelper.createLinear(-1, (int) NotificationCenter.didSetNewTheme));
+        this.keyboardLinearLayout.addView(this.keyboardView, LayoutHelper.createLinear(-1, (int) NotificationCenter.didReplacedPhotoInMemCache));
         this.views[0] = new PhoneView(context);
         this.views[1] = new LoginActivitySmsView(context, 1);
         this.views[2] = new LoginActivitySmsView(context, 2);

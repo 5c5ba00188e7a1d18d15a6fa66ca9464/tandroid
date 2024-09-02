@@ -56,13 +56,13 @@ public abstract class TLRPC$MessageMedia extends TLObject {
     public boolean voice;
     public TLRPC$WebPage webpage;
 
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x01a5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:63:0x01b3, code lost:
         if (r5.captionLegacy == null) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x022c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:77:0x023a, code lost:
         if (r5.captionLegacy == null) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:76:0x022e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:78:0x023c, code lost:
         r5.captionLegacy = "";
      */
     /*
@@ -184,6 +184,9 @@ public abstract class TLRPC$MessageMedia extends TLObject {
             case -1467669359:
                 tLRPC$MessageMedia = new TLRPC$TL_messageMediaPaidMedia();
                 break;
+            case -1442366485:
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaGiveaway();
+                break;
             case -1256047857:
                 tLRPC$MessageMedia = new TLRPC$TL_messageMediaPhoto() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaPhoto_layer74
                     @Override // org.telegram.tgnet.TLRPC$TL_messageMediaPhoto, org.telegram.tgnet.TLObject
@@ -219,7 +222,78 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                 tLRPC$MessageMedia = new TLRPC$TL_messageMediaGeoLive();
                 break;
             case -963047320:
-                tLRPC$MessageMedia = new TLRPC$TL_messageMediaGiveawayResults();
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaGiveawayResults() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaGiveawayResults_layer186
+                    public int additional_peers_count;
+                    public long channel_id;
+                    public int launch_msg_id;
+                    public int months;
+                    public boolean only_new_subscribers;
+                    public String prize_description;
+                    public boolean refunded;
+                    public int unclaimed_count;
+                    public int until_date;
+                    public ArrayList winners = new ArrayList();
+                    public int winners_count;
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaGiveawayResults, org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        int readInt32 = abstractSerializedData2.readInt32(z2);
+                        this.flags = readInt32;
+                        this.only_new_subscribers = (readInt32 & 1) != 0;
+                        this.refunded = (readInt32 & 4) != 0;
+                        this.channel_id = abstractSerializedData2.readInt64(z2);
+                        if ((this.flags & 8) != 0) {
+                            this.additional_peers_count = abstractSerializedData2.readInt32(z2);
+                        }
+                        this.launch_msg_id = abstractSerializedData2.readInt32(z2);
+                        this.winners_count = abstractSerializedData2.readInt32(z2);
+                        this.unclaimed_count = abstractSerializedData2.readInt32(z2);
+                        int readInt322 = abstractSerializedData2.readInt32(z2);
+                        if (readInt322 != 481674261) {
+                            if (z2) {
+                                throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt322)));
+                            }
+                            return;
+                        }
+                        int readInt323 = abstractSerializedData2.readInt32(z2);
+                        for (int i2 = 0; i2 < readInt323; i2++) {
+                            this.winners.add(Long.valueOf(abstractSerializedData2.readInt64(z2)));
+                        }
+                        this.months = abstractSerializedData2.readInt32(z2);
+                        if ((this.flags & 2) != 0) {
+                            this.prize_description = abstractSerializedData2.readString(z2);
+                        }
+                        this.until_date = abstractSerializedData2.readInt32(z2);
+                    }
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaGiveawayResults, org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(-963047320);
+                        int i2 = this.only_new_subscribers ? this.flags | 1 : this.flags & (-2);
+                        this.flags = i2;
+                        int i3 = this.refunded ? i2 | 4 : i2 & (-5);
+                        this.flags = i3;
+                        abstractSerializedData2.writeInt32(i3);
+                        abstractSerializedData2.writeInt64(this.channel_id);
+                        if ((this.flags & 8) != 0) {
+                            abstractSerializedData2.writeInt32(this.additional_peers_count);
+                        }
+                        abstractSerializedData2.writeInt32(this.launch_msg_id);
+                        abstractSerializedData2.writeInt32(this.winners_count);
+                        abstractSerializedData2.writeInt32(this.unclaimed_count);
+                        abstractSerializedData2.writeInt32(481674261);
+                        int size = this.winners.size();
+                        abstractSerializedData2.writeInt32(size);
+                        for (int i4 = 0; i4 < size; i4++) {
+                            abstractSerializedData2.writeInt64(((Long) this.winners.get(i4)).longValue());
+                        }
+                        abstractSerializedData2.writeInt32(this.months);
+                        if ((this.flags & 2) != 0) {
+                            abstractSerializedData2.writeString(this.prize_description);
+                        }
+                        abstractSerializedData2.writeInt32(this.until_date);
+                    }
+                };
                 break;
             case -961117440:
                 tLRPC$MessageMedia = new TLRPC$MessageMedia() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaAudio_layer45
@@ -309,8 +383,88 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                     }
                 };
                 break;
+            case -827703647:
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaGiveawayResults();
+                break;
             case -626162256:
-                tLRPC$MessageMedia = new TLRPC$TL_messageMediaGiveaway();
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaGiveaway() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaGiveaway_layer186
+                    public ArrayList channels = new ArrayList();
+                    public ArrayList countries_iso2 = new ArrayList();
+                    public int months;
+                    public boolean only_new_subscribers;
+                    public String prize_description;
+                    public int quantity;
+                    public int until_date;
+                    public boolean winners_are_visible;
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaGiveaway, org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        int readInt32 = abstractSerializedData2.readInt32(z2);
+                        this.flags = readInt32;
+                        this.only_new_subscribers = (readInt32 & 1) != 0;
+                        this.winners_are_visible = (readInt32 & 4) != 0;
+                        int readInt322 = abstractSerializedData2.readInt32(z2);
+                        if (readInt322 != 481674261) {
+                            if (z2) {
+                                throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt322)));
+                            }
+                            return;
+                        }
+                        int readInt323 = abstractSerializedData2.readInt32(z2);
+                        for (int i2 = 0; i2 < readInt323; i2++) {
+                            this.channels.add(Long.valueOf(abstractSerializedData2.readInt64(z2)));
+                        }
+                        if ((this.flags & 2) != 0) {
+                            int readInt324 = abstractSerializedData2.readInt32(z2);
+                            if (readInt324 != 481674261) {
+                                if (z2) {
+                                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt324)));
+                                }
+                                return;
+                            }
+                            int readInt325 = abstractSerializedData2.readInt32(z2);
+                            for (int i3 = 0; i3 < readInt325; i3++) {
+                                this.countries_iso2.add(abstractSerializedData2.readString(z2));
+                            }
+                        }
+                        if ((this.flags & 8) != 0) {
+                            this.prize_description = abstractSerializedData2.readString(z2);
+                        }
+                        this.quantity = abstractSerializedData2.readInt32(z2);
+                        this.months = abstractSerializedData2.readInt32(z2);
+                        this.until_date = abstractSerializedData2.readInt32(z2);
+                    }
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaGiveaway, org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(-626162256);
+                        int i2 = this.only_new_subscribers ? this.flags | 1 : this.flags & (-2);
+                        this.flags = i2;
+                        int i3 = this.winners_are_visible ? i2 | 4 : i2 & (-5);
+                        this.flags = i3;
+                        abstractSerializedData2.writeInt32(i3);
+                        abstractSerializedData2.writeInt32(481674261);
+                        int size = this.channels.size();
+                        abstractSerializedData2.writeInt32(size);
+                        for (int i4 = 0; i4 < size; i4++) {
+                            abstractSerializedData2.writeInt64(((Long) this.channels.get(i4)).longValue());
+                        }
+                        if ((this.flags & 2) != 0) {
+                            abstractSerializedData2.writeInt32(481674261);
+                            int size2 = this.countries_iso2.size();
+                            abstractSerializedData2.writeInt32(size2);
+                            for (int i5 = 0; i5 < size2; i5++) {
+                                abstractSerializedData2.writeString((String) this.countries_iso2.get(i5));
+                            }
+                        }
+                        if ((this.flags & 8) != 0) {
+                            abstractSerializedData2.writeString(this.prize_description);
+                        }
+                        abstractSerializedData2.writeInt32(this.quantity);
+                        abstractSerializedData2.writeInt32(this.months);
+                        abstractSerializedData2.writeInt32(this.until_date);
+                    }
+                };
                 break;
             case -571405253:
                 tLRPC$MessageMedia = new TLRPC$TL_messageMediaWebPage();

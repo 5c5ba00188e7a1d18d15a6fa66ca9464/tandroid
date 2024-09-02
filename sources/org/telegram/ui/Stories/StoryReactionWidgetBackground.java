@@ -24,7 +24,7 @@ public class StoryReactionWidgetBackground extends Drawable {
     private Paint xRefPaint;
     private final int STYLE_FILLED = 0;
     private final int STYLE_TRANSCLUENT = 1;
-    int alpha = NotificationCenter.voipServiceCreated;
+    int alpha = NotificationCenter.didClearDatabase;
     float[] points = new float[15];
     Path path = new Path();
 

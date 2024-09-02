@@ -2643,14 +2643,14 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:296:0x07d0  */
     /* JADX WARN: Removed duplicated region for block: B:303:0x0800  */
     /* JADX WARN: Removed duplicated region for block: B:309:0x082c  */
-    /* JADX WARN: Removed duplicated region for block: B:315:0x086d  */
-    /* JADX WARN: Removed duplicated region for block: B:347:0x08fc A[Catch: Exception -> 0x0902, TRY_LEAVE, TryCatch #13 {Exception -> 0x0902, blocks: (B:345:0x08eb, B:347:0x08fc), top: B:407:0x08eb }] */
-    /* JADX WARN: Removed duplicated region for block: B:360:0x092b  */
-    /* JADX WARN: Removed duplicated region for block: B:362:0x092f  */
-    /* JADX WARN: Removed duplicated region for block: B:364:0x093d  */
+    /* JADX WARN: Removed duplicated region for block: B:315:0x086f  */
+    /* JADX WARN: Removed duplicated region for block: B:347:0x08fe A[Catch: Exception -> 0x0904, TRY_LEAVE, TryCatch #13 {Exception -> 0x0904, blocks: (B:345:0x08ed, B:347:0x08fe), top: B:407:0x08ed }] */
+    /* JADX WARN: Removed duplicated region for block: B:360:0x092d  */
+    /* JADX WARN: Removed duplicated region for block: B:362:0x0931  */
+    /* JADX WARN: Removed duplicated region for block: B:364:0x093f  */
     /* JADX WARN: Removed duplicated region for block: B:399:0x0694 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r1v36 */
-    /* JADX WARN: Type inference failed for: r1v37, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r1v37, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r1v41 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3396,20 +3396,20 @@ public class FileLoadOperation {
 
     /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:158:0x0253  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x025d  */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x0262  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x0265  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x026a  */
-    /* JADX WARN: Removed duplicated region for block: B:171:0x027d  */
-    /* JADX WARN: Removed duplicated region for block: B:203:0x034b  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x036c  */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x0374  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x038c  */
-    /* JADX WARN: Removed duplicated region for block: B:218:0x0398  */
-    /* JADX WARN: Removed duplicated region for block: B:220:0x039c  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x03c9  */
-    /* JADX WARN: Removed duplicated region for block: B:232:0x02f0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x0254  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x025e  */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x0263  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x0266  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x026b  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x027e  */
+    /* JADX WARN: Removed duplicated region for block: B:203:0x034c  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x036d  */
+    /* JADX WARN: Removed duplicated region for block: B:210:0x0375  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x038d  */
+    /* JADX WARN: Removed duplicated region for block: B:218:0x0399  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x039d  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x03ca  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x02f1 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3561,44 +3561,44 @@ public class FileLoadOperation {
                                             NativeByteBuffer nativeByteBuffer = new NativeByteBuffer((int) preloadRange.length);
                                             this.preloadStream.seek(preloadRange.fileOffset);
                                             this.preloadStream.getChannel().read(nativeByteBuffer.buffer);
-                                        } catch (Exception unused2) {
-                                        }
-                                        try {
-                                            nativeByteBuffer.buffer.position(0);
-                                            requestInfo.response.bytes = nativeByteBuffer;
-                                            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda2
-                                                @Override // java.lang.Runnable
-                                                public final void run() {
-                                                    FileLoadOperation.this.lambda$startDownloadRequest$23(requestInfo);
+                                            try {
+                                                nativeByteBuffer.buffer.position(0);
+                                                requestInfo.response.bytes = nativeByteBuffer;
+                                                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda2
+                                                    @Override // java.lang.Runnable
+                                                    public final void run() {
+                                                        FileLoadOperation.this.lambda$startDownloadRequest$23(requestInfo);
+                                                    }
+                                                });
+                                                j7 = 0;
+                                            } catch (Exception unused2) {
+                                                if (this.streamPriorityStartOffset != 0) {
                                                 }
-                                            });
-                                            j7 = 0;
+                                                tLRPC$InputFileLocation = this.location;
+                                                if (tLRPC$InputFileLocation instanceof TLRPC$TL_inputPeerPhotoFileLocation) {
+                                                }
+                                                requestInfo.forceSmallChunk = this.forceSmallChunk;
+                                                if (BuildVars.LOGS_ENABLED) {
+                                                }
+                                                int i11 = i5 | 2048;
+                                                final int i12 = this.isCdn ? this.cdnDatacenterId : this.datacenterId;
+                                                j7 = j6;
+                                                final int i13 = i9;
+                                                requestInfo.requestToken = ConnectionsManager.getInstance(this.currentAccount).sendRequestSync(tLRPC$TL_upload_getFile3, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda3
+                                                    @Override // org.telegram.tgnet.RequestDelegate
+                                                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                                        FileLoadOperation.this.lambda$startDownloadRequest$25(requestInfo, i12, i13, tLRPC$TL_upload_getFile3, tLObject, tLRPC$TL_error);
+                                                    }
+                                                }, null, null, i11, i12, i9, z);
+                                                if (BuildVars.LOGS_ENABLED) {
+                                                }
+                                                this.requestsCount++;
+                                                i8++;
+                                                j8 = j7;
+                                                max = i2;
+                                                z2 = false;
+                                            }
                                         } catch (Exception unused3) {
-                                            if (this.streamPriorityStartOffset != 0) {
-                                            }
-                                            tLRPC$InputFileLocation = this.location;
-                                            if (tLRPC$InputFileLocation instanceof TLRPC$TL_inputPeerPhotoFileLocation) {
-                                            }
-                                            requestInfo.forceSmallChunk = this.forceSmallChunk;
-                                            if (BuildVars.LOGS_ENABLED) {
-                                            }
-                                            int i11 = i5 | 2048;
-                                            final int i12 = this.isCdn ? this.cdnDatacenterId : this.datacenterId;
-                                            j7 = j6;
-                                            final int i13 = i9;
-                                            requestInfo.requestToken = ConnectionsManager.getInstance(this.currentAccount).sendRequestSync(tLRPC$TL_upload_getFile3, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda3
-                                                @Override // org.telegram.tgnet.RequestDelegate
-                                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                                    FileLoadOperation.this.lambda$startDownloadRequest$25(requestInfo, i12, i13, tLRPC$TL_upload_getFile3, tLObject, tLRPC$TL_error);
-                                                }
-                                            }, null, null, i11, i12, i9, z);
-                                            if (BuildVars.LOGS_ENABLED) {
-                                            }
-                                            this.requestsCount++;
-                                            i8++;
-                                            j8 = j7;
-                                            max = i2;
-                                            z2 = false;
                                         }
                                         i8++;
                                         j8 = j7;

@@ -19,7 +19,7 @@ public class EmojiData {
     public static final HashMap<Character, Boolean> dataCharsMap = new HashMap<>((int) NotificationCenter.groupCallTypingsUpdated);
     public static final HashSet<String> emojiColoredMap = new HashSet<>(307);
     public static final HashSet<String> emojiBigColoredMap = new HashSet<>(11);
-    public static final HashMap<CharSequence, CharSequence> emojiAliasMap = new HashMap<>((int) NotificationCenter.messagePlayingSpeedChanged);
+    public static final HashMap<CharSequence, CharSequence> emojiAliasMap = new HashMap<>((int) NotificationCenter.closeSearchByActiveAction);
 
     static {
         int i = 0;

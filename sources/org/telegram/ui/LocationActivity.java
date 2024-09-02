@@ -1978,7 +1978,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         try {
             try {
                 if (z) {
-                    int max = Math.max(i, (int) NotificationCenter.playerDidStartPlaying);
+                    int max = Math.max(i, (int) NotificationCenter.notificationsCountUpdated);
                     IMapsProvider.LatLng center = onCreateLatLngBoundsBuilder.build().getCenter();
                     double d = max;
                     IMapsProvider.LatLng move = move(center, d, d);
@@ -2599,7 +2599,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     /* JADX WARN: Removed duplicated region for block: B:97:0x0621  */
     /* JADX WARN: Removed duplicated region for block: B:98:0x0624  */
     /* JADX WARN: Type inference failed for: r14v1 */
-    /* JADX WARN: Type inference failed for: r14v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r14v3 */
     /* JADX WARN: Type inference failed for: r14v4 */
     /* JADX WARN: Type inference failed for: r14v5 */

@@ -147,14 +147,14 @@ public class TextureRenderer {
     private final RectF roundDst = new RectF();
     private boolean firstFrame = true;
 
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0224  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0247  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0383  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x03b1  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0420  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0483  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x04a5  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x04ad  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0225  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0248  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0384  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x03b2  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0421  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0484  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x04a6  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x04ae  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

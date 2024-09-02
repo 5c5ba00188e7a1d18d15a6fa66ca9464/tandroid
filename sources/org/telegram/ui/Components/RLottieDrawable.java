@@ -13,9 +13,7 @@ import android.text.TextUtils;
 import android.util.JsonReader;
 import android.view.View;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
-import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +26,6 @@ import org.telegram.messenger.DispatchQueuePool;
 import org.telegram.messenger.DispatchQueuePoolBackground;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageReceiver;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.utils.BitmapsCache;
@@ -120,8 +117,6 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     public Runnable whenCacheDone;
     protected final int width;
     protected static final Handler uiHandler = new Handler(Looper.getMainLooper());
-    private static ThreadLocal readBufferLocal = new ThreadLocal();
-    private static ThreadLocal bufferLocal = new ThreadLocal();
     private static final DispatchQueuePool loadFrameRunnableQueue = new DispatchQueuePool(4);
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -514,7 +509,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         this.width = i2;
         this.height = i3;
         this.autoRepeat = 0;
-        String readRes = readRes(null, i);
+        String readRes = AndroidUtilities.readRes(i);
         if (TextUtils.isEmpty(readRes)) {
             return;
         }
@@ -1590,10 +1585,10 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         this.height = i2;
         this.isDice = 1;
         if ("🎲".equals(str)) {
-            readRes = readRes(null, R.raw.diceloop);
+            readRes = AndroidUtilities.readRes(R.raw.diceloop);
             this.diceSwitchFramesCount = 60;
         } else {
-            readRes = "🎯".equals(str) ? readRes(null, R.raw.dartloop) : null;
+            readRes = "🎯".equals(str) ? AndroidUtilities.readRes(R.raw.dartloop) : null;
         }
         getPaint().setFlags(2);
         if (TextUtils.isEmpty(readRes)) {
@@ -1784,59 +1779,6 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             if (create != 0) {
                 destroy(create);
             }
-        }
-    }
-
-    public static String readRes(File file, int i) {
-        InputStream inputStream;
-        byte[] bArr = (byte[]) readBufferLocal.get();
-        if (bArr == null) {
-            bArr = new byte[65536];
-            readBufferLocal.set(bArr);
-        }
-        try {
-            inputStream = file != null ? new FileInputStream(file) : ApplicationLoader.applicationContext.getResources().openRawResource(i);
-        } catch (Throwable unused) {
-            inputStream = null;
-        }
-        try {
-            byte[] bArr2 = (byte[]) bufferLocal.get();
-            if (bArr2 == null) {
-                bArr2 = new byte[LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM];
-                bufferLocal.set(bArr2);
-            }
-            int i2 = 0;
-            while (true) {
-                int read = inputStream.read(bArr2, 0, bArr2.length);
-                if (read >= 0) {
-                    int i3 = i2 + read;
-                    if (bArr.length < i3) {
-                        byte[] bArr3 = new byte[bArr.length * 2];
-                        System.arraycopy(bArr, 0, bArr3, 0, i2);
-                        readBufferLocal.set(bArr3);
-                        bArr = bArr3;
-                    }
-                    if (read > 0) {
-                        System.arraycopy(bArr2, 0, bArr, i2, read);
-                        i2 = i3;
-                    }
-                } else {
-                    try {
-                        break;
-                    } catch (Throwable unused2) {
-                    }
-                }
-            }
-            inputStream.close();
-            return new String(bArr, 0, i2);
-        } catch (Throwable unused3) {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (Throwable unused4) {
-                }
-            }
-            return null;
         }
     }
 
@@ -2401,7 +2343,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
 
     public boolean setBaseDice(File file) {
         if (this.nativePtr == 0 && !this.loadingInBackground) {
-            final String readRes = readRes(file, 0);
+            final String readRes = AndroidUtilities.readRes(file);
             if (TextUtils.isEmpty(readRes)) {
                 return false;
             }
@@ -2478,7 +2420,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
 
     public boolean setDiceNumber(File file, boolean z) {
         if (this.secondNativePtr == 0 && !this.secondLoadingInBackground) {
-            final String readRes = readRes(file, 0);
+            final String readRes = AndroidUtilities.readRes(file);
             if (TextUtils.isEmpty(readRes)) {
                 return false;
             }

@@ -19528,7 +19528,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
             tLRPC$Message2.from_id = tLRPC$TL_peerUser;
             tLRPC$TL_peerUser.user_id = getUserConfig().getClientUserId();
-            tLRPC$Message2.flags |= NotificationCenter.attachMenuBotsDidLoad;
+            tLRPC$Message2.flags |= NotificationCenter.reactionsDidLoad;
             TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = new TLRPC$TL_messageReplyHeader();
             tLRPC$Message2.reply_to = tLRPC$TL_messageReplyHeader;
             tLRPC$TL_messageReplyHeader.flags |= 16;

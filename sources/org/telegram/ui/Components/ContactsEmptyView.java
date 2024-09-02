@@ -26,8 +26,8 @@ public class ContactsEmptyView extends LinearLayout implements NotificationCente
     private ArrayList textViews;
     private TextView titleTextView;
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x014a  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0163  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0149  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0162  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -63,39 +63,36 @@ public class ContactsEmptyView extends LinearLayout implements NotificationCente
             if (i2 >= 3) {
                 return;
             }
-            LinearLayout linearLayout2 = new LinearLayout(context);
-            linearLayout2.setOrientation(0);
-            linearLayout.addView(linearLayout2, LayoutHelper.createLinear(-2, -2, LocaleController.isRTL ? 5 : 3, 0, 8, 0, 0));
-            ImageView imageView = new ImageView(context);
-            int i3 = Theme.key_windowBackgroundWhiteGrayText;
-            imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i3), PorterDuff.Mode.MULTIPLY));
-            imageView.setImageResource(R.drawable.list_circle);
-            this.imageViews.add(imageView);
-            TextView textView2 = new TextView(context);
-            textView2.setTextSize(1, 15.0f);
-            textView2.setTextColor(Theme.getColor(i3));
-            textView2.setMaxWidth(AndroidUtilities.dp(260.0f));
-            this.textViews.add(textView2);
-            textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
-            if (i2 == 0) {
-                i = R.string.NoContactsYetLine1;
-            } else if (i2 != 1) {
-                if (i2 == 2) {
-                    i = R.string.NoContactsYetLine3;
-                }
-                if (LocaleController.isRTL) {
-                    linearLayout2.addView(imageView, LayoutHelper.createLinear(-2, -2, 0.0f, 8.0f, 8.0f, 0.0f));
-                    linearLayout2.addView(textView2, LayoutHelper.createLinear(-2, -2));
+            if (i2 != 1) {
+                LinearLayout linearLayout2 = new LinearLayout(context);
+                linearLayout2.setOrientation(0);
+                linearLayout.addView(linearLayout2, LayoutHelper.createLinear(-2, -2, LocaleController.isRTL ? 5 : 3, 0, 8, 0, 0));
+                ImageView imageView = new ImageView(context);
+                int i3 = Theme.key_windowBackgroundWhiteGrayText;
+                imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i3), PorterDuff.Mode.MULTIPLY));
+                imageView.setImageResource(R.drawable.list_circle);
+                this.imageViews.add(imageView);
+                TextView textView2 = new TextView(context);
+                textView2.setTextSize(1, 15.0f);
+                textView2.setTextColor(Theme.getColor(i3));
+                textView2.setMaxWidth(AndroidUtilities.dp(260.0f));
+                this.textViews.add(textView2);
+                textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+                if (i2 != 0) {
+                    i = i2 == 2 ? R.string.NoContactsYetLine3 : i;
+                    if (LocaleController.isRTL) {
+                        linearLayout2.addView(imageView, LayoutHelper.createLinear(-2, -2, 0.0f, 8.0f, 8.0f, 0.0f));
+                        linearLayout2.addView(textView2, LayoutHelper.createLinear(-2, -2));
+                    } else {
+                        linearLayout2.addView(textView2, LayoutHelper.createLinear(-2, -2));
+                        linearLayout2.addView(imageView, LayoutHelper.createLinear(-2, -2, 8.0f, 7.0f, 0.0f, 0.0f));
+                    }
                 } else {
-                    linearLayout2.addView(textView2, LayoutHelper.createLinear(-2, -2));
-                    linearLayout2.addView(imageView, LayoutHelper.createLinear(-2, -2, 8.0f, 7.0f, 0.0f, 0.0f));
+                    i = R.string.NoContactsYetLine1;
                 }
-                i2++;
-            } else {
-                i = R.string.NoContactsYetLine2;
-            }
-            textView2.setText(LocaleController.getString(i));
-            if (LocaleController.isRTL) {
+                textView2.setText(LocaleController.getString(i));
+                if (LocaleController.isRTL) {
+                }
             }
             i2++;
         }

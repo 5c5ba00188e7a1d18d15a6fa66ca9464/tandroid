@@ -275,7 +275,7 @@ public class SlotsDrawable extends RLottieDrawable {
                         }
                     }
                     final TLRPC$Document tLRPC$Document = (TLRPC$Document) tLRPC$TL_messages_stickerSet.documents.get(i2);
-                    String readRes = RLottieDrawable.readRes(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document, true), 0);
+                    String readRes = AndroidUtilities.readRes(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document, true), 0);
                     if (TextUtils.isEmpty(readRes)) {
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SlotsDrawable$$ExternalSyntheticLambda8
                             @Override // java.lang.Runnable
@@ -351,7 +351,7 @@ public class SlotsDrawable extends RLottieDrawable {
                                     i2 = 3;
                                 }
                                 final TLRPC$Document tLRPC$Document = (TLRPC$Document) tLRPC$TL_messages_stickerSet2.documents.get(i2);
-                                readRes = RLottieDrawable.readRes(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document, true), 0);
+                                readRes = AndroidUtilities.readRes(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document, true), 0);
                                 if (TextUtils.isEmpty(readRes)) {
                                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SlotsDrawable$$ExternalSyntheticLambda4
                                         @Override // java.lang.Runnable
@@ -377,7 +377,7 @@ public class SlotsDrawable extends RLottieDrawable {
                         }
                         tLRPC$TL_messages_stickerSet2 = tLRPC$TL_messages_stickerSet;
                         final TLRPC$Document tLRPC$Document2 = (TLRPC$Document) tLRPC$TL_messages_stickerSet2.documents.get(i2);
-                        readRes = RLottieDrawable.readRes(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document2, true), 0);
+                        readRes = AndroidUtilities.readRes(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document2, true), 0);
                         if (TextUtils.isEmpty(readRes)) {
                         }
                     }
@@ -385,7 +385,7 @@ public class SlotsDrawable extends RLottieDrawable {
                     tLRPC$TL_messages_stickerSet2 = tLRPC$TL_messages_stickerSet;
                     i2 = i3 == 3 ? 1 : 2;
                     final TLRPC$Document tLRPC$Document22 = (TLRPC$Document) tLRPC$TL_messages_stickerSet2.documents.get(i2);
-                    readRes = RLottieDrawable.readRes(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document22, true), 0);
+                    readRes = AndroidUtilities.readRes(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document22, true), 0);
                     if (TextUtils.isEmpty(readRes)) {
                     }
                 }

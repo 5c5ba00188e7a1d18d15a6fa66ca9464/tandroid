@@ -78,9 +78,9 @@ public class GroupCallStatusIcon {
         if (nextInt < 32) {
             i = 0;
         } else {
-            i = NotificationCenter.reloadInterface;
+            i = NotificationCenter.locationPermissionDenied;
             if (nextInt < 64) {
-                i2 = NotificationCenter.reloadInterface;
+                i2 = NotificationCenter.locationPermissionDenied;
                 i = 120;
             } else {
                 i2 = 420;

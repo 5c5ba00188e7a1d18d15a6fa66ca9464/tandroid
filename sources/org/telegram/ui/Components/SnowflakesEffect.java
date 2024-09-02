@@ -50,7 +50,7 @@ public class SnowflakesEffect {
             }
             SnowflakesEffect snowflakesEffect = SnowflakesEffect.this;
             if (snowflakesEffect.particleBitmap == null) {
-                snowflakesEffect.particleThinPaint.setAlpha(NotificationCenter.voipServiceCreated);
+                snowflakesEffect.particleThinPaint.setAlpha(NotificationCenter.didClearDatabase);
                 SnowflakesEffect.this.particleBitmap = Bitmap.createBitmap(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), Bitmap.Config.ARGB_8888);
                 Canvas canvas2 = new Canvas(SnowflakesEffect.this.particleBitmap);
                 float dpf2 = AndroidUtilities.dpf2(2.0f) * 2.0f;

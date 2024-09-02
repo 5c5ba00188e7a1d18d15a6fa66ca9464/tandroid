@@ -995,7 +995,7 @@ public class TopicsController extends BaseController {
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:94:0x01f2  */
     /* JADX WARN: Type inference failed for: r3v3 */
-    /* JADX WARN: Type inference failed for: r3v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v4, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v6 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_payments_applyGiftCode extends TLObject {
-    public static int constructor = -152934316;
     public String slug;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_payments_applyGiftCode extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-152934316);
         abstractSerializedData.writeString(this.slug);
     }
 }

@@ -47,7 +47,7 @@ public final class WavExtractor implements Extractor {
     /* loaded from: classes.dex */
     public static final class ImaAdPcmOutputWriter implements OutputWriter {
         private static final int[] INDEX_TABLE = {-1, -1, -1, -1, 2, 4, 6, 8, -1, -1, -1, -1, 2, 4, 6, 8};
-        private static final int[] STEP_TABLE = {7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 19, 21, 23, 25, 28, 31, 34, 37, 41, 45, 50, 55, 60, 66, 73, 80, 88, 97, 107, 118, NotificationCenter.walletSyncProgressChanged, NotificationCenter.dialogsUnreadCounterChanged, NotificationCenter.albumsDidLoad, NotificationCenter.needDeleteDialog, NotificationCenter.storiesSendAsUpdate, NotificationCenter.starOptionsLoaded, NotificationCenter.didSetNewTheme, NotificationCenter.screenStateChanged, NotificationCenter.userEmojiStatusUpdated, 307, 337, 371, 408, 449, 494, 544, 598, 658, 724, 796, 876, 963, 1060, 1166, 1282, 1411, 1552, 1707, 1878, 2066, 2272, 2499, 2749, 3024, 3327, 3660, 4026, 4428, 4871, 5358, 5894, 6484, 7132, 7845, 8630, 9493, 10442, 11487, 12635, 13899, 15289, 16818, 18500, 20350, 22385, 24623, 27086, 29794, 32767};
+        private static final int[] STEP_TABLE = {7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 19, 21, 23, 25, 28, 31, 34, 37, 41, 45, 50, 55, 60, 66, 73, 80, 88, 97, 107, 118, NotificationCenter.walletSyncProgressChanged, NotificationCenter.dialogsUnreadCounterChanged, NotificationCenter.albumsDidLoad, NotificationCenter.needDeleteDialog, NotificationCenter.storiesSendAsUpdate, NotificationCenter.starOptionsLoaded, NotificationCenter.didReplacedPhotoInMemCache, NotificationCenter.messagePlayingSpeedChanged, NotificationCenter.premiumStickersPreviewLoaded, 307, 337, 371, 408, 449, 494, 544, 598, 658, 724, 796, 876, 963, 1060, 1166, 1282, 1411, 1552, 1707, 1878, 2066, 2272, 2499, 2749, 3024, 3327, 3660, 4026, 4428, 4871, 5358, 5894, 6484, 7132, 7845, 8630, 9493, 10442, 11487, 12635, 13899, 15289, 16818, 18500, 20350, 22385, 24623, 27086, 29794, 32767};
         private final ParsableByteArray decodedData;
         private final ExtractorOutput extractorOutput;
         private final Format format;
@@ -106,7 +106,7 @@ public final class WavExtractor implements Extractor {
             int min = Math.min(bArr[i5 + 2] & 255, 88);
             int i9 = STEP_TABLE[min];
             int i10 = ((i * this.framesPerBlock * i4) + i2) * 2;
-            bArr2[i10] = (byte) (i8 & NotificationCenter.voipServiceCreated);
+            bArr2[i10] = (byte) (i8 & NotificationCenter.didClearDatabase);
             bArr2[i10 + 1] = (byte) (i8 >> 8);
             for (int i11 = 0; i11 < i7 * 2; i11++) {
                 byte b = bArr[((i11 / 8) * i4 * 4) + i6 + ((i11 / 2) % 4)];
@@ -117,7 +117,7 @@ public final class WavExtractor implements Extractor {
                 }
                 i8 = Util.constrainValue(i8 + i13, -32768, 32767);
                 i10 += i4 * 2;
-                bArr2[i10] = (byte) (i8 & NotificationCenter.voipServiceCreated);
+                bArr2[i10] = (byte) (i8 & NotificationCenter.didClearDatabase);
                 bArr2[i10 + 1] = (byte) (i8 >> 8);
                 int i14 = min + INDEX_TABLE[i12];
                 int[] iArr = STEP_TABLE;

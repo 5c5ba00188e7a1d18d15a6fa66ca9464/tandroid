@@ -66,7 +66,7 @@ public enum k implements j$.time.temporal.k {
             case 3:
                 return (z ? 1 : 0) + NotificationCenter.recordStartError;
             case 4:
-                return (z ? 1 : 0) + NotificationCenter.proxyCheckDone;
+                return (z ? 1 : 0) + NotificationCenter.proxySettingsChanged;
             case 5:
                 return (z ? 1 : 0) + 305;
             case 6:
@@ -78,9 +78,9 @@ public enum k implements j$.time.temporal.k {
             case 9:
                 return (z ? 1 : 0) + NotificationCenter.didStartedMultiGiftsSelector;
             case 10:
-                return (z ? 1 : 0) + NotificationCenter.starSubscriptionsLoaded;
+                return (z ? 1 : 0) + NotificationCenter.starTransactionsLoaded;
             case 11:
-                return (z ? 1 : 0) + NotificationCenter.premiumStatusChangedGlobal;
+                return (z ? 1 : 0) + NotificationCenter.premiumPromoUpdated;
             default:
                 return (z ? 1 : 0) + 335;
         }

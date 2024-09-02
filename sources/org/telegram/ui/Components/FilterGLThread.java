@@ -533,8 +533,8 @@ public class FilterGLThread extends DispatchQueue {
         this.renderBufferHeight = this.filterShaders.getRenderBufferHeight();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0026  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x003b  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0025  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x003a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -585,7 +585,7 @@ public class FilterGLThread extends DispatchQueue {
         } else {
             i = R.raw.hdr2sdr_pq;
         }
-        str = RLottieDrawable.readRes(null, i);
+        str = AndroidUtilities.readRes(i);
         if (hDRType == 0) {
         }
         int loadShader22 = FilterShaders.loadShader(35632, str2);

@@ -178,15 +178,15 @@ public final class PsExtractor implements Extractor {
                             extractorInput.skipFully(1);
                             return 0;
                         }
-                        int i = readInt & NotificationCenter.voipServiceCreated;
+                        int i = readInt & NotificationCenter.didClearDatabase;
                         PesReader pesReader = (PesReader) this.psPayloadReaders.get(i);
                         if (!this.foundAllTracks) {
                             if (pesReader == null) {
                                 if (i == 189) {
                                     elementaryStreamReader = new Ac3Reader();
-                                } else if ((readInt & NotificationCenter.didReceiveCall) == 192) {
+                                } else if ((readInt & NotificationCenter.didReceiveSmsCode) == 192) {
                                     elementaryStreamReader = new MpegAudioReader();
-                                } else if ((readInt & NotificationCenter.reloadInterface) == 224) {
+                                } else if ((readInt & NotificationCenter.locationPermissionDenied) == 224) {
                                     elementaryStreamReader = new H262Reader();
                                     this.foundVideoTrack = true;
                                     this.lastTrackPosition = extractorInput.getPosition();

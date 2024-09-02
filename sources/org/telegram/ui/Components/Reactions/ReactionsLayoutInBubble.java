@@ -580,7 +580,7 @@ public class ReactionsLayoutInBubble {
             }
             if (z2) {
                 rectF.right += AndroidUtilities.dp(4.0f);
-                canvas.saveLayerAlpha(rectF, NotificationCenter.voipServiceCreated, 31);
+                canvas.saveLayerAlpha(rectF, NotificationCenter.didClearDatabase, 31);
                 rectF.right -= AndroidUtilities.dp(4.0f);
             }
             if (this.particles != null) {
@@ -712,7 +712,7 @@ public class ReactionsLayoutInBubble {
                 if (view != null) {
                     view.invalidate();
                 }
-                this.particles.draw(canvas, ColorUtils.blendARGB(ColorUtils.setAlphaComponent(this.backgroundColor, NotificationCenter.voipServiceCreated), ColorUtils.blendARGB(this.serviceTextColor, ColorUtils.setAlphaComponent(this.backgroundColor, NotificationCenter.voipServiceCreated), 0.4f), getDrawServiceShaderBackground()));
+                this.particles.draw(canvas, ColorUtils.blendARGB(ColorUtils.setAlphaComponent(this.backgroundColor, NotificationCenter.didClearDatabase), ColorUtils.blendARGB(this.serviceTextColor, ColorUtils.setAlphaComponent(this.backgroundColor, NotificationCenter.didClearDatabase), 0.4f), getDrawServiceShaderBackground()));
                 canvas.save();
                 canvas.clipPath(this.tagPath);
                 this.particles.draw(canvas, this.textColor);

@@ -153,14 +153,14 @@ public class VoIpCoverView extends View {
                 voipCoverEmoji2.onDraw(canvas);
             }
             int alpha = this.backgroundProvider.getDarkPaint().getAlpha();
-            this.saveLayerPaint.setAlpha(NotificationCenter.voipServiceCreated);
+            this.saveLayerPaint.setAlpha(NotificationCenter.didClearDatabase);
             canvas.saveLayer(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.saveLayerPaint, 31);
-            this.backgroundProvider.getDarkPaint().setAlpha(NotificationCenter.voipServiceCreated);
+            this.backgroundProvider.getDarkPaint().setAlpha(NotificationCenter.didClearDatabase);
             canvas.drawRect(this.bgRect, this.backgroundProvider.getDarkPaint());
             this.backgroundProvider.getDarkPaint().setAlpha(alpha);
             if (this.backgroundProvider.isReveal()) {
                 int alpha2 = this.backgroundProvider.getRevealDarkPaint().getAlpha();
-                this.backgroundProvider.getRevealDarkPaint().setAlpha(NotificationCenter.voipServiceCreated);
+                this.backgroundProvider.getRevealDarkPaint().setAlpha(NotificationCenter.didClearDatabase);
                 canvas.drawRect(this.bgRect, this.backgroundProvider.getRevealDarkPaint());
                 this.backgroundProvider.getRevealDarkPaint().setAlpha(alpha2);
             }

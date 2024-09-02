@@ -169,12 +169,7 @@ public abstract class TLRPC$PageBlock extends TLObject {
                 };
                 break;
             case -618614392:
-                tLRPC$TL_pageBlockAudio = new TLRPC$PageBlock() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockDivider
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(-618614392);
-                    }
-                };
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockDivider();
                 break;
             case -454524911:
                 tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockList();

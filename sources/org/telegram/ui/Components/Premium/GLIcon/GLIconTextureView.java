@@ -94,7 +94,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
             GLIconTextureView.this.animatorSet = new AnimatorSet();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(GLIconTextureView.this.mRenderer.angleX, f);
             ofFloat.addUpdateListener(GLIconTextureView.this.xUpdater);
-            long j = (long) NotificationCenter.pushMessagesUpdated;
+            long j = (long) NotificationCenter.updateAllMessages;
             ofFloat.setDuration(j);
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
             ofFloat.setInterpolator(cubicBezierInterpolator);
@@ -216,24 +216,29 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
                     gLIconTextureView3.initializeRenderer(gLIconTextureView3.mRenderer);
                     GLIconTextureView.this.rendererChanged = false;
                 }
-                if (!GLIconTextureView.this.shouldSleep()) {
-                    long currentTimeMillis2 = System.currentTimeMillis();
-                    GLIconTextureView.this.drawSingleFrame(((float) (currentTimeMillis2 - currentTimeMillis)) / 1000.0f);
-                    if (!GLIconTextureView.this.ready) {
-                        GLIconTextureView.this.ready = true;
-                        AndroidUtilities.runOnUIThread(GLIconTextureView.this.readyListener);
-                        GLIconTextureView.this.readyListener = null;
-                    }
-                    currentTimeMillis = currentTimeMillis2;
-                }
                 try {
-                    if (GLIconTextureView.this.shouldSleep()) {
-                        Thread.sleep(100L);
-                    } else {
-                        do {
-                        } while (System.currentTimeMillis() - currentTimeMillis < GLIconTextureView.this.targetFrameDurationMillis);
+                    if (!GLIconTextureView.this.shouldSleep()) {
+                        long currentTimeMillis2 = System.currentTimeMillis();
+                        GLIconTextureView.this.drawSingleFrame(((float) (currentTimeMillis2 - currentTimeMillis)) / 1000.0f);
+                        if (!GLIconTextureView.this.ready) {
+                            GLIconTextureView.this.ready = true;
+                            AndroidUtilities.runOnUIThread(GLIconTextureView.this.readyListener);
+                            GLIconTextureView.this.readyListener = null;
+                        }
+                        currentTimeMillis = currentTimeMillis2;
                     }
-                } catch (InterruptedException unused2) {
+                    try {
+                        if (GLIconTextureView.this.shouldSleep()) {
+                            Thread.sleep(100L);
+                        } else {
+                            do {
+                            } while (System.currentTimeMillis() - currentTimeMillis < GLIconTextureView.this.targetFrameDurationMillis);
+                        }
+                    } catch (InterruptedException unused2) {
+                    }
+                } catch (Exception e) {
+                    FileLog.e(e);
+                    return;
                 }
             }
         }
@@ -295,21 +300,6 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
             this.animationIndexes.add(Integer.valueOf(i3));
         }
         Collections.shuffle(this.animationIndexes);
-    }
-
-    private void cancelAnimatons() {
-        ValueAnimator valueAnimator = this.backAnimation;
-        if (valueAnimator != null) {
-            valueAnimator.removeAllListeners();
-            this.backAnimation.cancel();
-            this.backAnimation = null;
-        }
-        AnimatorSet animatorSet = this.animatorSet;
-        if (animatorSet != null) {
-            animatorSet.removeAllListeners();
-            this.animatorSet.cancel();
-            this.animatorSet = null;
-        }
     }
 
     private void checkCurrent() {
@@ -515,15 +505,6 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void scheduleIdleAnimation(long j) {
-        AndroidUtilities.cancelRunOnUIThread(this.idleAnimation);
-        if (this.dialogIsVisible) {
-            return;
-        }
-        AndroidUtilities.runOnUIThread(this.idleAnimation, j);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
     public boolean shouldSleep() {
         return isPaused() || this.mRenderer == null;
     }
@@ -587,30 +568,23 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         this.animatorSet.start();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void startBackAnimation() {
-        cancelAnimatons();
-        GLIconRenderer gLIconRenderer = this.mRenderer;
-        final float f = gLIconRenderer.angleX;
-        final float f2 = gLIconRenderer.angleY;
-        final float f3 = gLIconRenderer.angleX2;
-        float f4 = f + f2;
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(1.0f, 0.0f);
-        this.backAnimation = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda3
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                GLIconTextureView.this.lambda$startBackAnimation$0(f, f3, f2, valueAnimator);
-            }
-        });
-        this.backAnimation.setDuration(600L);
-        this.backAnimation.setInterpolator(new OvershootInterpolator());
-        this.backAnimation.start();
-        StarParticlesView starParticlesView = this.starParticlesView;
-        if (starParticlesView != null) {
-            starParticlesView.flingParticles(Math.abs(f4));
+    public void cancelAnimatons() {
+        ValueAnimator valueAnimator = this.backAnimation;
+        if (valueAnimator != null) {
+            valueAnimator.removeAllListeners();
+            this.backAnimation.cancel();
+            this.backAnimation = null;
         }
-        scheduleIdleAnimation(this.idleDelay);
+        AnimatorSet animatorSet = this.animatorSet;
+        if (animatorSet != null) {
+            animatorSet.removeAllListeners();
+            this.animatorSet.cancel();
+            this.animatorSet = null;
+        }
+    }
+
+    public void cancelIdleAnimation() {
+        AndroidUtilities.cancelRunOnUIThread(this.idleAnimation);
     }
 
     public synchronized boolean isPaused() {
@@ -680,6 +654,14 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         return this.gestureDetector.onTouchEvent(motionEvent);
     }
 
+    public void scheduleIdleAnimation(long j) {
+        AndroidUtilities.cancelRunOnUIThread(this.idleAnimation);
+        if (this.dialogIsVisible) {
+            return;
+        }
+        AndroidUtilities.runOnUIThread(this.idleAnimation, j);
+    }
+
     public void setBackgroundBitmap(Bitmap bitmap) {
         this.mRenderer.setBackground(bitmap);
     }
@@ -710,6 +692,31 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
 
     public void setStarParticlesView(StarParticlesView starParticlesView) {
         this.starParticlesView = starParticlesView;
+    }
+
+    public void startBackAnimation() {
+        cancelAnimatons();
+        GLIconRenderer gLIconRenderer = this.mRenderer;
+        final float f = gLIconRenderer.angleX;
+        final float f2 = gLIconRenderer.angleY;
+        final float f3 = gLIconRenderer.angleX2;
+        float f4 = f + f2;
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(1.0f, 0.0f);
+        this.backAnimation = ofFloat;
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda3
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                GLIconTextureView.this.lambda$startBackAnimation$0(f, f3, f2, valueAnimator);
+            }
+        });
+        this.backAnimation.setDuration(600L);
+        this.backAnimation.setInterpolator(new OvershootInterpolator());
+        this.backAnimation.start();
+        StarParticlesView starParticlesView = this.starParticlesView;
+        if (starParticlesView != null) {
+            starParticlesView.flingParticles(Math.abs(f4));
+        }
+        scheduleIdleAnimation(this.idleDelay);
     }
 
     public void startEnterAnimation(int i, long j) {

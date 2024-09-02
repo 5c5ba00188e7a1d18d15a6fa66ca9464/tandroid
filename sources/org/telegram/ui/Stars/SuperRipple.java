@@ -14,7 +14,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationBadge;
 import org.telegram.messenger.R;
 import org.telegram.ui.Components.CubicBezierInterpolator;
-import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes3.dex */
 public class SuperRipple extends ISuperRipple {
     public final int MAX_COUNT;
@@ -55,7 +54,7 @@ public class SuperRipple extends ISuperRipple {
         this.centerX = new float[7];
         this.centerY = new float[7];
         this.intensity = new float[7];
-        RuntimeShader runtimeShader = new RuntimeShader(RLottieDrawable.readRes(null, R.raw.superripple_effect));
+        RuntimeShader runtimeShader = new RuntimeShader(AndroidUtilities.readRes(R.raw.superripple_effect));
         this.shader = runtimeShader;
         setupSizeUniforms(true);
         createRuntimeShaderEffect = RenderEffect.createRuntimeShaderEffect(runtimeShader, "img");

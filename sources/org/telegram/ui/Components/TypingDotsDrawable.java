@@ -78,7 +78,7 @@ public class TypingDotsDrawable extends StatusDrawable {
         Paint paint = this.currentPaint;
         if (paint == null) {
             paint = Theme.chat_statusPaint;
-            paint.setAlpha(NotificationCenter.voipServiceCreated);
+            paint.setAlpha(NotificationCenter.didClearDatabase);
         }
         float f = dp;
         canvas.drawCircle(AndroidUtilities.dp(3.0f), f, this.scales[0] * AndroidUtilities.density, paint);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.GraySectionCell;
 import org.telegram.ui.Cells.TextCell;
+import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ListView.AdapterWithDiffUtils;
 import org.telegram.ui.Components.Premium.boosts.BoostRepository;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorCountryCell;
@@ -61,6 +63,7 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
         public CharSequence text;
         public int type;
         public TLRPC$User user;
+        public View view;
 
         private Item(int i, boolean z) {
             super(i, z);
@@ -79,6 +82,12 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
             Item item = new Item(6, true);
             item.country = tLRPC$TL_help_country;
             item.checked = z;
+            return item;
+        }
+
+        public static Item asCustom(View view) {
+            Item item = new Item(10, false);
+            item.view = view;
             return item;
         }
 
@@ -164,7 +173,10 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
                     if (i2 != 6 || this.country == item.country) {
                         if (i2 != 7 || TextUtils.equals(this.text, item.text)) {
                             if (this.viewType != 8 || TextUtils.equals(this.text, item.text)) {
-                                return this.viewType != 9 || (TextUtils.equals(this.text, item.text) && this.id == item.id && this.resId == item.resId);
+                                if (this.viewType != 9 || (TextUtils.equals(this.text, item.text) && this.id == item.id && this.resId == item.resId)) {
+                                    return this.viewType != 10 || this.view == item.view;
+                                }
+                                return false;
                             }
                             return false;
                         }
@@ -302,15 +314,7 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
                 } catch (Exception unused) {
                     return;
                 }
-            } else if (itemViewType != 8) {
-                if (itemViewType == 9) {
-                    TextCell textCell = (TextCell) viewHolder.itemView;
-                    textCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
-                    textCell.setTextAndIcon(item.text, item.resId, false);
-                    return;
-                }
-                return;
-            } else {
+            } else if (itemViewType == 8) {
                 GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
                 if (TextUtils.equals(graySectionCell.getText(), item.text)) {
                     CharSequence charSequence = item.subtext;
@@ -325,6 +329,21 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
                     }
                 }
                 this.topSectionCell = graySectionCell;
+                return;
+            } else if (itemViewType == 9) {
+                TextCell textCell = (TextCell) viewHolder.itemView;
+                textCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
+                textCell.setTextAndIcon(item.text, item.resId, false);
+                return;
+            } else if (itemViewType == 10) {
+                FrameLayout frameLayout = (FrameLayout) viewHolder.itemView;
+                if (frameLayout.getChildCount() == 1 && frameLayout.getChildAt(0) == item.view) {
+                    return;
+                }
+                AndroidUtilities.removeFromParent(item.view);
+                frameLayout.addView(item.view, LayoutHelper.createFrame(-1, -2.0f));
+                return;
+            } else {
                 return;
             }
         }
@@ -412,7 +431,7 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
             textCell.imageLeft = 19;
             selectorUserCell = textCell;
         } else {
-            selectorUserCell = new View(this.context);
+            selectorUserCell = i == 10 ? new FrameLayout(this.context) : new View(this.context);
         }
         return new RecyclerListView.Holder(selectorUserCell);
     }

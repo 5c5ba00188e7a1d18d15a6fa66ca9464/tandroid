@@ -661,7 +661,7 @@ public class BlurringShader {
                         }
                         this.dimPaint.setColor(-14145495);
                     } else if (drawable != null) {
-                        canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, NotificationCenter.voipServiceCreated, 31);
+                        canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, NotificationCenter.didClearDatabase, 31);
                         drawable.setBounds(bounds);
                         drawable.draw(canvas);
                         canvas.drawRect(bounds, paint);
@@ -1087,8 +1087,8 @@ public class BlurringShader {
         this.uvBuffer = asFloatBuffer3;
         asFloatBuffer3.put(new float[]{0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f});
         this.uvBuffer.position(0);
-        String readRes = RLottieDrawable.readRes(null, R.raw.blur_vrt);
-        String readRes2 = RLottieDrawable.readRes(null, R.raw.blur_frg);
+        String readRes = AndroidUtilities.readRes(R.raw.blur_vrt);
+        String readRes2 = AndroidUtilities.readRes(R.raw.blur_frg);
         if (readRes == null || readRes2 == null) {
             return false;
         }

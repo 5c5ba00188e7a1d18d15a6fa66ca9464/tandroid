@@ -799,14 +799,14 @@ public class FilterShaders {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0024  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0027  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x002c  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x002f  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0037  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0052  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x015f A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0023  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0026  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x002b  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x002e  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0036  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0038  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0051  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x015e A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -970,7 +970,7 @@ public class FilterShaders {
                 i2 += i3;
             }
         }
-        str = RLottieDrawable.readRes(null, i);
+        str = AndroidUtilities.readRes(i);
         boolean z22 = this.isVideo;
         if (!z22) {
         }
@@ -1375,9 +1375,9 @@ public class FilterShaders {
             GLES20.glUniform1f(this.fadeAmountHandle, this.delegate.getFadeValue());
             int tintHighlightsColor = this.delegate.getTintHighlightsColor();
             int tintShadowsColor = this.delegate.getTintShadowsColor();
-            GLES20.glUniform3f(this.highlightsTintColorHandle, ((tintHighlightsColor >> 16) & NotificationCenter.voipServiceCreated) / 255.0f, ((tintHighlightsColor >> 8) & NotificationCenter.voipServiceCreated) / 255.0f, (tintHighlightsColor & NotificationCenter.voipServiceCreated) / 255.0f);
+            GLES20.glUniform3f(this.highlightsTintColorHandle, ((tintHighlightsColor >> 16) & NotificationCenter.didClearDatabase) / 255.0f, ((tintHighlightsColor >> 8) & NotificationCenter.didClearDatabase) / 255.0f, (tintHighlightsColor & NotificationCenter.didClearDatabase) / 255.0f);
             GLES20.glUniform1f(this.highlightsTintIntensityHandle, this.delegate.getTintHighlightsIntensityValue());
-            GLES20.glUniform3f(this.shadowsTintColorHandle, ((tintShadowsColor >> 16) & NotificationCenter.voipServiceCreated) / 255.0f, ((tintShadowsColor >> 8) & NotificationCenter.voipServiceCreated) / 255.0f, (tintShadowsColor & NotificationCenter.voipServiceCreated) / 255.0f);
+            GLES20.glUniform3f(this.shadowsTintColorHandle, ((tintShadowsColor >> 16) & NotificationCenter.didClearDatabase) / 255.0f, ((tintShadowsColor >> 8) & NotificationCenter.didClearDatabase) / 255.0f, (tintShadowsColor & NotificationCenter.didClearDatabase) / 255.0f);
             GLES20.glUniform1f(this.shadowsTintIntensityHandle, this.delegate.getTintShadowsIntensityValue());
             boolean shouldDrawCurvesPass = this.delegate.shouldDrawCurvesPass();
             GLES20.glUniform1f(this.skipToneHandle, shouldDrawCurvesPass ? 0.0f : 1.0f);

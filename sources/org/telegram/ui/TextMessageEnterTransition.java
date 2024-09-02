@@ -627,7 +627,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
             f = interpolation2;
             f2 = f25;
             f3 = interpolation;
-            canvas.saveLayerAlpha(0.0f, Math.max(0.0f, top), this.container.getMeasuredWidth(), this.container.getMeasuredHeight(), NotificationCenter.voipServiceCreated, 31);
+            canvas.saveLayerAlpha(0.0f, Math.max(0.0f, top), this.container.getMeasuredWidth(), this.container.getMeasuredHeight(), NotificationCenter.didClearDatabase, 31);
         } else {
             i = measuredHeight;
             f = interpolation2;
@@ -662,7 +662,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                 shadowDrawable.setAlpha((int) (f6 * 255.0f));
                 shadowDrawable.setBounds((int) backgroundDrawableLeft, (int) y3, backgroundDrawableRight, (int) y4);
                 shadowDrawable.draw(canvas);
-                shadowDrawable.setAlpha(NotificationCenter.voipServiceCreated);
+                shadowDrawable.setAlpha(NotificationCenter.didClearDatabase);
             }
             currentBackgroundDrawable.setAlpha((int) (f7 * 255.0f));
             currentBackgroundDrawable.setBounds((int) backgroundDrawableLeft, (int) y3, backgroundDrawableRight, (int) y4);
@@ -670,7 +670,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
             currentBackgroundDrawable.draw(canvas);
             z = false;
             currentBackgroundDrawable.setDrawFullBubble(false);
-            currentBackgroundDrawable.setAlpha(NotificationCenter.voipServiceCreated);
+            currentBackgroundDrawable.setAlpha(NotificationCenter.didClearDatabase);
         } else {
             f4 = f3;
             f5 = x;

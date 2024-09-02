@@ -368,7 +368,7 @@ public class FragmentContextViewWavesDrawable {
                             i3 = (int) (255.0f * f18);
                         } else {
                             paint = this.paint;
-                            i3 = NotificationCenter.voipServiceCreated;
+                            i3 = NotificationCenter.didClearDatabase;
                         }
                         paint.setAlpha(i3);
                         if (i2 == 1 && z3) {

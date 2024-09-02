@@ -172,7 +172,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             tLRPC$WebPage3.description = LocaleController.getString(z ? R.string.ChannelColorPreviewLinkDescription : R.string.UserColorPreviewLinkDescription);
             tLRPC$TL_message.date = currentTimeMillis - 3540;
             tLRPC$TL_message.dialog_id = 1L;
-            tLRPC$TL_message.flags = NotificationCenter.appUpdateAvailable;
+            tLRPC$TL_message.flags = NotificationCenter.showBulletin;
             if (j == 0) {
                 TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                 tLRPC$TL_message.from_id = tLRPC$TL_peerUser;
@@ -203,7 +203,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             tLRPC$TL_message2.message = LocaleController.getString(R.string.DoubleTapPreviewMessage);
             tLRPC$TL_message2.date = currentTimeMillis - 3540;
             tLRPC$TL_message2.dialog_id = 1L;
-            tLRPC$TL_message2.flags = NotificationCenter.appUpdateAvailable;
+            tLRPC$TL_message2.flags = NotificationCenter.showBulletin;
             TLRPC$TL_peerUser tLRPC$TL_peerUser3 = new TLRPC$TL_peerUser();
             tLRPC$TL_message2.from_id = tLRPC$TL_peerUser3;
             tLRPC$TL_peerUser3.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
@@ -235,7 +235,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             int i4 = currentTimeMillis - 3540;
             tLRPC$TL_message3.date = i4;
             tLRPC$TL_message3.dialog_id = 1L;
-            tLRPC$TL_message3.flags = NotificationCenter.appUpdateAvailable;
+            tLRPC$TL_message3.flags = NotificationCenter.showBulletin;
             TLRPC$TL_peerUser tLRPC$TL_peerUser5 = new TLRPC$TL_peerUser();
             tLRPC$TL_message3.from_id = tLRPC$TL_peerUser5;
             tLRPC$TL_peerUser5.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
@@ -276,7 +276,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             }
             tLRPC$TL_message4.date = currentTimeMillis - 2640;
             tLRPC$TL_message4.dialog_id = 1L;
-            tLRPC$TL_message4.flags = NotificationCenter.appUpdateAvailable;
+            tLRPC$TL_message4.flags = NotificationCenter.showBulletin;
             TLRPC$TL_peerUser tLRPC$TL_peerUser7 = new TLRPC$TL_peerUser();
             tLRPC$TL_message4.from_id = tLRPC$TL_peerUser7;
             tLRPC$TL_peerUser7.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
@@ -295,7 +295,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             tLRPC$TL_message5.message = LocaleController.getString(i == 0 ? R.string.FontSizePreviewLine1 : R.string.NewThemePreviewLine1);
             tLRPC$TL_message5.date = i4;
             tLRPC$TL_message5.dialog_id = 1L;
-            tLRPC$TL_message5.flags = NotificationCenter.chatAvailableReactionsUpdated;
+            tLRPC$TL_message5.flags = NotificationCenter.attachMenuBotsDidLoad;
             tLRPC$TL_message5.from_id = new TLRPC$TL_peerUser();
             tLRPC$TL_message5.id = 1;
             TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader2 = new TLRPC$TL_messageReplyHeader();
@@ -956,7 +956,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         while (i < 2) {
             Drawable drawable2 = i == 0 ? this.oldBackgroundDrawable : this.backgroundDrawable;
             if (drawable2 != null) {
-                int i2 = (i != 1 || this.oldBackgroundDrawable == null || (this.parentLayout == null && !this.customAnimation)) ? NotificationCenter.voipServiceCreated : (int) (255.0f * themeAnimationValue);
+                int i2 = (i != 1 || this.oldBackgroundDrawable == null || (this.parentLayout == null && !this.customAnimation)) ? NotificationCenter.didClearDatabase : (int) (255.0f * themeAnimationValue);
                 if (i2 > 0) {
                     drawable2.setAlpha(i2);
                     if ((drawable2 instanceof ColorDrawable) || (drawable2 instanceof GradientDrawable) || (drawable2 instanceof MotionBackgroundDrawable)) {

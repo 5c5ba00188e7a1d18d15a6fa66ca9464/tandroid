@@ -721,7 +721,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                         int i3 = this.threadIndex;
                         backgroundThreadDrawHolderArr[i2] = imageReceiver.setDrawInBackgroundThread(backgroundThreadDrawHolderArr2[i3], i3);
                         emojiImageView.backgroundThreadDrawHolder[this.threadIndex].time = j;
-                        animatedEmojiDrawable.setAlpha(NotificationCenter.voipServiceCreated);
+                        animatedEmojiDrawable.setAlpha(NotificationCenter.didClearDatabase);
                         android.graphics.Rect rect = AndroidUtilities.rectTmp2;
                         rect.set(emojiImageView.getLeft() + emojiImageView.getPaddingLeft(), emojiImageView.getPaddingTop(), emojiImageView.getRight() - emojiImageView.getPaddingRight(), emojiImageView.getMeasuredHeight() - emojiImageView.getPaddingBottom());
                         emojiImageView.backgroundThreadDrawHolder[this.threadIndex].setBounds(rect);

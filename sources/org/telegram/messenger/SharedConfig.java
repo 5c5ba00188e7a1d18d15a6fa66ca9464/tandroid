@@ -111,6 +111,7 @@ public class SharedConfig {
     public static boolean noSoundHintShowed = false;
     public static final boolean noStatusBar = true;
     public static boolean noiseSupression;
+    public static boolean onlyLocalInstantView;
     private static int overrideDevicePerformanceClass;
     public static String passcodeHash;
     public static long passcodeRetryInMs;
@@ -303,6 +304,7 @@ public class SharedConfig {
         customTabs = true;
         inappBrowser = true;
         adaptableColorInBrowser = true;
+        onlyLocalInstantView = false;
         directShare = true;
         inappCamera = true;
         roundCamera16to9 = true;
@@ -865,15 +867,15 @@ public class SharedConfig {
         return Long.compare(proxyInfo.ping + j, proxyInfo2.ping + j2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0179 A[Catch: all -> 0x00e4, Exception -> 0x0154, TryCatch #3 {Exception -> 0x0154, blocks: (B:24:0x0125, B:26:0x012d, B:28:0x013f, B:31:0x0156, B:42:0x0179, B:44:0x017f, B:45:0x0181, B:47:0x0185, B:49:0x018b, B:51:0x0191, B:53:0x0195, B:40:0x0173), top: B:92:0x0125, outer: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x017f A[Catch: all -> 0x00e4, Exception -> 0x0154, TryCatch #3 {Exception -> 0x0154, blocks: (B:24:0x0125, B:26:0x012d, B:28:0x013f, B:31:0x0156, B:42:0x0179, B:44:0x017f, B:45:0x0181, B:47:0x0185, B:49:0x018b, B:51:0x0191, B:53:0x0195, B:40:0x0173), top: B:92:0x0125, outer: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0237  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x023a  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0415  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0416 A[Catch: all -> 0x00e4, TryCatch #1 {all -> 0x00e4, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x000d, B:11:0x00dd, B:14:0x00e7, B:16:0x00ef, B:18:0x00f3, B:19:0x0100, B:21:0x010e, B:23:0x0119, B:24:0x0125, B:26:0x012d, B:28:0x013f, B:31:0x0156, B:33:0x015a, B:34:0x016c, B:42:0x0179, B:44:0x017f, B:45:0x0181, B:47:0x0185, B:49:0x018b, B:51:0x0191, B:53:0x0195, B:40:0x0173, B:56:0x01a3, B:58:0x0208, B:62:0x0213, B:66:0x023c, B:70:0x0420, B:74:0x042d, B:75:0x0470, B:77:0x0474, B:81:0x047c, B:80:0x0479, B:69:0x0416, B:55:0x01a0, B:22:0x0115, B:83:0x047e), top: B:89:0x0003, inners: #2, #3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x042a  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x042c  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x0474 A[Catch: all -> 0x00e4, Exception -> 0x0478, TRY_LEAVE, TryCatch #2 {Exception -> 0x0478, blocks: (B:75:0x0470, B:77:0x0474), top: B:90:0x0470, outer: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0179 A[Catch: all -> 0x00e4, Exception -> 0x0154, TryCatch #2 {Exception -> 0x0154, blocks: (B:24:0x0125, B:26:0x012d, B:28:0x013f, B:31:0x0156, B:42:0x0179, B:44:0x017f, B:45:0x0181, B:47:0x0185, B:49:0x018b, B:51:0x0191, B:53:0x0195, B:40:0x0173), top: B:90:0x0125, outer: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x017f A[Catch: all -> 0x00e4, Exception -> 0x0154, TryCatch #2 {Exception -> 0x0154, blocks: (B:24:0x0125, B:26:0x012d, B:28:0x013f, B:31:0x0156, B:42:0x0179, B:44:0x017f, B:45:0x0181, B:47:0x0185, B:49:0x018b, B:51:0x0191, B:53:0x0195, B:40:0x0173), top: B:90:0x0125, outer: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0241  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0244  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x041f  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0420 A[Catch: all -> 0x00e4, TryCatch #1 {all -> 0x00e4, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x000d, B:11:0x00dd, B:14:0x00e7, B:16:0x00ef, B:18:0x00f3, B:19:0x0100, B:21:0x010e, B:23:0x0119, B:24:0x0125, B:26:0x012d, B:28:0x013f, B:31:0x0156, B:33:0x015a, B:34:0x016c, B:42:0x0179, B:44:0x017f, B:45:0x0181, B:47:0x0185, B:49:0x018b, B:51:0x0191, B:53:0x0195, B:40:0x0173, B:56:0x01a3, B:58:0x0212, B:62:0x021d, B:66:0x0246, B:70:0x042a, B:74:0x0437, B:75:0x047a, B:77:0x047e, B:81:0x0486, B:80:0x0483, B:69:0x0420, B:55:0x01a0, B:22:0x0115, B:83:0x0488), top: B:89:0x0003, inners: #2, #3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0434  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0436  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x047e A[Catch: all -> 0x00e4, Exception -> 0x0482, TRY_LEAVE, TryCatch #3 {Exception -> 0x0482, blocks: (B:75:0x047a, B:77:0x047e), top: B:92:0x047a, outer: #1 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -967,6 +969,7 @@ public class SharedConfig {
                                     customTabs = sharedPreferences.getBoolean("custom_tabs", true);
                                     inappBrowser = sharedPreferences.getBoolean("inapp_browser", true);
                                     adaptableColorInBrowser = sharedPreferences.getBoolean("adaptableBrowser", false);
+                                    onlyLocalInstantView = sharedPreferences.getBoolean("onlyLocalInstantView", BuildVars.DEBUG_VERSION);
                                     directShare = sharedPreferences.getBoolean("direct_share", true);
                                     boolean z = sharedPreferences.getBoolean("shuffleMusic", false);
                                     shuffleMusic = z;
@@ -1081,6 +1084,7 @@ public class SharedConfig {
                     customTabs = sharedPreferences.getBoolean("custom_tabs", true);
                     inappBrowser = sharedPreferences.getBoolean("inapp_browser", true);
                     adaptableColorInBrowser = sharedPreferences.getBoolean("adaptableBrowser", false);
+                    onlyLocalInstantView = sharedPreferences.getBoolean("onlyLocalInstantView", BuildVars.DEBUG_VERSION);
                     directShare = sharedPreferences.getBoolean("direct_share", true);
                     boolean z2 = sharedPreferences.getBoolean("shuffleMusic", false);
                     shuffleMusic = z2;
@@ -1748,6 +1752,13 @@ public class SharedConfig {
         inappCamera = !inappCamera;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("inappCamera", inappCamera);
+        edit.apply();
+    }
+
+    public static void toggleLocalInstantView() {
+        onlyLocalInstantView = !onlyLocalInstantView;
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putBoolean("onlyLocalInstantView", onlyLocalInstantView);
         edit.apply();
     }
 

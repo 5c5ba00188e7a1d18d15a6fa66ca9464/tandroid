@@ -3430,7 +3430,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         protected void dispatchDraw(Canvas canvas) {
             int scrollY;
             float scrollY2 = getScrollY();
-            canvas.saveLayerAlpha(0.0f, scrollY2, getWidth(), getHeight() + scrollY, NotificationCenter.voipServiceCreated, 31);
+            canvas.saveLayerAlpha(0.0f, scrollY2, getWidth(), getHeight() + scrollY, NotificationCenter.didClearDatabase, 31);
             super.dispatchDraw(canvas);
             canvas.save();
             float f = this.topGradientAlpha.set(canScrollVertically(-1));

@@ -230,6 +230,10 @@ public class CellFlickerDrawable {
         this.paintOutline.setAlpha(i);
     }
 
+    public void setColors(int i) {
+        setColors(i, 64, NotificationCenter.groupPackUpdated);
+    }
+
     public void setColors(int i, int i2, int i3) {
         Shader.TileMode tileMode = Shader.TileMode.CLAMP;
         this.gradientShader = new LinearGradient(0.0f, 0.0f, this.size, 0.0f, new int[]{0, ColorUtils.setAlphaComponent(i, i2), 0}, (float[]) null, tileMode);

@@ -573,7 +573,7 @@ public abstract class BackButtonMenu {
         ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout, -2, -2);
         atomicReference.set(actionBarPopupWindow);
         actionBarPopupWindow.setPauseNotifications(true);
-        actionBarPopupWindow.setDismissAnimationDuration(NotificationCenter.pushMessagesUpdated);
+        actionBarPopupWindow.setDismissAnimationDuration(NotificationCenter.updateAllMessages);
         actionBarPopupWindow.setOutsideTouchable(true);
         actionBarPopupWindow.setClippingEnabled(true);
         actionBarPopupWindow.setAnimationStyle(R.style.PopupContextAnimation);

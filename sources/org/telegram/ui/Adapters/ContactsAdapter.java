@@ -46,7 +46,6 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
     DialogStoriesCell dialogStoriesCell;
     private boolean disableSections;
     BaseFragment fragment;
-    private boolean hasGps;
     public boolean hasStories;
     private LongSparseArray ignoreUsers;
     private boolean isAdmin;
@@ -69,7 +68,6 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
         this.selectedContacts = longSparseArray2;
         this.isAdmin = i2 != 0;
         this.isChannel = i2 == 2;
-        this.hasGps = z2;
         this.fragment = baseFragment;
     }
 
@@ -85,13 +83,7 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
         }
         if (this.onlyUsers == 0 || this.isAdmin) {
             if (i == 0) {
-                if (this.isAdmin) {
-                    return 2;
-                }
-                if (this.needPhonebook) {
-                    return this.hasGps ? 3 : 2;
-                }
-                return 4;
+                return (this.isAdmin || this.needPhonebook) ? 2 : 4;
             } else if (this.isEmpty) {
                 return 1;
             } else {
@@ -278,8 +270,7 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                     return 2;
                 }
             } else if (this.needPhonebook) {
-                boolean z2 = this.hasGps;
-                if ((z2 && i2 == 2) || (!z2 && i2 == 1)) {
+                if (i2 == 1) {
                     return this.isEmpty ? 5 : 2;
                 }
             } else if (i2 == 3) {
@@ -396,14 +387,7 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
         if (this.onlyUsers != 0 && !this.isAdmin) {
             return !this.isEmpty && i2 < hashMap.get(arrayList.get(i)).size();
         } else if (i == 0) {
-            if (this.isAdmin) {
-                return i2 != 1;
-            } else if (!this.needPhonebook) {
-                return i2 != 3;
-            } else {
-                boolean z2 = this.hasGps;
-                return (z2 && i2 != 2) || !(z2 || i2 == 1);
-            }
+            return this.isAdmin ? i2 != 1 : this.needPhonebook ? i2 != 1 : i2 != 3;
         } else if (this.isEmpty) {
             return false;
         } else {
@@ -507,15 +491,11 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                 return;
             }
             if (this.needPhonebook) {
-                if (i2 == 0) {
-                    string = LocaleController.getString(R.string.InviteFriends);
-                    i3 = R.drawable.msg_invite;
-                } else if (i2 != 1) {
+                if (i2 != 0) {
                     return;
-                } else {
-                    string = LocaleController.getString(R.string.AddPeopleNearby);
-                    i3 = R.drawable.msg_location;
                 }
+                string = LocaleController.getString(R.string.InviteFriends);
+                i3 = R.drawable.msg_invite;
             } else if (this.isAdmin) {
                 string = LocaleController.getString(this.isChannel ? R.string.ChannelInviteViaLink : R.string.InviteToGroupByLink);
                 i3 = R.drawable.msg_link2;
@@ -523,8 +503,8 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                 string = LocaleController.getString(R.string.NewGroup);
                 i3 = R.drawable.msg_groups;
             } else if (i2 == 1) {
-                string = LocaleController.getString(R.string.NewSecretChat);
-                i3 = R.drawable.msg_secret;
+                string = LocaleController.getString(R.string.NewContact);
+                i3 = R.drawable.msg_addcontact;
             } else if (i2 != 2) {
                 return;
             } else {
@@ -561,9 +541,6 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                     }
                     int dp = AndroidUtilities.dp(50.0f);
                     int dp2 = ContactsAdapter.this.onlyUsers != 0 ? 0 : AndroidUtilities.dp(30.0f) + dp;
-                    if (ContactsAdapter.this.hasGps) {
-                        dp2 += dp;
-                    }
                     if (!ContactsAdapter.this.isAdmin && !ContactsAdapter.this.needPhonebook) {
                         dp2 += dp;
                     }

@@ -270,11 +270,11 @@ public class CounterView extends View {
                     if (this.countAnimationStableLayout != null) {
                         canvas.save();
                         canvas.translate(this.countLeft, dp + AndroidUtilities.dp(4.0f));
-                        this.textPaint.setAlpha(NotificationCenter.voipServiceCreated);
+                        this.textPaint.setAlpha(NotificationCenter.didClearDatabase);
                         this.countAnimationStableLayout.draw(canvas);
                         canvas.restore();
                     }
-                    this.textPaint.setAlpha(NotificationCenter.voipServiceCreated);
+                    this.textPaint.setAlpha(NotificationCenter.didClearDatabase);
                 }
                 staticLayout.draw(canvas);
                 canvas.restore();
@@ -282,7 +282,7 @@ public class CounterView extends View {
                 }
                 if (this.countAnimationStableLayout != null) {
                 }
-                this.textPaint.setAlpha(NotificationCenter.voipServiceCreated);
+                this.textPaint.setAlpha(NotificationCenter.didClearDatabase);
             }
             canvas.restore();
         }

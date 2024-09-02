@@ -571,7 +571,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
             protected void onDraw(Canvas canvas) {
                 float f;
                 super.onDraw(canvas);
-                canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.voipServiceCreated, 31);
+                canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.didClearDatabase, 31);
                 float measuredWidth = getMeasuredWidth() / 2.0f;
                 float measuredHeight = getMeasuredHeight() / 2.0f;
                 canvas.save();

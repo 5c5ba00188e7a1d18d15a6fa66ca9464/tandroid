@@ -639,7 +639,7 @@ public class SvgHelper {
             if (f == null) {
                 f = properties.getFloat(z ? "fill-opacity" : "stroke-opacity");
             }
-            this.paint.setAlpha(f == null ? NotificationCenter.voipServiceCreated : (int) (f.floatValue() * 255.0f));
+            this.paint.setAlpha(f == null ? NotificationCenter.didClearDatabase : (int) (f.floatValue() * 255.0f));
         }
 
         private boolean doFill(Properties properties) {
@@ -670,8 +670,8 @@ public class SvgHelper {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:22:0x006e  */
-        /* JADX WARN: Removed duplicated region for block: B:24:0x0076  */
+        /* JADX WARN: Removed duplicated region for block: B:22:0x006f  */
+        /* JADX WARN: Removed duplicated region for block: B:24:0x0077  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1954,6 +1954,19 @@ public class SvgHelper {
             Bitmap bitmap = sVGHandler.getBitmap();
             fileInputStream.close();
             return bitmap;
+        } catch (Exception e) {
+            FileLog.e(e);
+            return null;
+        }
+    }
+
+    public static Bitmap getBitmap(InputStream inputStream, int i, int i2, boolean z) {
+        try {
+            XMLReader xMLReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
+            SVGHandler sVGHandler = new SVGHandler(i, i2, z ? -1 : null, false, 1.0f);
+            xMLReader.setContentHandler(sVGHandler);
+            xMLReader.parse(new InputSource(inputStream));
+            return sVGHandler.getBitmap();
         } catch (Exception e) {
             FileLog.e(e);
             return null;

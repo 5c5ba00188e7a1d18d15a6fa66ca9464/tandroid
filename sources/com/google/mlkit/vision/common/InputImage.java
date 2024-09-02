@@ -41,7 +41,7 @@ public class InputImage implements MLTaskInput {
         boolean z = true;
         if (i != 0 && i != 90 && i != 180) {
             if (i == 270) {
-                i = NotificationCenter.onRequestPermissionResultReceived;
+                i = NotificationCenter.onActivityResultReceived;
             } else {
                 z = false;
             }

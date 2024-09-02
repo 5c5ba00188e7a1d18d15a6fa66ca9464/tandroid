@@ -779,7 +779,7 @@ public class StarsReactionsSheet extends BottomSheet {
                         this.anonymousAvatarDrawable.setBounds(i2 - (AndroidUtilities.dp(56.0f) / 2), i3 - (AndroidUtilities.dp(56.0f) / 2), i2 + (AndroidUtilities.dp(56.0f) / 2), i3 + (AndroidUtilities.dp(56.0f) / 2));
                         this.anonymousAvatarDrawable.setAlpha((int) (f2 * 255.0f * f4));
                         this.anonymousAvatarDrawable.draw(canvas);
-                        this.anonymousAvatarDrawable.setAlpha(NotificationCenter.voipServiceCreated);
+                        this.anonymousAvatarDrawable.setAlpha(NotificationCenter.didClearDatabase);
                     }
                 }
                 RectF rectF = AndroidUtilities.rectTmp;
@@ -1379,7 +1379,6 @@ public class StarsReactionsSheet extends BottomSheet {
             return;
         }
         Boolean isMyPaidReactionAnonymous = messageObject.isMyPaidReactionAnonymous();
-        StarsController.getInstance(this.currentAccount).saveAnonymous(this.messageObject, this.anonymous);
         if (isMyPaidReactionAnonymous == null || isMyPaidReactionAnonymous.booleanValue() != this.anonymous) {
             this.messageObject.setMyPaidReactionAnonymous(this.anonymous);
             StarsController.MessageId from = StarsController.MessageId.from(this.messageObject);
@@ -1509,9 +1508,9 @@ public class StarsReactionsSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$4(MessageObject messageObject, int i, StarsController starsController, ChatActivity chatActivity, long j) {
-        if ((messageObject == null ? null : messageObject.isMyPaidReactionAnonymous()) == null && messageObject != null) {
-            StarsController.getInstance(i).saveAnonymous(messageObject, this.anonymous);
+    public /* synthetic */ void lambda$new$4(MessageObject messageObject, StarsController starsController, ChatActivity chatActivity, long j) {
+        if (messageObject != null) {
+            messageObject.isMyPaidReactionAnonymous();
         }
         final StarsController.PendingPaidReactions sendPaidReaction = starsController.sendPaidReaction(messageObject, chatActivity, j, false, true, Boolean.valueOf(!this.checkBox.isChecked()));
         if (sendPaidReaction == null) {
@@ -1526,7 +1525,7 @@ public class StarsReactionsSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$5(final MessageObject messageObject, final ChatActivity chatActivity, final int i, Context context, Theme.ResourcesProvider resourcesProvider, TLRPC$Chat tLRPC$Chat, View view) {
+    public /* synthetic */ void lambda$new$5(final MessageObject messageObject, final ChatActivity chatActivity, int i, Context context, Theme.ResourcesProvider resourcesProvider, TLRPC$Chat tLRPC$Chat, View view) {
         if (messageObject == null || chatActivity == null || this.iconAnimator != null) {
             return;
         }
@@ -1535,7 +1534,7 @@ public class StarsReactionsSheet extends BottomSheet {
         Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                StarsReactionsSheet.this.lambda$new$4(messageObject, i, starsController, chatActivity, value);
+                StarsReactionsSheet.this.lambda$new$4(messageObject, starsController, chatActivity, value);
             }
         };
         if (!starsController.balanceAvailable() || starsController.getBalance() >= value) {

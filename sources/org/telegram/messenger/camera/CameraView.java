@@ -76,7 +76,6 @@ import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.InstantCameraView;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.RLottieDrawable;
 import org.webrtc.EglBase;
 /* loaded from: classes3.dex */
 public class CameraView extends FrameLayout implements TextureView.SurfaceTextureListener, CameraController.ICameraView, CameraController.ErrorCallback {
@@ -405,8 +404,8 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                     } else {
                         this.eglContext.getGL();
                         android.opengl.Matrix.setIdentityM(CameraView.this.mSTMatrix[0], 0);
-                        int loadShader = CameraView.this.loadShader(35633, RLottieDrawable.readRes(null, R.raw.camera_vert));
-                        int loadShader2 = CameraView.this.loadShader(35632, RLottieDrawable.readRes(null, R.raw.camera_frag));
+                        int loadShader = CameraView.this.loadShader(35633, AndroidUtilities.readRes(R.raw.camera_vert));
+                        int loadShader2 = CameraView.this.loadShader(35632, AndroidUtilities.readRes(R.raw.camera_frag));
                         if (loadShader == 0 || loadShader2 == 0) {
                             if (BuildVars.LOGS_ENABLED) {
                                 FileLog.e("failed creating shader");
@@ -1768,7 +1767,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         /* JADX WARN: Removed duplicated region for block: B:144:0x010c A[Catch: all -> 0x00ec, TRY_LEAVE, TryCatch #2 {Exception -> 0x0027, blocks: (B:110:0x0014, B:115:0x0021, B:120:0x002d, B:121:0x0039, B:123:0x0052, B:124:0x0082, B:129:0x00dd, B:147:0x0121, B:149:0x0125, B:151:0x012d, B:152:0x0135, B:162:0x01a7, B:154:0x0180, B:156:0x0193, B:159:0x019b, B:131:0x00e1, B:133:0x00e7, B:137:0x00f4, B:138:0x00f6, B:140:0x00fe, B:142:0x0102, B:144:0x010c, B:136:0x00ee), top: B:208:0x0014 }] */
         /* JADX WARN: Removed duplicated region for block: B:154:0x0180 A[Catch: all -> 0x0199, TRY_ENTER, TryCatch #2 {Exception -> 0x0027, blocks: (B:110:0x0014, B:115:0x0021, B:120:0x002d, B:121:0x0039, B:123:0x0052, B:124:0x0082, B:129:0x00dd, B:147:0x0121, B:149:0x0125, B:151:0x012d, B:152:0x0135, B:162:0x01a7, B:154:0x0180, B:156:0x0193, B:159:0x019b, B:131:0x00e1, B:133:0x00e7, B:137:0x00f4, B:138:0x00f6, B:140:0x00fe, B:142:0x0102, B:144:0x010c, B:136:0x00ee), top: B:208:0x0014 }] */
         /* JADX WARN: Removed duplicated region for block: B:165:0x01d7  */
-        /* JADX WARN: Removed duplicated region for block: B:203:0x03e7  */
+        /* JADX WARN: Removed duplicated region for block: B:203:0x03e6  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1899,8 +1898,8 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                     FloatBuffer asFloatBuffer = ByteBuffer.allocateDirect(32).order(ByteOrder.nativeOrder()).asFloatBuffer();
                     this.textureBuffer = asFloatBuffer;
                     asFloatBuffer.put(fArr).position(0);
-                    int loadShader = CameraView.this.loadShader(35633, RLottieDrawable.readRes(null, R.raw.camera_vert));
-                    int loadShader2 = CameraView.this.loadShader(35632, RLottieDrawable.readRes(null, R.raw.camera_frag));
+                    int loadShader = CameraView.this.loadShader(35633, AndroidUtilities.readRes(R.raw.camera_vert));
+                    int loadShader2 = CameraView.this.loadShader(35632, AndroidUtilities.readRes(R.raw.camera_frag));
                     if (loadShader == 0 || loadShader2 == 0) {
                         return;
                     }

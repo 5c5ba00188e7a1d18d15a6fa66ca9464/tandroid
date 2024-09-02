@@ -227,7 +227,7 @@ final class DvbParser {
         iArr[0] = 0;
         for (int i = 1; i < 16; i++) {
             if (i < 8) {
-                iArr[i] = getColor(NotificationCenter.voipServiceCreated, (i & 1) != 0 ? NotificationCenter.voipServiceCreated : 0, (i & 2) != 0 ? NotificationCenter.voipServiceCreated : 0, (i & 4) != 0 ? NotificationCenter.voipServiceCreated : 0);
+                iArr[i] = getColor(NotificationCenter.didClearDatabase, (i & 1) != 0 ? NotificationCenter.didClearDatabase : 0, (i & 2) != 0 ? NotificationCenter.didClearDatabase : 0, (i & 4) != 0 ? NotificationCenter.didClearDatabase : 0);
             } else {
                 int i2 = i & 1;
                 int i3 = NotificationCenter.dialogTranslate;
@@ -236,7 +236,7 @@ final class DvbParser {
                 if ((i & 4) == 0) {
                     i3 = 0;
                 }
-                iArr[i] = getColor(NotificationCenter.voipServiceCreated, i4, i5, i3);
+                iArr[i] = getColor(NotificationCenter.didClearDatabase, i4, i5, i3);
             }
         }
         return iArr;
@@ -247,10 +247,10 @@ final class DvbParser {
         int[] iArr = new int[256];
         iArr[0] = 0;
         for (int i2 = 0; i2 < 256; i2++) {
-            int i3 = NotificationCenter.voipServiceCreated;
+            int i3 = NotificationCenter.didClearDatabase;
             if (i2 < 8) {
-                int i4 = (i2 & 1) != 0 ? NotificationCenter.voipServiceCreated : 0;
-                int i5 = (i2 & 2) != 0 ? NotificationCenter.voipServiceCreated : 0;
+                int i4 = (i2 & 1) != 0 ? NotificationCenter.didClearDatabase : 0;
+                int i5 = (i2 & 2) != 0 ? NotificationCenter.didClearDatabase : 0;
                 if ((i2 & 4) == 0) {
                     i3 = 0;
                 }
@@ -265,7 +265,7 @@ final class DvbParser {
                     if ((i2 & 64) == 0) {
                         i7 = 0;
                     }
-                    iArr[i2] = getColor(NotificationCenter.voipServiceCreated, i8, i9, i + i7);
+                    iArr[i2] = getColor(NotificationCenter.didClearDatabase, i8, i9, i + i7);
                 } else if (i6 == 8) {
                     int i10 = ((i2 & 1) != 0 ? 85 : 0) + ((i2 & 16) != 0 ? NotificationCenter.groupCallVisibilityChanged : 0);
                     int i11 = ((i2 & 2) != 0 ? 85 : 0) + ((i2 & 32) != 0 ? NotificationCenter.groupCallVisibilityChanged : 0);
@@ -275,9 +275,9 @@ final class DvbParser {
                     }
                     iArr[i2] = getColor(NotificationCenter.dialogTranslate, i10, i11, i + i7);
                 } else if (i6 == 128) {
-                    iArr[i2] = getColor(NotificationCenter.voipServiceCreated, ((i2 & 1) != 0 ? 43 : 0) + NotificationCenter.dialogTranslate + ((i2 & 16) != 0 ? 85 : 0), ((i2 & 2) != 0 ? 43 : 0) + NotificationCenter.dialogTranslate + ((i2 & 32) != 0 ? 85 : 0), ((i2 & 4) == 0 ? 0 : 43) + NotificationCenter.dialogTranslate + ((i2 & 64) == 0 ? 0 : 85));
+                    iArr[i2] = getColor(NotificationCenter.didClearDatabase, ((i2 & 1) != 0 ? 43 : 0) + NotificationCenter.dialogTranslate + ((i2 & 16) != 0 ? 85 : 0), ((i2 & 2) != 0 ? 43 : 0) + NotificationCenter.dialogTranslate + ((i2 & 32) != 0 ? 85 : 0), ((i2 & 4) == 0 ? 0 : 43) + NotificationCenter.dialogTranslate + ((i2 & 64) == 0 ? 0 : 85));
                 } else if (i6 == 136) {
-                    iArr[i2] = getColor(NotificationCenter.voipServiceCreated, ((i2 & 1) != 0 ? 43 : 0) + ((i2 & 16) != 0 ? 85 : 0), ((i2 & 2) != 0 ? 43 : 0) + ((i2 & 32) != 0 ? 85 : 0), ((i2 & 4) == 0 ? 0 : 43) + ((i2 & 64) == 0 ? 0 : 85));
+                    iArr[i2] = getColor(NotificationCenter.didClearDatabase, ((i2 & 1) != 0 ? 43 : 0) + ((i2 & 16) != 0 ? 85 : 0), ((i2 & 2) != 0 ? 43 : 0) + ((i2 & 32) != 0 ? 85 : 0), ((i2 & 4) == 0 ? 0 : 43) + ((i2 & 64) == 0 ? 0 : 85));
                 }
             }
         }
@@ -592,7 +592,7 @@ final class DvbParser {
             if (readBits3 == 0) {
                 i3 = 0;
                 readBits = 0;
-                readBits2 = NotificationCenter.voipServiceCreated;
+                readBits2 = NotificationCenter.didClearDatabase;
             }
             double d = readBits3;
             double d2 = i3 - 128;
@@ -604,7 +604,7 @@ final class DvbParser {
             Double.isNaN(d2);
             Double.isNaN(d3);
             Double.isNaN(d);
-            iArr[readBits5] = getColor((byte) (255 - (readBits2 & NotificationCenter.voipServiceCreated)), Util.constrainValue((int) (d + (1.402d * d2)), 0, (int) NotificationCenter.voipServiceCreated), Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, (int) NotificationCenter.voipServiceCreated), Util.constrainValue((int) (d + (d3 * 1.772d)), 0, (int) NotificationCenter.voipServiceCreated));
+            iArr[readBits5] = getColor((byte) (255 - (readBits2 & NotificationCenter.didClearDatabase)), Util.constrainValue((int) (d + (1.402d * d2)), 0, (int) NotificationCenter.didClearDatabase), Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, (int) NotificationCenter.didClearDatabase), Util.constrainValue((int) (d + (d3 * 1.772d)), 0, (int) NotificationCenter.didClearDatabase));
             i6 = i2;
             readBits4 = readBits4;
             i4 = 8;

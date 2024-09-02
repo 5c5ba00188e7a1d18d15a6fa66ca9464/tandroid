@@ -1401,7 +1401,7 @@ public abstract class MessagePreviewView extends FrameLayout {
             });
             RecyclerListView recyclerListView = new RecyclerListView(context, MessagePreviewView.this.resourcesProvider) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.6
                 /* JADX WARN: Type inference failed for: r3v0 */
-                /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
+                /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
                 /* JADX WARN: Type inference failed for: r3v9 */
                 private void drawChatBackgroundElements(Canvas canvas) {
                     boolean z;
@@ -2067,7 +2067,7 @@ public abstract class MessagePreviewView extends FrameLayout {
                 recyclerListView = this.chatListView;
                 computeVerticalScrollRange = recyclerListView.computeVerticalScrollRange() - (this.chatListView.computeVerticalScrollOffset() + this.chatListView.computeVerticalScrollExtent());
             }
-            recyclerListView.smoothScrollBy(0, computeVerticalScrollRange, NotificationCenter.playerDidStartPlaying, ChatListItemAnimator.DEFAULT_INTERPOLATOR);
+            recyclerListView.smoothScrollBy(0, computeVerticalScrollRange, NotificationCenter.notificationsCountUpdated, ChatListItemAnimator.DEFAULT_INTERPOLATOR);
         }
 
         /* JADX INFO: Access modifiers changed from: private */

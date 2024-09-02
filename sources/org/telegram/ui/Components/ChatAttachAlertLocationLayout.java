@@ -1837,7 +1837,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
                 if (locationActivityAdapter2 != null) {
                     locationActivityAdapter2.setMyLocationDenied(this.locationDenied, true);
                 }
-                parentActivity.requestPermissions(new String[]{"android.permission.ACCESS_MEDIA_LOCATION"}, NotificationCenter.starBalanceUpdated);
+                parentActivity.requestPermissions(new String[]{"android.permission.ACCESS_MEDIA_LOCATION"}, NotificationCenter.starGiveawayOptionsLoaded);
             }
         }
     }

@@ -4266,7 +4266,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onSwiped$1(TLRPC$Dialog tLRPC$Dialog, int i) {
+        public /* synthetic */ void lambda$onSwiped$1() {
+            DialogsActivity.this.setDialogsListFrozen(false);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onSwiped$2(TLRPC$Dialog tLRPC$Dialog, int i) {
             DialogsActivity.this.dialogsListFrozen = true;
             DialogsActivity.this.getMessagesController().addDialogToFolder(tLRPC$Dialog.id, 0, i, 0L);
             DialogsActivity.this.dialogsListFrozen = false;
@@ -4300,7 +4305,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onSwiped$2(final TLRPC$Dialog tLRPC$Dialog, int i, int i2) {
+        /* JADX WARN: Removed duplicated region for block: B:53:0x0154  */
+        /* JADX WARN: Removed duplicated region for block: B:56:0x0167  */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        public /* synthetic */ void lambda$onSwiped$3(final TLRPC$Dialog tLRPC$Dialog, int i, int i2) {
+            Runnable runnable;
+            UndoView undoView;
             if (DialogsActivity.this.frozenDialogsList == null) {
                 return;
             }
@@ -4326,6 +4338,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             if (DialogsActivity.this.folderId == 0) {
                 if (addDialogToFolder == 2) {
+                    if (SharedConfig.archiveHidden) {
+                        SharedConfig.toggleArchiveHidden();
+                    }
                     this.parentPage.dialogsItemAnimator.prepareForRemove();
                     if (i2 == 0) {
                         DialogsActivity.this.setDialogsListFrozen(true);
@@ -4340,36 +4355,54 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     }
                     DialogsActivity dialogsActivity = DialogsActivity.this;
                     DialogsActivity.this.frozenDialogsList.add(0, (TLRPC$Dialog) dialogsActivity.getDialogsArray(((BaseFragment) dialogsActivity).currentAccount, this.parentPage.dialogsType, DialogsActivity.this.folderId, false).get(0));
-                } else if (addDialogToFolder == 1) {
-                    RecyclerView.ViewHolder findViewHolderForAdapterPosition = this.parentPage.listView.findViewHolderForAdapterPosition(0);
-                    if (findViewHolderForAdapterPosition != null) {
-                        View view = findViewHolderForAdapterPosition.itemView;
-                        if (view instanceof DialogCell) {
-                            DialogCell dialogCell = (DialogCell) view;
-                            dialogCell.checkCurrentDialogIndex(true);
-                            dialogCell.animateArchiveAvatar();
-                        }
-                    }
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DialogsActivity$SwipeController$$ExternalSyntheticLambda2
+                    this.parentPage.updateList(true);
+                    runnable = new Runnable() { // from class: org.telegram.ui.DialogsActivity$SwipeController$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
                             DialogsActivity.SwipeController.this.lambda$onSwiped$0();
                         }
-                    }, 300L);
-                }
-                SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
-                z = (globalMainSettings.getBoolean("archivehint_l", false) || SharedConfig.archiveHidden) ? true : true;
-                if (!z) {
-                    globalMainSettings.edit().putBoolean("archivehint_l", true).commit();
-                }
-                UndoView undoView = DialogsActivity.this.getUndoView();
-                if (undoView != null) {
-                    undoView.showWithAction(tLRPC$Dialog.id, z ? 2 : 3, null, new Runnable() { // from class: org.telegram.ui.DialogsActivity$SwipeController$$ExternalSyntheticLambda3
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            DialogsActivity.SwipeController.this.lambda$onSwiped$1(tLRPC$Dialog, i3);
+                    };
+                } else {
+                    if (addDialogToFolder == 1) {
+                        RecyclerView.ViewHolder findViewHolderForAdapterPosition = this.parentPage.listView.findViewHolderForAdapterPosition(0);
+                        if (findViewHolderForAdapterPosition != null) {
+                            View view = findViewHolderForAdapterPosition.itemView;
+                            if (view instanceof DialogCell) {
+                                DialogCell dialogCell = (DialogCell) view;
+                                dialogCell.checkCurrentDialogIndex(true);
+                                dialogCell.animateArchiveAvatar();
+                            }
                         }
-                    });
+                        runnable = new Runnable() { // from class: org.telegram.ui.DialogsActivity$SwipeController$$ExternalSyntheticLambda3
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                DialogsActivity.SwipeController.this.lambda$onSwiped$1();
+                            }
+                        };
+                    }
+                    SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
+                    z = (!globalMainSettings.getBoolean("archivehint_l", false) || SharedConfig.archiveHidden) ? true : true;
+                    if (!z) {
+                        globalMainSettings.edit().putBoolean("archivehint_l", true).commit();
+                    }
+                    undoView = DialogsActivity.this.getUndoView();
+                    if (undoView != null) {
+                        undoView.showWithAction(tLRPC$Dialog.id, z ? 2 : 3, null, new Runnable() { // from class: org.telegram.ui.DialogsActivity$SwipeController$$ExternalSyntheticLambda4
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                DialogsActivity.SwipeController.this.lambda$onSwiped$2(tLRPC$Dialog, i3);
+                            }
+                        });
+                    }
+                }
+                AndroidUtilities.runOnUIThread(runnable, 300L);
+                SharedPreferences globalMainSettings2 = MessagesController.getGlobalMainSettings();
+                if (globalMainSettings2.getBoolean("archivehint_l", false)) {
+                }
+                if (!z) {
+                }
+                undoView = DialogsActivity.this.getUndoView();
+                if (undoView != null) {
                 }
             }
             if (DialogsActivity.this.folderId == 0 || !DialogsActivity.this.frozenDialogsList.isEmpty()) {
@@ -4546,7 +4579,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             Runnable runnable = new Runnable() { // from class: org.telegram.ui.DialogsActivity$SwipeController$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    DialogsActivity.SwipeController.this.lambda$onSwiped$2(tLRPC$Dialog, itemCount, adapterPosition);
+                    DialogsActivity.SwipeController.this.lambda$onSwiped$3(tLRPC$Dialog, itemCount, adapterPosition);
                 }
             };
             DialogsActivity.this.setDialogsListFrozen(true);
@@ -5215,7 +5248,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r15v1 */
-    /* JADX WARN: Type inference failed for: r15v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r15v6 */
     public void hideActionMode(boolean z) {
         final float f;
@@ -7966,7 +7999,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Removed duplicated region for block: B:253:0x04c8  */
     /* JADX WARN: Type inference failed for: r13v0 */
     /* JADX WARN: Type inference failed for: r13v12 */
-    /* JADX WARN: Type inference failed for: r13v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v4, types: [boolean, int] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -11637,26 +11670,26 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_requestPeerTypeChat) != false) goto L348;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:319:0x0c3f  */
-    /* JADX WARN: Removed duplicated region for block: B:322:0x0c75  */
-    /* JADX WARN: Removed duplicated region for block: B:325:0x0c86  */
-    /* JADX WARN: Removed duplicated region for block: B:338:0x0cad  */
-    /* JADX WARN: Removed duplicated region for block: B:345:0x0ce8  */
-    /* JADX WARN: Removed duplicated region for block: B:349:0x0d8d  */
-    /* JADX WARN: Removed duplicated region for block: B:361:0x0e32  */
-    /* JADX WARN: Removed duplicated region for block: B:362:0x0e35  */
-    /* JADX WARN: Removed duplicated region for block: B:365:0x0e42  */
-    /* JADX WARN: Removed duplicated region for block: B:373:0x0ec3  */
-    /* JADX WARN: Removed duplicated region for block: B:374:0x0ece  */
-    /* JADX WARN: Removed duplicated region for block: B:382:0x0ef8  */
+    /* JADX WARN: Removed duplicated region for block: B:319:0x0c41  */
+    /* JADX WARN: Removed duplicated region for block: B:322:0x0c77  */
+    /* JADX WARN: Removed duplicated region for block: B:325:0x0c88  */
+    /* JADX WARN: Removed duplicated region for block: B:338:0x0caf  */
+    /* JADX WARN: Removed duplicated region for block: B:345:0x0cea  */
+    /* JADX WARN: Removed duplicated region for block: B:349:0x0d8f  */
+    /* JADX WARN: Removed duplicated region for block: B:361:0x0e34  */
+    /* JADX WARN: Removed duplicated region for block: B:362:0x0e37  */
+    /* JADX WARN: Removed duplicated region for block: B:365:0x0e44  */
+    /* JADX WARN: Removed duplicated region for block: B:373:0x0ec5  */
+    /* JADX WARN: Removed duplicated region for block: B:374:0x0ed0  */
+    /* JADX WARN: Removed duplicated region for block: B:382:0x0efa  */
+    /* JADX WARN: Type inference failed for: r0v252 */
     /* JADX WARN: Type inference failed for: r0v253 */
-    /* JADX WARN: Type inference failed for: r0v254 */
     /* JADX WARN: Type inference failed for: r0v3 */
-    /* JADX WARN: Type inference failed for: r0v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r0v4, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r0v44 */
     /* JADX WARN: Type inference failed for: r6v10 */
     /* JADX WARN: Type inference failed for: r6v8 */
-    /* JADX WARN: Type inference failed for: r6v9, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r6v9, types: [boolean, int] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -11874,6 +11907,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (((i13 == 0 && !this.onlySelect) || i13 == 3) && this.folderId == 0 && TextUtils.isEmpty(this.searchString)) {
             6 r02 = new 6(context);
             this.filterTabsView = r02;
+            this.filterTabsViewIsVisible = false;
             r02.setVisibility(8);
             this.canShowFilterTabsView = false;
             this.filterTabsView.setDelegate(new 7(context));

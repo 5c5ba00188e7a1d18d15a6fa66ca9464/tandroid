@@ -828,7 +828,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             tLRPC$TL_message.message = LocaleController.getString(R.string.PrivacyForwardsMessageLine);
             tLRPC$TL_message.date = currentTimeMillis - 3540;
             tLRPC$TL_message.dialog_id = 1L;
-            tLRPC$TL_message.flags = NotificationCenter.onEmojiInteractionsReceived;
+            tLRPC$TL_message.flags = NotificationCenter.onDatabaseMigration;
             tLRPC$TL_message.from_id = new TLRPC$TL_peerUser();
             tLRPC$TL_message.id = 1;
             TLRPC$TL_messageFwdHeader tLRPC$TL_messageFwdHeader = new TLRPC$TL_messageFwdHeader();

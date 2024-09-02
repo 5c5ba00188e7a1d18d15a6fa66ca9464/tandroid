@@ -47,7 +47,6 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.Premium.PremiumGradient;
-import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.ThemePreviewActivity;
@@ -445,7 +444,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     public PremiumFeatureBottomSheet(final BaseFragment baseFragment, Context context, int i, boolean z, int i2, final boolean z2, PremiumPreviewFragment.SubscriptionTier subscriptionTier) {
         super(context, false, getResourceProvider(baseFragment));
         this.premiumFeatures = new ArrayList();
-        this.gradientAlpha = NotificationCenter.voipServiceCreated;
+        this.gradientAlpha = NotificationCenter.didClearDatabase;
         this.baseFragment = baseFragment;
         if (baseFragment == null) {
             throw new RuntimeException("fragmnet can't be null");
@@ -454,7 +453,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         fixNavigationBar(getThemedColor(Theme.key_dialogBackground));
         this.startType = i2;
         this.onlySelectedType = z2;
-        this.svgIcon = SvgHelper.getDrawable(RLottieDrawable.readRes(null, R.raw.star_loader));
+        this.svgIcon = SvgHelper.getDrawable(AndroidUtilities.readRes(R.raw.star_loader));
         FrameLayout frameLayout = new FrameLayout(getContext()) { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet.1
             @Override // android.widget.FrameLayout, android.view.View
             protected void onMeasure(int i3, int i4) {

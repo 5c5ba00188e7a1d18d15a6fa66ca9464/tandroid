@@ -24,7 +24,7 @@ public class RoundVideoPlayingDrawable extends Drawable {
     private int progress1Direction = 1;
     private int progress2Direction = 1;
     private int progress3Direction = 1;
-    int alpha = NotificationCenter.voipServiceCreated;
+    int alpha = NotificationCenter.didClearDatabase;
 
     public RoundVideoPlayingDrawable(View view, Theme.ResourcesProvider resourcesProvider) {
         this.resourcesProvider = resourcesProvider;

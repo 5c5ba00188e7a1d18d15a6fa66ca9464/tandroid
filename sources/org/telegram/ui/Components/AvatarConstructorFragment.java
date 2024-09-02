@@ -589,7 +589,7 @@ public class AvatarConstructorFragment extends BaseFragment {
                     float f6 = this.size;
                     float f7 = this.cy;
                     gradientTools2.setBounds(f5 - f6, f7 - f6, f5 + f6, f7 + f6);
-                    this.outGradientTools.paint.setAlpha(NotificationCenter.voipServiceCreated);
+                    this.outGradientTools.paint.setAlpha(NotificationCenter.didClearDatabase);
                     float f8 = measuredWidth;
                     drawBackround(canvas, this.cx, this.cy, f8, this.size, this.outGradientTools.paint);
                     this.gradientTools.paint.setAlpha((int) (this.changeBackgroundProgress * 255.0f));
@@ -601,7 +601,7 @@ public class AvatarConstructorFragment extends BaseFragment {
                     }
                     invalidate();
                 } else {
-                    this.gradientTools.paint.setAlpha(NotificationCenter.voipServiceCreated);
+                    this.gradientTools.paint.setAlpha(NotificationCenter.didClearDatabase);
                     drawBackround(canvas, this.cx, this.cy, measuredWidth, this.size, this.gradientTools.paint);
                 }
             }
@@ -1540,10 +1540,10 @@ public class AvatarConstructorFragment extends BaseFragment {
     public void startFrom(TLRPC$VideoSize tLRPC$VideoSize) {
         long j;
         BackgroundGradient backgroundGradient = new BackgroundGradient();
-        backgroundGradient.color1 = ColorUtils.setAlphaComponent(((Integer) tLRPC$VideoSize.background_colors.get(0)).intValue(), NotificationCenter.voipServiceCreated);
-        backgroundGradient.color2 = tLRPC$VideoSize.background_colors.size() > 1 ? ColorUtils.setAlphaComponent(((Integer) tLRPC$VideoSize.background_colors.get(1)).intValue(), NotificationCenter.voipServiceCreated) : 0;
-        backgroundGradient.color3 = tLRPC$VideoSize.background_colors.size() > 2 ? ColorUtils.setAlphaComponent(((Integer) tLRPC$VideoSize.background_colors.get(2)).intValue(), NotificationCenter.voipServiceCreated) : 0;
-        backgroundGradient.color4 = tLRPC$VideoSize.background_colors.size() > 3 ? ColorUtils.setAlphaComponent(((Integer) tLRPC$VideoSize.background_colors.get(3)).intValue(), NotificationCenter.voipServiceCreated) : 0;
+        backgroundGradient.color1 = ColorUtils.setAlphaComponent(((Integer) tLRPC$VideoSize.background_colors.get(0)).intValue(), NotificationCenter.didClearDatabase);
+        backgroundGradient.color2 = tLRPC$VideoSize.background_colors.size() > 1 ? ColorUtils.setAlphaComponent(((Integer) tLRPC$VideoSize.background_colors.get(1)).intValue(), NotificationCenter.didClearDatabase) : 0;
+        backgroundGradient.color3 = tLRPC$VideoSize.background_colors.size() > 2 ? ColorUtils.setAlphaComponent(((Integer) tLRPC$VideoSize.background_colors.get(2)).intValue(), NotificationCenter.didClearDatabase) : 0;
+        backgroundGradient.color4 = tLRPC$VideoSize.background_colors.size() > 3 ? ColorUtils.setAlphaComponent(((Integer) tLRPC$VideoSize.background_colors.get(3)).intValue(), NotificationCenter.didClearDatabase) : 0;
         this.previewView.setGradient(backgroundGradient);
         TLRPC$Document tLRPC$Document = null;
         if (tLRPC$VideoSize instanceof TLRPC$TL_videoSizeEmojiMarkup) {
