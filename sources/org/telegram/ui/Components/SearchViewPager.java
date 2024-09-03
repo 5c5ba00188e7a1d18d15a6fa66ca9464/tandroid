@@ -586,7 +586,7 @@ public abstract class SearchViewPager extends ViewPagerFixed implements Filtered
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$onActionBarItemClick$3(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
+    public /* synthetic */ boolean lambda$onActionBarItemClick$3(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, boolean z2, int i, TopicsFragment topicsFragment) {
         String str;
         ArrayList<MessageObject> arrayList2 = new ArrayList<>();
         for (FilteredSearchView.MessageHashId messageHashId : this.selectedFiles.keySet()) {
@@ -595,8 +595,8 @@ public abstract class SearchViewPager extends ViewPagerFixed implements Filtered
         this.selectedFiles.clear();
         showActionMode(false);
         if (arrayList.size() > 1 || ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId == AccountInstance.getInstance(this.currentAccount).getUserConfig().getClientUserId() || charSequence != null) {
-            for (int i = 0; i < arrayList.size(); i++) {
-                long j = ((MessagesStorage.TopicKey) arrayList.get(i)).dialogId;
+            for (int i2 = 0; i2 < arrayList.size(); i2++) {
+                long j = ((MessagesStorage.TopicKey) arrayList.get(i2)).dialogId;
                 if (charSequence != null) {
                     AccountInstance.getInstance(this.currentAccount).getSendMessagesHelper().sendMessage(SendMessagesHelper.SendMessageParams.of(charSequence.toString(), j, null, null, null, true, null, null, null, true, 0, null, false));
                 }
@@ -1069,9 +1069,9 @@ public abstract class SearchViewPager extends ViewPagerFixed implements Filtered
             DialogsActivity dialogsActivity = new DialogsActivity(bundle);
             dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda5
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList2, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
+                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList2, CharSequence charSequence, boolean z, boolean z2, int i2, TopicsFragment topicsFragment) {
                     boolean lambda$onActionBarItemClick$3;
-                    lambda$onActionBarItemClick$3 = SearchViewPager.this.lambda$onActionBarItemClick$3(dialogsActivity2, arrayList2, charSequence, z, topicsFragment);
+                    lambda$onActionBarItemClick$3 = SearchViewPager.this.lambda$onActionBarItemClick$3(dialogsActivity2, arrayList2, charSequence, z, z2, i2, topicsFragment);
                     return lambda$onActionBarItemClick$3;
                 }
             });

@@ -1023,13 +1023,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             BulletinFactory.createSaveToGalleryBulletin(PhotoViewer.this.containerView, z, -115203550, -1).show();
         }
 
-        public /* synthetic */ boolean lambda$onItemClick$10(ArrayList arrayList, ChatActivity chatActivity, DialogsActivity dialogsActivity, ArrayList arrayList2, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
+        public /* synthetic */ boolean lambda$onItemClick$10(ArrayList arrayList, ChatActivity chatActivity, DialogsActivity dialogsActivity, ArrayList arrayList2, CharSequence charSequence, boolean z, boolean z2, int i, TopicsFragment topicsFragment) {
             UndoView undoView;
             long j;
             String str;
             if (arrayList2.size() > 1 || ((MessagesStorage.TopicKey) arrayList2.get(0)).dialogId == UserConfig.getInstance(PhotoViewer.this.currentAccount).getClientUserId() || charSequence != null) {
-                for (int i = 0; i < arrayList2.size(); i++) {
-                    long j2 = ((MessagesStorage.TopicKey) arrayList2.get(i)).dialogId;
+                for (int i2 = 0; i2 < arrayList2.size(); i2++) {
+                    long j2 = ((MessagesStorage.TopicKey) arrayList2.get(i2)).dialogId;
                     if (charSequence != null) {
                         j = j2;
                         SendMessagesHelper.getInstance(PhotoViewer.this.currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(charSequence.toString(), j2, null, null, null, true, null, null, null, true, 0, null, false));
@@ -1574,9 +1574,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             final ChatActivity chatActivity = PhotoViewer.this.parentChatActivity;
                             dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.PhotoViewer$16$$ExternalSyntheticLambda14
                                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList4, CharSequence charSequence, boolean z6, TopicsFragment topicsFragment) {
+                                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList4, CharSequence charSequence, boolean z6, boolean z7, int i5, TopicsFragment topicsFragment) {
                                     boolean lambda$onItemClick$10;
-                                    lambda$onItemClick$10 = PhotoViewer.16.this.lambda$onItemClick$10(arrayList3, chatActivity, dialogsActivity2, arrayList4, charSequence, z6, topicsFragment);
+                                    lambda$onItemClick$10 = PhotoViewer.16.this.lambda$onItemClick$10(arrayList3, chatActivity, dialogsActivity2, arrayList4, charSequence, z6, z7, i5, topicsFragment);
                                     return lambda$onItemClick$10;
                                 }
                             });

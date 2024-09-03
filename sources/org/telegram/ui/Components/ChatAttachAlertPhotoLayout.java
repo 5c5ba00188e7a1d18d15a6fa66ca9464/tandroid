@@ -20,6 +20,8 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.util.Property;
@@ -78,6 +80,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$FileLocation;
+import org.telegram.tgnet.TLRPC$MessageEntity;
 import org.telegram.tgnet.TLRPC$TL_videoSizeEmojiMarkup;
 import org.telegram.tgnet.TLRPC$TL_videoSizeStickerMarkup;
 import org.telegram.tgnet.TLRPC$VideoSize;
@@ -266,15 +269,33 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public void onApplyCaption(CharSequence charSequence) {
+            SpannableStringBuilder spannableStringBuilder;
+            ArrayList<TLRPC$MessageEntity> arrayList;
             if (ChatAttachAlertPhotoLayout.selectedPhotos.size() <= 0 || ChatAttachAlertPhotoLayout.selectedPhotosOrder.size() <= 0) {
                 return;
             }
             Object obj = ChatAttachAlertPhotoLayout.selectedPhotos.get(ChatAttachAlertPhotoLayout.selectedPhotosOrder.get(0));
-            CharSequence charSequence2 = obj instanceof MediaController.PhotoEntry ? ((MediaController.PhotoEntry) obj).caption : null;
-            if (obj instanceof MediaController.SearchImage) {
-                charSequence2 = ((MediaController.SearchImage) obj).caption;
+            if (obj instanceof MediaController.PhotoEntry) {
+                MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) obj;
+                spannableStringBuilder = photoEntry.caption;
+                arrayList = photoEntry.entities;
+            } else {
+                spannableStringBuilder = null;
+                arrayList = null;
             }
-            ChatAttachAlertPhotoLayout.this.parentAlert.commentTextView.setText(AnimatedEmojiSpan.cloneSpans(charSequence2, 3));
+            if (obj instanceof MediaController.SearchImage) {
+                MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
+                spannableStringBuilder = searchImage.caption;
+                arrayList = searchImage.entities;
+            }
+            ArrayList<TLRPC$MessageEntity> arrayList2 = arrayList;
+            if (spannableStringBuilder != null && arrayList2 != null) {
+                if (!(spannableStringBuilder instanceof Spannable)) {
+                    spannableStringBuilder = new SpannableStringBuilder(spannableStringBuilder);
+                }
+                MessageObject.addEntitiesToText(spannableStringBuilder, arrayList2, false, false, false, false);
+            }
+            ChatAttachAlertPhotoLayout.this.parentAlert.commentTextView.setText(AnimatedEmojiSpan.cloneSpans(spannableStringBuilder, 3));
         }
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider

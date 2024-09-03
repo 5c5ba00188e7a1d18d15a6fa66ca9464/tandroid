@@ -612,7 +612,7 @@ public class WebInstantView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x005f  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0062  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -623,28 +623,30 @@ public class WebInstantView {
         if (loadingPhotos == null) {
             return;
         }
-        boolean z = webPhoto.w <= 0 || webPhoto.h <= 0;
-        this.loadedPhotos.put(webPhoto.url, bitmap);
-        if (z) {
-            int i = webPhoto.w;
-            if (i == 0 && webPhoto.h == 0) {
-                webPhoto.w = bitmap.getWidth();
-                height = bitmap.getHeight();
-            } else {
-                if (i == 0) {
-                    webPhoto.w = (int) ((bitmap.getWidth() / bitmap.getHeight()) * webPhoto.h);
-                } else if (webPhoto.h == 0) {
-                    height = (int) ((bitmap.getHeight() / bitmap.getWidth()) * webPhoto.w);
+        boolean z = (webPhoto.w <= 0 || webPhoto.h <= 0) && bitmap != null;
+        if (bitmap != null) {
+            this.loadedPhotos.put(webPhoto.url, bitmap);
+            if (z) {
+                int i = webPhoto.w;
+                if (i == 0 && webPhoto.h == 0) {
+                    webPhoto.w = bitmap.getWidth();
+                    height = bitmap.getHeight();
+                } else {
+                    if (i == 0) {
+                        webPhoto.w = (int) ((bitmap.getWidth() / bitmap.getHeight()) * webPhoto.h);
+                    } else if (webPhoto.h == 0) {
+                        height = (int) ((bitmap.getHeight() / bitmap.getWidth()) * webPhoto.w);
+                    }
+                    tLRPC$TL_textImage = webPhoto.inlineImage;
+                    if (tLRPC$TL_textImage != null) {
+                        tLRPC$TL_textImage.w = webPhoto.w;
+                        tLRPC$TL_textImage.h = webPhoto.h;
+                    }
                 }
+                webPhoto.h = height;
                 tLRPC$TL_textImage = webPhoto.inlineImage;
                 if (tLRPC$TL_textImage != null) {
-                    tLRPC$TL_textImage.w = webPhoto.w;
-                    tLRPC$TL_textImage.h = webPhoto.h;
                 }
-            }
-            webPhoto.h = height;
-            tLRPC$TL_textImage = webPhoto.inlineImage;
-            if (tLRPC$TL_textImage != null) {
             }
         }
         ArrayList arrayList = (ArrayList) loadingPhotos.remove(webPhoto.url);

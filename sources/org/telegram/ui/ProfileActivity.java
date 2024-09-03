@@ -1684,28 +1684,28 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         }
 
-        public /* synthetic */ boolean lambda$onItemClick$8(final TLRPC$User tLRPC$User, final DialogsActivity dialogsActivity, final DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
+        public /* synthetic */ boolean lambda$onItemClick$8(final TLRPC$User tLRPC$User, final DialogsActivity dialogsActivity, final DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, boolean z2, int i, TopicsFragment topicsFragment) {
             TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights;
             final long j = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
             TLRPC$Chat chat = MessagesController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getChat(Long.valueOf(-j));
             if (chat == null || (!chat.creator && ((tLRPC$TL_chatAdminRights = chat.admin_rights) == null || !tLRPC$TL_chatAdminRights.add_admins))) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
-                int i = R.string.AddBot;
-                builder.setTitle(LocaleController.getString(i));
+                int i2 = R.string.AddBot;
+                builder.setTitle(LocaleController.getString(i2));
                 builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", R.string.AddMembersAlertNamesText, UserObject.getUserName(tLRPC$User), chat == null ? "" : chat.title)));
                 builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-                builder.setPositiveButton(LocaleController.getString(i), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$6$$ExternalSyntheticLambda11
+                builder.setPositiveButton(LocaleController.getString(i2), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$6$$ExternalSyntheticLambda11
                     @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        ProfileActivity.6.this.lambda$onItemClick$7(j, dialogsActivity2, tLRPC$User, dialogInterface, i2);
+                    public final void onClick(DialogInterface dialogInterface, int i3) {
+                        ProfileActivity.6.this.lambda$onItemClick$7(j, dialogsActivity2, tLRPC$User, dialogInterface, i3);
                     }
                 });
                 ProfileActivity.this.showDialog(builder.create());
             } else {
                 ProfileActivity.this.getMessagesController().checkIsInChat(false, chat, tLRPC$User, new MessagesController.IsInChatCheckedCallback() { // from class: org.telegram.ui.ProfileActivity$6$$ExternalSyntheticLambda10
                     @Override // org.telegram.messenger.MessagesController.IsInChatCheckedCallback
-                    public final void run(boolean z2, TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights2, String str) {
-                        ProfileActivity.6.this.lambda$onItemClick$6(j, dialogsActivity, z2, tLRPC$TL_chatAdminRights2, str);
+                    public final void run(boolean z3, TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights2, String str) {
+                        ProfileActivity.6.this.lambda$onItemClick$6(j, dialogsActivity, z3, tLRPC$TL_chatAdminRights2, str);
                     }
                 });
             }
@@ -1861,9 +1861,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     final DialogsActivity dialogsActivity = new DialogsActivity(bundle4);
                                     dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.ProfileActivity$6$$ExternalSyntheticLambda7
                                         @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                                        public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
+                                        public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, boolean z2, int i3, TopicsFragment topicsFragment) {
                                             boolean lambda$onItemClick$8;
-                                            lambda$onItemClick$8 = ProfileActivity.6.this.lambda$onItemClick$8(user2, dialogsActivity, dialogsActivity2, arrayList, charSequence, z, topicsFragment);
+                                            lambda$onItemClick$8 = ProfileActivity.6.this.lambda$onItemClick$8(user2, dialogsActivity, dialogsActivity2, arrayList, charSequence, z, z2, i3, topicsFragment);
                                             return lambda$onItemClick$8;
                                         }
                                     });
@@ -17460,7 +17460,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-    public boolean didSelectDialogs(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
+    public boolean didSelectDialogs(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, boolean z2, int i, TopicsFragment topicsFragment) {
         long j = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
         Bundle bundle = new Bundle();
         bundle.putBoolean("scrollToTopOnResume", true);
@@ -17473,14 +17473,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         if (getMessagesController().checkCanOpenChat(bundle, dialogsActivity)) {
             NotificationCenter notificationCenter = getNotificationCenter();
-            int i = NotificationCenter.closeChats;
-            notificationCenter.removeObserver(this, i);
-            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(i, new Object[0]);
+            int i2 = NotificationCenter.closeChats;
+            notificationCenter.removeObserver(this, i2);
+            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(i2, new Object[0]);
             presentFragment(new ChatActivity(bundle), true);
             removeSelfFromStack();
-            getSendMessagesHelper().sendMessage(SendMessagesHelper.SendMessageParams.of(getMessagesController().getUser(Long.valueOf(this.userId)), j, (MessageObject) null, (MessageObject) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, true, 0));
+            getSendMessagesHelper().sendMessage(SendMessagesHelper.SendMessageParams.of(getMessagesController().getUser(Long.valueOf(this.userId)), j, (MessageObject) null, (MessageObject) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z2, i));
             if (!TextUtils.isEmpty(charSequence)) {
-                SendMessagesHelper.prepareSendingText(AccountInstance.getInstance(this.currentAccount), charSequence.toString(), j, true, 0, 0L);
+                SendMessagesHelper.prepareSendingText(AccountInstance.getInstance(this.currentAccount), charSequence.toString(), j, z2, i, 0L);
             }
             return true;
         }

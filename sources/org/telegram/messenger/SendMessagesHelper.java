@@ -7954,37 +7954,40 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         prepareSendingDocuments(accountInstance, arrayList2, arrayList3, arrayList, str3, str4, j, messageObject, messageObject2, tL_stories$StoryItem, replyQuote, messageObject3, z, i, inputContentInfoCompat, str5, i2, 0L, z2);
     }
 
-    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Can't wrap try/catch for region: R(29:(5:243|244|245|246|(10:248|249|250|251|252|253|254|255|256|257)(1:308))|(3:267|268|(29:270|271|(26:273|261|262|263|54|(7:56|(1:58)|59|(1:61)|62|(1:64)|65)(1:242)|(2:67|(18:69|70|(1:234)(9:73|(1:75)(1:233)|76|(2:78|(4:80|(1:231)(4:85|(1:87)(1:230)|88|(2:90|(2:92|93)))|229|93))|232|(1:82)|231|229|93)|94|(12:96|(1:98)|99|(8:101|102|104|(3:114|115|(3:117|(1:119)|120))|125|(1:202)(8:128|129|130|131|132|133|134|(3:141|(1:143)|144))|195|144)|227|107|(4:109|114|115|(0))|125|(0)|202|195|144)(1:228)|(1:146)(1:194)|147|(1:149)|150|(1:153)|(1:155)|156|(2:158|(2:178|(2:189|(1:191)(1:192))(2:184|185))(4:162|(1:177)(2:(1:176)(1:169)|(2:171|(1:173)))|174|175))(1:193)|186|(0)|177|174|175)(3:235|(1:237)(1:240)|238))(1:241)|239|70|(0)|234|94|(0)(0)|(0)(0)|147|(0)|150|(1:153)|(0)|156|(0)(0)|186|(0)|177|174|175)|260|261|262|263|54|(0)(0)|(0)(0)|239|70|(0)|234|94|(0)(0)|(0)(0)|147|(0)|150|(0)|(0)|156|(0)(0)|186|(0)|177|174|175))|259|260|261|262|263|54|(0)(0)|(0)(0)|239|70|(0)|234|94|(0)(0)|(0)(0)|147|(0)|150|(0)|(0)|156|(0)(0)|186|(0)|177|174|175) */
-    /* JADX WARN: Code restructure failed: missing block: B:222:0x0358, code lost:
-        if (r3 != null) goto L107;
+    /* JADX WARN: Can't wrap try/catch for region: R(29:(8:250|251|252|253|(10:255|256|257|258|259|260|261|262|263|264)(1:338)|265|266|(7:268|269|270|271|272|273|274)(1:322))|(4:276|277|278|(29:280|281|(26:283|284|285|286|54|(0)(0)|(0)(0)|246|70|(0)|241|94|(0)(0)|(0)(0)|155|(0)|158|(0)|(0)|164|(0)(0)|194|(0)|185|182|183)|290|284|285|286|54|(0)(0)|(0)(0)|246|70|(0)|241|94|(0)(0)|(0)(0)|155|(0)|158|(0)|(0)|164|(0)(0)|194|(0)|185|182|183))(1:315)|292|290|284|285|286|54|(0)(0)|(0)(0)|246|70|(0)|241|94|(0)(0)|(0)(0)|155|(0)|158|(0)|(0)|164|(0)(0)|194|(0)|185|182|183) */
+    /* JADX WARN: Code restructure failed: missing block: B:110:0x018a, code lost:
+        r0 = e;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:240:0x03aa, code lost:
+        if (r3 != null) goto L108;
      */
     /* JADX WARN: Code restructure failed: missing block: B:32:0x0058, code lost:
         if (r3 == false) goto L29;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:96:0x0159, code lost:
-        r0 = e;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x01a2  */
-    /* JADX WARN: Removed duplicated region for block: B:134:0x01c4  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x01e9  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x01ec  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x021e  */
-    /* JADX WARN: Removed duplicated region for block: B:158:0x0224 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x02d0  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x0396 A[Catch: Exception -> 0x03b8, TryCatch #1 {Exception -> 0x03b8, blocks: (B:237:0x0388, B:239:0x0396, B:241:0x03ac, B:244:0x03ba), top: B:327:0x0388 }] */
-    /* JADX WARN: Removed duplicated region for block: B:269:0x043c  */
-    /* JADX WARN: Removed duplicated region for block: B:273:0x0450  */
-    /* JADX WARN: Removed duplicated region for block: B:275:0x0458  */
-    /* JADX WARN: Removed duplicated region for block: B:276:0x045e  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x0468  */
-    /* JADX WARN: Removed duplicated region for block: B:282:0x0471 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:285:0x047a  */
-    /* JADX WARN: Removed duplicated region for block: B:288:0x0486  */
-    /* JADX WARN: Removed duplicated region for block: B:310:0x04e4  */
-    /* JADX WARN: Removed duplicated region for block: B:312:0x04e8 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:329:0x0192 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:333:0x0179 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x01d5  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x0209  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x0232  */
+    /* JADX WARN: Removed duplicated region for block: B:164:0x0239  */
+    /* JADX WARN: Removed duplicated region for block: B:173:0x026b  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x0271 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:193:0x02b7  */
+    /* JADX WARN: Removed duplicated region for block: B:194:0x02b9  */
+    /* JADX WARN: Removed duplicated region for block: B:197:0x02c0  */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x0316  */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x03ee A[Catch: Exception -> 0x040e, TryCatch #1 {Exception -> 0x040e, blocks: (B:258:0x03e0, B:260:0x03ee, B:262:0x0402, B:265:0x0410), top: B:355:0x03e0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:269:0x041a  */
+    /* JADX WARN: Removed duplicated region for block: B:295:0x04ab  */
+    /* JADX WARN: Removed duplicated region for block: B:299:0x04bf  */
+    /* JADX WARN: Removed duplicated region for block: B:301:0x04c7  */
+    /* JADX WARN: Removed duplicated region for block: B:302:0x04cd  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x04d5  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x04e0 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:311:0x04e9  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x04f5  */
+    /* JADX WARN: Removed duplicated region for block: B:336:0x0553  */
+    /* JADX WARN: Removed duplicated region for block: B:338:0x0557 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:365:0x01c5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:371:0x01ae A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7995,56 +7998,74 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         String lowerCase;
         String str8;
         Object obj;
-        Object obj2;
         AudioInfo audioInfo;
-        String title;
         int i3;
         String str9;
-        boolean z5;
-        TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio;
         String str10;
-        boolean z6;
-        String str11;
-        String str12;
-        Object obj3;
-        String str13;
-        Object obj4;
-        Object obj5;
-        String str14;
         int i4;
-        boolean z7;
-        MimeTypeMap mimeTypeMap;
-        long j3;
-        final String str15;
-        TLRPC$TL_document tLRPC$TL_document;
-        final String str16;
+        String str11;
+        boolean z5;
+        Bitmap cover;
+        String str12;
+        String str13;
+        String str14;
+        Object obj2;
+        TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio;
+        String str15;
+        String str16;
+        boolean z6;
         String str17;
+        String str18;
+        boolean z7;
+        String str19;
+        String str20;
+        String str21;
+        Bitmap bitmap;
+        Object obj3;
+        Object obj4;
+        long j3;
+        int i5;
+        final String str22;
+        TLRPC$TL_document tLRPC$TL_document;
+        final String str23;
+        String str24;
         TLRPC$TL_document tLRPC$TL_document2;
         final HashMap hashMap;
-        String str18;
         char c;
         boolean z8;
-        String str19;
-        int i5;
+        String str25;
+        Bitmap bitmap2;
         int i6;
+        int i7;
         TLRPC$PhotoSize scaleAndSaveImage;
         Bitmap loadBitmap;
+        String str26;
         char c2;
-        String str20;
+        String str27;
         TLRPC$TL_document tLRPC$TL_document3;
-        String str21;
-        TLRPC$TL_document tLRPC$TL_document4;
-        String str22;
+        Object[] sentFile;
         StringBuilder sb;
+        String str28;
+        String str29;
         MediaMetadataRetriever mediaMetadataRetriever;
+        String str30;
         MediaMetadataRetriever mediaMetadataRetriever2;
-        int i7;
-        String str23;
-        String str24;
+        String str31;
+        String str32;
+        String str33;
+        Bitmap bitmap3;
+        String str34;
         Throwable th;
+        String str35;
         boolean z9;
+        String str36;
         String extractMetadata;
-        String str25;
+        String str37;
+        String str38;
+        Bitmap bitmap4;
+        String str39;
+        String str40;
+        boolean equals;
         boolean z10;
         if ((str == null || str.length() == 0) && uri == null) {
             return 1;
@@ -8085,24 +8106,515 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             lowerCase = str7.toLowerCase();
                             if (!lowerCase.equals("mp3") || lowerCase.equals("m4a")) {
                                 str8 = name;
-                                obj = "flac";
-                                obj2 = "opus";
+                                obj = "opus";
+                                String str41 = lowerCase;
                                 audioInfo = AudioInfo.getAudioInfo(file);
+                                str29 = str41;
                                 if (audioInfo != null) {
                                     long duration = audioInfo.getDuration();
                                     if (duration != 0) {
-                                        String artist = audioInfo.getArtist();
-                                        title = audioInfo.getTitle();
+                                        str9 = audioInfo.getArtist();
+                                        str10 = audioInfo.getTitle();
                                         i3 = (int) (duration / 1000);
-                                        str9 = artist;
+                                    } else {
+                                        i3 = 0;
+                                        str9 = null;
+                                        str10 = null;
                                     }
-                                    title = null;
-                                    str9 = null;
-                                    i3 = 0;
+                                    i4 = i3;
+                                    str11 = str9;
+                                    z5 = false;
+                                    cover = audioInfo.getCover();
+                                    str12 = str10;
+                                    str13 = str41;
+                                    Bitmap bitmap5 = cover;
+                                    if (i4 == 0) {
+                                        TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio2 = new TLRPC$TL_documentAttributeAudio();
+                                        str14 = str13;
+                                        obj2 = "flac";
+                                        tLRPC$TL_documentAttributeAudio2.duration = i4;
+                                        tLRPC$TL_documentAttributeAudio2.title = str12;
+                                        tLRPC$TL_documentAttributeAudio2.performer = str11;
+                                        if (str12 == null) {
+                                            tLRPC$TL_documentAttributeAudio2.title = "";
+                                        }
+                                        int i8 = tLRPC$TL_documentAttributeAudio2.flags;
+                                        int i9 = i8 | 1;
+                                        tLRPC$TL_documentAttributeAudio2.flags = i9;
+                                        if (str11 == null) {
+                                            tLRPC$TL_documentAttributeAudio2.performer = "";
+                                        }
+                                        tLRPC$TL_documentAttributeAudio2.flags = i8 | 3;
+                                        if (z5) {
+                                            tLRPC$TL_documentAttributeAudio2.voice = true;
+                                        }
+                                        tLRPC$TL_documentAttributeAudio = tLRPC$TL_documentAttributeAudio2;
+                                        str15 = i9;
+                                    } else {
+                                        str14 = str13;
+                                        obj2 = "flac";
+                                        tLRPC$TL_documentAttributeAudio = null;
+                                        str15 = str13;
+                                    }
+                                    if (str2 != null) {
+                                        str16 = str2;
+                                    } else if (str2.endsWith("attheme")) {
+                                        str16 = str2;
+                                        z6 = true;
+                                        if (!z6 || isEncryptedDialog) {
+                                            str17 = str15;
+                                            str18 = "";
+                                            z7 = isEncryptedDialog;
+                                            str19 = str16;
+                                            str20 = str5;
+                                            str21 = str8;
+                                            bitmap = bitmap5;
+                                            obj3 = obj;
+                                            obj4 = obj2;
+                                            j3 = 0;
+                                            i5 = -1;
+                                            str22 = null;
+                                            tLRPC$TL_document = null;
+                                        } else {
+                                            Object[] sentFile2 = accountInstance.getMessagesStorage().getSentFile(str16, !isEncryptedDialog ? 1 : 4);
+                                            if (sentFile2 != null) {
+                                                Object obj5 = sentFile2[0];
+                                                if (obj5 instanceof TLRPC$TL_document) {
+                                                    tLRPC$TL_document3 = (TLRPC$TL_document) obj5;
+                                                    str27 = (String) sentFile2[1];
+                                                    if (tLRPC$TL_document3 == null && !str5.equals(str16) && !isEncryptedDialog) {
+                                                        sentFile = accountInstance.getMessagesStorage().getSentFile(str5 + file.length(), isEncryptedDialog ? 1 : 4);
+                                                        if (sentFile != null) {
+                                                            Object obj6 = sentFile[0];
+                                                            if (obj6 instanceof TLRPC$TL_document) {
+                                                                str27 = (String) sentFile[1];
+                                                                tLRPC$TL_document = (TLRPC$TL_document) obj6;
+                                                                i5 = -1;
+                                                                str21 = str8;
+                                                                bitmap = bitmap5;
+                                                                z7 = isEncryptedDialog;
+                                                                str17 = null;
+                                                                str18 = "";
+                                                                str19 = str16;
+                                                                str20 = str5;
+                                                                obj3 = obj;
+                                                                obj4 = obj2;
+                                                                j3 = 0;
+                                                                ensureMediaThumbExists(accountInstance, isEncryptedDialog, tLRPC$TL_document, str5, null, 0L);
+                                                                str22 = str27;
+                                                            }
+                                                        }
+                                                    }
+                                                    tLRPC$TL_document = tLRPC$TL_document3;
+                                                    i5 = -1;
+                                                    str21 = str8;
+                                                    bitmap = bitmap5;
+                                                    z7 = isEncryptedDialog;
+                                                    str17 = null;
+                                                    str18 = "";
+                                                    str19 = str16;
+                                                    str20 = str5;
+                                                    obj3 = obj;
+                                                    obj4 = obj2;
+                                                    j3 = 0;
+                                                    ensureMediaThumbExists(accountInstance, isEncryptedDialog, tLRPC$TL_document, str5, null, 0L);
+                                                    str22 = str27;
+                                                }
+                                            }
+                                            str27 = null;
+                                            tLRPC$TL_document3 = null;
+                                            if (tLRPC$TL_document3 == null) {
+                                                sentFile = accountInstance.getMessagesStorage().getSentFile(str5 + file.length(), isEncryptedDialog ? 1 : 4);
+                                                if (sentFile != null) {
+                                                }
+                                            }
+                                            tLRPC$TL_document = tLRPC$TL_document3;
+                                            i5 = -1;
+                                            str21 = str8;
+                                            bitmap = bitmap5;
+                                            z7 = isEncryptedDialog;
+                                            str17 = null;
+                                            str18 = "";
+                                            str19 = str16;
+                                            str20 = str5;
+                                            obj3 = obj;
+                                            obj4 = obj2;
+                                            j3 = 0;
+                                            ensureMediaThumbExists(accountInstance, isEncryptedDialog, tLRPC$TL_document, str5, null, 0L);
+                                            str22 = str27;
+                                        }
+                                        if (tLRPC$TL_document == null) {
+                                            TLRPC$TL_document tLRPC$TL_document4 = new TLRPC$TL_document();
+                                            tLRPC$TL_document4.id = j3;
+                                            tLRPC$TL_document4.date = accountInstance.getConnectionsManager().getCurrentTime();
+                                            TLRPC$TL_documentAttributeFilename tLRPC$TL_documentAttributeFilename = new TLRPC$TL_documentAttributeFilename();
+                                            tLRPC$TL_documentAttributeFilename.file_name = str21;
+                                            tLRPC$TL_document4.file_reference = new byte[0];
+                                            tLRPC$TL_document4.attributes.add(tLRPC$TL_documentAttributeFilename);
+                                            tLRPC$TL_document4.size = file.length();
+                                            tLRPC$TL_document4.dc_id = 0;
+                                            if (tLRPC$TL_documentAttributeAudio != null) {
+                                                tLRPC$TL_document4.attributes.add(tLRPC$TL_documentAttributeAudio);
+                                            }
+                                            if (str7.length() != 0) {
+                                                switch (str14.hashCode()) {
+                                                    case 106458:
+                                                        str26 = str14;
+                                                        if (str26.equals("m4a")) {
+                                                            c2 = 0;
+                                                            break;
+                                                        }
+                                                        c2 = 65535;
+                                                        break;
+                                                    case 108272:
+                                                        str26 = str14;
+                                                        if (str26.equals(str17)) {
+                                                            c2 = 1;
+                                                            break;
+                                                        }
+                                                        c2 = 65535;
+                                                        break;
+                                                    case 109967:
+                                                        str26 = str14;
+                                                        if (str26.equals("ogg")) {
+                                                            c2 = 2;
+                                                            break;
+                                                        }
+                                                        c2 = 65535;
+                                                        break;
+                                                    case 3145576:
+                                                        str26 = str14;
+                                                        if (str26.equals(obj4)) {
+                                                            c2 = 3;
+                                                            break;
+                                                        }
+                                                        c2 = 65535;
+                                                        break;
+                                                    case 3418175:
+                                                        str26 = str14;
+                                                        if (str26.equals(obj3)) {
+                                                            c2 = 4;
+                                                            break;
+                                                        }
+                                                        c2 = 65535;
+                                                        break;
+                                                    case 3645340:
+                                                        str26 = str14;
+                                                        if (str26.equals("webp")) {
+                                                            c2 = 5;
+                                                            break;
+                                                        }
+                                                        c2 = 65535;
+                                                        break;
+                                                    default:
+                                                        str26 = str14;
+                                                        c2 = 65535;
+                                                        break;
+                                                }
+                                                switch (c2) {
+                                                    case 0:
+                                                        str25 = "audio/m4a";
+                                                        tLRPC$TL_document4.mime_type = str25;
+                                                        break;
+                                                    case 1:
+                                                        str25 = "audio/mpeg";
+                                                        tLRPC$TL_document4.mime_type = str25;
+                                                        break;
+                                                    case 2:
+                                                        str25 = "audio/ogg";
+                                                        tLRPC$TL_document4.mime_type = str25;
+                                                        break;
+                                                    case 3:
+                                                        str25 = "audio/flac";
+                                                        tLRPC$TL_document4.mime_type = str25;
+                                                        break;
+                                                    case 4:
+                                                        str25 = "audio/opus";
+                                                        tLRPC$TL_document4.mime_type = str25;
+                                                        break;
+                                                    case 5:
+                                                        tLRPC$TL_document4.mime_type = "image/webp";
+                                                        break;
+                                                    default:
+                                                        str25 = singleton.getMimeTypeFromExtension(str26);
+                                                        break;
+                                                }
+                                                if (!z3 && tLRPC$TL_document4.mime_type.equals("image/gif") && (messageObject3 == null || messageObject3.getGroupIdForUse() == j3)) {
+                                                    try {
+                                                        loadBitmap = ImageLoader.loadBitmap(file.getAbsolutePath(), null, 90.0f, 90.0f, true);
+                                                        if (loadBitmap != null) {
+                                                            tLRPC$TL_documentAttributeFilename.file_name = "animation.gif";
+                                                            tLRPC$TL_document4.attributes.add(new TLRPC$TL_documentAttributeAnimated());
+                                                            TLRPC$PhotoSize scaleAndSaveImage2 = ImageLoader.scaleAndSaveImage(loadBitmap, 90.0f, 90.0f, 55, z7);
+                                                            if (scaleAndSaveImage2 != null) {
+                                                                tLRPC$TL_document4.thumbs.add(scaleAndSaveImage2);
+                                                                tLRPC$TL_document4.flags |= 1;
+                                                            }
+                                                            loadBitmap.recycle();
+                                                        }
+                                                    } catch (Exception e) {
+                                                        FileLog.e(e);
+                                                    }
+                                                }
+                                                bitmap2 = bitmap;
+                                                if (bitmap2 != null) {
+                                                    TLRPC$PhotoSize scaleAndSaveImage3 = ImageLoader.scaleAndSaveImage(bitmap2, 132.0f, 132.0f, 55, z7);
+                                                    if (scaleAndSaveImage3 != null) {
+                                                        tLRPC$TL_document4.thumbs.add(scaleAndSaveImage3);
+                                                        tLRPC$TL_document4.flags |= 1;
+                                                    }
+                                                    bitmap2.recycle();
+                                                }
+                                                if (tLRPC$TL_document4.mime_type.equals("image/webp") || messageObject3 != null) {
+                                                    str23 = str20;
+                                                } else {
+                                                    BitmapFactory.Options options = new BitmapFactory.Options();
+                                                    try {
+                                                        options.inJustDecodeBounds = true;
+                                                        str23 = str20;
+                                                    } catch (Exception e2) {
+                                                        e = e2;
+                                                        str23 = str20;
+                                                    }
+                                                    try {
+                                                        BitmapFactory.decodeFile(str23, options);
+                                                    } catch (Exception e3) {
+                                                        e = e3;
+                                                        FileLog.e(e);
+                                                        i6 = options.outWidth;
+                                                        if (i6 != 0) {
+                                                            TLRPC$TL_documentAttributeSticker tLRPC$TL_documentAttributeSticker = new TLRPC$TL_documentAttributeSticker();
+                                                            str24 = str18;
+                                                            tLRPC$TL_documentAttributeSticker.alt = str24;
+                                                            tLRPC$TL_documentAttributeSticker.stickerset = new TLRPC$TL_inputStickerSetEmpty();
+                                                            tLRPC$TL_document4.attributes.add(tLRPC$TL_documentAttributeSticker);
+                                                            TLRPC$TL_documentAttributeImageSize tLRPC$TL_documentAttributeImageSize = new TLRPC$TL_documentAttributeImageSize();
+                                                            tLRPC$TL_documentAttributeImageSize.w = options.outWidth;
+                                                            tLRPC$TL_documentAttributeImageSize.h = options.outHeight;
+                                                            tLRPC$TL_document4.attributes.add(tLRPC$TL_documentAttributeImageSize);
+                                                            scaleAndSaveImage = ImageLoader.scaleAndSaveImage(null, ImageLoader.loadBitmap(file.getAbsolutePath(), null, 400.0f, 400.0f, true), Bitmap.CompressFormat.PNG, false, 400.0f, 400.0f, 100, z7, 0, 0, false);
+                                                            if (scaleAndSaveImage != null) {
+                                                            }
+                                                            tLRPC$TL_document2 = tLRPC$TL_document4;
+                                                            if (charSequence != null) {
+                                                            }
+                                                            hashMap = new HashMap();
+                                                            if (str19 != null) {
+                                                            }
+                                                            if (z3) {
+                                                            }
+                                                            if (str22 != null) {
+                                                            }
+                                                            int i10 = 0;
+                                                            if (numArr != null) {
+                                                            }
+                                                            z8 = false;
+                                                            if (z7) {
+                                                            }
+                                                            final TLRPC$TL_document tLRPC$TL_document5 = tLRPC$TL_document2;
+                                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
+                                                                @Override // java.lang.Runnable
+                                                                public final void run() {
+                                                                    SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document5, str23, hashMap, str22, j, messageObject, messageObject2, r14, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                                                }
+                                                            });
+                                                            return 0;
+                                                        }
+                                                        str24 = str18;
+                                                        tLRPC$TL_document2 = tLRPC$TL_document4;
+                                                        if (charSequence != null) {
+                                                        }
+                                                        hashMap = new HashMap();
+                                                        if (str19 != null) {
+                                                        }
+                                                        if (z3) {
+                                                        }
+                                                        if (str22 != null) {
+                                                        }
+                                                        int i102 = 0;
+                                                        if (numArr != null) {
+                                                        }
+                                                        z8 = false;
+                                                        if (z7) {
+                                                        }
+                                                        final TLRPC$TL_document tLRPC$TL_document52 = tLRPC$TL_document2;
+                                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
+                                                            @Override // java.lang.Runnable
+                                                            public final void run() {
+                                                                SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document52, str23, hashMap, str22, j, messageObject, messageObject2, r14, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                                            }
+                                                        });
+                                                        return 0;
+                                                    }
+                                                    i6 = options.outWidth;
+                                                    if (i6 != 0 && (i7 = options.outHeight) != 0 && i6 <= 800 && i7 <= 800) {
+                                                        TLRPC$TL_documentAttributeSticker tLRPC$TL_documentAttributeSticker2 = new TLRPC$TL_documentAttributeSticker();
+                                                        str24 = str18;
+                                                        tLRPC$TL_documentAttributeSticker2.alt = str24;
+                                                        tLRPC$TL_documentAttributeSticker2.stickerset = new TLRPC$TL_inputStickerSetEmpty();
+                                                        tLRPC$TL_document4.attributes.add(tLRPC$TL_documentAttributeSticker2);
+                                                        TLRPC$TL_documentAttributeImageSize tLRPC$TL_documentAttributeImageSize2 = new TLRPC$TL_documentAttributeImageSize();
+                                                        tLRPC$TL_documentAttributeImageSize2.w = options.outWidth;
+                                                        tLRPC$TL_documentAttributeImageSize2.h = options.outHeight;
+                                                        tLRPC$TL_document4.attributes.add(tLRPC$TL_documentAttributeImageSize2);
+                                                        scaleAndSaveImage = ImageLoader.scaleAndSaveImage(null, ImageLoader.loadBitmap(file.getAbsolutePath(), null, 400.0f, 400.0f, true), Bitmap.CompressFormat.PNG, false, 400.0f, 400.0f, 100, z7, 0, 0, false);
+                                                        if (scaleAndSaveImage != null) {
+                                                            tLRPC$TL_document4.thumbs.add(scaleAndSaveImage);
+                                                            tLRPC$TL_document4.flags |= 1;
+                                                        }
+                                                        tLRPC$TL_document2 = tLRPC$TL_document4;
+                                                    }
+                                                }
+                                                str24 = str18;
+                                                tLRPC$TL_document2 = tLRPC$TL_document4;
+                                            }
+                                            str25 = "application/octet-stream";
+                                            tLRPC$TL_document4.mime_type = str25;
+                                            if (!z3) {
+                                                loadBitmap = ImageLoader.loadBitmap(file.getAbsolutePath(), null, 90.0f, 90.0f, true);
+                                                if (loadBitmap != null) {
+                                                }
+                                            }
+                                            bitmap2 = bitmap;
+                                            if (bitmap2 != null) {
+                                            }
+                                            if (tLRPC$TL_document4.mime_type.equals("image/webp")) {
+                                            }
+                                            str23 = str20;
+                                            str24 = str18;
+                                            tLRPC$TL_document2 = tLRPC$TL_document4;
+                                        } else {
+                                            str23 = str20;
+                                            str24 = str18;
+                                            tLRPC$TL_document2 = tLRPC$TL_document;
+                                        }
+                                        final String charSequence2 = charSequence != null ? charSequence.toString() : str24;
+                                        hashMap = new HashMap();
+                                        if (str19 != null) {
+                                            hashMap.put("originalPath", str19);
+                                        }
+                                        if (z3 && tLRPC$TL_documentAttributeAudio == null) {
+                                            hashMap.put("forceDocument", "1");
+                                        }
+                                        if (str22 != null) {
+                                            hashMap.put("parentObject", str22);
+                                        }
+                                        int i1022 = 0;
+                                        if (numArr != null) {
+                                            i1022 = numArr[0];
+                                            String str42 = tLRPC$TL_document2.mime_type;
+                                            if (str42 != null && str42.toLowerCase().startsWith("image/webp")) {
+                                                numArr[0] = Integer.valueOf(i5);
+                                                c = 0;
+                                                z8 = true;
+                                                if (z7 && jArr != null) {
+                                                    if (numArr != null && i1022 != null && i1022 != numArr[c]) {
+                                                        finishGroup(accountInstance, jArr[c], i);
+                                                        jArr[c] = Utilities.random.nextLong();
+                                                    }
+                                                    if (!z8) {
+                                                        hashMap.put("groupId", str24 + jArr[c]);
+                                                        if (z) {
+                                                            hashMap.put("final", "1");
+                                                        }
+                                                    }
+                                                }
+                                                final TLRPC$TL_document tLRPC$TL_document522 = tLRPC$TL_document2;
+                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
+                                                    @Override // java.lang.Runnable
+                                                    public final void run() {
+                                                        SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document522, str23, hashMap, str22, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                                    }
+                                                });
+                                                return 0;
+                                            }
+                                            String str43 = tLRPC$TL_document2.mime_type;
+                                            if ((str43 == null || !(str43.toLowerCase().startsWith("image/") || tLRPC$TL_document2.mime_type.toLowerCase().startsWith("video/mp4"))) && !MessageObject.canPreviewDocument(tLRPC$TL_document2)) {
+                                                c = 0;
+                                                if (tLRPC$TL_documentAttributeAudio != null) {
+                                                    numArr[0] = 2;
+                                                } else {
+                                                    numArr[0] = 0;
+                                                }
+                                            } else {
+                                                c = 0;
+                                                numArr[0] = 1;
+                                            }
+                                        } else {
+                                            c = 0;
+                                        }
+                                        z8 = false;
+                                        if (z7) {
+                                        }
+                                        final TLRPC$TL_document tLRPC$TL_document5222 = tLRPC$TL_document2;
+                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
+                                            @Override // java.lang.Runnable
+                                            public final void run() {
+                                                SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document5222, str23, hashMap, str22, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                            }
+                                        });
+                                        return 0;
+                                    } else {
+                                        if (tLRPC$TL_documentAttributeAudio != null) {
+                                            sb = new StringBuilder();
+                                            sb.append(str2);
+                                            sb.append(MediaStreamTrack.AUDIO_TRACK_KIND);
+                                        } else {
+                                            sb = new StringBuilder();
+                                            sb.append(str2);
+                                            sb.append("");
+                                        }
+                                        sb.append(file.length());
+                                        str16 = sb.toString();
+                                    }
+                                    z6 = false;
+                                    if (z6) {
+                                    }
+                                    str17 = str15;
+                                    str18 = "";
+                                    z7 = isEncryptedDialog;
+                                    str19 = str16;
+                                    str20 = str5;
+                                    str21 = str8;
+                                    bitmap = bitmap5;
+                                    obj3 = obj;
+                                    obj4 = obj2;
+                                    j3 = 0;
+                                    i5 = -1;
+                                    str22 = null;
+                                    tLRPC$TL_document = null;
+                                    if (tLRPC$TL_document == null) {
+                                    }
+                                    if (charSequence != null) {
+                                    }
+                                    hashMap = new HashMap();
+                                    if (str19 != null) {
+                                    }
+                                    if (z3) {
+                                        hashMap.put("forceDocument", "1");
+                                    }
+                                    if (str22 != null) {
+                                    }
+                                    int i10222 = 0;
+                                    if (numArr != null) {
+                                    }
+                                    z8 = false;
+                                    if (z7) {
+                                    }
+                                    final TLRPC$TL_document tLRPC$TL_document52222 = tLRPC$TL_document2;
+                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
+                                        @Override // java.lang.Runnable
+                                        public final void run() {
+                                            SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document52222, str23, hashMap, str22, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                        }
+                                    });
+                                    return 0;
                                 }
-                                title = null;
-                                str9 = null;
-                                i3 = 0;
+                                str12 = null;
+                                str11 = null;
+                                cover = null;
+                                i4 = 0;
+                                str28 = str29;
                             } else if (lowerCase.equals("opus") || lowerCase.equals("ogg") || lowerCase.equals("flac")) {
                                 try {
                                     mediaMetadataRetriever2 = new MediaMetadataRetriever();
@@ -8110,288 +8622,447 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                         try {
                                             mediaMetadataRetriever2.setDataSource(file.getAbsolutePath());
                                             if (mediaMetadataRetriever2.extractMetadata(9) != null) {
-                                                obj = "flac";
-                                                obj2 = "opus";
+                                                str37 = lowerCase;
                                                 try {
-                                                    i7 = (int) Math.ceil(((float) Long.parseLong(extractMetadata)) / 1000.0f);
+                                                    i4 = (int) Math.ceil(((float) Long.parseLong(extractMetadata)) / 1000.0f);
+                                                } catch (Exception e4) {
+                                                    e = e4;
+                                                    str8 = name;
+                                                    obj = "opus";
+                                                    str30 = str37;
+                                                    i4 = 0;
+                                                    str31 = str30;
+                                                    str32 = null;
+                                                    str33 = str31;
+                                                    bitmap3 = null;
+                                                    str34 = null;
+                                                    str35 = str33;
                                                     try {
-                                                        str23 = mediaMetadataRetriever2.extractMetadata(7);
-                                                        str8 = name;
-                                                    } catch (Exception e) {
-                                                        e = e;
-                                                        str8 = name;
-                                                        str23 = null;
-                                                        str24 = null;
-                                                        try {
-                                                            FileLog.e(e);
-                                                            if (mediaMetadataRetriever2 != null) {
-                                                                try {
-                                                                    mediaMetadataRetriever2.release();
-                                                                } catch (Exception e2) {
-                                                                    e = e2;
-                                                                    z9 = false;
-                                                                    FileLog.e(e);
-                                                                    title = str23;
-                                                                    str9 = str24;
-                                                                    z5 = z9;
-                                                                    i3 = i7;
-                                                                    if (i3 != 0) {
-                                                                    }
-                                                                    if (str2 == null) {
-                                                                    }
-                                                                    z6 = false;
-                                                                    if (z6) {
-                                                                    }
-                                                                    str11 = "";
-                                                                    str12 = str10;
-                                                                    obj3 = "m4a";
-                                                                    str13 = str5;
-                                                                    obj4 = obj;
-                                                                    obj5 = obj2;
-                                                                    str14 = str8;
-                                                                    i4 = -1;
-                                                                    z7 = isEncryptedDialog;
-                                                                    mimeTypeMap = singleton;
-                                                                    j3 = 0;
-                                                                    str15 = null;
-                                                                    tLRPC$TL_document = null;
-                                                                    if (tLRPC$TL_document != null) {
-                                                                    }
-                                                                    if (charSequence == null) {
-                                                                    }
-                                                                    hashMap = new HashMap();
-                                                                    str18 = str12;
-                                                                    if (str18 != null) {
-                                                                    }
-                                                                    if (z3) {
-                                                                    }
-                                                                    if (str15 != null) {
-                                                                    }
-                                                                    int i8 = 0;
-                                                                    if (numArr == null) {
-                                                                    }
-                                                                    z8 = false;
-                                                                    if (z7) {
-                                                                    }
-                                                                    final TLRPC$TL_document tLRPC$TL_document5 = tLRPC$TL_document2;
-                                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
-                                                                        @Override // java.lang.Runnable
-                                                                        public final void run() {
-                                                                            SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document5, str16, hashMap, str15, j, messageObject, messageObject2, r14, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
-                                                                        }
-                                                                    });
-                                                                    return 0;
-                                                                }
-                                                            }
-                                                            i3 = i7;
-                                                            title = str23;
-                                                            str9 = str24;
-                                                            z5 = false;
-                                                            if (i3 != 0) {
-                                                            }
-                                                            if (str2 == null) {
-                                                            }
-                                                            z6 = false;
-                                                            if (z6) {
-                                                            }
-                                                            str11 = "";
-                                                            str12 = str10;
-                                                            obj3 = "m4a";
-                                                            str13 = str5;
-                                                            obj4 = obj;
-                                                            obj5 = obj2;
-                                                            str14 = str8;
-                                                            i4 = -1;
-                                                            z7 = isEncryptedDialog;
-                                                            mimeTypeMap = singleton;
-                                                            j3 = 0;
-                                                            str15 = null;
-                                                            tLRPC$TL_document = null;
-                                                            if (tLRPC$TL_document != null) {
-                                                            }
-                                                            if (charSequence == null) {
-                                                            }
-                                                            hashMap = new HashMap();
-                                                            str18 = str12;
-                                                            if (str18 != null) {
-                                                            }
-                                                            if (z3) {
-                                                            }
-                                                            if (str15 != null) {
-                                                            }
-                                                            int i82 = 0;
-                                                            if (numArr == null) {
-                                                            }
-                                                            z8 = false;
-                                                            if (z7) {
-                                                            }
-                                                            final TLRPC$TL_document tLRPC$TL_document52 = tLRPC$TL_document2;
-                                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
-                                                                @Override // java.lang.Runnable
-                                                                public final void run() {
-                                                                    SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document52, str16, hashMap, str15, j, messageObject, messageObject2, r14, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
-                                                                }
-                                                            });
-                                                            return 0;
-                                                        } catch (Throwable th2) {
-                                                            th = th2;
-                                                            mediaMetadataRetriever = mediaMetadataRetriever2;
-                                                            th = th;
-                                                            mediaMetadataRetriever2 = mediaMetadataRetriever;
-                                                            if (mediaMetadataRetriever2 != null) {
-                                                                try {
-                                                                    mediaMetadataRetriever2.release();
-                                                                } catch (Exception e3) {
-                                                                    FileLog.e(e3);
-                                                                }
-                                                            }
-                                                            throw th;
-                                                        }
-                                                    }
-                                                    try {
-                                                        str25 = mediaMetadataRetriever2.extractMetadata(2);
-                                                    } catch (Exception e4) {
-                                                        e = e4;
-                                                        str24 = null;
                                                         FileLog.e(e);
                                                         if (mediaMetadataRetriever2 != null) {
                                                         }
-                                                        i3 = i7;
-                                                        title = str23;
-                                                        str9 = str24;
+                                                        str12 = str32;
+                                                        cover = bitmap3;
+                                                        str11 = str34;
+                                                        str28 = str35;
                                                         z5 = false;
-                                                        if (i3 != 0) {
+                                                        str13 = str28;
+                                                        Bitmap bitmap52 = cover;
+                                                        if (i4 == 0) {
                                                         }
-                                                        if (str2 == null) {
+                                                        if (str2 != null) {
                                                         }
                                                         z6 = false;
                                                         if (z6) {
                                                         }
-                                                        str11 = "";
-                                                        str12 = str10;
-                                                        obj3 = "m4a";
-                                                        str13 = str5;
-                                                        obj4 = obj;
-                                                        obj5 = obj2;
-                                                        str14 = str8;
-                                                        i4 = -1;
+                                                        str17 = str15;
+                                                        str18 = "";
                                                         z7 = isEncryptedDialog;
-                                                        mimeTypeMap = singleton;
+                                                        str19 = str16;
+                                                        str20 = str5;
+                                                        str21 = str8;
+                                                        bitmap = bitmap52;
+                                                        obj3 = obj;
+                                                        obj4 = obj2;
                                                         j3 = 0;
-                                                        str15 = null;
+                                                        i5 = -1;
+                                                        str22 = null;
                                                         tLRPC$TL_document = null;
-                                                        if (tLRPC$TL_document != null) {
+                                                        if (tLRPC$TL_document == null) {
                                                         }
-                                                        if (charSequence == null) {
+                                                        if (charSequence != null) {
                                                         }
                                                         hashMap = new HashMap();
-                                                        str18 = str12;
-                                                        if (str18 != null) {
+                                                        if (str19 != null) {
                                                         }
                                                         if (z3) {
                                                         }
-                                                        if (str15 != null) {
+                                                        if (str22 != null) {
                                                         }
-                                                        int i822 = 0;
-                                                        if (numArr == null) {
+                                                        int i102222 = 0;
+                                                        if (numArr != null) {
                                                         }
                                                         z8 = false;
                                                         if (z7) {
                                                         }
-                                                        final TLRPC$TL_document tLRPC$TL_document522 = tLRPC$TL_document2;
+                                                        final TLRPC$TL_document tLRPC$TL_document522222 = tLRPC$TL_document2;
                                                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
                                                             @Override // java.lang.Runnable
                                                             public final void run() {
-                                                                SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document522, str16, hashMap, str15, j, messageObject, messageObject2, r14, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                                                SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document522222, str23, hashMap, str22, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
                                                             }
                                                         });
                                                         return 0;
+                                                    } catch (Throwable th2) {
+                                                        th = th2;
+                                                        mediaMetadataRetriever = mediaMetadataRetriever2;
+                                                        th = th;
+                                                        mediaMetadataRetriever2 = mediaMetadataRetriever;
+                                                        if (mediaMetadataRetriever2 != null) {
+                                                        }
+                                                        throw th;
                                                     }
+                                                }
+                                                try {
+                                                    str32 = mediaMetadataRetriever2.extractMetadata(7);
+                                                    str8 = name;
                                                 } catch (Exception e5) {
                                                     e = e5;
                                                     str8 = name;
-                                                    i7 = 0;
-                                                    str23 = null;
-                                                    str24 = null;
+                                                    obj = "opus";
+                                                    str31 = str37;
+                                                    str32 = null;
+                                                    str33 = str31;
+                                                    bitmap3 = null;
+                                                    str34 = null;
+                                                    str35 = str33;
                                                     FileLog.e(e);
                                                     if (mediaMetadataRetriever2 != null) {
                                                     }
-                                                    i3 = i7;
-                                                    title = str23;
-                                                    str9 = str24;
+                                                    str12 = str32;
+                                                    cover = bitmap3;
+                                                    str11 = str34;
+                                                    str28 = str35;
                                                     z5 = false;
-                                                    if (i3 != 0) {
+                                                    str13 = str28;
+                                                    Bitmap bitmap522 = cover;
+                                                    if (i4 == 0) {
                                                     }
-                                                    if (str2 == null) {
+                                                    if (str2 != null) {
                                                     }
                                                     z6 = false;
                                                     if (z6) {
                                                     }
-                                                    str11 = "";
-                                                    str12 = str10;
-                                                    obj3 = "m4a";
-                                                    str13 = str5;
-                                                    obj4 = obj;
-                                                    obj5 = obj2;
-                                                    str14 = str8;
-                                                    i4 = -1;
+                                                    str17 = str15;
+                                                    str18 = "";
                                                     z7 = isEncryptedDialog;
-                                                    mimeTypeMap = singleton;
+                                                    str19 = str16;
+                                                    str20 = str5;
+                                                    str21 = str8;
+                                                    bitmap = bitmap522;
+                                                    obj3 = obj;
+                                                    obj4 = obj2;
                                                     j3 = 0;
-                                                    str15 = null;
+                                                    i5 = -1;
+                                                    str22 = null;
                                                     tLRPC$TL_document = null;
-                                                    if (tLRPC$TL_document != null) {
+                                                    if (tLRPC$TL_document == null) {
                                                     }
-                                                    if (charSequence == null) {
+                                                    if (charSequence != null) {
                                                     }
                                                     hashMap = new HashMap();
-                                                    str18 = str12;
-                                                    if (str18 != null) {
+                                                    if (str19 != null) {
                                                     }
                                                     if (z3) {
                                                     }
-                                                    if (str15 != null) {
+                                                    if (str22 != null) {
                                                     }
-                                                    int i8222 = 0;
-                                                    if (numArr == null) {
+                                                    int i1022222 = 0;
+                                                    if (numArr != null) {
                                                     }
                                                     z8 = false;
                                                     if (z7) {
                                                     }
-                                                    final TLRPC$TL_document tLRPC$TL_document5222 = tLRPC$TL_document2;
+                                                    final TLRPC$TL_document tLRPC$TL_document5222222 = tLRPC$TL_document2;
                                                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
                                                         @Override // java.lang.Runnable
                                                         public final void run() {
-                                                            SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document5222, str16, hashMap, str15, j, messageObject, messageObject2, r14, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                                            SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document5222222, str23, hashMap, str22, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                                        }
+                                                    });
+                                                    return 0;
+                                                }
+                                                try {
+                                                    str38 = mediaMetadataRetriever2.extractMetadata(2);
+                                                } catch (Exception e6) {
+                                                    e = e6;
+                                                    obj = "opus";
+                                                    str33 = str37;
+                                                    bitmap3 = null;
+                                                    str34 = null;
+                                                    str35 = str33;
+                                                    FileLog.e(e);
+                                                    if (mediaMetadataRetriever2 != null) {
+                                                    }
+                                                    str12 = str32;
+                                                    cover = bitmap3;
+                                                    str11 = str34;
+                                                    str28 = str35;
+                                                    z5 = false;
+                                                    str13 = str28;
+                                                    Bitmap bitmap5222 = cover;
+                                                    if (i4 == 0) {
+                                                    }
+                                                    if (str2 != null) {
+                                                    }
+                                                    z6 = false;
+                                                    if (z6) {
+                                                    }
+                                                    str17 = str15;
+                                                    str18 = "";
+                                                    z7 = isEncryptedDialog;
+                                                    str19 = str16;
+                                                    str20 = str5;
+                                                    str21 = str8;
+                                                    bitmap = bitmap5222;
+                                                    obj3 = obj;
+                                                    obj4 = obj2;
+                                                    j3 = 0;
+                                                    i5 = -1;
+                                                    str22 = null;
+                                                    tLRPC$TL_document = null;
+                                                    if (tLRPC$TL_document == null) {
+                                                    }
+                                                    if (charSequence != null) {
+                                                    }
+                                                    hashMap = new HashMap();
+                                                    if (str19 != null) {
+                                                    }
+                                                    if (z3) {
+                                                    }
+                                                    if (str22 != null) {
+                                                    }
+                                                    int i10222222 = 0;
+                                                    if (numArr != null) {
+                                                    }
+                                                    z8 = false;
+                                                    if (z7) {
+                                                    }
+                                                    final TLRPC$TL_document tLRPC$TL_document52222222 = tLRPC$TL_document2;
+                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
+                                                        @Override // java.lang.Runnable
+                                                        public final void run() {
+                                                            SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document52222222, str23, hashMap, str22, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
                                                         }
                                                     });
                                                     return 0;
                                                 }
                                             } else {
                                                 str8 = name;
-                                                obj = "flac";
-                                                obj2 = "opus";
-                                                str25 = null;
-                                                i7 = 0;
-                                                str23 = null;
+                                                str37 = lowerCase;
+                                                str38 = null;
+                                                i4 = 0;
+                                                str32 = null;
                                             }
-                                        } catch (Exception e6) {
-                                            e = e6;
+                                            try {
+                                                byte[] embeddedPicture = mediaMetadataRetriever2.getEmbeddedPicture();
+                                                if (embeddedPicture != null) {
+                                                    str34 = str38;
+                                                    try {
+                                                        obj = "opus";
+                                                        try {
+                                                            bitmap4 = BitmapFactory.decodeByteArray(embeddedPicture, 0, embeddedPicture.length);
+                                                        } catch (Exception e7) {
+                                                            e = e7;
+                                                            str35 = str37;
+                                                            bitmap3 = null;
+                                                            FileLog.e(e);
+                                                            if (mediaMetadataRetriever2 != null) {
+                                                                try {
+                                                                    mediaMetadataRetriever2.release();
+                                                                } catch (Exception e8) {
+                                                                    e = e8;
+                                                                    z9 = false;
+                                                                    FileLog.e(e);
+                                                                    str36 = str35;
+                                                                    str12 = str32;
+                                                                    str11 = str34;
+                                                                    z5 = z9;
+                                                                    cover = bitmap3;
+                                                                    str13 = str36;
+                                                                    Bitmap bitmap52222 = cover;
+                                                                    if (i4 == 0) {
+                                                                    }
+                                                                    if (str2 != null) {
+                                                                    }
+                                                                    z6 = false;
+                                                                    if (z6) {
+                                                                    }
+                                                                    str17 = str15;
+                                                                    str18 = "";
+                                                                    z7 = isEncryptedDialog;
+                                                                    str19 = str16;
+                                                                    str20 = str5;
+                                                                    str21 = str8;
+                                                                    bitmap = bitmap52222;
+                                                                    obj3 = obj;
+                                                                    obj4 = obj2;
+                                                                    j3 = 0;
+                                                                    i5 = -1;
+                                                                    str22 = null;
+                                                                    tLRPC$TL_document = null;
+                                                                    if (tLRPC$TL_document == null) {
+                                                                    }
+                                                                    if (charSequence != null) {
+                                                                    }
+                                                                    hashMap = new HashMap();
+                                                                    if (str19 != null) {
+                                                                    }
+                                                                    if (z3) {
+                                                                    }
+                                                                    if (str22 != null) {
+                                                                    }
+                                                                    int i102222222 = 0;
+                                                                    if (numArr != null) {
+                                                                    }
+                                                                    z8 = false;
+                                                                    if (z7) {
+                                                                    }
+                                                                    final TLRPC$TL_document tLRPC$TL_document522222222 = tLRPC$TL_document2;
+                                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
+                                                                        @Override // java.lang.Runnable
+                                                                        public final void run() {
+                                                                            SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document522222222, str23, hashMap, str22, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                                                        }
+                                                                    });
+                                                                    return 0;
+                                                                }
+                                                            }
+                                                            str12 = str32;
+                                                            cover = bitmap3;
+                                                            str11 = str34;
+                                                            str28 = str35;
+                                                            z5 = false;
+                                                            str13 = str28;
+                                                            Bitmap bitmap522222 = cover;
+                                                            if (i4 == 0) {
+                                                            }
+                                                            if (str2 != null) {
+                                                            }
+                                                            z6 = false;
+                                                            if (z6) {
+                                                            }
+                                                            str17 = str15;
+                                                            str18 = "";
+                                                            z7 = isEncryptedDialog;
+                                                            str19 = str16;
+                                                            str20 = str5;
+                                                            str21 = str8;
+                                                            bitmap = bitmap522222;
+                                                            obj3 = obj;
+                                                            obj4 = obj2;
+                                                            j3 = 0;
+                                                            i5 = -1;
+                                                            str22 = null;
+                                                            tLRPC$TL_document = null;
+                                                            if (tLRPC$TL_document == null) {
+                                                            }
+                                                            if (charSequence != null) {
+                                                            }
+                                                            hashMap = new HashMap();
+                                                            if (str19 != null) {
+                                                            }
+                                                            if (z3) {
+                                                            }
+                                                            if (str22 != null) {
+                                                            }
+                                                            int i1022222222 = 0;
+                                                            if (numArr != null) {
+                                                            }
+                                                            z8 = false;
+                                                            if (z7) {
+                                                            }
+                                                            final TLRPC$TL_document tLRPC$TL_document5222222222 = tLRPC$TL_document2;
+                                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
+                                                                @Override // java.lang.Runnable
+                                                                public final void run() {
+                                                                    SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document5222222222, str23, hashMap, str22, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                                                }
+                                                            });
+                                                            return 0;
+                                                        }
+                                                    } catch (Exception e9) {
+                                                        e = e9;
+                                                        obj = "opus";
+                                                        str35 = str37;
+                                                        bitmap3 = null;
+                                                        FileLog.e(e);
+                                                        if (mediaMetadataRetriever2 != null) {
+                                                        }
+                                                        str12 = str32;
+                                                        cover = bitmap3;
+                                                        str11 = str34;
+                                                        str28 = str35;
+                                                        z5 = false;
+                                                        str13 = str28;
+                                                        Bitmap bitmap5222222 = cover;
+                                                        if (i4 == 0) {
+                                                        }
+                                                        if (str2 != null) {
+                                                        }
+                                                        z6 = false;
+                                                        if (z6) {
+                                                        }
+                                                        str17 = str15;
+                                                        str18 = "";
+                                                        z7 = isEncryptedDialog;
+                                                        str19 = str16;
+                                                        str20 = str5;
+                                                        str21 = str8;
+                                                        bitmap = bitmap5222222;
+                                                        obj3 = obj;
+                                                        obj4 = obj2;
+                                                        j3 = 0;
+                                                        i5 = -1;
+                                                        str22 = null;
+                                                        tLRPC$TL_document = null;
+                                                        if (tLRPC$TL_document == null) {
+                                                        }
+                                                        if (charSequence != null) {
+                                                        }
+                                                        hashMap = new HashMap();
+                                                        if (str19 != null) {
+                                                        }
+                                                        if (z3) {
+                                                        }
+                                                        if (str22 != null) {
+                                                        }
+                                                        int i10222222222 = 0;
+                                                        if (numArr != null) {
+                                                        }
+                                                        z8 = false;
+                                                        if (z7) {
+                                                        }
+                                                        final TLRPC$TL_document tLRPC$TL_document52222222222 = tLRPC$TL_document2;
+                                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
+                                                            @Override // java.lang.Runnable
+                                                            public final void run() {
+                                                                SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document52222222222, str23, hashMap, str22, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                                            }
+                                                        });
+                                                        return 0;
+                                                    }
+                                                } else {
+                                                    str34 = str38;
+                                                    obj = "opus";
+                                                    bitmap4 = null;
+                                                }
+                                            } catch (Exception e10) {
+                                                e = e10;
+                                                str34 = str38;
+                                            }
+                                        } catch (Exception e11) {
+                                            e = e11;
                                             str8 = name;
-                                            obj = "flac";
-                                            obj2 = "opus";
+                                            obj = "opus";
+                                            str30 = lowerCase;
                                         }
                                     } catch (Throwable th3) {
                                         th = th3;
                                         if (mediaMetadataRetriever2 != null) {
+                                            try {
+                                                mediaMetadataRetriever2.release();
+                                            } catch (Exception e12) {
+                                                FileLog.e(e12);
+                                            }
                                         }
                                         throw th;
                                     }
-                                } catch (Exception e7) {
-                                    e = e7;
+                                } catch (Exception e13) {
+                                    e = e13;
                                     str8 = name;
-                                    obj = "flac";
-                                    obj2 = "opus";
+                                    obj = "opus";
+                                    str30 = lowerCase;
                                     mediaMetadataRetriever2 = null;
                                 } catch (Throwable th4) {
                                     th = th4;
@@ -8403,705 +9074,301 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                     throw th;
                                 }
                                 if (messageObject3 == null) {
+                                    String str44 = str37;
                                     try {
-                                    } catch (Exception e8) {
-                                        e = e8;
-                                        str24 = str25;
+                                        equals = str44.equals("ogg");
+                                        str39 = str44;
+                                    } catch (Exception e14) {
+                                        e = e14;
+                                        bitmap3 = bitmap4;
+                                        str35 = str44;
                                         FileLog.e(e);
                                         if (mediaMetadataRetriever2 != null) {
                                         }
-                                        i3 = i7;
-                                        title = str23;
-                                        str9 = str24;
+                                        str12 = str32;
+                                        cover = bitmap3;
+                                        str11 = str34;
+                                        str28 = str35;
                                         z5 = false;
-                                        if (i3 != 0) {
+                                        str13 = str28;
+                                        Bitmap bitmap52222222 = cover;
+                                        if (i4 == 0) {
                                         }
-                                        if (str2 == null) {
+                                        if (str2 != null) {
                                         }
                                         z6 = false;
                                         if (z6) {
                                         }
-                                        str11 = "";
-                                        str12 = str10;
-                                        obj3 = "m4a";
-                                        str13 = str5;
-                                        obj4 = obj;
-                                        obj5 = obj2;
-                                        str14 = str8;
-                                        i4 = -1;
+                                        str17 = str15;
+                                        str18 = "";
                                         z7 = isEncryptedDialog;
-                                        mimeTypeMap = singleton;
+                                        str19 = str16;
+                                        str20 = str5;
+                                        str21 = str8;
+                                        bitmap = bitmap52222222;
+                                        obj3 = obj;
+                                        obj4 = obj2;
                                         j3 = 0;
-                                        str15 = null;
+                                        i5 = -1;
+                                        str22 = null;
                                         tLRPC$TL_document = null;
-                                        if (tLRPC$TL_document != null) {
+                                        if (tLRPC$TL_document == null) {
                                         }
-                                        if (charSequence == null) {
+                                        if (charSequence != null) {
                                         }
                                         hashMap = new HashMap();
-                                        str18 = str12;
-                                        if (str18 != null) {
+                                        if (str19 != null) {
                                         }
                                         if (z3) {
                                         }
-                                        if (str15 != null) {
+                                        if (str22 != null) {
                                         }
-                                        int i82222 = 0;
-                                        if (numArr == null) {
+                                        int i102222222222 = 0;
+                                        if (numArr != null) {
                                         }
                                         z8 = false;
                                         if (z7) {
                                         }
-                                        final TLRPC$TL_document tLRPC$TL_document52222 = tLRPC$TL_document2;
+                                        final TLRPC$TL_document tLRPC$TL_document522222222222 = tLRPC$TL_document2;
                                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
                                             @Override // java.lang.Runnable
                                             public final void run() {
-                                                SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document52222, str16, hashMap, str15, j, messageObject, messageObject2, r14, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                                SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document522222222222, str23, hashMap, str22, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
                                             }
                                         });
                                         return 0;
                                     }
-                                    if (lowerCase.equals("ogg")) {
-                                        str24 = str25;
+                                    if (equals) {
+                                        bitmap3 = bitmap4;
+                                        str40 = str44;
                                         if (MediaController.isOpusFile(file.getAbsolutePath()) == 1) {
                                             z9 = true;
+                                            str35 = str44;
                                             mediaMetadataRetriever2.release();
-                                            title = str23;
-                                            str9 = str24;
+                                            str36 = str35;
+                                            str12 = str32;
+                                            str11 = str34;
                                             z5 = z9;
-                                            i3 = i7;
-                                            if (i3 != 0) {
-                                                TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio2 = new TLRPC$TL_documentAttributeAudio();
-                                                tLRPC$TL_documentAttributeAudio2.duration = i3;
-                                                tLRPC$TL_documentAttributeAudio2.title = title;
-                                                tLRPC$TL_documentAttributeAudio2.performer = str9;
-                                                if (title == null) {
-                                                    tLRPC$TL_documentAttributeAudio2.title = "";
-                                                }
-                                                int i9 = tLRPC$TL_documentAttributeAudio2.flags;
-                                                tLRPC$TL_documentAttributeAudio2.flags = i9 | 1;
-                                                if (str9 == null) {
-                                                    tLRPC$TL_documentAttributeAudio2.performer = "";
-                                                }
-                                                tLRPC$TL_documentAttributeAudio2.flags = i9 | 3;
-                                                if (z5) {
-                                                    tLRPC$TL_documentAttributeAudio2.voice = true;
-                                                }
-                                                tLRPC$TL_documentAttributeAudio = tLRPC$TL_documentAttributeAudio2;
-                                            } else {
-                                                tLRPC$TL_documentAttributeAudio = null;
+                                            cover = bitmap3;
+                                            str13 = str36;
+                                            Bitmap bitmap522222222 = cover;
+                                            if (i4 == 0) {
                                             }
-                                            if (str2 == null) {
-                                                str10 = str2;
-                                            } else if (str2.endsWith("attheme")) {
-                                                str10 = str2;
-                                                z6 = true;
-                                                if (!z6 || isEncryptedDialog) {
-                                                    str11 = "";
-                                                    str12 = str10;
-                                                    obj3 = "m4a";
-                                                    str13 = str5;
-                                                    obj4 = obj;
-                                                    obj5 = obj2;
-                                                    str14 = str8;
-                                                    i4 = -1;
-                                                    z7 = isEncryptedDialog;
-                                                    mimeTypeMap = singleton;
-                                                    j3 = 0;
-                                                    str15 = null;
-                                                    tLRPC$TL_document = null;
-                                                } else {
-                                                    Object[] sentFile = accountInstance.getMessagesStorage().getSentFile(str10, !isEncryptedDialog ? 1 : 4);
-                                                    if (sentFile != null) {
-                                                        Object obj6 = sentFile[0];
-                                                        if (obj6 instanceof TLRPC$TL_document) {
-                                                            tLRPC$TL_document3 = (TLRPC$TL_document) obj6;
-                                                            str20 = (String) sentFile[1];
-                                                            if (tLRPC$TL_document3 == null || str5.equals(str10) || isEncryptedDialog) {
-                                                                str21 = str20;
-                                                                tLRPC$TL_document4 = tLRPC$TL_document3;
-                                                            } else {
-                                                                MessagesStorage messagesStorage = accountInstance.getMessagesStorage();
-                                                                StringBuilder sb2 = new StringBuilder();
-                                                                sb2.append(str5);
-                                                                str21 = str20;
-                                                                tLRPC$TL_document4 = tLRPC$TL_document3;
-                                                                sb2.append(file.length());
-                                                                Object[] sentFile2 = messagesStorage.getSentFile(sb2.toString(), !isEncryptedDialog ? 1 : 4);
-                                                                if (sentFile2 != null) {
-                                                                    Object obj7 = sentFile2[0];
-                                                                    if (obj7 instanceof TLRPC$TL_document) {
-                                                                        str22 = (String) sentFile2[1];
-                                                                        tLRPC$TL_document = (TLRPC$TL_document) obj7;
-                                                                        i4 = -1;
-                                                                        str11 = "";
-                                                                        str14 = str8;
-                                                                        String str26 = str5;
-                                                                        str13 = str5;
-                                                                        z7 = isEncryptedDialog;
-                                                                        str12 = str10;
-                                                                        obj3 = "m4a";
-                                                                        mimeTypeMap = singleton;
-                                                                        obj4 = obj;
-                                                                        obj5 = obj2;
-                                                                        j3 = 0;
-                                                                        ensureMediaThumbExists(accountInstance, isEncryptedDialog, tLRPC$TL_document, str26, null, 0L);
-                                                                        str15 = str22;
-                                                                    }
-                                                                }
-                                                            }
-                                                            tLRPC$TL_document = tLRPC$TL_document4;
-                                                            str22 = str21;
-                                                            i4 = -1;
-                                                            str11 = "";
-                                                            str14 = str8;
-                                                            String str262 = str5;
-                                                            str13 = str5;
-                                                            z7 = isEncryptedDialog;
-                                                            str12 = str10;
-                                                            obj3 = "m4a";
-                                                            mimeTypeMap = singleton;
-                                                            obj4 = obj;
-                                                            obj5 = obj2;
-                                                            j3 = 0;
-                                                            ensureMediaThumbExists(accountInstance, isEncryptedDialog, tLRPC$TL_document, str262, null, 0L);
-                                                            str15 = str22;
-                                                        }
-                                                    }
-                                                    str20 = null;
-                                                    tLRPC$TL_document3 = null;
-                                                    if (tLRPC$TL_document3 == null) {
-                                                    }
-                                                    str21 = str20;
-                                                    tLRPC$TL_document4 = tLRPC$TL_document3;
-                                                    tLRPC$TL_document = tLRPC$TL_document4;
-                                                    str22 = str21;
-                                                    i4 = -1;
-                                                    str11 = "";
-                                                    str14 = str8;
-                                                    String str2622 = str5;
-                                                    str13 = str5;
-                                                    z7 = isEncryptedDialog;
-                                                    str12 = str10;
-                                                    obj3 = "m4a";
-                                                    mimeTypeMap = singleton;
-                                                    obj4 = obj;
-                                                    obj5 = obj2;
-                                                    j3 = 0;
-                                                    ensureMediaThumbExists(accountInstance, isEncryptedDialog, tLRPC$TL_document, str2622, null, 0L);
-                                                    str15 = str22;
-                                                }
-                                                if (tLRPC$TL_document != null) {
-                                                    TLRPC$TL_document tLRPC$TL_document6 = new TLRPC$TL_document();
-                                                    tLRPC$TL_document6.id = j3;
-                                                    tLRPC$TL_document6.date = accountInstance.getConnectionsManager().getCurrentTime();
-                                                    TLRPC$TL_documentAttributeFilename tLRPC$TL_documentAttributeFilename = new TLRPC$TL_documentAttributeFilename();
-                                                    tLRPC$TL_documentAttributeFilename.file_name = str14;
-                                                    tLRPC$TL_document6.file_reference = new byte[0];
-                                                    tLRPC$TL_document6.attributes.add(tLRPC$TL_documentAttributeFilename);
-                                                    tLRPC$TL_document6.size = file.length();
-                                                    tLRPC$TL_document6.dc_id = 0;
-                                                    if (tLRPC$TL_documentAttributeAudio != null) {
-                                                        tLRPC$TL_document6.attributes.add(tLRPC$TL_documentAttributeAudio);
-                                                    }
-                                                    if (str7.length() != 0) {
-                                                        switch (lowerCase.hashCode()) {
-                                                            case 106458:
-                                                                if (lowerCase.equals(obj3)) {
-                                                                    c2 = 0;
-                                                                    break;
-                                                                }
-                                                                c2 = 65535;
-                                                                break;
-                                                            case 108272:
-                                                                if (lowerCase.equals("mp3")) {
-                                                                    c2 = 1;
-                                                                    break;
-                                                                }
-                                                                c2 = 65535;
-                                                                break;
-                                                            case 109967:
-                                                                if (lowerCase.equals("ogg")) {
-                                                                    c2 = 2;
-                                                                    break;
-                                                                }
-                                                                c2 = 65535;
-                                                                break;
-                                                            case 3145576:
-                                                                if (lowerCase.equals(obj4)) {
-                                                                    c2 = 3;
-                                                                    break;
-                                                                }
-                                                                c2 = 65535;
-                                                                break;
-                                                            case 3418175:
-                                                                if (lowerCase.equals(obj5)) {
-                                                                    c2 = 4;
-                                                                    break;
-                                                                }
-                                                                c2 = 65535;
-                                                                break;
-                                                            case 3645340:
-                                                                if (lowerCase.equals("webp")) {
-                                                                    c2 = 5;
-                                                                    break;
-                                                                }
-                                                                c2 = 65535;
-                                                                break;
-                                                            default:
-                                                                c2 = 65535;
-                                                                break;
-                                                        }
-                                                        switch (c2) {
-                                                            case 0:
-                                                                str19 = "audio/m4a";
-                                                                tLRPC$TL_document6.mime_type = str19;
-                                                                break;
-                                                            case 1:
-                                                                str19 = "audio/mpeg";
-                                                                tLRPC$TL_document6.mime_type = str19;
-                                                                break;
-                                                            case 2:
-                                                                str19 = "audio/ogg";
-                                                                tLRPC$TL_document6.mime_type = str19;
-                                                                break;
-                                                            case 3:
-                                                                str19 = "audio/flac";
-                                                                tLRPC$TL_document6.mime_type = str19;
-                                                                break;
-                                                            case 4:
-                                                                str19 = "audio/opus";
-                                                                tLRPC$TL_document6.mime_type = str19;
-                                                                break;
-                                                            case 5:
-                                                                tLRPC$TL_document6.mime_type = "image/webp";
-                                                                break;
-                                                            default:
-                                                                str19 = mimeTypeMap.getMimeTypeFromExtension(lowerCase);
-                                                                break;
-                                                        }
-                                                        if (!z3 && tLRPC$TL_document6.mime_type.equals("image/gif") && (messageObject3 == null || messageObject3.getGroupIdForUse() == j3)) {
-                                                            try {
-                                                                loadBitmap = ImageLoader.loadBitmap(file.getAbsolutePath(), null, 90.0f, 90.0f, true);
-                                                                if (loadBitmap != null) {
-                                                                    tLRPC$TL_documentAttributeFilename.file_name = "animation.gif";
-                                                                    tLRPC$TL_document6.attributes.add(new TLRPC$TL_documentAttributeAnimated());
-                                                                    TLRPC$PhotoSize scaleAndSaveImage2 = ImageLoader.scaleAndSaveImage(loadBitmap, 90.0f, 90.0f, 55, z7);
-                                                                    if (scaleAndSaveImage2 != null) {
-                                                                        tLRPC$TL_document6.thumbs.add(scaleAndSaveImage2);
-                                                                        tLRPC$TL_document6.flags |= 1;
-                                                                    }
-                                                                    loadBitmap.recycle();
-                                                                }
-                                                            } catch (Exception e9) {
-                                                                FileLog.e(e9);
-                                                            }
-                                                        }
-                                                        if (tLRPC$TL_document6.mime_type.equals("image/webp") || messageObject3 != null) {
-                                                            str16 = str13;
-                                                        } else {
-                                                            BitmapFactory.Options options = new BitmapFactory.Options();
-                                                            try {
-                                                                options.inJustDecodeBounds = true;
-                                                                str16 = str13;
-                                                            } catch (Exception e10) {
-                                                                e = e10;
-                                                                str16 = str13;
-                                                            }
-                                                            try {
-                                                                BitmapFactory.decodeFile(str16, options);
-                                                            } catch (Exception e11) {
-                                                                e = e11;
-                                                                FileLog.e(e);
-                                                                i5 = options.outWidth;
-                                                                if (i5 != 0) {
-                                                                    TLRPC$TL_documentAttributeSticker tLRPC$TL_documentAttributeSticker = new TLRPC$TL_documentAttributeSticker();
-                                                                    str17 = str11;
-                                                                    tLRPC$TL_documentAttributeSticker.alt = str17;
-                                                                    tLRPC$TL_documentAttributeSticker.stickerset = new TLRPC$TL_inputStickerSetEmpty();
-                                                                    tLRPC$TL_document6.attributes.add(tLRPC$TL_documentAttributeSticker);
-                                                                    TLRPC$TL_documentAttributeImageSize tLRPC$TL_documentAttributeImageSize = new TLRPC$TL_documentAttributeImageSize();
-                                                                    tLRPC$TL_documentAttributeImageSize.w = options.outWidth;
-                                                                    tLRPC$TL_documentAttributeImageSize.h = options.outHeight;
-                                                                    tLRPC$TL_document6.attributes.add(tLRPC$TL_documentAttributeImageSize);
-                                                                    scaleAndSaveImage = ImageLoader.scaleAndSaveImage(null, ImageLoader.loadBitmap(file.getAbsolutePath(), null, 400.0f, 400.0f, true), Bitmap.CompressFormat.PNG, false, 400.0f, 400.0f, 100, z7, 0, 0, false);
-                                                                    if (scaleAndSaveImage != null) {
-                                                                    }
-                                                                    tLRPC$TL_document2 = tLRPC$TL_document6;
-                                                                    if (charSequence == null) {
-                                                                    }
-                                                                    hashMap = new HashMap();
-                                                                    str18 = str12;
-                                                                    if (str18 != null) {
-                                                                    }
-                                                                    if (z3) {
-                                                                    }
-                                                                    if (str15 != null) {
-                                                                    }
-                                                                    int i822222 = 0;
-                                                                    if (numArr == null) {
-                                                                    }
-                                                                    z8 = false;
-                                                                    if (z7) {
-                                                                    }
-                                                                    final TLRPC$TL_document tLRPC$TL_document522222 = tLRPC$TL_document2;
-                                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
-                                                                        @Override // java.lang.Runnable
-                                                                        public final void run() {
-                                                                            SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document522222, str16, hashMap, str15, j, messageObject, messageObject2, r14, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
-                                                                        }
-                                                                    });
-                                                                    return 0;
-                                                                }
-                                                                str17 = str11;
-                                                                tLRPC$TL_document2 = tLRPC$TL_document6;
-                                                                if (charSequence == null) {
-                                                                }
-                                                                hashMap = new HashMap();
-                                                                str18 = str12;
-                                                                if (str18 != null) {
-                                                                }
-                                                                if (z3) {
-                                                                }
-                                                                if (str15 != null) {
-                                                                }
-                                                                int i8222222 = 0;
-                                                                if (numArr == null) {
-                                                                }
-                                                                z8 = false;
-                                                                if (z7) {
-                                                                }
-                                                                final TLRPC$TL_document tLRPC$TL_document5222222 = tLRPC$TL_document2;
-                                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
-                                                                    @Override // java.lang.Runnable
-                                                                    public final void run() {
-                                                                        SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document5222222, str16, hashMap, str15, j, messageObject, messageObject2, r14, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
-                                                                    }
-                                                                });
-                                                                return 0;
-                                                            }
-                                                            i5 = options.outWidth;
-                                                            if (i5 != 0 && (i6 = options.outHeight) != 0 && i5 <= 800 && i6 <= 800) {
-                                                                TLRPC$TL_documentAttributeSticker tLRPC$TL_documentAttributeSticker2 = new TLRPC$TL_documentAttributeSticker();
-                                                                str17 = str11;
-                                                                tLRPC$TL_documentAttributeSticker2.alt = str17;
-                                                                tLRPC$TL_documentAttributeSticker2.stickerset = new TLRPC$TL_inputStickerSetEmpty();
-                                                                tLRPC$TL_document6.attributes.add(tLRPC$TL_documentAttributeSticker2);
-                                                                TLRPC$TL_documentAttributeImageSize tLRPC$TL_documentAttributeImageSize2 = new TLRPC$TL_documentAttributeImageSize();
-                                                                tLRPC$TL_documentAttributeImageSize2.w = options.outWidth;
-                                                                tLRPC$TL_documentAttributeImageSize2.h = options.outHeight;
-                                                                tLRPC$TL_document6.attributes.add(tLRPC$TL_documentAttributeImageSize2);
-                                                                scaleAndSaveImage = ImageLoader.scaleAndSaveImage(null, ImageLoader.loadBitmap(file.getAbsolutePath(), null, 400.0f, 400.0f, true), Bitmap.CompressFormat.PNG, false, 400.0f, 400.0f, 100, z7, 0, 0, false);
-                                                                if (scaleAndSaveImage != null) {
-                                                                    tLRPC$TL_document6.thumbs.add(scaleAndSaveImage);
-                                                                    tLRPC$TL_document6.flags |= 1;
-                                                                }
-                                                                tLRPC$TL_document2 = tLRPC$TL_document6;
-                                                            }
-                                                        }
-                                                        str17 = str11;
-                                                        tLRPC$TL_document2 = tLRPC$TL_document6;
-                                                    }
-                                                    str19 = "application/octet-stream";
-                                                    tLRPC$TL_document6.mime_type = str19;
-                                                    if (!z3) {
-                                                        loadBitmap = ImageLoader.loadBitmap(file.getAbsolutePath(), null, 90.0f, 90.0f, true);
-                                                        if (loadBitmap != null) {
-                                                        }
-                                                    }
-                                                    if (tLRPC$TL_document6.mime_type.equals("image/webp")) {
-                                                    }
-                                                    str16 = str13;
-                                                    str17 = str11;
-                                                    tLRPC$TL_document2 = tLRPC$TL_document6;
-                                                } else {
-                                                    str16 = str13;
-                                                    str17 = str11;
-                                                    tLRPC$TL_document2 = tLRPC$TL_document;
-                                                }
-                                                final String charSequence2 = charSequence == null ? charSequence.toString() : str17;
-                                                hashMap = new HashMap();
-                                                str18 = str12;
-                                                if (str18 != null) {
-                                                    hashMap.put("originalPath", str18);
-                                                }
-                                                if (z3 && tLRPC$TL_documentAttributeAudio == null) {
-                                                    hashMap.put("forceDocument", "1");
-                                                }
-                                                if (str15 != null) {
-                                                    hashMap.put("parentObject", str15);
-                                                }
-                                                int i82222222 = 0;
-                                                if (numArr == null) {
-                                                    i82222222 = numArr[0];
-                                                    String str27 = tLRPC$TL_document2.mime_type;
-                                                    if (str27 != null && str27.toLowerCase().startsWith("image/webp")) {
-                                                        numArr[0] = Integer.valueOf(i4);
-                                                        c = 0;
-                                                        z8 = true;
-                                                        if (z7 && jArr != null) {
-                                                            if (numArr != null && i82222222 != null && i82222222 != numArr[c]) {
-                                                                finishGroup(accountInstance, jArr[c], i);
-                                                                jArr[c] = Utilities.random.nextLong();
-                                                            }
-                                                            if (!z8) {
-                                                                hashMap.put("groupId", str17 + jArr[c]);
-                                                                if (z) {
-                                                                    hashMap.put("final", "1");
-                                                                }
-                                                            }
-                                                        }
-                                                        final TLRPC$TL_document tLRPC$TL_document52222222 = tLRPC$TL_document2;
-                                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
-                                                            @Override // java.lang.Runnable
-                                                            public final void run() {
-                                                                SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document52222222, str16, hashMap, str15, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
-                                                            }
-                                                        });
-                                                        return 0;
-                                                    }
-                                                    String str28 = tLRPC$TL_document2.mime_type;
-                                                    if ((str28 == null || !(str28.toLowerCase().startsWith("image/") || tLRPC$TL_document2.mime_type.toLowerCase().startsWith("video/mp4"))) && !MessageObject.canPreviewDocument(tLRPC$TL_document2)) {
-                                                        c = 0;
-                                                        if (tLRPC$TL_documentAttributeAudio != null) {
-                                                            numArr[0] = 2;
-                                                        } else {
-                                                            numArr[0] = 0;
-                                                        }
-                                                    } else {
-                                                        c = 0;
-                                                        numArr[0] = 1;
-                                                    }
-                                                } else {
-                                                    c = 0;
-                                                }
-                                                z8 = false;
-                                                if (z7) {
-                                                }
-                                                final TLRPC$TL_document tLRPC$TL_document522222222 = tLRPC$TL_document2;
-                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
-                                                    @Override // java.lang.Runnable
-                                                    public final void run() {
-                                                        SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document522222222, str16, hashMap, str15, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
-                                                    }
-                                                });
-                                                return 0;
-                                            } else {
-                                                if (tLRPC$TL_documentAttributeAudio != null) {
-                                                    sb = new StringBuilder();
-                                                    sb.append(str2);
-                                                    sb.append(MediaStreamTrack.AUDIO_TRACK_KIND);
-                                                } else {
-                                                    sb = new StringBuilder();
-                                                    sb.append(str2);
-                                                    sb.append("");
-                                                }
-                                                sb.append(file.length());
-                                                str10 = sb.toString();
+                                            if (str2 != null) {
                                             }
                                             z6 = false;
                                             if (z6) {
                                             }
-                                            str11 = "";
-                                            str12 = str10;
-                                            obj3 = "m4a";
-                                            str13 = str5;
-                                            obj4 = obj;
-                                            obj5 = obj2;
-                                            str14 = str8;
-                                            i4 = -1;
+                                            str17 = str15;
+                                            str18 = "";
                                             z7 = isEncryptedDialog;
-                                            mimeTypeMap = singleton;
+                                            str19 = str16;
+                                            str20 = str5;
+                                            str21 = str8;
+                                            bitmap = bitmap522222222;
+                                            obj3 = obj;
+                                            obj4 = obj2;
                                             j3 = 0;
-                                            str15 = null;
+                                            i5 = -1;
+                                            str22 = null;
                                             tLRPC$TL_document = null;
-                                            if (tLRPC$TL_document != null) {
+                                            if (tLRPC$TL_document == null) {
                                             }
-                                            if (charSequence == null) {
+                                            if (charSequence != null) {
                                             }
                                             hashMap = new HashMap();
-                                            str18 = str12;
-                                            if (str18 != null) {
+                                            if (str19 != null) {
                                             }
                                             if (z3) {
-                                                hashMap.put("forceDocument", "1");
                                             }
-                                            if (str15 != null) {
+                                            if (str22 != null) {
                                             }
-                                            int i822222222 = 0;
-                                            if (numArr == null) {
+                                            int i1022222222222 = 0;
+                                            if (numArr != null) {
                                             }
                                             z8 = false;
                                             if (z7) {
                                             }
-                                            final TLRPC$TL_document tLRPC$TL_document5222222222 = tLRPC$TL_document2;
+                                            final TLRPC$TL_document tLRPC$TL_document5222222222222 = tLRPC$TL_document2;
                                             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
                                                 @Override // java.lang.Runnable
                                                 public final void run() {
-                                                    SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document5222222222, str16, hashMap, str15, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                                    SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document5222222222222, str23, hashMap, str22, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
                                                 }
                                             });
                                             return 0;
                                         }
                                         z9 = false;
+                                        str35 = str40;
                                         mediaMetadataRetriever2.release();
-                                        title = str23;
-                                        str9 = str24;
+                                        str36 = str35;
+                                        str12 = str32;
+                                        str11 = str34;
                                         z5 = z9;
-                                        i3 = i7;
-                                        if (i3 != 0) {
+                                        cover = bitmap3;
+                                        str13 = str36;
+                                        Bitmap bitmap5222222222 = cover;
+                                        if (i4 == 0) {
                                         }
-                                        if (str2 == null) {
+                                        if (str2 != null) {
                                         }
                                         z6 = false;
                                         if (z6) {
                                         }
-                                        str11 = "";
-                                        str12 = str10;
-                                        obj3 = "m4a";
-                                        str13 = str5;
-                                        obj4 = obj;
-                                        obj5 = obj2;
-                                        str14 = str8;
-                                        i4 = -1;
+                                        str17 = str15;
+                                        str18 = "";
                                         z7 = isEncryptedDialog;
-                                        mimeTypeMap = singleton;
+                                        str19 = str16;
+                                        str20 = str5;
+                                        str21 = str8;
+                                        bitmap = bitmap5222222222;
+                                        obj3 = obj;
+                                        obj4 = obj2;
                                         j3 = 0;
-                                        str15 = null;
+                                        i5 = -1;
+                                        str22 = null;
                                         tLRPC$TL_document = null;
-                                        if (tLRPC$TL_document != null) {
+                                        if (tLRPC$TL_document == null) {
                                         }
-                                        if (charSequence == null) {
+                                        if (charSequence != null) {
                                         }
                                         hashMap = new HashMap();
-                                        str18 = str12;
-                                        if (str18 != null) {
+                                        if (str19 != null) {
                                         }
                                         if (z3) {
                                         }
-                                        if (str15 != null) {
+                                        if (str22 != null) {
                                         }
-                                        int i8222222222 = 0;
-                                        if (numArr == null) {
+                                        int i10222222222222 = 0;
+                                        if (numArr != null) {
                                         }
                                         z8 = false;
                                         if (z7) {
                                         }
-                                        final TLRPC$TL_document tLRPC$TL_document52222222222 = tLRPC$TL_document2;
+                                        final TLRPC$TL_document tLRPC$TL_document52222222222222 = tLRPC$TL_document2;
                                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
                                             @Override // java.lang.Runnable
                                             public final void run() {
-                                                SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document52222222222, str16, hashMap, str15, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                                SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document52222222222222, str23, hashMap, str22, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
                                             }
                                         });
                                         return 0;
                                     }
+                                } else {
+                                    str39 = str37;
                                 }
-                                str24 = str25;
+                                bitmap3 = bitmap4;
+                                str40 = str39;
                                 z9 = false;
+                                str35 = str40;
                                 mediaMetadataRetriever2.release();
-                                title = str23;
-                                str9 = str24;
+                                str36 = str35;
+                                str12 = str32;
+                                str11 = str34;
                                 z5 = z9;
-                                i3 = i7;
-                                if (i3 != 0) {
+                                cover = bitmap3;
+                                str13 = str36;
+                                Bitmap bitmap52222222222 = cover;
+                                if (i4 == 0) {
                                 }
-                                if (str2 == null) {
+                                if (str2 != null) {
                                 }
                                 z6 = false;
                                 if (z6) {
                                 }
-                                str11 = "";
-                                str12 = str10;
-                                obj3 = "m4a";
-                                str13 = str5;
-                                obj4 = obj;
-                                obj5 = obj2;
-                                str14 = str8;
-                                i4 = -1;
+                                str17 = str15;
+                                str18 = "";
                                 z7 = isEncryptedDialog;
-                                mimeTypeMap = singleton;
+                                str19 = str16;
+                                str20 = str5;
+                                str21 = str8;
+                                bitmap = bitmap52222222222;
+                                obj3 = obj;
+                                obj4 = obj2;
                                 j3 = 0;
-                                str15 = null;
+                                i5 = -1;
+                                str22 = null;
                                 tLRPC$TL_document = null;
-                                if (tLRPC$TL_document != null) {
+                                if (tLRPC$TL_document == null) {
                                 }
-                                if (charSequence == null) {
+                                if (charSequence != null) {
                                 }
                                 hashMap = new HashMap();
-                                str18 = str12;
-                                if (str18 != null) {
+                                if (str19 != null) {
                                 }
                                 if (z3) {
                                 }
-                                if (str15 != null) {
+                                if (str22 != null) {
                                 }
-                                int i82222222222 = 0;
-                                if (numArr == null) {
+                                int i102222222222222 = 0;
+                                if (numArr != null) {
                                 }
                                 z8 = false;
                                 if (z7) {
                                 }
-                                final TLRPC$TL_document tLRPC$TL_document522222222222 = tLRPC$TL_document2;
+                                final TLRPC$TL_document tLRPC$TL_document522222222222222 = tLRPC$TL_document2;
                                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
                                     @Override // java.lang.Runnable
                                     public final void run() {
-                                        SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document522222222222, str16, hashMap, str15, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                        SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document522222222222222, str23, hashMap, str22, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
                                     }
                                 });
                                 return 0;
                             } else {
                                 str8 = name;
-                                obj = "flac";
-                                obj2 = "opus";
-                                title = null;
-                                str9 = null;
-                                i3 = 0;
+                                obj = "opus";
+                                str29 = lowerCase;
+                                str12 = null;
+                                str11 = null;
+                                cover = null;
+                                i4 = 0;
+                                str28 = str29;
                             }
                             z5 = false;
-                            if (i3 != 0) {
+                            str13 = str28;
+                            Bitmap bitmap522222222222 = cover;
+                            if (i4 == 0) {
                             }
-                            if (str2 == null) {
+                            if (str2 != null) {
                             }
                             z6 = false;
                             if (z6) {
                             }
-                            str11 = "";
-                            str12 = str10;
-                            obj3 = "m4a";
-                            str13 = str5;
-                            obj4 = obj;
-                            obj5 = obj2;
-                            str14 = str8;
-                            i4 = -1;
+                            str17 = str15;
+                            str18 = "";
                             z7 = isEncryptedDialog;
-                            mimeTypeMap = singleton;
+                            str19 = str16;
+                            str20 = str5;
+                            str21 = str8;
+                            bitmap = bitmap522222222222;
+                            obj3 = obj;
+                            obj4 = obj2;
                             j3 = 0;
-                            str15 = null;
+                            i5 = -1;
+                            str22 = null;
                             tLRPC$TL_document = null;
-                            if (tLRPC$TL_document != null) {
+                            if (tLRPC$TL_document == null) {
                             }
-                            if (charSequence == null) {
+                            if (charSequence != null) {
                             }
                             hashMap = new HashMap();
-                            str18 = str12;
-                            if (str18 != null) {
+                            if (str19 != null) {
                             }
                             if (z3) {
                             }
-                            if (str15 != null) {
+                            if (str22 != null) {
                             }
-                            int i822222222222 = 0;
-                            if (numArr == null) {
+                            int i1022222222222222 = 0;
+                            if (numArr != null) {
                             }
                             z8 = false;
                             if (z7) {
                             }
-                            final TLRPC$TL_document tLRPC$TL_document5222222222222 = tLRPC$TL_document2;
+                            final TLRPC$TL_document tLRPC$TL_document5222222222222222 = tLRPC$TL_document2;
                             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document5222222222222, str16, hashMap, str15, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                                    SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document5222222222222222, str23, hashMap, str22, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
                                 }
                             });
                             return 0;
@@ -9113,58 +9380,62 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     if (lowerCase.equals("mp3")) {
                     }
                     str8 = name;
-                    obj = "flac";
-                    obj2 = "opus";
+                    obj = "opus";
+                    String str412 = lowerCase;
                     audioInfo = AudioInfo.getAudioInfo(file);
+                    str29 = str412;
                     if (audioInfo != null) {
                     }
-                    title = null;
-                    str9 = null;
-                    i3 = 0;
+                    str12 = null;
+                    str11 = null;
+                    cover = null;
+                    i4 = 0;
+                    str28 = str29;
                     z5 = false;
-                    if (i3 != 0) {
+                    str13 = str28;
+                    Bitmap bitmap5222222222222 = cover;
+                    if (i4 == 0) {
                     }
-                    if (str2 == null) {
+                    if (str2 != null) {
                     }
                     z6 = false;
                     if (z6) {
                     }
-                    str11 = "";
-                    str12 = str10;
-                    obj3 = "m4a";
-                    str13 = str5;
-                    obj4 = obj;
-                    obj5 = obj2;
-                    str14 = str8;
-                    i4 = -1;
+                    str17 = str15;
+                    str18 = "";
                     z7 = isEncryptedDialog;
-                    mimeTypeMap = singleton;
+                    str19 = str16;
+                    str20 = str5;
+                    str21 = str8;
+                    bitmap = bitmap5222222222222;
+                    obj3 = obj;
+                    obj4 = obj2;
                     j3 = 0;
-                    str15 = null;
+                    i5 = -1;
+                    str22 = null;
                     tLRPC$TL_document = null;
-                    if (tLRPC$TL_document != null) {
+                    if (tLRPC$TL_document == null) {
                     }
-                    if (charSequence == null) {
+                    if (charSequence != null) {
                     }
                     hashMap = new HashMap();
-                    str18 = str12;
-                    if (str18 != null) {
+                    if (str19 != null) {
                     }
                     if (z3) {
                     }
-                    if (str15 != null) {
+                    if (str22 != null) {
                     }
-                    int i8222222222222 = 0;
-                    if (numArr == null) {
+                    int i10222222222222222 = 0;
+                    if (numArr != null) {
                     }
                     z8 = false;
                     if (z7) {
                     }
-                    final TLRPC$TL_document tLRPC$TL_document52222222222222 = tLRPC$TL_document2;
+                    final TLRPC$TL_document tLRPC$TL_document52222222222222222 = tLRPC$TL_document2;
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda88
                         @Override // java.lang.Runnable
                         public final void run() {
-                            SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document52222222222222, str16, hashMap, str15, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
+                            SendMessagesHelper.lambda$prepareSendingDocumentInternal$76(MessageObject.this, accountInstance, tLRPC$TL_document52222222222222222, str23, hashMap, str22, j, messageObject, messageObject2, charSequence2, arrayList, z2, i, tL_stories$StoryItem, replyQuote, str4, i2, j2, z4);
                         }
                     });
                     return 0;

@@ -2044,12 +2044,12 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$onSubItemClick$11(ArrayList arrayList, DialogsActivity dialogsActivity, ArrayList arrayList2, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
+    public /* synthetic */ boolean lambda$onSubItemClick$11(ArrayList arrayList, DialogsActivity dialogsActivity, ArrayList arrayList2, CharSequence charSequence, boolean z, boolean z2, int i, TopicsFragment topicsFragment) {
         long j;
         String str;
         if (arrayList2.size() > 1 || ((MessagesStorage.TopicKey) arrayList2.get(0)).dialogId == UserConfig.getInstance(this.currentAccount).getClientUserId() || charSequence != null) {
-            for (int i = 0; i < arrayList2.size(); i++) {
-                long j2 = ((MessagesStorage.TopicKey) arrayList2.get(i)).dialogId;
+            for (int i2 = 0; i2 < arrayList2.size(); i2++) {
+                long j2 = ((MessagesStorage.TopicKey) arrayList2.get(i2)).dialogId;
                 if (charSequence != null) {
                     j = j2;
                     SendMessagesHelper.getInstance(this.currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(charSequence.toString(), j2, null, null, null, true, null, null, null, true, 0, null, false));
@@ -2126,9 +2126,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             arrayList.add(playingMessageObject);
             dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.AudioPlayerAlert$$ExternalSyntheticLambda15
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList2, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
+                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList2, CharSequence charSequence, boolean z, boolean z2, int i4, TopicsFragment topicsFragment) {
                     boolean lambda$onSubItemClick$11;
-                    lambda$onSubItemClick$11 = AudioPlayerAlert.this.lambda$onSubItemClick$11(arrayList, dialogsActivity2, arrayList2, charSequence, z, topicsFragment);
+                    lambda$onSubItemClick$11 = AudioPlayerAlert.this.lambda$onSubItemClick$11(arrayList, dialogsActivity2, arrayList2, charSequence, z, z2, i4, topicsFragment);
                     return lambda$onSubItemClick$11;
                 }
             });

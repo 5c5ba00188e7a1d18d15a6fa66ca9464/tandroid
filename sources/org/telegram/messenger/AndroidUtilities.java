@@ -5075,6 +5075,17 @@ public class AndroidUtilities {
         ((ViewGroup) view.getParent()).removeView(view);
     }
 
+    public static CharSequence removeSpans(CharSequence charSequence, Class cls) {
+        if (charSequence instanceof Spannable) {
+            Spannable spannable = (Spannable) charSequence;
+            for (Object obj : spannable.getSpans(0, spannable.length(), cls)) {
+                spannable.removeSpan(obj);
+            }
+            return spannable;
+        }
+        return charSequence;
+    }
+
     public static CharSequence replaceArrows(CharSequence charSequence, boolean z) {
         return replaceArrows(charSequence, z, dp(2.6666667f), 0.0f);
     }
