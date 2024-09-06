@@ -209,7 +209,7 @@ import org.webrtc.VideoFrame;
 import org.webrtc.VideoSink;
 import org.webrtc.voiceengine.WebRtcAudioTrack;
 /* loaded from: classes3.dex */
-public class VoIPService extends Service implements SensorEventListener, AudioManager.OnAudioFocusChangeListener, VoIPController.ConnectionStateListener, NotificationCenter.NotificationCenterDelegate {
+public class VoIPService extends Service implements SensorEventListener, AudioManager.OnAudioFocusChangeListener, VoIPController.ConnectionStateListener, NotificationCenter.NotificationCenterDelegate, VoIPServiceState {
     public static final String ACTION_HEADSET_PLUG = "android.intent.action.HEADSET_PLUG";
     public static final int AUDIO_ROUTE_BLUETOOTH = 2;
     public static final int AUDIO_ROUTE_EARPIECE = 0;
@@ -1548,6 +1548,17 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
     public static VoIPService getSharedInstance() {
         return sharedInstance;
+    }
+
+    public static VoIPServiceState getSharedState() {
+        VoIPService voIPService = sharedInstance;
+        if (voIPService != null) {
+            return voIPService;
+        }
+        if (Build.VERSION.SDK_INT >= 33) {
+            return VoIPPreNotificationService.getState();
+        }
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4589,6 +4600,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
     }
 
+    @Override // org.telegram.messenger.voip.VoIPServiceState
     public void acceptIncomingCall() {
         updateCurrentForegroundType();
         MessagesController.getInstance(this.currentAccount).ignoreSetOnline = false;
@@ -4747,6 +4759,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
     }
 
+    @Override // org.telegram.messenger.voip.VoIPServiceState
     public void declineIncomingCall() {
         declineIncomingCall(1, null);
     }
@@ -4893,6 +4906,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         return this.currentAccount;
     }
 
+    @Override // org.telegram.messenger.voip.VoIPServiceState
     public long getCallDuration() {
         if (this.callStartTime == 0) {
             return 0L;
@@ -4908,6 +4922,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         return 0L;
     }
 
+    @Override // org.telegram.messenger.voip.VoIPServiceState
     public int getCallState() {
         return this.currentState;
     }
@@ -5009,6 +5024,11 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         return this.lastError;
     }
 
+    @Override // org.telegram.messenger.voip.VoIPServiceState
+    public TLRPC$PhoneCall getPrivateCall() {
+        return this.privateCall;
+    }
+
     public int getRemoteAudioState() {
         return this.remoteAudioState;
     }
@@ -5022,6 +5042,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         return tLRPC$InputPeer == null ? UserConfig.getInstance(this.currentAccount).clientUserId : tLRPC$InputPeer instanceof TLRPC$TL_inputPeerUser ? tLRPC$InputPeer.user_id : tLRPC$InputPeer instanceof TLRPC$TL_inputPeerChannel ? -tLRPC$InputPeer.channel_id : -tLRPC$InputPeer.chat_id;
     }
 
+    @Override // org.telegram.messenger.voip.VoIPServiceState
     public TLRPC$User getUser() {
         return this.user;
     }
@@ -5198,6 +5219,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         return this.micMute;
     }
 
+    @Override // org.telegram.messenger.voip.VoIPServiceState
     public boolean isOutgoing() {
         return this.isOutgoing;
     }
@@ -6552,6 +6574,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         this.startedRinging = true;
     }
 
+    @Override // org.telegram.messenger.voip.VoIPServiceState
     public void stopRinging() {
         synchronized (sync) {
             try {
