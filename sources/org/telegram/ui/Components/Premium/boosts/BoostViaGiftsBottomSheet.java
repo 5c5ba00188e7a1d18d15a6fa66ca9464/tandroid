@@ -784,8 +784,8 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
     /* JADX WARN: Removed duplicated region for block: B:174:0x0579  */
     /* JADX WARN: Removed duplicated region for block: B:187:0x05c5  */
     /* JADX WARN: Removed duplicated region for block: B:189:0x05d5  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x0615  */
-    /* JADX WARN: Removed duplicated region for block: B:197:0x061d  */
+    /* JADX WARN: Removed duplicated region for block: B:200:0x062a  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x0632  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -953,7 +953,10 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
                     this.items.add(BoostAdapter.Item.asSwitcher(LocaleController.getString(R.string.BoostingGiveawayShowWinners), this.isShowWinnersSelected, z6, SwitcherCell.TYPE_WINNERS));
                     if (isPreparedGiveaway()) {
                         arrayList7 = this.items;
-                        asDivider2 = BoostAdapter.Item.asDivider(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.BoostingGiveawayShowWinnersHint) + "\n\n" + LocaleController.getString(R.string.BoostingStoriesFeaturesAndTerms), Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda7
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(LocaleController.getString(R.string.BoostingGiveawayShowWinnersHint));
+                        sb.append(this.selectedBoostType != BoostTypeCell.TYPE_STARS ? "\n\n" + LocaleController.getString(R.string.BoostingStoriesFeaturesAndTerms) : "");
+                        asDivider2 = BoostAdapter.Item.asDivider(AndroidUtilities.replaceSingleTag(sb.toString(), Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda7
                             @Override // java.lang.Runnable
                             public final void run() {
                                 BoostViaGiftsBottomSheet.this.lambda$updateRows$27();
