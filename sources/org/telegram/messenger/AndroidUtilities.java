@@ -1851,7 +1851,7 @@ public class AndroidUtilities {
     }
 
     public static SpannableStringBuilder formatSpannableSimple(CharSequence charSequence, CharSequence... charSequenceArr) {
-        return formatSpannable(charSequence, new GenericProvider() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda40
+        return formatSpannable(charSequence, new GenericProvider() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda41
             @Override // org.telegram.messenger.GenericProvider
             public final Object provide(Object obj) {
                 String lambda$formatSpannableSimple$13;
@@ -2117,7 +2117,7 @@ public class AndroidUtilities {
             return;
         }
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        PixelCopy.request(surface, bitmap, new PixelCopy.OnPixelCopyFinishedListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda41
+        PixelCopy.request(surface, bitmap, new PixelCopy.OnPixelCopyFinishedListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda42
             @Override // android.view.PixelCopy.OnPixelCopyFinishedListener
             public final void onPixelCopyFinished(int i) {
                 countDownLatch.countDown();
@@ -3911,6 +3911,13 @@ public class AndroidUtilities {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$notifyDataSetChanged$22(RecyclerView recyclerView) {
+        if (recyclerView.getAdapter() != null) {
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$pruneOverlaps$8(LinkSpec linkSpec, LinkSpec linkSpec2) {
         int i;
         int i2;
@@ -4596,6 +4603,22 @@ public class AndroidUtilities {
             sb.append("0");
         }
         sb.append(j);
+    }
+
+    public static void notifyDataSetChanged(final RecyclerView recyclerView) {
+        if (recyclerView == null || recyclerView.getAdapter() == null) {
+            return;
+        }
+        if (recyclerView.isComputingLayout()) {
+            recyclerView.post(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda40
+                @Override // java.lang.Runnable
+                public final void run() {
+                    AndroidUtilities.lambda$notifyDataSetChanged$22(RecyclerView.this);
+                }
+            });
+        } else {
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
     }
 
     public static String obtainLoginPhoneCall(String str) {

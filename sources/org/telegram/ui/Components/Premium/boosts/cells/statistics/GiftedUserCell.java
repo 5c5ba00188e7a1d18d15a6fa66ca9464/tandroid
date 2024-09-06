@@ -94,7 +94,7 @@ public class GiftedUserCell extends UserCell {
             int i2 = ((tL_stories$Boost.expires - tL_stories$Boost.date) / 30) / 86400;
             long j = tL_stories$Boost.stars;
             if (j > 0) {
-                this.nameTextView.setText(LocaleController.formatPluralString("BoostingStars", (int) j, new Object[0]));
+                this.nameTextView.setText(LocaleController.formatPluralString("BoostingBoostStars", (int) j, new Object[0]));
                 this.avatarDrawable.setAvatarType(26);
             } else {
                 if (tL_stories$Boost.unclaimed) {

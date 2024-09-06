@@ -86,6 +86,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
     private int calendarType;
     Callback callback;
     private boolean canClearHistory;
+    ChatActivity chatActivity;
     private boolean checkEnterItems;
     FrameLayout contentView;
     private int dateSelectedEnd;
@@ -376,82 +377,84 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                 final PeriodDay dayAtCoord;
                 String str;
                 super.onLongPress(motionEvent);
-                if (CalendarActivity.this.calendarType == 0 && (dayAtCoord = getDayAtCoord(motionEvent.getX(), motionEvent.getY())) != null) {
-                    MonthView.this.performHapticFeedback(0);
-                    Bundle bundle = new Bundle();
-                    int i = (CalendarActivity.this.dialogId > 0L ? 1 : (CalendarActivity.this.dialogId == 0L ? 0 : -1));
-                    long j = CalendarActivity.this.dialogId;
-                    if (i > 0) {
-                        str = "user_id";
-                    } else {
-                        j = -j;
-                        str = "chat_id";
-                    }
-                    bundle.putLong(str, j);
-                    bundle.putInt("start_from_date", dayAtCoord.date);
-                    bundle.putBoolean("need_remove_previous_same_chat_activity", false);
-                    ChatActivity chatActivity = new ChatActivity(bundle);
-                    ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(CalendarActivity.this.getParentActivity(), R.drawable.popup_fixed_alert, CalendarActivity.this.getResourceProvider());
-                    actionBarPopupWindowLayout.setBackgroundColor(CalendarActivity.this.getThemedColor(Theme.key_actionBarDefaultSubmenuBackground));
-                    ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(CalendarActivity.this.getParentActivity(), true, false);
-                    actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(R.string.JumpToDate), R.drawable.msg_message);
-                    actionBarMenuSubItem.setMinimumWidth(NotificationCenter.audioRouteChanged);
-                    actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda0
-                        @Override // android.view.View.OnClickListener
-                        public final void onClick(View view) {
-                            CalendarActivity.MonthView.2.this.lambda$onLongPress$1(dayAtCoord, view);
-                        }
-                    });
-                    actionBarPopupWindowLayout.addView(actionBarMenuSubItem);
-                    if (CalendarActivity.this.canClearHistory) {
-                        ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(CalendarActivity.this.getParentActivity(), false, false);
-                        actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString(R.string.SelectThisDay), R.drawable.msg_select);
-                        actionBarMenuSubItem2.setMinimumWidth(NotificationCenter.audioRouteChanged);
-                        actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda1
-                            @Override // android.view.View.OnClickListener
-                            public final void onClick(View view) {
-                                CalendarActivity.MonthView.2.this.lambda$onLongPress$2(dayAtCoord, view);
-                            }
-                        });
-                        actionBarPopupWindowLayout.addView(actionBarMenuSubItem2);
-                        ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem(CalendarActivity.this.getParentActivity(), false, true);
-                        actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString(R.string.ClearHistory), R.drawable.msg_delete);
-                        actionBarMenuSubItem3.setMinimumWidth(NotificationCenter.audioRouteChanged);
-                        actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda2
-                            @Override // android.view.View.OnClickListener
-                            public final void onClick(View view) {
-                                CalendarActivity.MonthView.2.this.lambda$onLongPress$3(view);
-                            }
-                        });
-                        actionBarPopupWindowLayout.addView(actionBarMenuSubItem3);
-                    }
-                    actionBarPopupWindowLayout.setFitItems(true);
-                    CalendarActivity.this.blurredView = new View(this.val$context) { // from class: org.telegram.ui.CalendarActivity.MonthView.2.2
-                        @Override // android.view.View
-                        public void setAlpha(float f) {
-                            super.setAlpha(f);
-                            View view = CalendarActivity.this.fragmentView;
-                            if (view != null) {
-                                view.invalidate();
-                            }
-                        }
-                    };
-                    CalendarActivity.this.blurredView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda3
-                        @Override // android.view.View.OnClickListener
-                        public final void onClick(View view) {
-                            CalendarActivity.MonthView.2.this.lambda$onLongPress$4(view);
-                        }
-                    });
-                    CalendarActivity.this.blurredView.setVisibility(8);
-                    CalendarActivity.this.blurredView.setFitsSystemWindows(true);
-                    ((BaseFragment) CalendarActivity.this).parentLayout.getOverlayContainerView().addView(CalendarActivity.this.blurredView, LayoutHelper.createFrame(-1, -1.0f));
-                    CalendarActivity.this.prepareBlurBitmap();
-                    CalendarActivity.this.presentFragmentAsPreviewWithMenu(chatActivity, actionBarPopupWindowLayout);
+                if (CalendarActivity.this.calendarType != 0 || AndroidUtilities.isTablet() || (dayAtCoord = getDayAtCoord(motionEvent.getX(), motionEvent.getY())) == null) {
+                    return;
                 }
+                MonthView.this.performHapticFeedback(0);
+                Bundle bundle = new Bundle();
+                int i = (CalendarActivity.this.dialogId > 0L ? 1 : (CalendarActivity.this.dialogId == 0L ? 0 : -1));
+                long j = CalendarActivity.this.dialogId;
+                if (i > 0) {
+                    str = "user_id";
+                } else {
+                    j = -j;
+                    str = "chat_id";
+                }
+                bundle.putLong(str, j);
+                bundle.putInt("start_from_date", dayAtCoord.date);
+                bundle.putBoolean("need_remove_previous_same_chat_activity", false);
+                ChatActivity chatActivity = new ChatActivity(bundle);
+                ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(CalendarActivity.this.getParentActivity(), R.drawable.popup_fixed_alert, CalendarActivity.this.getResourceProvider());
+                actionBarPopupWindowLayout.setBackgroundColor(CalendarActivity.this.getThemedColor(Theme.key_actionBarDefaultSubmenuBackground));
+                ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(CalendarActivity.this.getParentActivity(), true, false);
+                actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(R.string.JumpToDate), R.drawable.msg_message);
+                actionBarMenuSubItem.setMinimumWidth(NotificationCenter.audioRouteChanged);
+                actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda0
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        CalendarActivity.MonthView.2.this.lambda$onLongPress$1(dayAtCoord, view);
+                    }
+                });
+                actionBarPopupWindowLayout.addView(actionBarMenuSubItem);
+                if (CalendarActivity.this.canClearHistory) {
+                    ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(CalendarActivity.this.getParentActivity(), false, false);
+                    actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString(R.string.SelectThisDay), R.drawable.msg_select);
+                    actionBarMenuSubItem2.setMinimumWidth(NotificationCenter.audioRouteChanged);
+                    actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda1
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            CalendarActivity.MonthView.2.this.lambda$onLongPress$2(dayAtCoord, view);
+                        }
+                    });
+                    actionBarPopupWindowLayout.addView(actionBarMenuSubItem2);
+                    ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem(CalendarActivity.this.getParentActivity(), false, true);
+                    actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString(R.string.ClearHistory), R.drawable.msg_delete);
+                    actionBarMenuSubItem3.setMinimumWidth(NotificationCenter.audioRouteChanged);
+                    actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda2
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            CalendarActivity.MonthView.2.this.lambda$onLongPress$3(view);
+                        }
+                    });
+                    actionBarPopupWindowLayout.addView(actionBarMenuSubItem3);
+                }
+                actionBarPopupWindowLayout.setFitItems(true);
+                CalendarActivity.this.blurredView = new View(this.val$context) { // from class: org.telegram.ui.CalendarActivity.MonthView.2.2
+                    @Override // android.view.View
+                    public void setAlpha(float f) {
+                        super.setAlpha(f);
+                        View view = CalendarActivity.this.fragmentView;
+                        if (view != null) {
+                            view.invalidate();
+                        }
+                    }
+                };
+                CalendarActivity.this.blurredView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda3
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        CalendarActivity.MonthView.2.this.lambda$onLongPress$4(view);
+                    }
+                });
+                CalendarActivity.this.blurredView.setVisibility(8);
+                CalendarActivity.this.blurredView.setFitsSystemWindows(true);
+                ((BaseFragment) CalendarActivity.this).parentLayout.getOverlayContainerView().addView(CalendarActivity.this.blurredView, LayoutHelper.createFrame(-1, -1.0f));
+                CalendarActivity.this.prepareBlurBitmap();
+                CalendarActivity.this.presentFragmentAsPreviewWithMenu(chatActivity, actionBarPopupWindowLayout);
             }
 
             @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
             public boolean onSingleTapUp(MotionEvent motionEvent) {
+                ChatActivity chatActivity;
                 CalendarActivity calendarActivity;
                 int i;
                 CalendarActivity calendarActivity2;
@@ -522,7 +525,15 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                             BaseFragment baseFragment = (BaseFragment) ((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().get(((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().size() - 2);
                             if (baseFragment instanceof ChatActivity) {
                                 CalendarActivity.this.finishFragment();
-                                ((ChatActivity) baseFragment).jumpToDate(dayAtCoord3.date);
+                                chatActivity = (ChatActivity) baseFragment;
+                                chatActivity.jumpToDate(dayAtCoord3.date);
+                            }
+                        } else if (dayAtCoord3 != null) {
+                            CalendarActivity calendarActivity5 = CalendarActivity.this;
+                            if (calendarActivity5.chatActivity != null) {
+                                calendarActivity5.finishFragment();
+                                chatActivity = CalendarActivity.this.chatActivity;
+                                chatActivity.jumpToDate(dayAtCoord3.date);
                             }
                         }
                     }
@@ -1274,12 +1285,18 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                 @Override // org.telegram.messenger.MessagesStorage.BooleanCallback
                 public void run(boolean z) {
                     CalendarActivity.this.finishFragment();
-                    if (((BaseFragment) CalendarActivity.this).parentLayout == null || ((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().size() < 2) {
+                    if (((BaseFragment) CalendarActivity.this).parentLayout != null && ((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().size() >= 2) {
+                        BaseFragment baseFragment = (BaseFragment) ((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().get(((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().size() - 2);
+                        if (baseFragment instanceof ChatActivity) {
+                            ((ChatActivity) baseFragment).deleteHistory(CalendarActivity.this.dateSelectedStart, CalendarActivity.this.dateSelectedEnd + 86400, z);
+                            return;
+                        }
                         return;
                     }
-                    BaseFragment baseFragment = (BaseFragment) ((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().get(((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().size() - 2);
-                    if (baseFragment instanceof ChatActivity) {
-                        ((ChatActivity) baseFragment).deleteHistory(CalendarActivity.this.dateSelectedStart, CalendarActivity.this.dateSelectedEnd + 86400, z);
+                    CalendarActivity calendarActivity = CalendarActivity.this;
+                    ChatActivity chatActivity = calendarActivity.chatActivity;
+                    if (chatActivity != null) {
+                        chatActivity.deleteHistory(calendarActivity.dateSelectedStart, CalendarActivity.this.dateSelectedEnd + 86400, z);
                     }
                 }
             }, null);
@@ -1983,5 +2000,9 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
 
     public void setCallback(Callback callback) {
         this.callback = callback;
+    }
+
+    public void setChatActivity(ChatActivity chatActivity) {
+        this.chatActivity = chatActivity;
     }
 }

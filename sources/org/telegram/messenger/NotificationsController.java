@@ -8124,14 +8124,14 @@ public class NotificationsController extends BaseController {
     }
 
     /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
-        jadx.core.utils.exceptions.JadxRuntimeException: Unreachable block: B:454:0x0acc
+        jadx.core.utils.exceptions.JadxRuntimeException: Unreachable block: B:452:0x0aca
         	at jadx.core.dex.visitors.blocks.BlockProcessor.checkForUnreachableBlocks(BlockProcessor.java:81)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:47)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:39)
         */
     private void showOrUpdateNotification(boolean r56) {
         /*
-            Method dump skipped, instructions count: 3652
+            Method dump skipped, instructions count: 3650
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.messenger.NotificationsController.showOrUpdateNotification(boolean):void");
@@ -8156,45 +8156,45 @@ public class NotificationsController extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:193:0x0434, code lost:
-        if (r9 != false) goto L85;
+    /* JADX WARN: Code restructure failed: missing block: B:197:0x044f, code lost:
+        if (r12 != false) goto L156;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:197:0x043c, code lost:
-        if (r9 != false) goto L85;
+    /* JADX WARN: Code restructure failed: missing block: B:201:0x0457, code lost:
+        if (r12 != false) goto L156;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:202:0x0445, code lost:
-        if (r9 != false) goto L85;
+    /* JADX WARN: Code restructure failed: missing block: B:206:0x0460, code lost:
+        if (r12 != false) goto L156;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:210:0x0452, code lost:
-        if (r9 != false) goto L85;
+    /* JADX WARN: Code restructure failed: missing block: B:214:0x046d, code lost:
+        if (r12 != false) goto L156;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:213:0x0458, code lost:
-        if (r9 != false) goto L85;
+    /* JADX WARN: Code restructure failed: missing block: B:217:0x0473, code lost:
+        if (r12 != false) goto L156;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:216:0x046d, code lost:
-        if (r9 != false) goto L85;
+    /* JADX WARN: Code restructure failed: missing block: B:220:0x0488, code lost:
+        if (r12 != false) goto L156;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:217:0x046f, code lost:
-        r4 = 0;
+    /* JADX WARN: Code restructure failed: missing block: B:221:0x048a, code lost:
+        r14 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:218:0x0471, code lost:
-        r4 = 2;
+    /* JADX WARN: Code restructure failed: missing block: B:222:0x048c, code lost:
+        r14 = 2;
      */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x0424  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x047b  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x047f  */
-    /* JADX WARN: Removed duplicated region for block: B:246:0x04c0  */
-    /* JADX WARN: Removed duplicated region for block: B:253:0x0510  */
-    /* JADX WARN: Removed duplicated region for block: B:256:0x0530 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:262:0x056f A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:270:0x0582 A[LOOP:1: B:268:0x057d->B:270:0x0582, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:273:0x0593  */
-    /* JADX WARN: Removed duplicated region for block: B:276:0x059f A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:280:0x05b0 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:290:0x05c8  */
-    /* JADX WARN: Removed duplicated region for block: B:293:0x05df  */
-    /* JADX WARN: Removed duplicated region for block: B:322:0x058c A[EDGE_INSN: B:322:0x058c->B:271:0x058c ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x01cd  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x043f  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x0498  */
+    /* JADX WARN: Removed duplicated region for block: B:227:0x049e  */
+    /* JADX WARN: Removed duplicated region for block: B:250:0x04df  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x052f  */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x054f A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x058e A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x05a1 A[LOOP:1: B:272:0x059c->B:274:0x05a1, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:277:0x05b2  */
+    /* JADX WARN: Removed duplicated region for block: B:280:0x05be A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:284:0x05cf A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:294:0x05e7  */
+    /* JADX WARN: Removed duplicated region for block: B:297:0x05fe  */
+    /* JADX WARN: Removed duplicated region for block: B:326:0x05ab A[EDGE_INSN: B:326:0x05ab->B:275:0x05ab ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x01cb  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8233,7 +8233,6 @@ public class NotificationsController extends BaseController {
         String str22;
         Uri uri3;
         String MD5;
-        String str23;
         StringBuilder sb2;
         boolean z6;
         AudioAttributes build;
@@ -8246,22 +8245,23 @@ public class NotificationsController extends BaseController {
         boolean z7;
         long[] jArr3;
         int lightColor;
+        String str23;
         String str24;
         String str25;
-        String str26;
+        int i6;
         long[] jArr4;
         SharedPreferences.Editor editor;
         boolean z8;
-        String str27;
+        String str26;
         boolean z9;
+        int i7;
+        String str27;
+        int i8;
         String str28;
-        int i6;
         String str29;
-        String str30;
-        String str31;
         ensureGroupsCreated();
         SharedPreferences notificationsSettings = getAccountInstance().getNotificationsSettings();
-        String str32 = "stories";
+        String str30 = "stories";
         if (z3) {
             str4 = "other" + this.currentAccount;
             str5 = null;
@@ -8282,9 +8282,9 @@ public class NotificationsController extends BaseController {
                 str2 = "private" + this.currentAccount;
                 str3 = "overwrite_private";
             }
-            String str33 = str3;
+            String str31 = str3;
             str4 = str2;
-            str5 = str33;
+            str5 = str31;
         }
         boolean z10 = !z && DialogObject.isEncryptedDialog(j);
         boolean z11 = (z2 || str5 == null || !notificationsSettings.getBoolean(str5, false)) ? false : true;
@@ -8309,7 +8309,7 @@ public class NotificationsController extends BaseController {
         }
         if (z3) {
             formatString = LocaleController.getString(R.string.NotificationsSilent);
-            str32 = "silent";
+            str30 = "silent";
         } else if (z) {
             String string2 = LocaleController.getString(z2 ? R.string.NotificationsInAppDefault : R.string.NotificationsDefault);
             if (i3 == 2) {
@@ -8326,7 +8326,7 @@ public class NotificationsController extends BaseController {
                         str8 = "stories_ia";
                     } else {
                         str9 = string2;
-                        str8 = str32;
+                        str8 = str30;
                     }
                 } else if (i3 == 4 || i3 == 5) {
                     str8 = z2 ? "reactions_ia" : str6;
@@ -8344,9 +8344,9 @@ public class NotificationsController extends BaseController {
                 str9 = string2;
                 str8 = "groups";
             }
-            String str34 = str8 + "_" + MD52;
-            string = notificationsSettings.getString(str34, null);
-            String string3 = notificationsSettings.getString(str34 + "_s", null);
+            String str32 = str8 + "_" + MD52;
+            string = notificationsSettings.getString(str32, null);
+            String string3 = notificationsSettings.getString(str32 + "_s", null);
             StringBuilder sb4 = new StringBuilder();
             if (string == null) {
                 notificationChannel = systemNotificationManager.getNotificationChannel(string);
@@ -8372,7 +8372,7 @@ public class NotificationsController extends BaseController {
                     j3 = j;
                     z4 = z11;
                     str16 = "_";
-                    str17 = str34;
+                    str17 = str32;
                     i4 = i;
                     str20 = null;
                     str19 = null;
@@ -8414,14 +8414,13 @@ public class NotificationsController extends BaseController {
                     importance = notificationChannel.getImportance();
                     sound = notificationChannel.getSound();
                     vibrationPattern = notificationChannel.getVibrationPattern();
+                    z4 = z11;
                     shouldVibrate = notificationChannel.shouldVibrate();
                     if (shouldVibrate || vibrationPattern != null) {
                         z7 = shouldVibrate;
-                        z4 = z11;
                         jArr3 = vibrationPattern;
                     } else {
                         z7 = shouldVibrate;
-                        z4 = z11;
                         jArr3 = new long[]{0, 0};
                     }
                     lightColor = notificationChannel.getLightColor();
@@ -8443,19 +8442,34 @@ public class NotificationsController extends BaseController {
                     }
                     String MD53 = Utilities.MD5(sb4.toString());
                     sb4.setLength(0);
-                    if (MD53.equals(string3)) {
+                    if (z2 && i2 != importance) {
                         str11 = "_s";
                         jArr2 = jArr;
+                        i4 = i;
                         sb = sb4;
-                        str24 = string3;
-                        str25 = string;
+                        str23 = string3;
+                        str24 = string;
                         str13 = "secret";
                         notificationsController = this;
-                        str26 = MD53;
+                        str25 = MD53;
+                        str16 = "_";
+                        z5 = false;
+                        z4 = true;
+                        j3 = j;
+                        str17 = str32;
+                    } else if (MD53.equals(string3)) {
+                        str11 = "_s";
+                        jArr2 = jArr;
+                        i4 = i;
+                        sb = sb4;
+                        str23 = string3;
+                        str24 = string;
+                        str13 = "secret";
+                        notificationsController = this;
+                        str25 = MD53;
                         str16 = "_";
                         j3 = j;
-                        str17 = str34;
-                        i4 = i;
+                        str17 = str32;
                         z5 = false;
                     } else {
                         if (importance == 0) {
@@ -8473,53 +8487,54 @@ public class NotificationsController extends BaseController {
                                     updateServerNotificationsSettings(i3);
                                 }
                                 str11 = "_s";
-                                str17 = str34;
-                                str25 = string;
-                                str31 = "secret";
-                                str26 = MD53;
-                                jArr4 = jArr3;
-                                str30 = "_";
+                                str17 = str32;
+                                str24 = string;
+                                str29 = "secret";
+                                str25 = MD53;
+                                i6 = lightColor;
+                                str16 = "_";
                                 sb = sb4;
-                                str24 = string3;
+                                str23 = string3;
                             } else {
                                 if (i3 == 3) {
                                     StringBuilder sb6 = new StringBuilder();
                                     sb6.append(NotificationsSettingsFacade.PROPERTY_STORIES_NOTIFY);
-                                    jArr4 = jArr3;
+                                    i6 = lightColor;
                                     sb6.append(getSharedPrefKey(j, 0L));
                                     edit.putBoolean(sb6.toString(), false);
-                                    str29 = "secret";
+                                    str28 = "secret";
                                 } else {
-                                    str29 = "secret";
-                                    jArr4 = jArr3;
+                                    str28 = "secret";
+                                    i6 = lightColor;
                                     edit.putInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + getSharedPrefKey(j, 0L), 2);
                                 }
                                 str11 = "_s";
-                                str24 = string3;
-                                str17 = str34;
-                                str25 = string;
+                                str23 = string3;
+                                str17 = str32;
+                                str24 = string;
                                 sb = sb4;
-                                str26 = MD53;
-                                str30 = "_";
-                                str31 = str29;
+                                str25 = MD53;
+                                str16 = "_";
+                                str29 = str28;
                                 updateServerNotificationsSettings(j, 0L, true);
                             }
                             j3 = j;
-                            str16 = str30;
-                            str13 = str31;
+                            str13 = str29;
                             editor = edit;
+                            jArr4 = jArr3;
                         } else {
                             str11 = "_s";
-                            str17 = str34;
-                            str25 = string;
+                            str17 = str32;
+                            str24 = string;
                             str13 = "secret";
-                            str26 = MD53;
-                            jArr4 = jArr3;
+                            str25 = MD53;
+                            i6 = lightColor;
+                            str16 = "_";
                             sb = sb4;
                             j3 = j;
-                            str24 = string3;
+                            str23 = string3;
                             if (importance == i2) {
-                                str16 = "_";
+                                jArr4 = jArr3;
                                 editor = null;
                                 z8 = false;
                                 notificationsController = this;
@@ -8531,34 +8546,36 @@ public class NotificationsController extends BaseController {
                                             editor = notificationsSettings.edit();
                                         }
                                         if (!z) {
-                                            str28 = "vibrate_" + j3;
+                                            str27 = "vibrate_" + j3;
                                         } else if (i3 == 2) {
-                                            str28 = "vibrate_channel";
+                                            str27 = "vibrate_channel";
                                         } else if (i3 == 0) {
-                                            str28 = "vibrate_group";
+                                            str27 = "vibrate_group";
                                         } else if (i3 == 3) {
-                                            str28 = "vibrate_stories";
+                                            str27 = "vibrate_stories";
                                         } else if (i3 == 4 || i3 == 5) {
-                                            str28 = "vibrate_react";
+                                            str27 = "vibrate_react";
                                         } else {
-                                            str28 = "vibrate_messages";
+                                            str27 = "vibrate_messages";
                                         }
-                                        editor.putInt(str28, i6);
+                                        editor.putInt(str27, i8);
                                     }
-                                    i4 = i;
                                     jArr2 = jArr4;
+                                    i4 = i;
+                                    i7 = i6;
                                     z8 = true;
                                 } else {
                                     i4 = i;
+                                    i7 = i6;
                                 }
-                                if (lightColor != i4) {
+                                if (i7 != i4) {
                                     if (!z2) {
                                         if (editor == null) {
                                             editor = notificationsSettings.edit();
                                         }
-                                        editor.putInt(z ? i3 == 2 ? "ChannelLed" : i3 == 0 ? "GroupLed" : i3 == 3 ? "StoriesLed" : (i3 == 5 || i3 == 4) ? "ReactionsLed" : "MessagesLed" : "color_" + j3, lightColor);
+                                        editor.putInt(z ? i3 == 2 ? "ChannelLed" : i3 == 0 ? "GroupLed" : i3 == 3 ? "StoriesLed" : (i3 == 5 || i3 == 4) ? "ReactionsLed" : "MessagesLed" : "color_" + j3, i7);
                                     }
-                                    i4 = lightColor;
+                                    i4 = i7;
                                     z8 = true;
                                 }
                                 if (editor != null) {
@@ -8566,12 +8583,12 @@ public class NotificationsController extends BaseController {
                                 }
                                 z5 = z8;
                             } else if (z2) {
-                                str16 = "_";
+                                jArr4 = jArr3;
                                 editor = null;
                             } else {
                                 SharedPreferences.Editor edit2 = notificationsSettings.edit();
-                                str16 = "_";
-                                int i7 = (importance == 4 || importance == 5) ? 1 : importance == 1 ? 4 : importance == 2 ? 5 : 0;
+                                jArr4 = jArr3;
+                                int i9 = (importance == 4 || importance == 5) ? 1 : importance == 1 ? 4 : importance == 2 ? 5 : 0;
                                 if (z) {
                                     if (i3 == 3) {
                                         edit2.putBoolean("EnableAllStories", true);
@@ -8581,16 +8598,16 @@ public class NotificationsController extends BaseController {
                                     } else {
                                         edit2.putInt(getGlobalNotificationsKey(i3), 0);
                                     }
-                                    str27 = i3 == 2 ? "priority_channel" : i3 == 0 ? "priority_group" : i3 == 3 ? "priority_stories" : (i3 == 4 || i3 == 5) ? "priority_react" : "priority_messages";
+                                    str26 = i3 == 2 ? "priority_channel" : i3 == 0 ? "priority_group" : i3 == 3 ? "priority_stories" : (i3 == 4 || i3 == 5) ? "priority_react" : "priority_messages";
                                 } else if (i3 == 3) {
                                     edit2.putBoolean(NotificationsSettingsFacade.PROPERTY_STORIES_NOTIFY + j3, true);
                                     editor = edit2;
                                 } else {
                                     edit2.putInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + j3, 0);
                                     edit2.remove(NotificationsSettingsFacade.PROPERTY_NOTIFY_UNTIL + j3);
-                                    str27 = "priority_" + j3;
+                                    str26 = "priority_" + j3;
                                 }
-                                edit2.putInt(str27, i7);
+                                edit2.putInt(str26, i9);
                                 editor = edit2;
                             }
                         }
@@ -8600,15 +8617,15 @@ public class NotificationsController extends BaseController {
                         z9 = z7;
                         if ((!notificationsController.isEmptyVibration(jArr2)) == z9) {
                         }
-                        if (lightColor != i4) {
+                        if (i7 != i4) {
                         }
                         if (editor != null) {
                         }
                         z5 = z8;
                     }
-                    str19 = str26;
-                    str20 = str24;
-                    str18 = str25;
+                    str19 = str25;
+                    str20 = str23;
+                    str18 = str24;
                     if (z5 || str19 == null) {
                         str21 = str11;
                         if (!z4 || str19 == null || !z2 || !z) {
@@ -8649,15 +8666,13 @@ public class NotificationsController extends BaseController {
                                     sb2.append(notificationsController.currentAccount);
                                     sb2.append(str14);
                                     sb2.append(str17);
-                                    str23 = str16;
                                 } else {
-                                    str23 = str16;
                                     sb2 = new StringBuilder();
                                     sb2.append(notificationsController.currentAccount);
                                     sb2.append(str14);
                                     sb2.append(j3);
                                 }
-                                sb2.append(str23);
+                                sb2.append(str16);
                                 sb2.append(Utilities.random.nextLong());
                                 str18 = sb2.toString();
                                 if (z10) {
@@ -8728,7 +8743,7 @@ public class NotificationsController extends BaseController {
                     j3 = j;
                     z4 = z11;
                     str16 = "_";
-                    str17 = str34;
+                    str17 = str32;
                     i4 = i;
                 }
             } else {
@@ -8744,7 +8759,7 @@ public class NotificationsController extends BaseController {
                 z4 = z11;
                 str16 = "_";
                 i4 = i;
-                str17 = str34;
+                str17 = str32;
                 jArr2 = jArr;
             }
             str20 = str10;
@@ -8779,19 +8794,19 @@ public class NotificationsController extends BaseController {
             }
             return str18;
         } else {
-            formatString = z2 ? LocaleController.formatString("NotificationsChatInApp", R.string.NotificationsChatInApp, str) : str;
+            formatString = z2 ? LocaleController.formatString(R.string.NotificationsChatInApp, str) : str;
             StringBuilder sb8 = new StringBuilder();
             sb8.append(z2 ? "org.telegram.keyia" : "org.telegram.key");
             sb8.append(j);
             sb8.append("_");
             sb8.append(j2);
-            str32 = sb8.toString();
+            str30 = sb8.toString();
         }
         str9 = formatString;
-        str8 = str32;
-        String str342 = str8 + "_" + MD52;
-        string = notificationsSettings.getString(str342, null);
-        String string32 = notificationsSettings.getString(str342 + "_s", null);
+        str8 = str30;
+        String str322 = str8 + "_" + MD52;
+        string = notificationsSettings.getString(str322, null);
+        String string32 = notificationsSettings.getString(str322 + "_s", null);
         StringBuilder sb42 = new StringBuilder();
         if (string == null) {
         }

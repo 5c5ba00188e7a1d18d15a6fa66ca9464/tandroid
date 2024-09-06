@@ -779,10 +779,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             }
         }
 
-        public void shutdown(int i, int i2, long j) {
+        public void shutdown(int i, boolean z, int i2, int i3, long j) {
             Handler handler = getHandler();
             if (handler != null) {
-                sendMessage(handler.obtainMessage(1, i, 0, new SendOptions(i2, j)), 0);
+                sendMessage(handler.obtainMessage(1, i, 0, new SendOptions(z, i2, i3, j)), 0);
             }
         }
     }
@@ -925,10 +925,14 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     /* loaded from: classes3.dex */
     public static class SendOptions {
         long effectId;
+        boolean notify;
+        int scheduleDate;
         int ttl;
 
-        public SendOptions(int i, long j) {
-            this.ttl = i;
+        public SendOptions(boolean z, int i, int i2, long j) {
+            this.notify = z;
+            this.scheduleDate = i;
+            this.ttl = i2;
             this.effectId = j;
         }
     }
@@ -1902,7 +1906,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     photoEntry.ttl = sendOptions.ttl;
                     photoEntry.effectId = sendOptions.effectId;
                 }
-                InstantCameraView.this.delegate.sendMedia(photoEntry, InstantCameraView.this.videoEditedInfo, true, 0, false);
+                InstantCameraView.this.delegate.sendMedia(photoEntry, InstantCameraView.this.videoEditedInfo, sendOptions == null || sendOptions.notify, sendOptions != null ? sendOptions.scheduleDate : 0, false);
             }
         }
 
@@ -1945,7 +1949,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 photoEntry.ttl = sendOptions.ttl;
                 photoEntry.effectId = sendOptions.effectId;
             }
-            InstantCameraView.this.delegate.sendMedia(photoEntry, InstantCameraView.this.videoEditedInfo, true, 0, false);
+            InstantCameraView.this.delegate.sendMedia(photoEntry, InstantCameraView.this.videoEditedInfo, sendOptions == null || sendOptions.notify, sendOptions != null ? sendOptions.scheduleDate : 0, false);
         }
 
         public /* synthetic */ void lambda$handleStopRecording$7(CountDownLatch countDownLatch) {
@@ -1963,7 +1967,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 photoEntry.ttl = sendOptions.ttl;
                 photoEntry.effectId = sendOptions.effectId;
             }
-            InstantCameraView.this.delegate.sendMedia(photoEntry, InstantCameraView.this.videoEditedInfo, z, i, false);
+            InstantCameraView.this.delegate.sendMedia(photoEntry, InstantCameraView.this.videoEditedInfo, z || sendOptions == null || sendOptions.notify, i != 0 ? i : sendOptions != null ? sendOptions.scheduleDate : 0, false);
             InstantCameraView.this.startAnimation(false, false);
         }
 
@@ -3480,12 +3484,12 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.recordStopped, Integer.valueOf(this.recordingGuid), Integer.valueOf(z ? 0 : 6));
         if (this.cameraThread != null) {
             saveLastCameraBitmap();
-            this.cameraThread.shutdown(0, 0, 0L);
+            this.cameraThread.shutdown(0, true, 0, 0, 0L);
             this.cameraThread = null;
         } else {
             VideoRecorder videoRecorder = this.videoEncoder;
             if (videoRecorder != null) {
-                videoRecorder.stopRecording(0, new SendOptions(0, 0L));
+                videoRecorder.stopRecording(0, new SendOptions(true, 0, 0, 0L));
             }
         }
         if (this.cameraFile != null) {
@@ -3837,14 +3841,13 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         this.cameraFile = null;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:108:0x010a, code lost:
-        if (r32 != 0) goto L40;
+    /* JADX WARN: Code restructure failed: missing block: B:106:0x0107, code lost:
+        if (r27 != 0) goto L40;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void send(int i, boolean z, int i2, int i3, long j) {
-        boolean z2;
         if (this.textureView == null) {
             return;
         }
@@ -3857,7 +3860,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         if (i == 4) {
             VideoRecorder videoRecorder = this.videoEncoder;
             if (videoRecorder != null && this.recordedTime > 800) {
-                videoRecorder.stopRecording(1, new SendOptions(i3, j));
+                videoRecorder.stopRecording(1, new SendOptions(z, i2, i3, j));
                 return;
             }
             if (BuildVars.DEBUG_VERSION && !this.cameraFile.exists()) {
@@ -3876,7 +3879,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     j3 = 0;
                 }
                 long j4 = videoEditedInfo.endTime;
-                long j5 = (j4 >= 0 ? j4 : j2) - j3;
+                if (j4 >= 0) {
+                    j2 = j4;
+                }
+                long j5 = j2 - j3;
                 videoEditedInfo.estimatedDuration = j5;
                 double d2 = this.size;
                 double d3 = j5;
@@ -3907,7 +3913,6 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             photoEntry.ttl = i3;
             photoEntry.effectId = j;
             this.delegate.sendMedia(photoEntry, this.videoEditedInfo, z, i2, false);
-            z2 = false;
         } else {
             this.cancelled = this.recordedTime < 800;
             this.recording = false;
@@ -3918,17 +3923,16 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.recordStopped, Integer.valueOf(this.recordingGuid), Integer.valueOf(i4));
                 int i5 = this.cancelled ? 0 : i == 3 ? 2 : 1;
                 saveLastCameraBitmap();
-                this.cameraThread.shutdown(i5, i3, j);
+                this.cameraThread.shutdown(i5, z, i2, i3, j);
                 this.cameraThread = null;
             }
             if (!this.cancelled) {
                 return;
             }
-            z2 = false;
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.audioRecordTooShort, Integer.valueOf(this.recordingGuid), Boolean.TRUE, Integer.valueOf((int) this.recordedTime));
         }
-        startAnimation(z2, z2);
-        MediaController.getInstance().requestAudioFocus(z2);
+        startAnimation(false, false);
+        MediaController.getInstance().requestAudioFocus(false);
     }
 
     public void setIsMessageTransition(boolean z) {
@@ -4110,7 +4114,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 @Override // android.view.TextureView.SurfaceTextureListener
                 public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
                     if (InstantCameraView.this.cameraThread != null) {
-                        InstantCameraView.this.cameraThread.shutdown(0, 0, 0L);
+                        InstantCameraView.this.cameraThread.shutdown(0, true, 0, 0, 0L);
                         InstantCameraView.this.cameraThread = null;
                     }
                     if (!InstantCameraView.this.useCamera2) {
@@ -4253,7 +4257,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             saveLastCameraBitmap();
             CameraGLThread cameraGLThread = this.cameraThread;
             boolean z = this.cancelled;
-            cameraGLThread.shutdown(z ? 0 : 2, z ? 0 : -2, 0L);
+            cameraGLThread.shutdown(z ? 0 : 2, true, 0, z ? 0 : -2, 0L);
             this.cameraThread = null;
         }
         if (!this.cancelled) {

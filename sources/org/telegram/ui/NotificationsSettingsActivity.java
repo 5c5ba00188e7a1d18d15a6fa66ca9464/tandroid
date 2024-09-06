@@ -189,6 +189,9 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             boolean z4;
             String str3;
             boolean z5;
+            boolean z6;
+            boolean z7;
+            boolean z8;
             int i3;
             String string5;
             ArrayList arrayList;
@@ -196,7 +199,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             int i5;
             ArrayList arrayList2;
             String string6;
-            boolean z6;
+            boolean z9;
             String string7;
             int size;
             Context context;
@@ -242,87 +245,94 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                     if (i != NotificationsSettingsActivity.this.inappSoundRow) {
                         z = true;
                         if (i == NotificationsSettingsActivity.this.inappVibrateRow) {
-                            string2 = LocaleController.getString("InAppVibrate", R.string.InAppVibrate);
+                            string2 = LocaleController.getString(R.string.InAppVibrate);
                             str2 = "EnableInAppVibrate";
-                        } else if (i == NotificationsSettingsActivity.this.inappPreviewRow) {
-                            string2 = LocaleController.getString("InAppPreview", R.string.InAppPreview);
-                            str2 = "EnableInAppPreview";
-                        } else if (i == NotificationsSettingsActivity.this.inappPriorityRow) {
-                            string2 = LocaleController.getString("NotificationsImportance", R.string.NotificationsImportance);
-                            str2 = "EnableInAppPriority";
-                            z = false;
-                        } else if (i != NotificationsSettingsActivity.this.contactJoinedRow) {
-                            z = true;
-                            if (i == NotificationsSettingsActivity.this.pinnedMessageRow) {
-                                textCheckCell.setTextAndCheck(LocaleController.getString("PinnedMessages", R.string.PinnedMessages), notificationsSettings.getBoolean("PinnedMessages", true), false);
-                                return;
-                            } else if (i == NotificationsSettingsActivity.this.androidAutoAlertRow) {
-                                z5 = notificationsSettings.getBoolean("EnableAutoNotifications", false);
-                                string2 = "Android Auto";
-                                textCheckCell.setTextAndCheck(string2, z5, z);
-                                return;
+                        } else if (i != NotificationsSettingsActivity.this.inappPreviewRow) {
+                            if (i == NotificationsSettingsActivity.this.inappPriorityRow) {
+                                string3 = LocaleController.getString(R.string.InAppPopup);
+                                string4 = LocaleController.getString(R.string.InAppPopupInfo);
+                                z5 = notificationsSettings.getBoolean("EnableInAppPopup", true);
+                                z6 = true;
+                                z7 = false;
+                            } else if (i == NotificationsSettingsActivity.this.contactJoinedRow) {
+                                string2 = LocaleController.getString("ContactJoined", R.string.ContactJoined);
+                                str2 = "EnableContactJoined";
                             } else {
-                                if (i == NotificationsSettingsActivity.this.notificationsServiceRow) {
-                                    string3 = LocaleController.getString("NotificationsService", R.string.NotificationsService);
-                                    string4 = LocaleController.getString("NotificationsServiceInfo", R.string.NotificationsServiceInfo);
-                                    z4 = NotificationsSettingsActivity.this.getMessagesController().keepAliveService;
-                                    str3 = "pushService";
-                                } else if (i != NotificationsSettingsActivity.this.notificationsServiceConnectionRow) {
-                                    if (i == NotificationsSettingsActivity.this.badgeNumberShowRow) {
-                                        string = LocaleController.getString("BadgeNumberShow", R.string.BadgeNumberShow);
-                                        z3 = NotificationsSettingsActivity.this.getNotificationsController().showBadgeNumber;
-                                        z2 = true;
-                                    } else {
-                                        z2 = true;
-                                        if (i == NotificationsSettingsActivity.this.badgeNumberMutedRow) {
-                                            string = LocaleController.getString("BadgeNumberMutedChats", R.string.BadgeNumberMutedChats);
-                                            z3 = NotificationsSettingsActivity.this.getNotificationsController().showBadgeMuted;
-                                        } else {
-                                            if (i == NotificationsSettingsActivity.this.badgeNumberMessagesRow) {
-                                                string = LocaleController.getString("BadgeNumberUnread", R.string.BadgeNumberUnread);
-                                                z3 = NotificationsSettingsActivity.this.getNotificationsController().showBadgeMessages;
-                                            } else if (i == NotificationsSettingsActivity.this.inchatSoundRow) {
-                                                string2 = LocaleController.getString("InChatSound", R.string.InChatSound);
-                                                str2 = "EnableInChatSound";
-                                            } else {
-                                                z = true;
-                                                if (i == NotificationsSettingsActivity.this.callsVibrateRow) {
-                                                    string2 = LocaleController.getString("Vibrate", R.string.Vibrate);
-                                                    str2 = "EnableCallVibrate";
-                                                } else if (i != NotificationsSettingsActivity.this.accountsAllRow) {
-                                                    return;
-                                                } else {
-                                                    string = LocaleController.getString("AllAccounts", R.string.AllAccounts);
-                                                    z3 = MessagesController.getGlobalNotificationsSettings().getBoolean("AllAccounts", true);
-                                                }
-                                            }
-                                            z2 = false;
-                                        }
-                                    }
-                                    textCheckCell.setTextAndCheck(string, z3, z2);
+                                z = true;
+                                if (i == NotificationsSettingsActivity.this.pinnedMessageRow) {
+                                    textCheckCell.setTextAndCheck(LocaleController.getString("PinnedMessages", R.string.PinnedMessages), notificationsSettings.getBoolean("PinnedMessages", true), false);
+                                    return;
+                                } else if (i == NotificationsSettingsActivity.this.androidAutoAlertRow) {
+                                    z8 = notificationsSettings.getBoolean("EnableAutoNotifications", false);
+                                    string2 = "Android Auto";
+                                    textCheckCell.setTextAndCheck(string2, z8, z);
                                     return;
                                 } else {
-                                    string3 = LocaleController.getString("NotificationsServiceConnection", R.string.NotificationsServiceConnection);
-                                    string4 = LocaleController.getString("NotificationsServiceConnectionInfo", R.string.NotificationsServiceConnectionInfo);
-                                    z4 = NotificationsSettingsActivity.this.getMessagesController().backgroundConnection;
-                                    str3 = "pushConnection";
+                                    if (i == NotificationsSettingsActivity.this.notificationsServiceRow) {
+                                        string3 = LocaleController.getString("NotificationsService", R.string.NotificationsService);
+                                        string4 = LocaleController.getString("NotificationsServiceInfo", R.string.NotificationsServiceInfo);
+                                        z4 = NotificationsSettingsActivity.this.getMessagesController().keepAliveService;
+                                        str3 = "pushService";
+                                    } else if (i != NotificationsSettingsActivity.this.notificationsServiceConnectionRow) {
+                                        if (i == NotificationsSettingsActivity.this.badgeNumberShowRow) {
+                                            string = LocaleController.getString("BadgeNumberShow", R.string.BadgeNumberShow);
+                                            z3 = NotificationsSettingsActivity.this.getNotificationsController().showBadgeNumber;
+                                            z2 = true;
+                                        } else {
+                                            z2 = true;
+                                            if (i == NotificationsSettingsActivity.this.badgeNumberMutedRow) {
+                                                string = LocaleController.getString("BadgeNumberMutedChats", R.string.BadgeNumberMutedChats);
+                                                z3 = NotificationsSettingsActivity.this.getNotificationsController().showBadgeMuted;
+                                            } else {
+                                                if (i == NotificationsSettingsActivity.this.badgeNumberMessagesRow) {
+                                                    string = LocaleController.getString("BadgeNumberUnread", R.string.BadgeNumberUnread);
+                                                    z3 = NotificationsSettingsActivity.this.getNotificationsController().showBadgeMessages;
+                                                } else if (i == NotificationsSettingsActivity.this.inchatSoundRow) {
+                                                    string2 = LocaleController.getString("InChatSound", R.string.InChatSound);
+                                                    str2 = "EnableInChatSound";
+                                                } else {
+                                                    z = true;
+                                                    if (i == NotificationsSettingsActivity.this.callsVibrateRow) {
+                                                        string2 = LocaleController.getString("Vibrate", R.string.Vibrate);
+                                                        str2 = "EnableCallVibrate";
+                                                    } else if (i != NotificationsSettingsActivity.this.accountsAllRow) {
+                                                        return;
+                                                    } else {
+                                                        string = LocaleController.getString("AllAccounts", R.string.AllAccounts);
+                                                        z3 = MessagesController.getGlobalNotificationsSettings().getBoolean("AllAccounts", true);
+                                                    }
+                                                }
+                                                z2 = false;
+                                            }
+                                        }
+                                        textCheckCell.setTextAndCheck(string, z3, z2);
+                                        return;
+                                    } else {
+                                        string3 = LocaleController.getString("NotificationsServiceConnection", R.string.NotificationsServiceConnection);
+                                        string4 = LocaleController.getString("NotificationsServiceConnectionInfo", R.string.NotificationsServiceConnectionInfo);
+                                        z4 = NotificationsSettingsActivity.this.getMessagesController().backgroundConnection;
+                                        str3 = "pushConnection";
+                                    }
+                                    z5 = notificationsSettings.getBoolean(str3, z4);
+                                    z6 = true;
+                                    z7 = true;
                                 }
-                                textCheckCell.setTextAndValueAndCheck(string3, string4, notificationsSettings.getBoolean(str3, z4), true, true);
-                                return;
                             }
+                            textCheckCell.setTextAndValueAndCheck(string3, string4, z5, z6, z7);
+                            return;
                         } else {
-                            string2 = LocaleController.getString("ContactJoined", R.string.ContactJoined);
-                            str2 = "EnableContactJoined";
+                            string2 = LocaleController.getString(R.string.InAppPreview);
+                            str2 = "EnableInAppPreview";
                         }
-                        z5 = notificationsSettings.getBoolean(str2, z);
-                        textCheckCell.setTextAndCheck(string2, z5, z);
+                        z8 = notificationsSettings.getBoolean(str2, z);
+                        textCheckCell.setTextAndCheck(string2, z8, z);
                         return;
                     }
-                    string2 = LocaleController.getString("InAppSounds", R.string.InAppSounds);
+                    string2 = LocaleController.getString(R.string.InAppSounds);
                     str2 = "EnableInAppSounds";
                     z = true;
-                    z5 = notificationsSettings.getBoolean(str2, z);
-                    textCheckCell.setTextAndCheck(string2, z5, z);
+                    z8 = notificationsSettings.getBoolean(str2, z);
+                    textCheckCell.setTextAndCheck(string2, z8, z);
                     return;
                 case 2:
                     TextDetailSettingsCell textDetailSettingsCell = (TextDetailSettingsCell) viewHolder.itemView;
@@ -365,19 +375,19 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                             i4 = notificationsSettings2.getInt("EnableChannel2", 0);
                             i5 = R.drawable.msg_channel;
                         }
-                        boolean z7 = i3 >= currentTime;
-                        int i10 = (!z7 && i3 - 31536000 < currentTime) ? 2 : 0;
+                        boolean z10 = i3 >= currentTime;
+                        int i10 = (!z10 && i3 - 31536000 < currentTime) ? 2 : 0;
                         StringBuilder sb = new StringBuilder();
                         int i11 = i5;
                         if (i != NotificationsSettingsActivity.this.reactionsRow) {
                             if (arrayList3 != null && !arrayList3.isEmpty()) {
-                                boolean z8 = i3 < currentTime;
-                                if (z8) {
+                                boolean z11 = i3 < currentTime;
+                                if (z11) {
                                     string7 = LocaleController.getString("NotificationsOn", R.string.NotificationsOn);
                                 } else if (i3 - 31536000 >= currentTime) {
                                     string7 = LocaleController.getString("NotificationsOff", R.string.NotificationsOff);
                                 } else {
-                                    z7 = z8;
+                                    z10 = z11;
                                     sb.append(LocaleController.formatString("NotificationsOffUntil", R.string.NotificationsOffUntil, LocaleController.stringForMessageListDate(i3)));
                                     if (sb.length() != 0) {
                                         sb.append(", ");
@@ -389,7 +399,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                                     string6 = LocaleController.formatPluralString("Exception", size, new Object[0]);
                                 }
                                 sb.append(string7);
-                                z7 = z8;
+                                z10 = z11;
                                 if (sb.length() != 0) {
                                 }
                                 size = arrayList3.size();
@@ -405,13 +415,13 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                                     sb.append(", ");
                                     string6 = LocaleController.formatPluralString("AutoException", arrayList2.size(), new Object[0]);
                                 }
-                                z6 = z7;
+                                z9 = z10;
                             }
                             sb.append(string6);
-                            z6 = z7;
+                            z9 = z10;
                         } else if (i3 > 0) {
                             sb.append(LocaleController.getString("NotificationsOff", R.string.NotificationsOff));
-                            z6 = false;
+                            z9 = false;
                         } else {
                             if (notificationsSettings2.getBoolean("EnableReactionsMessages", true)) {
                                 sb.append(LocaleController.getString(R.string.NotificationReactionsMessages));
@@ -422,9 +432,9 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                                 }
                                 sb.append(LocaleController.getString(R.string.NotificationReactionsStories));
                             }
-                            z6 = true;
+                            z9 = true;
                         }
-                        notificationsCheckCell.setTextAndValueAndIconAndCheck(string5, sb, i11, z6, i10, false, i != NotificationsSettingsActivity.this.reactionsRow);
+                        notificationsCheckCell.setTextAndValueAndIconAndCheck(string5, sb, i11, z9, i10, false, i != NotificationsSettingsActivity.this.reactionsRow);
                         return;
                     } else {
                         string5 = LocaleController.getString(R.string.NotificationsGroups);
@@ -438,19 +448,19 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                     i3 = i12;
                     if (i3 >= currentTime) {
                     }
-                    if (z7) {
+                    if (z10) {
                         StringBuilder sb2 = new StringBuilder();
                         int i112 = i5;
                         if (i != NotificationsSettingsActivity.this.reactionsRow) {
                         }
-                        notificationsCheckCell.setTextAndValueAndIconAndCheck(string5, sb2, i112, z6, i10, false, i != NotificationsSettingsActivity.this.reactionsRow);
+                        notificationsCheckCell.setTextAndValueAndIconAndCheck(string5, sb2, i112, z9, i10, false, i != NotificationsSettingsActivity.this.reactionsRow);
                         return;
                     }
                     StringBuilder sb22 = new StringBuilder();
                     int i1122 = i5;
                     if (i != NotificationsSettingsActivity.this.reactionsRow) {
                     }
-                    notificationsCheckCell.setTextAndValueAndIconAndCheck(string5, sb22, i1122, z6, i10, false, i != NotificationsSettingsActivity.this.reactionsRow);
+                    notificationsCheckCell.setTextAndValueAndIconAndCheck(string5, sb22, i1122, z9, i10, false, i != NotificationsSettingsActivity.this.reactionsRow);
                     return;
                 case 4:
                     int i13 = NotificationsSettingsActivity.this.resetNotificationsSectionRow;
@@ -571,11 +581,10 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         SharedPreferences.Editor edit;
         boolean z;
         String str;
-        SharedPreferences notificationsSettings;
         SharedPreferences.Editor edit2;
         String str2;
-        SharedPreferences notificationsSettings2;
         boolean z2;
+        SharedPreferences notificationsSettings;
         boolean z3 = false;
         r3 = false;
         r3 = false;
@@ -633,7 +642,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             z4 = isGlobalNotificationsEnabled;
         } else if (i == this.callsRingtoneRow) {
             try {
-                SharedPreferences notificationsSettings3 = MessagesController.getNotificationsSettings(this.currentAccount);
+                SharedPreferences notificationsSettings2 = MessagesController.getNotificationsSettings(this.currentAccount);
                 Intent intent = new Intent("android.intent.action.RINGTONE_PICKER");
                 intent.putExtra("android.intent.extra.ringtone.TYPE", 1);
                 intent.putExtra("android.intent.extra.ringtone.SHOW_DEFAULT", true);
@@ -641,7 +650,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                 intent.putExtra("android.intent.extra.ringtone.DEFAULT_URI", RingtoneManager.getDefaultUri(1));
                 Uri uri = Settings.System.DEFAULT_RINGTONE_URI;
                 String path = uri != null ? uri.getPath() : null;
-                String string = notificationsSettings3.getString("CallsRingtonePath", path);
+                String string = notificationsSettings2.getString("CallsRingtonePath", path);
                 if (string != null && !string.equals("NoSound")) {
                     parcelable = string.equals(path) ? uri : Uri.parse(string);
                 }
@@ -669,146 +678,144 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             }
         } else {
             if (i == this.inappSoundRow) {
-                notificationsSettings2 = MessagesController.getNotificationsSettings(this.currentAccount);
-                edit2 = notificationsSettings2.edit();
+                notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
+                edit2 = notificationsSettings.edit();
                 str2 = "EnableInAppSounds";
             } else if (i == this.inappVibrateRow) {
-                notificationsSettings2 = MessagesController.getNotificationsSettings(this.currentAccount);
-                edit2 = notificationsSettings2.edit();
+                notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
+                edit2 = notificationsSettings.edit();
                 str2 = "EnableInAppVibrate";
             } else if (i == this.inappPreviewRow) {
-                notificationsSettings2 = MessagesController.getNotificationsSettings(this.currentAccount);
-                edit2 = notificationsSettings2.edit();
+                notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
+                edit2 = notificationsSettings.edit();
                 str2 = "EnableInAppPreview";
             } else if (i == this.inchatSoundRow) {
-                SharedPreferences notificationsSettings4 = MessagesController.getNotificationsSettings(this.currentAccount);
-                SharedPreferences.Editor edit3 = notificationsSettings4.edit();
-                z4 = notificationsSettings4.getBoolean("EnableInChatSound", true);
+                SharedPreferences notificationsSettings3 = MessagesController.getNotificationsSettings(this.currentAccount);
+                SharedPreferences.Editor edit3 = notificationsSettings3.edit();
+                z4 = notificationsSettings3.getBoolean("EnableInChatSound", true);
                 boolean z6 = !z4;
                 edit3.putBoolean("EnableInChatSound", z6);
                 edit3.commit();
                 getNotificationsController().setInChatSoundEnabled(z6);
-            } else {
-                if (i == this.inappPriorityRow) {
-                    notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
-                    edit2 = notificationsSettings.edit();
-                    str2 = "EnableInAppPriority";
-                } else if (i == this.contactJoinedRow) {
-                    SharedPreferences notificationsSettings5 = MessagesController.getNotificationsSettings(this.currentAccount);
-                    SharedPreferences.Editor edit4 = notificationsSettings5.edit();
-                    z4 = notificationsSettings5.getBoolean("EnableContactJoined", true);
-                    boolean z7 = !z4;
-                    MessagesController.getInstance(this.currentAccount).enableJoined = z7;
-                    edit4.putBoolean("EnableContactJoined", z7);
-                    edit4.commit();
-                    TLRPC$TL_account_setContactSignUpNotification tLRPC$TL_account_setContactSignUpNotification = new TLRPC$TL_account_setContactSignUpNotification();
-                    tLRPC$TL_account_setContactSignUpNotification.silent = z4;
-                    ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_setContactSignUpNotification, new RequestDelegate() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda3
-                        @Override // org.telegram.tgnet.RequestDelegate
-                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            NotificationsSettingsActivity.lambda$createView$7(tLObject, tLRPC$TL_error);
-                        }
-                    });
-                } else if (i == this.pinnedMessageRow) {
-                    notificationsSettings2 = MessagesController.getNotificationsSettings(this.currentAccount);
-                    edit2 = notificationsSettings2.edit();
-                    str2 = "PinnedMessages";
-                } else if (i == this.androidAutoAlertRow) {
-                    notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
-                    edit2 = notificationsSettings.edit();
-                    str2 = "EnableAutoNotifications";
-                } else {
-                    if (i == this.badgeNumberShowRow) {
-                        edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
-                        z4 = getNotificationsController().showBadgeNumber;
-                        getNotificationsController().showBadgeNumber = !z4;
-                        z = getNotificationsController().showBadgeNumber;
-                        str = "badgeNumber";
-                    } else if (i == this.badgeNumberMutedRow) {
-                        SharedPreferences.Editor edit5 = MessagesController.getNotificationsSettings(this.currentAccount).edit();
-                        z4 = getNotificationsController().showBadgeMuted;
-                        getNotificationsController().showBadgeMuted = !z4;
-                        edit5.putBoolean("badgeNumberMuted", getNotificationsController().showBadgeMuted);
-                        edit5.commit();
-                        getNotificationsController().updateBadge();
-                        getMessagesStorage().updateMutedDialogsFiltersCounters();
-                    } else if (i == this.badgeNumberMessagesRow) {
-                        edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
-                        z4 = getNotificationsController().showBadgeMessages;
-                        getNotificationsController().showBadgeMessages = !z4;
-                        z = getNotificationsController().showBadgeMessages;
-                        str = "badgeNumberMessages";
-                    } else if (i == this.notificationsServiceConnectionRow) {
-                        SharedPreferences notificationsSettings6 = MessagesController.getNotificationsSettings(this.currentAccount);
-                        boolean z8 = notificationsSettings6.getBoolean("pushConnection", getMessagesController().backgroundConnection);
-                        SharedPreferences.Editor edit6 = notificationsSettings6.edit();
-                        edit6.putBoolean("pushConnection", !z8);
-                        edit6.commit();
-                        ConnectionsManager connectionsManager = ConnectionsManager.getInstance(this.currentAccount);
-                        if (z8) {
-                            connectionsManager.setPushConnectionEnabled(false);
-                        } else {
-                            connectionsManager.setPushConnectionEnabled(true);
-                        }
-                        z4 = z8;
-                    } else if (i == this.accountsAllRow) {
-                        SharedPreferences globalNotificationsSettings = MessagesController.getGlobalNotificationsSettings();
-                        boolean z9 = globalNotificationsSettings.getBoolean("AllAccounts", true);
-                        SharedPreferences.Editor edit7 = globalNotificationsSettings.edit();
-                        boolean z10 = !z9;
-                        edit7.putBoolean("AllAccounts", z10);
-                        edit7.commit();
-                        SharedConfig.showNotificationsForAllAccounts = z10;
-                        for (int i4 = 0; i4 < 4; i4++) {
-                            if (SharedConfig.showNotificationsForAllAccounts || i4 == this.currentAccount) {
-                                NotificationsController.getInstance(i4).showNotifications();
-                            } else {
-                                NotificationsController.getInstance(i4).hideNotifications();
-                            }
-                        }
-                        z4 = z9;
-                    } else if (i == this.notificationsServiceRow) {
-                        SharedPreferences notificationsSettings7 = MessagesController.getNotificationsSettings(this.currentAccount);
-                        z4 = notificationsSettings7.getBoolean("pushService", getMessagesController().keepAliveService);
-                        SharedPreferences.Editor edit8 = notificationsSettings7.edit();
-                        edit8.putBoolean("pushService", !z4);
-                        edit8.commit();
-                        ApplicationLoader.startPushService();
-                    } else {
-                        if (i == this.callsVibrateRow) {
-                            if (getParentActivity() == null) {
-                                return;
-                            }
-                            create = AlertsCreator.createVibrationSelectDialog(getParentActivity(), 0L, 0L, i == this.callsVibrateRow ? "vibrate_calls" : null, new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda4
-                                @Override // java.lang.Runnable
-                                public final void run() {
-                                    NotificationsSettingsActivity.this.lambda$createView$8(i);
-                                }
-                            });
-                        } else if (i == this.repeatRow) {
-                            AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity());
-                            builder2.setTitle(LocaleController.getString("RepeatNotifications", R.string.RepeatNotifications));
-                            builder2.setItems(new CharSequence[]{LocaleController.getString("RepeatDisabled", R.string.RepeatDisabled), LocaleController.formatPluralString("Minutes", 5, new Object[0]), LocaleController.formatPluralString("Minutes", 10, new Object[0]), LocaleController.formatPluralString("Minutes", 30, new Object[0]), LocaleController.formatPluralString("Hours", 1, new Object[0]), LocaleController.formatPluralString("Hours", 2, new Object[0]), LocaleController.formatPluralString("Hours", 4, new Object[0])}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda5
-                                @Override // android.content.DialogInterface.OnClickListener
-                                public final void onClick(DialogInterface dialogInterface, int i5) {
-                                    NotificationsSettingsActivity.this.lambda$createView$9(i, dialogInterface, i5);
-                                }
-                            });
-                            builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                            create = builder2.create();
-                        }
-                        showDialog(create);
+            } else if (i == this.inappPriorityRow) {
+                notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
+                edit2 = notificationsSettings.edit();
+                str2 = "EnableInAppPopup";
+            } else if (i == this.contactJoinedRow) {
+                SharedPreferences notificationsSettings4 = MessagesController.getNotificationsSettings(this.currentAccount);
+                SharedPreferences.Editor edit4 = notificationsSettings4.edit();
+                z4 = notificationsSettings4.getBoolean("EnableContactJoined", true);
+                boolean z7 = !z4;
+                MessagesController.getInstance(this.currentAccount).enableJoined = z7;
+                edit4.putBoolean("EnableContactJoined", z7);
+                edit4.commit();
+                TLRPC$TL_account_setContactSignUpNotification tLRPC$TL_account_setContactSignUpNotification = new TLRPC$TL_account_setContactSignUpNotification();
+                tLRPC$TL_account_setContactSignUpNotification.silent = z4;
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_setContactSignUpNotification, new RequestDelegate() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda3
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        NotificationsSettingsActivity.lambda$createView$7(tLObject, tLRPC$TL_error);
                     }
-                    edit.putBoolean(str, z);
-                    edit.commit();
-                    getNotificationsController().updateBadge();
-                }
-                z2 = notificationsSettings.getBoolean(str2, false);
+                });
+            } else if (i == this.pinnedMessageRow) {
+                notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
+                edit2 = notificationsSettings.edit();
+                str2 = "PinnedMessages";
+            } else if (i == this.androidAutoAlertRow) {
+                SharedPreferences notificationsSettings5 = MessagesController.getNotificationsSettings(this.currentAccount);
+                edit2 = notificationsSettings5.edit();
+                str2 = "EnableAutoNotifications";
+                z2 = notificationsSettings5.getBoolean("EnableAutoNotifications", false);
                 z4 = z2;
                 edit2.putBoolean(str2, !z4);
                 edit2.commit();
+            } else {
+                if (i == this.badgeNumberShowRow) {
+                    edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
+                    z4 = getNotificationsController().showBadgeNumber;
+                    getNotificationsController().showBadgeNumber = !z4;
+                    z = getNotificationsController().showBadgeNumber;
+                    str = "badgeNumber";
+                } else if (i == this.badgeNumberMutedRow) {
+                    SharedPreferences.Editor edit5 = MessagesController.getNotificationsSettings(this.currentAccount).edit();
+                    z4 = getNotificationsController().showBadgeMuted;
+                    getNotificationsController().showBadgeMuted = !z4;
+                    edit5.putBoolean("badgeNumberMuted", getNotificationsController().showBadgeMuted);
+                    edit5.commit();
+                    getNotificationsController().updateBadge();
+                    getMessagesStorage().updateMutedDialogsFiltersCounters();
+                } else if (i == this.badgeNumberMessagesRow) {
+                    edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
+                    z4 = getNotificationsController().showBadgeMessages;
+                    getNotificationsController().showBadgeMessages = !z4;
+                    z = getNotificationsController().showBadgeMessages;
+                    str = "badgeNumberMessages";
+                } else if (i == this.notificationsServiceConnectionRow) {
+                    SharedPreferences notificationsSettings6 = MessagesController.getNotificationsSettings(this.currentAccount);
+                    boolean z8 = notificationsSettings6.getBoolean("pushConnection", getMessagesController().backgroundConnection);
+                    SharedPreferences.Editor edit6 = notificationsSettings6.edit();
+                    edit6.putBoolean("pushConnection", !z8);
+                    edit6.commit();
+                    ConnectionsManager connectionsManager = ConnectionsManager.getInstance(this.currentAccount);
+                    if (z8) {
+                        connectionsManager.setPushConnectionEnabled(false);
+                    } else {
+                        connectionsManager.setPushConnectionEnabled(true);
+                    }
+                    z4 = z8;
+                } else if (i == this.accountsAllRow) {
+                    SharedPreferences globalNotificationsSettings = MessagesController.getGlobalNotificationsSettings();
+                    boolean z9 = globalNotificationsSettings.getBoolean("AllAccounts", true);
+                    SharedPreferences.Editor edit7 = globalNotificationsSettings.edit();
+                    boolean z10 = !z9;
+                    edit7.putBoolean("AllAccounts", z10);
+                    edit7.commit();
+                    SharedConfig.showNotificationsForAllAccounts = z10;
+                    for (int i4 = 0; i4 < 4; i4++) {
+                        if (SharedConfig.showNotificationsForAllAccounts || i4 == this.currentAccount) {
+                            NotificationsController.getInstance(i4).showNotifications();
+                        } else {
+                            NotificationsController.getInstance(i4).hideNotifications();
+                        }
+                    }
+                    z4 = z9;
+                } else if (i == this.notificationsServiceRow) {
+                    SharedPreferences notificationsSettings7 = MessagesController.getNotificationsSettings(this.currentAccount);
+                    z4 = notificationsSettings7.getBoolean("pushService", getMessagesController().keepAliveService);
+                    SharedPreferences.Editor edit8 = notificationsSettings7.edit();
+                    edit8.putBoolean("pushService", !z4);
+                    edit8.commit();
+                    ApplicationLoader.startPushService();
+                } else {
+                    if (i == this.callsVibrateRow) {
+                        if (getParentActivity() == null) {
+                            return;
+                        }
+                        create = AlertsCreator.createVibrationSelectDialog(getParentActivity(), 0L, 0L, i == this.callsVibrateRow ? "vibrate_calls" : null, new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda4
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                NotificationsSettingsActivity.this.lambda$createView$8(i);
+                            }
+                        });
+                    } else if (i == this.repeatRow) {
+                        AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity());
+                        builder2.setTitle(LocaleController.getString("RepeatNotifications", R.string.RepeatNotifications));
+                        builder2.setItems(new CharSequence[]{LocaleController.getString("RepeatDisabled", R.string.RepeatDisabled), LocaleController.formatPluralString("Minutes", 5, new Object[0]), LocaleController.formatPluralString("Minutes", 10, new Object[0]), LocaleController.formatPluralString("Minutes", 30, new Object[0]), LocaleController.formatPluralString("Hours", 1, new Object[0]), LocaleController.formatPluralString("Hours", 2, new Object[0]), LocaleController.formatPluralString("Hours", 4, new Object[0])}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda5
+                            @Override // android.content.DialogInterface.OnClickListener
+                            public final void onClick(DialogInterface dialogInterface, int i5) {
+                                NotificationsSettingsActivity.this.lambda$createView$9(i, dialogInterface, i5);
+                            }
+                        });
+                        builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                        create = builder2.create();
+                    }
+                    showDialog(create);
+                }
+                edit.putBoolean(str, z);
+                edit.commit();
+                getNotificationsController().updateBadge();
             }
-            z2 = notificationsSettings2.getBoolean(str2, true);
+            z2 = notificationsSettings.getBoolean(str2, true);
             z4 = z2;
             edit2.putBoolean(str2, !z4);
             edit2.commit();

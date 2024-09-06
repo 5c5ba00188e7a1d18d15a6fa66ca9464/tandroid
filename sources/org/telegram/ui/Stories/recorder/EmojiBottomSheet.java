@@ -227,7 +227,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             for (View view : viewPages) {
                 if (view instanceof IPage) {
                     IPage iPage = (IPage) view;
-                    EmojiBottomSheet.access$6916(EmojiBottomSheet.this, iPage.top() * Utilities.clamp(1.0f - Math.abs(iPage.getTranslationX() / iPage.getMeasuredWidth()), 1.0f, 0.0f));
+                    EmojiBottomSheet.access$7516(EmojiBottomSheet.this, iPage.top() * Utilities.clamp(1.0f - Math.abs(iPage.getTranslationX() / iPage.getMeasuredWidth()), 1.0f, 0.0f));
                     if (iPage.getVisibility() == 0) {
                         iPage.updateTops();
                     }
@@ -920,12 +920,12 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
-    public class GifPage extends IPage {
+    public class GifPage extends IPage implements NotificationCenter.NotificationCenterDelegate {
         public GifAdapter adapter;
-        private HashMap cache;
-        private ArrayList gifs;
+        private final ArrayList gifs;
         public ExtendedGridLayoutManager layoutManager;
         public RecyclerListView listView;
+        private final ArrayList mygifs;
         private ContentPreviewViewer.ContentPreviewViewerDelegate previewDelegate;
         public SearchField searchField;
 
@@ -941,7 +941,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             private Runnable searchRunnable;
 
             private GifAdapter() {
-                this.searchRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$GifAdapter$$ExternalSyntheticLambda2
+                this.searchRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$GifAdapter$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         EmojiBottomSheet.GifPage.GifAdapter.this.request();
@@ -965,7 +965,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
 
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$request$1(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$GifAdapter$$ExternalSyntheticLambda5
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$GifAdapter$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         EmojiBottomSheet.GifPage.GifAdapter.this.lambda$request$0(tLObject);
@@ -983,13 +983,9 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                         if (z) {
                             GifPage.this.gifs.clear();
                         }
-                        int size = GifPage.this.gifs.size();
+                        GifPage.this.gifs.size();
                         GifPage.this.gifs.addAll(tLRPC$messages_BotResults.results);
-                        if (z) {
-                            notifyDataSetChanged();
-                        } else {
-                            notifyItemRangeInserted(size, GifPage.this.gifs.size() - size);
-                        }
+                        notifyDataSetChanged();
                     }
                     GifPage.this.searchField.showProgress(false);
                     this.requesting = false;
@@ -998,7 +994,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
 
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$request$3(final String str, final boolean z, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$GifAdapter$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$GifAdapter$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         EmojiBottomSheet.GifPage.GifAdapter.this.lambda$request$2(tLObject, str, z);
@@ -1010,7 +1006,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             public /* synthetic */ void lambda$request$4(TLObject tLObject, final boolean z, TLRPC$TL_messages_getInlineBotResults tLRPC$TL_messages_getInlineBotResults, final String str) {
                 if (this.requesting) {
                     if (!(tLObject instanceof TLRPC$messages_BotResults)) {
-                        this.currentReqId = ConnectionsManager.getInstance(((BottomSheet) EmojiBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_messages_getInlineBotResults, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$GifAdapter$$ExternalSyntheticLambda0
+                        this.currentReqId = ConnectionsManager.getInstance(((BottomSheet) EmojiBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_messages_getInlineBotResults, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$GifAdapter$$ExternalSyntheticLambda6
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
                                 EmojiBottomSheet.GifPage.GifAdapter.this.lambda$request$3(str, z, tLObject2, tLRPC$TL_error);
@@ -1023,13 +1019,9 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                     if (z) {
                         GifPage.this.gifs.clear();
                     }
-                    int size = GifPage.this.gifs.size();
+                    GifPage.this.gifs.size();
                     GifPage.this.gifs.addAll(tLRPC$messages_BotResults.results);
-                    if (z) {
-                        notifyDataSetChanged();
-                    } else {
-                        notifyItemRangeInserted(size, GifPage.this.gifs.size() - size);
-                    }
+                    notifyDataSetChanged();
                     GifPage.this.searchField.showProgress(false);
                     this.requesting = false;
                 }
@@ -1037,7 +1029,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
 
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$request$5(final boolean z, final TLRPC$TL_messages_getInlineBotResults tLRPC$TL_messages_getInlineBotResults, final String str, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$GifAdapter$$ExternalSyntheticLambda6
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$GifAdapter$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         EmojiBottomSheet.GifPage.GifAdapter.this.lambda$request$4(tLObject, z, tLRPC$TL_messages_getInlineBotResults, str);
@@ -1066,7 +1058,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 if (tLRPC$User == null && !this.requestedBot) {
                     TLRPC$TL_contacts_resolveUsername tLRPC$TL_contacts_resolveUsername = new TLRPC$TL_contacts_resolveUsername();
                     tLRPC$TL_contacts_resolveUsername.username = MessagesController.getInstance(((BottomSheet) EmojiBottomSheet.this).currentAccount).gifSearchBot;
-                    this.currentReqId = ConnectionsManager.getInstance(((BottomSheet) EmojiBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$GifAdapter$$ExternalSyntheticLambda3
+                    this.currentReqId = ConnectionsManager.getInstance(((BottomSheet) EmojiBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$GifAdapter$$ExternalSyntheticLambda1
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             EmojiBottomSheet.GifPage.GifAdapter.this.lambda$request$1(tLObject, tLRPC$TL_error);
@@ -1086,7 +1078,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                     tLRPC$TL_messages_getInlineBotResults.offset = str2 != null ? str2 : "";
                     tLRPC$TL_messages_getInlineBotResults.peer = new TLRPC$TL_inputPeerEmpty();
                     final String str3 = "gif_search_" + tLRPC$TL_messages_getInlineBotResults.query + "_" + tLRPC$TL_messages_getInlineBotResults.offset;
-                    MessagesStorage.getInstance(((BottomSheet) EmojiBottomSheet.this).currentAccount).getBotCache(str3, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$GifAdapter$$ExternalSyntheticLambda4
+                    MessagesStorage.getInstance(((BottomSheet) EmojiBottomSheet.this).currentAccount).getBotCache(str3, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$GifAdapter$$ExternalSyntheticLambda2
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             EmojiBottomSheet.GifPage.GifAdapter.this.lambda$request$5(isEmpty, tLRPC$TL_messages_getInlineBotResults, str3, tLObject, tLRPC$TL_error);
@@ -1095,19 +1087,66 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
+            public void updateRecent(boolean z) {
+                GifPage.this.mygifs.clear();
+                GifPage.this.mygifs.addAll(MediaDataController.getInstance(((BottomSheet) EmojiBottomSheet.this).currentAccount).getRecentGifs());
+                if (z) {
+                    notifyDataSetChanged();
+                }
+            }
+
+            public Object getItem(int i) {
+                ArrayList arrayList;
+                int i2 = i - 1;
+                if (!GifPage.this.mygifs.isEmpty() && TextUtils.isEmpty(this.query)) {
+                    if (i2 >= 0 && i2 < GifPage.this.mygifs.size()) {
+                        arrayList = GifPage.this.mygifs;
+                        return arrayList.get(i2);
+                    }
+                    i2 -= GifPage.this.mygifs.size();
+                }
+                if (GifPage.this.gifs.isEmpty()) {
+                    return null;
+                }
+                if (!GifPage.this.mygifs.isEmpty() && TextUtils.isEmpty(this.query)) {
+                    i2--;
+                }
+                if (i2 < 0 || i2 >= GifPage.this.gifs.size()) {
+                    return null;
+                }
+                arrayList = GifPage.this.gifs;
+                return arrayList.get(i2);
+            }
+
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public int getItemCount() {
-                return GifPage.this.gifs.size() + 1;
+                int i = 0;
+                int size = ((GifPage.this.mygifs.isEmpty() || !TextUtils.isEmpty(this.query)) ? 0 : GifPage.this.mygifs.size()) + 1;
+                if (!GifPage.this.gifs.isEmpty()) {
+                    if (!GifPage.this.mygifs.isEmpty() && TextUtils.isEmpty(this.query)) {
+                        i = 1;
+                    }
+                    i += GifPage.this.gifs.size();
+                }
+                return size + i;
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public int getItemViewType(int i) {
-                return i == 0 ? 0 : 1;
+                if (i == 0) {
+                    return 0;
+                }
+                int i2 = i - 1;
+                if (!GifPage.this.mygifs.isEmpty() && TextUtils.isEmpty(this.query)) {
+                    i2 -= GifPage.this.mygifs.size();
+                }
+                return (GifPage.this.gifs.isEmpty() || GifPage.this.mygifs.isEmpty() || !TextUtils.isEmpty(this.query) || i2 != 0) ? 2 : 1;
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
             public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
-                return viewHolder.getItemViewType() == 1;
+                return viewHolder.getItemViewType() == 2;
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1116,18 +1155,33 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 if (itemViewType == 0) {
                     viewHolder.itemView.setTag(34);
                     viewHolder.itemView.setLayoutParams(new RecyclerView.LayoutParams(-1, (int) EmojiBottomSheet.this.maxPadding));
-                } else if (itemViewType == 1) {
-                    ((ContextLinkCell) viewHolder.itemView).setLink((TLRPC$BotInlineResult) GifPage.this.gifs.get(i - 1), this.bot, true, false, false, true);
+                } else if (itemViewType == 2) {
+                    ContextLinkCell contextLinkCell = (ContextLinkCell) viewHolder.itemView;
+                    Object item = getItem(i);
+                    if (item instanceof TLRPC$Document) {
+                        contextLinkCell.setGif((TLRPC$Document) item, false);
+                    } else if (item instanceof TLRPC$BotInlineResult) {
+                        contextLinkCell.setLink((TLRPC$BotInlineResult) item, this.bot, true, false, false, true);
+                    }
                 }
             }
 
             /* JADX WARN: Multi-variable type inference failed */
-            /* JADX WARN: Type inference failed for: r2v3, types: [android.view.View] */
+            /* JADX WARN: Type inference failed for: r3v3, types: [org.telegram.ui.Cells.StickerSetNameCell, android.view.View] */
+            /* JADX WARN: Type inference failed for: r3v5, types: [android.view.View] */
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 ContextLinkCell contextLinkCell;
                 if (i == 0) {
                     contextLinkCell = new View(GifPage.this.getContext());
+                } else if (i == 1) {
+                    ?? stickerSetNameCell = new StickerSetNameCell(GifPage.this.getContext(), false, ((BottomSheet) EmojiBottomSheet.this).resourcesProvider);
+                    stickerSetNameCell.setText(LocaleController.getString(R.string.FeaturedGifs), 0);
+                    RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(-1, -2);
+                    ((ViewGroup.MarginLayoutParams) layoutParams).topMargin = AndroidUtilities.dp(2.5f);
+                    ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin = AndroidUtilities.dp(5.5f);
+                    stickerSetNameCell.setLayoutParams(layoutParams);
+                    contextLinkCell = stickerSetNameCell;
                 } else {
                     ContextLinkCell contextLinkCell2 = new ContextLinkCell(GifPage.this.getContext());
                     contextLinkCell2.getPhotoImage().setLayerNum(7);
@@ -1148,16 +1202,20 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                     this.requesting = false;
                     this.offset = "";
                 }
+                boolean isEmpty = TextUtils.isEmpty(this.query);
                 this.query = str;
                 AndroidUtilities.cancelRunOnUIThread(this.searchRunnable);
-                if (!TextUtils.isEmpty(str)) {
-                    GifPage.this.searchField.showProgress(true);
-                    AndroidUtilities.runOnUIThread(this.searchRunnable, 1500L);
+                if (TextUtils.isEmpty(str)) {
+                    GifPage.this.gifs.clear();
+                    GifPage.this.searchField.showProgress(false);
+                    notifyDataSetChanged();
                     return;
                 }
-                GifPage.this.gifs.clear();
-                GifPage.this.searchField.showProgress(false);
-                notifyDataSetChanged();
+                if (isEmpty) {
+                    notifyDataSetChanged();
+                }
+                GifPage.this.searchField.showProgress(true);
+                AndroidUtilities.runOnUIThread(this.searchRunnable, 1500L);
             }
         }
 
@@ -1171,7 +1229,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.GifPage.GifLayoutManager.1
                     @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
                     public int getSpanSize(int i) {
-                        return i == 0 ? GifLayoutManager.this.getSpanCount() : GifLayoutManager.this.getSpanSizeForItem(i - 1);
+                        return GifPage.this.adapter.getItem(i) == null ? GifLayoutManager.this.getSpanCount() : GifLayoutManager.this.getSpanSizeForItem(i);
                     }
                 });
             }
@@ -1179,35 +1237,36 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ExtendedGridLayoutManager
             public int getFlowItemCount() {
-                return getItemCount() - 1;
+                return getItemCount();
             }
 
             @Override // org.telegram.ui.Components.ExtendedGridLayoutManager
             protected Size getSizeForItem(int i) {
+                TLRPC$Document tLRPC$Document;
                 ArrayList<TLRPC$DocumentAttribute> arrayList;
-                TLRPC$Document tLRPC$Document = null;
-                ArrayList<TLRPC$DocumentAttribute> arrayList2 = null;
-                if (i < 0 || i >= GifPage.this.gifs.size()) {
-                    arrayList = null;
-                } else {
-                    TLRPC$BotInlineResult tLRPC$BotInlineResult = (TLRPC$BotInlineResult) GifPage.this.gifs.get(i);
-                    TLRPC$Document tLRPC$Document2 = tLRPC$BotInlineResult.document;
-                    if (tLRPC$Document2 != null) {
-                        arrayList2 = tLRPC$Document2.attributes;
-                    } else {
+                this.size.full = false;
+                Object item = GifPage.this.adapter.getItem(i);
+                if (item instanceof TLRPC$BotInlineResult) {
+                    TLRPC$BotInlineResult tLRPC$BotInlineResult = (TLRPC$BotInlineResult) item;
+                    tLRPC$Document = tLRPC$BotInlineResult.document;
+                    if (tLRPC$Document == null) {
                         TLRPC$WebDocument tLRPC$WebDocument = tLRPC$BotInlineResult.content;
                         if (tLRPC$WebDocument != null) {
-                            arrayList2 = tLRPC$WebDocument.attributes;
+                            arrayList = tLRPC$WebDocument.attributes;
                         } else {
                             TLRPC$WebDocument tLRPC$WebDocument2 = tLRPC$BotInlineResult.thumb;
-                            if (tLRPC$WebDocument2 != null) {
-                                arrayList2 = tLRPC$WebDocument2.attributes;
-                            }
+                            arrayList = tLRPC$WebDocument2 != null ? tLRPC$WebDocument2.attributes : null;
                         }
+                        return getSizeForItem(tLRPC$Document, arrayList);
                     }
-                    arrayList = arrayList2;
-                    tLRPC$Document = tLRPC$Document2;
+                } else if (!(item instanceof TLRPC$Document)) {
+                    Size size = this.size;
+                    size.full = true;
+                    return size;
+                } else {
+                    tLRPC$Document = (TLRPC$Document) item;
                 }
+                arrayList = tLRPC$Document.attributes;
                 return getSizeForItem(tLRPC$Document, arrayList);
             }
 
@@ -1218,6 +1277,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 Size size = this.size;
                 size.height = 100.0f;
                 size.width = 100.0f;
+                size.full = false;
                 if (tLRPC$Document != null && (closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90)) != null && (i = closestPhotoSizeWithSize.w) != 0 && (i2 = closestPhotoSizeWithSize.h) != 0) {
                     Size size2 = this.size;
                     size2.width = i;
@@ -1415,8 +1475,8 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                     ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$stickerSetSelected(this, tLRPC$StickerSet, str);
                 }
             };
+            this.mygifs = new ArrayList();
             this.gifs = new ArrayList();
-            this.cache = new HashMap();
             RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.GifPage.1
                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
                 public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
@@ -1436,7 +1496,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             this.listView.addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.GifPage.2
                 @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
                 public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
-                    rect.right = GifPage.this.layoutManager.isLastInRow(recyclerView.getChildAdapterPosition(view) + (-1)) ? 0 : AndroidUtilities.dp(4.0f);
+                    rect.right = GifPage.this.layoutManager.isLastInRow(recyclerView.getChildAdapterPosition(view)) ? 0 : AndroidUtilities.dp(4.0f);
                     rect.bottom = AndroidUtilities.dp(4.0f);
                 }
             });
@@ -1468,7 +1528,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                             EmojiBottomSheet.this.closeKeyboard();
                         }
                     }
-                    if (GifPage.this.layoutManager.findLastCompletelyVisibleItemPosition() + 3 >= GifPage.this.adapter.getItemCount() - 1) {
+                    if (GifPage.this.layoutManager.findLastCompletelyVisibleItemPosition() + 7 >= GifPage.this.adapter.getItemCount() - 1) {
                         GifPage.this.adapter.request();
                     }
                 }
@@ -1488,11 +1548,17 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view, int i) {
-            TLRPC$BotInlineResult tLRPC$BotInlineResult;
             TLRPC$Document tLRPC$Document;
-            int i2 = i - 1;
-            if (i2 < 0 || i2 >= this.gifs.size() || (tLRPC$BotInlineResult = (TLRPC$BotInlineResult) this.gifs.get(i2)) == null || (tLRPC$Document = tLRPC$BotInlineResult.document) == null) {
+            TLRPC$BotInlineResult tLRPC$BotInlineResult;
+            Object item = this.adapter.getItem(i);
+            if (item instanceof TLRPC$BotInlineResult) {
+                tLRPC$BotInlineResult = (TLRPC$BotInlineResult) item;
+                tLRPC$Document = tLRPC$BotInlineResult.document;
+            } else if (!(item instanceof TLRPC$Document)) {
                 return;
+            } else {
+                tLRPC$Document = (TLRPC$Document) item;
+                tLRPC$BotInlineResult = null;
             }
             if (EmojiBottomSheet.this.onDocumentSelected != null) {
                 EmojiBottomSheet.this.onDocumentSelected.run(tLRPC$BotInlineResult, tLRPC$Document, Boolean.TRUE);
@@ -1514,7 +1580,30 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
 
         @Override // org.telegram.ui.Stories.recorder.EmojiBottomSheet.IPage
         public void bind(int i) {
+            this.adapter.updateRecent(false);
+            if (this.gifs.isEmpty() && TextUtils.isEmpty(EmojiBottomSheet.this.query)) {
+                this.adapter.request();
+            }
             this.adapter.updateItems(null);
+        }
+
+        @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+        public void didReceivedNotification(int i, int i2, Object... objArr) {
+            if (i == NotificationCenter.recentDocumentsDidLoad) {
+                this.adapter.updateRecent(true);
+            }
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onAttachedToWindow() {
+            super.onAttachedToWindow();
+            NotificationCenter.getInstance(((BottomSheet) EmojiBottomSheet.this).currentAccount).addObserver(this, NotificationCenter.recentDocumentsDidLoad);
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onDetachedFromWindow() {
+            super.onDetachedFromWindow();
+            NotificationCenter.getInstance(((BottomSheet) EmojiBottomSheet.this).currentAccount).removeObserver(this, NotificationCenter.recentDocumentsDidLoad);
         }
 
         @Override // android.widget.FrameLayout, android.view.View
@@ -2165,7 +2254,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                         storyWidgetsCell2.setOnButtonClickListener(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$Page$Adapter$$ExternalSyntheticLambda2
                             @Override // org.telegram.messenger.Utilities.Callback
                             public final void run(Object obj) {
-                                EmojiBottomSheet.access$5200(EmojiBottomSheet.this, ((Integer) obj).intValue());
+                                EmojiBottomSheet.access$5800(EmojiBottomSheet.this, ((Integer) obj).intValue());
                             }
                         });
                         storyWidgetsCell = storyWidgetsCell2;
@@ -3496,6 +3585,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         if (!z) {
             MediaDataController.getInstance(this.currentAccount).checkStickers(5);
             MediaDataController.getInstance(this.currentAccount).checkFeaturedEmoji();
+            MediaDataController.getInstance(this.currentAccount).loadRecents(0, true, true, false);
         }
         MediaDataController.getInstance(this.currentAccount).checkStickers(0);
         MediaDataController.getInstance(this.currentAccount).loadRecents(0, false, true, false);
@@ -3504,11 +3594,11 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$5200(EmojiBottomSheet emojiBottomSheet, int i) {
+    public static /* synthetic */ void access$5800(EmojiBottomSheet emojiBottomSheet, int i) {
         emojiBottomSheet.lambda$onWidgetClick$1(i);
     }
 
-    static /* synthetic */ float access$6916(EmojiBottomSheet emojiBottomSheet, float f) {
+    static /* synthetic */ float access$7516(EmojiBottomSheet emojiBottomSheet, float f) {
         float f2 = emojiBottomSheet.top + f;
         emojiBottomSheet.top = f2;
         return f2;

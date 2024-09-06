@@ -10650,7 +10650,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
     /* JADX WARN: Removed duplicated region for block: B:181:0x0367  */
     /* JADX WARN: Removed duplicated region for block: B:190:0x0389  */
     /* JADX WARN: Removed duplicated region for block: B:270:0x0498  */
-    /* JADX WARN: Removed duplicated region for block: B:434:0x04b9 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:438:0x04b9 A[SYNTHETIC] */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -11009,7 +11009,9 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                         updateFastScrollVisibility(mediaPage, true);
                     }
                 }
-                this.storiesAdapter.notifyDataSetChanged();
+                if (mediaPage != null) {
+                    AndroidUtilities.notifyDataSetChanged(mediaPage.listView);
+                }
                 Delegate delegate = this.delegate;
                 if (delegate != null) {
                     delegate.updateSelectedMediaTabText();
@@ -11026,7 +11028,9 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                     updateFastScrollVisibility(mediaPage2, true);
                 }
             }
-            this.archivedStoriesAdapter.notifyDataSetChanged();
+            if (mediaPage2 != null) {
+                AndroidUtilities.notifyDataSetChanged(mediaPage2.listView);
+            }
             Delegate delegate2 = this.delegate;
             if (delegate2 != null) {
                 delegate2.updateSelectedMediaTabText();
@@ -11048,7 +11052,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                             }
                         }
                     } else {
-                        this.mediaPages[i21].listView.getAdapter().notifyDataSetChanged();
+                        AndroidUtilities.notifyDataSetChanged(this.mediaPages[i21].listView);
                     }
                 }
                 i21++;
@@ -12109,7 +12113,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                         return;
                     }
                     if (mediaPageArr2[i].selectedType == 7 && this.mediaPages[i].listView.getAdapter() != null) {
-                        this.mediaPages[i].listView.getAdapter().notifyDataSetChanged();
+                        AndroidUtilities.notifyDataSetChanged(this.mediaPages[i].listView);
                     }
                     i++;
                 }
