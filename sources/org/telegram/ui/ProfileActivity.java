@@ -3572,77 +3572,77 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             return r1;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:1000:0x0683, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:1003:0x0683, code lost:
             if (r25 != (org.telegram.ui.ProfileActivity.this.membersSectionRow - 1)) goto L259;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:1003:0x0696, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:1006:0x0696, code lost:
             if (r25 != (org.telegram.ui.ProfileActivity.this.membersSectionRow - 1)) goto L270;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:1008:0x06b1, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:1011:0x06b1, code lost:
             if (r25 != (org.telegram.ui.ProfileActivity.this.membersSectionRow - 1)) goto L270;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:1031:0x07ad, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:1037:0x07c2, code lost:
             if (r25 != (org.telegram.ui.ProfileActivity.this.membersSectionRow - 1)) goto L259;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:1032:0x07af, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:1038:0x07c4, code lost:
             r5 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:1033:0x07b1, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:1039:0x07c6, code lost:
             r5 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:1036:0x07c7, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:1042:0x07dc, code lost:
             if (r25 != (org.telegram.ui.ProfileActivity.this.membersSectionRow - 1)) goto L270;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:1048:0x07fe, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:1054:0x0813, code lost:
             if (r2 == false) goto L268;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:1050:0x0801, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:1056:0x0816, code lost:
             r5 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:805:0x0192, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:808:0x0192, code lost:
             if (org.telegram.ui.ProfileActivity.this.membersSectionRow != (-1)) goto L84;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:815:0x01ba, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:818:0x01ba, code lost:
             if (org.telegram.ui.ProfileActivity.this.sharedMediaRow == (-1)) goto L81;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:848:0x0259, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:851:0x0259, code lost:
             if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_channelParticipantAdmin) != false) goto L133;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:855:0x0269, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:858:0x0269, code lost:
             if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_chatParticipantAdmin) != false) goto L133;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:856:0x026b, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:859:0x026b, code lost:
             r3 = org.telegram.messenger.R.string.ChannelAdmin;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:871:0x02c7, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:874:0x02c7, code lost:
             if (org.telegram.ui.ProfileActivity.this.membersSectionRow != (-1)) goto L156;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:881:0x02ef, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:884:0x02ef, code lost:
             if (org.telegram.ui.ProfileActivity.this.sharedMediaRow == (-1)) goto L81;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:973:0x05b2, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:976:0x05b2, code lost:
             if (r25 != (org.telegram.ui.ProfileActivity.this.membersSectionRow - 1)) goto L259;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:976:0x05d9, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:979:0x05d9, code lost:
             if (r25 != (org.telegram.ui.ProfileActivity.this.membersSectionRow - 1)) goto L259;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:983:0x0602, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:986:0x0602, code lost:
             if (r25 != (org.telegram.ui.ProfileActivity.this.membersSectionRow - 1)) goto L270;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:986:0x0615, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:989:0x0615, code lost:
             if (r25 != (org.telegram.ui.ProfileActivity.this.membersSectionRow - 1)) goto L270;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:993:0x064c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:996:0x064c, code lost:
             if (r25 != (org.telegram.ui.ProfileActivity.this.membersSectionRow - 1)) goto L259;
          */
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:1389:0x1024  */
-        /* JADX WARN: Removed duplicated region for block: B:1391:0x1058  */
-        /* JADX WARN: Removed duplicated region for block: B:859:0x028a  */
-        /* JADX WARN: Removed duplicated region for block: B:860:0x028d  */
-        /* JADX WARN: Removed duplicated region for block: B:925:0x0443 A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:929:0x044e  */
-        /* JADX WARN: Removed duplicated region for block: B:930:0x0451  */
+        /* JADX WARN: Removed duplicated region for block: B:1395:0x103b  */
+        /* JADX WARN: Removed duplicated region for block: B:1397:0x106f  */
+        /* JADX WARN: Removed duplicated region for block: B:862:0x028a  */
+        /* JADX WARN: Removed duplicated region for block: B:863:0x028d  */
+        /* JADX WARN: Removed duplicated region for block: B:928:0x0443 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:932:0x044e  */
+        /* JADX WARN: Removed duplicated region for block: B:933:0x0451  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -4033,22 +4033,26 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     long channelBalance = BotStarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getChannelBalance(j2);
                                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
                                     if (channelBalance > 0) {
-                                        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-                                        decimalFormatSymbols.setDecimalSeparator('.');
-                                        DecimalFormat decimalFormat = new DecimalFormat("#.##", decimalFormatSymbols);
-                                        decimalFormat.setMinimumFractionDigits(2);
-                                        decimalFormat.setMaximumFractionDigits(3);
-                                        decimalFormat.setGroupingUsed(false);
-                                        SpannableStringBuilder append = spannableStringBuilder.append((CharSequence) "TON ");
                                         double d = channelBalance;
                                         Double.isNaN(d);
-                                        append.append((CharSequence) decimalFormat.format(d / 1.0E9d));
+                                        double d2 = d / 1.0E9d;
+                                        if (d2 > 1000.0d) {
+                                            spannableStringBuilder.append((CharSequence) "TON ").append((CharSequence) AndroidUtilities.formatWholeNumber((int) d2, 0));
+                                        } else {
+                                            DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+                                            decimalFormatSymbols.setDecimalSeparator('.');
+                                            DecimalFormat decimalFormat = new DecimalFormat("#.##", decimalFormatSymbols);
+                                            decimalFormat.setMinimumFractionDigits(2);
+                                            decimalFormat.setMaximumFractionDigits(3);
+                                            decimalFormat.setGroupingUsed(false);
+                                            spannableStringBuilder.append((CharSequence) "TON ").append((CharSequence) decimalFormat.format(d2));
+                                        }
                                     }
                                     if (balance > 0) {
                                         if (spannableStringBuilder.length() > 0) {
                                             spannableStringBuilder.append((CharSequence) " ");
                                         }
-                                        spannableStringBuilder.append((CharSequence) "XTR ").append((CharSequence) LocaleController.formatNumber(balance, ','));
+                                        spannableStringBuilder.append((CharSequence) "XTR ").append((CharSequence) AndroidUtilities.formatWholeNumber((int) balance, 0));
                                     }
                                     textCell.setTextAndValueAndIcon((CharSequence) LocaleController.getString(R.string.ChannelStars), ChannelMonetizationLayout.replaceTON(StarsIntroActivity.replaceStarsWithPlain(spannableStringBuilder, 0.7f), textCell.getTextView().getPaint()), R.drawable.menu_feature_paid, true);
                                 } else if (i == ProfileActivity.this.blockedUsersRow) {
