@@ -41083,8 +41083,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:540:0x1b96  */
     /* JADX WARN: Removed duplicated region for block: B:543:0x1bea  */
     /* JADX WARN: Removed duplicated region for block: B:546:0x1c22  */
-    /* JADX WARN: Removed duplicated region for block: B:548:0x1c48  */
-    /* JADX WARN: Removed duplicated region for block: B:557:0x07de A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:555:0x07de A[SYNTHETIC] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -41103,7 +41102,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         int i2;
         Drawable createCircleDrawable;
         Drawable createCircleDrawable2;
-        Timer timer2;
         Drawable createCircleDrawable3;
         Drawable createCircleDrawable4;
         Drawable createCircleDrawable5;
@@ -41964,7 +41962,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         FrameLayout frameLayout7 = new FrameLayout(context);
                                         this.reactionsMentiondownButton = frameLayout7;
                                         this.contentView.addView(frameLayout7, LayoutHelper.createFrame(46, 61.0f, 85, 0.0f, 0.0f, 7.0f, 5.0f));
-                                        timer2 = timer;
+                                        Timer timer2 = timer;
                                         this.mentionContainer = new MentionsContainerView(context, this.dialog_id, this.threadMessageId, this, this.contentView, this.themeDelegate) { // from class: org.telegram.ui.ChatActivity.28
                                             private boolean wasAtTop = true;
 
@@ -43547,9 +43545,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                 this.searchExpandList.setText(LocaleController.getString(R.string.SearchAsChat), false);
                                                 updateSearchListEmptyView();
                                             }
-                                            if (timer2 != null) {
-                                                timer2.finish();
-                                            }
+                                            Timer.finish(timer2);
                                             return this.fragmentView;
                                         }
                                         i6 = this.forumTopic.unread_reactions_count;
@@ -43588,8 +43584,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         }
                                         if (this.chatMode == 7) {
                                         }
-                                        if (timer2 != null) {
-                                        }
+                                        Timer.finish(timer2);
                                         return this.fragmentView;
                                     }
                                 }
@@ -43900,7 +43895,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 FrameLayout frameLayout72 = new FrameLayout(context);
                                 this.reactionsMentiondownButton = frameLayout72;
                                 this.contentView.addView(frameLayout72, LayoutHelper.createFrame(46, 61.0f, 85, 0.0f, 0.0f, 7.0f, 5.0f));
-                                timer2 = timer;
+                                Timer timer22 = timer;
                                 this.mentionContainer = new MentionsContainerView(context, this.dialog_id, this.threadMessageId, this, this.contentView, this.themeDelegate) { // from class: org.telegram.ui.ChatActivity.28
                                     private boolean wasAtTop = true;
 
@@ -45109,8 +45104,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 }
                                 if (this.chatMode == 7) {
                                 }
-                                if (timer2 != null) {
-                                }
+                                Timer.finish(timer22);
                                 return this.fragmentView;
                             }
                         }
@@ -45467,7 +45461,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 FrameLayout frameLayout722 = new FrameLayout(context);
                                 this.reactionsMentiondownButton = frameLayout722;
                                 this.contentView.addView(frameLayout722, LayoutHelper.createFrame(46, 61.0f, 85, 0.0f, 0.0f, 7.0f, 5.0f));
-                                timer2 = timer;
+                                Timer timer222 = timer;
                                 this.mentionContainer = new MentionsContainerView(context, this.dialog_id, this.threadMessageId, this, this.contentView, this.themeDelegate) { // from class: org.telegram.ui.ChatActivity.28
                                     private boolean wasAtTop = true;
 
@@ -46549,8 +46543,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 }
                                 if (this.chatMode == 7) {
                                 }
-                                if (timer2 != null) {
-                                }
+                                Timer.finish(timer222);
                                 return this.fragmentView;
                             }
                             TLRPC$User tLRPC$User4 = this.currentUser;
@@ -46902,7 +46895,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             FrameLayout frameLayout7222 = new FrameLayout(context);
                             this.reactionsMentiondownButton = frameLayout7222;
                             this.contentView.addView(frameLayout7222, LayoutHelper.createFrame(46, 61.0f, 85, 0.0f, 0.0f, 7.0f, 5.0f));
-                            timer2 = timer;
+                            Timer timer2222 = timer;
                             this.mentionContainer = new MentionsContainerView(context, this.dialog_id, this.threadMessageId, this, this.contentView, this.themeDelegate) { // from class: org.telegram.ui.ChatActivity.28
                                 private boolean wasAtTop = true;
 
@@ -47984,8 +47977,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                             if (this.chatMode == 7) {
                             }
-                            if (timer2 != null) {
-                            }
+                            Timer.finish(timer2222);
                             return this.fragmentView;
                         }
                     }
@@ -48326,7 +48318,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     FrameLayout frameLayout72222 = new FrameLayout(context);
                     this.reactionsMentiondownButton = frameLayout72222;
                     this.contentView.addView(frameLayout72222, LayoutHelper.createFrame(46, 61.0f, 85, 0.0f, 0.0f, 7.0f, 5.0f));
-                    timer2 = timer;
+                    Timer timer22222 = timer;
                     this.mentionContainer = new MentionsContainerView(context, this.dialog_id, this.threadMessageId, this, this.contentView, this.themeDelegate) { // from class: org.telegram.ui.ChatActivity.28
                         private boolean wasAtTop = true;
 
@@ -49408,8 +49400,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     if (this.chatMode == 7) {
                     }
-                    if (timer2 != null) {
-                    }
+                    Timer.finish(timer22222);
                     return this.fragmentView;
                 }
                 actionBarMenu3 = createMenu;
@@ -49788,7 +49779,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 FrameLayout frameLayout722222 = new FrameLayout(context);
                 this.reactionsMentiondownButton = frameLayout722222;
                 this.contentView.addView(frameLayout722222, LayoutHelper.createFrame(46, 61.0f, 85, 0.0f, 0.0f, 7.0f, 5.0f));
-                timer2 = timer;
+                Timer timer222222 = timer;
                 this.mentionContainer = new MentionsContainerView(context, this.dialog_id, this.threadMessageId, this, this.contentView, this.themeDelegate) { // from class: org.telegram.ui.ChatActivity.28
                     private boolean wasAtTop = true;
 
@@ -50870,8 +50861,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 if (this.chatMode == 7) {
                 }
-                if (timer2 != null) {
-                }
+                Timer.finish(timer222222);
                 return this.fragmentView;
             }
             actionBarMenu = createMenu;
@@ -51230,7 +51220,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         FrameLayout frameLayout7222222 = new FrameLayout(context);
         this.reactionsMentiondownButton = frameLayout7222222;
         this.contentView.addView(frameLayout7222222, LayoutHelper.createFrame(46, 61.0f, 85, 0.0f, 0.0f, 7.0f, 5.0f));
-        timer2 = timer;
+        Timer timer2222222 = timer;
         this.mentionContainer = new MentionsContainerView(context, this.dialog_id, this.threadMessageId, this, this.contentView, this.themeDelegate) { // from class: org.telegram.ui.ChatActivity.28
             private boolean wasAtTop = true;
 
@@ -52312,8 +52302,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
         if (this.chatMode == 7) {
         }
-        if (timer2 != null) {
-        }
+        Timer.finish(timer2222222);
         return this.fragmentView;
     }
 
