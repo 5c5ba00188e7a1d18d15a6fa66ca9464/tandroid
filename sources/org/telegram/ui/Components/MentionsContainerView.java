@@ -153,8 +153,8 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
                     MentionsListView.this = this;
                 }
 
-                /* JADX WARN: Code restructure failed: missing block: B:43:0x005e, code lost:
-                    if (org.telegram.ui.Components.MentionsContainerView.this.gridLayoutManager.isFirstRow(r5) == false) goto L14;
+                /* JADX WARN: Code restructure failed: missing block: B:43:0x005c, code lost:
+                    if (org.telegram.ui.Components.MentionsContainerView.this.gridLayoutManager.isFirstRow(r4) == false) goto L14;
                  */
                 @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
                 /*
@@ -166,21 +166,17 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
                     rect.right = 0;
                     rect.top = 0;
                     rect.bottom = 0;
-                    if (recyclerView.getLayoutManager() != MentionsContainerView.this.gridLayoutManager || (childAdapterPosition = recyclerView.getChildAdapterPosition(view)) == 0) {
-                        return;
-                    }
-                    int i = childAdapterPosition - 1;
-                    if (MentionsContainerView.this.adapter.isStickers()) {
+                    if (recyclerView.getLayoutManager() != MentionsContainerView.this.gridLayoutManager || (childAdapterPosition = recyclerView.getChildAdapterPosition(view)) == 0 || MentionsContainerView.this.adapter.isStickers()) {
                         return;
                     }
                     if (MentionsContainerView.this.adapter.getBotContextSwitch() != null || MentionsContainerView.this.adapter.getBotWebViewSwitch() != null) {
-                        if (i == 0) {
+                        if (childAdapterPosition == 0) {
                             return;
                         }
-                        i = childAdapterPosition - 2;
+                        childAdapterPosition--;
                     }
                     rect.top = AndroidUtilities.dp(2.0f);
-                    rect.right = MentionsContainerView.this.gridLayoutManager.isLastInRow(i) ? 0 : AndroidUtilities.dp(2.0f);
+                    rect.right = MentionsContainerView.this.gridLayoutManager.isLastInRow(childAdapterPosition) ? 0 : AndroidUtilities.dp(2.0f);
                 }
             });
         }
@@ -382,7 +378,7 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
 
             @Override // org.telegram.ui.Components.ExtendedGridLayoutManager
             public int getFlowItemCount() {
-                return (MentionsContainerView.this.adapter.getBotContextSwitch() == null && MentionsContainerView.this.adapter.getBotWebViewSwitch() == null) ? super.getFlowItemCount() - 1 : getItemCount() - 2;
+                return (MentionsContainerView.this.adapter.getBotContextSwitch() == null && MentionsContainerView.this.adapter.getBotWebViewSwitch() == null) ? super.getFlowItemCount() : getItemCount() - 1;
             }
 
             @Override // org.telegram.ui.Components.ExtendedGridLayoutManager

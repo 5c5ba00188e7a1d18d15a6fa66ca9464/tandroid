@@ -6430,7 +6430,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public void onDismissWithTouchOutside() {
+    protected void onDismissWithTouchOutside() {
         if (this.currentAttachLayout.onDismissWithTouchOutside()) {
             dismiss();
         }

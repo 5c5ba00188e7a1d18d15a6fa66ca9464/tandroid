@@ -2604,8 +2604,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
     public void onDismissAnimationStart() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onDismissWithTouchOutside() {
+    protected void onDismissWithTouchOutside() {
         dismiss();
     }
 
