@@ -7465,7 +7465,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             int dialogsType = dialogsAdapter.getDialogsType();
             if (dialogsType == 7 || dialogsType == 8) {
                 MessagesController.DialogFilter dialogFilter = getMessagesController().selectedDialogFilter[dialogsType == 7 ? (char) 0 : (char) 1];
-                if (dialogFilter == null) {
+                if (dialogFilter != null) {
                     i5 = dialogFilter.id;
                     item = dialogsAdapter.getItem(i);
                     if (!(item instanceof TLRPC$User)) {
@@ -15453,6 +15453,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         final boolean z;
         boolean z2;
         int checkSelfPermission3;
+        ViewPage viewPage;
         View view;
         super.onResume();
         DialogStoriesCell dialogStoriesCell = this.dialogStoriesCell;
@@ -15642,6 +15643,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         updateProxyButton(false, true);
         updateStoriesVisibility(false);
         checkSuggestClearDatabase();
+        if (this.filterTabsView == null || (viewPage = this.viewPages[0]) == null || viewPage.dialogsAdapter == null) {
+            return;
+        }
+        int dialogsType = this.viewPages[0].dialogsAdapter.getDialogsType();
+        if (dialogsType == 7 || dialogsType == 8) {
+            MessagesController.DialogFilter dialogFilter = getMessagesController().selectedDialogFilter[dialogsType != 7 ? (char) 1 : (char) 0];
+            if (dialogFilter != null) {
+                this.filterTabsView.selectTabWithStableId(dialogFilter.localId);
+            }
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
