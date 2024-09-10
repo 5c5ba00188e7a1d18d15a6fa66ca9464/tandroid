@@ -675,6 +675,7 @@ public class NotificationsController extends BaseController {
     }
 
     private void dismissNotification() {
+        FileLog.d("NotificationsController dismissNotification");
         try {
             notificationManager.cancel(this.notificationId);
             this.pushMessages.clear();
@@ -4582,8 +4583,8 @@ public class NotificationsController extends BaseController {
     /* JADX WARN: Code restructure failed: missing block: B:16:0x004a, code lost:
         if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionUserJoined) == false) goto L20;
      */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0190  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x01d5  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x01a8  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x020d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4595,33 +4596,37 @@ public class NotificationsController extends BaseController {
         long j;
         boolean z4;
         long j2;
+        long j3;
+        LongSparseArray longSparseArray;
         int i3;
         boolean z5;
         MessageObject messageObject;
-        long j3;
-        SparseArray sparseArray;
         long j4;
         long j5;
         long j6;
-        int i4;
+        LongSparseArray longSparseArray2;
+        SparseArray sparseArray;
         long j7;
-        boolean z6;
         long j8;
+        boolean z6;
+        long j9;
         SparseArray sparseArray2;
+        String str;
+        long j10;
         MessageObject messageObject2;
         TLRPC$Message tLRPC$Message;
         ArrayList arrayList3 = arrayList;
-        LongSparseArray longSparseArray = new LongSparseArray();
+        LongSparseArray longSparseArray3 = new LongSparseArray();
         SharedPreferences notificationsSettings = getAccountInstance().getNotificationsSettings();
         boolean z7 = notificationsSettings.getBoolean("PinnedMessages", true);
+        int i4 = 0;
         int i5 = 0;
-        int i6 = 0;
         boolean z8 = false;
         boolean z9 = false;
         boolean z10 = false;
         boolean z11 = false;
-        while (i6 < arrayList.size()) {
-            MessageObject messageObject3 = (MessageObject) arrayList3.get(i6);
+        while (i5 < arrayList.size()) {
+            MessageObject messageObject3 = (MessageObject) arrayList3.get(i5);
             if (messageObject3.messageOwner != null) {
                 if (!messageObject3.isImportedForward()) {
                     TLRPC$Message tLRPC$Message2 = messageObject3.messageOwner;
@@ -4633,12 +4638,16 @@ public class NotificationsController extends BaseController {
                         }
                     }
                 }
+                FileLog.d("skipped message because 1");
+                longSparseArray = longSparseArray3;
                 z3 = z7;
-                i3 = i6;
+                i3 = i5;
                 z5 = z8;
                 z8 = z5;
-                i6 = i3 + 1;
+                longSparseArray2 = longSparseArray;
+                i5 = i3 + 1;
                 arrayList3 = arrayList;
+                longSparseArray3 = longSparseArray2;
                 z7 = z3;
             }
             if (!MessageObject.isTopicActionMessage(messageObject3)) {
@@ -4670,13 +4679,14 @@ public class NotificationsController extends BaseController {
                     Collections.sort(this.storyPushMessages, Comparator$-CC.comparingLong(new ToLongFunction() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda24
                         @Override // j$.util.function.ToLongFunction
                         public final long applyAsLong(Object obj) {
-                            long j9;
-                            j9 = ((NotificationsController.StoryNotification) obj).date;
-                            return j9;
+                            long j11;
+                            j11 = ((NotificationsController.StoryNotification) obj).date;
+                            return j11;
                         }
                     }));
+                    longSparseArray2 = longSparseArray3;
                     z3 = z7;
-                    i3 = i6;
+                    i3 = i5;
                 } else {
                     int id2 = messageObject3.getId();
                     if (messageObject3.isFcmMessage()) {
@@ -4699,34 +4709,44 @@ public class NotificationsController extends BaseController {
                         z4 = false;
                     }
                     if (messageObject3.isStoryReactionPush) {
-                        j2 = messageObject3.getDialogId();
+                        long j11 = j;
+                        j3 = messageObject3.getDialogId();
+                        j2 = j11;
                     } else {
-                        long j9 = messageObject3.messageOwner.peer_id.channel_id;
-                        j2 = j9 != 0 ? -j9 : 0L;
+                        j2 = j;
+                        long j12 = messageObject3.messageOwner.peer_id.channel_id;
+                        j3 = j12 != 0 ? -j12 : 0L;
                     }
-                    SparseArray sparseArray3 = (SparseArray) this.pushMessagesDict.get(j2);
+                    SparseArray sparseArray3 = (SparseArray) this.pushMessagesDict.get(j3);
                     MessageObject messageObject4 = sparseArray3 != null ? (MessageObject) sparseArray3.get(id2) : null;
-                    long j10 = j;
+                    MessageObject messageObject5 = messageObject4;
                     if (messageObject4 == null) {
-                        long j11 = messageObject3.messageOwner.random_id;
-                        if (j11 != 0 && (messageObject4 = (MessageObject) this.fcmRandomMessagesDict.get(j11)) != null) {
-                            i3 = i6;
-                            z5 = z8;
-                            this.fcmRandomMessagesDict.remove(messageObject3.messageOwner.random_id);
-                            messageObject = messageObject4;
+                        i3 = i5;
+                        z5 = z8;
+                        long j13 = messageObject3.messageOwner.random_id;
+                        if (j13 != 0) {
+                            messageObject = (MessageObject) this.fcmRandomMessagesDict.get(j13);
+                            if (messageObject != null) {
+                                longSparseArray = longSparseArray3;
+                                this.fcmRandomMessagesDict.remove(messageObject3.messageOwner.random_id);
+                            } else {
+                                longSparseArray = longSparseArray3;
+                            }
                             if (messageObject == null) {
                                 if (messageObject.isFcmMessage()) {
                                     if (sparseArray3 == null) {
                                         sparseArray3 = new SparseArray();
-                                        this.pushMessagesDict.put(j2, sparseArray3);
+                                        this.pushMessagesDict.put(j3, sparseArray3);
                                     }
                                     sparseArray3.put(id2, messageObject3);
                                     int indexOf = this.pushMessages.indexOf(messageObject);
                                     if (indexOf >= 0) {
                                         this.pushMessages.set(indexOf, messageObject3);
+                                        j10 = j3;
                                         messageObject2 = messageObject3;
-                                        i5 = addToPopupMessages(arrayList2, messageObject3, dialogId2, z4, notificationsSettings);
+                                        i4 = addToPopupMessages(arrayList2, messageObject3, dialogId2, z4, notificationsSettings);
                                     } else {
+                                        j10 = j3;
                                         messageObject2 = messageObject3;
                                     }
                                     if (z) {
@@ -4736,113 +4756,164 @@ public class NotificationsController extends BaseController {
                                         }
                                         z9 = z14;
                                     }
+                                } else {
+                                    j10 = j3;
                                 }
-                            } else if (!z9) {
-                                if (z) {
-                                    getMessagesStorage().putPushMessage(messageObject3);
-                                }
-                                long topicId = MessageObject.getTopicId(this.currentAccount, messageObject3.messageOwner, getMessagesController().isForum(messageObject3));
-                                if (dialogId2 != this.openedDialogId || !ApplicationLoader.isScreenOn || messageObject3.isStoryReactionPush) {
-                                    TLRPC$Message tLRPC$Message3 = messageObject3.messageOwner;
-                                    if (!tLRPC$Message3.mentioned) {
-                                        j3 = dialogId2;
-                                    } else if (z3 || !(tLRPC$Message3.action instanceof TLRPC$TL_messageActionPinMessage)) {
-                                        j3 = messageObject3.getFromChatId();
+                                str = "skipped message because old message with same dialog and message ids exist: did=" + j10 + ", mid=" + id2;
+                            } else {
+                                long j14 = j3;
+                                if (z9) {
+                                    str = "skipped message because edited";
+                                } else {
+                                    if (z) {
+                                        getMessagesStorage().putPushMessage(messageObject3);
                                     }
-                                    if (isPersonalMessage(messageObject3)) {
-                                        this.personalCount++;
-                                    }
-                                    DialogObject.isChatDialog(j3);
-                                    int indexOfKey = longSparseArray.indexOfKey(j3);
-                                    if (indexOfKey < 0 || topicId != 0) {
-                                        sparseArray = sparseArray3;
-                                        j4 = dialogId2;
-                                        j5 = j10;
-                                        long j12 = j3;
-                                        j6 = j2;
-                                        i4 = i5;
-                                        int notifyOverride = getNotifyOverride(notificationsSettings, j3, topicId);
-                                        boolean isGlobalNotificationsEnabled = notifyOverride == -1 ? isGlobalNotificationsEnabled(j12, Boolean.valueOf(z4), messageObject3.isReactionPush, messageObject3.isStoryReactionPush) : notifyOverride != 2;
-                                        j7 = j12;
-                                        longSparseArray.put(j7, Boolean.valueOf(isGlobalNotificationsEnabled));
-                                        z6 = isGlobalNotificationsEnabled;
+                                    long topicId = MessageObject.getTopicId(this.currentAccount, messageObject3.messageOwner, getMessagesController().isForum(messageObject3));
+                                    if (dialogId2 == this.openedDialogId && ApplicationLoader.isScreenOn && !messageObject3.isStoryReactionPush) {
+                                        if (!z) {
+                                            playInChatSound();
+                                        }
+                                        str = "skipped message because chat is already opened (openedDialogId = " + this.openedDialogId + ")";
                                     } else {
-                                        z6 = ((Boolean) longSparseArray.valueAt(indexOfKey)).booleanValue();
-                                        sparseArray = sparseArray3;
-                                        j6 = j2;
-                                        i4 = i5;
-                                        j4 = dialogId2;
-                                        j5 = j10;
-                                        j7 = j3;
-                                    }
-                                    if (z6) {
-                                        if (z) {
-                                            j8 = j7;
-                                            i5 = i4;
+                                        TLRPC$Message tLRPC$Message3 = messageObject3.messageOwner;
+                                        if (!tLRPC$Message3.mentioned) {
+                                            j4 = dialogId2;
+                                        } else if (z3 || !(tLRPC$Message3.action instanceof TLRPC$TL_messageActionPinMessage)) {
+                                            j4 = messageObject3.getFromChatId();
                                         } else {
-                                            j8 = j7;
-                                            i5 = addToPopupMessages(arrayList2, messageObject3, j7, z4, notificationsSettings);
+                                            str = "skipped message because message is mention of pinned";
                                         }
-                                        if (!z10) {
-                                            z10 = messageObject3.messageOwner.from_scheduled;
+                                        if (isPersonalMessage(messageObject3)) {
+                                            this.personalCount++;
                                         }
-                                        this.delayedPushMessages.add(messageObject3);
-                                        appendMessage(messageObject3);
-                                        if (id2 != 0) {
-                                            if (sparseArray == null) {
-                                                sparseArray2 = new SparseArray();
-                                                this.pushMessagesDict.put(j6, sparseArray2);
+                                        DialogObject.isChatDialog(j4);
+                                        LongSparseArray longSparseArray4 = longSparseArray;
+                                        int indexOfKey = longSparseArray4.indexOfKey(j4);
+                                        int i6 = i4;
+                                        if (indexOfKey < 0 || topicId != 0) {
+                                            j5 = dialogId2;
+                                            j6 = j2;
+                                            longSparseArray2 = longSparseArray4;
+                                            long j15 = j4;
+                                            sparseArray = sparseArray3;
+                                            boolean z15 = z4;
+                                            j7 = j14;
+                                            int notifyOverride = getNotifyOverride(notificationsSettings, j4, topicId);
+                                            if (notifyOverride == -1) {
+                                                z6 = isGlobalNotificationsEnabled(j15, Boolean.valueOf(z15), messageObject3.isReactionPush, messageObject3.isStoryReactionPush);
+                                                StringBuilder sb = new StringBuilder();
+                                                sb.append("NotificationsController: process new messages, isGlobalNotificationsEnabled(");
+                                                j8 = j15;
+                                                sb.append(j8);
+                                                sb.append(", ");
+                                                z4 = z15;
+                                                sb.append(z4);
+                                                sb.append(", ");
+                                                sb.append(messageObject3.isReactionPush);
+                                                sb.append(", ");
+                                                sb.append(messageObject3.isStoryReactionPush);
+                                                sb.append(") = ");
+                                                sb.append(z6);
+                                                FileLog.d(sb.toString());
                                             } else {
-                                                sparseArray2 = sparseArray;
+                                                z4 = z15;
+                                                j8 = j15;
+                                                z6 = notifyOverride != 2;
                                             }
-                                            sparseArray2.put(id2, messageObject3);
-                                        } else if (j5 != 0) {
-                                            this.fcmRandomMessagesDict.put(j5, messageObject3);
+                                            longSparseArray2.put(j8, Boolean.valueOf(z6));
+                                        } else {
+                                            z6 = ((Boolean) longSparseArray4.valueAt(indexOfKey)).booleanValue();
+                                            j7 = j14;
+                                            j5 = dialogId2;
+                                            j6 = j2;
+                                            longSparseArray2 = longSparseArray4;
+                                            sparseArray = sparseArray3;
+                                            j8 = j4;
                                         }
-                                        if (j4 != j8) {
-                                            long j13 = j4;
-                                            Integer num2 = (Integer) this.pushDialogsOverrideMention.get(j13);
-                                            this.pushDialogsOverrideMention.put(j13, Integer.valueOf(num2 == null ? 1 : num2.intValue() + 1));
+                                        FileLog.d("NotificationsController: process new messages, value is " + z6 + " (" + j8 + ", " + z4 + ", " + messageObject3.isReactionPush + ", " + messageObject3.isStoryReactionPush + ")");
+                                        if (z6) {
+                                            if (z) {
+                                                j9 = j8;
+                                                i4 = i6;
+                                            } else {
+                                                j9 = j8;
+                                                i4 = addToPopupMessages(arrayList2, messageObject3, j8, z4, notificationsSettings);
+                                            }
+                                            if (!z10) {
+                                                z10 = messageObject3.messageOwner.from_scheduled;
+                                            }
+                                            this.delayedPushMessages.add(messageObject3);
+                                            appendMessage(messageObject3);
+                                            if (id2 != 0) {
+                                                if (sparseArray == null) {
+                                                    sparseArray2 = new SparseArray();
+                                                    this.pushMessagesDict.put(j7, sparseArray2);
+                                                } else {
+                                                    sparseArray2 = sparseArray;
+                                                }
+                                                sparseArray2.put(id2, messageObject3);
+                                            } else {
+                                                long j16 = j6;
+                                                if (j16 != 0) {
+                                                    this.fcmRandomMessagesDict.put(j16, messageObject3);
+                                                }
+                                            }
+                                            if (j5 != j9) {
+                                                long j17 = j5;
+                                                Integer num2 = (Integer) this.pushDialogsOverrideMention.get(j17);
+                                                this.pushDialogsOverrideMention.put(j17, Integer.valueOf(num2 == null ? 1 : num2.intValue() + 1));
+                                            }
+                                        } else {
+                                            j9 = j8;
+                                            i4 = i6;
                                         }
-                                    } else {
-                                        j8 = j7;
-                                        i5 = i4;
+                                        if (messageObject3.isReactionPush) {
+                                            SparseBooleanArray sparseBooleanArray = new SparseBooleanArray();
+                                            sparseBooleanArray.put(id2, true);
+                                            getMessagesController().checkUnreadReactions(j9, topicId, sparseBooleanArray);
+                                        }
+                                        z8 = true;
                                     }
-                                    if (messageObject3.isReactionPush) {
-                                        SparseBooleanArray sparseBooleanArray = new SparseBooleanArray();
-                                        sparseBooleanArray.put(id2, true);
-                                        getMessagesController().checkUnreadReactions(j8, topicId, sparseBooleanArray);
-                                    }
-                                    z8 = true;
-                                } else if (!z) {
-                                    playInChatSound();
                                 }
                             }
+                            FileLog.d(str);
                             z8 = z5;
+                            longSparseArray2 = longSparseArray;
+                        } else {
+                            longSparseArray = longSparseArray3;
                         }
+                    } else {
+                        longSparseArray = longSparseArray3;
+                        i3 = i5;
+                        z5 = z8;
                     }
-                    i3 = i6;
-                    z5 = z8;
-                    messageObject = messageObject4;
+                    messageObject = messageObject5;
                     if (messageObject == null) {
                     }
+                    FileLog.d(str);
                     z8 = z5;
+                    longSparseArray2 = longSparseArray;
                 }
-                i6 = i3 + 1;
+                i5 = i3 + 1;
                 arrayList3 = arrayList;
+                longSparseArray3 = longSparseArray2;
                 z7 = z3;
             }
+            FileLog.d("skipped message because 1");
+            longSparseArray = longSparseArray3;
             z3 = z7;
-            i3 = i6;
+            i3 = i5;
             z5 = z8;
             z8 = z5;
-            i6 = i3 + 1;
+            longSparseArray2 = longSparseArray;
+            i5 = i3 + 1;
             arrayList3 = arrayList;
+            longSparseArray3 = longSparseArray2;
             z7 = z3;
         }
-        final int i7 = i5;
-        boolean z15 = z8;
-        if (z15) {
+        final int i7 = i4;
+        boolean z16 = z8;
+        if (z16) {
             this.notifyCheck = z2;
         }
         if (!arrayList2.isEmpty() && !AndroidUtilities.needShowPasscode() && !SharedConfig.isWaitingForPasscodeEnter) {
@@ -4855,16 +4926,18 @@ public class NotificationsController extends BaseController {
         }
         if (z || z10) {
             if (z9) {
+                FileLog.d("NotificationsController processNewMessages: edited branch, showOrUpdateNotification " + this.notifyCheck);
                 this.delayedPushMessages.clear();
                 showOrUpdateNotification(this.notifyCheck);
-            } else if (z15) {
-                MessageObject messageObject5 = (MessageObject) arrayList.get(0);
-                long dialogId3 = messageObject5.getDialogId();
-                long topicId2 = MessageObject.getTopicId(this.currentAccount, messageObject5.messageOwner, getMessagesController().isForum(dialogId3));
-                Boolean valueOf = messageObject5.isFcmMessage() ? Boolean.valueOf(messageObject5.localChannel) : null;
+            } else if (z16) {
+                FileLog.d("NotificationsController processNewMessages: added branch");
+                MessageObject messageObject6 = (MessageObject) arrayList.get(0);
+                long dialogId3 = messageObject6.getDialogId();
+                long topicId2 = MessageObject.getTopicId(this.currentAccount, messageObject6.messageOwner, getMessagesController().isForum(dialogId3));
+                Boolean valueOf = messageObject6.isFcmMessage() ? Boolean.valueOf(messageObject6.localChannel) : null;
                 int i8 = this.total_unread_count;
                 int notifyOverride2 = getNotifyOverride(notificationsSettings, dialogId3, topicId2);
-                boolean isGlobalNotificationsEnabled2 = notifyOverride2 == -1 ? isGlobalNotificationsEnabled(dialogId3, valueOf, messageObject5.isReactionPush, messageObject5.isStoryReactionPush) : notifyOverride2 != 2;
+                boolean isGlobalNotificationsEnabled = notifyOverride2 == -1 ? isGlobalNotificationsEnabled(dialogId3, valueOf, messageObject6.isReactionPush, messageObject6.isStoryReactionPush) : notifyOverride2 != 2;
                 Integer num3 = (Integer) this.pushDialogs.get(dialogId3);
                 if (num3 != null) {
                     i = 1;
@@ -4873,11 +4946,11 @@ public class NotificationsController extends BaseController {
                     i = 1;
                     i2 = 1;
                 }
-                if (this.notifyCheck && !isGlobalNotificationsEnabled2 && (num = (Integer) this.pushDialogsOverrideMention.get(dialogId3)) != null && num.intValue() != 0) {
+                if (this.notifyCheck && !isGlobalNotificationsEnabled && (num = (Integer) this.pushDialogsOverrideMention.get(dialogId3)) != null && num.intValue() != 0) {
                     i2 = num.intValue();
-                    isGlobalNotificationsEnabled2 = true;
+                    isGlobalNotificationsEnabled = true;
                 }
-                if (isGlobalNotificationsEnabled2 && !messageObject5.isStoryPush) {
+                if (isGlobalNotificationsEnabled && !messageObject6.isStoryPush) {
                     if (getMessagesController().isForum(dialogId3)) {
                         int i9 = this.total_unread_count - ((num3 == null || num3.intValue() <= 0) ? 0 : 1);
                         this.total_unread_count = i9;
@@ -4895,6 +4968,7 @@ public class NotificationsController extends BaseController {
                 }
                 if (i8 != this.total_unread_count || z11) {
                     this.delayedPushMessages.clear();
+                    FileLog.d("NotificationsController processNewMessages: added branch: " + this.notifyCheck);
                     showOrUpdateNotification(this.notifyCheck);
                     final int size = this.pushDialogs.size();
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda26
@@ -5673,14 +5747,15 @@ public class NotificationsController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0055  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x005b  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x005a  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0060  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void resetNotificationSound(NotificationCompat.Builder builder, long j, long j2, String str, long[] jArr, int i, Uri uri, int i2, boolean z, boolean z2, boolean z3, int i3) {
         String str2;
         String str3;
+        FileLog.d("resetNotificationSound");
         Uri uri2 = Settings.System.DEFAULT_RINGTONE_URI;
         if (uri2 == null || uri == null || TextUtils.equals(uri2.toString(), uri.toString())) {
             return;
@@ -5777,103 +5852,64 @@ public class NotificationsController extends BaseController {
         builder.setChannelId(z ? OTHER_NOTIFICATIONS_CHANNEL : notification.getChannelId());
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(86:54|(2:56|(3:58|59|60)(4:61|(2:64|62)|65|66))(1:702)|67|(1:69)(2:(1:699)(1:701)|700)|70|(4:73|(2:75|76)(1:78)|77|71)|79|80|(5:82|(2:(1:85)(1:604)|86)(1:605)|(1:603)(2:92|(2:96|97))|602|97)(2:606|(4:(1:681)(1:615)|616|(7:618|(2:620|(1:622)(5:634|(2:636|637)|638|349|350))(2:639|(6:643|(1:645)|624|625|(1:627)(2:629|(1:631)(2:632|633))|628))|623|624|625|(0)(0)|628)(2:647|(2:649|(1:651)(5:652|(2:654|637)|638|349|350))(9:655|(1:680)(1:659)|660|(1:679)(2:664|(1:666))|678|668|(2:670|(2:672|(1:674)(2:675|633)))(1:677)|676|(0)(0)))|60)(3:682|(6:684|(3:686|(2:688|689)|690)(2:691|(3:693|(2:695|689)|690))|348|349|350|60)(1:697)|696))|(1:103)|(4:105|(1:107)(1:600)|108|109)(1:601)|110|(3:112|(3:114|(1:116)(3:587|588|(3:590|(1:592)(1:594)|593))|117)(1:598)|595)(1:599)|(3:119|(1:125)|126)(1:586)|127|(3:581|(1:583)(1:585)|584)(2:130|131)|132|(1:134)|135|(1:137)(1:573)|138|(2:571|572)(1:142)|143|144|(3:147|(1:149)|(3:151|152|(64:156|157|158|(54:162|163|164|(1:559)(1:168)|169|(1:558)(1:172)|173|174|(1:557)|181|(1:556)(1:188)|189|(14:191|(1:193)(2:345|(5:347|348|349|350|60)(2:351|(1:(1:354)(11:355|195|196|197|(2:200|198)|201|202|(1:344)(1:205)|206|(1:208)(1:343)|209))(2:356|(11:358|196|197|(1:198)|201|202|(0)|344|206|(0)(0)|209)(11:359|(1:364)(1:363)|197|(1:198)|201|202|(0)|344|206|(0)(0)|209))))|194|195|196|197|(1:198)|201|202|(0)|344|206|(0)(0)|209)(4:365|(6:367|(3:373|(1:375)(2:549|(1:553))|(2:377|(1:379))(23:380|(1:382)|383|(2:545|(1:547)(1:548))(1:389)|390|391|(12:(1:394)(2:541|(1:543))|395|(2:(1:410)(2:398|(2:(2:401|(1:403))(1:406)|404)(2:407|(2:409|404)))|405)|411|(3:510|(1:540)(3:516|(2:538|539)(4:519|(1:523)|(1:537)(2:529|(1:533))|536)|534)|535)(1:415)|416|(7:418|(1:508)(7:431|(1:507)(3:435|(9:489|490|491|492|493|494|495|496|497)(1:437)|438)|439|(1:441)(1:488)|442|443|(6:477|478|479|480|481|(5:473|(1:475)|451|452|(2:457|(3:459|(2:464|465)(1:461)|(1:463)))))(4:445|(2:476|(0))|447|(0)))|449|450|451|452|(3:455|457|(0)))(1:509)|468|(3:472|371|372)|370|371|372)|544|395|(0)|411|(1:413)|510|(1:512)|540|535|416|(0)(0)|468|(4:470|472|371|372)|370|371|372))|369|370|371|372)|554|555)|210|(2:328|(4:330|(2:333|331)|334|335)(2:336|(1:338)(2:339|(1:341)(1:342))))(1:214)|215|(1:217)|218|(1:220)|221|(2:223|(1:225)(1:323))(2:324|(1:326)(1:327))|(1:227)(1:322)|228|(4:230|(2:233|231)|234|235)(1:321)|236|(1:238)|239|240|241|242|243|244|245|246|247|(1:249)|250|(1:252)|(1:254)|(1:261)|262|(1:310)(1:268)|269|(1:271)|(1:273)|274|(3:279|(4:281|(3:283|(4:285|(1:287)|288|289)(2:291|292)|290)|293|294)|295)|296|(1:309)(2:299|(1:303))|304|(1:306)|307|308|60)|564|(1:166)|559|169|(0)|558|173|174|(1:176)|557|181|(1:184)|556|189|(0)(0)|210|(1:212)|328|(0)(0)|215|(0)|218|(0)|221|(0)(0)|(0)(0)|228|(0)(0)|236|(0)|239|240|241|242|243|244|245|246|247|(0)|250|(0)|(0)|(2:256|261)|262|(1:264)|310|269|(0)|(0)|274|(4:276|279|(0)|295)|296|(0)|309|304|(0)|307|308|60)))|570|564|(0)|559|169|(0)|558|173|174|(0)|557|181|(0)|556|189|(0)(0)|210|(0)|328|(0)(0)|215|(0)|218|(0)|221|(0)(0)|(0)(0)|228|(0)(0)|236|(0)|239|240|241|242|243|244|245|246|247|(0)|250|(0)|(0)|(0)|262|(0)|310|269|(0)|(0)|274|(0)|296|(0)|309|304|(0)|307|308|60) */
-    /* JADX WARN: Code restructure failed: missing block: B:138:0x03b2, code lost:
-        if (r10.local_id != 0) goto L625;
+    /* JADX WARN: Code restructure failed: missing block: B:175:0x04fc, code lost:
+        if (r7.local_id != 0) goto L662;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:168:0x0457, code lost:
-        if (r1.local_id != 0) goto L668;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:617:0x10a7, code lost:
-        r0 = e;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:621:0x10b9, code lost:
-        r0 = e;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:622:0x10ba, code lost:
-        r2 = r49;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:623:0x10bd, code lost:
-        r0 = e;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:624:0x10be, code lost:
-        r4 = r38;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:625:0x10c1, code lost:
-        org.telegram.messenger.FileLog.e(r0);
-     */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x031f  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x03ba  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x03d5  */
-    /* JADX WARN: Removed duplicated region for block: B:180:0x049b  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x04a4  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x055b  */
-    /* JADX WARN: Removed duplicated region for block: B:213:0x056f  */
-    /* JADX WARN: Removed duplicated region for block: B:216:0x0578  */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x05ca  */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x05d1  */
-    /* JADX WARN: Removed duplicated region for block: B:243:0x05f8  */
-    /* JADX WARN: Removed duplicated region for block: B:258:0x0672  */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x0683  */
-    /* JADX WARN: Removed duplicated region for block: B:264:0x06bd  */
-    /* JADX WARN: Removed duplicated region for block: B:267:0x06c8  */
-    /* JADX WARN: Removed duplicated region for block: B:269:0x06d0  */
-    /* JADX WARN: Removed duplicated region for block: B:282:0x0722  */
-    /* JADX WARN: Removed duplicated region for block: B:306:0x077a  */
-    /* JADX WARN: Removed duplicated region for block: B:313:0x078a A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:319:0x079f  */
-    /* JADX WARN: Removed duplicated region for block: B:328:0x07b7 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:338:0x07e3  */
-    /* JADX WARN: Removed duplicated region for block: B:364:0x091b A[LOOP:5: B:362:0x0913->B:364:0x091b, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:367:0x0937 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:372:0x095a  */
-    /* JADX WARN: Removed duplicated region for block: B:374:0x096d  */
-    /* JADX WARN: Removed duplicated region for block: B:375:0x0979  */
-    /* JADX WARN: Removed duplicated region for block: B:418:0x0a99  */
-    /* JADX WARN: Removed duplicated region for block: B:471:0x0b6e  */
-    /* JADX WARN: Removed duplicated region for block: B:511:0x0c78  */
-    /* JADX WARN: Removed duplicated region for block: B:513:0x0c7c  */
-    /* JADX WARN: Removed duplicated region for block: B:526:0x0cab  */
-    /* JADX WARN: Removed duplicated region for block: B:530:0x0d05  */
-    /* JADX WARN: Removed duplicated region for block: B:537:0x0d44 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:542:0x0d56  */
-    /* JADX WARN: Removed duplicated region for block: B:550:0x0d9b  */
-    /* JADX WARN: Removed duplicated region for block: B:553:0x0db0  */
-    /* JADX WARN: Removed duplicated region for block: B:562:0x0e29  */
-    /* JADX WARN: Removed duplicated region for block: B:567:0x0e47  */
-    /* JADX WARN: Removed duplicated region for block: B:572:0x0e77  */
-    /* JADX WARN: Removed duplicated region for block: B:581:0x0ebf  */
-    /* JADX WARN: Removed duplicated region for block: B:584:0x0ee0  */
-    /* JADX WARN: Removed duplicated region for block: B:587:0x0f3c  */
-    /* JADX WARN: Removed duplicated region for block: B:591:0x0f7c  */
-    /* JADX WARN: Removed duplicated region for block: B:596:0x0fa5  */
-    /* JADX WARN: Removed duplicated region for block: B:597:0x0fc8  */
-    /* JADX WARN: Removed duplicated region for block: B:600:0x0fe5  */
-    /* JADX WARN: Removed duplicated region for block: B:605:0x100c  */
-    /* JADX WARN: Removed duplicated region for block: B:608:0x1042  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0194  */
-    /* JADX WARN: Removed duplicated region for block: B:616:0x109f A[Catch: Exception -> 0x10a7, TryCatch #10 {Exception -> 0x10a7, blocks: (B:614:0x1098, B:616:0x109f, B:619:0x10a9), top: B:741:0x1098 }] */
-    /* JADX WARN: Removed duplicated region for block: B:627:0x10c6  */
-    /* JADX WARN: Removed duplicated region for block: B:629:0x10d1  */
-    /* JADX WARN: Removed duplicated region for block: B:631:0x10d6  */
-    /* JADX WARN: Removed duplicated region for block: B:639:0x10ed  */
-    /* JADX WARN: Removed duplicated region for block: B:647:0x1105  */
-    /* JADX WARN: Removed duplicated region for block: B:649:0x110b  */
-    /* JADX WARN: Removed duplicated region for block: B:652:0x1117  */
-    /* JADX WARN: Removed duplicated region for block: B:657:0x1124  */
-    /* JADX WARN: Removed duplicated region for block: B:670:0x11ab A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:679:0x11dd  */
-    /* JADX WARN: Removed duplicated region for block: B:683:0x1265  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0217  */
-    /* JADX WARN: Removed duplicated region for block: B:690:0x12b0  */
-    /* JADX WARN: Removed duplicated region for block: B:696:0x12c9  */
-    /* JADX WARN: Removed duplicated region for block: B:706:0x1318  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x025e  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0269  */
-    /* JADX WARN: Removed duplicated region for block: B:733:0x072c A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:745:0x0c85 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0286  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x02a9  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x0469  */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x0480  */
+    /* JADX WARN: Removed duplicated region for block: B:187:0x0541  */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x0549  */
+    /* JADX WARN: Removed duplicated region for block: B:307:0x0821  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x0831 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:320:0x0846  */
+    /* JADX WARN: Removed duplicated region for block: B:329:0x085e A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:339:0x088a  */
+    /* JADX WARN: Removed duplicated region for block: B:365:0x09d6 A[LOOP:5: B:363:0x09ce->B:365:0x09d6, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:368:0x09f2 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:373:0x0a15  */
+    /* JADX WARN: Removed duplicated region for block: B:375:0x0a30  */
+    /* JADX WARN: Removed duplicated region for block: B:376:0x0a41  */
+    /* JADX WARN: Removed duplicated region for block: B:420:0x0ba1  */
+    /* JADX WARN: Removed duplicated region for block: B:473:0x0c71  */
+    /* JADX WARN: Removed duplicated region for block: B:512:0x0d7b  */
+    /* JADX WARN: Removed duplicated region for block: B:514:0x0d7f  */
+    /* JADX WARN: Removed duplicated region for block: B:527:0x0db2  */
+    /* JADX WARN: Removed duplicated region for block: B:531:0x0e0a  */
+    /* JADX WARN: Removed duplicated region for block: B:535:0x0e3a  */
+    /* JADX WARN: Removed duplicated region for block: B:544:0x0e5d  */
+    /* JADX WARN: Removed duplicated region for block: B:552:0x0ea2  */
+    /* JADX WARN: Removed duplicated region for block: B:564:0x0f39  */
+    /* JADX WARN: Removed duplicated region for block: B:569:0x0f56  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x01bf  */
+    /* JADX WARN: Removed duplicated region for block: B:574:0x0f83  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x01c1  */
+    /* JADX WARN: Removed duplicated region for block: B:583:0x0fca  */
+    /* JADX WARN: Removed duplicated region for block: B:586:0x0feb  */
+    /* JADX WARN: Removed duplicated region for block: B:589:0x1047  */
+    /* JADX WARN: Removed duplicated region for block: B:594:0x1084  */
+    /* JADX WARN: Removed duplicated region for block: B:599:0x10a2  */
+    /* JADX WARN: Removed duplicated region for block: B:600:0x10c5  */
+    /* JADX WARN: Removed duplicated region for block: B:603:0x10e2  */
+    /* JADX WARN: Removed duplicated region for block: B:608:0x1106  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x01fa  */
+    /* JADX WARN: Removed duplicated region for block: B:611:0x113b  */
+    /* JADX WARN: Removed duplicated region for block: B:617:0x1196 A[Catch: Exception -> 0x119e, TryCatch #4 {Exception -> 0x119e, blocks: (B:615:0x118f, B:617:0x1196, B:620:0x11a0), top: B:731:0x118f }] */
+    /* JADX WARN: Removed duplicated region for block: B:626:0x11b8  */
+    /* JADX WARN: Removed duplicated region for block: B:628:0x11c3  */
+    /* JADX WARN: Removed duplicated region for block: B:630:0x11c8  */
+    /* JADX WARN: Removed duplicated region for block: B:638:0x11dd  */
+    /* JADX WARN: Removed duplicated region for block: B:646:0x11f5  */
+    /* JADX WARN: Removed duplicated region for block: B:648:0x11fb  */
+    /* JADX WARN: Removed duplicated region for block: B:651:0x1207  */
+    /* JADX WARN: Removed duplicated region for block: B:656:0x1214  */
+    /* JADX WARN: Removed duplicated region for block: B:669:0x12a5 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:678:0x12d7  */
+    /* JADX WARN: Removed duplicated region for block: B:682:0x1374  */
+    /* JADX WARN: Removed duplicated region for block: B:689:0x13bf  */
+    /* JADX WARN: Removed duplicated region for block: B:698:0x13f2  */
+    /* JADX WARN: Removed duplicated region for block: B:708:0x1459  */
+    /* JADX WARN: Removed duplicated region for block: B:737:0x0d88 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:749:0x0217 A[EDGE_INSN: B:749:0x0217->B:63:0x0217 ?: BREAK  , SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5894,169 +5930,157 @@ public class NotificationsController extends BaseController {
         int size2;
         int i7;
         LongSparseArray longSparseArray3;
-        DialogKey dialogKey;
-        int i8;
-        boolean z6;
-        ArrayList<StoryNotification> arrayList2;
-        ArrayList arrayList3;
+        String str4;
+        Notification notification;
         int id;
+        ArrayList<StoryNotification> arrayList2;
+        boolean z6;
+        MessageObject messageObject;
         LongSparseArray longSparseArray4;
-        ArrayList arrayList4;
+        ArrayList arrayList3;
         long j3;
         long j4;
-        Notification notification;
-        MessageObject messageObject;
-        int i9;
         long j5;
-        Integer num;
-        int i10;
+        int i8;
         LongSparseArray longSparseArray5;
-        int i11;
-        ArrayList<StoryNotification> arrayList5;
+        DialogKey dialogKey;
         long j6;
-        DialogKey dialogKey2;
-        String str4;
-        Integer num2;
+        ArrayList<StoryNotification> arrayList4;
         long j7;
         TLRPC$User tLRPC$User;
         TLRPC$User tLRPC$User2;
         String string;
-        TLRPC$FileLocation tLRPC$FileLocation;
+        TLRPC$Chat tLRPC$Chat;
         boolean z7;
         boolean z8;
-        TLRPC$Chat tLRPC$Chat;
         boolean z9;
+        TLRPC$FileLocation tLRPC$FileLocation;
         String str5;
-        NotificationsController notificationsController2;
-        LongSparseArray longSparseArray6;
-        SharedPreferences sharedPreferences;
-        int i12;
-        int i13;
         boolean z10;
-        ArrayList arrayList6;
+        SharedPreferences sharedPreferences;
+        NotificationsController notificationsController2;
+        int i9;
+        int i10;
+        ArrayList arrayList5;
         Notification notification2;
+        boolean z11;
+        LongSparseArray longSparseArray6;
         LongSparseArray longSparseArray7;
         long j8;
+        DialogKey dialogKey2;
         TLRPC$FileLocation tLRPC$FileLocation2;
         String str6;
-        TLRPC$FileLocation tLRPC$FileLocation3;
         TLRPC$Chat tLRPC$Chat2;
         TLRPC$User tLRPC$User3;
         TLRPC$TL_forumTopic findTopic;
         StringBuilder sb;
         String str7;
         String userName;
-        TLRPC$FileLocation tLRPC$FileLocation4;
-        TLRPC$User tLRPC$User4;
-        int i14;
+        TLRPC$FileLocation tLRPC$FileLocation3;
         String str8;
-        String str9;
+        TLRPC$FileLocation tLRPC$FileLocation4;
+        int i11;
         TLRPC$FileLocation tLRPC$FileLocation5;
+        boolean z12;
+        TLRPC$User tLRPC$User4;
         SharedPreferences sharedPreferences2;
         Bitmap bitmap;
         File file;
         Bitmap bitmap2;
+        String str9;
         File file2;
-        File file3;
-        NotificationsController notificationsController3;
-        TLRPC$User tLRPC$User5;
+        LongSparseArray longSparseArray8;
+        Bitmap bitmap3;
+        int i12;
         TLRPC$Chat tLRPC$Chat3;
+        Integer num;
         String str10;
-        int i15;
         String formatString;
         NotificationCompat.Action build;
-        Integer num3;
-        DialogKey dialogKey3;
-        long j9;
-        long j10;
-        Person person;
-        NotificationCompat.MessagingStyle messagingStyle;
-        int i16;
-        NotificationsController notificationsController4;
-        NotificationCompat.Action action;
-        DialogKey dialogKey4;
         String str11;
-        MessageObject messageObject2;
-        ArrayList arrayList7;
-        long j11;
-        StringBuilder sb2;
-        LongSparseArray longSparseArray8;
+        NotificationCompat.Action action;
+        NotificationCompat.MessagingStyle messagingStyle;
+        int i13;
         String str12;
-        ArrayList<StoryNotification> arrayList8;
+        long j9;
+        MessageObject messageObject2;
         NotificationCompat.MessagingStyle messagingStyle2;
-        int i17;
-        Bitmap bitmap3;
+        long j10;
+        DialogKey dialogKey3;
         String str13;
-        String str14;
-        long j12;
-        NotificationCompat.MessagingStyle messagingStyle3;
-        long j13;
-        StringBuilder sb3;
+        ArrayList<StoryNotification> arrayList6;
         LongSparseArray longSparseArray9;
-        Person person2;
+        StringBuilder sb2;
+        long j11;
+        int i14;
+        ArrayList arrayList7;
+        Bitmap bitmap4;
+        String str14;
+        DialogKey dialogKey4;
         String str15;
+        DialogKey dialogKey5;
+        long j12;
+        long j13;
+        long j14;
+        LongSparseArray longSparseArray10;
+        Person person;
         String str16;
-        boolean z11;
+        StringBuilder sb3;
+        int i15;
         String[] strArr;
-        StringBuilder sb4;
-        Person person3;
-        File file4;
+        Person person2;
+        File file3;
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
         TLRPC$FileLocation tLRPC$FileLocation6;
+        LongSparseArray longSparseArray11;
         String str17;
-        LongSparseArray longSparseArray10;
-        String str18;
-        NotificationCompat.MessagingStyle messagingStyle4;
+        NotificationCompat.MessagingStyle messagingStyle3;
+        int i16;
         TLRPC$ReplyMarkup tLRPC$ReplyMarkup;
-        int id2;
+        ArrayList arrayList8;
         List messages;
         Uri uri2;
-        File file5;
-        final File file6;
+        File file4;
+        final File file5;
         Context context;
-        StringBuilder sb5;
+        StringBuilder sb4;
         final Uri uriForFile;
-        File file7;
-        Bitmap createScaledBitmap;
-        Canvas canvas;
-        int i18;
-        DialogKey dialogKey5;
-        int i19;
-        MessageObject messageObject3;
-        long j14;
-        NotificationCompat.Action action2;
-        ArrayList arrayList9;
-        Bitmap bitmap4;
-        String str19;
-        NotificationCompat.Action action3;
-        String str20;
+        File file6;
+        int i17;
+        DialogKey dialogKey6;
         long j15;
+        String str18;
+        String str19;
+        StringBuilder sb5;
+        NotificationCompat.Action action2;
         long j16;
-        ArrayList<StoryNotification> arrayList10;
+        ArrayList<StoryNotification> arrayList9;
         long j17;
         NotificationCompat.Builder category;
-        long j18;
-        TLRPC$User tLRPC$User6;
+        String str20;
+        TLRPC$User tLRPC$User5;
         int size3;
-        int i20;
-        int i21;
+        int i18;
+        int i19;
         String str21;
-        ArrayList arrayList11;
-        LongSparseArray longSparseArray11;
+        ArrayList arrayList10;
+        int i20;
+        Intent intent;
+        LongSparseArray longSparseArray12;
+        DialogKey dialogKey7;
         String string2;
-        int i22;
-        TLRPC$User user;
+        int i21;
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto2;
         TLRPC$FileLocation tLRPC$FileLocation7;
         Bitmap bitmap5;
         Bitmap decodeFile;
         String formatPluralString;
         String str22;
-        String str23;
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto3;
         TLRPC$FileLocation tLRPC$FileLocation8;
-        int i23 = Build.VERSION.SDK_INT;
-        if (i23 >= 26) {
+        FileLog.d("showExtraNotifications pushMessages.size()=" + this.pushMessages.size());
+        int i22 = Build.VERSION.SDK_INT;
+        if (i22 >= 26) {
             i4 = -1;
             str3 = ".provider";
             builder2 = builder;
@@ -6067,7 +6091,7 @@ public class NotificationsController extends BaseController {
             i4 = -1;
         }
         Notification build2 = builder.build();
-        if (i23 <= 19) {
+        if (i22 <= 19) {
             notificationManager.notify(this.notificationId, build2);
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("show summary notification by SDK check");
@@ -6075,146 +6099,192 @@ public class NotificationsController extends BaseController {
             }
             return;
         }
-        NotificationsController notificationsController5 = this;
+        NotificationsController notificationsController3 = this;
         SharedPreferences notificationsSettings = getAccountInstance().getNotificationsSettings();
-        ArrayList arrayList12 = new ArrayList();
-        if (!notificationsController5.storyPushMessages.isEmpty()) {
-            arrayList12.add(new DialogKey(0L, 0L, true));
-        }
-        LongSparseArray longSparseArray12 = new LongSparseArray();
-        for (int i24 = 0; i24 < notificationsController5.pushMessages.size(); i24++) {
-            MessageObject messageObject4 = notificationsController5.pushMessages.get(i24);
-            long dialogId = messageObject4.getDialogId();
-            long topicId = MessageObject.getTopicId(notificationsController5.currentAccount, messageObject4.messageOwner, getMessagesController().isForum(messageObject4));
-            int i25 = notificationsSettings.getInt("dismissDate" + dialogId, 0);
-            if (messageObject4.isStoryPush || messageObject4.messageOwner.date > i25) {
-                ArrayList arrayList13 = (ArrayList) longSparseArray12.get(dialogId);
-                if (arrayList13 == null) {
-                    ArrayList arrayList14 = new ArrayList();
-                    longSparseArray12.put(dialogId, arrayList14);
-                    arrayList12.add(new DialogKey(dialogId, topicId, false));
-                    arrayList13 = arrayList14;
-                }
-                arrayList13.add(messageObject4);
-            }
+        ArrayList arrayList11 = new ArrayList();
+        if (!notificationsController3.storyPushMessages.isEmpty()) {
+            arrayList11.add(new DialogKey(0L, 0L, true));
         }
         LongSparseArray longSparseArray13 = new LongSparseArray();
-        for (int i26 = 0; i26 < notificationsController5.wearNotificationsIds.size(); i26++) {
-            longSparseArray13.put(notificationsController5.wearNotificationsIds.keyAt(i26), (Integer) notificationsController5.wearNotificationsIds.valueAt(i26));
+        for (int i23 = 0; i23 < notificationsController3.pushMessages.size(); i23++) {
+            MessageObject messageObject3 = notificationsController3.pushMessages.get(i23);
+            long dialogId = messageObject3.getDialogId();
+            long topicId = MessageObject.getTopicId(notificationsController3.currentAccount, messageObject3.messageOwner, getMessagesController().isForum(messageObject3));
+            int i24 = notificationsSettings.getInt("dismissDate" + dialogId, 0);
+            if (messageObject3.isStoryPush || messageObject3.messageOwner.date > i24) {
+                ArrayList arrayList12 = (ArrayList) longSparseArray13.get(dialogId);
+                if (arrayList12 == null) {
+                    ArrayList arrayList13 = new ArrayList();
+                    longSparseArray13.put(dialogId, arrayList13);
+                    FileLog.d("showExtraNotifications: sortedDialogs += " + dialogId);
+                    arrayList11.add(new DialogKey(dialogId, topicId, false));
+                    arrayList12 = arrayList13;
+                }
+                arrayList12.add(messageObject3);
+            } else {
+                FileLog.d("showExtraNotifications: dialog " + dialogId + " is skipped, message date (" + messageObject3.messageOwner.date + " <= " + i24 + ")");
+            }
         }
-        notificationsController5.wearNotificationsIds.clear();
-        ArrayList arrayList15 = new ArrayList();
-        int i27 = Build.VERSION.SDK_INT;
-        if (i27 > 27) {
-            if (arrayList12.size() <= (notificationsController5.storyPushMessages.isEmpty() ? 1 : 2)) {
+        LongSparseArray longSparseArray14 = new LongSparseArray();
+        for (int i25 = 0; i25 < notificationsController3.wearNotificationsIds.size(); i25++) {
+            longSparseArray14.put(notificationsController3.wearNotificationsIds.keyAt(i25), (Integer) notificationsController3.wearNotificationsIds.valueAt(i25));
+        }
+        notificationsController3.wearNotificationsIds.clear();
+        ArrayList arrayList14 = new ArrayList();
+        int i26 = Build.VERSION.SDK_INT;
+        if (i26 > 27) {
+            if (arrayList11.size() <= (notificationsController3.storyPushMessages.isEmpty() ? 1 : 2)) {
                 z4 = false;
-                if (z4 && i27 >= 26) {
+                if (z4 && i26 >= 26) {
                     checkOtherNotificationsChannel();
                 }
                 clientUserId = getUserConfig().getClientUserId();
                 z5 = !AndroidUtilities.needShowPasscode() || SharedConfig.isWaitingForPasscodeEnter;
-                SharedConfig.passcodeHash.length();
+                FileLog.d("showExtraNotifications: passcode=" + (SharedConfig.passcodeHash.length() <= 0) + " waitingForPasscode=" + z5 + " selfUserId=" + clientUserId + " useSummaryNotification=" + z4);
                 longSparseArray = new LongSparseArray();
-                size = arrayList12.size();
+                size = arrayList11.size();
                 i5 = 0;
-                while (i5 < size && arrayList15.size() < 7) {
-                    dialogKey = (DialogKey) arrayList12.get(i5);
-                    int i28 = size;
-                    if (dialogKey.story) {
-                        i8 = i5;
-                        long j19 = dialogKey.dialogId;
-                        z6 = z4;
-                        long j20 = dialogKey.topicId;
-                        ArrayList<StoryNotification> arrayList16 = (ArrayList) longSparseArray12.get(j19);
-                        arrayList2 = arrayList16;
-                        arrayList3 = arrayList15;
-                        id = ((MessageObject) arrayList16.get(0)).getId();
-                        longSparseArray4 = longSparseArray12;
-                        arrayList4 = arrayList12;
-                        j3 = j20;
-                        j4 = j19;
-                        notification = build2;
-                        messageObject = (MessageObject) arrayList16.get(0);
-                    } else {
-                        ArrayList<StoryNotification> arrayList17 = new ArrayList<>();
-                        if (notificationsController5.storyPushMessages.isEmpty()) {
+                while (true) {
+                    if (i5 < size) {
+                        break;
+                    }
+                    int i27 = size;
+                    if (arrayList14.size() >= 7) {
+                        FileLog.d("showExtraNotifications: break from holders, count over 7");
+                        break;
+                    }
+                    DialogKey dialogKey8 = (DialogKey) arrayList11.get(i5);
+                    int i28 = i5;
+                    ArrayList arrayList15 = arrayList14;
+                    if (dialogKey8.story) {
+                        ArrayList<StoryNotification> arrayList16 = new ArrayList<>();
+                        if (notificationsController3.storyPushMessages.isEmpty()) {
+                            FileLog.d("showExtraNotifications: [" + dialogKey8.dialogId + "] continue; story but storyPushMessages is empty");
                             j8 = clientUserId;
-                            i13 = i5;
-                            z10 = z4;
                             longSparseArray6 = longSparseArray;
-                            longSparseArray7 = longSparseArray13;
-                            longSparseArray4 = longSparseArray12;
-                            arrayList4 = arrayList12;
+                            z11 = z4;
+                            z10 = z5;
+                            longSparseArray7 = longSparseArray14;
+                            longSparseArray4 = longSparseArray13;
+                            arrayList3 = arrayList11;
                             sharedPreferences = notificationsSettings;
                             notification2 = build2;
-                            notificationsController2 = notificationsController5;
-                            i12 = i28;
-                            str8 = str3;
-                            arrayList6 = arrayList15;
-                            i5 = i13 + 1;
-                            arrayList15 = arrayList6;
-                            size = i12;
-                            notificationsSettings = sharedPreferences;
-                            arrayList12 = arrayList4;
-                            longSparseArray12 = longSparseArray4;
+                            notificationsController2 = notificationsController3;
+                            i9 = i27;
+                            i10 = i28;
+                            arrayList5 = arrayList15;
+                            i5 = i10 + 1;
+                            arrayList14 = arrayList5;
+                            size = i9;
                             clientUserId = j8;
-                            z4 = z10;
-                            str3 = str8;
-                            longSparseArray13 = longSparseArray7;
+                            notificationsSettings = sharedPreferences;
+                            z5 = z10;
+                            arrayList11 = arrayList3;
+                            longSparseArray13 = longSparseArray4;
+                            z4 = z11;
+                            longSparseArray14 = longSparseArray7;
                             longSparseArray = longSparseArray6;
                             build2 = notification2;
                             i4 = -1;
-                            notificationsController5 = notificationsController2;
+                            notificationsController3 = notificationsController2;
                         } else {
-                            i8 = i5;
-                            long j21 = notificationsController5.storyPushMessages.get(0).dialogId;
-                            int i29 = 0;
-                            for (Integer num4 : notificationsController5.storyPushMessages.get(0).dateByIds.keySet()) {
-                                i29 = Math.max(i29, num4.intValue());
-                            }
-                            longSparseArray4 = longSparseArray12;
                             notification = build2;
-                            messageObject = null;
-                            ArrayList arrayList18 = arrayList15;
-                            id = i29;
-                            arrayList2 = arrayList17;
+                            str4 = "showExtraNotifications: [";
+                            long j18 = notificationsController3.storyPushMessages.get(0).dialogId;
+                            int i29 = 0;
+                            for (Iterator<Integer> it = notificationsController3.storyPushMessages.get(0).dateByIds.keySet().iterator(); it.hasNext(); it = it) {
+                                i29 = Math.max(i29, it.next().intValue());
+                            }
                             z6 = z4;
-                            j4 = j21;
-                            arrayList3 = arrayList18;
-                            arrayList4 = arrayList12;
+                            longSparseArray4 = longSparseArray13;
+                            messageObject = null;
+                            arrayList3 = arrayList11;
                             j3 = 0;
+                            id = i29;
+                            j4 = j18;
+                            arrayList2 = arrayList16;
                         }
-                    }
-                    Integer num5 = (Integer) longSparseArray13.get(j4);
-                    i9 = id;
-                    if (dialogKey.story) {
-                        if (num5 == null) {
-                            j5 = j3;
-                            num5 = Integer.valueOf(((int) j4) + ((int) (j4 >> 32)));
-                        } else {
-                            j5 = j3;
-                            longSparseArray13.remove(j4);
-                        }
-                        num = num5;
                     } else {
-                        num = 2147483646;
-                        j5 = j3;
+                        str4 = "showExtraNotifications: [";
+                        notification = build2;
+                        long j19 = dialogKey8.dialogId;
+                        long j20 = dialogKey8.topicId;
+                        ArrayList<StoryNotification> arrayList17 = (ArrayList) longSparseArray13.get(j19);
+                        id = ((MessageObject) arrayList17.get(0)).getId();
+                        arrayList2 = arrayList17;
+                        z6 = z4;
+                        messageObject = (MessageObject) arrayList17.get(0);
+                        longSparseArray4 = longSparseArray13;
+                        arrayList3 = arrayList11;
+                        j3 = j20;
+                        j4 = j19;
                     }
-                    int i30 = 0;
-                    for (i10 = 0; i10 < arrayList2.size(); i10++) {
-                        if (i30 < ((MessageObject) arrayList2.get(i10)).messageOwner.date) {
-                            i30 = ((MessageObject) arrayList2.get(i10)).messageOwner.date;
+                    int i30 = (Integer) longSparseArray14.get(j4);
+                    int i31 = id;
+                    LongSparseArray longSparseArray15 = longSparseArray;
+                    if (dialogKey8.story) {
+                        i30 = 2147483646;
+                        j5 = j3;
+                    } else if (i30 == null) {
+                        j5 = j3;
+                        i30 = Integer.valueOf(((int) j4) + ((int) (j4 >> 32)));
+                    } else {
+                        j5 = j3;
+                        longSparseArray14.remove(j4);
+                    }
+                    Integer num2 = i30;
+                    int i32 = 0;
+                    for (int i33 = 0; i33 < arrayList2.size(); i33++) {
+                        if (i32 < ((MessageObject) arrayList2.get(i33)).messageOwner.date) {
+                            i32 = ((MessageObject) arrayList2.get(i33)).messageOwner.date;
                         }
                     }
-                    if (dialogKey.story) {
-                        longSparseArray5 = longSparseArray13;
-                        i11 = i30;
+                    if (dialogKey8.story) {
+                        TLRPC$User user = getMessagesController().getUser(Long.valueOf(j4));
+                        longSparseArray5 = longSparseArray14;
+                        if (notificationsController3.storyPushMessages.size() == 1) {
+                            formatPluralString = user != null ? UserObject.getFirstName(user) : notificationsController3.storyPushMessages.get(0).localName;
+                            i8 = i32;
+                        } else {
+                            i8 = i32;
+                            formatPluralString = LocaleController.formatPluralString("Stories", notificationsController3.storyPushMessages.size(), new Object[0]);
+                        }
+                        if (user == null || (tLRPC$UserProfilePhoto3 = user.photo) == null || (tLRPC$FileLocation8 = tLRPC$UserProfilePhoto3.photo_small) == null) {
+                            str22 = formatPluralString;
+                        } else {
+                            str22 = formatPluralString;
+                            if (tLRPC$FileLocation8.volume_id != 0 && tLRPC$FileLocation8.local_id != 0) {
+                                tLRPC$User2 = user;
+                                dialogKey = dialogKey8;
+                                j6 = clientUserId;
+                                tLRPC$FileLocation = tLRPC$FileLocation8;
+                                string = str22;
+                                tLRPC$Chat = null;
+                                z7 = false;
+                                z8 = false;
+                                z9 = false;
+                                arrayList4 = arrayList2;
+                                j7 = j5;
+                            }
+                        }
+                        tLRPC$User2 = user;
+                        dialogKey = dialogKey8;
+                        j6 = clientUserId;
+                        string = str22;
+                        tLRPC$Chat = null;
+                        z7 = false;
+                        z8 = false;
+                        z9 = false;
+                        tLRPC$FileLocation = null;
+                        arrayList4 = arrayList2;
+                        j7 = j5;
+                    } else {
+                        i8 = i32;
+                        longSparseArray5 = longSparseArray14;
                         if (DialogObject.isEncryptedDialog(j4)) {
-                            arrayList5 = arrayList2;
+                            dialogKey = dialogKey8;
                             j6 = clientUserId;
-                            dialogKey2 = dialogKey;
-                            str4 = "Stories";
-                            num2 = num;
+                            arrayList4 = arrayList2;
                             j7 = j5;
                             if (j4 != globalSecretChatId) {
                                 int encryptedChatId = DialogObject.getEncryptedChatId(j4);
@@ -6224,14 +6294,15 @@ public class NotificationsController extends BaseController {
                                         str5 = "not found secret chat to show dialog notification " + encryptedChatId;
                                         FileLog.w(str5);
                                     }
-                                    notificationsController2 = this;
-                                    longSparseArray6 = longSparseArray;
+                                    z10 = z5;
                                     sharedPreferences = notificationsSettings;
-                                    i12 = i28;
-                                    i13 = i8;
-                                    z10 = z6;
-                                    arrayList6 = arrayList3;
+                                    notificationsController2 = notificationsController3;
+                                    i9 = i27;
+                                    i10 = i28;
+                                    arrayList5 = arrayList15;
                                     notification2 = notification;
+                                    z11 = z6;
+                                    longSparseArray6 = longSparseArray15;
                                     longSparseArray7 = longSparseArray5;
                                     j8 = j6;
                                 } else {
@@ -6241,89 +6312,95 @@ public class NotificationsController extends BaseController {
                                             str5 = "not found secret chat user to show dialog notification " + encryptedChat.user_id;
                                             FileLog.w(str5);
                                         }
-                                        notificationsController2 = this;
-                                        longSparseArray6 = longSparseArray;
+                                        z10 = z5;
                                         sharedPreferences = notificationsSettings;
-                                        i12 = i28;
-                                        i13 = i8;
-                                        z10 = z6;
-                                        arrayList6 = arrayList3;
+                                        notificationsController2 = notificationsController3;
+                                        i9 = i27;
+                                        i10 = i28;
+                                        arrayList5 = arrayList15;
                                         notification2 = notification;
+                                        z11 = z6;
+                                        longSparseArray6 = longSparseArray15;
                                         longSparseArray7 = longSparseArray5;
                                         j8 = j6;
                                     }
                                 }
-                                str8 = str3;
-                                i5 = i13 + 1;
-                                arrayList15 = arrayList6;
-                                size = i12;
-                                notificationsSettings = sharedPreferences;
-                                arrayList12 = arrayList4;
-                                longSparseArray12 = longSparseArray4;
+                                i5 = i10 + 1;
+                                arrayList14 = arrayList5;
+                                size = i9;
                                 clientUserId = j8;
-                                z4 = z10;
-                                str3 = str8;
-                                longSparseArray13 = longSparseArray7;
+                                notificationsSettings = sharedPreferences;
+                                z5 = z10;
+                                arrayList11 = arrayList3;
+                                longSparseArray13 = longSparseArray4;
+                                z4 = z11;
+                                longSparseArray14 = longSparseArray7;
                                 longSparseArray = longSparseArray6;
                                 build2 = notification2;
                                 i4 = -1;
-                                notificationsController5 = notificationsController2;
+                                notificationsController3 = notificationsController2;
                             } else {
                                 tLRPC$User = null;
                             }
                             tLRPC$User2 = tLRPC$User;
                             string = LocaleController.getString(R.string.SecretChatName);
-                            tLRPC$FileLocation = null;
+                            tLRPC$Chat = null;
                             z7 = false;
                             z8 = false;
-                            tLRPC$Chat = null;
                             z9 = false;
+                            tLRPC$FileLocation = null;
                         } else {
                             z7 = (messageObject == null || messageObject.isReactionPush || messageObject.isStoryReactionPush || j4 == 777000) ? false : true;
                             if (DialogObject.isUserDialog(j4)) {
-                                TLRPC$User user2 = getMessagesController().getUser(Long.valueOf(j4));
-                                if (user2 != null) {
-                                    userName = UserObject.getUserName(user2);
-                                    TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto4 = user2.photo;
-                                    if (tLRPC$UserProfilePhoto4 != null && (tLRPC$FileLocation4 = tLRPC$UserProfilePhoto4.photo_small) != null) {
-                                        tLRPC$User4 = user2;
-                                        arrayList5 = arrayList2;
-                                        if (tLRPC$FileLocation4.volume_id != 0) {
-                                        }
-                                        tLRPC$FileLocation4 = null;
-                                        if (!UserObject.isReplyUser(j4)) {
-                                            i14 = R.string.RepliesTitle;
-                                        } else if (j4 == clientUserId) {
-                                            i14 = R.string.MessageScheduledReminderNotification;
-                                        } else {
+                                tLRPC$User3 = getMessagesController().getUser(Long.valueOf(j4));
+                                if (tLRPC$User3 != null) {
+                                    userName = UserObject.getUserName(tLRPC$User3);
+                                    TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto4 = tLRPC$User3.photo;
+                                    if (tLRPC$UserProfilePhoto4 != null && (tLRPC$FileLocation3 = tLRPC$UserProfilePhoto4.photo_small) != null) {
+                                        arrayList4 = arrayList2;
+                                        str8 = userName;
+                                        if (tLRPC$FileLocation3.volume_id != 0 && tLRPC$FileLocation3.local_id != 0) {
+                                            tLRPC$FileLocation4 = tLRPC$FileLocation3;
+                                            if (UserObject.isReplyUser(j4)) {
+                                                i11 = R.string.RepliesTitle;
+                                            } else if (j4 == clientUserId) {
+                                                i11 = R.string.MessageScheduledReminderNotification;
+                                            } else {
+                                                dialogKey = dialogKey8;
+                                                j6 = clientUserId;
+                                                tLRPC$FileLocation = tLRPC$FileLocation4;
+                                                j7 = j5;
+                                                str6 = str8;
+                                                tLRPC$Chat2 = null;
+                                                z8 = false;
+                                                z9 = false;
+                                                tLRPC$User2 = tLRPC$User3;
+                                                String str23 = str6;
+                                                tLRPC$Chat = tLRPC$Chat2;
+                                                string = str23;
+                                            }
+                                            tLRPC$User2 = tLRPC$User3;
+                                            dialogKey = dialogKey8;
                                             j6 = clientUserId;
-                                            dialogKey2 = dialogKey;
-                                            str6 = userName;
-                                            tLRPC$FileLocation3 = tLRPC$FileLocation4;
-                                            num2 = num;
+                                            string = LocaleController.getString(i11);
+                                            tLRPC$FileLocation = tLRPC$FileLocation4;
                                             j7 = j5;
-                                            tLRPC$User3 = tLRPC$User4;
-                                            tLRPC$Chat2 = null;
+                                            tLRPC$Chat = null;
                                             z8 = false;
                                             z9 = false;
-                                            str4 = "Stories";
-                                            tLRPC$User2 = tLRPC$User3;
-                                            tLRPC$Chat = tLRPC$Chat2;
-                                            string = str6;
-                                            tLRPC$FileLocation = tLRPC$FileLocation3;
                                         }
-                                        string = LocaleController.getString(i14);
+                                        tLRPC$FileLocation4 = null;
+                                        if (UserObject.isReplyUser(j4)) {
+                                        }
+                                        tLRPC$User2 = tLRPC$User3;
+                                        dialogKey = dialogKey8;
                                         j6 = clientUserId;
-                                        dialogKey2 = dialogKey;
+                                        string = LocaleController.getString(i11);
                                         tLRPC$FileLocation = tLRPC$FileLocation4;
-                                        num2 = num;
                                         j7 = j5;
-                                        z8 = false;
                                         tLRPC$Chat = null;
+                                        z8 = false;
                                         z9 = false;
-                                        TLRPC$User tLRPC$User7 = tLRPC$User4;
-                                        str4 = "Stories";
-                                        tLRPC$User2 = tLRPC$User7;
                                     }
                                 } else if (messageObject.isFcmMessage()) {
                                     userName = messageObject.localName;
@@ -6335,100 +6412,107 @@ public class NotificationsController extends BaseController {
                                         sb.append(j4);
                                         FileLog.w(sb.toString());
                                     }
-                                    longSparseArray6 = longSparseArray;
-                                    sharedPreferences = notificationsSettings;
-                                    notificationsController2 = notificationsController5;
-                                    i12 = i28;
-                                    i13 = i8;
-                                    z10 = z6;
-                                    arrayList6 = arrayList3;
-                                    notification2 = notification;
-                                    longSparseArray7 = longSparseArray5;
                                     j8 = clientUserId;
-                                    str8 = str3;
+                                    z10 = z5;
+                                    sharedPreferences = notificationsSettings;
+                                    notificationsController2 = notificationsController3;
+                                    i9 = i27;
+                                    i10 = i28;
+                                    arrayList5 = arrayList15;
+                                    notification2 = notification;
+                                    z11 = z6;
+                                    longSparseArray6 = longSparseArray15;
+                                    longSparseArray7 = longSparseArray5;
+                                    i5 = i10 + 1;
+                                    arrayList14 = arrayList5;
+                                    size = i9;
+                                    clientUserId = j8;
+                                    notificationsSettings = sharedPreferences;
+                                    z5 = z10;
+                                    arrayList11 = arrayList3;
+                                    longSparseArray13 = longSparseArray4;
+                                    z4 = z11;
+                                    longSparseArray14 = longSparseArray7;
+                                    longSparseArray = longSparseArray6;
+                                    build2 = notification2;
+                                    i4 = -1;
+                                    notificationsController3 = notificationsController2;
                                 }
-                                tLRPC$User4 = user2;
-                                arrayList5 = arrayList2;
+                                arrayList4 = arrayList2;
+                                str8 = userName;
                                 tLRPC$FileLocation4 = null;
-                                if (!UserObject.isReplyUser(j4)) {
+                                if (UserObject.isReplyUser(j4)) {
                                 }
-                                string = LocaleController.getString(i14);
+                                tLRPC$User2 = tLRPC$User3;
+                                dialogKey = dialogKey8;
                                 j6 = clientUserId;
-                                dialogKey2 = dialogKey;
+                                string = LocaleController.getString(i11);
                                 tLRPC$FileLocation = tLRPC$FileLocation4;
-                                num2 = num;
                                 j7 = j5;
-                                z8 = false;
                                 tLRPC$Chat = null;
+                                z8 = false;
                                 z9 = false;
-                                TLRPC$User tLRPC$User72 = tLRPC$User4;
-                                str4 = "Stories";
-                                tLRPC$User2 = tLRPC$User72;
                             } else {
-                                arrayList5 = arrayList2;
+                                arrayList4 = arrayList2;
                                 TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-j4));
                                 if (chat != null) {
-                                    boolean z12 = chat.megagroup;
-                                    z8 = ChatObject.isChannel(chat) && !chat.megagroup;
+                                    boolean z13 = chat.megagroup;
+                                    boolean z14 = ChatObject.isChannel(chat) && !chat.megagroup;
                                     String str24 = chat.title;
-                                    str4 = "Stories";
+                                    z8 = z13;
                                     TLRPC$ChatPhoto tLRPC$ChatPhoto = chat.photo;
                                     if (tLRPC$ChatPhoto == null || (tLRPC$FileLocation2 = tLRPC$ChatPhoto.photo_small) == null) {
-                                        dialogKey2 = dialogKey;
-                                        z9 = z12;
+                                        j6 = clientUserId;
+                                        dialogKey2 = dialogKey8;
                                     } else {
-                                        dialogKey2 = dialogKey;
-                                        z9 = z12;
+                                        j6 = clientUserId;
+                                        dialogKey2 = dialogKey8;
                                         if (tLRPC$FileLocation2.volume_id != 0) {
                                         }
                                     }
                                     tLRPC$FileLocation2 = null;
                                     if (j5 != 0) {
-                                        num2 = num;
-                                        j6 = clientUserId;
+                                        dialogKey = dialogKey2;
                                         tLRPC$FileLocation = tLRPC$FileLocation2;
+                                        z9 = z14;
                                         j7 = j5;
                                         if (getMessagesController().getTopicsController().findTopic(chat.id, j7) != null) {
-                                            str6 = findTopic.title + " in " + str24;
+                                            string = findTopic.title + " in " + str24;
                                             if (z7) {
-                                                tLRPC$FileLocation3 = tLRPC$FileLocation;
+                                                str6 = string;
                                                 tLRPC$Chat2 = chat;
                                                 tLRPC$User3 = null;
                                                 tLRPC$User2 = tLRPC$User3;
+                                                String str232 = str6;
                                                 tLRPC$Chat = tLRPC$Chat2;
-                                                string = str6;
-                                                tLRPC$FileLocation = tLRPC$FileLocation3;
+                                                string = str232;
                                             } else {
                                                 z7 = ChatObject.canSendPlain(chat);
                                                 tLRPC$Chat = chat;
-                                                string = str6;
                                                 tLRPC$User2 = null;
                                             }
                                         }
                                     } else {
-                                        j6 = clientUserId;
-                                        num2 = num;
+                                        dialogKey = dialogKey2;
                                         tLRPC$FileLocation = tLRPC$FileLocation2;
+                                        z9 = z14;
                                         j7 = j5;
                                     }
-                                    str6 = str24;
+                                    string = str24;
                                     if (z7) {
                                     }
                                 } else if (messageObject.isFcmMessage()) {
                                     boolean isSupergroup = messageObject.isSupergroup();
-                                    String str25 = messageObject.localName;
-                                    z8 = messageObject.localChannel;
-                                    str4 = "Stories";
+                                    dialogKey = dialogKey8;
                                     j6 = clientUserId;
-                                    dialogKey2 = dialogKey;
-                                    z9 = isSupergroup;
-                                    num2 = num;
+                                    string = messageObject.localName;
+                                    z9 = messageObject.localChannel;
+                                    z8 = isSupergroup;
                                     j7 = j5;
-                                    tLRPC$FileLocation = null;
                                     z7 = false;
                                     tLRPC$User2 = null;
+                                    tLRPC$FileLocation = null;
                                     tLRPC$Chat = chat;
-                                    string = str25;
                                 } else {
                                     if (BuildVars.LOGS_ENABLED) {
                                         sb = new StringBuilder();
@@ -6437,1428 +6521,1339 @@ public class NotificationsController extends BaseController {
                                         sb.append(j4);
                                         FileLog.w(sb.toString());
                                     }
-                                    longSparseArray6 = longSparseArray;
-                                    sharedPreferences = notificationsSettings;
-                                    notificationsController2 = notificationsController5;
-                                    i12 = i28;
-                                    i13 = i8;
-                                    z10 = z6;
-                                    arrayList6 = arrayList3;
-                                    notification2 = notification;
-                                    longSparseArray7 = longSparseArray5;
                                     j8 = clientUserId;
-                                    str8 = str3;
+                                    z10 = z5;
+                                    sharedPreferences = notificationsSettings;
+                                    notificationsController2 = notificationsController3;
+                                    i9 = i27;
+                                    i10 = i28;
+                                    arrayList5 = arrayList15;
+                                    notification2 = notification;
+                                    z11 = z6;
+                                    longSparseArray6 = longSparseArray15;
+                                    longSparseArray7 = longSparseArray5;
+                                    i5 = i10 + 1;
+                                    arrayList14 = arrayList5;
+                                    size = i9;
+                                    clientUserId = j8;
+                                    notificationsSettings = sharedPreferences;
+                                    z5 = z10;
+                                    arrayList11 = arrayList3;
+                                    longSparseArray13 = longSparseArray4;
+                                    z4 = z11;
+                                    longSparseArray14 = longSparseArray7;
+                                    longSparseArray = longSparseArray6;
+                                    build2 = notification2;
+                                    i4 = -1;
+                                    notificationsController3 = notificationsController2;
                                 }
                             }
-                            i5 = i13 + 1;
-                            arrayList15 = arrayList6;
-                            size = i12;
-                            notificationsSettings = sharedPreferences;
-                            arrayList12 = arrayList4;
-                            longSparseArray12 = longSparseArray4;
-                            clientUserId = j8;
-                            z4 = z10;
-                            str3 = str8;
-                            longSparseArray13 = longSparseArray7;
-                            longSparseArray = longSparseArray6;
-                            build2 = notification2;
-                            i4 = -1;
-                            notificationsController5 = notificationsController2;
                         }
-                    } else {
-                        TLRPC$User user3 = getMessagesController().getUser(Long.valueOf(j4));
-                        longSparseArray5 = longSparseArray13;
-                        if (notificationsController5.storyPushMessages.size() == 1) {
-                            formatPluralString = user3 != null ? UserObject.getFirstName(user3) : notificationsController5.storyPushMessages.get(0).localName;
-                            i11 = i30;
-                        } else {
-                            i11 = i30;
-                            formatPluralString = LocaleController.formatPluralString("Stories", notificationsController5.storyPushMessages.size(), new Object[0]);
-                        }
-                        if (user3 == null || (tLRPC$UserProfilePhoto3 = user3.photo) == null || (tLRPC$FileLocation8 = tLRPC$UserProfilePhoto3.photo_small) == null) {
-                            str22 = "Stories";
-                            str23 = formatPluralString;
-                        } else {
-                            str22 = "Stories";
-                            str23 = formatPluralString;
-                            if (tLRPC$FileLocation8.volume_id != 0 && tLRPC$FileLocation8.local_id != 0) {
-                                j6 = clientUserId;
-                                dialogKey2 = dialogKey;
-                                tLRPC$FileLocation = tLRPC$FileLocation8;
-                                str4 = str22;
-                                num2 = num;
-                                z7 = false;
-                                z8 = false;
-                                tLRPC$Chat = null;
-                                z9 = false;
-                                tLRPC$User2 = user3;
-                                string = str23;
-                                arrayList5 = arrayList2;
-                                j7 = j5;
-                            }
-                        }
-                        j6 = clientUserId;
-                        dialogKey2 = dialogKey;
-                        str4 = str22;
-                        num2 = num;
-                        tLRPC$FileLocation = null;
-                        z7 = false;
-                        z8 = false;
-                        tLRPC$Chat = null;
-                        z9 = false;
-                        tLRPC$User2 = user3;
-                        string = str23;
-                        arrayList5 = arrayList2;
-                        j7 = j5;
                     }
                     if (messageObject != null && messageObject.isStoryReactionPush && !notificationsSettings.getBoolean("EnableReactionsPreview", true)) {
                         string = LocaleController.getString(R.string.NotificationHiddenChatName);
-                        tLRPC$FileLocation = null;
                         z7 = false;
+                        tLRPC$FileLocation = null;
                     }
                     if (z5) {
-                        TLRPC$FileLocation tLRPC$FileLocation9 = tLRPC$FileLocation;
-                        str9 = string;
-                        tLRPC$FileLocation5 = tLRPC$FileLocation9;
-                    } else {
-                        str9 = LocaleController.getString(DialogObject.isChatDialog(j4) ? R.string.NotificationHiddenChatName : R.string.NotificationHiddenName);
+                        string = LocaleController.getString(DialogObject.isChatDialog(j4) ? R.string.NotificationHiddenChatName : R.string.NotificationHiddenName);
                         tLRPC$FileLocation5 = null;
                         z7 = false;
+                    } else {
+                        tLRPC$FileLocation5 = tLRPC$FileLocation;
                     }
-                    if (tLRPC$FileLocation5 == null) {
-                        file = getFileLoader().getPathToAttach(tLRPC$FileLocation5, true);
+                    if (tLRPC$FileLocation5 != null) {
+                        sharedPreferences2 = notificationsSettings;
+                        File pathToAttach = getFileLoader().getPathToAttach(tLRPC$FileLocation5, true);
+                        tLRPC$User4 = tLRPC$User2;
                         if (Build.VERSION.SDK_INT < 28) {
-                            sharedPreferences2 = notificationsSettings;
+                            z12 = z5;
                             bitmap5 = null;
                             BitmapDrawable imageFromMemory = ImageLoader.getInstance().getImageFromMemory(tLRPC$FileLocation5, null, "50_50");
                             if (imageFromMemory != null) {
                                 decodeFile = imageFromMemory.getBitmap();
                             } else {
                                 try {
-                                    if (file.exists()) {
+                                    if (pathToAttach.exists()) {
                                         float dp = 160.0f / AndroidUtilities.dp(50.0f);
                                         BitmapFactory.Options options = new BitmapFactory.Options();
                                         options.inSampleSize = dp < 1.0f ? 1 : (int) dp;
-                                        decodeFile = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+                                        decodeFile = BitmapFactory.decodeFile(pathToAttach.getAbsolutePath(), options);
                                     }
                                 } catch (Throwable unused) {
                                 }
                             }
+                            file = pathToAttach;
                             bitmap = decodeFile;
                         } else {
-                            sharedPreferences2 = notificationsSettings;
+                            z12 = z5;
                             bitmap5 = null;
                         }
+                        file = pathToAttach;
                         bitmap = bitmap5;
                     } else {
+                        z12 = z5;
+                        tLRPC$User4 = tLRPC$User2;
                         sharedPreferences2 = notificationsSettings;
                         bitmap = null;
                         file = null;
                     }
-                    if (tLRPC$Chat == null) {
-                        Person.Builder name = new Person.Builder().setName(str9);
+                    if (tLRPC$Chat != null) {
+                        Person.Builder name = new Person.Builder().setName(string);
                         if (file != null && file.exists() && Build.VERSION.SDK_INT >= 28) {
                             loadRoundAvatar(file, name);
                         }
                         bitmap2 = bitmap;
+                        str9 = "Stories";
                         file2 = file;
-                        longSparseArray.put(-tLRPC$Chat.id, name.build());
+                        longSparseArray8 = longSparseArray15;
+                        longSparseArray8.put(-tLRPC$Chat.id, name.build());
                     } else {
                         bitmap2 = bitmap;
+                        str9 = "Stories";
                         file2 = file;
+                        longSparseArray8 = longSparseArray15;
                     }
-                    Bitmap bitmap6 = bitmap2;
-                    if (!(z8 || z9) || !z7 || SharedConfig.isWaitingForPasscodeEnter || j6 == j4 || UserObject.isReplyUser(j4)) {
+                    String str25 = str9;
+                    if ((z9 && !z8) || !z7 || SharedConfig.isWaitingForPasscodeEnter || j6 == j4 || UserObject.isReplyUser(j4)) {
                         str10 = "max_id";
+                        num = num2;
+                        bitmap3 = bitmap2;
+                        i12 = i31;
                         tLRPC$Chat3 = tLRPC$Chat;
-                        file3 = file2;
-                        i15 = i9;
-                        notificationsController3 = this;
-                        tLRPC$User5 = tLRPC$User2;
                         build = null;
                     } else {
-                        file3 = file2;
-                        Intent intent = new Intent(ApplicationLoader.applicationContext, WearReplyReceiver.class);
-                        intent.putExtra("dialog_id", j4);
-                        intent.putExtra("max_id", i9);
-                        intent.putExtra("topic_id", j7);
-                        notificationsController3 = this;
-                        tLRPC$User5 = tLRPC$User2;
-                        intent.putExtra("currentAccount", notificationsController3.currentAccount);
+                        bitmap3 = bitmap2;
+                        Intent intent2 = new Intent(ApplicationLoader.applicationContext, WearReplyReceiver.class);
+                        intent2.putExtra("dialog_id", j4);
+                        i12 = i31;
+                        intent2.putExtra("max_id", i12);
+                        intent2.putExtra("topic_id", j7);
+                        intent2.putExtra("currentAccount", notificationsController3.currentAccount);
                         tLRPC$Chat3 = tLRPC$Chat;
-                        str10 = "max_id";
-                        PendingIntent broadcast = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent, 167772160);
+                        num = num2;
+                        PendingIntent broadcast = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent2, 167772160);
                         RemoteInput build3 = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setLabel(LocaleController.getString(R.string.Reply)).build();
                         if (DialogObject.isChatDialog(j4)) {
-                            i15 = i9;
-                            formatString = LocaleController.formatString("ReplyToUser", R.string.ReplyToUser, str9);
+                            str10 = "max_id";
+                            formatString = LocaleController.formatString("ReplyToGroup", R.string.ReplyToGroup, string);
                         } else {
-                            i15 = i9;
-                            formatString = LocaleController.formatString("ReplyToGroup", R.string.ReplyToGroup, str9);
+                            str10 = "max_id";
+                            formatString = LocaleController.formatString("ReplyToUser", R.string.ReplyToUser, string);
                         }
                         build = new NotificationCompat.Action.Builder(R.drawable.ic_reply_icon, formatString, broadcast).setAllowGeneratedReplies(true).setSemanticAction(1).addRemoteInput(build3).setShowsUserInterface(false).build();
                     }
-                    num3 = (Integer) notificationsController3.pushDialogs.get(j4);
+                    Integer num3 = (Integer) notificationsController3.pushDialogs.get(j4);
                     if (num3 == null) {
                         num3 = 0;
                     }
-                    dialogKey3 = dialogKey2;
-                    int size4 = !dialogKey3.story ? notificationsController3.storyPushMessages.size() : Math.max(num3.intValue(), arrayList5.size());
-                    String format = (size4 > 1 || Build.VERSION.SDK_INT >= 28) ? str9 : String.format("%1$s (%2$d)", str9, Integer.valueOf(size4));
-                    j9 = j6;
-                    Person person4 = (Person) longSparseArray.get(j9);
-                    if (Build.VERSION.SDK_INT >= 28 && person4 == null) {
-                        user = getMessagesController().getUser(Long.valueOf(j9));
-                        if (user == null) {
-                            user = getUserConfig().getCurrentUser();
+                    DialogKey dialogKey9 = dialogKey;
+                    int size4 = dialogKey9.story ? notificationsController3.storyPushMessages.size() : Math.max(num3.intValue(), arrayList4.size());
+                    String format = (size4 <= 1 || Build.VERSION.SDK_INT >= 28) ? string : String.format("%1$s (%2$d)", string, Integer.valueOf(size4));
+                    long j21 = j6;
+                    long j22 = j4;
+                    Person person3 = (Person) longSparseArray8.get(j21);
+                    int i34 = i12;
+                    if (Build.VERSION.SDK_INT >= 28 && person3 == null) {
+                        TLRPC$User user2 = getMessagesController().getUser(Long.valueOf(j21));
+                        if (user2 == null) {
+                            user2 = getUserConfig().getCurrentUser();
                         }
-                        if (user != null) {
+                        if (user2 != null) {
                             try {
-                                tLRPC$UserProfilePhoto2 = user.photo;
+                                tLRPC$UserProfilePhoto2 = user2.photo;
                             } catch (Throwable th) {
                                 th = th;
-                                j10 = j7;
+                                str11 = string;
+                                action = build;
                             }
                             if (tLRPC$UserProfilePhoto2 != null && (tLRPC$FileLocation7 = tLRPC$UserProfilePhoto2.photo_small) != null) {
-                                j10 = j7;
+                                str11 = string;
+                                action = build;
                                 try {
+                                    if (tLRPC$FileLocation7.volume_id != 0 && tLRPC$FileLocation7.local_id != 0) {
+                                        Person.Builder name2 = new Person.Builder().setName(LocaleController.getString(R.string.FromYou));
+                                        loadRoundAvatar(getFileLoader().getPathToAttach(user2.photo.photo_small, true), name2);
+                                        person3 = name2.build();
+                                        longSparseArray8.put(j21, person3);
+                                    }
                                 } catch (Throwable th2) {
                                     th = th2;
+                                    FileLog.e(th);
+                                    messagingStyle = (person3 == null && (messageObject != null || !(messageObject.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest))) ? new NotificationCompat.MessagingStyle(person3) : new NotificationCompat.MessagingStyle("");
+                                    i13 = Build.VERSION.SDK_INT;
+                                    if (i13 >= 28) {
+                                    }
+                                    messagingStyle.setConversationTitle(format);
+                                    messagingStyle.setGroupConversation(i13 >= 28 || (!z9 && DialogObject.isChatDialog(j22)) || UserObject.isReplyUser(j22));
+                                    StringBuilder sb6 = new StringBuilder();
+                                    String[] strArr2 = new String[1];
+                                    boolean[] zArr = new boolean[1];
+                                    if (dialogKey9.story) {
+                                    }
+                                    Intent intent3 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
+                                    intent3.setAction("com.tmessages.openchat" + Math.random() + ConnectionsManager.DEFAULT_DATACENTER_ID);
+                                    intent3.setFlags(ConnectionsManager.FileTypeFile);
+                                    intent3.addCategory("android.intent.category.LAUNCHER");
+                                    MessageObject messageObject4 = messageObject2;
+                                    if (messageObject2 == null) {
+                                    }
+                                    dialogKey6 = dialogKey3;
+                                    if (dialogKey6.story) {
+                                    }
+                                    StringBuilder sb7 = new StringBuilder();
+                                    sb7.append("show extra notifications chatId ");
+                                    sb7.append(j11);
+                                    sb7.append(" topicId ");
+                                    j15 = j10;
+                                    sb7.append(j15);
+                                    FileLog.d(sb7.toString());
+                                    if (j15 != 0) {
+                                    }
+                                    String str26 = str12;
+                                    intent3.putExtra(str26, notificationsController3.currentAccount);
+                                    PendingIntent activity = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent3, 1140850688);
+                                    NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
+                                    NotificationCompat.Action action3 = action;
+                                    if (action != null) {
+                                    }
+                                    int i35 = i14;
+                                    Intent intent4 = new Intent(ApplicationLoader.applicationContext, AutoMessageHeardReceiver.class);
+                                    intent4.addFlags(32);
+                                    intent4.setAction("org.telegram.messenger.ACTION_MESSAGE_HEARD");
+                                    intent4.putExtra("dialog_id", j11);
+                                    intent4.putExtra(str10, i34);
+                                    intent4.putExtra(str26, notificationsController3.currentAccount);
+                                    ArrayList arrayList18 = arrayList7;
+                                    Bitmap bitmap6 = bitmap4;
+                                    NotificationCompat.Action build4 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString(R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent4, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
+                                    if (DialogObject.isEncryptedDialog(j11)) {
+                                    }
+                                    i5 = i10 + 1;
+                                    arrayList14 = arrayList5;
+                                    size = i9;
+                                    clientUserId = j8;
+                                    notificationsSettings = sharedPreferences;
+                                    z5 = z10;
+                                    arrayList11 = arrayList3;
+                                    longSparseArray13 = longSparseArray4;
+                                    z4 = z11;
+                                    longSparseArray14 = longSparseArray7;
+                                    longSparseArray = longSparseArray6;
+                                    build2 = notification2;
+                                    i4 = -1;
+                                    notificationsController3 = notificationsController2;
                                 }
-                                if (tLRPC$FileLocation7.volume_id != 0 && tLRPC$FileLocation7.local_id != 0) {
-                                    Person.Builder name2 = new Person.Builder().setName(LocaleController.getString(R.string.FromYou));
-                                    loadRoundAvatar(getFileLoader().getPathToAttach(user.photo.photo_small, true), name2);
-                                    person = name2.build();
-                                    try {
-                                        longSparseArray.put(j9, person);
-                                    } catch (Throwable th3) {
-                                        th = th3;
-                                        person4 = person;
-                                        FileLog.e(th);
-                                        person = person4;
-                                        String str26 = "";
-                                        messagingStyle = (person == null && (messageObject != null || !(messageObject.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest))) ? new NotificationCompat.MessagingStyle(person) : new NotificationCompat.MessagingStyle("");
-                                        i16 = Build.VERSION.SDK_INT;
-                                        if (i16 >= 28) {
+                                messagingStyle = (person3 == null && (messageObject != null || !(messageObject.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest))) ? new NotificationCompat.MessagingStyle(person3) : new NotificationCompat.MessagingStyle("");
+                                i13 = Build.VERSION.SDK_INT;
+                                if (i13 >= 28 || ((DialogObject.isChatDialog(j22) && !z9) || UserObject.isReplyUser(j22))) {
+                                    messagingStyle.setConversationTitle(format);
+                                }
+                                messagingStyle.setGroupConversation(i13 >= 28 || (!z9 && DialogObject.isChatDialog(j22)) || UserObject.isReplyUser(j22));
+                                StringBuilder sb62 = new StringBuilder();
+                                String[] strArr22 = new String[1];
+                                boolean[] zArr2 = new boolean[1];
+                                if (dialogKey9.story) {
+                                    ArrayList<String> arrayList19 = new ArrayList<>();
+                                    ArrayList<Object> arrayList20 = new ArrayList<>();
+                                    Pair<Integer, Boolean> parseStoryPushes = notificationsController3.parseStoryPushes(arrayList19, arrayList20);
+                                    int intValue = ((Integer) parseStoryPushes.first).intValue();
+                                    boolean booleanValue = ((Boolean) parseStoryPushes.second).booleanValue();
+                                    str12 = "currentAccount";
+                                    if (booleanValue) {
+                                        string2 = LocaleController.formatPluralString("StoryNotificationHidden", intValue, new Object[0]);
+                                    } else if (arrayList19.isEmpty()) {
+                                        FileLog.d(str4 + dialogKey9.dialogId + "] continue; story but names is empty");
+                                        longSparseArray6 = longSparseArray8;
+                                        j8 = j21;
+                                        notificationsController2 = notificationsController3;
+                                        i9 = i27;
+                                        i10 = i28;
+                                        arrayList5 = arrayList15;
+                                        notification2 = notification;
+                                        z11 = z6;
+                                        sharedPreferences = sharedPreferences2;
+                                        longSparseArray7 = longSparseArray5;
+                                        z10 = z12;
+                                        i5 = i10 + 1;
+                                        arrayList14 = arrayList5;
+                                        size = i9;
+                                        clientUserId = j8;
+                                        notificationsSettings = sharedPreferences;
+                                        z5 = z10;
+                                        arrayList11 = arrayList3;
+                                        longSparseArray13 = longSparseArray4;
+                                        z4 = z11;
+                                        longSparseArray14 = longSparseArray7;
+                                        longSparseArray = longSparseArray6;
+                                        build2 = notification2;
+                                        i4 = -1;
+                                        notificationsController3 = notificationsController2;
+                                    } else if (arrayList19.size() != 1) {
+                                        messageObject2 = messageObject;
+                                        if (arrayList19.size() == 2) {
+                                            longSparseArray12 = longSparseArray8;
+                                            sb62.append(LocaleController.formatString(R.string.StoryNotification2, arrayList19.get(0), arrayList19.get(1)));
+                                            dialogKey7 = dialogKey9;
+                                            j9 = j21;
+                                            long j23 = Long.MAX_VALUE;
+                                            while (i21 < notificationsController3.storyPushMessages.size()) {
+                                            }
+                                            messagingStyle.setGroupConversation(false);
+                                            if (arrayList19.size() == 1) {
+                                            }
+                                            messagingStyle.addMessage(sb62, j23, new Person.Builder().setName(r0).build());
+                                            if (booleanValue) {
+                                            }
+                                            sb2 = sb62;
+                                            str14 = r0;
+                                        } else {
+                                            longSparseArray12 = longSparseArray8;
+                                            if (arrayList19.size() == 3 && notificationsController3.storyPushMessages.size() == 3) {
+                                                j9 = j21;
+                                                sb62.append(LocaleController.formatString(R.string.StoryNotification3, notificationsController3.cutLastName(arrayList19.get(0)), notificationsController3.cutLastName(arrayList19.get(1)), notificationsController3.cutLastName(arrayList19.get(2))));
+                                                dialogKey7 = dialogKey9;
+                                            } else {
+                                                j9 = j21;
+                                                dialogKey7 = dialogKey9;
+                                                sb62.append(LocaleController.formatPluralString("StoryNotification4", notificationsController3.storyPushMessages.size() - 2, notificationsController3.cutLastName(arrayList19.get(0)), notificationsController3.cutLastName(arrayList19.get(1))));
+                                            }
+                                            long j232 = Long.MAX_VALUE;
+                                            while (i21 < notificationsController3.storyPushMessages.size()) {
+                                            }
+                                            messagingStyle.setGroupConversation(false);
+                                            if (arrayList19.size() == 1) {
+                                            }
+                                            messagingStyle.addMessage(sb62, j232, new Person.Builder().setName(r0).build());
+                                            if (booleanValue) {
+                                            }
+                                            sb2 = sb62;
+                                            str14 = r0;
                                         }
-                                        messagingStyle.setConversationTitle(format);
-                                        messagingStyle.setGroupConversation(i16 >= 28 || (!z8 && DialogObject.isChatDialog(j4)) || UserObject.isReplyUser(j4));
-                                        StringBuilder sb6 = new StringBuilder();
-                                        String[] strArr2 = new String[1];
-                                        boolean[] zArr = new boolean[1];
-                                        if (dialogKey3.story) {
+                                    } else if (intValue == 1) {
+                                        string2 = LocaleController.getString("StoryNotificationSingle");
+                                    } else {
+                                        messageObject2 = messageObject;
+                                        sb62.append(LocaleController.formatPluralString("StoryNotification1", intValue, arrayList19.get(0)));
+                                        dialogKey7 = dialogKey9;
+                                        longSparseArray12 = longSparseArray8;
+                                        j9 = j21;
+                                        long j2322 = Long.MAX_VALUE;
+                                        for (i21 = 0; i21 < notificationsController3.storyPushMessages.size(); i21++) {
+                                            j2322 = Math.min(notificationsController3.storyPushMessages.get(i21).date, j2322);
                                         }
-                                        Intent intent2 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
-                                        StringBuilder sb7 = new StringBuilder();
-                                        sb7.append("com.tmessages.openchat");
-                                        String str27 = str12;
-                                        ArrayList arrayList19 = arrayList7;
-                                        sb7.append(Math.random());
-                                        sb7.append(ConnectionsManager.DEFAULT_DATACENTER_ID);
-                                        intent2.setAction(sb7.toString());
-                                        intent2.setFlags(ConnectionsManager.FileTypeFile);
-                                        intent2.addCategory("android.intent.category.LAUNCHER");
-                                        MessageObject messageObject5 = messageObject2;
-                                        if (messageObject2 == null) {
+                                        messagingStyle.setGroupConversation(false);
+                                        String formatPluralString2 = (arrayList19.size() == 1 || booleanValue) ? LocaleController.formatPluralString(str25, intValue, new Object[0]) : arrayList19.get(0);
+                                        messagingStyle.addMessage(sb62, j2322, new Person.Builder().setName(formatPluralString2).build());
+                                        if (booleanValue) {
+                                            bitmap4 = loadMultipleAvatars(arrayList20);
+                                            messagingStyle2 = messagingStyle;
+                                            j10 = j7;
+                                            dialogKey3 = dialogKey7;
+                                            str13 = str3;
+                                            arrayList6 = arrayList4;
+                                            j11 = j22;
+                                            longSparseArray9 = longSparseArray12;
+                                            i14 = 0;
+                                            arrayList7 = null;
+                                        } else {
+                                            messagingStyle2 = messagingStyle;
+                                            j10 = j7;
+                                            dialogKey3 = dialogKey7;
+                                            str13 = str3;
+                                            arrayList6 = arrayList4;
+                                            j11 = j22;
+                                            longSparseArray9 = longSparseArray12;
+                                            i14 = 0;
+                                            arrayList7 = null;
+                                            bitmap4 = null;
+                                        }
+                                        sb2 = sb62;
+                                        str14 = formatPluralString2;
+                                    }
+                                    sb62.append(string2);
+                                    dialogKey7 = dialogKey9;
+                                    messageObject2 = messageObject;
+                                    longSparseArray12 = longSparseArray8;
+                                    j9 = j21;
+                                    long j23222 = Long.MAX_VALUE;
+                                    while (i21 < notificationsController3.storyPushMessages.size()) {
+                                    }
+                                    messagingStyle.setGroupConversation(false);
+                                    if (arrayList19.size() == 1) {
+                                    }
+                                    messagingStyle.addMessage(sb62, j23222, new Person.Builder().setName(formatPluralString2).build());
+                                    if (booleanValue) {
+                                    }
+                                    sb2 = sb62;
+                                    str14 = formatPluralString2;
+                                } else {
+                                    DialogKey dialogKey10 = dialogKey9;
+                                    str12 = "currentAccount";
+                                    LongSparseArray longSparseArray16 = longSparseArray8;
+                                    j9 = j21;
+                                    String str27 = str4;
+                                    messageObject2 = messageObject;
+                                    int size5 = arrayList4.size() - 1;
+                                    int i36 = 0;
+                                    ArrayList arrayList21 = null;
+                                    while (size5 >= 0) {
+                                        ArrayList<StoryNotification> arrayList22 = arrayList4;
+                                        MessageObject messageObject5 = (MessageObject) arrayList22.get(size5);
+                                        int i37 = i36;
+                                        ArrayList arrayList23 = arrayList21;
+                                        long topicId2 = MessageObject.getTopicId(notificationsController3.currentAccount, messageObject5.messageOwner, getMessagesController().isForum(messageObject5));
+                                        if (j7 != topicId2) {
+                                            StringBuilder sb8 = new StringBuilder();
+                                            sb8.append(str27);
+                                            dialogKey4 = dialogKey10;
+                                            sb8.append(dialogKey4.dialogId);
+                                            sb8.append("] continue; topic id is not equal: topicId=");
+                                            sb8.append(j7);
+                                            sb8.append(" messageTopicId=");
+                                            sb8.append(topicId2);
+                                            sb8.append("; selfId=");
+                                            sb8.append(getUserConfig().getClientUserId());
+                                            FileLog.d(sb8.toString());
+                                        } else {
+                                            dialogKey4 = dialogKey10;
+                                            String shortStringForMessage = notificationsController3.getShortStringForMessage(messageObject5, strArr22, zArr2);
+                                            if (j22 == j9) {
+                                                strArr22[0] = str11;
+                                            } else if (DialogObject.isChatDialog(j22) && messageObject5.messageOwner.from_scheduled) {
+                                                strArr22[0] = LocaleController.getString(R.string.NotificationMessageScheduledName);
+                                            }
+                                            if (shortStringForMessage != null) {
+                                                if (sb62.length() > 0) {
+                                                    sb62.append("\n\n");
+                                                }
+                                                if (j22 != j9 && messageObject5.messageOwner.from_scheduled && DialogObject.isUserDialog(j22)) {
+                                                    str15 = str27;
+                                                    shortStringForMessage = String.format("%1$s: %2$s", LocaleController.getString(R.string.NotificationMessageScheduledName), shortStringForMessage);
+                                                    sb62.append(shortStringForMessage);
+                                                    dialogKey5 = dialogKey4;
+                                                } else {
+                                                    str15 = str27;
+                                                    String str28 = strArr22[0];
+                                                    dialogKey5 = dialogKey4;
+                                                    if (str28 != null) {
+                                                        sb62.append(String.format("%1$s: %2$s", str28, shortStringForMessage));
+                                                    } else {
+                                                        sb62.append(shortStringForMessage);
+                                                    }
+                                                }
+                                                String str29 = shortStringForMessage;
+                                                NotificationCompat.MessagingStyle messagingStyle4 = messagingStyle;
+                                                int i38 = size5;
+                                                j12 = j22;
+                                                if (!DialogObject.isUserDialog(j22)) {
+                                                    if (z9) {
+                                                        j13 = -j12;
+                                                    } else if (DialogObject.isChatDialog(j12)) {
+                                                        j13 = messageObject5.getSenderId();
+                                                    }
+                                                    j14 = j7;
+                                                    longSparseArray10 = longSparseArray16;
+                                                    person = (Person) longSparseArray10.get(j13 + (j7 << 16));
+                                                    str16 = strArr22[0];
+                                                    if (str16 == null) {
+                                                        if (z12) {
+                                                            if (DialogObject.isChatDialog(j12)) {
+                                                                if (!z9) {
+                                                                    i17 = R.string.NotificationHiddenChatUserName;
+                                                                } else if (Build.VERSION.SDK_INT > 27) {
+                                                                    i17 = R.string.NotificationHiddenChatName;
+                                                                }
+                                                                str16 = LocaleController.getString(i17);
+                                                            } else if (Build.VERSION.SDK_INT > 27) {
+                                                                i17 = R.string.NotificationHiddenName;
+                                                                str16 = LocaleController.getString(i17);
+                                                            }
+                                                        }
+                                                        str16 = "";
+                                                    }
+                                                    if (person == null && TextUtils.equals(person.getName(), str16)) {
+                                                        person2 = person;
+                                                        sb3 = sb62;
+                                                        i15 = i38;
+                                                        strArr = strArr22;
+                                                    } else {
+                                                        Person.Builder name3 = new Person.Builder().setName(str16);
+                                                        if (zArr2[0] || DialogObject.isEncryptedDialog(j12) || Build.VERSION.SDK_INT < 28) {
+                                                            sb3 = sb62;
+                                                            i15 = i38;
+                                                            strArr = strArr22;
+                                                        } else {
+                                                            if (DialogObject.isUserDialog(j12) || z9) {
+                                                                sb3 = sb62;
+                                                                i15 = i38;
+                                                                strArr = strArr22;
+                                                                file3 = file2;
+                                                            } else {
+                                                                long senderId = messageObject5.getSenderId();
+                                                                strArr = strArr22;
+                                                                sb3 = sb62;
+                                                                TLRPC$User user3 = getMessagesController().getUser(Long.valueOf(senderId));
+                                                                if (user3 == null && (user3 = getMessagesStorage().getUserSync(senderId)) != null) {
+                                                                    getMessagesController().putUser(user3, true);
+                                                                }
+                                                                if (user3 == null || (tLRPC$UserProfilePhoto = user3.photo) == null || (tLRPC$FileLocation6 = tLRPC$UserProfilePhoto.photo_small) == null) {
+                                                                    i15 = i38;
+                                                                } else {
+                                                                    i15 = i38;
+                                                                    if (tLRPC$FileLocation6.volume_id != 0 && tLRPC$FileLocation6.local_id != 0) {
+                                                                        file3 = getFileLoader().getPathToAttach(user3.photo.photo_small, true);
+                                                                    }
+                                                                }
+                                                                file3 = null;
+                                                            }
+                                                            loadRoundAvatar(file3, name3);
+                                                        }
+                                                        Person build5 = name3.build();
+                                                        longSparseArray10.put(j13, build5);
+                                                        person2 = build5;
+                                                    }
+                                                    if (DialogObject.isEncryptedDialog(j12)) {
+                                                        if (!zArr2[0] || Build.VERSION.SDK_INT < 28 || ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).isLowRamDevice() || z12 || messageObject5.isSecretMedia() || !(messageObject5.type == 1 || messageObject5.isSticker())) {
+                                                            longSparseArray11 = longSparseArray10;
+                                                            str17 = str3;
+                                                            messagingStyle3 = messagingStyle4;
+                                                            i16 = i15;
+                                                        } else {
+                                                            File pathToMessage = getFileLoader().getPathToMessage(messageObject5.messageOwner);
+                                                            if (pathToMessage.exists() && messageObject5.hasMediaSpoilers()) {
+                                                                file5 = new File(pathToMessage.getParentFile(), pathToMessage.getName() + ".blur.jpg");
+                                                                if (file5.exists()) {
+                                                                    file6 = pathToMessage;
+                                                                    longSparseArray11 = longSparseArray10;
+                                                                } else {
+                                                                    try {
+                                                                        Bitmap decodeFile2 = BitmapFactory.decodeFile(pathToMessage.getAbsolutePath());
+                                                                        Bitmap stackBlurBitmapMax = Utilities.stackBlurBitmapMax(decodeFile2);
+                                                                        decodeFile2.recycle();
+                                                                        Bitmap createScaledBitmap = Bitmap.createScaledBitmap(stackBlurBitmapMax, decodeFile2.getWidth(), decodeFile2.getHeight(), true);
+                                                                        Utilities.stackBlurBitmap(createScaledBitmap, 5);
+                                                                        stackBlurBitmapMax.recycle();
+                                                                        Canvas canvas = new Canvas(createScaledBitmap);
+                                                                        longSparseArray11 = longSparseArray10;
+                                                                        try {
+                                                                            notificationsController3.mediaSpoilerEffect.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(i4) * 0.325f)));
+                                                                            file6 = pathToMessage;
+                                                                        } catch (Exception e) {
+                                                                            e = e;
+                                                                            file6 = pathToMessage;
+                                                                        }
+                                                                        try {
+                                                                            notificationsController3.mediaSpoilerEffect.setBounds(0, 0, createScaledBitmap.getWidth(), createScaledBitmap.getHeight());
+                                                                            notificationsController3.mediaSpoilerEffect.draw(canvas);
+                                                                            FileOutputStream fileOutputStream = new FileOutputStream(file5);
+                                                                            createScaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+                                                                            fileOutputStream.close();
+                                                                            createScaledBitmap.recycle();
+                                                                            file4 = file5;
+                                                                        } catch (Exception e2) {
+                                                                            e = e2;
+                                                                            FileLog.e(e);
+                                                                            file4 = file6;
+                                                                            NotificationCompat.MessagingStyle.Message message = new NotificationCompat.MessagingStyle.Message(str29, messageObject5.messageOwner.date * 1000, person2);
+                                                                            String str30 = !messageObject5.isSticker() ? "image/webp" : "image/jpeg";
+                                                                            if (file4.exists()) {
+                                                                            }
+                                                                        }
+                                                                    } catch (Exception e3) {
+                                                                        e = e3;
+                                                                        file6 = pathToMessage;
+                                                                        longSparseArray11 = longSparseArray10;
+                                                                    }
+                                                                }
+                                                                file4 = file6;
+                                                            } else {
+                                                                longSparseArray11 = longSparseArray10;
+                                                                file4 = pathToMessage;
+                                                                file5 = null;
+                                                            }
+                                                            NotificationCompat.MessagingStyle.Message message2 = new NotificationCompat.MessagingStyle.Message(str29, messageObject5.messageOwner.date * 1000, person2);
+                                                            String str302 = !messageObject5.isSticker() ? "image/webp" : "image/jpeg";
+                                                            if (file4.exists()) {
+                                                                str17 = str3;
+                                                                if (getFileLoader().isLoadingFile(file4.getName())) {
+                                                                    Uri.Builder appendPath = new Uri.Builder().scheme("content").authority(NotificationImageProvider.getAuthority()).appendPath("msg_media_raw");
+                                                                    StringBuilder sb9 = new StringBuilder();
+                                                                    i16 = i15;
+                                                                    sb9.append(notificationsController3.currentAccount);
+                                                                    sb9.append("");
+                                                                    uriForFile = appendPath.appendPath(sb9.toString()).appendPath(file4.getName()).appendQueryParameter("final_path", file4.getAbsolutePath()).build();
+                                                                    if (uriForFile == null) {
+                                                                    }
+                                                                }
+                                                                i16 = i15;
+                                                                uriForFile = null;
+                                                                if (uriForFile == null) {
+                                                                }
+                                                            } else {
+                                                                try {
+                                                                    context = ApplicationLoader.applicationContext;
+                                                                    sb4 = new StringBuilder();
+                                                                    sb4.append(ApplicationLoader.getApplicationId());
+                                                                    str17 = str3;
+                                                                } catch (Exception e4) {
+                                                                    e = e4;
+                                                                    str17 = str3;
+                                                                }
+                                                                try {
+                                                                    sb4.append(str17);
+                                                                    uriForFile = FileProvider.getUriForFile(context, sb4.toString(), file4);
+                                                                    i16 = i15;
+                                                                } catch (Exception e5) {
+                                                                    e = e5;
+                                                                    FileLog.e(e);
+                                                                    i16 = i15;
+                                                                    uriForFile = null;
+                                                                    if (uriForFile == null) {
+                                                                    }
+                                                                }
+                                                                if (uriForFile == null) {
+                                                                    message2.setData(str302, uriForFile);
+                                                                    messagingStyle3 = messagingStyle4;
+                                                                    messagingStyle3.addMessage(message2);
+                                                                    ApplicationLoader.applicationContext.grantUriPermission("com.android.systemui", uriForFile, 1);
+                                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda55
+                                                                        @Override // java.lang.Runnable
+                                                                        public final void run() {
+                                                                            NotificationsController.lambda$showExtraNotifications$42(uriForFile, file5);
+                                                                        }
+                                                                    }, 20000L);
+                                                                    if (!TextUtils.isEmpty(messageObject5.caption)) {
+                                                                        messagingStyle3.addMessage(messageObject5.caption, messageObject5.messageOwner.date * 1000, person2);
+                                                                    }
+                                                                    if (zArr2[0] && !z12 && messageObject5.isVoice()) {
+                                                                        messages = messagingStyle3.getMessages();
+                                                                        if (!messages.isEmpty()) {
+                                                                            File pathToMessage2 = getFileLoader().getPathToMessage(messageObject5.messageOwner);
+                                                                            if (Build.VERSION.SDK_INT >= 24) {
+                                                                                try {
+                                                                                    uri2 = FileProvider.getUriForFile(ApplicationLoader.applicationContext, ApplicationLoader.getApplicationId() + str17, pathToMessage2);
+                                                                                } catch (Exception unused2) {
+                                                                                    uri2 = null;
+                                                                                }
+                                                                            } else {
+                                                                                uri2 = Uri.fromFile(pathToMessage2);
+                                                                            }
+                                                                            if (uri2 != null) {
+                                                                                ((NotificationCompat.MessagingStyle.Message) messages.get(messages.size() - 1)).setData("audio/ogg", uri2);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                } else {
+                                                                    messagingStyle3 = messagingStyle4;
+                                                                }
+                                                            }
+                                                        }
+                                                        messagingStyle3.addMessage(str29, messageObject5.messageOwner.date * 1000, person2);
+                                                        if (zArr2[0]) {
+                                                            messages = messagingStyle3.getMessages();
+                                                            if (!messages.isEmpty()) {
+                                                            }
+                                                        }
+                                                    } else {
+                                                        longSparseArray11 = longSparseArray10;
+                                                        str17 = str3;
+                                                        messagingStyle3 = messagingStyle4;
+                                                        i16 = i15;
+                                                        messagingStyle3.addMessage(str29, messageObject5.messageOwner.date * 1000, person2);
+                                                    }
+                                                    if (j12 == 777000 && (tLRPC$ReplyMarkup = messageObject5.messageOwner.reply_markup) != null) {
+                                                        arrayList8 = tLRPC$ReplyMarkup.rows;
+                                                        i36 = messageObject5.getId();
+                                                        size5 = i16 - 1;
+                                                        messagingStyle = messagingStyle3;
+                                                        str3 = str17;
+                                                        str27 = str15;
+                                                        strArr22 = strArr;
+                                                        sb62 = sb3;
+                                                        arrayList4 = arrayList22;
+                                                        dialogKey10 = dialogKey5;
+                                                        j7 = j14;
+                                                        longSparseArray16 = longSparseArray11;
+                                                        i4 = -1;
+                                                        j22 = j12;
+                                                        arrayList21 = arrayList8;
+                                                    }
+                                                    i36 = i37;
+                                                    arrayList8 = arrayList23;
+                                                    size5 = i16 - 1;
+                                                    messagingStyle = messagingStyle3;
+                                                    str3 = str17;
+                                                    str27 = str15;
+                                                    strArr22 = strArr;
+                                                    sb62 = sb3;
+                                                    arrayList4 = arrayList22;
+                                                    dialogKey10 = dialogKey5;
+                                                    j7 = j14;
+                                                    longSparseArray16 = longSparseArray11;
+                                                    i4 = -1;
+                                                    j22 = j12;
+                                                    arrayList21 = arrayList8;
+                                                }
+                                                j13 = j12;
+                                                j14 = j7;
+                                                longSparseArray10 = longSparseArray16;
+                                                person = (Person) longSparseArray10.get(j13 + (j7 << 16));
+                                                str16 = strArr22[0];
+                                                if (str16 == null) {
+                                                }
+                                                if (person == null) {
+                                                }
+                                                Person.Builder name32 = new Person.Builder().setName(str16);
+                                                if (zArr2[0]) {
+                                                }
+                                                sb3 = sb62;
+                                                i15 = i38;
+                                                strArr = strArr22;
+                                                Person build52 = name32.build();
+                                                longSparseArray10.put(j13, build52);
+                                                person2 = build52;
+                                                if (DialogObject.isEncryptedDialog(j12)) {
+                                                }
+                                                if (j12 == 777000) {
+                                                    arrayList8 = tLRPC$ReplyMarkup.rows;
+                                                    i36 = messageObject5.getId();
+                                                    size5 = i16 - 1;
+                                                    messagingStyle = messagingStyle3;
+                                                    str3 = str17;
+                                                    str27 = str15;
+                                                    strArr22 = strArr;
+                                                    sb62 = sb3;
+                                                    arrayList4 = arrayList22;
+                                                    dialogKey10 = dialogKey5;
+                                                    j7 = j14;
+                                                    longSparseArray16 = longSparseArray11;
+                                                    i4 = -1;
+                                                    j22 = j12;
+                                                    arrayList21 = arrayList8;
+                                                }
+                                                i36 = i37;
+                                                arrayList8 = arrayList23;
+                                                size5 = i16 - 1;
+                                                messagingStyle = messagingStyle3;
+                                                str3 = str17;
+                                                str27 = str15;
+                                                strArr22 = strArr;
+                                                sb62 = sb3;
+                                                arrayList4 = arrayList22;
+                                                dialogKey10 = dialogKey5;
+                                                j7 = j14;
+                                                longSparseArray16 = longSparseArray11;
+                                                i4 = -1;
+                                                j22 = j12;
+                                                arrayList21 = arrayList8;
+                                            } else if (BuildVars.LOGS_ENABLED) {
+                                                FileLog.w("message text is null for " + messageObject5.getId() + " did = " + messageObject5.getDialogId());
+                                            }
                                         }
                                         dialogKey5 = dialogKey4;
-                                        if (dialogKey5.story) {
+                                        str15 = str27;
+                                        j14 = j7;
+                                        j12 = j22;
+                                        longSparseArray11 = longSparseArray16;
+                                        messagingStyle3 = messagingStyle;
+                                        sb3 = sb62;
+                                        strArr = strArr22;
+                                        str17 = str3;
+                                        i16 = size5;
+                                        i36 = i37;
+                                        arrayList8 = arrayList23;
+                                        size5 = i16 - 1;
+                                        messagingStyle = messagingStyle3;
+                                        str3 = str17;
+                                        str27 = str15;
+                                        strArr22 = strArr;
+                                        sb62 = sb3;
+                                        arrayList4 = arrayList22;
+                                        dialogKey10 = dialogKey5;
+                                        j7 = j14;
+                                        longSparseArray16 = longSparseArray11;
+                                        i4 = -1;
+                                        j22 = j12;
+                                        arrayList21 = arrayList8;
+                                    }
+                                    messagingStyle2 = messagingStyle;
+                                    j10 = j7;
+                                    dialogKey3 = dialogKey10;
+                                    str13 = str3;
+                                    arrayList6 = arrayList4;
+                                    longSparseArray9 = longSparseArray16;
+                                    sb2 = sb62;
+                                    ArrayList arrayList24 = arrayList21;
+                                    j11 = j22;
+                                    i14 = i36;
+                                    arrayList7 = arrayList24;
+                                    bitmap4 = bitmap3;
+                                    str14 = str11;
+                                }
+                                Intent intent32 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
+                                intent32.setAction("com.tmessages.openchat" + Math.random() + ConnectionsManager.DEFAULT_DATACENTER_ID);
+                                intent32.setFlags(ConnectionsManager.FileTypeFile);
+                                intent32.addCategory("android.intent.category.LAUNCHER");
+                                MessageObject messageObject42 = messageObject2;
+                                if (messageObject2 == null && messageObject42.isStoryReactionPush) {
+                                    intent32.putExtra("storyId", Math.abs(messageObject42.getId()));
+                                    str3 = str13;
+                                    dialogKey6 = dialogKey3;
+                                } else {
+                                    dialogKey6 = dialogKey3;
+                                    if (dialogKey6.story) {
+                                        long[] jArr2 = new long[notificationsController3.storyPushMessages.size()];
+                                        int i39 = 0;
+                                        while (i39 < notificationsController3.storyPushMessages.size()) {
+                                            jArr2[i39] = notificationsController3.storyPushMessages.get(i39).dialogId;
+                                            i39++;
+                                            str13 = str13;
                                         }
-                                        StringBuilder sb8 = new StringBuilder();
-                                        sb8.append("show extra notifications chatId ");
-                                        sb8.append(j4);
-                                        sb8.append(" topicId ");
-                                        j14 = j10;
-                                        sb8.append(j14);
-                                        FileLog.d(sb8.toString());
-                                        if (j14 != 0) {
+                                        str3 = str13;
+                                        intent32.putExtra("storyDialogIds", jArr2);
+                                    } else {
+                                        str3 = str13;
+                                        if (DialogObject.isEncryptedDialog(j11)) {
+                                            intent32.putExtra("encId", DialogObject.getEncryptedChatId(j11));
+                                        } else if (DialogObject.isUserDialog(j11)) {
+                                            intent32.putExtra("userId", j11);
+                                        } else {
+                                            intent32.putExtra("chatId", -j11);
                                         }
-                                        String str28 = str11;
-                                        intent2.putExtra(str28, notificationsController4.currentAccount);
-                                        PendingIntent activity = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 1140850688);
-                                        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
-                                        action2 = action;
-                                        if (action != null) {
+                                    }
+                                }
+                                StringBuilder sb72 = new StringBuilder();
+                                sb72.append("show extra notifications chatId ");
+                                sb72.append(j11);
+                                sb72.append(" topicId ");
+                                j15 = j10;
+                                sb72.append(j15);
+                                FileLog.d(sb72.toString());
+                                if (j15 != 0) {
+                                    intent32.putExtra("topicId", j15);
+                                }
+                                String str262 = str12;
+                                intent32.putExtra(str262, notificationsController3.currentAccount);
+                                PendingIntent activity2 = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent32, 1140850688);
+                                NotificationCompat.WearableExtender wearableExtender2 = new NotificationCompat.WearableExtender();
+                                NotificationCompat.Action action32 = action;
+                                if (action != null) {
+                                    wearableExtender2.addAction(action32);
+                                }
+                                int i352 = i14;
+                                Intent intent42 = new Intent(ApplicationLoader.applicationContext, AutoMessageHeardReceiver.class);
+                                intent42.addFlags(32);
+                                intent42.setAction("org.telegram.messenger.ACTION_MESSAGE_HEARD");
+                                intent42.putExtra("dialog_id", j11);
+                                intent42.putExtra(str10, i34);
+                                intent42.putExtra(str262, notificationsController3.currentAccount);
+                                ArrayList arrayList182 = arrayList7;
+                                Bitmap bitmap62 = bitmap4;
+                                NotificationCompat.Action build42 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString(R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent42, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
+                                if (DialogObject.isEncryptedDialog(j11)) {
+                                    str18 = str262;
+                                    if (j11 != globalSecretChatId) {
+                                        sb5 = new StringBuilder();
+                                        sb5.append("tgenc");
+                                        sb5.append(DialogObject.getEncryptedChatId(j11));
+                                        sb5.append("_");
+                                        sb5.append(i34);
+                                        str19 = sb5.toString();
+                                        if (str19 == null) {
                                         }
-                                        int i31 = i19;
-                                        Intent intent3 = new Intent(ApplicationLoader.applicationContext, AutoMessageHeardReceiver.class);
-                                        intent3.addFlags(32);
-                                        intent3.setAction("org.telegram.messenger.ACTION_MESSAGE_HEARD");
-                                        intent3.putExtra("dialog_id", j4);
-                                        int i32 = i15;
-                                        intent3.putExtra(str10, i32);
-                                        intent3.putExtra(str28, notificationsController4.currentAccount);
-                                        arrayList9 = arrayList19;
-                                        bitmap4 = bitmap3;
-                                        NotificationCompat.Action build4 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString(R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent3, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
-                                        if (DialogObject.isEncryptedDialog(j4)) {
+                                        StringBuilder sb10 = new StringBuilder();
+                                        sb10.append("tgaccount");
+                                        long j24 = j9;
+                                        sb10.append(j24);
+                                        wearableExtender2.setBridgeTag(sb10.toString());
+                                        if (dialogKey6.story) {
                                         }
-                                        if (str20 != null) {
+                                        NotificationCompat.Builder autoCancel = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str14).setSmallIcon(R.drawable.notification).setContentText(sb2.toString()).setAutoCancel(true);
+                                        if (dialogKey6.story) {
                                         }
-                                        StringBuilder sb9 = new StringBuilder();
-                                        sb9.append("tgaccount");
-                                        long j22 = j11;
-                                        sb9.append(j22);
-                                        wearableExtender.setBridgeTag(sb9.toString());
-                                        if (dialogKey5.story) {
+                                        category = autoCancel.setNumber(arrayList9.size()).setColor(-15618822).setGroupSummary(false).setWhen(j17).setShowWhen(true).setStyle(messagingStyle2).setContentIntent(activity2).extend(wearableExtender2).setSortKey(String.valueOf(Long.MAX_VALUE - j17)).setCategory("msg");
+                                        intent = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
+                                        intent.putExtra("messageDate", i8);
+                                        intent.putExtra("dialogId", j11);
+                                        str20 = str18;
+                                        intent.putExtra(str20, notificationsController3.currentAccount);
+                                        if (dialogKey6.story) {
                                         }
-                                        NotificationCompat.Builder autoCancel = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str13).setSmallIcon(R.drawable.notification).setContentText(sb2.toString()).setAutoCancel(true);
-                                        if (dialogKey5.story) {
-                                        }
-                                        category = autoCancel.setNumber(arrayList10.size()).setColor(-15618822).setGroupSummary(false).setWhen(j17).setShowWhen(true).setStyle(messagingStyle2).setContentIntent(activity).extend(wearableExtender).setSortKey(String.valueOf(Long.MAX_VALUE - j17)).setCategory("msg");
-                                        Intent intent4 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
-                                        intent4.putExtra("messageDate", i11);
-                                        j18 = j15;
-                                        intent4.putExtra("dialogId", j18);
-                                        String str29 = str19;
-                                        intent4.putExtra(str29, notificationsController4.currentAccount);
-                                        if (dialogKey5.story) {
-                                        }
-                                        category.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent4, 167772160));
+                                        category.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent, 167772160));
                                         if (z6) {
                                         }
-                                        if (action2 != null) {
+                                        if (action32 != null) {
                                         }
-                                        if (!z5) {
+                                        if (!z12) {
                                         }
-                                        if (arrayList4.size() != 1) {
+                                        if (arrayList3.size() != 1) {
                                         }
-                                        if (DialogObject.isEncryptedDialog(j18)) {
+                                        if (DialogObject.isEncryptedDialog(j11)) {
                                         }
-                                        if (bitmap4 != null) {
+                                        if (bitmap62 != null) {
                                         }
                                         if (!AndroidUtilities.needShowPasscode(false)) {
                                         }
                                         if (tLRPC$Chat3 == null) {
                                         }
-                                        tLRPC$User6 = tLRPC$User5;
-                                        boolean z13 = z6;
+                                        tLRPC$User5 = tLRPC$User4;
                                         Notification notification3 = notification;
+                                        boolean z15 = z6;
                                         if (Build.VERSION.SDK_INT >= 26) {
                                         }
-                                        i12 = i28;
+                                        FileLog.d("showExtraNotifications: holders.add " + j11);
+                                        i9 = i27;
                                         j8 = j16;
-                                        z10 = z13;
-                                        i13 = i8;
-                                        longSparseArray6 = longSparseArray8;
+                                        z10 = z12;
+                                        TLRPC$Chat tLRPC$Chat4 = tLRPC$Chat3;
+                                        z11 = z15;
+                                        longSparseArray6 = longSparseArray9;
+                                        i10 = i28;
                                         longSparseArray7 = longSparseArray5;
-                                        str8 = str27;
                                         sharedPreferences = sharedPreferences2;
                                         notification2 = notification3;
-                                        arrayList6 = arrayList3;
-                                        arrayList6.add(new 1NotificationHolder(num2.intValue(), j18, dialogKey5.story, j14, str13, tLRPC$User6, tLRPC$Chat3, category, j2, str2, jArr, i, uri, i2, z, z2, z3, i3));
+                                        arrayList5 = arrayList15;
+                                        arrayList5.add(new 1NotificationHolder(num.intValue(), j11, dialogKey6.story, j15, str14, tLRPC$User5, tLRPC$Chat4, category, j2, str2, jArr, i, uri, i2, z, z2, z3, i3));
                                         notificationsController2 = this;
-                                        notificationsController2.wearNotificationsIds.put(j18, num2);
-                                        i5 = i13 + 1;
-                                        arrayList15 = arrayList6;
-                                        size = i12;
-                                        notificationsSettings = sharedPreferences;
-                                        arrayList12 = arrayList4;
-                                        longSparseArray12 = longSparseArray4;
+                                        notificationsController2.wearNotificationsIds.put(j11, num);
+                                    } else {
+                                        str19 = null;
+                                        if (str19 == null) {
+                                        }
+                                        StringBuilder sb102 = new StringBuilder();
+                                        sb102.append("tgaccount");
+                                        long j242 = j9;
+                                        sb102.append(j242);
+                                        wearableExtender2.setBridgeTag(sb102.toString());
+                                        if (dialogKey6.story) {
+                                        }
+                                        NotificationCompat.Builder autoCancel2 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str14).setSmallIcon(R.drawable.notification).setContentText(sb2.toString()).setAutoCancel(true);
+                                        if (dialogKey6.story) {
+                                        }
+                                        category = autoCancel2.setNumber(arrayList9.size()).setColor(-15618822).setGroupSummary(false).setWhen(j17).setShowWhen(true).setStyle(messagingStyle2).setContentIntent(activity2).extend(wearableExtender2).setSortKey(String.valueOf(Long.MAX_VALUE - j17)).setCategory("msg");
+                                        intent = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
+                                        intent.putExtra("messageDate", i8);
+                                        intent.putExtra("dialogId", j11);
+                                        str20 = str18;
+                                        intent.putExtra(str20, notificationsController3.currentAccount);
+                                        if (dialogKey6.story) {
+                                        }
+                                        category.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent, 167772160));
+                                        if (z6) {
+                                        }
+                                        if (action32 != null) {
+                                        }
+                                        if (!z12) {
+                                        }
+                                        if (arrayList3.size() != 1) {
+                                        }
+                                        if (DialogObject.isEncryptedDialog(j11)) {
+                                        }
+                                        if (bitmap62 != null) {
+                                        }
+                                        if (!AndroidUtilities.needShowPasscode(false)) {
+                                        }
+                                        if (tLRPC$Chat3 == null) {
+                                        }
+                                        tLRPC$User5 = tLRPC$User4;
+                                        Notification notification32 = notification;
+                                        boolean z152 = z6;
+                                        if (Build.VERSION.SDK_INT >= 26) {
+                                        }
+                                        FileLog.d("showExtraNotifications: holders.add " + j11);
+                                        i9 = i27;
+                                        j8 = j16;
+                                        z10 = z12;
+                                        TLRPC$Chat tLRPC$Chat42 = tLRPC$Chat3;
+                                        z11 = z152;
+                                        longSparseArray6 = longSparseArray9;
+                                        i10 = i28;
+                                        longSparseArray7 = longSparseArray5;
+                                        sharedPreferences = sharedPreferences2;
+                                        notification2 = notification32;
+                                        arrayList5 = arrayList15;
+                                        arrayList5.add(new 1NotificationHolder(num.intValue(), j11, dialogKey6.story, j15, str14, tLRPC$User5, tLRPC$Chat42, category, j2, str2, jArr, i, uri, i2, z, z2, z3, i3));
+                                        notificationsController2 = this;
+                                        notificationsController2.wearNotificationsIds.put(j11, num);
+                                    }
+                                } else if (DialogObject.isUserDialog(j11)) {
+                                    str19 = "tguser" + j11 + "_" + i34;
+                                    str18 = str262;
+                                    if (str19 == null) {
+                                        wearableExtender2.setDismissalId(str19);
+                                        NotificationCompat.WearableExtender wearableExtender3 = new NotificationCompat.WearableExtender();
+                                        wearableExtender3.setDismissalId("summary_" + str19);
+                                        builder.extend(wearableExtender3);
+                                    }
+                                    StringBuilder sb1022 = new StringBuilder();
+                                    sb1022.append("tgaccount");
+                                    long j2422 = j9;
+                                    sb1022.append(j2422);
+                                    wearableExtender2.setBridgeTag(sb1022.toString());
+                                    if (dialogKey6.story) {
+                                        action2 = build42;
+                                        j16 = j2422;
+                                        arrayList9 = arrayList6;
+                                        j17 = ((MessageObject) arrayList9.get(0)).messageOwner.date * 1000;
+                                    } else {
+                                        j16 = j2422;
+                                        j17 = Long.MAX_VALUE;
+                                        int i40 = 0;
+                                        while (i40 < notificationsController3.storyPushMessages.size()) {
+                                            j17 = Math.min(notificationsController3.storyPushMessages.get(i40).date, j17);
+                                            i40++;
+                                            build42 = build42;
+                                        }
+                                        action2 = build42;
+                                        arrayList9 = arrayList6;
+                                    }
+                                    NotificationCompat.Builder autoCancel22 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str14).setSmallIcon(R.drawable.notification).setContentText(sb2.toString()).setAutoCancel(true);
+                                    if (dialogKey6.story) {
+                                        arrayList9 = notificationsController3.storyPushMessages;
+                                    }
+                                    category = autoCancel22.setNumber(arrayList9.size()).setColor(-15618822).setGroupSummary(false).setWhen(j17).setShowWhen(true).setStyle(messagingStyle2).setContentIntent(activity2).extend(wearableExtender2).setSortKey(String.valueOf(Long.MAX_VALUE - j17)).setCategory("msg");
+                                    try {
+                                        intent = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
+                                        intent.putExtra("messageDate", i8);
+                                        intent.putExtra("dialogId", j11);
+                                        str20 = str18;
+                                    } catch (Exception e6) {
+                                        e = e6;
+                                        str20 = str18;
+                                    }
+                                    try {
+                                        intent.putExtra(str20, notificationsController3.currentAccount);
+                                        if (dialogKey6.story) {
+                                            intent.putExtra("story", true);
+                                        }
+                                        category.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent, 167772160));
+                                    } catch (Exception e7) {
+                                        e = e7;
+                                        FileLog.e(e);
+                                        if (z6) {
+                                        }
+                                        if (action32 != null) {
+                                        }
+                                        if (!z12) {
+                                        }
+                                        if (arrayList3.size() != 1) {
+                                        }
+                                        if (DialogObject.isEncryptedDialog(j11)) {
+                                        }
+                                        if (bitmap62 != null) {
+                                        }
+                                        if (!AndroidUtilities.needShowPasscode(false)) {
+                                        }
+                                        if (tLRPC$Chat3 == null) {
+                                        }
+                                        tLRPC$User5 = tLRPC$User4;
+                                        Notification notification322 = notification;
+                                        boolean z1522 = z6;
+                                        if (Build.VERSION.SDK_INT >= 26) {
+                                        }
+                                        FileLog.d("showExtraNotifications: holders.add " + j11);
+                                        i9 = i27;
+                                        j8 = j16;
+                                        z10 = z12;
+                                        TLRPC$Chat tLRPC$Chat422 = tLRPC$Chat3;
+                                        z11 = z1522;
+                                        longSparseArray6 = longSparseArray9;
+                                        i10 = i28;
+                                        longSparseArray7 = longSparseArray5;
+                                        sharedPreferences = sharedPreferences2;
+                                        notification2 = notification322;
+                                        arrayList5 = arrayList15;
+                                        arrayList5.add(new 1NotificationHolder(num.intValue(), j11, dialogKey6.story, j15, str14, tLRPC$User5, tLRPC$Chat422, category, j2, str2, jArr, i, uri, i2, z, z2, z3, i3));
+                                        notificationsController2 = this;
+                                        notificationsController2.wearNotificationsIds.put(j11, num);
+                                        i5 = i10 + 1;
+                                        arrayList14 = arrayList5;
+                                        size = i9;
                                         clientUserId = j8;
-                                        z4 = z10;
-                                        str3 = str8;
-                                        longSparseArray13 = longSparseArray7;
+                                        notificationsSettings = sharedPreferences;
+                                        z5 = z10;
+                                        arrayList11 = arrayList3;
+                                        longSparseArray13 = longSparseArray4;
+                                        z4 = z11;
+                                        longSparseArray14 = longSparseArray7;
                                         longSparseArray = longSparseArray6;
                                         build2 = notification2;
                                         i4 = -1;
-                                        notificationsController5 = notificationsController2;
+                                        notificationsController3 = notificationsController2;
                                     }
-                                    String str262 = "";
-                                    messagingStyle = (person == null && (messageObject != null || !(messageObject.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest))) ? new NotificationCompat.MessagingStyle(person) : new NotificationCompat.MessagingStyle("");
-                                    i16 = Build.VERSION.SDK_INT;
-                                    if (i16 >= 28 || ((DialogObject.isChatDialog(j4) && !z8) || UserObject.isReplyUser(j4))) {
-                                        messagingStyle.setConversationTitle(format);
-                                    }
-                                    messagingStyle.setGroupConversation(i16 >= 28 || (!z8 && DialogObject.isChatDialog(j4)) || UserObject.isReplyUser(j4));
-                                    StringBuilder sb62 = new StringBuilder();
-                                    String[] strArr22 = new String[1];
-                                    boolean[] zArr2 = new boolean[1];
-                                    if (dialogKey3.story) {
-                                        ArrayList<String> arrayList20 = new ArrayList<>();
-                                        ArrayList<Object> arrayList21 = new ArrayList<>();
-                                        notificationsController4 = this;
-                                        Pair<Integer, Boolean> parseStoryPushes = notificationsController4.parseStoryPushes(arrayList20, arrayList21);
-                                        int intValue = ((Integer) parseStoryPushes.first).intValue();
-                                        boolean booleanValue = ((Boolean) parseStoryPushes.second).booleanValue();
-                                        if (booleanValue) {
-                                            string2 = LocaleController.formatPluralString("StoryNotificationHidden", intValue, new Object[0]);
-                                        } else if (arrayList20.isEmpty()) {
-                                            longSparseArray6 = longSparseArray;
-                                            notificationsController2 = notificationsController4;
-                                            i12 = i28;
-                                            i13 = i8;
-                                            z10 = z6;
-                                            arrayList6 = arrayList3;
-                                            notification2 = notification;
-                                            sharedPreferences = sharedPreferences2;
-                                            longSparseArray7 = longSparseArray5;
-                                            j8 = j9;
-                                            str8 = str3;
-                                            i5 = i13 + 1;
-                                            arrayList15 = arrayList6;
-                                            size = i12;
-                                            notificationsSettings = sharedPreferences;
-                                            arrayList12 = arrayList4;
-                                            longSparseArray12 = longSparseArray4;
-                                            clientUserId = j8;
-                                            z4 = z10;
-                                            str3 = str8;
-                                            longSparseArray13 = longSparseArray7;
-                                            longSparseArray = longSparseArray6;
-                                            build2 = notification2;
-                                            i4 = -1;
-                                            notificationsController5 = notificationsController2;
-                                        } else if (arrayList20.size() != 1) {
-                                            action = build;
-                                            if (arrayList20.size() == 2) {
-                                                str11 = "currentAccount";
-                                                sb62.append(LocaleController.formatString(R.string.StoryNotification2, arrayList20.get(0), arrayList20.get(1)));
-                                                longSparseArray11 = longSparseArray;
-                                                dialogKey4 = dialogKey3;
-                                                messageObject2 = messageObject;
-                                                long j23 = Long.MAX_VALUE;
-                                                while (i22 < notificationsController4.storyPushMessages.size()) {
-                                                }
-                                                messagingStyle.setGroupConversation(false);
-                                                if (arrayList20.size() == 1) {
-                                                }
-                                                messagingStyle.addMessage(sb62, j23, new Person.Builder().setName(r0).build());
-                                                if (booleanValue) {
-                                                }
-                                                arrayList7 = null;
-                                                arrayList8 = arrayList5;
-                                            } else {
-                                                str11 = "currentAccount";
-                                                if (arrayList20.size() == 3 && notificationsController4.storyPushMessages.size() == 3) {
-                                                    dialogKey4 = dialogKey3;
-                                                    messageObject2 = messageObject;
-                                                    sb62.append(LocaleController.formatString(R.string.StoryNotification3, notificationsController4.cutLastName(arrayList20.get(0)), notificationsController4.cutLastName(arrayList20.get(1)), notificationsController4.cutLastName(arrayList20.get(2))));
-                                                    longSparseArray11 = longSparseArray;
-                                                } else {
-                                                    dialogKey4 = dialogKey3;
-                                                    messageObject2 = messageObject;
-                                                    longSparseArray11 = longSparseArray;
-                                                    sb62.append(LocaleController.formatPluralString("StoryNotification4", notificationsController4.storyPushMessages.size() - 2, notificationsController4.cutLastName(arrayList20.get(0)), notificationsController4.cutLastName(arrayList20.get(1))));
-                                                }
-                                                long j232 = Long.MAX_VALUE;
-                                                while (i22 < notificationsController4.storyPushMessages.size()) {
-                                                }
-                                                messagingStyle.setGroupConversation(false);
-                                                if (arrayList20.size() == 1) {
-                                                }
-                                                messagingStyle.addMessage(sb62, j232, new Person.Builder().setName(r0).build());
-                                                if (booleanValue) {
-                                                }
-                                                arrayList7 = null;
-                                                arrayList8 = arrayList5;
-                                            }
-                                        } else if (intValue == 1) {
-                                            string2 = LocaleController.getString("StoryNotificationSingle");
-                                        } else {
-                                            action = build;
-                                            sb62.append(LocaleController.formatPluralString("StoryNotification1", intValue, arrayList20.get(0)));
-                                            longSparseArray11 = longSparseArray;
-                                            dialogKey4 = dialogKey3;
-                                            str11 = "currentAccount";
-                                            messageObject2 = messageObject;
-                                            long j2322 = Long.MAX_VALUE;
-                                            for (i22 = 0; i22 < notificationsController4.storyPushMessages.size(); i22++) {
-                                                j2322 = Math.min(notificationsController4.storyPushMessages.get(i22).date, j2322);
-                                            }
-                                            messagingStyle.setGroupConversation(false);
-                                            String formatPluralString2 = (arrayList20.size() == 1 || booleanValue) ? LocaleController.formatPluralString(str4, intValue, new Object[0]) : arrayList20.get(0);
-                                            messagingStyle.addMessage(sb62, j2322, new Person.Builder().setName(formatPluralString2).build());
-                                            if (booleanValue) {
-                                                bitmap3 = loadMultipleAvatars(arrayList21);
-                                                str13 = formatPluralString2;
-                                                messagingStyle2 = messagingStyle;
-                                                sb2 = sb62;
-                                                longSparseArray8 = longSparseArray11;
-                                                str12 = str3;
-                                                j11 = j9;
-                                                i17 = 0;
-                                            } else {
-                                                str13 = formatPluralString2;
-                                                messagingStyle2 = messagingStyle;
-                                                sb2 = sb62;
-                                                longSparseArray8 = longSparseArray11;
-                                                str12 = str3;
-                                                j11 = j9;
-                                                i17 = 0;
-                                                bitmap3 = null;
-                                            }
-                                            arrayList7 = null;
-                                            arrayList8 = arrayList5;
-                                        }
-                                        sb62.append(string2);
-                                        longSparseArray11 = longSparseArray;
-                                        action = build;
-                                        dialogKey4 = dialogKey3;
-                                        str11 = "currentAccount";
-                                        messageObject2 = messageObject;
-                                        long j23222 = Long.MAX_VALUE;
-                                        while (i22 < notificationsController4.storyPushMessages.size()) {
-                                        }
-                                        messagingStyle.setGroupConversation(false);
-                                        if (arrayList20.size() == 1) {
-                                        }
-                                        messagingStyle.addMessage(sb62, j23222, new Person.Builder().setName(formatPluralString2).build());
-                                        if (booleanValue) {
-                                        }
-                                        arrayList7 = null;
-                                        arrayList8 = arrayList5;
-                                    } else {
-                                        notificationsController4 = this;
-                                        LongSparseArray longSparseArray14 = longSparseArray;
-                                        action = build;
-                                        dialogKey4 = dialogKey3;
-                                        str11 = "currentAccount";
-                                        messageObject2 = messageObject;
-                                        long j24 = j9;
-                                        int size5 = arrayList5.size() - 1;
-                                        int i33 = 0;
-                                        arrayList7 = null;
-                                        while (size5 >= 0) {
-                                            int i34 = i33;
-                                            ArrayList<StoryNotification> arrayList22 = arrayList5;
-                                            ArrayList arrayList23 = arrayList7;
-                                            MessageObject messageObject6 = (MessageObject) arrayList22.get(size5);
-                                            int i35 = size5;
-                                            if (j10 == MessageObject.getTopicId(notificationsController4.currentAccount, messageObject6.messageOwner, getMessagesController().isForum(messageObject6))) {
-                                                String shortStringForMessage = notificationsController4.getShortStringForMessage(messageObject6, strArr22, zArr2);
-                                                if (j4 == j24) {
-                                                    strArr22[0] = str9;
-                                                } else if (DialogObject.isChatDialog(j4) && messageObject6.messageOwner.from_scheduled) {
-                                                    strArr22[0] = LocaleController.getString(R.string.NotificationMessageScheduledName);
-                                                }
-                                                if (shortStringForMessage != null) {
-                                                    if (sb62.length() > 0) {
-                                                        sb62.append("\n\n");
-                                                    }
-                                                    if (j4 != j24 && messageObject6.messageOwner.from_scheduled && DialogObject.isUserDialog(j4)) {
-                                                        str14 = str9;
-                                                        j12 = j24;
-                                                        shortStringForMessage = String.format("%1$s: %2$s", LocaleController.getString(R.string.NotificationMessageScheduledName), shortStringForMessage);
-                                                        sb62.append(shortStringForMessage);
-                                                        messagingStyle3 = messagingStyle;
-                                                    } else {
-                                                        str14 = str9;
-                                                        j12 = j24;
-                                                        String str30 = strArr22[0];
-                                                        messagingStyle3 = messagingStyle;
-                                                        if (str30 != null) {
-                                                            sb62.append(String.format("%1$s: %2$s", str30, shortStringForMessage));
-                                                        } else {
-                                                            sb62.append(shortStringForMessage);
-                                                        }
-                                                    }
-                                                    String str31 = shortStringForMessage;
-                                                    if (!DialogObject.isUserDialog(j4)) {
-                                                        if (z8) {
-                                                            j13 = -j4;
-                                                        } else if (DialogObject.isChatDialog(j4)) {
-                                                            j13 = messageObject6.getSenderId();
-                                                        }
-                                                        sb3 = sb62;
-                                                        longSparseArray9 = longSparseArray14;
-                                                        person2 = (Person) longSparseArray9.get(j13 + (j10 << 16));
-                                                        str15 = strArr22[0];
-                                                        if (str15 == null) {
-                                                            if (z5) {
-                                                                if (DialogObject.isChatDialog(j4)) {
-                                                                    if (!z8) {
-                                                                        i18 = R.string.NotificationHiddenChatUserName;
-                                                                    } else if (Build.VERSION.SDK_INT > 27) {
-                                                                        i18 = R.string.NotificationHiddenChatName;
-                                                                    }
-                                                                    str15 = LocaleController.getString(i18);
-                                                                } else if (Build.VERSION.SDK_INT > 27) {
-                                                                    i18 = R.string.NotificationHiddenName;
-                                                                    str15 = LocaleController.getString(i18);
-                                                                }
-                                                            }
-                                                            str15 = str262;
-                                                        }
-                                                        if (person2 == null && TextUtils.equals(person2.getName(), str15)) {
-                                                            str16 = str262;
-                                                            z11 = z8;
-                                                            strArr = strArr22;
-                                                            person3 = person2;
-                                                            sb4 = sb3;
-                                                        } else {
-                                                            Person.Builder name3 = new Person.Builder().setName(str15);
-                                                            if (zArr2[0] || DialogObject.isEncryptedDialog(j4) || Build.VERSION.SDK_INT < 28) {
-                                                                str16 = str262;
-                                                                z11 = z8;
-                                                                strArr = strArr22;
-                                                                sb4 = sb3;
-                                                            } else {
-                                                                if (DialogObject.isUserDialog(j4) || z8) {
-                                                                    str16 = str262;
-                                                                    z11 = z8;
-                                                                    strArr = strArr22;
-                                                                    sb4 = sb3;
-                                                                    file4 = file3;
-                                                                } else {
-                                                                    long senderId = messageObject6.getSenderId();
-                                                                    z11 = z8;
-                                                                    strArr = strArr22;
-                                                                    TLRPC$User user4 = getMessagesController().getUser(Long.valueOf(senderId));
-                                                                    if (user4 == null && (user4 = getMessagesStorage().getUserSync(senderId)) != null) {
-                                                                        getMessagesController().putUser(user4, true);
-                                                                    }
-                                                                    if (user4 == null || (tLRPC$UserProfilePhoto = user4.photo) == null || (tLRPC$FileLocation6 = tLRPC$UserProfilePhoto.photo_small) == null) {
-                                                                        str16 = str262;
-                                                                        sb4 = sb3;
-                                                                    } else {
-                                                                        str16 = str262;
-                                                                        sb4 = sb3;
-                                                                        if (tLRPC$FileLocation6.volume_id != 0 && tLRPC$FileLocation6.local_id != 0) {
-                                                                            file4 = getFileLoader().getPathToAttach(user4.photo.photo_small, true);
-                                                                        }
-                                                                    }
-                                                                    file4 = null;
-                                                                }
-                                                                loadRoundAvatar(file4, name3);
-                                                            }
-                                                            Person build5 = name3.build();
-                                                            longSparseArray9.put(j13, build5);
-                                                            person3 = build5;
-                                                        }
-                                                        if (DialogObject.isEncryptedDialog(j4)) {
-                                                            if (!zArr2[0] || Build.VERSION.SDK_INT < 28 || ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).isLowRamDevice() || z5 || messageObject6.isSecretMedia() || !(messageObject6.type == 1 || messageObject6.isSticker())) {
-                                                                str17 = str16;
-                                                                longSparseArray10 = longSparseArray9;
-                                                                str18 = str3;
-                                                            } else {
-                                                                File pathToMessage = getFileLoader().getPathToMessage(messageObject6.messageOwner);
-                                                                if (pathToMessage.exists() && messageObject6.hasMediaSpoilers()) {
-                                                                    file6 = new File(pathToMessage.getParentFile(), pathToMessage.getName() + ".blur.jpg");
-                                                                    if (file6.exists()) {
-                                                                        file7 = pathToMessage;
-                                                                        longSparseArray10 = longSparseArray9;
-                                                                    } else {
-                                                                        try {
-                                                                            Bitmap decodeFile2 = BitmapFactory.decodeFile(pathToMessage.getAbsolutePath());
-                                                                            Bitmap stackBlurBitmapMax = Utilities.stackBlurBitmapMax(decodeFile2);
-                                                                            decodeFile2.recycle();
-                                                                            createScaledBitmap = Bitmap.createScaledBitmap(stackBlurBitmapMax, decodeFile2.getWidth(), decodeFile2.getHeight(), true);
-                                                                            Utilities.stackBlurBitmap(createScaledBitmap, 5);
-                                                                            stackBlurBitmapMax.recycle();
-                                                                            canvas = new Canvas(createScaledBitmap);
-                                                                            longSparseArray10 = longSparseArray9;
-                                                                            try {
-                                                                                notificationsController4.mediaSpoilerEffect.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(i4) * 0.325f)));
-                                                                                file7 = pathToMessage;
-                                                                            } catch (Exception e) {
-                                                                                e = e;
-                                                                                file7 = pathToMessage;
-                                                                            }
-                                                                        } catch (Exception e2) {
-                                                                            e = e2;
-                                                                            file7 = pathToMessage;
-                                                                            longSparseArray10 = longSparseArray9;
-                                                                        }
-                                                                        try {
-                                                                            notificationsController4.mediaSpoilerEffect.setBounds(0, 0, createScaledBitmap.getWidth(), createScaledBitmap.getHeight());
-                                                                            notificationsController4.mediaSpoilerEffect.draw(canvas);
-                                                                            FileOutputStream fileOutputStream = new FileOutputStream(file6);
-                                                                            createScaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
-                                                                            fileOutputStream.close();
-                                                                            createScaledBitmap.recycle();
-                                                                            file5 = file6;
-                                                                        } catch (Exception e3) {
-                                                                            e = e3;
-                                                                            FileLog.e(e);
-                                                                            file5 = file7;
-                                                                            str17 = str16;
-                                                                            NotificationCompat.MessagingStyle.Message message = new NotificationCompat.MessagingStyle.Message(str31, messageObject6.messageOwner.date * 1000, person3);
-                                                                            String str32 = !messageObject6.isSticker() ? "image/webp" : "image/jpeg";
-                                                                            if (file5.exists()) {
-                                                                            }
-                                                                            if (j4 == 777000) {
-                                                                            }
-                                                                            arrayList7 = arrayList23;
-                                                                            id2 = i34;
-                                                                            i4 = -1;
-                                                                            size5 = i35 - 1;
-                                                                            str262 = str17;
-                                                                            str3 = str18;
-                                                                            sb62 = sb4;
-                                                                            z8 = z11;
-                                                                            arrayList5 = arrayList22;
-                                                                            str9 = str14;
-                                                                            strArr22 = strArr;
-                                                                            longSparseArray14 = longSparseArray10;
-                                                                            i33 = id2;
-                                                                            messagingStyle = messagingStyle4;
-                                                                            j24 = j12;
-                                                                        }
-                                                                    }
-                                                                    file5 = file7;
-                                                                } else {
-                                                                    longSparseArray10 = longSparseArray9;
-                                                                    file5 = pathToMessage;
-                                                                    file6 = null;
-                                                                }
-                                                                str17 = str16;
-                                                                NotificationCompat.MessagingStyle.Message message2 = new NotificationCompat.MessagingStyle.Message(str31, messageObject6.messageOwner.date * 1000, person3);
-                                                                String str322 = !messageObject6.isSticker() ? "image/webp" : "image/jpeg";
-                                                                if (file5.exists()) {
-                                                                    str18 = str3;
-                                                                    if (getFileLoader().isLoadingFile(file5.getName())) {
-                                                                        Uri.Builder appendPath = new Uri.Builder().scheme("content").authority(NotificationImageProvider.getAuthority()).appendPath("msg_media_raw");
-                                                                        StringBuilder sb10 = new StringBuilder();
-                                                                        sb10.append(notificationsController4.currentAccount);
-                                                                        str17 = str17;
-                                                                        sb10.append(str17);
-                                                                        uriForFile = appendPath.appendPath(sb10.toString()).appendPath(file5.getName()).appendQueryParameter("final_path", file5.getAbsolutePath()).build();
-                                                                        if (uriForFile != null) {
-                                                                        }
-                                                                    }
-                                                                    uriForFile = null;
-                                                                    if (uriForFile != null) {
-                                                                    }
-                                                                } else {
-                                                                    try {
-                                                                        context = ApplicationLoader.applicationContext;
-                                                                        sb5 = new StringBuilder();
-                                                                        sb5.append(ApplicationLoader.getApplicationId());
-                                                                        str18 = str3;
-                                                                    } catch (Exception e4) {
-                                                                        e = e4;
-                                                                        str18 = str3;
-                                                                    }
-                                                                    try {
-                                                                        sb5.append(str18);
-                                                                        uriForFile = FileProvider.getUriForFile(context, sb5.toString(), file5);
-                                                                    } catch (Exception e5) {
-                                                                        e = e5;
-                                                                        FileLog.e(e);
-                                                                        uriForFile = null;
-                                                                        if (uriForFile != null) {
-                                                                        }
-                                                                        messagingStyle4 = messagingStyle3;
-                                                                        messagingStyle4.addMessage(str31, messageObject6.messageOwner.date * 1000, person3);
-                                                                        if (zArr2[0]) {
-                                                                        }
-                                                                        if (j4 == 777000) {
-                                                                        }
-                                                                        arrayList7 = arrayList23;
-                                                                        id2 = i34;
-                                                                        i4 = -1;
-                                                                        size5 = i35 - 1;
-                                                                        str262 = str17;
-                                                                        str3 = str18;
-                                                                        sb62 = sb4;
-                                                                        z8 = z11;
-                                                                        arrayList5 = arrayList22;
-                                                                        str9 = str14;
-                                                                        strArr22 = strArr;
-                                                                        longSparseArray14 = longSparseArray10;
-                                                                        i33 = id2;
-                                                                        messagingStyle = messagingStyle4;
-                                                                        j24 = j12;
-                                                                    }
-                                                                    if (uriForFile != null) {
-                                                                        message2.setData(str322, uriForFile);
-                                                                        messagingStyle4 = messagingStyle3;
-                                                                        messagingStyle4.addMessage(message2);
-                                                                        ApplicationLoader.applicationContext.grantUriPermission("com.android.systemui", uriForFile, 1);
-                                                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda55
-                                                                            @Override // java.lang.Runnable
-                                                                            public final void run() {
-                                                                                NotificationsController.lambda$showExtraNotifications$42(uriForFile, file6);
-                                                                            }
-                                                                        }, 20000L);
-                                                                        if (!TextUtils.isEmpty(messageObject6.caption)) {
-                                                                            messagingStyle4.addMessage(messageObject6.caption, messageObject6.messageOwner.date * 1000, person3);
-                                                                        }
-                                                                        if (zArr2[0] && !z5 && messageObject6.isVoice()) {
-                                                                            messages = messagingStyle4.getMessages();
-                                                                            if (!messages.isEmpty()) {
-                                                                                File pathToMessage2 = getFileLoader().getPathToMessage(messageObject6.messageOwner);
-                                                                                if (Build.VERSION.SDK_INT >= 24) {
-                                                                                    try {
-                                                                                        uri2 = FileProvider.getUriForFile(ApplicationLoader.applicationContext, ApplicationLoader.getApplicationId() + str18, pathToMessage2);
-                                                                                    } catch (Exception unused2) {
-                                                                                        uri2 = null;
-                                                                                    }
-                                                                                } else {
-                                                                                    uri2 = Uri.fromFile(pathToMessage2);
-                                                                                }
-                                                                                if (uri2 != null) {
-                                                                                    ((NotificationCompat.MessagingStyle.Message) messages.get(messages.size() - 1)).setData("audio/ogg", uri2);
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                            messagingStyle4 = messagingStyle3;
-                                                            messagingStyle4.addMessage(str31, messageObject6.messageOwner.date * 1000, person3);
-                                                            if (zArr2[0]) {
-                                                                messages = messagingStyle4.getMessages();
-                                                                if (!messages.isEmpty()) {
-                                                                }
-                                                            }
-                                                        } else {
-                                                            str17 = str16;
-                                                            longSparseArray10 = longSparseArray9;
-                                                            str18 = str3;
-                                                            messagingStyle4 = messagingStyle3;
-                                                            messagingStyle4.addMessage(str31, messageObject6.messageOwner.date * 1000, person3);
-                                                        }
-                                                        if (j4 == 777000 && (tLRPC$ReplyMarkup = messageObject6.messageOwner.reply_markup) != null) {
-                                                            ArrayList arrayList24 = tLRPC$ReplyMarkup.rows;
-                                                            id2 = messageObject6.getId();
-                                                            arrayList7 = arrayList24;
-                                                            i4 = -1;
-                                                            size5 = i35 - 1;
-                                                            str262 = str17;
-                                                            str3 = str18;
-                                                            sb62 = sb4;
-                                                            z8 = z11;
-                                                            arrayList5 = arrayList22;
-                                                            str9 = str14;
-                                                            strArr22 = strArr;
-                                                            longSparseArray14 = longSparseArray10;
-                                                            i33 = id2;
-                                                            messagingStyle = messagingStyle4;
-                                                            j24 = j12;
-                                                        }
-                                                        arrayList7 = arrayList23;
-                                                        id2 = i34;
-                                                        i4 = -1;
-                                                        size5 = i35 - 1;
-                                                        str262 = str17;
-                                                        str3 = str18;
-                                                        sb62 = sb4;
-                                                        z8 = z11;
-                                                        arrayList5 = arrayList22;
-                                                        str9 = str14;
-                                                        strArr22 = strArr;
-                                                        longSparseArray14 = longSparseArray10;
-                                                        i33 = id2;
-                                                        messagingStyle = messagingStyle4;
-                                                        j24 = j12;
-                                                    }
-                                                    j13 = j4;
-                                                    sb3 = sb62;
-                                                    longSparseArray9 = longSparseArray14;
-                                                    person2 = (Person) longSparseArray9.get(j13 + (j10 << 16));
-                                                    str15 = strArr22[0];
-                                                    if (str15 == null) {
-                                                    }
-                                                    if (person2 == null) {
-                                                    }
-                                                    Person.Builder name32 = new Person.Builder().setName(str15);
-                                                    if (zArr2[0]) {
-                                                    }
-                                                    str16 = str262;
-                                                    z11 = z8;
-                                                    strArr = strArr22;
-                                                    sb4 = sb3;
-                                                    Person build52 = name32.build();
-                                                    longSparseArray9.put(j13, build52);
-                                                    person3 = build52;
-                                                    if (DialogObject.isEncryptedDialog(j4)) {
-                                                    }
-                                                    if (j4 == 777000) {
-                                                        ArrayList arrayList242 = tLRPC$ReplyMarkup.rows;
-                                                        id2 = messageObject6.getId();
-                                                        arrayList7 = arrayList242;
-                                                        i4 = -1;
-                                                        size5 = i35 - 1;
-                                                        str262 = str17;
-                                                        str3 = str18;
-                                                        sb62 = sb4;
-                                                        z8 = z11;
-                                                        arrayList5 = arrayList22;
-                                                        str9 = str14;
-                                                        strArr22 = strArr;
-                                                        longSparseArray14 = longSparseArray10;
-                                                        i33 = id2;
-                                                        messagingStyle = messagingStyle4;
-                                                        j24 = j12;
-                                                    }
-                                                    arrayList7 = arrayList23;
-                                                    id2 = i34;
-                                                    i4 = -1;
-                                                    size5 = i35 - 1;
-                                                    str262 = str17;
-                                                    str3 = str18;
-                                                    sb62 = sb4;
-                                                    z8 = z11;
-                                                    arrayList5 = arrayList22;
-                                                    str9 = str14;
-                                                    strArr22 = strArr;
-                                                    longSparseArray14 = longSparseArray10;
-                                                    i33 = id2;
-                                                    messagingStyle = messagingStyle4;
-                                                    j24 = j12;
-                                                } else if (BuildVars.LOGS_ENABLED) {
-                                                    FileLog.w("message text is null for " + messageObject6.getId() + " did = " + messageObject6.getDialogId());
-                                                }
-                                            }
-                                            str14 = str9;
-                                            j12 = j24;
-                                            strArr = strArr22;
-                                            longSparseArray10 = longSparseArray14;
-                                            str18 = str3;
-                                            messagingStyle4 = messagingStyle;
-                                            sb4 = sb62;
-                                            z11 = z8;
-                                            str17 = str262;
-                                            arrayList7 = arrayList23;
-                                            id2 = i34;
-                                            i4 = -1;
-                                            size5 = i35 - 1;
-                                            str262 = str17;
-                                            str3 = str18;
-                                            sb62 = sb4;
-                                            z8 = z11;
-                                            arrayList5 = arrayList22;
-                                            str9 = str14;
-                                            strArr22 = strArr;
-                                            longSparseArray14 = longSparseArray10;
-                                            i33 = id2;
-                                            messagingStyle = messagingStyle4;
-                                            j24 = j12;
-                                        }
-                                        j11 = j24;
-                                        sb2 = sb62;
-                                        int i36 = i33;
-                                        longSparseArray8 = longSparseArray14;
-                                        str12 = str3;
-                                        arrayList8 = arrayList5;
-                                        messagingStyle2 = messagingStyle;
-                                        i17 = i36;
-                                        bitmap3 = bitmap6;
-                                        str13 = str9;
-                                    }
-                                    Intent intent22 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
-                                    StringBuilder sb72 = new StringBuilder();
-                                    sb72.append("com.tmessages.openchat");
-                                    String str272 = str12;
-                                    ArrayList arrayList192 = arrayList7;
-                                    sb72.append(Math.random());
-                                    sb72.append(ConnectionsManager.DEFAULT_DATACENTER_ID);
-                                    intent22.setAction(sb72.toString());
-                                    intent22.setFlags(ConnectionsManager.FileTypeFile);
-                                    intent22.addCategory("android.intent.category.LAUNCHER");
-                                    MessageObject messageObject52 = messageObject2;
-                                    if (messageObject2 == null && messageObject52.isStoryReactionPush) {
-                                        intent22.putExtra("storyId", Math.abs(messageObject52.getId()));
-                                        i19 = i17;
-                                        messageObject3 = messageObject52;
-                                        dialogKey5 = dialogKey4;
-                                    } else {
-                                        dialogKey5 = dialogKey4;
-                                        if (dialogKey5.story) {
-                                            long[] jArr2 = new long[notificationsController4.storyPushMessages.size()];
-                                            int i37 = 0;
-                                            while (i37 < notificationsController4.storyPushMessages.size()) {
-                                                jArr2[i37] = notificationsController4.storyPushMessages.get(i37).dialogId;
-                                                i37++;
-                                                i17 = i17;
-                                                messageObject52 = messageObject52;
-                                            }
-                                            i19 = i17;
-                                            messageObject3 = messageObject52;
-                                            intent22.putExtra("storyDialogIds", jArr2);
-                                        } else {
-                                            i19 = i17;
-                                            messageObject3 = messageObject52;
-                                            if (DialogObject.isEncryptedDialog(j4)) {
-                                                intent22.putExtra("encId", DialogObject.getEncryptedChatId(j4));
-                                            } else if (DialogObject.isUserDialog(j4)) {
-                                                intent22.putExtra("userId", j4);
-                                            } else {
-                                                intent22.putExtra("chatId", -j4);
-                                            }
-                                        }
-                                    }
-                                    StringBuilder sb82 = new StringBuilder();
-                                    sb82.append("show extra notifications chatId ");
-                                    sb82.append(j4);
-                                    sb82.append(" topicId ");
-                                    j14 = j10;
-                                    sb82.append(j14);
-                                    FileLog.d(sb82.toString());
-                                    if (j14 != 0) {
-                                        intent22.putExtra("topicId", j14);
-                                    }
-                                    String str282 = str11;
-                                    intent22.putExtra(str282, notificationsController4.currentAccount);
-                                    PendingIntent activity2 = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent22, 1140850688);
-                                    NotificationCompat.WearableExtender wearableExtender2 = new NotificationCompat.WearableExtender();
-                                    action2 = action;
-                                    if (action != null) {
-                                        wearableExtender2.addAction(action2);
-                                    }
-                                    int i312 = i19;
-                                    Intent intent32 = new Intent(ApplicationLoader.applicationContext, AutoMessageHeardReceiver.class);
-                                    intent32.addFlags(32);
-                                    intent32.setAction("org.telegram.messenger.ACTION_MESSAGE_HEARD");
-                                    intent32.putExtra("dialog_id", j4);
-                                    int i322 = i15;
-                                    intent32.putExtra(str10, i322);
-                                    intent32.putExtra(str282, notificationsController4.currentAccount);
-                                    arrayList9 = arrayList192;
-                                    bitmap4 = bitmap3;
-                                    NotificationCompat.Action build42 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString(R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent32, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
-                                    if (DialogObject.isEncryptedDialog(j4)) {
-                                        str19 = str282;
-                                        action3 = build42;
-                                        str20 = j4 != globalSecretChatId ? "tgenc" + DialogObject.getEncryptedChatId(j4) + "_" + i322 : null;
-                                    } else if (DialogObject.isUserDialog(j4)) {
-                                        str19 = str282;
-                                        action3 = build42;
-                                        str20 = "tguser" + j4 + "_" + i322;
-                                    } else {
-                                        StringBuilder sb11 = new StringBuilder();
-                                        sb11.append("tgchat");
-                                        str19 = str282;
-                                        action3 = build42;
-                                        sb11.append(-j4);
-                                        sb11.append("_");
-                                        sb11.append(i322);
-                                        str20 = sb11.toString();
-                                    }
-                                    if (str20 != null) {
-                                        wearableExtender2.setDismissalId(str20);
-                                        NotificationCompat.WearableExtender wearableExtender3 = new NotificationCompat.WearableExtender();
-                                        wearableExtender3.setDismissalId("summary_" + str20);
-                                        builder.extend(wearableExtender3);
-                                    }
-                                    StringBuilder sb92 = new StringBuilder();
-                                    sb92.append("tgaccount");
-                                    long j222 = j11;
-                                    sb92.append(j222);
-                                    wearableExtender2.setBridgeTag(sb92.toString());
-                                    if (dialogKey5.story) {
-                                        j16 = j222;
-                                        j17 = Long.MAX_VALUE;
-                                        int i38 = 0;
-                                        while (i38 < notificationsController4.storyPushMessages.size()) {
-                                            j17 = Math.min(notificationsController4.storyPushMessages.get(i38).date, j17);
-                                            i38++;
-                                            j4 = j4;
-                                        }
-                                        j15 = j4;
-                                        arrayList10 = arrayList8;
-                                    } else {
-                                        j15 = j4;
-                                        j16 = j222;
-                                        arrayList10 = arrayList8;
-                                        j17 = ((MessageObject) arrayList10.get(0)).messageOwner.date * 1000;
-                                    }
-                                    NotificationCompat.Builder autoCancel2 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str13).setSmallIcon(R.drawable.notification).setContentText(sb2.toString()).setAutoCancel(true);
-                                    if (dialogKey5.story) {
-                                        arrayList10 = notificationsController4.storyPushMessages;
-                                    }
-                                    category = autoCancel2.setNumber(arrayList10.size()).setColor(-15618822).setGroupSummary(false).setWhen(j17).setShowWhen(true).setStyle(messagingStyle2).setContentIntent(activity2).extend(wearableExtender2).setSortKey(String.valueOf(Long.MAX_VALUE - j17)).setCategory("msg");
-                                    Intent intent42 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
-                                    intent42.putExtra("messageDate", i11);
-                                    j18 = j15;
-                                    intent42.putExtra("dialogId", j18);
-                                    String str292 = str19;
-                                    intent42.putExtra(str292, notificationsController4.currentAccount);
-                                    if (dialogKey5.story) {
-                                        intent42.putExtra("story", true);
-                                    }
-                                    category.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent42, 167772160));
                                     if (z6) {
-                                        category.setGroup(notificationsController4.notificationGroup);
+                                        category.setGroup(notificationsController3.notificationGroup);
                                         category.setGroupAlertBehavior(1);
                                     }
-                                    if (action2 != null) {
+                                    if (action32 != null) {
+                                        category.addAction(action32);
+                                    }
+                                    if (!z12 && !dialogKey6.story && (messageObject42 == null || !messageObject42.isStoryReactionPush)) {
                                         category.addAction(action2);
                                     }
-                                    if (!z5 && !dialogKey5.story && (messageObject3 == null || !messageObject3.isStoryReactionPush)) {
-                                        category.addAction(action3);
-                                    }
-                                    if (arrayList4.size() != 1 && !TextUtils.isEmpty(str) && !dialogKey5.story) {
+                                    if (arrayList3.size() != 1 && !TextUtils.isEmpty(str) && !dialogKey6.story) {
                                         category.setSubText(str);
                                     }
-                                    if (DialogObject.isEncryptedDialog(j18)) {
+                                    if (DialogObject.isEncryptedDialog(j11)) {
                                         category.setLocalOnly(true);
                                     }
-                                    if (bitmap4 != null) {
-                                        category.setLargeIcon(bitmap4);
+                                    if (bitmap62 != null) {
+                                        category.setLargeIcon(bitmap62);
                                     }
-                                    if (!AndroidUtilities.needShowPasscode(false) && !SharedConfig.isWaitingForPasscodeEnter && arrayList9 != null) {
-                                        size3 = arrayList9.size();
-                                        i20 = 0;
-                                        while (i20 < size3) {
-                                            ArrayList arrayList25 = arrayList9;
-                                            TLRPC$TL_keyboardButtonRow tLRPC$TL_keyboardButtonRow = (TLRPC$TL_keyboardButtonRow) arrayList25.get(i20);
+                                    if (!AndroidUtilities.needShowPasscode(false) && !SharedConfig.isWaitingForPasscodeEnter && arrayList182 != null) {
+                                        size3 = arrayList182.size();
+                                        i18 = 0;
+                                        while (i18 < size3) {
+                                            ArrayList arrayList25 = arrayList182;
+                                            TLRPC$TL_keyboardButtonRow tLRPC$TL_keyboardButtonRow = (TLRPC$TL_keyboardButtonRow) arrayList25.get(i18);
                                             int size6 = tLRPC$TL_keyboardButtonRow.buttons.size();
-                                            int i39 = 0;
-                                            while (i39 < size6) {
-                                                TLRPC$KeyboardButton tLRPC$KeyboardButton = (TLRPC$KeyboardButton) tLRPC$TL_keyboardButtonRow.buttons.get(i39);
+                                            int i41 = 0;
+                                            while (i41 < size6) {
+                                                TLRPC$KeyboardButton tLRPC$KeyboardButton = (TLRPC$KeyboardButton) tLRPC$TL_keyboardButtonRow.buttons.get(i41);
                                                 if (tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonCallback) {
-                                                    i21 = size3;
-                                                    arrayList11 = arrayList25;
+                                                    i19 = size3;
+                                                    arrayList10 = arrayList25;
                                                     Intent intent5 = new Intent(ApplicationLoader.applicationContext, NotificationCallbackReceiver.class);
-                                                    intent5.putExtra(str292, notificationsController4.currentAccount);
-                                                    intent5.putExtra("did", j18);
+                                                    intent5.putExtra(str20, notificationsController3.currentAccount);
+                                                    intent5.putExtra("did", j11);
                                                     byte[] bArr = tLRPC$KeyboardButton.data;
                                                     if (bArr != null) {
                                                         intent5.putExtra("data", bArr);
                                                     }
-                                                    intent5.putExtra("mid", i312);
-                                                    String str33 = tLRPC$KeyboardButton.text;
+                                                    int i42 = i352;
+                                                    intent5.putExtra("mid", i42);
+                                                    String str31 = tLRPC$KeyboardButton.text;
                                                     Context context2 = ApplicationLoader.applicationContext;
-                                                    str21 = str292;
-                                                    int i40 = notificationsController4.lastButtonId;
-                                                    notificationsController4.lastButtonId = i40 + 1;
-                                                    category.addAction(0, str33, PendingIntent.getBroadcast(context2, i40, intent5, 167772160));
+                                                    str21 = str20;
+                                                    int i43 = notificationsController3.lastButtonId;
+                                                    i20 = i42;
+                                                    notificationsController3.lastButtonId = i43 + 1;
+                                                    category.addAction(0, str31, PendingIntent.getBroadcast(context2, i43, intent5, 167772160));
                                                 } else {
-                                                    i21 = size3;
-                                                    str21 = str292;
-                                                    arrayList11 = arrayList25;
+                                                    i19 = size3;
+                                                    str21 = str20;
+                                                    arrayList10 = arrayList25;
+                                                    i20 = i352;
                                                 }
-                                                i39++;
-                                                size3 = i21;
-                                                arrayList25 = arrayList11;
-                                                str292 = str21;
+                                                i41++;
+                                                size3 = i19;
+                                                arrayList25 = arrayList10;
+                                                i352 = i20;
+                                                str20 = str21;
                                             }
-                                            i20++;
-                                            arrayList9 = arrayList25;
+                                            i18++;
+                                            arrayList182 = arrayList25;
+                                            i352 = i352;
                                         }
                                     }
-                                    if (tLRPC$Chat3 == null || tLRPC$User5 == null) {
-                                        tLRPC$User6 = tLRPC$User5;
+                                    if (tLRPC$Chat3 == null || tLRPC$User4 == null) {
+                                        tLRPC$User5 = tLRPC$User4;
                                     } else {
-                                        tLRPC$User6 = tLRPC$User5;
-                                        String str34 = tLRPC$User6.phone;
-                                        if (str34 != null && str34.length() > 0) {
-                                            category.addPerson("tel:+" + tLRPC$User6.phone);
+                                        tLRPC$User5 = tLRPC$User4;
+                                        String str32 = tLRPC$User5.phone;
+                                        if (str32 != null && str32.length() > 0) {
+                                            category.addPerson("tel:+" + tLRPC$User5.phone);
                                         }
                                     }
-                                    boolean z132 = z6;
-                                    Notification notification32 = notification;
+                                    Notification notification3222 = notification;
+                                    boolean z15222 = z6;
                                     if (Build.VERSION.SDK_INT >= 26) {
-                                        notificationsController4.setNotificationChannel(notification32, category, z132);
+                                        notificationsController3.setNotificationChannel(notification3222, category, z15222);
                                     }
-                                    i12 = i28;
+                                    FileLog.d("showExtraNotifications: holders.add " + j11);
+                                    i9 = i27;
                                     j8 = j16;
-                                    z10 = z132;
-                                    i13 = i8;
-                                    longSparseArray6 = longSparseArray8;
+                                    z10 = z12;
+                                    TLRPC$Chat tLRPC$Chat4222 = tLRPC$Chat3;
+                                    z11 = z15222;
+                                    longSparseArray6 = longSparseArray9;
+                                    i10 = i28;
                                     longSparseArray7 = longSparseArray5;
-                                    str8 = str272;
                                     sharedPreferences = sharedPreferences2;
-                                    notification2 = notification32;
-                                    arrayList6 = arrayList3;
-                                    arrayList6.add(new 1NotificationHolder(num2.intValue(), j18, dialogKey5.story, j14, str13, tLRPC$User6, tLRPC$Chat3, category, j2, str2, jArr, i, uri, i2, z, z2, z3, i3));
+                                    notification2 = notification3222;
+                                    arrayList5 = arrayList15;
+                                    arrayList5.add(new 1NotificationHolder(num.intValue(), j11, dialogKey6.story, j15, str14, tLRPC$User5, tLRPC$Chat4222, category, j2, str2, jArr, i, uri, i2, z, z2, z3, i3));
                                     notificationsController2 = this;
-                                    notificationsController2.wearNotificationsIds.put(j18, num2);
-                                    i5 = i13 + 1;
-                                    arrayList15 = arrayList6;
-                                    size = i12;
-                                    notificationsSettings = sharedPreferences;
-                                    arrayList12 = arrayList4;
-                                    longSparseArray12 = longSparseArray4;
-                                    clientUserId = j8;
-                                    z4 = z10;
-                                    str3 = str8;
-                                    longSparseArray13 = longSparseArray7;
-                                    longSparseArray = longSparseArray6;
-                                    build2 = notification2;
-                                    i4 = -1;
-                                    notificationsController5 = notificationsController2;
-                                }
-                                person = person4;
-                                String str2622 = "";
-                                messagingStyle = (person == null && (messageObject != null || !(messageObject.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest))) ? new NotificationCompat.MessagingStyle(person) : new NotificationCompat.MessagingStyle("");
-                                i16 = Build.VERSION.SDK_INT;
-                                if (i16 >= 28) {
-                                }
-                                messagingStyle.setConversationTitle(format);
-                                messagingStyle.setGroupConversation(i16 >= 28 || (!z8 && DialogObject.isChatDialog(j4)) || UserObject.isReplyUser(j4));
-                                StringBuilder sb622 = new StringBuilder();
-                                String[] strArr222 = new String[1];
-                                boolean[] zArr22 = new boolean[1];
-                                if (dialogKey3.story) {
-                                }
-                                Intent intent222 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
-                                StringBuilder sb722 = new StringBuilder();
-                                sb722.append("com.tmessages.openchat");
-                                String str2722 = str12;
-                                ArrayList arrayList1922 = arrayList7;
-                                sb722.append(Math.random());
-                                sb722.append(ConnectionsManager.DEFAULT_DATACENTER_ID);
-                                intent222.setAction(sb722.toString());
-                                intent222.setFlags(ConnectionsManager.FileTypeFile);
-                                intent222.addCategory("android.intent.category.LAUNCHER");
-                                MessageObject messageObject522 = messageObject2;
-                                if (messageObject2 == null) {
-                                }
-                                dialogKey5 = dialogKey4;
-                                if (dialogKey5.story) {
-                                }
-                                StringBuilder sb822 = new StringBuilder();
-                                sb822.append("show extra notifications chatId ");
-                                sb822.append(j4);
-                                sb822.append(" topicId ");
-                                j14 = j10;
-                                sb822.append(j14);
-                                FileLog.d(sb822.toString());
-                                if (j14 != 0) {
-                                }
-                                String str2822 = str11;
-                                intent222.putExtra(str2822, notificationsController4.currentAccount);
-                                PendingIntent activity22 = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent222, 1140850688);
-                                NotificationCompat.WearableExtender wearableExtender22 = new NotificationCompat.WearableExtender();
-                                action2 = action;
-                                if (action != null) {
-                                }
-                                int i3122 = i19;
-                                Intent intent322 = new Intent(ApplicationLoader.applicationContext, AutoMessageHeardReceiver.class);
-                                intent322.addFlags(32);
-                                intent322.setAction("org.telegram.messenger.ACTION_MESSAGE_HEARD");
-                                intent322.putExtra("dialog_id", j4);
-                                int i3222 = i15;
-                                intent322.putExtra(str10, i3222);
-                                intent322.putExtra(str2822, notificationsController4.currentAccount);
-                                arrayList9 = arrayList1922;
-                                bitmap4 = bitmap3;
-                                NotificationCompat.Action build422 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString(R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent322, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
-                                if (DialogObject.isEncryptedDialog(j4)) {
-                                }
-                                if (str20 != null) {
-                                }
-                                StringBuilder sb922 = new StringBuilder();
-                                sb922.append("tgaccount");
-                                long j2222 = j11;
-                                sb922.append(j2222);
-                                wearableExtender22.setBridgeTag(sb922.toString());
-                                if (dialogKey5.story) {
-                                }
-                                NotificationCompat.Builder autoCancel22 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str13).setSmallIcon(R.drawable.notification).setContentText(sb2.toString()).setAutoCancel(true);
-                                if (dialogKey5.story) {
-                                }
-                                category = autoCancel22.setNumber(arrayList10.size()).setColor(-15618822).setGroupSummary(false).setWhen(j17).setShowWhen(true).setStyle(messagingStyle2).setContentIntent(activity22).extend(wearableExtender22).setSortKey(String.valueOf(Long.MAX_VALUE - j17)).setCategory("msg");
-                                Intent intent422 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
-                                intent422.putExtra("messageDate", i11);
-                                j18 = j15;
-                                intent422.putExtra("dialogId", j18);
-                                String str2922 = str19;
-                                intent422.putExtra(str2922, notificationsController4.currentAccount);
-                                if (dialogKey5.story) {
-                                }
-                                category.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent422, 167772160));
-                                if (z6) {
-                                }
-                                if (action2 != null) {
-                                }
-                                if (!z5) {
-                                    category.addAction(action3);
-                                }
-                                if (arrayList4.size() != 1) {
-                                }
-                                if (DialogObject.isEncryptedDialog(j18)) {
-                                }
-                                if (bitmap4 != null) {
-                                }
-                                if (!AndroidUtilities.needShowPasscode(false)) {
-                                    size3 = arrayList9.size();
-                                    i20 = 0;
-                                    while (i20 < size3) {
+                                    notificationsController2.wearNotificationsIds.put(j11, num);
+                                } else {
+                                    sb5 = new StringBuilder();
+                                    sb5.append("tgchat");
+                                    str18 = str262;
+                                    sb5.append(-j11);
+                                    sb5.append("_");
+                                    sb5.append(i34);
+                                    str19 = sb5.toString();
+                                    if (str19 == null) {
                                     }
+                                    StringBuilder sb10222 = new StringBuilder();
+                                    sb10222.append("tgaccount");
+                                    long j24222 = j9;
+                                    sb10222.append(j24222);
+                                    wearableExtender2.setBridgeTag(sb10222.toString());
+                                    if (dialogKey6.story) {
+                                    }
+                                    NotificationCompat.Builder autoCancel222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str14).setSmallIcon(R.drawable.notification).setContentText(sb2.toString()).setAutoCancel(true);
+                                    if (dialogKey6.story) {
+                                    }
+                                    category = autoCancel222.setNumber(arrayList9.size()).setColor(-15618822).setGroupSummary(false).setWhen(j17).setShowWhen(true).setStyle(messagingStyle2).setContentIntent(activity2).extend(wearableExtender2).setSortKey(String.valueOf(Long.MAX_VALUE - j17)).setCategory("msg");
+                                    intent = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
+                                    intent.putExtra("messageDate", i8);
+                                    intent.putExtra("dialogId", j11);
+                                    str20 = str18;
+                                    intent.putExtra(str20, notificationsController3.currentAccount);
+                                    if (dialogKey6.story) {
+                                    }
+                                    category.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent, 167772160));
+                                    if (z6) {
+                                    }
+                                    if (action32 != null) {
+                                    }
+                                    if (!z12) {
+                                        category.addAction(action2);
+                                    }
+                                    if (arrayList3.size() != 1) {
+                                    }
+                                    if (DialogObject.isEncryptedDialog(j11)) {
+                                    }
+                                    if (bitmap62 != null) {
+                                    }
+                                    if (!AndroidUtilities.needShowPasscode(false)) {
+                                        size3 = arrayList182.size();
+                                        i18 = 0;
+                                        while (i18 < size3) {
+                                        }
+                                    }
+                                    if (tLRPC$Chat3 == null) {
+                                    }
+                                    tLRPC$User5 = tLRPC$User4;
+                                    Notification notification32222 = notification;
+                                    boolean z152222 = z6;
+                                    if (Build.VERSION.SDK_INT >= 26) {
+                                    }
+                                    FileLog.d("showExtraNotifications: holders.add " + j11);
+                                    i9 = i27;
+                                    j8 = j16;
+                                    z10 = z12;
+                                    TLRPC$Chat tLRPC$Chat42222 = tLRPC$Chat3;
+                                    z11 = z152222;
+                                    longSparseArray6 = longSparseArray9;
+                                    i10 = i28;
+                                    longSparseArray7 = longSparseArray5;
+                                    sharedPreferences = sharedPreferences2;
+                                    notification2 = notification32222;
+                                    arrayList5 = arrayList15;
+                                    arrayList5.add(new 1NotificationHolder(num.intValue(), j11, dialogKey6.story, j15, str14, tLRPC$User5, tLRPC$Chat42222, category, j2, str2, jArr, i, uri, i2, z, z2, z3, i3));
+                                    notificationsController2 = this;
+                                    notificationsController2.wearNotificationsIds.put(j11, num);
                                 }
-                                if (tLRPC$Chat3 == null) {
-                                }
-                                tLRPC$User6 = tLRPC$User5;
-                                boolean z1322 = z6;
-                                Notification notification322 = notification;
-                                if (Build.VERSION.SDK_INT >= 26) {
-                                }
-                                i12 = i28;
-                                j8 = j16;
-                                z10 = z1322;
-                                i13 = i8;
-                                longSparseArray6 = longSparseArray8;
-                                longSparseArray7 = longSparseArray5;
-                                str8 = str2722;
-                                sharedPreferences = sharedPreferences2;
-                                notification2 = notification322;
-                                arrayList6 = arrayList3;
-                                arrayList6.add(new 1NotificationHolder(num2.intValue(), j18, dialogKey5.story, j14, str13, tLRPC$User6, tLRPC$Chat3, category, j2, str2, jArr, i, uri, i2, z, z2, z3, i3));
-                                notificationsController2 = this;
-                                notificationsController2.wearNotificationsIds.put(j18, num2);
-                                i5 = i13 + 1;
-                                arrayList15 = arrayList6;
-                                size = i12;
-                                notificationsSettings = sharedPreferences;
-                                arrayList12 = arrayList4;
-                                longSparseArray12 = longSparseArray4;
+                                i5 = i10 + 1;
+                                arrayList14 = arrayList5;
+                                size = i9;
                                 clientUserId = j8;
-                                z4 = z10;
-                                str3 = str8;
-                                longSparseArray13 = longSparseArray7;
+                                notificationsSettings = sharedPreferences;
+                                z5 = z10;
+                                arrayList11 = arrayList3;
+                                longSparseArray13 = longSparseArray4;
+                                z4 = z11;
+                                longSparseArray14 = longSparseArray7;
                                 longSparseArray = longSparseArray6;
                                 build2 = notification2;
                                 i4 = -1;
-                                notificationsController5 = notificationsController2;
+                                notificationsController3 = notificationsController2;
                             }
                         }
                     }
-                    j10 = j7;
-                    person = person4;
-                    String str26222 = "";
-                    messagingStyle = (person == null && (messageObject != null || !(messageObject.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest))) ? new NotificationCompat.MessagingStyle(person) : new NotificationCompat.MessagingStyle("");
-                    i16 = Build.VERSION.SDK_INT;
-                    if (i16 >= 28) {
+                    str11 = string;
+                    action = build;
+                    messagingStyle = (person3 == null && (messageObject != null || !(messageObject.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest))) ? new NotificationCompat.MessagingStyle(person3) : new NotificationCompat.MessagingStyle("");
+                    i13 = Build.VERSION.SDK_INT;
+                    if (i13 >= 28) {
                     }
                     messagingStyle.setConversationTitle(format);
-                    messagingStyle.setGroupConversation(i16 >= 28 || (!z8 && DialogObject.isChatDialog(j4)) || UserObject.isReplyUser(j4));
-                    StringBuilder sb6222 = new StringBuilder();
-                    String[] strArr2222 = new String[1];
-                    boolean[] zArr222 = new boolean[1];
-                    if (dialogKey3.story) {
+                    messagingStyle.setGroupConversation(i13 >= 28 || (!z9 && DialogObject.isChatDialog(j22)) || UserObject.isReplyUser(j22));
+                    StringBuilder sb622 = new StringBuilder();
+                    String[] strArr222 = new String[1];
+                    boolean[] zArr22 = new boolean[1];
+                    if (dialogKey9.story) {
                     }
-                    Intent intent2222 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
-                    StringBuilder sb7222 = new StringBuilder();
-                    sb7222.append("com.tmessages.openchat");
-                    String str27222 = str12;
-                    ArrayList arrayList19222 = arrayList7;
-                    sb7222.append(Math.random());
-                    sb7222.append(ConnectionsManager.DEFAULT_DATACENTER_ID);
-                    intent2222.setAction(sb7222.toString());
-                    intent2222.setFlags(ConnectionsManager.FileTypeFile);
-                    intent2222.addCategory("android.intent.category.LAUNCHER");
-                    MessageObject messageObject5222 = messageObject2;
+                    Intent intent322 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
+                    intent322.setAction("com.tmessages.openchat" + Math.random() + ConnectionsManager.DEFAULT_DATACENTER_ID);
+                    intent322.setFlags(ConnectionsManager.FileTypeFile);
+                    intent322.addCategory("android.intent.category.LAUNCHER");
+                    MessageObject messageObject422 = messageObject2;
                     if (messageObject2 == null) {
                     }
-                    dialogKey5 = dialogKey4;
-                    if (dialogKey5.story) {
+                    dialogKey6 = dialogKey3;
+                    if (dialogKey6.story) {
                     }
-                    StringBuilder sb8222 = new StringBuilder();
-                    sb8222.append("show extra notifications chatId ");
-                    sb8222.append(j4);
-                    sb8222.append(" topicId ");
-                    j14 = j10;
-                    sb8222.append(j14);
-                    FileLog.d(sb8222.toString());
-                    if (j14 != 0) {
+                    StringBuilder sb722 = new StringBuilder();
+                    sb722.append("show extra notifications chatId ");
+                    sb722.append(j11);
+                    sb722.append(" topicId ");
+                    j15 = j10;
+                    sb722.append(j15);
+                    FileLog.d(sb722.toString());
+                    if (j15 != 0) {
                     }
-                    String str28222 = str11;
-                    intent2222.putExtra(str28222, notificationsController4.currentAccount);
-                    PendingIntent activity222 = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2222, 1140850688);
-                    NotificationCompat.WearableExtender wearableExtender222 = new NotificationCompat.WearableExtender();
-                    action2 = action;
+                    String str2622 = str12;
+                    intent322.putExtra(str2622, notificationsController3.currentAccount);
+                    PendingIntent activity22 = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent322, 1140850688);
+                    NotificationCompat.WearableExtender wearableExtender22 = new NotificationCompat.WearableExtender();
+                    NotificationCompat.Action action322 = action;
                     if (action != null) {
                     }
-                    int i31222 = i19;
-                    Intent intent3222 = new Intent(ApplicationLoader.applicationContext, AutoMessageHeardReceiver.class);
-                    intent3222.addFlags(32);
-                    intent3222.setAction("org.telegram.messenger.ACTION_MESSAGE_HEARD");
-                    intent3222.putExtra("dialog_id", j4);
-                    int i32222 = i15;
-                    intent3222.putExtra(str10, i32222);
-                    intent3222.putExtra(str28222, notificationsController4.currentAccount);
-                    arrayList9 = arrayList19222;
-                    bitmap4 = bitmap3;
-                    NotificationCompat.Action build4222 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString(R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent3222, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
-                    if (DialogObject.isEncryptedDialog(j4)) {
+                    int i3522 = i14;
+                    Intent intent422 = new Intent(ApplicationLoader.applicationContext, AutoMessageHeardReceiver.class);
+                    intent422.addFlags(32);
+                    intent422.setAction("org.telegram.messenger.ACTION_MESSAGE_HEARD");
+                    intent422.putExtra("dialog_id", j11);
+                    intent422.putExtra(str10, i34);
+                    intent422.putExtra(str2622, notificationsController3.currentAccount);
+                    ArrayList arrayList1822 = arrayList7;
+                    Bitmap bitmap622 = bitmap4;
+                    NotificationCompat.Action build422 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString(R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent422, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
+                    if (DialogObject.isEncryptedDialog(j11)) {
                     }
-                    if (str20 != null) {
-                    }
-                    StringBuilder sb9222 = new StringBuilder();
-                    sb9222.append("tgaccount");
-                    long j22222 = j11;
-                    sb9222.append(j22222);
-                    wearableExtender222.setBridgeTag(sb9222.toString());
-                    if (dialogKey5.story) {
-                    }
-                    NotificationCompat.Builder autoCancel222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str13).setSmallIcon(R.drawable.notification).setContentText(sb2.toString()).setAutoCancel(true);
-                    if (dialogKey5.story) {
-                    }
-                    category = autoCancel222.setNumber(arrayList10.size()).setColor(-15618822).setGroupSummary(false).setWhen(j17).setShowWhen(true).setStyle(messagingStyle2).setContentIntent(activity222).extend(wearableExtender222).setSortKey(String.valueOf(Long.MAX_VALUE - j17)).setCategory("msg");
-                    Intent intent4222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
-                    intent4222.putExtra("messageDate", i11);
-                    j18 = j15;
-                    intent4222.putExtra("dialogId", j18);
-                    String str29222 = str19;
-                    intent4222.putExtra(str29222, notificationsController4.currentAccount);
-                    if (dialogKey5.story) {
-                    }
-                    category.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent4222, 167772160));
-                    if (z6) {
-                    }
-                    if (action2 != null) {
-                    }
-                    if (!z5) {
-                    }
-                    if (arrayList4.size() != 1) {
-                    }
-                    if (DialogObject.isEncryptedDialog(j18)) {
-                    }
-                    if (bitmap4 != null) {
-                    }
-                    if (!AndroidUtilities.needShowPasscode(false)) {
-                    }
-                    if (tLRPC$Chat3 == null) {
-                    }
-                    tLRPC$User6 = tLRPC$User5;
-                    boolean z13222 = z6;
-                    Notification notification3222 = notification;
-                    if (Build.VERSION.SDK_INT >= 26) {
-                    }
-                    i12 = i28;
-                    j8 = j16;
-                    z10 = z13222;
-                    i13 = i8;
-                    longSparseArray6 = longSparseArray8;
-                    longSparseArray7 = longSparseArray5;
-                    str8 = str27222;
-                    sharedPreferences = sharedPreferences2;
-                    notification2 = notification3222;
-                    arrayList6 = arrayList3;
-                    arrayList6.add(new 1NotificationHolder(num2.intValue(), j18, dialogKey5.story, j14, str13, tLRPC$User6, tLRPC$Chat3, category, j2, str2, jArr, i, uri, i2, z, z2, z3, i3));
-                    notificationsController2 = this;
-                    notificationsController2.wearNotificationsIds.put(j18, num2);
-                    i5 = i13 + 1;
-                    arrayList15 = arrayList6;
-                    size = i12;
-                    notificationsSettings = sharedPreferences;
-                    arrayList12 = arrayList4;
-                    longSparseArray12 = longSparseArray4;
+                    i5 = i10 + 1;
+                    arrayList14 = arrayList5;
+                    size = i9;
                     clientUserId = j8;
-                    z4 = z10;
-                    str3 = str8;
-                    longSparseArray13 = longSparseArray7;
+                    notificationsSettings = sharedPreferences;
+                    z5 = z10;
+                    arrayList11 = arrayList3;
+                    longSparseArray13 = longSparseArray4;
+                    z4 = z11;
+                    longSparseArray14 = longSparseArray7;
                     longSparseArray = longSparseArray6;
                     build2 = notification2;
                     i4 = -1;
-                    notificationsController5 = notificationsController2;
+                    notificationsController3 = notificationsController2;
                 }
-                LongSparseArray longSparseArray15 = longSparseArray;
-                longSparseArray2 = longSparseArray13;
+                LongSparseArray longSparseArray17 = longSparseArray;
+                longSparseArray2 = longSparseArray14;
                 Notification notification4 = build2;
-                NotificationsController notificationsController6 = notificationsController5;
-                ArrayList arrayList26 = arrayList15;
+                NotificationsController notificationsController4 = notificationsController3;
+                ArrayList arrayList26 = arrayList14;
                 if (z4) {
-                    notificationsController = notificationsController6;
+                    notificationsController = notificationsController4;
                     arrayList = arrayList26;
                     if (notificationsController.openedInBubbleDialogs.isEmpty()) {
+                        if (BuildVars.LOGS_ENABLED) {
+                            FileLog.d("cancel summary with id " + notificationsController.notificationId);
+                        }
                         notificationManager.cancel(notificationsController.notificationId);
                     }
                 } else {
                     if (BuildVars.LOGS_ENABLED) {
-                        FileLog.d("show summary with id " + notificationsController6.notificationId);
+                        FileLog.d("show summary with id " + notificationsController4.notificationId);
                     }
                     try {
-                        notificationManager.notify(notificationsController6.notificationId, notification4);
-                        notificationsController = notificationsController6;
+                        notificationManager.notify(notificationsController4.notificationId, notification4);
+                        notificationsController = notificationsController4;
                         arrayList = arrayList26;
-                    } catch (SecurityException e6) {
-                        FileLog.e(e6);
+                    } catch (SecurityException e8) {
+                        FileLog.e(e8);
                         notificationsController = this;
                         arrayList = arrayList26;
                         notificationsController.resetNotificationSound(builder, j, j2, str2, jArr, i, uri, i2, z, z2, z3, i3);
@@ -7866,18 +7861,19 @@ public class NotificationsController extends BaseController {
                 }
                 i6 = 0;
                 while (i6 < longSparseArray2.size()) {
-                    LongSparseArray longSparseArray16 = longSparseArray2;
-                    if (!notificationsController.openedInBubbleDialogs.contains(Long.valueOf(longSparseArray16.keyAt(i6)))) {
-                        Integer num6 = (Integer) longSparseArray16.valueAt(i6);
+                    LongSparseArray longSparseArray18 = longSparseArray2;
+                    if (!notificationsController.openedInBubbleDialogs.contains(Long.valueOf(longSparseArray18.keyAt(i6)))) {
+                        Integer num4 = (Integer) longSparseArray18.valueAt(i6);
                         if (BuildVars.LOGS_ENABLED) {
-                            FileLog.d("cancel notification id " + num6);
+                            FileLog.d("cancel notification id " + num4);
                         }
-                        notificationManager.cancel(num6.intValue());
+                        notificationManager.cancel(num4.intValue());
                     }
                     i6++;
-                    longSparseArray2 = longSparseArray16;
+                    longSparseArray2 = longSparseArray18;
                 }
                 ArrayList arrayList27 = new ArrayList(arrayList.size());
+                FileLog.d("showExtraNotifications: holders.size()=" + arrayList.size());
                 size2 = arrayList.size();
                 i7 = 0;
                 while (i7 < size2) {
@@ -7885,23 +7881,24 @@ public class NotificationsController extends BaseController {
                     1NotificationHolder r4 = (1NotificationHolder) arrayList28.get(i7);
                     arrayList27.clear();
                     if (Build.VERSION.SDK_INT < 29 || DialogObject.isEncryptedDialog(r4.dialogId)) {
-                        longSparseArray3 = longSparseArray15;
+                        longSparseArray3 = longSparseArray17;
                     } else {
                         NotificationCompat.Builder builder3 = r4.notification;
                         long j25 = r4.dialogId;
-                        longSparseArray3 = longSparseArray15;
+                        longSparseArray3 = longSparseArray17;
                         String createNotificationShortcut = createNotificationShortcut(builder3, j25, r4.name, r4.user, r4.chat, (Person) longSparseArray3.get(j25), !r4.story);
                         if (createNotificationShortcut != null) {
                             arrayList27.add(createNotificationShortcut);
                         }
                     }
+                    FileLog.d("showExtraNotifications: holders[" + i7 + "].call()");
                     r4.call();
                     if (!unsupportedNotificationShortcut() && !arrayList27.isEmpty()) {
                         ShortcutManagerCompat.removeDynamicShortcuts(ApplicationLoader.applicationContext, arrayList27);
                     }
                     i7++;
                     arrayList = arrayList28;
-                    longSparseArray15 = longSparseArray3;
+                    longSparseArray17 = longSparseArray3;
                 }
             }
         }
@@ -7912,211 +7909,42 @@ public class NotificationsController extends BaseController {
         clientUserId = getUserConfig().getClientUserId();
         if (AndroidUtilities.needShowPasscode()) {
         }
-        SharedConfig.passcodeHash.length();
+        if (SharedConfig.passcodeHash.length() <= 0) {
+        }
+        FileLog.d("showExtraNotifications: passcode=" + (SharedConfig.passcodeHash.length() <= 0) + " waitingForPasscode=" + z5 + " selfUserId=" + clientUserId + " useSummaryNotification=" + z4);
         longSparseArray = new LongSparseArray();
-        size = arrayList12.size();
+        size = arrayList11.size();
         i5 = 0;
-        while (i5 < size) {
-            dialogKey = (DialogKey) arrayList12.get(i5);
-            int i282 = size;
-            if (dialogKey.story) {
+        while (true) {
+            if (i5 < size) {
             }
-            Integer num52 = (Integer) longSparseArray13.get(j4);
-            i9 = id;
-            if (dialogKey.story) {
-            }
-            int i302 = 0;
-            while (i10 < arrayList2.size()) {
-            }
-            if (dialogKey.story) {
-            }
-            if (messageObject != null) {
-                string = LocaleController.getString(R.string.NotificationHiddenChatName);
-                tLRPC$FileLocation = null;
-                z7 = false;
-            }
-            if (z5) {
-            }
-            if (tLRPC$FileLocation5 == null) {
-            }
-            if (tLRPC$Chat == null) {
-            }
-            Bitmap bitmap62 = bitmap2;
-            if (z8) {
-            }
-            file3 = file2;
-            Intent intent6 = new Intent(ApplicationLoader.applicationContext, WearReplyReceiver.class);
-            intent6.putExtra("dialog_id", j4);
-            intent6.putExtra("max_id", i9);
-            intent6.putExtra("topic_id", j7);
-            notificationsController3 = this;
-            tLRPC$User5 = tLRPC$User2;
-            intent6.putExtra("currentAccount", notificationsController3.currentAccount);
-            tLRPC$Chat3 = tLRPC$Chat;
-            str10 = "max_id";
-            PendingIntent broadcast2 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent6, 167772160);
-            RemoteInput build32 = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setLabel(LocaleController.getString(R.string.Reply)).build();
-            if (DialogObject.isChatDialog(j4)) {
-            }
-            build = new NotificationCompat.Action.Builder(R.drawable.ic_reply_icon, formatString, broadcast2).setAllowGeneratedReplies(true).setSemanticAction(1).addRemoteInput(build32).setShowsUserInterface(false).build();
-            num3 = (Integer) notificationsController3.pushDialogs.get(j4);
-            if (num3 == null) {
-            }
-            dialogKey3 = dialogKey2;
-            if (!dialogKey3.story) {
-            }
-            if (size4 > 1) {
-            }
-            j9 = j6;
-            Person person42 = (Person) longSparseArray.get(j9);
-            if (Build.VERSION.SDK_INT >= 28) {
-                user = getMessagesController().getUser(Long.valueOf(j9));
-                if (user == null) {
-                }
-                if (user != null) {
-                }
-            }
-            j10 = j7;
-            person = person42;
-            String str262222 = "";
-            messagingStyle = (person == null && (messageObject != null || !(messageObject.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest))) ? new NotificationCompat.MessagingStyle(person) : new NotificationCompat.MessagingStyle("");
-            i16 = Build.VERSION.SDK_INT;
-            if (i16 >= 28) {
-            }
-            messagingStyle.setConversationTitle(format);
-            messagingStyle.setGroupConversation(i16 >= 28 || (!z8 && DialogObject.isChatDialog(j4)) || UserObject.isReplyUser(j4));
-            StringBuilder sb62222 = new StringBuilder();
-            String[] strArr22222 = new String[1];
-            boolean[] zArr2222 = new boolean[1];
-            if (dialogKey3.story) {
-            }
-            Intent intent22222 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
-            StringBuilder sb72222 = new StringBuilder();
-            sb72222.append("com.tmessages.openchat");
-            String str272222 = str12;
-            ArrayList arrayList192222 = arrayList7;
-            sb72222.append(Math.random());
-            sb72222.append(ConnectionsManager.DEFAULT_DATACENTER_ID);
-            intent22222.setAction(sb72222.toString());
-            intent22222.setFlags(ConnectionsManager.FileTypeFile);
-            intent22222.addCategory("android.intent.category.LAUNCHER");
-            MessageObject messageObject52222 = messageObject2;
-            if (messageObject2 == null) {
-            }
-            dialogKey5 = dialogKey4;
-            if (dialogKey5.story) {
-            }
-            StringBuilder sb82222 = new StringBuilder();
-            sb82222.append("show extra notifications chatId ");
-            sb82222.append(j4);
-            sb82222.append(" topicId ");
-            j14 = j10;
-            sb82222.append(j14);
-            FileLog.d(sb82222.toString());
-            if (j14 != 0) {
-            }
-            String str282222 = str11;
-            intent22222.putExtra(str282222, notificationsController4.currentAccount);
-            PendingIntent activity2222 = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent22222, 1140850688);
-            NotificationCompat.WearableExtender wearableExtender2222 = new NotificationCompat.WearableExtender();
-            action2 = action;
-            if (action != null) {
-            }
-            int i312222 = i19;
-            Intent intent32222 = new Intent(ApplicationLoader.applicationContext, AutoMessageHeardReceiver.class);
-            intent32222.addFlags(32);
-            intent32222.setAction("org.telegram.messenger.ACTION_MESSAGE_HEARD");
-            intent32222.putExtra("dialog_id", j4);
-            int i322222 = i15;
-            intent32222.putExtra(str10, i322222);
-            intent32222.putExtra(str282222, notificationsController4.currentAccount);
-            arrayList9 = arrayList192222;
-            bitmap4 = bitmap3;
-            NotificationCompat.Action build42222 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString(R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent32222, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
-            if (DialogObject.isEncryptedDialog(j4)) {
-            }
-            if (str20 != null) {
-            }
-            StringBuilder sb92222 = new StringBuilder();
-            sb92222.append("tgaccount");
-            long j222222 = j11;
-            sb92222.append(j222222);
-            wearableExtender2222.setBridgeTag(sb92222.toString());
-            if (dialogKey5.story) {
-            }
-            NotificationCompat.Builder autoCancel2222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str13).setSmallIcon(R.drawable.notification).setContentText(sb2.toString()).setAutoCancel(true);
-            if (dialogKey5.story) {
-            }
-            category = autoCancel2222.setNumber(arrayList10.size()).setColor(-15618822).setGroupSummary(false).setWhen(j17).setShowWhen(true).setStyle(messagingStyle2).setContentIntent(activity2222).extend(wearableExtender2222).setSortKey(String.valueOf(Long.MAX_VALUE - j17)).setCategory("msg");
-            Intent intent42222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
-            intent42222.putExtra("messageDate", i11);
-            j18 = j15;
-            intent42222.putExtra("dialogId", j18);
-            String str292222 = str19;
-            intent42222.putExtra(str292222, notificationsController4.currentAccount);
-            if (dialogKey5.story) {
-            }
-            category.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent42222, 167772160));
-            if (z6) {
-            }
-            if (action2 != null) {
-            }
-            if (!z5) {
-            }
-            if (arrayList4.size() != 1) {
-            }
-            if (DialogObject.isEncryptedDialog(j18)) {
-            }
-            if (bitmap4 != null) {
-            }
-            if (!AndroidUtilities.needShowPasscode(false)) {
-            }
-            if (tLRPC$Chat3 == null) {
-            }
-            tLRPC$User6 = tLRPC$User5;
-            boolean z132222 = z6;
-            Notification notification32222 = notification;
-            if (Build.VERSION.SDK_INT >= 26) {
-            }
-            i12 = i282;
-            j8 = j16;
-            z10 = z132222;
-            i13 = i8;
-            longSparseArray6 = longSparseArray8;
-            longSparseArray7 = longSparseArray5;
-            str8 = str272222;
-            sharedPreferences = sharedPreferences2;
-            notification2 = notification32222;
-            arrayList6 = arrayList3;
-            arrayList6.add(new 1NotificationHolder(num2.intValue(), j18, dialogKey5.story, j14, str13, tLRPC$User6, tLRPC$Chat3, category, j2, str2, jArr, i, uri, i2, z, z2, z3, i3));
-            notificationsController2 = this;
-            notificationsController2.wearNotificationsIds.put(j18, num2);
-            i5 = i13 + 1;
-            arrayList15 = arrayList6;
-            size = i12;
-            notificationsSettings = sharedPreferences;
-            arrayList12 = arrayList4;
-            longSparseArray12 = longSparseArray4;
+            i5 = i10 + 1;
+            arrayList14 = arrayList5;
+            size = i9;
             clientUserId = j8;
-            z4 = z10;
-            str3 = str8;
-            longSparseArray13 = longSparseArray7;
+            notificationsSettings = sharedPreferences;
+            z5 = z10;
+            arrayList11 = arrayList3;
+            longSparseArray13 = longSparseArray4;
+            z4 = z11;
+            longSparseArray14 = longSparseArray7;
             longSparseArray = longSparseArray6;
             build2 = notification2;
             i4 = -1;
-            notificationsController5 = notificationsController2;
+            notificationsController3 = notificationsController2;
         }
-        LongSparseArray longSparseArray152 = longSparseArray;
-        longSparseArray2 = longSparseArray13;
+        LongSparseArray longSparseArray172 = longSparseArray;
+        longSparseArray2 = longSparseArray14;
         Notification notification42 = build2;
-        NotificationsController notificationsController62 = notificationsController5;
-        ArrayList arrayList262 = arrayList15;
+        NotificationsController notificationsController42 = notificationsController3;
+        ArrayList arrayList262 = arrayList14;
         if (z4) {
         }
         i6 = 0;
         while (i6 < longSparseArray2.size()) {
         }
         ArrayList arrayList272 = new ArrayList(arrayList.size());
+        FileLog.d("showExtraNotifications: holders.size()=" + arrayList.size());
         size2 = arrayList.size();
         i7 = 0;
         while (i7 < size2) {
@@ -8124,14 +7952,14 @@ public class NotificationsController extends BaseController {
     }
 
     /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
-        jadx.core.utils.exceptions.JadxRuntimeException: Unreachable block: B:452:0x0aca
+        jadx.core.utils.exceptions.JadxRuntimeException: Unreachable block: B:452:0x0acc
         	at jadx.core.dex.visitors.blocks.BlockProcessor.checkForUnreachableBlocks(BlockProcessor.java:81)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:47)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:39)
         */
     private void showOrUpdateNotification(boolean r56) {
         /*
-            Method dump skipped, instructions count: 3650
+            Method dump skipped, instructions count: 3652
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.messenger.NotificationsController.showOrUpdateNotification(boolean):void");
@@ -9380,6 +9208,15 @@ public class NotificationsController extends BaseController {
     }
 
     public void processNewMessages(final ArrayList<MessageObject> arrayList, final boolean z, final boolean z2, final CountDownLatch countDownLatch) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("NotificationsController: processNewMessages msgs.size()=");
+        sb.append(arrayList == null ? "null" : Integer.valueOf(arrayList.size()));
+        sb.append(" isLast=");
+        sb.append(z);
+        sb.append(" isFcm=");
+        sb.append(z2);
+        sb.append(")");
+        FileLog.d(sb.toString());
         if (!arrayList.isEmpty()) {
             final ArrayList arrayList2 = new ArrayList(0);
             notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda68

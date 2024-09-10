@@ -11782,7 +11782,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
             if (((BaseFragment) ChatActivity.this).actionBar.isActionModeShowed() || ChatActivity.this.reportType >= 0) {
                 ChatActivity.this.processRowSelect(chatMessageCell, true, f, f2);
-            } else if (z || !tLRPC$Chat.signature_profiles || (messageObject = chatMessageCell.getMessageObject()) == null) {
+            } else if (z || !tLRPC$Chat.signature_profiles || (messageObject = chatMessageCell.getMessageObject()) == null || messageObject.getDialogId() == UserObject.REPLY_BOT) {
                 openChat(chatMessageCell, tLRPC$Chat, i, z);
             } else {
                 ChatActivity.this.openUserProfile(DialogObject.getPeerDialogId(messageObject.messageOwner.from_id));
@@ -12555,15 +12555,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:52:0x0101, code lost:
-            if (r3.isSame(r26.reaction) == false) goto L52;
+            if (r3.isSame(r25.reaction) == false) goto L52;
          */
-        /* JADX WARN: Removed duplicated region for block: B:113:0x03fb  */
-        /* JADX WARN: Removed duplicated region for block: B:116:0x042c  */
-        /* JADX WARN: Removed duplicated region for block: B:118:0x043b  */
-        /* JADX WARN: Removed duplicated region for block: B:130:0x04a6  */
-        /* JADX WARN: Removed duplicated region for block: B:136:0x04c0  */
-        /* JADX WARN: Removed duplicated region for block: B:145:0x052c  */
-        /* JADX WARN: Removed duplicated region for block: B:148:0x053d  */
+        /* JADX WARN: Removed duplicated region for block: B:116:0x0407  */
+        /* JADX WARN: Removed duplicated region for block: B:119:0x0438  */
+        /* JADX WARN: Removed duplicated region for block: B:121:0x0447  */
+        /* JADX WARN: Removed duplicated region for block: B:133:0x04b2  */
+        /* JADX WARN: Removed duplicated region for block: B:139:0x04cc  */
+        /* JADX WARN: Removed duplicated region for block: B:148:0x0538  */
+        /* JADX WARN: Removed duplicated region for block: B:151:0x0549  */
         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -12738,6 +12738,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     reactionButton = reactionButton3;
                     TLRPC$Reaction tLRPC$Reaction = tLRPC$ReactionCount.reaction;
                     if ((tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji) && (findStickerSet = AnimatedEmojiDrawable.getDocumentFetcher(((BaseFragment) ChatActivity.this).currentAccount).findStickerSet(((TLRPC$TL_reactionCustomEmoji) tLRPC$Reaction).document_id)) != null) {
+                        reactionButton.stopAnimation();
                         final ArrayList arrayList2 = new ArrayList();
                         arrayList2.add(findStickerSet);
                         View messageContainsEmojiButton = new MessageContainsEmojiButton(((BaseFragment) ChatActivity.this).currentAccount, ChatActivity.this.getContext(), ChatActivity.this.themeDelegate, arrayList2, 3);
@@ -12849,6 +12850,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     frameLayout.setVisibility(8);
                 } else {
+                    if (tLRPC$ReactionCount.reaction instanceof TLRPC$TL_reactionCustomEmoji) {
+                        reactionButton3.stopAnimation();
+                    }
                     Activity parentActivity = ChatActivity.this.getParentActivity();
                     ChatActivity chatActivity5 = ChatActivity.this;
                     f3 = f5;
@@ -26192,6 +26196,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             Bundle bundle = new Bundle();
             bundle.putInt("type", 3);
             bundle.putString("hashtag", this.messagesSearchAdapter.storiesList.query);
+            bundle.putInt("storiesCount", this.messagesSearchAdapter.storiesList.getCount());
             presentFragment(new MediaActivity(bundle, null));
         } else if (this.searchingReaction == null) {
             getMediaDataController().jumpToSearchedMessage(this.classGuid, i);

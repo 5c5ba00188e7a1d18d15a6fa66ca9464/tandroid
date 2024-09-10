@@ -3130,6 +3130,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 });
                 this.containerView.setSystemUiVisibility(1792);
             }
+            AndroidUtilities.setPreferredMaxRefreshRate(this.windowManager, this.windowView, this.windowLayoutParams);
             this.windowManager.addView(this.windowView, this.windowLayoutParams);
         }
         this.windowView.requestLayout();

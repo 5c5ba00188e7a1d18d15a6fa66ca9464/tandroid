@@ -9267,7 +9267,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     i9++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i12;
-                case 155:
+                case NotificationCenter.recordResumed /* 155 */:
                     TLRPC$JSONValue tLRPC$JSONValue172 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue172 instanceof TLRPC$TL_jsonNumber) {
                         double d90 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue172).value;
@@ -9296,7 +9296,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     i9++;
                     tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject;
                     size = i12;
-                case NotificationCenter.screenshotTook /* 156 */:
+                case 156:
                     TLRPC$JSONValue tLRPC$JSONValue173 = tLRPC$TL_jsonObjectValue.value;
                     if (tLRPC$JSONValue173 instanceof TLRPC$TL_jsonNumber) {
                         double d91 = ((TLRPC$TL_jsonNumber) tLRPC$JSONValue173).value;

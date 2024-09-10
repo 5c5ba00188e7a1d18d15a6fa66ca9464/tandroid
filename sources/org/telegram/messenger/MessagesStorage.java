@@ -168,7 +168,7 @@ import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 /* loaded from: classes3.dex */
 public class MessagesStorage extends BaseController {
     public static final String[] DATABASE_TABLES;
-    public static final int LAST_DB_VERSION = 155;
+    public static final int LAST_DB_VERSION = 156;
     private int archiveUnreadCount;
     private int[][] bots;
     private File cacheFile;
@@ -2026,7 +2026,8 @@ public class MessagesStorage extends BaseController {
         sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS idx_to_reply_quick_replies_messages ON quick_replies_messages(reply_to_message_id, mid);").stepThis().dispose();
         sQLiteDatabase.executeFast("CREATE TABLE business_links(data BLOB, order_value INTEGER);").stepThis().dispose();
         sQLiteDatabase.executeFast("CREATE TABLE fact_checks(hash INTEGER PRIMARY KEY, data BLOB, expires INTEGER);").stepThis().dispose();
-        sQLiteDatabase.executeFast("PRAGMA user_version = 155").stepThis().dispose();
+        sQLiteDatabase.executeFast("CREATE TABLE popular_bots(uid INTEGER PRIMARY KEY, time INTEGER, offset TEXT);").stepThis().dispose();
+        sQLiteDatabase.executeFast("PRAGMA user_version = 156").stepThis().dispose();
     }
 
     /* JADX WARN: Removed duplicated region for block: B:38:0x00c9  */
@@ -37197,7 +37198,7 @@ public class MessagesStorage extends BaseController {
                 MessagesStorage.this.lambda$updateDbToLastVersion$3();
             }
         });
-        FileLog.d("MessagesStorage start db migration from " + i + " to 155");
+        FileLog.d("MessagesStorage start db migration from " + i + " to 156");
         int migrate = DatabaseMigrationHelper.migrate(this, i);
         StringBuilder sb = new StringBuilder();
         sb.append("MessagesStorage db migration finished to varsion ");
@@ -43151,7 +43152,7 @@ public class MessagesStorage extends BaseController {
                         FileLog.e(e3);
                     }
                 }
-                if (intValue < 155) {
+                if (intValue < 156) {
                     try {
                         updateDbToLastVersion(intValue);
                     } catch (Exception e4) {

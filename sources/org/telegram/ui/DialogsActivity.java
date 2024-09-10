@@ -10416,7 +10416,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x03e6  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x03e1  */
     /* renamed from: updateDialogsHint */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -10504,12 +10504,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     }
                 });
                 DialogsHintCell dialogsHintCell4 = this.dialogsHintCell;
-                int i3 = R.string.StarsSubscriptionExpiredHintTitle;
                 long j2 = j - starsController.balance;
                 if (j2 > 0) {
                     j = j2;
                 }
-                dialogsHintCell4.setText(StarsIntroActivity.replaceStarsWithPlain(LocaleController.formatString(i3, Long.valueOf(j), sb2), 0.72f), LocaleController.getString(R.string.StarsSubscriptionExpiredHintText));
+                dialogsHintCell4.setText(StarsIntroActivity.replaceStarsWithPlain(LocaleController.formatPluralStringComma("StarsSubscriptionExpiredHintTitle2", (int) j, sb2), 0.72f), LocaleController.getString(R.string.StarsSubscriptionExpiredHintText));
                 dialogsHintCell = this.dialogsHintCell;
                 onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda62
                     @Override // android.view.View.OnClickListener

@@ -582,8 +582,8 @@ public final class Cea708Decoder extends CeaDecoder {
             case NotificationCenter.recordStartError /* 152 */:
             case NotificationCenter.recordStopped /* 153 */:
             case NotificationCenter.recordPaused /* 154 */:
-            case 155:
-            case NotificationCenter.screenshotTook /* 156 */:
+            case NotificationCenter.recordResumed /* 155 */:
+            case 156:
             case NotificationCenter.albumsDidLoad /* 157 */:
             case NotificationCenter.audioDidSent /* 158 */:
             case NotificationCenter.audioRecordTooShort /* 159 */:

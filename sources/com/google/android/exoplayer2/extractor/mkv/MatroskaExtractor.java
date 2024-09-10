@@ -2586,7 +2586,7 @@ public class MatroskaExtractor implements Extractor {
         switch (i) {
             case NotificationCenter.httpFileDidLoad /* 131 */:
             case NotificationCenter.fileUploadProgressChanged /* 136 */:
-            case 155:
+            case NotificationCenter.recordResumed /* 155 */:
             case NotificationCenter.audioRecordTooShort /* 159 */:
             case NotificationCenter.themeUploadError /* 176 */:
             case NotificationCenter.suggestedFiltersLoaded /* 179 */:
@@ -2729,7 +2729,7 @@ public class MatroskaExtractor implements Extractor {
                 case NotificationCenter.fileUploadProgressChanged /* 136 */:
                     getCurrentTrack(i).flagDefault = j == 1;
                     return;
-                case 155:
+                case NotificationCenter.recordResumed /* 155 */:
                     this.blockDurationUs = scaleTimecodeToUs(j);
                     return;
                 case NotificationCenter.audioRecordTooShort /* 159 */:

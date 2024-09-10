@@ -201,12 +201,12 @@ public class BotHelpCell extends View {
         setMeasuredDimension(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), this.height + AndroidUtilities.dp(8.0f));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x00f4, code lost:
-        if (r2 != null) goto L82;
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x00fc, code lost:
+        if (r2 != null) goto L84;
      */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x011b  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0178  */
-    /* JADX WARN: Removed duplicated region for block: B:98:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:100:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0123  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0180  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -275,10 +275,12 @@ public class BotHelpCell extends View {
                             url = ((URLSpanNoUnderline) clickableSpan).getURL();
                             if (!url.startsWith("@")) {
                                 if (!url.startsWith("#")) {
-                                    if (url.startsWith("/")) {
+                                    if (!url.startsWith("/")) {
+                                        if (url.startsWith("$")) {
+                                        }
+                                        resetPressedLink();
+                                        z = true;
                                     }
-                                    resetPressedLink();
-                                    z = true;
                                 }
                             }
                             botHelpCellDelegate = this.delegate;

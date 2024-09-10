@@ -1386,7 +1386,12 @@ public class DatabaseMigrationHelper {
         if (i7 == 154) {
             sQLiteDatabase.executeFast("CREATE TABLE fact_checks(hash INTEGER PRIMARY KEY, data BLOB, expires INTEGER);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 155").stepThis().dispose();
-            return 155;
+            i7 = NotificationCenter.recordResumed;
+        }
+        if (i7 == 155) {
+            sQLiteDatabase.executeFast("CREATE TABLE popular_bots(uid INTEGER PRIMARY KEY, time INTEGER, offset TEXT);").stepThis().dispose();
+            sQLiteDatabase.executeFast("PRAGMA user_version = 156").stepThis().dispose();
+            return 156;
         }
         return i7;
     }
@@ -1445,7 +1450,7 @@ public class DatabaseMigrationHelper {
             e = e4;
             j = 0;
         }
-        if (intValue != 155) {
+        if (intValue != 156) {
             FileLog.e("can't restore database from version " + intValue);
             return false;
         }

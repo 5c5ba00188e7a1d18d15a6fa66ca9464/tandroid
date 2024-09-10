@@ -332,6 +332,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private float composeShadowAlpha;
     private float controlsScale;
     public ControlsView controlsView;
+    boolean ctrlPressed;
     private int currentAccount;
     private int currentLimit;
     private int currentPopupContentType;
@@ -499,6 +500,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private SenderSelectView senderSelectView;
     private long sentFromPreview;
     private Runnable setTextFieldRunnable;
+    boolean shiftPressed;
     protected boolean shouldAnimateEditTextWithBounds;
     public boolean shouldDrawBackground;
     public boolean shouldDrawRecordedAudioPanelInParent;
@@ -1106,8 +1108,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             if (ChatActivityEnterView.this.innerTextChange == 1) {
                 return;
             }
-            if (ChatActivityEnterView.this.sendByEnter && !ChatActivityEnterView.this.ignoreTextChange && !ChatActivityEnterView.this.isPaste && ChatActivityEnterView.this.editingMessageObject == null && i3 > i2 && charSequence.length() > 0 && charSequence.length() == i + i3 && charSequence.charAt(charSequence.length() - 1) == '\n') {
-                this.nextChangeIsSend = true;
+            if (ChatActivityEnterView.this.sendByEnter) {
+                ChatActivityEnterView chatActivityEnterView3 = ChatActivityEnterView.this;
+                if (!chatActivityEnterView3.ctrlPressed && !chatActivityEnterView3.shiftPressed && !chatActivityEnterView3.ignoreTextChange && !ChatActivityEnterView.this.isPaste && ChatActivityEnterView.this.editingMessageObject == null && i3 > i2 && charSequence.length() > 0 && charSequence.length() == i + i3 && charSequence.charAt(charSequence.length() - 1) == '\n') {
+                    this.nextChangeIsSend = true;
+                }
             }
             ChatActivityEnterView.this.isPaste = false;
             ChatActivityEnterView.this.checkSendButton(true);
@@ -4473,6 +4478,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 accessibilityNodeInfo.setLongClickable(true);
             }
         };
+        this.ctrlPressed = false;
+        this.shiftPressed = false;
         this.currentPopupContentType = -1;
         this.isPaused = true;
         this.startedDraggingX = -1.0f;
@@ -6920,24 +6927,37 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         this.messageEditText.setHandlesColor(getThemedColor(Theme.key_chat_TextSelectionCursor));
         this.messageEditTextContainer.addView(this.messageEditText, 1, LayoutHelper.createFrame(-1, -2.0f, 80, 52.0f, 0.0f, this.isChat ? 50.0f : 2.0f, 1.5f));
         this.messageEditText.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView.43
-            boolean ctrlPressed = false;
-
             {
                 ChatActivityEnterView.this = this;
             }
 
+            /* JADX WARN: Code restructure failed: missing block: B:130:0x012b, code lost:
+                if (r7.getAction() != 0) goto L66;
+             */
+            /* JADX WARN: Code restructure failed: missing block: B:132:0x0133, code lost:
+                if (org.telegram.ui.Components.ChatActivityEnterView.this.editingMessageObject != null) goto L66;
+             */
+            /* JADX WARN: Code restructure failed: missing block: B:133:0x0135, code lost:
+                org.telegram.ui.Components.ChatActivityEnterView.this.sendMessage();
+             */
+            /* JADX WARN: Code restructure failed: missing block: B:134:0x013a, code lost:
+                return true;
+             */
             @Override // android.view.View.OnKeyListener
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+            */
             public boolean onKey(View view, int i3, KeyEvent keyEvent) {
+                if (keyEvent != null) {
+                    ChatActivityEnterView.this.shiftPressed = keyEvent.isShiftPressed();
+                    ChatActivityEnterView.this.ctrlPressed = keyEvent.isCtrlPressed();
+                }
                 if (i3 != 4 || ChatActivityEnterView.this.keyboardVisible || !ChatActivityEnterView.this.isPopupShowing() || keyEvent.getAction() != 1) {
-                    if (i3 == 66 && ((this.ctrlPressed || ChatActivityEnterView.this.sendByEnter) && keyEvent.getAction() == 0 && ChatActivityEnterView.this.editingMessageObject == null)) {
-                        ChatActivityEnterView.this.sendMessage();
-                        return true;
-                    } else if (i3 == 113 || i3 == 114) {
-                        this.ctrlPressed = keyEvent.getAction() == 0;
-                        return true;
-                    } else {
-                        return false;
+                    if (i3 == 66 && !keyEvent.isShiftPressed()) {
+                        if (ChatActivityEnterView.this.sendByEnter) {
+                        }
                     }
+                    return false;
                 } else if (ContentPreviewViewer.hasInstance() && ContentPreviewViewer.getInstance().isVisible()) {
                     ContentPreviewViewer.getInstance().closeWithMenu();
                     return true;
@@ -6970,8 +6990,6 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             }
         });
         this.messageEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView.44
-            boolean ctrlPressed = false;
-
             {
                 ChatActivityEnterView.this = this;
             }
@@ -6979,10 +6997,17 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             @Override // android.widget.TextView.OnEditorActionListener
             public boolean onEditorAction(TextView textView, int i3, KeyEvent keyEvent) {
                 if (i3 != 4) {
-                    if (keyEvent == null || i3 != 0) {
+                    if (keyEvent == null || i3 != 0 || keyEvent.isShiftPressed()) {
                         return false;
                     }
-                    if ((!this.ctrlPressed && !ChatActivityEnterView.this.sendByEnter) || keyEvent.getAction() != 0 || ChatActivityEnterView.this.editingMessageObject != null) {
+                    if (ChatActivityEnterView.this.sendByEnter) {
+                        if (keyEvent.isCtrlPressed()) {
+                            return false;
+                        }
+                    } else if (!keyEvent.isCtrlPressed()) {
+                        return false;
+                    }
+                    if (keyEvent.getAction() != 0 || ChatActivityEnterView.this.editingMessageObject != null) {
                         return false;
                     }
                 }

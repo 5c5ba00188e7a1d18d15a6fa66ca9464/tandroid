@@ -985,8 +985,8 @@ public class PipVideoOverlay {
 
     /* JADX WARN: Removed duplicated region for block: B:50:0x02b3  */
     /* JADX WARN: Removed duplicated region for block: B:52:0x02d1  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x02e4  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x02ed  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x02eb  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x02f6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1117,6 +1117,7 @@ public class PipVideoOverlay {
                 PipVideoOverlay pipVideoOverlay2;
                 AndroidUtilities.checkDisplaySize(getContext(), configuration);
                 PipVideoOverlay.this.pipConfig = null;
+                AndroidUtilities.setPreferredMaxRefreshRate(PipVideoOverlay.this.windowManager, PipVideoOverlay.this.contentView, PipVideoOverlay.this.windowLayoutParams);
                 if (PipVideoOverlay.this.pipWidth == PipVideoOverlay.this.getSuggestedWidth() * PipVideoOverlay.this.scaleFactor && PipVideoOverlay.this.pipHeight == PipVideoOverlay.this.getSuggestedHeight() * PipVideoOverlay.this.scaleFactor) {
                     return;
                 }
@@ -1278,8 +1279,9 @@ public class PipVideoOverlay {
                 WindowManager.LayoutParams layoutParams2 = this.windowLayoutParams;
                 layoutParams2.dimAmount = 0.0f;
                 layoutParams2.flags = 520;
+                AndroidUtilities.setPreferredMaxRefreshRate(this.windowManager, this.contentView, layoutParams2);
                 if (!z2) {
-                    this.windowManager.addView(this.contentView, layoutParams2);
+                    this.windowManager.addView(this.contentView, this.windowLayoutParams);
                     return true;
                 }
                 this.contentView.setAlpha(0.0f);
@@ -1307,6 +1309,7 @@ public class PipVideoOverlay {
         WindowManager.LayoutParams layoutParams22 = this.windowLayoutParams;
         layoutParams22.dimAmount = 0.0f;
         layoutParams22.flags = 520;
+        AndroidUtilities.setPreferredMaxRefreshRate(this.windowManager, this.contentView, layoutParams22);
         if (!z2) {
         }
     }

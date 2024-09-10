@@ -12412,7 +12412,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     public void openUrl(String str, Browser.Progress progress) {
         if (str.startsWith("@")) {
             getMessagesController().openByUserName(str.substring(1), this, 0, progress);
-        } else if (str.startsWith("#")) {
+        } else if (str.startsWith("#") || str.startsWith("$")) {
             DialogsActivity dialogsActivity = new DialogsActivity(null);
             dialogsActivity.setSearchString(str);
             presentFragment(dialogsActivity);

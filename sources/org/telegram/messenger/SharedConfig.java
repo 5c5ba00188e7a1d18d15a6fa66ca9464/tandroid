@@ -986,7 +986,7 @@ public class SharedConfig {
                                     useSystemEmoji = sharedPreferences.getBoolean("useSystemEmoji", false);
                                     streamMedia = sharedPreferences.getBoolean("streamMedia", true);
                                     saveStreamMedia = sharedPreferences.getBoolean("saveStreamMedia", true);
-                                    pauseMusicOnRecord = sharedPreferences.getBoolean("pauseMusicOnRecord", false);
+                                    pauseMusicOnRecord = sharedPreferences.getBoolean("pauseMusicOnRecord", true);
                                     pauseMusicOnMedia = sharedPreferences.getBoolean("pauseMusicOnMedia", false);
                                     forceDisableTabletMode = sharedPreferences.getBoolean("forceDisableTabletMode", false);
                                     streamAllVideo = sharedPreferences.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
@@ -1101,7 +1101,7 @@ public class SharedConfig {
                     useSystemEmoji = sharedPreferences.getBoolean("useSystemEmoji", false);
                     streamMedia = sharedPreferences.getBoolean("streamMedia", true);
                     saveStreamMedia = sharedPreferences.getBoolean("saveStreamMedia", true);
-                    pauseMusicOnRecord = sharedPreferences.getBoolean("pauseMusicOnRecord", false);
+                    pauseMusicOnRecord = sharedPreferences.getBoolean("pauseMusicOnRecord", true);
                     pauseMusicOnMedia = sharedPreferences.getBoolean("pauseMusicOnMedia", false);
                     forceDisableTabletMode = sharedPreferences.getBoolean("forceDisableTabletMode", false);
                     streamAllVideo = sharedPreferences.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
@@ -1292,7 +1292,7 @@ public class SharedConfig {
             i = 2;
         }
         if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("device performance info selected_class = " + i + " (cpu_count = " + i3 + ", freq = " + ceil + ", memoryClass = " + memoryClass + ", android version " + i2 + ", manufacture " + Build.MANUFACTURER + ", screenRefreshRate=" + AndroidUtilities.screenRefreshRate + ")");
+            FileLog.d("device performance info selected_class = " + i + " (cpu_count = " + i3 + ", freq = " + ceil + ", memoryClass = " + memoryClass + ", android version " + i2 + ", manufacture " + Build.MANUFACTURER + ", screenRefreshRate=" + AndroidUtilities.screenRefreshRate + ", screenMaxRefreshRate=" + AndroidUtilities.screenMaxRefreshRate + ")");
         }
         return i;
     }

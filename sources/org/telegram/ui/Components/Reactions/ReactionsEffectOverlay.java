@@ -1268,7 +1268,8 @@ public class ReactionsEffectOverlay {
                 layoutParams.format = -3;
                 WindowManager windowManager = baseFragment.getParentActivity().getWindowManager();
                 reactionsEffectOverlay.windowManager = windowManager;
-                windowManager.addView(reactionsEffectOverlay.windowView, layoutParams);
+                AndroidUtilities.setPreferredMaxRefreshRate(windowManager, reactionsEffectOverlay.windowView, layoutParams);
+                reactionsEffectOverlay.windowManager.addView(reactionsEffectOverlay.windowView, layoutParams);
             } else {
                 FrameLayout frameLayout = (FrameLayout) baseFragment.getParentActivity().getWindow().getDecorView();
                 reactionsEffectOverlay.decorView = frameLayout;

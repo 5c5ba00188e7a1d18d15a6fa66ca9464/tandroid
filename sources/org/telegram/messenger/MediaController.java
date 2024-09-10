@@ -1410,7 +1410,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 return;
             }
             this.loadingMessageObjects.put(FileLoader.getAttachFileName(document), messageObject);
-            this.currentAccount.getFileLoader().loadFile(document, messageObject, 0, messageObject.shouldEncryptPhotoOrVideo() ? 2 : 0);
+            this.currentAccount.getFileLoader().loadFile(document, messageObject, 3, messageObject.shouldEncryptPhotoOrVideo() ? 2 : 0);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1516,7 +1516,16 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         if (this.cancelled) {
                             break;
                         }
-                        if (file.exists()) {
+                        if (!file.exists()) {
+                            file = FileLoader.getInstance(this.currentAccount.getCurrentAccount()).getPathToAttach(messageObject.messageOwner, true);
+                            StringBuilder sb2 = new StringBuilder();
+                            sb2.append("saving file: correcting path from ");
+                            sb2.append(str);
+                            sb2.append(" to ");
+                            sb2.append(file == null ? null : file.getAbsolutePath());
+                            FileLog.d(sb2.toString());
+                        }
+                        if (file != null && file.exists()) {
                             MediaController.saveFileInternal(this.isMusic ? 3 : 2, file, documentName);
                             this.copiedFiles++;
                         }
@@ -5494,7 +5503,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 file.delete();
             }
         }
-        requestAudioFocus(z3);
+        requestRecordAudioFocus(z3);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -5546,6 +5555,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         tLRPC$TL_document.attributes.add(tLRPC$TL_documentAttributeAudio);
         NotificationCenter.getInstance(this.recordingCurrentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.recordPaused, new Object[0]);
         NotificationCenter.getInstance(this.recordingCurrentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.audioDidSent, Integer.valueOf(this.recordingGuid), tLRPC$TL_document, file.getAbsolutePath());
+        requestRecordAudioFocus(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -5572,6 +5582,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$toggleRecordingPause$29() {
+        requestRecordAudioFocus(true);
         MediaDataController.getInstance(this.recordingCurrentAccount).pushDraftVoiceMessage(this.recordDialogId, this.recordTopicId, null);
         this.audioRecorder = new AudioRecord(0, this.sampleRate, 16, 2, this.recordBufferSize);
         this.recordStartTime = System.currentTimeMillis();
@@ -6298,7 +6309,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             if (file2 != null) {
                 file2.delete();
             }
-            requestAudioFocus(false);
+            requestRecordAudioFocus(false);
         } else {
             final TLRPC$TL_document tLRPC$TL_document = this.recordingAudio;
             if (BuildVars.LOGS_ENABLED) {
@@ -7981,7 +7992,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     public void prepareResumedRecording(final int i, final MediaDataController.DraftVoice draftVoice, final long j, final MessageObject messageObject, final MessageObject messageObject2, final TL_stories$StoryItem tL_stories$StoryItem, final int i2, final String str, final int i3) {
         this.manualRecording = false;
-        requestAudioFocus(true);
+        requestRecordAudioFocus(true);
         this.recordQueue.cancelRunnable(this.recordStartRunnable);
         this.recordQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda45
             @Override // java.lang.Runnable
@@ -7991,7 +8002,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         });
     }
 
-    public void requestAudioFocus(boolean z) {
+    public void requestRecordAudioFocus(boolean z) {
         if (!z) {
             if (this.hasRecordAudioFocus) {
                 NotificationsController.audioManager.abandonAudioFocus(this.audioRecordFocusChangedListener);
@@ -8422,7 +8433,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             z3 = true;
         }
         this.manualRecording = z2;
-        requestAudioFocus(true);
+        requestRecordAudioFocus(true);
         try {
             this.feedbackView.performHapticFeedback(3, 2);
         } catch (Exception unused) {

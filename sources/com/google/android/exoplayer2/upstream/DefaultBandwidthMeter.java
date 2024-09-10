@@ -2872,7 +2872,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 return iArr;
-            case 155:
+            case NotificationCenter.recordResumed /* 155 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
                 iArr[1] = 3;
@@ -2881,7 +2881,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 return iArr;
-            case NotificationCenter.screenshotTook /* 156 */:
+            case 156:
                 // fill-array-data instruction
                 iArr[0] = 0;
                 iArr[1] = 2;
