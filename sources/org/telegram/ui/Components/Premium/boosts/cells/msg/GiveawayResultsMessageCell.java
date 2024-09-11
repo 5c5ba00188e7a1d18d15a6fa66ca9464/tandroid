@@ -601,7 +601,7 @@ public class GiveawayResultsMessageCell {
             }
             boolean z = (tLRPC$TL_messageMediaGiveawayResults.flags & 32) != 0;
             this.isStars = z;
-            spannableStringBuilder2.append((CharSequence) (z ? LocaleController.formatPluralStringComma("BoostingStarsGiveawayResultsMsgAllWinnersReceivedLinks", (int) tLRPC$TL_messageMediaGiveawayResults.stars, ' ') : LocaleController.getString(R.string.BoostingGiveawayResultsMsgAllWinnersReceivedLinks)));
+            spannableStringBuilder2.append((CharSequence) (z ? LocaleController.formatPluralStringSpaced("BoostingStarsGiveawayResultsMsgAllWinnersReceivedLinks", (int) tLRPC$TL_messageMediaGiveawayResults.stars) : LocaleController.getString(R.string.BoostingGiveawayResultsMsgAllWinnersReceivedLinks)));
             TextPaint textPaint = this.textPaint;
             Layout.Alignment alignment = Layout.Alignment.ALIGN_CENTER;
             TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;

@@ -4976,7 +4976,21 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
     }
 
     String exceptionLabel() {
-        return " " + super.toString() + ", adapter:" + this.mAdapter + ", layout:" + this.mLayout + ", context:" + getContext();
+        StringBuilder sb = new StringBuilder();
+        sb.append(" ");
+        sb.append(super.toString());
+        sb.append(", adapter:");
+        sb.append(this.mAdapter);
+        sb.append(", layout:");
+        sb.append(this.mLayout);
+        sb.append(", context:");
+        sb.append(getContext());
+        String lastNotifies = this.mAdapterHelper.getLastNotifies();
+        if (lastNotifies != null) {
+            sb.append(", last notifies:\n");
+            sb.append(lastNotifies);
+        }
+        return sb.toString();
     }
 
     final void fillRemainingScrollValues(State state) {

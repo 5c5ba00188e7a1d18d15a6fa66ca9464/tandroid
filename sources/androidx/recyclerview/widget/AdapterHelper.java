@@ -1,14 +1,18 @@
 package androidx.recyclerview.widget;
 
+import android.text.TextUtils;
 import androidx.core.util.Pools$Pool;
 import androidx.core.util.Pools$SimplePool;
 import androidx.recyclerview.widget.OpReorderer;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import org.telegram.messenger.BuildVars;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class AdapterHelper implements OpReorderer.Callback {
+    private final ArrayList lastNotifies;
     final Callback mCallback;
     final boolean mDisableRecycler;
     private int mExistingUpdateTypes;
@@ -107,6 +111,7 @@ public class AdapterHelper implements OpReorderer.Callback {
         this.mPendingUpdates = new ArrayList();
         this.mPostponedList = new ArrayList();
         this.mExistingUpdateTypes = 0;
+        this.lastNotifies = BuildVars.DEBUG_VERSION ? new ArrayList() : null;
         this.mCallback = callback;
         this.mDisableRecycler = z;
         this.mOpReorderer = new OpReorderer(this);
@@ -270,6 +275,36 @@ public class AdapterHelper implements OpReorderer.Callback {
             dispatchFirstPassAndUpdateViewHolders(obtainUpdateOp2, i3);
             recycleUpdateOp(obtainUpdateOp2);
         }
+    }
+
+    private void logNotify(String str) {
+        int i;
+        if (this.lastNotifies == null) {
+            return;
+        }
+        while (true) {
+            if (this.lastNotifies.size() <= 5) {
+                break;
+            }
+            this.lastNotifies.remove(0);
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(new Date().toString());
+        sb.append("  ");
+        sb.append(str);
+        sb.append("\n");
+        StackTraceElement[] stackTrace = new Exception().getStackTrace();
+        int i2 = 0;
+        for (i = 0; i < stackTrace.length && i2 < 5; i++) {
+            String stackTraceElement = stackTrace[i].toString();
+            if (!stackTraceElement.startsWith("androidx.recyclerview.widget.") || i2 != 0) {
+                sb.append("\n");
+                sb.append(stackTraceElement);
+                sb.append("\n");
+                i2++;
+            }
+        }
+        this.lastNotifies.add(sb.toString());
     }
 
     private void postponeAndUpdateViewHolders(UpdateOp updateOp) {
@@ -505,6 +540,14 @@ public class AdapterHelper implements OpReorderer.Callback {
         return i;
     }
 
+    public String getLastNotifies() {
+        ArrayList arrayList = this.lastNotifies;
+        if (arrayList == null) {
+            return null;
+        }
+        return TextUtils.join("\n\n", arrayList);
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public boolean hasAnyUpdateTypes(int i) {
         return (i & this.mExistingUpdateTypes) != 0;
@@ -538,6 +581,9 @@ public class AdapterHelper implements OpReorderer.Callback {
         if (i2 < 1) {
             return false;
         }
+        if (BuildVars.DEBUG_VERSION) {
+            logNotify("onItemRangeChanged(" + i + ", " + i2 + ", " + obj + ")");
+        }
         this.mPendingUpdates.add(obtainUpdateOp(4, i, i2, obj));
         this.mExistingUpdateTypes |= 4;
         return this.mPendingUpdates.size() == 1;
@@ -547,6 +593,9 @@ public class AdapterHelper implements OpReorderer.Callback {
     public boolean onItemRangeInserted(int i, int i2) {
         if (i2 < 1) {
             return false;
+        }
+        if (BuildVars.DEBUG_VERSION) {
+            logNotify("onItemRangeInserted(" + i + ", " + i2 + ")");
         }
         this.mPendingUpdates.add(obtainUpdateOp(1, i, i2, null));
         this.mExistingUpdateTypes |= 1;
@@ -559,6 +608,9 @@ public class AdapterHelper implements OpReorderer.Callback {
             return false;
         }
         if (i3 == 1) {
+            if (BuildVars.DEBUG_VERSION) {
+                logNotify("onItemRangeMoved(" + i + ", " + i2 + ", " + i3 + ")");
+            }
             this.mPendingUpdates.add(obtainUpdateOp(8, i, i2, null));
             this.mExistingUpdateTypes |= 8;
             return this.mPendingUpdates.size() == 1;
@@ -570,6 +622,9 @@ public class AdapterHelper implements OpReorderer.Callback {
     public boolean onItemRangeRemoved(int i, int i2) {
         if (i2 < 1) {
             return false;
+        }
+        if (BuildVars.DEBUG_VERSION) {
+            logNotify("onItemRangeRemoved(" + i + ", " + i2 + ")");
         }
         this.mPendingUpdates.add(obtainUpdateOp(2, i, i2, null));
         this.mExistingUpdateTypes |= 2;

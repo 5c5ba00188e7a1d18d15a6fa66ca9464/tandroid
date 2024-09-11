@@ -1717,13 +1717,13 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
     /* JADX WARN: Removed duplicated region for block: B:224:0x04a0  */
     /* JADX WARN: Removed duplicated region for block: B:261:0x052a  */
     /* JADX WARN: Removed duplicated region for block: B:266:0x0542  */
-    /* JADX WARN: Removed duplicated region for block: B:277:0x0566  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x0573  */
-    /* JADX WARN: Removed duplicated region for block: B:286:0x0593  */
-    /* JADX WARN: Removed duplicated region for block: B:287:0x0595  */
-    /* JADX WARN: Removed duplicated region for block: B:290:0x05ae  */
-    /* JADX WARN: Removed duplicated region for block: B:291:0x05b0  */
-    /* JADX WARN: Type inference failed for: r3v28, types: [boolean] */
+    /* JADX WARN: Removed duplicated region for block: B:277:0x0564  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x0571  */
+    /* JADX WARN: Removed duplicated region for block: B:286:0x0591  */
+    /* JADX WARN: Removed duplicated region for block: B:287:0x0593  */
+    /* JADX WARN: Removed duplicated region for block: B:290:0x05ac  */
+    /* JADX WARN: Removed duplicated region for block: B:291:0x05ae  */
+    /* JADX WARN: Type inference failed for: r3v25, types: [boolean] */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1884,17 +1884,17 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
                                             i2 = tLRPC$Chat.participants_count;
                                             str6 = "Subscribers";
                                         }
-                                        CharSequence formatPluralStringComma = LocaleController.formatPluralStringComma(str6, i2, ' ');
+                                        CharSequence formatPluralStringSpaced = LocaleController.formatPluralStringSpaced(str6, i2);
                                         if (str instanceof SpannableStringBuilder) {
                                             if (!TextUtils.isEmpty(str)) {
-                                                formatPluralStringComma = TextUtils.concat(str, ", ", formatPluralStringComma);
+                                                formatPluralStringSpaced = TextUtils.concat(str, ", ", formatPluralStringSpaced);
                                             }
-                                            str5 = formatPluralStringComma;
+                                            str5 = formatPluralStringSpaced;
                                             profileSearchCell.setData(tLRPC$User != null ? tLRPC$User : tLRPC$Chat, tLRPC$EncryptedChat, str4, str5, true, z2);
                                             profileSearchCell.setChecked(this.delegate.isSelected(profileSearchCell.getDialogId()), dialogId2 == profileSearchCell.getDialogId());
                                             return;
                                         }
-                                        ((SpannableStringBuilder) str).append((CharSequence) ", ").append(formatPluralStringComma);
+                                        ((SpannableStringBuilder) str).append((CharSequence) ", ").append(formatPluralStringSpaced);
                                     }
                                     str5 = str;
                                     profileSearchCell.setData(tLRPC$User != null ? tLRPC$User : tLRPC$Chat, tLRPC$EncryptedChat, str4, str5, true, z2);
@@ -1914,7 +1914,7 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
                             }
                             i2 = tLRPC$Chat.participants_count;
                             str6 = "Members";
-                            CharSequence formatPluralStringComma2 = LocaleController.formatPluralStringComma(str6, i2, ' ');
+                            CharSequence formatPluralStringSpaced2 = LocaleController.formatPluralStringSpaced(str6, i2);
                             if (str instanceof SpannableStringBuilder) {
                             }
                         }

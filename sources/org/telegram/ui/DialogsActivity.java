@@ -75,6 +75,7 @@ import j$.util.concurrent.ConcurrentHashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import org.telegram.messenger.AccountInstance;
@@ -138,6 +139,8 @@ import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_forumTopic;
 import org.telegram.tgnet.TLRPC$TL_help_premiumPromo;
 import org.telegram.tgnet.TLRPC$TL_inputStickerSetID;
+import org.telegram.tgnet.TLRPC$TL_messageActionContactSignUp;
+import org.telegram.tgnet.TLRPC$TL_messageActionUserJoined;
 import org.telegram.tgnet.TLRPC$TL_messages_checkHistoryImportPeer;
 import org.telegram.tgnet.TLRPC$TL_messages_checkedHistoryImportPeer;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
@@ -5618,27 +5621,27 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createGroupForThis$61(final ChannelCreateActivity channelCreateActivity, final AlertDialog alertDialog, final BaseFragment baseFragment, final Long l) {
-        Utilities.doCallbacks(new Utilities.Callback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda119
+        Utilities.doCallbacks(new Utilities.Callback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda118
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 DialogsActivity.this.lambda$createGroupForThis$53(l, channelCreateActivity, baseFragment, (Runnable) obj);
             }
-        }, new Utilities.Callback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda120
+        }, new Utilities.Callback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda119
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 DialogsActivity.this.lambda$createGroupForThis$55(alertDialog, l, (Runnable) obj);
             }
-        }, new Utilities.Callback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda121
+        }, new Utilities.Callback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda120
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 DialogsActivity.this.lambda$createGroupForThis$57(l, (Runnable) obj);
             }
-        }, new Utilities.Callback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda122
+        }, new Utilities.Callback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda121
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 DialogsActivity.this.lambda$createGroupForThis$59(l, (Runnable) obj);
             }
-        }, new Utilities.Callback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda123
+        }, new Utilities.Callback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda122
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 DialogsActivity.this.lambda$createGroupForThis$60(alertDialog, l, channelCreateActivity, baseFragment, (Runnable) obj);
@@ -6489,13 +6492,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$performSelectedDialogsAction$92(int i, ArrayList arrayList) {
+    public /* synthetic */ void lambda$performSelectedDialogsAction$92(int i, ArrayList arrayList, boolean z, HashSet hashSet) {
         if (i != 102) {
             performSelectedDialogsAction(arrayList, i, false, false);
             return;
         }
         getMessagesController().setDialogsInTransaction(true);
-        performSelectedDialogsAction(arrayList, i, false, false);
+        performSelectedDialogsAction(arrayList, i, false, false, z ? hashSet : null);
         getMessagesController().setDialogsInTransaction(false);
         getMessagesController().checkIfFolderEmpty(this.folderId);
         if (this.folderId == 0 || getDialogsArray(this.currentAccount, this.viewPages[0].dialogsType, this.folderId, false).size() != 0) {
@@ -6507,17 +6510,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$performSelectedDialogsAction$93(ArrayList arrayList, final int i, DialogInterface dialogInterface, int i2) {
+    public /* synthetic */ void lambda$performSelectedDialogsAction$93(ArrayList arrayList, final int i, final HashSet hashSet, final boolean z) {
         if (arrayList.isEmpty()) {
             return;
         }
         final ArrayList arrayList2 = new ArrayList(arrayList);
         UndoView undoView = getUndoView();
         if (undoView != null) {
-            undoView.showWithAction(arrayList2, i == 102 ? 27 : 26, (Object) null, (Object) null, new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda117
+            undoView.showWithAction(arrayList2, i == 102 ? 27 : 26, (Object) null, (Object) null, new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda124
                 @Override // java.lang.Runnable
                 public final void run() {
-                    DialogsActivity.this.lambda$performSelectedDialogsAction$92(i, arrayList2);
+                    DialogsActivity.this.lambda$performSelectedDialogsAction$92(i, arrayList2, z, hashSet);
                 }
             }, (Runnable) null);
         }
@@ -6586,7 +6589,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         UndoView undoView = getUndoView();
         if (undoView != null) {
             i3 = i2;
-            undoView.showWithAction(j, i == 103 ? 0 : 1, new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda124
+            undoView.showWithAction(j, i == 103 ? 0 : 1, new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda123
                 @Override // java.lang.Runnable
                 public final void run() {
                     DialogsActivity.this.lambda$performSelectedDialogsAction$96(i, j, tLRPC$Chat, z, z2);
@@ -8075,38 +8078,30 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x047d  */
-    /* JADX WARN: Removed duplicated region for block: B:253:0x04c8  */
-    /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v12 */
-    /* JADX WARN: Type inference failed for: r13v4, types: [boolean, int] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public void performSelectedDialogsAction(final ArrayList arrayList, final int i, boolean z, boolean z2) {
+    public void performSelectedDialogsAction(ArrayList arrayList, int i, boolean z, boolean z2) {
+        performSelectedDialogsAction(arrayList, i, z, z2, null);
+    }
+
+    private void performSelectedDialogsAction(final ArrayList arrayList, final int i, boolean z, boolean z2, HashSet hashSet) {
         boolean z3;
         int i2;
-        final ArrayList arrayList2;
-        int i3;
         long j;
-        Theme.ResourcesProvider resourcesProvider;
-        boolean z4;
         TLRPC$Chat chat;
-        TLRPC$User tLRPC$User;
         TLRPC$EncryptedChat tLRPC$EncryptedChat;
+        TLRPC$User tLRPC$User;
+        int i3;
+        boolean z4;
         int i4;
-        boolean z5;
-        int i5;
-        ArrayList<Long> arrayList3;
+        ArrayList<Long> arrayList2;
         long j2;
         NotificationsController notificationsController;
         long j3;
+        int i5;
         int i6;
-        int i7;
+        boolean z5;
+        TLRPC$User user;
         TLRPC$User tLRPC$User2;
-        ArrayList arrayList4 = arrayList;
-        ?? r13 = 0;
+        HashSet hashSet2 = hashSet;
         if (getParentActivity() == null) {
             return;
         }
@@ -8114,8 +8109,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         MessagesController.DialogFilter dialogFilter = z6 ? getMessagesController().selectedDialogFilter[this.viewPages[0].dialogsType == 8 ? (char) 1 : (char) 0] : null;
         int size = arrayList.size();
         if (i == 105 || i == 107) {
-            final ArrayList<Long> arrayList5 = new ArrayList<>(arrayList);
-            getMessagesController().addDialogToFolder(arrayList5, this.canUnarchiveCount == 0 ? 1 : 0, -1, null, 0L);
+            final ArrayList<Long> arrayList3 = new ArrayList<>(arrayList);
+            getMessagesController().addDialogToFolder(arrayList3, this.canUnarchiveCount == 0 ? 1 : 0, -1, null, 0L);
             if (this.canUnarchiveCount == 0) {
                 SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
                 z3 = false;
@@ -8126,14 +8121,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     i2 = 1;
                     globalMainSettings.edit().putBoolean("archivehint_l", true).commit();
                 }
-                int size2 = arrayList5.size();
-                int i8 = z7 ? size2 > i2 ? 4 : 2 : size2 > i2 ? 5 : 3;
+                int size2 = arrayList3.size();
+                int i7 = z7 ? size2 > i2 ? 4 : 2 : size2 > i2 ? 5 : 3;
                 UndoView undoView = getUndoView();
                 if (undoView != null) {
-                    undoView.showWithAction(0L, i8, null, new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda77
+                    undoView.showWithAction(0L, i7, null, new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda77
                         @Override // java.lang.Runnable
                         public final void run() {
-                            DialogsActivity.this.lambda$performSelectedDialogsAction$91(arrayList5);
+                            DialogsActivity.this.lambda$performSelectedDialogsAction$91(arrayList3);
                         }
                     });
                 }
@@ -8152,51 +8147,47 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if ((i == 100 || i == 108) && this.canPinCount != 0) {
             ArrayList<TLRPC$Dialog> dialogs2 = getMessagesController().getDialogs(this.folderId);
             int size3 = dialogs2.size();
+            int i8 = 0;
             int i9 = 0;
-            int i10 = 0;
-            int i11 = 0;
-            while (i9 < size3) {
-                TLRPC$Dialog tLRPC$Dialog = dialogs2.get(i9);
-                if (tLRPC$Dialog instanceof TLRPC$TL_dialogFolder) {
-                    i3 = size3;
-                } else {
-                    i3 = size3;
+            for (int i10 = 0; i10 < size3; i10++) {
+                TLRPC$Dialog tLRPC$Dialog = dialogs2.get(i10);
+                if (!(tLRPC$Dialog instanceof TLRPC$TL_dialogFolder)) {
                     if (isDialogPinned(tLRPC$Dialog)) {
                         if (DialogObject.isEncryptedDialog(tLRPC$Dialog.id)) {
-                            i11++;
+                            i9++;
                         } else {
-                            i10++;
+                            i8++;
                         }
                     } else if (!getMessagesController().isPromoDialog(tLRPC$Dialog.id, false)) {
                         break;
                     }
                 }
-                i9++;
-                size3 = i3;
             }
+            int i11 = 0;
             int i12 = 0;
             int i13 = 0;
-            int i14 = 0;
-            int i15 = 0;
-            while (i12 < size) {
-                Long l = (Long) arrayList4.get(i12);
+            for (int i14 = 0; i14 < size; i14++) {
+                Long l = (Long) arrayList.get(i14);
+                int i15 = i11;
                 long longValue = l.longValue();
                 TLRPC$Dialog tLRPC$Dialog2 = (TLRPC$Dialog) getMessagesController().dialogs_dict.get(longValue);
-                if (tLRPC$Dialog2 != null && !isDialogPinned(tLRPC$Dialog2)) {
+                if (tLRPC$Dialog2 == null || isDialogPinned(tLRPC$Dialog2)) {
+                    i11 = i15;
+                } else {
                     if (DialogObject.isEncryptedDialog(longValue)) {
-                        i14++;
+                        i12++;
+                        i11 = i15;
                     } else {
-                        i13++;
+                        i11 = i15 + 1;
                     }
                     if (dialogFilter != null && dialogFilter.alwaysShow.contains(l)) {
-                        i15++;
+                        i13++;
                     }
                 }
-                i12++;
-                arrayList4 = arrayList;
             }
+            int i16 = i11;
             int size4 = z6 ? 100 - dialogFilter.alwaysShow.size() : (this.folderId == 0 && dialogFilter == null) ? getUserConfig().isPremium() ? getMessagesController().dialogFiltersPinnedLimitPremium : getMessagesController().dialogFiltersPinnedLimitDefault : UserConfig.getInstance(this.currentAccount).isPremium() ? getMessagesController().maxFolderPinnedDialogsCountPremium : getMessagesController().maxFolderPinnedDialogsCountDefault;
-            if (i14 + i11 > size4 || (i13 + i10) - i15 > size4) {
+            if (i12 + i9 > size4 || (i16 + i8) - i13 > size4) {
                 if (this.folderId == 0 && dialogFilter == null) {
                     showDialog(new LimitReachedBottomSheet(this, getParentActivity(), 0, this.currentAccount, null));
                     return;
@@ -8205,234 +8196,206 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     return;
                 }
             }
-            arrayList2 = arrayList;
         } else if ((i == 102 || i == 103) && size > 1 && z) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            if (i == 102) {
-                builder.setTitle(LocaleController.formatString("DeleteFewChatsTitle", R.string.DeleteFewChatsTitle, LocaleController.formatPluralString("ChatsSelected", size, new Object[0])));
-                i7 = R.string.AreYouSureDeleteFewChats;
-            } else if (this.canClearCacheCount != 0) {
-                builder.setTitle(LocaleController.formatString("ClearCacheFewChatsTitle", R.string.ClearCacheFewChatsTitle, LocaleController.formatPluralString("ChatsSelectedClearCache", size, new Object[0])));
-                i7 = R.string.AreYouSureClearHistoryCacheFewChats;
+            final HashSet hashSet3 = new HashSet();
+            boolean z8 = MessagesController.getInstance(this.currentAccount).canRevokePmInbox;
+            long j4 = MessagesController.getInstance(this.currentAccount).revokeTimePmLimit;
+            if (i == 102 && z8 && j4 == 2147483647L) {
+                Iterator it = arrayList.iterator();
+                boolean z9 = false;
+                while (it.hasNext()) {
+                    Long l2 = (Long) it.next();
+                    if (DialogObject.isUserDialog(l2.longValue()) || DialogObject.isEncryptedDialog(l2.longValue())) {
+                        if (DialogObject.isEncryptedDialog(l2.longValue())) {
+                            TLRPC$EncryptedChat encryptedChat = getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(l2.longValue())));
+                            user = encryptedChat != null ? getMessagesController().getUser(Long.valueOf(encryptedChat.user_id)) : null;
+                        } else {
+                            user = getMessagesController().getUser(l2);
+                        }
+                        if (user != null) {
+                            ArrayList arrayList4 = (ArrayList) MessagesController.getInstance(this.currentAccount).dialogMessage.get(user.id);
+                            boolean z10 = (arrayList4 == null || arrayList4.size() != 1 || arrayList4.get(0) == null || ((MessageObject) arrayList4.get(0)).messageOwner == null || (!(((MessageObject) arrayList4.get(0)).messageOwner.action instanceof TLRPC$TL_messageActionUserJoined) && !(((MessageObject) arrayList4.get(0)).messageOwner.action instanceof TLRPC$TL_messageActionContactSignUp))) ? false : true;
+                            if (!user.bot && !UserObject.isDeleted(user) && user.id != getUserConfig().getClientUserId() && !z10) {
+                                hashSet3.add(l2);
+                                z9 = true;
+                            }
+                        }
+                    }
+                }
+                z5 = z9;
+                i6 = 103;
             } else {
-                builder.setTitle(LocaleController.formatString("ClearFewChatsTitle", R.string.ClearFewChatsTitle, LocaleController.formatPluralString("ChatsSelectedClear", size, new Object[0])));
-                i7 = R.string.AreYouSureClearHistoryFewChats;
+                i6 = 103;
+                z5 = false;
             }
-            builder.setMessage(LocaleController.getString(i7));
-            builder.setPositiveButton(LocaleController.getString(i == 102 ? R.string.Delete : this.canClearCacheCount != 0 ? R.string.ClearHistoryCache : R.string.ClearHistory), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda71
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i16) {
-                    DialogsActivity.this.lambda$performSelectedDialogsAction$93(arrayList, i, dialogInterface, i16);
+            AlertsCreator.createClearOrDeleteDialogsAlert(this, i == i6, i == 102, this.canClearCacheCount, size, z5, new MessagesStorage.BooleanCallback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda71
+                @Override // org.telegram.messenger.MessagesStorage.BooleanCallback
+                public final void run(boolean z11) {
+                    DialogsActivity.this.lambda$performSelectedDialogsAction$93(arrayList, i, hashSet3, z11);
+                }
+            }, this.resourceProvider);
+            return;
+        } else if (i == 106 && z) {
+            if (size == 1) {
+                Long l3 = (Long) arrayList.get(0);
+                l3.longValue();
+                tLRPC$User2 = getMessagesController().getUser(l3);
+            } else {
+                tLRPC$User2 = null;
+            }
+            AlertsCreator.createBlockDialogAlert(this, size, this.canReportSpamCount != 0, tLRPC$User2, new AlertsCreator.BlockDialogCallback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda72
+                @Override // org.telegram.ui.Components.AlertsCreator.BlockDialogCallback
+                public final void run(boolean z11, boolean z12) {
+                    DialogsActivity.this.lambda$performSelectedDialogsAction$94(arrayList, z11, z12);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-            AlertDialog create = builder.create();
-            showDialog(create);
-            TextView textView = (TextView) create.getButton(-1);
-            if (textView != null) {
-                textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
-                return;
-            }
             return;
-        } else {
-            arrayList2 = arrayList;
-            if (i == 106 && z) {
-                if (size == 1) {
-                    Long l2 = (Long) arrayList2.get(0);
-                    l2.longValue();
-                    tLRPC$User2 = getMessagesController().getUser(l2);
-                } else {
-                    tLRPC$User2 = null;
-                }
-                AlertsCreator.createBlockDialogAlert(this, size, this.canReportSpamCount != 0, tLRPC$User2, new AlertsCreator.BlockDialogCallback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda72
-                    @Override // org.telegram.ui.Components.AlertsCreator.BlockDialogCallback
-                    public final void run(boolean z8, boolean z9) {
-                        DialogsActivity.this.lambda$performSelectedDialogsAction$94(arrayList2, z8, z9);
-                    }
-                });
-                return;
-            }
         }
-        int i16 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        int i17 = ConnectionsManager.DEFAULT_DATACENTER_ID;
         if (dialogFilter != null && ((i == 100 || i == 108) && this.canPinCount != 0)) {
             int size5 = dialogFilter.pinnedDialogs.size();
-            for (int i17 = 0; i17 < size5; i17++) {
-                i16 = Math.min(i16, dialogFilter.pinnedDialogs.valueAt(i17));
+            for (int i18 = 0; i18 < size5; i18++) {
+                i17 = Math.min(i17, dialogFilter.pinnedDialogs.valueAt(i18));
             }
-            i16 -= this.canPinCount;
+            i17 -= this.canPinCount;
         }
-        int i18 = i16;
-        int i19 = 0;
+        int i19 = i17;
         int i20 = 0;
-        while (i19 < size) {
-            Long l3 = (Long) arrayList2.get(i19);
-            final long longValue2 = l3.longValue();
+        int i21 = 0;
+        while (i20 < size) {
+            Long l4 = (Long) arrayList.get(i20);
+            final long longValue2 = l4.longValue();
             TLRPC$Dialog tLRPC$Dialog3 = (TLRPC$Dialog) getMessagesController().dialogs_dict.get(longValue2);
             if (tLRPC$Dialog3 != null) {
                 if (DialogObject.isEncryptedDialog(longValue2)) {
-                    TLRPC$EncryptedChat encryptedChat = getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(longValue2)));
-                    tLRPC$User = encryptedChat != null ? getMessagesController().getUser(Long.valueOf(encryptedChat.user_id)) : new TLRPC$TL_userEmpty();
-                    tLRPC$EncryptedChat = encryptedChat;
+                    TLRPC$EncryptedChat encryptedChat2 = getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(longValue2)));
+                    tLRPC$User = encryptedChat2 != null ? getMessagesController().getUser(Long.valueOf(encryptedChat2.user_id)) : new TLRPC$TL_userEmpty();
+                    chat = null;
+                    tLRPC$EncryptedChat = encryptedChat2;
                 } else if (DialogObject.isUserDialog(longValue2)) {
-                    tLRPC$User = getMessagesController().getUser(l3);
+                    tLRPC$User = getMessagesController().getUser(l4);
                     tLRPC$EncryptedChat = null;
+                    chat = null;
                 } else {
                     chat = getMessagesController().getChat(Long.valueOf(-longValue2));
-                    tLRPC$User = null;
                     tLRPC$EncryptedChat = null;
-                    if (chat == null || tLRPC$User != null) {
-                        if (tLRPC$User == null && tLRPC$User.bot && !MessagesController.isSupportUser(tLRPC$User)) {
-                            i4 = 100;
-                            z5 = true;
-                        } else {
-                            i4 = 100;
-                            z5 = false;
+                    tLRPC$User = null;
+                }
+                if (chat != null || tLRPC$User != null) {
+                    if (tLRPC$User == null || !tLRPC$User.bot || MessagesController.isSupportUser(tLRPC$User)) {
+                        i3 = 100;
+                        z4 = false;
+                    } else {
+                        i3 = 100;
+                        z4 = true;
+                    }
+                    if (i == i3 || i == 108) {
+                        i4 = i20;
+                        if (this.canPinCount != 0) {
+                            if (!isDialogPinned(tLRPC$Dialog3)) {
+                                i21++;
+                                TLRPC$EncryptedChat tLRPC$EncryptedChat2 = tLRPC$EncryptedChat;
+                                pinDialog(longValue2, true, dialogFilter, i19, size == 1);
+                                if (dialogFilter != null) {
+                                    i19++;
+                                    ArrayList<Long> arrayList5 = dialogFilter.alwaysShow;
+                                    if (tLRPC$EncryptedChat2 != null) {
+                                        if (!arrayList5.contains(Long.valueOf(tLRPC$EncryptedChat2.user_id))) {
+                                            arrayList2 = dialogFilter.alwaysShow;
+                                            j2 = tLRPC$EncryptedChat2.user_id;
+                                            arrayList2.add(Long.valueOf(j2));
+                                        }
+                                    } else if (!arrayList5.contains(Long.valueOf(tLRPC$Dialog3.id))) {
+                                        arrayList2 = dialogFilter.alwaysShow;
+                                        j2 = tLRPC$Dialog3.id;
+                                        arrayList2.add(Long.valueOf(j2));
+                                    }
+                                }
+                            }
+                        } else if (isDialogPinned(tLRPC$Dialog3)) {
+                            i21++;
+                            pinDialog(longValue2, false, dialogFilter, i19, size == 1);
                         }
-                        if (i != i4 || i == 108) {
-                            i5 = i19;
-                            if (this.canPinCount == 0) {
-                                if (!isDialogPinned(tLRPC$Dialog3)) {
-                                    i20++;
-                                    pinDialog(longValue2, true, dialogFilter, i18, size == 1);
-                                    if (dialogFilter != null) {
-                                        i18++;
-                                        ArrayList<Long> arrayList6 = dialogFilter.alwaysShow;
-                                        if (tLRPC$EncryptedChat != null) {
-                                            if (!arrayList6.contains(Long.valueOf(tLRPC$EncryptedChat.user_id))) {
-                                                arrayList3 = dialogFilter.alwaysShow;
-                                                j2 = tLRPC$EncryptedChat.user_id;
-                                                arrayList3.add(Long.valueOf(j2));
-                                            }
-                                        } else if (!arrayList6.contains(Long.valueOf(tLRPC$Dialog3.id))) {
-                                            arrayList3 = dialogFilter.alwaysShow;
-                                            j2 = tLRPC$Dialog3.id;
-                                            arrayList3.add(Long.valueOf(j2));
-                                        }
-                                    }
-                                }
-                            } else if (isDialogPinned(tLRPC$Dialog3)) {
-                                i20++;
-                                pinDialog(longValue2, false, dialogFilter, i18, size == 1);
-                            }
-                            i19 = i5 + 1;
-                            arrayList2 = arrayList;
-                            r13 = 0;
-                        } else if (i != 101) {
-                            if (i == 102 || i == 103) {
-                                i5 = i19;
-                                if (size == 1) {
-                                    if (i != 102 || !this.canDeletePsaSelected) {
-                                        final TLRPC$Chat tLRPC$Chat = chat;
-                                        final boolean z8 = z5;
-                                        AlertsCreator.createClearOrDeleteDialogAlert(this, i == 103, chat, tLRPC$User, DialogObject.isEncryptedDialog(tLRPC$Dialog3.id), i == 102, new MessagesStorage.BooleanCallback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda76
-                                            @Override // org.telegram.messenger.MessagesStorage.BooleanCallback
-                                            public final void run(boolean z9) {
-                                                DialogsActivity.this.lambda$performSelectedDialogsAction$97(i, tLRPC$Chat, longValue2, z8, z9);
-                                            }
-                                        });
-                                        return;
-                                    }
-                                    AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity());
-                                    builder2.setTitle(LocaleController.getString(R.string.PsaHideChatAlertTitle));
-                                    builder2.setMessage(LocaleController.getString(R.string.PsaHideChatAlertText));
-                                    builder2.setPositiveButton(LocaleController.getString(R.string.PsaHide), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda75
-                                        @Override // android.content.DialogInterface.OnClickListener
-                                        public final void onClick(DialogInterface dialogInterface, int i21) {
-                                            DialogsActivity.this.lambda$performSelectedDialogsAction$95(dialogInterface, i21);
-                                        }
-                                    });
-                                    builder2.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-                                    showDialog(builder2.create());
-                                    return;
-                                } else if (getMessagesController().isPromoDialog(longValue2, true)) {
-                                    getMessagesController().hidePromoDialog();
-                                } else if (i != 103 || this.canClearCacheCount == 0) {
-                                    lambda$performSelectedDialogsAction$96(i, longValue2, chat, z5, false);
-                                    i19 = i5 + 1;
-                                    arrayList2 = arrayList;
-                                    r13 = 0;
-                                } else {
-                                    getMessagesController().deleteDialog(longValue2, 2, r13);
-                                }
-                            } else if (i == 104) {
-                                if (size == 1 && this.canMuteCount == 1) {
-                                    showDialog(AlertsCreator.createMuteAlert(this, longValue2, 0L, (Theme.ResourcesProvider) null), new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda73
-                                        @Override // android.content.DialogInterface.OnDismissListener
-                                        public final void onDismiss(DialogInterface dialogInterface) {
-                                            DialogsActivity.this.lambda$performSelectedDialogsAction$98(dialogInterface);
-                                        }
-                                    });
-                                    return;
-                                }
-                                if (this.canUnmuteCount != 0) {
-                                    i5 = i19;
-                                    if (getMessagesController().isDialogMuted(longValue2, 0L)) {
-                                        notificationsController = getNotificationsController();
-                                        j3 = 0;
-                                        i6 = 4;
-                                        notificationsController.setDialogNotificationsSettings(longValue2, j3, i6);
-                                    }
-                                } else {
-                                    i5 = i19;
-                                    if (z2) {
-                                        showDialog(AlertsCreator.createMuteAlert(this, arrayList2, (int) r13, (Theme.ResourcesProvider) null), new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda74
-                                            @Override // android.content.DialogInterface.OnDismissListener
-                                            public final void onDismiss(DialogInterface dialogInterface) {
-                                                DialogsActivity.this.lambda$performSelectedDialogsAction$99(dialogInterface);
-                                            }
-                                        });
-                                        return;
-                                    } else if (!getMessagesController().isDialogMuted(longValue2, 0L)) {
-                                        notificationsController = getNotificationsController();
-                                        j3 = 0;
-                                        i6 = 3;
-                                        notificationsController.setDialogNotificationsSettings(longValue2, j3, i6);
-                                    }
-                                }
-                                i19 = i5 + 1;
-                                arrayList2 = arrayList;
-                                r13 = 0;
-                            }
-                            i19 = i5 + 1;
-                            arrayList2 = arrayList;
-                            r13 = 0;
-                        } else if (this.canReadCount != 0) {
+                    } else if (i == 101) {
+                        if (this.canReadCount != 0) {
                             markAsRead(longValue2);
                         } else {
                             markAsUnread(longValue2);
                         }
+                    } else if (i == 102 || i == 103) {
+                        if (size == 1) {
+                            if (i != 102 || !this.canDeletePsaSelected) {
+                                final TLRPC$Chat tLRPC$Chat = chat;
+                                final boolean z11 = z4;
+                                AlertsCreator.createClearOrDeleteDialogAlert(this, i == 103, chat, tLRPC$User, DialogObject.isEncryptedDialog(tLRPC$Dialog3.id), i == 102, new MessagesStorage.BooleanCallback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda76
+                                    @Override // org.telegram.messenger.MessagesStorage.BooleanCallback
+                                    public final void run(boolean z12) {
+                                        DialogsActivity.this.lambda$performSelectedDialogsAction$97(i, tLRPC$Chat, longValue2, z11, z12);
+                                    }
+                                });
+                                return;
+                            }
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                            builder.setTitle(LocaleController.getString(R.string.PsaHideChatAlertTitle));
+                            builder.setMessage(LocaleController.getString(R.string.PsaHideChatAlertText));
+                            builder.setPositiveButton(LocaleController.getString(R.string.PsaHide), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda75
+                                @Override // android.content.DialogInterface.OnClickListener
+                                public final void onClick(DialogInterface dialogInterface, int i22) {
+                                    DialogsActivity.this.lambda$performSelectedDialogsAction$95(dialogInterface, i22);
+                                }
+                            });
+                            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+                            showDialog(builder.create());
+                            return;
+                        } else if (getMessagesController().isPromoDialog(longValue2, true)) {
+                            getMessagesController().hidePromoDialog();
+                        } else if (i != 103 || this.canClearCacheCount == 0) {
+                            i4 = i20;
+                            lambda$performSelectedDialogsAction$96(i, longValue2, chat, z4, hashSet2 != null && hashSet2.contains(l4));
+                        } else {
+                            getMessagesController().deleteDialog(longValue2, 2, false);
+                        }
+                    } else if (i == 104) {
+                        if (size == 1 && this.canMuteCount == 1) {
+                            showDialog(AlertsCreator.createMuteAlert(this, longValue2, 0L, (Theme.ResourcesProvider) null), new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda73
+                                @Override // android.content.DialogInterface.OnDismissListener
+                                public final void onDismiss(DialogInterface dialogInterface) {
+                                    DialogsActivity.this.lambda$performSelectedDialogsAction$98(dialogInterface);
+                                }
+                            });
+                            return;
+                        } else if (this.canUnmuteCount != 0) {
+                            if (getMessagesController().isDialogMuted(longValue2, 0L)) {
+                                notificationsController = getNotificationsController();
+                                j3 = 0;
+                                i5 = 4;
+                                notificationsController.setDialogNotificationsSettings(longValue2, j3, i5);
+                            }
+                        } else if (z2) {
+                            showDialog(AlertsCreator.createMuteAlert(this, arrayList, 0, (Theme.ResourcesProvider) null), new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda74
+                                @Override // android.content.DialogInterface.OnDismissListener
+                                public final void onDismiss(DialogInterface dialogInterface) {
+                                    DialogsActivity.this.lambda$performSelectedDialogsAction$99(dialogInterface);
+                                }
+                            });
+                            return;
+                        } else if (!getMessagesController().isDialogMuted(longValue2, 0L)) {
+                            notificationsController = getNotificationsController();
+                            j3 = 0;
+                            i5 = 3;
+                            notificationsController.setDialogNotificationsSettings(longValue2, j3, i5);
+                        }
                     }
+                    i20 = i4 + 1;
+                    hashSet2 = hashSet;
                 }
-                chat = null;
-                if (chat == null) {
-                }
-                if (tLRPC$User == null) {
-                }
-                i4 = 100;
-                z5 = false;
-                if (i != i4) {
-                }
-                i5 = i19;
-                if (this.canPinCount == 0) {
-                }
-                i19 = i5 + 1;
-                arrayList2 = arrayList;
-                r13 = 0;
             }
-            i5 = i19;
-            i19 = i5 + 1;
-            arrayList2 = arrayList;
-            r13 = 0;
+            i4 = i20;
+            i20 = i4 + 1;
+            hashSet2 = hashSet;
         }
         if (i == 104 && (size != 1 || this.canMuteCount != 1)) {
-            if (this.canUnmuteCount == 0) {
-                resourcesProvider = null;
-                z4 = true;
-            } else {
-                resourcesProvider = null;
-                z4 = false;
-            }
-            BulletinFactory.createMuteBulletin(this, z4, resourcesProvider).show();
+            BulletinFactory.createMuteBulletin(this, this.canUnmuteCount == 0, null).show();
         }
         if (i == 100 || i == 108) {
             if (dialogFilter != null) {
@@ -8444,7 +8407,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             UndoView undoView2 = getUndoView();
             if (this.searchIsShowed && undoView2 != null) {
-                undoView2.showWithAction(j, this.canPinCount != 0 ? 78 : 79, Integer.valueOf(i20));
+                undoView2.showWithAction(j, this.canPinCount != 0 ? 78 : 79, Integer.valueOf(i21));
             }
         }
         hideActionMode((i == 108 || i == 100 || i == 102) ? false : true);
@@ -8533,7 +8496,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 this.viewPages[0].updateList(true);
                 this.viewPages[0].layoutManager.scrollToPositionWithOffset((this.viewPages[0].dialogsType == 0 && hasHiddenArchive() && this.viewPages[0].archivePullViewState == 2) ? 1 : 0, (int) this.scrollYOffset);
             } else if (i5 >= 0 && i2 == i5) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda118
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda117
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsActivity.this.lambda$pinDialog$100();
