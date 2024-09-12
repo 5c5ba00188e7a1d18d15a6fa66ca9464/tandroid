@@ -15955,7 +15955,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 String group = matcher.group(1);
                                 try {
                                 } catch (Exception e) {
-                                    FileLog.e(e);
+                                    FileLog.e((Throwable) e, false);
                                 }
                                 if (matcher.groupCount() >= 2) {
                                     i = Integer.parseInt(matcher.group(2));

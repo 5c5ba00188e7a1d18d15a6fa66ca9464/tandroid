@@ -99,17 +99,22 @@ public class BottomSheetTabsOverlay extends FrameLayout {
         final /* synthetic */ Sheet val$sheet;
         final /* synthetic */ BottomSheetTabs.WebTabData val$tab;
 
-        2(Sheet sheet, BottomSheetTabs.WebTabData webTabData) {
+        2(BottomSheetTabs.WebTabData webTabData, Sheet sheet) {
             BottomSheetTabsOverlay.this = r1;
-            this.val$sheet = sheet;
             this.val$tab = webTabData;
+            this.val$sheet = sheet;
+        }
+
+        public static /* synthetic */ void lambda$onAnimationEnd$0(BottomSheetTabs.WebTabData webTabData, Sheet sheet, Bitmap bitmap) {
+            webTabData.previewBitmap = bitmap;
+            sheet.getWindowView().setDrawingFromOverlay(false);
+            sheet.release();
         }
 
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
         public void onAnimationEnd(Animator animator) {
             int i;
             int i2;
-            this.val$sheet.getWindowView().setDrawingFromOverlay(false);
             final BottomSheetTabs.WebTabData webTabData = this.val$tab;
             View view = webTabData.webView;
             if (view == null) {
@@ -117,19 +122,22 @@ public class BottomSheetTabsOverlay extends FrameLayout {
             }
             if (view != null && webTabData.previewBitmap == null && (i = webTabData.viewWidth) > 0 && (i2 = webTabData.viewHeight) > 0) {
                 if (Build.VERSION.SDK_INT >= 26) {
+                    final Sheet sheet = this.val$sheet;
                     BottomSheetTabsOverlay.renderHardwareViewToBitmap(view, -webTabData.viewScroll, new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$2$$ExternalSyntheticLambda0
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj) {
-                            BottomSheetTabs.WebTabData.this.previewBitmap = (Bitmap) obj;
+                            BottomSheetTabsOverlay.2.lambda$onAnimationEnd$0(BottomSheetTabs.WebTabData.this, sheet, (Bitmap) obj);
                         }
                     });
-                } else {
-                    webTabData.previewBitmap = Bitmap.createBitmap(i, i2, Bitmap.Config.RGB_565);
-                    Canvas canvas = new Canvas(this.val$tab.previewBitmap);
-                    canvas.translate(0.0f, -this.val$tab.viewScroll);
-                    view.draw(canvas);
+                    BottomSheetTabsOverlay.this.dismissingSheet = null;
+                    BottomSheetTabsOverlay.this.invalidate();
                 }
+                webTabData.previewBitmap = Bitmap.createBitmap(i, i2, Bitmap.Config.RGB_565);
+                Canvas canvas = new Canvas(this.val$tab.previewBitmap);
+                canvas.translate(0.0f, -this.val$tab.viewScroll);
+                view.draw(canvas);
             }
+            this.val$sheet.getWindowView().setDrawingFromOverlay(false);
             this.val$sheet.release();
             BottomSheetTabsOverlay.this.dismissingSheet = null;
             BottomSheetTabsOverlay.this.invalidate();
@@ -1070,7 +1078,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
                 BottomSheetTabsOverlay.this.lambda$dismissSheet$3(valueAnimator3);
             }
         });
-        this.animator.addListener(new 2(sheet, saveState));
+        this.animator.addListener(new 2(saveState, sheet));
         if (this.slowerDismiss || sheet.isFullSize()) {
             AndroidUtilities.applySpring(this.animator, 220.0d, 30.0d, 1.0d);
         } else {

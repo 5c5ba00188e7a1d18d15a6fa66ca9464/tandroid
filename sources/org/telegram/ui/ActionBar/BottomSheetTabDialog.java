@@ -12,6 +12,7 @@ import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.BottomSheetTabsOverlay;
 import org.telegram.ui.Components.LayoutHelper;
@@ -98,14 +99,22 @@ public class BottomSheetTabDialog extends Dialog {
             return;
         }
         this.attached = true;
-        super.show();
+        try {
+            super.show();
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
     }
 
     public void detach() {
         this.sheet.setDialog(null);
         if (this.attached) {
             this.attached = false;
-            super.dismiss();
+            try {
+                super.dismiss();
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
         }
     }
 
