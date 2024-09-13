@@ -4699,12 +4699,19 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             int i6 = NotificationCenter.newSuggestionsAvailable;
                             notificationCenter.removeObserver(profileActivity3, i6);
                             if (i5 == 2) {
-                                Browser.openUrl(getContext(), ProfileActivity.this.getMessagesController().premiumManageSubscriptionUrl);
                                 ProfileActivity.this.getMessagesController().removeSuggestion(0L, "PREMIUM_GRACE");
+                                ProfileActivity.this.updateRowsIds();
+                                if (ProfileActivity.this.listAdapter != null) {
+                                    ProfileActivity.this.listAdapter.notifyDataSetChanged();
+                                }
+                                Browser.openUrl(getContext(), ProfileActivity.this.getMessagesController().premiumManageSubscriptionUrl);
                             } else {
                                 ProfileActivity.this.getMessagesController().removeSuggestion(0L, i5 == 0 ? "VALIDATE_PHONE_NUMBER" : "VALIDATE_PASSWORD");
+                                ProfileActivity.this.updateRowsIds();
+                                if (ProfileActivity.this.listAdapter != null) {
+                                    ProfileActivity.this.listAdapter.notifyDataSetChanged();
+                                }
                             }
-                            ProfileActivity.this.updateListAnimated(false);
                             ProfileActivity.this.getNotificationCenter().addObserver(ProfileActivity.this, i6);
                         }
                     };

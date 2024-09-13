@@ -620,8 +620,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             @Override // android.webkit.WebViewClient
             public void onPageCommitVisible(WebView webView, String str) {
                 MyWebView myWebView;
-                String readRes;
-                StringBuilder sb;
+                String replace;
                 if (MyWebView.this.whenPageLoaded != null) {
                     Runnable runnable = MyWebView.this.whenPageLoaded;
                     MyWebView.this.whenPageLoaded = null;
@@ -632,18 +631,17 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 if (this.val$bot) {
                     myWebView = MyWebView.this;
                     myWebView.injectedJS = true;
-                    readRes = AndroidUtilities.readRes(R.raw.webview_app_ext);
-                    sb = new StringBuilder();
+                    String readRes = AndroidUtilities.readRes(R.raw.webview_app_ext);
+                    replace = readRes.replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION);
                 } else {
+                    MyWebView myWebView3 = MyWebView.this;
+                    myWebView3.injectedJS = true;
+                    String readRes2 = AndroidUtilities.readRes(R.raw.webview_ext);
+                    myWebView3.evaluateJS(readRes2.replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION));
                     myWebView = MyWebView.this;
-                    myWebView.injectedJS = true;
-                    readRes = AndroidUtilities.readRes(R.raw.webview_ext);
-                    sb = new StringBuilder();
+                    replace = AndroidUtilities.readRes(R.raw.webview_share);
                 }
-                sb.append("");
-                sb.append(BuildVars.DEBUG_VERSION);
-                myWebView.evaluateJS(readRes.replace("$DEBUG$", sb.toString()));
-                MyWebView.this.evaluateJS(AndroidUtilities.readRes(R.raw.webview_share));
+                myWebView.evaluateJS(replace);
                 super.onPageCommitVisible(webView, str);
             }
 

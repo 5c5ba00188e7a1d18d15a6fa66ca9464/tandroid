@@ -1021,8 +1021,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 NotificationCenter.getInstance(InstantCameraView.this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.recordProgressChanged, Integer.valueOf(InstantCameraView.this.recordingGuid), Double.valueOf(d));
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:113:0x0047, code lost:
-                if (org.telegram.ui.Components.InstantCameraView.VideoRecorder.this.sendWhenDone == 0) goto L78;
+            /* JADX WARN: Code restructure failed: missing block: B:119:0x0047, code lost:
+                if (org.telegram.ui.Components.InstantCameraView.VideoRecorder.this.sendWhenDone == 0) goto L85;
              */
             @Override // java.lang.Runnable
             /*
@@ -1051,6 +1051,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                             z = true;
                         }
                     }
+                    boolean z3 = z;
                     if (VideoRecorder.this.buffers.isEmpty()) {
                         try {
                             audioBufferInfo = new AudioBufferInfo();
@@ -1061,9 +1062,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     } else {
                         audioBufferInfo = (AudioBufferInfo) VideoRecorder.this.buffers.poll();
                     }
-                    audioBufferInfo.lastWroteBuffer = 0;
+                    AudioBufferInfo audioBufferInfo2 = audioBufferInfo;
+                    audioBufferInfo2.lastWroteBuffer = 0;
                     int i = 10;
-                    audioBufferInfo.results = 10;
+                    audioBufferInfo2.results = 10;
                     int i2 = 0;
                     while (true) {
                         if (i2 >= i) {
@@ -1072,7 +1074,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                         if (j3 == j2 && !z2) {
                             j3 = System.nanoTime() / 1000;
                         }
-                        ByteBuffer byteBuffer = audioBufferInfo.buffer[i2];
+                        ByteBuffer byteBuffer = audioBufferInfo2.buffer[i2];
                         byteBuffer.rewind();
                         int read = VideoRecorder.this.audioRecorder.read(byteBuffer, 2048);
                         if (read > 0 && i2 % 2 == 0) {
@@ -1096,38 +1098,47 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                             byteBuffer.position(0);
                         }
                         if (read <= 0) {
-                            audioBufferInfo.results = i2;
+                            audioBufferInfo2.results = i2;
                             if (!VideoRecorder.this.running) {
-                                audioBufferInfo.last = true;
+                                audioBufferInfo2.last = true;
                             }
                         } else {
                             if (z2) {
-                                VideoRecorder.this.audioRecorder.getTimestamp(audioTimestamp, 0);
-                                j = audioTimestamp.nanoTime / 1000;
+                                try {
+                                    VideoRecorder.this.audioRecorder.getTimestamp(audioTimestamp, 0);
+                                    long j4 = j3;
+                                    j3 = audioTimestamp.nanoTime / 1000;
+                                    j = j4;
+                                } catch (Exception e) {
+                                    FileLog.e(e);
+                                    j3 = System.nanoTime() / 1000;
+                                    j = j3;
+                                    z2 = false;
+                                }
                             } else {
                                 j = j3;
                             }
-                            audioBufferInfo.offset[i2] = j;
-                            audioBufferInfo.read[i2] = read;
+                            audioBufferInfo2.offset[i2] = j3;
+                            audioBufferInfo2.read[i2] = read;
                             int i4 = ((read * MediaController.VIDEO_BITRATE_480) / 48000) / 2;
                             if (!z2) {
-                                j3 += i4;
+                                j += i4;
                             }
+                            j3 = j;
                             i2++;
                             j2 = -1;
                             i = 10;
                         }
                     }
-                    if (audioBufferInfo.results >= 0 || audioBufferInfo.last) {
-                        if (!VideoRecorder.this.running && audioBufferInfo.results < 10) {
-                            z = true;
-                        }
-                        VideoRecorder.this.handler.sendMessage(VideoRecorder.this.handler.obtainMessage(3, audioBufferInfo));
+                    if (audioBufferInfo2.results >= 0 || audioBufferInfo2.last) {
+                        z = (VideoRecorder.this.running || audioBufferInfo2.results >= 10) ? z3 : true;
+                        VideoRecorder.this.handler.sendMessage(VideoRecorder.this.handler.obtainMessage(3, audioBufferInfo2));
                     } else if (VideoRecorder.this.running) {
                         try {
-                            VideoRecorder.this.buffers.put(audioBufferInfo);
+                            VideoRecorder.this.buffers.put(audioBufferInfo2);
                         } catch (Exception unused3) {
                         }
+                        z = z3;
                     } else {
                         z = true;
                     }
@@ -1135,8 +1146,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 }
                 try {
                     VideoRecorder.this.audioRecorder.release();
-                } catch (Exception e) {
-                    FileLog.e(e);
+                } catch (Exception e2) {
+                    FileLog.e(e2);
                 }
                 if (VideoRecorder.this.pauseRecorder) {
                     return;
