@@ -1403,7 +1403,7 @@ public class FileLoadOperation {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processRequestResult$21(int i) {
-        this.uiRequestTokens.remove(i);
+        this.uiRequestTokens.remove(Integer.valueOf(i));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1507,7 +1507,7 @@ public class FileLoadOperation {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$start$7(int i) {
-        this.uiRequestTokens.remove(i);
+        this.uiRequestTokens.remove(Integer.valueOf(i));
     }
 
     /* JADX INFO: Access modifiers changed from: private */

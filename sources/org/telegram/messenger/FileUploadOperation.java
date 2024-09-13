@@ -265,7 +265,7 @@ public class FileUploadOperation {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startUploadRequest$5(int[] iArr) {
-        this.uiRequestTokens.remove(iArr[0]);
+        this.uiRequestTokens.remove(Integer.valueOf(iArr[0]));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
