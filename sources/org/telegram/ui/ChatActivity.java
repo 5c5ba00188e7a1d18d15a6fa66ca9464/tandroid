@@ -32755,13 +32755,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:321:0x081e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:321:0x0805, code lost:
         if (r0.exists() != false) goto L315;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:412:0x0a39, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:412:0x0a20, code lost:
         if (r21.chatMode == 0) goto L407;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:417:0x0a4d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:417:0x0a34, code lost:
         if (r21.chatMode == 0) goto L407;
      */
     /* JADX WARN: Multi-variable type inference failed */
@@ -33092,9 +33092,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 if (str4 == null || str4.length() == 0) {
                                     str4 = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
                                 }
-                                String str5 = str4;
-                                FileLoader.getInstance(this.currentAccount).loadFile(this.selectedObject.messageOwner.media.alt_documents.get(0), this.selectedObject, 3, 0);
-                                MediaController.saveFile(str5, getParentActivity(), 2, str3, this.selectedObject.getDocument() != null ? this.selectedObject.getDocument().mime_type : "", new Utilities.Callback() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda284
+                                MediaController.saveFile(str4, getParentActivity(), 2, str3, this.selectedObject.getDocument() != null ? this.selectedObject.getDocument().mime_type : "", new Utilities.Callback() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda284
                                     @Override // org.telegram.messenger.Utilities.Callback
                                     public final void run(Object obj) {
                                         ChatActivity.this.lambda$processSelectedOption$274(isPhoto, isVideo, isGif, (Uri) obj);
